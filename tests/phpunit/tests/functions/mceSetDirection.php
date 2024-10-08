@@ -7,12 +7,14 @@
  *
  * @covers ::_mce_set_direction
  */
-class Tests_Functions_MceSetDirection extends WP_UnitTestCase {
+class Tests_Functions_MceSetDirection extends WP_UnitTestCase
+{
 
     /**
      * @ticket 60219
      */
-    public function test__mce_set_direction() {
+    public function test__mce_set_direction()
+    {
         global $wp_locale;
 
         $mce_init = array(

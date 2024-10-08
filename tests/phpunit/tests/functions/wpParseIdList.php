@@ -7,7 +7,8 @@
  *
  * @covers ::wp_parse_id_list
  */
-class Tests_Functions_wpParseIdList extends WP_UnitTestCase {
+class Tests_Functions_wpParseIdList extends WP_UnitTestCase
+{
 
     /**
      * @ticket 22074
@@ -16,7 +17,8 @@ class Tests_Functions_wpParseIdList extends WP_UnitTestCase {
      * @dataProvider data_wp_parse_id_list
      * @dataProvider data_unexpected_input
      */
-    public function test_wp_parse_id_list($input_list, $expected) {
+    public function test_wp_parse_id_list($input_list, $expected)
+    {
         $this->assertSameSets($expected, wp_parse_id_list($input_list));
     }
 
@@ -25,7 +27,8 @@ class Tests_Functions_wpParseIdList extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_parse_id_list() {
+    public function data_wp_parse_id_list()
+    {
         return array(
             'regular'                  => array(
                 'input_list' => '1,2,3,4',
@@ -63,7 +66,8 @@ class Tests_Functions_wpParseIdList extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_unexpected_input() {
+    public function data_unexpected_input()
+    {
         return array(
             'string with commas' => array(
                 'input_list' => '1,2,string with spaces',

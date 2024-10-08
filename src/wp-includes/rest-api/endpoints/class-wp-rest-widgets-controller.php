@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Widgets_Controller extends WP_REST_Controller {
+class WP_REST_Widgets_Controller extends WP_REST_Controller
+{
 
     /**
      * Tracks whether {@see retrieve_widgets()} has been called in the current request.
@@ -37,7 +38,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      *
      * @since 5.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'widgets';
     }
@@ -47,7 +49,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      *
      * @since 5.8.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             $this->rest_base,
@@ -112,7 +115,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         $this->retrieve_widgets();
         if (isset($request['sidebar']) && $this->check_read_sidebar_permission($request['sidebar'])) {
             return true;
@@ -135,7 +139,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response Response object.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $this->retrieve_widgets();
 
         $prepared          = array();
@@ -170,7 +175,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         $this->retrieve_widgets();
 
         $widget_id  = $request['id'];
@@ -191,7 +197,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param string $sidebar_id The sidebar ID.
      * @return bool Whether the sidebar can be read.
      */
-    protected function check_read_sidebar_permission($sidebar_id) {
+    protected function check_read_sidebar_permission($sidebar_id)
+    {
         $sidebar = wp_get_sidebar($sidebar_id);
 
         return ! empty($sidebar['show_in_rest']);
@@ -205,7 +212,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $this->retrieve_widgets();
 
         $widget_id  = $request['id'];
@@ -230,7 +238,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function create_item_permissions_check($request) {
+    public function create_item_permissions_check($request)
+    {
         return $this->permissions_check($request);
     }
 
@@ -242,7 +251,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function create_item($request) {
+    public function create_item($request)
+    {
         $sidebar_id = $request['sidebar'];
 
         $widget_id = $this->save_widget($request, $sidebar_id);
@@ -274,7 +284,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function update_item_permissions_check($request) {
+    public function update_item_permissions_check($request)
+    {
         return $this->permissions_check($request);
     }
 
@@ -288,7 +299,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function update_item($request) {
+    public function update_item($request)
+    {
         global $wp_widget_factory;
 
         /*
@@ -347,7 +359,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function delete_item_permissions_check($request) {
+    public function delete_item_permissions_check($request)
+    {
         return $this->permissions_check($request);
     }
 
@@ -362,7 +375,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function delete_item($request) {
+    public function delete_item($request)
+    {
         global $wp_widget_factory, $wp_registered_widget_updates;
 
         /*
@@ -477,7 +491,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error
      */
-    protected function permissions_check($request) {
+    protected function permissions_check($request)
+    {
         if (! current_user_can('edit_theme_options')) {
             return new WP_Error(
                 'rest_cannot_manage_widgets',
@@ -498,7 +513,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      *
      * @see retrieve_widgets()
      */
-    protected function retrieve_widgets() {
+    protected function retrieve_widgets()
+    {
         if (! $this->widgets_retrieved) {
             retrieve_widgets();
             $this->widgets_retrieved = true;
@@ -517,7 +533,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param string          $sidebar_id ID of the sidebar the widget belongs to.
      * @return string|WP_Error The saved widget ID.
      */
-    protected function save_widget($request, $sidebar_id) {
+    protected function save_widget($request, $sidebar_id)
+    {
         global $wp_widget_factory, $wp_registered_widget_updates;
 
         require_once ABSPATH . 'wp-admin/includes/widgets.php'; // For next_widget_id_number().
@@ -662,7 +679,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         global $wp_widget_factory, $wp_registered_widgets;
 
         $widget_id  = $item['widget_id'];
@@ -748,7 +766,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      * @param array $prepared Widget.
      * @return array Links for the given widget.
      */
-    protected function prepare_links($prepared) {
+    protected function prepare_links($prepared)
+    {
         $id_base = ! empty($prepared['id_base']) ? $prepared['id_base'] : $prepared['id'];
 
         return array(
@@ -775,7 +794,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      *
      * @return array[]
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         return array(
             'context' => $this->get_context_param(array('default' => 'view')),
             'sidebar' => array(
@@ -792,7 +812,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }

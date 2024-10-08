@@ -5,12 +5,14 @@
  *
  * @covers ::remove_query_arg
  */
-class Tests_Functions_RemoveQueryArg extends WP_UnitTestCase {
+class Tests_Functions_RemoveQueryArg extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_remove_query_arg
      */
-    public function test_remove_query_arg($keys_to_remove, $url, $expected) {
+    public function test_remove_query_arg($keys_to_remove, $url, $expected)
+    {
         $actual = remove_query_arg($keys_to_remove, $url);
 
         $this->assertNotEmpty($actual);
@@ -22,7 +24,8 @@ class Tests_Functions_RemoveQueryArg extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_remove_query_arg() {
+    public function data_remove_query_arg()
+    {
         return array(
             array('foo', 'edit.php?foo=test1&baz=test1', 'edit.php?baz=test1'),
             array(array('foo'), 'edit.php?foo=test2&baz=test2', 'edit.php?baz=test2'),
@@ -32,7 +35,8 @@ class Tests_Functions_RemoveQueryArg extends WP_UnitTestCase {
         );
     }
 
-    public function test_should_fall_back_on_current_url() {
+    public function test_should_fall_back_on_current_url()
+    {
         $old_request_uri        = $_SERVER['REQUEST_URI'];
         $_SERVER['REQUEST_URI'] = 'edit.php?foo=bar&baz=quz';
 

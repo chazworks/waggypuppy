@@ -2,13 +2,15 @@
 /**
  * @group admin
  */
-class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
+class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
+{
 
     /**
      * @ticket 51137
      * @dataProvider data_wp_terms_checklist_with_selected_cats
      */
-    public function test_wp_terms_checklist_with_selected_cats($term_id) {
+    public function test_wp_terms_checklist_with_selected_cats($term_id)
+    {
         $output = wp_terms_checklist(
             0,
             array(
@@ -24,7 +26,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
      * @ticket 51137
      * @dataProvider data_wp_terms_checklist_with_selected_cats
      */
-    public function test_wp_terms_checklist_with_popular_cats($term_id) {
+    public function test_wp_terms_checklist_with_popular_cats($term_id)
+    {
         $output = wp_terms_checklist(
             0,
             array(
@@ -36,7 +39,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
         $this->assertStringContainsString('class="popular-category"', $output);
     }
 
-    public function data_wp_terms_checklist_with_selected_cats() {
+    public function data_wp_terms_checklist_with_selected_cats()
+    {
         return array(
             array('1'),
             array(1),
@@ -48,7 +52,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
      *
      * @covers ::get_inline_data
      */
-    public function test_get_inline_data_contains_term_if_show_ui_is_false_but_show_on_quick_edit_is_true_for_hierarchical_taxonomy() {
+    public function test_get_inline_data_contains_term_if_show_ui_is_false_but_show_on_quick_edit_is_true_for_hierarchical_taxonomy()
+    {
         // Create a post with a term from a hierarchical taxonomy.
         register_taxonomy(
             'wptests_tax_1',
@@ -74,7 +79,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
      *
      * @covers ::get_inline_data
      */
-    public function test_get_inline_data_contains_term_if_show_ui_is_false_but_show_on_quick_edit_is_true_for_nonhierarchical_taxonomy() {
+    public function test_get_inline_data_contains_term_if_show_ui_is_false_but_show_on_quick_edit_is_true_for_nonhierarchical_taxonomy()
+    {
         // Create a post with a term from a non-hierarchical taxonomy.
         register_taxonomy(
             'wptests_tax_1',
@@ -95,7 +101,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
         $this->expectOutputRegex('/<div class="tags_input" id="wptests_tax_1_' . $post->ID . '">Test<\/div>/');
     }
 
-    public function test_add_meta_box() {
+    public function test_add_meta_box()
+    {
         global $wp_meta_boxes;
 
         add_meta_box('testbox1', 'Test Metabox', '__return_false', 'post');
@@ -103,7 +110,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
         $this->assertArrayHasKey('testbox1', $wp_meta_boxes['post']['advanced']['default']);
     }
 
-    public function test_remove_meta_box() {
+    public function test_remove_meta_box()
+    {
         global $wp_meta_boxes;
 
         // Add a meta box to remove.
@@ -122,7 +130,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
     /**
      * @ticket 15000
      */
-    public function test_add_meta_box_on_multiple_screens() {
+    public function test_add_meta_box_on_multiple_screens()
+    {
         global $wp_meta_boxes;
 
         // Add a meta box to three different post types.
@@ -136,7 +145,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
     /**
      * @ticket 15000
      */
-    public function test_remove_meta_box_from_multiple_screens() {
+    public function test_remove_meta_box_from_multiple_screens()
+    {
         global $wp_meta_boxes;
 
         // Add a meta box to three different screens.
@@ -160,7 +170,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
     /**
      * @ticket 50019
      */
-    public function test_add_meta_box_with_previously_removed_box_and_sorted_priority() {
+    public function test_add_meta_box_with_previously_removed_box_and_sorted_priority()
+    {
         global $wp_meta_boxes;
 
         // Add a meta box to remove.
@@ -180,7 +191,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
      * @ticket 17851
      * @covers ::add_settings_section
      */
-    public function test_add_settings_section() {
+    public function test_add_settings_section()
+    {
         add_settings_section('test-section', 'Section title', '__return_false', 'test-page');
 
         global $wp_settings_sections;
@@ -216,7 +228,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
      *
      * @dataProvider data_extra_args_for_add_settings_section
      */
-    public function test_add_settings_section_with_extra_args($extra_args, $expected_section_data, $expected_before_section_html, $expected_after_section_html) {
+    public function test_add_settings_section_with_extra_args($extra_args, $expected_section_data, $expected_before_section_html, $expected_after_section_html)
+    {
         add_settings_section('test-section', 'Section title', '__return_false', 'test-page', $extra_args);
         add_settings_field('test-field', 'Field title', '__return_false', 'test-page', 'test-section');
 
@@ -245,7 +258,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_extra_args_for_add_settings_section() {
+    public function data_extra_args_for_add_settings_section()
+    {
         return array(
             'class placeholder section_class present' => array(
                 array(
@@ -356,7 +370,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
      * @covers ::get_settings_errors
      * @global array $wp_settings_errors
      */
-    public function test_get_settings_errors_sources() {
+    public function test_get_settings_errors_sources()
+    {
         global $wp_settings_errors;
 
         $blogname_error        = array(
@@ -397,7 +412,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
      * @global array $wp_settings_errors
      * @dataProvider data_settings_errors_css_classes
      */
-    public function test_settings_errors_css_classes($type, $expected) {
+    public function test_settings_errors_css_classes($type, $expected)
+    {
         global $wp_settings_errors;
 
         add_settings_error('foo', 'bar', 'Capital P dangit!', $type);
@@ -414,7 +430,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
         $this->assertStringNotContainsString('notice-notice-', $output);
     }
 
-    public function data_settings_errors_css_classes() {
+    public function data_settings_errors_css_classes()
+    {
         return array(
             array('error', 'notice-error'),
             array('success', 'notice-success'),
@@ -429,7 +446,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase {
     /**
      * @ticket 42791
      */
-    public function test_wp_add_dashboard_widget() {
+    public function test_wp_add_dashboard_widget()
+    {
         global $wp_meta_boxes;
 
         set_current_screen('dashboard');

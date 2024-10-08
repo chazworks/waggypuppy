@@ -6,7 +6,8 @@
  *
  * Abstracts the common properties and tasks for the Plugin Dependencies tests.
  */
-abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase {
+abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase
+{
 
     /**
      * Stores an instance of WP_Plugin_Dependencies
@@ -45,7 +46,8 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase {
     /**
      * Sets up the WP_Plugin_Dependencies instance before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         self::$instance = new WP_Plugin_Dependencies();
@@ -54,7 +56,8 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase {
     /**
      * Empties the '$reflected_members' property after all tests run.
      */
-    public static function tear_down_after_class() {
+    public static function tear_down_after_class()
+    {
         self::$reflected_members = array();
 
         parent::tear_down_after_class();
@@ -63,7 +66,8 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase {
     /**
      * Resets all static properties to a default value after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         foreach (self::$static_properties as $name => $default_value) {
             $this->set_property_value($name, $default_value);
         }
@@ -77,7 +81,8 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase {
      * @param string $property The property's name.
      * @param mixed  $value The new value.
      */
-    public function set_property_value($property, $value) {
+    public function set_property_value($property, $value)
+    {
         if (! isset(self::$reflected_members[ $property ])) {
             self::$reflected_members[ $property ] = new ReflectionProperty(self::$instance, $property);
         }
@@ -93,7 +98,8 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase {
      * @param string $property The property's name.
      * @return mixed The value of the property.
      */
-    public function get_property_value($property) {
+    public function get_property_value($property)
+    {
         if (! isset(self::$reflected_members[ $property ])) {
             self::$reflected_members[ $property ] = new ReflectionProperty(self::$instance, $property);
         }
@@ -113,7 +119,8 @@ abstract class WP_PluginDependencies_UnitTestCase extends WP_UnitTestCase {
      * @param mixed  ...$args Arguments for the method.
      * @return mixed The result of the method call.
      */
-    protected function call_method($method, ...$args) {
+    protected function call_method($method, ...$args)
+    {
         if (! isset(self::$reflected_members[ $method ])) {
             self::$reflected_members[ $method ] = new ReflectionMethod(self::$instance, $method);
         }

@@ -14,7 +14,8 @@
  *
  * @see WP_HTTP_Response
  */
-class WP_HTTP_Requests_Response extends WP_HTTP_Response {
+class WP_HTTP_Requests_Response extends WP_HTTP_Response
+{
     /**
      * Requests Response object.
      *
@@ -39,7 +40,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      * @param \WpOrg\Requests\Response $response HTTP response.
      * @param string                   $filename Optional. File name. Default empty.
      */
-    public function __construct(WpOrg\Requests\Response $response, $filename = '') {
+    public function __construct(WpOrg\Requests\Response $response, $filename = '')
+    {
         $this->response = $response;
         $this->filename = $filename;
     }
@@ -51,7 +53,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @return WpOrg\Requests\Response HTTP response.
      */
-    public function get_response_object() {
+    public function get_response_object()
+    {
         return $this->response;
     }
 
@@ -62,7 +65,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @return \WpOrg\Requests\Utility\CaseInsensitiveDictionary Map of header name to header value.
      */
-    public function get_headers() {
+    public function get_headers()
+    {
         // Ensure headers remain case-insensitive.
         $converted = new WpOrg\Requests\Utility\CaseInsensitiveDictionary();
 
@@ -84,7 +88,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @param array $headers Map of header name to header value.
      */
-    public function set_headers($headers) {
+    public function set_headers($headers)
+    {
         $this->response->headers = new WpOrg\Requests\Response\Headers($headers);
     }
 
@@ -98,7 +103,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      * @param bool   $replace Optional. Whether to replace an existing header of the same name.
      *                        Default true.
      */
-    public function header($key, $value, $replace = true) {
+    public function header($key, $value, $replace = true)
+    {
         if ($replace) {
             unset($this->response->headers[ $key ]);
         }
@@ -113,7 +119,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @return int The 3-digit HTTP status code.
      */
-    public function get_status() {
+    public function get_status()
+    {
         return $this->response->status_code;
     }
 
@@ -124,7 +131,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @param int $code HTTP status.
      */
-    public function set_status($code) {
+    public function set_status($code)
+    {
         $this->response->status_code = absint($code);
     }
 
@@ -135,7 +143,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @return string Response data.
      */
-    public function get_data() {
+    public function get_data()
+    {
         return $this->response->body;
     }
 
@@ -146,7 +155,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @param string $data Response data.
      */
-    public function set_data($data) {
+    public function set_data($data)
+    {
         $this->response->body = $data;
     }
 
@@ -157,7 +167,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @return WP_HTTP_Cookie[] List of cookie objects.
      */
-    public function get_cookies() {
+    public function get_cookies()
+    {
         $cookies = array();
         foreach ($this->response->cookies as $cookie) {
             $cookies[] = new WP_Http_Cookie(
@@ -182,7 +193,8 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
      *
      * @return array WP_Http response array, per WP_Http::request().
      */
-    public function to_array() {
+    public function to_array()
+    {
         return array(
             'headers'  => $this->get_headers(),
             'body'     => $this->get_data(),

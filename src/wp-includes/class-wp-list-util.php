@@ -14,7 +14,8 @@
  * @since 4.7.0
  */
 #[AllowDynamicProperties]
-class WP_List_Util {
+class WP_List_Util
+{
     /**
      * The input array.
      *
@@ -48,7 +49,8 @@ class WP_List_Util {
      *
      * @param array $input Array to perform operations on.
      */
-    public function __construct($input) {
+    public function __construct($input)
+    {
         $this->output = $input;
         $this->input  = $input;
     }
@@ -60,7 +62,8 @@ class WP_List_Util {
      *
      * @return array The input array.
      */
-    public function get_input() {
+    public function get_input()
+    {
         return $this->input;
     }
 
@@ -71,7 +74,8 @@ class WP_List_Util {
      *
      * @return array The output array.
      */
-    public function get_output() {
+    public function get_output()
+    {
         return $this->output;
     }
 
@@ -95,7 +99,8 @@ class WP_List_Util {
      *                         match. Default 'AND'.
      * @return array Array of found values.
      */
-    public function filter($args = array(), $operator = 'AND') {
+    public function filter($args = array(), $operator = 'AND')
+    {
         if (empty($args)) {
             return $this->output;
         }
@@ -155,7 +160,8 @@ class WP_List_Util {
      *               corresponding to `$index_key`. If `$index_key` is null, array keys from the original
      *               `$list` will be preserved in the results.
      */
-    public function pluck($field, $index_key = null) {
+    public function pluck($field, $index_key = null)
+    {
         $newlist = array();
 
         if (! $index_key) {
@@ -226,7 +232,8 @@ class WP_List_Util {
      * @param bool         $preserve_keys Optional. Whether to preserve keys. Default false.
      * @return array The sorted array.
      */
-    public function sort($orderby = array(), $order = 'ASC', $preserve_keys = false) {
+    public function sort($orderby = array(), $order = 'ASC', $preserve_keys = false)
+    {
         if (empty($orderby)) {
             return $this->output;
         }
@@ -263,7 +270,8 @@ class WP_List_Util {
      * @param object|array $b The other object to compare.
      * @return int 0 if both objects equal. -1 if second object should come first, 1 otherwise.
      */
-    private function sort_callback($a, $b) {
+    private function sort_callback($a, $b)
+    {
         if (empty($this->orderby)) {
             return 0;
         }

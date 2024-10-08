@@ -7,7 +7,8 @@
  *
  * @covers ::wp_guess_url
  */
-class Tests_Functions_wpGuessUrl extends WP_UnitTestCase {
+class Tests_Functions_wpGuessUrl extends WP_UnitTestCase
+{
 
     /**
      * @ticket 36827
@@ -16,7 +17,8 @@ class Tests_Functions_wpGuessUrl extends WP_UnitTestCase {
      *
      * @param string $url The URL to navigate to, relative to `site_url()`.
      */
-    public function test_wp_guess_url_should_return_site_url($url) {
+    public function test_wp_guess_url_should_return_site_url($url)
+    {
         $siteurl = site_url();
         $this->go_to(site_url($url));
         $this->assertSame($siteurl, wp_guess_url());
@@ -27,7 +29,8 @@ class Tests_Functions_wpGuessUrl extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_guess_url_should_return_site_url() {
+    public function data_wp_guess_url_should_return_site_url()
+    {
         return array(
             'no trailing slash'                            => array('url' => 'wp-admin'),
             'trailing slash'                               => array('url' => 'wp-admin/'),

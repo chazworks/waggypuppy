@@ -17,7 +17,8 @@
  *
  * @return WP_Styles WP_Styles instance.
  */
-function wp_styles() {
+function wp_styles()
+{
     global $wp_styles;
 
     if (! ($wp_styles instanceof WP_Styles)) {
@@ -41,7 +42,8 @@ function wp_styles() {
  * @param string|bool|array $handles Styles to be printed. Default 'false'.
  * @return string[] On success, an array of handles of processed WP_Dependencies items; otherwise, an empty array.
  */
-function wp_print_styles($handles = false) {
+function wp_print_styles($handles = false)
+{
     global $wp_styles;
 
     if ('' === $handles) { // For 'wp_head'.
@@ -84,7 +86,8 @@ function wp_print_styles($handles = false) {
  * @param string $data   String containing the CSS styles to be added.
  * @return bool True on success, false on failure.
  */
-function wp_add_inline_style($handle, $data) {
+function wp_add_inline_style($handle, $data)
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     if (false !== stripos($data, '</style>')) {
@@ -126,7 +129,8 @@ function wp_add_inline_style($handle, $data) {
  *                                 '(orientation: portrait)' and '(max-width: 640px)'.
  * @return bool Whether the style has been registered. True on success, false on failure.
  */
-function wp_register_style($handle, $src, $deps = array(), $ver = false, $media = 'all') {
+function wp_register_style($handle, $src, $deps = array(), $ver = false, $media = 'all')
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     return wp_styles()->add($handle, $src, $deps, $ver, $media);
@@ -141,7 +145,8 @@ function wp_register_style($handle, $src, $deps = array(), $ver = false, $media 
  *
  * @param string $handle Name of the stylesheet to be removed.
  */
-function wp_deregister_style($handle) {
+function wp_deregister_style($handle)
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     wp_styles()->remove($handle);
@@ -170,7 +175,8 @@ function wp_deregister_style($handle) {
  *                                 Default 'all'. Accepts media types like 'all', 'print' and 'screen', or media queries like
  *                                 '(orientation: portrait)' and '(max-width: 640px)'.
  */
-function wp_enqueue_style($handle, $src = '', $deps = array(), $ver = false, $media = 'all') {
+function wp_enqueue_style($handle, $src = '', $deps = array(), $ver = false, $media = 'all')
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     $wp_styles = wp_styles();
@@ -192,7 +198,8 @@ function wp_enqueue_style($handle, $src = '', $deps = array(), $ver = false, $me
  *
  * @param string $handle Name of the stylesheet to be removed.
  */
-function wp_dequeue_style($handle) {
+function wp_dequeue_style($handle)
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     wp_styles()->dequeue($handle);
@@ -208,7 +215,8 @@ function wp_dequeue_style($handle) {
  *                       Accepts 'enqueued', 'registered', 'queue', 'to_do', and 'done'.
  * @return bool Whether style is queued.
  */
-function wp_style_is($handle, $status = 'enqueued') {
+function wp_style_is($handle, $status = 'enqueued')
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     return (bool) wp_styles()->query($handle, $status);
@@ -240,6 +248,7 @@ function wp_style_is($handle, $status = 'enqueued') {
  * @param mixed  $value  String containing the CSS data to be added.
  * @return bool True on success, false on failure.
  */
-function wp_style_add_data($handle, $key, $value) {
+function wp_style_add_data($handle, $key, $value)
+{
     return wp_styles()->add_data($handle, $key, $value);
 }

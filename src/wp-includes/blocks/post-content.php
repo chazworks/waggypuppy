@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post content of the current post.
  */
-function render_block_core_post_content($attributes, $content, $block) {
+function render_block_core_post_content($attributes, $content, $block)
+{
     static $seen_ids = array();
 
     if (! isset($block->context['postId'])) {
@@ -68,7 +69,8 @@ function render_block_core_post_content($attributes, $content, $block) {
  *
  * @since 5.8.0
  */
-function register_block_core_post_content() {
+function register_block_core_post_content()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-content',
         array(

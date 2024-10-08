@@ -26,7 +26,8 @@ if (! class_exists('WpOrg\Requests\Autoload')) {
  * @since 2.7.0
  */
 #[AllowDynamicProperties]
-class WP_Http {
+class WP_Http
+{
 
     // Aliases for HTTP response codes.
     const HTTP_CONTINUE       = 100;
@@ -161,7 +162,8 @@ class WP_Http {
      *     @type WP_HTTP_Requests_Response|null                    $http_response Response object.
      * }
      */
-    public function request($url, $args = array()) {
+    public function request($url, $args = array())
+    {
         $defaults = array(
             'method'              => 'GET',
             /**
@@ -470,7 +472,8 @@ class WP_Http {
      * @param array $cookies Array of cookies to send with the request.
      * @return WpOrg\Requests\Cookie\Jar Cookie holder object.
      */
-    public static function normalize_cookies($cookies) {
+    public static function normalize_cookies($cookies)
+    {
         $cookie_jar = new WpOrg\Requests\Cookie\Jar();
 
         foreach ($cookies as $name => $value) {
@@ -505,7 +508,8 @@ class WP_Http {
      * @param array                   $options  Redirect request options.
      * @param WpOrg\Requests\Response $original Response object.
      */
-    public static function browser_redirect_compatibility($location, $headers, $data, &$options, $original) {
+    public static function browser_redirect_compatibility($location, $headers, $data, &$options, $original)
+    {
         // Browser compatibility.
         if (302 === $original->status_code) {
             $options['type'] = WpOrg\Requests\Requests::GET;
@@ -520,7 +524,8 @@ class WP_Http {
      * @throws WpOrg\Requests\Exception On unsuccessful URL validation.
      * @param string $location URL to redirect to.
      */
-    public static function validate_redirects($location) {
+    public static function validate_redirects($location)
+    {
         if (! wp_http_validate_url($location)) {
             throw new WpOrg\Requests\Exception(__('A valid URL was not provided.'), 'wp_http.redirect_failed_validation');
         }
@@ -538,7 +543,8 @@ class WP_Http {
      * @return string|false Class name for the first transport that claims to support the request.
      *                      False if no transport claims to support the request.
      */
-    public function _get_first_available_transport($args, $url = null) {
+    public function _get_first_available_transport($args, $url = null)
+    {
         $transports = array('curl', 'streams');
 
         /**
@@ -589,7 +595,8 @@ class WP_Http {
      * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
      *                        A WP_Error instance upon error.
      */
-    private function _dispatch_request($url, $args) {
+    private function _dispatch_request($url, $args)
+    {
         static $transports = array();
 
         $class = $this->_get_first_available_transport($args, $url);
@@ -627,7 +634,8 @@ class WP_Http {
      * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
      *                        A WP_Error instance upon error. See WP_Http::response() for details.
      */
-    public function post($url, $args = array()) {
+    public function post($url, $args = array())
+    {
         $defaults    = array('method' => 'POST');
         $parsed_args = wp_parse_args($args, $defaults);
         return $this->request($url, $parsed_args);
@@ -645,7 +653,8 @@ class WP_Http {
      * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
      *                        A WP_Error instance upon error. See WP_Http::response() for details.
      */
-    public function get($url, $args = array()) {
+    public function get($url, $args = array())
+    {
         $defaults    = array('method' => 'GET');
         $parsed_args = wp_parse_args($args, $defaults);
         return $this->request($url, $parsed_args);
@@ -663,7 +672,8 @@ class WP_Http {
      * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'.
      *                        A WP_Error instance upon error. See WP_Http::response() for details.
      */
-    public function head($url, $args = array()) {
+    public function head($url, $args = array())
+    {
         $defaults    = array('method' => 'HEAD');
         $parsed_args = wp_parse_args($args, $defaults);
         return $this->request($url, $parsed_args);
@@ -682,7 +692,8 @@ class WP_Http {
      *     @type string $body    HTTP response body.
      * }
      */
-    public static function processResponse($response) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function processResponse($response)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    {
         $response = explode("\r\n\r\n", $response, 2);
 
         return array(
@@ -714,7 +725,8 @@ class WP_Http {
      *                                        an array containing `WP_Http_Cookie` objects is returned.
      * }
      */
-    public static function processHeaders($headers, $url = '') { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function processHeaders($headers, $url = '')  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    {
         // Split headers, one per array element.
         if (is_string($headers)) {
             // Tolerate line terminator: CRLF = LF (RFC 2616 19.3).
@@ -797,7 +809,8 @@ class WP_Http {
      *
      * @param array $r Full array of args passed into ::request()
      */
-    public static function buildCookieHeader(&$r) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function buildCookieHeader(&$r)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    {
         if (! empty($r['cookies'])) {
             // Upgrade any name => value cookie pairs to WP_HTTP_Cookie instances.
             foreach ($r['cookies'] as $name => $value) {
@@ -833,7 +846,8 @@ class WP_Http {
      * @param string $body Body content.
      * @return string Chunked decoded body on success or raw body on failure.
      */
-    public static function chunkTransferDecode($body) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function chunkTransferDecode($body)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    {
         // The body is not chunked encoded or is malformed.
         if (! preg_match('/^([0-9a-f]+)[^\r\n]*\r\n/i', trim($body))) {
             return $body;
@@ -886,7 +900,8 @@ class WP_Http {
      * @param string $uri URI of url.
      * @return bool True to block, false to allow.
      */
-    public function block_request($uri) {
+    public function block_request($uri)
+    {
         // We don't need to block requests, because nothing is blocked.
         if (! defined('WP_HTTP_BLOCK_EXTERNAL') || ! WP_HTTP_BLOCK_EXTERNAL) {
             return false;
@@ -948,7 +963,8 @@ class WP_Http {
      * @return bool|array False on failure; Array of URL components on success;
      *                    See parse_url()'s return values.
      */
-    protected static function parse_url($url) {
+    protected static function parse_url($url)
+    {
         _deprecated_function(__METHOD__, '4.4.0', 'wp_parse_url()');
         return wp_parse_url($url);
     }
@@ -964,7 +980,8 @@ class WP_Http {
      * @param string $url                 The URL which $maybe_relative_path is relative to.
      * @return string An Absolute URL, in a failure condition where the URL cannot be parsed, the relative URL will be returned.
      */
-    public static function make_absolute_url($maybe_relative_path, $url) {
+    public static function make_absolute_url($maybe_relative_path, $url)
+    {
         if (empty($url)) {
             return $maybe_relative_path;
         }
@@ -1048,7 +1065,8 @@ class WP_Http {
      * @return array|false|WP_Error An HTTP API response array if the redirect is successfully followed,
      *                              false if no redirect is present, or a WP_Error object if there's an error.
      */
-    public static function handle_redirects($url, $args, $response) {
+    public static function handle_redirects($url, $args, $response)
+    {
         // If no redirects are present, or, redirects were not requested, perform no action.
         if (! isset($response['headers']['location']) || 0 === $args['_redirection']) {
             return false;
@@ -1107,7 +1125,8 @@ class WP_Http {
      * @param string $maybe_ip A suspected IP address.
      * @return int|false Upon success, '4' or '6' to represent an IPv4 or IPv6 address, false upon failure.
      */
-    public static function is_ip_address($maybe_ip) {
+    public static function is_ip_address($maybe_ip)
+    {
         if (preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $maybe_ip)) {
             return 4;
         }

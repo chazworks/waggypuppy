@@ -9,11 +9,13 @@
  */
 require_once __DIR__ . '/base.php';
 
-class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
+class Tests_Image_Editor_GD extends WP_Image_UnitTestCase
+{
 
     public $editor_engine = 'WP_Image_Editor_GD';
 
-    public function set_up() {
+    public function set_up()
+    {
         require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
         require_once ABSPATH . WPINC . '/class-wp-image-editor-gd.php';
 
@@ -21,7 +23,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
         parent::set_up();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $folder = DIR_TESTDATA . '/images/waffles-*.jpg';
 
         foreach (glob($folder) as $file) {
@@ -33,19 +36,22 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
         parent::tear_down();
     }
 
-    public function test_supports_mime_type_jpeg() {
+    public function test_supports_mime_type_jpeg()
+    {
         $gd_image_editor = new WP_Image_Editor_GD(null);
         $expected        = (bool) (imagetypes() & IMG_JPG);
         $this->assertSame($expected, $gd_image_editor->supports_mime_type('image/jpeg'));
     }
 
-    public function test_supports_mime_type_png() {
+    public function test_supports_mime_type_png()
+    {
         $gd_image_editor = new WP_Image_Editor_GD(null);
         $expected        = (bool) (imagetypes() & IMG_PNG);
         $this->assertSame($expected, $gd_image_editor->supports_mime_type('image/png'));
     }
 
-    public function test_supports_mime_type_gif() {
+    public function test_supports_mime_type_gif()
+    {
         $gd_image_editor = new WP_Image_Editor_GD(null);
         $expected        = (bool) (imagetypes() & IMG_GIF);
         $this->assertSame($expected, $gd_image_editor->supports_mime_type('image/gif'));
@@ -56,7 +62,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      *
      * @requires function imagejpeg
      */
-    public function test_resize() {
+    public function test_resize()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -78,7 +85,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      *
      * @requires function imagejpeg
      */
-    public function test_single_multi_resize() {
+    public function test_single_multi_resize()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -121,7 +129,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      *
      * @ticket 26823
      */
-    public function test_multi_resize_does_not_create() {
+    public function test_multi_resize_does_not_create()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -190,7 +199,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      * @ticket 26823
      * @requires function imagejpeg
      */
-    public function test_multi_resize() {
+    public function test_multi_resize()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -404,7 +414,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
     /**
      * Tests resizing an image with cropping.
      */
-    public function test_resize_and_crop() {
+    public function test_resize_and_crop()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -428,7 +439,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      *
      * @dataProvider data_crop
      */
-    public function test_crop($src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false) {
+    public function test_crop($src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false)
+    {
         $file = DIR_TESTDATA . '/images/gradient-square.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -445,7 +457,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
         );
     }
 
-    public function data_crop() {
+    public function data_crop()
+    {
         return array(
             'src height and width must be greater than 0' => array(
                 'src_x' => 0,
@@ -485,7 +498,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      *
      * @dataProvider data_crop_invalid_dimensions
      */
-    public function test_crop_invalid_dimensions($src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false) {
+    public function test_crop_invalid_dimensions($src_x, $src_y, $src_w, $src_h, $dst_w = null, $dst_h = null, $src_abs = false)
+    {
         $file = DIR_TESTDATA . '/images/gradient-square.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -497,7 +511,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
         $this->assertSame('image_crop_error', $actual->get_error_code());
     }
 
-    public function data_crop_invalid_dimensions() {
+    public function data_crop_invalid_dimensions()
+    {
         return array(
             'src height must be greater than 0' => array(
                 'src_x' => 0,
@@ -547,7 +562,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
     /**
      * Tests rotating an image 180 deg.
      */
-    public function test_rotate() {
+    public function test_rotate()
+    {
         $file = DIR_TESTDATA . '/images/gradient-square.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -566,7 +582,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
     /**
      * Tests flipping an image.
      */
-    public function test_flip() {
+    public function test_flip()
+    {
         $file = DIR_TESTDATA . '/images/gradient-square.jpg';
 
         $gd_image_editor = new WP_Image_Editor_GD($file);
@@ -587,7 +604,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      *
      * @ticket 23039
      */
-    public function test_image_preserves_alpha() {
+    public function test_image_preserves_alpha()
+    {
         if (! (imagetypes() & IMG_PNG)) {
             $this->fail('This test requires PHP to be compiled with PNG support.');
         }
@@ -611,7 +629,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      *
      * @ticket 23039
      */
-    public function test_image_preserves_alpha_on_resize() {
+    public function test_image_preserves_alpha_on_resize()
+    {
         if (! (imagetypes() & IMG_PNG)) {
             $this->fail('This test requires PHP to be compiled with PNG support.');
         }
@@ -634,7 +653,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
     /**
      * @ticket 30596
      */
-    public function test_image_preserves_alpha_on_rotate() {
+    public function test_image_preserves_alpha_on_rotate()
+    {
         if (! (imagetypes() & IMG_PNG)) {
             $this->fail('This test requires PHP to be compiled with PNG support.');
         }
@@ -663,7 +683,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase {
      *
      * @ticket 39195
      */
-    public function test_image_non_existent_extension() {
+    public function test_image_non_existent_extension()
+    {
         $gd_image_editor = new WP_Image_Editor_GD(DIR_TESTDATA . '/images/test-image-no-extension');
 
         $loaded = $gd_image_editor->load();

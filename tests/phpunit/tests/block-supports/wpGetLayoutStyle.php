@@ -4,7 +4,8 @@
  * @group block-supports
  * @covers ::wp_get_layout_style
  */
-class Tests_Block_Supports_WpGetLayoutStyle extends WP_UnitTestCase {
+class Tests_Block_Supports_WpGetLayoutStyle extends WP_UnitTestCase
+{
     const ARGS_DEFAULTS = array(
         'selector'                      => null,
         'layout'                        => null,
@@ -23,7 +24,8 @@ class Tests_Block_Supports_WpGetLayoutStyle extends WP_UnitTestCase {
      * @param array  $args            Dataset to test.
      * @param string $expected_output The expected output.
      */
-    public function test_wp_get_layout_style(array $args, $expected_output) {
+    public function test_wp_get_layout_style(array $args, $expected_output)
+    {
         $args          = array_merge(static::ARGS_DEFAULTS, $args);
         $layout_styles = wp_get_layout_style(
             $args['selector'],
@@ -43,7 +45,8 @@ class Tests_Block_Supports_WpGetLayoutStyle extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_get_layout_style() {
+    public function data_wp_get_layout_style()
+    {
         return array(
             'no args should return empty value'            => array(
                 'args'            => array(),

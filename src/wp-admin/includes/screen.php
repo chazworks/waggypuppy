@@ -14,7 +14,8 @@
  * @param string|WP_Screen $screen The screen you want the headers for
  * @return string[] The column header labels keyed by column ID.
  */
-function get_column_headers($screen) {
+function get_column_headers($screen)
+{
     static $column_headers = array();
 
     if (is_string($screen)) {
@@ -48,7 +49,8 @@ function get_column_headers($screen) {
  * @param string|WP_Screen $screen The screen you want the hidden columns for
  * @return string[] Array of IDs of hidden columns.
  */
-function get_hidden_columns($screen) {
+function get_hidden_columns($screen)
+{
     if (is_string($screen)) {
         $screen = convert_to_screen($screen);
     }
@@ -93,7 +95,8 @@ function get_hidden_columns($screen) {
  *
  * @param WP_Screen $screen
  */
-function meta_box_prefs($screen) {
+function meta_box_prefs($screen)
+{
     global $wp_meta_boxes;
 
     if (is_string($screen)) {
@@ -149,7 +152,8 @@ function meta_box_prefs($screen) {
  * @param string|WP_Screen $screen Screen identifier
  * @return string[] IDs of hidden meta boxes.
  */
-function get_hidden_meta_boxes($screen) {
+function get_hidden_meta_boxes($screen)
+{
     if (is_string($screen)) {
         $screen = convert_to_screen($screen);
     }
@@ -202,7 +206,8 @@ function get_hidden_meta_boxes($screen) {
  * @param string $option An option name.
  * @param mixed  $args   Option-dependent arguments.
  */
-function add_screen_option($option, $args = array()) {
+function add_screen_option($option, $args = array())
+{
     $current_screen = get_current_screen();
 
     if (! $current_screen) {
@@ -221,7 +226,8 @@ function add_screen_option($option, $args = array()) {
  *
  * @return WP_Screen|null Current screen object or null when screen not defined.
  */
-function get_current_screen() {
+function get_current_screen()
+{
     global $current_screen;
 
     if (! isset($current_screen)) {
@@ -239,6 +245,7 @@ function get_current_screen() {
  * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
  *                                    or an existing screen object.
  */
-function set_current_screen($hook_name = '') {
+function set_current_screen($hook_name = '')
+{
     WP_Screen::get($hook_name)->set_current_screen();
 }

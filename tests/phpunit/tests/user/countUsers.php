@@ -3,7 +3,8 @@
 /**
  * @group user
  */
-class Tests_User_CountUsers extends WP_UnitTestCase {
+class Tests_User_CountUsers extends WP_UnitTestCase
+{
 
     /**
      * @ticket 22993
@@ -11,7 +12,8 @@ class Tests_User_CountUsers extends WP_UnitTestCase {
      * @dataProvider data_count_users_strategies
      * @group ms-excluded
      */
-    public function test_count_users_is_accurate($strategy) {
+    public function test_count_users_is_accurate($strategy)
+    {
         // Setup users.
         $admin       = self::factory()->user->create(
             array(
@@ -74,7 +76,8 @@ class Tests_User_CountUsers extends WP_UnitTestCase {
      *
      * @dataProvider data_count_users_strategies
      */
-    public function test_count_users_multisite_is_accurate($strategy) {
+    public function test_count_users_multisite_is_accurate($strategy)
+    {
         // Setup users.
         $admin       = self::factory()->user->create(
             array(
@@ -182,7 +185,8 @@ class Tests_User_CountUsers extends WP_UnitTestCase {
      *
      * @dataProvider data_count_users_strategies
      */
-    public function test_count_users_multisite_queries_correct_roles($strategy) {
+    public function test_count_users_multisite_queries_correct_roles($strategy)
+    {
         $site_id = (int) self::factory()->blog->create();
 
         switch_to_blog($site_id);
@@ -209,7 +213,8 @@ class Tests_User_CountUsers extends WP_UnitTestCase {
      *
      * @dataProvider data_count_users_strategies
      */
-    public function test_count_users_is_accurate_with_multiple_roles($strategy) {
+    public function test_count_users_is_accurate_with_multiple_roles($strategy)
+    {
 
         // Setup users.
         $admin  = self::factory()->user->create(
@@ -253,7 +258,8 @@ class Tests_User_CountUsers extends WP_UnitTestCase {
      *
      * @dataProvider data_count_users_strategies
      */
-    public function test_count_users_should_not_count_users_who_are_not_in_posts_table($strategy) {
+    public function test_count_users_should_not_count_users_who_are_not_in_posts_table($strategy)
+    {
         global $wpdb;
 
         // Get a 'before' count for comparison.
@@ -278,7 +284,8 @@ class Tests_User_CountUsers extends WP_UnitTestCase {
         $this->assertSameSets($count, $count2);
     }
 
-    public function data_count_users_strategies() {
+    public function data_count_users_strategies()
+    {
         return array(
             array(
                 'time',

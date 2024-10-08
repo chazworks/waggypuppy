@@ -10,10 +10,12 @@
  *
  * @covers ::wp_get_font_dir
  */
-class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
+class Tests_Fonts_WpFontDir extends WP_UnitTestCase
+{
     private static $dir_defaults;
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
         $upload_dir = wp_get_upload_dir();
 
@@ -30,7 +32,8 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
     /**
      * Ensure the font directory is correct.
      */
-    public function test_fonts_dir() {
+    public function test_fonts_dir()
+    {
         $font_dir = wp_get_font_dir();
 
         $this->assertSame($font_dir, static::$dir_defaults);
@@ -44,7 +47,8 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_fonts_dir_for_multisite() {
+    public function test_fonts_dir_for_multisite()
+    {
         $blog_id              = self::factory()->blog->create();
         $main_site_upload_dir = wp_get_upload_dir();
         switch_to_blog($blog_id);
@@ -67,9 +71,11 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
     /**
      * Ensure modifying the font directory via the 'font_dir' filter works.
      */
-    public function test_fonts_dir_with_filter() {
+    public function test_fonts_dir_with_filter()
+    {
         // Define a callback function to pass to the filter.
-        function set_new_values($defaults) {
+        function set_new_values($defaults)
+        {
             $defaults['path']    = '/custom-path/fonts/my-custom-subdir';
             $defaults['url']     = 'http://example.com/custom-path/fonts/my-custom-subdir';
             $defaults['subdir']  = 'my-custom-subdir';
@@ -110,7 +116,8 @@ class Tests_Fonts_WpFontDir extends WP_UnitTestCase {
      *
      * @ticket 60652
      */
-    public function test_fonts_dir_filters_do_not_trigger_infinite_loop() {
+    public function test_fonts_dir_filters_do_not_trigger_infinite_loop()
+    {
         /*
          * Naive filtering of uploads directory to return font directory.
          *

@@ -14,7 +14,8 @@
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader-skins.php.
  */
 #[AllowDynamicProperties]
-class WP_Upgrader_Skin {
+class WP_Upgrader_Skin
+{
 
     /**
      * Holds the upgrader data.
@@ -66,7 +67,8 @@ class WP_Upgrader_Skin {
      * @param array $args Optional. The WordPress upgrader skin arguments to
      *                    override default options. Default empty array.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $defaults      = array(
             'url'     => '',
             'nonce'   => '',
@@ -83,7 +85,8 @@ class WP_Upgrader_Skin {
      *
      * @param WP_Upgrader $upgrader
      */
-    public function set_upgrader(&$upgrader) {
+    public function set_upgrader(&$upgrader)
+    {
         if (is_object($upgrader)) {
             $this->upgrader =& $upgrader;
         }
@@ -95,7 +98,8 @@ class WP_Upgrader_Skin {
      *
      * @since 3.0.0
      */
-    public function add_strings() {
+    public function add_strings()
+    {
     }
 
     /**
@@ -105,7 +109,8 @@ class WP_Upgrader_Skin {
      *
      * @param string|bool|WP_Error $result The result of an upgrade.
      */
-    public function set_result($result) {
+    public function set_result($result)
+    {
         $this->result = $result;
     }
 
@@ -125,7 +130,8 @@ class WP_Upgrader_Skin {
      * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
      * @return bool True on success, false on failure.
      */
-    public function request_filesystem_credentials($error = false, $context = '', $allow_relaxed_file_ownership = false) {
+    public function request_filesystem_credentials($error = false, $context = '', $allow_relaxed_file_ownership = false)
+    {
         $url = $this->options['url'];
         if (! $context) {
             $context = $this->options['context'];
@@ -144,7 +150,8 @@ class WP_Upgrader_Skin {
      *
      * @since 2.8.0
      */
-    public function header() {
+    public function header()
+    {
         if ($this->done_header) {
             return;
         }
@@ -158,7 +165,8 @@ class WP_Upgrader_Skin {
      *
      * @since 2.8.0
      */
-    public function footer() {
+    public function footer()
+    {
         if ($this->done_footer) {
             return;
         }
@@ -173,7 +181,8 @@ class WP_Upgrader_Skin {
      *
      * @param string|WP_Error $errors Errors.
      */
-    public function error($errors) {
+    public function error($errors)
+    {
         if (! $this->done_header) {
             $this->header();
         }
@@ -199,7 +208,8 @@ class WP_Upgrader_Skin {
      * @param string $feedback Message data.
      * @param mixed  ...$args  Optional text replacements.
      */
-    public function feedback($feedback, ...$args) {
+    public function feedback($feedback, ...$args)
+    {
         if (isset($this->upgrader->strings[ $feedback ])) {
             $feedback = $this->upgrader->strings[ $feedback ];
         }
@@ -222,14 +232,16 @@ class WP_Upgrader_Skin {
      *
      * @since 2.8.0
      */
-    public function before() {}
+    public function before()
+    {}
 
     /**
      * Performs an action following an update.
      *
      * @since 2.8.0
      */
-    public function after() {}
+    public function after()
+    {}
 
     /**
      * Outputs JavaScript that calls function to decrement the update counts.
@@ -239,7 +251,8 @@ class WP_Upgrader_Skin {
      * @param string $type Type of update count to decrement. Likely values include 'plugin',
      *                     'theme', 'translation', etc.
      */
-    protected function decrement_update_count($type) {
+    protected function decrement_update_count($type)
+    {
         if (! $this->result || is_wp_error($this->result) || 'up_to_date' === $this->result) {
             return;
         }
@@ -273,14 +286,16 @@ class WP_Upgrader_Skin {
      *
      * @since 3.0.0
      */
-    public function bulk_header() {}
+    public function bulk_header()
+    {}
 
     /**
      * Displays the footer following the bulk update process.
      *
      * @since 3.0.0
      */
-    public function bulk_footer() {}
+    public function bulk_footer()
+    {}
 
     /**
      * Hides the `process_failed` error message when updating by uploading a zip file.
@@ -290,7 +305,8 @@ class WP_Upgrader_Skin {
      * @param WP_Error $wp_error WP_Error object.
      * @return bool True if the error should be hidden, false otherwise.
      */
-    public function hide_process_failed($wp_error) {
+    public function hide_process_failed($wp_error)
+    {
         return false;
     }
 }

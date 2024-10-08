@@ -5,7 +5,8 @@
  *
  * @covers WP_Plugins_List_Table
  */
-class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
+class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase
+{
     /**
      * @var WP_Plugins_List_Table
      */
@@ -47,7 +48,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
     /**
      * Creates an admin user before any tests run and backs up the `$s` global.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         global $s;
 
         parent::set_up_before_class();
@@ -63,7 +65,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
         self::$original_s = $s;
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->table = _get_list_table('WP_Plugins_List_Table', array('screen' => 'plugins'));
     }
@@ -71,7 +74,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
     /**
      * Restores the `$s` global after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         global $s;
 
         $s = self::$original_s;
@@ -84,7 +88,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Plugins_List_Table::get_views
      */
-    public function test_get_views_should_return_views_by_default() {
+    public function test_get_views_should_return_views_by_default()
+    {
         global $totals;
 
         $totals_backup = $totals;
@@ -136,7 +141,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @param string $status The value for $_REQUEST['plugin_status'].
      */
-    public function test_construct_should_not_set_show_autoupdates_to_false_for_mustuse_and_dropins($status) {
+    public function test_construct_should_not_set_show_autoupdates_to_false_for_mustuse_and_dropins($status)
+    {
         $original_status           = isset($_REQUEST['plugin_status']) ? $_REQUEST['plugin_status'] : null;
         $_REQUEST['plugin_status'] = $status;
 
@@ -170,7 +176,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @param string $test_status The value for the global $status variable.
      */
-    public function test_get_columns_should_not_add_the_autoupdates_column_when_viewing_mustuse_or_dropins($test_status) {
+    public function test_get_columns_should_not_add_the_autoupdates_column_when_viewing_mustuse_or_dropins($test_status)
+    {
         global $status;
 
         $original_status = $status;
@@ -197,7 +204,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Plugins_List_Table::get_columns
      */
-    public function test_get_columns_should_not_add_the_autoupdates_column_when_plugin_auto_update_is_disabled() {
+    public function test_get_columns_should_not_add_the_autoupdates_column_when_plugin_auto_update_is_disabled()
+    {
         global $status;
 
         $original_status = $status;
@@ -227,7 +235,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @param string $test_status The value for the global $status variable.
      */
-    public function test_single_row_should_not_add_the_autoupdates_column_for_mustuse_or_dropins($test_status) {
+    public function test_single_row_should_not_add_the_autoupdates_column_for_mustuse_or_dropins($test_status)
+    {
         global $status;
 
         $original_status = $status;
@@ -287,7 +296,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_status_mustuse_and_dropins() {
+    public function data_status_mustuse_and_dropins()
+    {
         return array(
             'Must-Use' => array('mustuse'),
             'Drop-ins' => array('dropins'),
@@ -302,7 +312,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Plugins_List_Table::prepare_items
      */
-    public function test_plugins_list_filter() {
+    public function test_plugins_list_filter()
+    {
         global $status, $s;
 
         $old_status = $status;
@@ -328,7 +339,8 @@ class Tests_Admin_wpPluginsListTable extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function plugins_list_filter($plugins_list) {
+    public function plugins_list_filter($plugins_list)
+    {
         $plugins_list['mustuse'] = $this->fake_plugin;
 
         return $plugins_list;

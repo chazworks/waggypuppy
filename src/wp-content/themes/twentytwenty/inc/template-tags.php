@@ -31,7 +31,8 @@
  * @param bool  $display Display or return the HTML.
  * @return string Compiled HTML based on our arguments.
  */
-function twentytwenty_site_logo($args = array(), $display = true) {
+function twentytwenty_site_logo($args = array(), $display = true)
+{
     $logo       = get_custom_logo();
     $site_title = get_bloginfo('name');
     $contents   = '';
@@ -98,7 +99,8 @@ function twentytwenty_site_logo($args = array(), $display = true) {
  * @param bool $display Display or return the HTML.
  * @return string The HTML to display.
  */
-function twentytwenty_site_description($display = true) {
+function twentytwenty_site_description($display = true)
+{
     $description = get_bloginfo('description');
 
     if (! $description) {
@@ -139,7 +141,8 @@ function twentytwenty_site_description($display = true) {
  * @param object $comment Comment data.
  * @return bool
  */
-function twentytwenty_is_comment_by_post_author($comment = null) {
+function twentytwenty_is_comment_by_post_author($comment = null)
+{
 
     if (is_object($comment) && $comment->user_id > 0) {
 
@@ -166,7 +169,8 @@ function twentytwenty_is_comment_by_post_author($comment = null) {
  * @param string $link Link to the top of the page.
  * @return string Link to the top of the page.
  */
-function twentytwenty_filter_comment_reply_link($link) {
+function twentytwenty_filter_comment_reply_link($link)
+{
 
     $link = str_replace('class=\'', 'class=\'do-not-scroll ', $link);
     return $link;
@@ -188,7 +192,8 @@ add_filter('comment_reply_link', 'twentytwenty_filter_comment_reply_link');
  * @param int    $post_id  The ID of the post for which the post meta should be output.
  * @param string $location Which post meta location to output – single or preview.
  */
-function twentytwenty_the_post_meta($post_id = null, $location = 'single-top') {
+function twentytwenty_the_post_meta($post_id = null, $location = 'single-top')
+{
 
     echo twentytwenty_get_post_meta($post_id, $location); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_post_meta().
 }
@@ -202,7 +207,8 @@ function twentytwenty_the_post_meta($post_id = null, $location = 'single-top') {
  * @param int    $post_id Post ID.
  * @param string $text    Anchor text.
  */
-function twentytwenty_edit_post_link($link, $post_id, $text) {
+function twentytwenty_edit_post_link($link, $post_id, $text)
+{
     if (is_admin()) {
         return $link;
     }
@@ -239,7 +245,8 @@ add_filter('edit_post_link', 'twentytwenty_edit_post_link', 10, 3);
  * @param int    $post_id  The ID of the post.
  * @param string $location The location where the meta is shown.
  */
-function twentytwenty_get_post_meta($post_id = null, $location = 'single-top') {
+function twentytwenty_get_post_meta($post_id = null, $location = 'single-top')
+{
 
     // Require post ID.
     if (! $post_id) {
@@ -538,7 +545,8 @@ function twentytwenty_get_post_meta($post_id = null, $location = 'single-top') {
  * @param array    $args         An array of arguments.
  * @return array CSS class names.
  */
-function twentytwenty_filter_wp_list_pages_item_classes($css_class, $page, $depth, $args) {
+function twentytwenty_filter_wp_list_pages_item_classes($css_class, $page, $depth, $args)
+{
 
     // Only apply to wp_list_pages() calls with match_menu_classes set to true.
     $match_menu_classes = isset($args['match_menu_classes']);
@@ -571,7 +579,8 @@ add_filter('page_css_class', 'twentytwenty_filter_wp_list_pages_item_classes', 1
  * @param WP_Post  $item  Menu item data object.
  * @return stdClass An object of wp_nav_menu() arguments.
  */
-function twentytwenty_add_sub_toggles_to_main_menu($args, $item) {
+function twentytwenty_add_sub_toggles_to_main_menu($args, $item)
+{
 
     // Add sub menu toggles to the Expanded Menu with toggles.
     if (isset($args->show_toggles) && $args->show_toggles) {
@@ -622,7 +631,8 @@ add_filter('nav_menu_item_args', 'twentytwenty_add_sub_toggles_to_main_menu', 10
  * @param stdClass $args        An object of wp_nav_menu() arguments.
  * @return string The menu item output with social icon.
  */
-function twentytwenty_nav_menu_social_icons($item_output, $item, $depth, $args) {
+function twentytwenty_nav_menu_social_icons($item_output, $item, $depth, $args)
+{
     // Change SVG icon inside social links menu if there is supported URL.
     if ('social' === $args->theme_location) {
         $svg = TwentyTwenty_SVG_Icons::get_social_link_svg($item->url);
@@ -648,7 +658,8 @@ add_filter('walker_nav_menu_start_el', 'twentytwenty_nav_menu_social_icons', 10,
  *
  * @since Twenty Twenty 1.0
  */
-function twentytwenty_no_js_class() {
+function twentytwenty_no_js_class()
+{
 
     ?>
     <script>document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );</script>
@@ -667,7 +678,8 @@ add_action('wp_head', 'twentytwenty_no_js_class');
  * @param array $classes Classes added to the body tag.
  * @return array Classes added to the body tag.
  */
-function twentytwenty_body_classes($classes) {
+function twentytwenty_body_classes($classes)
+{
 
     global $post;
     $post_type = isset($post) ? $post->post_type : false;
@@ -769,7 +781,8 @@ add_filter('body_class', 'twentytwenty_body_classes');
  * @param string $title Current archive title.
  * @return string Current archive title.
  */
-function twentytwenty_get_the_archive_title($title) {
+function twentytwenty_get_the_archive_title($title)
+{
 
     /**
      * Filters the regular expression used to style the word before the first colon.
@@ -808,7 +821,8 @@ add_filter('get_the_archive_title', 'twentytwenty_get_the_archive_title');
  *
  * @return int Duration in milliseconds
  */
-function twentytwenty_toggle_duration() {
+function twentytwenty_toggle_duration()
+{
     /**
      * Filters the animation duration/speed used usually for submenu toggles.
      *
@@ -836,7 +850,8 @@ function twentytwenty_toggle_duration() {
  * @param string $prefix Prefix for the returned ID.
  * @return string Unique ID.
  */
-function twentytwenty_unique_id($prefix = '') {
+function twentytwenty_unique_id($prefix = '')
+{
     static $id_counter = 0;
     if (function_exists('wp_unique_id')) {
         return wp_unique_id($prefix);

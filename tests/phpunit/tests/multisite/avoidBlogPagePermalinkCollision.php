@@ -8,7 +8,8 @@ if (is_multisite()) :
      * @group multisite
      * @group post
      */
-    class Tests_Multisite_AvoidBlogPagePermalinkCollision extends WP_UnitTestCase {
+    class Tests_Multisite_AvoidBlogPagePermalinkCollision extends WP_UnitTestCase
+    {
         protected static $site_id;
         protected static $root_page;
         protected static $child_page;
@@ -17,7 +18,8 @@ if (is_multisite()) :
         /**
          * Create a blog and the pages we need to test the collision.
          */
-        public static function wpSetUpBeforeClass($factory) {
+        public static function wpSetUpBeforeClass($factory)
+        {
             self::$site_id = self::factory()->blog->create(
                 array(
                     'path' => '/' . self::$post_and_blog_path,
@@ -45,14 +47,16 @@ if (is_multisite()) :
         /**
          * Delete blog and pages we created.
          */
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             wp_delete_site(self::$site_id);
 
             wp_delete_post(self::$root_page->ID);
             wp_delete_post(self::$child_page->ID);
         }
 
-        public function test_avoid_blog_page_permalink_collision_renames_post_name() {
+        public function test_avoid_blog_page_permalink_collision_renames_post_name()
+        {
             $this->assertNotSame(self::$post_and_blog_path, self::$root_page->post_name);
         }
 
@@ -61,7 +65,8 @@ if (is_multisite()) :
          *
          * @ticket 51147
          */
-        public function test_avoid_blog_page_permalink_collision_doesnt_rename_child_pages() {
+        public function test_avoid_blog_page_permalink_collision_doesnt_rename_child_pages()
+        {
             $this->assertSame(self::$post_and_blog_path, self::$child_page->post_name);
         }
     }

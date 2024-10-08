@@ -10,7 +10,8 @@
  * @covers ::wp_privacy_generate_personal_data_export_file
  * @requires extension zip
  */
-class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestCase {
+class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestCase
+{
     /**
      * An Export Request ID
      *
@@ -52,7 +53,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @param WP_UnitTest_Factory $factory The base factory object.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$export_request_id = wp_create_user_request('export-requester@example.com', 'export_personal_data');
         update_post_meta(self::$export_request_id, '_export_data_grouped', array());
         self::$exports_dir = wp_privacy_exports_dir();
@@ -65,7 +67,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @since 5.2.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->export_file_name = '';
@@ -91,7 +94,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @since 5.2.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->remove_exports_dir();
         error_reporting($this->orig_error_level);
         parent::tear_down();
@@ -104,7 +108,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @param string $archive_name Created export zip file path.
      */
-    public function action_wp_privacy_personal_data_export_file_created($archive_name) {
+    public function action_wp_privacy_personal_data_export_file_created($archive_name)
+    {
         $this->export_file_name = $archive_name;
     }
 
@@ -117,7 +122,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @return bool Whether the privacy exports directory was removed.
      */
-    private function remove_exports_dir() {
+    private function remove_exports_dir()
+    {
         /**
          * The `$exports_dir` will be a file after the `test_detect_cannot_create_folder()` test method, or,
          * if an incorrect value is returned to the `wp_privacy_exports_dir` filter.
@@ -158,7 +164,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @ticket 44233
      */
-    public function test_rejects_remove_requests() {
+    public function test_rejects_remove_requests()
+    {
         $request_id = wp_create_user_request('removal-requester@example.com', 'remove_personal_data');
 
         $this->expectException('WPDieException');
@@ -171,7 +178,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @ticket 44233
      */
-    public function test_invalid_request_id() {
+    public function test_invalid_request_id()
+    {
         $this->expectException('WPDieException');
         $this->expectOutputString('{"success":false,"data":"Invalid request ID when generating personal data export file."}');
         wp_privacy_generate_personal_data_export_file(123456789);
@@ -182,7 +190,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @ticket 44233
      */
-    public function test_rejects_requests_with_bad_email_addresses() {
+    public function test_rejects_requests_with_bad_email_addresses()
+    {
         $request_id = wp_create_user_request('bad-email-requester@example.com', 'export_personal_data');
 
         wp_update_post(
@@ -202,7 +211,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @ticket 44233
      */
-    public function test_detect_cannot_create_folder() {
+    public function test_detect_cannot_create_folder()
+    {
         // Create a file with the folder name to ensure the function cannot create a folder.
         touch(untrailingslashit(self::$exports_dir));
 
@@ -218,7 +228,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @param mixed $groups '_export_data_grouped' post meta value.
      */
-    public function test_doing_it_wrong_for_export_data_grouped_invalid_type($groups) {
+    public function test_doing_it_wrong_for_export_data_grouped_invalid_type($groups)
+    {
         update_post_meta(self::$export_request_id, '_export_data_grouped', $groups);
 
         $this->setExpectedIncorrectUsage('wp_privacy_generate_personal_data_export_file');
@@ -226,7 +237,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
         wp_privacy_generate_personal_data_export_file(self::$export_request_id);
     }
 
-    public function data_export_data_grouped_invalid_type() {
+    public function data_export_data_grouped_invalid_type()
+    {
         return array(
             array(10),
             array('WordPress'),
@@ -285,7 +297,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @ticket 44233
      */
-    public function test_creates_index_in_export_folder() {
+    public function test_creates_index_in_export_folder()
+    {
         $this->expectOutputString('');
         wp_privacy_generate_personal_data_export_file(self::$export_request_id);
 
@@ -297,7 +310,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @ticket 44233
      */
-    public function test_can_succeed() {
+    public function test_can_succeed()
+    {
         wp_privacy_generate_personal_data_export_file(self::$export_request_id);
 
         $this->assertFileExists($this->export_file_name);
@@ -315,7 +329,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      * @param mixed    $groups           '_export_data_grouped' post meta value.
      * @param string[] $expected_content Optional. Expected content. Use "html" key for this test.
      */
-    public function test_html_contents($groups, array $expected_content = array()) {
+    public function test_html_contents($groups, array $expected_content = array())
+    {
         // Set the _doing_it_wrong assertion.
         if (! is_array($groups)) {
             $this->setExpectedIncorrectUsage('wp_privacy_generate_personal_data_export_file');
@@ -357,7 +372,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      * @param mixed    $groups           '_export_data_grouped' post meta value.
      * @param string[] $expected_content Optional. Expected content. Use "json" key for this test.
      */
-    public function test_json_contents($groups, array $expected_content = array()) {
+    public function test_json_contents($groups, array $expected_content = array())
+    {
         // Set the _doing_it_wrong assertion.
         if (! is_array($groups)) {
             $this->setExpectedIncorrectUsage('wp_privacy_generate_personal_data_export_file');
@@ -397,7 +413,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *                                   When null, delete the meta; else update to the given value.
      * @return string Export report directory path.
      */
-    private function setup_export_contents_test($export_data_grouped = null) {
+    private function setup_export_contents_test($export_data_grouped = null)
+    {
         // Delete or update the given meta.
         if (null === $export_data_grouped) {
             delete_post_meta(self::$export_request_id, '_export_data_grouped');
@@ -435,7 +452,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *                                 to be replaced with the actual timestamp.
      * @return string Updated expected content on success; else original expected content.
      */
-    private function replace_timestamp_placeholder($actual_content, $expected_content) {
+    private function replace_timestamp_placeholder($actual_content, $expected_content)
+    {
         $placeholder_pos = stripos($expected_content, '{{TIMESTAMP}}');
         if (false === $placeholder_pos) {
             return $expected_content;
@@ -448,7 +466,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
         return str_replace('{{TIMESTAMP}}', $timestamp, $expected_content);
     }
 
-    public function data_contents() {
+    public function data_contents()
+    {
         return array(
             // Unhappy path.
             'should contain null when integer'           => array(
@@ -635,7 +654,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
      *
      * @ticket 52892
      */
-    public function test_should_generate_json_error_when_json_encoding_fails() {
+    public function test_should_generate_json_error_when_json_encoding_fails()
+    {
         add_filter('get_post_metadata', array($this, 'filter_export_data_grouped_metadata'), 10, 3);
 
         // Validate JSON encoding fails and returns `false`.
@@ -647,7 +667,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportFile extends WP_UnitTestC
         wp_privacy_generate_personal_data_export_file(self::$export_request_id);
     }
 
-    public function filter_export_data_grouped_metadata($value, $object_id, $meta_key) {
+    public function filter_export_data_grouped_metadata($value, $object_id, $meta_key)
+    {
         if ($object_id !== self::$export_request_id) {
             return $value;
         }

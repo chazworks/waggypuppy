@@ -12,9 +12,11 @@
  * @method object|WP_Error  create_and_get( $args = array(), $generation_definitions = null )
  * @method (int|WP_Error)[] create_many( $count, $args = array(), $generation_definitions = null )
  */
-class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing {
+class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing
+{
 
-    public function __construct($factory = null) {
+    public function __construct($factory = null)
+    {
         parent::__construct($factory);
         $this->default_generation_definitions = array(
             'link_name' => new WP_UnitTest_Generator_Sequence('Bookmark name %s'),
@@ -32,7 +34,8 @@ class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The link ID on success, WP_Error object on failure.
      */
-    public function create_object($args) {
+    public function create_object($args)
+    {
         return wp_insert_link($args, true);
     }
 
@@ -47,7 +50,8 @@ class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The link ID on success, WP_Error object on failure.
      */
-    public function update_object($link_id, $fields) {
+    public function update_object($link_id, $fields)
+    {
         $fields['link_id'] = $link_id;
 
         $result = wp_update_link($fields);
@@ -68,7 +72,8 @@ class WP_UnitTest_Factory_For_Bookmark extends WP_UnitTest_Factory_For_Thing {
      *
      * @return object|null The link object on success, null on failure.
      */
-    public function get_object_by_id($link_id) {
+    public function get_object_by_id($link_id)
+    {
         return get_bookmark($link_id);
     }
 }

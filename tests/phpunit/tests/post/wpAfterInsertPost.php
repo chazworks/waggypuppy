@@ -3,7 +3,8 @@
 /**
  * @group post
  */
-class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
+class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase
+{
 
     /**
      * Admin user ID.
@@ -54,7 +55,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      */
     public static $passed_post_before_status = '';
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_id = $factory->user->create(
             array(
                 'role'       => 'administrator',
@@ -78,12 +80,14 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
         );
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         add_action('wp_after_insert_post', array($this, 'action_wp_after_insert_post'), 10, 4);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         self::$passed_post_title         = '';
         self::$passed_post_status        = '';
         self::$passed_post_before_title  = '';
@@ -100,7 +104,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      * @param null|WP_Post $post_before Null for new posts, the WP_Post object prior
      *                                  to the update for updated posts.
      */
-    public function action_wp_after_insert_post($post_id, $post, $update, $post_before) {
+    public function action_wp_after_insert_post($post_id, $post, $update, $post_before)
+    {
         self::$passed_post_title  = $post->post_title;
         self::$passed_post_status = $post->post_status;
 
@@ -122,7 +127,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      *
      * @ticket 45114
      */
-    public function test_update_via_wp_update_post() {
+    public function test_update_via_wp_update_post()
+    {
         $post               = get_post(self::$post_id, ARRAY_A);
         $post['post_title'] = 'new title';
         wp_update_post($post);
@@ -136,7 +142,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      *
      * @ticket 45114
      */
-    public function test_update_via_wp_publish_post() {
+    public function test_update_via_wp_publish_post()
+    {
         wp_publish_post(self::$post_id);
 
         $this->assertSame('draft', self::$passed_post_before_status);
@@ -148,7 +155,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      *
      * @ticket 45114
      */
-    public function test_new_post_via_wp_insert_post() {
+    public function test_new_post_via_wp_insert_post()
+    {
         wp_insert_post(
             array(
                 'post_status'  => 'draft',
@@ -166,7 +174,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      *
      * @ticket 45114
      */
-    public function test_update_via_rest_controller() {
+    public function test_update_via_rest_controller()
+    {
         wp_set_current_user(self::$admin_id);
         $post_id = self::$post_id;
 
@@ -184,7 +193,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      *
      * @ticket 45114
      */
-    public function test_new_post_via_rest_controller() {
+    public function test_new_post_via_rest_controller()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/posts'));
@@ -206,7 +216,8 @@ class Tests_Post_wpAfterInsertPost extends WP_UnitTestCase {
      *
      * @ticket 45114
      */
-    public function test_update_attachment_via_rest_controller() {
+    public function test_update_attachment_via_rest_controller()
+    {
         wp_set_current_user(self::$admin_id);
         $attachment_id = self::$attachment_id;
 

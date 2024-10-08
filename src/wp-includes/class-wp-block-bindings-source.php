@@ -17,7 +17,8 @@
  *
  * @see WP_Block_Bindings_Registry
  */
-final class WP_Block_Bindings_Source {
+final class WP_Block_Bindings_Source
+{
 
     /**
      * The name of the source.
@@ -62,7 +63,8 @@ final class WP_Block_Bindings_Source {
      * @param string $name              The name of the source.
      * @param array  $source_properties The properties of the source.
      */
-    public function __construct(string $name, array $source_properties) {
+    public function __construct(string $name, array $source_properties)
+    {
         $this->name = $name;
         foreach ($source_properties as $property_name => $property_value) {
             $this->$property_name = $property_value;
@@ -82,7 +84,8 @@ final class WP_Block_Bindings_Source {
      * @param string   $attribute_name The name of the target attribute.
      * @return mixed The value of the source.
      */
-    public function get_value(array $source_args, $block_instance, string $attribute_name) {
+    public function get_value(array $source_args, $block_instance, string $attribute_name)
+    {
         $value = call_user_func_array($this->get_value_callback, array($source_args, $block_instance, $attribute_name));
         /**
          * Filters the output of a block bindings source.
@@ -103,7 +106,8 @@ final class WP_Block_Bindings_Source {
      *
      * @since 6.5.0
      */
-    public function __wakeup() {
+    public function __wakeup()
+    {
         throw new \LogicException(__CLASS__ . ' should never be unserialized');
     }
 }

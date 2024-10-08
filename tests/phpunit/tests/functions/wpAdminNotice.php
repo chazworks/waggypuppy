@@ -7,7 +7,8 @@
  *
  * @covers ::wp_admin_notice
  */
-class Tests_Functions_WpAdminNotice extends WP_UnitTestCase {
+class Tests_Functions_WpAdminNotice extends WP_UnitTestCase
+{
 
     /**
      * Tests that `wp_admin_notice()` outputs the expected admin notice markup.
@@ -20,7 +21,8 @@ class Tests_Functions_WpAdminNotice extends WP_UnitTestCase {
      * @param array  $args     Arguments for the admin notice.
      * @param string $expected The expected admin notice markup.
      */
-    public function test_should_output_admin_notice($message, $args, $expected) {
+    public function test_should_output_admin_notice($message, $args, $expected)
+    {
         ob_start();
         wp_admin_notice($message, $args);
         $actual = ob_get_clean();
@@ -33,7 +35,8 @@ class Tests_Functions_WpAdminNotice extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_output_admin_notice() {
+    public function data_should_output_admin_notice()
+    {
         return array(
             'defaults'                                  => array(
                 'message'  => 'A notice with defaults.',
@@ -294,7 +297,8 @@ class Tests_Functions_WpAdminNotice extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage wp_get_admin_notice
      */
-    public function test_should_throw_doing_it_wrong_with_a_type_containing_spaces() {
+    public function test_should_throw_doing_it_wrong_with_a_type_containing_spaces()
+    {
         ob_start();
         wp_admin_notice(
             'A type containing spaces.',
@@ -313,7 +317,8 @@ class Tests_Functions_WpAdminNotice extends WP_UnitTestCase {
      *
      * @ticket 57791
      */
-    public function test_should_fire_wp_admin_notice_action() {
+    public function test_should_fire_wp_admin_notice_action()
+    {
         $action = new MockAction();
         add_action('wp_admin_notice', array($action, 'action'));
 

@@ -15,13 +15,15 @@ if (class_exists('WP_Customize_Control')) {
          *
          * @since Twenty Twenty 1.0
          */
-        class TwentyTwenty_Separator_Control extends WP_Customize_Control {
+        class TwentyTwenty_Separator_Control extends WP_Customize_Control
+        {
             /**
              * Render the hr.
              *
              * @since Twenty Twenty 1.0
              */
-            public function render_content() {
+            public function render_content()
+            {
                 echo '<hr/>';
             }
         }

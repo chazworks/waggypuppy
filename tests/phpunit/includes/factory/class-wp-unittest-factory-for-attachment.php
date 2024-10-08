@@ -10,7 +10,8 @@
  * @method WP_Post|WP_Error create_and_get( $args = array(), $generation_definitions = null )
  * @method (int|WP_Error)[] create_many( $count, $args = array(), $generation_definitions = null )
  */
-class WP_UnitTest_Factory_For_Attachment extends WP_UnitTest_Factory_For_Post {
+class WP_UnitTest_Factory_For_Attachment extends WP_UnitTest_Factory_For_Post
+{
 
     /**
      * Create an attachment fixture.
@@ -29,7 +30,8 @@ class WP_UnitTest_Factory_For_Attachment extends WP_UnitTest_Factory_For_Post {
      *
      * @return int|WP_Error The attachment ID on success, WP_Error object on failure.
      */
-    public function create_object($args, $legacy_parent = 0, $legacy_args = array()) {
+    public function create_object($args, $legacy_parent = 0, $legacy_args = array())
+    {
         // Backward compatibility for legacy argument format.
         if (is_string($args)) {
             $file                = $args;
@@ -60,7 +62,8 @@ class WP_UnitTest_Factory_For_Attachment extends WP_UnitTest_Factory_For_Post {
      *
      * @return int|WP_Error The attachment ID on success, WP_Error object on failure.
      */
-    public function create_upload_object($file, $parent_post_id = 0) {
+    public function create_upload_object($file, $parent_post_id = 0)
+    {
         $contents = file_get_contents($file);
         $upload   = wp_upload_bits(wp_basename($file), null, $contents);
 

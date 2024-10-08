@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Templates_Controller extends WP_REST_Controller {
+class WP_REST_Templates_Controller extends WP_REST_Controller
+{
 
     /**
      * Post type.
@@ -31,7 +32,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      *
      * @param string $post_type Post type.
      */
-    public function __construct($post_type) {
+    public function __construct($post_type)
+    {
         $this->post_type = $post_type;
         $obj             = get_post_type_object($post_type);
         $this->rest_base = ! empty($obj->rest_base) ? $obj->rest_base : $obj->name;
@@ -44,7 +46,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @since 5.8.0
      * @since 6.1.0 Endpoint for fallback template content.
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         // Lists all templates.
         register_rest_route(
             $this->namespace,
@@ -157,7 +160,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request The request instance.
      * @return WP_REST_Response|WP_Error
      */
-    public function get_template_fallback($request) {
+    public function get_template_fallback($request)
+    {
         $hierarchy = get_template_hierarchy($request['slug'], $request['is_custom'], $request['template_prefix']);
 
         do {
@@ -179,7 +183,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    protected function permissions_check($request) {
+    protected function permissions_check($request)
+    {
         /*
          * Verify if the current user has edit_theme_options capability.
          * This capability is required to edit/view/delete templates.
@@ -213,7 +218,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param string $id Template ID.
      * @return string Sanitized template ID.
      */
-    public function _sanitize_template_id($id) {
+    public function _sanitize_template_id($id)
+    {
         $id = urldecode($id);
 
         $last_slash_pos = strrpos($id, '/');
@@ -241,7 +247,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         if (current_user_can('edit_posts')) {
             return true;
         }
@@ -268,7 +275,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request The request instance.
      * @return WP_REST_Response
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $query = array();
         if (isset($request['wp_id'])) {
             $query['wp_id'] = $request['wp_id'];
@@ -298,7 +306,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         if (current_user_can('edit_posts')) {
             return true;
         }
@@ -325,7 +334,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request The request instance.
      * @return WP_REST_Response|WP_Error
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         if (isset($request['source']) && ('theme' === $request['source'] || 'plugin' === $request['source'])) {
             $template = get_block_file_template($request['id'], $this->post_type);
         } else {
@@ -347,7 +357,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has write access for the item, WP_Error object otherwise.
      */
-    public function update_item_permissions_check($request) {
+    public function update_item_permissions_check($request)
+    {
         return $this->permissions_check($request);
     }
 
@@ -359,7 +370,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function update_item($request) {
+    public function update_item($request)
+    {
         $template = get_block_template($request['id'], $this->post_type);
         if (! $template) {
             return new WP_Error('rest_template_not_found', __('No templates exist with that id.'), array('status' => 404));
@@ -428,7 +440,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
      */
-    public function create_item_permissions_check($request) {
+    public function create_item_permissions_check($request)
+    {
         return $this->permissions_check($request);
     }
 
@@ -440,7 +453,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function create_item($request) {
+    public function create_item($request)
+    {
         $prepared_post = $this->prepare_item_for_database($request);
 
         if (is_wp_error($prepared_post)) {
@@ -492,7 +506,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has delete access for the item, WP_Error object otherwise.
      */
-    public function delete_item_permissions_check($request) {
+    public function delete_item_permissions_check($request)
+    {
         return $this->permissions_check($request);
     }
 
@@ -504,7 +519,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function delete_item($request) {
+    public function delete_item($request)
+    {
         $template = get_block_template($request['id'], $this->post_type);
         if (! $template) {
             return new WP_Error('rest_template_not_found', __('No templates exist with that id.'), array('status' => 404));
@@ -567,7 +583,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return stdClass|WP_Error Changes to pass to wp_update_post.
      */
-    protected function prepare_item_for_database($request) {
+    protected function prepare_item_for_database($request)
+    {
         $template = $request['id'] ? get_block_template($request['id'], $this->post_type) : null;
         $changes  = new stdClass();
         if (null === $template) {
@@ -667,7 +684,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_REST_Request   $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         /*
          * Resolve pattern blocks so they don't need to be resolved client-side
          * in the editor, improving performance.
@@ -813,7 +831,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_Block_Template $template_object Template instance.
      * @return string                            Original source of the template one of theme, plugin, site, or user.
      */
-    private static function get_wp_templates_original_source_field($template_object) {
+    private static function get_wp_templates_original_source_field($template_object)
+    {
         if ('wp_template' === $template_object->type || 'wp_template_part' === $template_object->type) {
             /*
              * Added by theme.
@@ -865,7 +884,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param WP_Block_Template $template_object Template instance.
      * @return string                            Human readable text for the author.
      */
-    private static function get_wp_templates_author_text_field($template_object) {
+    private static function get_wp_templates_author_text_field($template_object)
+    {
         $original_source = self::get_wp_templates_original_source_field($template_object);
         switch ($original_source) {
             case 'theme':
@@ -930,7 +950,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      * @param integer $id ID.
      * @return array Links for the given post.
      */
-    protected function prepare_links($id) {
+    protected function prepare_links($id)
+    {
         $links = array(
             'self'       => array(
                 'href' => rest_url(sprintf('/%s/%s/%s', $this->namespace, $this->rest_base, $id)),
@@ -974,7 +995,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      *
      * @return string[] List of link relations.
      */
-    protected function get_available_actions() {
+    protected function get_available_actions()
+    {
         $rels = array();
 
         $post_type = get_post_type_object($this->post_type);
@@ -998,7 +1020,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         return array(
             'context'   => $this->get_context_param(array('default' => 'view')),
             'wp_id'     => array(
@@ -1024,7 +1047,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }

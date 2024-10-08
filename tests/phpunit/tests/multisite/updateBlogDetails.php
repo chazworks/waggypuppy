@@ -6,13 +6,15 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_UpdateBlogDetails extends WP_UnitTestCase {
+    class Tests_Multisite_UpdateBlogDetails extends WP_UnitTestCase
+    {
 
         /**
          * If `update_blog_details()` is called with any kind of empty arguments, it
          * should return false.
          */
-        public function test_update_blog_details_with_empty_args() {
+        public function test_update_blog_details_with_empty_args()
+        {
             $result = update_blog_details(1, array());
             $this->assertFalse($result);
         }
@@ -20,12 +22,14 @@ if (is_multisite()) :
         /**
          * If the ID passed is not that of a current site, we should expect false.
          */
-        public function test_update_blog_details_invalid_blog_id() {
+        public function test_update_blog_details_invalid_blog_id()
+        {
             $result = update_blog_details(999, array('domain' => 'example.com'));
             $this->assertFalse($result);
         }
 
-        public function test_update_blog_details() {
+        public function test_update_blog_details()
+        {
             $blog_id = self::factory()->blog->create();
 
             $result = update_blog_details(
@@ -56,7 +60,8 @@ if (is_multisite()) :
          *
          * @dataProvider data_flag_hooks
          */
-        public function test_update_blog_details_flag_action($flag, $flag_value, $hook) {
+        public function test_update_blog_details_flag_action($flag, $flag_value, $hook)
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -83,7 +88,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function data_flag_hooks() {
+        public function data_flag_hooks()
+        {
             return array(
                 array('spam', '0', 'make_ham_blog'),
                 array('spam', '1', 'make_spam_blog'),
@@ -102,14 +108,16 @@ if (is_multisite()) :
          *
          * @dataProvider data_single_directory_path
          */
-        public function test_update_blog_details_single_directory_path($path, $expected) {
+        public function test_update_blog_details_single_directory_path($path, $expected)
+        {
             update_blog_details(1, array('path' => $path));
             $site = get_site(1);
 
             $this->assertSame($expected, $site->path);
         }
 
-        public function data_single_directory_path() {
+        public function data_single_directory_path()
+        {
             return array(
                 array('my_path', '/my_path/'),
                 array('my_path//', '/my_path/'),

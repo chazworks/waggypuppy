@@ -23,7 +23,8 @@ $block_core_latest_posts_excerpt_length = 0;
  * @return int Returns the global $block_core_latest_posts_excerpt_length variable
  *             to allow the excerpt_length filter respect the Latest Block setting.
  */
-function block_core_latest_posts_get_excerpt_length() {
+function block_core_latest_posts_get_excerpt_length()
+{
     global $block_core_latest_posts_excerpt_length;
     return $block_core_latest_posts_excerpt_length;
 }
@@ -37,7 +38,8 @@ function block_core_latest_posts_get_excerpt_length() {
  *
  * @return string Returns the post content with latest posts added.
  */
-function render_block_core_latest_posts($attributes) {
+function render_block_core_latest_posts($attributes)
+{
     global $post, $block_core_latest_posts_excerpt_length;
 
     $args = array(
@@ -226,7 +228,8 @@ function render_block_core_latest_posts($attributes) {
  *
  * @since 5.0.0
  */
-function register_block_core_latest_posts() {
+function register_block_core_latest_posts()
+{
     register_block_type_from_metadata(
         __DIR__ . '/latest-posts',
         array(
@@ -254,7 +257,8 @@ add_action('init', 'register_block_core_latest_posts');
  *
  * @return array The migrated block object.
  */
-function block_core_latest_posts_migrate_categories($block) {
+function block_core_latest_posts_migrate_categories($block)
+{
     if ('core/latest-posts' === $block['blockName'] &&
         ! empty($block['attrs']['categories']) &&
         is_string($block['attrs']['categories'])

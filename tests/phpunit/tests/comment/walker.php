@@ -5,7 +5,8 @@
  *
  * @covers ::wp_list_comments
  */
-class Tests_Comment_Walker extends WP_UnitTestCase {
+class Tests_Comment_Walker extends WP_UnitTestCase
+{
 
     /**
      * Comment post ID.
@@ -14,7 +15,8 @@ class Tests_Comment_Walker extends WP_UnitTestCase {
      */
     private $post_id;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->post_id = self::factory()->post->create();
@@ -23,7 +25,8 @@ class Tests_Comment_Walker extends WP_UnitTestCase {
     /**
      * @ticket 14041
      */
-    public function test_has_children() {
+    public function test_has_children()
+    {
         $comment_parent = self::factory()->comment->create(array('comment_post_ID' => $this->post_id));
         $comment_child  = self::factory()->comment->create(
             array(
@@ -56,16 +59,19 @@ class Tests_Comment_Walker extends WP_UnitTestCase {
     }
 }
 
-class Comment_Callback_Test_Helper {
+class Comment_Callback_Test_Helper
+{
     private $test_walker;
     private $walker;
 
-    public function __construct(Tests_Comment_Walker $test_walker, Walker_Comment $walker) {
+    public function __construct(Tests_Comment_Walker $test_walker, Walker_Comment $walker)
+    {
         $this->test_walker = $test_walker;
         $this->walker      = $walker;
     }
 
-    public function comment($comment, $args, $depth) {
+    public function comment($comment, $args, $depth)
+    {
         if (1 === $depth) {
             $this->test_walker->assertTrue($this->walker->has_children);
             $this->test_walker->assertTrue($args['has_children']);  // Back compat.

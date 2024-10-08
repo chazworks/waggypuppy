@@ -5,13 +5,16 @@
  *
  * @covers ::wp_mail
  */
-class Tests_Pluggable_wpMail extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_Pluggable_wpMail extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
         reset_phpmailer_instance();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         reset_phpmailer_instance();
         parent::tear_down();
     }
@@ -24,12 +27,14 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      * all variables, which means that following tests would fail. To solve this issue we set `$this->Encoding`
      * back to 8bit in `MockPHPMailer::preSend`.
      */
-    public function test_wp_mail_break_it() {
+    public function test_wp_mail_break_it()
+    {
         $content = str_repeat('A', 1000);
         $this->assertTrue(wp_mail(WP_TESTS_EMAIL, 'Looong line testing', $content));
     }
 
-    public function test_wp_mail_custom_boundaries() {
+    public function test_wp_mail_custom_boundaries()
+    {
         $to       = 'user@example.com';
         $subject  = 'Test email with custom boundaries';
         $headers  = '' . "\n";
@@ -90,7 +95,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 17305
      */
-    public function test_wp_mail_rfc2822_addresses() {
+    public function test_wp_mail_rfc2822_addresses()
+    {
         $to        = 'Name <address@tld.com>';
         $from      = 'Another Name <another_address@different-tld.com>';
         $cc        = 'The Carbon Guy <cc@cc.com>';
@@ -120,7 +126,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 17305
      */
-    public function test_wp_mail_multiple_rfc2822_to_addresses() {
+    public function test_wp_mail_multiple_rfc2822_to_addresses()
+    {
         $to      = 'Name <address@tld.com>, Another Name <another_address@different-tld.com>';
         $subject = 'RFC2822 Testing';
         $message = 'My RFC822 Test Message';
@@ -137,7 +144,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $this->assertSameIgnoreEOL($message . "\n", $mailer->get_sent()->body);
     }
 
-    public function test_wp_mail_multiple_to_addresses() {
+    public function test_wp_mail_multiple_to_addresses()
+    {
         $to      = 'address@tld.com, another_address@different-tld.com';
         $subject = 'RFC2822 Testing';
         $message = 'My RFC822 Test Message';
@@ -153,7 +161,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 18463
      */
-    public function test_wp_mail_to_address_no_name() {
+    public function test_wp_mail_to_address_no_name()
+    {
         $to      = '<address@tld.com>';
         $subject = 'RFC2822 Testing';
         $message = 'My RFC822 Test Message';
@@ -168,7 +177,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 23642
      */
-    public function test_wp_mail_return_value() {
+    public function test_wp_mail_return_value()
+    {
         // No errors.
         $this->assertTrue(wp_mail('valid@address.com', 'subject', 'body'));
 
@@ -182,7 +192,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 30266
      */
-    public function test_wp_mail_with_valid_from_header() {
+    public function test_wp_mail_with_valid_from_header()
+    {
         $to       = 'address@tld.com';
         $subject  = 'Testing';
         $message  = 'Test Message';
@@ -198,7 +209,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 19847
      */
-    public function test_wp_mail_with_from_header_missing_space() {
+    public function test_wp_mail_with_from_header_missing_space()
+    {
         $to        = 'address@tld.com';
         $subject   = 'Testing';
         $message   = 'Test Message';
@@ -220,7 +232,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 30266
      */
-    public function test_wp_mail_with_empty_from_header() {
+    public function test_wp_mail_with_empty_from_header()
+    {
         // Make sure that we don't add any ports to the from header.
         $url_parts = parse_url('http://' . WP_TESTS_DOMAIN);
 
@@ -239,7 +252,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 30266
      */
-    public function test_wp_mail_with_empty_from_name_for_the_from_header() {
+    public function test_wp_mail_with_empty_from_name_for_the_from_header()
+    {
         $to       = 'address@tld.com';
         $subject  = 'Testing';
         $message  = 'Test Message';
@@ -257,7 +271,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      *
      * @ticket 54730
      */
-    public function test_wp_mail_with_empty_home_url() {
+    public function test_wp_mail_with_empty_home_url()
+    {
         $to      = 'address@tld.com';
         $subject = 'Testing';
         $message = 'Test Message';
@@ -277,7 +292,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 30266
      */
-    public function test_wp_mail_with_valid_content_type_header() {
+    public function test_wp_mail_with_valid_content_type_header()
+    {
         $to       = 'address@tld.com';
         $subject  = 'Testing';
         $message  = 'Test Message';
@@ -293,7 +309,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 30266
      */
-    public function test_wp_mail_with_empty_content_type_header() {
+    public function test_wp_mail_with_empty_content_type_header()
+    {
         $to       = 'address@tld.com';
         $subject  = 'Testing';
         $message  = 'Test Message';
@@ -309,7 +326,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 30266
      */
-    public function test_wp_mail_with_empty_charset_for_the_content_type_header() {
+    public function test_wp_mail_with_empty_charset_for_the_content_type_header()
+    {
         $to       = 'address@tld.com';
         $subject  = 'Testing';
         $message  = 'Test Message';
@@ -325,7 +343,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 43542
      */
-    public function test_wp_mail_does_not_duplicate_mime_version_header() {
+    public function test_wp_mail_does_not_duplicate_mime_version_header()
+    {
         $to       = 'user@example.com';
         $subject  = 'Test email with a MIME-Version header';
         $message  = 'The MIME-Version header should not be duplicated.';
@@ -338,11 +357,13 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
         $this->assertSame(1, substr_count($mailer->get_sent()->header, $expected));
     }
 
-    public function wp_mail_quoted_printable($mailer) {
+    public function wp_mail_quoted_printable($mailer)
+    {
         $mailer->Encoding = 'quoted-printable';
     }
 
-    public function wp_mail_set_text_message($mailer) {
+    public function wp_mail_set_text_message($mailer)
+    {
         $mailer->AltBody = 'Wörld';
     }
 
@@ -358,7 +379,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      *
      * @ticket 28039
      */
-    public function test_wp_mail_content_transfer_encoding_in_quoted_printable_multipart() {
+    public function test_wp_mail_content_transfer_encoding_in_quoted_printable_multipart()
+    {
         add_action('phpmailer_init', array($this, 'wp_mail_quoted_printable'));
         add_action('phpmailer_init', array($this, 'wp_mail_set_text_message'));
 
@@ -375,7 +397,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 21659
      */
-    public function test_wp_mail_addresses_arent_encoded() {
+    public function test_wp_mail_addresses_arent_encoded()
+    {
         $to      = 'Lukáš To <to@example.org>';
         $subject = 'Testing #21659';
         $message = 'Only the name should be encoded, not the address.';
@@ -417,7 +440,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      *
      * @ticket 37736
      */
-    public function test_wp_mail_sender_not_set() {
+    public function test_wp_mail_sender_not_set()
+    {
         wp_mail('user@example.org', 'Testing the Sender field', 'The Sender field should not have been set.');
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -428,7 +452,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 35598
      */
-    public function test_phpmailer_exception_thrown() {
+    public function test_phpmailer_exception_thrown()
+    {
         $to      = 'an_invalid_address';
         $subject = 'Testing';
         $message = 'Test Message';
@@ -463,7 +488,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      *
      * @ticket 28407
      */
-    public function test_wp_mail_sends_attachments_with_original_name() {
+    public function test_wp_mail_sends_attachments_with_original_name()
+    {
         wp_mail(
             'user@example.org',
             'Subject',
@@ -491,7 +517,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      *
      * @ticket 28407
      */
-    public function test_wp_mail_sends_attachments_with_custom_name() {
+    public function test_wp_mail_sends_attachments_with_custom_name()
+    {
         wp_mail(
             'user@example.org',
             'Subject',
@@ -516,7 +543,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * @ticket 50720
      */
-    public function test_phpmailer_validator() {
+    public function test_phpmailer_validator()
+    {
         $phpmailer = $GLOBALS['phpmailer'];
         $this->assertTrue($phpmailer->validateAddress('foo@192.168.1.1'), 'Assert PHPMailer accepts IP address email addresses');
     }
@@ -526,7 +554,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
      *
      * @ticket 35069
      */
-    public function test_wp_mail_can_be_shortcircuited() {
+    public function test_wp_mail_can_be_shortcircuited()
+    {
         $result1 = wp_mail(WP_TESTS_EMAIL, 'Foo', 'Bar');
 
         add_filter('pre_wp_mail', '__return_false');
@@ -540,7 +569,8 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase {
     /**
      * Tests that AltBody is reset between each wp_mail call.
      */
-    public function test_wp_mail_resets_properties() {
+    public function test_wp_mail_resets_properties()
+    {
         $wp_mail_set_text_message = static function ($phpmailer) {
             $phpmailer->AltBody = 'user1';
         };

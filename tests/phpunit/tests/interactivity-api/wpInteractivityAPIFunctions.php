@@ -10,11 +10,13 @@
  *
  * @group interactivity-api
  */
-class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCase {
+class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCase
+{
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $interactive_block = array(
@@ -57,7 +59,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
     /**
      * Tear down.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         unregister_block_type('test/interactive-block');
         unregister_block_type('test/interactive-block-2');
         unregister_block_type('test/non-interactive-block');
@@ -71,7 +74,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_of_single_interactive_block() {
+    public function test_process_directives_of_single_interactive_block()
+    {
         $post_content    = '<!-- wp:test/interactive-block { "block": 1 } /-->';
         $rendered_blocks = do_blocks($post_content);
         $p               = new WP_HTML_Tag_Processor($rendered_blocks);
@@ -87,7 +91,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_of_multiple_interactive_blocks_in_parallel() {
+    public function test_process_directives_of_multiple_interactive_blocks_in_parallel()
+    {
         $post_content    = '
 			<!-- wp:test/interactive-block { "block": 1 } /-->
 			<!-- wp:test/interactive-block-2 { "block": 2 } /-->
@@ -113,7 +118,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_of_interactive_block_inside_non_interactive_block() {
+    public function test_process_directives_of_interactive_block_inside_non_interactive_block()
+    {
         $post_content    = '
 			<!-- wp:test/non-interactive-block { "block": 1 } -->
 				<!-- wp:test/interactive-block { "block": 2 } /-->
@@ -133,7 +139,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_of_multiple_interactive_blocks_inside_non_interactive_block() {
+    public function test_process_directives_of_multiple_interactive_blocks_inside_non_interactive_block()
+    {
         $post_content    = '
 			<!-- wp:test/non-interactive-block { "block": 1 } -->
 				<!-- wp:test/interactive-block { "block": 2 } /-->
@@ -156,7 +163,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_of_interactive_block_inside_multiple_non_interactive_block() {
+    public function test_process_directives_of_interactive_block_inside_multiple_non_interactive_block()
+    {
         $post_content    = '
 			<!-- wp:test/non-interactive-block { "block": 1 } -->
 				<!-- wp:test/interactive-block { "block": 2 } /-->
@@ -181,7 +189,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_of_interactive_block_containing_non_interactive_block_without_directives() {
+    public function test_process_directives_of_interactive_block_containing_non_interactive_block_without_directives()
+    {
         $post_content    = '
 			<!-- wp:test/interactive-block { "block": 1 } -->
 				<!-- wp:test/non-interactive-block { "block": 2 } /-->
@@ -203,7 +212,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_of_interactive_block_containing_non_interactive_block_with_directives() {
+    public function test_process_directives_of_interactive_block_containing_non_interactive_block_with_directives()
+    {
         $post_content    = '
 			<!-- wp:test/interactive-block { "block": 1 } -->
 				<!-- wp:test/non-interactive-block { "block": 2, "hasDirective": true } /-->
@@ -226,7 +236,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_of_interactive_block_containing_nested_interactive_and_non_interactive_blocks() {
+    public function test_process_directives_of_interactive_block_containing_nested_interactive_and_non_interactive_blocks()
+    {
         $post_content    = '
 			<!-- wp:test/interactive-block { "block": 1 } -->
 				<!-- wp:test/interactive-block-2 { "block": 2 } -->
@@ -262,7 +273,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @param WP_HTML_Tag_Processor $p Instance of the processor handling the current HTML tag.
      */
-    public function data_wp_test_processor($p) {
+    public function data_wp_test_processor($p)
+    {
         if (! $p->is_tag_closer()) {
             $this->data_wp_test_processor_count = $this->data_wp_test_processor_count + 1;
         }
@@ -279,7 +291,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_only_process_the_root_interactive_blocks() {
+    public function test_process_directives_only_process_the_root_interactive_blocks()
+    {
         $class                = new ReflectionClass('WP_Interactivity_API');
         $directive_processors = $class->getProperty('directive_processors');
         $directive_processors->setAccessible(true);
@@ -320,7 +333,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers ::wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_when_block_is_filtered() {
+    public function test_process_directives_when_block_is_filtered()
+    {
         register_block_type(
             'test/custom-directive-block',
             array(
@@ -360,7 +374,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      * @param array  $context  Context to encode.
      * @param string $expected Expected function output.
      */
-    public function test_wp_interactivity_data_wp_context_with_different_arrays($context, $expected) {
+    public function test_wp_interactivity_data_wp_context_with_different_arrays($context, $expected)
+    {
         $this->assertSame($expected, wp_interactivity_data_wp_context($context));
     }
 
@@ -369,7 +384,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @return array
      */
-    public function data_wp_interactivity_data_wp_context_with_different_arrays() {
+    public function data_wp_interactivity_data_wp_context_with_different_arrays()
+    {
         return array(
             'empty array'                                  => array(
                 'context'  => array(),
@@ -407,7 +423,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      * @param string $store    Store namespace.
      * @param string $expected Expected function output.
      */
-    public function test_wp_interactivity_data_wp_context_with_different_arrays_and_a_namespace($context, $store, $expected) {
+    public function test_wp_interactivity_data_wp_context_with_different_arrays_and_a_namespace($context, $store, $expected)
+    {
         $this->assertSame($expected, wp_interactivity_data_wp_context($context, $store));
     }
 
@@ -416,7 +433,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @return array
      */
-    public function data_wp_interactivity_data_wp_context_with_different_arrays_and_a_namespace() {
+    public function data_wp_interactivity_data_wp_context_with_different_arrays_and_a_namespace()
+    {
         return array(
             'empty array'                                  => array(
                 'context'  => array(),
@@ -459,7 +477,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      * @param array  $context  Context to encode.
      * @param string $expected Expected function output.
      */
-    public function test_wp_interactivity_data_wp_context_with_json_flags($context, $expected) {
+    public function test_wp_interactivity_data_wp_context_with_json_flags($context, $expected)
+    {
         $this->assertSame($expected, wp_interactivity_data_wp_context($context));
     }
 
@@ -468,7 +487,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @return array
      */
-    public function data_wp_interactivity_data_wp_context_with_json_flags() {
+    public function data_wp_interactivity_data_wp_context_with_json_flags()
+    {
         return array(
             'value contains <> brackets'        => array(
                 'context'  => array('tag' => '<foo>'),
@@ -496,7 +516,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers ::wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_directives_in_tags_that_dont_visit_closer_tag() {
+    public function test_process_directives_in_tags_that_dont_visit_closer_tag()
+    {
         register_block_type(
             'test/custom-directive-block',
             array(
@@ -523,7 +544,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_context_directive_in_void_tags() {
+    public function test_process_context_directive_in_void_tags()
+    {
         register_block_type(
             'test/custom-directive-block',
             array(
@@ -564,7 +586,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives_of_interactive_blocks
      */
-    public function test_process_interactive_directive_in_void_tags() {
+    public function test_process_interactive_directive_in_void_tags()
+    {
         wp_interactivity_state(
             'void',
             array(
@@ -598,7 +621,8 @@ class Tests_Interactivity_API_wpInteractivityAPIFunctions extends WP_UnitTestCas
      *
      * @covers wp_interactivity_process_directives
      */
-    public function test_not_processing_directives_filter() {
+    public function test_not_processing_directives_filter()
+    {
         wp_interactivity_state(
             'dont-process',
             array(

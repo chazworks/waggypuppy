@@ -14,7 +14,8 @@
  *
  * @see WP_Widget
  */
-class WP_Widget_Text extends WP_Widget {
+class WP_Widget_Text extends WP_Widget
+{
 
     /**
      * Whether or not the widget has been registered yet.
@@ -29,7 +30,8 @@ class WP_Widget_Text extends WP_Widget {
      *
      * @since 2.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $widget_ops  = array(
             'classname'                   => 'widget_text',
             'description'                 => __('Arbitrary text.'),
@@ -49,7 +51,8 @@ class WP_Widget_Text extends WP_Widget {
      * @param int $number Optional. The unique order number of this widget instance
      *                    compared to other instances of the same class. Default -1.
      */
-    public function _register_one($number = -1) {
+    public function _register_one($number = -1)
+    {
         parent::_register_one($number);
         if ($this->registered) {
             return;
@@ -87,7 +90,8 @@ class WP_Widget_Text extends WP_Widget {
      * }
      * @return bool Whether Text widget instance contains legacy data.
      */
-    public function is_legacy_instance($instance) {
+    public function is_legacy_instance($instance)
+    {
 
         // Legacy mode when not in visual mode.
         if (isset($instance['visual'])) {
@@ -206,7 +210,8 @@ class WP_Widget_Text extends WP_Widget {
      * @param array $attrs Attributes.
      * @return array Attributes.
      */
-    public function _filter_gallery_shortcode_attrs($attrs) {
+    public function _filter_gallery_shortcode_attrs($attrs)
+    {
         if (! is_singular() && empty($attrs['id']) && empty($attrs['include'])) {
             $attrs['id'] = -1;
         }
@@ -224,7 +229,8 @@ class WP_Widget_Text extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Text widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         global $post;
 
         $title = ! empty($instance['title']) ? $instance['title'] : '';
@@ -350,7 +356,8 @@ class WP_Widget_Text extends WP_Widget {
      * @param array $matches Pattern matches from preg_replace_callback.
      * @return string HTML Output.
      */
-    public function inject_video_max_width_style($matches) {
+    public function inject_video_max_width_style($matches)
+    {
         $html = $matches[0];
         $html = preg_replace('/\sheight="\d+"/', '', $html);
         $html = preg_replace('/\swidth="\d+"/', '', $html);
@@ -368,7 +375,8 @@ class WP_Widget_Text extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Settings to save or bool false to cancel saving.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $new_instance = wp_parse_args(
             $new_instance,
             array(
@@ -419,7 +427,8 @@ class WP_Widget_Text extends WP_Widget {
      *
      * @since 4.9.3
      */
-    public function enqueue_preview_scripts() {
+    public function enqueue_preview_scripts()
+    {
         require_once dirname(__DIR__) . '/media.php';
 
         wp_playlist_scripts('audio');
@@ -431,7 +440,8 @@ class WP_Widget_Text extends WP_Widget {
      *
      * @since 4.8.0
      */
-    public function enqueue_admin_scripts() {
+    public function enqueue_admin_scripts()
+    {
         wp_enqueue_editor();
         wp_enqueue_media();
         wp_enqueue_script('text-widgets');
@@ -451,7 +461,8 @@ class WP_Widget_Text extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         $instance = wp_parse_args(
             (array) $instance,
             array(
@@ -524,7 +535,8 @@ class WP_Widget_Text extends WP_Widget {
      * @since 4.8.0
      * @since 4.9.0 The method is now static.
      */
-    public static function render_control_template_scripts() {
+    public static function render_control_template_scripts()
+    {
         $dismissed_pointers = explode(',', (string) get_user_meta(get_current_user_id(), 'dismissed_wp_pointers', true));
         ?>
         <script type="text/html" id="tmpl-widget-text-control-fields">

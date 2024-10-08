@@ -6,12 +6,14 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_UpdateBlogStatus extends WP_UnitTestCase {
+    class Tests_Multisite_UpdateBlogStatus extends WP_UnitTestCase
+    {
 
         /**
          * Updating a field returns the same value that was passed.
          */
-        public function test_update_blog_status() {
+        public function test_update_blog_status()
+        {
             $result = update_blog_status(1, 'spam', 0);
             $this->assertSame(0, $result);
         }
@@ -19,12 +21,14 @@ if (is_multisite()) :
         /**
          * Updating an invalid field returns the same value that was passed.
          */
-        public function test_update_blog_status_invalid_status() {
+        public function test_update_blog_status_invalid_status()
+        {
             $result = update_blog_status(1, 'doesnotexist', 'invalid');
             $this->assertSame('invalid', $result);
         }
 
-        public function test_update_blog_status_make_ham_blog_action() {
+        public function test_update_blog_status_make_ham_blog_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -45,7 +49,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function test_content_from_spam_blog_is_not_available() {
+        public function test_content_from_spam_blog_is_not_available()
+        {
             $spam_blog_id = self::factory()->blog->create();
             switch_to_blog($spam_blog_id);
             $post_data      = array(
@@ -75,7 +80,8 @@ if (is_multisite()) :
             $this->assertStringNotContainsString("src=\"{$spam_embed_url}#?", $content);
         }
 
-        public function test_update_blog_status_make_spam_blog_action() {
+        public function test_update_blog_status_make_spam_blog_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -95,7 +101,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function test_update_blog_status_archive_blog_action() {
+        public function test_update_blog_status_archive_blog_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -115,7 +122,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function test_update_blog_status_unarchive_blog_action() {
+        public function test_update_blog_status_unarchive_blog_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -135,7 +143,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function test_update_blog_status_make_delete_blog_action() {
+        public function test_update_blog_status_make_delete_blog_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -155,7 +164,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function test_update_blog_status_make_undelete_blog_action() {
+        public function test_update_blog_status_make_undelete_blog_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -176,7 +186,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function test_update_blog_status_mature_blog_action() {
+        public function test_update_blog_status_mature_blog_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -196,7 +207,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function test_update_blog_status_unmature_blog_action() {
+        public function test_update_blog_status_unmature_blog_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();
@@ -217,7 +229,8 @@ if (is_multisite()) :
             $this->assertSame(1, $test_action_counter->get_call_count());
         }
 
-        public function test_update_blog_status_update_blog_public_action() {
+        public function test_update_blog_status_update_blog_public_action()
+        {
             $test_action_counter = new MockAction();
 
             $blog_id = self::factory()->blog->create();

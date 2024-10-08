@@ -15,7 +15,8 @@
  *
  * @return string Returns the cover block markup, if useFeaturedImage is true.
  */
-function render_block_core_cover($attributes, $content) {
+function render_block_core_cover($attributes, $content)
+{
     if ('image' !== $attributes['backgroundType'] || false === $attributes['useFeaturedImage']) {
         return $content;
     }
@@ -71,7 +72,8 @@ function render_block_core_cover($attributes, $content) {
  *
  * @since 6.0.0
  */
-function register_block_core_cover() {
+function register_block_core_cover()
+{
     register_block_type_from_metadata(
         __DIR__ . '/cover',
         array(

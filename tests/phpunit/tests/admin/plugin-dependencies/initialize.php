@@ -13,7 +13,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Plugin_Dependencies::initialize
  */
-class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_UnitTestCase {
+class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_UnitTestCase
+{
 
     /**
      * Tests that initialization runs only once.
@@ -24,7 +25,8 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @param string $property_name The name of the property to check.
      */
-    public function test_should_only_initialize_once($property_name) {
+    public function test_should_only_initialize_once($property_name)
+    {
         $this->assertFalse(
             $this->get_property_value('initialized'),
             'Plugin Dependencies has already been initialized.'
@@ -62,7 +64,8 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @return array[]
      */
-    public function data_static_properties_set_during_initialization() {
+    public function data_static_properties_set_during_initialization()
+    {
         /*
          * This does not include 'dependency_api_data' as it is only set
          * on certain pages. This is tested later.
@@ -91,7 +94,8 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @param string $screen The screen file.
      */
-    public function test_should_set_dependency_api_data_on_certain_screens($screen) {
+    public function test_should_set_dependency_api_data_on_certain_screens($screen)
+    {
         global $pagenow;
 
         // Backup $pagenow.
@@ -117,7 +121,8 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @return array[]
      */
-    public function data_screens() {
+    public function data_screens()
+    {
         return array(
             'plugins.php'        => array(
                 'screen' => 'plugins.php',
@@ -135,7 +140,8 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @covers WP_Plugin_Dependencies::get_dependency_api_data
      */
-    public function test_should_not_set_dependency_api_data() {
+    public function test_should_not_set_dependency_api_data()
+    {
         self::$instance::initialize();
 
         $dependency_api_data = $this->get_property_value('dependency_api_data');
@@ -156,7 +162,8 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      * @param string $requires_plugins The unsanitized dependency slug(s).
      * @param array  $expected         Optional. The sanitized dependency slug(s). Default empty array.
      */
-    public function test_initialize_should_load_and_sanitize_dependency_slugs_from_plugin_headers($requires_plugins, $expected = array()) {
+    public function test_initialize_should_load_and_sanitize_dependency_slugs_from_plugin_headers($requires_plugins, $expected = array())
+    {
         $this->set_property_value('plugins', array('dependent/dependent.php' => array('RequiresPlugins' => $requires_plugins)));
         self::$instance->initialize();
         $this->assertSame($expected, $this->get_property_value('dependency_slugs'));
@@ -167,7 +174,8 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @return array[]
      */
-    public function data_should_sanitize_slugs() {
+    public function data_should_sanitize_slugs()
+    {
         return array(
             // Valid slugs.
             'one dependency'                         => array(
@@ -275,7 +283,8 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      * @covers WP_Plugin_Dependencies::read_dependencies_from_plugin_headers
      * @covers WP_Plugin_Dependencies::convert_to_slug
      */
-    public function test_should_slugify_dependent_files() {
+    public function test_should_slugify_dependent_files()
+    {
         $plugins = get_plugins();
 
         $expected_slugs = array();

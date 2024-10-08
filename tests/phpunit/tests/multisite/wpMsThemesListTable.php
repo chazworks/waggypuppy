@@ -7,7 +7,8 @@
  *
  * @covers WP_MS_Themes_List_Table
  */
-class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase {
+class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase
+{
     protected static $site_ids;
 
     /**
@@ -15,12 +16,14 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase {
      */
     public $table = false;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->table = _get_list_table('WP_MS_Themes_List_Table', array('screen' => 'ms-themes'));
     }
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$site_ids = array(
             'wordpress.org/'          => array(
                 'domain' => 'wordpress.org',
@@ -82,7 +85,8 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase {
         unset($id);
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         foreach (self::$site_ids as $site_id) {
             wp_delete_site($site_id);
         }
@@ -93,7 +97,8 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase {
      *
      * @covers WP_MS_Themes_List_Table::get_views
      */
-    public function test_get_views_should_return_views_by_default() {
+    public function test_get_views_should_return_views_by_default()
+    {
         global $totals;
 
         $totals_backup = $totals;

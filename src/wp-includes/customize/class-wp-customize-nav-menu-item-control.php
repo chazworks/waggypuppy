@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
+class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control
+{
 
     /**
      * Control type.
@@ -45,7 +46,8 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct($manager, $id, $args = array()) {
+    public function __construct($manager, $id, $args = array())
+    {
         parent::__construct($manager, $id, $args);
     }
 
@@ -54,14 +56,16 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
      *
      * @since 4.3.0
      */
-    public function render_content() {}
+    public function render_content()
+    {}
 
     /**
      * JS/Underscore template for the control UI.
      *
      * @since 4.3.0
      */
-    public function content_template() {
+    public function content_template()
+    {
         ?>
         <div class="menu-item-bar">
             <div class="menu-item-handle">
@@ -189,7 +193,8 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
      *
      * @return array Exported parameters.
      */
-    public function json() {
+    public function json()
+    {
         $exported                 = parent::json();
         $exported['menu_item_id'] = $this->setting->post_id;
 

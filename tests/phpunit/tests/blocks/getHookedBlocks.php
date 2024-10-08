@@ -10,7 +10,8 @@
  * @group blocks
  * @group block-hooks
  */
-class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
+class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
+{
 
     const TEST_THEME_NAME = 'block-theme-with-hooked-blocks';
 
@@ -19,7 +20,8 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
      *
      * @since 6.4.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Removes test block types registered by test cases.
         $block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
         foreach ($block_types as $block_type) {
@@ -44,7 +46,8 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
         parent::tear_down();
     }
 
-    private function switch_to_block_theme_hooked_blocks() {
+    private function switch_to_block_theme_hooked_blocks()
+    {
         switch_theme(self::TEST_THEME_NAME);
 
         _register_theme_block_patterns();
@@ -61,7 +64,8 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
      *
      * @covers ::get_hooked_blocks
      */
-    public function test_get_hooked_blocks_no_match_found() {
+    public function test_get_hooked_blocks_no_match_found()
+    {
         $result = get_hooked_blocks();
 
         $this->assertSame(array(), $result);
@@ -72,7 +76,8 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
      *
      * @covers ::get_hooked_blocks
      */
-    public function test_get_hooked_blocks_matches_found() {
+    public function test_get_hooked_blocks_matches_found()
+    {
         register_block_type(
             'tests/injected-one',
             array(
@@ -141,7 +146,8 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
      * @covers ::get_hooked_blocks
      * @covers ::get_block_file_template
      */
-    public function test_loading_template_with_hooked_blocks() {
+    public function test_loading_template_with_hooked_blocks()
+    {
         $this->switch_to_block_theme_hooked_blocks();
 
         $template = get_block_file_template(get_stylesheet() . '//single');
@@ -173,7 +179,8 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
      * @covers ::get_hooked_blocks
      * @covers ::get_block_file_template
      */
-    public function test_loading_template_part_with_hooked_blocks() {
+    public function test_loading_template_part_with_hooked_blocks()
+    {
         $this->switch_to_block_theme_hooked_blocks();
 
         $template = get_block_file_template(get_stylesheet() . '//header', 'wp_template_part');
@@ -205,7 +212,8 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase {
      * @covers ::get_hooked_blocks
      * @covers WP_Block_Patterns_Registry::get_registered
      */
-    public function test_loading_pattern_with_hooked_blocks() {
+    public function test_loading_pattern_with_hooked_blocks()
+    {
         $this->switch_to_block_theme_hooked_blocks();
 
         $pattern = WP_Block_Patterns_Registry::get_instance()->get_registered(

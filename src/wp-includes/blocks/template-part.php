@@ -16,7 +16,8 @@
  *
  * @return string The render.
  */
-function render_block_core_template_part($attributes) {
+function render_block_core_template_part($attributes)
+{
     static $seen_ids = array();
 
     $template_part_id = null;
@@ -184,7 +185,8 @@ function render_block_core_template_part($attributes) {
  *
  * @return array Array containing the block variation objects.
  */
-function build_template_part_block_area_variations($instance_variations) {
+function build_template_part_block_area_variations($instance_variations)
+{
     $variations    = array();
     $defined_areas = get_allowed_block_template_part_areas();
 
@@ -222,7 +224,8 @@ function build_template_part_block_area_variations($instance_variations) {
  *
  * @return array Array containing the block variation objects.
  */
-function build_template_part_block_instance_variations() {
+function build_template_part_block_instance_variations()
+{
     // Block themes are unavailable during installation.
     if (wp_installing()) {
         return array();
@@ -278,7 +281,8 @@ function build_template_part_block_instance_variations() {
  *
  * @return array Array containing the block variation objects.
  */
-function build_template_part_block_variations() {
+function build_template_part_block_variations()
+{
     $instance_variations = build_template_part_block_instance_variations();
     $area_variations     = build_template_part_block_area_variations($instance_variations);
     return array_merge($area_variations, $instance_variations);
@@ -289,7 +293,8 @@ function build_template_part_block_variations() {
  *
  * @since 5.9.0
  */
-function register_block_core_template_part() {
+function register_block_core_template_part()
+{
     register_block_type_from_metadata(
         __DIR__ . '/template-part',
         array(

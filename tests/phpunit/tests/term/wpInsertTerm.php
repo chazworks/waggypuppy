@@ -3,8 +3,10 @@
 /**
  * @group taxonomy
  */
-class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_Term_WpInsertTerm extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
 
         _clean_term_filters();
@@ -16,7 +18,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         }
     }
 
-    public function test_wp_insert_delete_term() {
+    public function test_wp_insert_delete_term()
+    {
         $taxonomy = 'wptests_tax';
         register_taxonomy($taxonomy, 'post');
 
@@ -46,14 +49,16 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame($initial_count, wp_count_terms(array('taxonomy' => $taxonomy)));
     }
 
-    public function test_wp_insert_term_taxonomy_does_not_exist() {
+    public function test_wp_insert_term_taxonomy_does_not_exist()
+    {
         $found = wp_insert_term('foo', 'bar');
 
         $this->assertWPError($found);
         $this->assertSame('invalid_taxonomy', $found->get_error_code());
     }
 
-    public function test_wp_insert_term_pre_insert_term_filter_returns_wp_error() {
+    public function test_wp_insert_term_pre_insert_term_filter_returns_wp_error()
+    {
         add_filter('pre_insert_term', array($this, '_pre_insert_term_callback'));
         $found = wp_insert_term('foo', 'post_tag');
         remove_filter('pre_insert_term', array($this, '_pre_insert_term_callback'));
@@ -62,21 +67,24 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame('custom_error', $found->get_error_code());
     }
 
-    public function test_wp_insert_term_term_0() {
+    public function test_wp_insert_term_term_0()
+    {
         $found = wp_insert_term(0, 'post_tag');
 
         $this->assertWPError($found);
         $this->assertSame('invalid_term_id', $found->get_error_code());
     }
 
-    public function test_wp_insert_term_term_trims_to_empty_string() {
+    public function test_wp_insert_term_term_trims_to_empty_string()
+    {
         $found = wp_insert_term('  ', 'post_tag');
 
         $this->assertWPError($found);
         $this->assertSame('empty_term_name', $found->get_error_code());
     }
 
-    public function test_wp_insert_term_parent_does_not_exist() {
+    public function test_wp_insert_term_parent_does_not_exist()
+    {
         $found = wp_insert_term(
             'foo',
             'post_tag',
@@ -89,7 +97,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame('missing_parent', $found->get_error_code());
     }
 
-    public function test_wp_insert_term_unslash_name() {
+    public function test_wp_insert_term_unslash_name()
+    {
         register_taxonomy('wptests_tax', 'post');
         $found = wp_insert_term('Let\\\'s all say \\"Hooray\\" for WordPress taxonomy', 'wptests_tax');
 
@@ -99,7 +108,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame('Let\'s all say "Hooray" for WordPress taxonomy', $term->name);
     }
 
-    public function test_wp_insert_term_unslash_description() {
+    public function test_wp_insert_term_unslash_description()
+    {
         register_taxonomy('wptests_tax', 'post');
         $found = wp_insert_term(
             'Quality',
@@ -115,7 +125,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame('Let\'s all say "Hooray" for WordPress taxonomy', $term->description);
     }
 
-    public function test_wp_insert_term_parent_string() {
+    public function test_wp_insert_term_parent_string()
+    {
         register_taxonomy('wptests_tax', 'post');
         $found = wp_insert_term(
             'Quality',
@@ -132,7 +143,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame(0, $term->parent);
     }
 
-    public function test_wp_insert_term_slug_empty_string() {
+    public function test_wp_insert_term_slug_empty_string()
+    {
         register_taxonomy('wptests_tax', 'post');
         $found = wp_insert_term(
             'Quality',
@@ -148,7 +160,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame('quality', $term->slug);
     }
 
-    public function test_wp_insert_term_slug_whitespace_string() {
+    public function test_wp_insert_term_slug_whitespace_string()
+    {
         register_taxonomy('wptests_tax', 'post');
         $found = wp_insert_term(
             'Quality',
@@ -164,7 +177,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame('quality', $term->slug);
     }
 
-    public function test_wp_insert_term_slug_0() {
+    public function test_wp_insert_term_slug_0()
+    {
         register_taxonomy('wptests_tax', 'post');
         $found = wp_insert_term(
             'Quality',
@@ -183,7 +197,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 17689
      */
-    public function test_wp_insert_term_duplicate_name() {
+    public function test_wp_insert_term_duplicate_name()
+    {
         $term = self::factory()->tag->create_and_get(array('name' => 'Bozo'));
         $this->assertNotWPError($term);
 
@@ -258,7 +273,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_the_same_term_in_non_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_the_same_term_in_non_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
             array(
@@ -283,7 +299,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_a_different_term_in_non_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_a_different_term_in_non_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
             array(
@@ -316,7 +333,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_allow_duplicate_names_when_a_unique_slug_has_been_provided_in_non_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_allow_duplicate_names_when_a_unique_slug_has_been_provided_in_non_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
             array(
@@ -344,7 +362,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_not_allow_duplicate_names_when_the_slug_is_not_provided_in_non_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_not_allow_duplicate_names_when_the_slug_is_not_provided_in_non_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
             array(
@@ -363,7 +382,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_the_same_term_in_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_the_same_term_in_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $t1 = self::factory()->term->create(
             array(
@@ -388,7 +408,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_a_different_term_at_same_hierarchy_level_in_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_not_allow_duplicate_names_when_slug_is_a_duplicate_of_a_different_term_at_same_hierarchy_level_in_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $t1 = self::factory()->term->create(
             array(
@@ -421,7 +442,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_allow_duplicate_names_when_slug_is_a_duplicate_of_a_term_at_different_hierarchy_level_in_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_allow_duplicate_names_when_slug_is_a_duplicate_of_a_term_at_different_hierarchy_level_in_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $t1 = self::factory()->term->create(
             array(
@@ -461,7 +483,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 39984
      */
-    public function test_duplicate_name_check_should_fail_when_no_slug_is_provided_even_when_slugs_would_not_clash() {
+    public function test_duplicate_name_check_should_fail_when_no_slug_is_provided_even_when_slugs_would_not_clash()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $t1 = self::factory()->term->create(
             array(
@@ -481,7 +504,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 39984
      */
-    public function test_error_should_reference_correct_term_when_rejected_as_duplicate() {
+    public function test_error_should_reference_correct_term_when_rejected_as_duplicate()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $t1 = self::factory()->term->create(
             array(
@@ -531,7 +555,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_allow_duplicate_names_when_a_unique_slug_has_been_provided_in_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_allow_duplicate_names_when_a_unique_slug_has_been_provided_in_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $t1 = self::factory()->term->create(
             array(
@@ -559,7 +584,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 31328
      */
-    public function test_wp_insert_term_should_not_allow_duplicate_names_when_the_slug_is_not_provided_in_hierarchical_taxonomy() {
+    public function test_wp_insert_term_should_not_allow_duplicate_names_when_the_slug_is_not_provided_in_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $t1 = self::factory()->term->create(
             array(
@@ -577,7 +603,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 5809
      */
-    public function test_wp_insert_term_duplicate_slug_same_taxonomy() {
+    public function test_wp_insert_term_duplicate_slug_same_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t = self::factory()->term->create(
             array(
@@ -606,7 +633,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 5809
      */
-    public function test_wp_insert_term_duplicate_slug_different_taxonomy() {
+    public function test_wp_insert_term_duplicate_slug_different_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post');
         register_taxonomy('wptests_tax_2', 'post');
         $t = self::factory()->term->create(
@@ -639,7 +667,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 5809
      */
-    public function test_wp_insert_term_duplicate_slug_different_taxonomy_before_410_schema_change() {
+    public function test_wp_insert_term_duplicate_slug_different_taxonomy_before_410_schema_change()
+    {
         $old_db_version = 30055;
         update_option('db_version', $old_db_version);
 
@@ -677,7 +706,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         _unregister_taxonomy('wptests_tax', 'post');
     }
 
-    public function test_wp_insert_term_alias_of_no_term_group() {
+    public function test_wp_insert_term_alias_of_no_term_group()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t1     = self::factory()->term->create(
             array(
@@ -705,7 +735,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame($created_term->term_group, $updated_term_1->term_group);
     }
 
-    public function test_wp_insert_term_alias_of_existing_term_group() {
+    public function test_wp_insert_term_alias_of_existing_term_group()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t1     = self::factory()->term->create(
             array(
@@ -736,7 +767,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertSame($created_term->term_group, $term_2->term_group);
     }
 
-    public function test_wp_insert_term_alias_of_nonexistent_term() {
+    public function test_wp_insert_term_alias_of_nonexistent_term()
+    {
         register_taxonomy('wptests_tax', 'post');
         $created_term_ids = wp_insert_term(
             'Foo',
@@ -754,7 +786,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 5809
      */
-    public function test_wp_insert_term_should_not_create_shared_term() {
+    public function test_wp_insert_term_should_not_create_shared_term()
+    {
         register_taxonomy('wptests_tax', 'post');
         register_taxonomy('wptests_tax_2', 'post');
 
@@ -764,7 +797,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertNotEquals($t1['term_id'], $t2['term_id']);
     }
 
-    public function test_wp_insert_term_should_return_term_id_and_term_taxonomy_id() {
+    public function test_wp_insert_term_should_return_term_id_and_term_taxonomy_id()
+    {
         register_taxonomy('wptests_tax', 'post');
         $found = wp_insert_term('foo', 'wptests_tax');
 
@@ -782,7 +816,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertEquals($term_by_id, $term_by_ttid);
     }
 
-    public function test_wp_insert_term_should_clean_term_cache() {
+    public function test_wp_insert_term_should_clean_term_cache()
+    {
         register_taxonomy(
             'wptests_tax',
             'post',
@@ -826,7 +861,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 33864
      */
-    public function test_wp_insert_term_with_and_without_accents() {
+    public function test_wp_insert_term_with_and_without_accents()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
@@ -854,7 +890,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 37009
      */
-    public function test_term_whose_slug_matches_existing_term_but_name_does_not_should_get_suffixed_slug() {
+    public function test_term_whose_slug_matches_existing_term_but_name_does_not_should_get_suffixed_slug()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
@@ -876,7 +913,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 35321
      */
-    public function test_wp_insert_term_with_null_description() {
+    public function test_wp_insert_term_with_null_description()
+    {
 
         register_taxonomy('wptests_tax', 'post');
 
@@ -897,7 +935,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
     /**
      * @ticket 59995
      */
-    public function test_wp_insert_term_with_empty_name_after_db_sanitization() {
+    public function test_wp_insert_term_with_empty_name_after_db_sanitization()
+    {
         $term = wp_insert_term(
             '<script>onclick=alert("hello")</script>',
             'post_tag'
@@ -909,7 +948,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
 
     /** Helpers */
 
-    public function deleted_term_cb($term, $tt_id, $taxonomy, $deleted_term, $object_ids) {
+    public function deleted_term_cb($term, $tt_id, $taxonomy, $deleted_term, $object_ids)
+    {
         $this->assertIsObject($deleted_term);
         $this->assertIsInt($term);
         $this->assertIsArray($object_ids);
@@ -920,7 +960,8 @@ class Tests_Term_WpInsertTerm extends WP_UnitTestCase {
         $this->assertEmpty($object_ids);
     }
 
-    public function _pre_insert_term_callback() {
+    public function _pre_insert_term_callback()
+    {
         return new WP_Error('custom_error');
     }
 }

@@ -19,7 +19,8 @@
  *
  * @since Twenty Nineteen 1.0
  */
-class TwentyNineteen_SVG_Icons {
+class TwentyNineteen_SVG_Icons
+{
 
     /**
      * Gets the SVG code for a given icon.
@@ -28,7 +29,8 @@ class TwentyNineteen_SVG_Icons {
      * @param string $icon  The specific icon to retrieve.
      * @param int    $size  The desired width and height for the SVG icon.
      */
-    public static function get_svg($group, $icon, $size) {
+    public static function get_svg($group, $icon, $size)
+    {
         if ('ui' === $group) {
             $arr = self::$ui_icons;
         } elseif ('social' === $group) {
@@ -52,7 +54,8 @@ class TwentyNineteen_SVG_Icons {
      * @param string $uri  The URL of the social network link.
      * @param int    $size The desired width and height for the SVG icon.
      */
-    public static function get_social_link_svg($uri, $size) {
+    public static function get_social_link_svg($uri, $size)
+    {
         static $regex_map; // Only compute regex map once, for performance.
         if (! isset($regex_map)) {
             $regex_map = array();

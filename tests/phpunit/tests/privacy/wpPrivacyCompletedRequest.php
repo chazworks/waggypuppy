@@ -9,7 +9,8 @@
  * @group privacy
  * @covers ::_wp_privacy_completed_request
  */
-class Tests_Privacy_wpPrivacyCompletedRequest extends WP_UnitTestCase {
+class Tests_Privacy_wpPrivacyCompletedRequest extends WP_UnitTestCase
+{
     /**
      * Request ID
      *
@@ -24,7 +25,8 @@ class Tests_Privacy_wpPrivacyCompletedRequest extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$request_id = wp_create_user_request('requester@example.com', 'export_personal_data');
     }
 
@@ -33,7 +35,8 @@ class Tests_Privacy_wpPrivacyCompletedRequest extends WP_UnitTestCase {
      *
      * @ticket 43913
      */
-    public function test_wp_privacy_completed_request_should_return_error_for_invalid_request_id() {
+    public function test_wp_privacy_completed_request_should_return_error_for_invalid_request_id()
+    {
         $actual = _wp_privacy_completed_request(0);
         $this->assertWPError($actual);
         $this->assertSame('privacy_request_error', $actual->get_error_code());
@@ -48,7 +51,8 @@ class Tests_Privacy_wpPrivacyCompletedRequest extends WP_UnitTestCase {
      *
      * @ticket 43913
      */
-    public function test_wp_privacy_completed_request_should_mark_request_completed() {
+    public function test_wp_privacy_completed_request_should_mark_request_completed()
+    {
         $this->assertSame('request-pending', get_post_status(self::$request_id));
         $this->assertSame(self::$request_id, _wp_privacy_completed_request(self::$request_id));
         $this->assertSame('request-completed', get_post_status(self::$request_id));
@@ -59,7 +63,8 @@ class Tests_Privacy_wpPrivacyCompletedRequest extends WP_UnitTestCase {
      *
      * @ticket 43913
      */
-    public function test_wp_privacy_completed_request_should_log_request_timestamp() {
+    public function test_wp_privacy_completed_request_should_log_request_timestamp()
+    {
         $this->assertEmpty(get_post_meta(self::$request_id, '_wp_user_request_completed_timestamp', true));
         $this->assertSame(self::$request_id, _wp_privacy_completed_request(self::$request_id));
         $this->assertNotEmpty(get_post_meta(self::$request_id, '_wp_user_request_completed_timestamp', true));

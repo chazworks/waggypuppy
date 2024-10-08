@@ -14,7 +14,8 @@
  *
  * @see WP_Widget
  */
-class WP_Widget_Block extends WP_Widget {
+class WP_Widget_Block extends WP_Widget
+{
 
     /**
      * Default instance.
@@ -31,7 +32,8 @@ class WP_Widget_Block extends WP_Widget {
      *
      * @since 5.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $widget_ops  = array(
             'classname'                   => 'widget_block',
             'description'                 => __('A widget containing a block.'),
@@ -56,7 +58,8 @@ class WP_Widget_Block extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Block widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         $instance = wp_parse_args($instance, $this->default_instance);
 
         echo str_replace(
@@ -100,7 +103,8 @@ class WP_Widget_Block extends WP_Widget {
      * @param string $content The HTML content of the current block widget.
      * @return string The classname to use in the block widget's container HTML.
      */
-    private function get_dynamic_classname($content) {
+    private function get_dynamic_classname($content)
+    {
         $blocks = parse_blocks($content);
 
         $block_name = isset($blocks[0]) ? $blocks[0]['blockName'] : null;
@@ -177,7 +181,8 @@ class WP_Widget_Block extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Settings to save or bool false to cancel saving.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $instance = array_merge($this->default_instance, $old_instance);
 
         if (current_user_can('unfiltered_html')) {
@@ -198,7 +203,8 @@ class WP_Widget_Block extends WP_Widget {
      *
      * @param array $instance Current instance.
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         $instance = wp_parse_args((array) $instance, $this->default_instance);
         ?>
         <p>
@@ -222,7 +228,8 @@ class WP_Widget_Block extends WP_Widget {
      * @param string $widget_id Widget ID.
      * @return bool Updated `is_wide` value.
      */
-    public function set_is_wide_widget_in_customizer($is_wide, $widget_id) {
+    public function set_is_wide_widget_in_customizer($is_wide, $widget_id)
+    {
         if (str_starts_with($widget_id, 'block-')) {
             return false;
         }

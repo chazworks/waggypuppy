@@ -9,7 +9,8 @@
  *
  * @covers ::wp_array_slice_assoc
  */
-class Tests_Functions_wpArraySliceAssoc extends WP_UnitTestCase {
+class Tests_Functions_wpArraySliceAssoc extends WP_UnitTestCase
+{
 
     /**
      * Tests wp_array_slice_assoc().
@@ -22,7 +23,8 @@ class Tests_Functions_wpArraySliceAssoc extends WP_UnitTestCase {
      * @param array $keys         The list of keys.
      * @param array $expected     The expected result.
      */
-    public function test_wp_array_slice_assoc($target_array, $keys, $expected) {
+    public function test_wp_array_slice_assoc($target_array, $keys, $expected)
+    {
         $this->assertSame($expected, wp_array_slice_assoc($target_array, $keys));
     }
 
@@ -31,7 +33,8 @@ class Tests_Functions_wpArraySliceAssoc extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_array_slice_assoc_arrays() {
+    public function data_wp_array_slice_assoc_arrays()
+    {
         return array(
             array(
                 array(1 => 1),

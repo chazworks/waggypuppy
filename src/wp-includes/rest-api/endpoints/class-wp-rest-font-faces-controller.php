@@ -10,7 +10,8 @@
 /**
  * Class to access font faces through the REST API.
  */
-class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
+class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
+{
 
     /**
      * The latest version of theme.json schema supported by the controller.
@@ -35,7 +36,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -112,7 +114,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         $post_type = get_post_type_object($this->post_type);
 
         if (! current_user_can($post_type->cap->read)) {
@@ -134,7 +137,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         $post = $this->get_post($request['id']);
         if (is_wp_error($post)) {
             return $post;
@@ -160,7 +164,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return true|WP_Error True if the settings are valid, otherwise a WP_Error object.
      */
-    public function validate_create_font_face_settings($value, $request) {
+    public function validate_create_font_face_settings($value, $request)
+    {
         $settings = json_decode($value, true);
 
         // Check settings string is valid JSON.
@@ -243,7 +248,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param string $value Encoded JSON string of font face settings.
      * @return array Decoded and sanitized array of font face settings.
      */
-    public function sanitize_font_face_settings($value) {
+    public function sanitize_font_face_settings($value)
+    {
         // Settings arrive as stringified JSON, since this is a multipart/form-data request.
         $settings = json_decode($value, true);
         $schema   = $this->get_item_schema()['properties']['font_face_settings']['properties'];
@@ -265,7 +271,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $font_family = $this->get_parent_font_family_post($request['font_family_id']);
         if (is_wp_error($font_family)) {
             return $font_family;
@@ -282,7 +289,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $post = $this->get_post($request['id']);
         if (is_wp_error($post)) {
             return $post;
@@ -314,7 +322,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function create_item($request) {
+    public function create_item($request)
+    {
         $font_family = $this->get_parent_font_family_post($request['font_family_id']);
         if (is_wp_error($font_family)) {
             return $font_family;
@@ -397,7 +406,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function delete_item($request) {
+    public function delete_item($request)
+    {
         $post = $this->get_post($request['id']);
         if (is_wp_error($post)) {
             return $post;
@@ -441,7 +451,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         $fields = $this->get_fields_for_response($request);
         $data   = array();
 
@@ -490,7 +501,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -681,7 +693,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Public item schema data.
      */
-    public function get_public_item_schema() {
+    public function get_public_item_schema()
+    {
 
         $schema = parent::get_public_item_schema();
 
@@ -701,7 +714,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $query_params = parent::get_collection_params();
 
         // Remove unneeded params.
@@ -736,7 +750,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Font face create arguments.
      */
-    public function get_create_params() {
+    public function get_create_params()
+    {
         $properties = $this->get_item_schema()['properties'];
         return array(
             'theme_json_version' => $properties['theme_json_version'],
@@ -760,7 +775,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param int $font_family_id Supplied ID.
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
      */
-    protected function get_parent_font_family_post($font_family_id) {
+    protected function get_parent_font_family_post($font_family_id)
+    {
         $error = new WP_Error(
             'rest_post_invalid_parent',
             __('Invalid post parent ID.', 'default'),
@@ -790,7 +806,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_Post $post Post object.
      * @return array Links for the given post.
      */
-    protected function prepare_links($post) {
+    protected function prepare_links($post)
+    {
         // Entity meta.
         return array(
             'self'       => array(
@@ -813,7 +830,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return stdClass Post object.
      */
-    protected function prepare_item_for_database($request) {
+    protected function prepare_item_for_database($request)
+    {
         $prepared_post = new stdClass();
 
         // Settings have already been decoded by ::sanitize_font_face_settings().
@@ -841,7 +859,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param string $value Font face src that is a URL or the key for a $_FILES array item.
      * @return string Sanitized value.
      */
-    protected function sanitize_src($value) {
+    protected function sanitize_src($value)
+    {
         $value = ltrim($value);
         return false === wp_http_validate_url($value) ? (string) $value : sanitize_url($value);
     }
@@ -854,7 +873,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param array $file Single file item from $_FILES.
      * @return array|WP_Error Array containing uploaded file attributes on success, or WP_Error object on failure.
      */
-    protected function handle_font_file_upload($file) {
+    protected function handle_font_file_upload($file)
+    {
         add_filter('upload_mimes', array('WP_Font_Utils', 'get_allowed_font_mime_types'));
         // Filter the upload directory to return the fonts directory.
         add_filter('upload_dir', '_wp_filter_font_directory');
@@ -889,7 +909,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param string $message Error message from wp_handle_upload().
      * @return WP_Error WP_Error object.
      */
-    public function handle_font_file_upload_error($file, $message) {
+    public function handle_font_file_upload_error($file, $message)
+    {
         $status = 500;
         $code   = 'rest_font_upload_unknown_error';
 
@@ -912,7 +933,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param string $path Full path to the file.
      * @return string Relative path on success, unchanged path on failure.
      */
-    protected function relative_fonts_path($path) {
+    protected function relative_fonts_path($path)
+    {
         $new_path = $path;
 
         $fonts_dir = wp_get_font_dir();
@@ -932,7 +954,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller {
      * @param WP_Post $post Font face post object.
      * @return array Font face settings array.
      */
-    protected function get_settings_from_post($post) {
+    protected function get_settings_from_post($post)
+    {
         $settings   = json_decode($post->post_content, true);
         $properties = $this->get_item_schema()['properties']['font_face_settings']['properties'];
 

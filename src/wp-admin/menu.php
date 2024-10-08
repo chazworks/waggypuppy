@@ -249,7 +249,8 @@ if (! is_multisite()) {
  * @since 5.9.0 Renamed 'Theme Editor' to 'Theme File Editor'.
  *              Relocates to Tools for block themes.
  */
-function _add_themes_utility_last() {
+function _add_themes_utility_last()
+{
     add_submenu_page(
         wp_is_block_theme() ? 'tools.php' : 'themes.php',
         __('Theme File Editor'),
@@ -266,7 +267,8 @@ function _add_themes_utility_last() {
  * @access private
  * @since 5.9.0
  */
-function _add_plugin_file_editor_to_tools() {
+function _add_plugin_file_editor_to_tools()
+{
     if (! wp_is_block_theme()) {
         return;
     }

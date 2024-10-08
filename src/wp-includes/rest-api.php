@@ -31,7 +31,8 @@ define('REST_API_VERSION', '2.0');
  *                                false merges (with newer overriding if duplicate keys exist). Default false.
  * @return bool True on success, false on error.
  */
-function register_rest_route($route_namespace, $route, $args = array(), $override = false) {
+function register_rest_route($route_namespace, $route, $args = array(), $override = false)
+{
     if (empty($route_namespace)) {
         /*
          * Non-namespaced routes are not allowed, with the exception of the main
@@ -179,7 +180,8 @@ function register_rest_route($route_namespace, $route, $args = array(), $overrid
  *                                          Default is 'null', no schema entry will be returned.
  * }
  */
-function register_rest_field($object_type, $attribute, $args = array()) {
+function register_rest_field($object_type, $attribute, $args = array())
+{
     global $wp_rest_additional_fields;
 
     $defaults = array(
@@ -205,7 +207,8 @@ function register_rest_field($object_type, $attribute, $args = array()) {
  * @see rest_api_register_rewrites()
  * @global WP $wp Current WordPress environment instance.
  */
-function rest_api_init() {
+function rest_api_init()
+{
     rest_api_register_rewrites();
 
     global $wp;
@@ -220,7 +223,8 @@ function rest_api_init() {
  * @see add_rewrite_rule()
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  */
-function rest_api_register_rewrites() {
+function rest_api_register_rewrites()
+{
     global $wp_rewrite;
 
     add_rewrite_rule('^' . rest_get_url_prefix() . '/?$', 'index.php?rest_route=/', 'top');
@@ -237,7 +241,8 @@ function rest_api_register_rewrites() {
  *
  * @since 4.4.0
  */
-function rest_api_default_filters() {
+function rest_api_default_filters()
+{
     if (wp_is_serving_rest_request()) {
         // Deprecated reporting.
         add_action('deprecated_function_run', 'rest_handle_deprecated_function', 10, 3);
@@ -262,7 +267,8 @@ function rest_api_default_filters() {
  *
  * @since 4.7.0
  */
-function create_initial_rest_routes() {
+function create_initial_rest_routes()
+{
     foreach (get_post_types(array('show_in_rest' => true), 'objects') as $post_type) {
         $controller = $post_type->get_rest_controller();
 
@@ -425,7 +431,8 @@ function create_initial_rest_routes() {
  *
  * @global WP $wp Current WordPress environment instance.
  */
-function rest_api_loaded() {
+function rest_api_loaded()
+{
     if (empty($GLOBALS['wp']->query_vars['rest_route'])) {
         return;
     }
@@ -459,7 +466,8 @@ function rest_api_loaded() {
  *
  * @return string Prefix.
  */
-function rest_get_url_prefix() {
+function rest_get_url_prefix()
+{
     /**
      * Filters the REST URL prefix.
      *
@@ -485,7 +493,8 @@ function rest_get_url_prefix() {
  * @param string   $scheme  Optional. Sanitization scheme. Default 'rest'.
  * @return string Full URL to the endpoint.
  */
-function get_rest_url($blog_id = null, $path = '/', $scheme = 'rest') {
+function get_rest_url($blog_id = null, $path = '/', $scheme = 'rest')
+{
     if (empty($path)) {
         $path = '/';
     }
@@ -557,7 +566,8 @@ function get_rest_url($blog_id = null, $path = '/', $scheme = 'rest') {
  * @param string $scheme Optional. Sanitization scheme. Default 'rest'.
  * @return string Full URL to the endpoint.
  */
-function rest_url($path = '', $scheme = 'rest') {
+function rest_url($path = '', $scheme = 'rest')
+{
     return get_rest_url(null, $path, $scheme);
 }
 
@@ -571,7 +581,8 @@ function rest_url($path = '', $scheme = 'rest') {
  * @param WP_REST_Request|string $request Request.
  * @return WP_REST_Response REST response.
  */
-function rest_do_request($request) {
+function rest_do_request($request)
+{
     $request = rest_ensure_request($request);
     return rest_get_server()->dispatch($request);
 }
@@ -587,7 +598,8 @@ function rest_do_request($request) {
  *
  * @return WP_REST_Server REST server instance.
  */
-function rest_get_server() {
+function rest_get_server()
+{
     /* @var WP_REST_Server $wp_rest_server */
     global $wp_rest_server;
 
@@ -630,7 +642,8 @@ function rest_get_server() {
  * @param array|string|WP_REST_Request $request Request to check.
  * @return WP_REST_Request REST request instance.
  */
-function rest_ensure_request($request) {
+function rest_ensure_request($request)
+{
     if ($request instanceof WP_REST_Request) {
         return $request;
     }
@@ -656,7 +669,8 @@ function rest_ensure_request($request) {
  *                                   is already an instance, WP_REST_Response, otherwise
  *                                   returns a new WP_REST_Response instance.
  */
-function rest_ensure_response($response) {
+function rest_ensure_response($response)
+{
     if (is_wp_error($response)) {
         return $response;
     }
@@ -689,7 +703,8 @@ function rest_ensure_response($response) {
  * @param string $replacement   The function that should have been called.
  * @param string $version       Version.
  */
-function rest_handle_deprecated_function($function_name, $replacement, $version) {
+function rest_handle_deprecated_function($function_name, $replacement, $version)
+{
     if (! WP_DEBUG || headers_sent()) {
         return;
     }
@@ -713,7 +728,8 @@ function rest_handle_deprecated_function($function_name, $replacement, $version)
  * @param string $message       A message regarding the change.
  * @param string $version       Version.
  */
-function rest_handle_deprecated_argument($function_name, $message, $version) {
+function rest_handle_deprecated_argument($function_name, $message, $version)
+{
     if (! WP_DEBUG || headers_sent()) {
         return;
     }
@@ -737,7 +753,8 @@ function rest_handle_deprecated_argument($function_name, $message, $version) {
  * @param string      $message       A message explaining what has been done incorrectly.
  * @param string|null $version       The version of WordPress where the message was added.
  */
-function rest_handle_doing_it_wrong($function_name, $message, $version) {
+function rest_handle_doing_it_wrong($function_name, $message, $version)
+{
     if (! WP_DEBUG || headers_sent()) {
         return;
     }
@@ -763,7 +780,8 @@ function rest_handle_doing_it_wrong($function_name, $message, $version) {
  * @param mixed $value Response data.
  * @return mixed Response data.
  */
-function rest_send_cors_headers($value) {
+function rest_send_cors_headers($value)
+{
     $origin = get_http_origin();
 
     if ($origin) {
@@ -795,7 +813,8 @@ function rest_send_cors_headers($value) {
  * @param WP_REST_Request $request  The request that was used to make current response.
  * @return WP_REST_Response Modified response, either response or `null` to indicate pass-through.
  */
-function rest_handle_options_request($response, $handler, $request) {
+function rest_handle_options_request($response, $handler, $request)
+{
     if (! empty($response) || $request->get_method() !== 'OPTIONS') {
         return $response;
     }
@@ -844,7 +863,8 @@ function rest_handle_options_request($response, $handler, $request) {
  * @param WP_REST_Request  $request  The request that was used to make current response.
  * @return WP_REST_Response Response to be served, with "Allow" header if route has allowed methods.
  */
-function rest_send_allow_header($response, $server, $request) {
+function rest_send_allow_header($response, $server, $request)
+{
     $matched_route = $response->get_matched_route();
 
     if (! $matched_route) {
@@ -890,7 +910,8 @@ function rest_send_allow_header($response, $server, $request) {
  * @return array An associative array containing all the entries of array1 which have keys
  *               that are present in all arguments.
  */
-function _rest_array_intersect_key_recursive($array1, $array2) {
+function _rest_array_intersect_key_recursive($array1, $array2)
+{
     $array1 = array_intersect_key($array1, $array2);
     foreach ($array1 as $key => $value) {
         if (is_array($value) && is_array($array2[ $key ])) {
@@ -910,7 +931,8 @@ function _rest_array_intersect_key_recursive($array1, $array2) {
  * @param WP_REST_Request  $request  The request that was used to make current response.
  * @return WP_REST_Response Response to be served, trimmed down to contain a subset of fields.
  */
-function rest_filter_response_fields($response, $server, $request) {
+function rest_filter_response_fields($response, $server, $request)
+{
     if (! isset($request['_fields']) || $response->is_error()) {
         return $response;
     }
@@ -974,7 +996,8 @@ function rest_filter_response_fields($response, $server, $request) {
  * @param array  $fields An array of string fields supported by the endpoint.
  * @return bool Whether to include the field or not.
  */
-function rest_is_field_included($field, $fields) {
+function rest_is_field_included($field, $fields)
+{
     if (in_array($field, $fields, true)) {
         return true;
     }
@@ -1006,7 +1029,8 @@ function rest_is_field_included($field, $fields) {
  *
  * @see get_rest_url()
  */
-function rest_output_rsd() {
+function rest_output_rsd()
+{
     $api_root = get_rest_url();
 
     if (empty($api_root)) {
@@ -1024,7 +1048,8 @@ function rest_output_rsd() {
  *
  * @see get_rest_url()
  */
-function rest_output_link_wp_head() {
+function rest_output_link_wp_head()
+{
     $api_root = get_rest_url();
 
     if (empty($api_root)) {
@@ -1049,7 +1074,8 @@ function rest_output_link_wp_head() {
  *
  * @since 4.4.0
  */
-function rest_output_link_header() {
+function rest_output_link_header()
+{
     if (headers_sent()) {
         return;
     }
@@ -1091,7 +1117,8 @@ function rest_output_link_header() {
  *                               null if we should handle it, or another value if not.
  * @return WP_Error|mixed|bool WP_Error if the cookie is invalid, the $result, otherwise true.
  */
-function rest_cookie_check_errors($result) {
+function rest_cookie_check_errors($result)
+{
     if (! empty($result)) {
         return $result;
     }
@@ -1146,7 +1173,8 @@ function rest_cookie_check_errors($result) {
  * @see current_action()
  * @global mixed $wp_rest_auth_cookie
  */
-function rest_cookie_collect_status() {
+function rest_cookie_collect_status()
+{
     global $wp_rest_auth_cookie;
 
     $status_type = current_action();
@@ -1171,7 +1199,8 @@ function rest_cookie_collect_status() {
  * @param WP_Error $user_or_error The authenticated user or error instance.
  * @param array    $app_password  The Application Password used to authenticate.
  */
-function rest_application_password_collect_status($user_or_error, $app_password = array()) {
+function rest_application_password_collect_status($user_or_error, $app_password = array())
+{
     global $wp_rest_application_password_status, $wp_rest_application_password_uuid;
 
     $wp_rest_application_password_status = $user_or_error;
@@ -1192,7 +1221,8 @@ function rest_application_password_collect_status($user_or_error, $app_password 
  *
  * @return string|null The Application Password UUID, or null if Application Passwords was not used.
  */
-function rest_get_authenticated_app_password() {
+function rest_get_authenticated_app_password()
+{
     global $wp_rest_application_password_uuid;
 
     return $wp_rest_application_password_uuid;
@@ -1209,7 +1239,8 @@ function rest_get_authenticated_app_password() {
  *                                   null if we should handle it, or another value if not.
  * @return WP_Error|null|true WP_Error if the application password is invalid, the $result, otherwise true.
  */
-function rest_application_password_check_errors($result) {
+function rest_application_password_check_errors($result)
+{
     global $wp_rest_application_password_status;
 
     if (! empty($result)) {
@@ -1243,7 +1274,8 @@ function rest_application_password_check_errors($result) {
  * @param WP_REST_Response $response The index response object.
  * @return WP_REST_Response
  */
-function rest_add_application_passwords_to_index($response) {
+function rest_add_application_passwords_to_index($response)
+{
     if (! wp_is_application_passwords_available()) {
         return $response;
     }
@@ -1268,7 +1300,8 @@ function rest_add_application_passwords_to_index($response) {
  *                           user email, WP_User object, WP_Post object, or WP_Comment object.
  * @return (string|false)[] Avatar URLs keyed by size. Each value can be a URL string or boolean false.
  */
-function rest_get_avatar_urls($id_or_email) {
+function rest_get_avatar_urls($id_or_email)
+{
     $avatar_sizes = rest_get_avatar_sizes();
 
     $urls = array();
@@ -1286,7 +1319,8 @@ function rest_get_avatar_urls($id_or_email) {
  *
  * @return int[] List of pixel sizes for avatars. Default `[ 24, 48, 96 ]`.
  */
-function rest_get_avatar_sizes() {
+function rest_get_avatar_sizes()
+{
     /**
      * Filters the REST avatar sizes.
      *
@@ -1314,7 +1348,8 @@ function rest_get_avatar_sizes() {
  *                          the timestamp's timezone. Default false.
  * @return int|false Unix timestamp on success, false on failure.
  */
-function rest_parse_date($date, $force_utc = false) {
+function rest_parse_date($date, $force_utc = false)
+{
     if ($force_utc) {
         $date = preg_replace('/[+-]\d+:?\d+$/', '+00:00', $date);
     }
@@ -1336,7 +1371,8 @@ function rest_parse_date($date, $force_utc = false) {
  * @param string $color 3 or 6 digit hex color (with #).
  * @return string|false Color value on success, false on failure.
  */
-function rest_parse_hex_color($color) {
+function rest_parse_hex_color($color)
+{
     $regex = '|^#([A-Fa-f0-9]{3}){1,2}$|';
     if (! preg_match($regex, $color, $matches)) {
         return false;
@@ -1362,7 +1398,8 @@ function rest_parse_hex_color($color) {
  *     @type string $1 UTC datetime string.
  * }
  */
-function rest_get_date_with_gmt($date, $is_utc = false) {
+function rest_get_date_with_gmt($date, $is_utc = false)
+{
     /*
      * Whether or not the original date actually has a timezone string
      * changes the way we need to do timezone conversion.
@@ -1399,7 +1436,8 @@ function rest_get_date_with_gmt($date, $is_utc = false) {
  *
  * @return int 401 if the user is not logged in, 403 if the user is logged in.
  */
-function rest_authorization_required_code() {
+function rest_authorization_required_code()
+{
     return is_user_logged_in() ? 403 : 401;
 }
 
@@ -1413,7 +1451,8 @@ function rest_authorization_required_code() {
  * @param string          $param
  * @return true|WP_Error
  */
-function rest_validate_request_arg($value, $request, $param) {
+function rest_validate_request_arg($value, $request, $param)
+{
     $attributes = $request->get_attributes();
     if (! isset($attributes['args'][ $param ]) || ! is_array($attributes['args'][ $param ])) {
         return true;
@@ -1433,7 +1472,8 @@ function rest_validate_request_arg($value, $request, $param) {
  * @param string          $param
  * @return mixed
  */
-function rest_sanitize_request_arg($value, $request, $param) {
+function rest_sanitize_request_arg($value, $request, $param)
+{
     $attributes = $request->get_attributes();
     if (! isset($attributes['args'][ $param ]) || ! is_array($attributes['args'][ $param ])) {
         return $value;
@@ -1456,7 +1496,8 @@ function rest_sanitize_request_arg($value, $request, $param) {
  * @param string          $param
  * @return mixed
  */
-function rest_parse_request_arg($value, $request, $param) {
+function rest_parse_request_arg($value, $request, $param)
+{
     $is_valid = rest_validate_request_arg($value, $request, $param);
 
     if (is_wp_error($is_valid)) {
@@ -1478,7 +1519,8 @@ function rest_parse_request_arg($value, $request, $param) {
  * @param string $ip IP address.
  * @return string|false The valid IP address, otherwise false.
  */
-function rest_is_ip_address($ip) {
+function rest_is_ip_address($ip)
+{
     $ipv4_pattern = '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/';
 
     if (! preg_match($ipv4_pattern, $ip) && ! WpOrg\Requests\Ipv6::check_ipv6($ip)) {
@@ -1496,7 +1538,8 @@ function rest_is_ip_address($ip) {
  * @param bool|string|int $value The value being evaluated.
  * @return bool Returns the proper associated boolean value.
  */
-function rest_sanitize_boolean($value) {
+function rest_sanitize_boolean($value)
+{
     // String values are translated to `true`; make sure 'false' is false.
     if (is_string($value)) {
         $value = strtolower($value);
@@ -1517,7 +1560,8 @@ function rest_sanitize_boolean($value) {
  * @param bool|string $maybe_bool The value being evaluated.
  * @return bool True if a boolean, otherwise false.
  */
-function rest_is_boolean($maybe_bool) {
+function rest_is_boolean($maybe_bool)
+{
     if (is_bool($maybe_bool)) {
         return true;
     }
@@ -1550,7 +1594,8 @@ function rest_is_boolean($maybe_bool) {
  * @param mixed $maybe_integer The value being evaluated.
  * @return bool True if an integer, otherwise false.
  */
-function rest_is_integer($maybe_integer) {
+function rest_is_integer($maybe_integer)
+{
     return is_numeric($maybe_integer) && round((float) $maybe_integer) === (float) $maybe_integer;
 }
 
@@ -1562,7 +1607,8 @@ function rest_is_integer($maybe_integer) {
  * @param mixed $maybe_array The value being evaluated.
  * @return bool
  */
-function rest_is_array($maybe_array) {
+function rest_is_array($maybe_array)
+{
     if (is_scalar($maybe_array)) {
         $maybe_array = wp_parse_list($maybe_array);
     }
@@ -1578,7 +1624,8 @@ function rest_is_array($maybe_array) {
  * @param mixed $maybe_array The value being evaluated.
  * @return array Returns the array extracted from the value.
  */
-function rest_sanitize_array($maybe_array) {
+function rest_sanitize_array($maybe_array)
+{
     if (is_scalar($maybe_array)) {
         return wp_parse_list($maybe_array);
     }
@@ -1599,7 +1646,8 @@ function rest_sanitize_array($maybe_array) {
  * @param mixed $maybe_object The value being evaluated.
  * @return bool True if object like, otherwise false.
  */
-function rest_is_object($maybe_object) {
+function rest_is_object($maybe_object)
+{
     if ('' === $maybe_object) {
         return true;
     }
@@ -1623,7 +1671,8 @@ function rest_is_object($maybe_object) {
  * @param mixed $maybe_object The value being evaluated.
  * @return array Returns the object extracted from the value as an associative array.
  */
-function rest_sanitize_object($maybe_object) {
+function rest_sanitize_object($maybe_object)
+{
     if ('' === $maybe_object) {
         return array();
     }
@@ -1652,7 +1701,8 @@ function rest_sanitize_object($maybe_object) {
  * @param string[] $types The list of possible types.
  * @return string The best matching type, an empty string if no types match.
  */
-function rest_get_best_type_for_value($value, $types) {
+function rest_get_best_type_for_value($value, $types)
+{
     static $checks = array(
         'array'   => 'rest_is_array',
         'object'  => 'rest_is_object',
@@ -1693,7 +1743,8 @@ function rest_get_best_type_for_value($value, $types) {
  * @param string $param The parameter name, used in error messages.
  * @return string
  */
-function rest_handle_multi_type_schema($value, $args, $param = '') {
+function rest_handle_multi_type_schema($value, $args, $param = '')
+{
     $allowed_types = array('array', 'object', 'string', 'number', 'integer', 'boolean', 'null');
     $invalid_types = array_diff($args['type'], $allowed_types);
 
@@ -1728,7 +1779,8 @@ function rest_handle_multi_type_schema($value, $args, $param = '') {
  * @param array $input_array The array to check.
  * @return bool True if the array contains unique items, false otherwise.
  */
-function rest_validate_array_contains_unique_items($input_array) {
+function rest_validate_array_contains_unique_items($input_array)
+{
     $seen = array();
 
     foreach ($input_array as $item) {
@@ -1757,7 +1809,8 @@ function rest_validate_array_contains_unique_items($input_array) {
  * @param mixed $value The value to stabilize. Must already be sanitized. Objects should have been converted to arrays.
  * @return mixed The stabilized value.
  */
-function rest_stabilize_value($value) {
+function rest_stabilize_value($value)
+{
     if (is_scalar($value) || is_null($value)) {
         return $value;
     }
@@ -1786,7 +1839,8 @@ function rest_stabilize_value($value) {
  * @param string $value   The value to check.
  * @return bool           True if the pattern matches the given value, false otherwise.
  */
-function rest_validate_json_schema_pattern($pattern, $value) {
+function rest_validate_json_schema_pattern($pattern, $value)
+{
     $escaped_pattern = str_replace('#', '\\#', $pattern);
 
     return 1 === preg_match('#' . $escaped_pattern . '#u', $value);
@@ -1801,7 +1855,8 @@ function rest_validate_json_schema_pattern($pattern, $value) {
  * @param array  $args     The schema array to use.
  * @return array|null      The schema of matching pattern property, or null if no patterns match.
  */
-function rest_find_matching_pattern_property_schema($property, $args) {
+function rest_find_matching_pattern_property_schema($property, $args)
+{
     if (isset($args['patternProperties'])) {
         foreach ($args['patternProperties'] as $pattern => $child_schema) {
             if (rest_validate_json_schema_pattern($pattern, $property)) {
@@ -1822,7 +1877,8 @@ function rest_find_matching_pattern_property_schema($property, $args) {
  * @param array $error  The error details.
  * @return WP_Error
  */
-function rest_format_combining_operation_error($param, $error) {
+function rest_format_combining_operation_error($param, $error)
+{
     $position = $error['index'];
     $reason   = $error['error_object']->get_error_message();
 
@@ -1855,7 +1911,8 @@ function rest_format_combining_operation_error($param, $error) {
  * @param array  $errors The errors array, to search for possible error.
  * @return WP_Error      The combining operation error.
  */
-function rest_get_combining_operation_error($value, $param, $errors) {
+function rest_get_combining_operation_error($value, $param, $errors)
+{
     // If there is only one error, simply return it.
     if (1 === count($errors)) {
         return rest_format_combining_operation_error($param, $errors[0]);
@@ -1924,7 +1981,8 @@ function rest_get_combining_operation_error($value, $param, $errors) {
  * @param string $param   The parameter name, used in error messages.
  * @return array|WP_Error The matching schema or WP_Error instance if all schemas do not match.
  */
-function rest_find_any_matching_schema($value, $args, $param) {
+function rest_find_any_matching_schema($value, $args, $param)
+{
     $errors = array();
 
     foreach ($args['anyOf'] as $index => $schema) {
@@ -1958,7 +2016,8 @@ function rest_find_any_matching_schema($value, $args, $param) {
  * @param bool   $stop_after_first_match Optional. Whether the process should stop after the first successful match.
  * @return array|WP_Error                The matching schema or WP_Error instance if the number of matching schemas is not equal to one.
  */
-function rest_find_one_matching_schema($value, $args, $param, $stop_after_first_match = false) {
+function rest_find_one_matching_schema($value, $args, $param, $stop_after_first_match = false)
+{
     $matching_schemas = array();
     $errors           = array();
 
@@ -2036,7 +2095,8 @@ function rest_find_one_matching_schema($value, $args, $param, $stop_after_first_
  * @param mixed $value2 The second value to check.
  * @return bool True if the values are equal or false otherwise.
  */
-function rest_are_values_equal($value1, $value2) {
+function rest_are_values_equal($value1, $value2)
+{
     if (is_array($value1) && is_array($value2)) {
         if (count($value1) !== count($value2)) {
             return false;
@@ -2070,7 +2130,8 @@ function rest_are_values_equal($value1, $value2) {
  * @param string $param  The parameter name, used in error messages.
  * @return true|WP_Error True if the "enum" contains the value or a WP_Error instance otherwise.
  */
-function rest_validate_enum($value, $args, $param) {
+function rest_validate_enum($value, $args, $param)
+{
     $sanitized_value = rest_sanitize_value_from_schema($value, $args, $param);
     if (is_wp_error($sanitized_value)) {
         return $sanitized_value;
@@ -2103,7 +2164,8 @@ function rest_validate_enum($value, $args, $param) {
  *
  * @return string[] All valid JSON schema properties.
  */
-function rest_get_allowed_schema_keywords() {
+function rest_get_allowed_schema_keywords()
+{
     return array(
         'title',
         'description',
@@ -2155,7 +2217,8 @@ function rest_get_allowed_schema_keywords() {
  * @param string $param The parameter name, used in error messages.
  * @return true|WP_Error
  */
-function rest_validate_value_from_schema($value, $args, $param = '') {
+function rest_validate_value_from_schema($value, $args, $param = '')
+{
     if (isset($args['anyOf'])) {
         $matching_schema = rest_find_any_matching_schema($value, $args, $param);
         if (is_wp_error($matching_schema)) {
@@ -2299,7 +2362,8 @@ function rest_validate_value_from_schema($value, $args, $param = '') {
  * @param string $param The parameter name, used in error messages.
  * @return true|WP_Error
  */
-function rest_validate_null_value_from_schema($value, $param) {
+function rest_validate_null_value_from_schema($value, $param)
+{
     if (null !== $value) {
         return new WP_Error(
             'rest_invalid_type',
@@ -2321,7 +2385,8 @@ function rest_validate_null_value_from_schema($value, $param) {
  * @param string $param The parameter name, used in error messages.
  * @return true|WP_Error
  */
-function rest_validate_boolean_value_from_schema($value, $param) {
+function rest_validate_boolean_value_from_schema($value, $param)
+{
     if (! rest_is_boolean($value)) {
         return new WP_Error(
             'rest_invalid_type',
@@ -2344,7 +2409,8 @@ function rest_validate_boolean_value_from_schema($value, $param) {
  * @param string $param The parameter name, used in error messages.
  * @return true|WP_Error
  */
-function rest_validate_object_value_from_schema($value, $args, $param) {
+function rest_validate_object_value_from_schema($value, $args, $param)
+{
     if (! rest_is_object($value)) {
         return new WP_Error(
             'rest_invalid_type',
@@ -2459,7 +2525,8 @@ function rest_validate_object_value_from_schema($value, $args, $param) {
  * @param string $param The parameter name, used in error messages.
  * @return true|WP_Error
  */
-function rest_validate_array_value_from_schema($value, $args, $param) {
+function rest_validate_array_value_from_schema($value, $args, $param)
+{
     if (! rest_is_array($value)) {
         return new WP_Error(
             'rest_invalid_type',
@@ -2530,7 +2597,8 @@ function rest_validate_array_value_from_schema($value, $args, $param) {
  * @param string $param The parameter name, used in error messages.
  * @return true|WP_Error
  */
-function rest_validate_number_value_from_schema($value, $args, $param) {
+function rest_validate_number_value_from_schema($value, $args, $param)
+{
     if (! is_numeric($value)) {
         return new WP_Error(
             'rest_invalid_type',
@@ -2659,7 +2727,8 @@ function rest_validate_number_value_from_schema($value, $args, $param) {
  * @param string $param The parameter name, used in error messages.
  * @return true|WP_Error
  */
-function rest_validate_string_value_from_schema($value, $args, $param) {
+function rest_validate_string_value_from_schema($value, $args, $param)
+{
     if (! is_string($value)) {
         return new WP_Error(
             'rest_invalid_type',
@@ -2722,7 +2791,8 @@ function rest_validate_string_value_from_schema($value, $args, $param) {
  * @param string $param The parameter name, used in error messages.
  * @return true|WP_Error
  */
-function rest_validate_integer_value_from_schema($value, $args, $param) {
+function rest_validate_integer_value_from_schema($value, $args, $param)
+{
     $is_valid_number = rest_validate_number_value_from_schema($value, $args, $param);
     if (is_wp_error($is_valid_number)) {
         return $is_valid_number;
@@ -2753,7 +2823,8 @@ function rest_validate_integer_value_from_schema($value, $args, $param) {
  * @param string $param The parameter name, used in error messages.
  * @return mixed|WP_Error The sanitized value or a WP_Error instance if the value cannot be safely sanitized.
  */
-function rest_sanitize_value_from_schema($value, $args, $param = '') {
+function rest_sanitize_value_from_schema($value, $args, $param = '')
+{
     if (isset($args['anyOf'])) {
         $matching_schema = rest_find_any_matching_schema($value, $args, $param);
         if (is_wp_error($matching_schema)) {
@@ -2915,7 +2986,8 @@ function rest_sanitize_value_from_schema($value, $args, $param = '') {
  * @param string $path REST API path to preload.
  * @return array Modified reduce accumulator.
  */
-function rest_preload_api_request($memo, $path) {
+function rest_preload_api_request($memo, $path)
+{
     /*
      * array_reduce() doesn't support passing an array in PHP 5.2,
      * so we need to make sure we start with one.
@@ -2986,7 +3058,8 @@ function rest_preload_api_request($memo, $path) {
  * @param string|array $embed Raw "_embed" parameter value.
  * @return true|string[] Either true to embed all embeds, or a list of relations to embed.
  */
-function rest_parse_embed_param($embed) {
+function rest_parse_embed_param($embed)
+{
     if (! $embed || 'true' === $embed || '1' === $embed) {
         return true;
     }
@@ -3012,7 +3085,8 @@ function rest_parse_embed_param($embed) {
  * @param string       $context       The requested context.
  * @return array|object The filtered response data.
  */
-function rest_filter_response_by_context($response_data, $schema, $context) {
+function rest_filter_response_by_context($response_data, $schema, $context)
+{
     if (isset($schema['anyOf'])) {
         $matching_schema = rest_find_any_matching_schema($response_data, $schema, '');
         if (! is_wp_error($matching_schema)) {
@@ -3117,7 +3191,8 @@ function rest_filter_response_by_context($response_data, $schema, $context) {
  * @param array $schema The schema to modify.
  * @return array The modified schema.
  */
-function rest_default_additional_properties_to_false($schema) {
+function rest_default_additional_properties_to_false($schema)
+{
     $type = (array) $schema['type'];
 
     if (in_array('object', $type, true)) {
@@ -3156,7 +3231,8 @@ function rest_default_additional_properties_to_false($schema) {
  * @return string The route path with a leading slash for the given post,
  *                or an empty string if there is not a route.
  */
-function rest_get_route_for_post($post) {
+function rest_get_route_for_post($post)
+{
     $post = get_post($post);
 
     if (! $post instanceof WP_Post) {
@@ -3190,7 +3266,8 @@ function rest_get_route_for_post($post) {
  * @return string The route path with a leading slash for the given post type,
  *                or an empty string if there is not a route.
  */
-function rest_get_route_for_post_type_items($post_type) {
+function rest_get_route_for_post_type_items($post_type)
+{
     $post_type = get_post_type_object($post_type);
     if (! $post_type) {
         return '';
@@ -3224,7 +3301,8 @@ function rest_get_route_for_post_type_items($post_type) {
  * @return string The route path with a leading slash for the given term,
  *                or an empty string if there is not a route.
  */
-function rest_get_route_for_term($term) {
+function rest_get_route_for_term($term)
+{
     $term = get_term($term);
 
     if (! $term instanceof WP_Term) {
@@ -3257,7 +3335,8 @@ function rest_get_route_for_term($term) {
  * @param string $taxonomy Name of taxonomy.
  * @return string The route path with a leading slash for the given taxonomy.
  */
-function rest_get_route_for_taxonomy_items($taxonomy) {
+function rest_get_route_for_taxonomy_items($taxonomy)
+{
     $taxonomy = get_taxonomy($taxonomy);
     if (! $taxonomy) {
         return '';
@@ -3289,7 +3368,8 @@ function rest_get_route_for_taxonomy_items($taxonomy) {
  *
  * @return string The REST route of the resource, or an empty string if no resource identified.
  */
-function rest_get_queried_resource_route() {
+function rest_get_queried_resource_route()
+{
     if (is_singular()) {
         $route = rest_get_route_for_post(get_queried_object());
     } elseif (is_category() || is_tag() || is_tax()) {
@@ -3321,7 +3401,8 @@ function rest_get_queried_resource_route() {
  *                       on `EDITABLE` endpoints. Default WP_REST_Server::CREATABLE.
  * @return array The endpoint arguments.
  */
-function rest_get_endpoint_args_for_schema($schema, $method = WP_REST_Server::CREATABLE) {
+function rest_get_endpoint_args_for_schema($schema, $method = WP_REST_Server::CREATABLE)
+{
 
     $schema_properties       = ! empty($schema['properties']) ? $schema['properties'] : array();
     $endpoint_args           = array();
@@ -3389,7 +3470,8 @@ function rest_get_endpoint_args_for_schema($schema, $method = WP_REST_Server::CR
  *
  * @return WP_REST_Response List of associative arrays with code and message keys.
  */
-function rest_convert_error_to_response($error) {
+function rest_convert_error_to_response($error)
+{
     $status = array_reduce(
         $error->get_all_error_data(),
         static function ($status, $error_data) {
@@ -3440,7 +3522,8 @@ function rest_convert_error_to_response($error) {
  *
  * @return bool True if a REST endpoint request is currently being handled, false otherwise.
  */
-function wp_is_rest_endpoint() {
+function wp_is_rest_endpoint()
+{
     /* @var WP_REST_Server $wp_rest_server */
     global $wp_rest_server;
 

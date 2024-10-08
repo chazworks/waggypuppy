@@ -5,14 +5,16 @@
  *
  * @covers ::array_key_last
  */
-class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase {
+class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase
+{
 
     /**
      * Test that array_key_last() is always available (either from PHP or WP).
      *
      * @ticket 45055
      */
-    public function test_array_key_last_availability() {
+    public function test_array_key_last_availability()
+    {
         $this->assertTrue(function_exists('array_key_last'));
     }
 
@@ -24,7 +26,8 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase {
      * @param bool  $expected The value of the key extracted to extracted from given array.
      * @param array $arr      The array to get last key from.
      */
-    public function test_array_key_last($expected, $arr) {
+    public function test_array_key_last($expected, $arr)
+    {
         $this->assertSame($expected, array_key_last($arr));
     }
 
@@ -33,7 +36,8 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_array_key_last() {
+    public function data_array_key_last()
+    {
         return array(
             'string key'  => array(
                 'expected' => 'key2',

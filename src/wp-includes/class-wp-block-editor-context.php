@@ -12,7 +12,8 @@
  * @since 5.8.0
  */
 #[AllowDynamicProperties]
-final class WP_Block_Editor_Context {
+final class WP_Block_Editor_Context
+{
     /**
      * String that identifies the block editor being rendered. Can be one of:
      *
@@ -47,7 +48,8 @@ final class WP_Block_Editor_Context {
      *
      * @param array $settings The list of optional settings to expose in a given context.
      */
-    public function __construct(array $settings = array()) {
+    public function __construct(array $settings = array())
+    {
         if (isset($settings['name'])) {
             $this->name = $settings['name'];
         }

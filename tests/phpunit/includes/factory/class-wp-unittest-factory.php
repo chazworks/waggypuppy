@@ -5,7 +5,8 @@
  *
  * Tests should use this factory to generate test fixtures.
  */
-class WP_UnitTest_Factory {
+class WP_UnitTest_Factory
+{
 
     /**
      * Generates post fixtures for use in tests.
@@ -78,7 +79,8 @@ class WP_UnitTest_Factory {
      */
     public $network;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->post       = new WP_UnitTest_Factory_For_Post($this);
         $this->attachment = new WP_UnitTest_Factory_For_Attachment($this);
         $this->comment    = new WP_UnitTest_Factory_For_Comment($this);

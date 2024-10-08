@@ -6,7 +6,8 @@
  *
  * @covers WP_Automatic_Updater
  */
-class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
+class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase
+{
     /**
      * An instance of WP_Automatic_Updater.
      *
@@ -25,7 +26,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
     /**
      * Sets up shared fixtures.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         require_once ABSPATH . 'wp-admin/includes/class-wp-automatic-updater.php';
         self::$updater = new WP_Automatic_Updater();
 
@@ -33,7 +35,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
         self::$send_plugin_theme_email->setAccessible(true);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         add_filter('pre_wp_mail', '__return_false');
     }
@@ -52,7 +55,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      * @param object[] $successful An array of successful plugin update objects.
      * @param object[] $failed     An array of failed plugin update objects.
      */
-    public function test_send_plugin_theme_email_should_append_plugin_urls($urls, $successful, $failed) {
+    public function test_send_plugin_theme_email_should_append_plugin_urls($urls, $successful, $failed)
+    {
         add_filter(
             'wp_mail',
             function ($args) use ($urls) {
@@ -85,7 +89,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_send_plugin_theme_email_should_append_plugin_urls() {
+    public function data_send_plugin_theme_email_should_append_plugin_urls()
+    {
         return array(
             'successful updates, the current version and the plugin url'       => array(
                 'urls'       => array('http://example.org/successful-plugin'),
@@ -320,7 +325,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      * @param object[] $successful An array of successful plugin update objects.
      * @param object[] $failed     An array of failed plugin update objects.
      */
-    public function test_send_plugin_theme_email_should_not_append_plugin_urls($urls, $successful, $failed) {
+    public function test_send_plugin_theme_email_should_not_append_plugin_urls($urls, $successful, $failed)
+    {
         add_filter(
             'wp_mail',
             function ($args) use ($urls) {
@@ -353,7 +359,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_send_plugin_theme_email_should_not_append_plugin_urls() {
+    public function data_send_plugin_theme_email_should_not_append_plugin_urls()
+    {
         return array(
             'successful updates, the current version, but no plugin url'    => array(
                 'urls'       => array('http://example.org/successful-plugin'),
@@ -582,7 +589,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      *
      * @covers WP_Automatic_Updater::is_allowed_dir
      */
-    public function test_is_allowed_dir_should_return_true_if_open_basedir_is_not_set() {
+    public function test_is_allowed_dir_should_return_true_if_open_basedir_is_not_set()
+    {
         $this->assertTrue(self::$updater->is_allowed_dir(ABSPATH));
     }
 
@@ -604,7 +612,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function test_is_allowed_dir_should_return_true_if_open_basedir_is_set_and_path_is_allowed() {
+    public function test_is_allowed_dir_should_return_true_if_open_basedir_is_set_and_path_is_allowed()
+    {
         // The repository for PHPUnit and test suite resources.
         $abspath_parent      = trailingslashit(dirname(ABSPATH));
         $abspath_grandparent = trailingslashit(dirname($abspath_parent));
@@ -639,7 +648,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function test_is_allowed_dir_should_return_false_if_open_basedir_is_set_and_path_is_not_allowed() {
+    public function test_is_allowed_dir_should_return_false_if_open_basedir_is_set_and_path_is_not_allowed()
+    {
         // The repository for PHPUnit and test suite resources.
         $abspath_parent      = trailingslashit(dirname(ABSPATH));
         $abspath_grandparent = trailingslashit(dirname($abspath_parent));
@@ -670,7 +680,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      *
      * @param mixed $dir The directory to check.
      */
-    public function test_is_allowed_dir_should_throw_doing_it_wrong_with_invalid_dir($dir) {
+    public function test_is_allowed_dir_should_throw_doing_it_wrong_with_invalid_dir($dir)
+    {
         $this->assertFalse(self::$updater->is_allowed_dir($dir));
     }
 
@@ -679,7 +690,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_allowed_dir_should_throw_doing_it_wrong_with_invalid_dir() {
+    public function data_is_allowed_dir_should_throw_doing_it_wrong_with_invalid_dir()
+    {
         return array(
             // Type checks and boolean comparisons.
             'null'                              => array('dir' => null),
@@ -716,7 +728,8 @@ class Tests_Admin_WpAutomaticUpdater extends WP_UnitTestCase {
      *
      * @covers WP_Automatic_Updater::is_vcs_checkout
      */
-    public function test_is_vcs_checkout_should_return_false_when_no_directories_are_allowed() {
+    public function test_is_vcs_checkout_should_return_false_when_no_directories_are_allowed()
+    {
         $updater_mock = $this->getMockBuilder('WP_Automatic_Updater')
             // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
             ->setMethods(array('is_allowed_dir'))

@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  * @covers WP_Plugin_Dependencies::get_dependency_data
  * @covers WP_Plugin_Dependencies::get_dependency_api_data
  */
-class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDependencies_UnitTestCase {
+class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDependencies_UnitTestCase
+{
 
     /**
      * Tests that dependency data is retrieved.
@@ -23,7 +24,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
      *
      * @global string $pagenow The filename of the current screen.
      */
-    public function test_should_get_dependency_data() {
+    public function test_should_get_dependency_data()
+    {
         global $pagenow;
 
         // Backup $pagenow.
@@ -51,7 +53,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
      *
      * @global string $pagenow The filename of the current screen.
      */
-    public function test_should_return_false_when_no_dependency_data_exists() {
+    public function test_should_return_false_when_no_dependency_data_exists()
+    {
         global $pagenow;
 
         // Backup $pagenow.
@@ -76,7 +79,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
      *
      * @ticket 60540
      */
-    public function test_should_not_assume_a_slug_key_exists_in_the_response() {
+    public function test_should_not_assume_a_slug_key_exists_in_the_response()
+    {
         global $pagenow;
 
         // Backup $pagenow.

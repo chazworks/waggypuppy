@@ -20,7 +20,8 @@
  * @param bool   $display  Print the styles.
  * @return string
  */
-function twenty_twenty_one_generate_css($selector, $style, $value, $prefix = '', $suffix = '', $display = true) {
+function twenty_twenty_one_generate_css($selector, $style, $value, $prefix = '', $suffix = '', $display = true)
+{
 
     // Bail early if there is no $selector elements or properties and $value.
     if (! $value || ! $selector) {

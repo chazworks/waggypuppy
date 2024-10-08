@@ -6,13 +6,15 @@ require_once __DIR__ . '/base.php';
  * @group block-templates
  * @covers ::_build_block_template_result_from_file
  */
-class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Templates_UnitTestCase {
+class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Templates_UnitTestCase
+{
     /**
      * Tear down each test method.
      *
      * @since 6.7.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $registry = WP_Block_Type_Registry::get_instance();
 
         if ($registry->is_registered('tests/my-block')) {
@@ -25,7 +27,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
     /**
      * @ticket 54335
      */
-    public function test_should_build_template() {
+    public function test_should_build_template()
+    {
         $template = _build_block_template_result_from_file(
             array(
                 'slug' => 'single',
@@ -48,7 +51,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
     /**
      * @ticket 59325
      */
-    public function test_should_build_template_using_custom_properties() {
+    public function test_should_build_template_using_custom_properties()
+    {
         $template = _build_block_template_result_from_file(
             array(
                 'slug'  => 'custom',
@@ -66,7 +70,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
     /**
      * @ticket 59325
      */
-    public function test_should_enforce_default_properties_when_building_template() {
+    public function test_should_enforce_default_properties_when_building_template()
+    {
         $template = _build_block_template_result_from_file(
             array(
                 'slug'  => 'single',
@@ -85,7 +90,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
     /**
      * @ticket 59325
      */
-    public function test_should_respect_post_types_property_when_building_template() {
+    public function test_should_respect_post_types_property_when_building_template()
+    {
         $template = _build_block_template_result_from_file(
             array(
                 'slug'      => 'single',
@@ -106,7 +112,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
      * @param string $filename The template's filename.
      * @param string $expected The expected block markup.
      */
-    public function test_should_build_template_and_inject_theme_attribute($filename, $expected) {
+    public function test_should_build_template_and_inject_theme_attribute($filename, $expected)
+    {
         $template = _build_block_template_result_from_file(
             array(
                 'slug' => 'single',
@@ -122,7 +129,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
      *
      * @return array[]
      */
-    public function data_build_template_injects_theme_attribute() {
+    public function data_build_template_injects_theme_attribute()
+    {
         return array(
             'a template with a template part block'  => array(
                 'filename' => 'template-with-template-part.html',
@@ -156,7 +164,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
     /**
      * @ticket 54335
      */
-    public function test_should_build_template_part() {
+    public function test_should_build_template_part()
+    {
         $template_part = _build_block_template_result_from_file(
             array(
                 'slug' => 'header',
@@ -180,7 +189,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
     /**
      * @ticket 59325
      */
-    public function test_should_ignore_post_types_property_when_building_template_part() {
+    public function test_should_ignore_post_types_property_when_building_template_part()
+    {
         $template = _build_block_template_result_from_file(
             array(
                 'slug'      => 'header',
@@ -196,7 +206,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
     /**
      * @ticket 60506
      */
-    public function test_should_inject_hooked_block_into_template_part() {
+    public function test_should_inject_hooked_block_into_template_part()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -221,7 +232,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
      * @ticket 60506
      * @ticket 60854
      */
-    public function test_should_injected_hooked_block_into_template_part_first_child() {
+    public function test_should_injected_hooked_block_into_template_part_first_child()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -246,7 +258,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromFile extends WP_Block_Te
      * @ticket 60506
      * @ticket 60854
      */
-    public function test_should_injected_hooked_block_into_template_part_last_child() {
+    public function test_should_injected_hooked_block_into_template_part_last_child()
+    {
         register_block_type(
             'tests/my-block',
             array(

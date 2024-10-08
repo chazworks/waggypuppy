@@ -4,8 +4,10 @@
  * @group media
  * @group taxonomy
  */
-class Tests_Media_GetAttachmentTaxonomies extends WP_UnitTestCase {
-    public function test_should_return_attachment_taxonomy() {
+class Tests_Media_GetAttachmentTaxonomies extends WP_UnitTestCase
+{
+    public function test_should_return_attachment_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'attachment');
 
         $a          = self::factory()->attachment->create_object(
@@ -24,7 +26,8 @@ class Tests_Media_GetAttachmentTaxonomies extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_should_return_taxonomy_registered_for_specific_attachment_type() {
+    public function test_should_return_taxonomy_registered_for_specific_attachment_type()
+    {
         register_taxonomy('wptests_tax', 'attachment:image');
 
         $a          = self::factory()->attachment->create_object(
@@ -43,7 +46,8 @@ class Tests_Media_GetAttachmentTaxonomies extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_should_return_taxonomy_registered_for_specific_attachment_mimetype() {
+    public function test_should_return_taxonomy_registered_for_specific_attachment_mimetype()
+    {
         register_taxonomy('wptests_tax', 'attachment:image/jpeg');
 
         $a          = self::factory()->attachment->create_object(
@@ -62,7 +66,8 @@ class Tests_Media_GetAttachmentTaxonomies extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_should_return_taxonomy_registered_for_specific_file_extension() {
+    public function test_should_return_taxonomy_registered_for_specific_file_extension()
+    {
         register_taxonomy('wptests_tax', 'attachment:jpg');
 
         $a          = self::factory()->attachment->create_object(
@@ -81,7 +86,8 @@ class Tests_Media_GetAttachmentTaxonomies extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_should_not_return_duplicate_taxonomies() {
+    public function test_should_not_return_duplicate_taxonomies()
+    {
         register_taxonomy('wptests_tax', array('attachment', 'attachment:image/jpeg'));
 
         $a          = self::factory()->attachment->create_object(
@@ -103,7 +109,8 @@ class Tests_Media_GetAttachmentTaxonomies extends WP_UnitTestCase {
     /**
      * @ticket 37368
      */
-    public function test_should_respect_output_objects() {
+    public function test_should_respect_output_objects()
+    {
         register_taxonomy('wptests_tax2', 'attachment:image');
 
         $a          = self::factory()->attachment->create_object(
@@ -127,7 +134,8 @@ class Tests_Media_GetAttachmentTaxonomies extends WP_UnitTestCase {
     /**
      * @ticket 37368
      */
-    public function test_should_return_unique_taxonomies_for_output_objects() {
+    public function test_should_return_unique_taxonomies_for_output_objects()
+    {
         register_taxonomy('wptests_tax2', array('attachment:image', 'attachment:image/jpeg'));
 
         $a          = self::factory()->attachment->create_object(

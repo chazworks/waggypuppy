@@ -16,7 +16,8 @@
  * @param WP_Block     $block           Block instance.
  * @return string
  */
-function block_core_comment_template_render_comments($comments, $block) {
+function block_core_comment_template_render_comments($comments, $block)
+{
     global $comment_depth;
     $thread_comments       = get_option('thread_comments');
     $thread_comments_depth = get_option('thread_comments_depth');
@@ -101,7 +102,8 @@ function block_core_comment_template_render_comments($comments, $block) {
  * @return string Returns the HTML representing the comments using the layout
  * defined by the block's inner blocks.
  */
-function render_block_core_comment_template($attributes, $content, $block) {
+function render_block_core_comment_template($attributes, $content, $block)
+{
     // Bail out early if the post ID is not set for some reason.
     if (empty($block->context['postId'])) {
         return '';
@@ -141,7 +143,8 @@ function render_block_core_comment_template($attributes, $content, $block) {
  *
  * @since 6.0.0
  */
-function register_block_core_comment_template() {
+function register_block_core_comment_template()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comment-template',
         array(

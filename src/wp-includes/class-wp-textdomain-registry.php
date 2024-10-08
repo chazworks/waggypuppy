@@ -16,7 +16,8 @@
  * @since 6.1.0
  */
 #[AllowDynamicProperties]
-class WP_Textdomain_Registry {
+class WP_Textdomain_Registry
+{
     /**
      * List of domains and all their language directory paths for each locale.
      *
@@ -76,7 +77,8 @@ class WP_Textdomain_Registry {
      *
      * @since 6.5.0
      */
-    public function init() {
+    public function init()
+    {
         add_action('upgrader_process_complete', array($this, 'invalidate_mo_files_cache'), 10, 2);
     }
 
@@ -90,7 +92,8 @@ class WP_Textdomain_Registry {
      *
      * @return string|false Languages directory path or false if there is none available.
      */
-    public function get($domain, $locale) {
+    public function get($domain, $locale)
+    {
         $path = $this->all[ $domain ][ $locale ] ?? $this->get_path_from_lang_dir($domain, $locale);
 
         /**
@@ -117,7 +120,8 @@ class WP_Textdomain_Registry {
      * @param string $domain Text domain.
      * @return bool Whether any MO file paths are available for the domain.
      */
-    public function has($domain) {
+    public function has($domain)
+    {
         return (
             isset($this->current[ $domain ]) ||
             empty($this->all[ $domain ]) ||
@@ -137,7 +141,8 @@ class WP_Textdomain_Registry {
      * @param string       $locale Locale.
      * @param string|false $path   Language directory path or false if there is none available.
      */
-    public function set($domain, $locale, $path) {
+    public function set($domain, $locale, $path)
+    {
         $this->all[ $domain ][ $locale ] = $path ? rtrim($path, '/') . '/' : false;
         $this->current[ $domain ]        = $this->all[ $domain ][ $locale ];
     }
@@ -152,7 +157,8 @@ class WP_Textdomain_Registry {
      * @param string $domain Text domain.
      * @param string $path   Language directory path.
      */
-    public function set_custom_path($domain, $path) {
+    public function set_custom_path($domain, $path)
+    {
         $this->custom_paths[ $domain ] = rtrim($path, '/');
     }
 
@@ -167,7 +173,8 @@ class WP_Textdomain_Registry {
      * @param string $path The directory path to search for translation files.
      * @return array Array of translation file paths. Can contain .mo and .l10n.php files.
      */
-    public function get_language_files_from_path($path) {
+    public function get_language_files_from_path($path)
+    {
         $path = rtrim($path, '/') . '/';
 
         /**
@@ -239,7 +246,8 @@ class WP_Textdomain_Registry {
      *     }
      * }
      */
-    public function invalidate_mo_files_cache($upgrader, $hook_extra) {
+    public function invalidate_mo_files_cache($upgrader, $hook_extra)
+    {
         if (! isset($hook_extra['type']) ||
             'translation' !== $hook_extra['type'] ||
             array() === $hook_extra['translations']
@@ -272,7 +280,8 @@ class WP_Textdomain_Registry {
      * @param string $domain Text domain.
      * @return string[] Array of language directory paths.
      */
-    private function get_paths_for_domain($domain) {
+    private function get_paths_for_domain($domain)
+    {
         $locations = array(
             WP_LANG_DIR . '/plugins',
             WP_LANG_DIR . '/themes',
@@ -299,7 +308,8 @@ class WP_Textdomain_Registry {
      * @param string $locale Locale.
      * @return string|false Language directory path or false if there is none available.
      */
-    private function get_path_from_lang_dir($domain, $locale) {
+    private function get_path_from_lang_dir($domain, $locale)
+    {
         $locations = $this->get_paths_for_domain($domain);
 
         $found_location = false;

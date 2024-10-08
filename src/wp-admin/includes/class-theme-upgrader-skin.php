@@ -15,7 +15,8 @@
  *
  * @see WP_Upgrader_Skin
  */
-class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
+class Theme_Upgrader_Skin extends WP_Upgrader_Skin
+{
 
     /**
      * Holds the theme slug in the Theme Directory.
@@ -36,7 +37,8 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
      * @param array $args Optional. The theme upgrader skin arguments to
      *                    override default options. Default empty array.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $defaults = array(
             'url'   => '',
             'theme' => '',
@@ -55,7 +57,8 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @since 2.8.0
      */
-    public function after() {
+    public function after()
+    {
         $this->decrement_update_count('theme');
 
         $update_actions = array();

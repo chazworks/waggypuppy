@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
+class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control
+{
 
     /**
      * Type of control, used by JS.
@@ -29,14 +30,16 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control {
      *
      * @since 4.3.0
      */
-    protected function render_content() {}
+    protected function render_content()
+    {}
 
     /**
      * Render the Underscore template for this control.
      *
      * @since 4.3.0
      */
-    protected function content_template() {
+    protected function content_template()
+    {
         ?>
         <label>
             <# if ( data.label ) { #>

@@ -4,12 +4,14 @@
  * @group l10n
  * @group i18n
  */
-class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
+class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
+{
     protected $orig_theme_dir;
     protected $theme_root;
     protected static $user_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_id = $factory->user->create(
             array(
                 'role'   => 'administrator',
@@ -18,7 +20,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
         );
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->theme_root     = DIR_TESTDATA . '/themedir1';
@@ -38,7 +41,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
         $wp_textdomain_registry = new WP_Textdomain_Registry();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes'], $GLOBALS['l10n'], $GLOBALS['l10n_unloaded']);
@@ -58,11 +62,13 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
     /**
      * Replace the normal theme root dir with our pre-made test dir.
      */
-    public function filter_theme_root() {
+    public function filter_theme_root()
+    {
         return $this->theme_root;
     }
 
-    public function filter_set_locale_to_german() {
+    public function filter_set_locale_to_german()
+    {
         return 'de_DE';
     }
 
@@ -71,7 +77,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::is_textdomain_loaded
      */
-    public function test_plugin_translation_should_be_translated_without_calling_load_plugin_textdomain() {
+    public function test_plugin_translation_should_be_translated_without_calling_load_plugin_textdomain()
+    {
         add_filter('locale', array($this, 'filter_set_locale_to_german'));
 
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
@@ -92,7 +99,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::is_textdomain_loaded
      */
-    public function test_plugin_translation_should_be_translated_with_only_an_l10n_php_file() {
+    public function test_plugin_translation_should_be_translated_with_only_an_l10n_php_file()
+    {
         add_filter('locale', array($this, 'filter_set_locale_to_german'));
 
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin-2.php';
@@ -113,7 +121,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::is_textdomain_loaded
      */
-    public function test_theme_translation_should_be_translated_without_calling_load_theme_textdomain() {
+    public function test_theme_translation_should_be_translated_without_calling_load_theme_textdomain()
+    {
         add_filter('locale', array($this, 'filter_set_locale_to_german'));
 
         switch_theme('internationalized-theme');
@@ -136,7 +145,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::get_translations_for_domain
      */
-    public function test_get_translations_for_domain_does_not_return_null_if_override_load_textdomain_is_used() {
+    public function test_get_translations_for_domain_does_not_return_null_if_override_load_textdomain_is_used()
+    {
         add_filter('locale', array($this, 'filter_set_locale_to_german'));
         add_filter('override_load_textdomain', '__return_true');
         $translations = get_translations_for_domain('internationalized-plugin');
@@ -151,7 +161,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::get_translations_for_domain
      */
-    public function test_get_translations_for_domain_get_locale_is_called_only_once() {
+    public function test_get_translations_for_domain_get_locale_is_called_only_once()
+    {
         $filter_locale = new MockAction();
         add_filter('locale', array($filter_locale, 'filter'));
 
@@ -172,7 +183,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::is_textdomain_loaded
      */
-    public function test_should_allow_unloading_of_text_domain() {
+    public function test_should_allow_unloading_of_text_domain()
+    {
         add_filter('locale', array($this, 'filter_set_locale_to_german'));
 
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
@@ -213,7 +225,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::switch_to_locale
      */
-    public function test_plugin_translation_after_switching_locale() {
+    public function test_plugin_translation_after_switching_locale()
+    {
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
 
         switch_to_locale('de_DE');
@@ -229,7 +242,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::switch_to_locale
      */
-    public function test_plugin_translation_after_switching_locale_twice() {
+    public function test_plugin_translation_after_switching_locale_twice()
+    {
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
 
         switch_to_locale('de_DE');
@@ -249,7 +263,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::switch_to_locale
      */
-    public function test_theme_translation_after_switching_locale() {
+    public function test_theme_translation_after_switching_locale()
+    {
         switch_theme('internationalized-theme');
 
         require_once get_stylesheet_directory() . '/functions.php';
@@ -268,7 +283,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::wp_set_current_user
      */
-    public function test_plugin_translation_with_user_locale() {
+    public function test_plugin_translation_with_user_locale()
+    {
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
 
         set_current_screen('dashboard');
@@ -284,7 +300,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::wp_set_current_user
      */
-    public function test_theme_translation_with_user_locale() {
+    public function test_theme_translation_with_user_locale()
+    {
         switch_theme('internationalized-theme');
         set_current_screen('dashboard');
         wp_set_current_user(self::$user_id);
@@ -303,7 +320,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::_load_textdomain_just_in_time
      */
-    public function test_get_locale_is_called_only_once_per_textdomain() {
+    public function test_get_locale_is_called_only_once_per_textdomain()
+    {
         $textdomain = 'foo-bar-baz';
 
         $filter = new MockAction();
@@ -325,7 +343,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase {
      *
      * @covers ::_load_textdomain_just_in_time
      */
-    public function test_get_locale_is_called_only_once_per_textdomain_with_custom_lang_dir() {
+    public function test_get_locale_is_called_only_once_per_textdomain_with_custom_lang_dir()
+    {
         load_plugin_textdomain('custom-internationalized-plugin', false, dirname(plugin_basename(__FILE__)) . '/languages');
 
         $textdomain = 'custom-internationalized-plugin';

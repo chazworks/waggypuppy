@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::copy
  */
-class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::copy()` overwrites an existing
@@ -22,7 +23,8 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_overwrite_an_existing_file_when_overwriting_is_enabled() {
+    public function test_should_overwrite_an_existing_file_when_overwriting_is_enabled()
+    {
         $source      = self::$file_structure['visible_file']['path'];
         $destination = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.dest';
 
@@ -43,7 +45,8 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_not_overwrite_an_existing_file_when_overwriting_is_disabled() {
+    public function test_should_not_overwrite_an_existing_file_when_overwriting_is_disabled()
+    {
         $source      = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.txt';
         $destination = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.dest';
 
@@ -65,7 +68,8 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_not_overwrite_when_overwriting_is_enabled_and_source_and_destination_are_the_same() {
+    public function test_should_not_overwrite_when_overwriting_is_enabled_and_source_and_destination_are_the_same()
+    {
         $source = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.txt';
         $this->assertFalse(self::$filesystem->copy($source, $source, true));
     }

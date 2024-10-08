@@ -4,8 +4,10 @@
  * @group taxonomy
  * @covers ::wp_delete_object_term_relationships
  */
-class Tests_Term_WpDeleteObjectTermRelationships extends WP_UnitTestCase {
-    public function test_single_taxonomy() {
+class Tests_Term_WpDeleteObjectTermRelationships extends WP_UnitTestCase
+{
+    public function test_single_taxonomy()
+    {
         register_taxonomy('wptests_tax1', 'post');
         register_taxonomy('wptests_tax2', 'post');
 
@@ -28,7 +30,8 @@ class Tests_Term_WpDeleteObjectTermRelationships extends WP_UnitTestCase {
         $this->assertSameSets(array($t1), $terms);
     }
 
-    public function test_array_of_taxonomies() {
+    public function test_array_of_taxonomies()
+    {
         register_taxonomy('wptests_tax1', 'post');
         register_taxonomy('wptests_tax2', 'post');
         register_taxonomy('wptests_tax3', 'post');

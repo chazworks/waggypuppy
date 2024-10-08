@@ -14,7 +14,8 @@ if (! class_exists('Translation_Entry', false)) :
      * @since 2.8.0
      */
     #[AllowDynamicProperties]
-    class Translation_Entry {
+    class Translation_Entry
+    {
 
         /**
          * Whether the entry contains a string and its plural form, default is false.
@@ -51,7 +52,8 @@ if (! class_exists('Translation_Entry', false)) :
          *     @type array  $flags               Flags like php-format.
          * }
          */
-        public function __construct($args = array()) {
+        public function __construct($args = array())
+        {
             // If no singular -- empty object.
             if (! isset($args['singular'])) {
                 return;
@@ -82,7 +84,8 @@ if (! class_exists('Translation_Entry', false)) :
          *
          * @see Translation_Entry::__construct()
          */
-        public function Translation_Entry($args = array()) {
+        public function Translation_Entry($args = array())
+        {
             _deprecated_constructor(self::class, '5.4.0', static::class);
             self::__construct($args);
         }
@@ -94,7 +97,8 @@ if (! class_exists('Translation_Entry', false)) :
          *
          * @return string|false The key or false if the entry is null.
          */
-        public function key() {
+        public function key()
+        {
             if (null === $this->singular) {
                 return false;
             }
@@ -114,7 +118,8 @@ if (! class_exists('Translation_Entry', false)) :
          *
          * @param Translation_Entry $other Other translation entry.
          */
-        public function merge_with(&$other) {
+        public function merge_with(&$other)
+        {
             $this->flags      = array_unique(array_merge($this->flags, $other->flags));
             $this->references = array_unique(array_merge($this->references, $other->references));
             if ($this->extracted_comments !== $other->extracted_comments) {

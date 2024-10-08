@@ -9,7 +9,8 @@
  * @group blocks
  * @group block-bindings
  */
-class WP_Block_Bindings_Render extends WP_UnitTestCase {
+class WP_Block_Bindings_Render extends WP_UnitTestCase
+{
 
     const SOURCE_NAME  = 'test/source';
     const SOURCE_LABEL = array(
@@ -21,7 +22,8 @@ class WP_Block_Bindings_Render extends WP_UnitTestCase {
      *
      * @since 6.5.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         foreach (get_all_registered_block_bindings_sources() as $source_name => $source_properties) {
             if (str_starts_with($source_name, 'test/')) {
                 unregister_block_bindings_source($source_name);
@@ -38,7 +40,8 @@ class WP_Block_Bindings_Render extends WP_UnitTestCase {
      *
      * @covers ::register_block_bindings_source
      */
-    public function test_update_block_with_value_from_source() {
+    public function test_update_block_with_value_from_source()
+    {
         $get_value_callback = function () {
             return 'test source value';
         };
@@ -79,7 +82,8 @@ HTML;
      *
      * @covers ::register_block_bindings_source
      */
-    public function test_passing_arguments_to_source() {
+    public function test_passing_arguments_to_source()
+    {
         $get_value_callback = function ($source_args, $block_instance, $attribute_name) {
             $value = $source_args['key'];
             return "The attribute name is '$attribute_name' and its binding has argument 'key' with value '$value'.";
@@ -121,7 +125,8 @@ HTML;
      *
      * @covers ::register_block_bindings_source
      */
-    public function test_passing_uses_context_to_source() {
+    public function test_passing_uses_context_to_source()
+    {
         $get_value_callback = function ($source_args, $block_instance, $attribute_name) {
             $value = $block_instance->context['sourceContext'];
             return "Value: $value";
@@ -164,7 +169,8 @@ HTML;
      *
      * @covers ::register_block_bindings_source
      */
-    public function test_blocks_can_just_access_the_specific_uses_context() {
+    public function test_blocks_can_just_access_the_specific_uses_context()
+    {
         register_block_bindings_source(
             'test/source-one',
             array(
@@ -227,7 +233,8 @@ HTML;
      *
      * @covers ::register_block_bindings_source
      */
-    public function test_update_block_with_value_from_source_image_placeholder() {
+    public function test_update_block_with_value_from_source_image_placeholder()
+    {
         $get_value_callback = function () {
             return 'https://example.com/image.jpg';
         };
@@ -268,7 +275,8 @@ HTML;
      *
      * @covers ::register_block_bindings_source
      */
-    public function test_source_value_with_unsafe_html_is_sanitized() {
+    public function test_source_value_with_unsafe_html_is_sanitized()
+    {
         $get_value_callback = function () {
             return '<script>alert("Unsafe HTML")</script>';
         };
@@ -304,7 +312,8 @@ HTML;
      *
      * @covers WP_Block::process_block_bindings
      */
-    public function test_using_symbols_in_block_bindings_value() {
+    public function test_using_symbols_in_block_bindings_value()
+    {
         $get_value_callback = function () {
             return '$12.50';
         };
@@ -342,7 +351,8 @@ HTML;
      *
      * @covers WP_Block::process_block_bindings
      */
-    public function test_default_binding_for_pattern_overrides() {
+    public function test_default_binding_for_pattern_overrides()
+    {
         $block_content = <<<HTML
 <!-- wp:paragraph {"metadata":{"bindings":{"__default":{"source":"core/pattern-overrides"}},"name":"Test"}} -->
 <p>This should not appear</p>
@@ -376,7 +386,8 @@ HTML;
      *
      * @ticket 61181
      */
-    public function test_filter_block_bindings_source_value() {
+    public function test_filter_block_bindings_source_value()
+    {
         register_block_bindings_source(
             self::SOURCE_NAME,
             array(

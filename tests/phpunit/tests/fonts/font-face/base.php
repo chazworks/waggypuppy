@@ -10,7 +10,8 @@ require_once __DIR__ . '/wp-font-face-tests-dataset.php';
 /**
  * Abstracts the common tasks for the Font Face tests.
  */
-abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase {
+abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase
+{
     use WP_Font_Face_Tests_Datasets;
 
     /**
@@ -58,7 +59,8 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase {
      */
     protected static $administrator_id = 0;
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         if (self::$requires_switch_theme_fixtures) {
@@ -66,14 +68,16 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase {
         }
     }
 
-    public static function tear_down_after_class() {
+    public static function tear_down_after_class()
+    {
         // Reset static flags.
         self::$requires_switch_theme_fixtures = false;
 
         parent::tear_down_after_class();
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         if (self::$requires_switch_theme_fixtures) {
@@ -93,7 +97,8 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase {
         }
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->property = array();
 
         // Reset the error reporting when modified within a test.
@@ -116,7 +121,8 @@ abstract class WP_Font_Face_UnitTestCase extends WP_UnitTestCase {
         parent::tear_down();
     }
 
-    public function filter_set_theme_root() {
+    public function filter_set_theme_root()
+    {
         return self::$theme_root;
     }
 }

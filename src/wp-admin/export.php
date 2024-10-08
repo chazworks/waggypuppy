@@ -24,7 +24,8 @@ $title = __('Export');
  *
  * @since 3.5.0
  */
-function export_add_js() {
+function export_add_js()
+{
     ?>
 <script type="text/javascript">
     jQuery( function($) {
@@ -136,7 +137,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
  *
  * @param string $post_type The post type. Default 'post'.
  */
-function export_date_options($post_type = 'post') {
+function export_date_options($post_type = 'post')
+{
     global $wpdb, $wp_locale;
 
     $months = $wpdb->get_results(

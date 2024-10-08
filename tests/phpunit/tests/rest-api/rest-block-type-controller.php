@@ -11,7 +11,8 @@
  * @group restapi-blocks
  * @group restapi
  */
-class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
+class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * Admin user ID.
@@ -38,7 +39,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_id      = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -58,7 +60,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
         register_block_type($name, $settings);
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
         self::delete_user(self::$subscriber_id);
         unregister_block_type('fake/test');
@@ -69,7 +72,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/block-types', $routes);
         $this->assertCount(1, $routes['/wp/v2/block-types']);
@@ -82,7 +86,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/block-types');
         $response = rest_get_server()->dispatch($request);
@@ -100,7 +105,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         $block_name = 'fake/test';
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/block-types/fake');
@@ -114,7 +120,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         $block_name = 'fake/test';
         wp_set_current_user(self::$admin_id);
         $request    = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_name);
@@ -126,7 +133,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_item_with_styles() {
+    public function test_get_item_with_styles()
+    {
         $block_name   = 'fake/styles';
         $block_styles = array(
             'name'         => 'fancy-quote',
@@ -145,7 +153,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_item_with_styles_merge() {
+    public function test_get_item_with_styles_merge()
+    {
         $block_name   = 'fake/styles2';
         $block_styles = array(
             'name'         => 'fancy-quote',
@@ -185,7 +194,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_block_invalid_name() {
+    public function test_get_block_invalid_name()
+    {
         $block_type = 'fake/block';
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
@@ -200,7 +210,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      * @ticket 59346
      * @ticket 59797
      */
-    public function test_get_item_invalid() {
+    public function test_get_item_invalid()
+    {
         $block_type = 'fake/invalid';
         $settings   = array(
             'title'            => true,
@@ -279,7 +290,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      * @ticket 59346
      * @ticket 59797
      */
-    public function test_get_item_defaults() {
+    public function test_get_item_defaults()
+    {
         $block_type = 'fake/false';
         $settings   = array(
             'title'            => false,
@@ -355,7 +367,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 56733
      */
-    public function test_get_item_deprecated() {
+    public function test_get_item_deprecated()
+    {
         $block_type = 'fake/deprecated';
         $settings   = array(
             'editor_script' => 'hello_world',
@@ -425,7 +438,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 56733
      */
-    public function test_get_item_deprecated_with_arrays() {
+    public function test_get_item_deprecated_with_arrays()
+    {
         $block_type = 'fake/deprecated-with-arrays';
         $settings   = array(
             'editor_script' => array('hello', 'world'),
@@ -494,7 +508,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
         );
     }
 
-    public function test_get_variation() {
+    public function test_get_variation()
+    {
         $block_type = 'fake/variations';
         $settings   = array(
             'title'       => 'variations block test',
@@ -558,7 +573,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      * @ticket 59346
      * @ticket 60403
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         wp_set_current_user(self::$admin_id);
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/block-types');
         $response   = rest_get_server()->dispatch($request);
@@ -604,7 +620,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_items_wrong_permission() {
+    public function test_get_items_wrong_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/block-types');
         $response = rest_get_server()->dispatch($request);
@@ -614,7 +631,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_item_wrong_permission() {
+    public function test_get_item_wrong_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/block-types/fake/test');
         $response = rest_get_server()->dispatch($request);
@@ -624,7 +642,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_items_no_permission() {
+    public function test_get_items_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/block-types');
         $response = rest_get_server()->dispatch($request);
@@ -634,7 +653,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_get_item_no_permission() {
+    public function test_get_item_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/block-types/fake/test');
         $response = rest_get_server()->dispatch($request);
@@ -644,7 +664,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $registry = new WP_Block_Type_Registry();
         $settings = array(
             'icon'            => 'text',
@@ -662,7 +683,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47620
      */
-    public function test_prepare_item_limit_fields() {
+    public function test_prepare_item_limit_fields()
+    {
         $registry = new WP_Block_Type_Registry();
         $settings = array(
             'icon'            => 'text',
@@ -693,7 +715,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      * @param array         $data Data to compare against.
      * @param array         $links Links to compare again.
      */
-    protected function check_block_type_object($block_type, $data, $links) {
+    protected function check_block_type_object($block_type, $data, $links)
+    {
         // Test data.
         $this->assertSame($data['attributes'], $block_type->get_attributes());
         $this->assertSame($data['is_dynamic'], $block_type->is_dynamic());
@@ -749,7 +772,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 59969
      */
-    public function test_variation_callback() {
+    public function test_variation_callback()
+    {
         $block_type = 'test/block';
         $settings   = array(
             'title'              => true,
@@ -768,7 +792,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      *
      * @return array
      */
-    public function mock_variation_callback() {
+    public function mock_variation_callback()
+    {
         return array(
             array('name' => 'var1'),
             array('name' => 'var2'),
@@ -780,7 +805,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      *
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
@@ -789,7 +815,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      *
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement create_item().
     }
 
@@ -798,7 +825,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase {
      *
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 }

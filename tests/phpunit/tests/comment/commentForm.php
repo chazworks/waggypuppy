@@ -5,14 +5,17 @@
  *
  * @covers ::comment_form
  */
-class Tests_Comment_CommentForm extends WP_UnitTestCase {
+class Tests_Comment_CommentForm extends WP_UnitTestCase
+{
     public static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = $factory->post->create();
     }
 
-    public function test_default_markup_for_submit_button_and_wrapper() {
+    public function test_default_markup_for_submit_button_and_wrapper()
+    {
         $p = self::factory()->post->create();
 
         $args = array(
@@ -29,7 +32,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
         $this->assertMatchesRegularExpression('|<p class="form\-submit">\s*' . $button . '\s*' . $hidden . '\s*|', $form);
     }
 
-    public function test_custom_submit_button() {
+    public function test_custom_submit_button()
+    {
         $p = self::factory()->post->create();
 
         $args = array(
@@ -46,7 +50,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
         $this->assertStringContainsString($button, $form);
     }
 
-    public function test_custom_submit_field() {
+    public function test_custom_submit_field()
+    {
         $p = self::factory()->post->create();
 
         $args = array(
@@ -67,7 +72,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
     /**
      * @ticket 32312
      */
-    public function test_submit_button_and_submit_field_should_fall_back_on_defaults_when_filtered_defaults_do_not_contain_the_keys() {
+    public function test_submit_button_and_submit_field_should_fall_back_on_defaults_when_filtered_defaults_do_not_contain_the_keys()
+    {
         $p = self::factory()->post->create();
 
         $args = array(
@@ -86,7 +92,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
         $this->assertMatchesRegularExpression('|<p class="form\-submit">\s*' . $button . '\s*' . $hidden . '\s*|', $form);
     }
 
-    public function filter_comment_form_defaults($defaults) {
+    public function filter_comment_form_defaults($defaults)
+    {
         unset($defaults['submit_field']);
         unset($defaults['submit_button']);
         return $defaults;
@@ -95,7 +102,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
     /**
      * @ticket 44126
      */
-    public function test_fields_should_include_cookies_consent() {
+    public function test_fields_should_include_cookies_consent()
+    {
         $p = self::factory()->post->create();
 
         add_filter('option_show_comments_cookies_opt_in', '__return_true');
@@ -116,7 +124,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
     /**
      * @ticket 47975
      */
-    public function test_aria_describedby_email_notes_should_not_be_added_if_no_email_notes() {
+    public function test_aria_describedby_email_notes_should_not_be_added_if_no_email_notes()
+    {
         $p = self::factory()->post->create();
 
         $form_with_aria = get_echo('comment_form', array(array(), $p));
@@ -135,7 +144,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
     /**
      * @ticket 32767
      */
-    public function test_when_thread_comments_enabled() {
+    public function test_when_thread_comments_enabled()
+    {
         update_option('thread_comments', true);
 
         $form     = get_echo('comment_form', array(array(), self::$post_id));
@@ -146,7 +156,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
     /**
      * @ticket 32767
      */
-    public function test_when_thread_comments_disabled() {
+    public function test_when_thread_comments_disabled()
+    {
         delete_option('thread_comments');
 
         $form     = get_echo('comment_form', array(array(), self::$post_id));
@@ -157,7 +168,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
     /**
      * @ticket 56243
      */
-    public function test_comment_form_should_not_display_for_global_post_when_called_with_invalid_id() {
+    public function test_comment_form_should_not_display_for_global_post_when_called_with_invalid_id()
+    {
         // Go to permalink to ensure global post ID is set.
         $this->go_to(get_permalink(self::$post_id));
 
@@ -170,7 +182,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
     /**
      * @ticket 56243
      */
-    public function test_comment_form_should_display_for_global_post_with_falsey_post_id() {
+    public function test_comment_form_should_display_for_global_post_with_falsey_post_id()
+    {
         $post_id = self::$post_id;
         $this->go_to(get_permalink($post_id));
 
@@ -184,7 +197,8 @@ class Tests_Comment_CommentForm extends WP_UnitTestCase {
     /**
      * @ticket 56243
      */
-    public function test_comment_form_should_display_for_specified_post_when_passed_a_valid_post_id() {
+    public function test_comment_form_should_display_for_specified_post_when_passed_a_valid_post_id()
+    {
         $post_id = self::$post_id;
 
         $form = get_echo('comment_form', array(array(), $post_id));

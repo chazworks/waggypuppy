@@ -14,7 +14,8 @@
  * @since 6.7.0 Now properly implements the SimplePie\Cache\Base interface.
  */
 #[AllowDynamicProperties]
-class WP_Feed_Cache_Transient implements SimplePie\Cache\Base {
+class WP_Feed_Cache_Transient implements SimplePie\Cache\Base
+{
 
     /**
      * Holds the transient name.
@@ -54,7 +55,8 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base {
      * @param Base::TYPE_FEED|Base::TYPE_IMAGE $type     Either `TYPE_FEED` ('spc') for SimplePie data,
      *                                                   or `TYPE_IMAGE` ('spi') for image data.
      */
-    public function __construct($location, $name, $type) {
+    public function __construct($location, $name, $type)
+    {
         $this->name     = 'feed_' . $name;
         $this->mod_name = 'feed_mod_' . $name;
 
@@ -79,7 +81,8 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base {
      *                                        only cache the `$data` property.
      * @return true Always true.
      */
-    public function save($data) {
+    public function save($data)
+    {
         if ($data instanceof SimplePie\SimplePie) {
             $data = $data->data;
         }
@@ -96,7 +99,8 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base {
      *
      * @return array Data for `SimplePie::$data`.
      */
-    public function load() {
+    public function load()
+    {
         return get_transient($this->name);
     }
 
@@ -107,7 +111,8 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base {
      *
      * @return int Timestamp.
      */
-    public function mtime() {
+    public function mtime()
+    {
         return get_transient($this->mod_name);
     }
 
@@ -118,7 +123,8 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base {
      *
      * @return bool False if value was not set and true if value was set.
      */
-    public function touch() {
+    public function touch()
+    {
         return set_transient($this->mod_name, time(), $this->lifetime);
     }
 
@@ -129,7 +135,8 @@ class WP_Feed_Cache_Transient implements SimplePie\Cache\Base {
      *
      * @return true Always true.
      */
-    public function unlink() {
+    public function unlink()
+    {
         delete_transient($this->name);
         delete_transient($this->mod_name);
         return true;

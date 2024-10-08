@@ -6,9 +6,11 @@
  *
  * @covers ::wp_dropdown_pages
  */
-class Tests_Post_wpDropdownPages extends WP_UnitTestCase {
+class Tests_Post_wpDropdownPages extends WP_UnitTestCase
+{
 
-    public function test_wp_dropdown_pages() {
+    public function test_wp_dropdown_pages()
+    {
         $none = wp_dropdown_pages(array('echo' => 0));
         $this->assertEmpty($none);
 
@@ -100,7 +102,8 @@ NO;
     /**
      * @ticket 12494
      */
-    public function test_wp_dropdown_pages_value_field_should_default_to_ID() {
+    public function test_wp_dropdown_pages_value_field_should_default_to_ID()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -120,7 +123,8 @@ NO;
     /**
      * @ticket 12494
      */
-    public function test_wp_dropdown_pages_value_field_ID() {
+    public function test_wp_dropdown_pages_value_field_ID()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -140,7 +144,8 @@ NO;
     /**
      * @ticket 12494
      */
-    public function test_wp_dropdown_pages_value_field_post_name() {
+    public function test_wp_dropdown_pages_value_field_post_name()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -161,7 +166,8 @@ NO;
     /**
      * @ticket 12494
      */
-    public function test_wp_dropdown_pages_value_field_should_fall_back_on_ID_when_an_invalid_value_is_provided() {
+    public function test_wp_dropdown_pages_value_field_should_fall_back_on_ID_when_an_invalid_value_is_provided()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -182,7 +188,8 @@ NO;
     /**
      * @ticket 30082
      */
-    public function test_wp_dropdown_pages_should_not_contain_class_attribute_when_no_class_is_passed() {
+    public function test_wp_dropdown_pages_should_not_contain_class_attribute_when_no_class_is_passed()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -202,7 +209,8 @@ NO;
     /**
      * @ticket 30082
      */
-    public function test_wp_dropdown_pages_should_obey_class_parameter() {
+    public function test_wp_dropdown_pages_should_obey_class_parameter()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_type' => 'page',

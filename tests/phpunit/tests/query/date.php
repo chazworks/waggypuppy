@@ -6,13 +6,15 @@
  * @group query
  * @group date
  */
-class Tests_Query_Date extends WP_UnitTestCase {
+class Tests_Query_Date extends WP_UnitTestCase
+{
 
     public $q;
 
     public static $post_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Be careful modifying this. Tests are coded to expect this exact sample data.
         $post_dates = array(
             '1972-05-24 14:53:45',
@@ -45,13 +47,15 @@ class Tests_Query_Date extends WP_UnitTestCase {
         }
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         unset($this->q);
         $this->q = new WP_Query();
     }
 
-    public function _get_query_result($args = array()) {
+    public function _get_query_result($args = array())
+    {
         $args = wp_parse_args(
             $args,
             array(
@@ -65,7 +69,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         return $this->q->query($args);
     }
 
-    public function test_simple_year_expecting_results() {
+    public function test_simple_year_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'year' => 2008,
@@ -81,7 +86,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_year_expecting_noresults() {
+    public function test_simple_year_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'year' => 2000,
@@ -91,7 +97,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_m_with_year_expecting_results() {
+    public function test_simple_m_with_year_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '2007',
@@ -107,7 +114,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_m_with_year_expecting_noresults() {
+    public function test_simple_m_with_year_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '1999',
@@ -117,7 +125,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_m_with_yearmonth_expecting_results() {
+    public function test_simple_m_with_yearmonth_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '202504',
@@ -132,7 +141,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_m_with_yearmonth_expecting_noresults() {
+    public function test_simple_m_with_yearmonth_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '202502',
@@ -142,7 +152,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_m_with_yearmonthday_expecting_results() {
+    public function test_simple_m_with_yearmonthday_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '20250420',
@@ -157,7 +168,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_m_with_yearmonthday_expecting_noresults() {
+    public function test_simple_m_with_yearmonthday_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '20250419',
@@ -167,7 +179,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_m_with_yearmonthdayhour_expecting_results() {
+    public function test_simple_m_with_yearmonthdayhour_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '2025042010',
@@ -182,7 +195,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_m_with_yearmonthdayhour_expecting_noresults() {
+    public function test_simple_m_with_yearmonthdayhour_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '2025042009',
@@ -195,7 +209,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
     /**
      * @ticket 24884
      */
-    public function test_simple_m_with_yearmonthdayhourminute_expecting_results() {
+    public function test_simple_m_with_yearmonthdayhourminute_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '202504201013',
@@ -213,7 +228,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
     /**
      * @ticket 24884
      */
-    public function test_simple_m_with_yearmonthdayhourminute_expecting_noresults() {
+    public function test_simple_m_with_yearmonthdayhourminute_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '202504201012',
@@ -226,7 +242,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
     /**
      * @ticket 24884
      */
-    public function test_simple_m_with_yearmonthdayhourminutesecond_expecting_results() {
+    public function test_simple_m_with_yearmonthdayhourminutesecond_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '20250420101301',
@@ -243,7 +260,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
     /**
      * @ticket 24884
      */
-    public function test_simple_m_with_yearmonthdayhourminutesecond_expecting_noresults() {
+    public function test_simple_m_with_yearmonthdayhourminutesecond_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '20250420101302',
@@ -256,7 +274,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
     /**
      * @ticket 24884
      */
-    public function test_simple_m_with_yearmonthdayhourminutesecond_and_dashes_expecting_results() {
+    public function test_simple_m_with_yearmonthdayhourminutesecond_and_dashes_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => '2025-04-20 10:13:00',
@@ -273,7 +292,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
     /**
      * @ticket 24884
      */
-    public function test_simple_m_with_yearmonthdayhourminutesecond_and_dashesletters_expecting_results() {
+    public function test_simple_m_with_yearmonthdayhourminutesecond_and_dashesletters_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'm' => 'alpha2025-04-20 10:13:00',
@@ -290,7 +310,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
     /**
      * @ticket 36718
      */
-    public function test_non_scalar_m_should_be_discarded() {
+    public function test_non_scalar_m_should_be_discarded()
+    {
         $expected = $this->_get_query_result();
         $posts    = $this->_get_query_result(
             array(
@@ -301,7 +322,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertEqualSets($expected, $posts);
     }
 
-    public function test_simple_monthnum_expecting_results() {
+    public function test_simple_monthnum_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'monthnum' => 5,
@@ -319,7 +341,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_monthnum_expecting_noresults() {
+    public function test_simple_monthnum_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'monthnum' => 8,
@@ -329,7 +352,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_w_as_in_week_expecting_results() {
+    public function test_simple_w_as_in_week_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'w' => 24,
@@ -345,7 +369,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_w_as_in_week_expecting_noresults() {
+    public function test_simple_w_as_in_week_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'w' => 2,
@@ -355,7 +380,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_day_expecting_results() {
+    public function test_simple_day_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'day' => 22,
@@ -370,7 +396,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_day_expecting_noresults() {
+    public function test_simple_day_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'day' => 30,
@@ -380,7 +407,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_hour_expecting_results() {
+    public function test_simple_hour_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'hour' => 21,
@@ -394,7 +422,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_hour_expecting_noresults() {
+    public function test_simple_hour_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'hour' => 2,
@@ -404,7 +433,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_minute_expecting_results() {
+    public function test_simple_minute_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'minute' => 32,
@@ -419,7 +449,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_minute_expecting_noresults() {
+    public function test_simple_minute_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'minute' => 1,
@@ -429,7 +460,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertCount(0, $posts);
     }
 
-    public function test_simple_second_expecting_results() {
+    public function test_simple_second_expecting_results()
+    {
         $posts = $this->_get_query_result(
             array(
                 'second' => 30,
@@ -443,7 +475,8 @@ class Tests_Query_Date extends WP_UnitTestCase {
         $this->assertSame($expected_dates, wp_list_pluck($posts, 'post_date'));
     }
 
-    public function test_simple_second_expecting_noresults() {
+    public function test_simple_second_expecting_noresults()
+    {
         $posts = $this->_get_query_result(
             array(
                 'second' => 50,

@@ -15,14 +15,16 @@ require_once __DIR__ . '/base.php';
  * @covers WP_Plugin_Dependencies::get_dependency_filepaths
  * @covers WP_Plugin_Dependencies::get_plugin_dirnames
  */
-class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDependencies_UnitTestCase {
+class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDependencies_UnitTestCase
+{
 
     /**
      * Tests that false is returned if Plugin Dependencies has not been initialized.
      *
      * @ticket 60457
      */
-    public function test_should_return_false_before_initialization() {
+    public function test_should_return_false_before_initialization()
+    {
         // Ensure Plugin Dependencies has not been initialized.
         $this->assertFalse(
             $this->get_property_value('initialized'),
@@ -52,7 +54,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
      * @param string[]     $plugins         An array of plugin paths.
      * @param string|false $expected       The expected result.
      */
-    public function test_should_return_filepaths_for_installed_dependencies($dependency_slug, $plugins, $expected) {
+    public function test_should_return_filepaths_for_installed_dependencies($dependency_slug, $plugins, $expected)
+    {
         $this->set_property_value('plugins', $plugins);
         $this->assertNull($this->get_property_value('dependency_filepaths'));
         self::$instance::initialize();
@@ -69,7 +72,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
      *
      * @return array[]
      */
-    public function data_get_dependency_filepath() {
+    public function data_get_dependency_filepath()
+    {
         return array(
             'no plugins'                      => array(
                 'dependency_slug' => 'dependency',
@@ -116,7 +120,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
      *
      * @ticket 22316
      */
-    public function test_should_return_existing_value_for_dependency_filepaths() {
+    public function test_should_return_existing_value_for_dependency_filepaths()
+    {
         $expected = 'dependency/dependency.php';
 
         $this->set_property_value('dependency_filepaths', array('dependency' => $expected));
@@ -152,7 +157,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
      *
      * @ticket 22316
      */
-    public function test_should_return_empty_array_for_no_plugin_dirnames() {
+    public function test_should_return_empty_array_for_no_plugin_dirnames()
+    {
         $this->set_property_value('dependency_slugs', array());
         $this->assertFalse(self::$instance::get_dependency_filepath('dependency'));
     }

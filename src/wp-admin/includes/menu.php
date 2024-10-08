@@ -202,7 +202,8 @@ unset($id, $data, $subs, $first_sub);
  * @param string $classes      The string to add the CSS class to.
  * @return string The string with the CSS class added.
  */
-function add_cssclass($class_to_add, $classes) {
+function add_cssclass($class_to_add, $classes)
+{
     if (empty($classes)) {
         return $class_to_add;
     }
@@ -220,7 +221,8 @@ function add_cssclass($class_to_add, $classes) {
  * @param array $menu The array of administration menu items.
  * @return array The array of administration menu items with the CSS classes added.
  */
-function add_menu_classes($menu) {
+function add_menu_classes($menu)
+{
     $first_item  = false;
     $last_order  = false;
     $items_count = count($menu);
@@ -316,7 +318,8 @@ if (apply_filters('custom_menu_order', false)) {
      * @param array $b
      * @return int
      */
-    function sort_menu($a, $b) {
+    function sort_menu($a, $b)
+    {
         global $menu_order, $default_menu_order;
 
         $a = $a[2];

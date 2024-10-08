@@ -5,14 +5,16 @@
  *
  * @covers ::array_is_list
  */
-class Tests_Compat_arrayIsList extends WP_UnitTestCase {
+class Tests_Compat_arrayIsList extends WP_UnitTestCase
+{
 
     /**
      * Test that array_is_list() is always available (either from PHP or WP).
      *
      * @ticket 55105
      */
-    public function test_array_is_list_availability() {
+    public function test_array_is_list_availability()
+    {
         $this->assertTrue(function_exists('array_is_list'));
     }
 
@@ -24,7 +26,8 @@ class Tests_Compat_arrayIsList extends WP_UnitTestCase {
      * @param bool  $expected Whether the array is a list.
      * @param array $arr      The array.
      */
-    public function test_array_is_list($expected, $arr) {
+    public function test_array_is_list($expected, $arr)
+    {
         $this->assertSame($expected, array_is_list($arr));
     }
 
@@ -33,7 +36,8 @@ class Tests_Compat_arrayIsList extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_array_is_list() {
+    public function data_array_is_list()
+    {
         return array(
             'empty array'                   => array(
                 'expected' => true,

@@ -13,7 +13,8 @@
  * @param array $classes Classes for the body element.
  * @return array
  */
-function twentyseventeen_body_classes($classes) {
+function twentyseventeen_body_classes($classes)
+{
     // Add class of group-blog to blogs with more than 1 published author.
     if (is_multi_author()) {
         $classes[] = 'group-blog';
@@ -73,7 +74,8 @@ add_filter('body_class', 'twentyseventeen_body_classes');
  *
  * @return int The number of active panels.
  */
-function twentyseventeen_panel_count() {
+function twentyseventeen_panel_count()
+{
 
     $panel_count = 0;
 
@@ -101,6 +103,7 @@ function twentyseventeen_panel_count() {
  *
  * @return bool Whether we are on the front page or not.
  */
-function twentyseventeen_is_frontpage() {
+function twentyseventeen_is_frontpage()
+{
     return (is_front_page() && ! is_home());
 }

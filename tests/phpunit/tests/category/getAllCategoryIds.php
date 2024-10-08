@@ -5,14 +5,16 @@
  *
  * @covers ::get_all_category_ids
  */
-class Tests_Category_GetAllCategoryIds extends WP_UnitTestCase {
+class Tests_Category_GetAllCategoryIds extends WP_UnitTestCase
+{
 
     /**
      * Validate get_all_category_ids
      *
      * @expectedDeprecated get_all_category_ids
      */
-    public function test_get_all_category_ids() {
+    public function test_get_all_category_ids()
+    {
         // Ccreate categories.
         self::factory()->category->create_many(2);
 

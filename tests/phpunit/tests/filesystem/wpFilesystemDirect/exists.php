@@ -12,7 +12,8 @@
  *
  * @covers WP_Filesystem_Direct::exists
  */
-class Tests_Filesystem_WpFilesystemDirect_Exists extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Exists extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::exists()` determines that
@@ -24,7 +25,8 @@ class Tests_Filesystem_WpFilesystemDirect_Exists extends WP_Filesystem_Direct_Un
      *
      * @param string $path The path to check.
      */
-    public function test_should_determine_that_a_path_exists($path) {
+    public function test_should_determine_that_a_path_exists($path)
+    {
         $this->assertTrue(self::$filesystem->exists(self::$file_structure['test_dir']['path'] . $path));
     }
 
@@ -38,7 +40,8 @@ class Tests_Filesystem_WpFilesystemDirect_Exists extends WP_Filesystem_Direct_Un
      *
      * @param string $path The path to check.
      */
-    public function test_should_determine_that_a_path_does_not_exist($path) {
+    public function test_should_determine_that_a_path_does_not_exist($path)
+    {
         $this->assertFalse(self::$filesystem->exists(self::$file_structure['test_dir']['path'] . $path));
     }
 }

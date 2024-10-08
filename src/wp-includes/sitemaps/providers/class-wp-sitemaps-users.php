@@ -14,13 +14,15 @@
  *
  * @since 5.5.0
  */
-class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
+class WP_Sitemaps_Users extends WP_Sitemaps_Provider
+{
     /**
      * WP_Sitemaps_Users constructor.
      *
      * @since 5.5.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->name        = 'users';
         $this->object_type = 'user';
     }
@@ -36,7 +38,8 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
      *                               provider class. Default empty.
      * @return array[] Array of URL information for a sitemap.
      */
-    public function get_url_list($page_num, $object_subtype = '') {
+    public function get_url_list($page_num, $object_subtype = '')
+    {
         /**
          * Filters the users URL list before it is generated.
          *
@@ -97,7 +100,8 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
      *                               provider class. Default empty.
      * @return int Total page count.
      */
-    public function get_max_num_pages($object_subtype = '') {
+    public function get_max_num_pages($object_subtype = '')
+    {
         /**
          * Filters the max number of pages for a user sitemap before it is generated.
          *
@@ -129,7 +133,8 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
      *
      * @return array Array of WP_User_Query arguments.
      */
-    protected function get_users_query_args() {
+    protected function get_users_query_args()
+    {
         $public_post_types = get_post_types(
             array(
                 'public' => true,

@@ -13,7 +13,8 @@
  *
  * @covers ::_prime_post_parent_id_caches
  */
-class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
+class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase
+{
 
     /**
      * Post IDs.
@@ -27,14 +28,16 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The unit test factory.
      */
-    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$posts = $factory->post->create_many(3);
     }
 
     /**
      * @ticket 59188
      */
-    public function test_prime_post_parent_id_caches() {
+    public function test_prime_post_parent_id_caches()
+    {
         $post_id = self::$posts[0];
 
         $before_num_queries = get_num_queries();
@@ -48,7 +51,8 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
     /**
      * @ticket 59188
      */
-    public function test_prime_post_parent_id_caches_multiple() {
+    public function test_prime_post_parent_id_caches_multiple()
+    {
         $before_num_queries = get_num_queries();
         _prime_post_parent_id_caches(self::$posts);
         $num_queries = get_num_queries() - $before_num_queries;
@@ -67,7 +71,8 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
     /**
      * @ticket 59188
      */
-    public function test_prime_post_parent_id_caches_multiple_runs() {
+    public function test_prime_post_parent_id_caches_multiple_runs()
+    {
         _prime_post_parent_id_caches(self::$posts);
         $before_num_queries = get_num_queries();
         _prime_post_parent_id_caches(self::$posts);
@@ -79,7 +84,8 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
     /**
      * @ticket 59188
      */
-    public function test_prime_post_parent_id_caches_update() {
+    public function test_prime_post_parent_id_caches_update()
+    {
         $page_id            = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -111,7 +117,8 @@ class Tests_Post_PrimePostParentIdCaches extends WP_UnitTestCase {
     /**
      * @ticket 59188
      */
-    public function test_prime_post_parent_id_caches_delete() {
+    public function test_prime_post_parent_id_caches_delete()
+    {
         $parent_page_id     = self::factory()->post->create(
             array(
                 'post_type' => 'page',

@@ -7,14 +7,16 @@
  *
  * @covers ::wp_get_wp_version
  */
-class Tests_Functions_WpGetWpVersion extends WP_UnitTestCase {
+class Tests_Functions_WpGetWpVersion extends WP_UnitTestCase
+{
 
     /**
      * Tests that the WordPress version is returned.
      *
      * @ticket 61627
      */
-    public function test_should_return_wp_version() {
+    public function test_should_return_wp_version()
+    {
         $this->assertSame($GLOBALS['wp_version'], wp_get_wp_version());
     }
 
@@ -23,7 +25,8 @@ class Tests_Functions_WpGetWpVersion extends WP_UnitTestCase {
      *
      * @ticket 61627
      */
-    public function test_should_ignore_changes_to_wp_version_global() {
+    public function test_should_ignore_changes_to_wp_version_global()
+    {
         $original_wp_version   = $GLOBALS['wp_version'];
         $GLOBALS['wp_version'] = 'modified_wp_version';
         $actual                = wp_get_wp_version();

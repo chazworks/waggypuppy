@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Image_Control
  */
-class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
+class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control
+{
 
     /**
      * Customize control type.
@@ -32,7 +33,8 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
      *
      * @param WP_Customize_Manager $manager Customizer bootstrap instance.
      */
-    public function __construct($manager) {
+    public function __construct($manager)
+    {
         parent::__construct(
             $manager,
             'background_image',
@@ -48,7 +50,8 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
      *
      * @since 4.1.0
      */
-    public function enqueue() {
+    public function enqueue()
+    {
         parent::enqueue();
 
         $custom_background = get_theme_support('custom-background');

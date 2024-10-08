@@ -5,7 +5,8 @@ if (is_multisite()) :
     /**
      * @group multisite
      */
-    class Tests_Multisite_wpmuValidateBlogSignup extends WP_UnitTestCase {
+    class Tests_Multisite_wpmuValidateBlogSignup extends WP_UnitTestCase
+    {
         protected static $super_admin_id;
 
         protected static $existing_user_login = 'existinguserfoo';
@@ -16,7 +17,8 @@ if (is_multisite()) :
 
         protected $minimum_site_name_length = 4;
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$super_admin_id = $factory->user->create();
             grant_super_admin(self::$super_admin_id);
 
@@ -41,7 +43,8 @@ if (is_multisite()) :
             );
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             revoke_super_admin(self::$super_admin_id);
             wpmu_delete_user(self::$super_admin_id);
 
@@ -53,12 +56,14 @@ if (is_multisite()) :
         /**
          * @dataProvider data_validate_blogname
          */
-        public function test_validate_blogname($blog_name, $error_message) {
+        public function test_validate_blogname($blog_name, $error_message)
+        {
             $result = wpmu_validate_blog_signup($blog_name, 'Foo Site Title', get_userdata(self::$super_admin_id));
             $this->assertContains('blogname', $result['errors']->get_error_codes(), $error_message);
         }
 
-        public function data_validate_blogname() {
+        public function data_validate_blogname()
+        {
             $data = array(
                 array('', 'Site names must not be empty.'),
                 array('foo-hello', 'Site names must not contain hyphens.'),
@@ -81,12 +86,14 @@ if (is_multisite()) :
             return $data;
         }
 
-        public function test_validate_empty_blog_title() {
+        public function test_validate_empty_blog_title()
+        {
             $result = wpmu_validate_blog_signup('uniqueblogname1234', '', get_userdata(self::$super_admin_id));
             $this->assertContains('blog_title', $result['errors']->get_error_codes(), 'Site titles must not be empty.');
         }
 
-        public function test_validate_blogname_from_same_existing_user() {
+        public function test_validate_blogname_from_same_existing_user()
+        {
             $result = wpmu_validate_blog_signup(self::$existing_user_login, 'Foo Site Title', get_userdata(self::$existing_user_id));
             $this->assertEmpty($result['errors']->get_error_codes());
         }
@@ -96,7 +103,8 @@ if (is_multisite()) :
          *
          * @dataProvider data_filter_minimum_site_name_length
          */
-        public function test_filter_minimum_site_name_length($site_name, $minimum_length, $expect_error) {
+        public function test_filter_minimum_site_name_length($site_name, $minimum_length, $expect_error)
+        {
             $this->minimum_site_name_length = $minimum_length;
             add_filter('minimum_site_name_length', array($this, 'filter_minimum_site_name_length'));
 
@@ -112,7 +120,8 @@ if (is_multisite()) :
             }
         }
 
-        public function data_filter_minimum_site_name_length() {
+        public function data_filter_minimum_site_name_length()
+        {
             return array(
                 array('fooo', 5, true),
                 array('foooo', 5, false),
@@ -123,14 +132,16 @@ if (is_multisite()) :
             );
         }
 
-        public function filter_minimum_site_name_length() {
+        public function filter_minimum_site_name_length()
+        {
             return $this->minimum_site_name_length;
         }
 
         /**
          * @ticket 43667
          */
-        public function test_signup_nonce_check() {
+        public function test_signup_nonce_check()
+        {
             $original_php_self       = $_SERVER['PHP_SELF'];
             $_SERVER['PHP_SELF']     = '/wp-signup.php';
             $_POST['signup_form_id'] = 'blog-signup-form';
@@ -145,7 +156,8 @@ if (is_multisite()) :
         /**
          * @ticket 43667
          */
-        public function test_signup_nonce_check_invalid() {
+        public function test_signup_nonce_check_invalid()
+        {
             $original_php_self       = $_SERVER['PHP_SELF'];
             $_SERVER['PHP_SELF']     = '/wp-signup.php';
             $_POST['signup_form_id'] = 'blog-signup-form';

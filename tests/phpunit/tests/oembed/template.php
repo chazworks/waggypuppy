@@ -3,23 +3,27 @@
 /**
  * @group oembed
  */
-class Tests_Embed_Template extends WP_UnitTestCase {
+class Tests_Embed_Template extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         global $wp_scripts;
         $wp_scripts = null;
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         parent::tear_down();
 
         global $wp_scripts;
         $wp_scripts = null;
     }
 
-    public function test_oembed_output_post() {
+    public function test_oembed_output_post()
+    {
         $user = self::factory()->user->create_and_get(
             array(
                 'display_name' => 'John Doe',
@@ -51,7 +55,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertStringContainsString('Hello World', $actual);
     }
 
-    public function test_oembed_output_post_with_thumbnail() {
+    public function test_oembed_output_post_with_thumbnail()
+    {
         $post_id       = self::factory()->post->create(
             array(
                 'post_title'   => 'Hello World',
@@ -84,7 +89,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertStringContainsString('canola.jpg', $actual);
     }
 
-    public function test_oembed_output_404() {
+    public function test_oembed_output_404()
+    {
         $this->go_to(home_url('/?p=123&embed=true'));
         $GLOBALS['wp_query']->query_vars['embed'] = true;
 
@@ -99,7 +105,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertStringContainsString('That embed cannot be found.', $actual);
     }
 
-    public function test_oembed_output_attachment() {
+    public function test_oembed_output_attachment()
+    {
         $post          = self::factory()->post->create_and_get();
         $file          = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_id = self::factory()->attachment->create_object(
@@ -128,7 +135,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertStringContainsString('canola.jpg', $actual);
     }
 
-    public function test_oembed_output_draft_post() {
+    public function test_oembed_output_draft_post()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_title'   => 'Hello World',
@@ -151,7 +159,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertStringContainsString('That embed cannot be found.', $actual);
     }
 
-    public function test_oembed_output_scheduled_post() {
+    public function test_oembed_output_scheduled_post()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_title'   => 'Hello World',
@@ -175,7 +184,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertStringContainsString('That embed cannot be found.', $actual);
     }
 
-    public function test_oembed_output_private_post() {
+    public function test_oembed_output_private_post()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_title'   => 'Hello World',
@@ -198,7 +208,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertStringContainsString('That embed cannot be found.', $actual);
     }
 
-    public function test_oembed_output_private_post_with_permissions() {
+    public function test_oembed_output_private_post_with_permissions()
+    {
         $user_id = self::factory()->user->create(array('role' => 'editor'));
         wp_set_current_user($user_id);
 
@@ -226,13 +237,15 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertStringContainsString('Hello World', $actual);
     }
 
-    public function test_wp_embed_excerpt_more_no_embed() {
+    public function test_wp_embed_excerpt_more_no_embed()
+    {
         $GLOBALS['wp_query'] = new WP_Query();
 
         $this->assertSame('foo bar', wp_embed_excerpt_more('foo bar'));
     }
 
-    public function test_wp_embed_excerpt_more() {
+    public function test_wp_embed_excerpt_more()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_title'   => 'Foo Bar',
@@ -254,7 +267,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function test_is_embed_post() {
+    public function test_is_embed_post()
+    {
         $this->assertFalse(is_embed());
 
         $post_id = self::factory()->post->create();
@@ -262,7 +276,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertTrue(is_embed());
     }
 
-    public function test_is_embed_attachment() {
+    public function test_is_embed_attachment()
+    {
         $post_id       = self::factory()->post->create();
         $file          = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_id = self::factory()->attachment->create_object(
@@ -276,17 +291,20 @@ class Tests_Embed_Template extends WP_UnitTestCase {
         $this->assertTrue(is_embed());
     }
 
-    public function test_is_embed_404() {
+    public function test_is_embed_404()
+    {
         $this->go_to(home_url('/?p=12345&embed=true'));
         $this->assertTrue(is_embed());
     }
 
-    public function test_get_post_embed_html_non_existent_post() {
+    public function test_get_post_embed_html_non_existent_post()
+    {
         $this->assertFalse(get_post_embed_html(200, 200, 0));
         $this->assertFalse(get_post_embed_html(200, 200));
     }
 
-    public function test_get_post_embed_html() {
+    public function test_get_post_embed_html()
+    {
         $post_id = self::factory()->post->create();
         $title   = esc_attr(
             sprintf(
@@ -306,7 +324,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
     }
 
     /** @covers ::wp_oembed_add_host_js() */
-    public function test_add_host_js() {
+    public function test_add_host_js()
+    {
         remove_all_filters('embed_oembed_html');
 
         // This function is now a no-op.
@@ -316,7 +335,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
     }
 
     /** @covers ::wp_maybe_enqueue_oembed_host_js() */
-    public function test_wp_maybe_enqueue_oembed_host_js() {
+    public function test_wp_maybe_enqueue_oembed_host_js()
+    {
         $scripts = wp_scripts();
 
         $this->assertFalse($scripts->query('wp-embed', 'enqueued'));
@@ -332,7 +352,8 @@ class Tests_Embed_Template extends WP_UnitTestCase {
     }
 
     /** @covers ::wp_maybe_enqueue_oembed_host_js() */
-    public function test_wp_maybe_enqueue_oembed_host_js_without_wp_head_action() {
+    public function test_wp_maybe_enqueue_oembed_host_js_without_wp_head_action()
+    {
         $scripts = wp_scripts();
 
         remove_action('wp_head', 'wp_oembed_add_host_js');

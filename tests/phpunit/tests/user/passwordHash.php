@@ -5,9 +5,11 @@
  *
  * @covers PasswordHash
  */
-class Tests_User_PasswordHash extends WP_UnitTestCase {
+class Tests_User_PasswordHash extends WP_UnitTestCase
+{
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . WPINC . '/class-phpass.php';
@@ -26,7 +28,8 @@ class Tests_User_PasswordHash extends WP_UnitTestCase {
      * @requires PHP 8.1
      * @doesNotPerformAssertions
      */
-    public function test_gensalt_blowfish_should_not_throw_deprecation_notice_on_php81() {
+    public function test_gensalt_blowfish_should_not_throw_deprecation_notice_on_php81()
+    {
         $hasher = new PasswordHash(8, true);
         $hasher->gensalt_blowfish('a password string');
     }

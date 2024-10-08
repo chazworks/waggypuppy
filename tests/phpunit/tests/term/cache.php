@@ -3,8 +3,10 @@
 /**
  * @group taxonomy
  */
-class Tests_Term_Cache extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_Term_Cache extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
 
         wp_cache_delete('last_changed', 'terms');
@@ -13,7 +15,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 25711
      */
-    public function test_category_children_cache() {
+    public function test_category_children_cache()
+    {
         // Test with only one Parent => Child.
         $term_id1       = self::factory()->category->create();
         $term_id1_child = self::factory()->category->create(array('parent' => $term_id1));
@@ -38,7 +41,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 22526
      */
-    public function test_category_name_change() {
+    public function test_category_name_change()
+    {
         $term    = self::factory()->category->create_and_get(array('name' => 'Foo'));
         $post_id = self::factory()->post->create();
         wp_set_post_categories($post_id, $term->term_id);
@@ -55,7 +59,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 14485
      */
-    public function test_hierarchy_invalidation() {
+    public function test_hierarchy_invalidation()
+    {
         $tax = 'burrito';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
         $this->assertTrue(get_taxonomy($tax)->hierarchical);
@@ -100,7 +105,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
         _unregister_taxonomy($tax);
     }
 
-    public function test_get_term_should_update_term_cache_when_passed_an_object() {
+    public function test_get_term_should_update_term_cache_when_passed_an_object()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term = self::factory()->term->create(
             array(
@@ -123,7 +129,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
         $this->assertSame($term_object, $term_object_2);
     }
 
-    public function test_get_term_should_update_term_cache_when_passed_a_valid_term_identifier() {
+    public function test_get_term_should_update_term_cache_when_passed_a_valid_term_identifier()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term = self::factory()->term->create(
             array(
@@ -150,7 +157,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
         $this->assertEquals($term_object, $term_object_2);
     }
 
-    public function test_get_term_by_should_update_term_cache_when_passed_a_valid_term_identifier() {
+    public function test_get_term_by_should_update_term_cache_when_passed_a_valid_term_identifier()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term = self::factory()->term->create(
             array(
@@ -180,7 +188,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 30749
      */
-    public function test_get_terms_should_update_cache_for_located_terms() {
+    public function test_get_terms_should_update_cache_for_located_terms()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $terms = self::factory()->term->create_many(
@@ -211,7 +220,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 35462
      */
-    public function test_term_objects_should_not_be_modified_by_update_term_cache() {
+    public function test_term_objects_should_not_be_modified_by_update_term_cache()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
         $p = self::factory()->post->create();
@@ -230,7 +240,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 21760
      */
-    public function test_get_term_by_slug_cache() {
+    public function test_get_term_by_slug_cache()
+    {
         $term_id = self::factory()->term->create(
             array(
                 'slug'     => 'burrito',
@@ -259,7 +270,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 21760
      */
-    public function test_get_term_by_slug_cache_update() {
+    public function test_get_term_by_slug_cache_update()
+    {
         $term_id = self::factory()->term->create(
             array(
                 'slug'     => 'burrito',
@@ -295,7 +307,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 21760
      */
-    public function test_get_term_by_name_cache() {
+    public function test_get_term_by_name_cache()
+    {
         $term_id = self::factory()->term->create(
             array(
                 'name'     => 'Burrito',
@@ -322,7 +335,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 21760
      */
-    public function test_get_term_by_name_cache_update() {
+    public function test_get_term_by_name_cache_update()
+    {
         $term_id = self::factory()->term->create(
             array(
                 'name'     => 'Burrito',
@@ -355,7 +369,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 21760
      */
-    public function test_invalidating_term_caches_should_fail_when_invalidation_is_suspended() {
+    public function test_invalidating_term_caches_should_fail_when_invalidation_is_suspended()
+    {
         $term_id = self::factory()->term->create(
             array(
                 'name'     => 'Burrito',
@@ -396,7 +411,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 21760
      */
-    public function test_get_term_by_does_not_prime_term_meta_cache() {
+    public function test_get_term_by_does_not_prime_term_meta_cache()
+    {
         $term_id = self::factory()->term->create(
             array(
                 'name'     => 'Burrito',
@@ -423,7 +439,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
     /**
      * @ticket 37291
      */
-    public function test_get_object_term_cache_should_return_error_if_any_term_is_an_error() {
+    public function test_get_object_term_cache_should_return_error_if_any_term_is_an_error()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
@@ -451,7 +468,8 @@ class Tests_Term_Cache extends WP_UnitTestCase {
      *
      * @ticket 62031
      */
-    public function test_inserting_child_term_clears_the_query_cache() {
+    public function test_inserting_child_term_clears_the_query_cache()
+    {
         register_taxonomy(
             'wptests_tax',
             'post',

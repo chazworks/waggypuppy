@@ -12,7 +12,8 @@
  *
  * @covers ::wp_debug_mode
  */
-class Test_WP_Debug_Mode extends WP_UnitTestCase {
+class Test_WP_Debug_Mode extends WP_UnitTestCase
+{
     /**
      * Test: `wp_debug_mode()` should log, but not display, errors for `ms-files.php`.
      *
@@ -20,7 +21,8 @@ class Test_WP_Debug_Mode extends WP_UnitTestCase {
      *
      * @since 5.9.0
      */
-    public function test_ms_files_logs_but_doesnt_display_errors() {
+    public function test_ms_files_logs_but_doesnt_display_errors()
+    {
         /*
          * Global constants can't be mocked in PHPUnit, so this can only run with the expected
          * values already set in `wp-tests-config.php`. Unfortunately, that means it won't run in

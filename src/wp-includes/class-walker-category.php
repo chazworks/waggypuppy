@@ -14,7 +14,8 @@
  *
  * @see Walker
  */
-class Walker_Category extends Walker {
+class Walker_Category extends Walker
+{
 
     /**
      * What the class handles.
@@ -52,7 +53,8 @@ class Walker_Category extends Walker {
      * @param array  $args   Optional. An array of arguments. Will only append content if style argument
      *                       value is 'list'. See wp_list_categories(). Default empty array.
      */
-    public function start_lvl(&$output, $depth = 0, $args = array()) {
+    public function start_lvl(&$output, $depth = 0, $args = array())
+    {
         if ('list' !== $args['style']) {
             return;
         }
@@ -73,7 +75,8 @@ class Walker_Category extends Walker {
      * @param array  $args   Optional. An array of arguments. Will only append content if style argument
      *                       value is 'list'. See wp_list_categories(). Default empty array.
      */
-    public function end_lvl(&$output, $depth = 0, $args = array()) {
+    public function end_lvl(&$output, $depth = 0, $args = array())
+    {
         if ('list' !== $args['style']) {
             return;
         }
@@ -98,7 +101,8 @@ class Walker_Category extends Walker {
      *                                   Default empty array.
      * @param int     $current_object_id Optional. ID of the current category. Default 0.
      */
-    public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0) {
+    public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $category = $data_object;
 
@@ -268,7 +272,8 @@ class Walker_Category extends Walker {
      * @param array  $args        Optional. An array of arguments. Only uses 'list' for whether should
      *                            append to output. See wp_list_categories(). Default empty array.
      */
-    public function end_el(&$output, $data_object, $depth = 0, $args = array()) {
+    public function end_el(&$output, $data_object, $depth = 0, $args = array())
+    {
         if ('list' !== $args['style']) {
             return;
         }

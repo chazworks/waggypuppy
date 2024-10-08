@@ -5,12 +5,14 @@
  *
  * @covers ::_make_cat_compat
  */
-class Tests_Category_MakeCatCompat extends WP_UnitTestCase {
+class Tests_Category_MakeCatCompat extends WP_UnitTestCase
+{
 
     /**
      * Validate _make_cat_compat function
      */
-    public function test__make_cat_compat() {
+    public function test__make_cat_compat()
+    {
 
         // Create test categories and array representations.
         $testcat_array            = array(

@@ -71,7 +71,8 @@ if (! function_exists('twentyeleven_setup')) :
      *
      * @since Twenty Eleven 1.0
      */
-    function twentyeleven_setup() {
+    function twentyeleven_setup()
+    {
 
         /*
          * Make Twenty Eleven available for translation.
@@ -302,7 +303,8 @@ endif; // twentyeleven_setup()
  *
  * @since Twenty Eleven 2.9
  */
-function twentyeleven_scripts_styles() {
+function twentyeleven_scripts_styles()
+{
     // Theme block stylesheet.
     wp_enqueue_style('twentyeleven-block-style', get_template_directory_uri() . '/blocks.css', array(), '20240621');
 }
@@ -313,7 +315,8 @@ add_action('wp_enqueue_scripts', 'twentyeleven_scripts_styles');
  *
  * @since Twenty Eleven 2.9
  */
-function twentyeleven_block_editor_styles() {
+function twentyeleven_block_editor_styles()
+{
     // Block styles.
     wp_enqueue_style('twentyeleven-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), '20240621');
 }
@@ -325,7 +328,8 @@ if (! function_exists('twentyeleven_header_style')) :
      *
      * @since Twenty Eleven 1.0
      */
-    function twentyeleven_header_style() {
+    function twentyeleven_header_style()
+    {
         $text_color = get_header_textcolor();
 
         // If no custom options for text are set, let's bail.
@@ -368,7 +372,8 @@ if (! function_exists('twentyeleven_admin_header_style')) :
      *
      * @since Twenty Eleven 1.0
      */
-    function twentyeleven_admin_header_style() {
+    function twentyeleven_admin_header_style()
+    {
         ?>
     <style type="text/css" id="twentyeleven-admin-header-css">
     .appearance_page_custom-header #headimg {
@@ -418,7 +423,8 @@ if (! function_exists('twentyeleven_admin_header_image')) :
      *
      * @since Twenty Eleven 1.0
      */
-    function twentyeleven_admin_header_image() {
+    function twentyeleven_admin_header_image()
+    {
 
         ?>
         <div id="headimg">
@@ -447,7 +453,8 @@ if (! function_exists('twentyeleven_header_image')) :
      *
      * @since Twenty Eleven 4.5
      */
-    function twentyeleven_header_image() {
+    function twentyeleven_header_image()
+    {
         $attrs = array(
             'alt' => get_bloginfo('name', 'display'),
         );
@@ -485,7 +492,8 @@ endif; // twentyeleven_header_image()
  * @param int $length The number of excerpt characters.
  * @return int The filtered number of characters.
  */
-function twentyeleven_excerpt_length($length) {
+function twentyeleven_excerpt_length($length)
+{
     return 40;
 }
 add_filter('excerpt_length', 'twentyeleven_excerpt_length');
@@ -498,7 +506,8 @@ if (! function_exists('twentyeleven_continue_reading_link')) :
      *
      * @return string The "Continue Reading" HTML link.
      */
-    function twentyeleven_continue_reading_link() {
+    function twentyeleven_continue_reading_link()
+    {
         return ' <a href="' . esc_url(get_permalink()) . '">' . __('Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven') . '</a>';
     }
 endif; // twentyeleven_continue_reading_link()
@@ -516,7 +525,8 @@ endif; // twentyeleven_continue_reading_link()
  * @param string $more The Read More text.
  * @return string The filtered Read More text.
  */
-function twentyeleven_auto_excerpt_more($more) {
+function twentyeleven_auto_excerpt_more($more)
+{
     if (! is_admin()) {
         return ' &hellip;' . twentyeleven_continue_reading_link();
     }
@@ -535,7 +545,8 @@ add_filter('excerpt_more', 'twentyeleven_auto_excerpt_more');
  * @param string $output The "Continue Reading" link.
  * @return string The filtered "Continue Reading" link.
  */
-function twentyeleven_custom_excerpt_more($output) {
+function twentyeleven_custom_excerpt_more($output)
+{
     if (has_excerpt() && ! is_attachment() && ! is_admin()) {
         $output .= twentyeleven_continue_reading_link();
     }
@@ -551,7 +562,8 @@ add_filter('get_the_excerpt', 'twentyeleven_custom_excerpt_more');
  * @param array $args The page menu arguments. @see wp_page_menu()
  * @return array The filtered page menu arguments.
  */
-function twentyeleven_page_menu_args($args) {
+function twentyeleven_page_menu_args($args)
+{
     if (! isset($args['show_home'])) {
         $args['show_home'] = true;
     }
@@ -566,7 +578,8 @@ add_filter('wp_page_menu_args', 'twentyeleven_page_menu_args');
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_widgets_init() {
+function twentyeleven_widgets_init()
+{
 
     register_widget('Twenty_Eleven_Ephemera_Widget');
 
@@ -639,7 +652,8 @@ if (! function_exists('twentyeleven_content_nav')) :
      *
      * @param string $html_id The HTML id attribute.
      */
-    function twentyeleven_content_nav($html_id) {
+    function twentyeleven_content_nav($html_id)
+    {
         global $wp_query;
 
         if ($wp_query->max_num_pages > 1) :
@@ -664,7 +678,8 @@ endif; // twentyeleven_content_nav()
  *
  * @return string The first link.
  */
-function twentyeleven_get_first_url() {
+function twentyeleven_get_first_url()
+{
     $content = get_the_content();
     $has_url = function_exists('get_url_in_content') ? get_url_in_content($content) : false;
 
@@ -683,7 +698,8 @@ function twentyeleven_get_first_url() {
  *
  * @return string|bool URL or false when no link is present.
  */
-function twentyeleven_url_grabber() {
+function twentyeleven_url_grabber()
+{
     if (! preg_match('/<a\s[^>]*?href=[\'"](.+?)[\'"]/is', get_the_content(), $matches)) {
         return false;
     }
@@ -696,7 +712,8 @@ function twentyeleven_url_grabber() {
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_footer_sidebar_class() {
+function twentyeleven_footer_sidebar_class()
+{
     $count = 0;
 
     if (is_active_sidebar('sidebar-3')) {
@@ -745,7 +762,8 @@ if (! function_exists('twentyeleven_comment')) :
      * @param array      $args    An array of comment arguments. @see get_comment_reply_link()
      * @param int        $depth   The depth of the comment.
      */
-    function twentyeleven_comment($comment, $args, $depth) {
+    function twentyeleven_comment($comment, $args, $depth)
+    {
         $GLOBALS['comment'] = $comment;
         switch ($comment->comment_type) :
             case 'pingback':
@@ -835,7 +853,8 @@ if (! function_exists('twentyeleven_posted_on')) :
      *
      * @since Twenty Eleven 1.0
      */
-    function twentyeleven_posted_on() {
+    function twentyeleven_posted_on()
+    {
         printf(
             /* translators: 1: The permalink, 2: Time, 3: Date and time, 4: Date and time, 5: Author posts, 6: Author post link text, 7: Author display name. */
             __('<span class="sep">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>', 'twentyeleven'),
@@ -862,7 +881,8 @@ endif;
  * @param array $classes Existing body classes.
  * @return array The filtered array of body classes.
  */
-function twentyeleven_body_classes($classes) {
+function twentyeleven_body_classes($classes)
+{
 
     if (function_exists('is_multi_author') && ! is_multi_author()) {
         $classes[] = 'single-author';
@@ -886,7 +906,8 @@ add_filter('body_class', 'twentyeleven_body_classes');
  *
  * @return array List of image IDs from the post gallery.
  */
-function twentyeleven_get_gallery_images() {
+function twentyeleven_get_gallery_images()
+{
     $images = array();
 
     if (function_exists('get_post_galleries')) {
@@ -929,7 +950,8 @@ function twentyeleven_get_gallery_images() {
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentyeleven_widget_tag_cloud_args($args) {
+function twentyeleven_widget_tag_cloud_args($args)
+{
     $args['largest']  = 22;
     $args['smallest'] = 8;
     $args['unit']     = 'pt';
@@ -947,7 +969,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Eleven 3.3
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Triggered after the opening <body> tag.
          *
@@ -962,7 +985,8 @@ endif;
  *
  * @since Twenty Eleven 3.4
  */
-function twentyeleven_skip_link() {
+function twentyeleven_skip_link()
+{
     echo '<div class="skip-link"><a class="assistive-text" href="#content">' . esc_html__('Skip to primary content', 'twentyeleven') . '</a></div>';
     if (! is_singular()) {
         echo '<div class="skip-link"><a class="assistive-text" href="#secondary">' . esc_html__('Skip to secondary content', 'twentyeleven') . '</a></div>';
@@ -978,7 +1002,8 @@ if (! function_exists('wp_get_list_item_separator')) :
      *
      * @since 6.0.0
      */
-    function wp_get_list_item_separator() {
+    function wp_get_list_item_separator()
+    {
         /* translators: Used between list items, there is a space after the comma. */
         return __(', ', 'twentyeleven');
     }

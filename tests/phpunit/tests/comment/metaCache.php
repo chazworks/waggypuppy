@@ -2,14 +2,16 @@
 /**
  * @group comment
  */
-class Tests_Comment_MetaCache extends WP_UnitTestCase {
+class Tests_Comment_MetaCache extends WP_UnitTestCase
+{
     protected $i       = 0;
     protected $queries = 0;
 
     /**
      * Performs setup tasks for every test.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme('default');
     }
@@ -19,7 +21,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::update_comment_meta
      */
-    public function test_update_comment_meta_cache_should_default_to_lazy_loading() {
+    public function test_update_comment_meta_cache_should_default_to_lazy_loading()
+    {
         $p           = self::factory()->post->create(array('post_status' => 'publish'));
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
@@ -52,7 +55,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::wp_lazyload_comment_meta
      */
-    public function test_update_comment_meta_cache_should_default_to_lazy_loading_fields_id() {
+    public function test_update_comment_meta_cache_should_default_to_lazy_loading_fields_id()
+    {
         $p           = self::factory()->post->create(array('post_status' => 'publish'));
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
@@ -86,7 +90,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::update_comment_meta
      */
-    public function test_update_comment_meta_cache_true() {
+    public function test_update_comment_meta_cache_true()
+    {
         $p           = self::factory()->post->create(array('post_status' => 'publish'));
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
@@ -119,7 +124,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::update_comment_meta
      */
-    public function test_update_comment_meta_cache_true_multiple() {
+    public function test_update_comment_meta_cache_true_multiple()
+    {
         $posts           = self::factory()->post->create_many(3);
         $all_comment_ids = array();
         foreach ($posts as $p) {
@@ -157,7 +163,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::update_comment_meta
      */
-    public function test_update_comment_meta_cache_false() {
+    public function test_update_comment_meta_cache_false()
+    {
         $p           = self::factory()->post->create(array('post_status' => 'publish'));
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
@@ -185,7 +192,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::get_comment_meta
      */
-    public function test_comment_meta_should_be_lazy_loaded_for_all_comments_in_comments_template() {
+    public function test_comment_meta_should_be_lazy_loaded_for_all_comments_in_comments_template()
+    {
         $p           = self::factory()->post->create(array('post_status' => 'publish'));
         $comment_ids = self::factory()->comment->create_post_comments($p, 3);
 
@@ -221,7 +229,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      * @covers ::get_comment_meta
      * @covers ::wp_lazyload_comment_meta
      */
-    public function test_comment_meta_should_be_lazy_loaded_in_comment_feed_queries() {
+    public function test_comment_meta_should_be_lazy_loaded_in_comment_feed_queries()
+    {
         $posts = self::factory()->post->create_many(2, array('post_status' => 'publish'));
 
         $now      = time();
@@ -270,7 +279,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      * @covers ::get_comment_meta
      * @covers ::wp_lazyload_comment_meta
      */
-    public function test_comment_meta_should_be_lazy_loaded_in_single_post_comment_feed_queries() {
+    public function test_comment_meta_should_be_lazy_loaded_in_single_post_comment_feed_queries()
+    {
         $posts = self::factory()->post->create_many(2, array('post_status' => 'publish'));
 
         $now      = time();
@@ -319,7 +329,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::add_metadata
      */
-    public function test_add_metadata_sets_comments_last_changed() {
+    public function test_add_metadata_sets_comments_last_changed()
+    {
         $comment_id = self::factory()->comment->create();
 
         wp_cache_delete('last_changed', 'comment');
@@ -333,7 +344,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::update_metadata
      */
-    public function test_update_metadata_sets_comments_last_changed() {
+    public function test_update_metadata_sets_comments_last_changed()
+    {
         $comment_id = self::factory()->comment->create();
 
         wp_cache_delete('last_changed', 'comment');
@@ -347,7 +359,8 @@ class Tests_Comment_MetaCache extends WP_UnitTestCase {
      *
      * @covers ::delete_metadata
      */
-    public function test_delete_metadata_sets_comments_last_changed() {
+    public function test_delete_metadata_sets_comments_last_changed()
+    {
         $comment_id = self::factory()->comment->create();
 
         update_metadata('comment', $comment_id, 'foo', 'bar');

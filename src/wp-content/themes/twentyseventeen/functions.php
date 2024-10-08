@@ -24,7 +24,8 @@ if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '<')) {
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
  */
-function twentyseventeen_setup() {
+function twentyseventeen_setup()
+{
 
     // Add default posts and comments RSS feed links to head.
     add_theme_support('automatic-feed-links');
@@ -250,7 +251,8 @@ add_action('after_setup_theme', 'twentyseventeen_setup');
  *
  * @global int $content_width
  */
-function twentyseventeen_content_width() {
+function twentyseventeen_content_width()
+{
 
     $content_width = $GLOBALS['content_width'];
 
@@ -291,7 +293,8 @@ if (! function_exists('twentyseventeen_fonts_url')) :
      *
      * @return string Fonts URL for the theme.
      */
-    function twentyseventeen_fonts_url() {
+    function twentyseventeen_fonts_url()
+    {
         $fonts_url = '';
 
         /*
@@ -318,7 +321,8 @@ endif;
  * @param string $relation_type The relation type the URLs are printed.
  * @return array URLs to print for resource hints.
  */
-function twentyseventeen_resource_hints($urls, $relation_type) {
+function twentyseventeen_resource_hints($urls, $relation_type)
+{
     if (wp_style_is('twentyseventeen-fonts', 'queue') && 'preconnect' === $relation_type) {
         $urls[] = array(
             'href' => 'https://fonts.gstatic.com',
@@ -335,7 +339,8 @@ function twentyseventeen_resource_hints($urls, $relation_type) {
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function twentyseventeen_widgets_init() {
+function twentyseventeen_widgets_init()
+{
     register_sidebar(
         array(
             'name'          => __('Blog Sidebar', 'twentyseventeen'),
@@ -383,7 +388,8 @@ add_action('widgets_init', 'twentyseventeen_widgets_init');
  * @param string $link Link to single post/page.
  * @return string 'Continue reading' link prepended with an ellipsis.
  */
-function twentyseventeen_excerpt_more($link) {
+function twentyseventeen_excerpt_more($link)
+{
     if (is_admin()) {
         return $link;
     }
@@ -405,7 +411,8 @@ add_filter('excerpt_more', 'twentyseventeen_excerpt_more');
  *
  * @since Twenty Seventeen 1.0
  */
-function twentyseventeen_javascript_detection() {
+function twentyseventeen_javascript_detection()
+{
     echo "<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>\n";
 }
 add_action('wp_head', 'twentyseventeen_javascript_detection', 0);
@@ -413,7 +420,8 @@ add_action('wp_head', 'twentyseventeen_javascript_detection', 0);
 /**
  * Add a pingback url auto-discovery header for singularly identifiable articles.
  */
-function twentyseventeen_pingback_header() {
+function twentyseventeen_pingback_header()
+{
     if (is_singular() && pings_open()) {
         printf('<link rel="pingback" href="%s">' . "\n", esc_url(get_bloginfo('pingback_url')));
     }
@@ -423,7 +431,8 @@ add_action('wp_head', 'twentyseventeen_pingback_header');
 /**
  * Display custom color CSS.
  */
-function twentyseventeen_colors_css_wrap() {
+function twentyseventeen_colors_css_wrap()
+{
     if ('custom' !== get_theme_mod('colorscheme') && ! is_customize_preview()) {
         return;
     }
@@ -446,7 +455,8 @@ add_action('wp_head', 'twentyseventeen_colors_css_wrap');
 /**
  * Enqueues scripts and styles.
  */
-function twentyseventeen_scripts() {
+function twentyseventeen_scripts()
+{
     // Add custom fonts, used in the main stylesheet.
     $font_version = (0 === strpos((string) twentyseventeen_fonts_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
     wp_enqueue_style('twentyseventeen-fonts', twentyseventeen_fonts_url(), array(), $font_version);
@@ -539,7 +549,8 @@ add_action('wp_enqueue_scripts', 'twentyseventeen_scripts');
  *
  * @since Twenty Seventeen 1.8
  */
-function twentyseventeen_block_editor_styles() {
+function twentyseventeen_block_editor_styles()
+{
     // Block styles.
     wp_enqueue_style('twentyseventeen-block-editor-style', get_theme_file_uri('/assets/css/editor-blocks.css'), array(), '20240624');
     // Add custom fonts.
@@ -559,7 +570,8 @@ add_action('enqueue_block_editor_assets', 'twentyseventeen_block_editor_styles')
  *                      values in pixels (in that order).
  * @return string A source size value for use in a content image 'sizes' attribute.
  */
-function twentyseventeen_content_image_sizes_attr($sizes, $size) {
+function twentyseventeen_content_image_sizes_attr($sizes, $size)
+{
     $width = $size[0];
 
     if (740 <= $width) {
@@ -587,7 +599,8 @@ add_filter('wp_calculate_image_sizes', 'twentyseventeen_content_image_sizes_attr
  * @param array  $attr   Array of the attributes for the image tag.
  * @return string The filtered header image HTML.
  */
-function twentyseventeen_header_image_tag($html, $header, $attr) {
+function twentyseventeen_header_image_tag($html, $header, $attr)
+{
     if (isset($attr['sizes'])) {
         $html = str_replace($attr['sizes'], '(max-width: 767px) 200vw, 100vw', $html);
     }
@@ -608,7 +621,8 @@ add_filter('get_header_image_tag', 'twentyseventeen_header_image_tag', 10, 3);
  *                                 an array of width and height values in pixels (in that order).
  * @return string[] The filtered attributes for the image markup.
  */
-function twentyseventeen_post_thumbnail_sizes_attr($attr, $attachment, $size) {
+function twentyseventeen_post_thumbnail_sizes_attr($attr, $attachment, $size)
+{
     if (is_archive() || is_search() || is_home()) {
         $attr['sizes'] = '(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px';
     } else {
@@ -628,7 +642,8 @@ add_filter('wp_get_attachment_image_attributes', 'twentyseventeen_post_thumbnail
  * @return string The template to be used: blank if is_home() is true (defaults to index.php),
  *                otherwise $template.
  */
-function twentyseventeen_front_page_template($template) {
+function twentyseventeen_front_page_template($template)
+{
     return is_home() ? '' : $template;
 }
 add_filter('frontpage_template', 'twentyseventeen_front_page_template');
@@ -642,7 +657,8 @@ add_filter('frontpage_template', 'twentyseventeen_front_page_template');
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentyseventeen_widget_tag_cloud_args($args) {
+function twentyseventeen_widget_tag_cloud_args($args)
+{
     $args['largest']  = 1;
     $args['smallest'] = 1;
     $args['unit']     = 'em';
@@ -667,7 +683,8 @@ add_filter('widget_tag_cloud_args', 'twentyseventeen_widget_tag_cloud_args');
  * @param string $prefix Prefix for the returned ID.
  * @return string Unique ID.
  */
-function twentyseventeen_unique_id($prefix = '') {
+function twentyseventeen_unique_id($prefix = '')
+{
     static $id_counter = 0;
     if (function_exists('wp_unique_id')) {
         return wp_unique_id($prefix);
@@ -683,7 +700,8 @@ if (! function_exists('wp_get_list_item_separator')) :
      *
      * @since 6.0.0
      */
-    function wp_get_list_item_separator() {
+    function wp_get_list_item_separator()
+    {
         /* translators: Used between list items, there is a space after the comma. */
         return __(', ', 'twentyseventeen');
     }
@@ -706,7 +724,8 @@ endif;
  *
  * @return bool Whether the post thumbnail should be shown.
  */
-function twentyseventeen_should_show_featured_image() {
+function twentyseventeen_should_show_featured_image()
+{
     $show_featured_image = (is_single() || (is_page() && ! twentyseventeen_is_frontpage())) && has_post_thumbnail(get_queried_object_id());
     return apply_filters('twentyseventeen_should_show_featured_image', $show_featured_image);
 }

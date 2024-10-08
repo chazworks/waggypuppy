@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Return the post comment's author.
  */
-function render_block_core_comment_author_name($attributes, $content, $block) {
+function render_block_core_comment_author_name($attributes, $content, $block)
+{
     if (! isset($block->context['commentId'])) {
         return '';
     }
@@ -58,7 +59,8 @@ function render_block_core_comment_author_name($attributes, $content, $block) {
  *
  * @since 6.0.0
  */
-function register_block_core_comment_author_name() {
+function register_block_core_comment_author_name()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comment-author-name',
         array(

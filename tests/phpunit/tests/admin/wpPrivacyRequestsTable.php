@@ -9,7 +9,8 @@
  * @group admin
  * @group privacy
  */
-class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
+class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase
+{
 
     /**
      * Temporary storage for SQL to allow a filter to access it.
@@ -23,7 +24,8 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
     /**
      * Clean up after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         unset($this->sql);
 
         parent::tear_down();
@@ -36,7 +38,8 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
      *
      * @return PHPUnit_Framework_MockObject_MockObject|WP_Privacy_Requests_Table Mocked class instance.
      */
-    public function get_mocked_class_instance() {
+    public function get_mocked_class_instance()
+    {
         $args = array(
             'plural'   => 'privacy_requests',
             'singular' => 'privacy_request',
@@ -77,7 +80,8 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
      * @covers WP_Privacy_Requests_Table::prepare_items
      * @ticket 43960
      */
-    public function test_columns_should_be_sortable($order, $orderby, $search, $expected) {
+    public function test_columns_should_be_sortable($order, $orderby, $search, $expected)
+    {
         global $wpdb;
 
         $table     = $this->get_mocked_class_instance();
@@ -106,7 +110,8 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
      * @param string $request The complete SQL query.
      * @return string The complete SQL query.
      */
-    public function filter_posts_request($request) {
+    public function filter_posts_request($request)
+    {
         $this->sql = $request;
         return $request;
     }
@@ -125,7 +130,8 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_columns_should_be_sortable() {
+    public function data_columns_should_be_sortable()
+    {
         return array(
             // Default order (ID) DESC.
             array(
@@ -198,7 +204,8 @@ class Tests_Admin_wpPrivacyRequestsTable extends WP_UnitTestCase {
      *
      * @covers WP_Privacy_Requests_Table::get_views
      */
-    public function test_get_views_should_return_views_by_default() {
+    public function test_get_views_should_return_views_by_default()
+    {
         $expected = array(
             'all' => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/export-personal-data.php" class="current" aria-current="page">All <span class="count">(0)</span></a>',
         );

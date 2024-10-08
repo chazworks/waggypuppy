@@ -26,7 +26,8 @@ if (! function_exists('wp_cache_add_multiple')) :
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false if cache key and group already exist.
      */
-    function wp_cache_add_multiple(array $data, $group = '', $expire = 0) {
+    function wp_cache_add_multiple(array $data, $group = '', $expire = 0)
+    {
         $values = array();
 
         foreach ($data as $key => $value) {
@@ -57,7 +58,8 @@ if (! function_exists('wp_cache_set_multiple')) :
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false on failure.
      */
-    function wp_cache_set_multiple(array $data, $group = '', $expire = 0) {
+    function wp_cache_set_multiple(array $data, $group = '', $expire = 0)
+    {
         $values = array();
 
         foreach ($data as $key => $value) {
@@ -86,7 +88,8 @@ if (! function_exists('wp_cache_get_multiple')) :
      * @return array Array of return values, grouped by key. Each value is either
      *               the cache contents on success, or false on failure.
      */
-    function wp_cache_get_multiple($keys, $group = '', $force = false) {
+    function wp_cache_get_multiple($keys, $group = '', $force = false)
+    {
         $values = array();
 
         foreach ($keys as $key) {
@@ -113,7 +116,8 @@ if (! function_exists('wp_cache_delete_multiple')) :
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false if the contents were not deleted.
      */
-    function wp_cache_delete_multiple(array $keys, $group = '') {
+    function wp_cache_delete_multiple(array $keys, $group = '')
+    {
         $values = array();
 
         foreach ($keys as $key) {
@@ -137,7 +141,8 @@ if (! function_exists('wp_cache_flush_runtime')) :
      *
      * @return bool True on success, false on failure.
      */
-    function wp_cache_flush_runtime() {
+    function wp_cache_flush_runtime()
+    {
         if (! wp_cache_supports('flush_runtime')) {
             _doing_it_wrong(
                 __FUNCTION__,
@@ -167,7 +172,8 @@ if (! function_exists('wp_cache_flush_group')) :
      * @param string $group Name of group to remove from cache.
      * @return bool True if group was flushed, false otherwise.
      */
-    function wp_cache_flush_group($group) {
+    function wp_cache_flush_group($group)
+    {
         global $wp_object_cache;
 
         if (! wp_cache_supports('flush_group')) {
@@ -195,7 +201,8 @@ if (! function_exists('wp_cache_supports')) :
      *                        'flush_runtime', 'flush_group'.
      * @return bool True if the feature is supported, false otherwise.
      */
-    function wp_cache_supports($feature) {
+    function wp_cache_supports($feature)
+    {
         return false;
     }
 endif;

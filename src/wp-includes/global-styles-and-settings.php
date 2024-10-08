@@ -23,7 +23,8 @@
  * }
  * @return mixed The settings array or individual setting value to retrieve.
  */
-function wp_get_global_settings($path = array(), $context = array()) {
+function wp_get_global_settings($path = array(), $context = array())
+{
     if (! empty($context['block_name'])) {
         $new_path = array('blocks', $context['block_name']);
         foreach ($path as $subpath) {
@@ -110,7 +111,8 @@ function wp_get_global_settings($path = array(), $context = array()) {
  * }
  * @return mixed The styles array or individual style value to retrieve.
  */
-function wp_get_global_styles($path = array(), $context = array()) {
+function wp_get_global_styles($path = array(), $context = array())
+{
     if (! empty($context['block_name'])) {
         $path = array_merge(array('blocks', $context['block_name']), $path);
     }
@@ -147,7 +149,8 @@ function wp_get_global_styles($path = array(), $context = array()) {
  *                     - for themes with theme.json: 'variables', 'presets', 'styles'.
  * @return string Stylesheet.
  */
-function wp_get_global_stylesheet($types = array()) {
+function wp_get_global_stylesheet($types = array())
+{
     /*
      * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
      * developer's workflow.
@@ -250,7 +253,8 @@ function wp_get_global_stylesheet($types = array()) {
  *
  * @global WP_Styles $wp_styles
  */
-function wp_add_global_styles_for_blocks() {
+function wp_add_global_styles_for_blocks()
+{
     global $wp_styles;
 
     $tree        = WP_Theme_JSON_Resolver::get_merged_data();
@@ -314,7 +318,8 @@ function wp_add_global_styles_for_blocks() {
  * @param array $path An array of keys describing the path to a property in theme.json.
  * @return string Identified block name, or empty string if none found.
  */
-function wp_get_block_name_from_theme_json_path($path) {
+function wp_get_block_name_from_theme_json_path($path)
+{
     // Block name is expected to be the third item after 'styles' and 'blocks'.
     if (count($path) >= 3
         && 'styles' === $path[0]
@@ -352,7 +357,8 @@ function wp_get_block_name_from_theme_json_path($path) {
  *
  * @return bool Returns true if theme or its parent has a theme.json file, false otherwise.
  */
-function wp_theme_has_theme_json() {
+function wp_theme_has_theme_json()
+{
     static $theme_has_support = array();
 
     $stylesheet = get_stylesheet();
@@ -390,7 +396,8 @@ function wp_theme_has_theme_json() {
  *
  * @since 6.2.0
  */
-function wp_clean_theme_json_cache() {
+function wp_clean_theme_json_cache()
+{
     wp_cache_delete('wp_get_global_stylesheet', 'theme_json');
     wp_cache_delete('wp_get_global_styles_svg_filters', 'theme_json');
     wp_cache_delete('wp_get_global_settings_custom', 'theme_json');
@@ -408,7 +415,8 @@ function wp_clean_theme_json_cache() {
  *
  * @return string[]
  */
-function wp_get_theme_directory_pattern_slugs() {
+function wp_get_theme_directory_pattern_slugs()
+{
     return WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_patterns();
 }
 
@@ -420,7 +428,8 @@ function wp_get_theme_directory_pattern_slugs() {
  * @return array Associative array of `$template_name => $template_data` pairs,
  *               with `$template_data` having "title" and "postTypes" fields.
  */
-function wp_get_theme_data_custom_templates() {
+function wp_get_theme_data_custom_templates()
+{
     return WP_Theme_JSON_Resolver::get_theme_data(array(), array('with_supports' => false))->get_custom_templates();
 }
 
@@ -432,7 +441,8 @@ function wp_get_theme_data_custom_templates() {
  * @return array Associative array of `$part_name => $part_data` pairs,
  *               with `$part_data` having "title" and "area" fields.
  */
-function wp_get_theme_data_template_parts() {
+function wp_get_theme_data_template_parts()
+{
     $cache_group    = 'theme_json';
     $cache_key      = 'wp_get_theme_data_template_parts';
     $can_use_cached = ! wp_is_development_mode('theme');
@@ -467,7 +477,8 @@ function wp_get_theme_data_template_parts() {
  *
  * @return string|null CSS selector or `null` if no selector available.
  */
-function wp_get_block_css_selector($block_type, $target = 'root', $fallback = false) {
+function wp_get_block_css_selector($block_type, $target = 'root', $fallback = false)
+{
     if (empty($target)) {
         return null;
     }

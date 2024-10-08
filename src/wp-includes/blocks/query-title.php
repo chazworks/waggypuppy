@@ -16,7 +16,8 @@
  *
  * @return string Returns the query title based on the queried object.
  */
-function render_block_core_query_title($attributes) {
+function render_block_core_query_title($attributes)
+{
     $type       = isset($attributes['type']) ? $attributes['type'] : null;
     $is_archive = is_archive();
     $is_search  = is_search();
@@ -65,7 +66,8 @@ function render_block_core_query_title($attributes) {
  *
  * @since 5.8.0
  */
-function register_block_core_query_title() {
+function register_block_core_query_title()
+{
     register_block_type_from_metadata(
         __DIR__ . '/query-title',
         array(

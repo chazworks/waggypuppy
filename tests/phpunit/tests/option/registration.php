@@ -3,12 +3,14 @@
 /**
  * @group option
  */
-class Tests_Option_Registration extends WP_UnitTestCase {
+class Tests_Option_Registration extends WP_UnitTestCase
+{
 
     /**
      * @covers ::register_setting
      */
-    public function test_register() {
+    public function test_register()
+    {
         register_setting('test_group', 'test_option');
 
         $registered = get_registered_settings();
@@ -27,7 +29,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      * @covers ::register_setting
      * @covers ::apply_filters
      */
-    public function test_register_with_callback() {
+    public function test_register_with_callback()
+    {
         register_setting('test_group', 'test_option', array($this, 'filter_registered_setting'));
 
         $filtered = apply_filters('sanitize_option_test_option', 'smart', 'test_option', 'smart');
@@ -39,7 +42,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      * @covers WP_REST_Settings_Controller
      * @covers ::apply_filters
      */
-    public function test_register_with_array() {
+    public function test_register_with_array()
+    {
         register_setting(
             'test_group',
             'test_option',
@@ -52,7 +56,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
         $this->assertSame('S-M-R-T', $filtered);
     }
 
-    public function filter_registered_setting() {
+    public function filter_registered_setting()
+    {
         return 'S-M-R-T';
     }
 
@@ -61,7 +66,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      *
      * @covers ::register_setting
      */
-    public function test_register_with_default() {
+    public function test_register_with_default()
+    {
         register_setting(
             'test_group',
             'test_default',
@@ -78,7 +84,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      *
      * @covers ::register_setting
      */
-    public function test_register_with_default_override() {
+    public function test_register_with_default_override()
+    {
         register_setting(
             'test_group',
             'test_default',
@@ -99,7 +106,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      * @covers ::add_option
      * @covers ::get_option
      */
-    public function test_add_option_with_no_options_cache() {
+    public function test_add_option_with_no_options_cache()
+    {
         register_setting(
             'test_group',
             'test_default',
@@ -117,7 +125,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      *
      * @covers ::register_setting
      */
-    public function test_register_deprecated_group_misc() {
+    public function test_register_deprecated_group_misc()
+    {
         register_setting('misc', 'test_option');
     }
 
@@ -126,7 +135,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      *
      * @covers ::register_setting
      */
-    public function test_register_deprecated_group_privacy() {
+    public function test_register_deprecated_group_privacy()
+    {
         register_setting('privacy', 'test_option');
     }
 
@@ -136,7 +146,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      * @covers ::register_setting
      * @covers ::unregister_setting
      */
-    public function test_unregister_setting_removes_default() {
+    public function test_unregister_setting_removes_default()
+    {
         register_setting(
             'test_group',
             'test_default',
@@ -157,7 +168,8 @@ class Tests_Option_Registration extends WP_UnitTestCase {
      *
      * @covers ::unregister_setting
      */
-    public function test_unregister_invalid_setting_does_not_throw_notice_or_warning() {
+    public function test_unregister_invalid_setting_does_not_throw_notice_or_warning()
+    {
         $setting = uniqid();
         unregister_setting($setting, $setting);
         $this->assertFalse(has_filter('default_option_' . $setting, 'filter_default_option'));

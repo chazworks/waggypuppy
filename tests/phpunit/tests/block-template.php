@@ -6,26 +6,30 @@
  *
  * @group block-templates
  */
-class Tests_Block_Template extends WP_UnitTestCase {
+class Tests_Block_Template extends WP_UnitTestCase
+{
     private static $post;
 
     private static $template_canvas_path = ABSPATH . WPINC . '/template-canvas.php';
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme('block-theme');
         do_action('setup_theme');
         do_action('after_setup_theme');
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         global $_wp_current_template_id, $_wp_current_template_content;
         unset($_wp_current_template_id, $_wp_current_template_content);
 
         parent::tear_down();
     }
 
-    public function test_page_home_block_template_takes_precedence_over_less_specific_block_templates() {
+    public function test_page_home_block_template_takes_precedence_over_less_specific_block_templates()
+    {
         global $_wp_current_template_content;
         $type                   = 'page';
         $templates              = array(
@@ -38,7 +42,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
         $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/page-home.html', $_wp_current_template_content);
     }
 
-    public function test_page_block_template_takes_precedence() {
+    public function test_page_block_template_takes_precedence()
+    {
         global $_wp_current_template_content;
         $type                   = 'page';
         $templates              = array(
@@ -51,7 +56,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
         $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/page.html', $_wp_current_template_content);
     }
 
-    public function test_block_template_takes_precedence_over_equally_specific_php_template() {
+    public function test_block_template_takes_precedence_over_equally_specific_php_template()
+    {
         global $_wp_current_template_content;
         $type                   = 'index';
         $templates              = array(
@@ -68,7 +74,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      *
      * Covers https://github.com/WordPress/gutenberg/pull/29026.
      */
-    public function test_more_specific_php_template_takes_precedence_over_less_specific_block_template() {
+    public function test_more_specific_php_template_takes_precedence_over_less_specific_block_template()
+    {
         $page_id_template       = 'page-1.php';
         $page_id_template_path  = get_stylesheet_directory() . '/' . $page_id_template;
         $type                   = 'page';
@@ -90,7 +97,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      * Covers https://core.trac.wordpress.org/ticket/54515.
      *
      */
-    public function test_child_theme_php_template_takes_precedence_over_equally_specific_parent_theme_block_template() {
+    public function test_child_theme_php_template_takes_precedence_over_equally_specific_parent_theme_block_template()
+    {
         switch_theme('block-theme-child');
 
         $page_slug_template      = 'page-home.php';
@@ -105,7 +113,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
         $this->assertSame($page_slug_template_path, $resolved_template_path);
     }
 
-    public function test_child_theme_block_template_takes_precedence_over_equally_specific_parent_theme_php_template() {
+    public function test_child_theme_block_template_takes_precedence_over_equally_specific_parent_theme_php_template()
+    {
         global $_wp_current_template_content;
 
         switch_theme('block-theme-child');
@@ -126,7 +135,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
     /**
      * Regression: https://github.com/WordPress/gutenberg/issues/31399.
      */
-    public function test_custom_page_php_template_takes_precedence_over_all_other_templates() {
+    public function test_custom_page_php_template_takes_precedence_over_all_other_templates()
+    {
         $custom_page_template      = 'templates/full-width.php';
         $custom_page_template_path = get_stylesheet_directory() . '/' . $custom_page_template;
         $type                      = 'page';
@@ -143,7 +153,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
     /**
      * Covers: https://github.com/WordPress/gutenberg/pull/30438.
      */
-    public function test_custom_page_block_template_takes_precedence_over_all_other_templates() {
+    public function test_custom_page_block_template_takes_precedence_over_all_other_templates()
+    {
         global $_wp_current_template_content;
 
         // Set up custom template post.
@@ -181,7 +192,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
     /**
      * Regression: https://github.com/WordPress/gutenberg/issues/31652.
      */
-    public function test_template_remains_unchanged_if_templates_array_is_empty() {
+    public function test_template_remains_unchanged_if_templates_array_is_empty()
+    {
         $resolved_template_path = locate_block_template('', 'search', array());
         $this->assertSame('', $resolved_template_path);
     }
@@ -196,7 +208,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      * @ticket 59736
      * @covers ::get_the_block_template_html
      */
-    public function test_get_the_block_template_html_enforces_singular_query_loop() {
+    public function test_get_the_block_template_html_enforces_singular_query_loop()
+    {
         global $_wp_current_template_id, $_wp_current_template_content, $wp_query, $wp_the_query;
 
         // Register test block to log `in_the_loop()` results.
@@ -229,7 +242,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      * @ticket 58154
      * @covers ::get_the_block_template_html
      */
-    public function test_get_the_block_template_html_does_not_generally_enforce_loop() {
+    public function test_get_the_block_template_html_does_not_generally_enforce_loop()
+    {
         global $_wp_current_template_id, $_wp_current_template_content, $wp_query, $wp_the_query;
 
         // Register test block to log `in_the_loop()` results.
@@ -289,7 +303,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      * @ticket 59736
      * @covers ::get_the_block_template_html
      */
-    public function test_get_the_block_template_html_skips_singular_query_loop_when_non_theme_template() {
+    public function test_get_the_block_template_html_skips_singular_query_loop_when_non_theme_template()
+    {
         global $_wp_current_template_id, $_wp_current_template_content, $wp_query, $wp_the_query;
 
         // Register test block to log `in_the_loop()` results.
@@ -321,7 +336,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      * @param string   $theme    The theme's stylesheet.
      * @param string[] $expected The expected associative array of block theme folders.
      */
-    public function test_get_block_theme_folders($theme, $expected) {
+    public function test_get_block_theme_folders($theme, $expected)
+    {
         $wp_theme = wp_get_theme($theme);
         $wp_theme->cache_delete(); // Clear cache.
 
@@ -340,7 +356,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_block_theme_folders() {
+    public function data_get_block_theme_folders()
+    {
         return array(
             'block-theme'                       => array(
                 'block-theme',
@@ -394,7 +411,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      *
      * @covers ::_get_block_templates_paths
      */
-    public function test_get_block_templates_paths_dir_exists() {
+    public function test_get_block_templates_paths_dir_exists()
+    {
         $theme_dir = $this->normalizeDirectorySeparatorsInPath(get_template_directory());
         // Templates in the current theme.
         $templates = array(
@@ -427,7 +445,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      *
      * @covers ::_get_block_templates_paths
      */
-    public function test_get_block_templates_paths_dir_doesnt_exists() {
+    public function test_get_block_templates_paths_dir_doesnt_exists()
+    {
         // Should return empty array for invalid path.
         $template_paths = _get_block_templates_paths('/tmp/random-invalid-theme-path');
         $this->assertSame(array(), $template_paths);
@@ -440,7 +459,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      *
      * @covers ::get_block_templates
      */
-    public function test_get_block_templates_from_registry() {
+    public function test_get_block_templates_from_registry()
+    {
         $template_name = 'test-plugin//test-template';
 
         wp_register_block_template($template_name);
@@ -459,7 +479,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      *
      * @covers ::get_block_template
      */
-    public function test_get_block_template_from_registry() {
+    public function test_get_block_template_from_registry()
+    {
         $template_name = 'test-plugin//test-template';
         $args          = array(
             'title' => 'Test Template',
@@ -479,7 +500,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
      *
      * @param array $in_the_loop_logs Array to log function results in. Passed by reference.
      */
-    private function register_in_the_loop_logger_block(array &$in_the_loop_logs) {
+    private function register_in_the_loop_logger_block(array &$in_the_loop_logs)
+    {
         register_block_type(
             'test/in-the-loop-logger',
             array(
@@ -494,7 +516,8 @@ class Tests_Block_Template extends WP_UnitTestCase {
     /**
      * Unregisters the test block registered by the `register_in_the_loop_logger_block()` method.
      */
-    private function unregister_in_the_loop_logger_block() {
+    private function unregister_in_the_loop_logger_block()
+    {
         unregister_block_type('test/in-the-loop-logger');
     }
 }

@@ -20,7 +20,8 @@
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_custom_header_setup() {
+function twentythirteen_custom_header_setup()
+{
     $args = array(
         // Text color and image (empty to use none).
         'default-text-color'     => '220e10',
@@ -69,7 +70,8 @@ add_action('after_setup_theme', 'twentythirteen_custom_header_setup', 11);
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_custom_header_fonts() {
+function twentythirteen_custom_header_fonts()
+{
     // Add Source Sans Pro and Bitter fonts.
     wp_enqueue_style('twentythirteen-fonts', twentythirteen_fonts_url(), array(), null);
 
@@ -85,7 +87,8 @@ add_action('admin_print_styles-appearance_page_custom-header', 'twentythirteen_c
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_header_style() {
+function twentythirteen_header_style()
+{
     $header_image = get_header_image();
     $text_color   = get_header_textcolor();
 
@@ -152,7 +155,8 @@ function twentythirteen_header_style() {
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_admin_header_style() {
+function twentythirteen_admin_header_style()
+{
     $header_image = get_header_image();
     ?>
     <style type="text/css" id="twentythirteen-admin-header-css">
@@ -220,7 +224,8 @@ function twentythirteen_admin_header_style() {
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_admin_header_image() {
+function twentythirteen_admin_header_image()
+{
     $style = 'color: #' . get_header_textcolor() . ';';
     if (! display_header_text()) {
         $style = 'display: none;';

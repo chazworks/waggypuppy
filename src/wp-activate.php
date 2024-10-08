@@ -85,7 +85,8 @@ do_action('activate_header');
  *
  * @since MU (3.0.0)
  */
-function do_activate_header() {
+function do_activate_header()
+{
     /**
      * Fires within the `<head>` section of the Site Activation page.
      *
@@ -102,7 +103,8 @@ add_action('wp_head', 'do_activate_header');
  *
  * @since MU (3.0.0)
  */
-function wpmu_activate_stylesheet() {
+function wpmu_activate_stylesheet()
+{
     ?>
     <style type="text/css">
         .wp-activate-container { width: 90%; margin: 0 auto; }

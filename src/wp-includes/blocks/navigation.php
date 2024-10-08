@@ -10,7 +10,8 @@
  *
  * @since 6.5.0
  */
-class WP_Navigation_Block_Renderer {
+class WP_Navigation_Block_Renderer
+{
 
     /**
      * Used to determine whether or not a navigation has submenus.
@@ -49,7 +50,8 @@ class WP_Navigation_Block_Renderer {
      * @param array $attributes The block attributes.
      * @return bool Returns whether or not this is responsive navigation.
      */
-    private static function is_responsive($attributes) {
+    private static function is_responsive($attributes)
+    {
         /**
          * This is for backwards compatibility after the `isResponsive` attribute was been removed.
          */
@@ -66,7 +68,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block_List $inner_blocks The list of inner blocks.
      * @return bool Returns whether or not a navigation has a submenu and also sets the member variable.
      */
-    private static function has_submenus($inner_blocks) {
+    private static function has_submenus($inner_blocks)
+    {
         if (true === static::$has_submenus) {
             return static::$has_submenus;
         }
@@ -106,7 +109,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block_List $inner_blocks The list of inner blocks.
      * @return bool Returns whether or not to load the view script.
      */
-    private static function is_interactive($attributes, $inner_blocks) {
+    private static function is_interactive($attributes, $inner_blocks)
+    {
         $has_submenus       = static::has_submenus($inner_blocks);
         $is_responsive_menu = static::is_responsive($attributes);
         return ($has_submenus && ($attributes['openSubmenusOnClick'] || $attributes['showSubmenuIcon'])) || $is_responsive_menu;
@@ -120,7 +124,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block $block The block.
      * @return bool Returns whether or not a block needs a list item wrapper.
      */
-    private static function does_block_need_a_list_item_wrapper($block) {
+    private static function does_block_need_a_list_item_wrapper($block)
+    {
 
         /**
          * Filter the list of blocks that need a list item wrapper.
@@ -148,7 +153,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block $inner_block The inner block.
      * @return string Returns the markup for a single inner block.
      */
-    private static function get_markup_for_inner_block($inner_block) {
+    private static function get_markup_for_inner_block($inner_block)
+    {
         $inner_block_content = $inner_block->render();
         if (! empty($inner_block_content)) {
             if (static::does_block_need_a_list_item_wrapper($inner_block)) {
@@ -168,7 +174,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block_List $inner_blocks The list of inner blocks.
      * @return string Returns the html for the inner blocks of the navigation block.
      */
-    private static function get_inner_blocks_html($attributes, $inner_blocks) {
+    private static function get_inner_blocks_html($attributes, $inner_blocks)
+    {
         $has_submenus   = static::has_submenus($inner_blocks);
         $is_interactive = static::is_interactive($attributes, $inner_blocks);
 
@@ -226,7 +233,8 @@ class WP_Navigation_Block_Renderer {
      * @param array $attributes The block attributes.
      * @return WP_Block_List Returns the inner blocks for the navigation block.
      */
-    private static function get_inner_blocks_from_navigation_post($attributes) {
+    private static function get_inner_blocks_from_navigation_post($attributes)
+    {
         $navigation_post = get_post($attributes['ref']);
         if (! isset($navigation_post)) {
             return new WP_Block_List(array(), $attributes);
@@ -261,7 +269,8 @@ class WP_Navigation_Block_Renderer {
      * @param array $attributes The block attributes.
      * @return WP_Block_List Returns the inner blocks for the navigation block.
      */
-    private static function get_inner_blocks_from_fallback($attributes) {
+    private static function get_inner_blocks_from_fallback($attributes)
+    {
         $fallback_blocks = block_core_navigation_get_fallback_blocks();
 
         // Fallback my have been filtered so do basic test for validity.
@@ -281,7 +290,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block $block The parsed block.
      * @return WP_Block_List Returns the inner blocks for the navigation block.
      */
-    private static function get_inner_blocks($attributes, $block) {
+    private static function get_inner_blocks($attributes, $block)
+    {
         $inner_blocks = $block->inner_blocks;
 
         // Ensure that blocks saved with the legacy ref attribute name (navigationMenuId) continue to render.
@@ -339,7 +349,8 @@ class WP_Navigation_Block_Renderer {
      * @param array $attributes The block attributes.
      * @return string Returns the name of the navigation.
      */
-    private static function get_navigation_name($attributes) {
+    private static function get_navigation_name($attributes)
+    {
 
         $navigation_name = $attributes['ariaLabel'] ?? '';
 
@@ -376,7 +387,8 @@ class WP_Navigation_Block_Renderer {
      * @param array $attributes The block attributes.
      * @return string Returns the layout class for the navigation block.
      */
-    private static function get_layout_class($attributes) {
+    private static function get_layout_class($attributes)
+    {
         $layout_justification = array(
             'left'          => 'items-justified-left',
             'right'         => 'items-justified-right',
@@ -408,7 +420,8 @@ class WP_Navigation_Block_Renderer {
      * @param array $attributes The block attributes.
      * @return string Returns the classes for the navigation block.
      */
-    private static function get_classes($attributes) {
+    private static function get_classes($attributes)
+    {
         // Restore legacy classnames for submenu positioning.
         $layout_class       = static::get_layout_class($attributes);
         $colors             = block_core_navigation_build_css_colors($attributes);
@@ -437,7 +450,8 @@ class WP_Navigation_Block_Renderer {
      * @param array $attributes The block attributes.
      * @return string Returns the styles for the navigation block.
      */
-    private static function get_styles($attributes) {
+    private static function get_styles($attributes)
+    {
         $colors       = block_core_navigation_build_css_colors($attributes);
         $font_sizes   = block_core_navigation_build_css_font_sizes($attributes);
         $block_styles = isset($attributes['styles']) ? $attributes['styles'] : '';
@@ -454,7 +468,8 @@ class WP_Navigation_Block_Renderer {
      * @param string        $inner_blocks_html The markup for the inner blocks.
      * @return string Returns the container markup.
      */
-    private static function get_responsive_container_markup($attributes, $inner_blocks, $inner_blocks_html) {
+    private static function get_responsive_container_markup($attributes, $inner_blocks, $inner_blocks_html)
+    {
         $is_interactive  = static::is_interactive($attributes, $inner_blocks);
         $colors          = block_core_navigation_build_css_colors($attributes);
         $modal_unique_id = wp_unique_id('modal-');
@@ -555,7 +570,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block_List $inner_blocks  A list of inner blocks.
      * @return string Returns the navigation block markup.
      */
-    private static function get_nav_wrapper_attributes($attributes, $inner_blocks) {
+    private static function get_nav_wrapper_attributes($attributes, $inner_blocks)
+    {
         $nav_menu_name      = static::get_unique_navigation_name($attributes);
         $is_interactive     = static::is_interactive($attributes, $inner_blocks);
         $is_responsive_menu = static::is_responsive($attributes);
@@ -585,7 +601,8 @@ class WP_Navigation_Block_Renderer {
      * @param bool $is_interactive Whether the block is interactive.
      * @return string the directives for the navigation element.
      */
-    private static function get_nav_element_directives($is_interactive) {
+    private static function get_nav_element_directives($is_interactive)
+    {
         if (! $is_interactive) {
             return '';
         }
@@ -618,7 +635,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block      $block        The parsed block.
      * @param WP_Block_List $inner_blocks The list of inner blocks.
      */
-    private static function handle_view_script_module_loading($attributes, $block, $inner_blocks) {
+    private static function handle_view_script_module_loading($attributes, $block, $inner_blocks)
+    {
         if (static::is_interactive($attributes, $inner_blocks)) {
             wp_enqueue_script_module('@wordpress/block-library/navigation/view');
         }
@@ -633,7 +651,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block_List $inner_blocks The list of inner blocks.
      * @return string Returns the navigation wrapper markup.
      */
-    private static function get_wrapper_markup($attributes, $inner_blocks) {
+    private static function get_wrapper_markup($attributes, $inner_blocks)
+    {
         $inner_blocks_html = static::get_inner_blocks_html($attributes, $inner_blocks);
         if (static::is_responsive($attributes)) {
             return static::get_responsive_container_markup($attributes, $inner_blocks, $inner_blocks_html);
@@ -649,7 +668,8 @@ class WP_Navigation_Block_Renderer {
      * @param array $attributes The block attributes.
      * @return string Returns a unique name for the navigation.
      */
-    private static function get_unique_navigation_name($attributes) {
+    private static function get_unique_navigation_name($attributes)
+    {
         $nav_menu_name = static::get_navigation_name($attributes);
 
         // If the menu name has been used previously then append an ID
@@ -672,7 +692,8 @@ class WP_Navigation_Block_Renderer {
      * @param WP_Block $block      The parsed block.
      * @return string Returns the navigation block markup.
      */
-    public static function render($attributes, $content, $block) {
+    public static function render($attributes, $content, $block)
+    {
         /**
          * Deprecated:
          * The rgbTextColor and rgbBackgroundColor attributes
@@ -717,7 +738,8 @@ if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN) {
      * @param string $location The menu location.
      * @return array Menu items for the location.
      */
-    function block_core_navigation_get_menu_items_at_location($location) {
+    function block_core_navigation_get_menu_items_at_location($location)
+    {
         if (empty($location)) {
             return;
         }
@@ -756,7 +778,8 @@ if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN) {
      * @return array An array keyed by the id of the parent menu where each element
      *               is an array of menu items that belong to that parent.
      */
-    function block_core_navigation_sort_menu_items_by_parent_id($menu_items) {
+    function block_core_navigation_sort_menu_items_by_parent_id($menu_items)
+    {
         $sorted_menu_items = array();
         foreach ((array) $menu_items as $menu_item) {
             $sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
@@ -779,7 +802,8 @@ if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN) {
      * @param array $attributes The block attributes.
      * @return WP_Block_List Returns the inner blocks for the navigation block.
      */
-    function block_core_navigation_get_inner_blocks_from_unstable_location($attributes) {
+    function block_core_navigation_get_inner_blocks_from_unstable_location($attributes)
+    {
         $menu_items = block_core_navigation_get_menu_items_at_location($attributes['__unstableLocation']);
         if (empty($menu_items)) {
             return new WP_Block_List(array(), $attributes);
@@ -802,7 +826,8 @@ if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN) {
  *
  * @return string Submenu markup with the directives injected.
  */
-function block_core_navigation_add_directives_to_submenu($tags, $block_attributes) {
+function block_core_navigation_add_directives_to_submenu($tags, $block_attributes)
+{
     while ($tags->next_tag(
         array(
             'tag_name'   => 'LI',
@@ -864,7 +889,8 @@ function block_core_navigation_add_directives_to_submenu($tags, $block_attribute
  *
  * @return array Colors CSS classes and inline styles.
  */
-function block_core_navigation_build_css_colors($attributes) {
+function block_core_navigation_build_css_colors($attributes)
+{
     $colors = array(
         'css_classes'           => array(),
         'inline_styles'         => '',
@@ -957,7 +983,8 @@ function block_core_navigation_build_css_colors($attributes) {
  *
  * @return array Font size CSS classes and inline styles.
  */
-function block_core_navigation_build_css_font_sizes($attributes) {
+function block_core_navigation_build_css_font_sizes($attributes)
+{
     // CSS classes.
     $font_sizes = array(
         'css_classes'   => array(),
@@ -985,7 +1012,8 @@ function block_core_navigation_build_css_font_sizes($attributes) {
  *
  * @return string
  */
-function block_core_navigation_render_submenu_icon() {
+function block_core_navigation_render_submenu_icon()
+{
     return '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg>';
 }
 
@@ -1000,7 +1028,8 @@ function block_core_navigation_render_submenu_icon() {
  * @param array $parsed_blocks the parsed blocks to be normalized.
  * @return array the normalized parsed blocks.
  */
-function block_core_navigation_filter_out_empty_blocks($parsed_blocks) {
+function block_core_navigation_filter_out_empty_blocks($parsed_blocks)
+{
     $filtered = array_filter(
         $parsed_blocks,
         static function ($block) {
@@ -1020,7 +1049,8 @@ function block_core_navigation_filter_out_empty_blocks($parsed_blocks) {
  * @param WP_Block_List $inner_blocks Inner block instance to be normalized.
  * @return bool true if the navigation block contains a nested navigation block.
  */
-function block_core_navigation_block_contains_core_navigation($inner_blocks) {
+function block_core_navigation_block_contains_core_navigation($inner_blocks)
+{
     foreach ($inner_blocks as $block) {
         if ('core/navigation' === $block->name) {
             return true;
@@ -1044,7 +1074,8 @@ function block_core_navigation_block_contains_core_navigation($inner_blocks) {
  *
  * @return array the array of blocks to be used as a fallback.
  */
-function block_core_navigation_get_fallback_blocks() {
+function block_core_navigation_get_fallback_blocks()
+{
     $page_list_fallback = array(
         array(
             'blockName'    => 'core/page-list',
@@ -1101,7 +1132,8 @@ function block_core_navigation_get_fallback_blocks() {
  *
  * @return array Array of post IDs.
  */
-function block_core_navigation_get_post_ids($inner_blocks) {
+function block_core_navigation_get_post_ids($inner_blocks)
+{
     $post_ids = array_map('block_core_navigation_from_block_get_post_ids', iterator_to_array($inner_blocks));
     return array_unique(array_merge(...$post_ids));
 }
@@ -1115,7 +1147,8 @@ function block_core_navigation_get_post_ids($inner_blocks) {
  *
  * @return array Array of post IDs.
  */
-function block_core_navigation_from_block_get_post_ids($block) {
+function block_core_navigation_from_block_get_post_ids($block)
+{
     $post_ids = array();
 
     if ($block->inner_blocks) {
@@ -1142,7 +1175,8 @@ function block_core_navigation_from_block_get_post_ids($block) {
  *
  * @return string Returns the navigation block markup.
  */
-function render_block_core_navigation($attributes, $content, $block) {
+function render_block_core_navigation($attributes, $content, $block)
+{
     return WP_Navigation_Block_Renderer::render($attributes, $content, $block);
 }
 
@@ -1154,7 +1188,8 @@ function render_block_core_navigation($attributes, $content, $block) {
  * @uses render_block_core_navigation()
  * @throws WP_Error An WP_Error exception parsing the block definition.
  */
-function register_block_core_navigation() {
+function register_block_core_navigation()
+{
     register_block_type_from_metadata(
         __DIR__ . '/navigation',
         array(
@@ -1174,7 +1209,8 @@ add_action('init', 'register_block_core_navigation');
  *
  * @return array The block being rendered without typographic presets.
  */
-function block_core_navigation_typographic_presets_backcompatibility($parsed_block) {
+function block_core_navigation_typographic_presets_backcompatibility($parsed_block)
+{
     if ('core/navigation' === $parsed_block['blockName']) {
         $attribute_to_prefix_map = array(
             'fontStyle'      => 'var:preset|font-style|',
@@ -1216,7 +1252,8 @@ add_filter('render_block_data', 'block_core_navigation_typographic_presets_backc
  *                                        that parent.
  * @return array An array of parsed block data.
  */
-function block_core_navigation_parse_blocks_from_menu_items($menu_items, $menu_items_by_parent_id) {
+function block_core_navigation_parse_blocks_from_menu_items($menu_items, $menu_items_by_parent_id)
+{
 
     _deprecated_function(__FUNCTION__, '6.3.0', 'WP_Navigation_Fallback::parse_blocks_from_menu_items');
 
@@ -1269,7 +1306,8 @@ function block_core_navigation_parse_blocks_from_menu_items($menu_items, $menu_i
  *
  * @return object WP_Term The classic navigation.
  */
-function block_core_navigation_get_classic_menu_fallback() {
+function block_core_navigation_get_classic_menu_fallback()
+{
 
     _deprecated_function(__FUNCTION__, '6.3.0', 'WP_Navigation_Fallback::get_classic_menu_fallback');
 
@@ -1316,7 +1354,8 @@ function block_core_navigation_get_classic_menu_fallback() {
  * @param  object $classic_nav_menu WP_Term The classic navigation object to convert.
  * @return array the normalized parsed blocks.
  */
-function block_core_navigation_get_classic_menu_fallback_blocks($classic_nav_menu) {
+function block_core_navigation_get_classic_menu_fallback_blocks($classic_nav_menu)
+{
 
     _deprecated_function(__FUNCTION__, '6.3.0', 'WP_Navigation_Fallback::get_classic_menu_fallback_blocks');
 
@@ -1359,7 +1398,8 @@ function block_core_navigation_get_classic_menu_fallback_blocks($classic_nav_men
  *
  * @return array the normalized parsed blocks.
  */
-function block_core_navigation_maybe_use_classic_menu_fallback() {
+function block_core_navigation_maybe_use_classic_menu_fallback()
+{
 
     _deprecated_function(__FUNCTION__, '6.3.0', 'WP_Navigation_Fallback::create_classic_menu_fallback');
 
@@ -1406,7 +1446,8 @@ function block_core_navigation_maybe_use_classic_menu_fallback() {
  *
  * @return WP_Post|null the first non-empty Navigation or null.
  */
-function block_core_navigation_get_most_recently_published_navigation() {
+function block_core_navigation_get_most_recently_published_navigation()
+{
 
     _deprecated_function(__FUNCTION__, '6.3.0', 'WP_Navigation_Fallback::get_most_recently_published_navigation');
 
@@ -1438,7 +1479,8 @@ function block_core_navigation_get_most_recently_published_navigation() {
  * @param string $serialized_block The serialized markup of a block and its inner blocks.
  * @return string
  */
-function block_core_navigation_remove_serialized_parent_block($serialized_block) {
+function block_core_navigation_remove_serialized_parent_block($serialized_block)
+{
     $start = strpos($serialized_block, '-->') + strlen('-->');
     $end   = strrpos($serialized_block, '<!--');
     return substr($serialized_block, $start, $end - $start);
@@ -1455,7 +1497,8 @@ function block_core_navigation_remove_serialized_parent_block($serialized_block)
  *
  * @return array the normalized parsed blocks.
  */
-function block_core_navigation_mock_parsed_block($inner_blocks, $post) {
+function block_core_navigation_mock_parsed_block($inner_blocks, $post)
+{
     $attributes = array();
 
     if (isset($post->ID)) {
@@ -1495,7 +1538,8 @@ function block_core_navigation_mock_parsed_block($inner_blocks, $post) {
  * @param WP_Post $post         `wp_navigation` post object corresponding to the block.
  * @return string Serialized inner blocks in mock Navigation block wrapper, with hooked blocks inserted, if any.
  */
-function block_core_navigation_insert_hooked_blocks($inner_blocks, $post) {
+function block_core_navigation_insert_hooked_blocks($inner_blocks, $post)
+{
     $mock_navigation_block = block_core_navigation_mock_parsed_block($inner_blocks, $post);
 
     if (function_exists('apply_block_hooks_to_content')) {
@@ -1528,7 +1572,8 @@ function block_core_navigation_insert_hooked_blocks($inner_blocks, $post) {
  * @param WP_Post $post         `wp_navigation` post object corresponding to the block.
  * @return string Serialized inner blocks in mock Navigation block wrapper, with hooked blocks inserted, if any.
  */
-function block_core_navigation_set_ignored_hooked_blocks_metadata($inner_blocks, $post) {
+function block_core_navigation_set_ignored_hooked_blocks_metadata($inner_blocks, $post)
+{
     $mock_navigation_block = block_core_navigation_mock_parsed_block($inner_blocks, $post);
     $hooked_blocks         = get_hooked_blocks();
     $before_block_visitor  = null;
@@ -1551,7 +1596,8 @@ function block_core_navigation_set_ignored_hooked_blocks_metadata($inner_blocks,
  * @param stdClass $post Post object.
  * @return stdClass The updated post object.
  */
-function block_core_navigation_update_ignore_hooked_blocks_meta($post) {
+function block_core_navigation_update_ignore_hooked_blocks_meta($post)
+{
     /*
      * In this scenario the user has likely tried to create a navigation via the REST API.
      * In which case we won't have a post ID to work with and store meta against.
@@ -1627,7 +1673,8 @@ if (! has_filter('rest_pre_insert_wp_navigation', 'update_ignored_hooked_blocks_
  * @param WP_Post          $post     Post object.
  * @return WP_REST_Response The response object.
  */
-function block_core_navigation_insert_hooked_blocks_into_rest_response($response, $post) {
+function block_core_navigation_insert_hooked_blocks_into_rest_response($response, $post)
+{
     if (! isset($response->data['content']['raw']) || ! isset($response->data['content']['rendered'])) {
         return $response;
     }

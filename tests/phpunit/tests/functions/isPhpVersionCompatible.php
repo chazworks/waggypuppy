@@ -7,7 +7,8 @@
  *
  * @covers ::is_php_version_compatible
  */
-class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase {
+class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase
+{
     /**
      * Tests is_php_version_compatible().
      *
@@ -18,7 +19,8 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase {
      * @param mixed $required The minimum required PHP version.
      * @param bool  $expected The expected result.
      */
-    public function test_is_php_version_compatible($required, $expected) {
+    public function test_is_php_version_compatible($required, $expected)
+    {
         $this->assertSame($expected, is_php_version_compatible($required));
     }
 
@@ -27,7 +29,8 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_php_version_compatible() {
+    public function data_is_php_version_compatible()
+    {
         $php_version = PHP_VERSION;
 
         $version_parts  = explode('.', $php_version);

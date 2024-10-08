@@ -15,7 +15,8 @@
  * @access private
  */
 #[AllowDynamicProperties]
-class WP_Block_Supports {
+class WP_Block_Supports
+{
 
     /**
      * Config.
@@ -50,7 +51,8 @@ class WP_Block_Supports {
      *
      * @return WP_Block_Supports The main instance.
      */
-    public static function get_instance() {
+    public static function get_instance()
+    {
         if (null === self::$instance) {
             self::$instance = new self();
         }
@@ -63,7 +65,8 @@ class WP_Block_Supports {
      *
      * @since 5.6.0
      */
-    public static function init() {
+    public static function init()
+    {
         $instance = self::get_instance();
         $instance->register_attributes();
     }
@@ -78,7 +81,8 @@ class WP_Block_Supports {
      * @param string $block_support_name   Block support name.
      * @param array  $block_support_config Array containing the properties of the block support.
      */
-    public function register($block_support_name, $block_support_config) {
+    public function register($block_support_name, $block_support_config)
+    {
         $this->block_supports[ $block_support_name ] = array_merge(
             $block_support_config,
             array('name' => $block_support_name)
@@ -93,7 +97,8 @@ class WP_Block_Supports {
      *
      * @return string[] Array of HTML attribute values keyed by their name.
      */
-    public function apply_block_supports() {
+    public function apply_block_supports()
+    {
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered(
             self::$block_to_render['blockName']
         );
@@ -138,7 +143,8 @@ class WP_Block_Supports {
      *
      * @since 5.6.0
      */
-    private function register_attributes() {
+    private function register_attributes()
+    {
         $block_registry         = WP_Block_Type_Registry::get_instance();
         $registered_block_types = $block_registry->get_all_registered();
         foreach ($registered_block_types as $block_type) {
@@ -172,7 +178,8 @@ class WP_Block_Supports {
  * @param string[] $extra_attributes Optional. Array of extra attributes to render on the block wrapper.
  * @return string String of HTML attributes.
  */
-function get_block_wrapper_attributes($extra_attributes = array()) {
+function get_block_wrapper_attributes($extra_attributes = array())
+{
     $new_attributes = WP_Block_Supports::get_instance()->apply_block_supports();
 
     if (empty($new_attributes) && empty($extra_attributes)) {

@@ -10,7 +10,8 @@
  * @group blocks
  * @group block-hooks
  */
-class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase {
+class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase
+{
     const ANCHOR_BLOCK_TYPE       = 'tests/anchor-block';
     const HOOKED_BLOCK_TYPE       = 'tests/hooked-block';
     const OTHER_HOOKED_BLOCK_TYPE = 'tests/other-hooked-block';
@@ -29,7 +30,8 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase {
      *
      * @covers ::insert_hooked_blocks
      */
-    public function test_insert_hooked_blocks_returns_correct_markup() {
+    public function test_insert_hooked_blocks_returns_correct_markup()
+    {
         $anchor_block = array(
             'blockName' => self::ANCHOR_BLOCK_TYPE,
         );
@@ -49,7 +51,8 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase {
      *
      * @covers ::insert_hooked_blocks
      */
-    public function test_insert_hooked_blocks_if_block_is_ignored() {
+    public function test_insert_hooked_blocks_if_block_is_ignored()
+    {
         $anchor_block = array(
             'blockName' => 'tests/anchor-block',
             'attrs'     => array(
@@ -74,7 +77,8 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase {
      *
      * @covers ::insert_hooked_blocks
      */
-    public function test_insert_hooked_blocks_if_other_block_is_ignored() {
+    public function test_insert_hooked_blocks_if_other_block_is_ignored()
+    {
         $anchor_block = array(
             'blockName' => 'tests/anchor-block',
             'attrs'     => array(
@@ -99,7 +103,8 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase {
      *
      * @covers ::insert_hooked_blocks
      */
-    public function test_insert_hooked_blocks_filter_can_set_attributes() {
+    public function test_insert_hooked_blocks_filter_can_set_attributes()
+    {
         $anchor_block = array(
             'blockName'    => self::ANCHOR_BLOCK_TYPE,
             'attrs'        => array(
@@ -142,7 +147,8 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase {
      *
      * @covers ::insert_hooked_blocks
      */
-    public function test_insert_hooked_blocks_filter_can_wrap_block() {
+    public function test_insert_hooked_blocks_filter_can_wrap_block()
+    {
         $anchor_block = array(
             'blockName'    => self::ANCHOR_BLOCK_TYPE,
             'attrs'        => array(
@@ -186,7 +192,8 @@ class Tests_Blocks_InsertHookedBlocks extends WP_UnitTestCase {
      *
      * @covers ::insert_hooked_blocks
      */
-    public function test_insert_hooked_blocks_filter_can_suppress_hooked_block() {
+    public function test_insert_hooked_blocks_filter_can_suppress_hooked_block()
+    {
         $anchor_block = array(
             'blockName'    => self::ANCHOR_BLOCK_TYPE,
             'attrs'        => array(

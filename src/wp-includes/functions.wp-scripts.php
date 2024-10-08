@@ -17,7 +17,8 @@
  *
  * @return WP_Scripts WP_Scripts instance.
  */
-function wp_scripts() {
+function wp_scripts()
+{
     global $wp_scripts;
 
     if (! ($wp_scripts instanceof WP_Scripts)) {
@@ -38,7 +39,8 @@ function wp_scripts() {
  * @param string $handle        Optional. Name of the script or stylesheet that was
  *                              registered or enqueued too early. Default empty.
  */
-function _wp_scripts_maybe_doing_it_wrong($function_name, $handle = '') {
+function _wp_scripts_maybe_doing_it_wrong($function_name, $handle = '')
+{
     if (did_action('init') || did_action('wp_enqueue_scripts')
         || did_action('admin_enqueue_scripts') || did_action('login_enqueue_scripts')
     ) {
@@ -84,7 +86,8 @@ function _wp_scripts_maybe_doing_it_wrong($function_name, $handle = '') {
  * @param string|string[]|false $handles Optional. Scripts to be printed. Default 'false'.
  * @return string[] On success, an array of handles of processed WP_Dependencies items; otherwise, an empty array.
  */
-function wp_print_scripts($handles = false) {
+function wp_print_scripts($handles = false)
+{
     global $wp_scripts;
 
     /**
@@ -127,7 +130,8 @@ function wp_print_scripts($handles = false) {
  *                         or after. Default 'after'.
  * @return bool True on success, false on failure.
  */
-function wp_add_inline_script($handle, $data, $position = 'after') {
+function wp_add_inline_script($handle, $data, $position = 'after')
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     if (false !== stripos($data, '</script>')) {
@@ -176,7 +180,8 @@ function wp_add_inline_script($handle, $data, $position = 'after') {
  * }
  * @return bool Whether the script has been registered. True on success, false on failure.
  */
-function wp_register_script($handle, $src, $deps = array(), $ver = false, $args = array()) {
+function wp_register_script($handle, $src, $deps = array(), $ver = false, $args = array())
+{
     if (! is_array($args)) {
         $args = array(
             'in_footer' => (bool) $args,
@@ -222,7 +227,8 @@ function wp_register_script($handle, $src, $deps = array(), $ver = false, $args 
  * @param array  $l10n        The data itself. The data can be either a single or multi-dimensional array.
  * @return bool True if the script was successfully localized, false otherwise.
  */
-function wp_localize_script($handle, $object_name, $l10n) {
+function wp_localize_script($handle, $object_name, $l10n)
+{
     $wp_scripts = wp_scripts();
 
     return $wp_scripts->localize($handle, $object_name, $l10n);
@@ -244,7 +250,8 @@ function wp_localize_script($handle, $object_name, $l10n) {
  * @param string $path   Optional. The full file path to the directory containing translation files.
  * @return bool True if the text domain was successfully localized, false otherwise.
  */
-function wp_set_script_translations($handle, $domain = 'default', $path = '') {
+function wp_set_script_translations($handle, $domain = 'default', $path = '')
+{
     global $wp_scripts;
 
     if (! ($wp_scripts instanceof WP_Scripts)) {
@@ -269,7 +276,8 @@ function wp_set_script_translations($handle, $domain = 'default', $path = '') {
  *
  * @param string $handle Name of the script to be removed.
  */
-function wp_deregister_script($handle) {
+function wp_deregister_script($handle)
+{
     global $pagenow;
 
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
@@ -356,7 +364,8 @@ function wp_deregister_script($handle) {
  *     @type bool      $in_footer    Optional. Whether to print the script in the footer. Default 'false'.
  * }
  */
-function wp_enqueue_script($handle, $src = '', $deps = array(), $ver = false, $args = array()) {
+function wp_enqueue_script($handle, $src = '', $deps = array(), $ver = false, $args = array())
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     $wp_scripts = wp_scripts();
@@ -392,7 +401,8 @@ function wp_enqueue_script($handle, $src = '', $deps = array(), $ver = false, $a
  *
  * @param string $handle Name of the script to be removed.
  */
-function wp_dequeue_script($handle) {
+function wp_dequeue_script($handle)
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     wp_scripts()->dequeue($handle);
@@ -413,7 +423,8 @@ function wp_dequeue_script($handle) {
  *                       Accepts 'enqueued', 'registered', 'queue', 'to_do', and 'done'.
  * @return bool Whether the script is queued.
  */
-function wp_script_is($handle, $status = 'enqueued') {
+function wp_script_is($handle, $status = 'enqueued')
+{
     _wp_scripts_maybe_doing_it_wrong(__FUNCTION__, $handle);
 
     return (bool) wp_scripts()->query($handle, $status);
@@ -436,6 +447,7 @@ function wp_script_is($handle, $status = 'enqueued') {
  * @param mixed  $value  String containing the data to be added.
  * @return bool True on success, false on failure.
  */
-function wp_script_add_data($handle, $key, $value) {
+function wp_script_add_data($handle, $key, $value)
+{
     return wp_scripts()->add_data($handle, $key, $value);
 }

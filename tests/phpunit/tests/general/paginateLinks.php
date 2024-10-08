@@ -5,17 +5,20 @@
  * @group template
  * @covers ::paginate_links
  */
-class Tests_General_PaginateLinks extends WP_UnitTestCase {
+class Tests_General_PaginateLinks extends WP_UnitTestCase
+{
 
     private $i18n_count = 0;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->go_to(home_url('/'));
     }
 
-    public function test_defaults() {
+    public function test_defaults()
+    {
         $page2  = get_pagenum_link(2);
         $page3  = get_pagenum_link(3);
         $page50 = get_pagenum_link(50);
@@ -33,7 +36,8 @@ EXPECTED;
         $this->assertSameIgnoreEOL($expected, $links);
     }
 
-    public function test_format() {
+    public function test_format()
+    {
         $page2  = home_url('/page/2/');
         $page3  = home_url('/page/3/');
         $page50 = home_url('/page/50/');
@@ -56,7 +60,8 @@ EXPECTED;
         $this->assertSameIgnoreEOL($expected, $links);
     }
 
-    public function test_prev_next_false() {
+    public function test_prev_next_false()
+    {
         $home   = home_url('/');
         $page3  = get_pagenum_link(3);
         $page4  = get_pagenum_link(4);
@@ -81,7 +86,8 @@ EXPECTED;
         $this->assertSameIgnoreEOL($expected, $links);
     }
 
-    public function test_prev_next_true() {
+    public function test_prev_next_true()
+    {
         $home   = home_url('/');
         $page3  = get_pagenum_link(3);
         $page4  = get_pagenum_link(4);
@@ -108,14 +114,16 @@ EXPECTED;
         $this->assertSameIgnoreEOL($expected, $links);
     }
 
-    public function increment_i18n_count() {
+    public function increment_i18n_count()
+    {
         $this->i18n_count += 1;
     }
 
     /**
      * @ticket 25735
      */
-    public function test_paginate_links_number_format() {
+    public function test_paginate_links_number_format()
+    {
         $this->i18n_count = 0;
         add_filter('number_format_i18n', array($this, 'increment_i18n_count'));
         paginate_links(
@@ -137,7 +145,8 @@ EXPECTED;
     /**
      * @ticket 24606
      */
-    public function test_paginate_links_base_value() {
+    public function test_paginate_links_base_value()
+    {
 
         // Current page: 2.
         $links = paginate_links(
@@ -205,7 +214,8 @@ EXPECTED;
         $this->assertSame(get_pagenum_link(2), $href);
     }
 
-    public function add_query_arg($url) {
+    public function add_query_arg($url)
+    {
         return add_query_arg(
             array(
                 'foo' => 'bar',
@@ -218,7 +228,8 @@ EXPECTED;
     /**
      * @ticket 29636
      */
-    public function test_paginate_links_query_args() {
+    public function test_paginate_links_query_args()
+    {
         add_filter('get_pagenum_link', array($this, 'add_query_arg'));
         $links = paginate_links(
             array(
@@ -256,7 +267,8 @@ EXPECTED;
     /**
      * @ticket 30831
      */
-    public function test_paginate_links_with_custom_query_args() {
+    public function test_paginate_links_with_custom_query_args()
+    {
         add_filter('get_pagenum_link', array($this, 'add_query_arg'));
         $links = paginate_links(
             array(
@@ -296,7 +308,8 @@ EXPECTED;
     /**
      * @ticket 30831
      */
-    public function test_paginate_links_should_allow_non_default_format_without_add_args() {
+    public function test_paginate_links_should_allow_non_default_format_without_add_args()
+    {
         // Fake the query params.
         $request_uri            = $_SERVER['REQUEST_URI'];
         $_SERVER['REQUEST_URI'] = add_query_arg('foo', 3, home_url());
@@ -322,7 +335,8 @@ EXPECTED;
     /**
      * @ticket 30831
      */
-    public function test_paginate_links_should_allow_add_args_to_be_bool_false() {
+    public function test_paginate_links_should_allow_add_args_to_be_bool_false()
+    {
         // Fake the query params.
         $request_uri            = $_SERVER['REQUEST_URI'];
         $_SERVER['REQUEST_URI'] = add_query_arg('foo', 3, home_url());
@@ -344,7 +358,8 @@ EXPECTED;
     /**
      * @ticket 31939
      */
-    public function test_custom_base_query_arg_should_be_stripped_from_current_url_before_generating_pag_links() {
+    public function test_custom_base_query_arg_should_be_stripped_from_current_url_before_generating_pag_links()
+    {
         // Fake the current URL: example.com?foo.
         $request_uri            = $_SERVER['REQUEST_URI'];
         $_SERVER['REQUEST_URI'] = add_query_arg('foo', '', $request_uri);

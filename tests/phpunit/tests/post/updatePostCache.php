@@ -13,7 +13,8 @@
  *
  * @covers ::update_post_cache
  */
-class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
+class Tests_Post_UpdatePostCache extends WP_UnitTestCase
+{
 
     /**
      * Post IDs from the shared fixture.
@@ -27,7 +28,8 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The unit test factory.
      */
-    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_ids = $factory->post->create_many(1);
     }
 
@@ -37,7 +39,8 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      *
      * @ticket 50567
      */
-    public function test_should_return_null_with_an_empty_array() {
+    public function test_should_return_null_with_an_empty_array()
+    {
         $posts = array();
         $this->assertNull(update_post_cache($posts));
     }
@@ -47,7 +50,8 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      *
      * @ticket 50567
      */
-    public function test_query_caches_post_filter() {
+    public function test_query_caches_post_filter()
+    {
         $post_id = self::$post_ids[0];
         $this->go_to('/');
 
@@ -75,7 +79,8 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      *
      * @ticket 50567
      */
-    public function test_get_post_caches_post_filter() {
+    public function test_get_post_caches_post_filter()
+    {
         $post_id = self::$post_ids[0];
         get_post($post_id);
 
@@ -88,7 +93,8 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      *
      * @ticket 50567
      */
-    public function test_get_post_caches_post_filter_is_always_raw() {
+    public function test_get_post_caches_post_filter_is_always_raw()
+    {
         $post_id = self::$post_ids[0];
         get_post($post_id, OBJECT, 'display');
 
@@ -116,7 +122,8 @@ class Tests_Post_UpdatePostCache extends WP_UnitTestCase {
      *
      * @ticket 50567
      */
-    public function test_get_posts_caches_post_filter_is_always_raw() {
+    public function test_get_posts_caches_post_filter_is_always_raw()
+    {
         $post_id = self::$post_ids[0];
         get_posts(array('includes' => $post_id));
 

@@ -20,7 +20,8 @@
  * @param WP_Network|int|null $network Optional. Network to retrieve. Default is the current network.
  * @return WP_Network|null The network object or null if not found.
  */
-function get_network($network = null) {
+function get_network($network = null)
+{
     global $current_site;
     if (empty($network) && isset($current_site)) {
         $network = $current_site;
@@ -60,7 +61,8 @@ function get_network($network = null) {
  * @return array|int List of WP_Network objects, a list of network IDs when 'fields' is set to 'ids',
  *                   or the number of networks when 'count' is passed as a query var.
  */
-function get_networks($args = array()) {
+function get_networks($args = array())
+{
     $query = new WP_Network_Query();
 
     return $query->query($args);
@@ -75,7 +77,8 @@ function get_networks($args = array()) {
  *
  * @param int|array $ids Network ID or an array of network IDs to remove from cache.
  */
-function clean_network_cache($ids) {
+function clean_network_cache($ids)
+{
     global $_wp_suspend_cache_invalidation;
 
     if (! empty($_wp_suspend_cache_invalidation)) {
@@ -110,7 +113,8 @@ function clean_network_cache($ids) {
  *
  * @param array $networks Array of network row objects.
  */
-function update_network_cache($networks) {
+function update_network_cache($networks)
+{
     $data = array();
     foreach ((array) $networks as $network) {
         $data[ $network->id ] = $network;
@@ -129,7 +133,8 @@ function update_network_cache($networks) {
  *
  * @param array $network_ids Array of network IDs.
  */
-function _prime_network_caches($network_ids) {
+function _prime_network_caches($network_ids)
+{
     global $wpdb;
 
     $non_cached_ids = _get_non_cached_ids($network_ids, 'networks');

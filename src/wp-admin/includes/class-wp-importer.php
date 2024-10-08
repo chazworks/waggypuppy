@@ -3,11 +3,13 @@
  * WP_Importer base class
  */
 #[AllowDynamicProperties]
-class WP_Importer {
+class WP_Importer
+{
     /**
      * Class Constructor
      */
-    public function __construct() {}
+    public function __construct()
+    {}
 
     /**
      * Returns array with imported permalinks from WordPress database.
@@ -18,7 +20,8 @@ class WP_Importer {
      * @param string $blog_id
      * @return array
      */
-    public function get_imported_posts($importer_name, $blog_id) {
+    public function get_imported_posts($importer_name, $blog_id)
+    {
         global $wpdb;
 
         $hashtable = array();
@@ -55,7 +58,8 @@ class WP_Importer {
      * @param string $blog_id
      * @return int
      */
-    public function count_imported_posts($importer_name, $blog_id) {
+    public function count_imported_posts($importer_name, $blog_id)
+    {
         global $wpdb;
 
         $count = 0;
@@ -81,7 +85,8 @@ class WP_Importer {
      * @param string $blog_id
      * @return array
      */
-    public function get_imported_comments($blog_id) {
+    public function get_imported_comments($blog_id)
+    {
         global $wpdb;
 
         $hashtable = array();
@@ -119,7 +124,8 @@ class WP_Importer {
      * @param int $blog_id
      * @return int|void
      */
-    public function set_blog($blog_id) {
+    public function set_blog($blog_id)
+    {
         if (is_numeric($blog_id)) {
             $blog_id = (int) $blog_id;
         } else {
@@ -160,7 +166,8 @@ class WP_Importer {
      * @param int $user_id
      * @return int|void
      */
-    public function set_user($user_id) {
+    public function set_user($user_id)
+    {
         if (is_numeric($user_id)) {
             $user_id = (int) $user_id;
         } else {
@@ -182,7 +189,8 @@ class WP_Importer {
      * @param string $b
      * @return int
      */
-    public function cmpr_strlen($a, $b) {
+    public function cmpr_strlen($a, $b)
+    {
         return strlen($b) - strlen($a);
     }
 
@@ -195,7 +203,8 @@ class WP_Importer {
      * @param bool   $head
      * @return array
      */
-    public function get_page($url, $username = '', $password = '', $head = false) {
+    public function get_page($url, $username = '', $password = '', $head = false)
+    {
         // Increase the timeout.
         add_filter('http_request_timeout', array($this, 'bump_request_timeout'));
 
@@ -219,7 +228,8 @@ class WP_Importer {
      * @param int $val
      * @return int
      */
-    public function bump_request_timeout($val) {
+    public function bump_request_timeout($val)
+    {
         return 60;
     }
 
@@ -228,7 +238,8 @@ class WP_Importer {
      *
      * @return bool
      */
-    public function is_user_over_quota() {
+    public function is_user_over_quota()
+    {
         if (function_exists('upload_is_user_over_quota')) {
             if (upload_is_user_over_quota()) {
                 return true;
@@ -244,7 +255,8 @@ class WP_Importer {
      * @param string $text
      * @return string
      */
-    public function min_whitespace($text) {
+    public function min_whitespace($text)
+    {
         return preg_replace('|[\r\n\t ]+|', ' ', $text);
     }
 
@@ -256,7 +268,8 @@ class WP_Importer {
      * @global wpdb  $wpdb       WordPress database abstraction object.
      * @global int[] $wp_actions
      */
-    public function stop_the_insanity() {
+    public function stop_the_insanity()
+    {
         global $wpdb, $wp_actions;
         // Or define( 'WP_IMPORTING', true );
         $wpdb->queries = array();
@@ -273,7 +286,8 @@ class WP_Importer {
  * @param bool   $required
  * @return mixed
  */
-function get_cli_args($param, $required = false) {
+function get_cli_args($param, $required = false)
+{
     $args = $_SERVER['argv'];
     if (! is_array($args)) {
         $args = array();

@@ -13,7 +13,8 @@
  * @param int    $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_add($key, $value, $group = '', $expiration = 0) {
+function wp_cache_add($key, $value, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->add($key, $value, $group, $expiration);
 }
@@ -35,7 +36,8 @@ function wp_cache_add($key, $value, $group = '', $expiration = 0) {
  * @param int    $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_add_by_key($server_key, $key, $value, $group = '', $expiration = 0) {
+function wp_cache_add_by_key($server_key, $key, $value, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->addByKey($server_key, $key, $value, $group, $expiration);
 }
@@ -50,7 +52,8 @@ function wp_cache_add_by_key($server_key, $key, $value, $group = '', $expiration
  * @return bool[] Array of return values, grouped by key. Each value is either
  *                true on success, or false if cache key and group already exist.
  */
-function wp_cache_add_multiple(array $items, $group = '', $expiration = 0) {
+function wp_cache_add_multiple(array $items, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->addMultiple($items, $group, $expiration);
 }
@@ -66,7 +69,8 @@ function wp_cache_add_multiple(array $items, $group = '', $expiration = 0) {
  *                       of all the servers in the pool.
  * @return bool True on success, false on failure.
  */
-function wp_cache_add_server($host, $port, $weight = 0) {
+function wp_cache_add_server($host, $port, $weight = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->addServer($host, $port, $weight);
 }
@@ -82,7 +86,8 @@ function wp_cache_add_server($host, $port, $weight = 0) {
  * @param array $servers Array of server to register.
  * @return bool True on success, false on failure.
  */
-function wp_cache_add_servers($servers) {
+function wp_cache_add_servers($servers)
+{
     global $wp_object_cache;
     return $wp_object_cache->addServers($servers);
 }
@@ -104,7 +109,8 @@ function wp_cache_add_servers($servers) {
  * @param string $group The group value appended to the $key.
  * @return bool True on success, false on failure.
  */
-function wp_cache_append($key, $value, $group = '') {
+function wp_cache_append($key, $value, $group = '')
+{
     global $wp_object_cache;
     return $wp_object_cache->append($key, $value, $group);
 }
@@ -127,7 +133,8 @@ function wp_cache_append($key, $value, $group = '') {
  * @param string $group      The group value appended to the $key.
  * @return bool True on success, false on failure.
  */
-function wp_cache_append_by_key($server_key, $key, $value, $group = '') {
+function wp_cache_append_by_key($server_key, $key, $value, $group = '')
+{
     global $wp_object_cache;
     return $wp_object_cache->appendByKey($server_key, $key, $value, $group);
 }
@@ -147,7 +154,8 @@ function wp_cache_append_by_key($server_key, $key, $value, $group = '') {
  * @param int    $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_cas($cas_token, $key, $value, $group = '', $expiration = 0) {
+function wp_cache_cas($cas_token, $key, $value, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->cas($cas_token, $key, $value, $group, $expiration);
 }
@@ -168,7 +176,8 @@ function wp_cache_cas($cas_token, $key, $value, $group = '', $expiration = 0) {
  * @param int    $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_cas_by_key($cas_token, $server_key, $key, $value, $group = '', $expiration = 0) {
+function wp_cache_cas_by_key($cas_token, $server_key, $key, $value, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->casByKey($cas_token, $server_key, $key, $value, $group, $expiration);
 }
@@ -185,7 +194,8 @@ function wp_cache_cas_by_key($cas_token, $server_key, $key, $value, $group = '',
  *
  * @return bool Always returns true.
  */
-function wp_cache_close() {
+function wp_cache_close()
+{
     return true;
 }
 
@@ -199,7 +209,8 @@ function wp_cache_close() {
  * @param string $group  The group value appended to the $key.
  * @return int|bool Item's new value on success, false on failure.
  */
-function wp_cache_decrement($key, $offset = 1, $group = '') {
+function wp_cache_decrement($key, $offset = 1, $group = '')
+{
     global $wp_object_cache;
     return $wp_object_cache->decrement($key, $offset, $group);
 }
@@ -217,7 +228,8 @@ function wp_cache_decrement($key, $offset = 1, $group = '') {
  * @param string $group  The group value appended to the $key.
  * @return int|bool Item's new value on success, false on failure.
  */
-function wp_cache_decr($key, $offset = 1, $group = '') {
+function wp_cache_decr($key, $offset = 1, $group = '')
+{
     return wp_cache_decrement($key, $offset, $group);
 }
 
@@ -236,7 +248,8 @@ function wp_cache_decr($key, $offset = 1, $group = '') {
  * @param int    $time  The amount of time the server will wait to delete the item in seconds.
  * @return bool True on success, false on failure.
  */
-function wp_cache_delete($key, $group = '', $time = 0) {
+function wp_cache_delete($key, $group = '', $time = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->delete($key, $group, $time);
 }
@@ -257,7 +270,8 @@ function wp_cache_delete($key, $group = '', $time = 0) {
  * @param int    $time       The amount of time the server will wait to delete the item in seconds.
  * @return bool True on success, false on failure.
  */
-function wp_cache_delete_by_key($server_key, $key, $group = '', $time = 0) {
+function wp_cache_delete_by_key($server_key, $key, $group = '', $time = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->deleteByKey($server_key, $key, $group, $time);
 }
@@ -270,7 +284,8 @@ function wp_cache_delete_by_key($server_key, $key, $group = '', $time = 0) {
  * @return bool[] Array of return values, grouped by key. Each value is either
  *                true on success, or false if the contents were not deleted.
  */
-function wp_cache_delete_multiple(array $keys, $group = '') {
+function wp_cache_delete_multiple(array $keys, $group = '')
+{
     global $wp_object_cache;
     return $wp_object_cache->deleteMultiple($keys, $group);
 }
@@ -282,7 +297,8 @@ function wp_cache_delete_multiple(array $keys, $group = '') {
  *
  * @return array|false The next result on success, false on failure.
  */
-function wp_cache_fetch() {
+function wp_cache_fetch()
+{
     global $wp_object_cache;
     return $wp_object_cache->fetch();
 }
@@ -294,7 +310,8 @@ function wp_cache_fetch() {
  *
  * @return array|false The results on success, false on failure.
  */
-function wp_cache_fetch_all() {
+function wp_cache_fetch_all()
+{
     global $wp_object_cache;
     return $wp_object_cache->fetchAll();
 }
@@ -307,7 +324,8 @@ function wp_cache_fetch_all() {
  * @param int $delay Number of seconds to wait before invalidating the items.
  * @return bool True on success, false on failure.
  */
-function wp_cache_flush($delay = 0) {
+function wp_cache_flush($delay = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->flush($delay);
 }
@@ -317,7 +335,8 @@ function wp_cache_flush($delay = 0) {
  *
  * @return bool True on success, false on failure.
  */
-function wp_cache_flush_runtime() {
+function wp_cache_flush_runtime()
+{
     global $wp_object_cache;
     return $wp_object_cache->flush_runtime();
 }
@@ -332,7 +351,8 @@ function wp_cache_flush_runtime() {
  *                        'flush_runtime', 'flush_group'.
  * @return bool True if the feature is supported, false otherwise.
  */
-function wp_cache_supports($feature) {
+function wp_cache_supports($feature)
+{
     switch ($feature) {
         case 'get_multiple':
         case 'flush_runtime':
@@ -363,7 +383,8 @@ function wp_cache_supports($feature) {
  * @param null|float  $cas_token The variable to store the CAS token in.
  * @return bool|mixed Cached object value.
  */
-function wp_cache_get($key, $group = '', $force = false, &$found = null, $cache_cb = null, &$cas_token = null) {
+function wp_cache_get($key, $group = '', $force = false, &$found = null, $cache_cb = null, &$cas_token = null)
+{
     global $wp_object_cache;
 
     if (func_num_args() > 4) {
@@ -392,7 +413,8 @@ function wp_cache_get($key, $group = '', $force = false, &$found = null, $cache_
  * @param null|float  $cas_token  The variable to store the CAS token in.
  * @return bool|mixed Cached object value.
  */
-function wp_cache_get_by_key($server_key, $key, $group = '', $force = false, &$found = null, $cache_cb = null, &$cas_token = null) {
+function wp_cache_get_by_key($server_key, $key, $group = '', $force = false, &$found = null, $cache_cb = null, &$cas_token = null)
+{
     global $wp_object_cache;
 
     if (func_num_args() > 5) {
@@ -414,7 +436,8 @@ function wp_cache_get_by_key($server_key, $key, $group = '', $force = false, &$f
  * @param null         $value_cb The result callback or null.
  * @return bool True on success, false on failure.
  */
-function wp_cache_get_delayed($keys, $groups = '', $with_cas = false, $value_cb = null) {
+function wp_cache_get_delayed($keys, $groups = '', $with_cas = false, $value_cb = null)
+{
     global $wp_object_cache;
     return $wp_object_cache->getDelayed($keys, $groups, $with_cas, $value_cb);
 }
@@ -432,7 +455,8 @@ function wp_cache_get_delayed($keys, $groups = '', $with_cas = false, $value_cb 
  * @param null         $value_cb   The result callback or null.
  * @return bool True on success, false on failure.
  */
-function wp_cache_get_delayed_by_key($server_key, $keys, $groups = '', $with_cas = false, $value_cb = null) {
+function wp_cache_get_delayed_by_key($server_key, $keys, $groups = '', $with_cas = false, $value_cb = null)
+{
     global $wp_object_cache;
     return $wp_object_cache->getDelayedByKey($server_key, $keys, $groups, $with_cas, $value_cb);
 }
@@ -451,7 +475,8 @@ function wp_cache_get_delayed_by_key($server_key, $keys, $groups = '', $with_cas
  * @param int          $flags      The flags for the get operation.
  * @return bool|array The array of found items on success, false on failure.
  */
-function wp_cache_get_multi($keys, $groups = '', &$cas_tokens = null, $flags = null) {
+function wp_cache_get_multi($keys, $groups = '', &$cas_tokens = null, $flags = null)
+{
     global $wp_object_cache;
 
     if (func_num_args() > 2) {
@@ -476,7 +501,8 @@ function wp_cache_get_multi($keys, $groups = '', &$cas_tokens = null, $flags = n
  * @param int          $flags      The flags for the get operation.
  * @return bool|array The array of found items on success, false on failure.
  */
-function wp_cache_get_multi_by_key($server_key, $keys, $groups = '', &$cas_tokens = null, $flags = null) {
+function wp_cache_get_multi_by_key($server_key, $keys, $groups = '', &$cas_tokens = null, $flags = null)
+{
     global $wp_object_cache;
 
     if (func_num_args() > 3) {
@@ -496,7 +522,8 @@ function wp_cache_get_multi_by_key($server_key, $keys, $groups = '', &$cas_token
  * @return array Array of return values, grouped by key. Each value is either
  *               the cache contents on success, or false on failure.
  */
-function wp_cache_get_multiple($keys, $group = '', $force = false) {
+function wp_cache_get_multiple($keys, $group = '', $force = false)
+{
     global $wp_object_cache;
 
     // Prime multiple keys in a single Memcached call.
@@ -513,7 +540,8 @@ function wp_cache_get_multiple($keys, $group = '', $force = false) {
  * @param int $option One of the Memcached::OPT_* constants.
  * @return mixed The value of the requested option on success, false on failure.
  */
-function wp_cache_get_option($option) {
+function wp_cache_get_option($option)
+{
     global $wp_object_cache;
     return $wp_object_cache->getOption($option);
 }
@@ -525,7 +553,8 @@ function wp_cache_get_option($option) {
  *
  * @return int Result code of the last Memcached operation.
  */
-function wp_cache_get_result_code() {
+function wp_cache_get_result_code()
+{
     global $wp_object_cache;
     return $wp_object_cache->getResultCode();
 }
@@ -537,7 +566,8 @@ function wp_cache_get_result_code() {
  *
  * @return string Message describing the result of the last Memcached operation.
  */
-function wp_cache_get_result_message() {
+function wp_cache_get_result_message()
+{
     global $wp_object_cache;
     return $wp_object_cache->getResultMessage();
 }
@@ -550,7 +580,8 @@ function wp_cache_get_result_message() {
  * @param string $server_key The key identifying the server to store the value on.
  * @return array Array with host, post, and weight on success, fales on failure.
  */
-function wp_cache_get_server_by_key($server_key) {
+function wp_cache_get_server_by_key($server_key)
+{
     global $wp_object_cache;
     return $wp_object_cache->getServerByKey($server_key);
 }
@@ -562,7 +593,8 @@ function wp_cache_get_server_by_key($server_key) {
  *
  * @return array The list of all servers in the server pool.
  */
-function wp_cache_get_server_list() {
+function wp_cache_get_server_list()
+{
     global $wp_object_cache;
     return $wp_object_cache->getServerList();
 }
@@ -574,7 +606,8 @@ function wp_cache_get_server_list() {
  *
  * @return array Array of server statistics, one entry per server.
  */
-function wp_cache_get_stats() {
+function wp_cache_get_stats()
+{
     global $wp_object_cache;
     return $wp_object_cache->getStats();
 }
@@ -586,7 +619,8 @@ function wp_cache_get_stats() {
  *
  * @return array Array of server versions, one entry per server.
  */
-function wp_cache_get_version() {
+function wp_cache_get_version()
+{
     global $wp_object_cache;
     return $wp_object_cache->getVersion();
 }
@@ -601,7 +635,8 @@ function wp_cache_get_version() {
  * @param string $group  The group value appended to the $key.
  * @return int|bool Item's new value on success, false on failure.
  */
-function wp_cache_increment($key, $offset = 1, $group = '') {
+function wp_cache_increment($key, $offset = 1, $group = '')
+{
     global $wp_object_cache;
     return $wp_object_cache->increment($key, $offset, $group);
 }
@@ -619,7 +654,8 @@ function wp_cache_increment($key, $offset = 1, $group = '') {
  * @param string $group  The group value appended to the $key.
  * @return int|bool Item's new value on success, false on failure.
  */
-function wp_cache_incr($key, $offset = 1, $group = '') {
+function wp_cache_incr($key, $offset = 1, $group = '')
+{
     return wp_cache_increment($key, $offset, $group);
 }
 
@@ -641,7 +677,8 @@ function wp_cache_incr($key, $offset = 1, $group = '') {
  * @param string $group The group value prepended to the $key.
  * @return bool True on success, false on failure.
  */
-function wp_cache_prepend($key, $value, $group = '') {
+function wp_cache_prepend($key, $value, $group = '')
+{
     global $wp_object_cache;
     return $wp_object_cache->prepend($key, $value, $group);
 }
@@ -665,7 +702,8 @@ function wp_cache_prepend($key, $value, $group = '') {
  * @param string $group      The group value prepended to the $key.
  * @return bool True on success, false on failure.
  */
-function wp_cache_prepend_by_key($server_key, $key, $value, $group = '') {
+function wp_cache_prepend_by_key($server_key, $key, $value, $group = '')
+{
     global $wp_object_cache;
     return $wp_object_cache->prependByKey($server_key, $key, $value, $group);
 }
@@ -684,7 +722,8 @@ function wp_cache_prepend_by_key($server_key, $key, $value, $group = '') {
  * @param int    $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_replace($key, $value, $group = '', $expiration = 0) {
+function wp_cache_replace($key, $value, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->replace($key, $value, $group, $expiration);
 }
@@ -704,7 +743,8 @@ function wp_cache_replace($key, $value, $group = '', $expiration = 0) {
  * @param int    $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_replace_by_key($server_key, $key, $value, $group = '', $expiration = 0) {
+function wp_cache_replace_by_key($server_key, $key, $value, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->replaceByKey($server_key, $key, $value, $group, $expiration);
 }
@@ -722,7 +762,8 @@ function wp_cache_replace_by_key($server_key, $key, $value, $group = '', $expira
  * @param int    $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_set($key, $value, $group = '', $expiration = 0) {
+function wp_cache_set($key, $value, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->set($key, $value, $group, $expiration);
 }
@@ -741,7 +782,8 @@ function wp_cache_set($key, $value, $group = '', $expiration = 0) {
  * @param int    $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_set_by_key($server_key, $key, $value, $group = '', $expiration = 0) {
+function wp_cache_set_by_key($server_key, $key, $value, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->setByKey($server_key, $key, $value, $group, $expiration);
 }
@@ -760,7 +802,8 @@ function wp_cache_set_by_key($server_key, $key, $value, $group = '', $expiration
  * @param int          $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_set_multi($items, $groups = '', $expiration = 0) {
+function wp_cache_set_multi($items, $groups = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->setMulti($items, $groups, $expiration);
 }
@@ -780,7 +823,8 @@ function wp_cache_set_multi($items, $groups = '', $expiration = 0) {
  * @param int          $expiration The expiration time, defaults to 0.
  * @return bool True on success, false on failure.
  */
-function wp_cache_set_multi_by_key($server_key, $items, $groups = 'default', $expiration = 0) {
+function wp_cache_set_multi_by_key($server_key, $items, $groups = 'default', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->setMultiByKey($server_key, $items, $groups, $expiration);
 }
@@ -797,7 +841,8 @@ function wp_cache_set_multi_by_key($server_key, $items, $groups = 'default', $ex
  * @return bool[] Array of return values, grouped by key. Each value is either
  *                true on success, or false on failure.
  */
-function wp_cache_set_multiple(array $items, $group = '', $expiration = 0) {
+function wp_cache_set_multiple(array $items, $group = '', $expiration = 0)
+{
     global $wp_object_cache;
     return $wp_object_cache->setMultiple($items, $group, $expiration);
 }
@@ -811,7 +856,8 @@ function wp_cache_set_multiple(array $items, $group = '', $expiration = 0) {
  * @param mixed $value  Option value.
  * @return bool True on success, false on failure.
  */
-function wp_cache_set_option($option, $value) {
+function wp_cache_set_option($option, $value)
+{
     global $wp_object_cache;
     return $wp_object_cache->setOption($option, $value);
 }
@@ -821,7 +867,8 @@ function wp_cache_set_option($option, $value) {
  *
  * @param int $blog_id Blog to switch to.
  */
-function wp_cache_switch_to_blog($blog_id) {
+function wp_cache_switch_to_blog($blog_id)
+{
     global $wp_object_cache;
     return $wp_object_cache->switch_to_blog($blog_id);
 }
@@ -832,7 +879,8 @@ function wp_cache_switch_to_blog($blog_id) {
  *
  * @global WP_Object_Cache $wp_object_cache WordPress Object Cache
  */
-function wp_cache_init() {
+function wp_cache_init()
+{
     global $wp_object_cache;
     $wp_object_cache = new WP_Object_Cache();
 }
@@ -842,7 +890,8 @@ function wp_cache_init() {
  *
  * @param string|array $groups A group or an array of groups to add.
  */
-function wp_cache_add_global_groups($groups) {
+function wp_cache_add_global_groups($groups)
+{
     global $wp_object_cache;
     $wp_object_cache->add_global_groups($groups);
 }
@@ -852,13 +901,15 @@ function wp_cache_add_global_groups($groups) {
  *
  * @param string|array $groups A group or an array of groups to add.
  */
-function wp_cache_add_non_persistent_groups($groups) {
+function wp_cache_add_non_persistent_groups($groups)
+{
     global $wp_object_cache;
     $wp_object_cache->add_non_persistent_groups($groups);
 }
 
 // phpcs:disable WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
-class WP_Object_Cache {
+class WP_Object_Cache
+{
 
     /**
      * Holds the Memcached object.
@@ -934,7 +985,8 @@ class WP_Object_Cache {
      * @param null $persistent_id To create an instance that persists between requests,
      *                            use persistent_id to specify a unique ID for the instance.
      */
-    public function __construct($persistent_id = null) {
+    public function __construct($persistent_id = null)
+    {
         global $memcached_servers, $blog_id, $table_prefix;
 
         if (is_null($persistent_id) || ! is_string($persistent_id)) {
@@ -986,7 +1038,8 @@ class WP_Object_Cache {
      * @param bool   $by_key     True to store in internal cache by key; false to not store by key.
      * @return bool True on success, false on failure.
      */
-    public function add($key, $value, $group = 'default', $expiration = 0, $server_key = '', $by_key = false) {
+    public function add($key, $value, $group = 'default', $expiration = 0, $server_key = '', $by_key = false)
+    {
         /*
          * Ensuring that wp_suspend_cache_addition is defined before calling, because sometimes an advanced-cache.php
          * file will load object-cache.php before wp-includes/functions.php is loaded. In those cases, if wp_cache_add
@@ -1046,7 +1099,8 @@ class WP_Object_Cache {
      * @param int    $expiration The expiration time, defaults to 0.
      * @return bool True on success, false on failure.
      */
-    public function addByKey($server_key, $key, $value, $group = 'default', $expiration = 0) {
+    public function addByKey($server_key, $key, $value, $group = 'default', $expiration = 0)
+    {
         return $this->add($key, $value, $group, $expiration, $server_key, true);
     }
 
@@ -1060,7 +1114,8 @@ class WP_Object_Cache {
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false if cache key and group already exist.
      */
-    public function addMultiple(array $items, $group = '', $expiration = 0) {
+    public function addMultiple(array $items, $group = '', $expiration = 0)
+    {
         $values = array();
 
         foreach ($items as $key => $value) {
@@ -1081,7 +1136,8 @@ class WP_Object_Cache {
      *                       of all the servers in the pool.
      * @return bool True on success, false on failure.
      */
-    public function addServer($host, $port, $weight = 0) {
+    public function addServer($host, $port, $weight = 0)
+    {
         $host   = is_string($host) ? $host : '127.0.0.1';
         $port   = is_numeric($port) && $port > 0 ? $port : 11211;
         $weight = is_numeric($weight) && $weight > 0 ? $weight : 1;
@@ -1100,7 +1156,8 @@ class WP_Object_Cache {
      * @param array $servers Array of server to register.
      * @return bool True on success, false on failure.
      */
-    public function addServers($servers) {
+    public function addServers($servers)
+    {
         if (! is_object($this->m)) {
             return false;
         }
@@ -1127,7 +1184,8 @@ class WP_Object_Cache {
      * @param bool   $by_key     True to store in internal cache by key; false to not store by key.
      * @return bool True on success, false on failure.
      */
-    public function append($key, $value, $group = 'default', $server_key = '', $by_key = false) {
+    public function append($key, $value, $group = 'default', $server_key = '', $by_key = false)
+    {
         if (! is_string($value) && ! is_int($value) && ! is_float($value)) {
             return false;
         }
@@ -1179,7 +1237,8 @@ class WP_Object_Cache {
      * @param string $group      The group value appended to the $key.
      * @return bool True on success, false on failure.
      */
-    public function appendByKey($server_key, $key, $value, $group = 'default') {
+    public function appendByKey($server_key, $key, $value, $group = 'default')
+    {
         return $this->append($key, $value, $group, $server_key, true);
     }
 
@@ -1200,7 +1259,8 @@ class WP_Object_Cache {
      * @param bool   $by_key     True to store in internal cache by key; false to not store by key.
      * @return bool True on success, false on failure.
      */
-    public function cas($cas_token, $key, $value, $group = 'default', $expiration = 0, $server_key = '', $by_key = false) {
+    public function cas($cas_token, $key, $value, $group = 'default', $expiration = 0, $server_key = '', $by_key = false)
+    {
         $derived_key = $this->buildKey($key, $group);
 
         /**
@@ -1246,7 +1306,8 @@ class WP_Object_Cache {
      * @param int    $expiration The expiration time, defaults to 0.
      * @return bool True on success, false on failure.
      */
-    public function casByKey($cas_token, $server_key, $key, $value, $group = 'default', $expiration = 0) {
+    public function casByKey($cas_token, $server_key, $key, $value, $group = 'default', $expiration = 0)
+    {
         return $this->cas($cas_token, $key, $value, $group, $expiration, $server_key, true);
     }
 
@@ -1260,7 +1321,8 @@ class WP_Object_Cache {
      * @param string $group  The group value appended to the $key.
      * @return int|bool Item's new value on success, false on failure.
      */
-    public function decrement($key, $offset = 1, $group = 'default') {
+    public function decrement($key, $offset = 1, $group = 'default')
+    {
         $derived_key = $this->buildKey($key, $group);
 
         // Decrement values in no_mc_groups.
@@ -1308,7 +1370,8 @@ class WP_Object_Cache {
      * @param string $group  The group value appended to the $key.
      * @return int|bool Item's new value on success, false on failure.
      */
-    public function decr($key, $offset = 1, $group = 'default') {
+    public function decr($key, $offset = 1, $group = 'default')
+    {
         return $this->decrement($key, $offset, $group);
     }
 
@@ -1329,7 +1392,8 @@ class WP_Object_Cache {
      * @param bool   $by_key     True to store in internal cache by key; false to not store by key.
      * @return bool True on success, false on failure.
      */
-    public function delete($key, $group = 'default', $time = 0, $server_key = '', $by_key = false) {
+    public function delete($key, $group = 'default', $time = 0, $server_key = '', $by_key = false)
+    {
         $derived_key = $this->buildKey($key, $group);
 
         // Remove from no_mc_groups array.
@@ -1370,7 +1434,8 @@ class WP_Object_Cache {
      * @param int    $time       The amount of time the server will wait to delete the item in seconds.
      * @return bool True on success, false on failure.
      */
-    public function deleteByKey($server_key, $key, $group = 'default', $time = 0) {
+    public function deleteByKey($server_key, $key, $group = 'default', $time = 0)
+    {
         return $this->delete($key, $group, $time, $server_key, true);
     }
 
@@ -1382,7 +1447,8 @@ class WP_Object_Cache {
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false if the contents were not deleted.
      */
-    public function deleteMultiple($keys, $group) {
+    public function deleteMultiple($keys, $group)
+    {
         $values = array();
 
         foreach ($keys as $key) {
@@ -1399,7 +1465,8 @@ class WP_Object_Cache {
      *
      * @return array|false The next result on success, false on failure.
      */
-    public function fetch() {
+    public function fetch()
+    {
         return $this->m->fetch();
     }
 
@@ -1410,7 +1477,8 @@ class WP_Object_Cache {
      *
      * @return array|false The results on success, false on failure.
      */
-    public function fetchAll() {
+    public function fetchAll()
+    {
         return $this->m->fetchAll();
     }
 
@@ -1422,7 +1490,8 @@ class WP_Object_Cache {
      * @param int $delay Number of seconds to wait before invalidating the items.
      * @return bool True on success, false on failure.
      */
-    public function flush($delay = 0) {
+    public function flush($delay = 0)
+    {
         $result = $this->m->flush($delay);
 
         // Only reset the runtime cache if memcached was properly flushed.
@@ -1438,7 +1507,8 @@ class WP_Object_Cache {
      *
      * @return bool Always returns true.
      */
-    public function flush_runtime() {
+    public function flush_runtime()
+    {
         $this->cache = array();
 
         return true;
@@ -1469,7 +1539,8 @@ class WP_Object_Cache {
      * @param null|float    $cas_token  The variable to store the CAS token in.
      * @return bool|mixed Cached object value.
      */
-    public function get($key, $group = 'default', $force = false, &$found = null, $server_key = '', $by_key = false, $cache_cb = null, &$cas_token = null) {
+    public function get($key, $group = 'default', $force = false, &$found = null, $server_key = '', $by_key = false, $cache_cb = null, &$cas_token = null)
+    {
         $derived_key = $this->buildKey($key, $group);
 
         // Assume object is not found.
@@ -1529,7 +1600,8 @@ class WP_Object_Cache {
      * @param null|float  $cas_token  The variable to store the CAS token in.
      * @return bool|mixed Cached object value.
      */
-    public function getByKey($server_key, $key, $group = 'default', $force = false, &$found = null, $cache_cb = null, &$cas_token = null) {
+    public function getByKey($server_key, $key, $group = 'default', $force = false, &$found = null, $cache_cb = null, &$cas_token = null)
+    {
         /**
          * Need to be careful how "get" is called. If you send $cache_cb, and $cas_token, it will hit memcached.
          * Only send those args if they were sent to this function.
@@ -1553,7 +1625,8 @@ class WP_Object_Cache {
      * @param null         $value_cb The result callback or null.
      * @return bool True on success, false on failure.
      */
-    public function getDelayed($keys, $groups = 'default', $with_cas = false, $value_cb = null) {
+    public function getDelayed($keys, $groups = 'default', $with_cas = false, $value_cb = null)
+    {
         $derived_keys = $this->buildKeys($keys, $groups);
         return $this->m->getDelayed($derived_keys, $with_cas, $value_cb);
     }
@@ -1571,7 +1644,8 @@ class WP_Object_Cache {
      * @param null         $value_cb   The result callback or null.
      * @return bool True on success, false on failure.
      */
-    public function getDelayedByKey($server_key, $keys, $groups = 'default', $with_cas = false, $value_cb = null) {
+    public function getDelayedByKey($server_key, $keys, $groups = 'default', $with_cas = false, $value_cb = null)
+    {
         $derived_keys = $this->buildKeys($keys, $groups);
         return $this->m->getDelayedByKey($server_key, $derived_keys, $with_cas, $value_cb);
     }
@@ -1591,7 +1665,8 @@ class WP_Object_Cache {
      * @param int          $flags      The flags for the get operation.
      * @return bool|array The array of found items on success, false on failure.
      */
-    public function getMulti($keys, $groups = 'default', $server_key = '', &$cas_tokens = null, $flags = null) {
+    public function getMulti($keys, $groups = 'default', $server_key = '', &$cas_tokens = null, $flags = null)
+    {
         $derived_keys = $this->buildKeys($keys, $groups);
 
         /**
@@ -1668,7 +1743,8 @@ class WP_Object_Cache {
      * @param int          $flags      The flags for the get operation.
      * @return bool|array The array of found items on success, false on failure.
      */
-    public function getMultiByKey($server_key, $keys, $groups = 'default', &$cas_tokens = null, $flags = null) {
+    public function getMultiByKey($server_key, $keys, $groups = 'default', &$cas_tokens = null, $flags = null)
+    {
         /**
          * Need to be careful how "getMulti" is called. If you send $cache_cb, and $cas_token, it will hit memcached.
          * Only send those args if they were sent to this function.
@@ -1690,7 +1766,8 @@ class WP_Object_Cache {
      * @return array Array of return values, grouped by key. Each value is either
      *               the cache contents on success, or false on failure.
      */
-    public function getMultiple($keys, $group = '', $force = false) {
+    public function getMultiple($keys, $group = '', $force = false)
+    {
         $values = array();
 
         foreach ($keys as $key) {
@@ -1710,7 +1787,8 @@ class WP_Object_Cache {
      * @param int $option One of the Memcached::OPT_* constants.
      * @return mixed The value of the requested option on success, false on failure.
      */
-    public function getOption($option) {
+    public function getOption($option)
+    {
         return $this->m->getOption($option);
     }
 
@@ -1721,7 +1799,8 @@ class WP_Object_Cache {
      *
      * @return int Result code of the last Memcached operation.
      */
-    public function getResultCode() {
+    public function getResultCode()
+    {
         return $this->m->getResultCode();
     }
 
@@ -1732,7 +1811,8 @@ class WP_Object_Cache {
      *
      * @return string Message describing the result of the last Memcached operation.
      */
-    public function getResultMessage() {
+    public function getResultMessage()
+    {
         return $this->m->getResultMessage();
     }
 
@@ -1744,7 +1824,8 @@ class WP_Object_Cache {
      * @param string $server_key The key identifying the server to store the value on.
      * @return array Array with host, post, and weight on success, false on failure.
      */
-    public function getServerByKey($server_key) {
+    public function getServerByKey($server_key)
+    {
         return $this->m->getServerByKey($server_key);
     }
 
@@ -1755,7 +1836,8 @@ class WP_Object_Cache {
      *
      * @return array The list of all servers in the server pool.
      */
-    public function getServerList() {
+    public function getServerList()
+    {
         return $this->m->getServerList();
     }
 
@@ -1766,7 +1848,8 @@ class WP_Object_Cache {
      *
      * @return array Array of server statistics, one entry per server.
      */
-    public function getStats() {
+    public function getStats()
+    {
         return $this->m->getStats();
     }
 
@@ -1777,7 +1860,8 @@ class WP_Object_Cache {
      *
      * @return array Array of server versions, one entry per server.
      */
-    public function getVersion() {
+    public function getVersion()
+    {
         return $this->m->getVersion();
     }
 
@@ -1791,7 +1875,8 @@ class WP_Object_Cache {
      * @param string $group  The group value appended to the $key.
      * @return int|bool Item's new value on success, false on failure.
      */
-    public function increment($key, $offset = 1, $group = 'default') {
+    public function increment($key, $offset = 1, $group = 'default')
+    {
         $derived_key = $this->buildKey($key, $group);
 
         // Increment values in no_mc_groups.
@@ -1840,7 +1925,8 @@ class WP_Object_Cache {
      * @param string $group  The group value appended to the $key.
      * @return int|bool Item's new value on success, false on failure.
      */
-    public function incr($key, $offset = 1, $group = 'default') {
+    public function incr($key, $offset = 1, $group = 'default')
+    {
         return $this->increment($key, $offset, $group);
     }
 
@@ -1864,7 +1950,8 @@ class WP_Object_Cache {
      * @param bool   $by_key     True to store in internal cache by key; false to not store by key.
      * @return bool True on success, false on failure.
      */
-    public function prepend($key, $value, $group = 'default', $server_key = '', $by_key = false) {
+    public function prepend($key, $value, $group = 'default', $server_key = '', $by_key = false)
+    {
         if (! is_string($value) && ! is_int($value) && ! is_float($value)) {
             return false;
         }
@@ -1917,7 +2004,8 @@ class WP_Object_Cache {
      * @param string $group      The group value prepended to the $key.
      * @return bool True on success, false on failure.
      */
-    public function prependByKey($server_key, $key, $value, $group = 'default') {
+    public function prependByKey($server_key, $key, $value, $group = 'default')
+    {
         return $this->prepend($key, $value, $group, $server_key, true);
     }
 
@@ -1937,7 +2025,8 @@ class WP_Object_Cache {
      * @param int    $expiration The expiration time, defaults to 0.
      * @return bool True on success, false on failure.
      */
-    public function replace($key, $value, $group = 'default', $expiration = 0, $server_key = '', $by_key = false) {
+    public function replace($key, $value, $group = 'default', $expiration = 0, $server_key = '', $by_key = false)
+    {
         $derived_key = $this->buildKey($key, $group);
 
         // If group is a non-Memcached group, save to runtime cache, not Memcached.
@@ -1984,7 +2073,8 @@ class WP_Object_Cache {
      * @param int    $expiration The expiration time, defaults to 0.
      * @return bool True on success, false on failure.
      */
-    public function replaceByKey($server_key, $key, $value, $group = 'default', $expiration = 0) {
+    public function replaceByKey($server_key, $key, $value, $group = 'default', $expiration = 0)
+    {
         return $this->replace($key, $value, $group, $expiration, $server_key, true);
     }
 
@@ -2003,7 +2093,8 @@ class WP_Object_Cache {
      * @param bool   $by_key     True to store in internal cache by key; false to not store by key.
      * @return bool True on success, false on failure.
      */
-    public function set($key, $value, $group = 'default', $expiration = 0, $server_key = '', $by_key = false) {
+    public function set($key, $value, $group = 'default', $expiration = 0, $server_key = '', $by_key = false)
+    {
         $derived_key = $this->buildKey($key, $group);
 
         // If group is a non-Memcached group, save to runtime cache, not Memcached.
@@ -2043,7 +2134,8 @@ class WP_Object_Cache {
      * @param int    $expiration The expiration time, defaults to 0.
      * @return bool True on success, false on failure.
      */
-    public function setByKey($server_key, $key, $value, $group = 'default', $expiration = 0) {
+    public function setByKey($server_key, $key, $value, $group = 'default', $expiration = 0)
+    {
         return $this->set($key, $value, $group, $expiration, $server_key, true);
     }
 
@@ -2065,7 +2157,8 @@ class WP_Object_Cache {
      * @param bool         $by_key     True to store in internal cache by key; false to not store by key.
      * @return bool True on success, false on failure.
      */
-    public function setMulti($items, $groups = 'default', $expiration = 0, $server_key = '', $by_key = false) {
+    public function setMulti($items, $groups = 'default', $expiration = 0, $server_key = '', $by_key = false)
+    {
         // Build final keys and replace $items keys with the new keys.
         $derived_keys  = $this->buildKeys(array_keys($items), $groups);
         $derived_items = array_combine($derived_keys, $items);
@@ -2117,7 +2210,8 @@ class WP_Object_Cache {
      * @param int          $expiration  The expiration time, defaults to 0.
      * @return bool True on success, false on failure.
      */
-    public function setMultiByKey($server_key, $items, $groups = 'default', $expiration = 0) {
+    public function setMultiByKey($server_key, $items, $groups = 'default', $expiration = 0)
+    {
         return $this->setMulti($items, $groups, $expiration, $server_key, true);
     }
 
@@ -2131,7 +2225,8 @@ class WP_Object_Cache {
      * @return bool[] Array of return values, grouped by key. Each value is either
      *                true on success, or false on failure.
      */
-    public function setMultiple(array $items, $group = '', $expiration = 0) {
+    public function setMultiple(array $items, $group = '', $expiration = 0)
+    {
         $values = array();
 
         foreach ($items as $key => $value) {
@@ -2150,7 +2245,8 @@ class WP_Object_Cache {
      * @param mixed $value  Option value.
      * @return bool True on success, false on failure.
      */
-    public function setOption($option, $value) {
+    public function setOption($option, $value)
+    {
         return $this->m->setOption($option, $value);
     }
 
@@ -2166,7 +2262,8 @@ class WP_Object_Cache {
      * @param string $group The group value appended to the $key.
      * @return string
      */
-    public function buildKey($key, $group = 'default') {
+    public function buildKey($key, $group = 'default')
+    {
         if (empty($group)) {
             $group = 'default';
         }
@@ -2196,7 +2293,8 @@ class WP_Object_Cache {
      * @param string|array $groups Group(s) to merge with key(s).
      * @return array Array that combines keys and groups into a single set of memcached keys.
      */
-    public function buildKeys($keys, $groups = 'default') {
+    public function buildKeys($keys, $groups = 'default')
+    {
         $derived_keys = array();
 
         // If strings sent, convert to arrays for proper handling.
@@ -2242,7 +2340,8 @@ class WP_Object_Cache {
      * @param string|int $expiration The dirty expiration time.
      * @return string|int The sanitized expiration time.
      */
-    public function sanitize_expiration($expiration) {
+    public function sanitize_expiration($expiration)
+    {
         if ($expiration > $this->thirty_days && $expiration <= $this->now) {
             $expiration = $expiration + $this->now;
         }
@@ -2262,7 +2361,8 @@ class WP_Object_Cache {
      * @param string $direction Either 'pre' or 'app'.
      * @return mixed Combined value casted to the type of the first value.
      */
-    public function combine_values($original, $pended, $direction) {
+    public function combine_values($original, $pended, $direction)
+    {
         $type = gettype($original);
 
         // Combine the values based on direction of the "pend".
@@ -2284,7 +2384,8 @@ class WP_Object_Cache {
      * @param string $derived_key Key to save value under.
      * @param mixed  $value       Object value.
      */
-    public function add_to_internal_cache($derived_key, $value) {
+    public function add_to_internal_cache($derived_key, $value)
+    {
         if (is_object($value)) {
             $value = clone $value;
         }
@@ -2298,7 +2399,8 @@ class WP_Object_Cache {
      * @param mixed $groups The groups to search.
      * @return bool True if a no_mc_group is present; false if a no_mc_group is not present.
      */
-    public function contains_no_mc_group($groups) {
+    public function contains_no_mc_group($groups)
+    {
         if (is_scalar($groups)) {
             return in_array($groups, $this->no_mc_groups, true);
         }
@@ -2326,7 +2428,8 @@ class WP_Object_Cache {
      *
      * @param array $groups Array of groups.
      */
-    public function add_global_groups($groups) {
+    public function add_global_groups($groups)
+    {
         if (! is_array($groups)) {
             $groups = (array) $groups;
         }
@@ -2345,7 +2448,8 @@ class WP_Object_Cache {
      *
      * @param array $groups Array of groups.
      */
-    public function add_non_persistent_groups($groups) {
+    public function add_non_persistent_groups($groups)
+    {
         if (! is_array($groups)) {
             $groups = (array) $groups;
         }
@@ -2361,7 +2465,8 @@ class WP_Object_Cache {
      * @param int|string $group Group that the value belongs to.
      * @return bool|mixed Value on success, false on failure.
      */
-    public function get_from_runtime_cache($key, $group) {
+    public function get_from_runtime_cache($key, $group)
+    {
         $derived_key = $this->buildKey($key, $group);
 
         if (isset($this->cache[ $derived_key ])) {
@@ -2376,7 +2481,8 @@ class WP_Object_Cache {
      *
      * @param int $blog_id Blog to switch to.
      */
-    public function switch_to_blog($blog_id) {
+    public function switch_to_blog($blog_id)
+    {
         global $table_prefix;
         $blog_id           = (int) $blog_id;
         $this->blog_prefix = (is_multisite() ? $blog_id : $table_prefix) . ':';

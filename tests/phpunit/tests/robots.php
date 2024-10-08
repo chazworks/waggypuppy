@@ -6,9 +6,11 @@
  *
  * @group robots
  */
-class Tests_Robots extends WP_UnitTestCase {
+class Tests_Robots extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         remove_all_filters('wp_robots');
@@ -17,7 +19,8 @@ class Tests_Robots extends WP_UnitTestCase {
     /**
      * @ticket 51511
      */
-    public function test_wp_robots_renders_when_relevant() {
+    public function test_wp_robots_renders_when_relevant()
+    {
         // Do not render robots meta tag when there are no directives.
         $output = get_echo('wp_robots');
         $this->assertEmpty($output);
@@ -36,7 +39,8 @@ class Tests_Robots extends WP_UnitTestCase {
     /**
      * @ticket 51511
      */
-    public function test_wp_robots_parses_directives_correctly() {
+    public function test_wp_robots_parses_directives_correctly()
+    {
         add_filter(
             'wp_robots',
             static function (array $robots) {
@@ -70,7 +74,8 @@ class Tests_Robots extends WP_UnitTestCase {
     /**
      * @ticket 51511
      */
-    public function test_wp_robots_noindex() {
+    public function test_wp_robots_noindex()
+    {
         add_filter('wp_robots', 'wp_robots_noindex');
 
         update_option('blog_public', '1');
@@ -85,7 +90,8 @@ class Tests_Robots extends WP_UnitTestCase {
     /**
      * @ticket 51511
      */
-    public function test_wp_robots_no_robots() {
+    public function test_wp_robots_no_robots()
+    {
         add_filter('wp_robots', 'wp_robots_no_robots');
 
         update_option('blog_public', '1');
@@ -100,7 +106,8 @@ class Tests_Robots extends WP_UnitTestCase {
     /**
      * @ticket 51511
      */
-    public function test_wp_robots_sensitive_page() {
+    public function test_wp_robots_sensitive_page()
+    {
         add_filter('wp_robots', 'wp_robots_sensitive_page');
 
         $output = get_echo('wp_robots');
@@ -110,7 +117,8 @@ class Tests_Robots extends WP_UnitTestCase {
     /**
      * @ticket 51511
      */
-    public function test_wp_robots_max_image_preview_large() {
+    public function test_wp_robots_max_image_preview_large()
+    {
         add_filter('wp_robots', 'wp_robots_max_image_preview_large');
 
         update_option('blog_public', '1');
@@ -125,7 +133,8 @@ class Tests_Robots extends WP_UnitTestCase {
     /**
      * @ticket 52457
      */
-    public function test_wp_robots_search_page() {
+    public function test_wp_robots_search_page()
+    {
         add_filter('wp_robots', 'wp_robots_noindex_search');
         $this->go_to(home_url('?s=ticket+52457+core.trac.wordpress.org'));
 
@@ -136,7 +145,8 @@ class Tests_Robots extends WP_UnitTestCase {
     /**
      * @ticket 52457
      */
-    public function test_wp_robots_non_search_page() {
+    public function test_wp_robots_non_search_page()
+    {
         add_filter('wp_robots', 'wp_robots_noindex_search');
         $this->go_to(home_url());
 
@@ -144,12 +154,14 @@ class Tests_Robots extends WP_UnitTestCase {
         $this->assertStringNotContainsString('noindex', $output);
     }
 
-    public function add_noindex_directive(array $robots) {
+    public function add_noindex_directive(array $robots)
+    {
         $robots['noindex'] = true;
         return $robots;
     }
 
-    public function remove_noindex_directive(array $robots) {
+    public function remove_noindex_directive(array $robots)
+    {
         $robots['noindex'] = false;
         return $robots;
     }

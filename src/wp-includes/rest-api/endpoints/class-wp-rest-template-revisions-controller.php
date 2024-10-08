@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller {
+class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
+{
     /**
      * Parent post type.
      *
@@ -46,7 +47,8 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      *
      * @param string $parent_post_type Post type of the parent.
      */
-    public function __construct($parent_post_type) {
+    public function __construct($parent_post_type)
+    {
         parent::__construct($parent_post_type);
         $this->parent_post_type = $parent_post_type;
         $post_type_object       = get_post_type_object($parent_post_type);
@@ -69,7 +71,8 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
 
         register_rest_route(
             $this->namespace,
@@ -163,7 +166,8 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      * @param string $parent_template_id Supplied ID.
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
      */
-    protected function get_parent($parent_template_id) {
+    protected function get_parent($parent_template_id)
+    {
         $template = get_block_template($parent_template_id, $this->parent_post_type);
 
         if (! $template) {
@@ -186,7 +190,8 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         $template = _build_block_template_result_from_post($item);
         $response = $this->parent_controller->prepare_item_for_response($template, $request);
 
@@ -219,7 +224,8 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
      */
-    public function delete_item_permissions_check($request) {
+    public function delete_item_permissions_check($request)
+    {
         $parent = $this->get_parent($request['parent']);
         if (is_wp_error($parent)) {
             return $parent;
@@ -257,7 +263,8 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      * @param WP_Block_Template $template Template.
      * @return array Links for the given post.
      */
-    protected function prepare_links($template) {
+    protected function prepare_links($template)
+    {
         $links = array(
             'self'   => array(
                 'href' => rest_url(sprintf('/%s/%s/%s/%s/%d', $this->namespace, $this->parent_base, $template->id, $this->rest_base, $template->wp_id)),
@@ -277,7 +284,8 @@ class WP_REST_Template_Revisions_Controller extends WP_REST_Revisions_Controller
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }

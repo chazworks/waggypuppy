@@ -14,7 +14,8 @@
  *
  * @return string Returns the description of the current taxonomy term, if available
  */
-function render_block_core_term_description($attributes) {
+function render_block_core_term_description($attributes)
+{
     $term_description = '';
 
     if (is_category() || is_tag() || is_tax()) {
@@ -42,7 +43,8 @@ function render_block_core_term_description($attributes) {
  *
  * @since 5.9.0
  */
-function register_block_core_term_description() {
+function register_block_core_term_description()
+{
     register_block_type_from_metadata(
         __DIR__ . '/term-description',
         array(

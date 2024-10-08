@@ -6,12 +6,14 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_wpCountSites extends WP_UnitTestCase {
+    class Tests_Multisite_wpCountSites extends WP_UnitTestCase
+    {
 
         /**
          * @ticket 37392
          */
-        public function test_wp_count_sites() {
+        public function test_wp_count_sites()
+        {
             // Create a random number of sites with each status.
             $site_ids = array(
                 'public'   => self::factory()->blog->create_many(

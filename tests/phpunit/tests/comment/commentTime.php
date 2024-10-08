@@ -7,7 +7,8 @@
  *
  * @covers ::comment_time
  */
-class Tests_Comment_CommentTime extends WP_UnitTestCase {
+class Tests_Comment_CommentTime extends WP_UnitTestCase
+{
 
     /**
      * A post ID.
@@ -26,7 +27,8 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase {
     /**
      * Sets the post ID and comment ID property values before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         self::$post_id = self::factory()->post->create(
@@ -53,7 +55,8 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase {
      *
      * @param string $format PHP date format.
      */
-    public function test_should_output_the_same_value_that_get_comment_time_returns($format) {
+    public function test_should_output_the_same_value_that_get_comment_time_returns($format)
+    {
         $expected = get_comment_time($format, false, true, self::$comment_id);
 
         ob_start();
@@ -68,7 +71,8 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_output_the_same_value_that_get_comment_time_returns() {
+    public function data_should_output_the_same_value_that_get_comment_time_returns()
+    {
         return array(
             'an empty format'   => array(
                 'format' => '',
@@ -85,7 +89,8 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase {
      *
      * @ticket 58064
      */
-    public function test_should_default_to_the_global_comment_when_comment_id_is_not_provided() {
+    public function test_should_default_to_the_global_comment_when_comment_id_is_not_provided()
+    {
         global $comment;
 
         // Back up the global comment before setting the value.
@@ -110,7 +115,8 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase {
      *
      * @ticket 58064
      */
-    public function test_should_output_an_empty_string_when_global_comment_is_not_set_and_comment_id_is_not_provided() {
+    public function test_should_output_an_empty_string_when_global_comment_is_not_set_and_comment_id_is_not_provided()
+    {
         global $comment;
 
         // Back up the global comment before setting the value.

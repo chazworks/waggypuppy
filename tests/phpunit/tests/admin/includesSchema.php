@@ -3,7 +3,8 @@
 /**
  * @group admin
  */
-class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
+class Tests_Admin_IncludesSchema extends WP_UnitTestCase
+{
 
     private static $options;
     private static $blogmeta;
@@ -12,7 +13,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
     /**
      * Make sure the schema code is loaded before the tests are run.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         global $wpdb;
 
         self::$options  = 'testprefix_options';
@@ -73,7 +75,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
     /**
      * Drop tables that were created before running the tests.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         global $wpdb;
 
         $options  = self::$options;
@@ -91,7 +94,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
      * @ticket 44893
      * @dataProvider data_populate_options
      */
-    public function test_populate_options($options, $expected) {
+    public function test_populate_options($options, $expected)
+    {
         global $wpdb;
 
         $orig_options  = $wpdb->options;
@@ -113,7 +117,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
         $this->assertSame($expected, $results);
     }
 
-    public function data_populate_options() {
+    public function data_populate_options()
+    {
         return array(
             array(
                 array(),
@@ -182,7 +187,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
      *
      * @ticket 56468
      */
-    public function test_populate_options_when_locale_uses_deprecated_timezone_string() {
+    public function test_populate_options_when_locale_uses_deprecated_timezone_string()
+    {
         global $wpdb;
 
         // Back up.
@@ -224,7 +230,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
      * @group ms-required
      * @dataProvider data_populate_site_meta
      */
-    public function test_populate_site_meta($meta, $expected) {
+    public function test_populate_site_meta($meta, $expected)
+    {
         global $wpdb;
 
         $orig_blogmeta  = $wpdb->blogmeta;
@@ -244,7 +251,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
         $this->assertSame($expected, $results);
     }
 
-    public function data_populate_site_meta() {
+    public function data_populate_site_meta()
+    {
         return array(
             array(
                 array(),
@@ -268,7 +276,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
      * @group multisite
      * @dataProvider data_populate_network_meta
      */
-    public function test_populate_network_meta($meta, $expected) {
+    public function test_populate_network_meta($meta, $expected)
+    {
         global $wpdb;
 
         $orig_sitemeta  = $wpdb->sitemeta;
@@ -292,7 +301,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase {
         $this->assertSame($expected, $results);
     }
 
-    public function data_populate_network_meta() {
+    public function data_populate_network_meta()
+    {
         return array(
             array(
                 array(),

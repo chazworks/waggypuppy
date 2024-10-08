@@ -60,7 +60,8 @@
  *     @type string   $classnames   Classnames separated by a space.
  * }
  */
-function wp_style_engine_get_styles($block_styles, $options = array()) {
+function wp_style_engine_get_styles($block_styles, $options = array())
+{
     $options = wp_parse_args(
         $options,
         array(
@@ -139,7 +140,8 @@ function wp_style_engine_get_styles($block_styles, $options = array()) {
  * }
  * @return string A string of compiled CSS declarations, or empty string.
  */
-function wp_style_engine_get_stylesheet_from_css_rules($css_rules, $options = array()) {
+function wp_style_engine_get_stylesheet_from_css_rules($css_rules, $options = array())
+{
     if (empty($css_rules)) {
         return '';
     }
@@ -188,6 +190,7 @@ function wp_style_engine_get_stylesheet_from_css_rules($css_rules, $options = ar
  * }
  * @return string A compiled CSS string.
  */
-function wp_style_engine_get_stylesheet_from_context($context, $options = array()) {
+function wp_style_engine_get_stylesheet_from_context($context, $options = array())
+{
     return WP_Style_Engine::compile_stylesheet_from_css_rules(WP_Style_Engine::get_store($context)->get_all_rules(), $options);
 }

@@ -13,14 +13,16 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Plugin_Dependencies::has_active_dependents
  */
-class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDependencies_UnitTestCase {
+class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDependencies_UnitTestCase
+{
 
     /**
      * Tests that a plugin with no dependents will return true.
      *
      * @ticket 22316
      */
-    public function test_should_return_false_when_a_plugin_has_no_dependents() {
+    public function test_should_return_false_when_a_plugin_has_no_dependents()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent/dependent.php' => array('dependency'))
@@ -36,7 +38,8 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_a_plugin_has_active_dependents() {
+    public function test_should_return_true_when_a_plugin_has_active_dependents()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent/dependent.php' => array('dependency'))
@@ -52,7 +55,8 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_a_plugin_has_one_inactive_and_one_active_dependent() {
+    public function test_should_return_true_when_a_plugin_has_one_inactive_and_one_active_dependent()
+    {
         $this->set_property_value(
             'dependencies',
             array(
@@ -71,7 +75,8 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_a_plugin_has_one_active_and_one_inactive_dependent() {
+    public function test_should_return_true_when_a_plugin_has_one_active_and_one_inactive_dependent()
+    {
         $this->set_property_value(
             'dependencies',
             array(
@@ -91,7 +96,8 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_the_earlier_plugin_has_active_dependents_but_the_later_plugin_does_not() {
+    public function test_should_return_true_when_the_earlier_plugin_has_active_dependents_but_the_later_plugin_does_not()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent2/dependent2.php' => array('dependency'))
@@ -116,7 +122,8 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_the_later_plugin_has_active_dependents_but_the_earlier_plugin_does_not() {
+    public function test_should_return_true_when_the_later_plugin_has_active_dependents_but_the_earlier_plugin_does_not()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent2/dependent2.php' => array('dependency'))
@@ -140,7 +147,8 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
      *
      * @ticket 22316
      */
-    public function test_should_return_false_when_a_plugin_has_no_active_dependents() {
+    public function test_should_return_false_when_a_plugin_has_no_active_dependents()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent/dependent.php' => array('dependency'))
@@ -155,7 +163,8 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
      *
      * @ticket 22316
      */
-    public function test_should_return_false_when_the_earlier_plugin_has_no_active_dependents_but_the_later_plugin_does() {
+    public function test_should_return_false_when_the_earlier_plugin_has_no_active_dependents_but_the_later_plugin_does()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent2/dependent2.php' => array('dependency'))
@@ -180,7 +189,8 @@ class Tests_Admin_WPPluginDependencies_HasActiveDependents extends WP_PluginDepe
      *
      * @ticket 22316
      */
-    public function test_should_return_false_when_the_later_plugin_has_no_active_dependents_but_the_earlier_plugin_does() {
+    public function test_should_return_false_when_the_later_plugin_has_no_active_dependents_but_the_earlier_plugin_does()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent2/dependent2.php' => array('dependency'))

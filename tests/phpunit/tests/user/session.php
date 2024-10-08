@@ -5,14 +5,16 @@
  * @group user
  * @group session
  */
-class Tests_User_Session extends WP_UnitTestCase {
+class Tests_User_Session extends WP_UnitTestCase
+{
 
     /**
      * @var WP_User_Meta_Session_Tokens
      */
     private $manager;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         remove_all_filters('session_token_manager');
         $user_id       = self::factory()->user->create();
@@ -21,7 +23,8 @@ class Tests_User_Session extends WP_UnitTestCase {
         $this->assertInstanceOf('WP_User_Meta_Session_Tokens', $this->manager);
     }
 
-    public function test_verify_and_destroy_token() {
+    public function test_verify_and_destroy_token()
+    {
         $expiration = time() + DAY_IN_SECONDS;
         $token      = $this->manager->create($expiration);
         $this->assertFalse($this->manager->verify('foo'));
@@ -30,7 +33,8 @@ class Tests_User_Session extends WP_UnitTestCase {
         $this->assertFalse($this->manager->verify($token));
     }
 
-    public function test_destroy_other_tokens() {
+    public function test_destroy_other_tokens()
+    {
         $expiration = time() + DAY_IN_SECONDS;
         $token_1    = $this->manager->create($expiration);
         $token_2    = $this->manager->create($expiration);
@@ -44,7 +48,8 @@ class Tests_User_Session extends WP_UnitTestCase {
         $this->assertFalse($this->manager->verify($token_3));
     }
 
-    public function test_destroy_all_tokens() {
+    public function test_destroy_all_tokens()
+    {
         $expiration = time() + DAY_IN_SECONDS;
         $token_1    = $this->manager->create($expiration);
         $token_2    = $this->manager->create($expiration);

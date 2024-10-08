@@ -5,7 +5,8 @@
  * @group slashes
  * @ticket 21767
  */
-class Tests_Comment_Slashes extends WP_UnitTestCase {
+class Tests_Comment_Slashes extends WP_UnitTestCase
+{
 
     /*
      * It is important to test with both even and odd numbered slashes,
@@ -23,13 +24,15 @@ class Tests_Comment_Slashes extends WP_UnitTestCase {
     protected static $author_id;
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // We need an admin user to bypass comment flood protection.
         self::$author_id = $factory->user->create(array('role' => 'administrator'));
         self::$post_id   = $factory->post->create();
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         wp_set_current_user(self::$author_id);
@@ -40,7 +43,8 @@ class Tests_Comment_Slashes extends WP_UnitTestCase {
      *
      * @covers ::wp_new_comment
      */
-    public function test_wp_new_comment() {
+    public function test_wp_new_comment()
+    {
         $post_id = self::$post_id;
 
         // Not testing comment_author_email or comment_author_url
@@ -81,7 +85,8 @@ class Tests_Comment_Slashes extends WP_UnitTestCase {
      *
      * @covers ::edit_comment
      */
-    public function test_edit_comment() {
+    public function test_edit_comment()
+    {
         $post_id    = self::$post_id;
         $comment_id = self::factory()->comment->create(
             array(
@@ -129,7 +134,8 @@ class Tests_Comment_Slashes extends WP_UnitTestCase {
      *
      * @covers ::wp_insert_comment
      */
-    public function test_wp_insert_comment() {
+    public function test_wp_insert_comment()
+    {
         $post_id = self::$post_id;
 
         $comment_id = wp_insert_comment(
@@ -162,7 +168,8 @@ class Tests_Comment_Slashes extends WP_UnitTestCase {
      *
      * @covers ::wp_update_comment
      */
-    public function test_wp_update_comment() {
+    public function test_wp_update_comment()
+    {
         $post_id    = self::$post_id;
         $comment_id = self::factory()->comment->create(
             array(

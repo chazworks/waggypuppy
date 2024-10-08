@@ -14,7 +14,8 @@
  *
  * @see WP_Widget
  */
-class WP_Widget_Calendar extends WP_Widget {
+class WP_Widget_Calendar extends WP_Widget
+{
     /**
      * Ensure that the ID attribute only appears in the markup once
      *
@@ -28,7 +29,8 @@ class WP_Widget_Calendar extends WP_Widget {
      *
      * @since 2.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $widget_ops = array(
             'classname'                   => 'widget_calendar',
             'description'                 => __('A calendar of your site’s posts.'),
@@ -47,7 +49,8 @@ class WP_Widget_Calendar extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance The settings for the particular instance of the widget.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         $title = ! empty($instance['title']) ? $instance['title'] : '';
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
@@ -79,7 +82,8 @@ class WP_Widget_Calendar extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Updated settings to save.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $instance          = $old_instance;
         $instance['title'] = sanitize_text_field($new_instance['title']);
 
@@ -93,7 +97,8 @@ class WP_Widget_Calendar extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         $instance = wp_parse_args((array) $instance, array('title' => ''));
         ?>
         <p>

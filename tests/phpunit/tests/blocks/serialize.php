@@ -9,14 +9,16 @@
  *
  * @group blocks
  */
-class Tests_Blocks_Serialize extends WP_UnitTestCase {
+class Tests_Blocks_Serialize extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_serialize_identity_from_parsed
      *
      * @param string $original Original block markup.
      */
-    public function test_serialize_identity_from_parsed($original) {
+    public function test_serialize_identity_from_parsed($original)
+    {
         $blocks = parse_blocks($original);
 
         $actual = serialize_blocks($blocks);
@@ -24,7 +26,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
         $this->assertSame($original, $actual);
     }
 
-    public function data_serialize_identity_from_parsed() {
+    public function data_serialize_identity_from_parsed()
+    {
         return array(
             // Void block.
             array('<!-- wp:void /-->'),
@@ -49,7 +52,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
         );
     }
 
-    public function test_serialized_block_name() {
+    public function test_serialized_block_name()
+    {
         $this->assertNull(strip_core_block_namespace(null));
         $this->assertSame('example', strip_core_block_namespace('example'));
         $this->assertSame('example', strip_core_block_namespace('core/example'));
@@ -62,7 +66,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_pre_callback_modifies_current_block() {
+    public function test_traverse_and_serialize_blocks_pre_callback_modifies_current_block()
+    {
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
@@ -79,7 +84,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_post_callback_modifies_current_block() {
+    public function test_traverse_and_serialize_blocks_post_callback_modifies_current_block()
+    {
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
@@ -91,7 +97,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
         );
     }
 
-    public static function add_attribute_to_inner_block(&$block) {
+    public static function add_attribute_to_inner_block(&$block)
+    {
         if ('core/inner' === $block['blockName']) {
             $block['attrs']['myattr'] = 'myvalue';
         }
@@ -102,7 +109,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_pre_callback_prepends_to_inner_block() {
+    public function test_traverse_and_serialize_blocks_pre_callback_prepends_to_inner_block()
+    {
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
@@ -119,7 +127,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_post_callback_appends_to_inner_block() {
+    public function test_traverse_and_serialize_blocks_post_callback_appends_to_inner_block()
+    {
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
@@ -131,7 +140,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
         );
     }
 
-    public static function insert_next_to_inner_block_callback($block) {
+    public static function insert_next_to_inner_block_callback($block)
+    {
         if ('core/inner' !== $block['blockName']) {
             return '';
         }
@@ -144,7 +154,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_pre_callback_prepends_to_child_blocks() {
+    public function test_traverse_and_serialize_blocks_pre_callback_prepends_to_child_blocks()
+    {
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
@@ -161,7 +172,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_post_callback_appends_to_child_blocks() {
+    public function test_traverse_and_serialize_blocks_post_callback_appends_to_child_blocks()
+    {
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
@@ -173,7 +185,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
         );
     }
 
-    public static function insert_next_to_child_blocks_callback($block, $parent_block) {
+    public static function insert_next_to_child_blocks_callback($block, $parent_block)
+    {
         if (! isset($parent_block)) {
             return '';
         }
@@ -192,7 +205,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_pre_callback_prepends_if_prev_block() {
+    public function test_traverse_and_serialize_blocks_pre_callback_prepends_if_prev_block()
+    {
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
@@ -209,7 +223,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_post_callback_appends_if_prev_block() {
+    public function test_traverse_and_serialize_blocks_post_callback_appends_if_prev_block()
+    {
         $markup = "<!-- wp:outer --><!-- wp:inner {\"key\":\"value\"} -->Example.<!-- /wp:inner -->\n\nExample.\n\n<!-- wp:void /--><!-- /wp:outer -->";
         $blocks = parse_blocks($markup);
 
@@ -221,7 +236,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
         );
     }
 
-    public static function insert_next_to_if_prev_or_next_block_callback($block, $parent_block, $prev_or_next) {
+    public static function insert_next_to_if_prev_or_next_block_callback($block, $parent_block, $prev_or_next)
+    {
         if (! isset($prev_or_next)) {
             return '';
         }
@@ -245,7 +261,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @param string $original Original block markup.
      */
-    public function test_traverse_and_serialize_identity_from_parsed($original) {
+    public function test_traverse_and_serialize_identity_from_parsed($original)
+    {
         $blocks = parse_blocks($original);
 
         $actual = traverse_and_serialize_blocks($blocks);
@@ -258,7 +275,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_do_not_insert_in_void_block() {
+    public function test_traverse_and_serialize_blocks_do_not_insert_in_void_block()
+    {
         $markup = '<!-- wp:void /-->';
         $blocks = parse_blocks($markup);
 
@@ -276,7 +294,8 @@ class Tests_Blocks_Serialize extends WP_UnitTestCase {
      *
      * @covers ::traverse_and_serialize_blocks
      */
-    public function test_traverse_and_serialize_blocks_do_not_insert_in_empty_parent_block() {
+    public function test_traverse_and_serialize_blocks_do_not_insert_in_empty_parent_block()
+    {
         $markup = '<!-- wp:outer --><div class="wp-block-outer"></div><!-- /wp:outer -->';
         $blocks = parse_blocks($markup);
 

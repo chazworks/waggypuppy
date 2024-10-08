@@ -8,11 +8,13 @@ if (is_multisite()) :
      * @group ms-bootstrap
      * @group multisite
      */
-    class Tests_Multisite_Bootstrap extends WP_UnitTestCase {
+    class Tests_Multisite_Bootstrap extends WP_UnitTestCase
+    {
         protected static $network_ids;
         protected static $site_ids;
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$network_ids = array(
                 'wordpress.org/'         => array(
                     'domain' => 'wordpress.org',
@@ -99,7 +101,8 @@ if (is_multisite()) :
             unset($id);
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             global $wpdb;
 
             foreach (self::$site_ids as $id) {
@@ -123,12 +126,14 @@ if (is_multisite()) :
          * @param string $path         The requested path.
          * @param string $message      The message to pass for failed tests.
          */
-        public function test_get_network_by_path($expected_key, $domain, $path, $message) {
+        public function test_get_network_by_path($expected_key, $domain, $path, $message)
+        {
             $network = get_network_by_path($domain, $path);
             $this->assertSame(self::$network_ids[ $expected_key ], $network->id, $message);
         }
 
-        public function data_get_network_by_path() {
+        public function data_get_network_by_path()
+        {
             return array(
                 array('wordpress.org/', 'wordpress.org', '/', 'A standard domain and path request should work.'),
                 array('wordpress.net/', 'wordpress.net', '/notapath/', 'A missing path on a top level domain should find the correct network.'),
@@ -154,7 +159,8 @@ if (is_multisite()) :
          * @param string $path         The requested path.
          * @param string $message      The message to pass for failed tests.
          */
-        public function test_get_network_by_path_with_zero_path_segments($expected_key, $domain, $path, $message) {
+        public function test_get_network_by_path_with_zero_path_segments($expected_key, $domain, $path, $message)
+        {
             add_filter('network_by_path_segments_count', '__return_zero');
 
             $network = get_network_by_path($domain, $path);
@@ -164,7 +170,8 @@ if (is_multisite()) :
             $this->assertSame(self::$network_ids[ $expected_key ], $network->id, $message);
         }
 
-        public function data_get_network_by_path_with_zero_path_segments() {
+        public function data_get_network_by_path_with_zero_path_segments()
+        {
             return array(
                 array('wordpress.org/', 'wordpress.org', '/', 'A standard domain and path request should work.'),
                 array('wordpress.net/', 'wordpress.net', '/notapath/', 'A network matching a top level domain should be found regardless of path.'),
@@ -181,7 +188,8 @@ if (is_multisite()) :
          * Even if a matching network is available, it should not match if the the filtered
          * value for network path segments is fewer than the number of paths passed.
          */
-        public function test_get_network_by_path_with_forced_single_path_segment_returns_single_path_network() {
+        public function test_get_network_by_path_with_forced_single_path_segment_returns_single_path_network()
+        {
             add_filter('network_by_path_segments_count', array($this, 'filter_network_path_segments'));
             $network = get_network_by_path('wordpress.org', '/one/b/');
             remove_filter('network_by_path_segments_count', array($this, 'filter_network_path_segments'));
@@ -189,7 +197,8 @@ if (is_multisite()) :
             $this->assertSame(self::$network_ids['wordpress.org/one/'], $network->id);
         }
 
-        public function filter_network_path_segments() {
+        public function filter_network_path_segments()
+        {
             return 1;
         }
 
@@ -203,7 +212,8 @@ if (is_multisite()) :
          * @param string $path         The requested path.
          * @param int    $segments     Optional. Number of segments to use in `get_site_by_path()`.
          */
-        public function test_get_site_by_path($expected_key, $domain, $path, $segments = null) {
+        public function test_get_site_by_path($expected_key, $domain, $path, $segments = null)
+        {
             $site = get_site_by_path($domain, $path, $segments);
 
             if ($expected_key) {
@@ -213,7 +223,8 @@ if (is_multisite()) :
             }
         }
 
-        public function data_get_site_by_path() {
+        public function data_get_site_by_path()
+        {
             return array(
                 array('wordpress.org/', 'wordpress.org', '/notapath/'),
                 array('wordpress.org/', 'www.wordpress.org', '/notapath/'),
@@ -255,7 +266,8 @@ if (is_multisite()) :
          * @param string $domain      The requested domain.
          * @param string $path        The requested path.
          */
-        public function test_multisite_bootstrap($site_key, $network_key, $domain, $path) {
+        public function test_multisite_bootstrap($site_key, $network_key, $domain, $path)
+        {
             global $current_blog;
 
             $expected = array(
@@ -273,7 +285,8 @@ if (is_multisite()) :
             $this->assertEqualSetsWithIndex($expected, $actual);
         }
 
-        public function data_multisite_bootstrap() {
+        public function data_multisite_bootstrap()
+        {
             return array(
                 array('wordpress.org/', 'wordpress.org/', 'wordpress.org', '/'),
                 array('wordpress.org/', 'wordpress.org/', 'wordpress.org', '/2014/04/23/hello-world/'),
@@ -294,7 +307,8 @@ if (is_multisite()) :
         /**
          * @ticket 27884
          */
-        public function test_multisite_bootstrap_additional_path_segments() {
+        public function test_multisite_bootstrap_additional_path_segments()
+        {
             global $current_blog;
 
             $expected = array(
@@ -316,7 +330,8 @@ if (is_multisite()) :
         /**
          * @ticket 37053
          */
-        public function test_get_site_by_path_returns_wp_site() {
+        public function test_get_site_by_path_returns_wp_site()
+        {
             add_filter('pre_get_site_by_path', array($this, 'filter_pre_get_site_by_path'), 10, 3);
 
             $site = get_site_by_path('example.com', '/foo/');
@@ -326,11 +341,13 @@ if (is_multisite()) :
             $this->assertInstanceOf('WP_Site', $site);
         }
 
-        public function filter_path_segments_to_two() {
+        public function filter_path_segments_to_two()
+        {
             return 2;
         }
 
-        public function filter_pre_get_site_by_path($site, $domain, $path) {
+        public function filter_pre_get_site_by_path($site, $domain, $path)
+        {
             $site          = new stdClass();
             $site->blog_id = 100;
             $site->domain  = $domain;

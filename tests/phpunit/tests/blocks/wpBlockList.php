@@ -8,7 +8,8 @@
  *
  * @group blocks
  */
-class Tests_Blocks_wpBlockList extends WP_UnitTestCase {
+class Tests_Blocks_wpBlockList extends WP_UnitTestCase
+{
 
     /**
      * Fake block type registry.
@@ -20,7 +21,8 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase {
     /**
      * Set up each test method.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->registry = new WP_Block_Type_Registry();
@@ -30,7 +32,8 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase {
     /**
      * Tear down each test method.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->registry = null;
 
         parent::tear_down();
@@ -39,7 +42,8 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_array_access() {
+    public function test_array_access()
+    {
         $parsed_blocks = parse_blocks('<!-- wp:example /-->');
         $context       = array();
         $blocks        = new WP_Block_List($parsed_blocks, $context, $this->registry);
@@ -63,7 +67,8 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_iterable() {
+    public function test_iterable()
+    {
         $parsed_blocks = parse_blocks('<!-- wp:example --><!-- wp:example /--><!-- /wp:example -->');
         $context       = array();
         $blocks        = new WP_Block_List($parsed_blocks, $context, $this->registry);
@@ -95,7 +100,8 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_countable() {
+    public function test_countable()
+    {
         $parsed_blocks = parse_blocks('<!-- wp:example /-->');
         $context       = array();
         $blocks        = new WP_Block_List($parsed_blocks, $context, $this->registry);

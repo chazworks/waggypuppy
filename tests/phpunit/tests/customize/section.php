@@ -5,11 +5,13 @@
  *
  * @group customize
  */
-class Tests_WP_Customize_Section extends WP_UnitTestCase {
+class Tests_WP_Customize_Section extends WP_UnitTestCase
+{
     protected static $admin_id;
     protected static $user_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_id   = $factory->user->create(array('role' => 'administrator'));
         self::$user_ids[] = self::$admin_id;
     }
@@ -19,14 +21,16 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
      */
     protected $manager;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $GLOBALS['wp_customize'] = new WP_Customize_Manager();
         $this->manager           = $GLOBALS['wp_customize'];
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->manager = null;
         unset($GLOBALS['wp_customize']);
         parent::tear_down();
@@ -35,7 +39,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
     /**
      * @see WP_Customize_Section::__construct()
      */
-    public function test_construct_default_args() {
+    public function test_construct_default_args()
+    {
         $section = new WP_Customize_Section($this->manager, 'foo');
         $this->assertIsInt($section->instance_number);
         $this->assertSame($this->manager, $section->manager);
@@ -53,7 +58,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
     /**
      * @see WP_Customize_Section::__construct()
      */
-    public function test_construct_custom_args() {
+    public function test_construct_custom_args()
+    {
         $args = array(
             'priority'        => 200,
             'capability'      => 'edit_posts',
@@ -76,7 +82,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
     /**
      * @see WP_Customize_Section::__construct()
      */
-    public function test_construct_custom_type() {
+    public function test_construct_custom_type()
+    {
         $section = new Custom_Section_Test($this->manager, 'foo');
         $this->assertSame('titleless', $section->type);
     }
@@ -85,7 +92,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
      * @see WP_Customize_Section::active()
      * @see WP_Customize_Section::active_callback()
      */
-    public function test_active() {
+    public function test_active()
+    {
         $section = new WP_Customize_Section($this->manager, 'foo');
         $this->assertTrue($section->active());
 
@@ -106,7 +114,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
      * @param WP_Customize_Section $section
      * @return bool
      */
-    public function filter_active_test($active, $section) {
+    public function filter_active_test($active, $section)
+    {
         $this->assertFalse($active);
         $this->assertInstanceOf('WP_Customize_Section', $section);
         $active = true;
@@ -116,7 +125,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
     /**
      * @see WP_Customize_Section::json()
      */
-    public function test_json() {
+    public function test_json()
+    {
         $args = array(
             'priority'        => 200,
             'capability'      => 'edit_posts',
@@ -144,7 +154,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
     /**
      * @see WP_Customize_Section::check_capabilities()
      */
-    public function test_check_capabilities() {
+    public function test_check_capabilities()
+    {
         wp_set_current_user(self::$admin_id);
 
         $section = new WP_Customize_Section($this->manager, 'foo');
@@ -161,7 +172,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
     /**
      * @see WP_Customize_Section::get_content()
      */
-    public function test_get_content() {
+    public function test_get_content()
+    {
         $section = new WP_Customize_Section($this->manager, 'foo');
         $this->assertEmpty($section->get_content());
     }
@@ -169,7 +181,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
     /**
      * @see WP_Customize_Section::maybe_render()
      */
-    public function test_maybe_render() {
+    public function test_maybe_render()
+    {
         wp_set_current_user(self::$admin_id);
         $section                        = new WP_Customize_Section($this->manager, 'bar');
         $customize_render_section_count = did_action('customize_render_section');
@@ -187,14 +200,16 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
      * @see WP_Customize_Section::maybe_render()
      * @param WP_Customize_Section $section
      */
-    public function action_customize_render_section_test($section) {
+    public function action_customize_render_section_test($section)
+    {
         $this->assertInstanceOf('WP_Customize_Section', $section);
     }
 
     /**
      * @see WP_Customize_Section::print_template()
      */
-    public function test_print_templates_standard() {
+    public function test_print_templates_standard()
+    {
         wp_set_current_user(self::$admin_id);
 
         $section = new WP_Customize_Section($this->manager, 'baz');
@@ -209,7 +224,8 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
     /**
      * @see WP_Customize_Section::print_template()
      */
-    public function test_print_templates_custom() {
+    public function test_print_templates_custom()
+    {
         wp_set_current_user(self::$admin_id);
 
         $section = new Custom_Section_Test($this->manager, 'baz');
@@ -223,10 +239,12 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase {
 }
 
 require_once ABSPATH . WPINC . '/class-wp-customize-section.php';
-class Custom_Section_Test extends WP_Customize_Section {
+class Custom_Section_Test extends WP_Customize_Section
+{
     public $type = 'titleless';
 
-    protected function render_template() {
+    protected function render_template()
+    {
         ?>
         <li id="accordion-section-{{ data.id }}" class="accordion-section control-section control-section-{{ data.type }}">
             <ul class="accordion-section-content">

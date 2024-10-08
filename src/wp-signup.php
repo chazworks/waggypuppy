@@ -19,7 +19,8 @@ if (is_array(get_site_option('illegal_names')) && isset($_GET['new']) && in_arra
  *
  * @since MU (3.0.0)
  */
-function do_signup_header() {
+function do_signup_header()
+{
     /**
      * Fires within the head section of the site sign-up screen.
      *
@@ -54,7 +55,8 @@ do_action('before_signup_header');
  *
  * @since MU (3.0.0)
  */
-function wpmu_signup_stylesheet() {
+function wpmu_signup_stylesheet()
+{
     ?>
     <style type="text/css">
         .mu_register { width: 90%; margin: 0 auto; }
@@ -107,7 +109,8 @@ do_action('before_signup_form');
  * @param string          $blog_title The new site title.
  * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
-function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
+function show_blog_form($blogname = '', $blog_title = '', $errors = '')
+{
     if (! is_wp_error($errors)) {
         $errors = new WP_Error();
     }
@@ -244,7 +247,8 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
  * @return array Contains the new site data and error messages.
  *               See wpmu_validate_blog_signup() for details.
  */
-function validate_blog_form() {
+function validate_blog_form()
+{
     $user = '';
     if (is_user_logged_in()) {
         $user = wp_get_current_user();
@@ -262,7 +266,8 @@ function validate_blog_form() {
  * @param string          $user_email The entered email address.
  * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
-function show_user_form($user_name = '', $user_email = '', $errors = '') {
+function show_user_form($user_name = '', $user_email = '', $errors = '')
+{
     if (! is_wp_error($errors)) {
         $errors = new WP_Error();
     }
@@ -316,7 +321,8 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
  * @return array Contains username, email, and error messages.
  *               See wpmu_validate_user_signup() for details.
  */
-function validate_user_form() {
+function validate_user_form()
+{
     return wpmu_validate_user_signup($_POST['user_name'], $_POST['user_email']);
 }
 
@@ -329,7 +335,8 @@ function validate_user_form() {
  * @param string          $blog_title The new site title.
  * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
-function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
+function signup_another_blog($blogname = '', $blog_title = '', $errors = '')
+{
     $current_user = wp_get_current_user();
 
     if (! is_wp_error($errors)) {
@@ -428,7 +435,8 @@ function signup_another_blog($blogname = '', $blog_title = '', $errors = '') {
  * @return null|bool True if site signup was validated, false on error.
  *                   The function halts all execution if the user is not logged in.
  */
-function validate_another_blog_signup() {
+function validate_another_blog_signup()
+{
     global $blogname, $blog_title, $errors, $domain, $path;
     $current_user = wp_get_current_user();
     if (! is_user_logged_in()) {
@@ -520,7 +528,8 @@ function validate_another_blog_signup() {
  * @param array  $meta       Any additional meta from the {@see 'add_signup_meta'} filter in validate_blog_signup().
  * @param int    $blog_id    The site ID.
  */
-function confirm_another_blog_signup($domain, $path, $blog_title, $user_name, $user_email = '', $meta = array(), $blog_id = 0) {
+function confirm_another_blog_signup($domain, $path, $blog_title, $user_name, $user_email = '', $meta = array(), $blog_id = 0)
+{
 
     if ($blog_id) {
         switch_to_blog($blog_id);
@@ -581,7 +590,8 @@ function confirm_another_blog_signup($domain, $path, $blog_title, $user_name, $u
  * @param string          $user_email The user's email.
  * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
-function signup_user($user_name = '', $user_email = '', $errors = '') {
+function signup_user($user_name = '', $user_email = '', $errors = '')
+{
     global $active_signup;
 
     if (! is_wp_error($errors)) {
@@ -662,7 +672,8 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
  *
  * @return bool True if new user sign-up was validated, false on error.
  */
-function validate_user_signup() {
+function validate_user_signup()
+{
     $result     = validate_user_form();
     $user_name  = $result['user_name'];
     $user_email = $result['user_email'];
@@ -693,7 +704,8 @@ function validate_user_signup() {
  * @param string $user_name  The username.
  * @param string $user_email The user's email address.
  */
-function confirm_user_signup($user_name, $user_email) {
+function confirm_user_signup($user_name, $user_email)
+{
     ?>
     <h2>
     <?php
@@ -725,7 +737,8 @@ function confirm_user_signup($user_name, $user_email) {
  * @param string          $blog_title The site title.
  * @param WP_Error|string $errors     A WP_Error object containing existing errors. Defaults to empty string.
  */
-function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_title = '', $errors = '') {
+function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_title = '', $errors = '')
+{
     if (! is_wp_error($errors)) {
         $errors = new WP_Error();
     }
@@ -786,7 +799,8 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
  *
  * @return bool True if the site sign-up was validated, false on error.
  */
-function validate_blog_signup() {
+function validate_blog_signup()
+{
     // Re-validate user info.
     $user_result = wpmu_validate_user_signup($_POST['user_name'], $_POST['user_email']);
     $user_name   = $user_result['user_name'];
@@ -850,7 +864,8 @@ function validate_blog_signup() {
  * @param string $user_email The user's email address.
  * @param array  $meta       Any additional meta from the {@see 'add_signup_meta'} filter in validate_blog_signup().
  */
-function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = array()) {
+function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = array())
+{
     ?>
     <h2>
     <?php
@@ -894,7 +909,8 @@ function confirm_blog_signup($domain, $path, $blog_title, $user_name = '', $user
  * @return string[] Array of available language codes. Language codes are formed by
  *                  stripping the .mo extension from the language file names.
  */
-function signup_get_available_languages() {
+function signup_get_available_languages()
+{
     /**
      * Filters the list of available languages for front-end site sign-ups.
      *

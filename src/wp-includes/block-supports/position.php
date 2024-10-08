@@ -14,7 +14,8 @@
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_position_support($block_type) {
+function wp_register_position_support($block_type)
+{
     $has_position_support = block_has_support($block_type, 'position', false);
 
     // Set up attributes and styles within that if needed.
@@ -39,7 +40,8 @@ function wp_register_position_support($block_type) {
  * @param  array  $block         Block object.
  * @return string                Filtered block content.
  */
-function wp_render_position_support($block_content, $block) {
+function wp_render_position_support($block_content, $block)
+{
     $block_type           = WP_Block_Type_Registry::get_instance()->get_registered($block['blockName']);
     $has_position_support = block_has_support($block_type, 'position', false);
 

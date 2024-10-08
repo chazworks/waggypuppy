@@ -12,7 +12,8 @@
  *
  * @since 6.5.0
  */
-final class WP_Interactivity_API {
+final class WP_Interactivity_API
+{
     /**
      * Holds the mapping of directive attribute names to their processor methods.
      *
@@ -124,7 +125,8 @@ final class WP_Interactivity_API {
      * @return array The current state for the specified store namespace. This will be the updated state if a $state
      *               argument was provided.
      */
-    public function state(?string $store_namespace = null, ?array $state = null): array {
+    public function state(?string $store_namespace = null, ?array $state = null): array
+    {
         if (! $store_namespace) {
             if ($state) {
                 _doing_it_wrong(
@@ -180,7 +182,8 @@ final class WP_Interactivity_API {
      * @return array The configuration for the specified store namespace. This will be the updated configuration if a
      *               $config argument was provided.
      */
-    public function config(string $store_namespace, array $config = array()): array {
+    public function config(string $store_namespace, array $config = array()): array
+    {
         if (! isset($this->config_data[ $store_namespace ])) {
             $this->config_data[ $store_namespace ] = array();
         }
@@ -205,7 +208,8 @@ final class WP_Interactivity_API {
      *
      * @deprecated 6.7.0 Client data passing is handled by the {@see "script_module_data_{$module_id}"} filter.
      */
-    public function print_client_interactivity_data() {
+    public function print_client_interactivity_data()
+    {
         _deprecated_function(__METHOD__, '6.7.0');
     }
 
@@ -220,7 +224,8 @@ final class WP_Interactivity_API {
      * @param array $data Data to filter.
      * @return array Data for the Interactivity Router script module.
      */
-    public function filter_script_module_interactivity_router_data(array $data): array {
+    public function filter_script_module_interactivity_router_data(array $data): array
+    {
         if (! isset($data['i18n'])) {
             $data['i18n'] = array();
         }
@@ -240,7 +245,8 @@ final class WP_Interactivity_API {
      * @param array $data Data to filter.
      * @return array Data for the Interactivity API script module.
      */
-    public function filter_script_module_interactivity_data(array $data): array {
+    public function filter_script_module_interactivity_data(array $data): array
+    {
         if (empty($this->state_data) && empty($this->config_data)) {
             return $data;
         }
@@ -278,7 +284,8 @@ final class WP_Interactivity_API {
      *
      * @param string $store_namespace Optional. The unique store namespace identifier.
      */
-    public function get_context(?string $store_namespace = null): array {
+    public function get_context(?string $store_namespace = null): array
+    {
         if (null === $this->context_stack) {
             _doing_it_wrong(
                 __METHOD__,
@@ -317,7 +324,8 @@ final class WP_Interactivity_API {
      *
      * @return array{attributes: array<string, string|bool>}|null Current element.
      */
-    public function get_element(): ?array {
+    public function get_element(): ?array
+    {
         if (null === $this->current_element) {
             _doing_it_wrong(
                 __METHOD__,
@@ -336,7 +344,8 @@ final class WP_Interactivity_API {
      *
      * @since 6.5.0
      */
-    public function register_script_modules() {
+    public function register_script_modules()
+    {
         _deprecated_function(__METHOD__, '6.7.0', 'wp_default_script_modules');
     }
 
@@ -345,7 +354,8 @@ final class WP_Interactivity_API {
      *
      * @since 6.5.0
      */
-    public function add_hooks() {
+    public function add_hooks()
+    {
         add_filter('script_module_data_@wordpress/interactivity', array($this, 'filter_script_module_interactivity_data'));
         add_filter('script_module_data_@wordpress/interactivity-router', array($this, 'filter_script_module_interactivity_router_data'));
     }
@@ -359,7 +369,8 @@ final class WP_Interactivity_API {
      * @param string $html The HTML content to process.
      * @return string The processed HTML content. It returns the original content when the HTML contains unbalanced tags.
      */
-    public function process_directives(string $html): string {
+    public function process_directives(string $html): string
+    {
         if (! str_contains($html, 'data-wp-')) {
             return $html;
         }
@@ -389,7 +400,8 @@ final class WP_Interactivity_API {
      * @param string $html The HTML content to process.
      * @return string|null The processed HTML content. It returns null when the HTML contains unbalanced tags.
      */
-    private function _process_directives(string $html) {
+    private function _process_directives(string $html)
+    {
         $p          = new WP_Interactivity_API_Directives_Processor($html);
         $tag_stack  = array();
         $unbalanced = false;
@@ -554,7 +566,8 @@ final class WP_Interactivity_API {
      * @param string|true $directive_value The directive attribute value string or `true` when it's a boolean attribute.
      * @return mixed|null The result of the evaluation. Null if the reference path doesn't exist or the namespace is falsy.
      */
-    private function evaluate($directive_value) {
+    private function evaluate($directive_value)
+    {
         $default_namespace = end($this->namespace_stack);
         $context           = end($this->context_stack);
 
@@ -637,7 +650,8 @@ final class WP_Interactivity_API {
      * @param string $directive_name The directive attribute name.
      * @return array An array containing the directive prefix and optional suffix.
      */
-    private function extract_prefix_and_suffix(string $directive_name): array {
+    private function extract_prefix_and_suffix(string $directive_name): array
+    {
         return explode('--', $directive_name, 2);
     }
 
@@ -667,7 +681,8 @@ final class WP_Interactivity_API {
      * @return array An array containing the namespace in the first item and the JSON, the reference path, or null on the
      *               second item.
      */
-    private function extract_directive_value($directive_value, $default_namespace = null): array {
+    private function extract_directive_value($directive_value, $default_namespace = null): array
+    {
         if (empty($directive_value) || is_bool($directive_value)) {
             return array($default_namespace, null);
         }
@@ -696,7 +711,8 @@ final class WP_Interactivity_API {
      * @param string $str The kebab-case string to transform to camelCase.
      * @return string The transformed camelCase string.
      */
-    private function kebab_to_camel_case(string $str): string {
+    private function kebab_to_camel_case(string $str): string
+    {
         return lcfirst(
             preg_replace_callback(
                 '/(-)([a-z])/',
@@ -719,7 +735,8 @@ final class WP_Interactivity_API {
      * @param WP_Interactivity_API_Directives_Processor $p    The directives processor instance.
      * @param string                                    $mode Whether the processing is entering or exiting the tag.
      */
-    private function data_wp_interactive_processor(WP_Interactivity_API_Directives_Processor $p, string $mode) {
+    private function data_wp_interactive_processor(WP_Interactivity_API_Directives_Processor $p, string $mode)
+    {
         // When exiting tags, it removes the last namespace from the stack.
         if ('exit' === $mode) {
             array_pop($this->namespace_stack);
@@ -762,7 +779,8 @@ final class WP_Interactivity_API {
      * @param WP_Interactivity_API_Directives_Processor $p               The directives processor instance.
      * @param string                                    $mode            Whether the processing is entering or exiting the tag.
      */
-    private function data_wp_context_processor(WP_Interactivity_API_Directives_Processor $p, string $mode) {
+    private function data_wp_context_processor(WP_Interactivity_API_Directives_Processor $p, string $mode)
+    {
         // When exiting tags, it removes the last context from the stack.
         if ('exit' === $mode) {
             array_pop($this->context_stack);
@@ -807,7 +825,8 @@ final class WP_Interactivity_API {
      * @param WP_Interactivity_API_Directives_Processor $p               The directives processor instance.
      * @param string                                    $mode            Whether the processing is entering or exiting the tag.
      */
-    private function data_wp_bind_processor(WP_Interactivity_API_Directives_Processor $p, string $mode) {
+    private function data_wp_bind_processor(WP_Interactivity_API_Directives_Processor $p, string $mode)
+    {
         if ('enter' === $mode) {
             $all_bind_directives = $p->get_attribute_names_with_prefix('data-wp-bind--');
 
@@ -857,7 +876,8 @@ final class WP_Interactivity_API {
      * @param WP_Interactivity_API_Directives_Processor $p               The directives processor instance.
      * @param string                                    $mode            Whether the processing is entering or exiting the tag.
      */
-    private function data_wp_class_processor(WP_Interactivity_API_Directives_Processor $p, string $mode) {
+    private function data_wp_class_processor(WP_Interactivity_API_Directives_Processor $p, string $mode)
+    {
         if ('enter' === $mode) {
             $all_class_directives = $p->get_attribute_names_with_prefix('data-wp-class--');
 
@@ -890,7 +910,8 @@ final class WP_Interactivity_API {
      * @param WP_Interactivity_API_Directives_Processor $p               The directives processor instance.
      * @param string                                    $mode            Whether the processing is entering or exiting the tag.
      */
-    private function data_wp_style_processor(WP_Interactivity_API_Directives_Processor $p, string $mode) {
+    private function data_wp_style_processor(WP_Interactivity_API_Directives_Processor $p, string $mode)
+    {
         if ('enter' === $mode) {
             $all_style_attributes = $p->get_attribute_names_with_prefix('data-wp-style--');
 
@@ -947,7 +968,8 @@ final class WP_Interactivity_API {
      *                                                 empty string, it removes the style property.
      * @return string The new style attribute value after the specified property has been added, updated or removed.
      */
-    private function merge_style_property(string $style_attribute_value, string $style_property_name, $style_property_value): string {
+    private function merge_style_property(string $style_attribute_value, string $style_property_name, $style_property_value): string
+    {
         $style_assignments    = explode(';', $style_attribute_value);
         $result               = array();
         $style_property_value = ! empty($style_property_value) ? rtrim(trim($style_property_value), ';') : null;
@@ -981,7 +1003,8 @@ final class WP_Interactivity_API {
      * @param WP_Interactivity_API_Directives_Processor $p               The directives processor instance.
      * @param string                                    $mode            Whether the processing is entering or exiting the tag.
      */
-    private function data_wp_text_processor(WP_Interactivity_API_Directives_Processor $p, string $mode) {
+    private function data_wp_text_processor(WP_Interactivity_API_Directives_Processor $p, string $mode)
+    {
         if ('enter' === $mode) {
             $attribute_value = $p->get_attribute('data-wp-text');
             $result          = $this->evaluate($attribute_value);
@@ -1006,7 +1029,8 @@ final class WP_Interactivity_API {
      *
      * @return string The CSS styles for the router's top loading bar animation.
      */
-    private function get_router_animation_styles(): string {
+    private function get_router_animation_styles(): string
+    {
         return <<<CSS
 			.wp-interactivity-router-loading-bar {
 				position: fixed;
@@ -1044,7 +1068,8 @@ CSS;
      * @since 6.5.0
      * @deprecated 6.7.0 Use {@see WP_Interactivity_API::print_router_markup} instead.
      */
-    public function print_router_loading_and_screen_reader_markup() {
+    public function print_router_loading_and_screen_reader_markup()
+    {
         _deprecated_function(__METHOD__, '6.7.0', 'WP_Interactivity_API::print_router_markup');
 
         // Call the new method.
@@ -1059,7 +1084,8 @@ CSS;
      *
      * @since 6.7.0
      */
-    public function print_router_markup() {
+    public function print_router_markup()
+    {
         echo <<<HTML
 			<div
 				class="wp-interactivity-router-loading-bar"
@@ -1083,7 +1109,8 @@ HTML;
      * @param WP_Interactivity_API_Directives_Processor $p               The directives processor instance.
      * @param string                                    $mode            Whether the processing is entering or exiting the tag.
      */
-    private function data_wp_router_region_processor(WP_Interactivity_API_Directives_Processor $p, string $mode) {
+    private function data_wp_router_region_processor(WP_Interactivity_API_Directives_Processor $p, string $mode)
+    {
         if ('enter' === $mode && ! $this->has_processed_router_region) {
             $this->has_processed_router_region = true;
 
@@ -1123,7 +1150,8 @@ HTML;
      * @param string                                    $mode            Whether the processing is entering or exiting the tag.
      * @param array                                     $tag_stack       The reference to the tag stack.
      */
-    private function data_wp_each_processor(WP_Interactivity_API_Directives_Processor $p, string $mode, array &$tag_stack) {
+    private function data_wp_each_processor(WP_Interactivity_API_Directives_Processor $p, string $mode, array &$tag_stack)
+    {
         if ('enter' === $mode && 'TEMPLATE' === $p->get_tag()) {
             $attribute_name   = $p->get_attribute_names_with_prefix('data-wp-each')[0];
             $extracted_suffix = $this->extract_prefix_and_suffix($attribute_name);

@@ -15,7 +15,8 @@
  *
  * @see Bulk_Upgrader_Skin
  */
-class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
+class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin
+{
 
     /**
      * Plugin info.
@@ -33,7 +34,8 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
      *
      * @since 3.0.0
      */
-    public function add_strings() {
+    public function add_strings()
+    {
         parent::add_strings();
         /* translators: 1: Plugin name, 2: Number of the plugin, 3: Total number of plugins being updated. */
         $this->upgrader->strings['skin_before_update_header'] = __('Updating Plugin %1$s (%2$d/%3$d)');
@@ -46,7 +48,8 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
      *
      * @param string $title
      */
-    public function before($title = '') {
+    public function before($title = '')
+    {
         parent::before($this->plugin_info['Title']);
     }
 
@@ -57,7 +60,8 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
      *
      * @param string $title
      */
-    public function after($title = '') {
+    public function after($title = '')
+    {
         parent::after($this->plugin_info['Title']);
         $this->decrement_update_count('plugin');
     }
@@ -67,7 +71,8 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
      *
      * @since 3.0.0
      */
-    public function bulk_footer() {
+    public function bulk_footer()
+    {
         parent::bulk_footer();
 
         $update_actions = array(

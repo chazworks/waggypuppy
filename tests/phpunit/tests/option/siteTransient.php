@@ -3,9 +3,11 @@
 /**
  * @group option
  */
-class Tests_Option_SiteTransient extends WP_UnitTestCase {
+class Tests_Option_SiteTransient extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         if (wp_using_ext_object_cache()) {
@@ -18,7 +20,8 @@ class Tests_Option_SiteTransient extends WP_UnitTestCase {
      * @covers ::set_site_transient
      * @covers ::delete_site_transient
      */
-    public function test_the_basics() {
+    public function test_the_basics()
+    {
         $key    = 'key1';
         $value  = 'value1';
         $value2 = 'value2';
@@ -39,7 +42,8 @@ class Tests_Option_SiteTransient extends WP_UnitTestCase {
      * @covers ::set_site_transient
      * @covers ::delete_site_transient
      */
-    public function test_serialized_data() {
+    public function test_serialized_data()
+    {
         $key   = __FUNCTION__;
         $value = array(
             'foo' => true,
@@ -62,7 +66,8 @@ class Tests_Option_SiteTransient extends WP_UnitTestCase {
      * @covers ::set_site_transient
      * @covers ::wp_load_alloptions
      */
-    public function test_set_site_transient_is_not_stored_as_autoload_option() {
+    public function test_set_site_transient_is_not_stored_as_autoload_option()
+    {
         $key = 'not_autoloaded';
 
         set_site_transient($key, 'Not an autoload option');

@@ -24,7 +24,8 @@
  * @param string $show See get_bloginfo() for possible values.
  * @return string
  */
-function get_bloginfo_rss($show = '') {
+function get_bloginfo_rss($show = '')
+{
     $info = strip_tags(get_bloginfo($show));
     /**
      * Filters the bloginfo for use in RSS feeds.
@@ -53,7 +54,8 @@ function get_bloginfo_rss($show = '') {
  *
  * @param string $show See get_bloginfo() for possible values.
  */
-function bloginfo_rss($show = '') {
+function bloginfo_rss($show = '')
+{
     /**
      * Filters the bloginfo for display in RSS feeds.
      *
@@ -77,7 +79,8 @@ function bloginfo_rss($show = '') {
  *
  * @return string Default feed, or for example 'rss2', 'atom', etc.
  */
-function get_default_feed() {
+function get_default_feed()
+{
     /**
      * Filters the default feed type.
      *
@@ -100,7 +103,8 @@ function get_default_feed() {
  * @param string $deprecated Unused.
  * @return string The document title.
  */
-function get_wp_title_rss($deprecated = '&#8211;') {
+function get_wp_title_rss($deprecated = '&#8211;')
+{
     if ('&#8211;' !== $deprecated) {
         /* translators: %s: 'document_title_separator' filter name. */
         _deprecated_argument(__FUNCTION__, '4.4.0', sprintf(__('Use the %s filter instead.'), '<code>document_title_separator</code>'));
@@ -126,7 +130,8 @@ function get_wp_title_rss($deprecated = '&#8211;') {
  *
  * @param string $deprecated Unused.
  */
-function wp_title_rss($deprecated = '&#8211;') {
+function wp_title_rss($deprecated = '&#8211;')
+{
     if ('&#8211;' !== $deprecated) {
         /* translators: %s: 'document_title_separator' filter name. */
         _deprecated_argument(__FUNCTION__, '4.4.0', sprintf(__('Use the %s filter instead.'), '<code>document_title_separator</code>'));
@@ -155,7 +160,8 @@ function wp_title_rss($deprecated = '&#8211;') {
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string Current post title.
  */
-function get_the_title_rss($post = 0) {
+function get_the_title_rss($post = 0)
+{
     $title = get_the_title($post);
 
     /**
@@ -173,7 +179,8 @@ function get_the_title_rss($post = 0) {
  *
  * @since 0.71
  */
-function the_title_rss() {
+function the_title_rss()
+{
     echo get_the_title_rss();
 }
 
@@ -187,7 +194,8 @@ function the_title_rss() {
  * @param string $feed_type The type of feed. rss2 | atom | rss | rdf
  * @return string The filtered content.
  */
-function get_the_content_feed($feed_type = null) {
+function get_the_content_feed($feed_type = null)
+{
     if (! $feed_type) {
         $feed_type = get_default_feed();
     }
@@ -215,7 +223,8 @@ function get_the_content_feed($feed_type = null) {
  *
  * @param string $feed_type The type of feed. rss2 | atom | rss | rdf
  */
-function the_content_feed($feed_type = null) {
+function the_content_feed($feed_type = null)
+{
     echo get_the_content_feed($feed_type);
 }
 
@@ -224,7 +233,8 @@ function the_content_feed($feed_type = null) {
  *
  * @since 0.71
  */
-function the_excerpt_rss() {
+function the_excerpt_rss()
+{
     $output = get_the_excerpt();
     /**
      * Filters the post excerpt for a feed.
@@ -241,7 +251,8 @@ function the_excerpt_rss() {
  *
  * @since 2.3.0
  */
-function the_permalink_rss() {
+function the_permalink_rss()
+{
     /**
      * Filters the permalink to the post for use in feeds.
      *
@@ -257,7 +268,8 @@ function the_permalink_rss() {
  *
  * @since 3.0.0
  */
-function comments_link_feed() {
+function comments_link_feed()
+{
     /**
      * Filters the comments permalink for the current post.
      *
@@ -276,7 +288,8 @@ function comments_link_feed() {
  *
  * @param int|WP_Comment $comment_id Optional comment object or ID. Defaults to global comment object.
  */
-function comment_guid($comment_id = null) {
+function comment_guid($comment_id = null)
+{
     echo esc_url(get_comment_guid($comment_id));
 }
 
@@ -288,7 +301,8 @@ function comment_guid($comment_id = null) {
  * @param int|WP_Comment $comment_id Optional comment object or ID. Defaults to global comment object.
  * @return string|false GUID for comment on success, false on failure.
  */
-function get_comment_guid($comment_id = null) {
+function get_comment_guid($comment_id = null)
+{
     $comment = get_comment($comment_id);
 
     if (! is_object($comment)) {
@@ -306,7 +320,8 @@ function get_comment_guid($comment_id = null) {
  *
  * @param int|WP_Comment $comment Optional. Comment object or ID. Defaults to global comment object.
  */
-function comment_link($comment = null) {
+function comment_link($comment = null)
+{
     /**
      * Filters the current comment's permalink.
      *
@@ -326,7 +341,8 @@ function comment_link($comment = null) {
  *
  * @return string Comment Author.
  */
-function get_comment_author_rss() {
+function get_comment_author_rss()
+{
     /**
      * Filters the current comment author for use in a feed.
      *
@@ -344,7 +360,8 @@ function get_comment_author_rss() {
  *
  * @since 1.0.0
  */
-function comment_author_rss() {
+function comment_author_rss()
+{
     echo get_comment_author_rss();
 }
 
@@ -353,7 +370,8 @@ function comment_author_rss() {
  *
  * @since 1.0.0
  */
-function comment_text_rss() {
+function comment_text_rss()
+{
     $comment_text = get_comment_text();
     /**
      * Filters the current comment content for use in a feed.
@@ -378,7 +396,8 @@ function comment_text_rss() {
  * @param string $type Optional, default is the type returned by get_default_feed().
  * @return string All of the post categories for displaying in the feed.
  */
-function get_the_category_rss($type = null) {
+function get_the_category_rss($type = null)
+{
     if (empty($type)) {
         $type = get_default_feed();
     }
@@ -437,7 +456,8 @@ function get_the_category_rss($type = null) {
  *
  * @param string $type Optional, default is the type returned by get_default_feed().
  */
-function the_category_rss($type = null) {
+function the_category_rss($type = null)
+{
     echo get_the_category_rss($type);
 }
 
@@ -448,7 +468,8 @@ function the_category_rss($type = null) {
  *
  * @since 2.2.0
  */
-function html_type_rss() {
+function html_type_rss()
+{
     $type = get_bloginfo('html_type');
     if (str_contains($type, 'xhtml')) {
         $type = 'xhtml';
@@ -472,7 +493,8 @@ function html_type_rss() {
  *
  * @since 1.5.0
  */
-function rss_enclosure() {
+function rss_enclosure()
+{
     if (post_password_required()) {
         return;
     }
@@ -512,7 +534,8 @@ function rss_enclosure() {
  *
  * @since 2.2.0
  */
-function atom_enclosure() {
+function atom_enclosure()
+{
     if (post_password_required()) {
         return;
     }
@@ -581,7 +604,8 @@ function atom_enclosure() {
  * @param string $data Input string.
  * @return array array(type, value)
  */
-function prep_atom_text_construct($data) {
+function prep_atom_text_construct($data)
+{
     if (! str_contains($data, '<') && ! str_contains($data, '&')) {
         return array('text', $data);
     }
@@ -621,7 +645,8 @@ function prep_atom_text_construct($data) {
  *
  * @see get_site_icon_url()
  */
-function atom_site_icon() {
+function atom_site_icon()
+{
     $url = get_site_icon_url(32);
     if ($url) {
         echo '<icon>' . convert_chars($url) . "</icon>\n";
@@ -633,7 +658,8 @@ function atom_site_icon() {
  *
  * @since 4.3.0
  */
-function rss2_site_icon() {
+function rss2_site_icon()
+{
     $rss_title = get_wp_title_rss();
     if (empty($rss_title)) {
         $rss_title = get_bloginfo_rss('name');
@@ -659,7 +685,8 @@ function rss2_site_icon() {
  *
  * @return string Correct link for the atom:self element.
  */
-function get_self_link() {
+function get_self_link()
+{
     $parsed = parse_url(home_url());
 
     $domain = $parsed['host'];
@@ -677,7 +704,8 @@ function get_self_link() {
  *
  * @since 2.5.0
  */
-function self_link() {
+function self_link()
+{
     /**
      * Filters the current feed URL.
      *
@@ -704,7 +732,8 @@ function self_link() {
  * @param string $format Date format string to return the time in.
  * @return string|false The time in requested format, or false on failure.
  */
-function get_feed_build_date($format) {
+function get_feed_build_date($format)
+{
     global $wp_query;
 
     $datetime          = false;
@@ -757,7 +786,8 @@ function get_feed_build_date($format) {
  * @param string $type Type of feed. Possible values include 'rss', rss2', 'atom', and 'rdf'.
  * @return string Content type for specified feed type.
  */
-function feed_content_type($type = '') {
+function feed_content_type($type = '')
+{
     if (empty($type)) {
         $type = get_default_feed();
     }
@@ -793,7 +823,8 @@ function feed_content_type($type = '') {
  *                             See also {@link http://simplepie.org/wiki/faq/typical_multifeed_gotchas}
  * @return SimplePie\SimplePie|WP_Error SimplePie object on success or WP_Error object on failure.
  */
-function fetch_feed($url) {
+function fetch_feed($url)
+{
     if (! class_exists('SimplePie\SimplePie', false)) {
         require_once ABSPATH . WPINC . '/class-simplepie.php';
     }

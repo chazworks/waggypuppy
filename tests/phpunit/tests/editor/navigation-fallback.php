@@ -10,18 +10,21 @@
  *
  * @group editor
  */
-class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
+class WP_Navigation_Fallback_Test extends WP_UnitTestCase
+{
 
     protected static $admin_user;
     protected static $editor_user;
 
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$admin_user = $factory->user->create(array('role' => 'administrator'));
 
         self::$editor_user = $factory->user->create(array('role' => 'editor'));
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         wp_set_current_user(self::$admin_user);
@@ -31,7 +34,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller
      */
-    public function test_it_exists() {
+    public function test_it_exists()
+    {
         $this->assertTrue(class_exists('WP_Navigation_Fallback'), 'WP_Navigation_Fallback class should exist.');
     }
 
@@ -40,7 +44,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_return_a_default_fallback_navigation_menu_in_absence_of_other_fallbacks() {
+    public function test_should_return_a_default_fallback_navigation_menu_in_absence_of_other_fallbacks()
+    {
         $data = WP_Navigation_Fallback::get_fallback();
 
         $this->assertInstanceOf('WP_Post', $data, 'Response should be of the correct type.');
@@ -63,7 +68,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      *
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_not_automatically_create_fallback_if_filter_is_falsey() {
+    public function test_should_not_automatically_create_fallback_if_filter_is_falsey()
+    {
 
         add_filter('wp_navigation_should_create_fallback', '__return_false');
 
@@ -82,7 +88,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_return_a_default_fallback_navigation_menu_with_no_blocks_if_page_list_block_is_not_registered() {
+    public function test_should_return_a_default_fallback_navigation_menu_with_no_blocks_if_page_list_block_is_not_registered()
+    {
 
         $original_page_list_block = WP_Block_Type_Registry::get_instance()->get_registered('core/page-list');
 
@@ -103,7 +110,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_handle_consecutive_invocations() {
+    public function test_should_handle_consecutive_invocations()
+    {
         // Invoke the method multiple times to ensure that it doesn't create a new fallback menu on each invocation.
         WP_Navigation_Fallback::get_fallback();
         WP_Navigation_Fallback::get_fallback();
@@ -124,7 +132,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_return_the_most_recently_created_navigation_menu() {
+    public function test_should_return_the_most_recently_created_navigation_menu()
+    {
 
         self::factory()->post->create_and_get(
             array(
@@ -162,7 +171,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_return_fallback_navigation_from_existing_classic_menu_if_no_navigation_menus_exist() {
+    public function test_should_return_fallback_navigation_from_existing_classic_menu_if_no_navigation_menus_exist()
+    {
         $menu_id = wp_create_nav_menu('Existing Classic Menu');
 
         wp_update_nav_menu_item(
@@ -199,7 +209,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_prioritise_fallback_to_classic_menu_in_primary_location() {
+    public function test_should_prioritise_fallback_to_classic_menu_in_primary_location()
+    {
         $pl_menu_id = wp_create_nav_menu('Classic Menu in Primary Location');
 
         wp_update_nav_menu_item(
@@ -240,7 +251,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_fallback_to_classic_menu_with_primary_slug() {
+    public function test_should_fallback_to_classic_menu_with_primary_slug()
+    {
 
         // Creates a classic menu with the slug "primary".
         $primary_menu_id = wp_create_nav_menu('Primary');
@@ -278,7 +290,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_fallback_to_most_recently_created_classic_menu() {
+    public function test_should_fallback_to_most_recently_created_classic_menu()
+    {
 
         // Creates a classic menu with the slug "primary".
         $primary_menu_id = wp_create_nav_menu('Older Classic Menu');
@@ -316,7 +329,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_not_create_fallback_from_classic_menu_if_a_navigation_menu_already_exists() {
+    public function test_should_not_create_fallback_from_classic_menu_if_a_navigation_menu_already_exists()
+    {
         $menu_id = wp_create_nav_menu('Existing Classic Menu');
 
         wp_update_nav_menu_item(
@@ -351,7 +365,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase {
         $this->assertCount(1, $navs_in_db, 'Only the existing Navigation menus should be present in the database.');
     }
 
-    private function get_navigations_in_database() {
+    private function get_navigations_in_database()
+    {
         $navs_in_db = new WP_Query(
             array(
                 'post_type'      => 'wp_navigation',

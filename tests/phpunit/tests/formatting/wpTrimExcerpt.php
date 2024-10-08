@@ -5,11 +5,13 @@
  *
  * @covers ::wp_trim_excerpt
  */
-class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
+class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase
+{
     /**
      * @ticket 25349
      */
-    public function test_secondary_loop_respect_more() {
+    public function test_secondary_loop_respect_more()
+    {
         $post1 = self::factory()->post->create(
             array(
                 'post_content' => 'Post 1 Page 1<!--more-->Post 1 Page 2',
@@ -40,7 +42,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
     /**
      * @ticket 25349
      */
-    public function test_secondary_loop_respect_nextpage() {
+    public function test_secondary_loop_respect_nextpage()
+    {
         $post1 = self::factory()->post->create(
             array(
                 'post_content' => 'Post 1 Page 1<!--nextpage-->Post 1 Page 2',
@@ -71,7 +74,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
     /**
      * @ticket 51042
      */
-    public function test_should_generate_excerpt_for_empty_values() {
+    public function test_should_generate_excerpt_for_empty_values()
+    {
         if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
@@ -98,7 +102,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
      *
      * @ticket 56588
      */
-    public function test_wp_trim_excerpt_unhooks_wp_filter_content_tags() {
+    public function test_wp_trim_excerpt_unhooks_wp_filter_content_tags()
+    {
         $post = self::factory()->post->create();
 
         /*
@@ -124,7 +129,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
      *
      * @ticket 56588
      */
-    public function test_wp_trim_excerpt_should_not_permanently_unhook_wp_filter_content_tags() {
+    public function test_wp_trim_excerpt_should_not_permanently_unhook_wp_filter_content_tags()
+    {
         $post = self::factory()->post->create();
 
         wp_trim_excerpt('', $post);
@@ -137,7 +143,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
      *
      * @ticket 56588
      */
-    public function test_wp_trim_excerpt_does_not_restore_wp_filter_content_tags_if_previously_unhooked() {
+    public function test_wp_trim_excerpt_does_not_restore_wp_filter_content_tags_if_previously_unhooked()
+    {
         $post = self::factory()->post->create();
 
         // Remove wp_filter_content_tags() from 'the_content' filter generally.
@@ -154,7 +161,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
      *
      * @ticket 58682
      */
-    public function test_wp_trim_excerpt_check_if_block_renders() {
+    public function test_wp_trim_excerpt_check_if_block_renders()
+    {
         $post = self::factory()->post->create(
             array(
                 'post_content' => '<!-- wp:paragraph --> <p>A test paragraph</p> <!-- /wp:paragraph -->',
@@ -171,7 +179,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
      *
      * @ticket 58682
      */
-    public function test_wp_trim_excerpt_unhooks_do_blocks() {
+    public function test_wp_trim_excerpt_unhooks_do_blocks()
+    {
         $post = self::factory()->post->create();
 
         /*
@@ -197,7 +206,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
      *
      * @ticket 58682
      */
-    public function test_wp_trim_excerpt_should_not_permanently_unhook_do_blocks() {
+    public function test_wp_trim_excerpt_should_not_permanently_unhook_do_blocks()
+    {
         $post = self::factory()->post->create();
 
         wp_trim_excerpt('', $post);
@@ -210,7 +220,8 @@ class Tests_Formatting_wpTrimExcerpt extends WP_UnitTestCase {
      *
      * @ticket 58682
      */
-    public function test_wp_trim_excerpt_does_not_restore_do_blocks_if_previously_unhooked() {
+    public function test_wp_trim_excerpt_does_not_restore_do_blocks_if_previously_unhooked()
+    {
         $post = self::factory()->post->create();
 
         // Remove do_blocks() from 'the_content' filter generally.

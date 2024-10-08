@@ -2,7 +2,8 @@
 /**
  * @group taxonomy
  */
-class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
+class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase
+{
     protected $terms = array();
 
     /**
@@ -13,7 +14,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
      * @param $expected Expected output from `wp_generate_tag_cloud()`.
      * @param $args     Options for `wp_generate_tag_cloud()`.
      */
-    public function test_empty_tags_passed($expected, $args) {
+    public function test_empty_tags_passed($expected, $args)
+    {
         $empty_tags = array();
         $this->assertSame($expected, wp_generate_tag_cloud($empty_tags, $args));
     }
@@ -26,7 +28,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
      * @param $expected Expected output from `wp_generate_tag_cloud()`.
      * @param $args     Options for `wp_generate_tag_cloud()`.
      */
-    public function test_empty_tags_list_returned($expected, $args) {
+    public function test_empty_tags_list_returned($expected, $args)
+    {
         $term_ids    = self::factory()->term->create_many(4, array('taxonomy' => 'post_tag'));
         $this->terms = array();
         foreach ($term_ids as $term_id) {
@@ -41,7 +44,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_empty_tags() {
+    public function data_empty_tags()
+    {
         return array(
             // When 'format' => 'array', we should be getting an empty array back.
             array(
@@ -65,7 +69,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
         );
     }
 
-    public function test_hide_empty_false() {
+    public function test_hide_empty_false()
+    {
         $term_id = self::factory()->tag->create();
         $term    = get_term($term_id, 'post_tag');
 
@@ -86,7 +91,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
         $this->assertStringContainsString('>' . $tags[0]->name . '<', $found);
     }
 
-    public function test_hide_empty_false_format_array() {
+    public function test_hide_empty_false_format_array()
+    {
         $term_id = self::factory()->tag->create();
         $term    = get_term($term_id, 'post_tag');
 
@@ -110,7 +116,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
         $this->assertStringContainsString('>' . $tags[0]->name . '<', $found[0]);
     }
 
-    public function test_hide_empty_false_format_list() {
+    public function test_hide_empty_false_format_list()
+    {
         $term_id = self::factory()->tag->create();
         $term    = get_term($term_id, 'post_tag');
 
@@ -134,7 +141,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
         $this->assertStringContainsString('>' . $tags[0]->name . '<', $found);
     }
 
-    public function test_hide_empty_false_multi() {
+    public function test_hide_empty_false_multi()
+    {
         $term_ids = self::factory()->tag->create_many(4);
         $terms    = array();
         foreach ($term_ids as $term_id) {
@@ -161,7 +169,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
         }
     }
 
-    public function test_hide_empty_false_multi_format_list() {
+    public function test_hide_empty_false_multi_format_list()
+    {
         $term_ids = self::factory()->tag->create_many(4);
         $terms    = array();
         foreach ($term_ids as $term_id) {
@@ -192,7 +201,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
         }
     }
 
-    public function test_topic_count_text() {
+    public function test_topic_count_text()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term_ids    = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
         $this->terms = array();
@@ -228,7 +238,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
         $this->assertStringContainsString('aria-label="' . $term_objects[1]->name . ' (Term has 2 posts)"', $actual[1]);
     }
 
-    public function test_topic_count_text_callback() {
+    public function test_topic_count_text_callback()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term_ids    = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
         $this->terms = array();
@@ -262,7 +273,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
     /**
      * @ticket 5172
      */
-    public function test_should_include_tag_link_position_class() {
+    public function test_should_include_tag_link_position_class()
+    {
         if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
@@ -299,7 +311,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
      *
      * @return array
      */
-    protected function retrieve_terms($get_terms_args, $taxonomy = 'post_tag') {
+    protected function retrieve_terms($get_terms_args, $taxonomy = 'post_tag')
+    {
         $terms = get_terms(array($taxonomy), $get_terms_args);
 
         $tags = array();
@@ -313,7 +326,8 @@ class Tests_WP_Generate_Tag_Cloud extends WP_UnitTestCase {
         return $tags;
     }
 
-    public function topic_count_text_callback($real_count, $tag, $args) {
+    public function topic_count_text_callback($real_count, $tag, $args)
+    {
         return sprintf('%s foo', $real_count);
     }
 }

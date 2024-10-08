@@ -3,7 +3,8 @@
 /**
  * @group taxonomy
  */
-class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
+class Tests_Term_SplitSharedTerm extends WP_UnitTestCase
+{
     protected $terms = array();
 
     /**
@@ -19,7 +20,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
      *   'wptests_tax_2' taxonomy. This term is a child of t2, and is used to test parent/child relationships
      *   after term splitting.
      */
-    public function set_up() {
+    public function set_up()
+    {
         global $wpdb;
 
         parent::set_up();
@@ -79,7 +81,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     /**
      * @ticket 5809
      */
-    public function test_should_create_new_term_ids() {
+    public function test_should_create_new_term_ids()
+    {
         $t1_term = get_term_by('term_taxonomy_id', $this->terms['t1']['term_taxonomy_id'], 'wptests_tax');
         $t2_term = get_term_by('term_taxonomy_id', $this->terms['t2']['term_taxonomy_id'], 'wptests_tax_2');
         $t3_term = get_term_by('term_taxonomy_id', $this->terms['t3']['term_taxonomy_id'], 'wptests_tax_3');
@@ -92,7 +95,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     /**
      * @ticket 5809
      */
-    public function test_should_retain_child_terms_when_using_get_terms_parent() {
+    public function test_should_retain_child_terms_when_using_get_terms_parent()
+    {
         $children = get_terms(
             'wptests_tax_2',
             array(
@@ -107,7 +111,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     /**
      * @ticket 5809
      */
-    public function test_should_retain_child_terms_when_using_get_terms_child_of() {
+    public function test_should_retain_child_terms_when_using_get_terms_child_of()
+    {
         $children = get_terms(
             'wptests_tax_2',
             array(
@@ -122,7 +127,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     /**
      * @ticket 30335
      */
-    public function test_should_rebuild_split_term_taxonomy_hierarchy() {
+    public function test_should_rebuild_split_term_taxonomy_hierarchy()
+    {
         global $wpdb;
 
         register_taxonomy('wptests_tax_3', 'post');
@@ -164,7 +170,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     /**
      * @ticket 30335
      */
-    public function test_should_update_default_category_on_term_split() {
+    public function test_should_update_default_category_on_term_split()
+    {
         global $wpdb;
         $t1 = wp_insert_term('Foo Default', 'category');
 
@@ -194,7 +201,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
     /**
      * @ticket 30335
      */
-    public function test_should_update_menus_on_term_split() {
+    public function test_should_update_menus_on_term_split()
+    {
         global $wpdb;
 
         $t1 = wp_insert_term('Foo Menu', 'category');
@@ -234,7 +242,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
      * @ticket 33187
      * @group menu
      */
-    public function test_nav_menu_locations_should_be_updated_on_split() {
+    public function test_nav_menu_locations_should_be_updated_on_split()
+    {
         global $wpdb;
 
         $cat_term       = wp_insert_term('Foo Menu', 'category');
@@ -264,7 +273,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
      * @ticket 33187
      * @group menu
      */
-    public function test_nav_menu_term_should_retain_menu_items_on_split() {
+    public function test_nav_menu_term_should_retain_menu_items_on_split()
+    {
         global $wpdb;
 
         $cat_term       = wp_insert_term('Foo Menu', 'category');
@@ -310,7 +320,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
         $this->assertSame(array($cat_menu_item), wp_list_pluck($menu_items, 'ID'));
     }
 
-    public function test_wp_get_split_terms() {
+    public function test_wp_get_split_terms()
+    {
         $found = wp_get_split_terms($this->terms['t1']['term_id']);
 
         $expected = array(
@@ -321,7 +332,8 @@ class Tests_Term_SplitSharedTerm extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found);
     }
 
-    public function test_wp_get_split_term() {
+    public function test_wp_get_split_term()
+    {
         $found = wp_get_split_term($this->terms['t1']['term_id'], 'wptests_tax_3');
         $this->assertSame($this->terms['t3']['term_id'], $found);
     }

@@ -15,7 +15,8 @@
  *
  * @return string Returns the Media & Text block markup, if useFeaturedImage is true.
  */
-function render_block_core_media_text($attributes, $content) {
+function render_block_core_media_text($attributes, $content)
+{
     if (false === $attributes['useFeaturedImage']) {
         return $content;
     }
@@ -120,7 +121,8 @@ function render_block_core_media_text($attributes, $content) {
  *
  * @since 6.6.0
  */
-function register_block_core_media_text() {
+function register_block_core_media_text()
+{
     register_block_type_from_metadata(
         __DIR__ . '/media-text',
         array(

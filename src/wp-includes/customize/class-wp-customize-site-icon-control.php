@@ -16,7 +16,8 @@
  *
  * @see WP_Customize_Cropped_Image_Control
  */
-class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control {
+class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control
+{
 
     /**
      * Control type.
@@ -39,7 +40,8 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct($manager, $id, $args = array()) {
+    public function __construct($manager, $id, $args = array())
+    {
         parent::__construct($manager, $id, $args);
         add_action('customize_controls_print_styles', 'wp_site_icon', 99);
     }
@@ -49,7 +51,8 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
      *
      * @since 4.5.0
      */
-    public function content_template() {
+    public function content_template()
+    {
         ?>
         <# if ( data.label ) { #>
             <span class="customize-control-title">{{ data.label }}</span>

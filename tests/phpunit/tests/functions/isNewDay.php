@@ -8,7 +8,8 @@
  *
  * @covers ::is_new_day
  */
-class Tests_Functions_IsNewDate extends WP_UnitTestCase {
+class Tests_Functions_IsNewDate extends WP_UnitTestCase
+{
 
     /**
      * @ticket 46627
@@ -18,7 +19,8 @@ class Tests_Functions_IsNewDate extends WP_UnitTestCase {
      * @param string $previousday_string The day of the previous post in the loop.
      * @param bool   $expected           Expected result.
      */
-    public function test_is_new_date($currentday_string, $previousday_string, $expected) {
+    public function test_is_new_date($currentday_string, $previousday_string, $expected)
+    {
         global $currentday, $previousday;
 
         $currentday  = $currentday_string;
@@ -32,7 +34,8 @@ class Tests_Functions_IsNewDate extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_new_date() {
+    public function data_is_new_date()
+    {
         return array(
             array('21.05.19', '21.05.19', 0),
             array('21.05.19', '20.05.19', 1),

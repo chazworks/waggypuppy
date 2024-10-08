@@ -9,16 +9,19 @@
  * @covers ::get_available_post_mime_types
  */
 
-class Tests_Post_GetAvailablePostMimeTypes extends WP_UnitTestCase {
+class Tests_Post_GetAvailablePostMimeTypes extends WP_UnitTestCase
+{
 
-    public function tear_down() {
+    public function tear_down()
+    {
         // Remove all uploads.
         $this->remove_added_uploads();
         remove_filter('pre_get_available_post_mime_types', array($this, 'filter_add_null_to_post_mime_types'));
         parent::tear_down();
     }
 
-    public function test_should_return_expected_post_mime_types() {
+    public function test_should_return_expected_post_mime_types()
+    {
         // Upload a JPEG image.
         $filename = DIR_TESTDATA . '/images/test-image.jpg';
         $contents = file_get_contents($filename);
@@ -38,7 +41,8 @@ class Tests_Post_GetAvailablePostMimeTypes extends WP_UnitTestCase {
         $this->assertSame(array('image/jpeg', 'application/pdf'), $mime_types, 'The MIME types returned should match the uploaded file MIME types.');
     }
 
-    public function test_should_remove_null() {
+    public function test_should_remove_null()
+    {
         // Add filter to inject null into the mime types array.
         add_filter('pre_get_available_post_mime_types', array($this, 'filter_add_null_to_post_mime_types'));
 
@@ -52,7 +56,8 @@ class Tests_Post_GetAvailablePostMimeTypes extends WP_UnitTestCase {
      * @param string $type Post type.
      * @return array
      */
-    public function filter_add_null_to_post_mime_types($type) {
+    public function filter_add_null_to_post_mime_types($type)
+    {
         return array('image/jpeg', null, 'image/png');
     }
 }

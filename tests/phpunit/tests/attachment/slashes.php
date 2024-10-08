@@ -7,7 +7,8 @@
  *
  * @covers ::wp_insert_attachment
  */
-class Tests_Attachment_Slashes extends WP_UnitTestCase {
+class Tests_Attachment_Slashes extends WP_UnitTestCase
+{
 
     /*
      * It is important to test with both even and odd numbered slashes,
@@ -24,11 +25,13 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase {
 
     protected static $author_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$author_id = $factory->user->create(array('role' => 'editor'));
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         wp_set_current_user(self::$author_id);
@@ -37,7 +40,8 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_wp_insert_attachment() {
+    public function test_wp_insert_attachment()
+    {
         $post_id = wp_insert_attachment(
             array(
                 'post_status'           => 'publish',

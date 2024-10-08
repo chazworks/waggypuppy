@@ -11,7 +11,8 @@
  *
  * @return WP_Paused_Extensions_Storage
  */
-function wp_paused_plugins() {
+function wp_paused_plugins()
+{
     static $storage = null;
 
     if (null === $storage) {
@@ -26,7 +27,8 @@ function wp_paused_plugins() {
  *
  * @return WP_Paused_Extensions_Storage
  */
-function wp_paused_themes() {
+function wp_paused_themes()
+{
     static $storage = null;
 
     if (null === $storage) {
@@ -44,7 +46,8 @@ function wp_paused_themes() {
  * @param array $error Error details from `error_get_last()`.
  * @return string Formatted error description.
  */
-function wp_get_extension_error_description($error) {
+function wp_get_extension_error_description($error)
+{
     $constants   = get_defined_constants(true);
     $constants   = isset($constants['Core']) ? $constants['Core'] : $constants['internal'];
     $core_errors = array();
@@ -78,7 +81,8 @@ function wp_get_extension_error_description($error) {
  *
  * @since 5.2.0
  */
-function wp_register_fatal_error_handler() {
+function wp_register_fatal_error_handler()
+{
     if (! wp_is_fatal_error_handler_enabled()) {
         return;
     }
@@ -105,7 +109,8 @@ function wp_register_fatal_error_handler() {
  *
  * @return bool True if the fatal error handler is enabled, false otherwise.
  */
-function wp_is_fatal_error_handler_enabled() {
+function wp_is_fatal_error_handler_enabled()
+{
     $enabled = ! defined('WP_DISABLE_FATAL_ERROR_HANDLER') || ! WP_DISABLE_FATAL_ERROR_HANDLER;
 
     /**
@@ -146,7 +151,8 @@ function wp_is_fatal_error_handler_enabled() {
  *
  * @return WP_Recovery_Mode
  */
-function wp_recovery_mode() {
+function wp_recovery_mode()
+{
     static $wp_recovery_mode;
 
     if (! $wp_recovery_mode) {

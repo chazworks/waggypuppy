@@ -12,14 +12,16 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_inline_save
  */
-class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase
+{
 
     /**
      * @ticket 26948
      *
      * @covers ::edit_post
      */
-    public function test_dont_process_terms_if_taxonomy_does_not_allow_show_on_quick_edit() {
+    public function test_dont_process_terms_if_taxonomy_does_not_allow_show_on_quick_edit()
+    {
         register_taxonomy(
             'wptests_tax_1',
             'post',
@@ -95,7 +97,8 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
      *
      * @covers ::edit_post
      */
-    public function test_quick_edit_draft_should_not_set_publish_date() {
+    public function test_quick_edit_draft_should_not_set_publish_date()
+    {
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -152,7 +155,8 @@ class Tests_Ajax_wpAjaxInlineSave extends WP_Ajax_UnitTestCase {
      *
      * @covers ::edit_post
      */
-    public function test_quick_edit_draft_should_set_publish_date() {
+    public function test_quick_edit_draft_should_set_publish_date()
+    {
         // Become an administrator.
         $this->_setRole('administrator');
 

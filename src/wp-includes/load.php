@@ -12,7 +12,8 @@
  *
  * @return string The HTTP protocol. Default: HTTP/1.0.
  */
-function wp_get_server_protocol() {
+function wp_get_server_protocol()
+{
     $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : '';
 
     if (! in_array($protocol, array('HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'), true)) {
@@ -31,7 +32,8 @@ function wp_get_server_protocol() {
  * @global string $PHP_SELF The filename of the currently executing script,
  *                          relative to the document root.
  */
-function wp_fix_server_vars() {
+function wp_fix_server_vars()
+{
     global $PHP_SELF;
 
     $default_server_values = array(
@@ -103,7 +105,8 @@ function wp_fix_server_vars() {
  *
  * @since 5.6.0
  */
-function wp_populate_basic_auth_from_authorization_header() {
+function wp_populate_basic_auth_from_authorization_header()
+{
     // If we don't have anything to pull from, return early.
     if (! isset($_SERVER['HTTP_AUTHORIZATION']) && ! isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
         return;
@@ -150,7 +153,8 @@ function wp_populate_basic_auth_from_authorization_header() {
  * @global string $required_php_version The required PHP version string.
  * @global string $wp_version           The WordPress version string.
  */
-function wp_check_php_mysql_versions() {
+function wp_check_php_mysql_versions()
+{
     global $required_php_version, $wp_version;
 
     $php_version = PHP_VERSION;
@@ -215,7 +219,8 @@ function wp_check_php_mysql_versions() {
  *
  * @return string The current environment type.
  */
-function wp_get_environment_type() {
+function wp_get_environment_type()
+{
     static $current_env = '';
 
     if (! defined('WP_RUN_CORE_TESTS') && $current_env) {
@@ -287,7 +292,8 @@ function wp_get_environment_type() {
  *
  * @return string The current development mode.
  */
-function wp_get_development_mode() {
+function wp_get_development_mode()
+{
     static $current_mode = null;
 
     if (! defined('WP_RUN_CORE_TESTS') && null !== $current_mode) {
@@ -326,7 +332,8 @@ function wp_get_development_mode() {
  * @param string $mode Development mode to check for. Either 'core', 'plugin', 'theme', or 'all'.
  * @return bool True if the given mode is covered by the current development mode, false otherwise.
  */
-function wp_is_development_mode($mode) {
+function wp_is_development_mode($mode)
+{
     $current_mode = wp_get_development_mode();
     if (empty($current_mode)) {
         return false;
@@ -349,7 +356,8 @@ function wp_is_development_mode($mode) {
  * @since 3.0.0
  * @deprecated 5.4.0 Deprecated in favor of do_favicon().
  */
-function wp_favicon_request() {
+function wp_favicon_request()
+{
     if ('/favicon.ico' === $_SERVER['REQUEST_URI']) {
         header('Content-Type: image/vnd.microsoft.icon');
         exit;
@@ -365,7 +373,8 @@ function wp_favicon_request() {
  * @since 3.0.0
  * @access private
  */
-function wp_maintenance() {
+function wp_maintenance()
+{
     // Return if maintenance mode is disabled.
     if (! wp_is_maintenance_mode()) {
         return;
@@ -402,7 +411,8 @@ function wp_maintenance() {
  *
  * @return bool True if maintenance mode is enabled, false otherwise.
  */
-function wp_is_maintenance_mode() {
+function wp_is_maintenance_mode()
+{
     global $upgrading;
 
     if (! file_exists(ABSPATH . '.maintenance') || wp_installing()) {
@@ -453,7 +463,8 @@ function wp_is_maintenance_mode() {
  *
  * @return float Seconds since the PHP script started.
  */
-function timer_float() {
+function timer_float()
+{
     return microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
 }
 
@@ -468,7 +479,8 @@ function timer_float() {
  *
  * @return bool Always returns true.
  */
-function timer_start() {
+function timer_start()
+{
     global $timestart;
 
     $timestart = microtime(true);
@@ -491,7 +503,8 @@ function timer_start() {
  * @return string The "second.microsecond" finished time calculation. The number is formatted
  *                for human consumption, both localized and rounded.
  */
-function timer_stop($display = 0, $precision = 3) {
+function timer_stop($display = 0, $precision = 3)
+{
     global $timestart, $timeend;
 
     $timeend   = microtime(true);
@@ -542,7 +555,8 @@ function timer_stop($display = 0, $precision = 3) {
  * @since 5.1.0 `WP_DEBUG_LOG` can be a file path.
  * @access private
  */
-function wp_debug_mode() {
+function wp_debug_mode()
+{
     /**
      * Filters whether to allow the debug mode check to occur.
      *
@@ -627,7 +641,8 @@ function wp_debug_mode() {
  * @since 3.0.0
  * @access private
  */
-function wp_set_lang_dir() {
+function wp_set_lang_dir()
+{
     if (! defined('WP_LANG_DIR')) {
         if (file_exists(WP_CONTENT_DIR . '/languages') && @is_dir(WP_CONTENT_DIR . '/languages')
             || ! @is_dir(ABSPATH . WPINC . '/languages')
@@ -670,7 +685,8 @@ function wp_set_lang_dir() {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  */
-function require_wp_db() {
+function require_wp_db()
+{
     global $wpdb;
 
     require_once ABSPATH . WPINC . '/class-wpdb.php';
@@ -703,7 +719,8 @@ function require_wp_db() {
  * @global wpdb   $wpdb         WordPress database abstraction object.
  * @global string $table_prefix The database table prefix.
  */
-function wp_set_wpdb_vars() {
+function wp_set_wpdb_vars()
+{
     global $wpdb, $table_prefix;
 
     if (! empty($wpdb->error)) {
@@ -774,7 +791,8 @@ function wp_set_wpdb_vars() {
  * @param bool $using Whether external object cache is being used.
  * @return bool The current 'using' setting.
  */
-function wp_using_ext_object_cache($using = null) {
+function wp_using_ext_object_cache($using = null)
+{
     global $_wp_using_ext_object_cache;
 
     $current_using = $_wp_using_ext_object_cache;
@@ -797,7 +815,8 @@ function wp_using_ext_object_cache($using = null) {
  *
  * @global array $wp_filter Stores all of the filters.
  */
-function wp_start_object_cache() {
+function wp_start_object_cache()
+{
     global $wp_filter;
     static $first_init = true;
 
@@ -905,7 +924,8 @@ function wp_start_object_cache() {
  * @since 3.0.0
  * @access private
  */
-function wp_not_installed() {
+function wp_not_installed()
+{
     if (is_blog_installed() || wp_installing()) {
         return;
     }
@@ -937,7 +957,8 @@ function wp_not_installed() {
  *
  * @return string[] Array of absolute paths of files to include.
  */
-function wp_get_mu_plugins() {
+function wp_get_mu_plugins()
+{
     $mu_plugins = array();
 
     if (! is_dir(WPMU_PLUGIN_DIR)) {
@@ -976,7 +997,8 @@ function wp_get_mu_plugins() {
  *
  * @return string[] Array of paths to plugin files relative to the plugins directory.
  */
-function wp_get_active_and_valid_plugins() {
+function wp_get_active_and_valid_plugins()
+{
     $plugins        = array();
     $active_plugins = (array) get_option('active_plugins', array());
 
@@ -1024,7 +1046,8 @@ function wp_get_active_and_valid_plugins() {
  * @param string[] $plugins Array of absolute plugin main file paths.
  * @return string[] Filtered array of plugins, without any paused plugins.
  */
-function wp_skip_paused_plugins(array $plugins) {
+function wp_skip_paused_plugins(array $plugins)
+{
     $paused_plugins = wp_paused_plugins()->get_all();
 
     if (empty($paused_plugins)) {
@@ -1059,7 +1082,8 @@ function wp_skip_paused_plugins(array $plugins) {
  *
  * @return string[] Array of absolute paths to theme directories.
  */
-function wp_get_active_and_valid_themes() {
+function wp_get_active_and_valid_themes()
+{
     global $pagenow, $wp_stylesheet_path, $wp_template_path;
 
     $themes = array();
@@ -1100,7 +1124,8 @@ function wp_get_active_and_valid_themes() {
  * @param string[] $themes Array of absolute theme directory paths.
  * @return string[] Filtered array of absolute paths to themes, without any paused themes.
  */
-function wp_skip_paused_themes(array $themes) {
+function wp_skip_paused_themes(array $themes)
+{
     $paused_themes = wp_paused_themes()->get_all();
 
     if (empty($paused_themes)) {
@@ -1130,7 +1155,8 @@ function wp_skip_paused_themes(array $themes) {
  *
  * @return bool
  */
-function wp_is_recovery_mode() {
+function wp_is_recovery_mode()
+{
     return wp_recovery_mode()->is_active();
 }
 
@@ -1143,7 +1169,8 @@ function wp_is_recovery_mode() {
  *
  * @return bool True if the current endpoint should be protected.
  */
-function is_protected_endpoint() {
+function is_protected_endpoint()
+{
     // Protect login pages.
     if (isset($GLOBALS['pagenow']) && 'wp-login.php' === $GLOBALS['pagenow']) {
         return true;
@@ -1181,7 +1208,8 @@ function is_protected_endpoint() {
  *
  * @return bool True if the current Ajax action should be protected.
  */
-function is_protected_ajax_action() {
+function is_protected_ajax_action()
+{
     if (! wp_doing_ajax()) {
         return false;
     }
@@ -1229,7 +1257,8 @@ function is_protected_ajax_action() {
  * @since 3.0.0
  * @access private
  */
-function wp_set_internal_encoding() {
+function wp_set_internal_encoding()
+{
     if (function_exists('mb_internal_encoding')) {
         $charset = get_option('blog_charset');
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
@@ -1248,7 +1277,8 @@ function wp_set_internal_encoding() {
  * @since 3.0.0
  * @access private
  */
-function wp_magic_quotes() {
+function wp_magic_quotes()
+{
     // Escape with wpdb.
     $_GET    = add_magic_quotes($_GET);
     $_POST   = add_magic_quotes($_POST);
@@ -1265,7 +1295,8 @@ function wp_magic_quotes() {
  * @since 1.2.0
  * @access private
  */
-function shutdown_action_hook() {
+function shutdown_action_hook()
+{
     /**
      * Fires just before PHP shuts down execution.
      *
@@ -1285,7 +1316,8 @@ function shutdown_action_hook() {
  * @param object $input_object The object to clone.
  * @return object The cloned object.
  */
-function wp_clone($input_object) {
+function wp_clone($input_object)
+{
     // Use parens for clone to accommodate PHP 4. See #17880.
     return clone( $input_object );
 }
@@ -1299,7 +1331,8 @@ function wp_clone($input_object) {
  *
  * @return bool True if inside WordPress login screen, false otherwise.
  */
-function is_login() {
+function is_login()
+{
     return false !== stripos(wp_login_url(), $_SERVER['SCRIPT_NAME']);
 }
 
@@ -1319,7 +1352,8 @@ function is_login() {
  *
  * @return bool True if inside WordPress administration interface, false otherwise.
  */
-function is_admin() {
+function is_admin()
+{
     if (isset($GLOBALS['current_screen'])) {
         return $GLOBALS['current_screen']->in_admin();
     } elseif (defined('WP_ADMIN')) {
@@ -1343,7 +1377,8 @@ function is_admin() {
  *
  * @return bool True if inside WordPress site administration pages.
  */
-function is_blog_admin() {
+function is_blog_admin()
+{
     if (isset($GLOBALS['current_screen'])) {
         return $GLOBALS['current_screen']->in_admin('site');
     } elseif (defined('WP_BLOG_ADMIN')) {
@@ -1370,7 +1405,8 @@ function is_blog_admin() {
  *
  * @return bool True if inside WordPress network administration pages.
  */
-function is_network_admin() {
+function is_network_admin()
+{
     if (isset($GLOBALS['current_screen'])) {
         return $GLOBALS['current_screen']->in_admin('network');
     } elseif (defined('WP_NETWORK_ADMIN')) {
@@ -1394,7 +1430,8 @@ function is_network_admin() {
  *
  * @return bool True if inside WordPress user administration pages.
  */
-function is_user_admin() {
+function is_user_admin()
+{
     if (isset($GLOBALS['current_screen'])) {
         return $GLOBALS['current_screen']->in_admin('user');
     } elseif (defined('WP_USER_ADMIN')) {
@@ -1411,7 +1448,8 @@ function is_user_admin() {
  *
  * @return bool True if Multisite is enabled, false otherwise.
  */
-function is_multisite() {
+function is_multisite()
+{
     if (defined('MULTISITE')) {
         return MULTISITE;
     }
@@ -1432,7 +1470,8 @@ function is_multisite() {
  *
  * @return int Site ID.
  */
-function get_current_blog_id() {
+function get_current_blog_id()
+{
     global $blog_id;
 
     return absint($blog_id);
@@ -1445,7 +1484,8 @@ function get_current_blog_id() {
  *
  * @return int The ID of the current network.
  */
-function get_current_network_id() {
+function get_current_network_id()
+{
     if (! is_multisite()) {
         return 1;
     }
@@ -1475,7 +1515,8 @@ function get_current_network_id() {
  * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
  * @global WP_Locale              $wp_locale              WordPress date and time locale object.
  */
-function wp_load_translations_early() {
+function wp_load_translations_early()
+{
     global $wp_textdomain_registry, $wp_locale;
     static $loaded = false;
 
@@ -1584,7 +1625,8 @@ function wp_load_translations_early() {
  * @return bool True if WP is installing, otherwise false. When a `$is_installing` is passed, the function will
  *              report whether WP was in installing mode prior to the change to `$is_installing`.
  */
-function wp_installing($is_installing = null) {
+function wp_installing($is_installing = null)
+{
     static $installing = null;
 
     // Support for the `WP_INSTALLING` constant, defined before WP is loaded.
@@ -1610,7 +1652,8 @@ function wp_installing($is_installing = null) {
  *
  * @return bool True if SSL, otherwise false.
  */
-function is_ssl() {
+function is_ssl()
+{
     if (isset($_SERVER['HTTPS'])) {
         if ('on' === strtolower($_SERVER['HTTPS'])) {
             return true;
@@ -1638,7 +1681,8 @@ function is_ssl() {
  * @param string $value A (PHP ini) byte value, either shorthand or ordinary.
  * @return int An integer byte value.
  */
-function wp_convert_hr_to_bytes($value) {
+function wp_convert_hr_to_bytes($value)
+{
     $value = strtolower(trim($value));
     $bytes = (int) $value;
 
@@ -1664,7 +1708,8 @@ function wp_convert_hr_to_bytes($value) {
  * @param string $setting The name of the ini setting to check.
  * @return bool True if the value is changeable at runtime. False otherwise.
  */
-function wp_is_ini_value_changeable($setting) {
+function wp_is_ini_value_changeable($setting)
+{
     static $ini_all;
 
     if (! isset($ini_all)) {
@@ -1696,7 +1741,8 @@ function wp_is_ini_value_changeable($setting) {
  *
  * @return bool True if it's a WordPress Ajax request, false otherwise.
  */
-function wp_doing_ajax() {
+function wp_doing_ajax()
+{
     /**
      * Filters whether the current request is a WordPress Ajax request.
      *
@@ -1714,7 +1760,8 @@ function wp_doing_ajax() {
  *
  * @return bool True if themes should be used, false otherwise.
  */
-function wp_using_themes() {
+function wp_using_themes()
+{
     /**
      * Filters whether the current request should use themes.
      *
@@ -1732,7 +1779,8 @@ function wp_using_themes() {
  *
  * @return bool True if it's a WordPress cron request, false otherwise.
  */
-function wp_doing_cron() {
+function wp_doing_cron()
+{
     /**
      * Filters whether the current request is a WordPress cron request.
      *
@@ -1753,7 +1801,8 @@ function wp_doing_cron() {
  * @param mixed $thing The variable to check.
  * @return bool Whether the variable is an instance of WP_Error.
  */
-function is_wp_error($thing) {
+function is_wp_error($thing)
+{
     $is_wp_error = ($thing instanceof WP_Error);
 
     if ($is_wp_error) {
@@ -1778,7 +1827,8 @@ function is_wp_error($thing) {
  * @param string $context The usage context.
  * @return bool True if file modification is allowed, false otherwise.
  */
-function wp_is_file_mod_allowed($context) {
+function wp_is_file_mod_allowed($context)
+{
     /**
      * Filters whether file modifications are allowed.
      *
@@ -1795,7 +1845,8 @@ function wp_is_file_mod_allowed($context) {
  *
  * @since 4.9.0
  */
-function wp_start_scraping_edited_file_errors() {
+function wp_start_scraping_edited_file_errors()
+{
     if (! isset($_REQUEST['wp_scrape_key']) || ! isset($_REQUEST['wp_scrape_nonce'])) {
         return;
     }
@@ -1841,7 +1892,8 @@ function wp_start_scraping_edited_file_errors() {
  *
  * @param string $scrape_key Scrape key.
  */
-function wp_finalize_scraping_edited_file_errors($scrape_key) {
+function wp_finalize_scraping_edited_file_errors($scrape_key)
+{
     $error = error_get_last();
 
     echo "\n###### wp_scraping_result_start:$scrape_key ######\n";
@@ -1866,7 +1918,8 @@ function wp_finalize_scraping_edited_file_errors($scrape_key) {
  * @return bool True if `Accepts` or `Content-Type` headers contain `application/json`.
  *              False otherwise.
  */
-function wp_is_json_request() {
+function wp_is_json_request()
+{
     if (isset($_SERVER['HTTP_ACCEPT']) && wp_is_json_media_type($_SERVER['HTTP_ACCEPT'])) {
         return true;
     }
@@ -1885,7 +1938,8 @@ function wp_is_json_request() {
  *
  * @return bool True if JSONP request, false otherwise.
  */
-function wp_is_jsonp_request() {
+function wp_is_jsonp_request()
+{
     if (! isset($_GET['_jsonp'])) {
         return false;
     }
@@ -1913,7 +1967,8 @@ function wp_is_jsonp_request() {
  * @param string $media_type A Media Type string to check.
  * @return bool True if string is a valid JSON Media Type.
  */
-function wp_is_json_media_type($media_type) {
+function wp_is_json_media_type($media_type)
+{
     static $cache = array();
 
     if (! isset($cache[ $media_type ])) {
@@ -1931,7 +1986,8 @@ function wp_is_json_media_type($media_type) {
  * @return bool True if `Accepts` or `Content-Type` headers contain `text/xml`
  *              or one of the related MIME types. False otherwise.
  */
-function wp_is_xml_request() {
+function wp_is_xml_request()
+{
     $accepted = array(
         'text/xml',
         'application/rss+xml',
@@ -1974,7 +2030,8 @@ function wp_is_xml_request() {
  *                        Defaults to the current context.
  * @return bool Whether the site is protected by Basic Auth.
  */
-function wp_is_site_protected_by_basic_auth($context = '') {
+function wp_is_site_protected_by_basic_auth($context = '')
+{
     global $pagenow;
 
     if (! $context) {

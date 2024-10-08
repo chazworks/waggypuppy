@@ -12,7 +12,8 @@
  *
  * @since 4.2.0
  */
-function options_discussion_add_js() {
+function options_discussion_add_js()
+{
     ?>
     <script>
     (function($){
@@ -31,7 +32,8 @@ function options_discussion_add_js() {
  *
  * @since 3.5.0
  */
-function options_general_add_js() {
+function options_general_add_js()
+{
     ?>
 <script type="text/javascript">
     jQuery( function($) {
@@ -110,7 +112,8 @@ function options_general_add_js() {
  *
  * @since 3.5.0
  */
-function options_reading_add_js() {
+function options_reading_add_js()
+{
     ?>
 <script type="text/javascript">
     jQuery( function($) {
@@ -132,7 +135,8 @@ function options_reading_add_js() {
  *
  * @since 3.5.0
  */
-function options_reading_blog_charset() {
+function options_reading_blog_charset()
+{
     echo '<input name="blog_charset" type="text" id="blog_charset" value="' . esc_attr(get_option('blog_charset')) . '" class="regular-text" />';
     echo '<p class="description">' . __('The <a href="https://wordpress.org/documentation/article/wordpress-glossary/#character-set">character encoding</a> of your site (UTF-8 is recommended)') . '</p>';
 }

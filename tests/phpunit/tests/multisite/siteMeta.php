@@ -8,12 +8,14 @@ if (is_multisite()) :
      * @group meta
      * @ticket 37923
      */
-    class Tests_Multisite_SiteMeta extends WP_UnitTestCase {
+    class Tests_Multisite_SiteMeta extends WP_UnitTestCase
+    {
         protected static $site_id;
         protected static $site_id2;
         protected static $flag_was_set;
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$site_id  = $factory->blog->create(
                 array(
                     'domain' => 'wordpress.org',
@@ -35,7 +37,8 @@ if (is_multisite()) :
             }
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             // Delete the possibly previously populated main network flag.
             if (! self::$flag_was_set) {
                 delete_network_option(get_main_network_id(), 'site_meta_supported');
@@ -47,16 +50,19 @@ if (is_multisite()) :
             wp_update_network_site_counts();
         }
 
-        public function test_is_site_meta_supported() {
+        public function test_is_site_meta_supported()
+        {
             $this->assertTrue(is_site_meta_supported());
         }
 
-        public function test_is_site_meta_supported_filtered() {
+        public function test_is_site_meta_supported_filtered()
+        {
             add_filter('pre_site_option_site_meta_supported', '__return_zero');
             $this->assertFalse(is_site_meta_supported());
         }
 
-        public function test_add() {
+        public function test_add()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -65,7 +71,8 @@ if (is_multisite()) :
             $this->assertSame('bar', get_site_meta(self::$site_id, 'foo', true));
         }
 
-        public function test_add_unique() {
+        public function test_add_unique()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -74,7 +81,8 @@ if (is_multisite()) :
             $this->assertFalse(add_site_meta(self::$site_id, 'foo', 'bar', true));
         }
 
-        public function test_delete() {
+        public function test_delete()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -85,7 +93,8 @@ if (is_multisite()) :
             $this->assertEmpty(get_site_meta(self::$site_id, 'foo', true));
         }
 
-        public function test_delete_with_invalid_meta_key_should_return_false() {
+        public function test_delete_with_invalid_meta_key_should_return_false()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -93,7 +102,8 @@ if (is_multisite()) :
             $this->assertFalse(delete_site_meta(self::$site_id, 'foo'));
         }
 
-        public function test_delete_should_respect_meta_value() {
+        public function test_delete_should_respect_meta_value()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -107,7 +117,8 @@ if (is_multisite()) :
             $this->assertSame(array('baz'), $metas);
         }
 
-        public function test_get_with_no_key_should_fetch_all_keys() {
+        public function test_get_with_no_key_should_fetch_all_keys()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -124,7 +135,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_get_with_key_should_fetch_all_for_key() {
+        public function test_get_with_key_should_fetch_all_for_key()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -139,7 +151,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_get_should_respect_single_true() {
+        public function test_get_should_respect_single_true()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -151,7 +164,8 @@ if (is_multisite()) :
             $this->assertSame('bar', $found);
         }
 
-        public function test_update_should_pass_to_add_when_no_value_exists_for_key() {
+        public function test_update_should_pass_to_add_when_no_value_exists_for_key()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -164,7 +178,8 @@ if (is_multisite()) :
             $this->assertSame('bar', $meta);
         }
 
-        public function test_update_should_return_true_when_updating_existing_value_for_key() {
+        public function test_update_should_return_true_when_updating_existing_value_for_key()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -178,7 +193,8 @@ if (is_multisite()) :
             $this->assertSame('baz', $meta);
         }
 
-        public function test_delete_by_key() {
+        public function test_delete_by_key()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -195,7 +211,8 @@ if (is_multisite()) :
             $this->assertSame('', get_site_meta(self::$site_id2, 'unique_delete_by_key', true));
         }
 
-        public function test_site_meta_should_be_deleted_when_site_is_deleted() {
+        public function test_site_meta_should_be_deleted_when_site_is_deleted()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -219,7 +236,8 @@ if (is_multisite()) :
             $this->assertSame('', get_site_meta($site_id, 'foo1', true));
         }
 
-        public function test_update_site_meta_cache() {
+        public function test_update_site_meta_cache()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -232,7 +250,8 @@ if (is_multisite()) :
             $this->assertSame($num_queries, get_num_queries());
         }
 
-        public function test_query_update_site_meta_cache_true() {
+        public function test_query_update_site_meta_cache_true()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -254,7 +273,8 @@ if (is_multisite()) :
         /**
          * @ticket 58185
          */
-        public function test_lazy_load_site_meta() {
+        public function test_lazy_load_site_meta()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -289,7 +309,8 @@ if (is_multisite()) :
         /**
          * @ticket 58185
          */
-        public function test_lazy_load_site_meta_fields_id() {
+        public function test_lazy_load_site_meta_fields_id()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -323,7 +344,8 @@ if (is_multisite()) :
             $this->assertSameSets($site_ids, array(self::$site_id, self::$site_id2), 'This should have two sites meta');
         }
 
-        public function test_query_update_site_meta_cache_false() {
+        public function test_query_update_site_meta_cache_false()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -345,7 +367,8 @@ if (is_multisite()) :
         /**
          * @ticket 40229
          */
-        public function test_add_site_meta_should_bust_get_sites_cache() {
+        public function test_add_site_meta_should_bust_get_sites_cache()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -387,7 +410,8 @@ if (is_multisite()) :
         /**
          * @ticket 40229
          */
-        public function test_update_site_meta_should_bust_get_sites_cache() {
+        public function test_update_site_meta_should_bust_get_sites_cache()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -430,7 +454,8 @@ if (is_multisite()) :
         /**
          * @ticket 40229
          */
-        public function test_delete_site_meta_should_bust_get_sites_cache() {
+        public function test_delete_site_meta_should_bust_get_sites_cache()
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }

@@ -49,7 +49,8 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-ajax-upgrader-skin.php';
  * @since 2.8.0
  */
 #[AllowDynamicProperties]
-class WP_Upgrader {
+class WP_Upgrader
+{
 
     /**
      * The error/notification strings used to update the user on the progress.
@@ -140,7 +141,8 @@ class WP_Upgrader {
      * @param WP_Upgrader_Skin $skin The upgrader skin to use. Default is a WP_Upgrader_Skin
      *                               instance.
      */
-    public function __construct($skin = null) {
+    public function __construct($skin = null)
+    {
         if (null === $skin) {
             $this->skin = new WP_Upgrader_Skin();
         } else {
@@ -159,7 +161,8 @@ class WP_Upgrader {
      * @since 2.8.0
      * @since 6.3.0 Added the `schedule_temp_backup_cleanup()` task.
      */
-    public function init() {
+    public function init()
+    {
         $this->skin->set_upgrader($this);
         $this->generic_strings();
 
@@ -173,7 +176,8 @@ class WP_Upgrader {
      *
      * @since 6.3.0
      */
-    protected function schedule_temp_backup_cleanup() {
+    protected function schedule_temp_backup_cleanup()
+    {
         if (false === wp_next_scheduled('wp_delete_temp_updater_backups')) {
             wp_schedule_event(time(), 'weekly', 'wp_delete_temp_updater_backups');
         }
@@ -184,7 +188,8 @@ class WP_Upgrader {
      *
      * @since 2.8.0
      */
-    public function generic_strings() {
+    public function generic_strings()
+    {
         $this->strings['bad_request']    = __('Invalid data provided.');
         $this->strings['fs_unavailable'] = __('Could not access filesystem.');
         $this->strings['fs_error']       = __('Filesystem error.');
@@ -232,7 +237,8 @@ class WP_Upgrader {
      *                                               Default false.
      * @return bool|WP_Error True if able to connect, false or a WP_Error otherwise.
      */
-    public function fs_connect($directories = array(), $allow_relaxed_file_ownership = false) {
+    public function fs_connect($directories = array(), $allow_relaxed_file_ownership = false)
+    {
         global $wp_filesystem;
 
         $credentials = $this->skin->request_filesystem_credentials(false, $directories[0], $allow_relaxed_file_ownership);
@@ -303,7 +309,8 @@ class WP_Upgrader {
      * @param array  $hook_extra       Extra arguments to pass to the filter hooks. Default empty array.
      * @return string|WP_Error The full path to the downloaded package file, or a WP_Error object.
      */
-    public function download_package($package, $check_signatures = false, $hook_extra = array()) {
+    public function download_package($package, $check_signatures = false, $hook_extra = array())
+    {
         /**
          * Filters whether to return the package.
          *
@@ -352,7 +359,8 @@ class WP_Upgrader {
      *                               to unpack it. Default true.
      * @return string|WP_Error The path to the unpacked contents, or a WP_Error on failure.
      */
-    public function unpack_package($package, $delete_package = true) {
+    public function unpack_package($package, $delete_package = true)
+    {
         global $wp_filesystem;
 
         $this->skin->feedback('unpack_package');
@@ -408,7 +416,8 @@ class WP_Upgrader {
      * @param string $path         Relative path to prepend to child nodes. Optional.
      * @return array A flattened array of the $nested_files specified.
      */
-    protected function flatten_dirlist($nested_files, $path = '') {
+    protected function flatten_dirlist($nested_files, $path = '')
+    {
         $files = array();
 
         foreach ($nested_files as $name => $details) {
@@ -436,7 +445,8 @@ class WP_Upgrader {
      * @param string $remote_destination The location on the remote filesystem to be cleared.
      * @return true|WP_Error True upon success, WP_Error on failure.
      */
-    public function clear_destination($remote_destination) {
+    public function clear_destination($remote_destination)
+    {
         global $wp_filesystem;
 
         $files = $wp_filesystem->dirlist($remote_destination, true, true);
@@ -505,7 +515,8 @@ class WP_Upgrader {
      *
      * @return array|WP_Error The result (also stored in `WP_Upgrader::$result`), or a WP_Error on failure.
      */
-    public function install_package($args = array()) {
+    public function install_package($args = array())
+    {
         global $wp_filesystem, $wp_theme_directories;
 
         $defaults = array(
@@ -753,7 +764,8 @@ class WP_Upgrader {
      * @return array|false|WP_Error The result from self::install_package() on success, otherwise a WP_Error,
      *                              or false if unable to connect to the filesystem.
      */
-    public function run($options) {
+    public function run($options)
+    {
 
         $defaults = array(
             'package'                     => '', // Please always pass this.
@@ -986,7 +998,8 @@ class WP_Upgrader {
      *
      * @param bool $enable True to enable maintenance mode, false to disable.
      */
-    public function maintenance_mode($enable = false) {
+    public function maintenance_mode($enable = false)
+    {
         global $wp_filesystem;
 
         if (! $wp_filesystem) {
@@ -1023,7 +1036,8 @@ class WP_Upgrader {
      *                                Default: 1 hour.
      * @return bool False if a lock couldn't be created or if the lock is still valid. True otherwise.
      */
-    public static function create_lock($lock_name, $release_timeout = null) {
+    public static function create_lock($lock_name, $release_timeout = null)
+    {
         global $wpdb;
         if (! $release_timeout) {
             $release_timeout = HOUR_IN_SECONDS;
@@ -1068,7 +1082,8 @@ class WP_Upgrader {
      * @param string $lock_name The name of this unique lock.
      * @return bool True if the lock was successfully released. False on failure.
      */
-    public static function release_lock($lock_name) {
+    public static function release_lock($lock_name)
+    {
         return delete_option($lock_name . '.lock');
     }
 
@@ -1089,7 +1104,8 @@ class WP_Upgrader {
      *
      * @return bool|WP_Error True on success, false on early exit, otherwise WP_Error.
      */
-    public function move_to_temp_backup_dir($args) {
+    public function move_to_temp_backup_dir($args)
+    {
         global $wp_filesystem;
 
         if (empty($args['slug']) || empty($args['src']) || empty($args['dir'])) {
@@ -1165,7 +1181,8 @@ class WP_Upgrader {
      * }
      * @return bool|WP_Error True on success, false on early exit, otherwise WP_Error.
      */
-    public function restore_temp_backup(array $temp_backups = array()) {
+    public function restore_temp_backup(array $temp_backups = array())
+    {
         global $wp_filesystem;
 
         $errors = new WP_Error();
@@ -1234,7 +1251,8 @@ class WP_Upgrader {
      * }
      * @return bool|WP_Error True on success, false on early exit, otherwise WP_Error.
      */
-    public function delete_temp_backup(array $temp_backups = array()) {
+    public function delete_temp_backup(array $temp_backups = array())
+    {
         global $wp_filesystem;
 
         $errors = new WP_Error();

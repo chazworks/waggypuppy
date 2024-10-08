@@ -2,7 +2,8 @@
 /**
  * @group comment
  */
-class Tests_Comment_Template extends WP_UnitTestCase {
+class Tests_Comment_Template extends WP_UnitTestCase
+{
     /**
      * Shared post ID.
      *
@@ -15,14 +16,16 @@ class Tests_Comment_Template extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Unit test factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = self::factory()->post->create();
     }
 
     /**
      * @covers ::get_comments_number
      */
-    public function test_get_comments_number() {
+    public function test_get_comments_number()
+    {
         $post_id = self::$post_id;
 
         $this->assertSame(0, get_comments_number(0));
@@ -38,7 +41,8 @@ class Tests_Comment_Template extends WP_UnitTestCase {
     /**
      * @covers ::get_comments_number
      */
-    public function test_get_comments_number_without_arg() {
+    public function test_get_comments_number_without_arg()
+    {
         $post_id   = self::$post_id;
         $permalink = get_permalink($post_id);
         $this->go_to($permalink);
@@ -56,7 +60,8 @@ class Tests_Comment_Template extends WP_UnitTestCase {
      *
      * @covers ::get_comments_number_text
      */
-    public function test_get_comments_number_text_with_post_id() {
+    public function test_get_comments_number_text_with_post_id()
+    {
         $post_id = self::$post_id;
         self::factory()->comment->create_post_comments($post_id, 6);
 
@@ -76,7 +81,8 @@ class Tests_Comment_Template extends WP_UnitTestCase {
      *
      * @covers ::get_comments_number_text
      */
-    public function test_get_comments_number_text_declension_with_default_args() {
+    public function test_get_comments_number_text_declension_with_default_args()
+    {
         $post_id   = self::$post_id;
         $permalink = get_permalink($post_id);
         $this->go_to($permalink);
@@ -100,7 +106,8 @@ class Tests_Comment_Template extends WP_UnitTestCase {
      *
      * @covers ::get_comments_number_text
      */
-    public function test_get_comments_number_text_declension_with_custom_args($number, $input, $output) {
+    public function test_get_comments_number_text_declension_with_custom_args($number, $input, $output)
+    {
         $post_id   = self::$post_id;
         $permalink = get_permalink($post_id);
 
@@ -114,7 +121,8 @@ class Tests_Comment_Template extends WP_UnitTestCase {
         remove_filter('gettext_with_context', array($this, 'enable_comment_number_declension'), 10, 4);
     }
 
-    public function enable_comment_number_declension($translation, $text, $context, $domain) {
+    public function enable_comment_number_declension($translation, $text, $context, $domain)
+    {
         if ('Comment number declension: on or off' === $context) {
             $translation = 'on';
         }
@@ -133,7 +141,8 @@ class Tests_Comment_Template extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_get_comments_number_text_declension() {
+    public function data_get_comments_number_text_declension()
+    {
         return array(
             array(
                 2,

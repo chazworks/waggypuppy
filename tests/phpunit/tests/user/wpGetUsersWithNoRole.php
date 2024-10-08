@@ -3,13 +3,15 @@
 /**
  * @group user
  */
-class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
+class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase
+{
 
     /**
      * @ticket 22993
      * @group ms-excluded
      */
-    public function test_get_users_with_no_role_is_accurate() {
+    public function test_get_users_with_no_role_is_accurate()
+    {
         // Setup users.
         $admin       = self::factory()->user->create(
             array(
@@ -50,7 +52,8 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_get_users_with_no_role_multisite_is_accurate() {
+    public function test_get_users_with_no_role_multisite_is_accurate()
+    {
         // Setup users.
         $admin  = self::factory()->user->create(
             array(
@@ -109,7 +112,8 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
      *
      * @ticket 38234
      */
-    public function test_get_users_with_no_role_matches_on_role_name() {
+    public function test_get_users_with_no_role_matches_on_role_name()
+    {
         // Create a role with a display name which would not match the role name
         // in a case-insensitive SQL query.
         wp_roles()->add_role('somerole', 'Some role display name');
@@ -132,7 +136,8 @@ class Tests_User_wpGetUsersWithNoRole extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_get_users_with_no_role_matches_on_role_name_different_site() {
+    public function test_get_users_with_no_role_matches_on_role_name_different_site()
+    {
         $site_id = (int) self::factory()->blog->create();
 
         switch_to_blog($site_id);

@@ -8,11 +8,13 @@
  * @group rewrite
  * @group query
  */
-class Tests_Canonical extends WP_Canonical_UnitTestCase {
+class Tests_Canonical extends WP_Canonical_UnitTestCase
+{
 
     public static $private_cpt_post;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Set up fixtures in WP_Canonical_UnitTestCase.
         parent::wpSetUpBeforeClass($factory);
 
@@ -25,7 +27,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
         );
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         wp_set_current_user(self::$author_id);
         self::set_up_custom_post_types();
@@ -41,7 +44,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      * These arguments are intentionally contradictory for the test associated
      * with ticket #59795.
      */
-    public static function set_up_custom_post_types() {
+    public static function set_up_custom_post_types()
+    {
         register_post_type(
             'wp_tests_private',
             array(
@@ -54,7 +58,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
     /**
      * @dataProvider data_canonical
      */
-    public function test_canonical($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array()) {
+    public function test_canonical($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array())
+    {
 
         if (false !== strpos($test_url, '%d')) {
             if (false !== strpos($test_url, '/?author=%d')) {
@@ -68,7 +73,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
         $this->assertCanonical($test_url, $expected, $ticket, $expected_doing_it_wrong);
     }
 
-    public function data_canonical() {
+    public function data_canonical()
+    {
         /*
          * Data format:
          * [0]: Test URL.
@@ -270,7 +276,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
     /**
      * @ticket 16557
      */
-    public function test_do_redirect_guess_404_permalink() {
+    public function test_do_redirect_guess_404_permalink()
+    {
         // Test disable do_redirect_guess_404_permalink().
         add_filter('do_redirect_guess_404_permalink', '__return_false');
         $this->go_to('/child-page-1');
@@ -280,7 +287,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
     /**
      * @ticket 16557
      */
-    public function test_pre_redirect_guess_404_permalink() {
+    public function test_pre_redirect_guess_404_permalink()
+    {
         // Test short-circuit filter.
         add_filter(
             'pre_redirect_guess_404_permalink',
@@ -295,7 +303,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
     /**
      * @ticket 16557
      */
-    public function test_strict_redirect_guess_404_permalink() {
+    public function test_strict_redirect_guess_404_permalink()
+    {
         $post = self::factory()->post->create(
             array(
                 'post_title' => 'strict-redirect-guess-404-permalink',
@@ -320,7 +329,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @covers ::redirect_guess_404_permalink
      */
-    public function test_redirect_guess_404_permalink_with_custom_statuses($status_args, $redirects) {
+    public function test_redirect_guess_404_permalink_with_custom_statuses($status_args, $redirects)
+    {
         register_post_status('custom', $status_args);
 
         $post = self::factory()->post->create(
@@ -345,7 +355,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *    bool  Whether the 404 link is expected to redirect
      * }
      */
-    public function data_redirect_guess_404_permalink_with_custom_statuses() {
+    public function data_redirect_guess_404_permalink_with_custom_statuses()
+    {
         return array(
             'public status'                      => array(
                 'status_args' => array('public' => true),
@@ -381,7 +392,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @dataProvider data_redirect_guess_404_permalink_post_types
      */
-    public function test_redirect_guess_404_permalink_post_types($original_url, $expected) {
+    public function test_redirect_guess_404_permalink_post_types($original_url, $expected)
+    {
         $this->assertCanonical($original_url, $expected);
     }
 
@@ -395,7 +407,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_redirect_guess_404_permalink_post_types() {
+    public function data_redirect_guess_404_permalink_post_types()
+    {
         return array(
             'single string formatted post type'    => array(
                 'original_url' => '/?name=sample-pag&post_type=page',
@@ -419,7 +432,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
     /**
      * @ticket 43745
      */
-    public function test_utf8_query_keys_canonical() {
+    public function test_utf8_query_keys_canonical()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -442,7 +456,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @ticket 55955
      */
-    public function test_feed_canonical_with_not_exists_query() {
+    public function test_feed_canonical_with_not_exists_query()
+    {
         // Set a NOT EXISTS tax_query on the global query.
         $global_query        = $GLOBALS['wp_query'];
         $GLOBALS['wp_query'] = new WP_Query(
@@ -473,7 +488,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @dataProvider data_canonical_attachment_page_redirect_with_option_disabled
      */
-    public function test_canonical_attachment_page_redirect_with_option_disabled($expected, $user = null, $parent_post_status = '') {
+    public function test_canonical_attachment_page_redirect_with_option_disabled($expected, $user = null, $parent_post_status = '')
+    {
         update_option('wp_attachment_pages_enabled', 0);
 
         if ('' !== $parent_post_status) {
@@ -514,7 +530,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_canonical_attachment_page_redirect_with_option_disabled() {
+    public function data_canonical_attachment_page_redirect_with_option_disabled()
+    {
         return array(
             'logged out user, no parent'      => array(
                 '%%attachment_url%%',

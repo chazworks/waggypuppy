@@ -20,7 +20,8 @@
  *
  * @return bool Whether to serialize block support styles & classes.
  */
-function wp_should_skip_block_supports_serialization($block_type, $feature_set, $feature = null) {
+function wp_should_skip_block_supports_serialization($block_type, $feature_set, $feature = null)
+{
     if (! is_object($block_type) || ! $feature_set) {
         return false;
     }

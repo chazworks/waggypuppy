@@ -8,17 +8,20 @@
  * @covers ::wp_get_inline_script_tag
  * @covers ::wp_print_inline_script_tag
  */
-class Tests_Functions_wpInlineScriptTag extends WP_UnitTestCase {
+class Tests_Functions_wpInlineScriptTag extends WP_UnitTestCase
+{
 
     private $original_theme_features = array();
 
-    public function set_up() {
+    public function set_up()
+    {
         global $_wp_theme_features;
         parent::set_up();
         $this->original_theme_features = $_wp_theme_features;
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         global $_wp_theme_features;
         $_wp_theme_features = $this->original_theme_features;
         parent::tear_down();
@@ -33,7 +36,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 });
 JS;
 
-    public function get_inline_script_tag_type_set() {
+    public function get_inline_script_tag_type_set()
+    {
         add_theme_support('html5', array('script'));
 
         $this->assertSame(
@@ -63,7 +67,8 @@ JS;
         );
     }
 
-    public function test_get_inline_script_tag_type_not_set() {
+    public function test_get_inline_script_tag_type_not_set()
+    {
         add_theme_support('html5', array('script'));
 
         $this->assertSame(
@@ -80,7 +85,8 @@ JS;
         remove_theme_support('html5');
     }
 
-    public function test_get_inline_script_tag_unescaped_src() {
+    public function test_get_inline_script_tag_unescaped_src()
+    {
         add_theme_support('html5', array('script'));
 
         $this->assertSame(
@@ -91,7 +97,8 @@ JS;
         remove_theme_support('html5');
     }
 
-    public function test_print_script_tag_prints_get_inline_script_tag() {
+    public function test_print_script_tag_prints_get_inline_script_tag()
+    {
         add_filter(
             'wp_inline_script_attributes',
             static function ($attributes) {
@@ -139,7 +146,8 @@ JS;
      *
      * @ticket 58664
      */
-    public function test_get_inline_script_tag_with_duplicated_cdata_wrappers() {
+    public function test_get_inline_script_tag_with_duplicated_cdata_wrappers()
+    {
         remove_theme_support('html5');
 
         $this->assertSame(
@@ -148,7 +156,8 @@ JS;
         );
     }
 
-    public function data_provider_to_test_cdata_wrapper_omitted_for_non_javascript_scripts() {
+    public function data_provider_to_test_cdata_wrapper_omitted_for_non_javascript_scripts()
+    {
         return array(
             'no-type'     => array(
                 'type'           => null,
@@ -205,7 +214,8 @@ JS;
      *
      * @dataProvider data_provider_to_test_cdata_wrapper_omitted_for_non_javascript_scripts
      */
-    public function test_cdata_wrapper_omitted_for_non_javascript_scripts($type, $data, $expected_cdata) {
+    public function test_cdata_wrapper_omitted_for_non_javascript_scripts($type, $data, $expected_cdata)
+    {
         remove_theme_support('html5');
 
         $attrs = array();

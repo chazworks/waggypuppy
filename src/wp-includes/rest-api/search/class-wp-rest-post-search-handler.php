@@ -14,14 +14,16 @@
  *
  * @see WP_REST_Search_Handler
  */
-class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
+class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler
+{
 
     /**
      * Constructor.
      *
      * @since 5.0.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->type = 'post';
 
         // Support all public post types except attachments.
@@ -52,7 +54,8 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      *     @type int   $total Total count for the matching search results.
      * }
      */
-    public function search_items(WP_REST_Request $request) {
+    public function search_items(WP_REST_Request $request)
+    {
 
         // Get the post types to search for the current request.
         $post_types = $request[ WP_REST_Search_Controller::PROP_SUBTYPE ];
@@ -120,7 +123,8 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      *     @type string $type  Optional. Post type.
      * }
      */
-    public function prepare_item($id, array $fields) {
+    public function prepare_item($id, array $fields)
+    {
         $post = get_post($id);
 
         $data = array();
@@ -164,7 +168,8 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      * @param int $id Item ID.
      * @return array Links for the given item.
      */
-    public function prepare_item_links($id) {
+    public function prepare_item_links($id)
+    {
         $post = get_post($id);
 
         $links = array();
@@ -195,7 +200,8 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      *
      * @return string Title format.
      */
-    public function protected_title_format() {
+    public function protected_title_format()
+    {
         return '%s';
     }
 
@@ -209,7 +215,8 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
      * @param WP_Post $post Post object.
      * @return string REST route relative to the REST base URI, or empty string if unknown.
      */
-    protected function detect_rest_item_route($post) {
+    protected function detect_rest_item_route($post)
+    {
         _deprecated_function(__METHOD__, '5.5.0', 'rest_get_route_for_post()');
 
         return rest_get_route_for_post($post);

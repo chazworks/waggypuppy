@@ -15,11 +15,13 @@
  *
  * @covers ::get_comments
  */
-class Tests_Comment_DateQuery extends WP_UnitTestCase {
+class Tests_Comment_DateQuery extends WP_UnitTestCase
+{
 
     public $posts = array();
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         // Just some dummy posts to use as parents for comments.
@@ -50,7 +52,8 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase {
         }
     }
 
-    public function _get_query_result($args = array()) {
+    public function _get_query_result($args = array())
+    {
         $args = wp_parse_args(
             $args,
             array(
@@ -63,7 +66,8 @@ class Tests_Comment_DateQuery extends WP_UnitTestCase {
         return get_comments($args);
     }
 
-    public function test_year() {
+    public function test_year()
+    {
         $comments = $this->_get_query_result(
             array(
                 'date_query' => array(

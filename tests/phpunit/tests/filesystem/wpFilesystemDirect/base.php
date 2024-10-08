@@ -5,7 +5,8 @@
  *
  * @package WordPress
  */
-abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
+abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
+{
 
     /**
      * The filesystem object.
@@ -24,7 +25,8 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
     /**
      * Sets up test assets before the class.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
@@ -81,7 +83,8 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
     /**
      * Creates any missing test assets before each test.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         foreach (self::$file_structure as $entry) {
@@ -99,7 +102,8 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
     /**
      * Removes any existing test assets after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         foreach (array_reverse(self::$file_structure) as $entry) {
             if (! file_exists($entry['path'])) {
                 continue;
@@ -122,7 +126,8 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
      *
      * @param string $path The path to the directory.
      */
-    public function create_directory_if_needed($path) {
+    public function create_directory_if_needed($path)
+    {
         if (file_exists($path)) {
             if (is_file($path)) {
                 throw new Exception("$path already exists as a file.");
@@ -142,7 +147,8 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
      * @param string $path     The path to the file.
      * @param string $contents Optional. The contents of the file. Default empty string.
      */
-    public function create_file_if_needed($path, $contents = '') {
+    public function create_file_if_needed($path, $contents = '')
+    {
         if (file_exists($path)) {
             if (is_dir($path)) {
                 throw new Exception("$path already exists as a directory.");
@@ -159,7 +165,8 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
      *
      * @return bool Whether the operating system is Windows.
      */
-    public static function is_windows() {
+    public static function is_windows()
+    {
         return 'Windows' === PHP_OS_FAMILY;
     }
 
@@ -168,7 +175,8 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_paths_that_exist() {
+    public function data_paths_that_exist()
+    {
         return array(
             'a file that exists'      => array(
                 'path' => 'a_file_that_exists.txt',
@@ -184,7 +192,8 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_paths_that_do_not_exist() {
+    public function data_paths_that_do_not_exist()
+    {
         return array(
             'a file that does not exist'      => array(
                 'path' => 'a_file_that_does_not_exist.txt',

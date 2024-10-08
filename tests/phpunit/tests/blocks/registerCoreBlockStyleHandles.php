@@ -12,7 +12,8 @@
  *
  * @covers ::register_core_block_style_handles
  */
-class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase {
+class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
+{
 
     /**
      * @var WP_Styles
@@ -29,7 +30,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase {
         'editorStyle' => 'editor',
     );
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->old_wp_styles = $GLOBALS['wp_styles'];
@@ -43,7 +45,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase {
         }
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_styles'] = $this->old_wp_styles;
 
         add_action('wp_default_styles', 'wp_default_styles');
@@ -59,7 +62,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase {
      * @param string $name   The block name.
      * @param array  $schema The block's schema.
      */
-    public function test_wp_should_load_separate_core_block_assets_false($name, $schema) {
+    public function test_wp_should_load_separate_core_block_assets_false($name, $schema)
+    {
         register_core_block_style_handles();
 
         foreach (self::STYLE_FIELDS as $style_field => $filename) {
@@ -81,7 +85,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase {
      * @param string $name   The block name.
      * @param array  $schema The block's schema.
      */
-    public function test_wp_should_load_separate_core_block_assets_true($name, $schema) {
+    public function test_wp_should_load_separate_core_block_assets_true($name, $schema)
+    {
         add_filter('should_load_separate_core_block_assets', '__return_true');
         register_core_block_style_handles();
 
@@ -112,7 +117,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase {
      *
      * @param string $name The block name.
      */
-    public function test_wp_should_load_separate_core_block_assets_current_theme_supports($name) {
+    public function test_wp_should_load_separate_core_block_assets_current_theme_supports($name)
+    {
         add_filter('should_load_separate_core_block_assets', '__return_true');
         add_theme_support('wp-block-styles');
         register_core_block_style_handles();
@@ -139,7 +145,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase {
      *
      * @param string $name The block name.
      */
-    public function test_register_core_block_style_handles_should_load_rtl_stylesheets_for_rtl_text_direction($name) {
+    public function test_register_core_block_style_handles_should_load_rtl_stylesheets_for_rtl_text_direction($name)
+    {
         global $wp_locale;
 
         $orig_text_dir             = $wp_locale->text_direction;
@@ -166,7 +173,8 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase {
         }
     }
 
-    public function data_block_data() {
+    public function data_block_data()
+    {
         $core_blocks_meta = require ABSPATH . WPINC . '/blocks/blocks-json.php';
 
         // Remove this blocks for now, as they are registered elsewhere.

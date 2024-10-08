@@ -22,7 +22,8 @@
  * @property int $site_id
  */
 #[AllowDynamicProperties]
-class WP_Network {
+class WP_Network
+{
 
     /**
      * Network ID.
@@ -92,7 +93,8 @@ class WP_Network {
      * @param int $network_id The ID of the network to retrieve.
      * @return WP_Network|false The network's object if found. False if not.
      */
-    public static function get_instance($network_id) {
+    public static function get_instance($network_id)
+    {
         global $wpdb;
 
         $network_id = (int) $network_id;
@@ -129,7 +131,8 @@ class WP_Network {
      *
      * @param WP_Network|object $network A network object.
      */
-    public function __construct($network) {
+    public function __construct($network)
+    {
         foreach (get_object_vars($network) as $key => $value) {
             $this->__set($key, $value);
         }
@@ -148,7 +151,8 @@ class WP_Network {
      * @param string $key Property to get.
      * @return mixed Value of the property. Null if not available.
      */
-    public function __get($key) {
+    public function __get($key)
+    {
         switch ($key) {
             case 'id':
                 return (int) $this->id;
@@ -171,7 +175,8 @@ class WP_Network {
      * @param string $key Property to check if set.
      * @return bool Whether the property is set.
      */
-    public function __isset($key) {
+    public function __isset($key)
+    {
         switch ($key) {
             case 'id':
             case 'blog_id':
@@ -192,7 +197,8 @@ class WP_Network {
      * @param string $key   Property to set.
      * @param mixed  $value Value to assign to the property.
      */
-    public function __set($key, $value) {
+    public function __set($key, $value)
+    {
         switch ($key) {
             case 'id':
                 $this->id = (int) $value;
@@ -216,7 +222,8 @@ class WP_Network {
      *
      * @return int The ID of the main site.
      */
-    private function get_main_site_id() {
+    private function get_main_site_id()
+    {
         /**
          * Filters the main site ID.
          *
@@ -286,7 +293,8 @@ class WP_Network {
      *
      * @since 4.4.0
      */
-    private function _set_site_name() {
+    private function _set_site_name()
+    {
         if (! empty($this->site_name)) {
             return;
         }
@@ -303,7 +311,8 @@ class WP_Network {
      *
      * @since 4.4.0
      */
-    private function _set_cookie_domain() {
+    private function _set_cookie_domain()
+    {
         if (! empty($this->cookie_domain)) {
             return;
         }
@@ -331,7 +340,8 @@ class WP_Network {
      * @param int|null $segments Path segments to use. Defaults to null, or the full path.
      * @return WP_Network|false Network object if successful. False when no network is found.
      */
-    public static function get_by_path($domain = '', $path = '', $segments = null) {
+    public static function get_by_path($domain = '', $path = '', $segments = null)
+    {
         $domains = array($domain);
         $pieces  = explode('.', $domain);
 

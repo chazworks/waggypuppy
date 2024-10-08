@@ -17,7 +17,8 @@ if (! function_exists('twentysixteen_entry_meta')) :
      *
      * @since Twenty Sixteen 1.0
      */
-    function twentysixteen_entry_meta() {
+    function twentysixteen_entry_meta()
+    {
         if ('post' === get_post_type()) {
             $author_avatar_size = apply_filters('twentysixteen_author_avatar_size', 49);
             printf(
@@ -69,7 +70,8 @@ if (! function_exists('twentysixteen_entry_date')) :
      *
      * @since Twenty Sixteen 1.0
      */
-    function twentysixteen_entry_date() {
+    function twentysixteen_entry_date()
+    {
         $time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 
         if (get_the_time('U') !== get_the_modified_time('U')) {
@@ -102,7 +104,8 @@ if (! function_exists('twentysixteen_entry_taxonomies')) :
      *
      * @since Twenty Sixteen 1.0
      */
-    function twentysixteen_entry_taxonomies() {
+    function twentysixteen_entry_taxonomies()
+    {
         $categories_list = get_the_category_list(_x(', ', 'Used between list items, there is a space after the comma.', 'twentysixteen'));
         if ($categories_list && twentysixteen_categorized_blog()) {
             printf(
@@ -136,7 +139,8 @@ if (! function_exists('twentysixteen_post_thumbnail')) :
      *
      * @since Twenty Sixteen 1.0
      */
-    function twentysixteen_post_thumbnail() {
+    function twentysixteen_post_thumbnail()
+    {
         if (post_password_required() || is_attachment() || ! has_post_thumbnail()) {
             return;
         }
@@ -171,7 +175,8 @@ if (! function_exists('twentysixteen_excerpt')) :
      *
      * @param string $css_class Optional. Class string of the div element. Defaults to 'entry-summary'.
      */
-    function twentysixteen_excerpt($css_class = 'entry-summary') {
+    function twentysixteen_excerpt($css_class = 'entry-summary')
+    {
         $css_class = esc_attr($css_class);
 
         if (has_excerpt() || is_search()) :
@@ -195,7 +200,8 @@ if (! function_exists('twentysixteen_excerpt_more') && ! is_admin()) :
      *
      * @return string 'Continue reading' link prepended with an ellipsis.
      */
-    function twentysixteen_excerpt_more() {
+    function twentysixteen_excerpt_more()
+    {
         $link = sprintf(
             '<a href="%1$s" class="more-link">%2$s</a>',
             esc_url(get_permalink(get_the_ID())),
@@ -217,7 +223,8 @@ if (! function_exists('twentysixteen_categorized_blog')) :
      *
      * @return bool True if there is more than one category, false otherwise.
      */
-    function twentysixteen_categorized_blog() {
+    function twentysixteen_categorized_blog()
+    {
         $all_the_cool_cats = get_transient('twentysixteen_categories');
         if (false === $all_the_cool_cats) {
             // Create an array of all the categories that are attached to posts.
@@ -250,7 +257,8 @@ endif;
  *
  * @since Twenty Sixteen 1.0
  */
-function twentysixteen_category_transient_flusher() {
+function twentysixteen_category_transient_flusher()
+{
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
     }
@@ -268,7 +276,8 @@ if (! function_exists('twentysixteen_the_custom_logo')) :
      *
      * @since Twenty Sixteen 1.2
      */
-    function twentysixteen_the_custom_logo() {
+    function twentysixteen_the_custom_logo()
+    {
         if (function_exists('the_custom_logo')) {
             the_custom_logo();
         }
@@ -283,7 +292,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Sixteen 2.0
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Triggered after the opening <body> tag.
          *

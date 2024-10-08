@@ -11,7 +11,8 @@ if (! function_exists('twentynineteen_posted_on')) :
     /**
      * Prints HTML with meta information for the current post-date/time.
      */
-    function twentynineteen_posted_on() {
+    function twentynineteen_posted_on()
+    {
         $time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
         if (get_the_time('U') !== get_the_modified_time('U')) {
             $time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
@@ -38,7 +39,8 @@ if (! function_exists('twentynineteen_posted_by')) :
     /**
      * Prints HTML with meta information about theme author.
      */
-    function twentynineteen_posted_by() {
+    function twentynineteen_posted_by()
+    {
         printf(
             /* translators: 1: SVG icon. 2: Post author, only visible to screen readers. 3: Author link. */
             '<span class="byline">%1$s<span class="screen-reader-text">%2$s</span><span class="author vcard"><a class="url fn n" href="%3$s">%4$s</a></span></span>',
@@ -55,7 +57,8 @@ if (! function_exists('twentynineteen_comment_count')) :
     /**
      * Prints HTML with the comment count for the current post.
      */
-    function twentynineteen_comment_count() {
+    function twentynineteen_comment_count()
+    {
         if (! post_password_required() && (comments_open() || get_comments_number())) {
             echo '<span class="comments-link">';
             echo twentynineteen_get_icon_svg('comment', 16);
@@ -72,7 +75,8 @@ if (! function_exists('twentynineteen_entry_footer')) :
     /**
      * Prints HTML with meta information for the categories, tags and comments.
      */
-    function twentynineteen_entry_footer() {
+    function twentynineteen_entry_footer()
+    {
 
         // Hide author, post date, category and tag text for pages.
         if ('post' === get_post_type()) {
@@ -140,7 +144,8 @@ if (! function_exists('twentynineteen_post_thumbnail')) :
      * Wraps the post thumbnail in an anchor element on index views, or a div
      * element when on single views.
      */
-    function twentynineteen_post_thumbnail() {
+    function twentynineteen_post_thumbnail()
+    {
         if (! twentynineteen_can_show_post_thumbnail()) {
             return;
         }
@@ -171,7 +176,8 @@ if (! function_exists('twentynineteen_get_user_avatar_markup')) :
     /**
      * Returns the HTML markup to generate a user avatar.
      */
-    function twentynineteen_get_user_avatar_markup($id_or_email = null) {
+    function twentynineteen_get_user_avatar_markup($id_or_email = null)
+    {
 
         if (! isset($id_or_email)) {
             $id_or_email = get_current_user_id();
@@ -185,7 +191,8 @@ if (! function_exists('twentynineteen_discussion_avatars_list')) :
     /**
      * Displays a list of avatars involved in a discussion for a given post.
      */
-    function twentynineteen_discussion_avatars_list($comment_authors) {
+    function twentynineteen_discussion_avatars_list($comment_authors)
+    {
         if (empty($comment_authors)) {
             return;
         }
@@ -204,7 +211,8 @@ if (! function_exists('twentynineteen_comment_form')) :
     /**
      * Documentation for function.
      */
-    function twentynineteen_comment_form($order) {
+    function twentynineteen_comment_form($order)
+    {
         if (true === $order || strtolower($order) === strtolower(get_option('comment_order', 'asc'))) {
 
             comment_form(
@@ -220,7 +228,8 @@ if (! function_exists('twentynineteen_the_posts_navigation')) :
     /**
      * Documentation for function.
      */
-    function twentynineteen_the_posts_navigation() {
+    function twentynineteen_the_posts_navigation()
+    {
         the_posts_pagination(
             array(
                 'mid_size'  => 2,
@@ -247,7 +256,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Nineteen 1.4
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Triggered after the opening <body> tag.
          *

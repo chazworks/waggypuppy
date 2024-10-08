@@ -17,7 +17,8 @@
  * @global array $wp_registered_widget_controls
  * @global callable[] $wp_dashboard_control_callbacks
  */
-function wp_dashboard_setup() {
+function wp_dashboard_setup()
+{
     global $wp_registered_widgets, $wp_registered_widget_controls, $wp_dashboard_control_callbacks;
 
     $screen = get_current_screen();
@@ -185,7 +186,8 @@ function wp_dashboard_setup() {
  * @param string   $priority         Optional. The priority within the context where the box should show.
  *                                   Accepts 'high', 'core', 'default', or 'low'. Default 'core'.
  */
-function wp_add_dashboard_widget($widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null, $context = 'normal', $priority = 'core') {
+function wp_add_dashboard_widget($widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null, $context = 'normal', $priority = 'core')
+{
     global $wp_dashboard_control_callbacks;
 
     $screen = get_current_screen();
@@ -243,7 +245,8 @@ function wp_add_dashboard_widget($widget_id, $widget_name, $callback, $control_c
  * @param mixed $dashboard
  * @param array $meta_box
  */
-function _wp_dashboard_control_callback($dashboard, $meta_box) {
+function _wp_dashboard_control_callback($dashboard, $meta_box)
+{
     echo '<form method="post" class="dashboard-widget-control-form wp-clearfix">';
     wp_dashboard_trigger_widget_control($meta_box['id']);
     wp_nonce_field('edit-dashboard-widget_' . $meta_box['id'], 'dashboard-widget-nonce');
@@ -257,7 +260,8 @@ function _wp_dashboard_control_callback($dashboard, $meta_box) {
  *
  * @since 2.5.0
  */
-function wp_dashboard() {
+function wp_dashboard()
+{
     $screen      = get_current_screen();
     $columns     = absint($screen->get_columns());
     $columns_css = '';
@@ -297,7 +301,8 @@ function wp_dashboard() {
  *
  * @since 2.7.0
  */
-function wp_dashboard_right_now() {
+function wp_dashboard_right_now()
+{
     ?>
     <div class="main">
     <ul>
@@ -444,7 +449,8 @@ function wp_dashboard_right_now() {
 /**
  * @since 3.1.0
  */
-function wp_network_dashboard_right_now() {
+function wp_network_dashboard_right_now()
+{
     $actions = array();
 
     if (current_user_can('create_sites')) {
@@ -539,7 +545,8 @@ function wp_network_dashboard_right_now() {
  *
  * @param string|false $error_msg Optional. Error message. Default false.
  */
-function wp_dashboard_quick_press($error_msg = false) {
+function wp_dashboard_quick_press($error_msg = false)
+{
     global $post_ID;
 
     if (! current_user_can('edit_posts')) {
@@ -620,7 +627,8 @@ function wp_dashboard_quick_press($error_msg = false) {
  *
  * @param WP_Post[]|false $drafts Optional. Array of posts to display. Default false.
  */
-function wp_dashboard_recent_drafts($drafts = false) {
+function wp_dashboard_recent_drafts($drafts = false)
+{
     if (! $drafts) {
         $query_args = array(
             'post_type'      => 'post',
@@ -701,7 +709,8 @@ function wp_dashboard_recent_drafts($drafts = false) {
  * @param WP_Comment $comment   The current comment.
  * @param bool       $show_date Optional. Whether to display the date.
  */
-function _wp_dashboard_recent_comments_row(&$comment, $show_date = true) {
+function _wp_dashboard_recent_comments_row(&$comment, $show_date = true)
+{
     $GLOBALS['comment'] = clone $comment;
 
     if ($comment->comment_post_ID > 0) {
@@ -924,7 +933,8 @@ function _wp_dashboard_recent_comments_row(&$comment, $show_date = true) {
  *
  * @since 3.8.0
  */
-function wp_dashboard_site_activity() {
+function wp_dashboard_site_activity()
+{
 
     echo '<div id="activity-widget">';
 
@@ -974,7 +984,8 @@ function wp_dashboard_site_activity() {
  * }
  * @return bool False if no posts were found. True otherwise.
  */
-function wp_dashboard_recent_posts($args) {
+function wp_dashboard_recent_posts($args)
+{
     $query_args = array(
         'post_type'      => 'post',
         'post_status'    => $args['status'],
@@ -1061,7 +1072,8 @@ function wp_dashboard_recent_posts($args) {
  * @param int $total_items Optional. Number of comments to query. Default 5.
  * @return bool False if no comments were found. True otherwise.
  */
-function wp_dashboard_recent_comments($total_items = 5) {
+function wp_dashboard_recent_comments($total_items = 5)
+{
     // Select all comment types and filter out spam later for better query performance.
     $comments = array();
 
@@ -1134,7 +1146,8 @@ function wp_dashboard_recent_comments($total_items = 5) {
  *
  * @param string $widget_id
  */
-function wp_dashboard_rss_output($widget_id) {
+function wp_dashboard_rss_output($widget_id)
+{
     $widgets = get_option('dashboard_widget_options');
     echo '<div class="rss-widget">';
     wp_widget_rss_output($widgets[ $widget_id ]);
@@ -1159,7 +1172,8 @@ function wp_dashboard_rss_output($widget_id) {
  * @param mixed    ...$args    Optional additional parameters to pass to the callback function.
  * @return bool True on success, false on failure.
  */
-function wp_dashboard_cached_rss_widget($widget_id, $callback, $check_urls = array(), ...$args) {
+function wp_dashboard_cached_rss_widget($widget_id, $callback, $check_urls = array(), ...$args)
+{
     $doing_ajax = wp_doing_ajax();
     $loading    = '<p class="widget-loading hide-if-no-js">' . __('Loading&hellip;') . '</p>';
     $loading   .= wp_get_admin_notice(
@@ -1219,7 +1233,8 @@ function wp_dashboard_cached_rss_widget($widget_id, $callback, $check_urls = arr
  *
  * @param int|false $widget_control_id Optional. Registered widget ID. Default false.
  */
-function wp_dashboard_trigger_widget_control($widget_control_id = false) {
+function wp_dashboard_trigger_widget_control($widget_control_id = false)
+{
     global $wp_dashboard_control_callbacks;
 
     if (is_scalar($widget_control_id) && $widget_control_id
@@ -1247,7 +1262,8 @@ function wp_dashboard_trigger_widget_control($widget_control_id = false) {
  * @param string $widget_id
  * @param array  $form_inputs
  */
-function wp_dashboard_rss_control($widget_id, $form_inputs = array()) {
+function wp_dashboard_rss_control($widget_id, $form_inputs = array())
+{
     $widget_options = get_option('dashboard_widget_options');
 
     if (! $widget_options) {
@@ -1295,7 +1311,8 @@ function wp_dashboard_rss_control($widget_id, $form_inputs = array()) {
  *
  * @since 4.8.0
  */
-function wp_dashboard_events_news() {
+function wp_dashboard_events_news()
+{
     wp_print_community_events_markup();
 
     ?>
@@ -1349,7 +1366,8 @@ function wp_dashboard_events_news() {
  *
  * @since 4.8.0
  */
-function wp_print_community_events_markup() {
+function wp_print_community_events_markup()
+{
     $community_events_notice  = '<p class="hide-if-js">' . ('This widget requires JavaScript.') . '</p>';
     $community_events_notice .= '<p class="community-events-error-occurred" aria-hidden="true">' . __('An error occurred. Please try again.') . '</p>';
     $community_events_notice .= '<p class="community-events-could-not-locate" aria-hidden="true"></p>';
@@ -1416,7 +1434,8 @@ function wp_print_community_events_markup() {
  *
  * @since 4.8.0
  */
-function wp_print_community_events_templates() {
+function wp_print_community_events_templates()
+{
     ?>
 
     <script id="tmpl-community-events-attend-event-near" type="text/template">
@@ -1520,7 +1539,8 @@ function wp_print_community_events_templates() {
  * @since 2.7.0
  * @since 4.8.0 Removed popular plugins feed.
  */
-function wp_dashboard_primary() {
+function wp_dashboard_primary()
+{
     $feeds = array(
         'news'   => array(
 
@@ -1618,7 +1638,8 @@ function wp_dashboard_primary() {
  * @param string $widget_id Widget ID.
  * @param array  $feeds     Array of RSS feeds.
  */
-function wp_dashboard_primary_output($widget_id, $feeds) {
+function wp_dashboard_primary_output($widget_id, $feeds)
+{
     foreach ($feeds as $type => $args) {
         $args['type'] = $type;
         echo '<div class="rss-widget">';
@@ -1636,7 +1657,8 @@ function wp_dashboard_primary_output($widget_id, $feeds) {
  *
  * @return true|void True if not multisite, user can't upload files, or the space check option is disabled.
  */
-function wp_dashboard_quota() {
+function wp_dashboard_quota()
+{
     if (! is_multisite() || ! current_user_can('upload_files')
         || get_site_option('upload_space_check_disabled')
     ) {
@@ -1705,7 +1727,8 @@ function wp_dashboard_quota() {
  *
  * @global bool $is_IE
  */
-function wp_dashboard_browser_nag() {
+function wp_dashboard_browser_nag()
+{
     global $is_IE;
 
     $notice   = '';
@@ -1784,7 +1807,8 @@ function wp_dashboard_browser_nag() {
  * @param string[] $classes Array of meta box classes.
  * @return string[] Modified array of meta box classes.
  */
-function dashboard_browser_nag_class($classes) {
+function dashboard_browser_nag_class($classes)
+{
     $response = wp_check_browser_version();
 
     if ($response && $response['insecure']) {
@@ -1801,7 +1825,8 @@ function dashboard_browser_nag_class($classes) {
  *
  * @return array|false Array of browser data on success, false on failure.
  */
-function wp_check_browser_version() {
+function wp_check_browser_version()
+{
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return false;
     }
@@ -1856,7 +1881,8 @@ function wp_check_browser_version() {
  *
  * @since 5.1.0
  */
-function wp_dashboard_php_nag() {
+function wp_dashboard_php_nag()
+{
     $response = wp_check_php_version();
 
     if (! $response) {
@@ -1934,7 +1960,8 @@ function wp_dashboard_php_nag() {
  * @param string[] $classes Array of meta box classes.
  * @return string[] Modified array of meta box classes.
  */
-function dashboard_php_nag_class($classes) {
+function dashboard_php_nag_class($classes)
+{
     $response = wp_check_php_version();
 
     if (! $response) {
@@ -1955,7 +1982,8 @@ function dashboard_php_nag_class($classes) {
  *
  * @since 5.4.0
  */
-function wp_dashboard_site_health() {
+function wp_dashboard_site_health()
+{
     $get_issues = get_transient('health-check-site-status-result');
 
     $issue_counts = array();
@@ -2047,7 +2075,8 @@ function wp_dashboard_site_health() {
  *
  * @since 2.5.0
  */
-function wp_dashboard_empty() {}
+function wp_dashboard_empty()
+{}
 
 /**
  * Displays a welcome panel to introduce users to WordPress.
@@ -2055,7 +2084,8 @@ function wp_dashboard_empty() {}
  * @since 3.3.0
  * @since 5.9.0 Send users to the Site Editor if the active theme is block-based.
  */
-function wp_welcome_panel() {
+function wp_welcome_panel()
+{
     list( $display_version ) = explode('-', wp_get_wp_version());
     $can_customize           = current_user_can('customize');
     $is_block_theme          = wp_is_block_theme();

@@ -7,9 +7,11 @@
  *
  * @covers ::get_feed_build_date
  */
-class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase {
+class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase
+{
 
-    public function tear_down() {
+    public function tear_down()
+    {
         global $wp_query;
 
         update_option('timezone_string', '');
@@ -22,7 +24,8 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase {
     /**
      * @ticket 48675
      */
-    public function test_should_return_correct_feed_build_date() {
+    public function test_should_return_correct_feed_build_date()
+    {
         global $wp_query;
 
         $timezone = 'America/Chicago';
@@ -45,7 +48,8 @@ class Tests_Date_GetFeedBuildDate extends WP_UnitTestCase {
      *
      * @ticket 48957
      */
-    public function test_should_fall_back_to_last_post_modified() {
+    public function test_should_fall_back_to_last_post_modified()
+    {
         global $wp_query;
 
         update_option('timezone_string', 'Europe/Helsinki');

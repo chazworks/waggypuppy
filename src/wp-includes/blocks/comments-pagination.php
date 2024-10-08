@@ -15,7 +15,8 @@
  *
  * @return string Returns the wrapper for the Comments pagination.
  */
-function render_block_core_comments_pagination($attributes, $content) {
+function render_block_core_comments_pagination($attributes, $content)
+{
     if (empty(trim($content))) {
         return '';
     }
@@ -39,7 +40,8 @@ function render_block_core_comments_pagination($attributes, $content) {
  *
  * @since 6.0.0
  */
-function register_block_core_comments_pagination() {
+function register_block_core_comments_pagination()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comments-pagination',
         array(

@@ -11,7 +11,8 @@
  * @group url-details
  * @group restapi
  */
-class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Testcase {
+class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * Admin user ID.
@@ -63,7 +64,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_id      = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -76,12 +78,14 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
         self::delete_user(self::$subscriber_id);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         add_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'), 10, 3);
@@ -90,7 +94,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
         add_filter('pre_site_transient_' . $this->get_transient_name(), '__return_null');
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->request_args = array();
         parent::tear_down();
     }
@@ -100,7 +105,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey(static::REQUEST_ROUTE, $routes);
     }
@@ -110,7 +116,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
@@ -142,7 +149,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_get_items_fails_for_unauthenticated_user() {
+    public function test_get_items_fails_for_unauthenticated_user()
+    {
         wp_set_current_user(0);
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
@@ -167,7 +175,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_get_items_fails_for_user_with_insufficient_permissions() {
+    public function test_get_items_fails_for_user_with_insufficient_permissions()
+    {
         wp_set_current_user(self::$subscriber_id);
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
@@ -196,7 +205,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @param mixed $invalid_url Given invalid URL to test.
      */
-    public function test_get_items_fails_for_invalid_url($invalid_url) {
+    public function test_get_items_fails_for_invalid_url($invalid_url)
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('GET', static::REQUEST_ROUTE);
@@ -221,7 +231,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @return array
      */
-    public function data_get_items_fails_for_invalid_url() {
+    public function data_get_items_fails_for_invalid_url()
+    {
         return array(
             'empty string'   => array(''),
             'numeric'        => array(1234456),
@@ -234,7 +245,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_get_items_fails_for_url_which_returns_a_non_200_status_code() {
+    public function test_get_items_fails_for_url_which_returns_a_non_200_status_code()
+    {
         // Force HTTP request to remote site to fail.
         remove_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'), 10);
         add_filter('pre_http_request', array($this, 'mock_failed_request_to_remote_url'), 10, 3);
@@ -262,7 +274,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_get_items_fails_for_url_which_returns_empty_body_for_success() {
+    public function test_get_items_fails_for_url_which_returns_empty_body_for_success()
+    {
         // Force HTTP request to remote site to return an empty body in response.
         remove_filter('pre_http_request', array($this, 'mock_success_request_to_remote_url'));
         add_filter('pre_http_request', array($this, 'mock_request_to_remote_url_with_empty_body_response'), 10, 3);
@@ -291,7 +304,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_can_filter_http_request_args_via_filter() {
+    public function test_can_filter_http_request_args_via_filter()
+    {
         wp_set_current_user(self::$admin_id);
 
         add_filter(
@@ -332,7 +346,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_will_return_from_cache_if_populated() {
+    public function test_will_return_from_cache_if_populated()
+    {
         $transient_name = $this->get_transient_name();
         remove_filter("pre_site_transient_{$transient_name}", '__return_null');
 
@@ -364,7 +379,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_allows_filtering_data_retrieved_for_a_given_url() {
+    public function test_allows_filtering_data_retrieved_for_a_given_url()
+    {
         add_filter(
             'rest_prepare_url_details',
             static function ($response) {
@@ -410,7 +426,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_allows_filtering_response() {
+    public function test_allows_filtering_response()
+    {
         /*
          * Filter the response to known set of values changing only
          * based on whether the response came from the cache or not.
@@ -453,7 +470,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @ticket 54358
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request  = new WP_REST_Request('OPTIONS', static::REQUEST_ROUTE);
@@ -485,7 +503,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @param string $html     Given HTML string.
      * @param string $expected Expected found title.
      */
-    public function test_get_title($html, $expected) {
+    public function test_get_title($html, $expected)
+    {
         $controller = new WP_REST_URL_Details_Controller();
         $method     = $this->get_reflective_method('get_title');
 
@@ -501,7 +520,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @return array
      */
-    public function data_get_title() {
+    public function data_get_title()
+    {
         return array(
 
             // Happy path for default.
@@ -557,7 +577,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @param string $expected   Expected found icon.
      * @param string $target_url Optional. Target URL. Default 'https://wordpress.org'.
      */
-    public function test_get_icon($html, $expected, $target_url = 'https://wordpress.org') {
+    public function test_get_icon($html, $expected, $target_url = 'https://wordpress.org')
+    {
         $controller = new WP_REST_URL_Details_Controller();
         $method     = $this->get_reflective_method('get_icon');
 
@@ -574,7 +595,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @return array
      */
-    public function data_get_icon() {
+    public function data_get_icon()
+    {
         return array(
 
             // Happy path for default.
@@ -731,7 +753,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @param string $html     Given HTML string.
      * @param string $expected Expected found icon.
      */
-    public function test_get_description($html, $expected) {
+    public function test_get_description($html, $expected)
+    {
         $controller = new WP_REST_URL_Details_Controller();
 
         // Parse the meta elements from the given HTML.
@@ -751,7 +774,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @return array
      */
-    public function data_get_description() {
+    public function data_get_description()
+    {
         return array(
 
             // Happy paths.
@@ -883,7 +907,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @param string $expected   Expected found image.
      * @param string $target_url Optional. Target URL. Default 'https://wordpress.org'.
      */
-    public function test_get_image($html, $expected, $target_url = 'https://wordpress.org') {
+    public function test_get_image($html, $expected, $target_url = 'https://wordpress.org')
+    {
         $controller = new WP_REST_URL_Details_Controller();
 
         // Parse the meta elements from the given HTML.
@@ -903,7 +928,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @return array
      */
-    public function data_get_image() {
+    public function data_get_image()
+    {
         return array(
 
             // Happy paths.
@@ -1043,42 +1069,48 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
     /**
      * @doesNotPerformAssertions
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Controller does not use get_context_param().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         // Controller does not implement get_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
@@ -1088,19 +1120,23 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @return array faux/mocked response.
      */
-    public function mock_success_request_to_remote_url($response, $parsed_args) {
+    public function mock_success_request_to_remote_url($response, $parsed_args)
+    {
         return $this->mock_request_to_remote_url('success', $parsed_args);
     }
 
-    public function mock_failed_request_to_remote_url($response, $parsed_args) {
+    public function mock_failed_request_to_remote_url($response, $parsed_args)
+    {
         return $this->mock_request_to_remote_url('failure', $parsed_args);
     }
 
-    public function mock_request_to_remote_url_with_empty_body_response($response, $parsed_args) {
+    public function mock_request_to_remote_url_with_empty_body_response($response, $parsed_args)
+    {
         return $this->mock_request_to_remote_url('empty_body', $parsed_args);
     }
 
-    private function mock_request_to_remote_url($result_type, $parsed_args) {
+    private function mock_request_to_remote_url($result_type, $parsed_args)
+    {
         $this->request_args = $parsed_args;
 
         $types = array(
@@ -1128,7 +1164,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
         );
     }
 
-    private function get_example_website() {
+    private function get_example_website()
+    {
         return '
 			<!DOCTYPE html>
 			<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
@@ -1158,7 +1195,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
 			</html>';
     }
 
-    private function wrap_html_in_doc($html, $with_body = false) {
+    private function wrap_html_in_doc($html, $with_body = false)
+    {
         $doc = '<!DOCTYPE html>
 				<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
 				<head>
@@ -1181,7 +1219,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @return string
      */
-    private function get_transient_name() {
+    private function get_transient_name()
+    {
         return 'g_url_details_response_' . md5(static::URL_PLACEHOLDER);
     }
 
@@ -1193,7 +1232,8 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      * @return ReflectionMethod
      * @throws ReflectionException Throws an exception if method does not exist.
      */
-    protected function get_reflective_method($method_name) {
+    protected function get_reflective_method($method_name)
+    {
         $class  = new ReflectionClass(WP_REST_URL_Details_Controller::class);
         $method = $class->getMethod($method_name);
         $method->setAccessible(true);

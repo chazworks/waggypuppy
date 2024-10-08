@@ -15,7 +15,8 @@
  *
  * @return bool True if subdomain configuration is enabled, false otherwise.
  */
-function is_subdomain_install() {
+function is_subdomain_install()
+{
     if (defined('SUBDOMAIN_INSTALL')) {
         return SUBDOMAIN_INSTALL;
     }
@@ -34,7 +35,8 @@ function is_subdomain_install() {
  *
  * @return string[] Array of absolute paths to files to include.
  */
-function wp_get_active_network_plugins() {
+function wp_get_active_network_plugins()
+{
     $active_plugins = (array) get_site_option('active_sitewide_plugins', array());
     if (empty($active_plugins)) {
         return array();
@@ -71,7 +73,8 @@ function wp_get_active_network_plugins() {
  *
  * @return true|string Returns true on success, or drop-in file to include.
  */
-function ms_site_check() {
+function ms_site_check()
+{
 
     /**
      * Filters checking the status of the current blog.
@@ -138,7 +141,8 @@ function ms_site_check() {
  * @param int|null $segments Path segments to use. Defaults to null, or the full path.
  * @return WP_Network|false Network object if successful. False when no network is found.
  */
-function get_network_by_path($domain, $path, $segments = null) {
+function get_network_by_path($domain, $path, $segments = null)
+{
     return WP_Network::get_by_path($domain, $path, $segments);
 }
 
@@ -160,7 +164,8 @@ function get_network_by_path($domain, $path, $segments = null) {
  * @param int|null $segments Path segments to use. Defaults to null, or the full path.
  * @return WP_Site|false Site object if successful. False when no site is found.
  */
-function get_site_by_path($domain, $path, $segments = null) {
+function get_site_by_path($domain, $path, $segments = null)
+{
     $path_segments = array_filter(explode('/', trim($path, '/')));
 
     /**
@@ -294,7 +299,8 @@ function get_site_by_path($domain, $path, $segments = null) {
  *                     False if bootstrap could not be properly completed.
  *                     Redirect URL if parts exist, but the request as a whole can not be fulfilled.
  */
-function ms_load_current_site_and_network($domain, $path, $subdomain = false) {
+function ms_load_current_site_and_network($domain, $path, $subdomain = false)
+{
     global $current_site, $current_blog;
 
     // If the network is defined in wp-config.php, we can simply use that.
@@ -463,7 +469,8 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false) {
  * @param string $domain The requested domain for the error to reference.
  * @param string $path   The requested path for the error to reference.
  */
-function ms_not_installed($domain, $path) {
+function ms_not_installed($domain, $path)
+{
     global $wpdb;
 
     if (! is_admin()) {
@@ -524,7 +531,8 @@ function ms_not_installed($domain, $path) {
  * @param WP_Network $current_site
  * @return WP_Network
  */
-function get_current_site_name($current_site) {
+function get_current_site_name($current_site)
+{
     _deprecated_function(__FUNCTION__, '3.9.0', 'get_current_site()');
     return $current_site;
 }
@@ -543,7 +551,8 @@ function get_current_site_name($current_site) {
  *
  * @return WP_Network
  */
-function wpmu_current_site() {
+function wpmu_current_site()
+{
     global $current_site;
     _deprecated_function(__FUNCTION__, '3.9.0');
     return $current_site;
@@ -561,7 +570,8 @@ function wpmu_current_site() {
  * @param object|int $network The network's database row or ID.
  * @return WP_Network|false Object containing network information if found, false if not.
  */
-function wp_get_network($network) {
+function wp_get_network($network)
+{
     _deprecated_function(__FUNCTION__, '4.7.0', 'get_network()');
 
     $network = get_network($network);

@@ -9,9 +9,11 @@ if (is_multisite()) :
      * @group ms-user
      * @group multisite
      */
-    class Tests_User_Multisite extends WP_UnitTestCase {
+    class Tests_User_Multisite extends WP_UnitTestCase
+    {
 
-        public function test_remove_user_from_blog() {
+        public function test_remove_user_from_blog()
+        {
             $user1 = self::factory()->user->create_and_get();
             $user2 = self::factory()->user->create_and_get();
 
@@ -28,7 +30,8 @@ if (is_multisite()) :
         /**
          * Test the returned data from get_blogs_of_user()
          */
-        public function test_get_blogs_of_user() {
+        public function test_get_blogs_of_user()
+        {
             $user1_id = self::factory()->user->create(array('role' => 'administrator'));
 
             // Maintain a list of 6 total sites and include the primary network site.
@@ -98,7 +101,8 @@ if (is_multisite()) :
         /**
          * @expectedDeprecated is_blog_user
          */
-        public function test_is_blog_user() {
+        public function test_is_blog_user()
+        {
             global $wpdb;
 
             $user1_id = self::factory()->user->create(array('role' => 'administrator'));
@@ -119,7 +123,8 @@ if (is_multisite()) :
             wp_set_current_user($old_current);
         }
 
-        public function test_is_user_member_of_blog() {
+        public function test_is_user_member_of_blog()
+        {
             global $wpdb;
 
             $user1_id = self::factory()->user->create(array('role' => 'administrator'));
@@ -180,7 +185,8 @@ if (is_multisite()) :
         /**
          * @ticket 23192
          */
-        public function test_is_user_spammy() {
+        public function test_is_user_spammy()
+        {
             $user_id = self::factory()->user->create(
                 array(
                     'role'       => 'author',
@@ -209,7 +215,8 @@ if (is_multisite()) :
         /**
          * @ticket 20601
          */
-        public function test_user_member_of_blog() {
+        public function test_user_member_of_blog()
+        {
             global $wp_rewrite;
 
             self::factory()->blog->create();
@@ -248,7 +255,8 @@ if (is_multisite()) :
             $this->assertQueryTrue('is_author', 'is_archive');
         }
 
-        public function test_revoked_super_admin_can_be_deleted() {
+        public function test_revoked_super_admin_can_be_deleted()
+        {
             if (isset($GLOBALS['super_admins'])) {
                 $old_global = $GLOBALS['super_admins'];
                 unset($GLOBALS['super_admins']);
@@ -265,7 +273,8 @@ if (is_multisite()) :
             }
         }
 
-        public function test_revoked_super_admin_is_deleted() {
+        public function test_revoked_super_admin_is_deleted()
+        {
             if (isset($GLOBALS['super_admins'])) {
                 $old_global = $GLOBALS['super_admins'];
                 unset($GLOBALS['super_admins']);
@@ -284,7 +293,8 @@ if (is_multisite()) :
             }
         }
 
-        public function test_super_admin_cannot_be_deleted() {
+        public function test_super_admin_cannot_be_deleted()
+        {
             if (isset($GLOBALS['super_admins'])) {
                 $old_global = $GLOBALS['super_admins'];
                 unset($GLOBALS['super_admins']);
@@ -303,7 +313,8 @@ if (is_multisite()) :
         /**
          * @ticket 27205
          */
-        public function test_granting_super_admins() {
+        public function test_granting_super_admins()
+        {
             if (isset($GLOBALS['super_admins'])) {
                 $old_global = $GLOBALS['super_admins'];
                 unset($GLOBALS['super_admins']);
@@ -335,7 +346,8 @@ if (is_multisite()) :
             }
         }
 
-        public function test_numeric_string_user_id() {
+        public function test_numeric_string_user_id()
+        {
             $u = self::factory()->user->create();
 
             $u_string = (string) $u;
@@ -346,14 +358,16 @@ if (is_multisite()) :
         /**
          * @ticket 33800
          */
-        public function test_should_return_false_for_non_numeric_string_user_id() {
+        public function test_should_return_false_for_non_numeric_string_user_id()
+        {
             $this->assertFalse(wpmu_delete_user('abcde'));
         }
 
         /**
          * @ticket 33800
          */
-        public function test_should_return_false_for_object_user_id() {
+        public function test_should_return_false_for_object_user_id()
+        {
             $u_obj = self::factory()->user->create_and_get();
             $this->assertFalse(wpmu_delete_user($u_obj));
             $this->assertSame($u_obj->ID, username_exists($u_obj->user_login));
@@ -362,7 +376,8 @@ if (is_multisite()) :
         /**
          * @ticket 38356
          */
-        public function test_add_user_to_blog_subscriber() {
+        public function test_add_user_to_blog_subscriber()
+        {
             $site_id = self::factory()->blog->create();
             $user_id = self::factory()->user->create();
 
@@ -381,7 +396,8 @@ if (is_multisite()) :
         /**
          * @ticket 38356
          */
-        public function test_add_user_to_blog_invalid_user() {
+        public function test_add_user_to_blog_invalid_user()
+        {
             global $wpdb;
 
             $site_id = self::factory()->blog->create();
@@ -398,7 +414,8 @@ if (is_multisite()) :
         /**
          * @ticket 41101
          */
-        public function test_should_fail_can_add_user_to_blog_filter() {
+        public function test_should_fail_can_add_user_to_blog_filter()
+        {
             $site_id = self::factory()->blog->create();
             $user_id = self::factory()->user->create();
 
@@ -411,7 +428,8 @@ if (is_multisite()) :
         /**
          * @ticket 41101
          */
-        public function test_should_succeed_can_add_user_to_blog_filter() {
+        public function test_should_succeed_can_add_user_to_blog_filter()
+        {
             $site_id = self::factory()->blog->create();
             $user_id = self::factory()->user->create();
 
@@ -424,7 +442,8 @@ if (is_multisite()) :
         /**
          * @ticket 23016
          */
-        public function test_wp_roles_global_is_reset() {
+        public function test_wp_roles_global_is_reset()
+        {
             global $wp_roles;
             $role      = 'test_global_is_reset';
             $role_name = 'Test Global Is Reset';

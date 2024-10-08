@@ -7,13 +7,15 @@ if (is_multisite()) :
      *
      * @group multisite
      */
-    class Tests_Multisite_GetSpaceAllowed extends WP_UnitTestCase {
+    class Tests_Multisite_GetSpaceAllowed extends WP_UnitTestCase
+    {
 
         /**
          * When no option exists for the site or the network, a fallback of
          * 100 is expected.
          */
-        public function test_get_space_allowed_default() {
+        public function test_get_space_allowed_default()
+        {
             delete_option('blog_upload_space');
             delete_site_option('blog_upload_space');
 
@@ -24,7 +26,8 @@ if (is_multisite()) :
          * If an individual site's option is not available, the default network
          * level option is used as a fallback.
          */
-        public function test_get_space_allowed_no_site_option_fallback_to_network_option() {
+        public function test_get_space_allowed_no_site_option_fallback_to_network_option()
+        {
             delete_site_option('blog_upload_space');
             update_site_option('blog_upload_space', 200);
 
@@ -38,14 +41,16 @@ if (is_multisite()) :
          * @param mixed $network_option Option to assign to the network's `blog_upload_space`.
          * @param int   $expected       Expected return value.
          */
-        public function test_get_space_allowed($site_option, $network_option, $expected) {
+        public function test_get_space_allowed($site_option, $network_option, $expected)
+        {
             update_option('blog_upload_space', $site_option);
             update_site_option('blog_upload_space', $network_option);
 
             $this->assertSame($expected, get_space_allowed());
         }
 
-        public function data_blog_upload_space() {
+        public function data_blog_upload_space()
+        {
             return array(
                 // A valid site option will be preferred over a network option.
                 array(111, 200, 111),
@@ -69,7 +74,8 @@ if (is_multisite()) :
             );
         }
 
-        public function test_get_space_allowed_filtered() {
+        public function test_get_space_allowed_filtered()
+        {
             update_option('blog_upload_space', 777);
             update_site_option('blog_upload_space', 888);
 
@@ -80,7 +86,8 @@ if (is_multisite()) :
             $this->assertSame(999, $space_allowed);
         }
 
-        public function _filter_space_allowed() {
+        public function _filter_space_allowed()
+        {
             return 999;
         }
     }

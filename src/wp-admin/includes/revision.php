@@ -18,7 +18,8 @@
  * @return array|false Associative array of a post's revisioned fields and their diffs.
  *                     Or, false on failure.
  */
-function wp_get_revision_ui_diff($post, $compare_from, $compare_to) {
+function wp_get_revision_ui_diff($post, $compare_from, $compare_to)
+{
     $post = get_post($post);
     if (! $post) {
         return false;
@@ -173,7 +174,8 @@ function wp_get_revision_ui_diff($post, $compare_from, $compare_to) {
  * @param int         $from                 Optional. The revision ID to compare from.
  * @return array An associative array of revision data and related settings.
  */
-function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null) {
+function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
+{
     $post    = get_post($post);
     $authors = array();
     $now_gmt = time();
@@ -361,7 +363,8 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
  *
  * @global WP_Post $post Global post object.
  */
-function wp_print_revision_templates() {
+function wp_print_revision_templates()
+{
     global $post;
     ?><script id="tmpl-revisions-frame" type="text/html">
         <div class="revisions-control-frame"></div>

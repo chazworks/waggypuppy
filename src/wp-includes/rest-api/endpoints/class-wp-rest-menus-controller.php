@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
+class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
+{
 
     /**
      * Checks if a request has access to read menus.
@@ -24,7 +25,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return bool|WP_Error True if the request has read access, otherwise false or WP_Error object.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         $has_permission = parent::get_items_permissions_check($request);
 
         if (true !== $has_permission) {
@@ -42,7 +44,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, otherwise WP_Error object.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         $has_permission = parent::get_item_permissions_check($request);
 
         if (true !== $has_permission) {
@@ -60,7 +63,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param int $id Supplied ID.
      * @return WP_Term|WP_Error Term object if ID is valid, WP_Error otherwise.
      */
-    protected function get_term($id) {
+    protected function get_term($id)
+    {
         $term = parent::get_term($id);
 
         if (is_wp_error($term)) {
@@ -83,7 +87,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the current user has permission, WP_Error object otherwise.
      */
-    protected function check_has_read_only_access($request) {
+    protected function check_has_read_only_access($request)
+    {
         if (current_user_can('edit_theme_options')) {
             return true;
         }
@@ -114,7 +119,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($term, $request) {
+    public function prepare_item_for_response($term, $request)
+    {
         $nav_menu = wp_get_nav_menu_object($term);
         $response = parent::prepare_item_for_response($nav_menu, $request);
 
@@ -151,7 +157,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_Term $term Term object.
      * @return array Links for the given term.
      */
-    protected function prepare_links($term) {
+    protected function prepare_links($term)
+    {
         $links = parent::prepare_links($term);
 
         $locations = $this->get_menu_locations($term->term_id);
@@ -175,7 +182,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Request object.
      * @return object Prepared term data.
      */
-    public function prepare_item_for_database($request) {
+    public function prepare_item_for_database($request)
+    {
         $prepared_term = parent::prepare_item_for_database($request);
 
         $schema = $this->get_item_schema();
@@ -195,7 +203,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function create_item($request) {
+    public function create_item($request)
+    {
         if (isset($request['parent'])) {
             if (! is_taxonomy_hierarchical($this->taxonomy)) {
                 return new WP_Error('rest_taxonomy_not_hierarchical', __('Cannot set parent term, taxonomy is not hierarchical.'), array('status' => 400));
@@ -284,7 +293,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function update_item($request) {
+    public function update_item($request)
+    {
         $term = $this->get_term($request['id']);
         if (is_wp_error($term)) {
             return $term;
@@ -364,7 +374,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function delete_item($request) {
+    public function delete_item($request)
+    {
         $term = $this->get_term($request['id']);
         if (is_wp_error($term)) {
             return $term;
@@ -408,7 +419,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param int $menu_id The menu id to query.
      * @return bool The value of auto_add.
      */
-    protected function get_menu_auto_add($menu_id) {
+    protected function get_menu_auto_add($menu_id)
+    {
         $nav_menu_option = (array) get_option('nav_menu_options', array('auto_add' => array()));
 
         return in_array($menu_id, $nav_menu_option['auto_add'], true);
@@ -423,7 +435,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return bool True if the auto add setting was successfully updated.
      */
-    protected function handle_auto_add($menu_id, $request) {
+    protected function handle_auto_add($menu_id, $request)
+    {
         if (! isset($request['auto_add'])) {
             return true;
         }
@@ -460,7 +473,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param int $menu_id The menu id.
      * @return string[] The locations assigned to the menu.
      */
-    protected function get_menu_locations($menu_id) {
+    protected function get_menu_locations($menu_id)
+    {
         $locations      = get_nav_menu_locations();
         $menu_locations = array();
 
@@ -482,7 +496,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True on success, a WP_Error on an error updating any of the locations.
      */
-    protected function handle_locations($menu_id, $request) {
+    protected function handle_locations($menu_id, $request)
+    {
         if (! isset($request['locations'])) {
             return true;
         }
@@ -522,7 +537,8 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }

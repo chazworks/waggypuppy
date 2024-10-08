@@ -3,15 +3,18 @@
 /**
  * @group rewrite
  */
-class Tests_Rewrite_Permastructs extends WP_UnitTestCase {
+class Tests_Rewrite_Permastructs extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->set_permalink_structure('/%postname%/');
     }
 
-    public function test_add_permastruct() {
+    public function test_add_permastruct()
+    {
         global $wp_rewrite;
 
         add_permastruct('foo', 'bar/%foo%');
@@ -30,7 +33,8 @@ class Tests_Rewrite_Permastructs extends WP_UnitTestCase {
         );
     }
 
-    public function test_remove_permastruct() {
+    public function test_remove_permastruct()
+    {
         global $wp_rewrite;
 
         add_permastruct('foo', 'bar/%foo%');

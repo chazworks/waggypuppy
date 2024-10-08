@@ -9,13 +9,15 @@
 /**
  * Trait for reusing datasets within the Fonts tests.
  */
-trait WP_Font_Face_Tests_Datasets {
+trait WP_Font_Face_Tests_Datasets
+{
     /**
      * Data provider.
      *
      * @return array
      */
-    public function data_should_print_given_fonts() {
+    public function data_should_print_given_fonts()
+    {
         return array(
             'single truetype format font'    => array(
                 'fonts'    => array(
@@ -242,7 +244,8 @@ CSS
         );
     }
 
-    public function get_expected_fonts_for_fonts_block_theme($key = '') {
+    public function get_expected_fonts_for_fonts_block_theme($key = '')
+    {
         static $data = null;
 
         if (null === $data) {
@@ -315,7 +318,8 @@ CSS
         return $data;
     }
 
-    public static function get_custom_font_families($key = '') {
+    public static function get_custom_font_families($key = '')
+    {
         static $data = null;
 
         $custom_theme_json_fonts = array(

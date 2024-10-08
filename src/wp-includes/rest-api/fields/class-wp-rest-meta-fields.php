@@ -13,7 +13,8 @@
  * @since 4.7.0
  */
 #[AllowDynamicProperties]
-abstract class WP_REST_Meta_Fields {
+abstract class WP_REST_Meta_Fields
+{
 
     /**
      * Retrieves the object meta type.
@@ -32,7 +33,8 @@ abstract class WP_REST_Meta_Fields {
      *
      * @return string Subtype for the meta type, or empty string if no specific subtype.
      */
-    protected function get_meta_subtype() {
+    protected function get_meta_subtype()
+    {
         return '';
     }
 
@@ -53,7 +55,8 @@ abstract class WP_REST_Meta_Fields {
      *
      * @see register_rest_field()
      */
-    public function register_field() {
+    public function register_field()
+    {
         _deprecated_function(__METHOD__, '5.6.0');
 
         register_rest_field(
@@ -76,7 +79,8 @@ abstract class WP_REST_Meta_Fields {
      * @param WP_REST_Request $request   Full details about the request.
      * @return array Array containing the meta values keyed by name.
      */
-    public function get_value($object_id, $request) {
+    public function get_value($object_id, $request)
+    {
         $fields   = $this->get_registered_fields();
         $response = array();
 
@@ -122,7 +126,8 @@ abstract class WP_REST_Meta_Fields {
      * @param array           $args    Options for the field.
      * @return mixed Prepared value.
      */
-    protected function prepare_value_for_response($value, $request, $args) {
+    protected function prepare_value_for_response($value, $request, $args)
+    {
         if (! empty($args['prepare_callback'])) {
             $value = call_user_func($args['prepare_callback'], $value, $request, $args);
         }
@@ -139,7 +144,8 @@ abstract class WP_REST_Meta_Fields {
      * @param int   $object_id Object ID to fetch meta for.
      * @return null|WP_Error Null on success, WP_Error object on failure.
      */
-    public function update_value($meta, $object_id) {
+    public function update_value($meta, $object_id)
+    {
         $fields = $this->get_registered_fields();
         $error  = new WP_Error();
 
@@ -229,7 +235,8 @@ abstract class WP_REST_Meta_Fields {
      * @param string $name      Name for the field that is exposed in the REST API.
      * @return true|WP_Error True if meta field is deleted, WP_Error otherwise.
      */
-    protected function delete_meta_value($object_id, $meta_key, $name) {
+    protected function delete_meta_value($object_id, $meta_key, $name)
+    {
         $meta_type = $this->get_meta_type();
 
         if (! current_user_can("delete_{$meta_type}_meta", $object_id, $meta_key)) {
@@ -276,7 +283,8 @@ abstract class WP_REST_Meta_Fields {
      * @param array  $values    List of values to update to.
      * @return true|WP_Error True if meta fields are updated, WP_Error otherwise.
      */
-    protected function update_multi_meta_value($object_id, $meta_key, $name, $values) {
+    protected function update_multi_meta_value($object_id, $meta_key, $name, $values)
+    {
         $meta_type = $this->get_meta_type();
 
         if (! current_user_can("edit_{$meta_type}_meta", $object_id, $meta_key)) {
@@ -376,7 +384,8 @@ abstract class WP_REST_Meta_Fields {
      * @param mixed  $value     Updated value.
      * @return true|WP_Error True if the meta field was updated, WP_Error otherwise.
      */
-    protected function update_meta_value($object_id, $meta_key, $name, $value) {
+    protected function update_meta_value($object_id, $meta_key, $name, $value)
+    {
         $meta_type = $this->get_meta_type();
 
         // Do the exact same check for a duplicate value as in update_metadata() to avoid update_metadata() returning false.
@@ -427,7 +436,8 @@ abstract class WP_REST_Meta_Fields {
      * @param mixed  $user_value   The value provided by the user.
      * @return bool
      */
-    protected function is_meta_value_same_as_stored_value($meta_key, $subtype, $stored_value, $user_value) {
+    protected function is_meta_value_same_as_stored_value($meta_key, $subtype, $stored_value, $user_value)
+    {
         $args      = $this->get_registered_fields()[ $meta_key ];
         $sanitized = sanitize_meta($meta_key, $user_value, $this->get_meta_type(), $subtype);
 
@@ -446,7 +456,8 @@ abstract class WP_REST_Meta_Fields {
      *
      * @return array Registered fields.
      */
-    protected function get_registered_fields() {
+    protected function get_registered_fields()
+    {
         $registered = array();
 
         $meta_type    = $this->get_meta_type();
@@ -519,7 +530,8 @@ abstract class WP_REST_Meta_Fields {
      *
      * @return array Field schema data.
      */
-    public function get_field_schema() {
+    public function get_field_schema()
+    {
         $fields = $this->get_registered_fields();
 
         $schema = array(
@@ -553,7 +565,8 @@ abstract class WP_REST_Meta_Fields {
      * @param array           $args    REST-specific options for the meta key.
      * @return mixed Value prepared for output. If a non-JsonSerializable object, null.
      */
-    public static function prepare_value($value, $request, $args) {
+    public static function prepare_value($value, $request, $args)
+    {
         if ($args['single']) {
             $schema = $args['schema'];
         } else {
@@ -581,7 +594,8 @@ abstract class WP_REST_Meta_Fields {
      * @param string          $param   The parameter name.
      * @return array|false The meta array, if valid, false otherwise.
      */
-    public function check_meta_is_array($value, $request, $param) {
+    public function check_meta_is_array($value, $request, $param)
+    {
         if (! is_array($value)) {
             return false;
         }
@@ -603,7 +617,8 @@ abstract class WP_REST_Meta_Fields {
      * @param array $schema The schema array.
      * @return array
      */
-    protected function default_additional_properties_to_false($schema) {
+    protected function default_additional_properties_to_false($schema)
+    {
         _deprecated_function(__METHOD__, '5.6.0', 'rest_default_additional_properties_to_false()');
 
         return rest_default_additional_properties_to_false($schema);
@@ -617,7 +632,8 @@ abstract class WP_REST_Meta_Fields {
      * @param string $type The schema type.
      * @return mixed
      */
-    protected static function get_empty_value_for_type($type) {
+    protected static function get_empty_value_for_type($type)
+    {
         switch ($type) {
             case 'string':
                 return '';

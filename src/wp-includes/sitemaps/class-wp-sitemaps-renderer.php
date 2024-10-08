@@ -15,7 +15,8 @@
  * @since 5.5.0
  */
 #[AllowDynamicProperties]
-class WP_Sitemaps_Renderer {
+class WP_Sitemaps_Renderer
+{
     /**
      * XSL stylesheet for styling a sitemap for web browsers.
      *
@@ -39,7 +40,8 @@ class WP_Sitemaps_Renderer {
      *
      * @since 5.5.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $stylesheet_url = $this->get_sitemap_stylesheet_url();
 
         if ($stylesheet_url) {
@@ -62,7 +64,8 @@ class WP_Sitemaps_Renderer {
      *
      * @return string The sitemap stylesheet URL.
      */
-    public function get_sitemap_stylesheet_url() {
+    public function get_sitemap_stylesheet_url()
+    {
         global $wp_rewrite;
 
         $sitemap_url = home_url('/wp-sitemap.xsl');
@@ -93,7 +96,8 @@ class WP_Sitemaps_Renderer {
      *
      * @return string The sitemap index stylesheet URL.
      */
-    public function get_sitemap_index_stylesheet_url() {
+    public function get_sitemap_index_stylesheet_url()
+    {
         global $wp_rewrite;
 
         $sitemap_url = home_url('/wp-sitemap-index.xsl');
@@ -122,7 +126,8 @@ class WP_Sitemaps_Renderer {
      *
      * @param array $sitemaps Array of sitemap URLs.
      */
-    public function render_index($sitemaps) {
+    public function render_index($sitemaps)
+    {
         header('Content-Type: application/xml; charset=UTF-8');
 
         $this->check_for_simple_xml_availability();
@@ -143,7 +148,8 @@ class WP_Sitemaps_Renderer {
      * @param array $sitemaps Array of sitemap URLs.
      * @return string|false A well-formed XML string for a sitemap index. False on error.
      */
-    public function get_sitemap_index_xml($sitemaps) {
+    public function get_sitemap_index_xml($sitemaps)
+    {
         $sitemap_index = new SimpleXMLElement(
             sprintf(
                 '%1$s%2$s%3$s',
@@ -186,7 +192,8 @@ class WP_Sitemaps_Renderer {
      *
      * @param array $url_list Array of URLs for a sitemap.
      */
-    public function render_sitemap($url_list) {
+    public function render_sitemap($url_list)
+    {
         header('Content-Type: application/xml; charset=UTF-8');
 
         $this->check_for_simple_xml_availability();
@@ -207,7 +214,8 @@ class WP_Sitemaps_Renderer {
      * @param array $url_list Array of URLs for a sitemap.
      * @return string|false A well-formed XML string for a sitemap index. False on error.
      */
-    public function get_sitemap_xml($url_list) {
+    public function get_sitemap_xml($url_list)
+    {
         $urlset = new SimpleXMLElement(
             sprintf(
                 '%1$s%2$s%3$s',
@@ -248,7 +256,8 @@ class WP_Sitemaps_Renderer {
      *
      * @since 5.5.0
      */
-    private function check_for_simple_xml_availability() {
+    private function check_for_simple_xml_availability()
+    {
         if (! class_exists('SimpleXMLElement')) {
             add_filter(
                 'wp_die_handler',

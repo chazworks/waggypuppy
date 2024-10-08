@@ -9,7 +9,8 @@
  *
  * @coversDefaultClass WP_Token_Map
  */
-class Tests_WpTokenMap extends WP_UnitTestCase {
+class Tests_WpTokenMap extends WP_UnitTestCase
+{
     /**
      * Number of unique HTML5 named character references, including
      * variations of a given name that don't require the trailing semicolon.
@@ -50,7 +51,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      * @param string $dataset_name Which dataset to return.
      * @return array The dataset as an associative array.
      */
-    private static function get_test_input_array($dataset_name) {
+    private static function get_test_input_array($dataset_name)
+    {
         static $html5_character_references = null;
 
         switch ($dataset_name) {
@@ -79,7 +81,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_input_arrays() {
+    public static function data_input_arrays()
+    {
         $dataset_names = array(
             'ANIMALS',
             'HTML5',
@@ -99,7 +102,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @param array $dataset Dataset to test.
      */
-    public function test_creates_map_from_array_containing_proper_values($dataset) {
+    public function test_creates_map_from_array_containing_proper_values($dataset)
+    {
         $map = WP_Token_Map::from_array($dataset);
 
         foreach ($dataset as $token => $replacement) {
@@ -136,7 +140,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Token_Map::from_array
      */
-    public function test_rejects_words_which_are_too_long() {
+    public function test_rejects_words_which_are_too_long()
+    {
         $normal_length = str_pad('', 255, '.');
         $too_long_word = "{$normal_length}.";
 
@@ -172,7 +177,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @param array $dataset Dataset to test.
      */
-    public function test_round_trips_through_associative_array($dataset) {
+    public function test_round_trips_through_associative_array($dataset)
+    {
         $map = WP_Token_Map::from_array($dataset);
         $this->assertEqualsCanonicalizing(
             $dataset,
@@ -190,7 +196,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @param array $dataset Dataset to test.
      */
-    public function test_round_trips_through_precomputed_source_table($dataset) {
+    public function test_round_trips_through_precomputed_source_table($dataset)
+    {
         $seed         = WP_Token_Map::from_array($dataset);
         $source_table = $seed->precomputed_php_source_table();
 		$map          = eval( "return {$source_table};" ); // phpcs:ignore.
@@ -224,7 +231,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @ticket 60698
      */
-    public function test_finds_longest_match_first() {
+    public function test_finds_longest_match_first()
+    {
         $map = WP_Token_Map::from_array(
             array(
                 'cat'                  => '1',
@@ -269,7 +277,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      * @param string       $search_document Document containing expected token at start of string.
      * @param string       $expected_token  Which token should be found at start of search document.
      */
-    public function test_finds_short_matches_shorter_than_group_key_length($map, $search_document, $expected_token) {
+    public function test_finds_short_matches_shorter_than_group_key_length($map, $search_document, $expected_token)
+    {
         $skip_bytes = 0;
         $text       = 'antarctica is a continent';
         $this->assertSame(
@@ -284,7 +293,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_short_substring_matches_of_each_other() {
+    public static function data_short_substring_matches_of_each_other()
+    {
         $map = WP_Token_Map::from_array(
             array(
                 'a'       => 'article',
@@ -312,7 +322,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      * @param string $token       Token to find.
      * @param string $replacement Replacement string for token.
      */
-    public function test_reads_token_at_given_offset($token, $replacement) {
+    public function test_reads_token_at_given_offset($token, $replacement)
+    {
         $document = "& another {$token} & then some";
         $map      = self::get_html5_token_map();
 
@@ -347,7 +358,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      * @param string $token       Token to find.
      * @param string $replacement Not used in this test.
      */
-    public function test_detects_all_tokens($token, $replacement) {
+    public function test_detects_all_tokens($token, $replacement)
+    {
         $map = self::get_html5_token_map();
 
         $this->assertTrue(
@@ -367,7 +379,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public function data_html5_test_dataset() {
+    public function data_html5_test_dataset()
+    {
         $html5 = self::get_test_input_array('HTML5');
 
         $this->assertSame(
@@ -387,7 +400,8 @@ class Tests_WpTokenMap extends WP_UnitTestCase {
      *
      * @return WP_Token_Map
      */
-    private static function get_html5_token_map() {
+    private static function get_html5_token_map()
+    {
         static $html5_token_map = null;
 
         if (! isset($html5_token_map)) {

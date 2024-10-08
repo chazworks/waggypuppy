@@ -12,7 +12,8 @@
  *
  * @since 6.5.0
  */
-abstract class WP_Translation_File {
+abstract class WP_Translation_File
+{
     /**
      * List of headers.
      *
@@ -68,7 +69,8 @@ abstract class WP_Translation_File {
      *
      * @param string $file File to load.
      */
-    protected function __construct(string $file) {
+    protected function __construct(string $file)
+    {
         $this->file = $file;
     }
 
@@ -81,7 +83,8 @@ abstract class WP_Translation_File {
      * @param string|null $filetype Optional. File type. Default inferred from file name.
      * @return false|WP_Translation_File
      */
-    public static function create(string $file, ?string $filetype = null) {
+    public static function create(string $file, ?string $filetype = null)
+    {
         if (! is_readable($file)) {
             return false;
         }
@@ -112,7 +115,8 @@ abstract class WP_Translation_File {
      * @param string $filetype Desired target file type.
      * @return string|false Transformed translation file contents on success, false otherwise.
      */
-    public static function transform(string $file, string $filetype) {
+    public static function transform(string $file, string $filetype)
+    {
         $source = self::create($file);
 
         if (false === $source) {
@@ -146,7 +150,8 @@ abstract class WP_Translation_File {
      *
      * @return array<string, string> Headers.
      */
-    public function headers(): array {
+    public function headers(): array
+    {
         if (! $this->parsed) {
             $this->parse_file();
         }
@@ -160,7 +165,8 @@ abstract class WP_Translation_File {
      *
      * @return array<string, string[]> Entries.
      */
-    public function entries(): array {
+    public function entries(): array
+    {
         if (! $this->parsed) {
             $this->parse_file();
         }
@@ -175,7 +181,8 @@ abstract class WP_Translation_File {
      *
      * @return string|null Error message or null if no error.
      */
-    public function error() {
+    public function error()
+    {
         return $this->error;
     }
 
@@ -186,7 +193,8 @@ abstract class WP_Translation_File {
      *
      * @return string File name.
      */
-    public function get_file(): string {
+    public function get_file(): string
+    {
         return $this->file;
     }
 
@@ -198,7 +206,8 @@ abstract class WP_Translation_File {
      * @param string $text String to translate.
      * @return false|string Translation(s) on success, false otherwise.
      */
-    public function translate(string $text) {
+    public function translate(string $text)
+    {
         if (! $this->parsed) {
             $this->parse_file();
         }
@@ -214,7 +223,8 @@ abstract class WP_Translation_File {
      * @param int $number Count.
      * @return int Plural form.
      */
-    public function get_plural_form(int $number): int {
+    public function get_plural_form(int $number): int
+    {
         if (! $this->parsed) {
             $this->parse_file();
         }
@@ -247,7 +257,8 @@ abstract class WP_Translation_File {
      * @param string $header Plural-Forms header string.
      * @return string Plural forms expression.
      */
-    protected function get_plural_expression_from_header(string $header): string {
+    protected function get_plural_expression_from_header(string $header): string
+    {
         if (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s+plural\s*=\s*(.+)$/', $header, $matches)) {
             return trim($matches[2]);
         }
@@ -264,7 +275,8 @@ abstract class WP_Translation_File {
      * @param string $expression Plural form expression.
      * @return callable(int $num): int Plural forms function.
      */
-    protected function make_plural_form_function(string $expression): callable {
+    protected function make_plural_form_function(string $expression): callable
+    {
         try {
             $handler = new Plural_Forms(rtrim($expression, ';'));
             return array($handler, 'get');
@@ -282,7 +294,8 @@ abstract class WP_Translation_File {
      * @param WP_Translation_File $source Source file.
      * @return bool True on success, false otherwise.
      */
-    protected function import(WP_Translation_File $source): bool {
+    protected function import(WP_Translation_File $source): bool
+    {
         if (null !== $source->error()) {
             return false;
         }

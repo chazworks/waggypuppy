@@ -3,7 +3,8 @@
 /**
  * @group admin
  */
-class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
+class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
+{
     protected static $top           = array();
     protected static $children      = array();
     protected static $grandchildren = array();
@@ -14,12 +15,14 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      */
     protected $table;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->table = _get_list_table('WP_Posts_List_Table', array('screen' => 'edit-page'));
     }
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Note that our top/children/grandchildren arrays are 1-indexed.
 
         // Create top-level pages.
@@ -79,7 +82,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      * @covers WP_Posts_List_Table::display_rows
      * @covers WP_Posts_List_Table::set_hierarchical_display
      */
-    public function test_list_hierarchical_pages_first_page() {
+    public function test_list_hierarchical_pages_first_page()
+    {
         $this->_test_list_hierarchical_page(
             array(
                 'paged'          => 1,
@@ -98,7 +102,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      * @covers WP_Posts_List_Table::display_rows
      * @covers WP_Posts_List_Table::set_hierarchical_display
      */
-    public function test_list_hierarchical_pages_second_page() {
+    public function test_list_hierarchical_pages_second_page()
+    {
         $this->_test_list_hierarchical_page(
             array(
                 'paged'          => 2,
@@ -118,7 +123,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      * @covers WP_Posts_List_Table::display_rows
      * @covers WP_Posts_List_Table::set_hierarchical_display
      */
-    public function test_search_hierarchical_pages_first_page() {
+    public function test_search_hierarchical_pages_first_page()
+    {
         $this->_test_list_hierarchical_page(
             array(
                 'paged'          => 1,
@@ -138,7 +144,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      * @covers WP_Posts_List_Table::display_rows
      * @covers WP_Posts_List_Table::set_hierarchical_display
      */
-    public function test_search_hierarchical_pages_second_page() {
+    public function test_search_hierarchical_pages_second_page()
+    {
         $this->_test_list_hierarchical_page(
             array(
                 'paged'          => 2,
@@ -158,7 +165,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      * @covers WP_Posts_List_Table::display_rows
      * @covers WP_Posts_List_Table::set_hierarchical_display
      */
-    public function test_grandchildren_hierarchical_pages_first_page() {
+    public function test_grandchildren_hierarchical_pages_first_page()
+    {
         // Page 6 is the first page with grandchildren.
         $this->_test_list_hierarchical_page(
             array(
@@ -180,7 +188,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      * @covers WP_Posts_List_Table::display_rows
      * @covers WP_Posts_List_Table::set_hierarchical_display
      */
-    public function test_grandchildren_hierarchical_pages_second_page() {
+    public function test_grandchildren_hierarchical_pages_second_page()
+    {
         // Page 7 is the second page with grandchildren.
         $this->_test_list_hierarchical_page(
             array(
@@ -202,7 +211,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      * @param array $args         Query args for the list of pages.
      * @param array $expected_ids Expected IDs of pages returned.
      */
-    protected function _test_list_hierarchical_page(array $args, array $expected_ids) {
+    protected function _test_list_hierarchical_page(array $args, array $expected_ids)
+    {
         $matches = array();
 
         $_REQUEST['paged']   = $args['paged'];
@@ -250,7 +260,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Posts_List_Table::extra_tablenav
      */
-    public function test_filter_button_should_not_be_shown_if_there_are_no_posts() {
+    public function test_filter_button_should_not_be_shown_if_there_are_no_posts()
+    {
         // Set post type to a non-existent one.
         $this->table->screen->post_type = 'foo';
 
@@ -266,7 +277,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Posts_List_Table::extra_tablenav
      */
-    public function test_months_dropdown_should_not_be_shown_if_there_are_no_posts() {
+    public function test_months_dropdown_should_not_be_shown_if_there_are_no_posts()
+    {
         // Set post type to a non-existent one.
         $this->table->screen->post_type = 'foo';
 
@@ -282,7 +294,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Posts_List_Table::extra_tablenav
      */
-    public function test_category_dropdown_should_not_be_shown_if_there_are_no_posts() {
+    public function test_category_dropdown_should_not_be_shown_if_there_are_no_posts()
+    {
         // Set post type to a non-existent one.
         $this->table->screen->post_type = 'foo';
 
@@ -298,7 +311,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Posts_List_Table::extra_tablenav
      */
-    public function test_empty_trash_button_should_not_be_shown_if_there_are_no_posts() {
+    public function test_empty_trash_button_should_not_be_shown_if_there_are_no_posts()
+    {
         // Set post type to a non-existent one.
         $this->table->screen->post_type = 'foo';
 
@@ -314,7 +328,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Posts_List_Table::get_views
      */
-    public function test_get_views_should_return_views_by_default() {
+    public function test_get_views_should_return_views_by_default()
+    {
         global $avail_post_stati;
 
         $avail_post_stati_backup = $avail_post_stati;

@@ -10,7 +10,8 @@
  * @group restapi-global-styles
  * @group restapi
  */
-class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Controller_Testcase {
+class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Controller_Testcase
+{
     /**
      * @var int
      */
@@ -71,7 +72,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetupBeforeClass($factory) {
+    public static function wpSetupBeforeClass($factory)
+    {
         self::$admin_id        = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -199,7 +201,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
     /**
      * Removes users after our tests run.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
         self::delete_user(self::$second_admin_id);
         self::delete_user(self::$author_id);
@@ -208,7 +211,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
     /**
      * Sets up before tests.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme('tt1-blocks');
         $revisions             = wp_get_post_revisions(self::$global_styles_id);
@@ -230,7 +234,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::register_routes
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey(
             '/wp/v2/global-styles/(?P<parent>[\d]+)/revisions',
@@ -249,7 +254,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_missing_parent() {
+    public function test_get_items_missing_parent()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER . '/revisions');
         $response = rest_get_server()->dispatch($request);
@@ -262,7 +268,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @ticket 58524
      */
-    protected function check_get_revision_response($response_revision_item, $revision_expected_item) {
+    protected function check_get_revision_response($response_revision_item, $revision_expected_item)
+    {
         $this->assertSame((int) $revision_expected_item->post_author, $response_revision_item['author'], 'Check that the revision item `author` exists.');
         $this->assertSame(mysql_to_rfc3339($revision_expected_item->post_date), $response_revision_item['date'], 'Check that the revision item `date` exists.');
         $this->assertSame(mysql_to_rfc3339($revision_expected_item->post_date_gmt), $response_revision_item['date_gmt'], 'Check that the revision item `date_gmt` exists.');
@@ -289,7 +296,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
@@ -315,7 +323,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_item
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions/' . $this->revision_1_id);
@@ -331,7 +340,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_revision
      */
-    public function test_get_item_invalid_revision_id_should_error() {
+    public function test_get_item_invalid_revision_id_should_error()
+    {
         wp_set_current_user(self::$admin_id);
 
         $expected_error  = 'rest_post_invalid_id';
@@ -347,7 +357,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_eligible_roles() {
+    public function test_get_items_eligible_roles()
+    {
         wp_set_current_user(self::$second_admin_id);
         $config              = array(
             'version'                     => WP_Theme_JSON::LATEST_SCHEMA,
@@ -379,7 +390,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items with context arg.
      */
-    public function test_get_item_embed_context() {
+    public function test_get_item_embed_context()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
@@ -400,7 +412,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_item_schema
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -424,7 +437,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_item_permissions_check
      */
-    public function test_get_item_permissions_check() {
+    public function test_get_item_permissions_check()
+    {
         wp_set_current_user(self::$author_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions');
         $response = rest_get_server()->dispatch($request);
@@ -441,7 +455,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_pagination_header_of_the_first_page() {
+    public function test_get_items_pagination_header_of_the_first_page()
+    {
         wp_set_current_user(self::$admin_id);
 
         $rest_route  = '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions';
@@ -480,7 +495,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_pagination_header_of_the_last_page() {
+    public function test_get_items_pagination_header_of_the_last_page()
+    {
         wp_set_current_user(self::$admin_id);
 
         $rest_route  = '/wp/v2/global-styles/' . self::$global_styles_id . '/revisions';
@@ -518,7 +534,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_invalid_per_page_should_error() {
+    public function test_get_items_invalid_per_page_should_error()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page        = -1; // Invalid number.
@@ -540,7 +557,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_out_of_bounds_page_should_error() {
+    public function test_get_items_out_of_bounds_page_should_error()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page        = 2;
@@ -569,7 +587,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_invalid_max_pages_should_error() {
+    public function test_get_items_invalid_max_pages_should_error()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page        = 2;
@@ -597,7 +616,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_default_query_should_fetch_all_revisions() {
+    public function test_get_items_default_query_should_fetch_all_revisions()
+    {
         wp_set_current_user(self::$admin_id);
 
         $expected_count = $this->total_revisions;
@@ -616,7 +636,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_offset_should_not_work_without_per_page() {
+    public function test_get_items_offset_should_not_work_without_per_page()
+    {
         wp_set_current_user(self::$admin_id);
 
         $offset         = 1;
@@ -637,7 +658,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_offset_should_work_with_per_page() {
+    public function test_get_items_offset_should_work_with_per_page()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page       = 2;
@@ -664,7 +686,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_offset_should_take_priority_over_page() {
+    public function test_get_items_offset_should_take_priority_over_page()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page       = 2;
@@ -693,7 +716,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_total_revisions_offset_should_return_empty_data() {
+    public function test_get_items_total_revisions_offset_should_return_empty_data()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page        = 2;
@@ -721,7 +745,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_out_of_bound_offset_should_error() {
+    public function test_get_items_out_of_bound_offset_should_error()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page        = 2;
@@ -749,7 +774,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_impossible_high_number_offset_should_error() {
+    public function test_get_items_impossible_high_number_offset_should_error()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page        = 2;
@@ -777,7 +803,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_invalid_offset_should_error() {
+    public function test_get_items_invalid_offset_should_error()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page        = 2;
@@ -806,7 +833,8 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
      *
      * @covers WP_REST_Global_Styles_Controller::get_items
      */
-    public function test_get_items_out_of_bounds_page_should_not_error_if_offset() {
+    public function test_get_items_out_of_bounds_page_should_not_error_if_offset()
+    {
         wp_set_current_user(self::$admin_id);
 
         $per_page       = 2;
@@ -829,35 +857,40 @@ class WP_REST_Global_Styles_Revisions_Controller_Test extends WP_Test_REST_Contr
     /**
      * @doesNotPerformAssertions
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Controller does not implement get_context_param().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 }

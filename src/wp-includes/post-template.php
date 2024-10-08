@@ -13,7 +13,8 @@
  *
  * @since 0.71
  */
-function the_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function the_ID()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+{
     echo get_the_ID();
 }
 
@@ -24,7 +25,8 @@ function the_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionNam
  *
  * @return int|false The ID of the current item in the WordPress Loop. False if $post is not set.
  */
-function get_the_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function get_the_ID()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+{
     $post = get_post();
     return ! empty($post) ? $post->ID : false;
 }
@@ -40,7 +42,8 @@ function get_the_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctio
  * @return void|string Void if `$display` argument is true or the title is empty,
  *                     current post title if `$display` is false.
  */
-function the_title($before = '', $after = '', $display = true) {
+function the_title($before = '', $after = '', $display = true)
+{
     $title = get_the_title();
 
     if (strlen($title) === 0) {
@@ -78,7 +81,8 @@ function the_title($before = '', $after = '', $display = true) {
  * }
  * @return void|string Void if 'echo' argument is true, the title attribute if 'echo' is false.
  */
-function the_title_attribute($args = '') {
+function the_title_attribute($args = '')
+{
     $defaults    = array(
         'before' => '',
         'after'  => '',
@@ -115,7 +119,8 @@ function the_title_attribute($args = '') {
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string
  */
-function get_the_title($post = 0) {
+function get_the_title($post = 0)
+{
     $post = get_post($post);
 
     $post_title = isset($post->post_title) ? $post->post_title : '';
@@ -187,7 +192,8 @@ function get_the_title($post = 0) {
  *
  * @param int|WP_Post $post Optional. Post ID or post object. Default is global $post.
  */
-function the_guid($post = 0) {
+function the_guid($post = 0)
+{
     $post = get_post($post);
 
     $post_guid = isset($post->guid) ? get_the_guid($post) : '';
@@ -218,7 +224,8 @@ function the_guid($post = 0) {
  * @param int|WP_Post $post Optional. Post ID or post object. Default is global $post.
  * @return string
  */
-function get_the_guid($post = 0) {
+function get_the_guid($post = 0)
+{
     $post = get_post($post);
 
     $post_guid = isset($post->guid) ? $post->guid : '';
@@ -243,7 +250,8 @@ function get_the_guid($post = 0) {
  * @param string $more_link_text Optional. Content for when there is more text.
  * @param bool   $strip_teaser   Optional. Strip teaser content before the more text. Default false.
  */
-function the_content($more_link_text = null, $strip_teaser = false) {
+function the_content($more_link_text = null, $strip_teaser = false)
+{
     $content = get_the_content($more_link_text, $strip_teaser);
 
     /**
@@ -276,7 +284,8 @@ function the_content($more_link_text = null, $strip_teaser = false) {
  * @param WP_Post|object|int $post           Optional. WP_Post instance or Post ID/object. Default null.
  * @return string
  */
-function get_the_content($more_link_text = null, $strip_teaser = false, $post = null) {
+function get_the_content($more_link_text = null, $strip_teaser = false, $post = null)
+{
     global $page, $more, $preview, $pages, $multipage;
 
     $_post = get_post($post);
@@ -387,7 +396,8 @@ function get_the_content($more_link_text = null, $strip_teaser = false, $post = 
  *
  * @since 0.71
  */
-function the_excerpt() {
+function the_excerpt()
+{
 
     /**
      * Filters the displayed post excerpt.
@@ -410,7 +420,8 @@ function the_excerpt() {
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string Post excerpt.
  */
-function get_the_excerpt($post = null) {
+function get_the_excerpt($post = null)
+{
     if (is_bool($post)) {
         _deprecated_argument(__FUNCTION__, '2.3.0');
     }
@@ -448,7 +459,8 @@ function get_the_excerpt($post = null) {
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return bool True if the post has a custom excerpt, false otherwise.
  */
-function has_excerpt($post = 0) {
+function has_excerpt($post = 0)
+{
     $post = get_post($post);
     return (! empty($post->post_excerpt));
 }
@@ -462,7 +474,8 @@ function has_excerpt($post = 0) {
  *                                   Default empty.
  * @param int|WP_Post     $post      Optional. Post ID or post object. Defaults to the global `$post`.
  */
-function post_class($css_class = '', $post = null) {
+function post_class($css_class = '', $post = null)
+{
     // Separates classes with a single space, collates classes for post DIV.
     echo 'class="' . esc_attr(implode(' ', get_post_class($css_class, $post))) . '"';
 }
@@ -491,7 +504,8 @@ function post_class($css_class = '', $post = null) {
  * @param int|WP_Post     $post      Optional. Post ID or post object.
  * @return string[] Array of class names.
  */
-function get_post_class($css_class = '', $post = null) {
+function get_post_class($css_class = '', $post = null)
+{
     $post = get_post($post);
 
     $classes = array();
@@ -617,7 +631,8 @@ function get_post_class($css_class = '', $post = null) {
  * @param string|string[] $css_class Optional. Space-separated string or array of class names
  *                                   to add to the class list. Default empty.
  */
-function body_class($css_class = '') {
+function body_class($css_class = '')
+{
     // Separates class names with a single space, collates class names for body element.
     echo 'class="' . esc_attr(implode(' ', get_body_class($css_class))) . '"';
 }
@@ -633,7 +648,8 @@ function body_class($css_class = '') {
  *                                   to add to the class list. Default empty.
  * @return string[] Array of class names.
  */
-function get_body_class($css_class = '') {
+function get_body_class($css_class = '')
+{
     global $wp_query;
 
     $classes = array();
@@ -869,7 +885,8 @@ function get_body_class($css_class = '') {
  * @param int|WP_Post|null $post An optional post. Global $post used if not provided.
  * @return bool false if a password is not required or the correct password cookie is present, true otherwise.
  */
-function post_password_required($post = null) {
+function post_password_required($post = null)
+{
     $post = get_post($post);
 
     if (empty($post->post_password)) {
@@ -945,7 +962,8 @@ function post_password_required($post = null) {
  * }
  * @return string Formatted output in HTML.
  */
-function wp_link_pages($args = '') {
+function wp_link_pages($args = '')
+{
     global $page, $numpages, $multipage, $more;
 
     $defaults = array(
@@ -1053,7 +1071,8 @@ function wp_link_pages($args = '') {
  * @param int $i Page number.
  * @return string Link.
  */
-function _wp_link_page($i) {
+function _wp_link_page($i)
+{
     global $wp_rewrite;
     $post       = get_post();
     $query_args = array();
@@ -1096,7 +1115,8 @@ function _wp_link_page($i) {
  * @return array|string|false Array of values, or single value if only one element exists.
  *                            False if the key does not exist.
  */
-function post_custom($key = '') {
+function post_custom($key = '')
+{
     $custom = get_post_custom();
 
     if (! isset($custom[ $key ])) {
@@ -1115,7 +1135,8 @@ function post_custom($key = '') {
  *
  * @deprecated 6.0.2 Use get_post_meta() to retrieve post meta and render manually.
  */
-function the_meta() {
+function the_meta()
+{
     _deprecated_function(__FUNCTION__, '6.0.2', 'get_post_meta()');
     $keys = get_post_custom_keys();
     if ($keys) {
@@ -1188,7 +1209,8 @@ function the_meta() {
  * }
  * @return string HTML dropdown list of pages.
  */
-function wp_dropdown_pages($args = '') {
+function wp_dropdown_pages($args = '')
+{
     $defaults = array(
         'depth'                 => 0,
         'child_of'              => 0,
@@ -1290,7 +1312,8 @@ function wp_dropdown_pages($args = '') {
  * }
  * @return void|string Void if 'echo' argument is true, HTML list of pages if 'echo' is false.
  */
-function wp_list_pages($args = '') {
+function wp_list_pages($args = '')
+{
     $defaults = array(
         'depth'        => 0,
         'show_date'    => '',
@@ -1413,7 +1436,8 @@ function wp_list_pages($args = '') {
  * }
  * @return void|string Void if 'echo' argument is true, HTML menu if 'echo' is false.
  */
-function wp_page_menu($args = array()) {
+function wp_page_menu($args = array())
+{
     $defaults = array(
         'sort_column'  => 'menu_order, post_title',
         'menu_id'      => '',
@@ -1552,7 +1576,8 @@ function wp_page_menu($args = array()) {
  * @param array $args
  * @return string
  */
-function walk_page_tree($pages, $depth, $current_page, $args) {
+function walk_page_tree($pages, $depth, $current_page, $args)
+{
     if (empty($args['walker'])) {
         $walker = new Walker_Page();
     } else {
@@ -1584,7 +1609,8 @@ function walk_page_tree($pages, $depth, $current_page, $args) {
  * @param mixed ...$args Elements array, maximum hierarchical depth and optional additional arguments.
  * @return string
  */
-function walk_page_dropdown_tree(...$args) {
+function walk_page_dropdown_tree(...$args)
+{
     if (empty($args[2]['walker'])) { // The user's options are the third parameter.
         $walker = new Walker_PageDropdown();
     } else {
@@ -1611,7 +1637,8 @@ function walk_page_dropdown_tree(...$args) {
  * @param bool        $deprecated Deprecated. Not used.
  * @param bool        $permalink Optional. Whether to include permalink. Default false.
  */
-function the_attachment_link($post = 0, $fullsize = false, $deprecated = false, $permalink = false) {
+function the_attachment_link($post = 0, $fullsize = false, $deprecated = false, $permalink = false)
+{
     if (! empty($deprecated)) {
         _deprecated_argument(__FUNCTION__, '2.5.0');
     }
@@ -1639,7 +1666,8 @@ function the_attachment_link($post = 0, $fullsize = false, $deprecated = false, 
  * @param array|string $attr      Optional. Array or string of attributes. Default empty.
  * @return string HTML content.
  */
-function wp_get_attachment_link($post = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false, $attr = '') {
+function wp_get_attachment_link($post = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false, $attr = '')
+{
     $_post = get_post($post);
 
     if (empty($_post) || ('attachment' !== $_post->post_type) || ! wp_get_attachment_url($_post->ID)) {
@@ -1713,7 +1741,8 @@ function wp_get_attachment_link($post = 0, $size = 'thumbnail', $permalink = fal
  * @param string $content
  * @return string
  */
-function prepend_attachment($content) {
+function prepend_attachment($content)
+{
     $post = get_post();
 
     if (empty($post->post_type) || 'attachment' !== $post->post_type) {
@@ -1766,7 +1795,8 @@ function prepend_attachment($content) {
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string HTML content for password form for password protected post.
  */
-function get_the_password_form($post = 0) {
+function get_the_password_form($post = 0)
+{
     $post   = get_post($post);
     $label  = 'pwbox-' . (empty($post->ID) ? rand() : $post->ID);
     $output = '<form action="' . esc_url(site_url('wp-login.php?action=postpass', 'login_post')) . '" class="post-password-form" method="post">
@@ -1809,7 +1839,8 @@ function get_the_password_form($post = 0) {
  * @param string|string[] $template The specific template filename or array of templates to match.
  * @return bool True on success, false on failure.
  */
-function is_page_template($template = '') {
+function is_page_template($template = '')
+{
     if (! is_singular()) {
         return false;
     }
@@ -1845,7 +1876,8 @@ function is_page_template($template = '') {
  * @return string|false Page template filename. Returns an empty string when the default page template
  *                      is in use. Returns false if the post does not exist.
  */
-function get_page_template_slug($post = null) {
+function get_page_template_slug($post = null)
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1870,7 +1902,8 @@ function get_page_template_slug($post = null) {
  * @param bool        $link     Optional. Whether to link to revision's page. Default true.
  * @return string|false i18n formatted datetimestamp or localized 'Current Revision'.
  */
-function wp_post_revision_title($revision, $link = true) {
+function wp_post_revision_title($revision, $link = true)
+{
     $revision = get_post($revision);
 
     if (! $revision) {
@@ -1912,7 +1945,8 @@ function wp_post_revision_title($revision, $link = true) {
  * @param bool        $link     Optional. Whether to link to revision's page. Default true.
  * @return string|false gravatar, user, i18n formatted datetimestamp or localized 'Current Revision'.
  */
-function wp_post_revision_title_expanded($revision, $link = true) {
+function wp_post_revision_title_expanded($revision, $link = true)
+{
     $revision = get_post($revision);
 
     if (! $revision) {
@@ -1979,7 +2013,8 @@ function wp_post_revision_title_expanded($revision, $link = true) {
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @param string      $type 'all' (default), 'revision' or 'autosave'
  */
-function wp_list_post_revisions($post = 0, $type = 'all') {
+function wp_list_post_revisions($post = 0, $type = 'all')
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -2027,7 +2062,8 @@ function wp_list_post_revisions($post = 0, $type = 'all') {
  * @param int|WP_Post|null $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return WP_Post|null Parent post object, or null if there isn't one.
  */
-function get_post_parent($post = null) {
+function get_post_parent($post = null)
+{
     $wp_post = get_post($post);
     return ! empty($wp_post->post_parent) ? get_post($wp_post->post_parent) : null;
 }
@@ -2040,6 +2076,7 @@ function get_post_parent($post = null) {
  * @param int|WP_Post|null $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return bool Whether the post has a parent post.
  */
-function has_post_parent($post = null) {
+function has_post_parent($post = null)
+{
     return (bool) get_post_parent($post);
 }

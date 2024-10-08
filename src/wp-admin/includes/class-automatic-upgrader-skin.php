@@ -18,7 +18,8 @@
  *
  * @see Bulk_Upgrader_Skin
  */
-class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
+class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
+{
     protected $messages = array();
 
     /**
@@ -37,7 +38,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
      * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
      * @return bool True on success, false on failure.
      */
-    public function request_filesystem_credentials($error = false, $context = '', $allow_relaxed_file_ownership = false) {
+    public function request_filesystem_credentials($error = false, $context = '', $allow_relaxed_file_ownership = false)
+    {
         if ($context) {
             $this->options['context'] = $context;
         }
@@ -58,7 +60,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @return string[] Messages during an upgrade.
      */
-    public function get_upgrade_messages() {
+    public function get_upgrade_messages()
+    {
         return $this->messages;
     }
 
@@ -71,7 +74,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
      * @param string|array|WP_Error $feedback Message data.
      * @param mixed                 ...$args  Optional text replacements.
      */
-    public function feedback($feedback, ...$args) {
+    public function feedback($feedback, ...$args)
+    {
         if (is_wp_error($feedback)) {
             $string = $feedback->get_error_message();
         } elseif (is_array($feedback)) {
@@ -117,7 +121,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @since 3.7.0
      */
-    public function header() {
+    public function header()
+    {
         ob_start();
     }
 
@@ -126,7 +131,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @since 3.7.0
      */
-    public function footer() {
+    public function footer()
+    {
         $output = ob_get_clean();
         if (! empty($output)) {
             $this->feedback($output);

@@ -16,7 +16,8 @@
  *
  * @return string Rendered HTML of the referenced block.
  */
-function render_block_core_social_link($attributes, $content, $block) {
+function render_block_core_social_link($attributes, $content, $block)
+{
     $open_in_new_tab = isset($block->context['openInNewTab']) ? $block->context['openInNewTab'] : false;
 
     $text = ! empty($attributes['label']) ? trim($attributes['label']) : '';
@@ -78,7 +79,8 @@ function render_block_core_social_link($attributes, $content, $block) {
  *
  * @since 5.4.0
  */
-function register_block_core_social_link() {
+function register_block_core_social_link()
+{
     register_block_type_from_metadata(
         __DIR__ . '/social-link',
         array(
@@ -98,7 +100,8 @@ add_action('init', 'register_block_core_social_link');
  *
  * @return string SVG Element for service icon.
  */
-function block_core_social_link_get_icon($service) {
+function block_core_social_link_get_icon($service)
+{
     $services = block_core_social_link_services();
     if (isset($services[ $service ]) && isset($services[ $service ]['icon'])) {
         return $services[ $service ]['icon'];
@@ -116,7 +119,8 @@ function block_core_social_link_get_icon($service) {
  *
  * @return string Brand label.
  */
-function block_core_social_link_get_name($service) {
+function block_core_social_link_get_name($service)
+{
     $services = block_core_social_link_services();
     if (isset($services[ $service ]) && isset($services[ $service ]['name'])) {
         return $services[ $service ]['name'];
@@ -135,7 +139,8 @@ function block_core_social_link_get_name($service) {
  *
  * @return array|string
  */
-function block_core_social_link_services($service = '', $field = '') {
+function block_core_social_link_services($service = '', $field = '')
+{
     $services_data = array(
         'fivehundredpx' => array(
             'name' => '500px',
@@ -353,7 +358,8 @@ function block_core_social_link_services($service = '', $field = '') {
  *
  * @return string Inline CSS styles for link's icon and background colors.
  */
-function block_core_social_link_get_color_styles($context) {
+function block_core_social_link_get_color_styles($context)
+{
     $styles = array();
 
     if (array_key_exists('iconColorValue', $context)) {
@@ -376,7 +382,8 @@ function block_core_social_link_get_color_styles($context) {
  *
  * @return string CSS classes for link's icon and background colors.
  */
-function block_core_social_link_get_color_classes($context) {
+function block_core_social_link_get_color_classes($context)
+{
     $classes = array();
 
     if (array_key_exists('iconColor', $context)) {

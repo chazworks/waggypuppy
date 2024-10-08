@@ -5,12 +5,14 @@
  *
  * @covers WP::send_headers
  */
-class Tests_WP_SendHeaders extends WP_UnitTestCase {
+class Tests_WP_SendHeaders extends WP_UnitTestCase
+{
 
     /**
      * @ticket 56068
      */
-    public function test_send_headers_runs_after_posts_have_been_queried() {
+    public function test_send_headers_runs_after_posts_have_been_queried()
+    {
         add_action(
             'send_headers',
             function ($wp) {
@@ -24,7 +26,8 @@ class Tests_WP_SendHeaders extends WP_UnitTestCase {
     /**
      * @ticket 56840
      */
-    public function test_send_headers_sets_x_pingback_for_single_posts_that_allow_pings() {
+    public function test_send_headers_sets_x_pingback_for_single_posts_that_allow_pings()
+    {
         add_action(
             'wp_headers',
             function ($headers) {

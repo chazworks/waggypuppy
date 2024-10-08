@@ -15,7 +15,8 @@
  * @property-read array<string, string> $headers
  * @property-read array<string, string[]> $entries
  */
-class WP_Translations {
+class WP_Translations
+{
     /**
      * Text domain.
      *
@@ -40,7 +41,8 @@ class WP_Translations {
      * @param WP_Translation_Controller $controller I18N controller.
      * @param string                    $textdomain Optional. Text domain. Default 'default'.
      */
-    public function __construct(WP_Translation_Controller $controller, string $textdomain = 'default') {
+    public function __construct(WP_Translation_Controller $controller, string $textdomain = 'default')
+    {
         $this->controller = $controller;
         $this->textdomain = $textdomain;
     }
@@ -53,7 +55,8 @@ class WP_Translations {
      * @param string $name Property name.
      * @return mixed
      */
-    public function __get(string $name) {
+    public function __get(string $name)
+    {
         if ('entries' === $name) {
             $entries = $this->controller->get_entries($this->textdomain);
 
@@ -85,7 +88,8 @@ class WP_Translations {
      * @param string $translations Translation strings from MO file.
      * @return Translation_Entry Entry instance.
      */
-    private function make_entry($original, $translations): Translation_Entry {
+    private function make_entry($original, $translations): Translation_Entry
+    {
         $entry = new Translation_Entry();
 
         // Look for context, separated by \4.
@@ -113,7 +117,8 @@ class WP_Translations {
      * @param string|null $context  Context.
      * @return string|null Translation if it exists, or the unchanged singular string.
      */
-    public function translate_plural($singular, $plural, $count = 1, $context = '') {
+    public function translate_plural($singular, $plural, $count = 1, $context = '')
+    {
         if (null === $singular || null === $plural) {
             return $singular;
         }
@@ -136,7 +141,8 @@ class WP_Translations {
      * @param string|null $context  Context.
      * @return string|null Translation if it exists, or the unchanged singular string
      */
-    public function translate($singular, $context = '') {
+    public function translate($singular, $context = '')
+    {
         if (null === $singular) {
             return null;
         }

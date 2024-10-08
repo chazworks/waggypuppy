@@ -15,7 +15,8 @@
  *
  * @group sitemaps
  */
-class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
+class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
+{
 
     /**
      * List of user IDs.
@@ -71,7 +72,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$users     = $factory->user->create_many(10);
         self::$post_tags = $factory->term->create_many(10);
         self::$cats      = $factory->term->create_many(10, array('taxonomy' => 'category'));
@@ -97,7 +99,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
      *
      * @return array A list of sitemap entries.
      */
-    public function _get_sitemap_entries() {
+    public function _get_sitemap_entries()
+    {
         $entries = array();
 
         $providers = wp_get_sitemap_providers();
@@ -113,7 +116,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Test default sitemap entries.
      */
-    public function test_get_sitemap_entries() {
+    public function test_get_sitemap_entries()
+    {
         $entries = $this->_get_sitemap_entries();
 
         $expected = array(
@@ -140,7 +144,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Test default sitemap entries with permalinks on.
      */
-    public function test_get_sitemap_entries_post_with_permalinks() {
+    public function test_get_sitemap_entries_post_with_permalinks()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $entries = $this->_get_sitemap_entries();
@@ -172,7 +177,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Test sitemap index entries with public and private custom post types.
      */
-    public function test_get_sitemap_entries_custom_post_types() {
+    public function test_get_sitemap_entries_custom_post_types()
+    {
         // Register and create a public post type post.
         register_post_type('public_cpt', array('public' => true));
         self::factory()->post->create(array('post_type' => 'public_cpt'));
@@ -196,7 +202,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
      *
      * @ticket 50607
      */
-    public function test_get_sitemap_entries_not_publicly_queryable_post_types() {
+    public function test_get_sitemap_entries_not_publicly_queryable_post_types()
+    {
         register_post_type(
             'non_queryable_cpt',
             array(
@@ -217,7 +224,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Tests getting a URL list for post type post.
      */
-    public function test_get_url_list_post() {
+    public function test_get_url_list_post()
+    {
         $providers = wp_get_sitemap_providers();
 
         $post_list = $providers['posts']->get_url_list(1, 'post');
@@ -230,7 +238,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Tests getting a URL list for post type page.
      */
-    public function test_get_url_list_page() {
+    public function test_get_url_list_page()
+    {
         // Short circuit the show on front option.
         add_filter('pre_option_show_on_front', '__return_true');
 
@@ -246,7 +255,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Tests getting a URL list for post type page with included home page.
      */
-    public function test_get_url_list_page_with_home() {
+    public function test_get_url_list_page_with_home()
+    {
         $providers = wp_get_sitemap_providers();
 
         $post_list = $providers['posts']->get_url_list(1, 'page');
@@ -270,7 +280,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Tests getting a URL list for post with private post.
      */
-    public function test_get_url_list_private_post() {
+    public function test_get_url_list_private_post()
+    {
         wp_set_current_user(self::$editor_id);
 
         $providers = wp_get_sitemap_providers();
@@ -292,7 +303,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Tests getting a URL list for a custom post type.
      */
-    public function test_get_url_list_cpt() {
+    public function test_get_url_list_cpt()
+    {
         $post_type = 'custom_type';
 
         // Registered post types are private unless explicitly set to public.
@@ -315,7 +327,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Tests getting a URL list for a private custom post type.
      */
-    public function test_get_url_list_cpt_private() {
+    public function test_get_url_list_cpt_private()
+    {
         $post_type = 'private_type';
 
         // Create a private post type for testing against data leaking.
@@ -338,7 +351,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
      *
      * @ticket 50607
      */
-    public function test_get_url_list_cpt_not_publicly_queryable() {
+    public function test_get_url_list_cpt_not_publicly_queryable()
+    {
         $post_type = 'non_queryable_cpt';
 
         register_post_type(
@@ -368,7 +382,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
      * @param array  $ids  Array of object IDs.
      * @return array A formed URL list.
      */
-    public function _get_expected_url_list($type, $ids) {
+    public function _get_expected_url_list($type, $ids)
+    {
         $posts = get_posts(
             array(
                 'include'   => $ids,
@@ -392,7 +407,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Test functionality that adds a new sitemap provider to the registry.
      */
-    public function test_register_sitemap_provider() {
+    public function test_register_sitemap_provider()
+    {
         wp_register_sitemap_provider('test_sitemap', self::$test_provider);
 
         $sitemaps = wp_get_sitemap_providers();
@@ -403,7 +419,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Test robots.txt output.
      */
-    public function test_robots_text() {
+    public function test_robots_text()
+    {
         // Get the text added to the default robots text output.
         $robots_text    = apply_filters('robots_txt', '', true);
         $sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
@@ -414,7 +431,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Test robots.txt output for a private site.
      */
-    public function test_robots_text_private_site() {
+    public function test_robots_text_private_site()
+    {
         $robots_text    = apply_filters('robots_txt', '', false);
         $sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
 
@@ -424,7 +442,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Test robots.txt output with permalinks set.
      */
-    public function test_robots_text_with_permalinks() {
+    public function test_robots_text_with_permalinks()
+    {
         // Set permalinks for testing.
         $this->set_permalink_structure('/%year%/%postname%/');
 
@@ -441,7 +460,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * Test robots.txt output with line feed prefix.
      */
-    public function test_robots_text_prefixed_with_line_feed() {
+    public function test_robots_text_prefixed_with_line_feed()
+    {
         // Get the text added to the default robots text output.
         $robots_text    = apply_filters('robots_txt', '', true);
         $sitemap_string = "\nSitemap: ";
@@ -452,7 +472,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
     /**
      * @ticket 50643
      */
-    public function test_sitemaps_enabled() {
+    public function test_sitemaps_enabled()
+    {
         $before = wp_sitemaps_get_server()->sitemaps_enabled();
         add_filter('wp_sitemaps_enabled', '__return_false');
         $after = wp_sitemaps_get_server()->sitemaps_enabled();
@@ -467,7 +488,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function test_disable_sitemap_should_return_404() {
+    public function test_disable_sitemap_should_return_404()
+    {
         add_filter('wp_sitemaps_enabled', '__return_false');
 
         $this->go_to(home_url('/?sitemap=index'));
@@ -484,7 +506,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function test_empty_url_list_should_return_404() {
+    public function test_empty_url_list_should_return_404()
+    {
         wp_register_sitemap_provider('foo', new WP_Sitemaps_Empty_Test_Provider('foo'));
 
         $this->go_to(home_url('/?sitemap=foo'));

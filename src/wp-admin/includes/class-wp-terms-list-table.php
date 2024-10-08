@@ -14,7 +14,8 @@
  *
  * @see WP_List_Table
  */
-class WP_Terms_List_Table extends WP_List_Table {
+class WP_Terms_List_Table extends WP_List_Table
+{
 
     public $callback_args;
 
@@ -34,7 +35,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         global $post_type, $taxonomy, $action, $tax;
 
         parent::__construct(
@@ -68,13 +70,15 @@ class WP_Terms_List_Table extends WP_List_Table {
     /**
      * @return bool
      */
-    public function ajax_user_can() {
+    public function ajax_user_can()
+    {
         return current_user_can(get_taxonomy($this->screen->taxonomy)->cap->manage_terms);
     }
 
     /**
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         $taxonomy = $this->screen->taxonomy;
 
         $tags_per_page = $this->get_items_per_page("edit_{$taxonomy}_per_page");
@@ -155,14 +159,16 @@ class WP_Terms_List_Table extends WP_List_Table {
 
     /**
      */
-    public function no_items() {
+    public function no_items()
+    {
         echo get_taxonomy($this->screen->taxonomy)->labels->not_found;
     }
 
     /**
      * @return array
      */
-    protected function get_bulk_actions() {
+    protected function get_bulk_actions()
+    {
         $actions = array();
 
         if (current_user_can(get_taxonomy($this->screen->taxonomy)->cap->delete_terms)) {
@@ -175,7 +181,8 @@ class WP_Terms_List_Table extends WP_List_Table {
     /**
      * @return string
      */
-    public function current_action() {
+    public function current_action()
+    {
         if (isset($_REQUEST['action']) && isset($_REQUEST['delete_tags']) && 'delete' === $_REQUEST['action']) {
             return 'bulk-delete';
         }
@@ -186,7 +193,8 @@ class WP_Terms_List_Table extends WP_List_Table {
     /**
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         $columns = array(
             'cb'          => '<input type="checkbox" />',
             'name'        => _x('Name', 'term name'),
@@ -206,7 +214,8 @@ class WP_Terms_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_sortable_columns() {
+    protected function get_sortable_columns()
+    {
         $taxonomy = $this->screen->taxonomy;
 
         if (! isset($_GET['orderby']) && is_taxonomy_hierarchical($taxonomy)) {
@@ -226,7 +235,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 
     /**
      */
-    public function display_rows_or_placeholder() {
+    public function display_rows_or_placeholder()
+    {
         $taxonomy = $this->screen->taxonomy;
 
         $number = $this->callback_args['number'];
@@ -271,7 +281,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param int    $parent_term
      * @param int    $level
      */
-    private function _rows($taxonomy, $terms, &$children, $start, $per_page, &$count, $parent_term = 0, $level = 0) {
+    private function _rows($taxonomy, $terms, &$children, $start, $per_page, &$count, $parent_term = 0, $level = 0)
+    {
 
         $end = $start + $per_page;
 
@@ -335,7 +346,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param WP_Term $tag   Term object.
      * @param int     $level
      */
-    public function single_row($tag, $level = 0) {
+    public function single_row($tag, $level = 0)
+    {
         global $taxonomy;
         $tag = sanitize_term($tag, $taxonomy);
 
@@ -359,7 +371,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param WP_Term $item Term object.
      * @return string
      */
-    public function column_cb($item) {
+    public function column_cb($item)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $tag = $item;
 
@@ -380,7 +393,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param WP_Term $tag Term object.
      * @return string
      */
-    public function column_name($tag) {
+    public function column_name($tag)
+    {
         $taxonomy = $this->screen->taxonomy;
 
         $pad = str_repeat('&#8212; ', max(0, $this->level));
@@ -448,7 +462,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      *
      * @return string Name of the default primary column, in this case, 'name'.
      */
-    protected function get_default_primary_column_name() {
+    protected function get_default_primary_column_name()
+    {
         return 'name';
     }
 
@@ -464,7 +479,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @return string Row actions output for terms, or an empty string
      *                if the current column is not the primary column.
      */
-    protected function handle_row_actions($item, $column_name, $primary) {
+    protected function handle_row_actions($item, $column_name, $primary)
+    {
         if ($primary !== $column_name) {
             return '';
         }
@@ -570,7 +586,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param WP_Term $tag Term object.
      * @return string
      */
-    public function column_description($tag) {
+    public function column_description($tag)
+    {
         if ($tag->description) {
             return $tag->description;
         } else {
@@ -585,7 +602,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param WP_Term $tag Term object.
      * @return string
      */
-    public function column_slug($tag) {
+    public function column_slug($tag)
+    {
         /** This filter is documented in wp-admin/edit-tag-form.php */
         return apply_filters('editable_slug', $tag->slug, $tag);
     }
@@ -594,7 +612,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param WP_Term $tag Term object.
      * @return string
      */
-    public function column_posts($tag) {
+    public function column_posts($tag)
+    {
         $count = number_format_i18n($tag->count);
 
         $tax = get_taxonomy($this->screen->taxonomy);
@@ -628,7 +647,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param WP_Term $tag Term object.
      * @return string
      */
-    public function column_links($tag) {
+    public function column_links($tag)
+    {
         $count = number_format_i18n($tag->count);
 
         if ($count) {
@@ -645,7 +665,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      * @param string  $column_name Name of the column.
      * @return string
      */
-    public function column_default($item, $column_name) {
+    public function column_default($item, $column_name)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $tag = $item;
 
@@ -674,7 +695,8 @@ class WP_Terms_List_Table extends WP_List_Table {
      *
      * @since 3.1.0
      */
-    public function inline_edit() {
+    public function inline_edit()
+    {
         $tax = get_taxonomy($this->screen->taxonomy);
 
         if (! current_user_can($tax->cap->edit_terms)) {

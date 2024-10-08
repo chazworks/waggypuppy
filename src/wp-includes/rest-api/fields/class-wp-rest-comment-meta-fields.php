@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Meta_Fields
  */
-class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields {
+class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields
+{
 
     /**
      * Retrieves the comment type for comment meta.
@@ -23,7 +24,8 @@ class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields {
      *
      * @return string The meta type.
      */
-    protected function get_meta_type() {
+    protected function get_meta_type()
+    {
         return 'comment';
     }
 
@@ -34,7 +36,8 @@ class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields {
      *
      * @return string 'comment' There are no subtypes.
      */
-    protected function get_meta_subtype() {
+    protected function get_meta_subtype()
+    {
         return 'comment';
     }
 
@@ -45,7 +48,8 @@ class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields {
      *
      * @return string The REST field type.
      */
-    public function get_rest_field_type() {
+    public function get_rest_field_type()
+    {
         return 'comment';
     }
 }

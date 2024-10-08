@@ -12,7 +12,8 @@
  * @since 5.2.0
  */
 #[AllowDynamicProperties]
-final class WP_Recovery_Mode_Cookie_Service {
+final class WP_Recovery_Mode_Cookie_Service
+{
 
     /**
      * Checks whether the recovery mode cookie is set.
@@ -21,7 +22,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      *
      * @return bool True if the cookie is set, false otherwise.
      */
-    public function is_cookie_set() {
+    public function is_cookie_set()
+    {
         return ! empty($_COOKIE[ RECOVERY_MODE_COOKIE ]);
     }
 
@@ -32,7 +34,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      *
      * @since 5.2.0
      */
-    public function set_cookie() {
+    public function set_cookie()
+    {
 
         $value = $this->generate_cookie();
 
@@ -59,7 +62,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      *
      * @since 5.2.0
      */
-    public function clear_cookie() {
+    public function clear_cookie()
+    {
         setcookie(RECOVERY_MODE_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN);
         setcookie(RECOVERY_MODE_COOKIE, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN);
     }
@@ -73,7 +77,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      *                       If omitted, it will be retrieved from the super global.
      * @return true|WP_Error True on success, error object on failure.
      */
-    public function validate_cookie($cookie = '') {
+    public function validate_cookie($cookie = '')
+    {
 
         if (! $cookie) {
             if (empty($_COOKIE[ RECOVERY_MODE_COOKIE ])) {
@@ -123,7 +128,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      *                       If omitted, it will be retrieved from the super global.
      * @return string|WP_Error Session ID on success, or error object on failure.
      */
-    public function get_session_id_from_cookie($cookie = '') {
+    public function get_session_id_from_cookie($cookie = '')
+    {
         if (! $cookie) {
             if (empty($_COOKIE[ RECOVERY_MODE_COOKIE ])) {
                 return new WP_Error('no_cookie', __('No cookie present.'));
@@ -150,7 +156,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      * @param string $cookie Cookie content.
      * @return array|WP_Error Cookie parts array, or error object on failure.
      */
-    private function parse_cookie($cookie) {
+    private function parse_cookie($cookie)
+    {
         $cookie = base64_decode($cookie);
         $parts  = explode('|', $cookie);
 
@@ -177,7 +184,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      *
      * @return string Generated cookie content.
      */
-    private function generate_cookie() {
+    private function generate_cookie()
+    {
         $to_sign = sprintf('recovery_mode|%s|%s', time(), wp_generate_password(20, false));
         $signed  = $this->recovery_mode_hash($to_sign);
 
@@ -197,7 +205,8 @@ final class WP_Recovery_Mode_Cookie_Service {
      * @param string $data Data to hash.
      * @return string|false The hashed $data, or false on failure.
      */
-    private function recovery_mode_hash($data) {
+    private function recovery_mode_hash($data)
+    {
         $default_keys = array_unique(
             array(
                 'put your unique phrase here',

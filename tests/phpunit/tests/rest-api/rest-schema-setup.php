@@ -10,10 +10,12 @@
  * @group restapi
  * @group restapi-jsclient
  */
-class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
+class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase
+{
     const YOUTUBE_VIDEO_ID = 'i_cVJgIz_Cs';
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         /** @var WP_REST_Server $wp_rest_server */
@@ -24,7 +26,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         add_filter('pre_http_request', array($this, 'mock_embed_request'), 10, 3);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         /** @var WP_REST_Server $wp_rest_server */
         global $wp_rest_server;
         $wp_rest_server = null;
@@ -32,7 +35,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         parent::tear_down();
     }
 
-    public function mock_embed_request($response, $parsed_args, $url) {
+    public function mock_embed_request($response, $parsed_args, $url)
+    {
         unset($response, $parsed_args);
 
         // Mock request to YouTube Embed.
@@ -70,7 +74,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
     /**
      * @ticket 54596
      */
-    public function test_expected_routes_in_schema() {
+    public function test_expected_routes_in_schema()
+    {
         $routes = rest_get_server()->get_routes();
 
         $this->assertIsArray($routes, '`get_routes` should return an array.');
@@ -200,7 +205,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         $this->assertSameSets($expected_routes, $routes);
     }
 
-    private function is_builtin_route($route) {
+    private function is_builtin_route($route)
+    {
         return (
             '/' === $route ||
             preg_match('#^/oembed/1\.0(/.+)?$#', $route) ||
@@ -209,7 +215,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         );
     }
 
-    public function test_build_wp_api_client_fixtures() {
+    public function test_build_wp_api_client_fixtures()
+    {
         if ('example.org' !== WP_TESTS_DOMAIN) {
             $this->markTestSkipped('This test can only be run on example.org');
         }
@@ -756,7 +763,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase {
         'settings.email'                                   => 'admin@example.org',
     );
 
-    private function normalize_fixture($data, $path) {
+    private function normalize_fixture($data, $path)
+    {
         if (isset(self::$fixture_replacements[ $path ])) {
             return self::$fixture_replacements[ $path ];
         }

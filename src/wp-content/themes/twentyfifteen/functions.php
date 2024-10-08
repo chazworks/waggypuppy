@@ -51,7 +51,8 @@ if (! function_exists('twentyfifteen_setup')) :
      *
      * @since Twenty Fifteen 1.0
      */
-    function twentyfifteen_setup() {
+    function twentyfifteen_setup()
+    {
 
         /*
          * Make theme available for translation.
@@ -344,7 +345,8 @@ add_action('after_setup_theme', 'twentyfifteen_setup');
  *
  * @link https://developer.wordpress.org/reference/functions/register_sidebar/
  */
-function twentyfifteen_widgets_init() {
+function twentyfifteen_widgets_init()
+{
     register_sidebar(
         array(
             'name'          => __('Widget Area', 'twentyfifteen'),
@@ -368,7 +370,8 @@ if (! function_exists('twentyfifteen_fonts_url')) :
      *
      * @return string Fonts URL for the theme.
      */
-    function twentyfifteen_fonts_url() {
+    function twentyfifteen_fonts_url()
+    {
         $fonts_url = '';
         $fonts     = array();
 
@@ -411,7 +414,8 @@ endif;
  *
  * @since Twenty Fifteen 1.1
  */
-function twentyfifteen_javascript_detection() {
+function twentyfifteen_javascript_detection()
+{
     echo "<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>\n";
 }
 add_action('wp_head', 'twentyfifteen_javascript_detection', 0);
@@ -421,7 +425,8 @@ add_action('wp_head', 'twentyfifteen_javascript_detection', 0);
  *
  * @since Twenty Fifteen 1.0
  */
-function twentyfifteen_scripts() {
+function twentyfifteen_scripts()
+{
     // Add custom fonts, used in the main stylesheet.
     $font_version = (0 === strpos((string) twentyfifteen_fonts_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
     wp_enqueue_style('twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), $font_version);
@@ -482,7 +487,8 @@ add_action('wp_enqueue_scripts', 'twentyfifteen_scripts');
  *
  * @since Twenty Fifteen 2.1
  */
-function twentyfifteen_block_editor_styles() {
+function twentyfifteen_block_editor_styles()
+{
     // Block styles.
     wp_enqueue_style('twentyfifteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240609');
     // Add custom fonts.
@@ -502,7 +508,8 @@ add_action('enqueue_block_editor_assets', 'twentyfifteen_block_editor_styles');
  * @param string  $relation_type The relation type the URLs are printed.
  * @return array URLs to print for resource hints.
  */
-function twentyfifteen_resource_hints($urls, $relation_type) {
+function twentyfifteen_resource_hints($urls, $relation_type)
+{
     if (wp_style_is('twentyfifteen-fonts', 'queue') && 'preconnect' === $relation_type) {
         if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '>=')) {
             $urls[] = array(
@@ -525,7 +532,8 @@ function twentyfifteen_resource_hints($urls, $relation_type) {
  *
  * @see wp_add_inline_style()
  */
-function twentyfifteen_post_nav_background() {
+function twentyfifteen_post_nav_background()
+{
     if (! is_single()) {
         return;
     }
@@ -571,7 +579,8 @@ add_action('wp_enqueue_scripts', 'twentyfifteen_post_nav_background');
  * @param stdClass $args        An object of wp_nav_menu() arguments.
  * @return string Menu item with possible description.
  */
-function twentyfifteen_nav_description($item_output, $item, $depth, $args) {
+function twentyfifteen_nav_description($item_output, $item, $depth, $args)
+{
     if ('primary' === $args->theme_location && $item->description) {
         $item_output = str_replace($args->link_after . '</a>', '<div class="menu-item-description">' . $item->description . '</div>' . $args->link_after . '</a>', $item_output);
     }
@@ -588,7 +597,8 @@ add_filter('walker_nav_menu_start_el', 'twentyfifteen_nav_description', 10, 4);
  * @param string $html Search form HTML.
  * @return string Modified search form HTML.
  */
-function twentyfifteen_search_form_modify($html) {
+function twentyfifteen_search_form_modify($html)
+{
     return str_replace('class="search-submit"', 'class="search-submit screen-reader-text"', $html);
 }
 add_filter('get_search_form', 'twentyfifteen_search_form_modify');
@@ -602,7 +612,8 @@ add_filter('get_search_form', 'twentyfifteen_search_form_modify');
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentyfifteen_widget_tag_cloud_args($args) {
+function twentyfifteen_widget_tag_cloud_args($args)
+{
     $args['largest']  = 22;
     $args['smallest'] = 8;
     $args['unit']     = 'pt';
@@ -621,7 +632,8 @@ add_filter('widget_tag_cloud_args', 'twentyfifteen_widget_tag_cloud_args');
  * @param string $template Template file.
  * @return string Replacement template file.
  */
-function twentyfifteen_author_bio_template($template) {
+function twentyfifteen_author_bio_template($template)
+{
     if (is_author()) {
         $author = get_queried_object();
         if ($author instanceof WP_User && 'bio' === $author->user_nicename) {

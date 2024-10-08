@@ -13,7 +13,8 @@
  *
  * @covers ::_prime_post_caches
  */
-class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
+class Tests_Post_PrimePostCaches extends WP_UnitTestCase
+{
 
     /**
      * Post IDs.
@@ -27,7 +28,8 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The unit test factory.
      */
-    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$posts = $factory->post->create_many(3);
 
         $category = $factory->term->create(
@@ -46,7 +48,8 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
     /**
      * @ticket 57163
      */
-    public function test_prime_post_caches() {
+    public function test_prime_post_caches()
+    {
         $post_id = self::$posts[0];
 
         $this->assertSame(array($post_id), _get_non_cached_ids(array($post_id), 'posts'), 'Post is already cached.');
@@ -87,7 +90,8 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
     /**
      * @ticket 57163
      */
-    public function test_prime_post_caches_with_multiple_posts() {
+    public function test_prime_post_caches_with_multiple_posts()
+    {
         $this->assertSame(self::$posts, _get_non_cached_ids(self::$posts, 'posts'), 'Posts are already cached.');
 
         $before_num_queries = get_num_queries();
@@ -109,7 +113,8 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
     /**
      * @ticket 57163
      */
-    public function test_prime_post_caches_only_posts_cache() {
+    public function test_prime_post_caches_only_posts_cache()
+    {
         $this->assertSame(self::$posts, _get_non_cached_ids(self::$posts, 'posts'), 'Posts are already cached.');
 
         $before_num_queries = get_num_queries();
@@ -128,7 +133,8 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
     /**
      * @ticket 57163
      */
-    public function test_prime_post_caches_only_posts_and_term_cache() {
+    public function test_prime_post_caches_only_posts_and_term_cache()
+    {
         $this->assertSame(self::$posts, _get_non_cached_ids(self::$posts, 'posts'), 'Posts are already cached.');
 
         $before_num_queries = get_num_queries();
@@ -157,7 +163,8 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
     /**
      * @ticket 57163
      */
-    public function test_prime_post_caches_only_posts_and_meta_cache() {
+    public function test_prime_post_caches_only_posts_and_meta_cache()
+    {
         $this->assertSame(self::$posts, _get_non_cached_ids(self::$posts, 'posts'), 'Posts are already cached.');
 
         $before_num_queries = get_num_queries();
@@ -187,7 +194,8 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
     /**
      * @ticket 57163
      */
-    public function test_prime_post_caches_accounts_for_posts_without_primed_meta_terms() {
+    public function test_prime_post_caches_accounts_for_posts_without_primed_meta_terms()
+    {
         $post_id = self::$posts[0];
 
         $this->assertSame(array($post_id), _get_non_cached_ids(array($post_id), 'posts'), 'Post is already cached.');
@@ -213,7 +221,8 @@ class Tests_Post_PrimePostCaches extends WP_UnitTestCase {
     /**
      * @ticket 57163
      */
-    public function test_prime_post_caches_does_not_prime_caches_twice() {
+    public function test_prime_post_caches_does_not_prime_caches_twice()
+    {
         $this->assertSame(self::$posts, _get_non_cached_ids(self::$posts, 'posts'), 'Posts are already cached.');
 
         _prime_post_caches(self::$posts);

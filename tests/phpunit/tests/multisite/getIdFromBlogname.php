@@ -8,11 +8,13 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_GetIdFromBlogname extends WP_UnitTestCase {
+    class Tests_Multisite_GetIdFromBlogname extends WP_UnitTestCase
+    {
         protected static $network_ids;
         protected static $site_ids;
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$network_ids = array(
                 'wordpress.org/'     => array(
                     'domain' => 'wordpress.org',
@@ -68,7 +70,8 @@ if (is_multisite()) :
             unset($id);
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             global $wpdb;
 
             foreach (self::$site_ids as $id) {
@@ -86,7 +89,8 @@ if (is_multisite()) :
         /**
          * @ticket 34450
          */
-        public function test_get_id_from_blogname_no_www() {
+        public function test_get_id_from_blogname_no_www()
+        {
             global $current_site;
 
             $original_network = $current_site;
@@ -107,7 +111,8 @@ if (is_multisite()) :
         /**
          * @ticket 34450
          */
-        public function test_get_id_from_blogname_www() {
+        public function test_get_id_from_blogname_www()
+        {
             global $current_site;
 
             $original_network = $current_site;
@@ -125,7 +130,8 @@ if (is_multisite()) :
             $this->assertSame($expected, $result);
         }
 
-        public function test_get_id_from_blogname_invalid_slug() {
+        public function test_get_id_from_blogname_invalid_slug()
+        {
             global $current_site;
 
             $original_network = $current_site;

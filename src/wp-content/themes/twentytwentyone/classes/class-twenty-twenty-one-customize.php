@@ -13,14 +13,16 @@ if (! class_exists('Twenty_Twenty_One_Customize')) {
      *
      * @since Twenty Twenty-One 1.0
      */
-    class Twenty_Twenty_One_Customize {
+    class Twenty_Twenty_One_Customize
+    {
 
         /**
          * Constructor. Instantiate the object.
          *
          * @since Twenty Twenty-One 1.0
          */
-        public function __construct() {
+        public function __construct()
+        {
             add_action('customize_register', array($this, 'register'));
         }
 
@@ -32,7 +34,8 @@ if (! class_exists('Twenty_Twenty_One_Customize')) {
          * @param WP_Customize_Manager $wp_customize Theme Customizer object.
          * @return void
          */
-        public function register($wp_customize) {
+        public function register($wp_customize)
+        {
 
             // Change site-title & description to postMessage.
             $wp_customize->get_setting('blogname')->transport        = 'postMessage'; // @phpstan-ignore-line. Assume that this setting exists.
@@ -151,7 +154,8 @@ if (! class_exists('Twenty_Twenty_One_Customize')) {
          * @param bool $checked Whether or not a box is checked.
          * @return bool
          */
-        public static function sanitize_checkbox($checked = null) {
+        public static function sanitize_checkbox($checked = null)
+        {
             return (bool) isset($checked) && true === $checked;
         }
 
@@ -162,7 +166,8 @@ if (! class_exists('Twenty_Twenty_One_Customize')) {
          *
          * @return void
          */
-        public function partial_blogname() {
+        public function partial_blogname()
+        {
             bloginfo('name');
         }
 
@@ -173,7 +178,8 @@ if (! class_exists('Twenty_Twenty_One_Customize')) {
          *
          * @return void
          */
-        public function partial_blogdescription() {
+        public function partial_blogdescription()
+        {
             bloginfo('description');
         }
     }

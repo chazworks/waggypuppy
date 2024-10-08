@@ -14,7 +14,8 @@
  *
  * @see Walker
  */
-class Walker_Comment extends Walker {
+class Walker_Comment extends Walker
+{
 
     /**
      * What the class handles.
@@ -52,7 +53,8 @@ class Walker_Comment extends Walker {
      * @param int    $depth  Optional. Depth of the current comment. Default 0.
      * @param array  $args   Optional. Uses 'style' argument for type of HTML list. Default empty array.
      */
-    public function start_lvl(&$output, $depth = 0, $args = array()) {
+    public function start_lvl(&$output, $depth = 0, $args = array())
+    {
         $GLOBALS['comment_depth'] = $depth + 1;
 
         switch ($args['style']) {
@@ -81,7 +83,8 @@ class Walker_Comment extends Walker {
      * @param array  $args   Optional. Will only append content if style argument value is 'ol' or 'ul'.
      *                       Default empty array.
      */
-    public function end_lvl(&$output, $depth = 0, $args = array()) {
+    public function end_lvl(&$output, $depth = 0, $args = array())
+    {
         $GLOBALS['comment_depth'] = $depth + 1;
 
         switch ($args['style']) {
@@ -128,7 +131,8 @@ class Walker_Comment extends Walker {
      * @param array      $args              An array of arguments.
      * @param string     $output            Used to append additional content. Passed by reference.
      */
-    public function display_element($element, &$children_elements, $max_depth, $depth, $args, &$output) {
+    public function display_element($element, &$children_elements, $max_depth, $depth, $args, &$output)
+    {
         if (! $element) {
             return;
         }
@@ -170,7 +174,8 @@ class Walker_Comment extends Walker {
      * @param array      $args              Optional. An array of arguments. Default empty array.
      * @param int        $current_object_id Optional. ID of the current comment. Default 0.
      */
-    public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0) {
+    public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $comment = $data_object;
 
@@ -222,7 +227,8 @@ class Walker_Comment extends Walker {
      * @param int        $depth       Optional. Depth of the current comment. Default 0.
      * @param array      $args        Optional. An array of arguments. Default empty array.
      */
-    public function end_el(&$output, $data_object, $depth = 0, $args = array()) {
+    public function end_el(&$output, $data_object, $depth = 0, $args = array())
+    {
         if (! empty($args['end-callback'])) {
             ob_start();
             call_user_func(
@@ -252,7 +258,8 @@ class Walker_Comment extends Walker {
      * @param int        $depth   Depth of the current comment.
      * @param array      $args    An array of arguments.
      */
-    protected function ping($comment, $depth, $args) {
+    protected function ping($comment, $depth, $args)
+    {
         $tag = ('div' === $args['style']) ? 'div' : 'li';
         ?>
         <<?php echo $tag; ?> id="comment-<?php comment_ID(); ?>" <?php comment_class('', $comment); ?>>
@@ -274,7 +281,8 @@ class Walker_Comment extends Walker {
      * @param WP_Comment|null $comment      The comment object. Null if not found.
      * @return string Filtered text of the current comment.
      */
-    public function filter_comment_text($comment_text, $comment) {
+    public function filter_comment_text($comment_text, $comment)
+    {
         $commenter          = wp_get_current_commenter();
         $show_pending_links = ! empty($commenter['comment_author']);
 
@@ -296,7 +304,8 @@ class Walker_Comment extends Walker {
      * @param int        $depth   Depth of the current comment.
      * @param array      $args    An array of arguments.
      */
-    protected function comment($comment, $depth, $args) {
+    protected function comment($comment, $depth, $args)
+    {
         if ('div' === $args['style']) {
             $tag       = 'div';
             $add_below = 'comment';
@@ -406,7 +415,8 @@ class Walker_Comment extends Walker {
      * @param int        $depth   Depth of the current comment.
      * @param array      $args    An array of arguments.
      */
-    protected function html5_comment($comment, $depth, $args) {
+    protected function html5_comment($comment, $depth, $args)
+    {
         $tag = ('div' === $args['style']) ? 'div' : 'li';
 
         $commenter          = wp_get_current_commenter();

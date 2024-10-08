@@ -20,7 +20,8 @@
  * @group html-api
  * @group html-api-html5lib-tests
  */
-class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
+class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
+{
     const TREE_INDENT = '  ';
 
     /**
@@ -52,7 +53,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      * @param string      $html             Given test HTML.
      * @param string      $expected_tree    Tree structure of parsed HTML.
      */
-    public function test_parse(?string $fragment_context, string $html, string $expected_tree) {
+    public function test_parse(?string $fragment_context, string $html, string $expected_tree)
+    {
         try {
             $processed_tree = self::build_tree_representation($fragment_context, $html);
         } catch (WP_HTML_Unsupported_Exception $e) {
@@ -102,7 +104,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_external_html5lib_tests() {
+    public function data_external_html5lib_tests()
+    {
         $test_dir = DIR_TESTDATA . '/html5lib-tests/tree-construction/';
 
         $handle = opendir($test_dir);
@@ -137,7 +140,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      *
      * @return bool True if the test case should be skipped. False otherwise.
      */
-    private static function should_skip_test(?string $test_context_element, string $test_name): bool {
+    private static function should_skip_test(?string $test_context_element, string $test_name): bool
+    {
         if (null !== $test_context_element && 'body' !== $test_context_element) {
             return true;
         }
@@ -156,7 +160,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      * @param string      $html             Given test HTML.
      * @return string|null Tree structure of parsed HTML, if supported, else null.
      */
-    private static function build_tree_representation(?string $fragment_context, string $html) {
+    private static function build_tree_representation(?string $fragment_context, string $html)
+    {
         $processor = $fragment_context
             ? WP_HTML_Processor::create_fragment($html, "<{$fragment_context}>")
             : WP_HTML_Processor::create_full_parser($html);
@@ -350,7 +355,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase {
      * @return array|Generator Test triplets of HTML fragment context element,
      *                         HTML, and the DOM structure it represents.
      */
-    public static function parse_html5_dat_testfile($filename) {
+    public static function parse_html5_dat_testfile($filename)
+    {
         $handle = fopen($filename, 'r', false);
 
         /**

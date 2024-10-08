@@ -12,7 +12,8 @@
  *
  * @return void
  */
-function twentytwentytwo_register_block_patterns() {
+function twentytwentytwo_register_block_patterns()
+{
     $block_pattern_categories = array(
         'featured'              => array('label' => __('Featured', 'twentytwentytwo')),
         'footer'                => array('label' => __('Footers', 'twentytwentytwo')),

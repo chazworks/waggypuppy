@@ -7,7 +7,8 @@
  *
  * @covers ::get_the_modified_date
  */
-class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
+class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase
+{
 
     /**
      * Test get_the_modified_time with post_id parameter.
@@ -16,7 +17,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
      *
      * @since 4.6.0
      */
-    public function test_get_the_modified_date_with_post_id() {
+    public function test_get_the_modified_date_with_post_id()
+    {
         $details  = array(
             'post_date'     => '2016-01-21 15:34:36',
             'post_date_gmt' => '2016-01-21 15:34:36',
@@ -35,7 +37,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
      *
      * @since 4.6.0
      */
-    public function test_get_the_modified_date_default() {
+    public function test_get_the_modified_date_default()
+    {
         $details = array(
             'post_date'     => '2016-01-21 15:34:36',
             'post_date_gmt' => '2016-01-21 15:34:36',
@@ -58,7 +61,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
      *
      * @since 4.6.0
      */
-    public function test_get_the_modified_date_failures_are_filtered() {
+    public function test_get_the_modified_date_failures_are_filtered()
+    {
         // Remove global post object.
         $GLOBALS['post'] = null;
 
@@ -69,7 +73,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
         remove_filter('get_the_modified_date', array($this, '_filter_get_the_modified_date_failure'));
     }
 
-    public function _filter_get_the_modified_date_failure($the_date) {
+    public function _filter_get_the_modified_date_failure($the_date)
+    {
         $expected = false;
         $actual   = $the_date;
         $this->assertSame($expected, $actual);
@@ -83,7 +88,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
     /**
      * @ticket 51184
      */
-    public function test_get_the_modified_date_returns_false_with_null_or_non_existing_post() {
+    public function test_get_the_modified_date_returns_false_with_null_or_non_existing_post()
+    {
         $this->assertFalse(get_the_modified_date());
         $this->assertFalse(get_the_modified_date('F j, Y h:i:s'));
         $this->assertFalse(get_the_modified_date('', 9));
@@ -93,7 +99,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
     /**
      * @ticket 51184
      */
-    public function test_get_the_modified_date_returns_correct_time_with_empty_format() {
+    public function test_get_the_modified_date_returns_correct_time_with_empty_format()
+    {
         $post_id = self::factory()->post->create(array('post_date' => '2020-08-31 23:14:00'));
 
         $this->assertSame('August 31, 2020', get_the_modified_date('', $post_id));
@@ -107,7 +114,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
      *
      * @since 4.6.0
      */
-    public function test_get_the_modified_time_with_post_id() {
+    public function test_get_the_modified_time_with_post_id()
+    {
         $details  = array(
             'post_date'     => '2016-01-21 15:34:36',
             'post_date_gmt' => '2016-01-21 15:34:36',
@@ -126,7 +134,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
      *
      * @since 4.6.0
      */
-    public function test_get_the_modified_time_default() {
+    public function test_get_the_modified_time_default()
+    {
         $details = array(
             'post_date'     => '2016-01-21 15:34:36',
             'post_date_gmt' => '2016-01-21 15:34:36',
@@ -149,7 +158,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
      *
      * @since 4.6.0
      */
-    public function test_get_the_modified_time_failures_are_filtered() {
+    public function test_get_the_modified_time_failures_are_filtered()
+    {
         // Remove global post object.
         $GLOBALS['post'] = null;
 
@@ -160,7 +170,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
         remove_filter('get_the_modified_time', array($this, '_filter_get_the_modified_time_failure'));
     }
 
-    public function _filter_get_the_modified_time_failure($the_time) {
+    public function _filter_get_the_modified_time_failure($the_time)
+    {
         $expected = false;
         $actual   = $the_time;
         $this->assertSame($expected, $actual);
@@ -174,7 +185,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
     /**
      * @ticket 51184
      */
-    public function test_get_the_modified_time_returns_false_with_null_or_non_existing_post() {
+    public function test_get_the_modified_time_returns_false_with_null_or_non_existing_post()
+    {
         $this->assertFalse(get_the_modified_time());
         $this->assertFalse(get_the_modified_time('h:i:s'));
         $this->assertFalse(get_the_modified_time('', 9));
@@ -184,7 +196,8 @@ class Tests_Date_GetTheModifiedDate extends WP_UnitTestCase {
     /**
      * @ticket 51184
      */
-    public function test_get_the_modified_time_returns_correct_time_with_empty_format() {
+    public function test_get_the_modified_time_returns_correct_time_with_empty_format()
+    {
         $post_id = self::factory()->post->create(array('post_date' => '2020-08-31 23:14:00'));
 
         $this->assertSame('11:14 pm', get_the_modified_time('', $post_id));

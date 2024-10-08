@@ -6,19 +6,23 @@
  *
  * @group meta
  */
-class Tests_Meta_Query extends WP_UnitTestCase {
+class Tests_Meta_Query extends WP_UnitTestCase
+{
 
-    public function test_empty_meta_query_param() {
+    public function test_empty_meta_query_param()
+    {
         $query = new WP_Meta_Query();
         $this->assertNull($query->relation);
     }
 
-    public function test_default_relation() {
+    public function test_default_relation()
+    {
         $query = new WP_Meta_Query(array(array('key' => 'abc')));
         $this->assertSame('AND', $query->relation);
     }
 
-    public function test_set_relation() {
+    public function test_set_relation()
+    {
 
         $query = new WP_Meta_Query(
             array(
@@ -42,7 +46,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * Non-arrays should not be added to the queries array.
      */
-    public function test_invalid_query_clauses() {
+    public function test_invalid_query_clauses()
+    {
         $query = new WP_Meta_Query(
             array(
                 'foo', // Empty string.
@@ -60,7 +65,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
      *
      * @ticket 19729
      */
-    public function test_single_inner_join_for_keys_only() {
+    public function test_single_inner_join_for_keys_only()
+    {
 
         global $wpdb;
 
@@ -98,7 +104,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * WP_Query-style query must be at index 0 for order_by=meta_value to work.
      */
-    public function test_parse_query_vars_simple_query_index_0() {
+    public function test_parse_query_vars_simple_query_index_0()
+    {
         $qv = array(
             'meta_query'   => array(
                 array(
@@ -136,7 +143,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * When no meta_value is provided, no 'value' should be set in the parsed queries.
      */
-    public function test_parse_query_vars_with_no_meta_value() {
+    public function test_parse_query_vars_with_no_meta_value()
+    {
         $qv = array(
             'meta_key'     => 'foo',
             'meta_type'    => 'bar',
@@ -152,7 +160,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * WP_Query sets meta_value to '' by default. It should be removed by parse_query_vars().
      */
-    public function test_parse_query_vars_with_default_meta_compare() {
+    public function test_parse_query_vars_with_default_meta_compare()
+    {
         $qv = array(
             'meta_key'     => 'foo',
             'meta_type'    => 'bar',
@@ -170,7 +179,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
      * Test the conversion between "WP_Query" style meta args (meta_value=x&meta_key=y)
      * to a meta query array.
      */
-    public function test_parse_query_vars() {
+    public function test_parse_query_vars()
+    {
 
         $query = new WP_Meta_Query();
 
@@ -224,7 +234,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * @ticket 23033
      */
-    public function test_get_cast_for_type() {
+    public function test_get_cast_for_type()
+    {
         $query = new WP_Meta_Query();
         $this->assertSame('BINARY', $query->get_cast_for_type('BINARY'));
         $this->assertSame('CHAR', $query->get_cast_for_type('CHAR'));
@@ -255,7 +266,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame('CHAR', $query->get_cast_for_type('ANYTHING ELSE'));
     }
 
-    public function test_sanitize_query_single_query() {
+    public function test_sanitize_query_single_query()
+    {
         $expected = array(
             array(
                 'key'   => 'foo',
@@ -277,7 +289,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_sanitize_query_multiple_first_order_queries_relation_default() {
+    public function test_sanitize_query_multiple_first_order_queries_relation_default()
+    {
         $expected = array(
             array(
                 'key'   => 'foo',
@@ -307,7 +320,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_sanitize_query_multiple_first_order_queries_relation_or() {
+    public function test_sanitize_query_multiple_first_order_queries_relation_or()
+    {
         $expected = array(
             array(
                 'key'   => 'foo',
@@ -338,7 +352,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_sanitize_query_multiple_first_order_queries_relation_or_lowercase() {
+    public function test_sanitize_query_multiple_first_order_queries_relation_or_lowercase()
+    {
         $expected = array(
             array(
                 'key'   => 'foo',
@@ -369,7 +384,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_sanitize_query_multiple_first_order_queries_invalid_relation() {
+    public function test_sanitize_query_multiple_first_order_queries_invalid_relation()
+    {
         $expected = array(
             array(
                 'key'   => 'foo',
@@ -400,7 +416,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_sanitize_query_single_query_which_is_a_nested_query() {
+    public function test_sanitize_query_single_query_which_is_a_nested_query()
+    {
         $expected = array(
             array(
                 array(
@@ -435,7 +452,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_sanitize_query_multiple_nested_queries() {
+    public function test_sanitize_query_multiple_nested_queries()
+    {
         $expected = array(
             array(
                 array(
@@ -495,7 +513,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * Invalid $type will fail to get a table from _get_meta_table()
      */
-    public function test_get_sql_invalid_type() {
+    public function test_get_sql_invalid_type()
+    {
         $query = new WP_Meta_Query();
         $this->assertFalse($query->get_sql('foo', 'foo', 'foo'));
     }
@@ -503,7 +522,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * @ticket 22096
      */
-    public function test_empty_value_sql() {
+    public function test_empty_value_sql()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query();
@@ -534,7 +554,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * @ticket 22967
      */
-    public function test_null_value_sql() {
+    public function test_null_value_sql()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -555,7 +576,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
      * "key only queries" are queries that don't need to match a value, so
      * they can be grouped together into a single clause without JOINs
      */
-    public function test_get_sql_key_only_queries() {
+    public function test_get_sql_key_only_queries()
+    {
         global $wpdb;
 
         $query1 = new WP_Meta_Query(
@@ -629,7 +651,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * Key-only and regular queries should have the key trimmed
      */
-    public function test_get_sql_trim_key() {
+    public function test_get_sql_trim_key()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -650,7 +673,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame(1, substr_count($sql['where'], "meta_key = 'bar'"));
     }
 
-    public function test_convert_null_value_to_empty_string() {
+    public function test_convert_null_value_to_empty_string()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -667,7 +691,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame(1, substr_count($sql['where'], "$wpdb->postmeta.meta_value = ''"));
     }
 
-    public function test_get_sql_convert_lowercase_compare_to_uppercase() {
+    public function test_get_sql_convert_lowercase_compare_to_uppercase()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -685,7 +710,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame(1, substr_count($sql['where'], 'REGEXP'));
     }
 
-    public function test_get_sql_empty_meta_compare_with_array_value() {
+    public function test_get_sql_empty_meta_compare_with_array_value()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -702,7 +728,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame(1, substr_count($sql['where'], "$wpdb->postmeta.meta_value IN"));
     }
 
-    public function test_get_sql_empty_meta_compare_with_non_array_value() {
+    public function test_get_sql_empty_meta_compare_with_non_array_value()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -719,7 +746,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame(1, substr_count($sql['where'], "$wpdb->postmeta.meta_value ="));
     }
 
-    public function test_get_sql_invalid_meta_compare() {
+    public function test_get_sql_invalid_meta_compare()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -742,7 +770,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
      *
      * @ticket 43446
      */
-    public function test_meta_type_key_should_be_passed_to_meta_query() {
+    public function test_meta_type_key_should_be_passed_to_meta_query()
+    {
         $posts = self::factory()->post->create_many(3);
 
         add_post_meta($posts[0], 'AAA_FOO_AAA', 'abc');
@@ -775,7 +804,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * This is the clause that ensures that empty arrays are not valid queries.
      */
-    public function test_get_sql_null_value_and_empty_key_should_not_have_table_join() {
+    public function test_get_sql_null_value_and_empty_key_should_not_have_table_join()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -794,7 +824,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame(0, substr_count($sql['join'], 'AS mt'));
     }
 
-    public function test_get_sql_compare_array_comma_separated_values() {
+    public function test_get_sql_compare_array_comma_separated_values()
+    {
         global $wpdb;
 
         // Single value.
@@ -843,7 +874,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame(1, substr_count($sql['where'], "('bar','baz','barry')"));
     }
 
-    public function test_get_sql_compare_array() {
+    public function test_get_sql_compare_array()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -864,7 +896,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * Non-array values are trimmed. @todo Why?
      */
-    public function test_get_sql_trim_string_value() {
+    public function test_get_sql_trim_string_value()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -881,7 +914,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertSame(1, substr_count($sql['where'], "$wpdb->postmeta.meta_value = 'bar'"));
     }
 
-    public function test_not_exists() {
+    public function test_not_exists()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -904,7 +938,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
         $this->assertStringContainsString("{$wpdb->postmeta}.post_id IS NULL", $sql['where']);
     }
 
-    public function test_empty_compare() {
+    public function test_empty_compare()
+    {
         global $wpdb;
 
         $query = new WP_Meta_Query(
@@ -932,7 +967,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * @ticket 32592
      */
-    public function test_has_or_relation_should_return_false() {
+    public function test_has_or_relation_should_return_false()
+    {
         $q = new WP_Meta_Query(
             array(
                 array(
@@ -960,7 +996,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * @ticket 32592
      */
-    public function test_has_or_relation_should_return_true_for_top_level_or() {
+    public function test_has_or_relation_should_return_true_for_top_level_or()
+    {
         $q = new WP_Meta_Query(
             array(
                 array(
@@ -988,7 +1025,8 @@ class Tests_Meta_Query extends WP_UnitTestCase {
     /**
      * @ticket 32592
      */
-    public function test_has_or_relation_should_return_true_for_nested_or() {
+    public function test_has_or_relation_should_return_true_for_nested_or()
+    {
         $q = new WP_Meta_Query(
             array(
                 array(

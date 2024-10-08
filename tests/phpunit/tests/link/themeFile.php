@@ -2,9 +2,11 @@
 /**
  * @group link
  */
-class Tests_Link_ThemeFile extends WP_UnitTestCase {
+class Tests_Link_ThemeFile extends WP_UnitTestCase
+{
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         $themes = array(
             'theme-file-parent',
             'theme-file-child',
@@ -23,7 +25,8 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase {
         }
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         $themes = array(
             'theme-file-parent',
             'theme-file-child',
@@ -49,7 +52,8 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase {
      * @covers ::get_theme_file_uri
      * @covers ::get_parent_theme_file_uri
      */
-    public function test_theme_file_uri_with_parent_theme($file, $expected_theme, $existence) {
+    public function test_theme_file_uri_with_parent_theme($file, $expected_theme, $existence)
+    {
         switch_theme('theme-file-parent');
 
         // Ensure the returned URL always uses the parent theme:
@@ -65,7 +69,8 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase {
      * @covers ::get_theme_file_uri
      * @covers ::get_parent_theme_file_uri
      */
-    public function test_theme_file_uri_with_child_theme($file, $expected_theme, $existence) {
+    public function test_theme_file_uri_with_child_theme($file, $expected_theme, $existence)
+    {
         switch_theme('theme-file-child');
 
         // Ensure the returned URL uses the expected theme:
@@ -83,7 +88,8 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase {
      * @covers ::get_theme_file_path
      * @covers ::get_parent_theme_file_path
      */
-    public function test_theme_file_path_with_parent_theme($file, $expected_theme, $existence) {
+    public function test_theme_file_path_with_parent_theme($file, $expected_theme, $existence)
+    {
         switch_theme('theme-file-parent');
 
         // Ensure the returned path always uses the parent theme:
@@ -99,7 +105,8 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase {
      * @covers ::get_theme_file_path
      * @covers ::get_parent_theme_file_path
      */
-    public function test_theme_file_path_with_child_theme($file, $expected_theme, $existence) {
+    public function test_theme_file_path_with_child_theme($file, $expected_theme, $existence)
+    {
         switch_theme('theme-file-child');
 
         // Ensure the returned path uses the expected theme:
@@ -116,7 +123,8 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase {
      *
      * @dataProvider data_theme_files
      */
-    public function test_theme_file_existence($file, $expected_theme, $existence) {
+    public function test_theme_file_existence($file, $expected_theme, $existence)
+    {
 
         if (in_array('theme-file-child', $existence, true)) {
             $this->assertFileExists(WP_CONTENT_DIR . "/themes/theme-file-child/{$file}");
@@ -139,7 +147,8 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase {
      * @covers ::get_theme_file_uri
      * @covers ::get_parent_theme_file_uri
      */
-    public function test_theme_file_uri_returns_valid_uri($file, $expected_theme, $existence) {
+    public function test_theme_file_uri_returns_valid_uri($file, $expected_theme, $existence)
+    {
         $uri        = get_theme_file_uri($file);
         $parent_uri = get_parent_theme_file_uri($file);
 
@@ -147,7 +156,8 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase {
         $this->assertSame(sanitize_url($parent_uri), $parent_uri);
     }
 
-    public function data_theme_files() {
+    public function data_theme_files()
+    {
         $parent = 'theme-file-parent';
         $child  = 'theme-file-child';
 

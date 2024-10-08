@@ -5,7 +5,8 @@
  * @group slashes
  * @ticket 21767
  */
-class Tests_Meta_Slashes extends WP_UnitTestCase {
+class Tests_Meta_Slashes extends WP_UnitTestCase
+{
 
     /*
      * It is important to test with both even and odd numbered slashes,
@@ -25,14 +26,16 @@ class Tests_Meta_Slashes extends WP_UnitTestCase {
     protected static $comment_id;
     protected static $user_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$editor_id  = $factory->user->create(array('role' => 'editor'));
         self::$post_id    = $factory->post->create();
         self::$comment_id = $factory->comment->create(array('comment_post_ID' => self::$post_id));
         self::$user_id    = $factory->user->create();
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         wp_set_current_user(self::$editor_id);
@@ -41,7 +44,8 @@ class Tests_Meta_Slashes extends WP_UnitTestCase {
     /**
      * Tests the controller function that expects slashed data.
      */
-    public function test_edit_post() {
+    public function test_edit_post()
+    {
         $post_id = self::$post_id;
 
         if (function_exists('wp_add_post_meta')) {
@@ -118,7 +122,8 @@ class Tests_Meta_Slashes extends WP_UnitTestCase {
     /**
      * Tests the legacy model function that expects slashed data.
      */
-    public function test_add_post_meta() {
+    public function test_add_post_meta()
+    {
         $post_id = self::$post_id;
 
         add_post_meta($post_id, 'slash_test_1', addslashes(self::SLASH_1));
@@ -133,7 +138,8 @@ class Tests_Meta_Slashes extends WP_UnitTestCase {
     /**
      * Tests the legacy model function that expects slashed data.
      */
-    public function test_update_post_meta() {
+    public function test_update_post_meta()
+    {
         $post_id = self::$post_id;
 
         update_post_meta($post_id, 'slash_test_1', addslashes(self::SLASH_1));
@@ -148,7 +154,8 @@ class Tests_Meta_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_add_comment_meta() {
+    public function test_add_comment_meta()
+    {
         $comment_id = self::$comment_id;
 
         add_comment_meta($comment_id, 'slash_test_1', self::SLASH_1);
@@ -171,7 +178,8 @@ class Tests_Meta_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_update_comment_meta() {
+    public function test_update_comment_meta()
+    {
         $comment_id = self::$comment_id;
 
         add_comment_meta($comment_id, 'slash_test_1', 'foo');
@@ -198,7 +206,8 @@ class Tests_Meta_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_add_user_meta() {
+    public function test_add_user_meta()
+    {
         $user_id = self::$user_id;
 
         add_user_meta($user_id, 'slash_test_1', self::SLASH_1);
@@ -221,7 +230,8 @@ class Tests_Meta_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_update_user_meta() {
+    public function test_update_user_meta()
+    {
         $user_id = self::$user_id;
 
         add_user_meta($user_id, 'slash_test_1', 'foo');

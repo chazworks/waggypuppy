@@ -6,7 +6,8 @@
  *
  * @covers ::excerpt_remove_blocks
  */
-class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
+class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase
+{
 
     public static $post_id;
 
@@ -51,7 +52,8 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
      *
      * @return string Block output.
      */
-    public function render_fake_block() {
+    public function render_fake_block()
+    {
         return get_the_excerpt(self::$post_id);
     }
 
@@ -60,7 +62,8 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
      *
      * @since 5.2.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         self::$post_id = self::factory()->post->create(
             array(
@@ -81,7 +84,8 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
      *
      * @since 5.2.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $registry = WP_Block_Type_Registry::get_instance();
         $registry->unregister('core/fake');
 
@@ -93,7 +97,8 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
      *
      * @ticket 46133
      */
-    public function test_excerpt_remove_blocks() {
+    public function test_excerpt_remove_blocks()
+    {
         // Simple dynamic block..
         $content = '<!-- wp:core/block /-->';
 
@@ -120,7 +125,8 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase {
      *
      * @covers ::do_blocks
      */
-    public function test_excerpt_infinite_loop() {
+    public function test_excerpt_infinite_loop()
+    {
         $query = new WP_Query(
             array(
                 'post__in' => array(self::$post_id),

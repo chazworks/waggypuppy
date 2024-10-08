@@ -12,7 +12,8 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_add_tag
  */
-class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase
+{
 
     /**
      * @dataProvider data_add_tag
@@ -26,7 +27,8 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase {
      * @param array|string|callable $callback  Optional. Callback to register to 'term_updated_messages'
      *                                         filter. Default empty string (no callback).
      */
-    public function test_add_tag(array $post_data, $expected, $callback = '') {
+    public function test_add_tag(array $post_data, $expected, $callback = '')
+    {
         $this->_setRole('administrator');
 
         $_POST                     = $post_data;
@@ -53,7 +55,8 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase {
      *
      * @return array
      */
-    public function data_add_tag() {
+    public function data_add_tag()
+    {
         return array(
             'add a category'                        => array(
                 'post_data' => array(
@@ -95,7 +98,8 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase {
     /**
      * @ticket 42937
      */
-    public function test_adding_category_without_capability_should_error() {
+    public function test_adding_category_without_capability_should_error()
+    {
         $this->_setRole('subscriber');
 
         $_POST['taxonomy']         = 'category';
@@ -115,7 +119,8 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase {
      *
      * @covers ::wp_insert_term
      */
-    public function test_adding_existing_category_should_error() {
+    public function test_adding_existing_category_should_error()
+    {
         $this->_setRole('administrator');
 
         wp_insert_term('testcat', 'category');
@@ -146,7 +151,8 @@ class Tests_Ajax_wpAjaxAddTag extends WP_Ajax_UnitTestCase {
      *
      * @return SimpleXMLElement Response or error object.
      */
-    private function get_xml_response_taxonomy() {
+    private function get_xml_response_taxonomy()
+    {
         $xml = simplexml_load_string($this->_last_response, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         return $xml->response->taxonomy;

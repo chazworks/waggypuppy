@@ -15,7 +15,8 @@
  * @since 5.5.0
  */
 #[AllowDynamicProperties]
-class WP_Sitemaps_Registry {
+class WP_Sitemaps_Registry
+{
     /**
      * Registered sitemap providers.
      *
@@ -34,7 +35,8 @@ class WP_Sitemaps_Registry {
      * @param WP_Sitemaps_Provider $provider Instance of a WP_Sitemaps_Provider.
      * @return bool Whether the provider was added successfully.
      */
-    public function add_provider($name, WP_Sitemaps_Provider $provider) {
+    public function add_provider($name, WP_Sitemaps_Provider $provider)
+    {
         if (isset($this->providers[ $name ])) {
             return false;
         }
@@ -65,7 +67,8 @@ class WP_Sitemaps_Registry {
      * @param string $name Sitemap provider name.
      * @return WP_Sitemaps_Provider|null Sitemap provider if it exists, null otherwise.
      */
-    public function get_provider($name) {
+    public function get_provider($name)
+    {
         if (! is_string($name) || ! isset($this->providers[ $name ])) {
             return null;
         }
@@ -80,7 +83,8 @@ class WP_Sitemaps_Registry {
      *
      * @return WP_Sitemaps_Provider[] Array of sitemap providers.
      */
-    public function get_providers() {
+    public function get_providers()
+    {
         return $this->providers;
     }
 }

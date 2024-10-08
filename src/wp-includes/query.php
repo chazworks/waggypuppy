@@ -24,7 +24,8 @@
  *                              Default empty string.
  * @return mixed Contents of the query variable.
  */
-function get_query_var($query_var, $default_value = '') {
+function get_query_var($query_var, $default_value = '')
+{
     global $wp_query;
     return $wp_query->get($query_var, $default_value);
 }
@@ -40,7 +41,8 @@ function get_query_var($query_var, $default_value = '') {
  *
  * @return WP_Term|WP_Post_Type|WP_Post|WP_User|null The queried object.
  */
-function get_queried_object() {
+function get_queried_object()
+{
     global $wp_query;
     return $wp_query->get_queried_object();
 }
@@ -56,7 +58,8 @@ function get_queried_object() {
  *
  * @return int ID of the queried object.
  */
-function get_queried_object_id() {
+function get_queried_object_id()
+{
     global $wp_query;
     return $wp_query->get_queried_object_id();
 }
@@ -71,7 +74,8 @@ function get_queried_object_id() {
  * @param string $query_var Query variable key.
  * @param mixed  $value     Query variable value.
  */
-function set_query_var($query_var, $value) {
+function set_query_var($query_var, $value)
+{
     global $wp_query;
     $wp_query->set($query_var, $value);
 }
@@ -94,7 +98,8 @@ function set_query_var($query_var, $value) {
  * @param array|string $query Array or string of WP_Query arguments.
  * @return WP_Post[]|int[] Array of post objects or post IDs.
  */
-function query_posts($query) {
+function query_posts($query)
+{
     $GLOBALS['wp_query'] = new WP_Query();
     return $GLOBALS['wp_query']->query($query);
 }
@@ -111,7 +116,8 @@ function query_posts($query) {
  * @global WP_Query $wp_query     WordPress Query object.
  * @global WP_Query $wp_the_query Copy of the global WP_Query instance created during wp_reset_query().
  */
-function wp_reset_query() {
+function wp_reset_query()
+{
     $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
     wp_reset_postdata();
 }
@@ -124,7 +130,8 @@ function wp_reset_query() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  */
-function wp_reset_postdata() {
+function wp_reset_postdata()
+{
     global $wp_query;
 
     if (isset($wp_query)) {
@@ -158,7 +165,8 @@ function wp_reset_postdata() {
  *
  * @return bool Whether the query is for an existing archive page.
  */
-function is_archive() {
+function is_archive()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -184,7 +192,8 @@ function is_archive() {
  *                                    to check against. Default empty.
  * @return bool Whether the query is for an existing post type archive page.
  */
-function is_post_type_archive($post_types = '') {
+function is_post_type_archive($post_types = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -210,7 +219,8 @@ function is_post_type_archive($post_types = '') {
  *                                              to check against. Default empty.
  * @return bool Whether the query is for an existing attachment page.
  */
-function is_attachment($attachment = '') {
+function is_attachment($attachment = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -239,7 +249,8 @@ function is_attachment($attachment = '') {
  *                                          to check against. Default empty.
  * @return bool Whether the query is for an existing author archive page.
  */
-function is_author($author = '') {
+function is_author($author = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -268,7 +279,8 @@ function is_author($author = '') {
  *                                            to check against. Default empty.
  * @return bool Whether the query is for an existing category archive page.
  */
-function is_category($category = '') {
+function is_category($category = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -297,7 +309,8 @@ function is_category($category = '') {
  *                                       to check against. Default empty.
  * @return bool Whether the query is for an existing tag archive page.
  */
-function is_tag($tag = '') {
+function is_tag($tag = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -334,7 +347,8 @@ function is_tag($tag = '') {
  *              True for custom taxonomy archive pages, false for built-in taxonomies
  *              (category and tag archives).
  */
-function is_tax($taxonomy = '', $term = '') {
+function is_tax($taxonomy = '', $term = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -358,7 +372,8 @@ function is_tax($taxonomy = '', $term = '') {
  *
  * @return bool Whether the query is for an existing date archive.
  */
-function is_date() {
+function is_date()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -384,7 +399,8 @@ function is_date() {
  *
  * @return bool Whether the query is for an existing day archive.
  */
-function is_day() {
+function is_day()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -410,7 +426,8 @@ function is_day() {
  *                                         to check against. Default empty.
  * @return bool Whether the query is for a feed.
  */
-function is_feed($feeds = '') {
+function is_feed($feeds = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -430,7 +447,8 @@ function is_feed($feeds = '') {
  *
  * @return bool Whether the query is for a comments feed.
  */
-function is_comment_feed() {
+function is_comment_feed()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -463,7 +481,8 @@ function is_comment_feed() {
  *
  * @return bool Whether the query is for the front page of the site.
  */
-function is_front_page() {
+function is_front_page()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -496,7 +515,8 @@ function is_front_page() {
  *
  * @return bool Whether the query is for the blog homepage.
  */
-function is_home() {
+function is_home()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -526,7 +546,8 @@ function is_home() {
  *
  * @return bool Whether the query is for the Privacy Policy page.
  */
-function is_privacy_policy() {
+function is_privacy_policy()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -550,7 +571,8 @@ function is_privacy_policy() {
  *
  * @return bool Whether the query is for an existing month archive.
  */
-function is_month() {
+function is_month()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -581,7 +603,8 @@ function is_month() {
  *                                        to check against. Default empty.
  * @return bool Whether the query is for an existing single page.
  */
-function is_page($page = '') {
+function is_page($page = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -605,7 +628,8 @@ function is_page($page = '') {
  *
  * @return bool Whether the query is for a paged result.
  */
-function is_paged() {
+function is_paged()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -629,7 +653,8 @@ function is_paged() {
  *
  * @return bool Whether the query is for a post or page preview.
  */
-function is_preview() {
+function is_preview()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -649,7 +674,8 @@ function is_preview() {
  *
  * @return bool Whether the query is for the robots.txt file.
  */
-function is_robots() {
+function is_robots()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -669,7 +695,8 @@ function is_robots() {
  *
  * @return bool Whether the query is for the favicon.ico file.
  */
-function is_favicon() {
+function is_favicon()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -693,7 +720,8 @@ function is_favicon() {
  *
  * @return bool Whether the query is for a search.
  */
-function is_search() {
+function is_search()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -726,7 +754,8 @@ function is_search() {
  *                                        to check against. Default empty.
  * @return bool Whether the query is for an existing single post.
  */
-function is_single($post = '') {
+function is_single($post = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -759,7 +788,8 @@ function is_single($post = '') {
  * @return bool Whether the query is for an existing single post
  *              or any of the given post types.
  */
-function is_singular($post_types = '') {
+function is_singular($post_types = '')
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -783,7 +813,8 @@ function is_singular($post_types = '') {
  *
  * @return bool Whether the query is for a specific time.
  */
-function is_time() {
+function is_time()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -807,7 +838,8 @@ function is_time() {
  *
  * @return bool Whether the query is for a trackback endpoint call.
  */
-function is_trackback() {
+function is_trackback()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -831,7 +863,8 @@ function is_trackback() {
  *
  * @return bool Whether the query is for an existing year archive.
  */
-function is_year() {
+function is_year()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -855,7 +888,8 @@ function is_year() {
  *
  * @return bool Whether the query is a 404 error.
  */
-function is_404() {
+function is_404()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -875,7 +909,8 @@ function is_404() {
  *
  * @return bool Whether the query is for an embedded post.
  */
-function is_embed() {
+function is_embed()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -899,7 +934,8 @@ function is_embed() {
  *
  * @return bool Whether the query is the main query.
  */
-function is_main_query() {
+function is_main_query()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -938,7 +974,8 @@ function is_main_query() {
  *
  * @return bool True if posts are available, false if end of the loop.
  */
-function have_posts() {
+function have_posts()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -961,7 +998,8 @@ function have_posts() {
  *
  * @return bool True if caller is within loop, false if loop hasn't started or ended.
  */
-function in_the_loop() {
+function in_the_loop()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -978,7 +1016,8 @@ function in_the_loop() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  */
-function rewind_posts() {
+function rewind_posts()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -995,7 +1034,8 @@ function rewind_posts() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  */
-function the_post() {
+function the_post()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -1018,7 +1058,8 @@ function the_post() {
  *
  * @return bool True if comments are available, false if no more comments.
  */
-function have_comments() {
+function have_comments()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -1035,7 +1076,8 @@ function have_comments() {
  *
  * @global WP_Query $wp_query WordPress Query object.
  */
-function the_comment() {
+function the_comment()
+{
     global $wp_query;
 
     if (! isset($wp_query)) {
@@ -1052,7 +1094,8 @@ function the_comment() {
  *
  * @since 2.1.0
  */
-function wp_old_slug_redirect() {
+function wp_old_slug_redirect()
+{
     if (is_404() && '' !== get_query_var('name')) {
         // Guess the current post type based on the query vars.
         if (get_query_var('post_type')) {
@@ -1134,7 +1177,8 @@ function wp_old_slug_redirect() {
  * @param string $post_type The current post type based on the query vars.
  * @return int The Post ID.
  */
-function _find_post_by_old_slug($post_type) {
+function _find_post_by_old_slug($post_type)
+{
     global $wpdb;
 
     $query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s", $post_type, get_query_var('name'));
@@ -1179,7 +1223,8 @@ function _find_post_by_old_slug($post_type) {
  * @param string $post_type The current post type based on the query vars.
  * @return int The Post ID.
  */
-function _find_post_by_old_date($post_type) {
+function _find_post_by_old_date($post_type)
+{
     global $wpdb;
 
     $date_query = '';
@@ -1226,7 +1271,8 @@ function _find_post_by_old_date($post_type) {
  * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
  * @return bool True when finished.
  */
-function setup_postdata($post) {
+function setup_postdata($post)
+{
     global $wp_query;
 
     if (! empty($wp_query) && $wp_query instanceof WP_Query) {
@@ -1246,7 +1292,8 @@ function setup_postdata($post) {
  * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
  * @return array|false Elements of post, or false on failure.
  */
-function generate_postdata($post) {
+function generate_postdata($post)
+{
     global $wp_query;
 
     if (! empty($wp_query) && $wp_query instanceof WP_Query) {

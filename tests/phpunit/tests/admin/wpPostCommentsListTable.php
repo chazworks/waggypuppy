@@ -5,14 +5,16 @@
  *
  * @covers WP_Post_Comments_List_Table
  */
-class Tests_Admin_wpPostCommentsListTable extends WP_UnitTestCase {
+class Tests_Admin_wpPostCommentsListTable extends WP_UnitTestCase
+{
 
     /**
      * @var WP_Post_Comments_List_Table
      */
     protected $table;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->table = _get_list_table('WP_Post_Comments_List_Table', array('screen' => 'edit-post-comments'));
     }
@@ -22,7 +24,8 @@ class Tests_Admin_wpPostCommentsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Post_Comments_List_Table::get_views
      */
-    public function test_get_views_should_return_views_by_default() {
+    public function test_get_views_should_return_views_by_default()
+    {
         $this->table->prepare_items();
 
         $expected = array(

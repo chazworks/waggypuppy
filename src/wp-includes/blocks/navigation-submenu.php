@@ -14,7 +14,8 @@
  * @param  array $context Navigation block context.
  * @return array Font size CSS classes and inline styles.
  */
-function block_core_navigation_submenu_build_css_font_sizes($context) {
+function block_core_navigation_submenu_build_css_font_sizes($context)
+{
     // CSS classes.
     $font_sizes = array(
         'css_classes'   => array(),
@@ -49,7 +50,8 @@ function block_core_navigation_submenu_build_css_font_sizes($context) {
  *
  * @return string
  */
-function block_core_navigation_submenu_render_submenu_icon() {
+function block_core_navigation_submenu_render_submenu_icon()
+{
     return '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg>';
 }
 
@@ -64,7 +66,8 @@ function block_core_navigation_submenu_render_submenu_icon() {
  *
  * @return string Returns the post content with the legacy widget added.
  */
-function render_block_core_navigation_submenu($attributes, $content, $block) {
+function render_block_core_navigation_submenu($attributes, $content, $block)
+{
     $navigation_link_has_id = isset($attributes['id']) && is_numeric($attributes['id']);
     $is_post_type           = isset($attributes['kind']) && 'post-type' === $attributes['kind'];
     $is_post_type           = $is_post_type || isset($attributes['type']) && ('post' === $attributes['type'] || 'page' === $attributes['type']);
@@ -256,7 +259,8 @@ function render_block_core_navigation_submenu($attributes, $content, $block) {
  * @uses render_block_core_navigation_submenu()
  * @throws WP_Error An WP_Error exception parsing the block definition.
  */
-function register_block_core_navigation_submenu() {
+function register_block_core_navigation_submenu()
+{
     register_block_type_from_metadata(
         __DIR__ . '/navigation-submenu',
         array(

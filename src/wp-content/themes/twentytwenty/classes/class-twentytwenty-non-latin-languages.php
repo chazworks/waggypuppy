@@ -15,7 +15,8 @@ if (! class_exists('TwentyTwenty_Non_Latin_Languages')) {
      *
      * @since Twenty Twenty 1.0
      */
-    class TwentyTwenty_Non_Latin_Languages {
+    class TwentyTwenty_Non_Latin_Languages
+    {
 
         /**
          * Get custom CSS.
@@ -27,7 +28,8 @@ if (! class_exists('TwentyTwenty_Non_Latin_Languages')) {
          * @param string $type Whether to return CSS for the "front-end", "block-editor", or "classic-editor".
          * @return string|null Custom CSS, or null if not applicable.
          */
-        public static function get_non_latin_css($type = 'front-end') {
+        public static function get_non_latin_css($type = 'front-end')
+        {
 
             // Fetch site locale.
             $locale = get_bloginfo('language');

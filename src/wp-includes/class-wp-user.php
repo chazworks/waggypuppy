@@ -37,7 +37,8 @@
  * @property string $use_ssl
  */
 #[AllowDynamicProperties]
-class WP_User {
+class WP_User
+{
     /**
      * User data container.
      *
@@ -123,7 +124,8 @@ class WP_User {
      * @param string                      $name    Optional. User's username
      * @param int                         $site_id Optional Site ID, defaults to current site.
      */
-    public function __construct($id = 0, $name = '', $site_id = '') {
+    public function __construct($id = 0, $name = '', $site_id = '')
+    {
         global $wpdb;
 
         if (! isset(self::$back_compat_keys)) {
@@ -173,7 +175,8 @@ class WP_User {
      * @param object $data    User DB row object.
      * @param int    $site_id Optional. The site ID to initialize for.
      */
-    public function init($data, $site_id = '') {
+    public function init($data, $site_id = '')
+    {
         if (! isset($data->ID)) {
             $data->ID = 0;
         }
@@ -195,7 +198,8 @@ class WP_User {
      * @param string|int $value The field value.
      * @return object|false Raw user object.
      */
-    public static function get_data_by($field, $value) {
+    public static function get_data_by($field, $value)
+    {
         global $wpdb;
 
         // 'ID' is an alias of 'id'.
@@ -272,7 +276,8 @@ class WP_User {
      * @param string $key User meta key to check if set.
      * @return bool Whether the given user meta key is set.
      */
-    public function __isset($key) {
+    public function __isset($key)
+    {
         if ('id' === $key) {
             _deprecated_argument(
                 'WP_User->id',
@@ -305,7 +310,8 @@ class WP_User {
      * @param string $key User meta key to retrieve.
      * @return mixed Value of the given user meta key (if set). If `$key` is 'id', the user ID.
      */
-    public function __get($key) {
+    public function __get($key)
+    {
         if ('id' === $key) {
             _deprecated_argument(
                 'WP_User->id',
@@ -346,7 +352,8 @@ class WP_User {
      * @param string $key   User meta key.
      * @param mixed  $value User meta value.
      */
-    public function __set($key, $value) {
+    public function __set($key, $value)
+    {
         if ('id' === $key) {
             _deprecated_argument(
                 'WP_User->id',
@@ -371,7 +378,8 @@ class WP_User {
      *
      * @param string $key User meta key to unset.
      */
-    public function __unset($key) {
+    public function __unset($key)
+    {
         if ('id' === $key) {
             _deprecated_argument(
                 'WP_User->id',
@@ -400,7 +408,8 @@ class WP_User {
      *
      * @return bool True if user exists in the database, false if not.
      */
-    public function exists() {
+    public function exists()
+    {
         return ! empty($this->ID);
     }
 
@@ -414,7 +423,8 @@ class WP_User {
      * @param string $key Property
      * @return mixed
      */
-    public function get($key) {
+    public function get($key)
+    {
         return $this->__get($key);
     }
 
@@ -428,7 +438,8 @@ class WP_User {
      * @param string $key Property.
      * @return bool
      */
-    public function has_prop($key) {
+    public function has_prop($key)
+    {
         return $this->__isset($key);
     }
 
@@ -439,7 +450,8 @@ class WP_User {
      *
      * @return array Array representation.
      */
-    public function to_array() {
+    public function to_array()
+    {
         return get_object_vars($this->data);
     }
 
@@ -452,7 +464,8 @@ class WP_User {
      * @param array  $arguments Arguments to pass when calling.
      * @return mixed|false Return value of the callback, false otherwise.
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if ('_init_caps' === $name) {
             return $this->_init_caps(...$arguments);
         }
@@ -474,7 +487,8 @@ class WP_User {
      *
      * @param string $cap_key Optional capability key
      */
-    protected function _init_caps($cap_key = '') {
+    protected function _init_caps($cap_key = '')
+    {
         global $wpdb;
 
         _deprecated_function(__METHOD__, '4.9.0', 'WP_User::for_site()');
@@ -503,7 +517,8 @@ class WP_User {
      * @return bool[] Array of key/value pairs where keys represent a capability name
      *                and boolean values represent whether the user has that capability.
      */
-    public function get_role_caps() {
+    public function get_role_caps()
+    {
         $switch_site = false;
         if (is_multisite() && get_current_blog_id() !== $this->site_id) {
             $switch_site = true;
@@ -542,7 +557,8 @@ class WP_User {
      *
      * @param string $role Role name.
      */
-    public function add_role($role) {
+    public function add_role($role)
+    {
         if (empty($role)) {
             return;
         }
@@ -574,7 +590,8 @@ class WP_User {
      *
      * @param string $role Role name.
      */
-    public function remove_role($role) {
+    public function remove_role($role)
+    {
         if (! in_array($role, $this->roles, true)) {
             return;
         }
@@ -606,7 +623,8 @@ class WP_User {
      *
      * @param string $role Role name.
      */
-    public function set_role($role) {
+    public function set_role($role)
+    {
         if (1 === count($this->roles) && current($this->roles) === $role) {
             return;
         }
@@ -673,7 +691,8 @@ class WP_User {
      * @param string $item Level capability name.
      * @return int Max Level.
      */
-    public function level_reduction($max, $item) {
+    public function level_reduction($max, $item)
+    {
         if (preg_match('/^level_(10|[0-9])$/i', $item, $matches)) {
             $level = (int) $matches[1];
             return max($max, $level);
@@ -693,7 +712,8 @@ class WP_User {
      *
      * @global wpdb $wpdb WordPress database abstraction object.
      */
-    public function update_user_level_from_caps() {
+    public function update_user_level_from_caps()
+    {
         global $wpdb;
         $this->user_level = array_reduce(array_keys($this->allcaps), array($this, 'level_reduction'), 0);
         update_user_meta($this->ID, $wpdb->get_blog_prefix() . 'user_level', $this->user_level);
@@ -707,7 +727,8 @@ class WP_User {
      * @param string $cap   Capability name.
      * @param bool   $grant Whether to grant capability to user.
      */
-    public function add_cap($cap, $grant = true) {
+    public function add_cap($cap, $grant = true)
+    {
         $this->caps[ $cap ] = $grant;
         update_user_meta($this->ID, $this->cap_key, $this->caps);
         $this->get_role_caps();
@@ -721,7 +742,8 @@ class WP_User {
      *
      * @param string $cap Capability name.
      */
-    public function remove_cap($cap) {
+    public function remove_cap($cap)
+    {
         if (! isset($this->caps[ $cap ])) {
             return;
         }
@@ -738,7 +760,8 @@ class WP_User {
      *
      * @global wpdb $wpdb WordPress database abstraction object.
      */
-    public function remove_all_caps() {
+    public function remove_all_caps()
+    {
         global $wpdb;
         $this->caps = array();
         delete_user_meta($this->ID, $this->cap_key);
@@ -773,7 +796,8 @@ class WP_User {
      * @return bool Whether the user has the given capability, or, if an object ID is passed, whether the user has
      *              the given capability for that object.
      */
-    public function has_cap($cap, ...$args) {
+    public function has_cap($cap, ...$args)
+    {
         if (is_numeric($cap)) {
             _deprecated_argument(__FUNCTION__, '2.0.0', __('Usage of user levels is deprecated. Use capabilities instead.'));
             $cap = $this->translate_level_to_cap($cap);
@@ -838,7 +862,8 @@ class WP_User {
      * @param int $level Level number, 1 to 10.
      * @return string
      */
-    public function translate_level_to_cap($level) {
+    public function translate_level_to_cap($level)
+    {
         return 'level_' . $level;
     }
 
@@ -850,7 +875,8 @@ class WP_User {
      *
      * @param int $blog_id Optional. Site ID, defaults to current site.
      */
-    public function for_blog($blog_id = '') {
+    public function for_blog($blog_id = '')
+    {
         _deprecated_function(__METHOD__, '4.9.0', 'WP_User::for_site()');
 
         $this->for_site($blog_id);
@@ -865,7 +891,8 @@ class WP_User {
      *
      * @param int $site_id Site ID to initialize user capabilities for. Default is the current site.
      */
-    public function for_site($site_id = '') {
+    public function for_site($site_id = '')
+    {
         global $wpdb;
 
         if (! empty($site_id)) {
@@ -888,7 +915,8 @@ class WP_User {
      *
      * @return int Site ID.
      */
-    public function get_site_id() {
+    public function get_site_id()
+    {
         return $this->site_id;
     }
 
@@ -900,7 +928,8 @@ class WP_User {
      * @return bool[] List of capabilities keyed by the capability name,
      *                e.g. `array( 'edit_posts' => true, 'delete_posts' => false )`.
      */
-    private function get_caps_data() {
+    private function get_caps_data()
+    {
         $caps = get_user_meta($this->ID, $this->cap_key, true);
 
         if (! is_array($caps)) {

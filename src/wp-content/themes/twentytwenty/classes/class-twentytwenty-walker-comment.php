@@ -14,7 +14,8 @@ if (! class_exists('TwentyTwenty_Walker_Comment')) {
      *
      * @since Twenty Twenty 1.0
      */
-    class TwentyTwenty_Walker_Comment extends Walker_Comment {
+    class TwentyTwenty_Walker_Comment extends Walker_Comment
+    {
 
         /**
          * Outputs a comment in the HTML5 format.
@@ -32,7 +33,8 @@ if (! class_exists('TwentyTwenty_Walker_Comment')) {
          * @param int        $depth   Depth of the current comment.
          * @param array      $args    An array of arguments.
          */
-        protected function html5_comment($comment, $depth, $args) {
+        protected function html5_comment($comment, $depth, $args)
+        {
 
             $tag = ('div' === $args['style']) ? 'div' : 'li';
 

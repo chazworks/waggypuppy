@@ -13,7 +13,8 @@
  * @since 3.1.0
  */
 #[AllowDynamicProperties]
-class WP_Admin_Bar {
+class WP_Admin_Bar
+{
     private $nodes = array();
     private $bound = false;
     public $user;
@@ -33,7 +34,8 @@ class WP_Admin_Bar {
      *
      * @since 3.1.0
      */
-    public function initialize() {
+    public function initialize()
+    {
         $this->user = new stdClass();
 
         if (is_user_logged_in()) {
@@ -87,7 +89,8 @@ class WP_Admin_Bar {
      *
      * @param array $node The attributes that define the node.
      */
-    public function add_menu($node) {
+    public function add_menu($node)
+    {
         $this->add_node($node);
     }
 
@@ -98,7 +101,8 @@ class WP_Admin_Bar {
      *
      * @param string $id The menu slug to remove.
      */
-    public function remove_menu($id) {
+    public function remove_menu($id)
+    {
         $this->remove_node($id);
     }
 
@@ -121,7 +125,8 @@ class WP_Admin_Bar {
      *                          'onclick', 'target', 'title', 'tabindex', 'menu_title'. Default empty.
      * }
      */
-    public function add_node($args) {
+    public function add_node($args)
+    {
         // Shim for old method signature: add_node( $parent_id, $menu_obj, $args ).
         if (func_num_args() >= 3 && is_string($args)) {
             $args = array_merge(array('parent' => $args), func_get_arg(2));
@@ -183,7 +188,8 @@ class WP_Admin_Bar {
      *
      * @param array $args
      */
-    final protected function _set_node($args) {
+    final protected function _set_node($args)
+    {
         $this->nodes[ $args['id'] ] = (object) $args;
     }
 
@@ -195,7 +201,8 @@ class WP_Admin_Bar {
      * @param string $id
      * @return object|void Node.
      */
-    final public function get_node($id) {
+    final public function get_node($id)
+    {
         $node = $this->_get_node($id);
         if ($node) {
             return clone $node;
@@ -208,7 +215,8 @@ class WP_Admin_Bar {
      * @param string $id
      * @return object|void
      */
-    final protected function _get_node($id) {
+    final protected function _get_node($id)
+    {
         if ($this->bound) {
             return;
         }
@@ -227,7 +235,8 @@ class WP_Admin_Bar {
      *
      * @return array|void
      */
-    final public function get_nodes() {
+    final public function get_nodes()
+    {
         $nodes = $this->_get_nodes();
         if (! $nodes) {
             return;
@@ -244,7 +253,8 @@ class WP_Admin_Bar {
      *
      * @return array|void
      */
-    final protected function _get_nodes() {
+    final protected function _get_nodes()
+    {
         if ($this->bound) {
             return;
         }
@@ -268,7 +278,8 @@ class WP_Admin_Bar {
      *                         'class', 'onclick', 'target', and 'title'.
      * }
      */
-    final public function add_group($args) {
+    final public function add_group($args)
+    {
         $args['group'] = true;
 
         $this->add_node($args);
@@ -281,7 +292,8 @@ class WP_Admin_Bar {
      *
      * @param string $id The ID of the item.
      */
-    public function remove_node($id) {
+    public function remove_node($id)
+    {
         $this->_unset_node($id);
     }
 
@@ -290,14 +302,16 @@ class WP_Admin_Bar {
      *
      * @param string $id
      */
-    final protected function _unset_node($id) {
+    final protected function _unset_node($id)
+    {
         unset($this->nodes[ $id ]);
     }
 
     /**
      * @since 3.1.0
      */
-    public function render() {
+    public function render()
+    {
         $root = $this->_bind();
         if ($root) {
             $this->_render($root);
@@ -309,7 +323,8 @@ class WP_Admin_Bar {
      *
      * @return object|void
      */
-    final protected function _bind() {
+    final protected function _bind()
+    {
         if ($this->bound) {
             return;
         }
@@ -457,7 +472,8 @@ class WP_Admin_Bar {
      *
      * @param object $root
      */
-    final protected function _render($root) {
+    final protected function _render($root)
+    {
         /*
          * Add browser classes.
          * We have to do this here since admin bar shows on the front end.
@@ -489,7 +505,8 @@ class WP_Admin_Bar {
      *
      * @param object $node
      */
-    final protected function _render_container($node) {
+    final protected function _render_container($node)
+    {
         if ('container' !== $node->type || empty($node->children)) {
             return;
         }
@@ -508,7 +525,8 @@ class WP_Admin_Bar {
      * @param object $node
      * @param string|bool $menu_title The accessible name of this ARIA menu or false if not provided.
      */
-    final protected function _render_group($node, $menu_title = false) {
+    final protected function _render_group($node, $menu_title = false)
+    {
         if ('container' === $node->type) {
             $this->_render_container($node);
             return;
@@ -539,7 +557,8 @@ class WP_Admin_Bar {
      *
      * @param object $node
      */
-    final protected function _render_item($node) {
+    final protected function _render_item($node)
+    {
         if ('item' !== $node->type) {
             return;
         }
@@ -635,7 +654,8 @@ class WP_Admin_Bar {
      * @param string $id    Unused.
      * @param object $node
      */
-    public function recursive_render($id, $node) {
+    public function recursive_render($id, $node)
+    {
         _deprecated_function(__METHOD__, '3.3.0', 'WP_Admin_bar::render(), WP_Admin_Bar::_render_item()');
         $this->_render_item($node);
     }
@@ -645,7 +665,8 @@ class WP_Admin_Bar {
      *
      * @since 3.1.0
      */
-    public function add_menus() {
+    public function add_menus()
+    {
         // User-related, aligned right.
         add_action('admin_bar_menu', 'wp_admin_bar_my_account_menu', 0);
         add_action('admin_bar_menu', 'wp_admin_bar_my_account_item', 9991);

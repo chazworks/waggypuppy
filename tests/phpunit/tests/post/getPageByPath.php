@@ -3,11 +3,13 @@
 /**
  * @group post
  */
-class Tests_Post_GetPageByPath extends WP_UnitTestCase {
+class Tests_Post_GetPageByPath extends WP_UnitTestCase
+{
     /**
      * @ticket 15665
      */
-    public function test_get_page_by_path_priority() {
+    public function test_get_page_by_path_priority()
+    {
         global $wpdb;
 
         $attachment = self::factory()->post->create_and_get(
@@ -44,7 +46,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
         $this->assertEquals($other_att, get_page_by_path('some-other-page'));
     }
 
-    public function test_should_match_top_level_page() {
+    public function test_should_match_top_level_page()
+    {
         $page = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -57,7 +60,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
         $this->assertSame($page, $found->ID);
     }
 
-    public function test_should_obey_post_type() {
+    public function test_should_obey_post_type()
+    {
         register_post_type('wptests_pt');
 
         $page = self::factory()->post->create(
@@ -74,7 +78,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
         $this->assertSame($page, $found->ID);
     }
 
-    public function test_should_match_nested_page() {
+    public function test_should_match_nested_page()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -108,7 +113,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
      *
      * @covers ::get_page_by_path
      */
-    public function test_should_match_nested_page_query_count() {
+    public function test_should_match_nested_page_query_count()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -147,7 +153,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
      *
      * @covers ::get_page_by_path
      */
-    public function test_should_match_nested_page_query_count_status() {
+    public function test_should_match_nested_page_query_count_status()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -187,7 +194,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
      *
      * @covers ::get_page_by_path
      */
-    public function test_should_return_null_for_invalid_path() {
+    public function test_should_return_null_for_invalid_path()
+    {
         $queries_before = get_num_queries();
         $get_1          = get_page_by_path('should/return/null/for/an/invalid/path');
         $get_2          = get_page_by_path('should/return/null/for/an/invalid/path');
@@ -198,7 +206,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
         $this->assertSame($get_1, $get_2, 'The cached result should be the same as the uncached result.');
     }
 
-    public function test_should_not_make_partial_match() {
+    public function test_should_not_make_partial_match()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -227,7 +236,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
         $this->assertNull($found);
     }
 
-    public function test_should_not_match_parts_out_of_order() {
+    public function test_should_not_match_parts_out_of_order()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -259,7 +269,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
     /**
      * @ticket 36711
      */
-    public function test_should_hit_cache() {
+    public function test_should_hit_cache()
+    {
         $page = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -281,7 +292,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
     /**
      * @ticket 36711
      */
-    public function test_bad_path_should_be_cached() {
+    public function test_bad_path_should_be_cached()
+    {
         // Prime cache.
         $found = get_page_by_path('foo');
         $this->assertNull($found);
@@ -296,7 +308,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
     /**
      * @ticket 36711
      */
-    public function test_bad_path_served_from_cache_should_not_fall_back_on_current_post() {
+    public function test_bad_path_served_from_cache_should_not_fall_back_on_current_post()
+    {
         global $post;
 
         // Fake the global.
@@ -318,7 +331,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
     /**
      * @ticket 36711
      */
-    public function test_cache_should_not_match_post_in_different_post_type_with_same_path() {
+    public function test_cache_should_not_match_post_in_different_post_type_with_same_path()
+    {
         register_post_type('wptests_pt');
 
         $p1 = self::factory()->post->create(
@@ -350,7 +364,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
     /**
      * @ticket 36711
      */
-    public function test_cache_should_be_invalidated_when_post_name_is_edited() {
+    public function test_cache_should_be_invalidated_when_post_name_is_edited()
+    {
         $page = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -380,7 +395,8 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase {
     /**
      * @ticket 37611
      */
-    public function test_output_param_should_be_obeyed_for_cached_value() {
+    public function test_output_param_should_be_obeyed_for_cached_value()
+    {
         $page = self::factory()->post->create(
             array(
                 'post_type' => 'page',

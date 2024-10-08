@@ -9,14 +9,16 @@
  *
  * @covers ::_wp_array_set
  */
-class Tests_Functions_wpArraySet extends WP_UnitTestCase {
+class Tests_Functions_wpArraySet extends WP_UnitTestCase
+{
 
     /**
      * Tests _wp_array_set() with invalid parameters.
      *
      * @ticket 53175
      */
-    public function test_wp_array_set_invalid_parameters() {
+    public function test_wp_array_set_invalid_parameters()
+    {
         $test = 3;
         _wp_array_set($test, array('a'), 1);
         $this->assertSame(
@@ -58,7 +60,8 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase {
      *
      * @ticket 53175
      */
-    public function test_wp_array_set_simple_non_subtree() {
+    public function test_wp_array_set_simple_non_subtree()
+    {
         $test_array = array();
         _wp_array_set($test_array, array('a'), 1);
         $this->assertSame(
@@ -89,7 +92,8 @@ class Tests_Functions_wpArraySet extends WP_UnitTestCase {
      *
      * @ticket 53175
      */
-    public function test_wp_array_set_subtree() {
+    public function test_wp_array_set_subtree()
+    {
         $test_array = array();
         _wp_array_set($test_array, array('a', 'b', 'c'), 1);
         $this->assertSame(

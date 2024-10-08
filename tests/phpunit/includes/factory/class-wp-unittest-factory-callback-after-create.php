@@ -1,6 +1,7 @@
 <?php
 
-class WP_UnitTest_Factory_Callback_After_Create {
+class WP_UnitTest_Factory_Callback_After_Create
+{
 
     /**
      * @var callable
@@ -14,7 +15,8 @@ class WP_UnitTest_Factory_Callback_After_Create {
      *
      * @param callable $callback A callback function.
      */
-    public function __construct($callback) {
+    public function __construct($callback)
+    {
         $this->callback = $callback;
     }
 
@@ -27,7 +29,8 @@ class WP_UnitTest_Factory_Callback_After_Create {
      *
      * @return mixed Updated object field.
      */
-    public function call($object_id) {
+    public function call($object_id)
+    {
         return call_user_func($this->callback, $object_id);
     }
 }

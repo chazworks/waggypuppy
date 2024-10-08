@@ -15,7 +15,8 @@
  * @param array $block Block object.
  * @return string The unique class name.
  */
-function wp_get_elements_class_name($block) {
+function wp_get_elements_class_name($block)
+{
     return 'wp-elements-' . md5(serialize($block));
 }
 
@@ -29,7 +30,8 @@ function wp_get_elements_class_name($block) {
  * @param  array $options Per element type options e.g. whether to skip serialization.
  * @return boolean Whether the block needs an elements class name.
  */
-function wp_should_add_elements_class_name($block, $options) {
+function wp_should_add_elements_class_name($block, $options)
+{
     if (! isset($block['attrs']['style']['elements'])) {
         return false;
     }
@@ -110,7 +112,8 @@ function wp_should_add_elements_class_name($block, $options) {
  * @param array $parsed_block The parsed block.
  * @return array The same parsed block with elements classname added if appropriate.
  */
-function wp_render_elements_support_styles($parsed_block) {
+function wp_render_elements_support_styles($parsed_block)
+{
     /*
      * The generation of element styles and classname were moved to the
      * `render_block_data` filter in 6.6.0 to avoid filtered attributes
@@ -243,7 +246,8 @@ function wp_render_elements_support_styles($parsed_block) {
  * @param  array  $block         Block object.
  * @return string                Filtered block content.
  */
-function wp_render_elements_class_name($block_content, $block) {
+function wp_render_elements_class_name($block_content, $block)
+{
     $class_string = $block['attrs']['className'] ?? '';
     preg_match('/\bwp-elements-\S+\b/', $class_string, $matches);
 

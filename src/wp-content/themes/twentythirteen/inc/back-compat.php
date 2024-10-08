@@ -18,7 +18,8 @@
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_switch_theme() {
+function twentythirteen_switch_theme()
+{
     switch_theme(WP_DEFAULT_THEME, WP_DEFAULT_THEME);
     unset($_GET['activated']);
     add_action('admin_notices', 'twentythirteen_upgrade_notice');
@@ -33,7 +34,8 @@ add_action('after_switch_theme', 'twentythirteen_switch_theme');
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_upgrade_notice() {
+function twentythirteen_upgrade_notice()
+{
     printf(
         '<div class="error"><p>%s</p></div>',
         sprintf(
@@ -49,7 +51,8 @@ function twentythirteen_upgrade_notice() {
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_customize() {
+function twentythirteen_customize()
+{
     wp_die(
         sprintf(
             /* translators: %s: WordPress version. */
@@ -69,7 +72,8 @@ add_action('load-customize.php', 'twentythirteen_customize');
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_preview() {
+function twentythirteen_preview()
+{
     if (isset($_GET['preview'])) {
         wp_die(
             sprintf(

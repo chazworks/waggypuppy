@@ -4,15 +4,18 @@
  * @group oembed
  * @covers ::get_oembed_response_data
  */
-class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_oEmbed_Response_Data extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
 
         // `get_post_embed_html()` assumes `wp-includes/js/wp-embed.js` is present:
         self::touch(ABSPATH . WPINC . '/js/wp-embed.js');
     }
 
-    private function normalize_secret_attribute($data) {
+    private function normalize_secret_attribute($data)
+    {
         if (is_array($data)) {
             $html = $data['html'];
         } else {
@@ -30,11 +33,13 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         return $data;
     }
 
-    public function test_get_oembed_response_data_non_existent_post() {
+    public function test_get_oembed_response_data_non_existent_post()
+    {
         $this->assertFalse(get_oembed_response_data(0, 100));
     }
 
-    public function test_get_oembed_response_data() {
+    public function test_get_oembed_response_data()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_title' => 'Some Post',
@@ -63,7 +68,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
     /**
      * Test get_oembed_response_data with an author.
      */
-    public function test_get_oembed_response_data_author() {
+    public function test_get_oembed_response_data_author()
+    {
         $user_id = self::factory()->user->create(
             array(
                 'display_name' => 'John Doe',
@@ -96,7 +102,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         );
     }
 
-    public function test_get_oembed_response_link() {
+    public function test_get_oembed_response_link()
+    {
         remove_filter('oembed_response_data', 'get_oembed_response_data_rich');
 
         $post = self::factory()->post->create_and_get(
@@ -123,7 +130,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         add_filter('oembed_response_data', 'get_oembed_response_data_rich', 10, 4);
     }
 
-    public function test_get_oembed_response_data_with_draft_post() {
+    public function test_get_oembed_response_data_with_draft_post()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_status' => 'draft',
@@ -133,7 +141,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         $this->assertFalse(get_oembed_response_data($post, 100));
     }
 
-    public function test_get_oembed_response_data_with_scheduled_post() {
+    public function test_get_oembed_response_data_with_scheduled_post()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_status' => 'future',
@@ -144,7 +153,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         $this->assertFalse(get_oembed_response_data($post, 100));
     }
 
-    public function test_get_oembed_response_data_with_private_post() {
+    public function test_get_oembed_response_data_with_private_post()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_status' => 'private',
@@ -157,7 +167,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
     /**
      * @ticket 47574
      */
-    public function test_get_oembed_response_data_with_public_true_custom_post_status() {
+    public function test_get_oembed_response_data_with_public_true_custom_post_status()
+    {
         // Custom status with 'public' => true.
         register_post_status('public', array('public' => true));
 
@@ -173,7 +184,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
     /**
      * @ticket 47574
      */
-    public function test_get_oembed_response_data_with_public_false_custom_post_status() {
+    public function test_get_oembed_response_data_with_public_false_custom_post_status()
+    {
         // Custom status with 'public' => false.
         register_post_status('private_foo', array('public' => false));
 
@@ -189,7 +201,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
     /**
      * @ticket 47574
      */
-    public function test_get_oembed_response_data_with_unregistered_custom_post_status() {
+    public function test_get_oembed_response_data_with_unregistered_custom_post_status()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_status' => 'unknown_foo',
@@ -199,7 +212,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         $this->assertFalse(get_oembed_response_data($post, 100));
     }
 
-    public function test_get_oembed_response_data_maxwidth_too_high() {
+    public function test_get_oembed_response_data_maxwidth_too_high()
+    {
         $post = self::factory()->post->create_and_get();
 
         $data = get_oembed_response_data($post, 1000);
@@ -208,7 +222,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         $this->assertSame(338, $data['height']);
     }
 
-    public function test_get_oembed_response_data_maxwidth_too_low() {
+    public function test_get_oembed_response_data_maxwidth_too_low()
+    {
         $post = self::factory()->post->create_and_get();
 
         $data = get_oembed_response_data($post, 100);
@@ -217,7 +232,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         $this->assertSame(200, $data['height']);
     }
 
-    public function test_get_oembed_response_data_maxwidth_invalid() {
+    public function test_get_oembed_response_data_maxwidth_invalid()
+    {
         $post = self::factory()->post->create_and_get();
 
         $data = get_oembed_response_data($post, '400;" DROP TABLES');
@@ -231,7 +247,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         $this->assertSame(200, $data['height']);
     }
 
-    public function test_get_oembed_response_data_with_thumbnail() {
+    public function test_get_oembed_response_data_with_thumbnail()
+    {
         $post          = self::factory()->post->create_and_get();
         $file          = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_id = self::factory()->attachment->create_object(
@@ -251,7 +268,8 @@ class Tests_oEmbed_Response_Data extends WP_UnitTestCase {
         $this->assertLessThanOrEqual(400, $data['thumbnail_width']);
     }
 
-    public function test_get_oembed_response_data_for_attachment() {
+    public function test_get_oembed_response_data_for_attachment()
+    {
         $parent = self::factory()->post->create();
         $file   = DIR_TESTDATA . '/images/canola.jpg';
         $post   = self::factory()->attachment->create_object(

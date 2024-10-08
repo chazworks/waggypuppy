@@ -4,12 +4,14 @@
  * @group http
  * @covers ::wp_get_http_headers
  */
-class Tests_HTTP_wpGetHttpHeaders extends WP_UnitTestCase {
+class Tests_HTTP_wpGetHttpHeaders extends WP_UnitTestCase
+{
 
     /**
      * Set up the environment
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         // Hook a mocked HTTP request response.
@@ -19,7 +21,8 @@ class Tests_HTTP_wpGetHttpHeaders extends WP_UnitTestCase {
     /**
      * Test with a valid URL
      */
-    public function test_wp_get_http_headers_valid_url() {
+    public function test_wp_get_http_headers_valid_url()
+    {
         $result = wp_get_http_headers('http://example.com');
         $this->assertTrue($result);
     }
@@ -27,7 +30,8 @@ class Tests_HTTP_wpGetHttpHeaders extends WP_UnitTestCase {
     /**
      * Test with an invalid URL
      */
-    public function test_wp_get_http_headers_invalid_url() {
+    public function test_wp_get_http_headers_invalid_url()
+    {
         $result = wp_get_http_headers('not_an_url');
         $this->assertFalse($result);
     }
@@ -35,7 +39,8 @@ class Tests_HTTP_wpGetHttpHeaders extends WP_UnitTestCase {
     /**
      * Test to see if the deprecated argument is working
      */
-    public function test_wp_get_http_headers_deprecated_argument() {
+    public function test_wp_get_http_headers_deprecated_argument()
+    {
         $this->setExpectedDeprecated('wp_get_http_headers');
 
         wp_get_http_headers('does_not_matter', $deprecated = true);
@@ -49,7 +54,8 @@ class Tests_HTTP_wpGetHttpHeaders extends WP_UnitTestCase {
      * @param string               $url         The request URL.
      * @return false|array|WP_Error Response data.
      */
-    public function mock_http_request($response, $parsed_args, $url) {
+    public function mock_http_request($response, $parsed_args, $url)
+    {
         if ('http://example.com' === $url) {
             return array('headers' => true);
         }

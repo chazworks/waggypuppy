@@ -6,14 +6,16 @@
  *
  * @covers ::wp_prime_option_caches
  */
-class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
+class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase
+{
 
     /**
      * Tests that wp_prime_option_caches() primes multiple options.
      *
      * @ticket 58962
      */
-    public function test_wp_prime_option_caches() {
+    public function test_wp_prime_option_caches()
+    {
         // Create some options to prime.
         $options_to_prime = array(
             'option1',
@@ -70,7 +72,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      *
      * @ticket 58962
      */
-    public function test_wp_prime_option_caches_handles_a_mix_of_primed_and_unprimed_options() {
+    public function test_wp_prime_option_caches_handles_a_mix_of_primed_and_unprimed_options()
+    {
         global $wpdb;
         // Create some options to prime.
         $options_to_prime = array(
@@ -130,7 +133,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      * @ticket 58962
      * @ticket 59738
      */
-    public function test_wp_prime_option_caches_with_nonexistent_options() {
+    public function test_wp_prime_option_caches_with_nonexistent_options()
+    {
         // Create some options to prime.
         $options_to_prime = array(
             'option1',
@@ -186,7 +190,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      * @ticket 58962
      * @ticket 59738
      */
-    public function test_wp_prime_option_caches_with_empty_array() {
+    public function test_wp_prime_option_caches_with_empty_array()
+    {
         $alloptions = wp_load_alloptions();
         $notoptions = wp_cache_get('notoptions', 'options');
 
@@ -210,7 +215,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      * @ticket 58962
      * @ticket 59738
      */
-    public function test_wp_prime_option_caches_handles_empty_notoptions_cache() {
+    public function test_wp_prime_option_caches_handles_empty_notoptions_cache()
+    {
         wp_cache_delete('notoptions', 'options');
 
         wp_prime_option_caches(array('nonexistent_option'));
@@ -246,7 +252,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      *
      * @param mixed $option_value An option value.
      */
-    public function test_get_option_should_return_identical_value_when_pre_primed_by_wp_prime_option_caches($option_value) {
+    public function test_get_option_should_return_identical_value_when_pre_primed_by_wp_prime_option_caches($option_value)
+    {
         // As this includes a test setting the value to `(bool) false`, update_option() can not be used so add_option() is used instead.
         add_option('type_of_option', $option_value, '', false);
         wp_cache_delete('type_of_option', 'options');
@@ -283,7 +290,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      *
      * @param mixed $option_value An option value.
      */
-    public function test_wp_prime_option_caches_cache_should_be_identical_to_get_option_cache($option_value) {
+    public function test_wp_prime_option_caches_cache_should_be_identical_to_get_option_cache($option_value)
+    {
         // As this includes a test setting the value to `(bool) false`, update_option() can not be used so add_option() is used instead.
         add_option('type_of_option', $option_value, '', false);
         wp_cache_delete('type_of_option', 'options');
@@ -315,7 +323,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      *
      * @param mixed $option_value An option value.
      */
-    public function test_wp_prime_option_caches_does_not_trigger_db_queries_repriming_options($option_value) {
+    public function test_wp_prime_option_caches_does_not_trigger_db_queries_repriming_options($option_value)
+    {
         // As this includes a test setting the value to `(bool) false`, update_option() can not be used so add_option() is used instead.
         add_option('double_primed_option', $option_value, '', false);
         wp_cache_delete('double_primed_option', 'options');
@@ -367,7 +376,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      *
      * @param mixed $option_value An option value.
      */
-    public function test_wp_prime_option_caches_does_not_trigger_db_queries_for_alloptions($option_value) {
+    public function test_wp_prime_option_caches_does_not_trigger_db_queries_for_alloptions($option_value)
+    {
         // As this includes a test setting the value to `(bool) false`, update_option() can not be used so add_option() is used instead.
         add_option('option_in_alloptions', $option_value, '', true);
         wp_cache_delete('alloptions', 'options');
@@ -427,7 +437,8 @@ class Tests_Option_WpPrimeOptionCaches extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_option_types() {
+    public function data_option_types()
+    {
         return array(
             'null'                              => array(null),
             '(bool) false'                      => array(false),

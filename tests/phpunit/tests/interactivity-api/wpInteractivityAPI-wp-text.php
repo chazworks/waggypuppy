@@ -12,7 +12,8 @@
  *
  * @group interactivity-api
  */
-class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
+class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase
+{
     /**
      * Instance of WP_Interactivity_API.
      *
@@ -23,7 +24,8 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
         $this->interactivity->state('myPlugin', array('text' => 'Updated'));
@@ -36,7 +38,8 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_text_sets_inner_content() {
+    public function test_wp_text_sets_inner_content()
+    {
         $html     = '<div data-wp-text="myPlugin::state.text">Text</div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame('<div data-wp-text="myPlugin::state.text">Updated</div>', $new_html);
@@ -49,7 +52,8 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_text_sets_inner_content_numbers() {
+    public function test_wp_text_sets_inner_content_numbers()
+    {
         $this->interactivity->state('myPlugin', array('number' => 100));
         $html     = '<div data-wp-text="myPlugin::state.number">Text</div>';
         $new_html = $this->interactivity->process_directives($html);
@@ -64,7 +68,8 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_text_removes_inner_content_on_types_that_are_not_strings_or_numbers() {
+    public function test_wp_text_removes_inner_content_on_types_that_are_not_strings_or_numbers()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -104,7 +109,8 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_text_sets_inner_content_with_nested_tags() {
+    public function test_wp_text_sets_inner_content_with_nested_tags()
+    {
         $html     = '<div data-wp-text="myPlugin::state.text"><div><div>Text</div><div>Another text</div></div></div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame('<div data-wp-text="myPlugin::state.text">Updated</div>', $new_html);
@@ -118,7 +124,8 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_text_sets_inner_content_even_with_unbalanced_but_different_tags_inside_content() {
+    public function test_wp_text_sets_inner_content_even_with_unbalanced_but_different_tags_inside_content()
+    {
         $html     = '<div data-wp-text="myPlugin::state.text"><span>Text</div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame('<div data-wp-text="myPlugin::state.text">Updated</div>', $new_html);
@@ -134,7 +141,8 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Interactivity_API::_process_directives
      */
-    public function test_wp_text_fails_with_unbalanced_and_same_tags_inside_content() {
+    public function test_wp_text_fails_with_unbalanced_and_same_tags_inside_content()
+    {
         $html     = '<div data-wp-text="myPlugin::state.text">Text<div></div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame('<div data-wp-text="myPlugin::state.text">Text<div></div>', $new_html);
@@ -148,7 +156,8 @@ class Tests_Interactivity_API_WpInteractivityAPIWPText extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_text_cant_set_inner_html_in_the_content() {
+    public function test_wp_text_cant_set_inner_html_in_the_content()
+    {
         $this->interactivity->state('myPlugin', array('text' => '<span>Updated</span>'));
         $html     = '<div data-wp-text="myPlugin::state.text">Text</div>';
         $new_html = $this->interactivity->process_directives($html);

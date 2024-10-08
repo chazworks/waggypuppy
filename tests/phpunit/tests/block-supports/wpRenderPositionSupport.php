@@ -5,7 +5,8 @@
  *
  * @covers ::wp_render_position_support
  */
-class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
+class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase
+{
     /**
      * @var string|null
      */
@@ -25,7 +26,8 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
      */
     private $orig_theme_dir;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->test_block_name = null;
         $this->theme_root      = realpath(DIR_TESTDATA . '/themedir1');
@@ -44,7 +46,8 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
 
         // Clear up the filters to modify the theme root.
@@ -60,7 +63,8 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
         parent::tear_down();
     }
 
-    public function filter_set_theme_root() {
+    public function filter_set_theme_root()
+    {
         return $this->theme_root;
     }
 
@@ -80,7 +84,8 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
      * @param string $expected_wrapper  Expected markup for the block wrapper.
      * @param string $expected_styles   Expected styles enqueued by the style engine.
      */
-    public function test_position_block_support($theme_name, $block_name, $position_settings, $position_style, $expected_wrapper, $expected_styles) {
+    public function test_position_block_support($theme_name, $block_name, $position_settings, $position_style, $expected_wrapper, $expected_styles)
+    {
         switch_theme($theme_name);
         $this->test_block_name = $block_name;
 
@@ -135,7 +140,8 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_position_block_support() {
+    public function data_position_block_support()
+    {
         return array(
             'sticky position style is applied' => array(
                 'theme_name'        => 'block-theme-child-with-fluid-typography',

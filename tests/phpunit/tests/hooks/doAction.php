@@ -6,17 +6,20 @@
  * @group hooks
  * @covers WP_Hook::do_action
  */
-class Tests_Hooks_DoAction extends WP_UnitTestCase {
+class Tests_Hooks_DoAction extends WP_UnitTestCase
+{
     private $events        = array();
     private $action_output = '';
     private $hook;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->events = array();
     }
 
-    public function test_do_action_with_callback() {
+    public function test_do_action_with_callback()
+    {
         $a             = new MockAction();
         $callback      = array($a, 'action');
         $hook          = new WP_Hook();
@@ -31,7 +34,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         $this->assertSame(1, $a->get_call_count());
     }
 
-    public function test_do_action_with_multiple_calls() {
+    public function test_do_action_with_multiple_calls()
+    {
         $a             = new MockAction();
         $callback      = array($a, 'filter');
         $hook          = new WP_Hook();
@@ -47,7 +51,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         $this->assertSame(2, $a->get_call_count());
     }
 
-    public function test_do_action_with_multiple_callbacks_on_same_priority() {
+    public function test_do_action_with_multiple_callbacks_on_same_priority()
+    {
         $a             = new MockAction();
         $b             = new MockAction();
         $callback_one  = array($a, 'filter');
@@ -66,7 +71,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         $this->assertSame(1, $a->get_call_count());
     }
 
-    public function test_do_action_with_multiple_callbacks_on_different_priorities() {
+    public function test_do_action_with_multiple_callbacks_on_different_priorities()
+    {
         $a             = new MockAction();
         $b             = new MockAction();
         $callback_one  = array($a, 'filter');
@@ -100,7 +106,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
      * @param array  $expected_call_order  An array of callback names in expected call order.
      * @param string $expected_deprecation Optional. Deprecation message. Default ''.
      */
-    public function test_priority_callback_order($priorities, $expected_call_order, $expected_deprecation = '') {
+    public function test_priority_callback_order($priorities, $expected_call_order, $expected_deprecation = '')
+    {
         $mock      = new MockAction();
         $hook      = new WP_Hook();
         $hook_name = __FUNCTION__;
@@ -125,7 +132,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_priority_callback_order_with_integers() {
+    public function data_priority_callback_order_with_integers()
+    {
         return array(
             'int DESC' => array(
                 'priorities'          => array(10, 9),
@@ -143,7 +151,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_priority_callback_order_with_unhappy_path_nonintegers() {
+    public function data_priority_callback_order_with_unhappy_path_nonintegers()
+    {
         return array(
             // Numbers as strings and floats.
             'int as string DESC'               => array(
@@ -213,7 +222,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         );
     }
 
-    public function test_do_action_with_no_accepted_args() {
+    public function test_do_action_with_no_accepted_args()
+    {
         $callback      = array($this, '_action_callback');
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
@@ -227,7 +237,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         $this->assertEmpty($this->events[0]['args']);
     }
 
-    public function test_do_action_with_one_accepted_arg() {
+    public function test_do_action_with_one_accepted_arg()
+    {
         $callback      = array($this, '_action_callback');
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
@@ -241,7 +252,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         $this->assertCount(1, $this->events[0]['args']);
     }
 
-    public function test_do_action_with_more_accepted_args() {
+    public function test_do_action_with_more_accepted_args()
+    {
         $callback      = array($this, '_action_callback');
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
@@ -255,7 +267,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         $this->assertCount(1, $this->events[0]['args']);
     }
 
-    public function test_do_action_doesnt_change_value() {
+    public function test_do_action_doesnt_change_value()
+    {
         $this->hook          = new WP_Hook();
         $this->action_output = '';
 
@@ -268,11 +281,13 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         $this->assertSame('a1-b1b3-a2a3', $this->action_output);
     }
 
-    public function _filter_do_action_doesnt_change_value1($value) {
+    public function _filter_do_action_doesnt_change_value1($value)
+    {
         $this->action_output .= $value . 1;
         return 'x1';
     }
-    public function _filter_do_action_doesnt_change_value2($value) {
+    public function _filter_do_action_doesnt_change_value2($value)
+    {
         $this->hook->remove_filter('do_action_doesnt_change_value', array($this, '_filter_do_action_doesnt_change_value2'), 10);
 
         $this->action_output .= '-';
@@ -286,7 +301,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
         return 'x2';
     }
 
-    public function _filter_do_action_doesnt_change_value3($value) {
+    public function _filter_do_action_doesnt_change_value3($value)
+    {
         $this->action_output .= $value . 3;
         return 'x3';
     }
@@ -296,7 +312,8 @@ class Tests_Hooks_DoAction extends WP_UnitTestCase {
      *
      * @param mixed ...$args Optional arguments passed to the action.
      */
-    public function _action_callback(...$args) {
+    public function _action_callback(...$args)
+    {
         $this->events[] = array(
             'action' => __FUNCTION__,
             'args'   => $args,

@@ -14,7 +14,8 @@
  * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
  */
 #[AllowDynamicProperties]
-class WP_Widget_Factory {
+class WP_Widget_Factory
+{
 
     /**
      * Widgets array.
@@ -29,7 +30,8 @@ class WP_Widget_Factory {
      *
      * @since 4.3.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         add_action('widgets_init', array($this, '_register_widgets'), 100);
     }
 
@@ -41,7 +43,8 @@ class WP_Widget_Factory {
      *
      * @see WP_Widget_Factory::__construct()
      */
-    public function WP_Widget_Factory() {
+    public function WP_Widget_Factory()
+    {
         _deprecated_constructor('WP_Widget_Factory', '4.3.0');
         self::__construct();
     }
@@ -55,7 +58,8 @@ class WP_Widget_Factory {
      *
      * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
      */
-    public function register($widget) {
+    public function register($widget)
+    {
         if ($widget instanceof WP_Widget) {
             $this->widgets[ spl_object_hash($widget) ] = $widget;
         } else {
@@ -72,7 +76,8 @@ class WP_Widget_Factory {
      *
      * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
      */
-    public function unregister($widget) {
+    public function unregister($widget)
+    {
         if ($widget instanceof WP_Widget) {
             unset($this->widgets[ spl_object_hash($widget) ]);
         } else {
@@ -87,7 +92,8 @@ class WP_Widget_Factory {
      *
      * @global array $wp_registered_widgets
      */
-    public function _register_widgets() {
+    public function _register_widgets()
+    {
         global $wp_registered_widgets;
         $keys       = array_keys($this->widgets);
         $registered = array_keys($wp_registered_widgets);
@@ -112,7 +118,8 @@ class WP_Widget_Factory {
      * @param string $id_base Widget type ID.
      * @return WP_Widget|null
      */
-    public function get_widget_object($id_base) {
+    public function get_widget_object($id_base)
+    {
         $key = $this->get_widget_key($id_base);
         if ('' === $key) {
             return null;
@@ -129,7 +136,8 @@ class WP_Widget_Factory {
      * @param string $id_base Widget type ID.
      * @return string
      */
-    public function get_widget_key($id_base) {
+    public function get_widget_key($id_base)
+    {
         foreach ($this->widgets as $key => $widget_object) {
             if ($widget_object->id_base === $id_base) {
                 return $key;

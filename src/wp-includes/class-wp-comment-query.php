@@ -15,7 +15,8 @@
  * @see WP_Comment_Query::__construct() for accepted arguments.
  */
 #[AllowDynamicProperties]
-class WP_Comment_Query {
+class WP_Comment_Query
+{
 
     /**
      * SQL for database query.
@@ -123,7 +124,8 @@ class WP_Comment_Query {
      * @param array  $arguments Arguments to pass when calling.
      * @return mixed|false Return value of the callback, false otherwise.
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if ('get_search_sql' === $name) {
             return $this->get_search_sql(...$arguments);
         }
@@ -270,7 +272,8 @@ class WP_Comment_Query {
      *                                                      Default false.
      * }
      */
-    public function __construct($query = '') {
+    public function __construct($query = '')
+    {
         $this->query_var_defaults = array(
             'author_email'              => '',
             'author_url'                => '',
@@ -331,7 +334,8 @@ class WP_Comment_Query {
      *
      * @param string|array $query WP_Comment_Query arguments. See WP_Comment_Query::__construct() for accepted arguments.
      */
-    public function parse_query($query = '') {
+    public function parse_query($query = '')
+    {
         if (empty($query)) {
             $query = $this->query_vars;
         }
@@ -361,7 +365,8 @@ class WP_Comment_Query {
      * @param string|array $query Array or URL query string of parameters.
      * @return array|int List of comments, or number of comments when 'count' is passed as a query var.
      */
-    public function query($query) {
+    public function query($query)
+    {
         $this->query_vars = wp_parse_args($query);
         return $this->get_comments();
     }
@@ -375,7 +380,8 @@ class WP_Comment_Query {
      *
      * @return int|int[]|WP_Comment[] List of comments or number of found comments if `$count` argument is true.
      */
-    public function get_comments() {
+    public function get_comments()
+    {
         global $wpdb;
 
         $this->parse_query();
@@ -541,7 +547,8 @@ class WP_Comment_Query {
      *
      * @return int|array A single count of comment IDs if a count query. An array of comment IDs if a full query.
      */
-    protected function get_comment_ids() {
+    protected function get_comment_ids()
+    {
         global $wpdb;
 
         // Assemble clauses related to 'comment_approved'.
@@ -998,7 +1005,8 @@ class WP_Comment_Query {
      *
      * @global wpdb $wpdb WordPress database abstraction object.
      */
-    private function set_found_comments() {
+    private function set_found_comments()
+    {
         global $wpdb;
 
         if ($this->query_vars['number'] && ! $this->query_vars['no_found_rows']) {
@@ -1027,7 +1035,8 @@ class WP_Comment_Query {
      * @param WP_Comment[] $comments Array of top-level comments whose descendants should be filled in.
      * @return array
      */
-    protected function fill_descendants($comments) {
+    protected function fill_descendants($comments)
+    {
         $levels = array(
             0 => wp_list_pluck($comments, 'comment_ID'),
         );
@@ -1150,7 +1159,8 @@ class WP_Comment_Query {
      * @param string[] $columns Array of columns to search.
      * @return string Search SQL.
      */
-    protected function get_search_sql($search, $columns) {
+    protected function get_search_sql($search, $columns)
+    {
         global $wpdb;
 
         $like = '%' . $wpdb->esc_like($search) . '%';
@@ -1173,7 +1183,8 @@ class WP_Comment_Query {
      * @param string $orderby Alias for the field to order by.
      * @return string|false Value to used in the ORDER clause. False otherwise.
      */
-    protected function parse_orderby($orderby) {
+    protected function parse_orderby($orderby)
+    {
         global $wpdb;
 
         $allowed_keys = array(
@@ -1234,7 +1245,8 @@ class WP_Comment_Query {
      * @param string $order The 'order' query variable.
      * @return string The sanitized 'order' query variable.
      */
-    protected function parse_order($order) {
+    protected function parse_order($order)
+    {
         if (! is_string($order) || empty($order)) {
             return 'DESC';
         }

@@ -5,14 +5,16 @@
  * @group template
  * @covers ::wp_title
  */
-class Tests_General_WpTitle extends WP_UnitTestCase {
+class Tests_General_WpTitle extends WP_UnitTestCase
+{
 
     /**
      * @ticket 31521
      *
      * @dataProvider data_wp_title_archive
      */
-    public function test_wp_title_archive($query, $expected) {
+    public function test_wp_title_archive($query, $expected)
+    {
         self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -31,7 +33,8 @@ class Tests_General_WpTitle extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_title_archive() {
+    public function data_wp_title_archive()
+    {
         return array(
             'year with posts'                => array(
                 'query'    => '2021',

@@ -4,14 +4,16 @@
  *
  * @covers ::normalize_whitespace
  */
-class Tests_Formatting_NormalizeWhitespace extends WP_UnitTestCase {
+class Tests_Formatting_NormalizeWhitespace extends WP_UnitTestCase
+{
 
     /**
      * Tests the the normalize_whitespace() function.
      *
      * @dataProvider data_normalize_whitespace
      */
-    public function test_normalize_whitespace($input, $expected) {
+    public function test_normalize_whitespace($input, $expected)
+    {
         $this->assertSame($expected, normalize_whitespace($input));
     }
 
@@ -25,7 +27,8 @@ class Tests_Formatting_NormalizeWhitespace extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_normalize_whitespace() {
+    public function data_normalize_whitespace()
+    {
         return array(
             array(
                 '		',

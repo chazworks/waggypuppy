@@ -16,7 +16,8 @@
  * @see WP_Http
  */
 #[AllowDynamicProperties]
-class WP_Http_Streams {
+class WP_Http_Streams
+{
     /**
      * Send a HTTP request to a URI using PHP Streams.
      *
@@ -29,7 +30,8 @@ class WP_Http_Streams {
      * @param string|array $args Optional. Override the defaults.
      * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
      */
-    public function request($url, $args = array()) {
+    public function request($url, $args = array())
+    {
         $defaults = array(
             'method'      => 'GET',
             'timeout'     => 5,
@@ -430,7 +432,8 @@ class WP_Http_Streams {
      * @param string   $host   The hostname being requested
      * @return bool If the certificate presented in $stream is valid for $host
      */
-    public static function verify_ssl_certificate($stream, $host) {
+    public static function verify_ssl_certificate($stream, $host)
+    {
         $context_options = stream_context_get_options($stream);
 
         if (empty($context_options['ssl']['peer_certificate'])) {
@@ -492,7 +495,8 @@ class WP_Http_Streams {
      * @param array $args Optional. Array of request arguments. Default empty array.
      * @return bool False means this class can not be used, true means it can.
      */
-    public static function test($args = array()) {
+    public static function test($args = array())
+    {
         if (! function_exists('stream_socket_client')) {
             return false;
         }
@@ -531,6 +535,7 @@ class WP_Http_Streams {
  * @since 2.7.0
  * @deprecated 3.7.0 Please use WP_HTTP::request() directly
  */
-class WP_HTTP_Fsockopen extends WP_Http_Streams {
+class WP_HTTP_Fsockopen extends WP_Http_Streams
+{
     // For backward compatibility for users who are using the class directly.
 }

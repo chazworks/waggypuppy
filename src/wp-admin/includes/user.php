@@ -13,7 +13,8 @@
  *
  * @return int|WP_Error WP_Error or User ID.
  */
-function add_user() {
+function add_user()
+{
     return edit_user();
 }
 
@@ -27,7 +28,8 @@ function add_user() {
  * @param int $user_id Optional. User ID.
  * @return int|WP_Error User ID of the updated user or WP_Error on failure.
  */
-function edit_user($user_id = 0) {
+function edit_user($user_id = 0)
+{
     $wp_roles = wp_roles();
     $user     = new stdClass();
     $user_id  = (int) $user_id;
@@ -264,7 +266,8 @@ function edit_user($user_id = 0) {
  *
  * @return array[] Array of arrays containing role information.
  */
-function get_editable_roles() {
+function get_editable_roles()
+{
     $all_roles = wp_roles()->roles;
 
     /**
@@ -287,7 +290,8 @@ function get_editable_roles() {
  * @param int $user_id User ID.
  * @return WP_User|false WP_User object on success, false on failure.
  */
-function get_user_to_edit($user_id) {
+function get_user_to_edit($user_id)
+{
     $user = get_userdata($user_id);
 
     if ($user) {
@@ -307,7 +311,8 @@ function get_user_to_edit($user_id) {
  * @param int $user_id User ID.
  * @return array
  */
-function get_users_drafts($user_id) {
+function get_users_drafts($user_id)
+{
     global $wpdb;
     $query = $wpdb->prepare("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = %d ORDER BY post_modified DESC", $user_id);
 
@@ -341,7 +346,8 @@ function get_users_drafts($user_id) {
  * @param int $reassign Optional. Reassign posts and links to new User ID.
  * @return bool True when finished.
  */
-function wp_delete_user($id, $reassign = null) {
+function wp_delete_user($id, $reassign = null)
+{
     global $wpdb;
 
     if (! is_numeric($id)) {
@@ -471,7 +477,8 @@ function wp_delete_user($id, $reassign = null) {
  *
  * @param int $id User ID.
  */
-function wp_revoke_user($id) {
+function wp_revoke_user($id)
+{
     $id = (int) $id;
 
     $user = new WP_User($id);
@@ -485,7 +492,8 @@ function wp_revoke_user($id) {
  *
  * @param false $errors Deprecated.
  */
-function default_password_nag_handler($errors = false) {
+function default_password_nag_handler($errors = false)
+{
     global $user_ID;
     // Short-circuit it.
     if (! get_user_option('default_password_nag')) {
@@ -507,7 +515,8 @@ function default_password_nag_handler($errors = false) {
  * @param int     $user_ID
  * @param WP_User $old_data
  */
-function default_password_nag_edit_user($user_ID, $old_data) {
+function default_password_nag_edit_user($user_ID, $old_data)
+{
     // Short-circuit it.
     if (! get_user_option('default_password_nag', $user_ID)) {
         return;
@@ -527,7 +536,8 @@ function default_password_nag_edit_user($user_ID, $old_data) {
  *
  * @global string $pagenow The filename of the current screen.
  */
-function default_password_nag() {
+function default_password_nag()
+{
     global $pagenow;
 
     // Short-circuit it.
@@ -564,7 +574,8 @@ function default_password_nag() {
  * @since 3.5.0
  * @access private
  */
-function delete_users_add_js() {
+function delete_users_add_js()
+{
     ?>
 <script>
 jQuery( function($) {
@@ -589,7 +600,8 @@ jQuery( function($) {
  *
  * @param WP_User $user User data object.
  */
-function use_ssl_preference($user) {
+function use_ssl_preference($user)
+{
     ?>
     <tr class="user-use-ssl-wrap">
         <th scope="row"><?php _e('Use https'); ?></th>
@@ -604,7 +616,8 @@ function use_ssl_preference($user) {
  * @param string $text
  * @return string
  */
-function admin_created_user_email($text) {
+function admin_created_user_email($text)
+{
     $roles = get_editable_roles();
     $role  = $roles[ $_REQUEST['role'] ];
 
@@ -650,7 +663,8 @@ Please click the following link to activate your user account:
  * @param WP_User $user The user authorizing the application.
  * @return true|WP_Error True if the request is valid, a WP_Error object contains errors if not.
  */
-function wp_is_authorize_application_password_request_valid($request, $user) {
+function wp_is_authorize_application_password_request_valid($request, $user)
+{
     $error = new WP_Error();
 
     if (isset($request['success_url'])) {
@@ -706,7 +720,8 @@ function wp_is_authorize_application_password_request_valid($request, $user) {
  * @param string $url The redirect URL to be validated.
  * @return true|WP_Error True if the redirect URL is valid, a WP_Error object otherwise.
  */
-function wp_is_authorize_application_redirect_url_valid($url) {
+function wp_is_authorize_application_redirect_url_valid($url)
+{
     $bad_protocols = array('javascript', 'data');
     if (empty($url)) {
         return true;

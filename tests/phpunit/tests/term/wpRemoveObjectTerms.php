@@ -3,11 +3,13 @@
 /**
  * @group taxonomy
  */
-class Tests_Term_WpRemoveObjectTerms extends WP_UnitTestCase {
+class Tests_Term_WpRemoveObjectTerms extends WP_UnitTestCase
+{
     /**
      * @ticket 34338
      */
-    public function test_removal_should_delete_object_relationship_cache() {
+    public function test_removal_should_delete_object_relationship_cache()
+    {
         register_taxonomy('wptests_tax', 'post');
         $p = self::factory()->post->create();
         $t = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));

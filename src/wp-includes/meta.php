@@ -29,7 +29,8 @@ require ABSPATH . WPINC . '/class-wp-metadata-lazyloader.php';
  *                           no change will be made. Default false.
  * @return int|false The meta ID on success, false on failure.
  */
-function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = false) {
+function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = false)
+{
     global $wpdb;
 
     if (! $meta_type || ! $meta_key || ! is_numeric($object_id)) {
@@ -179,7 +180,8 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
  *                  false on failure or if the value passed to the function
  *                  is the same as the one that is already in the database.
  */
-function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_value = '') {
+function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_value = '')
+{
     global $wpdb;
 
     if (! $meta_type || ! $meta_key || ! is_numeric($object_id)) {
@@ -377,7 +379,8 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
  *                           matching metadata entries for the specified object_id. Default false.
  * @return bool True on successful delete, false on failure.
  */
-function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $delete_all = false) {
+function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $delete_all = false)
+{
     global $wpdb;
 
     if (! $meta_type || ! $meta_key || ! is_numeric($object_id) && ! $delete_all) {
@@ -571,7 +574,8 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
  *               An empty array if a valid but non-existing object ID is passed and `$single` is false.
  *               An empty string if a valid but non-existing object ID is passed and `$single` is true.
  */
-function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
+function get_metadata($meta_type, $object_id, $meta_key = '', $single = false)
+{
     $value = get_metadata_raw($meta_type, $object_id, $meta_key, $single);
     if (! is_null($value)) {
         return $value;
@@ -598,7 +602,8 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
  *               or if `$meta_type` is not specified.
  *               Null if the value does not exist.
  */
-function get_metadata_raw($meta_type, $object_id, $meta_key = '', $single = false) {
+function get_metadata_raw($meta_type, $object_id, $meta_key = '', $single = false)
+{
     if (! $meta_type || ! is_numeric($object_id)) {
         return false;
     }
@@ -685,7 +690,8 @@ function get_metadata_raw($meta_type, $object_id, $meta_key = '', $single = fals
  * @return mixed An array of default values if `$single` is false.
  *               The default value of the meta field if `$single` is true.
  */
-function get_metadata_default($meta_type, $object_id, $meta_key, $single = false) {
+function get_metadata_default($meta_type, $object_id, $meta_key, $single = false)
+{
     if ($single) {
         $value = '';
     } else {
@@ -735,7 +741,8 @@ function get_metadata_default($meta_type, $object_id, $meta_key, $single = false
  * @param string $meta_key  Metadata key.
  * @return bool Whether a meta field with the given key exists.
  */
-function metadata_exists($meta_type, $object_id, $meta_key) {
+function metadata_exists($meta_type, $object_id, $meta_key)
+{
     if (! $meta_type || ! is_numeric($object_id)) {
         return false;
     }
@@ -788,7 +795,8 @@ function metadata_exists($meta_type, $object_id, $meta_key) {
  *     @type string $user_id    Optional. The object ID when the meta type is 'user'.
  * }
  */
-function get_metadata_by_mid($meta_type, $meta_id) {
+function get_metadata_by_mid($meta_type, $meta_id)
+{
     global $wpdb;
 
     if (! $meta_type || ! is_numeric($meta_id) || floor($meta_id) != $meta_id) {
@@ -858,7 +866,8 @@ function get_metadata_by_mid($meta_type, $meta_id) {
  * @param string|false $meta_key   Optional. You can provide a meta key to update it. Default false.
  * @return bool True on successful update, false on failure.
  */
-function update_metadata_by_mid($meta_type, $meta_id, $meta_value, $meta_key = false) {
+function update_metadata_by_mid($meta_type, $meta_id, $meta_value, $meta_key = false)
+{
     global $wpdb;
 
     // Make sure everything is valid.
@@ -982,7 +991,8 @@ function update_metadata_by_mid($meta_type, $meta_id, $meta_value, $meta_key = f
  * @param int    $meta_id   ID for a specific meta row.
  * @return bool True on successful delete, false on failure.
  */
-function delete_metadata_by_mid($meta_type, $meta_id) {
+function delete_metadata_by_mid($meta_type, $meta_id)
+{
     global $wpdb;
 
     // Make sure everything is valid.
@@ -1109,7 +1119,8 @@ function delete_metadata_by_mid($meta_type, $meta_id) {
  * @param string|int[] $object_ids Array or comma delimited list of object IDs to update cache for.
  * @return array|false Metadata cache for the specified objects, or false on failure.
  */
-function update_meta_cache($meta_type, $object_ids) {
+function update_meta_cache($meta_type, $object_ids)
+{
     global $wpdb;
 
     if (! $meta_type || ! $object_ids) {
@@ -1215,7 +1226,8 @@ function update_meta_cache($meta_type, $object_ids) {
  *
  * @return WP_Metadata_Lazyloader Metadata lazyloader queue.
  */
-function wp_metadata_lazyloader() {
+function wp_metadata_lazyloader()
+{
     static $wp_metadata_lazyloader;
 
     if (null === $wp_metadata_lazyloader) {
@@ -1245,7 +1257,8 @@ function wp_metadata_lazyloader() {
  *     @type string $where SQL fragment to append to the main WHERE clause.
  * }
  */
-function get_meta_sql($meta_query, $type, $primary_table, $primary_id_column, $context = null) {
+function get_meta_sql($meta_query, $type, $primary_table, $primary_id_column, $context = null)
+{
     $meta_query_obj = new WP_Meta_Query($meta_query);
     return $meta_query_obj->get_sql($type, $primary_table, $primary_id_column, $context);
 }
@@ -1261,7 +1274,8 @@ function get_meta_sql($meta_query, $type, $primary_table, $primary_id_column, $c
  *                     or any other object type with an associated meta table.
  * @return string|false Metadata table name, or false if no metadata table exists
  */
-function _get_meta_table($type) {
+function _get_meta_table($type)
+{
     global $wpdb;
 
     $table_name = $type . 'meta';
@@ -1283,7 +1297,8 @@ function _get_meta_table($type) {
  *                          or any other object type with an associated meta table. Default empty string.
  * @return bool Whether the meta key is considered protected.
  */
-function is_protected_meta($meta_key, $meta_type = '') {
+function is_protected_meta($meta_key, $meta_type = '')
+{
     $sanitized_key = preg_replace("/[^\x20-\x7E\p{L}]/", '', $meta_key);
     $protected     = strlen($sanitized_key) > 0 && ('_' === $sanitized_key[0]);
 
@@ -1313,7 +1328,8 @@ function is_protected_meta($meta_key, $meta_type = '') {
  * @param string $object_subtype Optional. The subtype of the object type. Default empty string.
  * @return mixed Sanitized $meta_value.
  */
-function sanitize_meta($meta_key, $meta_value, $object_type, $object_subtype = '') {
+function sanitize_meta($meta_key, $meta_value, $object_type, $object_subtype = '')
+{
     if (! empty($object_subtype) && has_filter("sanitize_{$object_type}_meta_{$meta_key}_for_{$object_subtype}")) {
 
         /**
@@ -1404,7 +1420,8 @@ function sanitize_meta($meta_key, $meta_value, $object_type, $object_subtype = '
  *              Registering a meta key with distinct sanitize and auth callbacks will fire those callbacks,
  *              but will not add to the global registry.
  */
-function register_meta($object_type, $meta_key, $args, $deprecated = null) {
+function register_meta($object_type, $meta_key, $args, $deprecated = null)
+{
     global $wp_meta_keys;
 
     if (! is_array($wp_meta_keys)) {
@@ -1551,7 +1568,8 @@ function register_meta($object_type, $meta_key, $args, $deprecated = null) {
  * @return mixed An array of default values if `$single` is false.
  *               The default value of the meta field if `$single` is true.
  */
-function filter_default_metadata($value, $object_id, $meta_key, $single, $meta_type) {
+function filter_default_metadata($value, $object_id, $meta_key, $single, $meta_type)
+{
     global $wp_meta_keys;
 
     if (wp_installing()) {
@@ -1608,7 +1626,8 @@ function filter_default_metadata($value, $object_id, $meta_key, $single, $meta_t
  * @return bool True if the meta key is registered to the object type and, if provided,
  *              the object subtype. False if not.
  */
-function registered_meta_key_exists($object_type, $meta_key, $object_subtype = '') {
+function registered_meta_key_exists($object_type, $meta_key, $object_subtype = '')
+{
     $meta_keys = get_registered_meta_keys($object_type, $object_subtype);
 
     return isset($meta_keys[ $meta_key ]);
@@ -1626,7 +1645,8 @@ function registered_meta_key_exists($object_type, $meta_key, $object_subtype = '
  * @param string $object_subtype Optional. The subtype of the object type. Default empty string.
  * @return bool True if successful. False if the meta key was not registered.
  */
-function unregister_meta_key($object_type, $meta_key, $object_subtype = '') {
+function unregister_meta_key($object_type, $meta_key, $object_subtype = '')
+{
     global $wp_meta_keys;
 
     if (! registered_meta_key_exists($object_type, $meta_key, $object_subtype)) {
@@ -1675,7 +1695,8 @@ function unregister_meta_key($object_type, $meta_key, $object_subtype = '') {
  * @param string $object_subtype Optional. The subtype of the object type. Default empty string.
  * @return array[] List of registered metadata args, keyed by their meta keys.
  */
-function get_registered_meta_keys($object_type, $object_subtype = '') {
+function get_registered_meta_keys($object_type, $object_subtype = '')
+{
     global $wp_meta_keys;
 
     if (! is_array($wp_meta_keys) || ! isset($wp_meta_keys[ $object_type ]) || ! isset($wp_meta_keys[ $object_type ][ $object_subtype ])) {
@@ -1701,7 +1722,8 @@ function get_registered_meta_keys($object_type, $object_subtype = '') {
  * @return mixed A single value or array of values for a key if specified. An array of all registered keys
  *               and values for an object ID if not. False if a given $meta_key is not registered.
  */
-function get_registered_metadata($object_type, $object_id, $meta_key = '') {
+function get_registered_metadata($object_type, $object_id, $meta_key = '')
+{
     $object_subtype = get_object_subtype($object_type, $object_id);
 
     if (! empty($meta_key)) {
@@ -1747,7 +1769,8 @@ function get_registered_metadata($object_type, $object_id, $meta_key = '') {
  * @param array $default_args Default arguments for `register_meta()`.
  * @return array Filtered arguments.
  */
-function _wp_register_meta_args_allowed_list($args, $default_args) {
+function _wp_register_meta_args_allowed_list($args, $default_args)
+{
     return array_intersect_key($args, $default_args);
 }
 
@@ -1761,7 +1784,8 @@ function _wp_register_meta_args_allowed_list($args, $default_args) {
  * @param int    $object_id   ID of the object to retrieve its subtype.
  * @return string The object subtype or an empty string if unspecified subtype.
  */
-function get_object_subtype($object_type, $object_id) {
+function get_object_subtype($object_type, $object_id)
+{
     $object_id      = (int) $object_id;
     $object_subtype = '';
 

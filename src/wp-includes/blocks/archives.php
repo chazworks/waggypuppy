@@ -16,7 +16,8 @@
  *
  * @return string Returns the post content with archives added.
  */
-function render_block_core_archives($attributes) {
+function render_block_core_archives($attributes)
+{
     $show_post_count = ! empty($attributes['showPostCounts']);
     $type            = isset($attributes['type']) ? $attributes['type'] : 'monthly';
 
@@ -111,7 +112,8 @@ function render_block_core_archives($attributes) {
  *
  * @since 5.0.0
  */
-function register_block_core_archives() {
+function register_block_core_archives()
+{
     register_block_type_from_metadata(
         __DIR__ . '/archives',
         array(

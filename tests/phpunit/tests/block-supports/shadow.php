@@ -4,18 +4,21 @@
  *
  * @covers ::wp_apply_shadow_support
  */
-class Tests_Block_Supports_Shadow extends WP_UnitTestCase {
+class Tests_Block_Supports_Shadow extends WP_UnitTestCase
+{
     /**
      * @var string|null
      */
     private $test_block_name;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->test_block_name = null;
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
         parent::tear_down();
@@ -29,7 +32,8 @@ class Tests_Block_Supports_Shadow extends WP_UnitTestCase {
      *
      * @return WP_Block_Type The block type for the newly registered test block.
      */
-    private function register_shadow_block_with_support($block_name, $supports = array()) {
+    private function register_shadow_block_with_support($block_name, $supports = array())
+    {
         $this->test_block_name = $block_name;
         register_block_type(
             $this->test_block_name,
@@ -59,7 +63,8 @@ class Tests_Block_Supports_Shadow extends WP_UnitTestCase {
      * @param string        $value   Shadow style value for style attribute object.
      * @param array         $expected       Expected shadow block support styles.
      */
-    public function test_wp_apply_shadow_support($support, $value, $expected) {
+    public function test_wp_apply_shadow_support($support, $value, $expected)
+    {
         $block_type  = self::register_shadow_block_with_support(
             'test/shadow-block',
             array('shadow' => $support)
@@ -75,7 +80,8 @@ class Tests_Block_Supports_Shadow extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_generate_shadow_fixtures() {
+    public function data_generate_shadow_fixtures()
+    {
         return array(
             'with no styles'               => array(
                 'support'  => true,

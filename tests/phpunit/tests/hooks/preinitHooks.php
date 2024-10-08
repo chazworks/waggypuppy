@@ -6,9 +6,11 @@
  * @group hooks
  * @covers WP_Hook::build_preinitialized_hooks
  */
-class Tests_Hooks_PreinitHooks extends WP_UnitTestCase {
+class Tests_Hooks_PreinitHooks extends WP_UnitTestCase
+{
 
-    public function test_array_to_hooks() {
+    public function test_array_to_hooks()
+    {
         $hook_name1 = __FUNCTION__ . '_1';
         $priority1  = 1;
         $hook_name2 = __FUNCTION__ . '_2';

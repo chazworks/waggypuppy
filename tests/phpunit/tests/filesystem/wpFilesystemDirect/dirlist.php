@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::dirlist
  */
-class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::dirlist()` returns
@@ -29,7 +30,8 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      * @param bool        $recursive      Whether to recursive into subdirectories.
      * @param array|false $expected       The expected result.
      */
-    public function test_should_get_dirlist($path, $include_hidden, $recursive, $expected) {
+    public function test_should_get_dirlist($path, $include_hidden, $recursive, $expected)
+    {
         $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'] . $path, $include_hidden, $recursive);
 
         if (is_array($expected)) {
@@ -51,7 +53,8 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      *
      * @return array[]
      */
-    public function data_should_get_dirlist() {
+    public function data_should_get_dirlist()
+    {
         return array(
             'a directory that exists excluding hidden files' => array(
                 'path'           => '',
@@ -101,7 +104,8 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      *
      * @ticket 57774
      */
-    public function test_should_recurse_into_subdirectory() {
+    public function test_should_recurse_into_subdirectory()
+    {
         $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'], true, true);
 
         $this->assertIsArray($actual, 'Did not return an array.');
@@ -117,7 +121,8 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      *
      * @ticket 57774
      */
-    public function test_should_not_recurse_into_subdirectory() {
+    public function test_should_not_recurse_into_subdirectory()
+    {
 
         $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'], true, false);
 

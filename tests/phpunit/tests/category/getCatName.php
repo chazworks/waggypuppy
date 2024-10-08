@@ -5,12 +5,14 @@
  *
  * @covers ::get_cat_name
  */
-class Tests_Category_GetCatName extends WP_UnitTestCase {
+class Tests_Category_GetCatName extends WP_UnitTestCase
+{
 
     /**
      * Validate get_cat_name function
      */
-    public function test_get_cat_name() {
+    public function test_get_cat_name()
+    {
 
         // Create test category.
         $testcat = self::factory()->category->create_and_get(

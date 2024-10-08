@@ -44,7 +44,8 @@ if (! isset($content_width)) {
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_setup() {
+function twentytwelve_setup()
+{
     /*
      * Makes Twenty Twelve available for translation.
      *
@@ -156,7 +157,8 @@ if (! function_exists('twentytwelve_get_font_url')) :
      *
      * @return string Font stylesheet or empty string if disabled.
      */
-    function twentytwelve_get_font_url() {
+    function twentytwelve_get_font_url()
+    {
         $font_url = '';
 
         /*
@@ -176,7 +178,8 @@ endif;
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_scripts_styles() {
+function twentytwelve_scripts_styles()
+{
     global $wp_styles;
 
     /*
@@ -222,7 +225,8 @@ add_action('wp_enqueue_scripts', 'twentytwelve_scripts_styles');
  *
  * @since Twenty Twelve 2.6
  */
-function twentytwelve_block_editor_styles() {
+function twentytwelve_block_editor_styles()
+{
     // Block styles.
     wp_enqueue_style('twentytwelve-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240506');
     // Add custom fonts.
@@ -241,7 +245,8 @@ add_action('enqueue_block_editor_assets', 'twentytwelve_block_editor_styles');
  * @param string  $relation_type The relation type the URLs are printed.
  * @return array URLs to print for resource hints.
  */
-function twentytwelve_resource_hints($urls, $relation_type) {
+function twentytwelve_resource_hints($urls, $relation_type)
+{
     if (wp_style_is('twentytwelve-fonts', 'queue') && 'preconnect' === $relation_type) {
         if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '>=')) {
             $urls[] = array(
@@ -269,7 +274,8 @@ function twentytwelve_resource_hints($urls, $relation_type) {
  * @param string $mce_css CSS path to load in TinyMCE.
  * @return string Filtered CSS path.
  */
-function twentytwelve_mce_css($mce_css) {
+function twentytwelve_mce_css($mce_css)
+{
     $font_url = twentytwelve_get_font_url();
 
     if (empty($font_url)) {
@@ -298,7 +304,8 @@ add_filter('mce_css', 'twentytwelve_mce_css');
  * @param string $sep Optional separator.
  * @return string Filtered title.
  */
-function twentytwelve_wp_title($title, $sep) {
+function twentytwelve_wp_title($title, $sep)
+{
     global $paged, $page;
 
     if (is_feed()) {
@@ -331,7 +338,8 @@ add_filter('wp_title', 'twentytwelve_wp_title', 10, 2);
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_page_menu_args($args) {
+function twentytwelve_page_menu_args($args)
+{
     if (! isset($args['show_home'])) {
         $args['show_home'] = true;
     }
@@ -346,7 +354,8 @@ add_filter('wp_page_menu_args', 'twentytwelve_page_menu_args');
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_widgets_init() {
+function twentytwelve_widgets_init()
+{
     register_sidebar(
         array(
             'name'          => __('Main Sidebar', 'twentytwelve'),
@@ -393,7 +402,8 @@ if (! function_exists('wp_get_list_item_separator')) :
      *
      * @since 6.0.0
      */
-    function wp_get_list_item_separator() {
+    function wp_get_list_item_separator()
+    {
         /* translators: Used between list items, there is a space after the comma. */
         return __(', ', 'twentytwelve');
     }
@@ -405,7 +415,8 @@ if (! function_exists('twentytwelve_content_nav')) :
      *
      * @since Twenty Twelve 1.0
      */
-    function twentytwelve_content_nav($html_id) {
+    function twentytwelve_content_nav($html_id)
+    {
         global $wp_query;
 
         if ($wp_query->max_num_pages > 1) : ?>
@@ -432,7 +443,8 @@ if (! function_exists('twentytwelve_comment')) :
      *
      * @global WP_Post $post Global post object.
      */
-    function twentytwelve_comment($comment, $args, $depth) {
+    function twentytwelve_comment($comment, $args, $depth)
+    {
         $GLOBALS['comment'] = $comment;
         switch ($comment->comment_type) :
             case 'pingback':
@@ -518,7 +530,8 @@ if (! function_exists('twentytwelve_entry_meta')) :
      *
      * @since Twenty Twelve 1.0
      */
-    function twentytwelve_entry_meta() {
+    function twentytwelve_entry_meta()
+    {
         $categories_list = get_the_category_list(wp_get_list_item_separator());
 
         $tags_list = get_the_tag_list('', wp_get_list_item_separator());
@@ -577,7 +590,8 @@ endif;
  * @param array $classes Existing class values.
  * @return array Filtered class values.
  */
-function twentytwelve_body_class($classes) {
+function twentytwelve_body_class($classes)
+{
     $background_color = get_background_color();
     $background_image = get_background_image();
 
@@ -624,7 +638,8 @@ add_filter('body_class', 'twentytwelve_body_class');
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_content_width() {
+function twentytwelve_content_width()
+{
     if (is_page_template('page-templates/full-width.php') || is_attachment() || ! is_active_sidebar('sidebar-1')) {
         global $content_width;
         $content_width = 960;
@@ -641,7 +656,8 @@ add_action('template_redirect', 'twentytwelve_content_width');
  *
  * @param WP_Customize_Manager $wp_customize Customizer object.
  */
-function twentytwelve_customize_register($wp_customize) {
+function twentytwelve_customize_register($wp_customize)
+{
     $wp_customize->get_setting('blogname')->transport         = 'postMessage';
     $wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
     $wp_customize->get_setting('header_textcolor')->transport = 'postMessage';
@@ -676,7 +692,8 @@ add_action('customize_register', 'twentytwelve_customize_register');
  *
  * @return void
  */
-function twentytwelve_customize_partial_blogname() {
+function twentytwelve_customize_partial_blogname()
+{
     bloginfo('name');
 }
 
@@ -689,7 +706,8 @@ function twentytwelve_customize_partial_blogname() {
  *
  * @return void
  */
-function twentytwelve_customize_partial_blogdescription() {
+function twentytwelve_customize_partial_blogdescription()
+{
     bloginfo('description');
 }
 
@@ -700,7 +718,8 @@ function twentytwelve_customize_partial_blogdescription() {
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_customize_preview_js() {
+function twentytwelve_customize_preview_js()
+{
     wp_enqueue_script('twentytwelve-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array('customize-preview'), '20200516', array('in_footer' => true));
 }
 add_action('customize_preview_init', 'twentytwelve_customize_preview_js');
@@ -714,7 +733,8 @@ add_action('customize_preview_init', 'twentytwelve_customize_preview_js');
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentytwelve_widget_tag_cloud_args($args) {
+function twentytwelve_widget_tag_cloud_args($args)
+{
     $args['largest']  = 22;
     $args['smallest'] = 8;
     $args['unit']     = 'pt';
@@ -732,7 +752,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Twelve 3.0
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Triggered after the opening <body> tag.
          *

@@ -2,7 +2,8 @@
 /**
  * @group block-supports
  */
-class Tests_Block_Supports_Typography extends WP_UnitTestCase {
+class Tests_Block_Supports_Typography extends WP_UnitTestCase
+{
     /**
      * @var string|null
      */
@@ -23,7 +24,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      */
     private $orig_theme_dir;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->test_block_name = null;
@@ -48,7 +50,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
     /**
      * Unregisters block type after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Restores the original theme directory setup.
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
         wp_clean_themes_cache();
@@ -68,7 +71,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @covers ::wp_apply_typography_support
      */
-    public function test_should_kebab_case_font_size_slug_with_numbers() {
+    public function test_should_kebab_case_font_size_slug_with_numbers()
+    {
         $this->test_block_name = 'test/font-size-slug-with-numbers';
         register_block_type(
             $this->test_block_name,
@@ -104,7 +108,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @covers ::wp_apply_typography_support
      */
-    public function test_should_generate_font_family_with_legacy_inline_styles_using_a_value() {
+    public function test_should_generate_font_family_with_legacy_inline_styles_using_a_value()
+    {
         $this->test_block_name = 'test/font-family-with-inline-styles-using-value';
         register_block_type(
             $this->test_block_name,
@@ -139,7 +144,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @covers ::wp_apply_typography_support
      */
-    public function test_should_skip_serialization_for_typography_block_supports() {
+    public function test_should_skip_serialization_for_typography_block_supports()
+    {
         $this->test_block_name = 'test/typography-with-skipped-serialization-block-supports';
         register_block_type(
             $this->test_block_name,
@@ -187,7 +193,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @covers ::wp_apply_typography_support
      */
-    public function test_should_skip_serialization_for_letter_spacing_block_supports() {
+    public function test_should_skip_serialization_for_letter_spacing_block_supports()
+    {
         $this->test_block_name = 'test/letter-spacing-with-individual-skipped-serialization-block-supports';
         register_block_type(
             $this->test_block_name,
@@ -225,7 +232,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @covers ::wp_apply_typography_support
      */
-    public function test_should_generate_css_var_for_font_family_with_legacy_inline_styles() {
+    public function test_should_generate_css_var_for_font_family_with_legacy_inline_styles()
+    {
         $this->test_block_name = 'test/font-family-with-inline-styles-using-css-var';
         register_block_type(
             $this->test_block_name,
@@ -260,7 +268,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @covers ::wp_apply_typography_support
      */
-    public function test_should_generate_classname_for_font_family() {
+    public function test_should_generate_classname_for_font_family()
+    {
         $this->test_block_name = 'test/font-family-with-class';
         register_block_type(
             $this->test_block_name,
@@ -311,7 +320,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      * @param bool   $settings         Theme JSON settings array that overrides any global theme settings.
      * @param string $expected_output Expected output.
      */
-    public function test_wp_get_typography_font_size_value($font_size_preset, $settings, $expected_output) {
+    public function test_wp_get_typography_font_size_value($font_size_preset, $settings, $expected_output)
+    {
         $actual = wp_get_typography_font_size_value($font_size_preset, $settings);
 
         $this->assertSame($expected_output, $actual);
@@ -322,7 +332,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_generate_font_size_preset_fixtures() {
+    public function data_generate_font_size_preset_fixtures()
+    {
         return array(
             'returns value when fluid typography is deactivated' => array(
                 'font_size_preset' => array(
@@ -827,7 +838,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      * @param bool   $should_use_fluid_typography An override to switch fluid typography "on". Can be used for unit testing.
      * @param string $expected_output Expected output of wp_get_typography_font_size_value().
      */
-    public function test_wp_get_typography_font_size_value_should_use_fluid_typography_deprecated($font_size, $should_use_fluid_typography, $expected_output) {
+    public function test_wp_get_typography_font_size_value_should_use_fluid_typography_deprecated($font_size, $should_use_fluid_typography, $expected_output)
+    {
         $actual = wp_get_typography_font_size_value($font_size, $should_use_fluid_typography);
 
         $this->assertSame($expected_output, $actual);
@@ -838,7 +850,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_generate_font_size_preset_should_use_fluid_typography_deprecated_fixtures() {
+    public function data_generate_font_size_preset_should_use_fluid_typography_deprecated_fixtures()
+    {
         return array(
             'returns value when fluid typography is deactivated' => array(
                 'font_size'                   => array(
@@ -877,7 +890,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      * @param bool   $settings        Theme JSON settings array that overrides any global theme settings.
      * @param string $expected_output Expected output of wp_get_typography_font_size_value().
      */
-    public function test_should_override_theme_settings($font_size, $settings, $expected_output) {
+    public function test_should_override_theme_settings($font_size, $settings, $expected_output)
+    {
         switch_theme('block-theme-child-with-fluid-typography');
         $actual = wp_get_typography_font_size_value($font_size, $settings);
 
@@ -889,7 +903,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_generate_should_override_theme_settings_fixtures() {
+    public function data_generate_should_override_theme_settings_fixtures()
+    {
         return array(
             'returns clamp value when theme activates fluid typography' => array(
                 'font_size'       => array(
@@ -975,7 +990,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      * @param string $theme_slug      A theme slug corresponding to an available test theme.
      * @param string $expected_output Expected value of style property from wp_apply_typography_support().
      */
-    public function test_should_covert_font_sizes_to_fluid_values($font_size_value, $theme_slug, $expected_output) {
+    public function test_should_covert_font_sizes_to_fluid_values($font_size_value, $theme_slug, $expected_output)
+    {
         switch_theme($theme_slug);
 
         $this->test_block_name = 'test/font-size-fluid-value';
@@ -1016,7 +1032,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_generate_block_supports_font_size_fixtures() {
+    public function data_generate_block_supports_font_size_fixtures()
+    {
         return array(
             'returns value when fluid typography is not active' => array(
                 'font_size_value' => '15px',
@@ -1067,7 +1084,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      * @param bool   $should_use_fluid_typography An override to switch fluid typography "on". Can be used for unit testing.
      * @param string $expected_output             Expected value of style property from wp_apply_typography_support().
      */
-    public function test_should_replace_inline_font_styles_with_fluid_values($block_content, $font_size_value, $should_use_fluid_typography, $expected_output) {
+    public function test_should_replace_inline_font_styles_with_fluid_values($block_content, $font_size_value, $should_use_fluid_typography, $expected_output)
+    {
         if ($should_use_fluid_typography) {
             switch_theme('block-theme-child-with-fluid-typography');
         } else {
@@ -1094,7 +1112,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_generate_replace_inline_font_styles_with_fluid_values_fixtures() {
+    public function data_generate_replace_inline_font_styles_with_fluid_values_fixtures()
+    {
         return array(
             'default_return_content'                       => array(
                 'block_content'               => '<h2 class="has-vivid-red-background-color has-background has-link-color" style="margin-top:var(--wp--preset--spacing--60);font-size:4rem;font-style:normal;font-weight:600;letter-spacing:29px;text-decoration:underline;text-transform:capitalize">This is a heading</h2>',
@@ -1147,7 +1166,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      * @param mixed $raw_value Raw size value to test.
      * @param mixed $expected  An expected return value.
      */
-    public function test_valid_size_wp_get_typography_value_and_unit($raw_value, $expected) {
+    public function test_valid_size_wp_get_typography_value_and_unit($raw_value, $expected)
+    {
         $this->assertSame($expected, wp_get_typography_value_and_unit($raw_value));
     }
 
@@ -1156,7 +1176,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_valid_size_wp_get_typography_value_and_unit() {
+    public function data_valid_size_wp_get_typography_value_and_unit()
+    {
         return array(
             'size: 10vh with default units do not match' => array(
                 'raw_value' => '10vh',
@@ -1234,7 +1255,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @param mixed $raw_value Raw size value to test.
      */
-    public function test_invalid_size_wp_get_typography_value_and_unit($raw_value) {
+    public function test_invalid_size_wp_get_typography_value_and_unit($raw_value)
+    {
         $this->assertNull(wp_get_typography_value_and_unit($raw_value));
     }
 
@@ -1243,7 +1265,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_invalid_size_wp_get_typography_value_and_unit() {
+    public function data_invalid_size_wp_get_typography_value_and_unit()
+    {
         return array(
             'size: null'  => array(null),
             'size: false' => array(false),
@@ -1273,7 +1296,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      * }
      * @param string $expected_output             Expected value of style property from wp_apply_typography_support().
      */
-    public function test_wp_get_computed_fluid_typography_value($args, $expected_output) {
+    public function test_wp_get_computed_fluid_typography_value($args, $expected_output)
+    {
         $actual = wp_get_computed_fluid_typography_value($args);
         $this->assertSame($expected_output, $actual);
     }
@@ -1283,7 +1307,8 @@ class Tests_Block_Supports_Typography extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_get_computed_fluid_typography_value() {
+    public function data_wp_get_computed_fluid_typography_value()
+    {
         return array(
             'returns clamped value with valid args' => array(
                 'args'            => array(

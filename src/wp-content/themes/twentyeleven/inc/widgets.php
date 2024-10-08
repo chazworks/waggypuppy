@@ -10,14 +10,16 @@
  * @subpackage Twenty_Eleven
  * @since Twenty Eleven 1.0
  */
-class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
+class Twenty_Eleven_Ephemera_Widget extends WP_Widget
+{
 
     /**
      * PHP5 constructor.
      *
      * @since Twenty Eleven 2.2
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(
             'widget_twentyeleven_ephemera',
             __('Twenty Eleven Ephemera', 'twentyeleven'),
@@ -40,7 +42,8 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
      * @since Twenty Eleven 1.0
      * @deprecated Twenty Eleven 2.2
      */
-    public function Twenty_Eleven_Ephemera_Widget() {
+    public function Twenty_Eleven_Ephemera_Widget()
+    {
         self::__construct();
     }
 
@@ -52,7 +55,8 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
      * @param array $args     An array of standard parameters for widgets in this theme.
      * @param array $instance An array of settings for this widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         $cache = wp_cache_get('widget_twentyeleven_ephemera', 'widget');
 
         if (! is_array($cache)) {
@@ -157,7 +161,8 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
      *
      * @since Twenty Eleven 1.0
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $instance           = $old_instance;
         $instance['title']  = strip_tags($new_instance['title']);
         $instance['number'] = (int) $new_instance['number'];
@@ -176,7 +181,8 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
      *
      * @since Twenty Eleven 1.0
      */
-    public function flush_widget_cache() {
+    public function flush_widget_cache()
+    {
         wp_cache_delete('widget_twentyeleven_ephemera', 'widget');
     }
 
@@ -187,7 +193,8 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
      *
      * @since Twenty Eleven 1.0
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         $title  = isset($instance['title']) ? esc_attr($instance['title']) : '';
         $number = isset($instance['number']) ? absint($instance['number']) : 10;
         ?>

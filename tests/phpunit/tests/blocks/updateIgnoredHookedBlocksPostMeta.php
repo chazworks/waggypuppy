@@ -10,7 +10,8 @@
  * @group blocks
  * @covers ::update_ignored_hooked_blocks_postmeta
  */
-class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase {
+class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase
+{
     /**
      * Post object.
      *
@@ -21,7 +22,8 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase {
     /**
      * Setup method.
      */
-    public static function wpSetUpBeforeClass() {
+    public static function wpSetUpBeforeClass()
+    {
         self::$navigation_post = self::factory()->post->create_and_get(
             array(
                 'post_type'    => 'wp_navigation',
@@ -34,7 +36,8 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase {
     /**
      * Tear down each test method.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $registry = WP_Block_Type_Registry::get_instance();
 
         if ($registry->is_registered('tests/my-block')) {
@@ -47,7 +50,8 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase {
     /**
      * @ticket 60759
      */
-    public function test_update_ignored_hooked_blocks_postmeta_preserves_entities() {
+    public function test_update_ignored_hooked_blocks_postmeta_preserves_entities()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -83,7 +87,8 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase {
     /**
      * @ticket 60759
      */
-    public function test_update_ignored_hooked_blocks_postmeta_dont_modify_no_post_id() {
+    public function test_update_ignored_hooked_blocks_postmeta_dont_modify_no_post_id()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -110,7 +115,8 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase {
     /**
      * @ticket 60759
      */
-    public function test_update_ignored_hooked_blocks_postmeta_retains_content_if_not_set() {
+    public function test_update_ignored_hooked_blocks_postmeta_retains_content_if_not_set()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -142,7 +148,8 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase {
     /**
      * @ticket 60759
      */
-    public function test_update_ignored_hooked_blocks_postmeta_dont_modify_if_not_navigation() {
+    public function test_update_ignored_hooked_blocks_postmeta_dont_modify_if_not_navigation()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -170,7 +177,8 @@ class Tests_Blocks_UpdateIgnoredHookedBlocksPostMeta extends WP_UnitTestCase {
     /**
      * @ticket 60759
      */
-    public function test_update_ignored_hooked_blocks_postmeta_dont_modify_if_no_post_type() {
+    public function test_update_ignored_hooked_blocks_postmeta_dont_modify_if_no_post_type()
+    {
         register_block_type(
             'tests/my-block',
             array(

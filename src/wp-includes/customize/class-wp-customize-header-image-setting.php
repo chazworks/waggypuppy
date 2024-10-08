@@ -16,7 +16,8 @@
  *
  * @see WP_Customize_Setting
  */
-final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
+final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting
+{
 
     /**
      * Unique string identifier for the setting.
@@ -33,7 +34,8 @@ final class WP_Customize_Header_Image_Setting extends WP_Customize_Setting {
      *
      * @param mixed $value The value to update.
      */
-    public function update($value) {
+    public function update($value)
+    {
         global $custom_image_header;
 
         // If _custom_header_background_just_in_time() fails to initialize $custom_image_header when not is_admin().

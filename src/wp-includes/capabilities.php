@@ -42,7 +42,8 @@
  * @param mixed  ...$args Optional further parameters, typically starting with an object ID.
  * @return string[] Primitive capabilities required of the user.
  */
-function map_meta_cap($cap, $user_id, ...$args) {
+function map_meta_cap($cap, $user_id, ...$args)
+{
     $caps = array();
 
     switch ($cap) {
@@ -902,7 +903,8 @@ function map_meta_cap($cap, $user_id, ...$args) {
  * @return bool Whether the current user has the given capability. If `$capability` is a meta cap and `$object_id` is
  *              passed, whether the current user has the given meta capability for the given object.
  */
-function current_user_can($capability, ...$args) {
+function current_user_can($capability, ...$args)
+{
     return user_can(wp_get_current_user(), $capability, ...$args);
 }
 
@@ -929,7 +931,8 @@ function current_user_can($capability, ...$args) {
  * @param mixed  ...$args    Optional further parameters, typically starting with an object ID.
  * @return bool Whether the user has the given capability.
  */
-function current_user_can_for_blog($blog_id, $capability, ...$args) {
+function current_user_can_for_blog($blog_id, $capability, ...$args)
+{
     $switched = is_multisite() ? switch_to_blog($blog_id) : false;
 
     $can = current_user_can($capability, ...$args);
@@ -963,7 +966,8 @@ function current_user_can_for_blog($blog_id, $capability, ...$args) {
  * @param mixed       ...$args    Optional further parameters, typically starting with an object ID.
  * @return bool Whether the post author has the given capability.
  */
-function author_can($post, $capability, ...$args) {
+function author_can($post, $capability, ...$args)
+{
     $post = get_post($post);
     if (! $post) {
         return false;
@@ -1000,7 +1004,8 @@ function author_can($post, $capability, ...$args) {
  * @param mixed       ...$args    Optional further parameters, typically starting with an object ID.
  * @return bool Whether the user has the given capability.
  */
-function user_can($user, $capability, ...$args) {
+function user_can($user, $capability, ...$args)
+{
     if (! is_object($user)) {
         $user = get_userdata($user);
     }
@@ -1035,7 +1040,8 @@ function user_can($user, $capability, ...$args) {
  * @param mixed       ...$args    Optional further parameters, typically starting with an object ID.
  * @return bool Whether the user has the given capability.
  */
-function user_can_for_blog($user, $blog_id, $capability, ...$args) {
+function user_can_for_blog($user, $blog_id, $capability, ...$args)
+{
     if (! is_object($user)) {
         $user = get_userdata($user);
     }
@@ -1071,7 +1077,8 @@ function user_can_for_blog($user, $blog_id, $capability, ...$args) {
  *
  * @return WP_Roles WP_Roles global instance if not already instantiated.
  */
-function wp_roles() {
+function wp_roles()
+{
     global $wp_roles;
 
     if (! isset($wp_roles)) {
@@ -1088,7 +1095,8 @@ function wp_roles() {
  * @param string $role Role name.
  * @return WP_Role|null WP_Role object if found, null if the role does not exist.
  */
-function get_role($role) {
+function get_role($role)
+{
     return wp_roles()->get_role($role);
 }
 
@@ -1103,7 +1111,8 @@ function get_role($role) {
  *                             e.g. array( 'edit_posts' => true, 'delete_posts' => false ).
  * @return WP_Role|void WP_Role object, if the role is added.
  */
-function add_role($role, $display_name, $capabilities = array()) {
+function add_role($role, $display_name, $capabilities = array())
+{
     if (empty($role)) {
         return;
     }
@@ -1118,7 +1127,8 @@ function add_role($role, $display_name, $capabilities = array()) {
  *
  * @param string $role Role name.
  */
-function remove_role($role) {
+function remove_role($role)
+{
     wp_roles()->remove_role($role);
 }
 
@@ -1131,7 +1141,8 @@ function remove_role($role) {
  *
  * @return string[] List of super admin logins.
  */
-function get_super_admins() {
+function get_super_admins()
+{
     global $super_admins;
 
     if (isset($super_admins)) {
@@ -1149,7 +1160,8 @@ function get_super_admins() {
  * @param int|false $user_id Optional. The ID of a user. Defaults to false, to check the current user.
  * @return bool Whether the user is a site admin.
  */
-function is_super_admin($user_id = false) {
+function is_super_admin($user_id = false)
+{
     if (! $user_id) {
         $user = wp_get_current_user();
     } else {
@@ -1183,7 +1195,8 @@ function is_super_admin($user_id = false) {
  * @return bool True on success, false on failure. This can fail when the user is
  *              already a super admin or when the `$super_admins` global is defined.
  */
-function grant_super_admin($user_id) {
+function grant_super_admin($user_id)
+{
     // If global super_admins override is defined, there is nothing to do here.
     if (isset($GLOBALS['super_admins']) || ! is_multisite()) {
         return false;
@@ -1230,7 +1243,8 @@ function grant_super_admin($user_id) {
  * @return bool True on success, false on failure. This can fail when the user's email
  *              is the network admin email or when the `$super_admins` global is defined.
  */
-function revoke_super_admin($user_id) {
+function revoke_super_admin($user_id)
+{
     // If global super_admins override is defined, there is nothing to do here.
     if (isset($GLOBALS['super_admins']) || ! is_multisite()) {
         return false;
@@ -1280,7 +1294,8 @@ function revoke_super_admin($user_id) {
  * @param bool[] $allcaps An array of all the user's capabilities.
  * @return bool[] Filtered array of the user's capabilities.
  */
-function wp_maybe_grant_install_languages_cap($allcaps) {
+function wp_maybe_grant_install_languages_cap($allcaps)
+{
     if (! empty($allcaps['update_core']) || ! empty($allcaps['install_plugins']) || ! empty($allcaps['install_themes'])) {
         $allcaps['install_languages'] = true;
     }
@@ -1296,7 +1311,8 @@ function wp_maybe_grant_install_languages_cap($allcaps) {
  * @param bool[] $allcaps An array of all the user's capabilities.
  * @return bool[] Filtered array of the user's capabilities.
  */
-function wp_maybe_grant_resume_extensions_caps($allcaps) {
+function wp_maybe_grant_resume_extensions_caps($allcaps)
+{
     // Even in a multisite, regular administrators should be able to resume plugins.
     if (! empty($allcaps['activate_plugins'])) {
         $allcaps['resume_plugins'] = true;
@@ -1327,7 +1343,8 @@ function wp_maybe_grant_resume_extensions_caps($allcaps) {
  * @param WP_User  $user    The user object.
  * @return bool[] Filtered array of the user's capabilities.
  */
-function wp_maybe_grant_site_health_caps($allcaps, $caps, $args, $user) {
+function wp_maybe_grant_site_health_caps($allcaps, $caps, $args, $user)
+{
     if (! empty($allcaps['install_plugins']) && (! is_multisite() || is_super_admin($user->ID))) {
         $allcaps['view_site_health_checks'] = true;
     }

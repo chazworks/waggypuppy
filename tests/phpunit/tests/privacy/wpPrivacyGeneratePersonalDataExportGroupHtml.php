@@ -9,14 +9,16 @@
  * @group privacy
  * @covers ::wp_privacy_generate_personal_data_export_group_html
  */
-class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_UnitTestCase {
+class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_UnitTestCase
+{
 
     /**
      * Test when a single data item is passed.
      *
      * @ticket 44044
      */
-    public function test_group_html_generation_single_data_item() {
+    public function test_group_html_generation_single_data_item()
+    {
         $data = array(
             'group_label' => 'Test Data Group',
             'items'       => array(
@@ -46,7 +48,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      * @ticket 44044
      * @ticket 46895
      */
-    public function test_group_html_generation_multiple_data_items() {
+    public function test_group_html_generation_multiple_data_items()
+    {
         $data = array(
             'group_label' => 'Test Data Group',
             'items'       => array(
@@ -91,7 +94,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      *
      * @ticket 44044
      */
-    public function test_links_become_anchors() {
+    public function test_links_become_anchors()
+    {
         $data = array(
             'group_label' => 'Test Data Group',
             'items'       => array(
@@ -124,7 +128,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      *
      * @ticket 44044
      */
-    public function test_group_labels_escaped() {
+    public function test_group_labels_escaped()
+    {
         $data = array(
             'group_label' => '<div>Escape HTML in group labels</div>',
             'items'       => array(),
@@ -140,7 +145,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      *
      * @ticket 44044
      */
-    public function test_allowed_html_not_stripped() {
+    public function test_allowed_html_not_stripped()
+    {
         $data = array(
             'group_label' => 'Test Data Group',
             'items'       => array(
@@ -167,7 +173,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      *
      * @ticket 44044
      */
-    public function test_disallowed_html_is_stripped() {
+    public function test_disallowed_html_is_stripped()
+    {
         $data = array(
             'group_label' => 'Test Data Group',
             'items'       => array(
@@ -198,7 +205,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      *
      * @ticket 46895
      */
-    public function test_group_html_generation_should_display_group_count_when_multiple_items() {
+    public function test_group_html_generation_should_display_group_count_when_multiple_items()
+    {
         $data = array(
             'group_label' => 'Test Data Group',
             'items'       => array(
@@ -229,7 +237,8 @@ class Tests_Privacy_wpPrivacyGeneratePersonalDataExportGroupHtml extends WP_Unit
      *
      * @ticket 46895
      */
-    public function test_group_html_generation_should_not_display_group_count_when_single_item() {
+    public function test_group_html_generation_should_not_display_group_count_when_single_item()
+    {
         $data = array(
             'group_label' => 'Test Data Group',
             'items'       => array(

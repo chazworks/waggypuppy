@@ -6,7 +6,8 @@
  * @subpackage UnitTests
  * @since      3.4.0
  */
-abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
+abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
+{
 
     /**
      * Last Ajax response. This is set via echo -or- wp_die.
@@ -115,7 +116,8 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
         'wp-privacy-erase-personal-data',
     );
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         remove_action('admin_init', '_maybe_update_core');
@@ -135,7 +137,8 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      *
      * Overrides wp_die(), pretends to be Ajax, and suppresses warnings.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         add_filter('wp_doing_ajax', '__return_true');
@@ -156,7 +159,8 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      *
      * Resets $_POST, removes the wp_die() override, restores error reporting.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $_POST = array();
         $_GET  = array();
         unset($GLOBALS['post']);
@@ -171,7 +175,8 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
     /**
      * Clears login cookies, unsets the current user.
      */
-    public function logout() {
+    public function logout()
+    {
         unset($GLOBALS['current_user']);
         $cookies = array(AUTH_COOKIE, SECURE_AUTH_COOKIE, LOGGED_IN_COOKIE, USER_COOKIE, PASS_COOKIE);
         foreach ($cookies as $c) {
@@ -184,7 +189,8 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      *
      * @return callback
      */
-    public function getDieHandler() {
+    public function getDieHandler()
+    {
         return array($this, 'dieHandler');
     }
 
@@ -213,7 +219,8 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      * @throws WPAjaxDieContinueException Thrown to stop execution of the Ajax function,
      *                                    but continue the unit test.
      */
-    public function dieHandler($message) {
+    public function dieHandler($message)
+    {
         $this->_last_response .= ob_get_clean();
 
         if ('' === $this->_last_response) {
@@ -234,7 +241,8 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      *
      * @param string $role The role to set.
      */
-    protected function _setRole($role) {
+    protected function _setRole($role)
+    {
         $post    = $_POST;
         $user_id = self::factory()->user->create(array('role' => $role));
         wp_set_current_user($user_id);
@@ -249,7 +257,8 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase {
      *
      * @param string $action The action to handle.
      */
-    protected function _handleAjax($action) {
+    protected function _handleAjax($action)
+    {
 
         // Start output buffering.
         ini_set('implicit_flush', false);

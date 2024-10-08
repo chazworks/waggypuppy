@@ -7,10 +7,12 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_GetSite extends WP_UnitTestCase {
+    class Tests_Multisite_GetSite extends WP_UnitTestCase
+    {
         protected static $site_ids;
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$site_ids = array(
                 'wordpress.org/'         => array(
                     'domain' => 'wordpress.org',
@@ -32,7 +34,8 @@ if (is_multisite()) :
             unset($id);
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             foreach (self::$site_ids as $id) {
                 wp_delete_site($id);
             }
@@ -40,7 +43,8 @@ if (is_multisite()) :
             wp_update_network_site_counts();
         }
 
-        public function test_get_site_in_switched_state_returns_switched_site() {
+        public function test_get_site_in_switched_state_returns_switched_site()
+        {
             switch_to_blog(self::$site_ids['wordpress.org/foo/']);
             $site = get_site();
             restore_current_blog();

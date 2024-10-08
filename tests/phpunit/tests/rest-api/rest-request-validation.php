@@ -7,9 +7,11 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase {
+class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
+{
 
-    public function test_validate_within_min_max_range_inclusive() {
+    public function test_validate_within_min_max_range_inclusive()
+    {
         $request = new WP_REST_Request(
             'GET',
             '/wp/v2/foo',
@@ -33,7 +35,8 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase {
         $this->assertSame('minmaxrange must be between 2 (inclusive) and 10 (inclusive)', $ret->get_error_message());
     }
 
-    public function test_validate_within_min_max_range_min_exclusive() {
+    public function test_validate_within_min_max_range_min_exclusive()
+    {
         $request = new WP_REST_Request(
             'GET',
             '/wp/v2/foo',
@@ -62,7 +65,8 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase {
         $this->assertSame('minmaxrange must be between 2 (exclusive) and 10 (inclusive)', $ret->get_error_message());
     }
 
-    public function test_validate_within_min_max_range_max_exclusive() {
+    public function test_validate_within_min_max_range_max_exclusive()
+    {
         $request = new WP_REST_Request(
             'GET',
             '/wp/v2/foo',
@@ -91,7 +95,8 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase {
         $this->assertSame('minmaxrange must be between 2 (inclusive) and 10 (exclusive)', $ret->get_error_message());
     }
 
-    public function test_validate_within_min_max_range_both_exclusive() {
+    public function test_validate_within_min_max_range_both_exclusive()
+    {
         $request = new WP_REST_Request(
             'GET',
             '/wp/v2/foo',
@@ -121,7 +126,8 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase {
         $this->assertSame('minmaxrange must be between 2 (exclusive) and 10 (exclusive)', $ret->get_error_message());
     }
 
-    public function test_validate_greater_than_min_inclusive() {
+    public function test_validate_greater_than_min_inclusive()
+    {
         $request = new WP_REST_Request(
             'GET',
             '/wp/v2/foo',
@@ -140,7 +146,8 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase {
         $this->assertTrue($ret);
     }
 
-    public function test_validate_greater_than_min_exclusive() {
+    public function test_validate_greater_than_min_exclusive()
+    {
         $request = new WP_REST_Request(
             'GET',
             '/wp/v2/foo',
@@ -162,7 +169,8 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase {
         $this->assertTrue($ret);
     }
 
-    public function test_validate_less_than_max_inclusive() {
+    public function test_validate_less_than_max_inclusive()
+    {
         $request = new WP_REST_Request(
             'GET',
             '/wp/v2/foo',
@@ -181,7 +189,8 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase {
         $this->assertTrue($ret);
     }
 
-    public function test_validate_less_than_max_exclusive() {
+    public function test_validate_less_than_max_exclusive()
+    {
         $request = new WP_REST_Request(
             'GET',
             '/wp/v2/foo',

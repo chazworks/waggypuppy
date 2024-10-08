@@ -73,7 +73,8 @@ if (! function_exists('twentyten_setup')) :
      *
      * @since Twenty Ten 1.0
      */
-    function twentyten_setup() {
+    function twentyten_setup()
+    {
 
         // This theme styles the visual editor with editor-style.css to match the theme style.
         add_editor_style();
@@ -273,7 +274,8 @@ if (! function_exists('twentyten_admin_header_style')) :
      *
      * @since Twenty Ten 1.0
      */
-    function twentyten_admin_header_style() {
+    function twentyten_admin_header_style()
+    {
         ?>
     <style type="text/css" id="twentyten-admin-header-css">
     /* Shows the same border as on front end */
@@ -297,7 +299,8 @@ if (! function_exists('twentyten_header_image')) :
      *
      * @since Twenty Ten 4.0
      */
-    function twentyten_header_image() {
+    function twentyten_header_image()
+    {
         $attrs = array(
             'alt' => get_bloginfo('name', 'display'),
         );
@@ -333,7 +336,8 @@ endif; // twentyten_header_image()
  *
  * @param array $args An optional array of arguments. @see wp_page_menu()
  */
-function twentyten_page_menu_args($args) {
+function twentyten_page_menu_args($args)
+{
     if (! isset($args['show_home'])) {
         $args['show_home'] = true;
     }
@@ -352,7 +356,8 @@ add_filter('wp_page_menu_args', 'twentyten_page_menu_args');
  * @param int $length The number of excerpt characters.
  * @return int The filtered number of excerpt characters.
  */
-function twentyten_excerpt_length($length) {
+function twentyten_excerpt_length($length)
+{
     return 40;
 }
 add_filter('excerpt_length', 'twentyten_excerpt_length');
@@ -365,7 +370,8 @@ if (! function_exists('twentyten_continue_reading_link')) :
      *
      * @return string "Continue Reading" link.
      */
-    function twentyten_continue_reading_link() {
+    function twentyten_continue_reading_link()
+    {
         return ' <a href="' . esc_url(get_permalink()) . '">' . __('Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten') . '</a>';
     }
 endif;
@@ -383,7 +389,8 @@ endif;
  * @param string $more The Read More text.
  * @return string The filtered Read More text.
  */
-function twentyten_auto_excerpt_more($more) {
+function twentyten_auto_excerpt_more($more)
+{
     if (! is_admin()) {
         return ' &hellip;' . twentyten_continue_reading_link();
     }
@@ -402,7 +409,8 @@ add_filter('excerpt_more', 'twentyten_auto_excerpt_more');
  * @param string $output The "Continue Reading" link.
  * @return string Excerpt with a pretty "Continue Reading" link.
  */
-function twentyten_custom_excerpt_more($output) {
+function twentyten_custom_excerpt_more($output)
+{
     if (has_excerpt() && ! is_attachment() && ! is_admin()) {
         $output .= twentyten_continue_reading_link();
     }
@@ -431,7 +439,8 @@ add_filter('use_default_gallery_style', '__return_false');
  *
  * @return string The gallery style filter, with the styles themselves removed.
  */
-function twentyten_remove_gallery_css($css) {
+function twentyten_remove_gallery_css($css)
+{
     return preg_replace("#<style type='text/css'>(.*?)</style>#s", '', $css);
 }
 // Backward compatibility with WordPress 3.0.
@@ -454,7 +463,8 @@ if (! function_exists('twentyten_comment')) :
      * @param array      $args    An array of arguments. @see get_comment_reply_link()
      * @param int        $depth   The depth of the comment.
      */
-    function twentyten_comment($comment, $args, $depth) {
+    function twentyten_comment($comment, $args, $depth)
+    {
         $GLOBALS['comment'] = $comment;
         switch ($comment->comment_type) :
             case '':
@@ -535,7 +545,8 @@ endif;
  *
  * @uses register_sidebar()
  */
-function twentyten_widgets_init() {
+function twentyten_widgets_init()
+{
     // Area 1, located at the top of the sidebar.
     register_sidebar(
         array(
@@ -629,7 +640,8 @@ add_action('widgets_init', 'twentyten_widgets_init');
  *
  * @since Twenty Ten 1.0
  */
-function twentyten_remove_recent_comments_style() {
+function twentyten_remove_recent_comments_style()
+{
     add_filter('show_recent_comments_widget_style', '__return_false');
 }
 add_action('widgets_init', 'twentyten_remove_recent_comments_style');
@@ -640,7 +652,8 @@ if (! function_exists('twentyten_posted_on')) :
      *
      * @since Twenty Ten 1.0
      */
-    function twentyten_posted_on() {
+    function twentyten_posted_on()
+    {
         printf(
             /* translators: 1: CSS classes, 2: Date, 3: Author display name. */
             __('<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'twentyten'),
@@ -668,7 +681,8 @@ if (! function_exists('twentyten_posted_in')) :
      *
      * @since Twenty Ten 1.0
      */
-    function twentyten_posted_in() {
+    function twentyten_posted_in()
+    {
         // Retrieves tag list of current post, separated by commas.
         $tags_list = get_the_tag_list('', ', ');
 
@@ -704,7 +718,8 @@ endif;
  *
  * @return array List of image IDs from the post gallery.
  */
-function twentyten_get_gallery_images() {
+function twentyten_get_gallery_images()
+{
     $images = array();
 
     if (function_exists('get_post_galleries')) {
@@ -747,7 +762,8 @@ function twentyten_get_gallery_images() {
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentyten_widget_tag_cloud_args($args) {
+function twentyten_widget_tag_cloud_args($args)
+{
     $args['largest']  = 22;
     $args['smallest'] = 8;
     $args['unit']     = 'pt';
@@ -762,7 +778,8 @@ add_filter('widget_tag_cloud_args', 'twentyten_widget_tag_cloud_args');
  *
  * @since Twenty Ten 2.6
  */
-function twentyten_scripts_styles() {
+function twentyten_scripts_styles()
+{
     // Theme block stylesheet.
     wp_enqueue_style('twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), '20230627');
 }
@@ -773,7 +790,8 @@ add_action('wp_enqueue_scripts', 'twentyten_scripts_styles');
  *
  * @since Twenty Ten 2.6
  */
-function twentyten_block_editor_styles() {
+function twentyten_block_editor_styles()
+{
     // Block styles.
     wp_enqueue_style('twentyten-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), '20230627');
 }
@@ -790,7 +808,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Ten 2.9
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Triggered after the opening <body> tag.
          *

@@ -3,10 +3,12 @@
 /**
  * @group xmlrpc
  */
-class Tests_XMLRPC_wp_getPageList extends WP_XMLRPC_UnitTestCase {
+class Tests_XMLRPC_wp_getPageList extends WP_XMLRPC_UnitTestCase
+{
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = $factory->post->create(
             array(
                 'post_type'   => 'page',
@@ -22,13 +24,15 @@ class Tests_XMLRPC_wp_getPageList extends WP_XMLRPC_UnitTestCase {
         );
     }
 
-    public function test_invalid_username_password() {
+    public function test_invalid_username_password()
+    {
         $result = $this->myxmlrpcserver->wp_getPageList(array(1, 'username', 'password'));
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
 
-    public function test_incapable_user() {
+    public function test_incapable_user()
+    {
         $this->make_user_by_role('contributor');
 
         $result = $this->myxmlrpcserver->wp_getPageList(array(1, 'contributor', 'contributor'));
@@ -36,7 +40,8 @@ class Tests_XMLRPC_wp_getPageList extends WP_XMLRPC_UnitTestCase {
         $this->assertSame(401, $result->code);
     }
 
-    public function test_date() {
+    public function test_date()
+    {
         $this->make_user_by_role('editor');
 
         $results = $this->myxmlrpcserver->wp_getPageList(array(1, 'editor', 'editor'));

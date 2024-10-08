@@ -6,7 +6,8 @@
  *
  * @covers Walker_Category::start_el
  */
-class Tests_Category_Walker_Category extends WP_UnitTestCase {
+class Tests_Category_Walker_Category extends WP_UnitTestCase
+{
 
     /**
      * @var \Walker_Category The instance of the walker.
@@ -16,7 +17,8 @@ class Tests_Category_Walker_Category extends WP_UnitTestCase {
     /**
      * Setup.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         /** Walker_Category class */
@@ -29,7 +31,8 @@ class Tests_Category_Walker_Category extends WP_UnitTestCase {
      *
      * @dataProvider data_start_el_with_empty_attributes
      */
-    public function test_start_el_with_empty_attributes($value, $expected) {
+    public function test_start_el_with_empty_attributes($value, $expected)
+    {
         $output   = '';
         $category = self::factory()->category->create_and_get();
         $link     = get_term_link($category);
@@ -56,7 +59,8 @@ class Tests_Category_Walker_Category extends WP_UnitTestCase {
         $this->assertSame("<li class=\"cat-item cat-item-{$category->term_id}\"><a href=\"{$link}\"{$expected}>{$category->name}</a>", trim($output));
     }
 
-    public function data_start_el_with_empty_attributes() {
+    public function data_start_el_with_empty_attributes()
+    {
         return array(
             array(
                 '',

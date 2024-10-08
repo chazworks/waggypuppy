@@ -13,7 +13,8 @@
  *
  * @since 3.9.0
  */
-function wp_underscore_audio_template() {
+function wp_underscore_audio_template()
+{
     $audio_types = wp_get_audio_extensions();
     ?>
 <audio style="visibility: hidden"
@@ -53,7 +54,8 @@ function wp_underscore_audio_template() {
  *
  * @since 3.9.0
  */
-function wp_underscore_video_template() {
+function wp_underscore_video_template()
+{
     $video_types = wp_get_video_extensions();
     ?>
 <#  var w_rule = '', classes = [],
@@ -153,7 +155,8 @@ function wp_underscore_video_template() {
  *
  * @since 3.5.0
  */
-function wp_print_media_templates() {
+function wp_print_media_templates()
+{
     $class = 'media-modal wp-core-ui';
 
     $alt_text_description = sprintf(

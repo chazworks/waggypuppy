@@ -7,12 +7,14 @@
  *
  * @covers IXR_Date
  */
-class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase {
+class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase
+{
 
     /**
      * Cleans up.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Reset the timezone option to the default value.
         update_option('timezone_string', '');
 
@@ -24,7 +26,8 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase {
      *
      * @covers wp_xmlrpc_server::mw_newPost
      */
-    public function test_date_new_post() {
+    public function test_date_new_post()
+    {
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
 
@@ -144,7 +147,8 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase {
      *
      * @covers wp_xmlrpc_server::mw_editPost
      */
-    public function test_date_edit_post() {
+    public function test_date_edit_post()
+    {
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
 
@@ -213,7 +217,8 @@ class Tests_Date_XMLRPC extends WP_XMLRPC_UnitTestCase {
      *
      * @covers wp_xmlrpc_server::wp_editComment
      */
-    public function test_date_edit_comment() {
+    public function test_date_edit_comment()
+    {
         $timezone = 'Europe/Helsinki';
         update_option('timezone_string', $timezone);
 

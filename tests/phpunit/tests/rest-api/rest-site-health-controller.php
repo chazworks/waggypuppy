@@ -10,7 +10,8 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase {
+class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
+{
 
     /**
      * Subscriber user ID.
@@ -37,7 +38,8 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase {
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$subscriber = $factory->user->create(
             array(
                 'role' => 'subscriber',
@@ -59,17 +61,20 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase {
      *
      * @since 5.6.0
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$subscriber);
         self::delete_user(self::$admin);
     }
 
-    public function test_logged_out() {
+    public function test_logged_out()
+    {
         $response = rest_do_request('/wp-site-health/v1/tests/dotorg-communication');
         $this->assertErrorResponse('rest_forbidden', $response, 401);
     }
 
-    public function test_insufficient_caps() {
+    public function test_insufficient_caps()
+    {
         wp_set_current_user(self::$subscriber);
         $response = rest_do_request('/wp-site-health/v1/tests/dotorg-communication');
         $this->assertErrorResponse('rest_forbidden', $response, 403);
@@ -78,7 +83,8 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase {
     /**
      * @group ms-excluded
      */
-    public function test_custom_capability() {
+    public function test_custom_capability()
+    {
         wp_set_current_user(self::$admin);
 
         add_filter(
@@ -92,7 +98,8 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase {
         $this->assertErrorResponse('rest_forbidden', $response, 403);
     }
 
-    public function test() {
+    public function test()
+    {
         wp_set_current_user(self::$admin);
         $response = rest_do_request('/wp-site-health/v1/tests/dotorg-communication');
         $this->assertSame('dotorg_communication', $response->get_data()['test']);
@@ -103,7 +110,8 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase {
      *
      * @ticket 56041
      */
-    public function test_page_cache_endpoint() {
+    public function test_page_cache_endpoint()
+    {
         $server = rest_get_server();
         $routes = $server->get_routes();
 

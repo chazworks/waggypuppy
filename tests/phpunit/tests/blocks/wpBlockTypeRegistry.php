@@ -8,7 +8,8 @@
  *
  * @group blocks
  */
-class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
+class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase
+{
 
     /**
      * Fake block type registry.
@@ -23,7 +24,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @since 5.0.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->registry = new WP_Block_Type_Registry();
@@ -34,7 +36,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @since 5.0.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->registry = null;
 
         parent::tear_down();
@@ -47,7 +50,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Type_Registry::register
      */
-    public function test_invalid_non_string_names() {
+    public function test_invalid_non_string_names()
+    {
         $result = $this->registry->register(1, array());
         $this->assertFalse($result);
     }
@@ -59,7 +63,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Type_Registry::register
      */
-    public function test_invalid_names_without_namespace() {
+    public function test_invalid_names_without_namespace()
+    {
         $result = $this->registry->register('paragraph', array());
         $this->assertFalse($result);
     }
@@ -71,7 +76,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Type_Registry::register
      */
-    public function test_invalid_characters() {
+    public function test_invalid_characters()
+    {
         $result = $this->registry->register('still/_doing_it_wrong', array());
         $this->assertFalse($result);
     }
@@ -83,7 +89,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Type_Registry::register
      */
-    public function test_uppercase_characters() {
+    public function test_uppercase_characters()
+    {
         $result = $this->registry->register('Core/Paragraph', array());
         $this->assertFalse($result);
     }
@@ -93,7 +100,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @ticket 45097
      */
-    public function test_register_block_type() {
+    public function test_register_block_type()
+    {
         $name     = 'core/paragraph';
         $settings = array(
             'icon' => 'editor-paragraph',
@@ -112,7 +120,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Type_Registry::register
      */
-    public function test_register_block_type_twice() {
+    public function test_register_block_type_twice()
+    {
         $name     = 'core/paragraph';
         $settings = array(
             'icon' => 'editor-paragraph',
@@ -129,7 +138,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @ticket 45097
      */
-    public function test_register_block_type_instance() {
+    public function test_register_block_type_instance()
+    {
         $block_type = new WP_Fake_Block_Type('core/fake');
 
         $result = $this->registry->register($block_type);
@@ -143,7 +153,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Type_Registry::unregister
      */
-    public function test_unregister_not_registered_block() {
+    public function test_unregister_not_registered_block()
+    {
         $result = $this->registry->unregister('core/unregistered');
         $this->assertFalse($result);
     }
@@ -153,7 +164,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
      *
      * @ticket 45097
      */
-    public function test_unregister_block_type() {
+    public function test_unregister_block_type()
+    {
         $name     = 'core/paragraph';
         $settings = array(
             'icon' => 'editor-paragraph',
@@ -169,7 +181,8 @@ class Tests_Blocks_wpBlockTypeRegistry extends WP_UnitTestCase {
     /**
      * @ticket 45097
      */
-    public function test_get_all_registered() {
+    public function test_get_all_registered()
+    {
         $names    = array('core/paragraph', 'core/image', 'core/blockquote');
         $settings = array(
             'icon' => 'random',

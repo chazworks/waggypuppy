@@ -14,7 +14,8 @@
  *
  * @uses twentyseventeen_header_style()
  */
-function twentyseventeen_custom_header_setup() {
+function twentyseventeen_custom_header_setup()
+{
 
     add_theme_support(
         'custom-header',
@@ -66,7 +67,8 @@ if (! function_exists('twentyseventeen_header_style')) :
      *
      * @see twentyseventeen_custom_header_setup().
      */
-    function twentyseventeen_header_style() {
+    function twentyseventeen_header_style()
+    {
         $header_text_color = get_header_textcolor();
 
         // If no custom options for text are set, let's bail.
@@ -123,7 +125,8 @@ endif; // End of twentyseventeen_header_style().
  * @param array $settings Video settings.
  * @return array The filtered video settings.
  */
-function twentyseventeen_video_controls($settings) {
+function twentyseventeen_video_controls($settings)
+{
     /* translators: Hidden accessibility text. */
     $settings['l10n']['play'] = '<span class="screen-reader-text">' . __('Play background video', 'twentyseventeen') . '</span>' . twentyseventeen_get_svg(array('icon' => 'play'));
     /* translators: Hidden accessibility text. */

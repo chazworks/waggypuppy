@@ -4,10 +4,12 @@
  *
  * @covers ::wp_list_users
  */
-class Tests_User_wpListUsers extends WP_UnitTestCase {
+class Tests_User_wpListUsers extends WP_UnitTestCase
+{
     private static $user_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_ids[] = $factory->user->create(
             array(
                 'user_login'   => 'zack',
@@ -76,7 +78,8 @@ class Tests_User_wpListUsers extends WP_UnitTestCase {
      * @param array|string $args     The arguments to create a list of users.
      * @param string       $expected The expected result.
      */
-    public function test_should_create_a_user_list($args, $expected) {
+    public function test_should_create_a_user_list($args, $expected)
+    {
         $actual = wp_list_users($args);
 
         $expected = str_replace(
@@ -97,7 +100,8 @@ class Tests_User_wpListUsers extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_create_a_user_list() {
+    public function data_should_create_a_user_list()
+    {
         return array(
             'defaults when no args are supplied' => array(
                 'args'     => '',
@@ -174,7 +178,8 @@ class Tests_User_wpListUsers extends WP_UnitTestCase {
      *
      * @param array|string $args The arguments to create a list of users.
      */
-    public function test_should_not_create_a_user_list($args) {
+    public function test_should_not_create_a_user_list($args)
+    {
         $actual = wp_list_users($args);
 
         if (null === $actual) {
@@ -189,7 +194,8 @@ class Tests_User_wpListUsers extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_not_create_a_user_list() {
+    public function data_should_not_create_a_user_list()
+    {
         return array(
             'an empty user query result' => array(
                 'args'     => array(

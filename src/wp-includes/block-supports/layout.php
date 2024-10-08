@@ -19,7 +19,8 @@
  *
  * @return array[] Layout definitions.
  */
-function wp_get_layout_definitions() {
+function wp_get_layout_definitions()
+{
     $layout_definitions = array(
         'default'     => array(
             'name'          => 'default',
@@ -202,7 +203,8 @@ function wp_get_layout_definitions() {
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_layout_support($block_type) {
+function wp_register_layout_support($block_type)
+{
     $support_layout = block_has_support($block_type, 'layout', false) || block_has_support($block_type, '__experimentalLayout', false);
     if ($support_layout) {
         if (! $block_type->attributes) {
@@ -237,7 +239,8 @@ function wp_register_layout_support($block_type) {
  * @param array|null           $block_spacing                 Optional. Custom spacing set on the block. Default null.
  * @return string CSS styles on success. Else, empty string.
  */
-function wp_get_layout_style($selector, $layout, $has_block_gap_support = false, $gap_value = null, $should_skip_gap_serialization = false, $fallback_gap_value = '0.5em', $block_spacing = null) {
+function wp_get_layout_style($selector, $layout, $has_block_gap_support = false, $gap_value = null, $should_skip_gap_serialization = false, $fallback_gap_value = '0.5em', $block_spacing = null)
+{
     $layout_type   = isset($layout['type']) ? $layout['type'] : 'default';
     $layout_styles = array();
 
@@ -567,7 +570,8 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
  * @param array  $block         Block object.
  * @return string Filtered block content.
  */
-function wp_render_layout_support_flag($block_content, $block) {
+function wp_render_layout_support_flag($block_content, $block)
+{
     $block_type            = WP_Block_Type_Registry::get_instance()->get_registered($block['blockName']);
     $block_supports_layout = block_has_support($block_type, 'layout', false) || block_has_support($block_type, '__experimentalLayout', false);
     $child_layout          = isset($block['attrs']['style']['layout']) ? $block['attrs']['style']['layout'] : null;
@@ -934,7 +938,8 @@ function wp_render_layout_support_flag($block_content, $block) {
  * @param WP_Block $parent_block The parent block.
  * @return array The parsed block with parent layout attribute if it exists.
  */
-function wp_add_parent_layout_to_parsed_block($parsed_block, $source_block, $parent_block) {
+function wp_add_parent_layout_to_parsed_block($parsed_block, $source_block, $parent_block)
+{
     if ($parent_block && isset($parent_block->parsed_block['attrs']['layout'])) {
         $parsed_block['parentLayout'] = $parent_block->parsed_block['attrs']['layout'];
     }
@@ -965,7 +970,8 @@ add_filter('render_block', 'wp_render_layout_support_flag', 10, 2);
  * @param array  $block         Block object.
  * @return string Filtered block content.
  */
-function wp_restore_group_inner_container($block_content, $block) {
+function wp_restore_group_inner_container($block_content, $block)
+{
     $tag_name                         = isset($block['attrs']['tagName']) ? $block['attrs']['tagName'] : 'div';
     $group_with_inner_container_regex = sprintf(
         '/(^\s*<%1$s\b[^>]*wp-block-group(\s|")[^>]*>)(\s*<div\b[^>]*wp-block-group__inner-container(\s|")[^>]*>)((.|\S|\s)*)/U',
@@ -1035,7 +1041,8 @@ add_filter('render_block_core/group', 'wp_restore_group_inner_container', 10, 2)
  * @param  array  $block        Block object.
  * @return string Filtered block content.
  */
-function wp_restore_image_outer_container($block_content, $block) {
+function wp_restore_image_outer_container($block_content, $block)
+{
     $image_with_align = "
 /# 1) everything up to the class attribute contents
 (

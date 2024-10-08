@@ -35,7 +35,8 @@ if (! current_user_can('update_core') && ! current_user_can('update_themes') && 
  *
  * @param object $update
  */
-function list_core_update($update) {
+function list_core_update($update)
+{
     global $wp_local_package, $wpdb;
     static $first_pass = true;
 
@@ -200,7 +201,8 @@ function list_core_update($update) {
  *
  * @since 2.7.0
  */
-function dismissed_updates() {
+function dismissed_updates()
+{
     $dismissed = get_core_updates(
         array(
             'dismissed' => true,
@@ -244,7 +246,8 @@ function dismissed_updates() {
  *
  * @since 2.7.0
  */
-function core_upgrade_preamble() {
+function core_upgrade_preamble()
+{
     $updates = get_core_updates();
 
     // Include an unmodified $wp_version.
@@ -305,7 +308,8 @@ function core_upgrade_preamble() {
  *
  * @since 5.6.0
  */
-function core_auto_updates_settings() {
+function core_auto_updates_settings()
+{
     if (isset($_GET['core-major-auto-updates-saved'])) {
         if ('enabled' === $_GET['core-major-auto-updates-saved']) {
             $notice_text = __('Automatic updates for all WordPress versions have been enabled. Thank you!');
@@ -461,7 +465,8 @@ function core_auto_updates_settings() {
  *
  * @since 2.9.0
  */
-function list_plugin_updates() {
+function list_plugin_updates()
+{
     $wp_version     = wp_get_wp_version();
     $cur_wp_version = preg_replace('/-.*$/', '', $wp_version);
 
@@ -638,7 +643,8 @@ function list_plugin_updates() {
  *
  * @since 2.9.0
  */
-function list_theme_updates() {
+function list_theme_updates()
+{
     $themes = get_theme_updates();
     if (empty($themes)) {
         echo '<h2>' . __('Themes') . '</h2>';
@@ -814,7 +820,8 @@ function list_theme_updates() {
  *
  * @since 3.7.0
  */
-function list_translation_updates() {
+function list_translation_updates()
+{
     $updates = wp_get_translation_updates();
     if (! $updates) {
         if ('en_US' !== get_locale()) {
@@ -844,7 +851,8 @@ function list_translation_updates() {
  *
  * @param bool $reinstall
  */
-function do_core_upgrade($reinstall = false) {
+function do_core_upgrade($reinstall = false)
+{
     global $wp_filesystem;
 
     require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -948,7 +956,8 @@ function do_core_upgrade($reinstall = false) {
  *
  * @since 2.7.0
  */
-function do_dismiss_core_update() {
+function do_dismiss_core_update()
+{
     $version = isset($_POST['version']) ? $_POST['version'] : false;
     $locale  = isset($_POST['locale']) ? $_POST['locale'] : 'en_US';
     $update  = find_core_update($version, $locale);
@@ -965,7 +974,8 @@ function do_dismiss_core_update() {
  *
  * @since 2.7.0
  */
-function do_undismiss_core_update() {
+function do_undismiss_core_update()
+{
     $version = isset($_POST['version']) ? $_POST['version'] : false;
     $locale  = isset($_POST['locale']) ? $_POST['locale'] : 'en_US';
     $update  = find_core_update($version, $locale);

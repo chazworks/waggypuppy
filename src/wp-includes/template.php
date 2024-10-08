@@ -20,7 +20,8 @@
  * @param string[] $templates An optional list of template candidates.
  * @return string Full path to template file.
  */
-function get_query_template($type, $templates = array()) {
+function get_query_template($type, $templates = array())
+{
     $type = preg_replace('|[^a-z0-9-]+|', '', $type);
 
     if (empty($templates)) {
@@ -115,7 +116,8 @@ function get_query_template($type, $templates = array()) {
  *
  * @return string Full path to index template file.
  */
-function get_index_template() {
+function get_index_template()
+{
     return get_query_template('index');
 }
 
@@ -131,7 +133,8 @@ function get_index_template() {
  *
  * @return string Full path to 404 template file.
  */
-function get_404_template() {
+function get_404_template()
+{
     return get_query_template('404');
 }
 
@@ -147,7 +150,8 @@ function get_404_template() {
  *
  * @return string Full path to archive template file.
  */
-function get_archive_template() {
+function get_archive_template()
+{
     $post_types = array_filter((array) get_query_var('post_type'));
 
     $templates = array();
@@ -173,7 +177,8 @@ function get_archive_template() {
  *
  * @return string Full path to archive template file.
  */
-function get_post_type_archive_template() {
+function get_post_type_archive_template()
+{
     $post_type = get_query_var('post_type');
     if (is_array($post_type)) {
         $post_type = reset($post_type);
@@ -211,7 +216,8 @@ function get_post_type_archive_template() {
  *
  * @return string Full path to author template file.
  */
-function get_author_template() {
+function get_author_template()
+{
     $author = get_queried_object();
 
     $templates = array();
@@ -251,7 +257,8 @@ function get_author_template() {
  *
  * @return string Full path to category template file.
  */
-function get_category_template() {
+function get_category_template()
+{
     $category = get_queried_object();
 
     $templates = array();
@@ -297,7 +304,8 @@ function get_category_template() {
  *
  * @return string Full path to tag template file.
  */
-function get_tag_template() {
+function get_tag_template()
+{
     $tag = get_queried_object();
 
     $templates = array();
@@ -343,7 +351,8 @@ function get_tag_template() {
  *
  * @return string Full path to custom taxonomy term template file.
  */
-function get_taxonomy_template() {
+function get_taxonomy_template()
+{
     $term = get_queried_object();
 
     $templates = array();
@@ -376,7 +385,8 @@ function get_taxonomy_template() {
  *
  * @return string Full path to date template file.
  */
-function get_date_template() {
+function get_date_template()
+{
     return get_query_template('date');
 }
 
@@ -392,7 +402,8 @@ function get_date_template() {
  *
  * @return string Full path to home template file.
  */
-function get_home_template() {
+function get_home_template()
+{
     $templates = array('home.php', 'index.php');
 
     return get_query_template('home', $templates);
@@ -410,7 +421,8 @@ function get_home_template() {
  *
  * @return string Full path to front page template file.
  */
-function get_front_page_template() {
+function get_front_page_template()
+{
     $templates = array('front-page.php');
 
     return get_query_template('frontpage', $templates);
@@ -428,7 +440,8 @@ function get_front_page_template() {
  *
  * @return string Full path to privacy policy template file.
  */
-function get_privacy_policy_template() {
+function get_privacy_policy_template()
+{
     $templates = array('privacy-policy.php');
 
     return get_query_template('privacypolicy', $templates);
@@ -464,7 +477,8 @@ function get_privacy_policy_template() {
  *
  * @return string Full path to page template file.
  */
-function get_page_template() {
+function get_page_template()
+{
     $id       = get_queried_object_id();
     $template = get_page_template_slug();
     $pagename = get_query_var('pagename');
@@ -511,7 +525,8 @@ function get_page_template() {
  *
  * @return string Full path to search template file.
  */
-function get_search_template() {
+function get_search_template()
+{
     return get_query_template('search');
 }
 
@@ -546,7 +561,8 @@ function get_search_template() {
  *
  * @return string Full path to single template file.
  */
-function get_single_template() {
+function get_single_template()
+{
     $object = get_queried_object();
 
     $templates = array();
@@ -595,7 +611,8 @@ function get_single_template() {
  *
  * @return string Full path to embed template file.
  */
-function get_embed_template() {
+function get_embed_template()
+{
     $object = get_queried_object();
 
     $templates = array();
@@ -625,7 +642,8 @@ function get_embed_template() {
  *
  * @return string Full path to singular template file
  */
-function get_singular_template() {
+function get_singular_template()
+{
     return get_query_template('singular');
 }
 
@@ -656,7 +674,8 @@ function get_singular_template() {
  *
  * @return string Full path to attachment template file.
  */
-function get_attachment_template() {
+function get_attachment_template()
+{
     $attachment = get_queried_object();
 
     $templates = array();
@@ -687,7 +706,8 @@ function get_attachment_template() {
  * @global string $wp_stylesheet_path Path to current theme's stylesheet directory.
  * @global string $wp_template_path   Path to current theme's template directory.
  */
-function wp_set_template_globals() {
+function wp_set_template_globals()
+{
     global $wp_stylesheet_path, $wp_template_path;
 
     $wp_stylesheet_path = get_stylesheet_directory();
@@ -715,7 +735,8 @@ function wp_set_template_globals() {
  *                                     Default empty array.
  * @return string The template filename if one is located.
  */
-function locate_template($template_names, $load = false, $load_once = true, $args = array()) {
+function locate_template($template_names, $load = false, $load_once = true, $args = array())
+{
     global $wp_stylesheet_path, $wp_template_path;
 
     if (! isset($wp_stylesheet_path) || ! isset($wp_template_path)) {
@@ -775,7 +796,8 @@ function locate_template($template_names, $load = false, $load_once = true, $arg
  * @param array  $args           Optional. Additional arguments passed to the template.
  *                               Default empty array.
  */
-function load_template($_template_file, $load_once = true, $args = array()) {
+function load_template($_template_file, $load_once = true, $args = array())
+{
     global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
     if (is_array($wp_query->query_vars)) {

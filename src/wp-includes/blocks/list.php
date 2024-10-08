@@ -19,7 +19,8 @@
  *
  * @return string The content of the block being rendered.
  */
-function block_core_list_render($attributes, $content) {
+function block_core_list_render($attributes, $content)
+{
     if (! $content) {
         return $content;
     }
@@ -42,7 +43,8 @@ function block_core_list_render($attributes, $content) {
  *
  * @since 6.6.0
  */
-function register_block_core_list() {
+function register_block_core_list()
+{
     register_block_type_from_metadata(
         __DIR__ . '/list',
         array(

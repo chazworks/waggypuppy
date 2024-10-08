@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
+class WP_Widget_Area_Customize_Control extends WP_Customize_Control
+{
 
     /**
      * Customize control type.
@@ -37,7 +38,8 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
      *
      * @since 3.9.0
      */
-    public function to_json() {
+    public function to_json()
+    {
         parent::to_json();
         $exported_properties = array('sidebar_id');
         foreach ($exported_properties as $key) {
@@ -50,7 +52,8 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
      *
      * @since 3.9.0
      */
-    public function render_content() {
+    public function render_content()
+    {
         $id = 'reorder-widgets-desc-' . str_replace(array('[', ']'), array('-', ''), $this->id);
         ?>
         <button type="button" class="button add-new-widget" aria-expanded="false" aria-controls="available-widgets">

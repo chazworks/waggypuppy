@@ -7,26 +7,30 @@
  * @covers ::mb_substr
  * @covers ::_mb_substr
  */
-class Tests_Compat_mbSubstr extends WP_UnitTestCase {
+class Tests_Compat_mbSubstr extends WP_UnitTestCase
+{
 
     /**
      * Test that mb_substr() is always available (either from PHP or WP).
      */
-    public function test_mb_substr_availability() {
+    public function test_mb_substr_availability()
+    {
         $this->assertTrue(function_exists('mb_substr'));
     }
 
     /**
      * @dataProvider data_utf8_substrings
      */
-    public function test_mb_substr($input_string, $start, $length, $expected_character_substring) {
+    public function test_mb_substr($input_string, $start, $length, $expected_character_substring)
+    {
         $this->assertSame($expected_character_substring, _mb_substr($input_string, $start, $length, 'UTF-8'));
     }
 
     /**
      * @dataProvider data_utf8_substrings
      */
-    public function test_mb_substr_via_regex($input_string, $start, $length, $expected_character_substring) {
+    public function test_mb_substr_via_regex($input_string, $start, $length, $expected_character_substring)
+    {
         _wp_can_use_pcre_u(false);
         $this->assertSame($expected_character_substring, _mb_substr($input_string, $start, $length, 'UTF-8'));
         _wp_can_use_pcre_u('reset');
@@ -35,7 +39,8 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase {
     /**
      * @dataProvider data_utf8_substrings
      */
-    public function test_8bit_mb_substr($input_string, $start, $length, $expected_character_substring, $expected_byte_substring) {
+    public function test_8bit_mb_substr($input_string, $start, $length, $expected_character_substring, $expected_byte_substring)
+    {
         $this->assertSame($expected_byte_substring, _mb_substr($input_string, $start, $length, '8bit'));
     }
 
@@ -44,7 +49,8 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_utf8_substrings() {
+    public function data_utf8_substrings()
+    {
         return array(
             array(
                 'input_string'                 => 'баба',
@@ -101,7 +107,8 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase {
     /**
      * @link https://github.com/php/php-src/blob/php-5.6.8/ext/mbstring/tests/mb_substr_basic.phpt
      */
-    public function test_mb_substr_phpcore_basic() {
+    public function test_mb_substr_phpcore_basic()
+    {
         $string_ascii = 'ABCDEF';
         $string_mb    = base64_decode('5pel5pys6Kqe44OG44Kt44K544OI44Gn44GZ44CCMDEyMzTvvJXvvJbvvJfvvJjvvJnjgII=');
 
@@ -137,7 +144,8 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase {
      * @param mixed  $input    Input to pass to the function.
      * @param string $expected Expected function output.
      */
-    public function test_mb_substr_phpcore_input_type_handling($input, $expected) {
+    public function test_mb_substr_phpcore_input_type_handling($input, $expected)
+    {
         $start  = 0;
         $length = 5;
 
@@ -149,7 +157,8 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_mb_substr_phpcore_input_type_handling() {
+    public function data_mb_substr_phpcore_input_type_handling()
+    {
         $heredoc = <<<EOT
 hello world
 EOT;
@@ -234,8 +243,10 @@ EOT;
 }
 
 /* used in data_mb_substr_phpcore_input_type_handling() */
-class ClassWithToStringForMbSubstr {
-    public function __toString() {
+class ClassWithToStringForMbSubstr
+{
+    public function __toString()
+    {
         return 'Class object';
     }
 }

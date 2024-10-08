@@ -4,13 +4,15 @@
  * @group block-templates
  * @covers ::get_template_hierarchy
  */
-abstract class WP_Block_Templates_UnitTestCase extends WP_UnitTestCase {
+abstract class WP_Block_Templates_UnitTestCase extends WP_UnitTestCase
+{
     const TEST_THEME = 'block-theme';
 
     protected static $template_post;
     protected static $template_part_post;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         /*
          * Set up a template post corresponding to a different theme.
          * Do this to ensure resolution and slug creation works as expected,
@@ -74,12 +76,14 @@ abstract class WP_Block_Templates_UnitTestCase extends WP_UnitTestCase {
         wp_set_post_terms(self::$template_part_post->ID, self::TEST_THEME, 'wp_theme');
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         wp_delete_post(self::$template_post->ID);
         wp_delete_post(self::$template_part_post->ID);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme(self::TEST_THEME);
     }

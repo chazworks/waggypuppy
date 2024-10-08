@@ -16,14 +16,16 @@ require_once __DIR__ . '/base.php';
  * @covers WP_Plugin_Dependencies::convert_to_slug
  * @covers WP_Plugin_Dependencies::get_dependents
  */
-class Tests_Admin_WPPluginDependencies_GetDependentNames extends WP_PluginDependencies_UnitTestCase {
+class Tests_Admin_WPPluginDependencies_GetDependentNames extends WP_PluginDependencies_UnitTestCase
+{
 
     /**
      * Tests that dependent names are retrieved.
      *
      * @ticket 22316
      */
-    public function test_should_get_dependent_names() {
+    public function test_should_get_dependent_names()
+    {
         $this->set_property_value(
             'plugins',
             array(
@@ -51,7 +53,8 @@ class Tests_Admin_WPPluginDependencies_GetDependentNames extends WP_PluginDepend
      *
      * @ticket 22316
      */
-    public function test_should_sort_dependent_names() {
+    public function test_should_sort_dependent_names()
+    {
         $this->set_property_value(
             'plugins',
             array(

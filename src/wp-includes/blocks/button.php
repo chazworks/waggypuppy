@@ -16,7 +16,8 @@
  *
  * @return string The block content.
  */
-function render_block_core_button($attributes, $content) {
+function render_block_core_button($attributes, $content)
+{
     $p = new WP_HTML_Tag_Processor($content);
 
     /*
@@ -69,7 +70,8 @@ function render_block_core_button($attributes, $content) {
  *
  * @since 6.6.0
  */
-function register_block_core_button() {
+function register_block_core_button()
+{
     register_block_type_from_metadata(
         __DIR__ . '/button',
         array(

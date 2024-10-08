@@ -15,14 +15,16 @@
  * @see WP_Widget_Media
  * @see WP_Widget
  */
-class WP_Widget_Media_Gallery extends WP_Widget_Media {
+class WP_Widget_Media_Gallery extends WP_Widget_Media
+{
 
     /**
      * Constructor.
      *
      * @since 4.9.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(
             'media_gallery',
             __('Gallery'),
@@ -54,7 +56,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
      *
      * @return array Schema for properties.
      */
-    public function get_instance_schema() {
+    public function get_instance_schema()
+    {
         $schema = array(
             'title'          => array(
                 'type'                  => 'string',
@@ -110,7 +113,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
      *
      * @param array $instance Widget instance props.
      */
-    public function render_media($instance) {
+    public function render_media($instance)
+    {
         $instance = array_merge(wp_list_pluck($this->get_instance_schema(), 'default'), $instance);
 
         $shortcode_atts = array_merge(
@@ -134,7 +138,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
      *
      * @since 4.9.0
      */
-    public function enqueue_admin_scripts() {
+    public function enqueue_admin_scripts()
+    {
         parent::enqueue_admin_scripts();
 
         $handle = 'media-gallery-widget';
@@ -172,7 +177,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
      *
      * @since 4.9.0
      */
-    public function render_control_template_scripts() {
+    public function render_control_template_scripts()
+    {
         parent::render_control_template_scripts();
         ?>
         <script type="text/html" id="tmpl-wp-media-widget-gallery-preview">
@@ -245,7 +251,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
      * @param array $instance Widget instance props.
      * @return bool Whether widget has content.
      */
-    protected function has_content($instance) {
+    protected function has_content($instance)
+    {
         if (! empty($instance['ids'])) {
             $attachments = wp_parse_id_list($instance['ids']);
             // Prime attachment post caches.

@@ -6,9 +6,11 @@
  *
  * @covers ::wp_link_pages
  */
-class Tests_Post_wpLinkPages extends WP_UnitTestCase {
+class Tests_Post_wpLinkPages extends WP_UnitTestCase
+{
 
-    public function test_wp_link_pages() {
+    public function test_wp_link_pages()
+    {
         $contents = array('One', 'Two', 'Three');
         $content  = implode('<!--nextpage-->', $contents);
         $post_id  = self::factory()->post->create(array('post_content' => $content));

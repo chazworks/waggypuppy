@@ -14,7 +14,8 @@
  *
  * @covers ::update_post_author_caches
  */
-class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase {
+class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase
+{
 
     /**
      * User IDs from the shared fixture.
@@ -35,7 +36,8 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The unit test factory.
      */
-    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetupBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_ids = array();
 
         for ($i = 0; $i < self::$post_author_count; $i++) {
@@ -52,7 +54,8 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase {
     /**
      * @ticket 55716
      */
-    public function test_update_post_author_caches() {
+    public function test_update_post_author_caches()
+    {
         $action = new MockAction();
         add_filter('update_user_metadata_cache', array($action, 'filter'), 10, 2);
 

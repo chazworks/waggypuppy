@@ -19,7 +19,8 @@
  * @param string   $attribute_name The name of the target attribute.
  * @return mixed The value computed for the source.
  */
-function _block_bindings_pattern_overrides_get_value(array $source_args, $block_instance, string $attribute_name) {
+function _block_bindings_pattern_overrides_get_value(array $source_args, $block_instance, string $attribute_name)
+{
     if (empty($block_instance->attributes['metadata']['name'])) {
         return null;
     }
@@ -33,7 +34,8 @@ function _block_bindings_pattern_overrides_get_value(array $source_args, $block_
  * @since 6.5.0
  * @access private
  */
-function _register_block_bindings_pattern_overrides_source() {
+function _register_block_bindings_pattern_overrides_source()
+{
     register_block_bindings_source(
         'core/pattern-overrides',
         array(

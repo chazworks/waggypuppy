@@ -7,19 +7,22 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
+class WP_Test_REST_Controller extends WP_Test_REST_TestCase
+{
 
     /**
      * @var WP_REST_Request
      */
     private $request;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Load the WP_REST_Test_Controller class if not already loaded.
         require_once __DIR__ . '/rest-test-controller.php';
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->request = new WP_REST_Request(
             'GET',
@@ -68,14 +71,16 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         );
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         global $wp_rest_additional_fields;
         $wp_rest_additional_fields = array();
 
         parent::tear_down();
     }
 
-    public function test_validate_schema_type_integer() {
+    public function test_validate_schema_type_integer()
+    {
 
         $this->assertTrue(
             rest_validate_request_arg('123', $this->request, 'someinteger')
@@ -87,7 +92,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         );
     }
 
-    public function test_validate_schema_type_boolean() {
+    public function test_validate_schema_type_boolean()
+    {
 
         $this->assertTrue(
             rest_validate_request_arg(true, $this->request, 'someboolean')
@@ -153,7 +159,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         );
     }
 
-    public function test_validate_schema_type_string() {
+    public function test_validate_schema_type_string()
+    {
 
         $this->assertTrue(
             rest_validate_request_arg('123', $this->request, 'somestring')
@@ -165,7 +172,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         );
     }
 
-    public function test_validate_schema_enum() {
+    public function test_validate_schema_enum()
+    {
 
         $this->assertTrue(
             rest_validate_request_arg('a', $this->request, 'someenum')
@@ -177,7 +185,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         );
     }
 
-    public function test_validate_schema_format_email() {
+    public function test_validate_schema_format_email()
+    {
 
         $this->assertTrue(
             rest_validate_request_arg('joe@foo.bar', $this->request, 'someemail')
@@ -192,7 +201,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @ticket 49270
      */
-    public function test_validate_schema_format_hex_color() {
+    public function test_validate_schema_format_hex_color()
+    {
 
         $this->assertTrue(
             rest_validate_request_arg('#000000', $this->request, 'somehex')
@@ -204,7 +214,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         );
     }
 
-    public function test_validate_schema_format_date_time() {
+    public function test_validate_schema_format_date_time()
+    {
 
         $this->assertTrue(
             rest_validate_request_arg('2010-01-01T12:00:00', $this->request, 'somedate')
@@ -219,7 +230,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @ticket 50053
      */
-    public function test_validate_schema_format_uuid() {
+    public function test_validate_schema_format_uuid()
+    {
         $this->assertTrue(
             rest_validate_request_arg('123e4567-e89b-12d3-a456-426655440000', $this->request, 'someuuid')
         );
@@ -233,7 +245,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @ticket 49960
      */
-    public function test_validate_schema_format_text_field() {
+    public function test_validate_schema_format_text_field()
+    {
         $this->assertTrue(
             rest_validate_request_arg('Hello World', $this->request, 'sometextfield')
         );
@@ -256,7 +269,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @ticket 49960
      */
-    public function test_validate_schema_format_textarea_field() {
+    public function test_validate_schema_format_textarea_field()
+    {
         $this->assertTrue(
             rest_validate_request_arg("Hello\nWorld", $this->request, 'sometextareafield')
         );
@@ -279,7 +293,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @ticket 50876
      */
-    public function test_get_endpoint_args_for_item_schema() {
+    public function test_get_endpoint_args_for_item_schema()
+    {
         $controller = new WP_REST_Test_Controller();
         $args       = $controller->get_endpoint_args_for_item_schema();
 
@@ -300,7 +315,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertArrayHasKey('someobject', $args);
     }
 
-    public function test_get_endpoint_args_for_item_schema_description() {
+    public function test_get_endpoint_args_for_item_schema_description()
+    {
         $controller = new WP_REST_Test_Controller();
         $args       = rest_get_endpoint_args_for_schema($controller->get_item_schema());
 
@@ -308,7 +324,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertArrayNotHasKey('description', $args['someinteger']);
     }
 
-    public function test_get_endpoint_args_for_item_schema_arg_options() {
+    public function test_get_endpoint_args_for_item_schema_arg_options()
+    {
 
         $controller = new WP_REST_Test_Controller();
         $args       = rest_get_endpoint_args_for_schema($controller->get_item_schema());
@@ -317,7 +334,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertSame('__return_true', $args['someargoptions']['sanitize_callback']);
     }
 
-    public function test_get_endpoint_args_for_item_schema_default_value() {
+    public function test_get_endpoint_args_for_item_schema_default_value()
+    {
 
         $controller = new WP_REST_Test_Controller();
         $args       = rest_get_endpoint_args_for_schema($controller->get_item_schema());
@@ -328,7 +346,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @ticket 50301
      */
-    public function test_get_endpoint_args_for_item_schema_arg_properties() {
+    public function test_get_endpoint_args_for_item_schema_arg_properties()
+    {
 
         $controller = new WP_REST_Test_Controller();
         $args       = rest_get_endpoint_args_for_schema($controller->get_item_schema());
@@ -367,7 +386,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @dataProvider data_get_fields_for_response
      */
-    public function test_get_fields_for_response($param, $expected) {
+    public function test_get_fields_for_response($param, $expected)
+    {
         $controller = new WP_REST_Test_Controller();
         $request    = new WP_REST_Request('GET', '/wp/v2/testroute');
         $fields     = $controller->get_fields_for_response($request);
@@ -397,7 +417,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertSame($expected, $fields);
     }
 
-    public function data_get_fields_for_response() {
+    public function data_get_fields_for_response()
+    {
         return array(
             array(
                 'somestring,someinteger,someinvalidkey',
@@ -430,7 +451,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         );
     }
 
-    public function test_get_fields_for_response_respects_embed() {
+    public function test_get_fields_for_response_respects_embed()
+    {
         $controller = new WP_REST_Test_Controller();
         $request    = new WP_REST_Request('GET', '/wp/v2/testroute');
 
@@ -441,7 +463,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertContains('_embedded', $controller->get_fields_for_response($request));
     }
 
-    public function test_get_fields_for_response_filters_by_context() {
+    public function test_get_fields_for_response_filters_by_context()
+    {
         $controller = new WP_REST_Test_Controller();
 
         $request = new WP_REST_Request('GET', '/wp/v2/testroute');
@@ -476,7 +499,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertGreaterThan(0, $listener->get_call_count($method));
     }
 
-    public function test_filtering_fields_for_response_by_context_returns_fields_with_no_context() {
+    public function test_filtering_fields_for_response_by_context_returns_fields_with_no_context()
+    {
         $controller = new WP_REST_Test_Controller();
 
         $request = new WP_REST_Request('GET', '/wp/v2/testroute');
@@ -504,7 +528,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertGreaterThan(0, $listener->get_call_count($method));
     }
 
-    public function test_filtering_fields_for_response_by_context_returns_fields_with_no_schema() {
+    public function test_filtering_fields_for_response_by_context_returns_fields_with_no_schema()
+    {
         $controller = new WP_REST_Test_Controller();
 
         $request = new WP_REST_Request('GET', '/wp/v2/testroute');
@@ -532,7 +557,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @ticket 48785
      */
-    public function test_get_public_item_schema_with_properties() {
+    public function test_get_public_item_schema_with_properties()
+    {
         $schema = (new WP_REST_Test_Controller())->get_public_item_schema();
 
         // Double-check that the public item schema set in WP_REST_Test_Controller still has properties.
@@ -545,7 +571,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
     /**
      * @ticket 48785
      */
-    public function test_get_public_item_schema_no_properties() {
+    public function test_get_public_item_schema_no_properties()
+    {
         $controller = new WP_REST_Test_Configurable_Controller(
             array(
                 '$schema'     => 'http://json-schema.org/draft-04/schema#',
@@ -562,7 +589,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertSameSetsWithIndex($controller->get_public_item_schema(), $controller->get_test_schema());
     }
 
-    public function test_add_additional_fields_to_object_respects_fields_param() {
+    public function test_add_additional_fields_to_object_respects_fields_param()
+    {
         $controller = new WP_REST_Test_Controller();
         $request    = new WP_REST_Request('GET', '/wp/v2/testroute');
         $schema     = $controller->get_item_schema();
@@ -607,7 +635,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
      * @dataProvider data_filter_nested_registered_rest_fields
      * @ticket 49648
      */
-    public function test_filter_nested_registered_rest_fields($filter, $expected) {
+    public function test_filter_nested_registered_rest_fields($filter, $expected)
+    {
         $controller = new WP_REST_Test_Controller();
 
         register_rest_field(
@@ -642,7 +671,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         $this->assertSame($expected, $response->get_data());
     }
 
-    public function register_nested_rest_field_get_callback() {
+    public function register_nested_rest_field_get_callback()
+    {
         return array(
             'a' => array(
                 'i'  => 'value i',
@@ -655,7 +685,8 @@ class WP_Test_REST_Controller extends WP_Test_REST_TestCase {
         );
     }
 
-    public function data_filter_nested_registered_rest_fields() {
+    public function data_filter_nested_registered_rest_fields()
+    {
         return array(
             array(
                 'field',

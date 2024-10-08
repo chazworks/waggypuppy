@@ -8,7 +8,8 @@
  *
  * @covers ::get_edit_post_link
  */
-class Tests_Link_GetEditPostLink extends WP_UnitTestCase {
+class Tests_Link_GetEditPostLink extends WP_UnitTestCase
+{
     /**
      * The name of the theme to use for the test.
      *
@@ -30,7 +31,8 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Create an admin user because get_edit_post_link() requires 'edit_post' capability.
         self::$admin_id = $factory->user->create(array('role' => 'administrator'));
     }
@@ -40,7 +42,8 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase {
      *
      * @since 6.3.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         wp_set_current_user(self::$admin_id);
         switch_theme(self::TEST_THEME);
@@ -49,7 +52,8 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase {
     /**
      * Tests getting the edit post link for a post.
      */
-    public function test_get_edit_post_link() {
+    public function test_get_edit_post_link()
+    {
         $post                 = self::factory()->post->create_and_get(
             array(
                 'post_type'   => 'post',
@@ -71,7 +75,8 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase {
      *
      * @ticket 57709
      */
-    public function test_get_edit_post_link_for_wp_template_post_type() {
+    public function test_get_edit_post_link_for_wp_template_post_type()
+    {
         $template_post = self::factory()->post->create_and_get(
             array(
                 'post_type'    => 'wp_template',
@@ -102,7 +107,8 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase {
      *
      * @ticket 57709
      */
-    public function test_get_edit_post_link_for_wp_template_part_post_type() {
+    public function test_get_edit_post_link_for_wp_template_part_post_type()
+    {
         $template_part_post = self::factory()->post->create_and_get(
             array(
                 'post_type'    => 'wp_template_part',
@@ -137,7 +143,8 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase {
      *
      * @ticket 58589
      * */
-    public function test_get_edit_post_link_for_wp_navigation_post_type() {
+    public function test_get_edit_post_link_for_wp_navigation_post_type()
+    {
         $navigation_post = self::factory()->post->create_and_get(
             array(
                 'post_type'    => 'wp_navigation',

@@ -7,7 +7,8 @@
  *
  * @covers ::wp_validate_boolean
  */
-class Tests_Functions_wpValidateBoolean extends WP_UnitTestCase {
+class Tests_Functions_wpValidateBoolean extends WP_UnitTestCase
+{
 
     /**
      * Tests wp_validate_boolean().
@@ -20,7 +21,8 @@ class Tests_Functions_wpValidateBoolean extends WP_UnitTestCase {
      * @param mixed $test_value Test value.
      * @param bool  $expected   Expected return value.
      */
-    public function test_wp_validate_boolean($test_value, $expected) {
+    public function test_wp_validate_boolean($test_value, $expected)
+    {
         $this->assertSame($expected, wp_validate_boolean($test_value));
     }
 
@@ -32,7 +34,8 @@ class Tests_Functions_wpValidateBoolean extends WP_UnitTestCase {
      *     @type bool  $expected   Expected return value.
      * }
      */
-    public function data_wp_validate_boolean() {
+    public function data_wp_validate_boolean()
+    {
         $std = new \stdClass();
 
         return array(

@@ -10,12 +10,14 @@
  * @covers ::_get_non_cached_ids
  * @covers ::_validate_cache_id
  */
-class Tests_Functions_GetNonCachedIds extends WP_UnitTestCase {
+class Tests_Functions_GetNonCachedIds extends WP_UnitTestCase
+{
 
     /**
      * @ticket 57593
      */
-    public function test_uncached_valid_ids_should_be_unique() {
+    public function test_uncached_valid_ids_should_be_unique()
+    {
         $object_id = 1;
 
         $this->assertSame(
@@ -32,7 +34,8 @@ class Tests_Functions_GetNonCachedIds extends WP_UnitTestCase {
      *
      * @param mixed $object_id The object ID.
      */
-    public function test_valid_ids_should_be_returned_as_integers($object_id) {
+    public function test_valid_ids_should_be_returned_as_integers($object_id)
+    {
         $this->assertSame(
             array((int) $object_id),
             _get_non_cached_ids(array($object_id), 'fake-group'),
@@ -45,7 +48,8 @@ class Tests_Functions_GetNonCachedIds extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_valid_ids_should_be_returned_as_integers() {
+    public function data_valid_ids_should_be_returned_as_integers()
+    {
         return array(
             '(int) 1'    => array(1),
             '(string) 1' => array('1'),
@@ -55,7 +59,8 @@ class Tests_Functions_GetNonCachedIds extends WP_UnitTestCase {
     /**
      * @ticket 57593
      */
-    public function test_mix_of_valid_and_invalid_ids_should_return_the_valid_ids_and_throw_a_notice() {
+    public function test_mix_of_valid_and_invalid_ids_should_return_the_valid_ids_and_throw_a_notice()
+    {
         $object_id = 1;
 
         $this->setExpectedIncorrectUsage('_get_non_cached_ids');
@@ -73,7 +78,8 @@ class Tests_Functions_GetNonCachedIds extends WP_UnitTestCase {
      *
      * @param mixed $object_id The object ID.
      */
-    public function test_invalid_cache_ids_should_throw_a_notice($object_id) {
+    public function test_invalid_cache_ids_should_throw_a_notice($object_id)
+    {
         $this->setExpectedIncorrectUsage('_get_non_cached_ids');
         $this->assertSame(
             array(),
@@ -87,7 +93,8 @@ class Tests_Functions_GetNonCachedIds extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_invalid_cache_ids_should_throw_a_notice() {
+    public function data_invalid_cache_ids_should_throw_a_notice()
+    {
         return array(
             'null'         => array(null),
             'false'        => array(false),

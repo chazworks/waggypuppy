@@ -5,11 +5,13 @@
  *
  * @covers ::wp_allow_comment
  */
-class Tests_Comment_WpAllowComment extends WP_UnitTestCase {
+class Tests_Comment_WpAllowComment extends WP_UnitTestCase
+{
     protected static $post_id;
     protected static $comment_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id    = $factory->post->create();
         self::$comment_id = $factory->comment->create(
             array(
@@ -25,14 +27,16 @@ class Tests_Comment_WpAllowComment extends WP_UnitTestCase {
         update_option('comment_previously_approved', 0);
     }
 
-    public static function wpTeardownAfterClass() {
+    public static function wpTeardownAfterClass()
+    {
         wp_delete_post(self::$post_id, true);
         wp_delete_comment(self::$comment_id, true);
 
         update_option('comment_previously_approved', 1);
     }
 
-    public function test_allow_comment_if_comment_author_emails_differ() {
+    public function test_allow_comment_if_comment_author_emails_differ()
+    {
         $now          = time();
         $comment_data = array(
             'comment_post_ID'      => self::$post_id,
@@ -52,7 +56,8 @@ class Tests_Comment_WpAllowComment extends WP_UnitTestCase {
         $this->assertSame(1, $result);
     }
 
-    public function test_die_as_duplicate_if_comment_author_name_and_emails_match() {
+    public function test_die_as_duplicate_if_comment_author_name_and_emails_match()
+    {
         $this->expectException('WPDieException');
 
         $now          = time();

@@ -5,11 +5,13 @@
  * @group comments
  * @group feeds
  */
-class Tests_Query_CommentFeed extends WP_UnitTestCase {
+class Tests_Query_CommentFeed extends WP_UnitTestCase
+{
     public static $post_type   = 'post';
     protected static $post_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_ids = $factory->post->create_many(
             3,
             array(
@@ -27,7 +29,8 @@ class Tests_Query_CommentFeed extends WP_UnitTestCase {
     /**
      * @ticket 36904
      */
-    public function test_archive_comment_feed() {
+    public function test_archive_comment_feed()
+    {
         add_filter('split_the_query', '__return_false');
         $q1   = new WP_Query();
         $args = array(
@@ -52,7 +55,8 @@ class Tests_Query_CommentFeed extends WP_UnitTestCase {
     /**
      * @ticket 36904
      */
-    public function test_archive_comment_feed_invalid_cache() {
+    public function test_archive_comment_feed_invalid_cache()
+    {
         $q1   = new WP_Query();
         $args = array(
             'withcomments'           => 1,
@@ -85,7 +89,8 @@ class Tests_Query_CommentFeed extends WP_UnitTestCase {
     /**
      * @ticket 36904
      */
-    public function test_single_comment_feed() {
+    public function test_single_comment_feed()
+    {
         $post = get_post(self::$post_ids[0]);
 
         $q1   = new WP_Query();

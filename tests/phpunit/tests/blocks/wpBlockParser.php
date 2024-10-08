@@ -8,7 +8,8 @@
  *
  * @group blocks
  */
-class Tests_Blocks_wpBlockParser extends WP_UnitTestCase {
+class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
+{
     /**
      * The location of the fixtures to test with.
      *
@@ -20,7 +21,8 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase {
     /**
      * @ticket 45109
      */
-    public function data_parsing_test_filenames() {
+    public function data_parsing_test_filenames()
+    {
         self::$fixtures_dir = DIR_TESTDATA . '/blocks/fixtures';
 
         $fixture_filenames = array_merge(
@@ -47,7 +49,8 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase {
      * @dataProvider data_parsing_test_filenames
      * @ticket 45109
      */
-    public function test_default_parser_output($html_filename, $parsed_json_filename) {
+    public function test_default_parser_output($html_filename, $parsed_json_filename)
+    {
         $html_path        = self::$fixtures_dir . '/' . $html_filename;
         $parsed_json_path = self::$fixtures_dir . '/' . $parsed_json_filename;
 
@@ -78,7 +81,8 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase {
      * @param string $filename The filename to clean.
      * @return string The cleaned fixture name.
      */
-    protected function clean_fixture_filename($filename) {
+    protected function clean_fixture_filename($filename)
+    {
         $filename = wp_basename($filename);
         $filename = preg_replace('/\..+$/', '', $filename);
         return $filename;
@@ -92,7 +96,8 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase {
      * @param string $filename The cleaned fixture name.
      * @return array The input and expected output filenames for that fixture.
      */
-    protected function pass_parser_fixture_filenames($filename) {
+    protected function pass_parser_fixture_filenames($filename)
+    {
         return array(
             "$filename.html",
             "$filename.parsed.json",
@@ -107,7 +112,8 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase {
      * @param string $input The string to remove '\r' from.
      * @return string The input string, with '\r' characters removed.
      */
-    protected function strip_r($input) {
+    protected function strip_r($input)
+    {
         return str_replace("\r", '', $input);
     }
 }

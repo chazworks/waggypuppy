@@ -3,12 +3,14 @@
 /**
  * @group post
  */
-class Tests_Post_GetLastPostModified extends WP_UnitTestCase {
+class Tests_Post_GetLastPostModified extends WP_UnitTestCase
+{
 
     /**
      * @ticket 47777
      */
-    public function test_get_lastpostmodified() {
+    public function test_get_lastpostmodified()
+    {
         global $wpdb;
 
         $post_post_date_first     = '2020-01-30 16:09:28';

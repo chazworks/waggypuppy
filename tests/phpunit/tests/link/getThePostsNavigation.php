@@ -9,14 +9,16 @@
  *
  * @covers ::get_the_posts_navigation
  */
-class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase {
+class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase
+{
 
     /**
      * Creates posts before any tests run.
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         $factory->post->create_many(3);
     }
 
@@ -33,7 +35,8 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase {
      * @param bool $older     Whether an "Older posts" link should be included.
      * @param bool $newer     Whether a "Newer posts" link should be included.
      */
-    public function test_get_the_posts_navigation($per_page, $paged_num, $older, $newer) {
+    public function test_get_the_posts_navigation($per_page, $paged_num, $older, $newer)
+    {
         global $wp_query, $paged;
 
         $paged    = $paged_num;
@@ -76,7 +79,8 @@ class Tests_Link_GetThePostsNavigation extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_the_posts_navigation() {
+    public function data_get_the_posts_navigation()
+    {
         return array(
             'older posts'                 => array(
                 'post_per_page' => 1,

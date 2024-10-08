@@ -5,7 +5,8 @@
  * @group slashes
  * @ticket 21767
  */
-class Tests_Option_Slashes extends WP_UnitTestCase {
+class Tests_Option_Slashes extends WP_UnitTestCase
+{
 
     /*
      * It is important to test with both even and odd numbered slashes,
@@ -26,7 +27,8 @@ class Tests_Option_Slashes extends WP_UnitTestCase {
      * @covers ::add_option
      * @covers ::get_option
      */
-    public function test_add_option() {
+    public function test_add_option()
+    {
         add_option('slash_test_1', self::SLASH_1);
         add_option('slash_test_2', self::SLASH_2);
         add_option('slash_test_3', self::SLASH_3);
@@ -45,7 +47,8 @@ class Tests_Option_Slashes extends WP_UnitTestCase {
      * @covers ::update_option
      * @covers ::get_option
      */
-    public function test_update_option() {
+    public function test_update_option()
+    {
         add_option('slash_test_5', 'foo');
 
         update_option('slash_test_5', self::SLASH_1);

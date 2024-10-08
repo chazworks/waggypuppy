@@ -3,8 +3,10 @@
 /**
  * @group oembed
  */
-class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase {
-    public function data_filter_oembed_iframe_title_attribute() {
+class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase
+{
+    public function data_filter_oembed_iframe_title_attribute()
+    {
         return array(
             array(
                 '<p>Foo</p><iframe src=""></iframe><b>Bar</b>',
@@ -64,13 +66,15 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase {
     /**
      * @dataProvider data_filter_oembed_iframe_title_attribute
      */
-    public function test_oembed_iframe_title_attribute($html, $oembed_data, $url, $expected) {
+    public function test_oembed_iframe_title_attribute($html, $oembed_data, $url, $expected)
+    {
         $actual = wp_filter_oembed_iframe_title_attribute($html, (object) $oembed_data, $url);
 
         $this->assertSame($expected, $actual);
     }
 
-    public function test_filter_oembed_iframe_title_attribute() {
+    public function test_filter_oembed_iframe_title_attribute()
+    {
         add_filter('oembed_iframe_title_attribute', array($this, '_filter_oembed_iframe_title_attribute'));
 
         $actual = wp_filter_oembed_iframe_title_attribute(
@@ -87,7 +91,8 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase {
         $this->assertSame('<iframe title="Baz" src=""></iframe>', $actual);
     }
 
-    public function test_filter_oembed_iframe_title_attribute_does_not_modify_other_tags() {
+    public function test_filter_oembed_iframe_title_attribute_does_not_modify_other_tags()
+    {
         add_filter('oembed_iframe_title_attribute', array($this, '_filter_oembed_iframe_title_attribute'));
 
         $actual = wp_filter_oembed_iframe_title_attribute(
@@ -104,7 +109,8 @@ class Tests_Filter_oEmbed_Iframe_Title_Attribute extends WP_UnitTestCase {
         $this->assertSame('<p title="Bar">Baz</p><iframe title="Baz" src=""></iframe>', $actual);
     }
 
-    public function _filter_oembed_iframe_title_attribute() {
+    public function _filter_oembed_iframe_title_attribute()
+    {
         return 'Baz';
     }
 }

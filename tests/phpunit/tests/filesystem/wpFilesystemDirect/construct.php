@@ -12,7 +12,8 @@
  *
  * @covers WP_Filesystem_Direct::__construct
  */
-class Tests_Filesystem_WpFilesystemDirect_Construct extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Construct extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that the $method and $errors properties are set upon
@@ -20,7 +21,8 @@ class Tests_Filesystem_WpFilesystemDirect_Construct extends WP_Filesystem_Direct
      *
      * @ticket 57774
      */
-    public function test_should_set_method_and_errors() {
+    public function test_should_set_method_and_errors()
+    {
         // For coverage reports, a new object must be created in the method.
         $filesystem = new WP_Filesystem_Direct(null);
 

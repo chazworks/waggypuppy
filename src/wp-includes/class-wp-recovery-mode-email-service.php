@@ -12,7 +12,8 @@
  * @since 5.2.0
  */
 #[AllowDynamicProperties]
-final class WP_Recovery_Mode_Email_Service {
+final class WP_Recovery_Mode_Email_Service
+{
 
     const RATE_LIMIT_OPTION = 'recovery_mode_email_last_sent';
 
@@ -31,7 +32,8 @@ final class WP_Recovery_Mode_Email_Service {
      *
      * @param WP_Recovery_Mode_Link_Service $link_service
      */
-    public function __construct(WP_Recovery_Mode_Link_Service $link_service) {
+    public function __construct(WP_Recovery_Mode_Link_Service $link_service)
+    {
         $this->link_service = $link_service;
     }
 
@@ -50,7 +52,8 @@ final class WP_Recovery_Mode_Email_Service {
      * }
      * @return true|WP_Error True if email sent, WP_Error otherwise.
      */
-    public function maybe_send_recovery_mode_email($rate_limit, $error, $extension) {
+    public function maybe_send_recovery_mode_email($rate_limit, $error, $extension)
+    {
 
         $last_sent = get_option(self::RATE_LIMIT_OPTION);
 
@@ -92,7 +95,8 @@ final class WP_Recovery_Mode_Email_Service {
      *
      * @return bool True on success, false on failure.
      */
-    public function clear_rate_limit() {
+    public function clear_rate_limit()
+    {
         return delete_option(self::RATE_LIMIT_OPTION);
     }
 
@@ -111,7 +115,8 @@ final class WP_Recovery_Mode_Email_Service {
      * }
      * @return bool Whether the email was sent successfully.
      */
-    private function send_recovery_mode_email($rate_limit, $error, $extension) {
+    private function send_recovery_mode_email($rate_limit, $error, $extension)
+    {
 
         $url      = $this->link_service->generate_url();
         $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
@@ -244,7 +249,8 @@ When seeking help with this issue, you may be asked for some of the following in
      *
      * @return string Email address to send recovery mode link to.
      */
-    private function get_recovery_mode_email_address() {
+    private function get_recovery_mode_email_address()
+    {
         if (defined('RECOVERY_MODE_EMAIL') && is_email(RECOVERY_MODE_EMAIL)) {
             return RECOVERY_MODE_EMAIL;
         }
@@ -265,7 +271,8 @@ When seeking help with this issue, you may be asked for some of the following in
      * }
      * @return string Message about which extension caused the error.
      */
-    private function get_cause($extension) {
+    private function get_cause($extension)
+    {
 
         if ('plugin' === $extension['type']) {
             $plugin = $this->get_plugin($extension);
@@ -302,7 +309,8 @@ When seeking help with this issue, you may be asked for some of the following in
      * }
      * @return array|false A plugin array {@see get_plugins()} or `false` if no plugin was found.
      */
-    private function get_plugin($extension) {
+    private function get_plugin($extension)
+    {
         if (! function_exists('get_plugins')) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
@@ -336,7 +344,8 @@ When seeking help with this issue, you may be asked for some of the following in
      * }
      * @return array An associative array of debug information.
      */
-    private function get_debug($extension) {
+    private function get_debug($extension)
+    {
         $theme      = wp_get_theme();
         $wp_version = get_bloginfo('version');
 

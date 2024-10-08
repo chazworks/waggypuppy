@@ -6,15 +6,18 @@
  * @group cron
  * @covers ::_get_cron_array
  */
-class Tests_Cron_getCronArray extends WP_UnitTestCase {
+class Tests_Cron_getCronArray extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         // Make sure the schedule is clear.
         _set_cron_array(array());
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         // Make sure the schedule is clear.
         _set_cron_array(array());
         parent::tear_down();
@@ -25,7 +28,8 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase {
      *
      * @ticket 53940
      */
-    public function test_get_cron_array_output_validation_with_no_option() {
+    public function test_get_cron_array_output_validation_with_no_option()
+    {
         delete_option('cron');
 
         $crons = _get_cron_array();
@@ -43,7 +47,8 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase {
      * @param mixed $input    Cron "array".
      * @param int   $expected Expected array entry count of the cron option after update.
      */
-    public function test_get_cron_array_output_validation($input, $expected) {
+    public function test_get_cron_array_output_validation($input, $expected)
+    {
         update_option('cron', $input);
 
         $crons = _get_cron_array();
@@ -56,7 +61,8 @@ class Tests_Cron_getCronArray extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_get_cron_array_output_validation() {
+    public function data_get_cron_array_output_validation()
+    {
         return array(
             'stdClass'    => array(
                 'input'    => new stdClass(),

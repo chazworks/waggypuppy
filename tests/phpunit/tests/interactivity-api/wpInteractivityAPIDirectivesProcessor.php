@@ -11,7 +11,8 @@
  *
  * @coversDefaultClass WP_Interactivity_API_Directives_Processor
  */
-class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_UnitTestCase {
+class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_UnitTestCase
+{
     /**
      * Tests the `get_content_between_balanced_template_tags` method on template
      * tags.
@@ -20,7 +21,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::get_content_between_balanced_template_tags
      */
-    public function test_get_content_between_balanced_template_tags_standard_tags() {
+    public function test_get_content_between_balanced_template_tags_standard_tags()
+    {
         $content = '<template>Text</template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -42,7 +44,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::get_content_between_balanced_template_tags
      */
-    public function test_get_content_between_balanced_template_tags_empty_tag() {
+    public function test_get_content_between_balanced_template_tags_empty_tag()
+    {
         $content = '<template></template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -57,7 +60,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::get_content_between_balanced_template_tags
      */
-    public function test_get_content_between_balanced_template_tags_self_closing_tag() {
+    public function test_get_content_between_balanced_template_tags_self_closing_tag()
+    {
         $content = '<img src="example.jpg">';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -77,7 +81,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::get_content_between_balanced_template_tags
      */
-    public function test_get_content_between_balanced_template_tags_nested_tags() {
+    public function test_get_content_between_balanced_template_tags_nested_tags()
+    {
         $content = '<template><span>Content</span><strong>More Content</strong></template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -97,7 +102,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::get_content_between_balanced_template_tags
      */
-    public function test_get_content_between_balanced_template_tags_no_tags() {
+    public function test_get_content_between_balanced_template_tags_no_tags()
+    {
         $content = 'Just a string with no tags.';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -111,7 +117,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::get_content_between_balanced_template_tags
      */
-    public function test_get_content_between_balanced_template_tags_with_unbalanced_tags() {
+    public function test_get_content_between_balanced_template_tags_with_unbalanced_tags()
+    {
         $content = '<template>Missing closing template';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -142,7 +149,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::get_content_between_balanced_template_tags
      */
-    public function test_get_content_between_balanced_template_tags_on_closing_tag() {
+    public function test_get_content_between_balanced_template_tags_on_closing_tag()
+    {
         $content = '<template>Text</template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag(array('tag_closers' => 'visit'));
@@ -158,7 +166,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::get_content_between_balanced_template_tags
      */
-    public function test_get_content_between_balanced_template_tags_positions_cursor_on_closer_tag() {
+    public function test_get_content_between_balanced_template_tags_positions_cursor_on_closer_tag()
+    {
         $content = '<template>Text</template><div>More text</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -176,7 +185,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_standard_tags() {
+    public function test_set_content_between_balanced_tags_standard_tags()
+    {
         $content = '<div>Text</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -204,7 +214,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_on_closing_tag() {
+    public function test_set_content_between_balanced_tags_on_closing_tag()
+    {
         $content = '<div>Text</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag(array('tag_closers' => 'visit'));
@@ -222,7 +233,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_multiple_calls_in_same_tag() {
+    public function test_set_content_between_balanced_tags_multiple_calls_in_same_tag()
+    {
         $content = '<div>Text</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -242,7 +254,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_with_set_attribute() {
+    public function test_set_content_between_balanced_tags_with_set_attribute()
+    {
         $content = '<div>Text</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -268,7 +281,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_with_existing_tags() {
+    public function test_set_content_between_balanced_tags_with_existing_tags()
+    {
         $content = '<div><span>Text</span></div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -285,7 +299,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_with_new_tags() {
+    public function test_set_content_between_balanced_tags_with_new_tags()
+    {
         $content     = '<div>Text</div>';
         $new_content = '<span>New text</span><a href="#">Link</a>';
         $p           = new WP_Interactivity_API_Directives_Processor($content);
@@ -301,7 +316,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_empty() {
+    public function test_set_content_between_balanced_tags_empty()
+    {
         $content = '<div>Text</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -324,7 +340,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_self_closing_tag() {
+    public function test_set_content_between_balanced_tags_self_closing_tag()
+    {
         $content = '<img src="example.jpg">';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -340,7 +357,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_non_existent_tag() {
+    public function test_set_content_between_balanced_tags_non_existent_tag()
+    {
         $content = 'Just a string with no tags.';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -356,7 +374,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::set_content_between_balanced_tags
      */
-    public function test_set_content_between_balanced_tags_with_unbalanced_tags() {
+    public function test_set_content_between_balanced_tags_with_unbalanced_tags()
+    {
         $new_content = 'New text';
 
         $content = '<div>Missing closing div';
@@ -396,7 +415,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::has_and_visits_its_closer_tag
      */
-    public function test_has_and_visits_its_closer_tag() {
+    public function test_has_and_visits_its_closer_tag()
+    {
         $void_tags = array('area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr');
         foreach ($void_tags as $tag_name) {
             $content = "<{$tag_name} id={$tag_name}>";
@@ -448,7 +468,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_simple_text() {
+    public function test_append_content_after_template_tag_closer_simple_text()
+    {
         $content_1 = '<template>Text</template>';
         $content_2 = 'New text';
         $p         = new WP_Interactivity_API_Directives_Processor($content_1);
@@ -468,7 +489,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_simple_tags() {
+    public function test_append_content_after_template_tag_closer_simple_tags()
+    {
         $content_1 = '<template>Text</template>';
         $content_2 = '<template class="content-2">New text</template>';
         $content_3 = '<template class="content-3">More new text</template>';
@@ -496,7 +518,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_in_the_middle_of_tags() {
+    public function test_append_content_after_template_tag_closer_in_the_middle_of_tags()
+    {
         $content_1 = '<template>Text</template>';
         $content_2 = 'New text';
         $content_3 = '<template class="content-3">More new text</template>';
@@ -529,7 +552,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_on_opener_tag() {
+    public function test_append_content_after_template_tag_closer_on_opener_tag()
+    {
         $content = '<template>Text</template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag(array('tag_closers' => 'visit'));
@@ -546,7 +570,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_multiple_calls_in_same_tag() {
+    public function test_append_content_after_template_tag_closer_multiple_calls_in_same_tag()
+    {
         $content_1 = '<template class="content-1">Text</template>';
         $content_2 = '<template class="content-2">New text</template>';
         $content_3 = '<template class="content-3">More new text</template>';
@@ -578,7 +603,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_with_set_attribute() {
+    public function test_append_content_after_template_tag_closer_with_set_attribute()
+    {
         $content_1 = '<template>Text</template>';
         $content_2 = '<template>New text</template>';
 
@@ -599,7 +625,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_with_existing_tags() {
+    public function test_append_content_after_template_tag_closer_with_existing_tags()
+    {
         $content_1 = '<template><span>Text</span></template>';
         $content_2 = '<template class="content-2-template-1"><template class="content-2-template-2">New text</template></template>';
         $content_3 = '<template><span>More new text</span></template>';
@@ -632,7 +659,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_empty() {
+    public function test_append_content_after_template_tag_closer_empty()
+    {
         $content = '<template class="content">Text</template>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag(array('tag_closers' => 'visit'));
@@ -652,7 +680,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_non_existent_tag() {
+    public function test_append_content_after_template_tag_closer_non_existent_tag()
+    {
         $content_1 = 'Just a string with no tags.';
         $content_2 = '<div>New text</div>';
         $p         = new WP_Interactivity_API_Directives_Processor($content_1);
@@ -670,7 +699,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::append_content_after_template_tag_closer
      */
-    public function test_append_content_after_template_tag_closer_non_template_tags() {
+    public function test_append_content_after_template_tag_closer_non_template_tags()
+    {
         $content_1 = '<div>Text</div>';
         $content_2 = '<div>New text</div>';
         $p         = new WP_Interactivity_API_Directives_Processor($content_1);
@@ -689,7 +719,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::next_balanced_tag_closer_tag
      */
-    public function test_next_balanced_tag_closer_tag_standard_tags() {
+    public function test_next_balanced_tag_closer_tag_standard_tags()
+    {
         $content = '<div>Text</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -706,7 +737,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::next_balanced_tag_closer_tag
      */
-    public function test_next_balanced_tag_closer_tag_void_tag() {
+    public function test_next_balanced_tag_closer_tag_void_tag()
+    {
         $content = '<img src="image.jpg" />';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -726,7 +758,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::next_balanced_tag_closer_tag
      */
-    public function test_next_balanced_tag_closer_tag_nested_tags() {
+    public function test_next_balanced_tag_closer_tag_nested_tags()
+    {
         $content = '<div><span>Nested content</span></div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -751,7 +784,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::next_balanced_tag_closer_tag
      */
-    public function test_next_balanced_tag_closer_tag_no_matching_closing_tag() {
+    public function test_next_balanced_tag_closer_tag_no_matching_closing_tag()
+    {
         $content = '<div>No closing tag here';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -770,7 +804,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::next_balanced_tag_closer_tag
      */
-    public function test_next_balanced_tag_closer_tag_on_closing_tag() {
+    public function test_next_balanced_tag_closer_tag_on_closing_tag()
+    {
         $content = '<div>Closing tag after this</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         // Visit opening tag first and then closing tag.
@@ -787,7 +822,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::skip_to_tag_closer
      */
-    public function test_skip_to_tag_closer() {
+    public function test_skip_to_tag_closer()
+    {
         $content = '<div><span>Not closed</div>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -804,7 +840,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::skip_to_tag_closer
      */
-    public function test_skip_to_tag_closer_bails_not_closed() {
+    public function test_skip_to_tag_closer_bails_not_closed()
+    {
         $content = '<div>Not closed parent';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();
@@ -819,7 +856,8 @@ class Tests_Interactivity_API_WpInteractivityAPIDirectivesProcessor extends WP_U
      *
      * @covers ::skip_to_tag_closer
      */
-    public function test_skip_to_tag_closer_bails_different_tags() {
+    public function test_skip_to_tag_closer_bails_different_tags()
+    {
         $content = '<div></span>';
         $p       = new WP_Interactivity_API_Directives_Processor($content);
         $p->next_tag();

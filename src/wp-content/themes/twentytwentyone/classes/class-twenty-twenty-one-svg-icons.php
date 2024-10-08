@@ -19,7 +19,8 @@
  *
  * @since Twenty Twenty-One 1.0
  */
-class Twenty_Twenty_One_SVG_Icons {
+class Twenty_Twenty_One_SVG_Icons
+{
 
     /**
      * User Interface icons – svg sources.
@@ -163,7 +164,8 @@ class Twenty_Twenty_One_SVG_Icons {
      * @param int    $size  The icon-size in pixels.
      * @return string
      */
-    public static function get_svg($group, $icon, $size) {
+    public static function get_svg($group, $icon, $size)
+    {
 
         if ('ui' === $group) {
             $arr = self::$icons;
@@ -207,7 +209,8 @@ class Twenty_Twenty_One_SVG_Icons {
      * @param int    $size The icon-size in pixels.
      * @return string|null
      */
-    public static function get_social_link_svg($uri, $size) {
+    public static function get_social_link_svg($uri, $size)
+    {
         static $regex_map; // Only compute regex map once, for performance.
 
         if (! isset($regex_map)) {

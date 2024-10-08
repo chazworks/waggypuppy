@@ -18,7 +18,8 @@
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_dimensions_support($block_type) {
+function wp_register_dimensions_support($block_type)
+{
     // Setup attributes and styles within that if needed.
     if (! $block_type->attributes) {
         $block_type->attributes = array();
@@ -50,7 +51,8 @@ function wp_register_dimensions_support($block_type) {
  * @param array         $block_attributes Block attributes.
  * @return array Block dimensions CSS classes and inline styles.
  */
-function wp_apply_dimensions_support($block_type, $block_attributes) {
+function wp_apply_dimensions_support($block_type, $block_attributes)
+{
     if (wp_should_skip_block_supports_serialization($block_type, 'dimensions')) {
         return array();
     }
@@ -95,7 +97,8 @@ function wp_apply_dimensions_support($block_type, $block_attributes) {
  * @param  array  $block         Block object.
  * @return string                Filtered block content.
  */
-function wp_render_dimensions_support($block_content, $block) {
+function wp_render_dimensions_support($block_content, $block)
+{
     $block_type               = WP_Block_Type_Registry::get_instance()->get_registered($block['blockName']);
     $block_attributes         = (isset($block['attrs']) && is_array($block['attrs'])) ? $block['attrs'] : array();
     $has_aspect_ratio_support = block_has_support($block_type, array('dimensions', 'aspectRatio'), false);

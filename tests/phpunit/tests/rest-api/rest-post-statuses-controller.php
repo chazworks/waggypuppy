@@ -7,15 +7,18 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Testcase
+{
 
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/statuses', $routes);
         $this->assertArrayHasKey('/wp/v2/statuses/(?P<status>[\w-]+)', $routes);
     }
 
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/statuses');
         $response = rest_get_server()->dispatch($request);
@@ -30,7 +33,8 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->assertSameSets(array('embed', 'view', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
     }
 
-    public function test_get_items() {
+    public function test_get_items()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/statuses');
         $response = rest_get_server()->dispatch($request);
 
@@ -40,7 +44,8 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->assertSame('publish', $data['publish']['slug']);
     }
 
-    public function test_get_items_logged_in() {
+    public function test_get_items_logged_in()
+    {
         $user_id = self::factory()->user->create(array('role' => 'author'));
         wp_set_current_user($user_id);
 
@@ -62,14 +67,16 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         );
     }
 
-    public function test_get_items_unauthorized_context() {
+    public function test_get_items_unauthorized_context()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/statuses');
         $request->set_param('context', 'edit');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_view', $response, 401);
     }
 
-    public function test_get_item() {
+    public function test_get_item()
+    {
         $user_id = self::factory()->user->create(array('role' => 'author'));
         wp_set_current_user($user_id);
         $request = new WP_REST_Request('GET', '/wp/v2/statuses/publish');
@@ -78,20 +85,23 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->check_post_status_object_response($response);
     }
 
-    public function test_get_item_invalid_status() {
+    public function test_get_item_invalid_status()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/statuses/invalid');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_status_invalid', $response, 404);
     }
 
-    public function test_get_item_invalid_access() {
+    public function test_get_item_invalid_access()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/statuses/draft');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_read_status', $response, 401);
     }
 
-    public function test_get_item_invalid_internal() {
+    public function test_get_item_invalid_internal()
+    {
         $user_id = self::factory()->user->create();
         wp_set_current_user($user_id);
 
@@ -100,28 +110,32 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->assertErrorResponse('rest_cannot_read_status', $response, 403);
     }
 
-    public function test_create_item() {
+    public function test_create_item()
+    {
         /** Post statuses can't be created */
         $request  = new WP_REST_Request('POST', '/wp/v2/statuses');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_update_item() {
+    public function test_update_item()
+    {
         /** Post statuses can't be updated */
         $request  = new WP_REST_Request('POST', '/wp/v2/statuses/draft');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         /** Post statuses can't be deleted */
         $request  = new WP_REST_Request('DELETE', '/wp/v2/statuses/draft');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $obj      = get_post_status_object('publish');
         $endpoint = new WP_REST_Post_Statuses_Controller();
         $request  = new WP_REST_Request();
@@ -130,7 +144,8 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->check_post_status_obj($obj, $data->get_data(), $data->get_links());
     }
 
-    public function test_prepare_item_limit_fields() {
+    public function test_prepare_item_limit_fields()
+    {
         $obj      = get_post_status_object('publish');
         $request  = new WP_REST_Request();
         $endpoint = new WP_REST_Post_Statuses_Controller();
@@ -146,7 +161,8 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         );
     }
 
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/statuses');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -162,7 +178,8 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->assertArrayHasKey('date_floating', $properties);
     }
 
-    public function test_get_additional_field_registration() {
+    public function test_get_additional_field_registration()
+    {
 
         $schema = array(
             'type'        => 'integer',
@@ -198,11 +215,13 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $wp_rest_additional_fields = array();
     }
 
-    public function additional_field_get_callback($response_data) {
+    public function additional_field_get_callback($response_data)
+    {
         return 123;
     }
 
-    protected function check_post_status_obj($status_obj, $data, $links) {
+    protected function check_post_status_obj($status_obj, $data, $links)
+    {
         $this->assertSame($status_obj->label, $data['name']);
         $this->assertSame($status_obj->private, $data['private']);
         $this->assertSame($status_obj->protected, $data['protected']);
@@ -219,7 +238,8 @@ class WP_Test_REST_Post_Statuses_Controller extends WP_Test_REST_Controller_Test
         $this->assertSame($status_obj->date_floating, $data['date_floating']);
     }
 
-    protected function check_post_status_object_response($response) {
+    protected function check_post_status_object_response($response)
+    {
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
         $obj  = get_post_status_object('publish');

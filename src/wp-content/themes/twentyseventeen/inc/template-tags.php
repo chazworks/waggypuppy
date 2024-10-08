@@ -13,7 +13,8 @@ if (! function_exists('twentyseventeen_posted_on')) :
     /**
      * Prints HTML with meta information for the current post-date/time and author.
      */
-    function twentyseventeen_posted_on() {
+    function twentyseventeen_posted_on()
+    {
 
         // Get the author name; wrap it in a link.
         $byline = sprintf(
@@ -32,7 +33,8 @@ if (! function_exists('twentyseventeen_time_link')) :
     /**
      * Gets a nicely formatted string for the published date.
      */
-    function twentyseventeen_time_link() {
+    function twentyseventeen_time_link()
+    {
         $time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
         if (get_the_time('U') !== get_the_modified_time('U')) {
             $time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
@@ -60,7 +62,8 @@ if (! function_exists('twentyseventeen_entry_footer')) :
     /**
      * Prints HTML with meta information for the categories, tags and comments.
      */
-    function twentyseventeen_entry_footer() {
+    function twentyseventeen_entry_footer()
+    {
 
         $separate_meta = wp_get_list_item_separator();
 
@@ -117,7 +120,8 @@ if (! function_exists('twentyseventeen_edit_link')) :
      * of the template hierarchy and their content. Helpful when/if the single-page
      * layout with multiple posts/pages shown gets confusing.
      */
-    function twentyseventeen_edit_link() {
+    function twentyseventeen_edit_link()
+    {
         edit_post_link(
             sprintf(
                 /* translators: %s: Post title. Only visible to screen readers. */
@@ -139,7 +143,8 @@ endif;
  * @param WP_Customize_Partial $partial Partial associated with a selective refresh request.
  * @param int                  $id      Front page section to display.
  */
-function twentyseventeen_front_page_section($partial = null, $id = 0) {
+function twentyseventeen_front_page_section($partial = null, $id = 0)
+{
     if ($partial instanceof WP_Customize_Partial) {
         // Find out the ID and set it up during a selective refresh.
         global $twentyseventeencounter;
@@ -186,7 +191,8 @@ function twentyseventeen_front_page_section($partial = null, $id = 0) {
  *
  * @return bool
  */
-function twentyseventeen_categorized_blog() {
+function twentyseventeen_categorized_blog()
+{
     $category_count = get_transient('twentyseventeen_categories');
 
     if (false === $category_count) {
@@ -218,7 +224,8 @@ function twentyseventeen_categorized_blog() {
 /**
  * Flushes out the transients used in twentyseventeen_categorized_blog.
  */
-function twentyseventeen_category_transient_flusher() {
+function twentyseventeen_category_transient_flusher()
+{
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
     }
@@ -236,7 +243,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Seventeen 2.2
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Fires after the opening <body> tag.
          *

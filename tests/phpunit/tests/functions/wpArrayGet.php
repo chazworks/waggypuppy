@@ -9,14 +9,16 @@
  *
  * @covers ::_wp_array_get
  */
-class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
+class Tests_Functions_wpArrayGet extends WP_UnitTestCase
+{
 
     /**
      * Tests _wp_array_get() with invalid parameters.
      *
      * @ticket 51720
      */
-    public function test_wp_array_get_invalid_parameters() {
+    public function test_wp_array_get_invalid_parameters()
+    {
         $this->assertSame(
             _wp_array_get(
                 null,
@@ -62,7 +64,8 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
      *
      * @ticket 51720
      */
-    public function test_wp_array_get_simple_non_subtree() {
+    public function test_wp_array_get_simple_non_subtree()
+    {
         // Simple non-subtree test.
         $this->assertSame(
             _wp_array_get(
@@ -116,7 +119,8 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
      *
      * @ticket 51720
      */
-    public function test_wp_array_get_subtree() {
+    public function test_wp_array_get_subtree()
+    {
         $this->assertSame(
             _wp_array_get(
                 array(
@@ -165,7 +169,8 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
      *
      * @ticket 51720
      */
-    public function test_wp_array_get_handle_zeros() {
+    public function test_wp_array_get_handle_zeros()
+    {
         $this->assertSame(
             _wp_array_get(
                 array(
@@ -216,7 +221,8 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
      *
      * @ticket 51720
      */
-    public function test_wp_array_get_null() {
+    public function test_wp_array_get_null()
+    {
         $this->assertSame(
             _wp_array_get(
                 array(
@@ -258,7 +264,8 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase {
      *
      * @ticket 51720
      */
-    public function test_wp_array_get_empty_paths() {
+    public function test_wp_array_get_empty_paths()
+    {
         $this->assertSame(
             _wp_array_get(
                 array(

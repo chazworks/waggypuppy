@@ -3,13 +3,15 @@
  * @group post
  * @group menu
  */
-class Tests_Post_Nav_Menu extends WP_UnitTestCase {
+class Tests_Post_Nav_Menu extends WP_UnitTestCase
+{
     /**
      * @var int
      */
     public $menu_id;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->menu_id = wp_create_nav_menu('foo');
@@ -19,7 +21,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 11095
      * @ticket 33974
      */
-    public function test_wp_page_menu_wp_nav_menu_fallback() {
+    public function test_wp_page_menu_wp_nav_menu_fallback()
+    {
         $pages = self::factory()->post->create_many(3, array('post_type' => 'page'));
 
         // No menus + wp_nav_menu() falls back to wp_page_menu().
@@ -62,7 +65,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 32464
      */
-    public function test_wp_nav_menu_empty_container() {
+    public function test_wp_nav_menu_empty_container()
+    {
         $tag_id = self::factory()->tag->create();
 
         wp_update_nav_menu_item(
@@ -87,7 +91,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
         $this->assertStringStartsWith('<ul', $menu);
     }
 
-    public function test_wp_get_associated_nav_menu_items() {
+    public function test_wp_get_associated_nav_menu_items()
+    {
         $tag_id    = self::factory()->tag->create();
         $cat_id    = self::factory()->category->create();
         $post_id   = self::factory()->post->create();
@@ -184,7 +189,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 27113
      */
-    public function test_orphan_nav_menu_item() {
+    public function test_orphan_nav_menu_item()
+    {
 
         // Create an orphan nav menu item.
         $custom_item_id = wp_update_nav_menu_item(
@@ -216,7 +222,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
         $this->assertSame('WordPress.org', $custom_item->title);
     }
 
-    public function test_wp_get_nav_menu_items_with_taxonomy_term() {
+    public function test_wp_get_nav_menu_items_with_taxonomy_term()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $t           = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
         $child_terms = self::factory()->term->create_many(
@@ -249,7 +256,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 55620
      * @covers ::update_menu_item_cache
      */
-    public function test_update_menu_item_cache_primes_posts() {
+    public function test_update_menu_item_cache_primes_posts()
+    {
         $post_id = self::factory()->post->create();
         wp_update_nav_menu_item(
             $this->menu_id,
@@ -280,7 +288,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 55620
      * @covers ::update_menu_item_cache
      */
-    public function test_update_menu_item_cache_primes_terms() {
+    public function test_update_menu_item_cache_primes_terms()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $term_id = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
         wp_update_nav_menu_item(
@@ -314,7 +323,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 55620
      * @covers ::update_menu_item_cache
      */
-    public function test_wp_get_nav_menu_items_cache_primes_posts() {
+    public function test_wp_get_nav_menu_items_cache_primes_posts()
+    {
         $post_ids     = self::factory()->post->create_many(3);
         $menu_nav_ids = array();
         foreach ($post_ids as $post_id) {
@@ -353,7 +363,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 55620
      * @covers ::update_menu_item_cache
      */
-    public function test_wp_get_nav_menu_items_cache_primes_terms() {
+    public function test_wp_get_nav_menu_items_cache_primes_terms()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $term_ids     = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
         $menu_nav_ids = array();
@@ -398,7 +409,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 13910
      */
-    public function test_wp_get_nav_menu_name() {
+    public function test_wp_get_nav_menu_name()
+    {
         // Register a nav menu location.
         register_nav_menu('primary', 'Primary Navigation');
 
@@ -417,7 +429,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 29460
      */
-    public function test_orderby_name_by_default() {
+    public function test_orderby_name_by_default()
+    {
         // We are going to create a random number of menus (min 2, max 10).
         $menus_no = rand(2, 10);
 
@@ -446,7 +459,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 35324
      */
-    public function test_wp_setup_nav_menu_item_for_post_type_archive() {
+    public function test_wp_setup_nav_menu_item_for_post_type_archive()
+    {
 
         $post_type_slug        = 'fooo-bar-baz';
         $post_type_description = 'foo';
@@ -479,7 +493,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 35324
      */
-    public function test_wp_setup_nav_menu_item_for_post_type_archive_no_description() {
+    public function test_wp_setup_nav_menu_item_for_post_type_archive_no_description()
+    {
 
         $post_type_slug        = 'fooo-bar-baz';
         $post_type_description = '';
@@ -510,7 +525,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 35324
      */
-    public function test_wp_setup_nav_menu_item_for_post_type_archive_custom_description() {
+    public function test_wp_setup_nav_menu_item_for_post_type_archive_custom_description()
+    {
 
         $post_type_slug        = 'fooo-bar-baz';
         $post_type_description = 'foobaz';
@@ -545,7 +561,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 35324
      */
-    public function test_wp_setup_nav_menu_item_for_unknown_post_type_archive_no_description() {
+    public function test_wp_setup_nav_menu_item_for_unknown_post_type_archive_no_description()
+    {
 
         $post_type_slug = 'fooo-bar-baz';
 
@@ -566,7 +583,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 19038
      */
-    public function test_wp_setup_nav_menu_item_for_trashed_post() {
+    public function test_wp_setup_nav_menu_item_for_trashed_post()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_status' => 'trash',
@@ -592,7 +610,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 56577
      */
-    public function test_wp_setup_nav_menu_item_short_circuit_filter() {
+    public function test_wp_setup_nav_menu_item_short_circuit_filter()
+    {
         $post_id = self::factory()->post->create();
 
         $menu_item_id = wp_update_nav_menu_item(
@@ -616,7 +635,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 35206
      */
-    public function test_wp_nav_menu_whitespace_options() {
+    public function test_wp_nav_menu_whitespace_options()
+    {
         $post_id1 = self::factory()->post->create();
         $post_id2 = self::factory()->post->create();
         $post_id3 = self::factory()->post->create();
@@ -703,7 +723,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      *
      * @ticket 24587
      */
-    public function test_wp_nav_menu_filters_are_passed_args_object() {
+    public function test_wp_nav_menu_filters_are_passed_args_object()
+    {
         $tag_id = self::factory()->tag->create();
 
         $tag_insert = wp_update_nav_menu_item(
@@ -766,22 +787,26 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * Run tests required to confirm Walker_Nav_Menu receives an $args object.
      */
-    public function confirm_nav_menu_item_args_object($args) {
+    public function confirm_nav_menu_item_args_object($args)
+    {
         $this->assertIsObject($args);
         return $args;
     }
 
-    public function confirm_second_param_args_object($ignored_1, $args) {
+    public function confirm_second_param_args_object($ignored_1, $args)
+    {
         $this->assertIsObject($args);
         return $ignored_1;
     }
 
-    public function confirm_third_param_args_object($ignored_1, $ignored_2, $args) {
+    public function confirm_third_param_args_object($ignored_1, $ignored_2, $args)
+    {
         $this->assertIsObject($args);
         return $ignored_1;
     }
 
-    public function confirm_forth_param_args_object($ignored_1, $ignored_2, $ignored_3, $args) {
+    public function confirm_forth_param_args_object($ignored_1, $ignored_2, $ignored_3, $args)
+    {
         $this->assertIsObject($args);
         return $ignored_1;
     }
@@ -789,7 +814,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 35272
      */
-    public function test_no_front_page_class_applied() {
+    public function test_no_front_page_class_applied()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -820,7 +846,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 35272
      */
-    public function test_class_applied_to_front_page_item() {
+    public function test_class_applied_to_front_page_item()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -853,7 +880,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 35272
      */
-    public function test_class_not_applied_to_taxonomies_with_same_id_as_front_page_item() {
+    public function test_class_not_applied_to_taxonomies_with_same_id_as_front_page_item()
+    {
         global $wpdb;
 
         $new_id = 35272;
@@ -896,7 +924,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      *
      * @covers ::_wp_delete_customize_changeset_dependent_auto_drafts
      */
-    public function test_wp_delete_customize_changeset_dependent_auto_drafts() {
+    public function test_wp_delete_customize_changeset_dependent_auto_drafts()
+    {
         $auto_draft_post_id = self::factory()->post->create(
             array(
                 'post_status' => 'auto-draft',
@@ -950,7 +979,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * @ticket 39800
      */
-    public function test_parent_ancestor_for_post_archive() {
+    public function test_parent_ancestor_for_post_archive()
+    {
 
         register_post_type(
             'books',
@@ -1037,7 +1067,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 43401
      * @dataProvider data_iri_current_menu_item
      */
-    public function test_iri_current_menu_item($custom_link, $current = true) {
+    public function test_iri_current_menu_item($custom_link, $current = true)
+    {
         wp_update_nav_menu_item(
             $this->menu_id,
             0,
@@ -1065,7 +1096,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * Provides IRI matching data for _wp_menu_item_classes_by_context() test.
      */
-    public function data_iri_current_menu_item() {
+    public function data_iri_current_menu_item()
+    {
         return array(
             array(site_url('/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82/')),
             array(site_url('/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82')),
@@ -1080,7 +1112,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 44005
      * @group privacy
      */
-    public function test_no_privacy_policy_class_applied() {
+    public function test_no_privacy_policy_class_applied()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -1111,7 +1144,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 44005
      * @group privacy
      */
-    public function test_class_applied_to_privacy_policy_page_item() {
+    public function test_class_applied_to_privacy_policy_page_item()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -1145,7 +1179,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      * @ticket 47723
      * @dataProvider data_trim_url_for_custom_item
      */
-    public function test_trim_url_for_custom_item($custom_url, $correct_url) {
+    public function test_trim_url_for_custom_item($custom_url, $correct_url)
+    {
         $custom_item_id = wp_update_nav_menu_item(
             $this->menu_id,
             0,
@@ -1164,7 +1199,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
     /**
      * Provides data for test_trim_url_for_custom_item().
      */
-    public function data_trim_url_for_custom_item() {
+    public function data_trim_url_for_custom_item()
+    {
         return array(
             array('https://wordpress.org ', 'https://wordpress.org'),
             array(' https://wordpress.org', 'https://wordpress.org'),
@@ -1179,7 +1215,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      *
      * @ticket 48011
      */
-    public function test_wp_update_nav_menu_item_with_special_characters_in_category_name() {
+    public function test_wp_update_nav_menu_item_with_special_characters_in_category_name()
+    {
         $category_name = 'Test Cat - \"Pre-Slashed\" Cat Name & >';
 
         $category = self::factory()->category->create_and_get(
@@ -1217,7 +1254,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      *
      * @ticket 61799
      */
-    public function test_wp_update_nav_menu_item_with_invalid_taxonomy() {
+    public function test_wp_update_nav_menu_item_with_invalid_taxonomy()
+    {
         register_taxonomy('invalid', 'post');
         $term = self::factory()->term->create_and_get(array('taxonomy' => 'invalid'));
         unregister_taxonomy('invalid');
@@ -1245,7 +1283,8 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase {
      *
      * @ticket 52189
      */
-    public function test_wp_update_nav_menu_item_with_post_date() {
+    public function test_wp_update_nav_menu_item_with_post_date()
+    {
         $post_date     = '2020-12-28 11:26:35';
         $post_date_gmt = '2020-12-29 10:11:45';
         $invalid_date  = '2020-12-41 14:15:27';

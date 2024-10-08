@@ -12,7 +12,8 @@
  * @group restapi
  * @group widgets
  */
-class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * @var int
@@ -29,7 +30,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$admin_id  = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -42,12 +44,14 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
         self::delete_user(self::$author_id);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         wp_set_current_user(self::$admin_id);
@@ -59,7 +63,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
         update_option('sidebars_widgets', array());
     }
 
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_widget_factory, $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_updates;
 
         $wp_registered_sidebars        = array();
@@ -71,7 +76,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
         parent::clean_up_global_scope();
     }
 
-    private function setup_widget($option_name, $number, $settings) {
+    private function setup_widget($option_name, $number, $settings)
+    {
         $this->setup_widgets(
             $option_name,
             array(
@@ -80,11 +86,13 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
         );
     }
 
-    private function setup_widgets($option_name, $settings) {
+    private function setup_widgets($option_name, $settings)
+    {
         update_option($option_name, $settings);
     }
 
-    private function setup_sidebar($id, $attrs = array(), $widgets = array()) {
+    private function setup_sidebar($id, $attrs = array(), $widgets = array())
+    {
         global $wp_registered_sidebars;
         update_option(
             'sidebars_widgets',
@@ -114,7 +122,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/sidebars', $routes);
         $this->assertArrayHasKey('/wp/v2/sidebars/(?P<id>[\w-]+)', $routes);
@@ -123,7 +132,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/sidebars');
         $response = rest_get_server()->dispatch($request);
@@ -141,7 +151,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_widgets_init();
 
         $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
@@ -154,7 +165,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_items_no_permission() {
+    public function test_get_items_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
         $response = rest_get_server()->dispatch($request);
@@ -164,7 +176,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 53915
      */
-    public function test_get_items_no_permission_show_in_rest() {
+    public function test_get_items_no_permission_show_in_rest()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -199,7 +212,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 53915
      */
-    public function test_get_items_without_show_in_rest_are_removed_from_the_list() {
+    public function test_get_items_without_show_in_rest_are_removed_from_the_list()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -260,7 +274,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_items_wrong_permission_author() {
+    public function test_get_items_wrong_permission_author()
+    {
         wp_set_current_user(self::$author_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/sidebars');
         $response = rest_get_server()->dispatch($request);
@@ -270,7 +285,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_items_basic_sidebar() {
+    public function test_get_items_basic_sidebar()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -316,7 +332,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_items_active_sidebar_with_widgets() {
+    public function test_get_items_active_sidebar_with_widgets()
+    {
         wp_widgets_init();
 
         $this->setup_widget(
@@ -370,7 +387,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 53489
      */
-    public function test_get_items_when_registering_new_sidebars() {
+    public function test_get_items_when_registering_new_sidebars()
+    {
         register_sidebar(
             array(
                 'name'          => 'New Sidebar',
@@ -420,7 +438,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 53646
      */
-    public function test_get_items_when_descriptions_have_markup() {
+    public function test_get_items_when_descriptions_have_markup()
+    {
         register_sidebar(
             array(
                 'name'          => 'New Sidebar',
@@ -471,7 +490,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -503,7 +523,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_item_no_permission() {
+    public function test_get_item_no_permission()
+    {
         wp_set_current_user(0);
         $this->setup_sidebar(
             'sidebar-1',
@@ -520,7 +541,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_item_no_permission_public() {
+    public function test_get_item_no_permission_public()
+    {
         wp_set_current_user(0);
         $this->setup_sidebar(
             'sidebar-1',
@@ -554,7 +576,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_item_wrong_permission_author() {
+    public function test_get_item_wrong_permission_author()
+    {
         wp_set_current_user(self::$author_id);
         $this->setup_sidebar(
             'sidebar-1',
@@ -573,14 +596,16 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      *
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
     /**
      * @ticket 41683
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         wp_widgets_init();
 
         $this->setup_widget(
@@ -647,7 +672,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_update_item_removes_widget_from_existing_sidebar() {
+    public function test_update_item_removes_widget_from_existing_sidebar()
+    {
         wp_widgets_init();
 
         $this->setup_widget(
@@ -690,7 +716,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 53612
      */
-    public function test_batch_remove_widgets_from_existing_sidebar() {
+    public function test_batch_remove_widgets_from_existing_sidebar()
+    {
         wp_widgets_init();
 
         $this->setup_widgets(
@@ -738,7 +765,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_update_item_moves_omitted_widget_to_inactive_sidebar() {
+    public function test_update_item_moves_omitted_widget_to_inactive_sidebar()
+    {
         wp_widgets_init();
 
         $this->setup_widget(
@@ -782,7 +810,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_get_items_inactive_widgets() {
+    public function test_get_items_inactive_widgets()
+    {
         wp_widgets_init();
 
         $this->setup_widget(
@@ -860,7 +889,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      * @ticket 57531
      * @covers WP_Test_REST_Sidebars_Controller::prepare_item_for_response
      */
-    public function test_prepare_item_for_response_to_set_inactive_on_theme_switch() {
+    public function test_prepare_item_for_response_to_set_inactive_on_theme_switch()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/sidebars/sidebar-1');
 
         // Set up the test.
@@ -926,7 +956,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_update_item_no_permission() {
+    public function test_update_item_no_permission()
+    {
         wp_set_current_user(0);
 
         $request = new WP_REST_Request('POST', '/wp/v2/sidebars/sidebar-1');
@@ -942,7 +973,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 41683
      */
-    public function test_update_item_wrong_permission_author() {
+    public function test_update_item_wrong_permission_author()
+    {
         wp_set_current_user(self::$author_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/sidebars/sidebar-1');
@@ -960,7 +992,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      *
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
@@ -969,14 +1002,16 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      *
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
     /**
      * @ticket 41683
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         wp_set_current_user(self::$admin_id);
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/sidebars');
         $response   = rest_get_server()->dispatch($request);
@@ -1003,7 +1038,8 @@ class WP_Test_REST_Sidebars_Controller extends WP_Test_REST_Controller_Testcase 
      *
      * @return array
      */
-    protected function remove_links($data) {
+    protected function remove_links($data)
+    {
         if (! is_array($data)) {
             return $data;
         }

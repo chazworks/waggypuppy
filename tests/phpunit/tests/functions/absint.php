@@ -7,14 +7,16 @@
  *
  * @covers ::absint
  */
-class Tests_Functions_Absint extends WP_UnitTestCase {
+class Tests_Functions_Absint extends WP_UnitTestCase
+{
 
     /**
      * @ticket 60101
      *
      * @dataProvider data_absint
      */
-    public function test_absint($test_value, $expected_value) {
+    public function test_absint($test_value, $expected_value)
+    {
         $this->assertSame($expected_value, absint($test_value));
     }
 
@@ -26,7 +28,8 @@ class Tests_Functions_Absint extends WP_UnitTestCase {
      *     @type string $expected   Expected return value.
      * }
      */
-    public function data_absint() {
+    public function data_absint()
+    {
         return array(
             '1 int'                 => array(
                 'test_value'     => 1,

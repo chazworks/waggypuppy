@@ -15,7 +15,8 @@
  * @see WpOrg\Requests\Hooks
  */
 #[AllowDynamicProperties]
-class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks {
+class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks
+{
     /**
      * Requested URL.
      *
@@ -36,7 +37,8 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks {
      * @param string $url     URL to request.
      * @param array  $request Request data in WP_Http format.
      */
-    public function __construct($url, $request) {
+    public function __construct($url, $request)
+    {
         $this->url     = $url;
         $this->request = $request;
     }
@@ -48,7 +50,8 @@ class WP_HTTP_Requests_Hooks extends WpOrg\Requests\Hooks {
      * @param array  $parameters Parameters to pass to callbacks.
      * @return bool True if hooks were run, false if nothing was hooked.
      */
-    public function dispatch($hook, $parameters = array()) {
+    public function dispatch($hook, $parameters = array())
+    {
         $result = parent::dispatch($hook, $parameters);
 
         // Handle back-compat actions.

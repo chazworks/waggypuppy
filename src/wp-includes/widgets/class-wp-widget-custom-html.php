@@ -14,7 +14,8 @@
  *
  * @see WP_Widget
  */
-class WP_Widget_Custom_HTML extends WP_Widget {
+class WP_Widget_Custom_HTML extends WP_Widget
+{
 
     /**
      * Whether or not the widget has been registered yet.
@@ -40,7 +41,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      *
      * @since 4.8.1
      */
-    public function __construct() {
+    public function __construct()
+    {
         $widget_ops  = array(
             'classname'                   => 'widget_custom_html',
             'description'                 => __('Arbitrary HTML code.'),
@@ -62,7 +64,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      * @param int $number Optional. The unique order number of this widget instance
      *                    compared to other instances of the same class. Default -1.
      */
-    public function _register_one($number = -1) {
+    public function _register_one($number = -1)
+    {
         parent::_register_one($number);
         if ($this->registered) {
             return;
@@ -96,7 +99,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      * @param array $attrs Attributes.
      * @return array Attributes.
      */
-    public function _filter_gallery_shortcode_attrs($attrs) {
+    public function _filter_gallery_shortcode_attrs($attrs)
+    {
         if (! is_singular() && empty($attrs['id']) && empty($attrs['include'])) {
             $attrs['id'] = -1;
         }
@@ -114,7 +118,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Custom HTML widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         global $post;
 
         // Override global $post so filters (and shortcodes) apply in a consistent context.
@@ -187,7 +192,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Settings to save or bool false to cancel saving.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $instance          = array_merge($this->default_instance, $old_instance);
         $instance['title'] = sanitize_text_field($new_instance['title']);
         if (current_user_can('unfiltered_html')) {
@@ -203,7 +209,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      *
      * @since 4.9.0
      */
-    public function enqueue_admin_scripts() {
+    public function enqueue_admin_scripts()
+    {
         $settings = wp_enqueue_code_editor(
             array(
                 'type'       => 'text/html',
@@ -246,7 +253,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      *
      * @param array $instance Current instance.
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         $instance = wp_parse_args((array) $instance, $this->default_instance);
         ?>
         <input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" class="title sync-input" type="hidden" value="<?php echo esc_attr($instance['title']); ?>" />
@@ -259,7 +267,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      *
      * @since 4.9.0
      */
-    public static function render_control_template_scripts() {
+    public static function render_control_template_scripts()
+    {
         ?>
         <script type="text/html" id="tmpl-widget-custom-html-control-fields">
             <# var elementIdPrefix = 'el' + String( Math.random() ).replace( /\D/g, '' ) + '_' #>
@@ -299,7 +308,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
      *
      * @since 4.9.0
      */
-    public static function add_help_text() {
+    public static function add_help_text()
+    {
         $screen = get_current_screen();
 
         $content  = '<p>';

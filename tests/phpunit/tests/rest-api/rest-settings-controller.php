@@ -7,7 +7,8 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
+{
 
     protected static $administrator;
     protected static $author;
@@ -17,7 +18,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
      */
     private $endpoint;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$administrator = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -31,17 +33,20 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$administrator);
         self::delete_user(self::$author);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->endpoint = new WP_REST_Settings_Controller();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $settings_to_unregister = array(
             'mycustomsetting',
             'mycustomsetting1',
@@ -60,12 +65,14 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         parent::tear_down();
     }
 
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/settings', $routes);
     }
 
-    public function test_get_item() {
+    public function test_get_item()
+    {
         /** Individual settings can't be gotten */
         wp_set_current_user(self::$administrator);
         $request  = new WP_REST_Request('GET', '/wp/v2/settings/title');
@@ -76,24 +83,28 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Controller does not use get_context_param().
     }
 
-    public function test_get_item_is_not_public_not_authenticated() {
+    public function test_get_item_is_not_public_not_authenticated()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(401, $response->get_status());
     }
 
-    public function test_get_item_is_not_public_no_permission() {
+    public function test_get_item_is_not_public_no_permission()
+    {
         wp_set_current_user(self::$author);
         $request  = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(403, $response->get_status());
     }
 
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$administrator);
         $request  = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
@@ -133,7 +144,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertSame($expected, $actual);
     }
 
-    public function test_get_item_value_is_cast_to_type() {
+    public function test_get_item_value_is_cast_to_type()
+    {
         wp_set_current_user(self::$administrator);
         update_option('posts_per_page', 'invalid_number'); // This is cast to (int) 1.
         $request  = new WP_REST_Request('GET', '/wp/v2/settings');
@@ -144,7 +156,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertSame(1, $data['posts_per_page']);
     }
 
-    public function test_get_item_with_custom_setting() {
+    public function test_get_item_with_custom_setting()
+    {
         wp_set_current_user(self::$administrator);
 
         register_setting(
@@ -178,7 +191,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertSame('validvalue2', $data['mycustomsettinginrest']);
     }
 
-    public function test_get_item_with_custom_array_setting() {
+    public function test_get_item_with_custom_array_setting()
+    {
         wp_set_current_user(self::$administrator);
 
         register_setting(
@@ -226,7 +240,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertNull($data['mycustomsetting']);
     }
 
-    public function test_get_item_with_custom_object_setting() {
+    public function test_get_item_with_custom_object_setting()
+    {
         wp_set_current_user(self::$administrator);
 
         register_setting(
@@ -279,7 +294,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertNull($data['mycustomsetting']);
     }
 
-    public function get_setting_custom_callback($result, $name, $args) {
+    public function get_setting_custom_callback($result, $name, $args)
+    {
         switch ($name) {
             case 'mycustomsetting1':
                 return 'filtered1';
@@ -287,7 +303,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         return $result;
     }
 
-    public function test_get_item_with_filter() {
+    public function test_get_item_with_filter()
+    {
         wp_set_current_user(self::$administrator);
 
         add_filter('rest_pre_get_setting', array($this, 'get_setting_custom_callback'), 10, 3);
@@ -332,7 +349,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         remove_all_filters('rest_pre_get_setting');
     }
 
-    public function test_get_item_with_invalid_value_array_in_options() {
+    public function test_get_item_with_invalid_value_array_in_options()
+    {
         wp_set_current_user(self::$administrator);
 
         register_setting(
@@ -358,7 +376,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertNull($data['mycustomsettinginrest']);
     }
 
-    public function test_get_item_with_invalid_object_array_in_options() {
+    public function test_get_item_with_invalid_object_array_in_options()
+    {
         wp_set_current_user(self::$administrator);
 
         register_setting(
@@ -387,11 +406,13 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
-    public function test_update_item() {
+    public function test_update_item()
+    {
         wp_set_current_user(self::$administrator);
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('title', 'The new title!');
@@ -403,7 +424,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertSame(get_option('blogname'), $data['title']);
     }
 
-    public function update_setting_custom_callback($result, $name, $value, $args) {
+    public function update_setting_custom_callback($result, $name, $value, $args)
+    {
         if ('title' === $name && 'The new title!' === $value) {
             // Do not allow changing the title in this case.
             return true;
@@ -412,7 +434,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         return false;
     }
 
-    public function test_update_item_with_array() {
+    public function test_update_item_with_array()
+    {
         register_setting(
             'somegroup',
             'mycustomsetting',
@@ -457,7 +480,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_update_item_with_nested_object() {
+    public function test_update_item_with_nested_object()
+    {
         register_setting(
             'somegroup',
             'mycustomsetting',
@@ -500,7 +524,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_update_item_with_object() {
+    public function test_update_item_with_object()
+    {
         register_setting(
             'somegroup',
             'mycustomsetting',
@@ -559,7 +584,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_update_item_with_filter() {
+    public function test_update_item_with_filter()
+    {
         wp_set_current_user(self::$administrator);
 
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
@@ -590,7 +616,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         remove_all_filters('rest_pre_update_setting');
     }
 
-    public function test_update_item_with_invalid_type() {
+    public function test_update_item_with_invalid_type()
+    {
         wp_set_current_user(self::$administrator);
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('title', array('rendered' => 'This should fail.'));
@@ -598,7 +625,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_update_item_with_integer() {
+    public function test_update_item_with_integer()
+    {
         wp_set_current_user(self::$administrator);
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('posts_per_page', 11);
@@ -606,7 +634,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertSame(200, $response->get_status());
     }
 
-    public function test_update_item_with_invalid_float_for_integer() {
+    public function test_update_item_with_invalid_float_for_integer()
+    {
         wp_set_current_user(self::$administrator);
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('posts_per_page', 10.5);
@@ -617,7 +646,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * Setting an item to "null" will essentially restore it to it's default value.
      */
-    public function test_update_item_with_null() {
+    public function test_update_item_with_null()
+    {
         update_option('posts_per_page', 9);
 
         wp_set_current_user(self::$administrator);
@@ -630,7 +660,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertSame(10, $data['posts_per_page']);
     }
 
-    public function test_update_item_with_invalid_enum() {
+    public function test_update_item_with_invalid_enum()
+    {
         update_option('posts_per_page', 9);
 
         wp_set_current_user(self::$administrator);
@@ -640,7 +671,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_update_item_with_invalid_stored_value_in_options() {
+    public function test_update_item_with_invalid_stored_value_in_options()
+    {
         wp_set_current_user(self::$administrator);
 
         register_setting(
@@ -661,7 +693,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
         $this->assertErrorResponse('rest_invalid_stored_value', $response, 500);
     }
 
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         /** Settings can't be deleted */
         $request  = new WP_REST_Request('DELETE', '/wp/v2/settings/title');
         $response = rest_get_server()->dispatch($request);
@@ -671,21 +704,24 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         // Controller does not implement get_item_schema().
     }
 
     /**
      * @ticket 42875
      */
-    public function test_register_setting_issues_doing_it_wrong_when_show_in_rest_is_true() {
+    public function test_register_setting_issues_doing_it_wrong_when_show_in_rest_is_true()
+    {
         $this->setExpectedIncorrectUsage('register_setting');
 
         register_setting(
@@ -701,7 +737,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 42875
      */
-    public function test_register_setting_issues_doing_it_wrong_when_show_in_rest_omits_schema() {
+    public function test_register_setting_issues_doing_it_wrong_when_show_in_rest_omits_schema()
+    {
         $this->setExpectedIncorrectUsage('register_setting');
 
         register_setting(
@@ -719,7 +756,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 42875
      */
-    public function test_register_setting_issues_doing_it_wrong_when_show_in_rest_omits_schema_items() {
+    public function test_register_setting_issues_doing_it_wrong_when_show_in_rest_omits_schema_items()
+    {
         $this->setExpectedIncorrectUsage('register_setting');
 
         register_setting(
@@ -739,7 +777,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 56493
      */
-    public function test_register_setting_with_custom_additional_properties_value() {
+    public function test_register_setting_with_custom_additional_properties_value()
+    {
         wp_set_current_user(self::$administrator);
 
         register_setting(
@@ -785,7 +824,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 61023
      */
-    public function test_provides_setting_metadata_in_schema() {
+    public function test_provides_setting_metadata_in_schema()
+    {
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();

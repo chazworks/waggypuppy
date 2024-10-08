@@ -15,7 +15,8 @@
  * @since 5.5.0
  */
 #[AllowDynamicProperties]
-class WP_Sitemaps {
+class WP_Sitemaps
+{
     /**
      * The main index of supported sitemaps.
      *
@@ -48,7 +49,8 @@ class WP_Sitemaps {
      *
      * @since 5.5.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->registry = new WP_Sitemaps_Registry();
         $this->renderer = new WP_Sitemaps_Renderer();
         $this->index    = new WP_Sitemaps_Index($this->registry);
@@ -62,7 +64,8 @@ class WP_Sitemaps {
      *
      * @since 5.5.0
      */
-    public function init() {
+    public function init()
+    {
         // These will all fire on the init hook.
         $this->register_rewrites();
 
@@ -86,7 +89,8 @@ class WP_Sitemaps {
      *
      * @return bool Whether sitemaps are enabled.
      */
-    public function sitemaps_enabled() {
+    public function sitemaps_enabled()
+    {
         $is_enabled = (bool) get_option('blog_public');
 
         /**
@@ -110,7 +114,8 @@ class WP_Sitemaps {
      *
      * @since 5.5.0
      */
-    public function register_sitemaps() {
+    public function register_sitemaps()
+    {
         $providers = array(
             'posts'      => new WP_Sitemaps_Posts(),
             'taxonomies' => new WP_Sitemaps_Taxonomies(),
@@ -128,7 +133,8 @@ class WP_Sitemaps {
      *
      * @since 5.5.0
      */
-    public function register_rewrites() {
+    public function register_rewrites()
+    {
         // Add rewrite tags.
         add_rewrite_tag('%sitemap%', '([^?]+)');
         add_rewrite_tag('%sitemap-subtype%', '([^?]+)');
@@ -161,7 +167,8 @@ class WP_Sitemaps {
      *
      * @global WP_Query $wp_query WordPress Query object.
      */
-    public function render_sitemaps() {
+    public function render_sitemaps()
+    {
         global $wp_query;
 
         $sitemap         = sanitize_text_field(get_query_var('sitemap'));
@@ -228,7 +235,8 @@ class WP_Sitemaps {
      * @param WP_Query $query  The WP_Query object.
      * @return bool Bypass value.
      */
-    public function redirect_sitemapxml($bypass, $query) {
+    public function redirect_sitemapxml($bypass, $query)
+    {
         // If a plugin has already utilized the pre_handle_404 function, return without action to avoid conflicts.
         if ($bypass) {
             return $bypass;
@@ -254,7 +262,8 @@ class WP_Sitemaps {
      * @param bool   $is_public Whether the site is public.
      * @return string The robots.txt output.
      */
-    public function add_robots($output, $is_public) {
+    public function add_robots($output, $is_public)
+    {
         if ($is_public) {
             $output .= "\nSitemap: " . esc_url($this->index->get_index_url()) . "\n";
         }

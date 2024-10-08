@@ -18,7 +18,8 @@
  *
  * @return array A filtered array of args for the starter_content.
  */
-function twentytwenty_get_starter_content() {
+function twentytwenty_get_starter_content()
+{
 
     // Define and register starter content to showcase the theme on new sites.
     $starter_content = array(

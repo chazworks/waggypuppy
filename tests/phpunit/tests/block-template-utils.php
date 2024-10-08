@@ -6,14 +6,16 @@
  *
  * @group block-templates
  */
-class Tests_Block_Template_Utils extends WP_UnitTestCase {
+class Tests_Block_Template_Utils extends WP_UnitTestCase
+{
 
     const TEST_THEME = 'block-theme';
 
     private static $template_post;
     private static $template_part_post;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         /*
          * Set up a template post corresponding to a different theme.
          * We do this to ensure resolution and slug creation works as expected,
@@ -77,11 +79,13 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
         wp_set_post_terms(self::$template_part_post->ID, self::TEST_THEME, 'wp_theme');
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         wp_delete_post(self::$template_post->ID);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme(self::TEST_THEME);
     }
@@ -91,7 +95,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
      *
      * @since 6.5.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         if (WP_Block_Type_Registry::get_instance()->is_registered('tests/hooked-block')) {
             unregister_block_type('tests/hooked-block');
         }
@@ -104,7 +109,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
      *
      * @covers ::_inject_theme_attribute_in_template_part_block
      */
-    public function test_inject_theme_attribute_in_template_part_block() {
+    public function test_inject_theme_attribute_in_template_part_block()
+    {
         $template_part_block = array(
             'blockName'    => 'core/template-part',
             'attrs'        => array(
@@ -144,7 +150,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
      *
      * @covers ::_inject_theme_attribute_in_template_part_block
      */
-    public function test_not_inject_theme_attribute_in_template_part_block_theme_attribute_exists() {
+    public function test_not_inject_theme_attribute_in_template_part_block_theme_attribute_exists()
+    {
         $template_part_block = array(
             'blockName'    => 'core/template-part',
             'attrs'        => array(
@@ -173,7 +180,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
      *
      * @covers ::_inject_theme_attribute_in_template_part_block
      */
-    public function test_not_inject_theme_attribute_non_template_part_block() {
+    public function test_not_inject_theme_attribute_non_template_part_block()
+    {
         $non_template_part_block = array(
             'blockName'    => 'core/post-content',
             'attrs'        => array(),
@@ -198,7 +206,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
      *
      * @expectedDeprecated _inject_theme_attribute_in_block_template_content
      */
-    public function test_inject_theme_attribute_in_block_template_content() {
+    public function test_inject_theme_attribute_in_block_template_content()
+    {
         $theme                           = get_stylesheet();
         $content_without_theme_attribute = '<!-- wp:template-part {"slug":"header","align":"full", "tagName":"header","className":"site-header"} /-->';
         $template_content                = _inject_theme_attribute_in_block_template_content(
@@ -247,7 +256,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
      *
      * @expectedDeprecated _remove_theme_attribute_in_block_template_content
      */
-    public function test_remove_theme_attribute_in_block_template_content($template_content, $expected) {
+    public function test_remove_theme_attribute_in_block_template_content($template_content, $expected)
+    {
         $this->assertSame($expected, _remove_theme_attribute_in_block_template_content($template_content));
     }
 
@@ -262,7 +272,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
      * @param string $template_content The template markup.
      * @param string $expected         The expected markup after removing the theme attribute from Template Part blocks.
      */
-    public function test_remove_theme_attribute_from_template_part_block($template_content, $expected) {
+    public function test_remove_theme_attribute_from_template_part_block($template_content, $expected)
+    {
         $template_content_parsed_blocks = parse_blocks($template_content);
 
         $this->assertSame(
@@ -274,7 +285,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
         );
     }
 
-    public function data_remove_theme_attribute_in_block_template_content() {
+    public function data_remove_theme_attribute_in_block_template_content()
+    {
         return array(
             array(
                 '<!-- wp:template-part {"slug":"header","theme":"tt1-blocks","align":"full","tagName":"header","className":"site-header"} /-->',
@@ -300,7 +312,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
     /**
      * Should retrieve the template from the theme files.
      */
-    public function test_get_block_template_from_file() {
+    public function test_get_block_template_from_file()
+    {
         $id       = get_stylesheet() . '//' . 'index';
         $template = get_block_template($id, 'wp_template');
         $this->assertSame($id, $template->id);
@@ -325,7 +338,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
     /**
      * Should retrieve the template from the CPT.
      */
-    public function test_get_block_template_from_post() {
+    public function test_get_block_template_from_post()
+    {
         $id       = get_stylesheet() . '//' . 'my_template';
         $template = get_block_template($id, 'wp_template');
         $this->assertSame($id, $template->id);
@@ -350,7 +364,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
     /**
      * Should flatten nested blocks
      */
-    public function test_flatten_blocks() {
+    public function test_flatten_blocks()
+    {
         $content_template_part_inside_group = '<!-- wp:group --><!-- wp:template-part {"slug":"header"} /--><!-- /wp:group -->';
         $blocks                             = parse_blocks($content_template_part_inside_group);
         $actual                             = _flatten_blocks($blocks);
@@ -376,7 +391,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase {
      * @ticket 54448
      * @requires extension zip
      */
-    public function test_wp_generate_block_templates_export_file() {
+    public function test_wp_generate_block_templates_export_file()
+    {
         $filename = wp_generate_block_templates_export_file();
         $this->assertFileExists($filename, 'zip file is created at the specified path');
         $this->assertGreaterThan(0, filesize($filename), 'zip file is larger than 0 bytes');

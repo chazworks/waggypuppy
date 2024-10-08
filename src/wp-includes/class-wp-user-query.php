@@ -15,7 +15,8 @@
  * @see WP_User_Query::prepare_query() for information on accepted arguments.
  */
 #[AllowDynamicProperties]
-class WP_User_Query {
+class WP_User_Query
+{
 
     /**
      * Query vars, after parsing
@@ -74,7 +75,8 @@ class WP_User_Query {
      * @param null|string|array $query Optional. The query variables.
      *                                 See WP_User_Query::prepare_query() for information on accepted arguments.
      */
-    public function __construct($query = null) {
+    public function __construct($query = null)
+    {
         if (! empty($query)) {
             $this->prepare_query($query);
             $this->query();
@@ -89,7 +91,8 @@ class WP_User_Query {
      * @param string|array $args Query vars, as passed to `WP_User_Query`.
      * @return array Complete query variables with undefined ones filled in with defaults.
      */
-    public static function fill_query_vars($args) {
+    public static function fill_query_vars($args)
+    {
         $defaults = array(
             'blog_id'             => get_current_blog_id(),
             'role'                => '',
@@ -262,7 +265,8 @@ class WP_User_Query {
      *     @type bool            $cache_results       Whether to cache user information. Default true.
      * }
      */
-    public function prepare_query($query = array()) {
+    public function prepare_query($query = array())
+    {
         global $wpdb, $wp_roles;
 
         if (empty($this->query_vars) || ! empty($query)) {
@@ -779,7 +783,8 @@ class WP_User_Query {
      *
      * @global wpdb $wpdb WordPress database abstraction object.
      */
-    public function query() {
+    public function query()
+    {
         global $wpdb;
 
         if (! did_action('plugins_loaded')) {
@@ -906,7 +911,8 @@ class WP_User_Query {
      * @param string $query_var Query variable key.
      * @return mixed
      */
-    public function get($query_var) {
+    public function get($query_var)
+    {
         if (isset($this->query_vars[ $query_var ])) {
             return $this->query_vars[ $query_var ];
         }
@@ -922,7 +928,8 @@ class WP_User_Query {
      * @param string $query_var Query variable key.
      * @param mixed  $value     Query variable value.
      */
-    public function set($query_var, $value) {
+    public function set($query_var, $value)
+    {
         $this->query_vars[ $query_var ] = $value;
     }
 
@@ -939,7 +946,8 @@ class WP_User_Query {
      *                          Single site allows leading and trailing wildcards, Network Admin only trailing.
      * @return string
      */
-    protected function get_search_sql($search, $columns, $wild = false) {
+    protected function get_search_sql($search, $columns, $wild = false)
+    {
         global $wpdb;
 
         $searches      = array();
@@ -965,7 +973,8 @@ class WP_User_Query {
      *
      * @return array Array of results.
      */
-    public function get_results() {
+    public function get_results()
+    {
         return $this->results;
     }
 
@@ -976,7 +985,8 @@ class WP_User_Query {
      *
      * @return int Number of total users.
      */
-    public function get_total() {
+    public function get_total()
+    {
         return $this->total_users;
     }
 
@@ -990,7 +1000,8 @@ class WP_User_Query {
      * @param string $orderby Alias for the field to order by.
      * @return string Value to used in the ORDER clause, if `$orderby` is valid.
      */
-    protected function parse_orderby($orderby) {
+    protected function parse_orderby($orderby)
+    {
         global $wpdb;
 
         $meta_query_clauses = $this->meta_query->get_clauses();
@@ -1049,7 +1060,8 @@ class WP_User_Query {
      * @param string $sql  SQL statement.
      * @return string Cache key.
      */
-    protected function generate_cache_key(array $args, $sql) {
+    protected function generate_cache_key(array $args, $sql)
+    {
         global $wpdb;
 
         // Replace wpdb placeholder in the SQL statement used by the cache key.
@@ -1097,7 +1109,8 @@ class WP_User_Query {
      * @param string $order The 'order' query variable.
      * @return string The sanitized 'order' query variable.
      */
-    protected function parse_order($order) {
+    protected function parse_order($order)
+    {
         if (! is_string($order) || empty($order)) {
             return 'DESC';
         }
@@ -1118,7 +1131,8 @@ class WP_User_Query {
      * @param string $name Property to get.
      * @return mixed Property.
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if (in_array($name, $this->compat_fields, true)) {
             return $this->$name;
         }
@@ -1141,7 +1155,8 @@ class WP_User_Query {
      * @param string $name  Property to check if set.
      * @param mixed  $value Property value.
      */
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         if (in_array($name, $this->compat_fields, true)) {
             $this->$name = $value;
             return;
@@ -1164,7 +1179,8 @@ class WP_User_Query {
      * @param string $name Property to check if set.
      * @return bool Whether the property is set.
      */
-    public function __isset($name) {
+    public function __isset($name)
+    {
         if (in_array($name, $this->compat_fields, true)) {
             return isset($this->$name);
         }
@@ -1186,7 +1202,8 @@ class WP_User_Query {
      *
      * @param string $name Property to unset.
      */
-    public function __unset($name) {
+    public function __unset($name)
+    {
         if (in_array($name, $this->compat_fields, true)) {
             unset($this->$name);
             return;
@@ -1209,7 +1226,8 @@ class WP_User_Query {
      * @param array  $arguments Arguments to pass when calling.
      * @return mixed Return value of the callback, false otherwise.
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if ('get_search_sql' === $name) {
             return $this->get_search_sql(...$arguments);
         }

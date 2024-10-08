@@ -27,7 +27,8 @@
  *              background.backgroundRepeat and dimensions.aspectRatio.
  */
 #[AllowDynamicProperties]
-final class WP_Style_Engine {
+final class WP_Style_Engine
+{
     /**
      * Style definitions that contain the instructions to parse/output valid Gutenberg styles from a block's attributes.
      *
@@ -319,7 +320,8 @@ final class WP_Style_Engine {
      *                             Used for matching.
      * @return string The slug, or empty string if not found.
      */
-    protected static function get_slug_from_preset_value($style_value, $property_key) {
+    protected static function get_slug_from_preset_value($style_value, $property_key)
+    {
         if (is_string($style_value) && is_string($property_key)
             && str_contains($style_value, "var:preset|{$property_key}|")
         ) {
@@ -340,7 +342,8 @@ final class WP_Style_Engine {
      *                               used to generate the var string.
      * @return string The CSS var, or an empty string if no match for slug found.
      */
-    protected static function get_css_var_value($style_value, $css_vars) {
+    protected static function get_css_var_value($style_value, $css_vars)
+    {
         foreach ($css_vars as $property_key => $css_var_pattern) {
             $slug = static::get_slug_from_preset_value($style_value, $property_key);
             if (static::is_valid_style_value($slug)) {
@@ -362,7 +365,8 @@ final class WP_Style_Engine {
      * @param string $style_value A single CSS preset value.
      * @return bool
      */
-    protected static function is_valid_style_value($style_value) {
+    protected static function is_valid_style_value($style_value)
+    {
         return '0' === $style_value || ! empty($style_value);
     }
 
@@ -381,7 +385,8 @@ final class WP_Style_Engine {
      * @param string $rules_group        Optional. A parent CSS selector in the case of nested CSS, or a CSS nested @rule,
      *                                   such as `@media (min-width: 80rem)` or `@layer module`.
      */
-    public static function store_css_rule($store_name, $css_selector, $css_declarations, $rules_group = '') {
+    public static function store_css_rule($store_name, $css_selector, $css_declarations, $rules_group = '')
+    {
         if (empty($store_name) || empty($css_selector) || empty($css_declarations)) {
             return;
         }
@@ -396,7 +401,8 @@ final class WP_Style_Engine {
      * @param string $store_name A store key.
      * @return WP_Style_Engine_CSS_Rules_Store|null
      */
-    public static function get_store($store_name) {
+    public static function get_store($store_name)
+    {
         return WP_Style_Engine_CSS_Rules_Store::get_store($store_name);
     }
 
@@ -426,7 +432,8 @@ final class WP_Style_Engine {
      *                                  e.g. `array( "$property" => "$value", "$property" => "$value" )`.
      * }
      */
-    public static function parse_block_styles($block_styles, $options) {
+    public static function parse_block_styles($block_styles, $options)
+    {
         $parsed_styles = array(
             'classnames'   => array(),
             'declarations' => array(),
@@ -466,7 +473,8 @@ final class WP_Style_Engine {
      * @param array  $style_definition A single style definition from BLOCK_STYLE_DEFINITIONS_METADATA.
      * @return string[] An array of CSS classnames, or empty array if there are none.
      */
-    protected static function get_classnames($style_value, $style_definition) {
+    protected static function get_classnames($style_value, $style_definition)
+    {
         if (empty($style_value)) {
             return array();
         }
@@ -512,7 +520,8 @@ final class WP_Style_Engine {
      * }
      * @return string[] An associative array of CSS definitions, e.g. `array( "$property" => "$value", "$property" => "$value" )`.
      */
-    protected static function get_css_declarations($style_value, $style_definition, $options = array()) {
+    protected static function get_css_declarations($style_value, $style_definition, $options = array())
+    {
         if (isset($style_definition['value_func']) && is_callable($style_definition['value_func'])) {
             return call_user_func($style_definition['value_func'], $style_value, $style_definition, $options);
         }
@@ -596,7 +605,8 @@ final class WP_Style_Engine {
      * }
      * @return string[] An associative array of CSS definitions, e.g. `array( "$property" => "$value", "$property" => "$value" )`.
      */
-    protected static function get_individual_property_css_declarations($style_value, $individual_property_definition, $options = array()) {
+    protected static function get_individual_property_css_declarations($style_value, $individual_property_definition, $options = array())
+    {
         if (! is_array($style_value) || empty($style_value) || empty($individual_property_definition['path'])) {
             return array();
         }
@@ -651,7 +661,8 @@ final class WP_Style_Engine {
      * @param array $style_definition A single style definition from BLOCK_STYLE_DEFINITIONS_METADATA.
      * @return string[] An associative array of CSS definitions, e.g., array( "$property" => "$value", "$property" => "$value" ).
      */
-    protected static function get_url_or_value_css_declaration($style_value, $style_definition) {
+    protected static function get_url_or_value_css_declaration($style_value, $style_definition)
+    {
         if (empty($style_value)) {
             return array();
         }
@@ -687,7 +698,8 @@ final class WP_Style_Engine {
      *                                   otherwise a concatenated string of properties and values.
      * @return string A compiled CSS string.
      */
-    public static function compile_css($css_declarations, $css_selector) {
+    public static function compile_css($css_declarations, $css_selector)
+    {
         if (empty($css_declarations) || ! is_array($css_declarations)) {
             return '';
         }
@@ -722,7 +734,8 @@ final class WP_Style_Engine {
      * }
      * @return string A compiled stylesheet from stored CSS rules.
      */
-    public static function compile_stylesheet_from_css_rules($css_rules, $options = array()) {
+    public static function compile_stylesheet_from_css_rules($css_rules, $options = array())
+    {
         $processor = new WP_Style_Engine_Processor();
         $processor->add_rules($css_rules);
         return $processor->get_css($options);

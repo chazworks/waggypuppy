@@ -6,11 +6,13 @@
  *
  * @covers ::determine_locale
  */
-class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
+class Tests_L10n_DetermineLocale extends WP_UnitTestCase
+{
     protected $locale;
     protected static $user_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_id = $factory->user->create(
             array(
                 'role'   => 'administrator',
@@ -19,7 +21,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         );
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unset(
             $_SERVER['CONTENT_TYPE'],
             $_GET['_locale'],
@@ -33,12 +36,14 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         parent::tear_down();
     }
 
-    public function test_short_circuit_empty() {
+    public function test_short_circuit_empty()
+    {
         add_filter('pre_determine_locale', '__return_false');
         $this->assertNotFalse(determine_locale());
     }
 
-    public function test_short_circuit_no_string() {
+    public function test_short_circuit_no_string()
+    {
         add_filter(
             'pre_determine_locale',
             static function () {
@@ -48,7 +53,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertNotFalse(determine_locale());
     }
 
-    public function test_short_circuit_string() {
+    public function test_short_circuit_string()
+    {
         add_filter(
             'pre_determine_locale',
             static function () {
@@ -58,7 +64,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('myNewLocale', determine_locale());
     }
 
-    public function test_defaults_to_site_locale() {
+    public function test_defaults_to_site_locale()
+    {
         add_filter(
             'locale',
             static function () {
@@ -69,7 +76,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame(get_locale(), determine_locale());
     }
 
-    public function test_is_admin_no_user() {
+    public function test_is_admin_no_user()
+    {
         add_filter(
             'locale',
             static function () {
@@ -82,7 +90,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_is_admin_user_locale() {
+    public function test_is_admin_user_locale()
+    {
         add_filter(
             'locale',
             static function () {
@@ -96,7 +105,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('userLocale', determine_locale());
     }
 
-    public function test_json_request_user_locale() {
+    public function test_json_request_user_locale()
+    {
         add_filter(
             'locale',
             static function () {
@@ -112,7 +122,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('userLocale', determine_locale());
     }
 
-    public function test_json_request_user_locale_no_user() {
+    public function test_json_request_user_locale_no_user()
+    {
         add_filter(
             'locale',
             static function () {
@@ -126,7 +137,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_json_request_missing_get_param() {
+    public function test_json_request_missing_get_param()
+    {
         add_filter(
             'locale',
             static function () {
@@ -141,7 +153,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_json_request_incorrect_get_param() {
+    public function test_json_request_incorrect_get_param()
+    {
         add_filter(
             'locale',
             static function () {
@@ -157,7 +170,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_get_param_but_no_json_request() {
+    public function test_get_param_but_no_json_request()
+    {
         add_filter(
             'locale',
             static function () {
@@ -172,7 +186,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_wp_login_get_param_not_on_login_page() {
+    public function test_wp_login_get_param_not_on_login_page()
+    {
         add_filter(
             'locale',
             static function () {
@@ -187,7 +202,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_wp_login_get_param_on_login_page() {
+    public function test_wp_login_get_param_on_login_page()
+    {
         add_filter(
             'locale',
             static function () {
@@ -203,7 +219,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('de_DE', determine_locale());
     }
 
-    public function test_wp_login_get_param_on_login_page_empty_string() {
+    public function test_wp_login_get_param_on_login_page_empty_string()
+    {
         add_filter(
             'locale',
             static function () {
@@ -219,7 +236,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_wp_login_get_param_on_login_page_incorrect_string() {
+    public function test_wp_login_get_param_on_login_page_incorrect_string()
+    {
         add_filter(
             'locale',
             static function () {
@@ -235,7 +253,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_wp_login_cookie_not_on_login_page() {
+    public function test_wp_login_cookie_not_on_login_page()
+    {
         add_filter(
             'locale',
             static function () {
@@ -250,7 +269,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_wp_login_cookie_on_login_page() {
+    public function test_wp_login_cookie_on_login_page()
+    {
         add_filter(
             'locale',
             static function () {
@@ -266,7 +286,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('de_DE', determine_locale());
     }
 
-    public function test_wp_login_cookie_on_login_page_empty_string() {
+    public function test_wp_login_cookie_on_login_page_empty_string()
+    {
         add_filter(
             'locale',
             static function () {
@@ -282,28 +303,33 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase {
         $this->assertSame('siteLocale', determine_locale());
     }
 
-    public function test_language_param_not_installing() {
+    public function test_language_param_not_installing()
+    {
         $_REQUEST['language'] = 'de_DE';
         $this->assertSame('en_US', determine_locale());
     }
 
-    public function test_language_param_installing() {
+    public function test_language_param_installing()
+    {
         $_REQUEST['language'] = 'de_DE';
         wp_installing(true);
         $this->assertSame('de_DE', determine_locale());
     }
 
-    public function test_language_param_installing_incorrect_string() {
+    public function test_language_param_installing_incorrect_string()
+    {
         $_REQUEST['language'] = '####';  // Something sanitize_locale_name() strips away.
         wp_installing(true);
         $this->assertSame('en_US', determine_locale());
     }
 
-    public function test_wp_local_package_global_not_installing() {
+    public function test_wp_local_package_global_not_installing()
+    {
         $GLOBALS['wp_local_package'] = 'de_DE';
         $this->assertSame('en_US', determine_locale());
     }
-    public function test_wp_local_package_global_installing() {
+    public function test_wp_local_package_global_installing()
+    {
         $GLOBALS['wp_local_package'] = 'de_DE';
         wp_installing(true);
         $this->assertSame('de_DE', determine_locale());

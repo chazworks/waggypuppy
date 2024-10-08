@@ -14,7 +14,8 @@
  *
  * @return string Return the post comments title.
  */
-function render_block_core_comments_title($attributes) {
+function render_block_core_comments_title($attributes)
+{
 
     if (post_password_required()) {
         return;
@@ -89,7 +90,8 @@ function render_block_core_comments_title($attributes) {
  *
  * @since 6.0.0
  */
-function register_block_core_comments_title() {
+function register_block_core_comments_title()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comments-title',
         array(

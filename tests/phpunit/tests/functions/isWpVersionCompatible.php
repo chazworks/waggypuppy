@@ -7,7 +7,8 @@
  *
  * @covers ::is_wp_version_compatible
  */
-class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
+class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
+{
     /**
      * The current WordPress version.
      *
@@ -18,7 +19,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
     /**
      * Sets the test WordPress version property and global before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
         self::$wp_version                = wp_get_wp_version();
         $GLOBALS['_wp_tests_wp_version'] = self::$wp_version;
@@ -27,7 +29,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
     /**
      * Resets the test WordPress version global after each test runs.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['_wp_tests_wp_version'] = self::$wp_version;
         parent::tear_down();
     }
@@ -35,7 +38,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
     /**
      * Unsets the test WordPress version global after all tests run.
      */
-    public static function tear_down_after_class() {
+    public static function tear_down_after_class()
+    {
         unset($GLOBALS['_wp_tests_wp_version']);
         parent::tear_down_after_class();
     }
@@ -51,7 +55,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      * @param mixed $required The minimum required WordPress version.
      * @param bool  $expected The expected result.
      */
-    public function test_is_wp_version_compatible($required, $expected) {
+    public function test_is_wp_version_compatible($required, $expected)
+    {
         $this->assertSame($expected, is_wp_version_compatible($required));
     }
 
@@ -60,7 +65,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_wp_version_compatible() {
+    public function data_is_wp_version_compatible()
+    {
         $wp_version     = wp_get_wp_version();
         $version_parts  = explode('.', $wp_version);
         $lower_version  = $version_parts;
@@ -142,7 +148,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      * @param string $wp       The value for the $wp_version global variable.
      * @param bool   $expected The expected result.
      */
-    public function test_is_wp_version_compatible_should_gracefully_handle_trailing_point_zero_version_numbers($required, $wp, $expected) {
+    public function test_is_wp_version_compatible_should_gracefully_handle_trailing_point_zero_version_numbers($required, $wp, $expected)
+    {
         $GLOBALS['_wp_tests_wp_version'] = $wp;
         $this->assertSame($expected, is_wp_version_compatible($required), 'The expected result was not returned.');
     }
@@ -152,7 +159,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_wp_version_compatible_should_gracefully_handle_trailing_point_zero_version_numbers() {
+    public function data_is_wp_version_compatible_should_gracefully_handle_trailing_point_zero_version_numbers()
+    {
         return array(
             'an incorrect trailing .0 and the same version' => array(
                 'required' => '5.2.0',
@@ -214,7 +222,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      * @param string $wp        The value for the $wp_version global variable.
      * @param bool   $expected  The expected result.
      */
-    public function test_is_wp_version_compatible_with_development_versions($required, $wp, $expected) {
+    public function test_is_wp_version_compatible_with_development_versions($required, $wp, $expected)
+    {
         $GLOBALS['_wp_tests_wp_version'] = $wp;
         $this->assertSame($expected, is_wp_version_compatible($required));
     }
@@ -224,7 +233,8 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_wp_version_compatible_with_development_versions() {
+    public function data_is_wp_version_compatible_with_development_versions()
+    {
         // For consistent results, remove possible suffixes.
         list( $version ) = explode('-', wp_get_wp_version());
 

@@ -9,7 +9,8 @@
  *
  * @covers ::_cleanup_header_comment
  */
-class Tests_Functions_CleanupHeaderComment extends WP_UnitTestCase {
+class Tests_Functions_CleanupHeaderComment extends WP_UnitTestCase
+{
 
     /**
      * Tests _cleanup_header_comment().
@@ -19,7 +20,8 @@ class Tests_Functions_CleanupHeaderComment extends WP_UnitTestCase {
      * @param string $test_string Test string.
      * @param string $expected    Expected return value.
      */
-    public function test_cleanup_header_comment($test_string, $expected) {
+    public function test_cleanup_header_comment($test_string, $expected)
+    {
         $this->assertSameIgnoreEOL($expected, _cleanup_header_comment($test_string));
     }
 
@@ -31,7 +33,8 @@ class Tests_Functions_CleanupHeaderComment extends WP_UnitTestCase {
      *     @type string $expected    Expected return value.
      * }
      */
-    public function data_cleanup_header_comment() {
+    public function data_cleanup_header_comment()
+    {
         return array(
             // Set 0: A string.
             array(

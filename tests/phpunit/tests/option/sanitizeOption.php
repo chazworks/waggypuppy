@@ -3,14 +3,16 @@
 /**
  * @group option
  */
-class Tests_Option_SanitizeOption extends WP_UnitTestCase {
+class Tests_Option_SanitizeOption extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_sanitize_option
      *
      * @covers ::sanitize_option
      */
-    public function test_sanitize_option($option_name, $sanitized, $original) {
+    public function test_sanitize_option($option_name, $sanitized, $original)
+    {
         $this->assertSame($sanitized, sanitize_option($option_name, $original));
     }
     /**
@@ -20,7 +22,8 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_sanitize_option() {
+    public function data_sanitize_option()
+    {
         return array(
             array('admin_email', 'mail@example.com', 'mail@example.com'),
             array('admin_email', get_option('admin_email'), 'invalid'),
@@ -100,11 +103,13 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase {
      *
      * @covers ::sanitize_option
      */
-    public function test_sanitize_option_upload_path($provided, $expected) {
+    public function test_sanitize_option_upload_path($provided, $expected)
+    {
         $this->assertSame($expected, sanitize_option('upload_path', $provided));
     }
 
-    public function data_sanitize_option_upload_path() {
+    public function data_sanitize_option_upload_path()
+    {
         return array(
             array('<a href="http://www.example.com">Link</a>', 'Link'),
             array('<scr' . 'ipt>url</scr' . 'ipt>', 'url'),
@@ -118,7 +123,8 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase {
      *
      * @covers ::sanitize_option
      */
-    public function test_emoji_in_blogname_and_description() {
+    public function test_emoji_in_blogname_and_description()
+    {
         global $wpdb;
 
         $value = "whee\xf0\x9f\x98\x88";
@@ -139,7 +145,8 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase {
      * @covers ::sanitize_option
      * @covers ::get_settings_errors
      */
-    public function test_sanitize_option_permalink_structure($provided, $expected, $valid) {
+    public function test_sanitize_option_permalink_structure($provided, $expected, $valid)
+    {
         global $wp_settings_errors;
 
         $old_wp_settings_errors = (array) $wp_settings_errors;
@@ -160,7 +167,8 @@ class Tests_Option_SanitizeOption extends WP_UnitTestCase {
         $this->assertEquals($expected, $actual);
     }
 
-    public function data_sanitize_option_permalink_structure() {
+    public function data_sanitize_option_permalink_structure()
+    {
         return array(
             array('', '', true),
             array('%postname', false, false),

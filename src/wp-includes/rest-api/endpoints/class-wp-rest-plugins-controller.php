@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Plugins_Controller extends WP_REST_Controller {
+class WP_REST_Plugins_Controller extends WP_REST_Controller
+{
 
     const PATTERN = '[^.\/]+(?:\/[^.\/]+)?';
 
@@ -23,7 +24,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      *
      * @since 5.5.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'plugins';
     }
@@ -33,7 +35,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      *
      * @since 5.5.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -109,7 +112,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         if (! current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_cannot_view_plugins',
@@ -129,7 +133,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         $plugins = array();
@@ -159,7 +164,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         if (! current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_cannot_view_plugin',
@@ -185,7 +191,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         $data = $this->get_plugin_data($request['plugin']);
@@ -208,7 +215,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param string $plugin The plugin file to check.
      * @return true|WP_Error True if can read, a WP_Error instance otherwise.
      */
-    protected function check_read_permission($plugin) {
+    protected function check_read_permission($plugin)
+    {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         if (! $this->is_plugin_installed($plugin)) {
@@ -238,7 +246,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
      */
-    public function create_item_permissions_check($request) {
+    public function create_item_permissions_check($request)
+    {
         if (! current_user_can('install_plugins')) {
             return new WP_Error(
                 'rest_cannot_install_plugin',
@@ -270,7 +279,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function create_item($request) {
+    public function create_item($request)
+    {
         global $wp_filesystem;
 
         require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -420,7 +430,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to update the item, WP_Error object otherwise.
      */
-    public function update_item_permissions_check($request) {
+    public function update_item_permissions_check($request)
+    {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         if (! current_user_can('activate_plugins')) {
@@ -458,7 +469,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function update_item($request) {
+    public function update_item($request)
+    {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         $data = $this->get_plugin_data($request['plugin']);
@@ -492,7 +504,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
      */
-    public function delete_item_permissions_check($request) {
+    public function delete_item_permissions_check($request)
+    {
         if (! current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_cannot_manage_plugins',
@@ -526,7 +539,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function delete_item($request) {
+    public function delete_item($request)
+    {
         require_once ABSPATH . 'wp-admin/includes/file.php';
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
@@ -575,7 +589,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         $fields = $this->get_fields_for_response($request);
 
         $item   = _get_plugin_data_markup_translate($item['_file'], $item, false);
@@ -627,7 +642,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param array $item The plugin item.
      * @return array[]
      */
-    protected function prepare_links($item) {
+    protected function prepare_links($item)
+    {
         return array(
             'self' => array(
                 'href' => rest_url(
@@ -650,7 +666,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param string $plugin The plugin file to get data for.
      * @return array|WP_Error The plugin data, or a WP_Error if the plugin is not installed.
      */
-    protected function get_plugin_data($plugin) {
+    protected function get_plugin_data($plugin)
+    {
         $plugins = get_plugins();
 
         if (! isset($plugins[ $plugin ])) {
@@ -671,7 +688,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param string $plugin The plugin file to check.
      * @return string Either 'network-active', 'active' or 'inactive'.
      */
-    protected function get_plugin_status($plugin) {
+    protected function get_plugin_status($plugin)
+    {
         if (is_plugin_active_for_network($plugin)) {
             return 'network-active';
         }
@@ -693,7 +711,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param string $current_status The plugin's current status.
      * @return true|WP_Error
      */
-    protected function plugin_status_permission_check($plugin, $new_status, $current_status) {
+    protected function plugin_status_permission_check($plugin, $new_status, $current_status)
+    {
         if (is_multisite() && ('network-active' === $current_status || 'network-active' === $new_status) && ! current_user_can('manage_network_plugins')) {
             return new WP_Error(
                 'rest_cannot_manage_network_plugins',
@@ -731,7 +750,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param string $current_status The plugin's current status.
      * @return true|WP_Error
      */
-    protected function handle_plugin_status($plugin, $new_status, $current_status) {
+    protected function handle_plugin_status($plugin, $new_status, $current_status)
+    {
         if ('inactive' === $new_status) {
             deactivate_plugins($plugin, false, 'network-active' === $current_status);
 
@@ -771,7 +791,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param string $file The plugin file parameter.
      * @return bool
      */
-    public function validate_plugin_param($file) {
+    public function validate_plugin_param($file)
+    {
         if (! is_string($file) || ! preg_match('/' . self::PATTERN . '/u', $file)) {
             return false;
         }
@@ -789,7 +810,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param string $file The plugin file parameter.
      * @return string
      */
-    public function sanitize_plugin_param($file) {
+    public function sanitize_plugin_param($file)
+    {
         return plugin_basename(sanitize_text_field($file . '.php'));
     }
 
@@ -802,7 +824,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param array           $item    The plugin item.
      * @return bool
      */
-    protected function does_plugin_match_request($request, $item) {
+    protected function does_plugin_match_request($request, $item)
+    {
         $search = $request['search'];
 
         if ($search) {
@@ -837,7 +860,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      * @param string $plugin The plugin file.
      * @return bool
      */
-    protected function is_plugin_installed($plugin) {
+    protected function is_plugin_installed($plugin)
+    {
         return file_exists(WP_PLUGIN_DIR . '/' . $plugin);
     }
 
@@ -850,7 +874,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      *
      * @return true|WP_Error True if filesystem is available, WP_Error otherwise.
      */
-    protected function is_filesystem_available() {
+    protected function is_filesystem_available()
+    {
         $filesystem_method = get_filesystem_method();
 
         if ('direct' === $filesystem_method) {
@@ -875,7 +900,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -983,7 +1009,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
      *
      * @return array Query parameters for the collection.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $query_params = parent::get_collection_params();
 
         $query_params['context']['default'] = 'view';

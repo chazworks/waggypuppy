@@ -17,7 +17,8 @@
  * @see WP_Customize_Manager
  */
 #[AllowDynamicProperties]
-class WP_Customize_Panel {
+class WP_Customize_Panel
+{
 
     /**
      * Incremented with each new class instantiation, then stored in $instance_number.
@@ -154,7 +155,8 @@ class WP_Customize_Panel {
      *     @type callable        $active_callback Active callback.
      * }
      */
-    public function __construct($manager, $id, $args = array()) {
+    public function __construct($manager, $id, $args = array())
+    {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
             if (isset($args[ $key ])) {
@@ -180,7 +182,8 @@ class WP_Customize_Panel {
      *
      * @return bool Whether the panel is active to the current preview.
      */
-    final public function active() {
+    final public function active()
+    {
         $panel  = $this;
         $active = call_user_func($this->active_callback, $this);
 
@@ -207,7 +210,8 @@ class WP_Customize_Panel {
      *
      * @return bool Always true.
      */
-    public function active_callback() {
+    public function active_callback()
+    {
         return true;
     }
 
@@ -218,7 +222,8 @@ class WP_Customize_Panel {
      *
      * @return array The array to be exported to the client as JSON.
      */
-    public function json() {
+    public function json()
+    {
         $array                          = wp_array_slice_assoc((array) $this, array('id', 'description', 'priority', 'type'));
         $array['title']                 = html_entity_decode($this->title, ENT_QUOTES, get_bloginfo('charset'));
         $array['content']               = $this->get_content();
@@ -237,7 +242,8 @@ class WP_Customize_Panel {
      *
      * @return bool False if theme doesn't support the panel or the user doesn't have the capability.
      */
-    public function check_capabilities() {
+    public function check_capabilities()
+    {
         if ($this->capability && ! current_user_can($this->capability)) {
             return false;
         }
@@ -256,7 +262,8 @@ class WP_Customize_Panel {
      *
      * @return string Content for the panel.
      */
-    final public function get_content() {
+    final public function get_content()
+    {
         ob_start();
         $this->maybe_render();
         return trim(ob_get_clean());
@@ -267,7 +274,8 @@ class WP_Customize_Panel {
      *
      * @since 4.0.0
      */
-    final public function maybe_render() {
+    final public function maybe_render()
+    {
         if (! $this->check_capabilities()) {
             return;
         }
@@ -301,7 +309,8 @@ class WP_Customize_Panel {
      *
      * @since 4.0.0
      */
-    protected function render() {}
+    protected function render()
+    {}
 
     /**
      * Render the panel UI in a subclass.
@@ -310,7 +319,8 @@ class WP_Customize_Panel {
      *
      * @since 4.1.0
      */
-    protected function render_content() {}
+    protected function render_content()
+    {}
 
     /**
      * Render the panel's JS templates.
@@ -322,7 +332,8 @@ class WP_Customize_Panel {
      *
      * @see WP_Customize_Manager::register_panel_type()
      */
-    public function print_template() {
+    public function print_template()
+    {
         ?>
         <script type="text/html" id="tmpl-customize-panel-<?php echo esc_attr($this->type); ?>-content">
             <?php $this->content_template(); ?>
@@ -343,7 +354,8 @@ class WP_Customize_Panel {
      *
      * @since 4.3.0
      */
-    protected function render_template() {
+    protected function render_template()
+    {
         ?>
         <li id="accordion-panel-{{ data.id }}" class="accordion-section control-section control-panel control-panel-{{ data.type }}">
             <h3 class="accordion-section-title" tabindex="0">
@@ -370,7 +382,8 @@ class WP_Customize_Panel {
      *
      * @since 4.3.0
      */
-    protected function content_template() {
+    protected function content_template()
+    {
         ?>
         <li class="panel-meta customize-info accordion-section <# if ( ! data.description ) { #> cannot-expand<# } #>">
             <button class="customize-panel-back" tabindex="-1"><span class="screen-reader-text">

@@ -5,7 +5,8 @@
  * @group formatting
  * @group kses
  */
-class Tests_Kses extends WP_UnitTestCase {
+class Tests_Kses extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_wp_filter_post_kses_address
@@ -14,7 +15,8 @@ class Tests_Kses extends WP_UnitTestCase {
      * @param string $content  Test string for kses.
      * @param string $expected Expected result after passing through kses.
      */
-    public function test_wp_filter_post_kses_address($content, $expected) {
+    public function test_wp_filter_post_kses_address($content, $expected)
+    {
         global $allowedposttags;
 
         $this->assertSame($expected, wp_kses($content, $allowedposttags));
@@ -28,7 +30,8 @@ class Tests_Kses extends WP_UnitTestCase {
      *     @type string $expected Expected result after passing through kses.
      * }
      */
-    public function data_wp_filter_post_kses_address() {
+    public function data_wp_filter_post_kses_address()
+    {
         $attributes = array(
             'class' => 'classname',
             'id'    => 'id',
@@ -62,7 +65,8 @@ class Tests_Kses extends WP_UnitTestCase {
      * @param string $content  Test string for kses.
      * @param string $expected Expected result after passing through kses.
      */
-    public function test_wp_filter_post_kses_a($content, $expected) {
+    public function test_wp_filter_post_kses_a($content, $expected)
+    {
         global $allowedposttags;
 
         $this->assertSame($expected, wp_kses($content, $allowedposttags));
@@ -76,7 +80,8 @@ class Tests_Kses extends WP_UnitTestCase {
      *     @type string $expected Expected result after passing through kses.
      * }
      */
-    public function data_wp_filter_post_kses_a() {
+    public function data_wp_filter_post_kses_a()
+    {
         $attributes = array(
             'class'    => 'classname',
             'id'       => 'id',
@@ -119,7 +124,8 @@ class Tests_Kses extends WP_UnitTestCase {
      * @param string $context  Context to use for parsing source.
      * @param string $expected Expected output following KSES parsing.
      */
-    public function test_wp_kses_video($source, $context, $expected) {
+    public function test_wp_kses_video($source, $context, $expected)
+    {
         $this->assertSame($expected, wp_kses($source, $context));
     }
 
@@ -132,7 +138,8 @@ class Tests_Kses extends WP_UnitTestCase {
      *     @type string $expected Expected output following KSES parsing.
      * }
      */
-    public function data_wp_kses_video() {
+    public function data_wp_kses_video()
+    {
         return array(
             // Set 0: Valid post object params in post context.
             array(
@@ -168,7 +175,8 @@ class Tests_Kses extends WP_UnitTestCase {
      * @param string $content  Test string for kses.
      * @param string $expected Expected result after passing through kses.
      */
-    public function test_wp_filter_post_kses_abbr($content, $expected) {
+    public function test_wp_filter_post_kses_abbr($content, $expected)
+    {
         global $allowedposttags;
 
         $this->assertSame($expected, wp_kses($content, $allowedposttags));
@@ -182,7 +190,8 @@ class Tests_Kses extends WP_UnitTestCase {
      *     @type string $expected Expected result after passing through kses.
      * }
      */
-    public function data_wp_filter_post_kses_abbr() {
+    public function data_wp_filter_post_kses_abbr()
+    {
         $attributes = array(
             'class' => 'classname',
             'id'    => 'id',
@@ -201,7 +210,8 @@ class Tests_Kses extends WP_UnitTestCase {
         return $data;
     }
 
-    public function test_feed_links() {
+    public function test_feed_links()
+    {
         global $allowedposttags;
 
         $content = <<<EOF
@@ -235,7 +245,8 @@ EOF;
         $this->assertSame($expected, wp_kses($content, $allowedposttags));
     }
 
-    public function test_wp_kses_bad_protocol() {
+    public function test_wp_kses_bad_protocol()
+    {
         $bad = array(
             'dummy:alert(1)',
             'javascript:alert(1)',
@@ -337,7 +348,8 @@ EOF;
         }
     }
 
-    public function test_hackers_attacks() {
+    public function test_hackers_attacks()
+    {
         $xss = simplexml_load_file(DIR_TESTDATA . '/formatting/xssAttacks.xml');
         foreach ($xss->attack as $attack) {
             if (in_array((string) $attack->name, array('IMG Embedded commands 2', 'US-ASCII encoding', 'OBJECT w/Flash 2', 'Character Encoding Example'), true)) {
@@ -471,7 +483,8 @@ EOF;
         }
     }
 
-    public function wp_kses_allowed_html_filter($html, $context) {
+    public function wp_kses_allowed_html_filter($html, $context)
+    {
         if ('post' === $context) {
             return array('a' => array('href' => true));
         } else {
@@ -482,7 +495,8 @@ EOF;
     /**
      * @ticket 20210
      */
-    public function test_wp_kses_allowed_html() {
+    public function test_wp_kses_allowed_html()
+    {
         global $allowedposttags, $allowedtags, $allowedentitynames;
 
         $this->assertSame($allowedposttags, wp_kses_allowed_html('post'));
@@ -533,7 +547,8 @@ EOF;
         $this->assertSame($allowedtags, wp_kses_allowed_html('data'));
     }
 
-    public function test_hyphenated_tag() {
+    public function test_hyphenated_tag()
+    {
         $content     = '<hyphenated-tag attribute="value" otherattribute="value2">Alot of hyphens.</hyphenated-tag>';
         $custom_tags = array(
             'hyphenated-tag' => array(
@@ -551,7 +566,8 @@ EOF;
     /**
      * @ticket 26290
      */
-    public function test_wp_kses_normalize_entities() {
+    public function test_wp_kses_normalize_entities()
+    {
         $this->assertSame('&spades;', wp_kses_normalize_entities('&spades;'));
 
         $this->assertSame('&sup1;', wp_kses_normalize_entities('&sup1;'));
@@ -569,13 +585,15 @@ EOF;
      * @ticket 28506
      * @dataProvider data_ctrl_removal
      */
-    public function test_ctrl_removal($content, $expected) {
+    public function test_ctrl_removal($content, $expected)
+    {
         global $allowedposttags;
 
         return $this->assertSame($expected, wp_kses($content, $allowedposttags));
     }
 
-    public function data_ctrl_removal() {
+    public function data_ctrl_removal()
+    {
         return array(
             array(
                 "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0B\x0C\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\X1C\x1D\x1E\x1F",
@@ -606,13 +624,15 @@ EOF;
      * @ticket 28699
      * @dataProvider data_slash_zero_removal
      */
-    public function test_slash_zero_removal($content, $expected) {
+    public function test_slash_zero_removal($content, $expected)
+    {
         global $allowedposttags;
 
         return $this->assertSame($expected, wp_kses($content, $allowedposttags));
     }
 
-    public function data_slash_zero_removal() {
+    public function data_slash_zero_removal()
+    {
         return array(
             array(
                 'This \\0 should be no big deal.',
@@ -658,11 +678,13 @@ EOF;
      *
      * @dataProvider data_hair_parse
      */
-    public function test_hair_parse($input, $output) {
+    public function test_hair_parse($input, $output)
+    {
         return $this->assertSame($output, wp_kses_hair_parse($input));
     }
 
-    public function data_hair_parse() {
+    public function data_hair_parse()
+    {
         return array(
             array(
                 'title="hello" href="#" id="my_id" ',
@@ -724,11 +746,13 @@ EOF;
      *
      * @dataProvider data_attr_parse
      */
-    public function test_attr_parse($input, $output) {
+    public function test_attr_parse($input, $output)
+    {
         return $this->assertSame($output, wp_kses_attr_parse($input));
     }
 
-    public function data_attr_parse() {
+    public function data_attr_parse()
+    {
         return array(
             array(
                 '<a title="hello" href="#" id="my_id" >',
@@ -782,11 +806,13 @@ EOF;
      *
      * @dataProvider data_one_attr
      */
-    public function test_one_attr($element, $input, $output) {
+    public function test_one_attr($element, $input, $output)
+    {
         return $this->assertSame($output, wp_kses_one_attr($input, $element));
     }
 
-    public function data_one_attr() {
+    public function data_one_attr()
+    {
         return array(
             array(
                 'a',
@@ -859,7 +885,8 @@ EOF;
     /**
      * @ticket 34063
      */
-    public function test_bdo_tag_allowed() {
+    public function test_bdo_tag_allowed()
+    {
         global $allowedposttags;
 
         $content = '<p>This is <bdo dir="rtl">a BDO tag</bdo>. Weird, <bdo dir="ltr">right?</bdo></p>';
@@ -870,7 +897,8 @@ EOF;
     /**
      * @ticket 54698
      */
-    public function test_ruby_tag_allowed() {
+    public function test_ruby_tag_allowed()
+    {
         global $allowedposttags;
 
         $content = '<ruby>✶<rp>: </rp><rt>Star</rt><rp>, </rp><rt lang="fr">Étoile</rt><rp>.</rp></ruby>';
@@ -881,7 +909,8 @@ EOF;
     /**
      * @ticket 35079
      */
-    public function test_ol_reversed_attribute_allowed() {
+    public function test_ol_reversed_attribute_allowed()
+    {
         global $allowedposttags;
 
         $content = '<ol reversed="reversed"><li>Item 1</li><li>Item 2</li><li>Item 3</li></ol>';
@@ -892,7 +921,8 @@ EOF;
     /**
      * @ticket 40680
      */
-    public function test_wp_kses_attr_no_attributes_allowed_with_empty_array() {
+    public function test_wp_kses_attr_no_attributes_allowed_with_empty_array()
+    {
         $element   = 'foo';
         $attribute = 'title="foo" class="bar"';
 
@@ -902,7 +932,8 @@ EOF;
     /**
      * @ticket 40680
      */
-    public function test_wp_kses_attr_no_attributes_allowed_with_true() {
+    public function test_wp_kses_attr_no_attributes_allowed_with_true()
+    {
         $element   = 'foo';
         $attribute = 'title="foo" class="bar"';
 
@@ -912,7 +943,8 @@ EOF;
     /**
      * @ticket 40680
      */
-    public function test_wp_kses_attr_single_attribute_is_allowed() {
+    public function test_wp_kses_attr_single_attribute_is_allowed()
+    {
         $element   = 'foo';
         $attribute = 'title="foo" class="bar"';
 
@@ -922,7 +954,8 @@ EOF;
     /**
      * @ticket 43312
      */
-    public function test_wp_kses_attr_no_attributes_allowed_with_false() {
+    public function test_wp_kses_attr_no_attributes_allowed_with_false()
+    {
         $element   = 'foo';
         $attribute = 'title="foo" class="bar"';
 
@@ -945,7 +978,8 @@ EOF;
      * @param string $css      A string of CSS rules.
      * @param string $expected Expected string of CSS rules.
      */
-    public function test_safecss_filter_attr($css, $expected) {
+    public function test_safecss_filter_attr($css, $expected)
+    {
         $this->assertSame($expected, safecss_filter_attr($css));
     }
 
@@ -959,7 +993,8 @@ EOF;
      *     }
      * }
      */
-    public function data_safecss_filter_attr() {
+    public function data_safecss_filter_attr()
+    {
         return array(
             // Empty input, empty output.
             array(
@@ -1366,7 +1401,8 @@ EOF;
      *
      * @ticket 33121
      */
-    public function test_wp_kses_attr_data_attribute_is_allowed() {
+    public function test_wp_kses_attr_data_attribute_is_allowed()
+    {
         $test     = '<div data-foo="foo" data-bar="bar" datainvalid="gone" data-two-hyphens="remains">Pens and pencils</div>';
         $expected = '<div data-foo="foo" data-bar="bar" data-two-hyphens="remains">Pens and pencils</div>';
 
@@ -1378,7 +1414,8 @@ EOF;
      *
      * @ticket 61052
      */
-    public function test_wp_kses_attr_data_attribute_hypens_allowed() {
+    public function test_wp_kses_attr_data_attribute_hypens_allowed()
+    {
         $test     = '<div data--leading="remains" data-trailing-="remains" data-middle--double="remains">Pens and pencils</div>';
         $expected = '<div data--leading="remains" data-trailing-="remains" data-middle--double="remains">Pens and pencils</div>';
 
@@ -1390,7 +1427,8 @@ EOF;
      *
      * @ticket 33121
      */
-    public function test_wildcard_requires_hyphen_after_prefix() {
+    public function test_wildcard_requires_hyphen_after_prefix()
+    {
         $allowed_html = array(
             'div' => array(
                 'data-*' => true,
@@ -1411,7 +1449,8 @@ EOF;
      *
      * @ticket 33121
      */
-    public function test_wildcard_allows_two_hyphens() {
+    public function test_wildcard_allows_two_hyphens()
+    {
         $allowed_html = array(
             'div' => array(
                 'data-*' => true,
@@ -1433,7 +1472,8 @@ EOF;
      *
      * @ticket 33121
      */
-    public function test_wildcard_attribute_prefixes($wildcard_attribute, $expected) {
+    public function test_wildcard_attribute_prefixes($wildcard_attribute, $expected)
+    {
         $allowed_html = array(
             'div' => array(
                 $wildcard_attribute => true,
@@ -1454,7 +1494,8 @@ EOF;
      *               [0] The prefix being tested.
      *               [1] The outcome of `wp_kses_attr_check` for the prefix.
      */
-    public function data_wildcard_attribute_prefixes() {
+    public function data_wildcard_attribute_prefixes()
+    {
         return array(
             // Ends correctly.
             array('data-*', true),
@@ -1480,7 +1521,8 @@ EOF;
      * @param $input string The style attribute saved in the editor.
      * @param $expected string The sanitized style attribute.
      */
-    public function test_kses_style_attr_with_url($input, $expected) {
+    public function test_kses_style_attr_with_url($input, $expected)
+    {
         $actual = safecss_filter_attr($input);
 
         $this->assertSame($expected, $actual);
@@ -1491,7 +1533,8 @@ EOF;
      *
      * @return array Nested array of input, expected pairs.
      */
-    public function data_kses_style_attr_with_url() {
+    public function data_kses_style_attr_with_url()
+    {
         return array(
             /*
              * Valid use cases.
@@ -1627,7 +1670,8 @@ EOF;
      * @param string $css      A string of CSS rules.
      * @param string $expected Expected string of CSS rules.
      */
-    public function test_safecss_filter_attr_filtered($css, $expected) {
+    public function test_safecss_filter_attr_filtered($css, $expected)
+    {
         add_filter('safecss_filter_attr_allow_css', '__return_true');
         $this->assertSame($expected, safecss_filter_attr($css));
         remove_filter('safecss_filter_attr_allow_css', '__return_true');
@@ -1643,7 +1687,8 @@ EOF;
      *     }
      * }
      */
-    public function data_safecss_filter_attr_filtered() {
+    public function data_safecss_filter_attr_filtered()
+    {
         return array(
 
             // A single attribute name, with a single value.
@@ -1694,7 +1739,8 @@ EOF;
      *
      * @ticket 50731
      */
-    public function test_wp_kses_img_tag_standard_attributes() {
+    public function test_wp_kses_img_tag_standard_attributes()
+    {
         $html = array(
             '<img',
             'loading="lazy"',
@@ -1716,7 +1762,8 @@ EOF;
      *
      * @ticket 53156
      */
-    public function test_wp_kses_main_tag_standard_attributes() {
+    public function test_wp_kses_main_tag_standard_attributes()
+    {
         $test = array(
             '<main',
             'class="wp-group-block"',
@@ -1739,14 +1786,16 @@ EOF;
      * @param string $html     A string of HTML to test.
      * @param string $expected The expected result from KSES.
      */
-    public function test_wp_kses_object_tag_allowed($html, $expected) {
+    public function test_wp_kses_object_tag_allowed($html, $expected)
+    {
         $this->assertSame($expected, wp_kses_post($html));
     }
 
     /**
      * Data provider for test_wp_kses_object_tag_allowed().
      */
-    public function data_wp_kses_object_tag_allowed() {
+    public function data_wp_kses_object_tag_allowed()
+    {
         return array(
             'valid value for type'                    => array(
                 '<object type="application/pdf" data="https://' . WP_TESTS_DOMAIN . '/foo.pdf" />',
@@ -1849,7 +1898,8 @@ EOF;
      * @param string $html     A string of HTML to test.
      * @param string $expected The expected result from KSES.
      */
-    public function test_wp_kses_object_data_url_with_port_number_allowed($html, $expected) {
+    public function test_wp_kses_object_data_url_with_port_number_allowed($html, $expected)
+    {
         add_filter('upload_dir', array($this, 'wp_kses_upload_dir_filter'), 10, 2);
         $this->assertSame($expected, wp_kses_post($html));
     }
@@ -1857,7 +1907,8 @@ EOF;
     /**
      * Data provider for test_wp_kses_object_data_url_with_port_number_allowed().
      */
-    public function data_wp_kses_object_data_url_with_port_number_allowed() {
+    public function data_wp_kses_object_data_url_with_port_number_allowed()
+    {
         return array(
             'url with port number'                   => array(
                 '<object type="application/pdf" data="https://example.org:8888/cat/foo.pdf" />',
@@ -1884,7 +1935,8 @@ EOF;
      * @param  array $param See wp_upload_dir()
      * @return array        $param with a modified `url`.
      */
-    public function wp_kses_upload_dir_filter($param) {
+    public function wp_kses_upload_dir_filter($param)
+    {
         // Take care to replace the entire domain, including cases where it already has a port number.
         $parsed         = parse_url($param['url']);
         $replace_domain = $parsed['host'];
@@ -1903,7 +1955,8 @@ EOF;
      *
      * @ticket 54261
      */
-    public function test_wp_kses_object_added_in_html_filter() {
+    public function test_wp_kses_object_added_in_html_filter()
+    {
         $html = <<<HTML
 <object type="application/pdf" data="https://wordpress.org/foo.pdf" />
 <object type="application/x-shockwave-flash" data="https://wordpress.org/foo.swf">
@@ -1920,7 +1973,8 @@ HTML;
         $this->assertSame($html, $filtered_html);
     }
 
-    public function filter_wp_kses_object_added_in_html_filter($tags, $context) {
+    public function filter_wp_kses_object_added_in_html_filter($tags, $context)
+    {
         if ('post' === $context) {
             $tags['object'] = array(
                 'type' => true,
@@ -1947,7 +2001,8 @@ HTML;
      *                                but must be syntax which a browser interprets as a comment.
      * @param string $expected_output How `wp_kses()` ought to transform the comment.
      */
-    public function test_wp_kses_preserves_html_comments($html_comment, $expected_output) {
+    public function test_wp_kses_preserves_html_comments($html_comment, $expected_output)
+    {
         $this->assertSame(
             $expected_output,
             wp_kses($html_comment, array()),
@@ -1960,7 +2015,8 @@ HTML;
      *
      * @return array[].
      */
-    public static function data_html_containing_various_kinds_of_html_comments() {
+    public static function data_html_containing_various_kinds_of_html_comments()
+    {
         return array(
             'Normative HTML comment'            => array('before<!-- this is a comment -->after', 'before<!-- this is a comment -->after'),
             'Closing tag with invalid tag name' => array('before<//not a tag>after', 'before<//not a tag>after'),
@@ -1979,14 +2035,16 @@ HTML;
      * @param string $expected     The expected result from KSES.
      * @param array  $allowed_html The allowed HTML to pass to KSES.
      */
-    public function test_wp_kses_allowed_values_list($content, $expected, $allowed_html) {
+    public function test_wp_kses_allowed_values_list($content, $expected, $allowed_html)
+    {
         $this->assertSame($expected, wp_kses($content, $allowed_html));
     }
 
     /**
      * Data provider for test_wp_kses_allowed_values_list().
      */
-    public function data_wp_kses_allowed_values_list() {
+    public function data_wp_kses_allowed_values_list()
+    {
         $data = array(
             'valid dir attribute value'             => array(
                 '<p dir="ltr">foo</p>',
@@ -2037,14 +2095,16 @@ HTML;
      * @param string $expected     The expected result from KSES.
      * @param array  $allowed_html The allowed HTML to pass to KSES.
      */
-    public function test_wp_kses_required_attribute($content, $expected, $allowed_html) {
+    public function test_wp_kses_required_attribute($content, $expected, $allowed_html)
+    {
         $this->assertSame($expected, wp_kses($content, $allowed_html));
     }
 
     /**
      * Data provider for test_wp_kses_required_attribute().
      */
-    public function data_wp_kses_required_attribute() {
+    public function data_wp_kses_required_attribute()
+    {
         $data = array(
             'valid dir attribute value'             => array(
                 '<p dir="ltr">foo</p>', // Test HTML.
@@ -2156,7 +2216,8 @@ HTML;
      * @param array  $input    The input to wp_kses_xml_named_entities().
      * @param string $expected The expected output.
      */
-    public function test_wp_kses_xml_named_entities($input, $expected) {
+    public function test_wp_kses_xml_named_entities($input, $expected)
+    {
         $this->assertSame($expected, wp_kses_xml_named_entities($input));
     }
 
@@ -2165,7 +2226,8 @@ HTML;
      *
      * @return array Nested array of input, expected pairs.
      */
-    public function data_wp_kses_xml_named_entities() {
+    public function data_wp_kses_xml_named_entities()
+    {
         return array(
             // Empty string value testing.
             'empty string'       => array(
@@ -2225,7 +2287,8 @@ HTML;
      *
      * @param string $global_name The name of the global variable.
      */
-    public function test_kses_globals_are_defined($global_name) {
+    public function test_kses_globals_are_defined($global_name)
+    {
         $this->assertArrayHasKey($global_name, $GLOBALS);
     }
 
@@ -2234,7 +2297,8 @@ HTML;
      *
      * @return array
      */
-    public function data_kses_globals_are_defined() {
+    public function data_kses_globals_are_defined()
+    {
         $required_kses_globals = array(
             'allowedposttags',
             'allowedtags',

@@ -5,13 +5,15 @@
  *
  * @covers ::is_term_publicly_viewable
  */
-class Tests_Term_IsTermPubliclyViewable extends WP_UnitTestCase {
+class Tests_Term_IsTermPubliclyViewable extends WP_UnitTestCase
+{
     /**
      * Unit tests for is_term_publicly_viewable().
      *
      * @ticket 56215
      */
-    public function test_non_existent_term_is_not_publicly_viewable() {
+    public function test_non_existent_term_is_not_publicly_viewable()
+    {
         $this->assertFalse(is_term_publicly_viewable(123));
     }
 
@@ -24,7 +26,8 @@ class Tests_Term_IsTermPubliclyViewable extends WP_UnitTestCase {
      * @param string $taxonomy The taxonomy name.
      * @param bool   $expected The expected result of the function call.
      */
-    public function test_is_term_publicly_viewable($taxonomy, $expected) {
+    public function test_is_term_publicly_viewable($taxonomy, $expected)
+    {
         $term_id = self::factory()->term->create(
             array(
                 'taxonomy' => $taxonomy,
@@ -42,7 +45,8 @@ class Tests_Term_IsTermPubliclyViewable extends WP_UnitTestCase {
      *     @type bool   $expected The expected result of the function call.
      * }
      */
-    public function data_is_term_publicly_viewable() {
+    public function data_is_term_publicly_viewable()
+    {
         return array(
             array('category', true),
             array('post_tag', true),

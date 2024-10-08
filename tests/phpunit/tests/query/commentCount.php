@@ -2,23 +2,27 @@
 /**
  * @group query
  */
-class Tests_Query_CommentCount extends WP_UnitTestCase {
+class Tests_Query_CommentCount extends WP_UnitTestCase
+{
     public static $post_ids = array();
     public $q;
     public static $post_type = 'page'; // Can be anything.
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         unset($this->q);
         $this->q = new WP_Query();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unset($this->q);
         parent::tear_down();
     }
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         $post_id             = $factory->post->create(
             array(
                 'post_content' => '1 about',
@@ -62,11 +66,13 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         }
     }
 
-    private function helper_get_found_post_ids() {
+    private function helper_get_found_post_ids()
+    {
         return wp_list_pluck($this->q->posts, 'ID');
     }
 
-    public function test_operator_equals() {
+    public function test_operator_equals()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -84,7 +90,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_operator_greater_than() {
+    public function test_operator_greater_than()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -102,7 +109,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_operator_greater_than_no_results() {
+    public function test_operator_greater_than_no_results()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -119,7 +127,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
 
         $this->assertSameSets($expected, $found_post_ids);
     }
-    public function test_operator_less_than() {
+    public function test_operator_less_than()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -146,7 +155,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_operator_less_than_no_results() {
+    public function test_operator_less_than_no_results()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -165,7 +175,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
     }
 
 
-    public function test_operator_not_equal() {
+    public function test_operator_not_equal()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -191,7 +202,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
 
         $this->assertSameSets($expected, $found_post_ids);
     }
-    public function test_operator_equal_or_greater_than() {
+    public function test_operator_equal_or_greater_than()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -215,7 +227,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_operator_equal_or_greater_than_no_results() {
+    public function test_operator_equal_or_greater_than_no_results()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -233,7 +246,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_operator_equal_or_less_than() {
+    public function test_operator_equal_or_less_than()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -257,7 +271,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_operator_equal_or_less_than_no_results() {
+    public function test_operator_equal_or_less_than_no_results()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -275,7 +290,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_invalid_operator_should_fall_back_on_equals() {
+    public function test_invalid_operator_should_fall_back_on_equals()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -296,7 +312,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_wrong_count_no_results() {
+    public function test_wrong_count_no_results()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -314,7 +331,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_no_operator_no_results() {
+    public function test_no_operator_no_results()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -331,7 +349,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_empty_non_numeric_string_should_be_ignored() {
+    public function test_empty_non_numeric_string_should_be_ignored()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,
@@ -355,7 +374,8 @@ class Tests_Query_CommentCount extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found_post_ids);
     }
 
-    public function test_simple_count() {
+    public function test_simple_count()
+    {
         $args = array(
             'post_type'      => self::$post_type,
             'posts_per_page' => -1,

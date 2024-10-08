@@ -15,7 +15,8 @@
  *
  * @see WP_Dependencies
  */
-class WP_Styles extends WP_Dependencies {
+class WP_Styles extends WP_Dependencies
+{
     /**
      * Base URL for styles.
      *
@@ -116,7 +117,8 @@ class WP_Styles extends WP_Dependencies {
      *
      * @since 2.6.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         if (function_exists('is_admin') && ! is_admin()
         &&
             function_exists('current_theme_supports') && ! current_theme_supports('html5', 'style')
@@ -147,7 +149,8 @@ class WP_Styles extends WP_Dependencies {
      *                          Default false.
      * @return bool True on success, false on failure.
      */
-    public function do_item($handle, $group = false) {
+    public function do_item($handle, $group = false)
+    {
         if (! parent::do_item($handle)) {
             return false;
         }
@@ -303,7 +306,8 @@ class WP_Styles extends WP_Dependencies {
      * @param string $code   String containing the CSS styles to be added.
      * @return bool True on success, false on failure.
      */
-    public function add_inline_style($handle, $code) {
+    public function add_inline_style($handle, $code)
+    {
         if (! $code) {
             return false;
         }
@@ -329,7 +333,8 @@ class WP_Styles extends WP_Dependencies {
      * @return string|bool False if no data exists, inline styles if `$display` is true,
      *                     true otherwise.
      */
-    public function print_inline_style($handle, $display = true) {
+    public function print_inline_style($handle, $display = true)
+    {
         $output = $this->get_data($handle, 'after');
 
         if (empty($output)) {
@@ -366,7 +371,8 @@ class WP_Styles extends WP_Dependencies {
      *                                   Default false.
      * @return bool True on success, false on failure.
      */
-    public function all_deps($handles, $recursion = false, $group = false) {
+    public function all_deps($handles, $recursion = false, $group = false)
+    {
         $result = parent::all_deps($handles, $recursion, $group);
         if (! $recursion) {
             /**
@@ -391,7 +397,8 @@ class WP_Styles extends WP_Dependencies {
      * @param string $handle The style's registered handle.
      * @return string Style's fully-qualified URL.
      */
-    public function _css_href($src, $ver, $handle) {
+    public function _css_href($src, $ver, $handle)
+    {
         if (! is_bool($src) && ! preg_match('|^(https?:)?//|', $src) && ! ($this->content_url && str_starts_with($src, $this->content_url))) {
             $src = $this->base_url . $src;
         }
@@ -420,7 +427,8 @@ class WP_Styles extends WP_Dependencies {
      * @param string $src The source of the enqueued style.
      * @return bool True if found, false if not.
      */
-    public function in_default_dir($src) {
+    public function in_default_dir($src)
+    {
         if (! $this->default_dirs) {
             return true;
         }
@@ -444,7 +452,8 @@ class WP_Styles extends WP_Dependencies {
      *
      * @return string[] Handles of items that have been processed.
      */
-    public function do_footer_items() {
+    public function do_footer_items()
+    {
         $this->do_items(false, 1);
         return $this->done;
     }
@@ -454,7 +463,8 @@ class WP_Styles extends WP_Dependencies {
      *
      * @since 3.3.0
      */
-    public function reset() {
+    public function reset()
+    {
         $this->do_concat      = false;
         $this->concat         = '';
         $this->concat_version = '';

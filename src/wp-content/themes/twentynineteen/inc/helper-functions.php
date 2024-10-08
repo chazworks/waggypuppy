@@ -10,21 +10,24 @@
 /**
  * Determines if post thumbnail can be displayed.
  */
-function twentynineteen_can_show_post_thumbnail() {
+function twentynineteen_can_show_post_thumbnail()
+{
     return apply_filters('twentynineteen_can_show_post_thumbnail', ! post_password_required() && ! is_attachment() && has_post_thumbnail());
 }
 
 /**
  * Returns true if image filters are enabled on the theme options.
  */
-function twentynineteen_image_filters_enabled() {
+function twentynineteen_image_filters_enabled()
+{
     return 0 !== get_theme_mod('image_filter', 1);
 }
 
 /**
  * Returns the size for avatars used in the theme.
  */
-function twentynineteen_get_avatar_size() {
+function twentynineteen_get_avatar_size()
+{
     return 60;
 }
 
@@ -36,7 +39,8 @@ function twentynineteen_get_avatar_size() {
  * @param WP_Comment|null $comment The comment object to check. Defaults to the current comment.
  * @return bool True if the comment is by the author of the post, false otherwise.
  */
-function twentynineteen_is_comment_by_post_author($comment = null) {
+function twentynineteen_is_comment_by_post_author($comment = null)
+{
     if (is_object($comment) && $comment->user_id > 0) {
         $user = get_userdata($comment->user_id);
         $post = get_post($comment->comment_post_ID);
@@ -50,7 +54,8 @@ function twentynineteen_is_comment_by_post_author($comment = null) {
 /**
  * Returns information about the current post's discussion, with cache support.
  */
-function twentynineteen_get_discussion_data() {
+function twentynineteen_get_discussion_data()
+{
     static $discussion, $post_id;
 
     $current_post_id = get_the_ID();
@@ -92,7 +97,8 @@ function twentynineteen_get_discussion_data() {
  * @param float $l      The lightness component (0-100).
  * @param bool  $to_hex Whether to convert to HEX format (true) or RGB (false). Default true.
  */
-function twentynineteen_hsl_hex($h, $s, $l, $to_hex = true) {
+function twentynineteen_hsl_hex($h, $s, $l, $to_hex = true)
+{
 
     $h /= 360;
     $s /= 100;

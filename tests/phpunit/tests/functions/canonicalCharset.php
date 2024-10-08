@@ -9,7 +9,8 @@
  *
  * @covers ::_canonical_charset
  */
-class Tests_Functions_CanonicalCharset extends WP_UnitTestCase {
+class Tests_Functions_CanonicalCharset extends WP_UnitTestCase
+{
     /**
      * Ensures that charset variants for common encodings normalize to the expected form.
      *
@@ -20,7 +21,8 @@ class Tests_Functions_CanonicalCharset extends WP_UnitTestCase {
      * @param string $given_charset      Potential charset provided by user.
      * @param string $normalized_charset Expected normalized form of charset.
      */
-    public function test_properly_normalizes_charset_variants($given_charset, $normalized_charset) {
+    public function test_properly_normalizes_charset_variants($given_charset, $normalized_charset)
+    {
         $this->assertSame(
             $normalized_charset,
             _canonical_charset($given_charset),
@@ -33,7 +35,8 @@ class Tests_Functions_CanonicalCharset extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_charset_normalizations() {
+    public static function data_charset_normalizations()
+    {
         return array(
             // UTF-8 family.
             array('UTF-8', 'UTF-8'),
@@ -65,7 +68,8 @@ class Tests_Functions_CanonicalCharset extends WP_UnitTestCase {
      *
      * @covers ::get_option
      */
-    public function test_update_option_blog_charset() {
+    public function test_update_option_blog_charset()
+    {
         $orig_blog_charset = get_option('blog_charset');
 
         update_option('blog_charset', 'utf8');

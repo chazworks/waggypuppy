@@ -14,14 +14,16 @@
  *
  * @see WP_REST_Search_Handler
  */
-class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler {
+class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler
+{
 
     /**
      * Constructor.
      *
      * @since 5.6.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->type = 'post-format';
     }
 
@@ -38,7 +40,8 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler {
      *     @type int      $total Total count for the matching search results.
      * }
      */
-    public function search_items(WP_REST_Request $request) {
+    public function search_items(WP_REST_Request $request)
+    {
         $format_strings = get_post_format_strings();
         $format_slugs   = array_keys($format_strings);
 
@@ -102,7 +105,8 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler {
      *     @type string $type  Optional. String 'post-format'.
      *}
      */
-    public function prepare_item($id, array $fields) {
+    public function prepare_item($id, array $fields)
+    {
         $data = array();
 
         if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
@@ -132,7 +136,8 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler {
      * @param string $id Item ID, the post format slug.
      * @return array Links for the given item.
      */
-    public function prepare_item_links($id) {
+    public function prepare_item_links($id)
+    {
         return array();
     }
 }

@@ -18,7 +18,8 @@
  *                              Defaults to the `$_POST` superglobal.
  * @return array|WP_Error Array of post data on success, WP_Error on failure.
  */
-function _wp_translate_postdata($update = false, $post_data = null) {
+function _wp_translate_postdata($update = false, $post_data = null)
+{
 
     if (empty($post_data)) {
         $post_data = &$_POST;
@@ -227,7 +228,8 @@ function _wp_translate_postdata($update = false, $post_data = null) {
  *                                       Defaults to the `$_POST` superglobal.
  * @return array|WP_Error Array of post data on success, WP_Error on failure.
  */
-function _wp_get_allowed_postdata($post_data = null) {
+function _wp_get_allowed_postdata($post_data = null)
+{
     if (empty($post_data)) {
         $post_data = $_POST;
     }
@@ -256,7 +258,8 @@ function _wp_get_allowed_postdata($post_data = null) {
  *                              Defaults to the `$_POST` superglobal.
  * @return int Post ID.
  */
-function edit_post($post_data = null) {
+function edit_post($post_data = null)
+{
     global $wpdb;
 
     if (empty($post_data)) {
@@ -495,7 +498,8 @@ function edit_post($post_data = null) {
  *                              Defaults to the `$_POST` superglobal.
  * @return array
  */
-function bulk_edit_posts($post_data = null) {
+function bulk_edit_posts($post_data = null)
+{
     global $wpdb;
 
     if (empty($post_data)) {
@@ -737,7 +741,8 @@ function bulk_edit_posts($post_data = null) {
  * @param bool   $create_in_db Optional. Whether to insert the post into database. Default false.
  * @return WP_Post Post object containing all the default post data as attributes
  */
-function get_default_post_to_edit($post_type = 'post', $create_in_db = false) {
+function get_default_post_to_edit($post_type = 'post', $create_in_db = false)
+{
     $post_title = '';
     if (! empty($_REQUEST['post_title'])) {
         $post_title = esc_html(wp_unslash($_REQUEST['post_title']));
@@ -844,7 +849,8 @@ function get_default_post_to_edit($post_type = 'post', $create_in_db = false) {
  * @param string $status  Optional. Post status.
  * @return int Post ID if post exists, 0 otherwise.
  */
-function post_exists($title, $content = '', $date = '', $type = '', $status = '') {
+function post_exists($title, $content = '', $date = '', $type = '', $status = '')
+{
     global $wpdb;
 
     $post_title   = wp_unslash(sanitize_post_field('post_title', $title, 0, 'db'));
@@ -897,7 +903,8 @@ function post_exists($title, $content = '', $date = '', $type = '', $status = ''
  *
  * @return int|WP_Error Post ID on success, WP_Error on failure.
  */
-function wp_write_post() {
+function wp_write_post()
+{
     if (isset($_POST['post_type'])) {
         $ptype = get_post_type_object($_POST['post_type']);
     } else {
@@ -973,7 +980,8 @@ function wp_write_post() {
  *
  * @return int|void Post ID on success, void on failure.
  */
-function write_post() {
+function write_post()
+{
     $result = wp_write_post();
     if (is_wp_error($result)) {
         wp_die($result->get_error_message());
@@ -994,7 +1002,8 @@ function write_post() {
  * @param int $post_id
  * @return int|bool
  */
-function add_meta($post_id) {
+function add_meta($post_id)
+{
     $post_id = (int) $post_id;
 
     $metakeyselect = isset($_POST['metakeyselect']) ? wp_unslash(trim($_POST['metakeyselect'])) : '';
@@ -1037,7 +1046,8 @@ function add_meta($post_id) {
  * @param int $mid
  * @return bool
  */
-function delete_meta($mid) {
+function delete_meta($mid)
+{
     return delete_metadata_by_mid('post', $mid);
 }
 
@@ -1050,7 +1060,8 @@ function delete_meta($mid) {
  *
  * @return string[] Array of meta key names.
  */
-function get_meta_keys() {
+function get_meta_keys()
+{
     global $wpdb;
 
     $keys = $wpdb->get_col(
@@ -1071,7 +1082,8 @@ function get_meta_keys() {
  * @param int $mid
  * @return object|bool
  */
-function get_post_meta_by_id($mid) {
+function get_post_meta_by_id($mid)
+{
     return get_metadata_by_mid('post', $mid);
 }
 
@@ -1096,7 +1108,8 @@ function get_post_meta_by_id($mid) {
  *     }
  * }
  */
-function has_meta($post_id) {
+function has_meta($post_id)
+{
     global $wpdb;
 
     return $wpdb->get_results(
@@ -1120,7 +1133,8 @@ function has_meta($post_id) {
  * @param string $meta_value Meta value. Expect slashed.
  * @return bool
  */
-function update_meta($meta_id, $meta_key, $meta_value) {
+function update_meta($meta_id, $meta_key, $meta_value)
+{
     $meta_key   = wp_unslash($meta_key);
     $meta_value = wp_unslash($meta_value);
 
@@ -1140,7 +1154,8 @@ function update_meta($meta_id, $meta_key, $meta_value) {
  * @param int|WP_Post $post Post ID or post object.
  * @return void|int|WP_Error Void if nothing fixed. 0 or WP_Error on update failure. The post ID on update success.
  */
-function _fix_attachment_links($post) {
+function _fix_attachment_links($post)
+{
     $post    = get_post($post, ARRAY_A);
     $content = $post['post_content'];
 
@@ -1196,7 +1211,8 @@ function _fix_attachment_links($post) {
  * @param string $type The post_type you want the statuses for. Default 'post'.
  * @return string[] An array of all the statuses for the supplied post type.
  */
-function get_available_post_statuses($type = 'post') {
+function get_available_post_statuses($type = 'post')
+{
     $statuses = wp_count_posts($type);
 
     return array_keys(get_object_vars($statuses));
@@ -1211,7 +1227,8 @@ function get_available_post_statuses($type = 'post') {
  *                       Defaults to the `$_GET` superglobal.
  * @return array
  */
-function wp_edit_posts_query($q = false) {
+function wp_edit_posts_query($q = false)
+{
     if (false === $q) {
         $q = $_GET;
     }
@@ -1315,7 +1332,8 @@ function wp_edit_posts_query($q = false) {
  *                       Defaults to the `$_GET` superglobal.
  * @return array The parsed query vars.
  */
-function wp_edit_attachments_query_vars($q = false) {
+function wp_edit_attachments_query_vars($q = false)
+{
     if (false === $q) {
         $q = $_GET;
     }
@@ -1383,7 +1401,8 @@ function wp_edit_attachments_query_vars($q = false) {
  *                       Defaults to the `$_GET` superglobal.
  * @return array
  */
-function wp_edit_attachments_query($q = false) {
+function wp_edit_attachments_query($q = false)
+{
     wp(wp_edit_attachments_query_vars($q));
 
     $post_mime_types       = get_post_mime_types();
@@ -1401,7 +1420,8 @@ function wp_edit_attachments_query($q = false) {
  * @param string $screen_id The screen on which the meta box is shown.
  * @return string Space-separated string of class names.
  */
-function postbox_classes($box_id, $screen_id) {
+function postbox_classes($box_id, $screen_id)
+{
     if (isset($_GET['edit']) && $_GET['edit'] === $box_id) {
         $classes = array('');
     } elseif (get_user_option('closedpostboxes_' . $screen_id)) {
@@ -1446,7 +1466,8 @@ function postbox_classes($box_id, $screen_id) {
  *     @type string $1 The post name.
  * }
  */
-function get_sample_permalink($post, $title = null, $name = null) {
+function get_sample_permalink($post, $title = null, $name = null)
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1536,7 +1557,8 @@ function get_sample_permalink($post, $title = null, $name = null) {
  * @param string|null $new_slug  Optional. New slug. Default null.
  * @return string The HTML of the sample permalink slug editor.
  */
-function get_sample_permalink_html($post, $new_title = null, $new_slug = null) {
+function get_sample_permalink_html($post, $new_title = null, $new_slug = null)
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1623,7 +1645,8 @@ function get_sample_permalink_html($post, $new_title = null, $new_slug = null) {
  *                                       with the thumbnail. Defaults to global $post.
  * @return string The post thumbnail HTML.
  */
-function _wp_post_thumbnail_html($thumbnail_id = null, $post = null) {
+function _wp_post_thumbnail_html($thumbnail_id = null, $post = null)
+{
     $_wp_additional_image_sizes = wp_get_additional_image_sizes();
 
     $post               = get_post($post);
@@ -1696,7 +1719,8 @@ function _wp_post_thumbnail_html($thumbnail_id = null, $post = null) {
  * @return int|false ID of the user with lock. False if the post does not exist, post is not locked,
  *                   the user with lock does not exist, or the post is locked by current user.
  */
-function wp_check_post_lock($post) {
+function wp_check_post_lock($post)
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1741,7 +1765,8 @@ function wp_check_post_lock($post) {
  *     @type int $1 The ID of the current user.
  * }
  */
-function wp_set_post_lock($post) {
+function wp_set_post_lock($post)
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1767,7 +1792,8 @@ function wp_set_post_lock($post) {
  *
  * @since 2.8.5
  */
-function _admin_notice_post_locked() {
+function _admin_notice_post_locked()
+{
     $post = get_post();
 
     if (! $post) {
@@ -1938,7 +1964,8 @@ function _admin_notice_post_locked() {
  *                             If a numeric post ID is provided, will use the `$_POST` superglobal.
  * @return int|WP_Error The autosave revision ID. WP_Error or 0 on error.
  */
-function wp_create_post_autosave($post_data) {
+function wp_create_post_autosave($post_data)
+{
     if (is_numeric($post_data)) {
         $post_id   = $post_data;
         $post_data = $_POST;
@@ -2015,7 +2042,8 @@ function wp_create_post_autosave($post_data) {
  *
  * @param array $new_autosave The new post data being autosaved.
  */
-function wp_autosave_post_revisioned_meta_fields($new_autosave) {
+function wp_autosave_post_revisioned_meta_fields($new_autosave)
+{
     /*
      * The post data arrives as either $_POST['data']['wp_autosave'] or the $_POST
      * itself. This sets $posted_data to the correct variable.
@@ -2060,7 +2088,8 @@ function wp_autosave_post_revisioned_meta_fields($new_autosave) {
  *
  * @return string URL to redirect to show the preview.
  */
-function post_preview() {
+function post_preview()
+{
 
     $post_id     = (int) $_POST['post_ID'];
     $_POST['ID'] = $post_id;
@@ -2124,7 +2153,8 @@ function post_preview() {
  * @return mixed The value 0 or WP_Error on failure. The saved post ID on success.
  *               The ID can be the draft post_id or the autosave revision post_id.
  */
-function wp_autosave($post_data) {
+function wp_autosave($post_data)
+{
     // Back-compat.
     if (! defined('DOING_AUTOSAVE')) {
         define('DOING_AUTOSAVE', true);
@@ -2173,7 +2203,8 @@ function wp_autosave($post_data) {
  *
  * @param int $post_id Optional. Post ID.
  */
-function redirect_post($post_id = '') {
+function redirect_post($post_id = '')
+{
     if (isset($_POST['save']) || isset($_POST['publish'])) {
         $status = get_post_status($post_id);
 
@@ -2226,7 +2257,8 @@ function redirect_post($post_id = '') {
  * @param array  $terms    Raw term data from the 'tax_input' field.
  * @return int[] Array of sanitized term IDs.
  */
-function taxonomy_meta_box_sanitize_cb_checkboxes($taxonomy, $terms) {
+function taxonomy_meta_box_sanitize_cb_checkboxes($taxonomy, $terms)
+{
     return array_map('intval', $terms);
 }
 
@@ -2239,7 +2271,8 @@ function taxonomy_meta_box_sanitize_cb_checkboxes($taxonomy, $terms) {
  * @param array|string $terms    Raw term data from the 'tax_input' field.
  * @return array
  */
-function taxonomy_meta_box_sanitize_cb_input($taxonomy, $terms) {
+function taxonomy_meta_box_sanitize_cb_input($taxonomy, $terms)
+{
     /*
      * Assume that a 'tax_input' string is a comma-separated list of term names.
      * Some languages may use a character other than a comma as a delimiter, so we standardize on
@@ -2292,7 +2325,8 @@ function taxonomy_meta_box_sanitize_cb_input($taxonomy, $terms) {
  *
  * @return array An associative array of registered block data.
  */
-function get_block_editor_server_block_settings() {
+function get_block_editor_server_block_settings()
+{
     $block_registry = WP_Block_Type_Registry::get_instance();
     $blocks         = array();
     $fields_to_pick = array(
@@ -2343,7 +2377,8 @@ function get_block_editor_server_block_settings() {
  * @global WP_Screen $current_screen WordPress current screen object.
  * @global array     $wp_meta_boxes  Global meta box state.
  */
-function the_block_editor_meta_boxes() {
+function the_block_editor_meta_boxes()
+{
     global $post, $current_screen, $wp_meta_boxes;
 
     // Handle meta box state.
@@ -2522,7 +2557,8 @@ function the_block_editor_meta_boxes() {
  *
  * @param WP_Post $post Current post object.
  */
-function the_block_editor_meta_box_post_form_hidden_fields($post) {
+function the_block_editor_meta_box_post_form_hidden_fields($post)
+{
     $form_extra = '';
     if ('auto-draft' === $post->post_status) {
         $form_extra .= "<input type='hidden' id='auto_draft' name='auto_draft' value='1' />";
@@ -2599,7 +2635,8 @@ function the_block_editor_meta_box_post_form_hidden_fields($post) {
  * @param string $post_type Post type.
  * @return bool Whether the block editor should be disabled or not.
  */
-function _disable_block_editor_for_navigation_post_type($value, $post_type) {
+function _disable_block_editor_for_navigation_post_type($value, $post_type)
+{
     if ('wp_navigation' === $post_type) {
         return false;
     }
@@ -2618,7 +2655,8 @@ function _disable_block_editor_for_navigation_post_type($value, $post_type) {
  *
  * @param WP_Post $post An instance of WP_Post class.
  */
-function _disable_content_editor_for_navigation_post_type($post) {
+function _disable_content_editor_for_navigation_post_type($post)
+{
     $post_type = get_post_type($post);
     if ('wp_navigation' !== $post_type) {
         return;
@@ -2639,7 +2677,8 @@ function _disable_content_editor_for_navigation_post_type($post) {
  *
  * @param WP_Post $post An instance of WP_Post class.
  */
-function _enable_content_editor_for_navigation_post_type($post) {
+function _enable_content_editor_for_navigation_post_type($post)
+{
     $post_type = get_post_type($post);
     if ('wp_navigation' !== $post_type) {
         return;

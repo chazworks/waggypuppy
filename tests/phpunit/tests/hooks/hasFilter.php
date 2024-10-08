@@ -6,9 +6,11 @@
  * @group hooks
  * @covers WP_Hook::has_filter
  */
-class Tests_Hooks_HasFilter extends WP_UnitTestCase {
+class Tests_Hooks_HasFilter extends WP_UnitTestCase
+{
 
-    public function test_has_filter_with_function() {
+    public function test_has_filter_with_function()
+    {
         $callback      = '__return_null';
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
@@ -20,7 +22,8 @@ class Tests_Hooks_HasFilter extends WP_UnitTestCase {
         $this->assertSame($priority, $hook->has_filter($hook_name, $callback));
     }
 
-    public function test_has_filter_with_object() {
+    public function test_has_filter_with_object()
+    {
         $a             = new MockAction();
         $callback      = array($a, 'action');
         $hook          = new WP_Hook();
@@ -33,7 +36,8 @@ class Tests_Hooks_HasFilter extends WP_UnitTestCase {
         $this->assertSame($priority, $hook->has_filter($hook_name, $callback));
     }
 
-    public function test_has_filter_with_static_method() {
+    public function test_has_filter_with_static_method()
+    {
         $callback      = array('MockAction', 'action');
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
@@ -45,7 +49,8 @@ class Tests_Hooks_HasFilter extends WP_UnitTestCase {
         $this->assertSame($priority, $hook->has_filter($hook_name, $callback));
     }
 
-    public function test_has_filter_without_callback() {
+    public function test_has_filter_without_callback()
+    {
         $callback      = '__return_null';
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
@@ -57,12 +62,14 @@ class Tests_Hooks_HasFilter extends WP_UnitTestCase {
         $this->assertTrue($hook->has_filter());
     }
 
-    public function test_not_has_filter_without_callback() {
+    public function test_not_has_filter_without_callback()
+    {
         $hook = new WP_Hook();
         $this->assertFalse($hook->has_filter());
     }
 
-    public function test_not_has_filter_with_callback() {
+    public function test_not_has_filter_with_callback()
+    {
         $callback  = '__return_null';
         $hook      = new WP_Hook();
         $hook_name = __FUNCTION__;
@@ -70,7 +77,8 @@ class Tests_Hooks_HasFilter extends WP_UnitTestCase {
         $this->assertFalse($hook->has_filter($hook_name, $callback));
     }
 
-    public function test_has_filter_with_wrong_callback() {
+    public function test_has_filter_with_wrong_callback()
+    {
         $callback      = '__return_null';
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;

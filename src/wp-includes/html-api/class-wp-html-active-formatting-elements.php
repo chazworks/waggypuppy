@@ -33,7 +33,8 @@
  * @see https://html.spec.whatwg.org/#list-of-active-formatting-elements
  * @see WP_HTML_Processor
  */
-class WP_HTML_Active_Formatting_Elements {
+class WP_HTML_Active_Formatting_Elements
+{
     /**
      * Holds the stack of active formatting element references.
      *
@@ -51,7 +52,8 @@ class WP_HTML_Active_Formatting_Elements {
      * @param WP_HTML_Token $token Look for this node in the stack.
      * @return bool Whether the referenced node is in the stack of active formatting elements.
      */
-    public function contains_node(WP_HTML_Token $token) {
+    public function contains_node(WP_HTML_Token $token)
+    {
         foreach ($this->walk_up() as $item) {
             if ($token->bookmark_name === $item->bookmark_name) {
                 return true;
@@ -68,7 +70,8 @@ class WP_HTML_Active_Formatting_Elements {
      *
      * @return int How many node are in the stack of active formatting elements.
      */
-    public function count() {
+    public function count()
+    {
         return count($this->stack);
     }
 
@@ -80,7 +83,8 @@ class WP_HTML_Active_Formatting_Elements {
      *
      * @return WP_HTML_Token|null Last node in the stack of active formatting elements, if one exists, otherwise null.
      */
-    public function current_node() {
+    public function current_node()
+    {
         $current_node = end($this->stack);
 
         return $current_node ? $current_node : null;
@@ -98,7 +102,8 @@ class WP_HTML_Active_Formatting_Elements {
      *
      * @since 6.7.0
      */
-    public function insert_marker(): void {
+    public function insert_marker(): void
+    {
         $this->push(new WP_HTML_Token(null, 'marker', false));
     }
 
@@ -111,7 +116,8 @@ class WP_HTML_Active_Formatting_Elements {
      *
      * @param WP_HTML_Token $token Push this node onto the stack.
      */
-    public function push(WP_HTML_Token $token) {
+    public function push(WP_HTML_Token $token)
+    {
         /*
          * > If there are already three elements in the list of active formatting elements after the last marker,
          * > if any, or anywhere in the list if there are no markers, that have the same tag name, namespace, and
@@ -135,7 +141,8 @@ class WP_HTML_Active_Formatting_Elements {
      * @param WP_HTML_Token $token Remove this node from the stack, if it's there already.
      * @return bool Whether the node was found and removed from the stack of active formatting elements.
      */
-    public function remove_node(WP_HTML_Token $token) {
+    public function remove_node(WP_HTML_Token $token)
+    {
         foreach ($this->walk_up() as $position_from_end => $item) {
             if ($token->bookmark_name !== $item->bookmark_name) {
                 continue;
@@ -168,7 +175,8 @@ class WP_HTML_Active_Formatting_Elements {
      *
      * @since 6.4.0
      */
-    public function walk_down() {
+    public function walk_down()
+    {
         $count = count($this->stack);
 
         for ($i = 0; $i < $count; $i++) {
@@ -195,7 +203,8 @@ class WP_HTML_Active_Formatting_Elements {
      *
      * @since 6.4.0
      */
-    public function walk_up() {
+    public function walk_up()
+    {
         for ($i = count($this->stack) - 1; $i >= 0; $i--) {
             yield $this->stack[ $i ];
         }
@@ -218,7 +227,8 @@ class WP_HTML_Active_Formatting_Elements {
      *
      * @since 6.7.0
      */
-    public function clear_up_to_last_marker(): void {
+    public function clear_up_to_last_marker(): void
+    {
         foreach ($this->walk_up() as $item) {
             array_pop($this->stack);
             if ('marker' === $item->node_name) {

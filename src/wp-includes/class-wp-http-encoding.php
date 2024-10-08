@@ -15,7 +15,8 @@
  * @since 2.8.0
  */
 #[AllowDynamicProperties]
-class WP_Http_Encoding {
+class WP_Http_Encoding
+{
 
     /**
      * Compress raw string using the deflate format.
@@ -30,7 +31,8 @@ class WP_Http_Encoding {
      *                         the right compression based on what the server supports.
      * @return string|false Compressed string on success, false on failure.
      */
-    public static function compress($raw, $level = 9, $supports = null) {
+    public static function compress($raw, $level = 9, $supports = null)
+    {
         return gzdeflate($raw, $level);
     }
 
@@ -48,7 +50,8 @@ class WP_Http_Encoding {
      * @param int    $length     The optional length of the compressed data.
      * @return string|false Decompressed string on success, false on failure.
      */
-    public static function decompress($compressed, $length = null) {
+    public static function decompress($compressed, $length = null)
+    {
 
         if (empty($compressed)) {
             return $compressed;
@@ -101,7 +104,8 @@ class WP_Http_Encoding {
      * @param string $gz_data String to decompress.
      * @return string|false Decompressed string on success, false on failure.
      */
-    public static function compatible_gzinflate($gz_data) {
+    public static function compatible_gzinflate($gz_data)
+    {
 
         // Compressed data might contain a full header, if so strip it for gzinflate().
         if (str_starts_with($gz_data, "\x1f\x8b\x08")) {
@@ -146,7 +150,8 @@ class WP_Http_Encoding {
      * @param array  $args
      * @return string Types of encoding to accept.
      */
-    public static function accept_encoding($url, $args) {
+    public static function accept_encoding($url, $args)
+    {
         $type                = array();
         $compression_enabled = self::is_available();
 
@@ -193,7 +198,8 @@ class WP_Http_Encoding {
      *
      * @return string Content-Encoding string to send in the header.
      */
-    public static function content_encoding() {
+    public static function content_encoding()
+    {
         return 'deflate';
     }
 
@@ -205,7 +211,8 @@ class WP_Http_Encoding {
      * @param array|string $headers All of the available headers.
      * @return bool
      */
-    public static function should_decode($headers) {
+    public static function should_decode($headers)
+    {
         if (is_array($headers)) {
             if (array_key_exists('content-encoding', $headers) && ! empty($headers['content-encoding'])) {
                 return true;
@@ -228,7 +235,8 @@ class WP_Http_Encoding {
      *
      * @return bool
      */
-    public static function is_available() {
+    public static function is_available()
+    {
         return (function_exists('gzuncompress') || function_exists('gzdeflate') || function_exists('gzinflate'));
     }
 }

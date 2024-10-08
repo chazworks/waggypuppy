@@ -16,7 +16,8 @@
  *
  * @access private
  */
-class WP_Font_Face_Resolver {
+class WP_Font_Face_Resolver
+{
 
     /**
      * Gets fonts defined in theme.json.
@@ -25,7 +26,8 @@ class WP_Font_Face_Resolver {
      *
      * @return array Returns the font-families, each with their font-face variations.
      */
-    public static function get_fonts_from_theme_json() {
+    public static function get_fonts_from_theme_json()
+    {
         $settings = wp_get_global_settings();
 
         // Bail out early if there are no font settings.
@@ -44,7 +46,8 @@ class WP_Font_Face_Resolver {
      * @param array $settings Font settings to parse.
      * @return array Returns an array of fonts, grouped by font-family.
      */
-    private static function parse_settings(array $settings) {
+    private static function parse_settings(array $settings)
+    {
         $fonts = array();
 
         foreach ($settings['typography']['fontFamilies'] as $font_families) {
@@ -85,7 +88,8 @@ class WP_Font_Face_Resolver {
      * @param string $font_family Font family `fontFamily' to parse.
      * @return string Font-family name.
      */
-    private static function maybe_parse_name_from_comma_separated_list($font_family) {
+    private static function maybe_parse_name_from_comma_separated_list($font_family)
+    {
         if (str_contains($font_family, ',')) {
             $font_family = explode(',', $font_family)[0];
         }
@@ -102,7 +106,8 @@ class WP_Font_Face_Resolver {
      * @param string $font_family_property The value to store in the font-face font-family property.
      * @return array Converted font-face properties.
      */
-    private static function convert_font_face_properties(array $font_face_definition, $font_family_property) {
+    private static function convert_font_face_properties(array $font_face_definition, $font_family_property)
+    {
         $converted_font_faces = array();
 
         foreach ($font_face_definition as $font_face) {
@@ -135,7 +140,8 @@ class WP_Font_Face_Resolver {
      * @param array $src An array of font file sources to process.
      * @return array An array of font file src URI(s).
      */
-    private static function to_theme_file_uri(array $src) {
+    private static function to_theme_file_uri(array $src)
+    {
         $placeholder = 'file:./';
 
         foreach ($src as $src_key => $src_url) {
@@ -159,7 +165,8 @@ class WP_Font_Face_Resolver {
      * @param array $data The array to process.
      * @return array Data with first dimension keys converted into kebab-case.
      */
-    private static function to_kebab_case(array $data) {
+    private static function to_kebab_case(array $data)
+    {
         foreach ($data as $key => $value) {
             $kebab_case          = _wp_to_kebab_case($key);
             $data[ $kebab_case ] = $value;

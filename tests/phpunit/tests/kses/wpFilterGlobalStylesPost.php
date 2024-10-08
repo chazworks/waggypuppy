@@ -5,7 +5,8 @@
  *
  * @covers ::wp_filter_global_styles_post
  */
-class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase {
+class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase
+{
 
     /**
      * Theme data.
@@ -32,7 +33,8 @@ class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase {
      *
      * @param string $rule A rule to test.
      */
-    public function test_should_not_remove_safe_global_style_rules($rule) {
+    public function test_should_not_remove_safe_global_style_rules($rule)
+    {
         $theme_data               = wp_parse_args($this->user_theme_data, array($rule => 'someValue'));
         $filtered_user_theme_json = $this->filter_global_styles($theme_data);
         $safe_rules               = array_keys($theme_data);
@@ -46,7 +48,8 @@ class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_not_remove_safe_global_style_rules() {
+    public function data_should_not_remove_safe_global_style_rules()
+    {
         $result = array();
         foreach (WP_Theme_JSON::VALID_TOP_LEVEL_KEYS as $safe_rule) {
             $result[ $safe_rule ] = array($safe_rule);
@@ -61,7 +64,8 @@ class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase {
     /**
      * @ticket 56266
      */
-    public function test_should_remove_unsafe_global_style_rules() {
+    public function test_should_remove_unsafe_global_style_rules()
+    {
         $filtered_user_theme_json = $this->filter_global_styles($this->user_theme_data);
         $this->assertArrayNotHasKey('nonSchemaRule', $filtered_user_theme_json, 'Filtered json data must not contain unsafe global style rules.');
     }
@@ -74,7 +78,8 @@ class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase {
      *
      * @return array Filtered theme data.
      */
-    private function filter_global_styles($theme_data) {
+    private function filter_global_styles($theme_data)
+    {
         $user_theme_json          = wp_slash(wp_json_encode($theme_data));
         $filtered_user_theme_json = wp_filter_global_styles_post($user_theme_json);
 

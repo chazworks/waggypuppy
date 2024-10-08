@@ -3,11 +3,13 @@
 /**
  * @group taxonomy
  */
-class Tests_Term_getTerms extends WP_UnitTestCase {
+class Tests_Term_getTerms extends WP_UnitTestCase
+{
 
     protected static $taxonomy = 'wptests_tax_3';
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         register_taxonomy(self::$taxonomy, 'post', array('hierarchical' => true));
@@ -16,7 +18,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         wp_cache_delete('last_changed', 'terms');
     }
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         register_taxonomy(self::$taxonomy, 'page', array('hierarchical' => true));
         $term_id1 = $factory->term->create(
             array(
@@ -41,7 +44,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 37568
      */
-    public function test_meta_query_args_only() {
+    public function test_meta_query_args_only()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $term1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
@@ -66,7 +70,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35495
      */
-    public function test_should_accept_an_args_array_containing_taxonomy_for_first_parameter() {
+    public function test_should_accept_an_args_array_containing_taxonomy_for_first_parameter()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
 
@@ -86,7 +91,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      * @ticket 35495
      * @ticket 35381
      */
-    public function test_legacy_params_as_query_string_should_be_properly_parsed() {
+    public function test_legacy_params_as_query_string_should_be_properly_parsed()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
 
@@ -99,7 +105,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      * @ticket 35495
      * @ticket 35381
      */
-    public function test_new_params_as_query_string_should_be_properly_parsed() {
+    public function test_new_params_as_query_string_should_be_properly_parsed()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
 
@@ -111,7 +118,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35495
      */
-    public function test_excluding_taxonomy_arg_should_return_terms_from_all_taxonomies() {
+    public function test_excluding_taxonomy_arg_should_return_terms_from_all_taxonomies()
+    {
         register_taxonomy('wptests_tax1', 'post');
         register_taxonomy('wptests_tax2', 'post');
         $t1 = self::factory()->term->create(array('taxonomy' => 'wptests_tax1'));
@@ -133,7 +141,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 23326
      */
-    public function test_get_terms_cache() {
+    public function test_get_terms_cache()
+    {
         $this->set_up_three_posts_and_tags();
 
         $num_queries = get_num_queries();
@@ -157,7 +166,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 23326
      */
-    public function test_get_terms_cache_should_be_missed_when_passing_number() {
+    public function test_get_terms_cache_should_be_missed_when_passing_number()
+    {
         global $wpdb;
 
         $this->set_up_three_posts_and_tags();
@@ -185,7 +195,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 23326
      */
-    public function test_wp_delete_term_should_invalidate_cache() {
+    public function test_wp_delete_term_should_invalidate_cache()
+    {
         global $wpdb;
 
         $this->set_up_three_posts_and_tags();
@@ -222,7 +233,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 23506
      */
-    public function test_get_terms_should_allow_arbitrary_indexed_taxonomies_array() {
+    public function test_get_terms_should_allow_arbitrary_indexed_taxonomies_array()
+    {
         $term_id = self::factory()->tag->create();
         $terms   = get_terms(array('111' => 'post_tag'), array('hide_empty' => false));
         $this->assertSame($term_id, reset($terms)->term_id);
@@ -231,7 +243,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 13661
      */
-    public function test_get_terms_fields() {
+    public function test_get_terms_fields()
+    {
         $term_id1 = self::factory()->tag->create(
             array(
                 'slug' => 'woo',
@@ -313,7 +326,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 11823
      */
-    public function test_get_terms_include_exclude() {
+    public function test_get_terms_include_exclude()
+    {
         global $wpdb;
 
         $term_id1  = self::factory()->tag->create();
@@ -368,7 +382,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 30275
      */
-    public function test_exclude_with_hierarchical_true_for_non_hierarchical_taxonomy() {
+    public function test_exclude_with_hierarchical_true_for_non_hierarchical_taxonomy()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $terms = self::factory()->term->create_many(
@@ -396,7 +411,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 25710
      */
-    public function test_get_terms_exclude_tree() {
+    public function test_get_terms_exclude_tree()
+    {
 
         $term_id_uncategorized = get_option('default_category');
 
@@ -430,7 +446,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 13992
      */
-    public function test_get_terms_search() {
+    public function test_get_terms_search()
+    {
         $term_id1 = self::factory()->tag->create(array('slug' => 'burrito'));
         $term_id2 = self::factory()->tag->create(array('name' => 'Wilbur'));
         $term_id3 = self::factory()->tag->create(array('name' => 'Foo'));
@@ -449,7 +466,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 8214
      */
-    public function test_get_terms_like() {
+    public function test_get_terms_like()
+    {
         $term_id1 = self::factory()->tag->create(
             array(
                 'name'        => 'burrito',
@@ -547,7 +565,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 26903
      */
-    public function test_get_terms_parent_zero() {
+    public function test_get_terms_parent_zero()
+    {
         $tax = 'food';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
 
@@ -648,7 +667,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 26903
      */
-    public function test_get_terms_grandparent_zero() {
+    public function test_get_terms_grandparent_zero()
+    {
         $tax = 'food';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
 
@@ -693,7 +713,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 26903
      */
-    public function test_get_terms_seven_levels_deep() {
+    public function test_get_terms_seven_levels_deep()
+    {
         $tax = 'deep';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
         $parent = 0;
@@ -729,7 +750,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 27123
      */
-    public function test_get_terms_child_of() {
+    public function test_get_terms_child_of()
+    {
         $parent = self::factory()->category->create();
         $child  = self::factory()->category->create(array('parent' => $parent));
 
@@ -747,7 +769,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      * @ticket 55837
      * @covers ::get_terms
      */
-    public function test_get_terms_child_of_cache() {
+    public function test_get_terms_child_of_cache()
+    {
         $parent = self::factory()->category->create();
         self::factory()->category->create(array('parent' => $parent));
 
@@ -767,7 +790,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 46768
      */
-    public function test_get_terms_child_of_fields_id_name() {
+    public function test_get_terms_child_of_fields_id_name()
+    {
         $parent = self::factory()->category->create();
         $child  = self::factory()->category->create(
             array(
@@ -805,7 +829,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 46768
      */
-    public function test_get_terms_child_of_fields_id_slug() {
+    public function test_get_terms_child_of_fields_id_slug()
+    {
         $parent = self::factory()->category->create();
         $child  = self::factory()->category->create(
             array(
@@ -843,7 +868,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 31118
      */
-    public function test_child_of_should_skip_query_when_specified_parent_is_not_found_in_hierarchy_cache() {
+    public function test_child_of_should_skip_query_when_specified_parent_is_not_found_in_hierarchy_cache()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
@@ -865,7 +891,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 31118
      */
-    public function test_child_of_should_respect_multiple_taxonomies() {
+    public function test_child_of_should_respect_multiple_taxonomies()
+    {
         register_taxonomy('wptests_tax1', 'post', array('hierarchical' => true));
         register_taxonomy('wptests_tax2', 'post', array('hierarchical' => true));
 
@@ -893,7 +920,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 27123
      */
-    public function test_get_term_children_recursion() {
+    public function test_get_term_children_recursion()
+    {
         // Assume there is a way to insert a term with the parent pointing to itself.
         // See: https://core.trac.wordpress.org/changeset/15806
         remove_filter('wp_update_term_parent', 'wp_check_term_hierarchy_for_loops', 10);
@@ -912,7 +940,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      * @covers ::_get_term_children
      * @ticket 24461
      */
-    public function test__get_term_children_handles_cycles() {
+    public function test__get_term_children_handles_cycles()
+    {
         remove_filter('wp_update_term_parent', 'wp_check_term_hierarchy_for_loops', 10);
 
         $c1 = self::factory()->category->create();
@@ -931,7 +960,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      * @covers ::_get_term_children
      * @ticket 24461
      */
-    public function test__get_term_children_handles_cycles_when_terms_argument_contains_objects() {
+    public function test__get_term_children_handles_cycles_when_terms_argument_contains_objects()
+    {
         remove_filter('wp_update_term_parent', 'wp_check_term_hierarchy_for_loops', 10);
 
         $c1 = self::factory()->category->create_and_get();
@@ -946,7 +976,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets(array($c2, $c3), $result);
     }
 
-    public function test_get_terms_by_slug() {
+    public function test_get_terms_by_slug()
+    {
         $t1 = self::factory()->tag->create(array('slug' => 'foo'));
         $t2 = self::factory()->tag->create(array('slug' => 'bar'));
 
@@ -965,7 +996,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 23636
      */
-    public function test_get_terms_by_multiple_slugs() {
+    public function test_get_terms_by_multiple_slugs()
+    {
         $t1 = self::factory()->tag->create(array('slug' => 'foo'));
         $t2 = self::factory()->tag->create(array('slug' => 'bar'));
         $t3 = self::factory()->tag->create(array('slug' => 'barry'));
@@ -985,7 +1017,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 30611
      */
-    public function test_get_terms_by_name() {
+    public function test_get_terms_by_name()
+    {
         $t1 = self::factory()->tag->create(array('name' => 'Foo'));
         $t2 = self::factory()->tag->create(array('name' => 'Bar'));
 
@@ -1004,7 +1037,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 30611
      */
-    public function test_get_terms_by_multiple_names() {
+    public function test_get_terms_by_multiple_names()
+    {
         $t1 = self::factory()->tag->create(array('name' => 'Foo'));
         $t2 = self::factory()->tag->create(array('name' => 'Bar'));
         $t3 = self::factory()->tag->create(array('name' => 'Barry'));
@@ -1024,7 +1058,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 32248
      */
-    public function test_name_should_match_encoded_html_entities() {
+    public function test_name_should_match_encoded_html_entities()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
@@ -1060,7 +1095,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35493
      */
-    public function test_name_should_not_double_escape_apostrophes() {
+    public function test_name_should_not_double_escape_apostrophes()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $name = "Foo'Bar";
@@ -1091,7 +1127,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 29839
      */
-    public function test_childless_should_return_all_terms_for_flat_hierarchy() {
+    public function test_childless_should_return_all_terms_for_flat_hierarchy()
+    {
         // If run on a flat hierarchy it should return everything.
         $flat_tax = 'countries';
         register_taxonomy($flat_tax, 'post', array('hierarchical' => false));
@@ -1131,7 +1168,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 29839
      */
-    public function test_childless_hierarchical_taxonomy() {
+    public function test_childless_hierarchical_taxonomy()
+    {
         $tax = 'location';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
         /*
@@ -1222,7 +1260,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 29839
      */
-    public function test_childless_hierarchical_taxonomy_used_with_child_of() {
+    public function test_childless_hierarchical_taxonomy_used_with_child_of()
+    {
         $tax = 'location';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
 
@@ -1291,7 +1330,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 29839
      */
-    public function test_childless_should_enforce_childless_status_for_all_queried_taxonomies() {
+    public function test_childless_should_enforce_childless_status_for_all_queried_taxonomies()
+    {
         register_taxonomy('wptests_tax1', 'post', array('hierarchical' => true));
         register_taxonomy('wptests_tax2', 'post', array('hierarchical' => true));
 
@@ -1322,7 +1362,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets(array($t2, $t4), $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_ids() {
+    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_ids()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1350,7 +1391,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_ids() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_ids()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1376,7 +1418,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_ids_hierarchical_false() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_ids_hierarchical_false()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1402,7 +1445,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_names() {
+    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_names()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1430,7 +1474,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_names() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_names()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1456,7 +1501,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_names_hierarchical_false() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_names_hierarchical_false()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1482,7 +1528,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_count() {
+    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_count()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1502,7 +1549,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertEquals(5, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_count() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_count()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1523,7 +1571,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertEquals(2, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_count_hierarchical_false() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_count_hierarchical_false()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1544,7 +1593,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertEquals(2, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_idparent() {
+    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_idparent()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1572,7 +1622,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertEqualSetsWithIndex($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idparent() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idparent()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1598,7 +1649,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertEqualSetsWithIndex($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idparent_hierarchical_false() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idparent_hierarchical_false()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1624,7 +1676,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertEqualSetsWithIndex($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_idslug() {
+    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_idslug()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1655,7 +1708,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 29859
      */
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idslug() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idslug()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1681,7 +1735,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSetsWithIndex($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idslug_hierarchical_false() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idslug_hierarchical_false()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1707,7 +1762,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSetsWithIndex($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_idname() {
+    public function test_get_terms_hierarchical_tax_hide_empty_false_fields_idname()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1738,7 +1794,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 29859
      */
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idname() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idname()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1764,7 +1821,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSetsWithIndex($expected, $found);
     }
 
-    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idname_hierarchical_false() {
+    public function test_get_terms_hierarchical_tax_hide_empty_true_fields_idname_hierarchical_false()
+    {
         // Set up a clean taxonomy.
         $tax = 'hierarchical_fields';
         register_taxonomy($tax, 'post', array('hierarchical' => true));
@@ -1793,7 +1851,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 31118
      */
-    public function test_hierarchical_should_recurse_properly_for_all_taxonomies() {
+    public function test_hierarchical_should_recurse_properly_for_all_taxonomies()
+    {
         register_taxonomy('wptests_tax1', 'post', array('hierarchical' => true));
         register_taxonomy('wptests_tax2', 'post', array('hierarchical' => true));
 
@@ -1858,7 +1917,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 23261
      */
-    public function test_orderby_include() {
+    public function test_orderby_include()
+    {
         $tax = 'wptests_tax';
         register_taxonomy($tax, 'post');
 
@@ -1885,7 +1945,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 31364
      */
-    public function test_orderby_description() {
+    public function test_orderby_description()
+    {
         $tax = 'wptests_tax';
         register_taxonomy($tax, 'post');
 
@@ -1931,7 +1992,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 33726
      */
-    public function test_orderby_term_id() {
+    public function test_orderby_term_id()
+    {
         register_taxonomy('wptests_tax', 'post');
         $t1 = self::factory()->term->create(
             array(
@@ -1967,7 +2029,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 34996
      */
-    public function test_orderby_meta_value() {
+    public function test_orderby_meta_value()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
         add_term_meta($terms[0], 'foo', 'zzz');
@@ -2005,7 +2068,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 34996
      */
-    public function test_orderby_meta_value_num() {
+    public function test_orderby_meta_value_num()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
         add_term_meta($terms[0], 'foo', '999');
@@ -2043,7 +2107,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 34996
      */
-    public function test_orderby_meta_value_with_meta_key() {
+    public function test_orderby_meta_value_with_meta_key()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
         add_term_meta($terms[0], 'foo', 'bar');
@@ -2142,7 +2207,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 34996
      */
-    public function test_orderby_meta_value_num_with_meta_key() {
+    public function test_orderby_meta_value_num_with_meta_key()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
         add_term_meta($terms[0], 'foo', 'bar');
@@ -2239,7 +2305,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 34996
      */
-    public function test_orderby_clause_key() {
+    public function test_orderby_clause_key()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
         add_term_meta($terms[0], 'foo', 'zzz');
@@ -2337,7 +2404,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $found);
     }
 
-    public function test_hierarchical_false_with_parent() {
+    public function test_hierarchical_false_with_parent()
+    {
         $initial_terms = $this->create_hierarchical_terms();
 
         // Case where hierarchical is false.
@@ -2356,7 +2424,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 29185
      */
-    public function test_hierarchical_true_with_parent() {
+    public function test_hierarchical_true_with_parent()
+    {
         $initial_terms = $this->create_hierarchical_terms();
 
         // Case where hierarchical is true.
@@ -2377,7 +2446,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $actual);
     }
 
-    public function test_hierarchical_false_with_child_of_and_direct_child() {
+    public function test_hierarchical_false_with_child_of_and_direct_child()
+    {
         $initial_terms = $this->create_hierarchical_terms();
         $post_id       = self::factory()->post->create();
         wp_set_post_terms(
@@ -2403,7 +2473,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $actual);
     }
 
-    public function test_hierarchical_false_with_child_of_should_not_return_grandchildren() {
+    public function test_hierarchical_false_with_child_of_should_not_return_grandchildren()
+    {
         $initial_terms = $this->create_hierarchical_terms();
 
         // Case where hierarchical is false.
@@ -2419,7 +2490,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertCount(0, $terms);
     }
 
-    public function test_hierarchical_true_with_child_of_should_return_grandchildren() {
+    public function test_hierarchical_true_with_child_of_should_return_grandchildren()
+    {
         $initial_terms = $this->create_hierarchical_terms();
 
         // Case where hierarchical is true.
@@ -2441,7 +2513,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $actual);
     }
 
-    public function test_parent_should_override_child_of() {
+    public function test_parent_should_override_child_of()
+    {
         $initial_terms = $this->create_hierarchical_terms();
 
         $terms = get_terms(
@@ -2466,7 +2539,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 31118
      */
-    public function test_parent_should_skip_query_when_specified_parent_is_not_found_in_hierarchy_cache() {
+    public function test_parent_should_skip_query_when_specified_parent_is_not_found_in_hierarchy_cache()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
@@ -2488,7 +2562,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 31118
      */
-    public function test_parent_should_respect_multiple_taxonomies() {
+    public function test_parent_should_respect_multiple_taxonomies()
+    {
         register_taxonomy('wptests_tax1', 'post', array('hierarchical' => true));
         register_taxonomy('wptests_tax2', 'post', array('hierarchical' => true));
 
@@ -2513,7 +2588,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets(array($t3), $found);
     }
 
-    public function test_hierarchical_false_parent_should_override_child_of() {
+    public function test_hierarchical_false_parent_should_override_child_of()
+    {
         $initial_terms = $this->create_hierarchical_terms();
 
         // Case where hierarchical is false.
@@ -2533,7 +2609,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 29185
      */
-    public function test_hierarchical_true_parent_overrides_child_of() {
+    public function test_hierarchical_true_parent_overrides_child_of()
+    {
         $initial_terms = $this->create_hierarchical_terms();
 
         // Case where hierarchical is true.
@@ -2555,7 +2632,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets($expected, $actual);
     }
 
-    public function test_pad_counts() {
+    public function test_pad_counts()
+    {
         register_taxonomy('wptests_tax_1', 'post', array('hierarchical' => true));
 
         $posts = self::factory()->post->create_many(3);
@@ -2606,7 +2684,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      * @ticket 55837
      * @covers ::get_terms
      */
-    public function test_pad_counts_cached() {
+    public function test_pad_counts_cached()
+    {
         register_taxonomy('wptests_tax_1', 'post', array('hierarchical' => true));
 
         $posts = self::factory()->post->create_many(3);
@@ -2675,7 +2754,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 20635
      */
-    public function test_pad_counts_should_not_recurse_infinitely_when_term_hierarchy_has_a_loop() {
+    public function test_pad_counts_should_not_recurse_infinitely_when_term_hierarchy_has_a_loop()
+    {
         remove_filter('wp_update_term_parent', 'wp_check_term_hierarchy_for_loops', 10);
 
         $c1 = self::factory()->category->create();
@@ -2707,7 +2787,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 31118
      */
-    public function test_pad_counts_should_work_when_first_taxonomy_is_nonhierarchical_and_second_taxonomy_is_hierarchical() {
+    public function test_pad_counts_should_work_when_first_taxonomy_is_nonhierarchical_and_second_taxonomy_is_hierarchical()
+    {
         register_taxonomy('wptests_tax1', 'post', array('hierarchical' => false));
         register_taxonomy('wptests_tax2', 'post', array('hierarchical' => true));
 
@@ -2748,7 +2829,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 10142
      */
-    public function test_termmeta_cache_should_be_lazy_loaded_by_default() {
+    public function test_termmeta_cache_should_be_lazy_loaded_by_default()
+    {
         global $wpdb;
 
         register_taxonomy('wptests_tax', 'post');
@@ -2777,7 +2859,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 10142
      */
-    public function test_termmeta_cache_should_not_be_primed_when_update_term_meta_cache_is_false() {
+    public function test_termmeta_cache_should_not_be_primed_when_update_term_meta_cache_is_false()
+    {
         global $wpdb;
 
         register_taxonomy('wptests_tax', 'post');
@@ -2807,7 +2890,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 10142
      */
-    public function test_meta_query() {
+    public function test_meta_query()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(5, array('taxonomy' => 'wptests_tax'));
         add_term_meta($terms[0], 'foo', 'bar');
@@ -2835,7 +2919,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35137
      */
-    public function test_meta_query_should_not_return_duplicates() {
+    public function test_meta_query_should_not_return_duplicates()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(1, array('taxonomy' => 'wptests_tax'));
         add_term_meta($terms[0], 'foo', 'bar');
@@ -2862,7 +2947,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 14162
      */
-    public function test_should_return_wp_term_objects() {
+    public function test_should_return_wp_term_objects()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
 
@@ -2885,7 +2971,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      * @ticket 14162
      * @ticket 34282
      */
-    public function test_should_return_wp_term_objects_when_pulling_from_the_cache() {
+    public function test_should_return_wp_term_objects_when_pulling_from_the_cache()
+    {
         global $wpdb;
 
         register_taxonomy('wptests_tax', 'post');
@@ -2922,7 +3009,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 14162
      */
-    public function test_should_prime_individual_term_cache_when_fields_is_all() {
+    public function test_should_prime_individual_term_cache_when_fields_is_all()
+    {
         register_taxonomy('wptests_tax', 'post');
         $terms = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
 
@@ -2942,7 +3030,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35382
      */
-    public function test_indexes_should_not_be_reset_when_number_of_matched_terms_is_greater_than_number() {
+    public function test_indexes_should_not_be_reset_when_number_of_matched_terms_is_greater_than_number()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
 
@@ -2964,7 +3053,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35935
      */
-    public function test_hierarchical_offset_0_with_number_greater_than_total_available_count() {
+    public function test_hierarchical_offset_0_with_number_greater_than_total_available_count()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $terms = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
@@ -2984,7 +3074,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35935
      */
-    public function test_hierarchical_offset_plus_number() {
+    public function test_hierarchical_offset_plus_number()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
@@ -3006,7 +3097,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35935
      */
-    public function test_hierarchical_offset_plus_number_exceeds_available_count() {
+    public function test_hierarchical_offset_plus_number_exceeds_available_count()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $terms = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
@@ -3028,7 +3120,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 52710
      */
-    public function test_get_terms_without_update_get_terms_cache() {
+    public function test_get_terms_without_update_get_terms_cache()
+    {
         $this->set_up_three_posts_and_tags();
 
         $num_queries = get_num_queries();
@@ -3061,7 +3154,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 35935
      */
-    public function test_hierarchical_offset_exceeds_available_count() {
+    public function test_hierarchical_offset_exceeds_available_count()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $terms = self::factory()->term->create_many(2, array('taxonomy' => 'wptests_tax'));
@@ -3084,7 +3178,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      * @ticket 36992
      * @ticket 35381
      */
-    public function test_count_should_not_pass_through_main_get_terms_filter() {
+    public function test_count_should_not_pass_through_main_get_terms_filter()
+    {
         add_filter('get_terms', array(__CLASS__, 'maybe_filter_count'));
 
         $found = get_terms(
@@ -3099,14 +3194,16 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertNotEquals('foo', $found);
     }
 
-    public static function maybe_filter_count() {
+    public static function maybe_filter_count()
+    {
         return 'foo';
     }
 
     /**
      * @ticket 21760
      */
-    public function test_with_term_slug_equal_to_string_0() {
+    public function test_with_term_slug_equal_to_string_0()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $term_id = self::factory()->term->create(
@@ -3132,7 +3229,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 55352
      */
-    public function test_cache_key_generation_cache_domain() {
+    public function test_cache_key_generation_cache_domain()
+    {
         $args_1        = array(
             'taxonomy' => self::$taxonomy,
             'fields'   => 'ids',
@@ -3148,7 +3246,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 55352
      */
-    public function test_cache_key_generation_all_with_object_id() {
+    public function test_cache_key_generation_all_with_object_id()
+    {
         $args_1        = array(
             'taxonomy' => self::$taxonomy,
             'fields'   => 'ids',
@@ -3167,7 +3266,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      *
      * @dataProvider data_same_term_args
      */
-    public function test_cache_key_generation($args_1, $args_2) {
+    public function test_cache_key_generation($args_1, $args_2)
+    {
         $query1        = get_terms($args_1);
         $num_queries_1 = get_num_queries();
         $query2        = get_terms($args_2);
@@ -3180,7 +3280,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_same_term_args() {
+    public function data_same_term_args()
+    {
         return array(
             'all fields vs ids'                        => array(
                 array(
@@ -3398,7 +3499,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
     /**
      * @ticket 21760
      */
-    public function test_with_multiple_term_slugs_one_equal_to_string_0() {
+    public function test_with_multiple_term_slugs_one_equal_to_string_0()
+    {
         register_taxonomy('wptests_tax', 'post', array('hierarchical' => true));
 
         $term_id1 = self::factory()->term->create(
@@ -3431,7 +3533,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         $this->assertSameSets(array($term_id1, $term_id2), wp_list_pluck($found, 'term_id'));
     }
 
-    protected function create_hierarchical_terms_and_posts() {
+    protected function create_hierarchical_terms_and_posts()
+    {
         $terms = array();
 
         $terms['parent1']     = self::factory()->term->create(
@@ -3480,7 +3583,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         return $terms;
     }
 
-    protected function create_hierarchical_terms() {
+    protected function create_hierarchical_terms()
+    {
         /*
          * Set up the following hierarchy:
          * - One
@@ -3555,7 +3659,8 @@ class Tests_Term_getTerms extends WP_UnitTestCase {
         );
     }
 
-    protected function set_up_three_posts_and_tags() {
+    protected function set_up_three_posts_and_tags()
+    {
         $posts = self::factory()->post->create_many(3, array('post_type' => 'post'));
         foreach ($posts as $i => $post) {
             wp_set_object_terms($post, "term_{$i}", 'post_tag');

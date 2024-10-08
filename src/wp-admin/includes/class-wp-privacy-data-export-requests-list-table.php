@@ -16,7 +16,8 @@ if (! class_exists('WP_Privacy_Requests_Table')) {
  *
  * @since 4.9.6
  */
-class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Table {
+class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Table
+{
     /**
      * Action name for the requests this table will work with.
      *
@@ -43,7 +44,8 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
      * @param WP_User_Request $item Item being shown.
      * @return string Email column markup.
      */
-    public function column_email($item) {
+    public function column_email($item)
+    {
         /** This filter is documented in wp-admin/includes/ajax-actions.php */
         $exporters       = apply_filters('wp_privacy_personal_data_exporters', array());
         $exporters_count = count($exporters);
@@ -108,7 +110,8 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
      *
      * @param WP_User_Request $item Item being shown.
      */
-    public function column_next_steps($item) {
+    public function column_next_steps($item)
+    {
         $status = $item->status;
 
         switch ($status) {

@@ -3,16 +3,19 @@
 /**
  * @group xmlrpc
  */
-class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase {
+class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
+{
     public $post_id;
 
-    public function test_invalid_username_password() {
+    public function test_invalid_username_password()
+    {
         $result = $this->myxmlrpcserver->wp_getComments(array(1, 'username', 'password', array()));
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
 
-    public function test_incapable_user() {
+    public function test_incapable_user()
+    {
         $this->make_user_by_role('contributor');
 
         $result = $this->myxmlrpcserver->wp_getComments(array(1, 'contributor', 'contributor', array()));
@@ -20,7 +23,8 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase {
         $this->assertSame(401, $result->code);
     }
 
-    public function test_capable_user() {
+    public function test_capable_user()
+    {
         $this->post_id = self::factory()->post->create();
         self::factory()->comment->create_post_comments($this->post_id, 2);
 
@@ -35,7 +39,8 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase {
         }
     }
 
-    public function test_post_filter() {
+    public function test_post_filter()
+    {
         $this->post_id = self::factory()->post->create();
         self::factory()->comment->create_post_comments($this->post_id, 2);
 
@@ -58,7 +63,8 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase {
         }
     }
 
-    public function test_number_filter() {
+    public function test_number_filter()
+    {
         $this->post_id = self::factory()->post->create();
         self::factory()->comment->create_post_comments($this->post_id, 11);
 
@@ -94,7 +100,8 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase {
         $this->assertCount(5, $results2);
     }
 
-    public function test_contributor_capabilities() {
+    public function test_contributor_capabilities()
+    {
         $this->make_user_by_role('contributor');
         $author_id      = $this->make_user_by_role('author');
         $author_post_id = self::factory()->post->create(
@@ -137,7 +144,8 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase {
         $this->assertSame(401, $result->code);
     }
 
-    public function test_author_capabilities() {
+    public function test_author_capabilities()
+    {
         $author_id      = $this->make_user_by_role('author');
         $author_post_id = self::factory()->post->create(
             array(
@@ -229,7 +237,8 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase {
         $this->assertCount(1, $result4);
     }
 
-    public function test_editor_capabilities() {
+    public function test_editor_capabilities()
+    {
         $author_id      = $this->make_user_by_role('author');
         $author_post_id = self::factory()->post->create(
             array(

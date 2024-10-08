@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Return the post comment's content.
  */
-function render_block_core_comment_content($attributes, $content, $block) {
+function render_block_core_comment_content($attributes, $content, $block)
+{
     if (! isset($block->context['commentId'])) {
         return '';
     }
@@ -74,7 +75,8 @@ function render_block_core_comment_content($attributes, $content, $block) {
  *
  * @since 6.0.0
  */
-function register_block_core_comment_content() {
+function register_block_core_comment_content()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comment-content',
         array(

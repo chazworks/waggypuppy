@@ -11,7 +11,8 @@
  *
  * @coversDefaultClass WP_Interactivity_API
  */
-class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
+class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase
+{
     /**
      * Instance of WP_Interactivity_API.
      *
@@ -22,12 +23,14 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
     }
 
-    public function charset_iso_8859_1() {
+    public function charset_iso_8859_1()
+    {
         return 'iso-8859-1';
     }
 
@@ -38,7 +41,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @param array<string> $stack Values for the internal namespace stack.
      */
-    private function set_internal_namespace_stack(...$stack) {
+    private function set_internal_namespace_stack(...$stack)
+    {
         $interactivity   = new ReflectionClass($this->interactivity);
         $namespace_stack = $interactivity->getProperty('namespace_stack');
         $namespace_stack->setAccessible(true);
@@ -52,7 +56,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @param array<array<mixed>> $stack Values for the internal context stack.
      */
-    private function set_internal_context_stack(...$stack) {
+    private function set_internal_context_stack(...$stack)
+    {
         $interactivity = new ReflectionClass($this->interactivity);
         $context_stack = $interactivity->getProperty('context_stack');
         $context_stack->setAccessible(true);
@@ -68,7 +73,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      * @covers ::config
      */
-    public function test_state_and_config_should_be_empty() {
+    public function test_state_and_config_should_be_empty()
+    {
         $this->assertSame(array(), $this->interactivity->state('myPlugin'));
         $this->assertSame(array(), $this->interactivity->config('myPlugin'));
     }
@@ -82,7 +88,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      * @covers ::config
      */
-    public function test_state_and_config_can_be_changed() {
+    public function test_state_and_config_can_be_changed()
+    {
         $state  = array(
             'a'      => 1,
             'b'      => 2,
@@ -102,7 +109,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      * @covers ::config
      */
-    public function test_state_and_config_can_be_merged() {
+    public function test_state_and_config_can_be_merged()
+    {
         $this->interactivity->state('myPlugin', array('a' => 1));
         $this->interactivity->state('myPlugin', array('b' => 2));
         $this->interactivity->state('otherPlugin', array('c' => 3));
@@ -142,7 +150,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      * @covers ::config
      */
-    public function test_state_and_config_existing_props_can_be_overwritten() {
+    public function test_state_and_config_existing_props_can_be_overwritten()
+    {
         $this->interactivity->state('myPlugin', array('a' => 1));
         $this->interactivity->state('myPlugin', array('a' => 2));
         $this->assertSame(
@@ -167,7 +176,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      * @covers ::config
      */
-    public function test_state_and_config_existing_indexed_arrays_are_replaced() {
+    public function test_state_and_config_existing_indexed_arrays_are_replaced()
+    {
         $this->interactivity->state('myPlugin', array('a' => array(1, 2)));
         $this->interactivity->state('myPlugin', array('a' => array(3, 4)));
         $this->assertSame(
@@ -190,7 +200,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @ticket 60356
      * @ticket 61512
      */
-    public function test_state_and_config_dont_print_when_empty() {
+    public function test_state_and_config_dont_print_when_empty()
+    {
         $filter = $this->get_script_data_filter_result();
 
         $this->assertSame(array(), $filter->get_args()[0][0]);
@@ -206,7 +217,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @expectedDeprecated WP_Interactivity_API::print_client_interactivity_data
      */
-    public function test_config_not_printed_when_empty() {
+    public function test_config_not_printed_when_empty()
+    {
         $this->interactivity->print_client_interactivity_data();
         $this->expectOutputString('');
     }
@@ -218,7 +230,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @expectedDeprecated WP_Interactivity_API::register_script_modules
      */
-    public function test_register_script_modules_deprecated() {
+    public function test_register_script_modules_deprecated()
+    {
         $this->interactivity->register_script_modules();
     }
 
@@ -230,7 +243,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @param  ?Closure $callback Optional. Callback to run to set up interactivity state and config.
      * @return MockAction
      */
-    private function get_script_data_filter_result(?Closure $callback = null): MockAction {
+    private function get_script_data_filter_result(?Closure $callback = null): MockAction
+    {
         $this->interactivity->add_hooks();
         wp_enqueue_script_module('@wordpress/interactivity');
         $filter = new MockAction();
@@ -253,7 +267,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @ticket 60356
      * @ticket 61512
      */
-    public function test_state_not_printed_when_empty() {
+    public function test_state_not_printed_when_empty()
+    {
         $filter = $this->get_script_data_filter_result(
             function () {
                 $this->interactivity->config('myPlugin', array('a' => 1));
@@ -269,7 +284,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @ticket 60761
      * @ticket 61512
      */
-    public function test_state_not_printed_when_empty_array() {
+    public function test_state_not_printed_when_empty_array()
+    {
         $filter = $this->get_script_data_filter_result(
             function () {
                 $this->interactivity->state('pluginWithEmptyState_prune', array());
@@ -286,7 +302,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @ticket 60761
      * @ticket 61512
      */
-    public function test_state_not_printed_when_only_empty_arrays() {
+    public function test_state_not_printed_when_only_empty_arrays()
+    {
         $filter = $this->get_script_data_filter_result(
             function () {
                 $this->interactivity->state('pluginWithEmptyState_prune', array());
@@ -302,7 +319,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @ticket 60761
      * @ticket 61512
      */
-    public function test_state_printed_correctly_with_nested_empty_array() {
+    public function test_state_printed_correctly_with_nested_empty_array()
+    {
         $filter = $this->get_script_data_filter_result(
             function () {
                 $this->interactivity->state('myPlugin', array('emptyArray' => array()));
@@ -318,7 +336,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @ticket 60761
      * @ticket 61512
      */
-    public function test_config_not_printed_when_empty_array() {
+    public function test_config_not_printed_when_empty_array()
+    {
         $filter = $this->get_script_data_filter_result(
             function () {
                 $this->interactivity->config('pluginWithEmptyConfig_prune', array());
@@ -335,7 +354,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @ticket 60761
      * @ticket 61512
      */
-    public function test_config_not_printed_when_only_empty_arrays() {
+    public function test_config_not_printed_when_only_empty_arrays()
+    {
         $filter = $this->get_script_data_filter_result(
             function () {
                 $this->interactivity->config('pluginWithEmptyConfig_prune', array());
@@ -351,7 +371,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @ticket 60761
      * @ticket 61512
      */
-    public function test_config_printed_correctly_with_nested_empty_array() {
+    public function test_config_printed_correctly_with_nested_empty_array()
+    {
         $filter = $this->get_script_data_filter_result(
             function () {
                 $this->interactivity->config('myPlugin', array('emptyArray' => array()));
@@ -369,7 +390,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::state
      */
-    public function test_state_without_namespace() {
+    public function test_state_without_namespace()
+    {
         $this->set_internal_namespace_stack('myPlugin');
 
         $this->interactivity->state('myPlugin', array('a' => 1));
@@ -390,7 +412,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      * @expectedIncorrectUsage WP_Interactivity_API::state
      */
-    public function test_state_with_data_and_invalid_namespace() {
+    public function test_state_with_data_and_invalid_namespace()
+    {
         $this->set_internal_namespace_stack('myPlugin');
 
         $this->interactivity->state('myPlugin', array('a' => 1));
@@ -410,7 +433,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      * @expectedIncorrectUsage WP_Interactivity_API::state
      */
-    public function test_state_with_empty_string_as_namespace() {
+    public function test_state_with_empty_string_as_namespace()
+    {
         $this->set_internal_namespace_stack('myPlugin');
 
         $this->interactivity->state('myPlugin', array('a' => 1));
@@ -431,7 +455,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::state
      * @expectedIncorrectUsage WP_Interactivity_API::state
      */
-    public function test_state_without_namespace_outside_directive_processing() {
+    public function test_state_without_namespace_outside_directive_processing()
+    {
         $this->assertSame(
             array(),
             $this->interactivity->state()
@@ -446,7 +471,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::get_context
      */
-    public function test_get_context_with_namespace() {
+    public function test_get_context_with_namespace()
+    {
         $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack(
             array(
@@ -476,7 +502,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::get_context
      */
-    public function test_get_context_without_namespace() {
+    public function test_get_context_without_namespace()
+    {
         $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack(
             array(
@@ -502,7 +529,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::get_context
      */
-    public function test_get_context_with_empty_context_stack() {
+    public function test_get_context_with_empty_context_stack()
+    {
         $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack();
 
@@ -520,7 +548,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::get_context
      */
-    public function test_get_context_with_undefined_namespace() {
+    public function test_get_context_with_undefined_namespace()
+    {
         $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack(
             array(
@@ -545,7 +574,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::get_context
      * @expectedIncorrectUsage WP_Interactivity_API::get_context
      */
-    public function test_get_context_with_empty_namespace() {
+    public function test_get_context_with_empty_namespace()
+    {
         $this->set_internal_namespace_stack('myPlugin');
         $this->set_internal_context_stack(
             array(
@@ -572,7 +602,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::get_context
      * @expectedIncorrectUsage WP_Interactivity_API::get_context
      */
-    public function test_get_context_outside_of_directive_processing() {
+    public function test_get_context_outside_of_directive_processing()
+    {
         $context = $this->interactivity->get_context();
         $this->assertSame(array(), $context);
     }
@@ -584,7 +615,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::extract_directive_value
      */
-    public function test_extract_directive_value() {
+    public function test_extract_directive_value()
+    {
         $extract_directive_value = new ReflectionMethod($this->interactivity, 'extract_directive_value');
         $extract_directive_value->setAccessible(true);
 
@@ -647,7 +679,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::extract_directive_value
      */
-    public function test_extract_directive_value_empty_values() {
+    public function test_extract_directive_value_empty_values()
+    {
         $extract_directive_value = new ReflectionMethod($this->interactivity, 'extract_directive_value');
         $extract_directive_value->setAccessible(true);
 
@@ -681,7 +714,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::extract_directive_value
      */
-    public function test_extract_directive_value_invalid_json() {
+    public function test_extract_directive_value_invalid_json()
+    {
         $extract_directive_value = new ReflectionMethod($this->interactivity, 'extract_directive_value');
         $extract_directive_value->setAccessible(true);
 
@@ -702,7 +736,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::extract_prefix_and_suffix
      */
-    public function test_extract_prefix_and_suffix() {
+    public function test_extract_prefix_and_suffix()
+    {
         $extract_prefix_and_suffix = new ReflectionMethod($this->interactivity, 'extract_prefix_and_suffix');
         $extract_prefix_and_suffix->setAccessible(true);
 
@@ -724,7 +759,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_process_directives_do_nothing_without_directives() {
+    public function test_process_directives_do_nothing_without_directives()
+    {
         $html           = '<div>Inner content here</div>';
         $processed_html = $this->interactivity->process_directives($html);
         $this->assertSame($html, $processed_html);
@@ -742,7 +778,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_process_directives_changes_html_with_balanced_tags() {
+    public function test_process_directives_changes_html_with_balanced_tags()
+    {
         $this->interactivity->state('myPlugin', array('id' => 'some-id'));
         $html           = '<div data-wp-bind--id="myPlugin::state.id">Inner content</div>';
         $processed_html = $this->interactivity->process_directives($html);
@@ -758,7 +795,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_process_directives_doesnt_fail_with_unknown_directives() {
+    public function test_process_directives_doesnt_fail_with_unknown_directives()
+    {
         $html           = '<div data-wp-unknown="">Text</div>';
         $processed_html = $this->interactivity->process_directives($html);
         $this->assertSame($html, $processed_html);
@@ -771,7 +809,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_process_directives_process_the_directives_in_the_correct_order() {
+    public function test_process_directives_process_the_directives_in_the_correct_order()
+    {
         $html           = '
 			<div
 				data-wp-interactive=\'{ "namespace": "test" }\'
@@ -805,7 +844,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @param string $html HTML containing unbalanced tags and also a directive.
      */
-    public function test_process_directives_doesnt_change_html_if_contains_unbalanced_tags($html) {
+    public function test_process_directives_doesnt_change_html_if_contains_unbalanced_tags($html)
+    {
         $this->interactivity->state('myPlugin', array('id' => 'some-id'));
 
         $processed_html = $this->interactivity->process_directives($html);
@@ -819,7 +859,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_html_with_unbalanced_tags() {
+    public static function data_html_with_unbalanced_tags()
+    {
         return array(
             'DIV closer after'   => array('<div data-wp-bind--id="myPlugin::state.id">Inner content</div></div>'),
             'DIV opener after'   => array('<div data-wp-bind--id="myPlugin::state.id">Inner content</div><div>'),
@@ -840,7 +881,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_process_directives_changes_html_if_contains_svgs() {
+    public function test_process_directives_changes_html_if_contains_svgs()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -872,7 +914,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::process_directives
      * @expectedIncorrectUsage WP_Interactivity_API_Directives_Processor::skip_to_tag_closer
      */
-    public function test_process_directives_does_not_change_inner_html_in_svgs() {
+    public function test_process_directives_does_not_change_inner_html_in_svgs()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -902,7 +945,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::process_directives
      * @expectedIncorrectUsage WP_Interactivity_API::_process_directives
      */
-    public function test_process_directives_change_html_if_contains_math() {
+    public function test_process_directives_change_html_if_contains_math()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -938,7 +982,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @expectedIncorrectUsage WP_Interactivity_API::_process_directives
      * @expectedIncorrectUsage WP_Interactivity_API_Directives_Processor::skip_to_tag_closer
      */
-    public function test_process_directives_does_not_change_inner_html_in_math() {
+    public function test_process_directives_does_not_change_inner_html_in_math()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -967,7 +1012,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @param string $directive_value   The directive attribute value to evaluate.
      * @return mixed The result of the evaluate method.
      */
-    private function evaluate($directive_value) {
+    private function evaluate($directive_value)
+    {
         /*
          * The global WP_Interactivity_API instance is momentarily replaced to
          * make global functions like `wp_interactivity_state` and
@@ -995,7 +1041,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::evaluate
      */
-    public function test_evaluate_value() {
+    public function test_evaluate_value()
+    {
         $obj       = new stdClass();
         $obj->prop = 'object property';
         $this->interactivity->state(
@@ -1004,18 +1051,22 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
                 'key'       => 'myPlugin-state',
                 'obj'       => $obj,
                 'arrAccess' => new class() implements ArrayAccess {
-                    public function offsetExists($offset): bool {
+                    public function offsetExists($offset): bool
+                    {
                         return true;
                     }
 
                     #[\ReturnTypeWillChange]
-                    public function offsetGet($offset) {
+                    public function offsetGet($offset)
+                    {
                         return $offset;
                     }
 
-                    public function offsetSet($offset, $value): void {}
+                    public function offsetSet($offset, $value): void
+                    {}
 
-                    public function offsetUnset($offset): void {}
+                    public function offsetUnset($offset): void
+                    {}
                 },
             )
         );
@@ -1055,7 +1106,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::evaluate
      */
-    public function test_evaluate_value_negation() {
+    public function test_evaluate_value_negation()
+    {
         $this->interactivity->state('myPlugin', array('key' => 'myPlugin-state'));
         $this->interactivity->state('otherPlugin', array('key' => 'otherPlugin-state'));
         $this->set_internal_context_stack(
@@ -1086,7 +1138,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::evaluate
      */
-    public function test_evaluate_non_existent_path() {
+    public function test_evaluate_non_existent_path()
+    {
         $this->interactivity->state('myPlugin', array('key' => 'myPlugin-state'));
         $this->interactivity->state('otherPlugin', array('key' => 'otherPlugin-state'));
         $this->set_internal_context_stack(
@@ -1123,7 +1176,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::evaluate
      */
-    public function test_evaluate_nested_value() {
+    public function test_evaluate_nested_value()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -1169,7 +1223,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::evaluate
      * @expectedIncorrectUsage WP_Interactivity_API::evaluate
      */
-    public function test_evaluate_unvalid_namespaces() {
+    public function test_evaluate_unvalid_namespaces()
+    {
         $this->set_internal_context_stack(array());
         $this->set_internal_namespace_stack();
 
@@ -1192,7 +1247,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers wp_interactivity_state
      * @covers wp_interactivity_get_context
      */
-    public function test_evaluate_derived_state() {
+    public function test_evaluate_derived_state()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -1231,7 +1287,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers wp_interactivity_state
      * @covers wp_interactivity_get_context
      */
-    public function test_evaluate_derived_state_accessing_different_namespace() {
+    public function test_evaluate_derived_state_accessing_different_namespace()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -1274,7 +1331,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers wp_interactivity_state
      * @covers wp_interactivity_get_context
      */
-    public function test_evaluate_derived_state_defined_in_different_namespace() {
+    public function test_evaluate_derived_state_defined_in_different_namespace()
+    {
         $this->interactivity->state('myPlugin', array('key' => 'myPlugin-state'));
         $this->interactivity->state(
             'otherPlugin',
@@ -1315,7 +1373,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers ::evaluate
      * @expectedIncorrectUsage WP_Interactivity_API::evaluate
      */
-    public function test_evaluate_derived_state_that_throws() {
+    public function test_evaluate_derived_state_that_throws()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -1338,7 +1397,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::evaluate
      */
-    public function test_evaluate_derived_state_intermediate() {
+    public function test_evaluate_derived_state_intermediate()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -1359,7 +1419,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      *
      * @covers ::kebab_to_camel_case
      */
-    public function test_kebab_to_camel_case() {
+    public function test_kebab_to_camel_case()
+    {
         $method = new ReflectionMethod($this->interactivity, 'kebab_to_camel_case');
         $method->setAccessible(true);
 
@@ -1385,7 +1446,8 @@ class Tests_Interactivity_API_WpInteractivityAPI extends WP_UnitTestCase {
      * @covers wp_interactivity_get_element
      * @covers ::process_directives
      */
-    public function test_get_element_returns_current_element_representation() {
+    public function test_get_element_returns_current_element_representation()
+    {
         /*
          * The global WP_Interactivity_API instance is momentarily replaced to
          * make the global function `wp_interactivity_get_element` work as expected.
@@ -1441,7 +1503,8 @@ HTML;
      * @covers wp_interactivity_get_element
      * @covers ::process_directives
      */
-    public function test_get_element_returns_original_attributes_only() {
+    public function test_get_element_returns_original_attributes_only()
+    {
         /*
          * The global WP_Interactivity_API instance is momentarily replaced to
          * make the global function `wp_interactivity_get_element` work as expected.
@@ -1505,7 +1568,8 @@ HTML;
      * @covers wp_interactivity_get_element
      * @expectedIncorrectUsage WP_Interactivity_API::get_element
      */
-    public function test_get_element_outside_of_directive_processing() {
+    public function test_get_element_outside_of_directive_processing()
+    {
         $element = $this->interactivity->get_element();
         $this->assertNull($element);
     }

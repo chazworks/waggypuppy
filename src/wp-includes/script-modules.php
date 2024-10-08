@@ -20,7 +20,8 @@
  *
  * @return WP_Script_Modules The main WP_Script_Modules instance.
  */
-function wp_script_modules(): WP_Script_Modules {
+function wp_script_modules(): WP_Script_Modules
+{
     global $wp_script_modules;
 
     if (! ($wp_script_modules instanceof WP_Script_Modules)) {
@@ -61,7 +62,8 @@ function wp_script_modules(): WP_Script_Modules {
  *                                   is set to false, the version number is the currently installed WordPress version.
  *                                   If $version is set to null, no version is added.
  */
-function wp_register_script_module(string $id, string $src, array $deps = array(), $version = false) {
+function wp_register_script_module(string $id, string $src, array $deps = array(), $version = false)
+{
     wp_script_modules()->register($id, $src, $deps, $version);
 }
 
@@ -98,7 +100,8 @@ function wp_register_script_module(string $id, string $src, array $deps = array(
  *                                   is set to false, the version number is the currently installed WordPress version.
  *                                   If $version is set to null, no version is added.
  */
-function wp_enqueue_script_module(string $id, string $src = '', array $deps = array(), $version = false) {
+function wp_enqueue_script_module(string $id, string $src = '', array $deps = array(), $version = false)
+{
     wp_script_modules()->enqueue($id, $src, $deps, $version);
 }
 
@@ -109,7 +112,8 @@ function wp_enqueue_script_module(string $id, string $src = '', array $deps = ar
  *
  * @param string $id The identifier of the script module.
  */
-function wp_dequeue_script_module(string $id) {
+function wp_dequeue_script_module(string $id)
+{
     wp_script_modules()->dequeue($id);
 }
 
@@ -120,7 +124,8 @@ function wp_dequeue_script_module(string $id) {
  *
  * @param string $id The identifier of the script module.
  */
-function wp_deregister_script_module(string $id) {
+function wp_deregister_script_module(string $id)
+{
     wp_script_modules()->deregister($id);
 }
 
@@ -129,7 +134,8 @@ function wp_deregister_script_module(string $id) {
  *
  * @since 6.7.0
  */
-function wp_default_script_modules() {
+function wp_default_script_modules()
+{
     $suffix = defined('WP_RUN_CORE_TESTS') ? '.min' : wp_scripts_get_suffix();
 
     /*

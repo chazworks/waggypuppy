@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Search_Controller extends WP_REST_Controller {
+class WP_REST_Search_Controller extends WP_REST_Controller
+{
 
     /**
      * ID property name.
@@ -62,7 +63,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      * @param array $search_handlers List of search handlers to use in the controller. Each search
      *                               handler instance must extend the `WP_REST_Search_Handler` class.
      */
-    public function __construct(array $search_handlers) {
+    public function __construct(array $search_handlers)
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'search';
 
@@ -88,7 +90,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -112,7 +115,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has search access, WP_Error object otherwise.
      */
-    public function get_items_permission_check($request) {
+    public function get_items_permission_check($request)
+    {
         return true;
     }
 
@@ -124,7 +128,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $handler = $this->get_search_handler($request);
         if (is_wp_error($handler)) {
             return $handler;
@@ -192,7 +197,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $item_id = $item;
 
@@ -229,7 +235,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -298,7 +305,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $types    = array();
         $subtypes = array();
 
@@ -363,7 +371,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      * @param string          $parameter Parameter name.
      * @return string[]|WP_Error List of valid subtypes, or WP_Error object on failure.
      */
-    public function sanitize_subtypes($subtypes, $request, $parameter) {
+    public function sanitize_subtypes($subtypes, $request, $parameter)
+    {
         $subtypes = wp_parse_slug_list($subtypes);
 
         $subtypes = rest_parse_request_arg($subtypes, $request, $parameter);
@@ -392,7 +401,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Search_Handler|WP_Error Search handler for the request type, or WP_Error object on failure.
      */
-    protected function get_search_handler($request) {
+    protected function get_search_handler($request)
+    {
         $type = $request->get_param(self::PROP_TYPE);
 
         if (! $type || ! is_string($type) || ! isset($this->search_handlers[ $type ])) {

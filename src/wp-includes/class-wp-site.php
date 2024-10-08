@@ -23,7 +23,8 @@
  * @property string $home
  */
 #[AllowDynamicProperties]
-final class WP_Site {
+final class WP_Site
+{
 
     /**
      * Site ID.
@@ -155,7 +156,8 @@ final class WP_Site {
      * @param int $site_id The ID of the site to retrieve.
      * @return WP_Site|false The site's object if found. False if not.
      */
-    public static function get_instance($site_id) {
+    public static function get_instance($site_id)
+    {
         global $wpdb;
 
         $site_id = (int) $site_id;
@@ -192,7 +194,8 @@ final class WP_Site {
      *
      * @param WP_Site|object $site A site object.
      */
-    public function __construct($site) {
+    public function __construct($site)
+    {
         foreach (get_object_vars($site) as $key => $value) {
             $this->$key = $value;
         }
@@ -205,7 +208,8 @@ final class WP_Site {
      *
      * @return array Object as array.
      */
-    public function to_array() {
+    public function to_array()
+    {
         return get_object_vars($this);
     }
 
@@ -220,7 +224,8 @@ final class WP_Site {
      * @param string $key Property to get.
      * @return mixed Value of the property. Null if not available.
      */
-    public function __get($key) {
+    public function __get($key)
+    {
         switch ($key) {
             case 'id':
                 return (int) $this->blog_id;
@@ -255,7 +260,8 @@ final class WP_Site {
      * @param string $key Property to check if set.
      * @return bool Whether the property is set.
      */
-    public function __isset($key) {
+    public function __isset($key)
+    {
         switch ($key) {
             case 'id':
             case 'network_id':
@@ -292,7 +298,8 @@ final class WP_Site {
      * @param string $key   Property to set.
      * @param mixed  $value Value to assign to the property.
      */
-    public function __set($key, $value) {
+    public function __set($key, $value)
+    {
         switch ($key) {
             case 'id':
                 $this->blog_id = (string) $value;
@@ -316,7 +323,8 @@ final class WP_Site {
      *
      * @return stdClass A raw site object with all details included.
      */
-    private function get_details() {
+    private function get_details()
+    {
         $details = wp_cache_get($this->blog_id, 'site-details');
 
         if (false === $details) {

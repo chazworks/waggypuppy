@@ -55,7 +55,8 @@ $step = isset($_GET['step']) ? (int) $_GET['step'] : 0;
  *
  * @param string $body_classes
  */
-function display_header($body_classes = '') {
+function display_header($body_classes = '')
+{
     header('Content-Type: text/html; charset=utf-8');
     if (is_rtl()) {
         $body_classes .= 'rtl';
@@ -88,7 +89,8 @@ function display_header($body_classes = '') {
  *
  * @param string|null $error
  */
-function display_setup_form($error = null) {
+function display_setup_form($error = null)
+{
     global $wpdb;
 
     $user_table = ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($wpdb->users))) !== null);

@@ -10,9 +10,11 @@
  * @method WP_Post|WP_Error create_and_get( $args = array(), $generation_definitions = null )
  * @method (int|WP_Error)[] create_many( $count, $args = array(), $generation_definitions = null )
  */
-class WP_UnitTest_Factory_For_Post extends WP_UnitTest_Factory_For_Thing {
+class WP_UnitTest_Factory_For_Post extends WP_UnitTest_Factory_For_Thing
+{
 
-    public function __construct($factory = null) {
+    public function __construct($factory = null)
+    {
         parent::__construct($factory);
         $this->default_generation_definitions = array(
             'post_status'  => 'publish',
@@ -33,7 +35,8 @@ class WP_UnitTest_Factory_For_Post extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The post ID on success, WP_Error object on failure.
      */
-    public function create_object($args) {
+    public function create_object($args)
+    {
         return wp_insert_post($args, true);
     }
 
@@ -48,7 +51,8 @@ class WP_UnitTest_Factory_For_Post extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The post ID on success, WP_Error object on failure.
      */
-    public function update_object($post_id, $fields) {
+    public function update_object($post_id, $fields)
+    {
         $fields['ID'] = $post_id;
         return wp_update_post($fields, true);
     }
@@ -62,7 +66,8 @@ class WP_UnitTest_Factory_For_Post extends WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_Post|null WP_Post object on success, null on failure.
      */
-    public function get_object_by_id($post_id) {
+    public function get_object_by_id($post_id)
+    {
         return get_post($post_id);
     }
 }

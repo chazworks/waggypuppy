@@ -1,8 +1,10 @@
 <?php
 
-class Tests_Query extends WP_UnitTestCase {
+class Tests_Query extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
@@ -12,7 +14,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 24785
      */
-    public function test_nested_loop_reset_postdata() {
+    public function test_nested_loop_reset_postdata()
+    {
         $post_id        = self::factory()->post->create();
         $nested_post_id = self::factory()->post->create();
 
@@ -32,7 +35,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 16471
      */
-    public function test_default_query_var() {
+    public function test_default_query_var()
+    {
         $query = new WP_Query();
         $this->assertSame('', $query->get('nonexistent'));
         $this->assertFalse($query->get('nonexistent', false));
@@ -42,7 +46,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 25380
      */
-    public function test_pre_posts_per_page() {
+    public function test_pre_posts_per_page()
+    {
         self::factory()->post->create_many(10);
 
         add_action('pre_get_posts', array($this, 'filter_posts_per_page'));
@@ -52,14 +57,16 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertSame(30, get_query_var('posts_per_page'));
     }
 
-    public function filter_posts_per_page(&$query) {
+    public function filter_posts_per_page(&$query)
+    {
         $query->set('posts_per_rss', 30);
     }
 
     /**
      * @ticket 26627
      */
-    public function test_tag_queried_object() {
+    public function test_tag_queried_object()
+    {
         $slug = 'tag-slug-26627';
         self::factory()->tag->create(array('slug' => $slug));
         $tag = get_term_by('slug', $slug, 'post_tag');
@@ -78,7 +85,8 @@ class Tests_Query extends WP_UnitTestCase {
         remove_action('pre_get_posts', array($this, 'tag_queried_object'), 11);
     }
 
-    public function tag_queried_object(&$query) {
+    public function tag_queried_object(&$query)
+    {
         $tag = get_term_by('slug', 'tag-slug-26627', 'post_tag');
         $this->assertTrue($query->is_tag());
         $this->assertTrue($query->is_archive());
@@ -90,7 +98,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 31246
      */
-    public function test_get_queried_object_should_return_null_when_is_tax_is_true_but_the_taxonomy_args_have_been_removed_in_a_parse_query_callback() {
+    public function test_get_queried_object_should_return_null_when_is_tax_is_true_but_the_taxonomy_args_have_been_removed_in_a_parse_query_callback()
+    {
         // Don't override the args provided below.
         remove_action('pre_get_posts', array($this, 'pre_get_posts_tax_category_tax_query'));
         register_taxonomy('wptests_tax', 'post');
@@ -119,14 +128,16 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertNull($q->get_queried_object());
     }
 
-    public function filter_parse_query_to_remove_tax($q) {
+    public function filter_parse_query_to_remove_tax($q)
+    {
         unset($q->query_vars['wptests_tax']);
     }
 
     /**
      * @ticket 37962
      */
-    public function test_get_queried_object_should_return_null_for_not_exists_tax_query() {
+    public function test_get_queried_object_should_return_null_for_not_exists_tax_query()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $q = new WP_Query(
@@ -144,7 +155,8 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertNull($queried_object);
     }
 
-    public function test_orderby_space_separated() {
+    public function test_orderby_space_separated()
+    {
         global $wpdb;
 
         $q = new WP_Query(
@@ -157,7 +169,8 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertStringContainsString("ORDER BY $wpdb->posts.post_title DESC, $wpdb->posts.post_date DESC", $q->request);
     }
 
-    public function test_cat_querystring_single_term() {
+    public function test_cat_querystring_single_term()
+    {
         $c1 = self::factory()->category->create(
             array(
                 'name' => 'Test Category 1',
@@ -193,7 +206,8 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertSameSets(array($p1, $p2), $matching_posts);
     }
 
-    public function test_category_querystring_multiple_terms_comma_separated() {
+    public function test_category_querystring_multiple_terms_comma_separated()
+    {
         $c1 = self::factory()->category->create(
             array(
                 'name' => 'Test Category 1',
@@ -240,7 +254,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 33532
      */
-    public function test_category_querystring_multiple_terms_formatted_as_array() {
+    public function test_category_querystring_multiple_terms_formatted_as_array()
+    {
         $c1 = self::factory()->category->create(
             array(
                 'name' => 'Test Category 1',
@@ -285,7 +300,8 @@ class Tests_Query extends WP_UnitTestCase {
     }
 
 
-    public function test_tag_querystring_single_term() {
+    public function test_tag_querystring_single_term()
+    {
         $t1 = self::factory()->tag->create_and_get(
             array(
                 'name' => 'Test Tag 1',
@@ -321,7 +337,8 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertSameSets(array($p1, $p2), $matching_posts);
     }
 
-    public function test_tag_querystring_multiple_terms_comma_separated() {
+    public function test_tag_querystring_multiple_terms_comma_separated()
+    {
         $c1 = self::factory()->tag->create_and_get(
             array(
                 'name' => 'Test Tag 1',
@@ -368,7 +385,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 33532
      */
-    public function test_tag_querystring_multiple_terms_formatted_as_array() {
+    public function test_tag_querystring_multiple_terms_formatted_as_array()
+    {
         $c1 = self::factory()->tag->create_and_get(
             array(
                 'name' => 'Test Tag 1',
@@ -412,7 +430,8 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertSameSets(array($p1, $p2, $p3), $matching_posts);
     }
 
-    public function test_custom_taxonomy_querystring_single_term() {
+    public function test_custom_taxonomy_querystring_single_term()
+    {
         register_taxonomy('test_tax_cat', 'post');
 
         wp_insert_term('test1', 'test_tax_cat');
@@ -439,7 +458,8 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertSameSets(array($p1, $p2), wp_list_pluck($GLOBALS['wp_query']->posts, 'ID'));
     }
 
-    public function test_custom_taxonomy_querystring_multiple_terms_comma_separated() {
+    public function test_custom_taxonomy_querystring_multiple_terms_comma_separated()
+    {
         register_taxonomy('test_tax_cat', 'post');
 
         wp_insert_term('test1', 'test_tax_cat');
@@ -471,7 +491,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 32454
      */
-    public function test_custom_taxonomy_querystring_multiple_terms_formatted_as_array() {
+    public function test_custom_taxonomy_querystring_multiple_terms_formatted_as_array()
+    {
         register_taxonomy('test_tax_cat', 'post');
 
         wp_insert_term('test1', 'test_tax_cat');
@@ -503,7 +524,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 31355
      */
-    public function test_pages_dont_404_when_queried_post_id_is_modified() {
+    public function test_pages_dont_404_when_queried_post_id_is_modified()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_title' => 'A Test Page',
@@ -525,7 +547,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 31355
      */
-    public function test_custom_hierarchical_post_types_404_when_queried_post_id_is_modified() {
+    public function test_custom_hierarchical_post_types_404_when_queried_post_id_is_modified()
+    {
         global $wp_rewrite;
 
         register_post_type(
@@ -555,14 +578,16 @@ class Tests_Query extends WP_UnitTestCase {
         $this->assertSame($post_id, $GLOBALS['wp_query']->post->ID);
     }
 
-    public function filter_parse_query_to_modify_queried_post_id($query) {
+    public function filter_parse_query_to_modify_queried_post_id($query)
+    {
         $post = get_queried_object();
     }
 
     /**
      * @ticket 34060
      */
-    public function test_offset_0_should_override_page() {
+    public function test_offset_0_should_override_page()
+    {
         $q = new WP_Query(
             array(
                 'paged'          => 2,
@@ -577,7 +602,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 34060
      */
-    public function test_offset_should_be_ignored_when_not_set() {
+    public function test_offset_should_be_ignored_when_not_set()
+    {
         $q = new WP_Query(
             array(
                 'paged'          => 2,
@@ -591,7 +617,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 34060
      */
-    public function test_offset_should_be_ignored_when_passed_a_non_numeric_value() {
+    public function test_offset_should_be_ignored_when_passed_a_non_numeric_value()
+    {
         $q = new WP_Query(
             array(
                 'paged'          => 2,
@@ -606,7 +633,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 35601
      */
-    public function test_comment_status() {
+    public function test_comment_status()
+    {
         $p1 = self::factory()->post->create(array('comment_status' => 'open'));
         $p2 = self::factory()->post->create(array('comment_status' => 'closed'));
 
@@ -623,7 +651,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 35601
      */
-    public function test_ping_status() {
+    public function test_ping_status()
+    {
         $p1 = self::factory()->post->create(array('ping_status' => 'open'));
         $p2 = self::factory()->post->create(array('ping_status' => 'closed'));
 
@@ -640,7 +669,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 35619
      */
-    public function test_get_queried_object_should_return_first_of_multiple_terms() {
+    public function test_get_queried_object_should_return_first_of_multiple_terms()
+    {
         register_taxonomy('tax1', 'post');
         register_taxonomy('tax2', 'post');
 
@@ -670,7 +700,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 35619
      */
-    public function test_query_vars_should_match_first_of_multiple_terms() {
+    public function test_query_vars_should_match_first_of_multiple_terms()
+    {
         register_taxonomy('tax1', 'post');
         register_taxonomy('tax2', 'post');
 
@@ -700,7 +731,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 55100
      */
-    public function test_get_queried_object_should_work_for_author_name_before_get_posts() {
+    public function test_get_queried_object_should_work_for_author_name_before_get_posts()
+    {
         $user_id = self::factory()->user->create();
         $user    = get_user_by('ID', $user_id);
         $post_id = self::factory()->post->create(
@@ -727,7 +759,8 @@ class Tests_Query extends WP_UnitTestCase {
      * @ticket 55699
      * @covers WP_Query::get_posts
      */
-    public function test_posts_clauses_filter_should_receive_filtered_clauses() {
+    public function test_posts_clauses_filter_should_receive_filtered_clauses()
+    {
         add_filter(
             'posts_join_paged',
             static function () {
@@ -752,7 +785,8 @@ class Tests_Query extends WP_UnitTestCase {
      * @ticket 55699
      * @covers WP_Query::get_posts
      */
-    public function test_posts_clauses_request_filter_should_receive_filtered_clauses() {
+    public function test_posts_clauses_request_filter_should_receive_filtered_clauses()
+    {
         add_filter(
             'posts_join_request',
             static function () {
@@ -777,7 +811,8 @@ class Tests_Query extends WP_UnitTestCase {
      *
      * @covers ::is_post_type_archive
      */
-    public function test_is_post_type_archive_should_return_false_for_an_undefined_post_type() {
+    public function test_is_post_type_archive_should_return_false_for_an_undefined_post_type()
+    {
         global $wp_query;
 
         $post_type = '56287-post-type';
@@ -792,7 +827,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 29660
      */
-    public function test_query_singular_404_does_not_throw_warning() {
+    public function test_query_singular_404_does_not_throw_warning()
+    {
         $q = new WP_Query(
             array(
                 'pagename' => 'non-existent-page',
@@ -812,7 +848,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 29660
      */
-    public function test_query_single_404_does_not_throw_warning() {
+    public function test_query_single_404_does_not_throw_warning()
+    {
         $q = new WP_Query(
             array(
                 'name' => 'non-existent-post',
@@ -832,7 +869,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 29660
      */
-    public function test_query_attachment_404_does_not_throw_warning() {
+    public function test_query_attachment_404_does_not_throw_warning()
+    {
         $q = new WP_Query(
             array(
                 'attachment' => 'non-existent-attachment',
@@ -851,7 +889,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 29660
      */
-    public function test_query_author_404_does_not_throw_warning() {
+    public function test_query_author_404_does_not_throw_warning()
+    {
         $q = new WP_Query(
             array(
                 'author_name' => 'non-existent-author',
@@ -867,7 +906,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 29660
      */
-    public function test_query_category_404_does_not_throw_warning() {
+    public function test_query_category_404_does_not_throw_warning()
+    {
         $q = new WP_Query(
             array(
                 'category_name' => 'non-existent-category',
@@ -884,7 +924,8 @@ class Tests_Query extends WP_UnitTestCase {
     /**
      * @ticket 29660
      */
-    public function test_query_tag_404_does_not_throw_warning() {
+    public function test_query_tag_404_does_not_throw_warning()
+    {
         $q = new WP_Query(
             array(
                 'tag' => 'non-existent-tag',
@@ -903,7 +944,8 @@ class Tests_Query extends WP_UnitTestCase {
      *
      * @ticket 58211
      */
-    public function test_before_loop_value_set_true_before_the_loop() {
+    public function test_before_loop_value_set_true_before_the_loop()
+    {
         // Get a new query with 3 posts.
         $query = $this->get_new_wp_query_with_posts(3);
 
@@ -917,7 +959,8 @@ class Tests_Query extends WP_UnitTestCase {
      *
      * @covers WP_Query::the_post
      */
-    public function test_before_loop_value_set_to_false_in_loop_with_post() {
+    public function test_before_loop_value_set_to_false_in_loop_with_post()
+    {
         // Get a new query with 2 posts.
         $query = $this->get_new_wp_query_with_posts(2);
 
@@ -937,7 +980,8 @@ class Tests_Query extends WP_UnitTestCase {
      *
      * @covers WP_Query::have_posts
      */
-    public function test_before_loop_set_false_after_loop_with_no_post() {
+    public function test_before_loop_set_false_after_loop_with_no_post()
+    {
         // New query without any posts in the result.
         $query = new WP_Query(
             array(
@@ -959,7 +1003,8 @@ class Tests_Query extends WP_UnitTestCase {
      *
      * @param int $no_of_posts Number of posts to be added in the query.
      */
-    public function get_new_wp_query_with_posts($no_of_posts) {
+    public function get_new_wp_query_with_posts($no_of_posts)
+    {
         $post_ids = self::factory()->post->create_many($no_of_posts);
         $query    = new WP_Query(array('post__in' => $post_ids));
         return $query;

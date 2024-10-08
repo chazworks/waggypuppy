@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::is_readable
  */
-class Tests_Filesystem_WpFilesystemDirect_IsReadable extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_IsReadable extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::is_readable()` determines that
@@ -26,7 +27,8 @@ class Tests_Filesystem_WpFilesystemDirect_IsReadable extends WP_Filesystem_Direc
      *
      * @param string $path The path.
      */
-    public function test_should_determine_that_a_path_is_readable($path) {
+    public function test_should_determine_that_a_path_is_readable($path)
+    {
         $this->assertTrue(self::$filesystem->is_readable(self::$file_structure['test_dir']['path'] . $path));
     }
 
@@ -40,7 +42,8 @@ class Tests_Filesystem_WpFilesystemDirect_IsReadable extends WP_Filesystem_Direc
      *
      * @param string $path The path.
      */
-    public function test_should_determine_that_a_path_is_not_readable($path) {
+    public function test_should_determine_that_a_path_is_not_readable($path)
+    {
         $this->assertFalse(self::$filesystem->is_readable(self::$file_structure['test_dir']['path'] . $path));
     }
 }

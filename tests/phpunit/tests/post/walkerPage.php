@@ -3,7 +3,8 @@
  * @group post
  * @group walker
  */
-class Tests_Post_Walker_Page extends WP_UnitTestCase {
+class Tests_Post_Walker_Page extends WP_UnitTestCase
+{
 
     /**
      * @var \Walker_Page The instance of the walker.
@@ -13,7 +14,8 @@ class Tests_Post_Walker_Page extends WP_UnitTestCase {
     /**
      * Setup.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         /** Walker_Page class */
@@ -26,7 +28,8 @@ class Tests_Post_Walker_Page extends WP_UnitTestCase {
      *
      * @dataProvider data_start_el_with_empty_attributes
      */
-    public function test_start_el_with_empty_attributes($value, $expected) {
+    public function test_start_el_with_empty_attributes($value, $expected)
+    {
         $output = '';
         $page   = self::factory()->post->create_and_get(array('post_type' => 'page'));
         $link   = get_permalink($page);
@@ -48,7 +51,8 @@ class Tests_Post_Walker_Page extends WP_UnitTestCase {
         $this->assertSame("<li class=\"page_item page-item-{$page->ID}\"><a href=\"{$link}\"{$expected}>{$page->post_title}</a>", $output);
     }
 
-    public function data_start_el_with_empty_attributes() {
+    public function data_start_el_with_empty_attributes()
+    {
         return array(
             array(
                 '',

@@ -8,7 +8,8 @@
  *
  * @covers ::wp_check_filetype
  */
-class Tests_Functions_WpCheckFiletype extends WP_UnitTestCase {
+class Tests_Functions_WpCheckFiletype extends WP_UnitTestCase
+{
 
     /**
      * Tests that wp_check_filetype() returns the correct extension and MIME type.
@@ -21,7 +22,8 @@ class Tests_Functions_WpCheckFiletype extends WP_UnitTestCase {
      * @param array|null $mimes      An array of MIME types, or null.
      * @param array      $expected   An array containing the expected extension and MIME type.
      */
-    public function test_wp_check_filetype($filename, $mimes, $expected) {
+    public function test_wp_check_filetype($filename, $mimes, $expected)
+    {
         $this->assertSame($expected, wp_check_filetype($filename, $mimes));
     }
 
@@ -30,7 +32,8 @@ class Tests_Functions_WpCheckFiletype extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_check_filetype() {
+    public function data_wp_check_filetype()
+    {
         return array(
             '.jpg filename and default allowed'       => array(
                 'filename' => 'canola.jpg',

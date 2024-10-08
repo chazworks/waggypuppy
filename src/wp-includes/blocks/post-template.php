@@ -14,7 +14,8 @@
  *
  * @return bool Whether the block list contains a block that uses the featured image.
  */
-function block_core_post_template_uses_featured_image($inner_blocks) {
+function block_core_post_template_uses_featured_image($inner_blocks)
+{
     foreach ($inner_blocks as $block) {
         if ('core/post-featured-image' === $block->name) {
             return true;
@@ -45,7 +46,8 @@ function block_core_post_template_uses_featured_image($inner_blocks) {
  *
  * @return string Returns the output of the query, structured using the layout defined by the block's inner blocks.
  */
-function render_block_core_post_template($attributes, $content, $block) {
+function render_block_core_post_template($attributes, $content, $block)
+{
     $page_key            = isset($block->context['queryId']) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
     $enhanced_pagination = isset($block->context['enhancedPagination']) && $block->context['enhancedPagination'];
     $page                = empty($_GET[ $page_key ]) ? 1 : (int) $_GET[ $page_key ];
@@ -149,7 +151,8 @@ function render_block_core_post_template($attributes, $content, $block) {
  *
  * @since 5.8.0
  */
-function register_block_core_post_template() {
+function register_block_core_post_template()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-template',
         array(

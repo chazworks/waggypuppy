@@ -3,14 +3,16 @@
 /**
  * @group admin
  */
-class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase {
+class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
+{
 
     /**
      * @var WP_Comments_List_Table
      */
     protected $table;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->table = _get_list_table('WP_Comments_List_Table', array('screen' => 'edit-comments'));
     }
@@ -20,7 +22,8 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Comments_List_Table::extra_tablenav
      */
-    public function test_filter_button_should_not_be_shown_if_there_are_no_comments() {
+    public function test_filter_button_should_not_be_shown_if_there_are_no_comments()
+    {
         ob_start();
         $this->table->extra_tablenav('top');
         $output = ob_get_clean();
@@ -33,7 +36,8 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Comments_List_Table::extra_tablenav
      */
-    public function test_filter_button_should_be_shown_if_there_are_comments() {
+    public function test_filter_button_should_be_shown_if_there_are_comments()
+    {
         $post_id    = self::factory()->post->create();
         $comment_id = self::factory()->comment->create(
             array(
@@ -56,7 +60,8 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Comments_List_Table::extra_tablenav
      */
-    public function test_filter_comment_type_dropdown_should_be_shown_if_there_are_comments() {
+    public function test_filter_comment_type_dropdown_should_be_shown_if_there_are_comments()
+    {
         $post_id    = self::factory()->post->create();
         $comment_id = self::factory()->comment->create(
             array(
@@ -80,7 +85,8 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Comments_List_Table::extra_tablenav
      */
-    public function test_empty_trash_button_should_not_be_shown_if_there_are_no_comments() {
+    public function test_empty_trash_button_should_not_be_shown_if_there_are_no_comments()
+    {
         ob_start();
         $this->table->extra_tablenav('top');
         $output = ob_get_clean();
@@ -93,7 +99,8 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase {
      *
      * @covers WP_Comments_List_Table::bulk_actions
      */
-    public function test_bulk_action_menu_supports_options_and_optgroups() {
+    public function test_bulk_action_menu_supports_options_and_optgroups()
+    {
         add_filter(
             'bulk_actions-edit-comments',
             static function () {
@@ -128,7 +135,8 @@ OPTIONS;
      *
      * @covers WP_Comments_List_Table::print_column_headers
      */
-    public function test_sortable_columns() {
+    public function test_sortable_columns()
+    {
         $override_sortable_columns = array(
             'author'   => array('comment_author', true),
             'response' => 'comment_post_ID',
@@ -162,7 +170,8 @@ OPTIONS;
      *
      * @covers WP_Comments_List_Table::print_column_headers
      */
-    public function test_sortable_columns_with_current_ordering() {
+    public function test_sortable_columns_with_current_ordering()
+    {
         $override_sortable_columns = array(
             'author'   => array('comment_author', false),
             'response' => 'comment_post_ID',
@@ -200,7 +209,8 @@ OPTIONS;
      *
      * @covers WP_Comments_List_Table::get_views
      */
-    public function test_get_views_should_return_views_by_default() {
+    public function test_get_views_should_return_views_by_default()
+    {
         $this->table->prepare_items();
 
         $expected = array(

@@ -18,7 +18,8 @@
  * @param array $parsed_block The block being rendered.
  * @return array The migrated block object.
  */
-function block_core_gallery_data_id_backcompatibility($parsed_block) {
+function block_core_gallery_data_id_backcompatibility($parsed_block)
+{
     if ('core/gallery' === $parsed_block['blockName']) {
         foreach ($parsed_block['innerBlocks'] as $key => $inner_block) {
             if ('core/image' === $inner_block['blockName']) {
@@ -43,7 +44,8 @@ add_filter('render_block_data', 'block_core_gallery_data_id_backcompatibility');
  * @param string $content Content of the block being rendered.
  * @return string The content of the block being rendered.
  */
-function block_core_gallery_render($attributes, $content) {
+function block_core_gallery_render($attributes, $content)
+{
     // Adds a style tag for the --wp--style--unstable-gallery-gap var.
     // The Gallery block needs to recalculate Image block width based on
     // the current gap setting in order to maintain the number of flex columns
@@ -171,7 +173,8 @@ function block_core_gallery_render($attributes, $content) {
  *
  * @since 5.9.0
  */
-function register_block_core_gallery() {
+function register_block_core_gallery()
+{
     register_block_type_from_metadata(
         __DIR__ . '/gallery',
         array(

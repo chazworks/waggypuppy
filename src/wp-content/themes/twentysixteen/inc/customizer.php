@@ -14,7 +14,8 @@
  *
  * @see twentysixteen_header_style()
  */
-function twentysixteen_custom_header_and_background() {
+function twentysixteen_custom_header_and_background()
+{
     $color_scheme             = twentysixteen_get_color_scheme();
     $default_background_color = trim($color_scheme[0], '#');
     $default_text_color       = trim($color_scheme[3], '#');
@@ -82,7 +83,8 @@ if (! function_exists('twentysixteen_header_style')) :
      *
      * @see twentysixteen_custom_header_and_background().
      */
-    function twentysixteen_header_style() {
+    function twentysixteen_header_style()
+    {
         // If the header text option is untouched, let's bail.
         if (display_header_text()) {
             return;
@@ -112,7 +114,8 @@ endif; // twentysixteen_header_style()
  *
  * @param WP_Customize_Manager $wp_customize The Customizer object.
  */
-function twentysixteen_customize_register($wp_customize) {
+function twentysixteen_customize_register($wp_customize)
+{
     $color_scheme = twentysixteen_get_color_scheme();
 
     $wp_customize->get_setting('blogname')->transport        = 'postMessage';
@@ -256,7 +259,8 @@ add_action('customize_register', 'twentysixteen_customize_register', 11);
  *
  * @return void
  */
-function twentysixteen_customize_partial_blogname() {
+function twentysixteen_customize_partial_blogname()
+{
     bloginfo('name');
 }
 
@@ -269,7 +273,8 @@ function twentysixteen_customize_partial_blogname() {
  *
  * @return void
  */
-function twentysixteen_customize_partial_blogdescription() {
+function twentysixteen_customize_partial_blogdescription()
+{
     bloginfo('description');
 }
 
@@ -289,7 +294,8 @@ function twentysixteen_customize_partial_blogdescription() {
  *
  * @return array An associative array of color scheme options.
  */
-function twentysixteen_get_color_schemes() {
+function twentysixteen_get_color_schemes()
+{
     /**
      * Filters the color schemes registered for use with Twenty Sixteen.
      *
@@ -377,7 +383,8 @@ if (! function_exists('twentysixteen_get_color_scheme')) :
      *
      * @return array An associative array of either the current or default color scheme HEX values.
      */
-    function twentysixteen_get_color_scheme() {
+    function twentysixteen_get_color_scheme()
+    {
         $color_scheme_option = get_theme_mod('color_scheme', 'default');
         $color_schemes       = twentysixteen_get_color_schemes();
 
@@ -400,7 +407,8 @@ if (! function_exists('twentysixteen_get_color_scheme_choices')) :
      *
      * @return array Array of color schemes.
      */
-    function twentysixteen_get_color_scheme_choices() {
+    function twentysixteen_get_color_scheme_choices()
+    {
         $color_schemes                = twentysixteen_get_color_schemes();
         $color_scheme_control_options = array();
 
@@ -425,7 +433,8 @@ if (! function_exists('twentysixteen_sanitize_color_scheme')) :
      * @param string $value Color scheme name value.
      * @return string Color scheme name.
      */
-    function twentysixteen_sanitize_color_scheme($value) {
+    function twentysixteen_sanitize_color_scheme($value)
+    {
         $color_schemes = twentysixteen_get_color_scheme_choices();
 
         if (! array_key_exists($value, $color_schemes)) {
@@ -443,7 +452,8 @@ endif; // twentysixteen_sanitize_color_scheme()
  *
  * @see wp_add_inline_style()
  */
-function twentysixteen_color_scheme_css() {
+function twentysixteen_color_scheme_css()
+{
     $color_scheme_option = get_theme_mod('color_scheme', 'default');
 
     // Don't do anything if the default color scheme is selected.
@@ -485,7 +495,8 @@ add_action('wp_enqueue_scripts', 'twentysixteen_color_scheme_css');
  *
  * @since Twenty Sixteen 1.0
  */
-function twentysixteen_customize_control_js() {
+function twentysixteen_customize_control_js()
+{
     wp_enqueue_script('color-scheme-control', get_template_directory_uri() . '/js/color-scheme-control.js', array('customize-controls', 'iris', 'underscore', 'wp-util'), '20170530', array('in_footer' => true));
     wp_localize_script('color-scheme-control', 'colorScheme', twentysixteen_get_color_schemes());
 }
@@ -496,7 +507,8 @@ add_action('customize_controls_enqueue_scripts', 'twentysixteen_customize_contro
  *
  * @since Twenty Sixteen 1.0
  */
-function twentysixteen_customize_preview_js() {
+function twentysixteen_customize_preview_js()
+{
     wp_enqueue_script('twentysixteen-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array('customize-preview'), '20170530', array('in_footer' => true));
 }
 add_action('customize_preview_init', 'twentysixteen_customize_preview_js');
@@ -509,7 +521,8 @@ add_action('customize_preview_init', 'twentysixteen_customize_preview_js');
  * @param array $colors Color scheme colors.
  * @return string Color scheme CSS.
  */
-function twentysixteen_get_color_scheme_css($colors) {
+function twentysixteen_get_color_scheme_css($colors)
+{
     $colors = wp_parse_args(
         $colors,
         array(
@@ -839,7 +852,8 @@ CSS;
  *
  * @since Twenty Sixteen 1.0
  */
-function twentysixteen_color_scheme_css_template() {
+function twentysixteen_color_scheme_css_template()
+{
     $colors = array(
         'background_color'      => '{{ data.background_color }}',
         'page_background_color' => '{{ data.page_background_color }}',
@@ -863,7 +877,8 @@ add_action('customize_controls_print_footer_scripts', 'twentysixteen_color_schem
  *
  * @see wp_add_inline_style()
  */
-function twentysixteen_page_background_color_css() {
+function twentysixteen_page_background_color_css()
+{
     $color_scheme          = twentysixteen_get_color_scheme();
     $default_color         = $color_scheme[1];
     $page_background_color = get_theme_mod('page_background_color', $default_color);
@@ -936,7 +951,8 @@ add_action('wp_enqueue_scripts', 'twentysixteen_page_background_color_css', 11);
  *
  * @see wp_add_inline_style()
  */
-function twentysixteen_link_color_css() {
+function twentysixteen_link_color_css()
+{
     $color_scheme  = twentysixteen_get_color_scheme();
     $default_color = $color_scheme[2];
     $link_color    = get_theme_mod('link_color', $default_color);
@@ -1039,7 +1055,8 @@ add_action('wp_enqueue_scripts', 'twentysixteen_link_color_css', 11);
  *
  * @see wp_add_inline_style()
  */
-function twentysixteen_main_text_color_css() {
+function twentysixteen_main_text_color_css()
+{
     $color_scheme    = twentysixteen_get_color_scheme();
     $default_color   = $color_scheme[3];
     $main_text_color = get_theme_mod('main_text_color', $default_color);
@@ -1193,7 +1210,8 @@ add_action('wp_enqueue_scripts', 'twentysixteen_main_text_color_css', 11);
  *
  * @see wp_add_inline_style()
  */
-function twentysixteen_secondary_text_color_css() {
+function twentysixteen_secondary_text_color_css()
+{
     $color_scheme         = twentysixteen_get_color_scheme();
     $default_color        = $color_scheme[4];
     $secondary_text_color = get_theme_mod('secondary_text_color', $default_color);

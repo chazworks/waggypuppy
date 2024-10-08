@@ -7,14 +7,16 @@
  *
  * @covers ::wp_required_field_message
  */
-class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase {
+class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase
+{
 
     /**
      * Tests that `wp_required_field_message()` returns the expected default value.
      *
      * @ticket 56389
      */
-    public function test_wp_required_field_message_should_return_default_value() {
+    public function test_wp_required_field_message_should_return_default_value()
+    {
         $expected  = '<span class="required-field-message">';
         $expected .= 'Required fields are marked <span class="required">*</span>';
         $expected .= '</span>';
@@ -26,7 +28,8 @@ class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase {
      *
      * @ticket 56389
      */
-    public function test_wp_required_field_message_should_apply_wp_required_field_message_filters() {
+    public function test_wp_required_field_message_should_apply_wp_required_field_message_filters()
+    {
         $filter = new MockAction();
         add_filter('wp_required_field_message', array(&$filter, 'filter'));
 
@@ -41,7 +44,8 @@ class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase {
      *
      * @ticket 56389
      */
-    public function test_wp_required_field_message_should_return_wp_required_field_message_filters() {
+    public function test_wp_required_field_message_should_return_wp_required_field_message_filters()
+    {
         add_filter('wp_required_field_message', '__return_empty_string');
         $this->assertSame('', wp_required_field_message());
     }

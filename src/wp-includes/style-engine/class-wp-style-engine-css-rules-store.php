@@ -15,7 +15,8 @@
  * @since 6.1.0
  */
 #[AllowDynamicProperties]
-class WP_Style_Engine_CSS_Rules_Store {
+class WP_Style_Engine_CSS_Rules_Store
+{
 
     /**
      * An array of named WP_Style_Engine_CSS_Rules_Store objects.
@@ -51,7 +52,8 @@ class WP_Style_Engine_CSS_Rules_Store {
      * @param string $store_name The name of the store.
      * @return WP_Style_Engine_CSS_Rules_Store|void
      */
-    public static function get_store($store_name = 'default') {
+    public static function get_store($store_name = 'default')
+    {
         if (! is_string($store_name) || empty($store_name)) {
             return;
         }
@@ -70,7 +72,8 @@ class WP_Style_Engine_CSS_Rules_Store {
      *
      * @return WP_Style_Engine_CSS_Rules_Store[]
      */
-    public static function get_stores() {
+    public static function get_stores()
+    {
         return static::$stores;
     }
 
@@ -79,7 +82,8 @@ class WP_Style_Engine_CSS_Rules_Store {
      *
      * @since 6.1.0
      */
-    public static function remove_all_stores() {
+    public static function remove_all_stores()
+    {
         static::$stores = array();
     }
 
@@ -90,7 +94,8 @@ class WP_Style_Engine_CSS_Rules_Store {
      *
      * @param string $name The store name.
      */
-    public function set_name($name) {
+    public function set_name($name)
+    {
         $this->name = $name;
     }
 
@@ -101,7 +106,8 @@ class WP_Style_Engine_CSS_Rules_Store {
      *
      * @return string
      */
-    public function get_name() {
+    public function get_name()
+    {
         return $this->name;
     }
 
@@ -112,7 +118,8 @@ class WP_Style_Engine_CSS_Rules_Store {
      *
      * @return WP_Style_Engine_CSS_Rule[]
      */
-    public function get_all_rules() {
+    public function get_all_rules()
+    {
         return $this->rules;
     }
 
@@ -129,7 +136,8 @@ class WP_Style_Engine_CSS_Rules_Store {
      * @return WP_Style_Engine_CSS_Rule|void Returns a WP_Style_Engine_CSS_Rule object,
      *                                       or void if the selector is empty.
      */
-    public function add_rule($selector, $rules_group = '') {
+    public function add_rule($selector, $rules_group = '')
+    {
         $selector    = $selector ? trim($selector) : '';
         $rules_group = $rules_group ? trim($rules_group) : '';
 
@@ -160,7 +168,8 @@ class WP_Style_Engine_CSS_Rules_Store {
      *
      * @param string $selector The CSS selector.
      */
-    public function remove_rule($selector) {
+    public function remove_rule($selector)
+    {
         unset($this->rules[ $selector ]);
     }
 }

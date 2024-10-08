@@ -15,7 +15,8 @@
  * @see register_post_type()
  */
 #[AllowDynamicProperties]
-final class WP_Post_Type {
+final class WP_Post_Type
+{
     /**
      * Post type key.
      *
@@ -461,7 +462,8 @@ final class WP_Post_Type {
      *                                See register_post_type() for information on accepted arguments.
      *                                Default empty array.
      */
-    public function __construct($post_type, $args = array()) {
+    public function __construct($post_type, $args = array())
+    {
         $this->name = $post_type;
 
         $this->set_props($args);
@@ -476,7 +478,8 @@ final class WP_Post_Type {
      *
      * @param array|string $args Array or string of arguments for registering a post type.
      */
-    public function set_props($args) {
+    public function set_props($args)
+    {
         $args = wp_parse_args($args);
 
         /**
@@ -660,7 +663,8 @@ final class WP_Post_Type {
      *
      * @since 4.6.0
      */
-    public function add_supports() {
+    public function add_supports()
+    {
         if (! empty($this->supports)) {
             foreach ($this->supports as $feature => $args) {
                 if (is_array($args)) {
@@ -694,7 +698,8 @@ final class WP_Post_Type {
      * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
      * @global WP         $wp         Current WordPress environment instance.
      */
-    public function add_rewrite_rules() {
+    public function add_rewrite_rules()
+    {
         global $wp_rewrite, $wp;
 
         if (false !== $this->query_var && $wp && is_post_type_viewable($this)) {
@@ -738,7 +743,8 @@ final class WP_Post_Type {
      *
      * @since 4.6.0
      */
-    public function register_meta_boxes() {
+    public function register_meta_boxes()
+    {
         if ($this->register_meta_box_cb) {
             add_action('add_meta_boxes_' . $this->name, $this->register_meta_box_cb, 10, 1);
         }
@@ -749,7 +755,8 @@ final class WP_Post_Type {
      *
      * @since 4.6.0
      */
-    public function add_hooks() {
+    public function add_hooks()
+    {
         add_action('future_' . $this->name, '_future_post_hook', 5, 2);
     }
 
@@ -758,7 +765,8 @@ final class WP_Post_Type {
      *
      * @since 4.6.0
      */
-    public function register_taxonomies() {
+    public function register_taxonomies()
+    {
         foreach ($this->taxonomies as $taxonomy) {
             register_taxonomy_for_object_type($taxonomy, $this->name);
         }
@@ -771,7 +779,8 @@ final class WP_Post_Type {
      *
      * @global array $_wp_post_type_features Post type features.
      */
-    public function remove_supports() {
+    public function remove_supports()
+    {
         global $_wp_post_type_features;
 
         unset($_wp_post_type_features[ $this->name ]);
@@ -786,7 +795,8 @@ final class WP_Post_Type {
      * @global WP         $wp                  Current WordPress environment instance.
      * @global array      $post_type_meta_caps Used to remove meta capabilities.
      */
-    public function remove_rewrite_rules() {
+    public function remove_rewrite_rules()
+    {
         global $wp, $wp_rewrite, $post_type_meta_caps;
 
         // Remove query var.
@@ -816,7 +826,8 @@ final class WP_Post_Type {
      *
      * @since 4.6.0
      */
-    public function unregister_meta_boxes() {
+    public function unregister_meta_boxes()
+    {
         if ($this->register_meta_box_cb) {
             remove_action('add_meta_boxes_' . $this->name, $this->register_meta_box_cb, 10);
         }
@@ -827,7 +838,8 @@ final class WP_Post_Type {
      *
      * @since 4.6.0
      */
-    public function unregister_taxonomies() {
+    public function unregister_taxonomies()
+    {
         foreach (get_object_taxonomies($this->name) as $taxonomy) {
             unregister_taxonomy_for_object_type($taxonomy, $this->name);
         }
@@ -838,7 +850,8 @@ final class WP_Post_Type {
      *
      * @since 4.6.0
      */
-    public function remove_hooks() {
+    public function remove_hooks()
+    {
         remove_action('future_' . $this->name, '_future_post_hook', 5);
     }
 
@@ -852,7 +865,8 @@ final class WP_Post_Type {
      * @return WP_REST_Controller|null The controller instance, or null if the post type
      *                                 is set not to show in rest.
      */
-    public function get_rest_controller() {
+    public function get_rest_controller()
+    {
         if (! $this->show_in_rest) {
             return null;
         }
@@ -888,7 +902,8 @@ final class WP_Post_Type {
      * @return WP_REST_Controller|null The controller instance, or null if the post type
      *                                 is set not to show in rest.
      */
-    public function get_revisions_rest_controller() {
+    public function get_revisions_rest_controller()
+    {
         if (! $this->show_in_rest) {
             return null;
         }
@@ -927,7 +942,8 @@ final class WP_Post_Type {
      * @return WP_REST_Controller|null The controller instance, or null if the post type
      *                                 is set not to show in rest.
      */
-    public function get_autosave_rest_controller() {
+    public function get_autosave_rest_controller()
+    {
         if (! $this->show_in_rest) {
             return null;
         }
@@ -964,7 +980,8 @@ final class WP_Post_Type {
      *
      * @return (string|null)[][] The default labels for post types.
      */
-    public static function get_default_labels() {
+    public static function get_default_labels()
+    {
         if (! empty(self::$default_labels)) {
             return self::$default_labels;
         }
@@ -1019,7 +1036,8 @@ final class WP_Post_Type {
      *
      * @since 6.0.0
      */
-    public static function reset_default_labels() {
+    public static function reset_default_labels()
+    {
         self::$default_labels = array();
     }
 }

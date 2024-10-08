@@ -3,18 +3,21 @@
 /**
  * @group taxonomy
  */
-class Tests_Term_GetTheTerms extends WP_UnitTestCase {
+class Tests_Term_GetTheTerms extends WP_UnitTestCase
+{
     protected $taxonomy        = 'category';
     protected static $post_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_ids = $factory->post->create_many(5);
     }
 
     /**
      * @ticket 22560
      */
-    public function test_object_term_cache() {
+    public function test_object_term_cache()
+    {
         $post_id = self::$post_ids[0];
 
         $terms_1 = array('foo', 'bar', 'baz');
@@ -50,7 +53,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
     /**
      * @ticket 24189
      */
-    public function test_object_term_cache_when_term_changes() {
+    public function test_object_term_cache_when_term_changes()
+    {
         $post_id = self::$post_ids[0];
         $tag_id  = self::factory()->tag->create(
             array(
@@ -85,7 +89,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
     /**
      * @ticket 34262
      */
-    public function test_get_the_terms_should_return_wp_term_objects_from_cache() {
+    public function test_get_the_terms_should_return_wp_term_objects_from_cache()
+    {
         $p = self::$post_ids[0];
         register_taxonomy('wptests_tax', 'post');
         $t = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
@@ -104,7 +109,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
     /**
      * @ticket 31086
      */
-    public function test_get_the_terms_should_return_zero_indexed_array_when_cache_is_empty() {
+    public function test_get_the_terms_should_return_zero_indexed_array_when_cache_is_empty()
+    {
         register_taxonomy('wptests_tax', 'post');
         $p = self::$post_ids[0];
         wp_set_object_terms($p, array('foo', 'bar'), 'wptests_tax');
@@ -117,7 +123,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
     /**
      * @ticket 31086
      */
-    public function test_get_the_terms_should_return_zero_indexed_array_when_cache_is_primed() {
+    public function test_get_the_terms_should_return_zero_indexed_array_when_cache_is_primed()
+    {
         register_taxonomy('wptests_tax', 'post');
         $p = self::$post_ids[0];
         wp_set_object_terms($p, array('foo', 'bar'), 'wptests_tax');
@@ -134,7 +141,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
      * @ticket 35180
      * @ticket 28922
      */
-    public function test_get_the_terms_should_return_results_ordered_by_name_when_pulling_from_cache() {
+    public function test_get_the_terms_should_return_results_ordered_by_name_when_pulling_from_cache()
+    {
         register_taxonomy('wptests_tax', 'post');
         $p = self::$post_ids[0];
 
@@ -168,7 +176,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
     /**
      * @ticket 34723
      */
-    public function test_get_the_terms_should_return_wp_error_when_taxonomy_is_unregistered() {
+    public function test_get_the_terms_should_return_wp_error_when_taxonomy_is_unregistered()
+    {
         $p     = self::$post_ids[0];
         $terms = get_the_terms($p, 'this-taxonomy-does-not-exist');
         $this->assertWPError($terms);
@@ -177,7 +186,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
     /**
      * @ticket 36814
      */
-    public function test_count_should_not_be_improperly_cached() {
+    public function test_count_should_not_be_improperly_cached()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(array('taxonomy' => 'wptests_tax'));
@@ -197,7 +207,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
      * @ticket 36814
      * @ticket 57701
      */
-    public function test_uncached_terms_should_not_be_primed_with_a_single_query_by_default() {
+    public function test_uncached_terms_should_not_be_primed_with_a_single_query_by_default()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $terms = self::factory()->term->create_many(3, array('taxonomy' => 'wptests_tax'));
@@ -221,7 +232,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
     /**
      * @ticket 40306
      */
-    public function test_term_cache_should_be_invalidated_on_set_object_terms() {
+    public function test_term_cache_should_be_invalidated_on_set_object_terms()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         // Temporarily disable term counting, which performs its own cache invalidation.
@@ -253,7 +265,8 @@ class Tests_Term_GetTheTerms extends WP_UnitTestCase {
     /**
      * @ticket 40306
      */
-    public function test_term_cache_should_be_invalidated_on_remove_object_terms() {
+    public function test_term_cache_should_be_invalidated_on_remove_object_terms()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         // Create Test Category.

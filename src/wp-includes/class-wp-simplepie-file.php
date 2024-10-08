@@ -16,7 +16,8 @@
  * @since 2.8.0
  */
 #[AllowDynamicProperties]
-class WP_SimplePie_File extends SimplePie\File {
+class WP_SimplePie_File extends SimplePie\File
+{
 
     /**
      * Timeout.
@@ -43,7 +44,8 @@ class WP_SimplePie_File extends SimplePie\File {
      * @param bool         $force_fsockopen Optional. Whether to force opening internet or unix domain socket
      *                                      connection or not. Default false.
      */
-    public function __construct($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false) {
+    public function __construct($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false)
+    {
         $this->url       = $url;
         $this->timeout   = $timeout;
         $this->redirects = $redirects;

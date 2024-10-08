@@ -8,7 +8,8 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_Site extends WP_UnitTestCase {
+    class Tests_Multisite_Site extends WP_UnitTestCase
+    {
         protected $suppress                = false;
         protected $site_status_hooks       = array();
         protected $wp_initialize_site_args = array();
@@ -17,19 +18,22 @@ if (is_multisite()) :
         protected static $site_ids;
         protected static $uninitialized_site_id;
 
-        public function set_up() {
+        public function set_up()
+        {
             global $wpdb;
             parent::set_up();
             $this->suppress = $wpdb->suppress_errors();
         }
 
-        public function tear_down() {
+        public function tear_down()
+        {
             global $wpdb;
             $wpdb->suppress_errors($this->suppress);
             parent::tear_down();
         }
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$network_ids = array(
                 'make.wordpress.org/' => array(
                     'domain' => 'make.wordpress.org',
@@ -71,7 +75,8 @@ if (is_multisite()) :
             add_action('wp_initialize_site', 'wp_initialize_site', 10, 2);
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             global $wpdb;
 
             remove_action('wp_uninitialize_site', 'wp_uninitialize_site', 10);
@@ -88,7 +93,8 @@ if (is_multisite()) :
             }
         }
 
-        public function test_switch_restore_blog() {
+        public function test_switch_restore_blog()
+        {
             global $_wp_switched_stack, $wpdb;
 
             $this->assertSame(array(), $_wp_switched_stack);
@@ -136,7 +142,8 @@ if (is_multisite()) :
         /**
          * Test the cache keys and database tables setup through the creation of a site.
          */
-        public function test_created_site_details() {
+        public function test_created_site_details()
+        {
             global $wpdb;
 
             $blog_id = self::factory()->blog->create();
@@ -192,7 +199,8 @@ if (is_multisite()) :
             $this->assertSame(2, (int) get_blog_count());
         }
 
-        public function test_site_caches_should_invalidate_when_invalidation_is_not_suspended() {
+        public function test_site_caches_should_invalidate_when_invalidation_is_not_suspended()
+        {
             $site_id = self::factory()->blog->create();
 
             $details = get_site($site_id);
@@ -205,7 +213,8 @@ if (is_multisite()) :
             $this->assertNotEquals($details->path, $new_details->path);
         }
 
-        public function test_site_caches_should_not_invalidate_when_invalidation_is_suspended() {
+        public function test_site_caches_should_not_invalidate_when_invalidation_is_suspended()
+        {
             $site_id = self::factory()->blog->create();
 
             $details = get_site($site_id);
@@ -221,7 +230,8 @@ if (is_multisite()) :
         /**
          * When a site is flagged as 'deleted', its data should be cleared from cache.
          */
-        public function test_data_in_cache_after_wpmu_delete_blog_drop_false() {
+        public function test_data_in_cache_after_wpmu_delete_blog_drop_false()
+        {
             $blog_id = self::factory()->blog->create();
 
             $details = get_blog_details($blog_id, false);
@@ -239,7 +249,8 @@ if (is_multisite()) :
         /**
          * When a site is flagged as 'deleted', its data should remain in the database.
          */
-        public function test_data_in_tables_after_wpmu_delete_blog_drop_false() {
+        public function test_data_in_tables_after_wpmu_delete_blog_drop_false()
+        {
             global $wpdb;
 
             $blog_id = self::factory()->blog->create();
@@ -262,7 +273,8 @@ if (is_multisite()) :
         /**
          * When a site is fully deleted, its data should be cleared from cache.
          */
-        public function test_data_in_cache_after_wpmu_delete_blog_drop_true() {
+        public function test_data_in_cache_after_wpmu_delete_blog_drop_true()
+        {
             $blog_id = self::factory()->blog->create();
 
             $details = get_blog_details($blog_id, false);
@@ -280,7 +292,8 @@ if (is_multisite()) :
         /**
          * When a site is fully deleted, its data should be removed from the database.
          */
-        public function test_data_in_tables_after_wpmu_delete_blog_drop_true() {
+        public function test_data_in_tables_after_wpmu_delete_blog_drop_true()
+        {
             global $wpdb;
 
             $blog_id = self::factory()->blog->create();
@@ -303,7 +316,8 @@ if (is_multisite()) :
         /**
          * When the main site of a network is fully deleted, its data should be cleared from cache.
          */
-        public function test_data_in_cache_after_wpmu_delete_blog_main_site_drop_true() {
+        public function test_data_in_cache_after_wpmu_delete_blog_main_site_drop_true()
+        {
             $blog_id = 1; // The main site in our test suite has an ID of 1.
 
             $details = get_blog_details($blog_id, false);
@@ -321,7 +335,8 @@ if (is_multisite()) :
         /**
          * When the main site of a network is fully deleted, its data should remain in the database.
          */
-        public function test_data_in_tables_after_wpmu_delete_blog_main_site_drop_true() {
+        public function test_data_in_tables_after_wpmu_delete_blog_main_site_drop_true()
+        {
             global $wpdb;
 
             $blog_id = 1; // The main site in our test suite has an ID of 1.
@@ -344,7 +359,8 @@ if (is_multisite()) :
         /**
          * The site count of a network should change when a site is flagged as 'deleted'.
          */
-        public function test_network_count_after_wpmu_delete_blog_drop_false() {
+        public function test_network_count_after_wpmu_delete_blog_drop_false()
+        {
             $blog_id = self::factory()->blog->create();
 
             // Delete the site without forcing a table drop.
@@ -358,7 +374,8 @@ if (is_multisite()) :
         /**
          * The site count of a network should change when a site is fully deleted.
          */
-        public function test_blog_count_after_wpmu_delete_blog_drop_true() {
+        public function test_blog_count_after_wpmu_delete_blog_drop_true()
+        {
             $blog_id = self::factory()->blog->create();
 
             // Delete the site and force a table drop.
@@ -374,7 +391,8 @@ if (is_multisite()) :
          * that site should be removed. When wpmu_delete_blog() is run a second time, nothing
          * should change with upload directories.
          */
-        public function test_upload_directories_after_multiple_wpmu_delete_blog() {
+        public function test_upload_directories_after_multiple_wpmu_delete_blog()
+        {
             $filename = __FUNCTION__ . '.jpg';
             $contents = __FUNCTION__ . '_contents';
 
@@ -402,7 +420,8 @@ if (is_multisite()) :
             unlink($file1['file']);
         }
 
-        public function test_wpmu_update_blogs_date() {
+        public function test_wpmu_update_blogs_date()
+        {
             global $wpdb;
 
             wpmu_update_blogs_date();
@@ -419,7 +438,8 @@ if (is_multisite()) :
          *
          * @ticket 23405
          */
-        public function test_get_blog_details_when_site_does_not_exist() {
+        public function test_get_blog_details_when_site_does_not_exist()
+        {
             // Create an unused site so that we can then assume an invalid site ID.
             $blog_id = self::factory()->blog->create();
             ++$blog_id;
@@ -445,7 +465,8 @@ if (is_multisite()) :
         /**
          * @ticket 26410
          */
-        public function test_blog_details_cache_invalidation() {
+        public function test_blog_details_cache_invalidation()
+        {
             update_option('blogname', 'foo');
             $details = get_site(get_current_blog_id());
             $this->assertSame('foo', $details->blogname);
@@ -459,7 +480,8 @@ if (is_multisite()) :
          * Test the original and cached responses for a created and then deleted site when
          * the blog ID is requested through get_blog_id_from_url().
          */
-        public function test_get_blog_id_from_url() {
+        public function test_get_blog_id_from_url()
+        {
             $blog_id = self::factory()->blog->create();
             $details = get_site($blog_id);
             $key     = md5($details->domain . $details->path);
@@ -472,7 +494,8 @@ if (is_multisite()) :
         /**
          * Test the case insensitivity of the site lookup.
          */
-        public function test_get_blog_id_from_url_is_case_insensitive() {
+        public function test_get_blog_id_from_url_is_case_insensitive()
+        {
             $blog_id = self::factory()->blog->create(
                 array(
                     'domain' => 'example.com',
@@ -487,7 +510,8 @@ if (is_multisite()) :
         /**
          * Test the first and cached responses for a site that does not exist.
          */
-        public function test_get_blog_id_from_url_that_does_not_exist() {
+        public function test_get_blog_id_from_url_that_does_not_exist()
+        {
             $blog_id = self::factory()->blog->create(array('path' => '/xyz'));
             $details = get_site($blog_id);
 
@@ -499,7 +523,8 @@ if (is_multisite()) :
          * A blog ID is still available if only the `deleted` flag is set for a site. The same
          * behavior would be expected if passing `false` explicitly to `wpmu_delete_blog()`.
          */
-        public function test_get_blog_id_from_url_with_deleted_flag() {
+        public function test_get_blog_id_from_url_with_deleted_flag()
+        {
             $blog_id = self::factory()->blog->create();
             $details = get_site($blog_id);
             $key     = md5($details->domain . $details->path);
@@ -513,7 +538,8 @@ if (is_multisite()) :
          * When deleted with the drop parameter as true, the cache will first be false, then set to
          * -1 after an attempt at `get_blog_id_from_url()` is made.
          */
-        public function test_get_blog_id_from_url_after_dropped() {
+        public function test_get_blog_id_from_url_after_dropped()
+        {
             $blog_id = self::factory()->blog->create();
             $details = get_site($blog_id);
             $key     = md5($details->domain . $details->path);
@@ -527,7 +553,8 @@ if (is_multisite()) :
         /**
          * Test with default parameter of site_id as null.
          */
-        public function test_is_main_site() {
+        public function test_is_main_site()
+        {
             $this->assertTrue(is_main_site());
         }
 
@@ -535,14 +562,16 @@ if (is_multisite()) :
          * Test with a site id of get_current_blog_id(), which should be the same as the
          * default parameter tested above.
          */
-        public function test_current_blog_id_is_main_site() {
+        public function test_current_blog_id_is_main_site()
+        {
             $this->assertTrue(is_main_site(get_current_blog_id()));
         }
 
         /**
          * Test with a site ID other than the main site to ensure a false response.
          */
-        public function test_is_main_site_is_false_with_other_blog_id() {
+        public function test_is_main_site_is_false_with_other_blog_id()
+        {
             $blog_id = self::factory()->blog->create();
 
             $this->assertFalse(is_main_site($blog_id));
@@ -551,7 +580,8 @@ if (is_multisite()) :
         /**
          * Test with no passed ID after switching to another site ID.
          */
-        public function test_is_main_site_is_false_after_switch_to_blog() {
+        public function test_is_main_site_is_false_after_switch_to_blog()
+        {
             $blog_id = self::factory()->blog->create();
             switch_to_blog($blog_id);
 
@@ -560,7 +590,8 @@ if (is_multisite()) :
             restore_current_blog();
         }
 
-        public function test_switch_upload_dir() {
+        public function test_switch_upload_dir()
+        {
             $this->assertTrue(is_main_site());
 
             $site = get_current_site();
@@ -593,7 +624,8 @@ if (is_multisite()) :
          * Test the primary purpose of get_blog_post(), to retrieve a post from
          * another site on the network.
          */
-        public function test_get_blog_post_from_another_site_on_network() {
+        public function test_get_blog_post_from_another_site_on_network()
+        {
             $blog_id = self::factory()->blog->create();
             $post_id = self::factory()->post->create(); // Create a post on the primary site, ID 1.
             $post    = get_post($post_id);
@@ -608,7 +640,8 @@ if (is_multisite()) :
         /**
          * If get_blog_post() is used on the same site, it should still work.
          */
-        public function test_get_blog_post_from_same_site() {
+        public function test_get_blog_post_from_same_site()
+        {
             $post_id = self::factory()->post->create();
 
             $this->assertEquals(get_blog_post(1, $post_id), get_post($post_id));
@@ -617,7 +650,8 @@ if (is_multisite()) :
         /**
          * A null response should be returned if an invalid post is requested.
          */
-        public function test_get_blog_post_invalid_returns_null() {
+        public function test_get_blog_post_invalid_returns_null()
+        {
             $this->assertNull(get_blog_post(1, 999999));
         }
 
@@ -625,7 +659,8 @@ if (is_multisite()) :
          * Added as a callback to the domain_exists filter to provide manual results for
          * the testing of the filter and for a test which does not need the database.
          */
-        public function domain_exists_cb($exists, $domain, $path, $site_id) {
+        public function domain_exists_cb($exists, $domain, $path, $site_id)
+        {
             if ('foo' === $domain && 'bar/' === $path) {
                 return 1234;
             } else {
@@ -633,13 +668,15 @@ if (is_multisite()) :
             }
         }
 
-        public function test_domain_exists_with_default_site_id() {
+        public function test_domain_exists_with_default_site_id()
+        {
             $details = get_site(1);
 
             $this->assertSame(1, domain_exists($details->domain, $details->path));
         }
 
-        public function test_domain_exists_with_specified_site_id() {
+        public function test_domain_exists_with_specified_site_id()
+        {
             $details = get_site(1);
 
             $this->assertSame(1, domain_exists($details->domain, $details->path, $details->site_id));
@@ -649,17 +686,20 @@ if (is_multisite()) :
          * When the domain is valid, but the resulting site does not belong to the specified network,
          * it is marked as not existing.
          */
-        public function test_domain_does_not_exist_with_invalid_site_id() {
+        public function test_domain_does_not_exist_with_invalid_site_id()
+        {
             $details = get_site(1);
 
             $this->assertNull(domain_exists($details->domain, $details->path, 999));
         }
 
-        public function test_invalid_domain_does_not_exist_with_default_site_id() {
+        public function test_invalid_domain_does_not_exist_with_default_site_id()
+        {
             $this->assertNull(domain_exists('foo', 'bar'));
         }
 
-        public function test_domain_filtered_to_exist() {
+        public function test_domain_filtered_to_exist()
+        {
             add_filter('domain_exists', array($this, 'domain_exists_cb'), 10, 4);
             $exists = domain_exists('foo', 'bar');
             remove_filter('domain_exists', array($this, 'domain_exists_cb'), 10, 4);
@@ -670,7 +710,8 @@ if (is_multisite()) :
          * When a path is passed to domain_exists, it is immediately trailing slashed. A path
          * value with or without the slash should result in the same return value.
          */
-        public function test_slashed_path_in_domain_exists() {
+        public function test_slashed_path_in_domain_exists()
+        {
             add_filter('domain_exists', array($this, 'domain_exists_cb'), 10, 4);
             $exists1 = domain_exists('foo', 'bar');
             $exists2 = domain_exists('foo', 'bar/');
@@ -683,7 +724,8 @@ if (is_multisite()) :
         /**
          * Tests returning an address for a given valid ID.
          */
-        public function test_get_blogaddress_by_id_with_valid_id() {
+        public function test_get_blogaddress_by_id_with_valid_id()
+        {
             $blogaddress = get_blogaddress_by_id(1);
             $this->assertSame('http://' . WP_TESTS_DOMAIN . '/', $blogaddress);
         }
@@ -691,7 +733,8 @@ if (is_multisite()) :
         /**
          * Tests returning an empty string for a non-existing ID.
          */
-        public function test_get_blogaddress_by_id_with_invalid_id() {
+        public function test_get_blogaddress_by_id_with_invalid_id()
+        {
             $blogaddress = get_blogaddress_by_id(PHP_INT_MAX);
             $this->assertSame('', $blogaddress);
         }
@@ -699,7 +742,8 @@ if (is_multisite()) :
         /**
          * @ticket 14867
          */
-        public function test_get_blogaddress_by_id_scheme_reflects_blog_scheme() {
+        public function test_get_blogaddress_by_id_scheme_reflects_blog_scheme()
+        {
             $blog = self::factory()->blog->create();
 
             $this->assertSame('http', parse_url(get_blogaddress_by_id($blog), PHP_URL_SCHEME));
@@ -712,7 +756,8 @@ if (is_multisite()) :
         /**
          * @ticket 14867
          */
-        public function test_get_blogaddress_by_id_scheme_is_unaffected_by_request() {
+        public function test_get_blogaddress_by_id_scheme_is_unaffected_by_request()
+        {
             $blog = self::factory()->blog->create();
 
             $this->assertFalse(is_ssl());
@@ -731,7 +776,8 @@ if (is_multisite()) :
          * @ticket 33620
          * @dataProvider data_new_blog_url_schemes
          */
-        public function test_new_blog_url_schemes($home_scheme, $siteurl_scheme, $force_ssl_admin) {
+        public function test_new_blog_url_schemes($home_scheme, $siteurl_scheme, $force_ssl_admin)
+        {
             $current_site = get_current_site();
 
             $home    = get_option('home');
@@ -757,7 +803,8 @@ if (is_multisite()) :
             $this->assertSame($siteurl_scheme, parse_url(get_blog_option($new, 'siteurl'), PHP_URL_SCHEME));
         }
 
-        public function data_new_blog_url_schemes() {
+        public function data_new_blog_url_schemes()
+        {
             return array(
                 array(
                     'https',
@@ -790,7 +837,8 @@ if (is_multisite()) :
         /**
          * @ticket 36918
          */
-        public function test_new_blog_locale() {
+        public function test_new_blog_locale()
+        {
             $current_site = get_current_site();
 
             add_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10, 3);
@@ -825,7 +873,8 @@ if (is_multisite()) :
         /**
          * @ticket 40503
          */
-        public function test_different_network_language() {
+        public function test_different_network_language()
+        {
             $network = get_network(self::$network_ids['make.wordpress.org/']);
 
             add_filter('sanitize_option_WPLANG', array($this, 'filter_allow_unavailable_languages'), 10, 3);
@@ -846,21 +895,24 @@ if (is_multisite()) :
          * @param string $original_value The original value passed to the function.
          * @return string The original value.
          */
-        public function filter_allow_unavailable_languages($value, $option, $original_value) {
+        public function filter_allow_unavailable_languages($value, $option, $original_value)
+        {
             return $original_value;
         }
 
         /**
          * @ticket 29684
          */
-        public function test_is_main_site_different_network() {
+        public function test_is_main_site_different_network()
+        {
             $this->assertTrue(is_main_site(self::$site_ids['make.wordpress.org/'], self::$network_ids['make.wordpress.org/']));
         }
 
         /**
          * @ticket 29684
          */
-        public function test_is_main_site_different_network_random_site() {
+        public function test_is_main_site_different_network_random_site()
+        {
             $this->assertFalse(is_main_site(self::$site_ids['make.wordpress.org/foo/'], self::$network_ids['make.wordpress.org/']));
         }
 
@@ -868,7 +920,8 @@ if (is_multisite()) :
          * @ticket 40201
          * @dataProvider data_get_site_caches
          */
-        public function test_clean_blog_cache($key, $group) {
+        public function test_clean_blog_cache($key, $group)
+        {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
             $replacements = array(
@@ -894,7 +947,8 @@ if (is_multisite()) :
          * @ticket 40201
          * @dataProvider data_get_site_caches
          */
-        public function test_clean_blog_cache_with_id($key, $group) {
+        public function test_clean_blog_cache_with_id($key, $group)
+        {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
             $replacements = array(
@@ -919,7 +973,8 @@ if (is_multisite()) :
         /**
          * @ticket 40201
          */
-        public function test_clean_blog_cache_resets_last_changed() {
+        public function test_clean_blog_cache_resets_last_changed()
+        {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
             wp_cache_delete('last_changed', 'sites');
@@ -931,7 +986,8 @@ if (is_multisite()) :
         /**
          * @ticket 40201
          */
-        public function test_clean_blog_cache_fires_action() {
+        public function test_clean_blog_cache_fires_action()
+        {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
             $old_count = did_action('clean_site_cache');
@@ -943,7 +999,8 @@ if (is_multisite()) :
         /**
          * @ticket 40201
          */
-        public function test_clean_blog_cache_bails_on_suspend_cache_invalidation() {
+        public function test_clean_blog_cache_bails_on_suspend_cache_invalidation()
+        {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
             $old_count = did_action('clean_site_cache');
@@ -957,7 +1014,8 @@ if (is_multisite()) :
         /**
          * @ticket 40201
          */
-        public function test_clean_blog_cache_bails_on_empty_input() {
+        public function test_clean_blog_cache_bails_on_empty_input()
+        {
             $old_count = did_action('clean_site_cache');
 
             clean_blog_cache(null);
@@ -967,7 +1025,8 @@ if (is_multisite()) :
         /**
          * @ticket 40201
          */
-        public function test_clean_blog_cache_bails_on_non_numeric_input() {
+        public function test_clean_blog_cache_bails_on_non_numeric_input()
+        {
             $old_count = did_action('clean_site_cache');
 
             clean_blog_cache('something');
@@ -977,7 +1036,8 @@ if (is_multisite()) :
         /**
          * @ticket 40201
          */
-        public function test_clean_blog_cache_works_with_deleted_site() {
+        public function test_clean_blog_cache_works_with_deleted_site()
+        {
             $site_id = 12345;
 
             wp_cache_set($site_id, 'something', 'site-details');
@@ -990,7 +1050,8 @@ if (is_multisite()) :
          * @ticket 40201
          * @dataProvider data_get_site_caches
          */
-        public function test_refresh_blog_details($key, $group) {
+        public function test_refresh_blog_details($key, $group)
+        {
             $site = get_site(self::$site_ids['make.wordpress.org/']);
 
             $replacements = array(
@@ -1015,7 +1076,8 @@ if (is_multisite()) :
         /**
          * @ticket 40201
          */
-        public function test_refresh_blog_details_works_with_deleted_site() {
+        public function test_refresh_blog_details_works_with_deleted_site()
+        {
             $site_id = 12345;
 
             wp_cache_set($site_id, 'something', 'site-details');
@@ -1027,7 +1089,8 @@ if (is_multisite()) :
         /**
          * @ticket 40201
          */
-        public function test_refresh_blog_details_uses_current_site_as_default() {
+        public function test_refresh_blog_details_uses_current_site_as_default()
+        {
             $site_id = get_current_blog_id();
 
             wp_cache_set($site_id, 'something', 'site-details');
@@ -1036,7 +1099,8 @@ if (is_multisite()) :
             $this->assertFalse(wp_cache_get($site_id, 'site-details'));
         }
 
-        public function data_get_site_caches() {
+        public function data_get_site_caches()
+        {
             return array(
                 array('%blog_id%', 'sites'),
                 array('%blog_id%', 'site-details'),
@@ -1051,7 +1115,8 @@ if (is_multisite()) :
          * @ticket 40364
          * @dataProvider data_wp_insert_site
          */
-        public function test_wp_insert_site($site_data, $expected_data) {
+        public function test_wp_insert_site($site_data, $expected_data)
+        {
             remove_action('wp_initialize_site', 'wp_initialize_site', 10);
             $site_id = wp_insert_site($site_data);
 
@@ -1063,7 +1128,8 @@ if (is_multisite()) :
             }
         }
 
-        public function data_wp_insert_site() {
+        public function data_wp_insert_site()
+        {
             return array(
                 array(
                     array(
@@ -1162,7 +1228,8 @@ if (is_multisite()) :
         /**
          * @ticket 50324
          */
-        public function test_wp_insert_site_with_clean_site_cache() {
+        public function test_wp_insert_site_with_clean_site_cache()
+        {
             remove_action('wp_initialize_site', 'wp_initialize_site', 10);
 
             add_action('clean_site_cache', array($this, 'action_database_insert_on_clean_site_cache'));
@@ -1180,14 +1247,16 @@ if (is_multisite()) :
             $this->assertIsInt($site_id);
         }
 
-        public function action_database_insert_on_clean_site_cache() {
+        public function action_database_insert_on_clean_site_cache()
+        {
             update_site_option('database_write_test.' . time(), true);
         }
 
         /**
          * @ticket 40364
          */
-        public function test_wp_insert_site_empty_domain() {
+        public function test_wp_insert_site_empty_domain()
+        {
             remove_action('wp_initialize_site', 'wp_initialize_site', 10);
             $site_id = wp_insert_site(array('public' => 0));
 
@@ -1199,7 +1268,8 @@ if (is_multisite()) :
          * @ticket 40364
          * @dataProvider data_wp_update_site
          */
-        public function test_wp_update_site($site_data, $expected_data) {
+        public function test_wp_update_site($site_data, $expected_data)
+        {
             $site_id = self::factory()->blog->create();
 
             $old_site = get_site($site_id);
@@ -1220,7 +1290,8 @@ if (is_multisite()) :
             }
         }
 
-        public function data_wp_update_site() {
+        public function data_wp_update_site()
+        {
             return array(
                 array(
                     array(
@@ -1274,7 +1345,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_wp_update_site_empty_domain() {
+        public function test_wp_update_site_empty_domain()
+        {
             $site_id = self::factory()->blog->create();
 
             $result = wp_update_site($site_id, array('domain' => ''));
@@ -1286,7 +1358,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_wp_update_site_invalid_id() {
+        public function test_wp_update_site_invalid_id()
+        {
             $result = wp_update_site(444444, array('domain' => 'example.com'));
 
             $this->assertWPError($result);
@@ -1296,7 +1369,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_wp_update_site_cleans_cache() {
+        public function test_wp_update_site_cleans_cache()
+        {
             $site_id = self::factory()->blog->create();
             $site1   = get_site($site_id);
 
@@ -1314,7 +1388,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_wp_delete_site() {
+        public function test_wp_delete_site()
+        {
             $site_id = self::factory()->blog->create();
 
             $site = get_site($site_id);
@@ -1328,7 +1403,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_wp_delete_site_invalid_id() {
+        public function test_wp_delete_site_invalid_id()
+        {
             $result = wp_delete_site(444444);
 
             $this->assertWPError($result);
@@ -1338,14 +1414,16 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_delete_site_validate_site_deletion_action() {
+        public function test_wp_delete_site_validate_site_deletion_action()
+        {
             add_action('wp_validate_site_deletion', array($this, 'action_wp_validate_site_deletion_prevent_deletion'));
             $result = wp_delete_site(self::$site_ids['make.wordpress.org/']);
             $this->assertWPError($result);
             $this->assertSame('action_does_not_like_deletion', $result->get_error_code());
         }
 
-        public function action_wp_validate_site_deletion_prevent_deletion($errors) {
+        public function action_wp_validate_site_deletion_prevent_deletion($errors)
+        {
             $errors->add('action_does_not_like_deletion', 'You cannot delete this site because the action does not like it.');
         }
 
@@ -1353,13 +1431,15 @@ if (is_multisite()) :
          * @ticket 40364
          * @dataProvider data_wp_normalize_site_data
          */
-        public function test_wp_normalize_site_data($data, $expected) {
+        public function test_wp_normalize_site_data($data, $expected)
+        {
             $result = wp_normalize_site_data($data);
 
             $this->assertSameSetsWithIndex($expected, $result);
         }
 
-        public function data_wp_normalize_site_data() {
+        public function data_wp_normalize_site_data()
+        {
             return array(
                 array(
                     array(
@@ -1448,7 +1528,8 @@ if (is_multisite()) :
          * @ticket 40364
          * @dataProvider data_wp_validate_site_data
          */
-        public function test_wp_validate_site_data($data, $expected_errors) {
+        public function test_wp_validate_site_data($data, $expected_errors)
+        {
             $result = new WP_Error();
             wp_validate_site_data($result, $data);
 
@@ -1459,7 +1540,8 @@ if (is_multisite()) :
             }
         }
 
-        public function data_wp_validate_site_data() {
+        public function data_wp_validate_site_data()
+        {
             $date = current_time('mysql', true);
 
             return array(
@@ -1576,7 +1658,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_site_dates_are_gmt() {
+        public function test_site_dates_are_gmt()
+        {
             $first_date = current_time('mysql', true);
 
             remove_action('wp_initialize_site', 'wp_initialize_site', 10);
@@ -1605,7 +1688,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_wp_delete_site_cleans_cache() {
+        public function test_wp_delete_site_cleans_cache()
+        {
             $site_id = self::factory()->blog->create();
 
             get_site($site_id);
@@ -1618,7 +1702,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_wp_update_site_cleans_old_cache_on_domain_change() {
+        public function test_wp_update_site_cleans_old_cache_on_domain_change()
+        {
             $old_domain = 'old.wordpress.org';
             $new_domain = 'new.wordpress.org';
 
@@ -1673,7 +1758,8 @@ if (is_multisite()) :
         /**
          * @ticket 40364
          */
-        public function test_wp_update_site_cleans_old_cache_on_path_change() {
+        public function test_wp_update_site_cleans_old_cache_on_path_change()
+        {
             $old_path = '/foo/';
             $new_path = '/bar/';
 
@@ -1727,7 +1813,8 @@ if (is_multisite()) :
          * @ticket 40364
          * @dataProvider data_site_status_hook_triggers
          */
-        public function test_site_status_hook_triggers($insert_site_data, $expected_insert_hooks, $update_site_data, $expected_update_hooks) {
+        public function test_site_status_hook_triggers($insert_site_data, $expected_insert_hooks, $update_site_data, $expected_update_hooks)
+        {
             // First: Insert a site.
             $this->listen_to_site_status_hooks();
 
@@ -1757,7 +1844,8 @@ if (is_multisite()) :
             $this->assertSameSetsWithIndex($update_expected, $update_result);
         }
 
-        public function data_site_status_hook_triggers() {
+        public function data_site_status_hook_triggers()
+        {
             return array(
                 array(
                     array(
@@ -1843,7 +1931,8 @@ if (is_multisite()) :
             );
         }
 
-        private function listen_to_site_status_hooks() {
+        private function listen_to_site_status_hooks()
+        {
             $this->site_status_hooks = array();
 
             $hooknames = array(
@@ -1863,7 +1952,8 @@ if (is_multisite()) :
             }
         }
 
-        private function get_listen_to_site_status_hooks_result() {
+        private function get_listen_to_site_status_hooks_result()
+        {
             $hooknames = array(
                 'make_spam_blog',
                 'make_ham_blog',
@@ -1883,7 +1973,8 @@ if (is_multisite()) :
             return $this->site_status_hooks;
         }
 
-        public function action_site_status_hook($site_id) {
+        public function action_site_status_hook($site_id)
+        {
             $this->site_status_hooks[ current_action() ] = $site_id;
         }
 
@@ -1891,7 +1982,8 @@ if (is_multisite()) :
          * @ticket 41333
          * @dataProvider data_wp_initialize_site
          */
-        public function test_wp_initialize_site($args, $expected_options, $expected_meta) {
+        public function test_wp_initialize_site($args, $expected_options, $expected_meta)
+        {
             $result = wp_initialize_site(self::$uninitialized_site_id, $args);
 
             switch_to_blog(self::$uninitialized_site_id);
@@ -1918,7 +2010,8 @@ if (is_multisite()) :
             $this->assertSame($expected_meta, $meta);
         }
 
-        public function data_wp_initialize_site() {
+        public function data_wp_initialize_site()
+        {
             return array(
                 array(
                     array(),
@@ -1972,7 +2065,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_initialize_site_user_roles() {
+        public function test_wp_initialize_site_user_roles()
+        {
             global $wpdb;
 
             $result = wp_initialize_site(self::$uninitialized_site_id, array());
@@ -2000,7 +2094,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_initialize_site_user_is_admin() {
+        public function test_wp_initialize_site_user_is_admin()
+        {
             $result = wp_initialize_site(self::$uninitialized_site_id, array('user_id' => 1));
 
             switch_to_blog(self::$uninitialized_site_id);
@@ -2018,7 +2113,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_initialize_site_args_filter() {
+        public function test_wp_initialize_site_args_filter()
+        {
             add_filter('wp_initialize_site_args', array($this, 'filter_wp_initialize_site_args'), 10, 3);
             $result = wp_initialize_site(self::$uninitialized_site_id, array('title' => 'My Site'));
 
@@ -2034,7 +2130,8 @@ if (is_multisite()) :
             );
         }
 
-        public function filter_wp_initialize_site_args($args, $site, $network) {
+        public function filter_wp_initialize_site_args($args, $site, $network)
+        {
             $args['title'] = sprintf('My Site %1$d in Network %2$d', $site->id, $network->id);
 
             return $args;
@@ -2043,7 +2140,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_initialize_site_empty_id() {
+        public function test_wp_initialize_site_empty_id()
+        {
             $result = wp_initialize_site(0);
             $this->assertWPError($result);
             $this->assertSame('site_empty_id', $result->get_error_code());
@@ -2052,7 +2150,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_initialize_site_invalid_id() {
+        public function test_wp_initialize_site_invalid_id()
+        {
             $result = wp_initialize_site(123);
             $this->assertWPError($result);
             $this->assertSame('site_invalid_id', $result->get_error_code());
@@ -2061,7 +2160,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_initialize_site_already_initialized() {
+        public function test_wp_initialize_site_already_initialized()
+        {
             $result = wp_initialize_site(get_current_blog_id());
             $this->assertWPError($result);
             $this->assertSame('site_already_initialized', $result->get_error_code());
@@ -2070,7 +2170,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_uninitialize_site() {
+        public function test_wp_uninitialize_site()
+        {
             $site_id = self::factory()->blog->create();
 
             $result = wp_uninitialize_site($site_id);
@@ -2081,7 +2182,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_uninitialize_site_empty_id() {
+        public function test_wp_uninitialize_site_empty_id()
+        {
             $result = wp_uninitialize_site(0);
             $this->assertWPError($result);
             $this->assertSame('site_empty_id', $result->get_error_code());
@@ -2090,7 +2192,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_uninitialize_site_invalid_id() {
+        public function test_wp_uninitialize_site_invalid_id()
+        {
             $result = wp_uninitialize_site(123);
             $this->assertWPError($result);
             $this->assertSame('site_invalid_id', $result->get_error_code());
@@ -2099,7 +2202,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_uninitialize_site_already_uninitialized() {
+        public function test_wp_uninitialize_site_already_uninitialized()
+        {
             $result = wp_uninitialize_site(self::$uninitialized_site_id);
             $this->assertWPError($result);
             $this->assertSame('site_already_uninitialized', $result->get_error_code());
@@ -2108,7 +2212,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_is_site_initialized() {
+        public function test_wp_is_site_initialized()
+        {
             $this->assertTrue(wp_is_site_initialized(get_current_blog_id()));
             $this->assertFalse(wp_is_site_initialized(self::$uninitialized_site_id));
         }
@@ -2116,7 +2221,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_is_site_initialized_prefilter() {
+        public function test_wp_is_site_initialized_prefilter()
+        {
             add_filter('pre_wp_is_site_initialized', '__return_false');
             $this->assertFalse(wp_is_site_initialized(get_current_blog_id()));
 
@@ -2127,7 +2233,8 @@ if (is_multisite()) :
         /**
          * @ticket 41333
          */
-        public function test_wp_insert_site_forwards_args_to_wp_initialize_site() {
+        public function test_wp_insert_site_forwards_args_to_wp_initialize_site()
+        {
             $args = array(
                 'user_id' => 1,
                 'title'   => 'My Site',
@@ -2152,7 +2259,8 @@ if (is_multisite()) :
             $this->assertSameSetsWithIndex($args, $passed_args);
         }
 
-        public function filter_wp_initialize_site_args_catch_args($args) {
+        public function filter_wp_initialize_site_args_catch_args($args)
+        {
             $this->wp_initialize_site_args = $args;
 
             return $args;
@@ -2161,7 +2269,8 @@ if (is_multisite()) :
         /**
          * @ticket 46125
          */
-        public function test_wpmu_create_blog_cache_cleanup_backward_compatible() {
+        public function test_wpmu_create_blog_cache_cleanup_backward_compatible()
+        {
             add_action('populate_options', array($this, 'populate_options_callback'));
 
             $blog_id = wpmu_create_blog('testsite1.example.org', '/test', 'test', 1, array('public' => 1), 2);
@@ -2179,7 +2288,8 @@ if (is_multisite()) :
         /**
          * Populate options callback to warm cache for blog-details / site-details cache group
          */
-        public function populate_options_callback() {
+        public function populate_options_callback()
+        {
             // Cache blog details.
             $blog_id = get_current_blog_id();
             get_blog_details($blog_id);
@@ -2195,7 +2305,8 @@ if (is_multisite()) :
          *
          * @ticket 46351
          */
-        public function test_wpmu_new_blog_action_backward_compatible($meta, $expected_meta) {
+        public function test_wpmu_new_blog_action_backward_compatible($meta, $expected_meta)
+        {
             // We are testing deprecated hook. Register it to expected deprecated notices.
             $this->setExpectedDeprecated('wpmu_new_blog');
             add_action('wpmu_new_blog', array($this, 'wpmu_new_blog_callback'), 10, 6);
@@ -2210,7 +2321,8 @@ if (is_multisite()) :
         /**
          * @ticket 42251
          */
-        public function test_get_site_not_found_cache() {
+        public function test_get_site_not_found_cache()
+        {
             $new_site_id = $this->_get_next_site_id();
             $this->assertNull(get_site($new_site_id));
 
@@ -2222,7 +2334,8 @@ if (is_multisite()) :
         /**
          * @ticket 42251
          */
-        public function test_get_site_not_found_cache_clear() {
+        public function test_get_site_not_found_cache_clear()
+        {
             $new_site_id = $this->_get_next_site_id();
             $this->assertNull(get_site($new_site_id));
 
@@ -2241,7 +2354,8 @@ if (is_multisite()) :
          * Gets the ID of the next site that will get inserted
          * @return int
          */
-        protected function _get_next_site_id() {
+        protected function _get_next_site_id()
+        {
             global $wpdb;
             // Create an entry.
             static::factory()->blog->create();
@@ -2252,11 +2366,13 @@ if (is_multisite()) :
         /**
          * Capture the $meta value passed to the wpmu_new_blog action and compare it.
          */
-        public function wpmu_new_blog_callback($blog_id, $user_id, $domain, $path, $network_id, $meta) {
+        public function wpmu_new_blog_callback($blog_id, $user_id, $domain, $path, $network_id, $meta)
+        {
             $this->wp_initialize_site_meta = $meta;
         }
 
-        public function data_wpmu_new_blog_action_backward_compatible() {
+        public function data_wpmu_new_blog_action_backward_compatible()
+        {
             return array(
                 'default values' => array(
                     array(),

@@ -27,7 +27,8 @@
  *     @type array    $args     Extra meta box arguments.
  * }
  */
-function post_submit_meta_box($post, $args = array()) {
+function post_submit_meta_box($post, $args = array())
+{
     global $action;
 
     $post_id          = (int) $post->ID;
@@ -417,7 +418,8 @@ function post_submit_meta_box($post, $args = array()) {
  *
  * @param WP_Post $post Current post object.
  */
-function attachment_submit_meta_box($post) {
+function attachment_submit_meta_box($post)
+{
     ?>
 <div class="submitbox" id="submitpost">
 
@@ -515,7 +517,8 @@ function attachment_submit_meta_box($post) {
  *     @type array    $args     Extra meta box arguments.
  * }
  */
-function post_format_meta_box($post, $box) {
+function post_format_meta_box($post, $box)
+{
     if (current_theme_supports('post-formats') && post_type_supports($post->post_type, 'post-formats')) :
         $post_formats = get_theme_support('post-formats');
 
@@ -569,7 +572,8 @@ endif;
  *     }
  * }
  */
-function post_tags_meta_box($post, $box) {
+function post_tags_meta_box($post, $box)
+{
     $defaults = array('taxonomy' => 'post_tag');
     if (! isset($box['args']) || ! is_array($box['args'])) {
         $args = array();
@@ -632,7 +636,8 @@ function post_tags_meta_box($post, $box) {
  *     }
  * }
  */
-function post_categories_meta_box($post, $box) {
+function post_categories_meta_box($post, $box)
+{
     $defaults = array('taxonomy' => 'category');
     if (! isset($box['args']) || ! is_array($box['args'])) {
         $args = array();
@@ -742,7 +747,8 @@ function post_categories_meta_box($post, $box) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_excerpt_meta_box($post) {
+function post_excerpt_meta_box($post)
+{
     ?>
 <label class="screen-reader-text" for="excerpt">
     <?php
@@ -769,7 +775,8 @@ function post_excerpt_meta_box($post) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_trackback_meta_box($post) {
+function post_trackback_meta_box($post)
+{
     $form_trackback = '<input type="text" name="trackback_url" id="trackback_url" class="code" value="' .
         esc_attr(str_replace("\n", ' ', $post->to_ping)) . '" aria-describedby="trackback-url-desc" />';
 
@@ -810,7 +817,8 @@ function post_trackback_meta_box($post) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_custom_meta_box($post) {
+function post_custom_meta_box($post)
+{
     ?>
 <div id="postcustomstuff">
 <div id="ajax-response"></div>
@@ -844,7 +852,8 @@ function post_custom_meta_box($post) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_comment_status_meta_box($post) {
+function post_comment_status_meta_box($post)
+{
     ?>
 <input name="advanced_view" type="hidden" value="1" />
 <p class="meta-options">
@@ -880,7 +889,8 @@ function post_comment_status_meta_box($post) {
  * @param array $result Table header rows.
  * @return array
  */
-function post_comment_meta_box_thead($result) {
+function post_comment_meta_box_thead($result)
+{
     unset($result['cb'], $result['response']);
     return $result;
 }
@@ -892,7 +902,8 @@ function post_comment_meta_box_thead($result) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_comment_meta_box($post) {
+function post_comment_meta_box($post)
+{
     wp_nonce_field('get-comments', 'add_comment_nonce', false);
     ?>
     <p class="hide-if-no-js" id="add-new-comment"><button type="button" class="button" onclick="window.commentReply && commentReply.addcomment(<?php echo $post->ID; ?>);"><?php _e('Add Comment'); ?></button></p>
@@ -933,7 +944,8 @@ function post_comment_meta_box($post) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_slug_meta_box($post) {
+function post_slug_meta_box($post)
+{
     /** This filter is documented in wp-admin/edit-tag-form.php */
     $editable_slug = apply_filters('editable_slug', $post->post_name, $post);
     ?>
@@ -955,7 +967,8 @@ function post_slug_meta_box($post) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_author_meta_box($post) {
+function post_author_meta_box($post)
+{
     global $user_ID;
 
     $post_type_object = get_post_type_object($post->post_type);
@@ -985,7 +998,8 @@ function post_author_meta_box($post) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_revisions_meta_box($post) {
+function post_revisions_meta_box($post)
+{
     wp_list_post_revisions($post);
 }
 
@@ -1000,7 +1014,8 @@ function post_revisions_meta_box($post) {
  *
  * @param WP_Post $post Current post object.
  */
-function page_attributes_meta_box($post) {
+function page_attributes_meta_box($post)
+{
     if (is_post_type_hierarchical($post->post_type)) :
         $dropdown_args = array(
             'post_type'        => $post->post_type,
@@ -1097,7 +1112,8 @@ function page_attributes_meta_box($post) {
  *
  * @param object $link Current link object.
  */
-function link_submit_meta_box($link) {
+function link_submit_meta_box($link)
+{
     ?>
 <div class="submitbox" id="submitlink">
 
@@ -1173,7 +1189,8 @@ function link_submit_meta_box($link) {
  *
  * @param object $link Current link object.
  */
-function link_categories_meta_box($link) {
+function link_categories_meta_box($link)
+{
     ?>
 <div id="taxonomy-linkcategory" class="categorydiv">
     <ul id="category-tabs" class="category-tabs">
@@ -1225,7 +1242,8 @@ function link_categories_meta_box($link) {
  *
  * @param object $link Current link object.
  */
-function link_target_meta_box($link) {
+function link_target_meta_box($link)
+{
 
     ?>
 <fieldset><legend class="screen-reader-text"><span>
@@ -1263,7 +1281,8 @@ function link_target_meta_box($link) {
  *                                 Default empty string.
  * @param mixed  $deprecated       Deprecated. Not used.
  */
-function xfn_check($xfn_relationship, $xfn_value = '', $deprecated = '') {
+function xfn_check($xfn_relationship, $xfn_value = '', $deprecated = '')
+{
     global $link;
 
     if (! empty($deprecated)) {
@@ -1314,7 +1333,8 @@ function xfn_check($xfn_relationship, $xfn_value = '', $deprecated = '') {
  *
  * @param object $link Current link object.
  */
-function link_xfn_meta_box($link) {
+function link_xfn_meta_box($link)
+{
     ?>
 <table class="links-table">
     <tr>
@@ -1474,7 +1494,8 @@ function link_xfn_meta_box($link) {
  *
  * @param object $link Current link object.
  */
-function link_advanced_meta_box($link) {
+function link_advanced_meta_box($link)
+{
     ?>
 <table class="links-table" cellpadding="0">
     <tr>
@@ -1515,7 +1536,8 @@ function link_advanced_meta_box($link) {
  *
  * @param WP_Post $post Current post object.
  */
-function post_thumbnail_meta_box($post) {
+function post_thumbnail_meta_box($post)
+{
     $thumbnail_id = get_post_meta($post->ID, '_thumbnail_id', true);
     echo _wp_post_thumbnail_html($thumbnail_id, $post->ID);
 }
@@ -1527,7 +1549,8 @@ function post_thumbnail_meta_box($post) {
  *
  * @param WP_Post $post Current post object.
  */
-function attachment_id3_data_meta_box($post) {
+function attachment_id3_data_meta_box($post)
+{
     $meta = array();
     if (! empty($post->ID)) {
         $meta = wp_get_attachment_metadata($post->ID);
@@ -1554,7 +1577,8 @@ function attachment_id3_data_meta_box($post) {
  *
  * @param WP_Post $post The post object that these meta boxes are being generated for.
  */
-function register_and_do_post_meta_boxes($post) {
+function register_and_do_post_meta_boxes($post)
+{
     $post_type        = $post->post_type;
     $post_type_object = get_post_type_object($post_type);
 

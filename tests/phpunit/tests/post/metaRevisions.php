@@ -9,7 +9,8 @@
  * @group meta
  * @group meta-revisions
  */
-class Tests_Post_MetaRevisions extends WP_UnitTestCase {
+class Tests_Post_MetaRevisions extends WP_UnitTestCase
+{
 
     /**
      * Callback function to add the revisioned keys.
@@ -18,7 +19,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function add_revisioned_keys($keys) {
+    public function add_revisioned_keys($keys)
+    {
         $keys[] = 'meta_revision_test';
         $keys[] = 'meta_multiples_test';
         return $keys;
@@ -35,7 +37,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
      * @group slashed
      * @dataProvider slashed_data_provider
      */
-    public function test_revisions_stores_meta_values_with_slashes($passed, $expected) {
+    public function test_revisions_stores_meta_values_with_slashes($passed, $expected)
+    {
         // Set up a new post.
         $post_id = $this->factory->post->create();
 
@@ -86,7 +89,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
     /**
      * Provide data for the slashed data tests.
      */
-    public function slashed_data_provider() {
+    public function slashed_data_provider()
+    {
         return array(
             array(
                 'some\text',
@@ -112,7 +116,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
      *
      * @group revision
      */
-    public function test_revisions_stores_meta_values() {
+    public function test_revisions_stores_meta_values()
+    {
         /*
          * Set Up.
          */
@@ -409,7 +414,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
     /**
      * Verify that only existing meta is revisioned.
      */
-    public function only_existing_meta_is_revisioned() {
+    public function only_existing_meta_is_revisioned()
+    {
         add_filter('wp_post_revision_meta_keys', array($this, 'add_revisioned_keys'));
 
         // Set up a new post.
@@ -459,7 +465,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
     /**
      * Verify that blank strings are revisioned correctly.
      */
-    public function blank_meta_is_revisioned() {
+    public function blank_meta_is_revisioned()
+    {
 
         add_filter('wp_post_revision_meta_keys', array($this, 'add_revisioned_keys'));
 
@@ -495,7 +502,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
     /**
      * Test revisioning of meta with a default value.
      */
-    public function test_revisionining_of_meta_with_default_value() {
+    public function test_revisionining_of_meta_with_default_value()
+    {
 
         // Add a meta field to revision that includes a default value.
         register_post_meta(
@@ -571,7 +579,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
     /**
      * @dataProvider data_register_post_meta_supports_revisions
      */
-    public function test_register_post_meta_supports_revisions($post_type, $meta_key, $args, $expected_is_revisioned) {
+    public function test_register_post_meta_supports_revisions($post_type, $meta_key, $args, $expected_is_revisioned)
+    {
         register_post_meta($post_type, $meta_key, $args);
 
         // Set up a new post.
@@ -604,7 +613,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
         $GLOBALS['wp_meta_keys'] = array();
     }
 
-    public function data_register_post_meta_supports_revisions() {
+    public function data_register_post_meta_supports_revisions()
+    {
         return array(
             array('post', 'registered_key1', array('single' => true), false),
             array(
@@ -629,7 +639,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
      * @param int    $post_id        The ID of the post to check.
      * @param string $meta_key The meta key to check for.
      */
-    protected function assertPostHasMetaKey($post_id, $meta_key) {
+    protected function assertPostHasMetaKey($post_id, $meta_key)
+    {
         $this->assertArrayHasKey($meta_key, get_metadata('post', $post_id));
     }
 
@@ -639,7 +650,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
      * @param int    $post_id        The ID of the post to check.
      * @param string $meta_key The meta key to check for.
      */
-    protected function assertPostNotHasMetaKey($post_id, $meta_key) {
+    protected function assertPostNotHasMetaKey($post_id, $meta_key)
+    {
         $this->assertArrayNotHasKey($meta_key, get_metadata('post', $post_id));
     }
 
@@ -648,7 +660,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
      *
      * @dataProvider page_post_type_data_provider
      */
-    public function test_revisions_stores_meta_values_page_and_cpt($passed, $expected, $post_type, $supports_revisions = false) {
+    public function test_revisions_stores_meta_values_page_and_cpt($passed, $expected, $post_type, $supports_revisions = false)
+    {
 
         // If the post type doesn't exist, create it, potentially supporting revisions.
         if (! post_type_exists($post_type)) {
@@ -699,7 +712,8 @@ class Tests_Post_MetaRevisions extends WP_UnitTestCase {
     /**
      * Provide data for the page post type tests.
      */
-    public function page_post_type_data_provider() {
+    public function page_post_type_data_provider()
+    {
         return array(
             array(
                 'Test string',

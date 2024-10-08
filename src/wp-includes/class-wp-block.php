@@ -13,7 +13,8 @@
  * @property array $attributes
  */
 #[AllowDynamicProperties]
-class WP_Block {
+class WP_Block
+{
 
     /**
      * Original parsed array representation of block.
@@ -126,7 +127,8 @@ class WP_Block {
      * @param array                  $available_context Optional array of ancestry context values.
      * @param WP_Block_Type_Registry $registry          Optional block type registry.
      */
-    public function __construct($block, $available_context = array(), $registry = null) {
+    public function __construct($block, $available_context = array(), $registry = null)
+    {
         $this->parsed_block = $block;
         $this->name         = $block['blockName'];
 
@@ -184,7 +186,8 @@ class WP_Block {
      * @param string $name Property name.
      * @return array|null Prepared attributes, or null.
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if ('attributes' === $name) {
             $this->attributes = isset($this->parsed_block['attrs']) ?
                 $this->parsed_block['attrs'] :
@@ -241,7 +244,8 @@ class WP_Block {
      *
      * @return array The computed block attributes for the provided block bindings.
      */
-    private function process_block_bindings() {
+    private function process_block_bindings()
+    {
         $parsed_block               = $this->parsed_block;
         $computed_attributes        = array();
         $supported_block_attributes = array(
@@ -339,7 +343,8 @@ class WP_Block {
      * @param mixed  $source_value   The value used to replace in the HTML.
      * @return string The modified block content.
      */
-    private function replace_html(string $block_content, string $attribute_name, $source_value) {
+    private function replace_html(string $block_content, string $attribute_name, $source_value)
+    {
         $block_type = $this->block_type;
         if (! isset($block_type->attributes[ $attribute_name ]['source'])) {
             return $block_content;
@@ -446,7 +451,8 @@ class WP_Block {
      * }
      * @return string Rendered block output.
      */
-    public function render($options = array()) {
+    public function render($options = array())
+    {
         global $post;
 
         /*

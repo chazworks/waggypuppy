@@ -3,11 +3,13 @@
 /**
  * @group query
  */
-class Tests_Query_ParseQuery extends WP_UnitTestCase {
+class Tests_Query_ParseQuery extends WP_UnitTestCase
+{
     /**
      * @ticket 29736
      */
-    public function test_parse_query_s_array() {
+    public function test_parse_query_s_array()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -18,7 +20,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
         $this->assertSame('', $q->query_vars['s']);
     }
 
-    public function test_parse_query_s_string() {
+    public function test_parse_query_s_string()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -29,7 +32,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
         $this->assertSame('foo', $q->query_vars['s']);
     }
 
-    public function test_parse_query_s_float() {
+    public function test_parse_query_s_float()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -40,7 +44,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
         $this->assertSame(3.5, $q->query_vars['s']);
     }
 
-    public function test_parse_query_s_int() {
+    public function test_parse_query_s_int()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -51,7 +56,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
         $this->assertSame(3, $q->query_vars['s']);
     }
 
-    public function test_parse_query_s_bool() {
+    public function test_parse_query_s_bool()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -65,7 +71,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
     /**
      * @ticket 33372
      */
-    public function test_parse_query_p_negative_int() {
+    public function test_parse_query_p_negative_int()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -79,7 +86,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
     /**
      * @ticket 33372
      */
-    public function test_parse_query_p_array() {
+    public function test_parse_query_p_array()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -93,7 +101,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
     /**
      * @ticket 33372
      */
-    public function test_parse_query_p_object() {
+    public function test_parse_query_p_object()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -109,7 +118,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
      *
      * @ticket 17737
      */
-    public function test_parse_query_author_array() {
+    public function test_parse_query_author_array()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -125,7 +135,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
      *
      * @ticket 17737
      */
-    public function test_parse_query_author_string() {
+    public function test_parse_query_author_string()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -143,7 +154,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
      *
      * @ticket 17737
      */
-    public function test_parse_query_cat_array_mixed() {
+    public function test_parse_query_cat_array_mixed()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -159,7 +171,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
      *
      * @ticket 17737
      */
-    public function test_parse_query_menu_order_nonscalar() {
+    public function test_parse_query_menu_order_nonscalar()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -175,7 +188,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
      *
      * @ticket 17737
      */
-    public function test_parse_query_subpost_scalar() {
+    public function test_parse_query_subpost_scalar()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -191,7 +205,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
      *
      * @ticket 17737
      */
-    public function test_parse_query_subpost_nonscalar() {
+    public function test_parse_query_subpost_nonscalar()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -207,7 +222,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
      *
      * @ticket 17737
      */
-    public function test_parse_query_attachment_id() {
+    public function test_parse_query_attachment_id()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(
@@ -223,7 +239,8 @@ class Tests_Query_ParseQuery extends WP_UnitTestCase {
      *
      * @ticket 17737
      */
-    public function test_parse_query_attachment_id_nonscalar() {
+    public function test_parse_query_attachment_id_nonscalar()
+    {
         $q = new WP_Query();
         $q->parse_query(
             array(

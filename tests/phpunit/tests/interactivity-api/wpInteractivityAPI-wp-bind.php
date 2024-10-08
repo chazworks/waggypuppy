@@ -12,7 +12,8 @@
  *
  * @group interactivity-api
  */
-class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
+class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase
+{
     /**
      * Instance of WP_Interactivity_API.
      *
@@ -23,7 +24,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
         $this->interactivity->state(
@@ -47,7 +49,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      * @param string $html The HTML that needs to be processed.
      * @return array An array containing an instance of the WP_HTML_Tag_Processor and the processed HTML.
      */
-    private function process_directives($html) {
+    private function process_directives($html)
+    {
         $new_html = $this->interactivity->process_directives($html);
         $p        = new WP_HTML_Tag_Processor($new_html);
         $p->next_tag();
@@ -61,7 +64,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_sets_attribute() {
+    public function test_wp_bind_sets_attribute()
+    {
         $html    = '<div data-wp-bind--id="myPlugin::state.id">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -74,7 +78,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_replaces_attribute() {
+    public function test_wp_bind_replaces_attribute()
+    {
         $html    = '<div id="other-id" data-wp-bind--id="myPlugin::state.id">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -87,7 +92,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_sets_number_value() {
+    public function test_wp_bind_sets_number_value()
+    {
         $html    = '<img data-wp-bind--width="myPlugin::state.width">';
         list($p) = $this->process_directives($html);
         $this->assertSame('100', $p->get_attribute('width'));
@@ -100,7 +106,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_sets_true_string() {
+    public function test_wp_bind_sets_true_string()
+    {
         $html               = '<div data-wp-bind--id="myPlugin::state.trueString">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertSame('true', $p->get_attribute('id'));
@@ -114,7 +121,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_sets_false_string() {
+    public function test_wp_bind_sets_false_string()
+    {
         $html               = '<div data-wp-bind--id="myPlugin::state.falseString">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertSame('false', $p->get_attribute('id'));
@@ -128,7 +136,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_ignores_empty_bound_attribute() {
+    public function test_wp_bind_ignores_empty_bound_attribute()
+    {
         $html     = '<div data-wp-bind="myPlugin::state.id">Text</div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame($html, $new_html);
@@ -142,7 +151,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_doesnt_do_anything_on_non_existent_references() {
+    public function test_wp_bind_doesnt_do_anything_on_non_existent_references()
+    {
         $html     = '<div data-wp-bind--id="myPlugin::state.nonExistengKey">Text</div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame($html, $new_html);
@@ -156,7 +166,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      * @covers ::process_directives
      * @expectedIncorrectUsage WP_Interactivity_API::evaluate
      */
-    public function test_wp_bind_ignores_empty_value() {
+    public function test_wp_bind_ignores_empty_value()
+    {
         $html     = '<div data-wp-bind--id="">Text</div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame($html, $new_html);
@@ -170,7 +181,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      * @covers ::process_directives
      * @expectedIncorrectUsage WP_Interactivity_API::evaluate
      */
-    public function test_wp_bind_ignores_without_value() {
+    public function test_wp_bind_ignores_without_value()
+    {
         $html     = '<div data-wp-bind--id>Text</div>';
         $new_html = $this->interactivity->process_directives($html);
         $this->assertSame($html, $new_html);
@@ -184,7 +196,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_works_with_multiple_same_directives() {
+    public function test_wp_bind_works_with_multiple_same_directives()
+    {
         $html    = '<div data-wp-bind--id="myPlugin::state.id" data-wp-bind--id="myPlugin::state.id">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -198,7 +211,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_works_with_multiple_different_directives() {
+    public function test_wp_bind_works_with_multiple_different_directives()
+    {
         $html    = '<img data-wp-bind--id="myPlugin::state.id" data-wp-bind--width="myPlugin::state.width">';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -212,7 +226,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_adds_boolean_attribute_if_true() {
+    public function test_wp_bind_adds_boolean_attribute_if_true()
+    {
         $html               = '<div data-wp-bind--hidden="myPlugin::!state.isOpen">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertTrue($p->get_attribute('hidden'));
@@ -227,7 +242,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_replaces_existing_attribute_if_true() {
+    public function test_wp_bind_replaces_existing_attribute_if_true()
+    {
         $html               = '<div hidden="true" data-wp-bind--hidden="myPlugin::!state.isOpen">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertTrue($p->get_attribute('hidden'));
@@ -242,7 +258,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_doesnt_add_boolean_attribute_if_false_or_null() {
+    public function test_wp_bind_doesnt_add_boolean_attribute_if_false_or_null()
+    {
         $html               = '<div data-wp-bind--hidden="myPlugin::state.isOpen">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('hidden'));
@@ -262,7 +279,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_removes_boolean_attribute_if_false_or_null() {
+    public function test_wp_bind_removes_boolean_attribute_if_false_or_null()
+    {
         $html    = '<div hidden data-wp-bind--hidden="myPlugin::state.isOpen">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('hidden'));
@@ -280,7 +298,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_adds_value_if_true_in_aria_or_data_attributes() {
+    public function test_wp_bind_adds_value_if_true_in_aria_or_data_attributes()
+    {
         $html               = '<div data-wp-bind--aria-hidden="myPlugin::!state.isOpen">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertSame('true', $p->get_attribute('aria-hidden'));
@@ -300,7 +319,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_replaces_value_if_true_in_aria_or_data_attributes() {
+    public function test_wp_bind_replaces_value_if_true_in_aria_or_data_attributes()
+    {
         $html               = '<div aria-hidden="false" data-wp-bind--aria-hidden="myPlugin::!state.isOpen">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertSame('true', $p->get_attribute('aria-hidden'));
@@ -322,7 +342,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_adds_value_if_false_in_aria_or_data_attributes() {
+    public function test_wp_bind_adds_value_if_false_in_aria_or_data_attributes()
+    {
         $html               = '<div data-wp-bind--aria-hidden="myPlugin::state.isOpen">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertSame('false', $p->get_attribute('aria-hidden'));
@@ -342,7 +363,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_replaces_value_if_false_in_aria_or_data_attributes() {
+    public function test_wp_bind_replaces_value_if_false_in_aria_or_data_attributes()
+    {
         $html               = '<div aria-hidden="true" data-wp-bind--aria-hidden="myPlugin::state.isOpen">Text</div>';
         list($p, $new_html) = $this->process_directives($html);
         $this->assertSame('false', $p->get_attribute('aria-hidden'));
@@ -361,7 +383,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_removes_value_if_null_in_aria_or_data_attributes() {
+    public function test_wp_bind_removes_value_if_null_in_aria_or_data_attributes()
+    {
         $html    = '<div aria-hidden="true" data-wp-bind--aria-hidden="myPlugin::state.null">Text</div>';
         list($p) = $this->process_directives($html);
         $this->assertNull($p->get_attribute('aria-hidden'));
@@ -378,7 +401,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_handles_nested_bindings() {
+    public function test_wp_bind_handles_nested_bindings()
+    {
         $html    = '<div data-wp-bind--id="myPlugin::state.id"><img data-wp-bind--width="myPlugin::state.width"></div>';
         list($p) = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -393,7 +417,8 @@ class Tests_WP_Interactivity_API_WP_Bind extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_bind_handles_true_value() {
+    public function test_wp_bind_handles_true_value()
+    {
         $html    = '<div data-wp-bind--id="myPlugin::state.trueValue"></div>';
         list($p) = $this->process_directives($html);
         $this->assertSame(true, $p->get_attribute('id'));

@@ -8,7 +8,8 @@
  *
  * @covers ::wp_maybe_decline_date
  */
-class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase {
+class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase
+{
 
     /**
      * @var string
@@ -20,7 +21,8 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase {
      */
     private $wp_locale_original;
 
-    public function set_up() {
+    public function set_up()
+    {
         global $locale, $wp_locale;
 
         parent::set_up();
@@ -29,7 +31,8 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase {
         $this->wp_locale_original = clone $wp_locale;
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         global $locale, $wp_locale;
 
         $locale    = $this->locale_original;
@@ -45,7 +48,8 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase {
      * @ticket 48934
      * @dataProvider data_wp_maybe_decline_date
      */
-    public function test_wp_maybe_decline_date($test_locale, $format, $input, $output) {
+    public function test_wp_maybe_decline_date($test_locale, $format, $input, $output)
+    {
         global $locale, $wp_locale;
 
         add_filter('gettext_with_context', array($this, 'filter__enable_months_names_declension'), 10, 3);
@@ -63,7 +67,8 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase {
         $this->assertSame($output, $declined_date);
     }
 
-    public function filter__enable_months_names_declension($translation, $text, $context) {
+    public function filter__enable_months_names_declension($translation, $text, $context)
+    {
         if ('decline months names: on or off' === $context) {
             $translation = 'on';
         }
@@ -71,7 +76,8 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase {
         return $translation;
     }
 
-    public function data_wp_maybe_decline_date() {
+    public function data_wp_maybe_decline_date()
+    {
         return array(
             array('ru_RU', 'j F', '21 Июнь', '21 июня'),
             array('ru_RU', 'j F Y', '1 Январь 2016', '1 января 2016'),
@@ -91,7 +97,8 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase {
         );
     }
 
-    private function get_months_names($locale) {
+    private function get_months_names($locale)
+    {
         switch ($locale) {
             case 'ru_RU':
                 $months = array(

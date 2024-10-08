@@ -5,7 +5,8 @@
  * @group widgets
  * @covers ::_wp_block_theme_register_classic_sidebars
  */
-class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase {
+class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase
+{
     /**
      * Original global $wp_registered_sidebars.
      *
@@ -13,7 +14,8 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase 
      */
     private static $wp_registered_sidebars;
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         global $wp_registered_sidebars;
         parent::set_up_before_class();
 
@@ -21,7 +23,8 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase 
         static::$wp_registered_sidebars = $wp_registered_sidebars;
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         // Restore the global after each test.
         global $wp_registered_sidebars;
         $wp_registered_sidebars = static::$wp_registered_sidebars;
@@ -29,7 +32,8 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase 
         parent::tear_down();
     }
 
-    public function test_a_sidebar_should_be_registered() {
+    public function test_a_sidebar_should_be_registered()
+    {
         global $wp_registered_sidebars;
 
         $sidebar_id = array_key_first($wp_registered_sidebars);
@@ -39,7 +43,8 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase 
     /**
      * @ticket 57531
      */
-    public function test_should_reregister_previous_theme_sidebar() {
+    public function test_should_reregister_previous_theme_sidebar()
+    {
         global $wp_registered_sidebars;
 
         $sidebar_id = array_key_first($wp_registered_sidebars);
@@ -67,7 +72,8 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase 
     /**
      * @ticket 57531
      */
-    public function test_should_bail_out_when_theme_mod_is_empty() {
+    public function test_should_bail_out_when_theme_mod_is_empty()
+    {
         global $wp_registered_sidebars;
 
         // Test state before invoking.

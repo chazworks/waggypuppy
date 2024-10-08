@@ -6,7 +6,8 @@
  * @group user
  * @covers ::wp_user_settings
  */
-class Tests_Option_wpUserSettings extends WP_UnitTestCase {
+class Tests_Option_wpUserSettings extends WP_UnitTestCase
+{
 
     /**
      * Tests that PHP 8.1 "passing null to non-nullable" deprecation notice
@@ -20,7 +21,8 @@ class Tests_Option_wpUserSettings extends WP_UnitTestCase {
      *
      * @ticket 54914
      */
-    public function test_wp_user_settings_does_not_throw_deprecation_notice_for_setcookie() {
+    public function test_wp_user_settings_does_not_throw_deprecation_notice_for_setcookie()
+    {
         set_current_screen('edit.php');
         wp_set_current_user(self::factory()->user->create());
 

@@ -37,7 +37,8 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-internal-pointers.php';
  * @param bool        $checked_ontop        Optional. Whether to move checked items out of the hierarchy and to
  *                                          the top of the list. Default true.
  */
-function wp_category_checklist($post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false, $walker = null, $checked_ontop = true) {
+function wp_category_checklist($post_id = 0, $descendants_and_self = 0, $selected_cats = false, $popular_cats = false, $walker = null, $checked_ontop = true)
+{
     wp_terms_checklist(
         $post_id,
         array(
@@ -78,7 +79,8 @@ function wp_category_checklist($post_id = 0, $descendants_and_self = 0, $selecte
  * }
  * @return string HTML list of input elements.
  */
-function wp_terms_checklist($post_id = 0, $args = array()) {
+function wp_terms_checklist($post_id = 0, $args = array())
+{
     $defaults = array(
         'descendants_and_self' => 0,
         'selected_cats'        => false,
@@ -208,7 +210,8 @@ function wp_terms_checklist($post_id = 0, $args = array()) {
  * @param bool   $display      Optional. Whether to display the list as well. Default true.
  * @return int[] Array of popular term IDs.
  */
-function wp_popular_terms_checklist($taxonomy, $default_term = 0, $number = 10, $display = true) {
+function wp_popular_terms_checklist($taxonomy, $default_term = 0, $number = 10, $display = true)
+{
     $post = get_post();
 
     if ($post && $post->ID) {
@@ -264,7 +267,8 @@ function wp_popular_terms_checklist($taxonomy, $default_term = 0, $number = 10, 
  *
  * @param int $link_id Optional. The link ID. Default 0.
  */
-function wp_link_category_checklist($link_id = 0) {
+function wp_link_category_checklist($link_id = 0)
+{
     $default = 1;
 
     $checked_categories = array();
@@ -308,7 +312,8 @@ function wp_link_category_checklist($link_id = 0) {
  *
  * @param WP_Post $post Post object.
  */
-function get_inline_data($post) {
+function get_inline_data($post)
+{
     $post_type_object = get_post_type_object($post->post_type);
     if (! current_user_can('edit_post', $post->ID)) {
         return;
@@ -410,7 +415,8 @@ function get_inline_data($post) {
  *                          otherwise WP_Comments_List_Table. Default 'single'.
  * @param bool   $table_row Optional. Whether to use a table instead of a div element. Default true.
  */
-function wp_comment_reply($position = 1, $checkbox = false, $mode = 'single', $table_row = true) {
+function wp_comment_reply($position = 1, $checkbox = false, $mode = 'single', $table_row = true)
+{
     global $wp_list_table;
     /**
      * Filters the in-line comment reply-to form output in the Comments
@@ -552,7 +558,8 @@ function wp_comment_reply($position = 1, $checkbox = false, $mode = 'single', $t
  *
  * @since 2.9.0
  */
-function wp_comment_trashnotice() {
+function wp_comment_trashnotice()
+{
     ?>
 <div class="hidden" id="trash-undo-holder">
     <div class="trash-undo-inside">
@@ -582,7 +589,8 @@ function wp_comment_trashnotice() {
  *
  * @param array[] $meta An array of meta data arrays keyed on 'meta_key' and 'meta_value'.
  */
-function list_meta($meta) {
+function list_meta($meta)
+{
     // Exit if no meta.
     if (! $meta) {
         echo '
@@ -628,7 +636,8 @@ function list_meta($meta) {
  * @param int   $count Reference to the row number.
  * @return string A single row of public meta data.
  */
-function _list_meta_row($entry, &$count) {
+function _list_meta_row($entry, &$count)
+{
     static $update_nonce = '';
 
     if (is_protected_meta($entry['meta_key'], 'post')) {
@@ -689,7 +698,8 @@ function _list_meta_row($entry, &$count) {
  *
  * @param WP_Post $post Optional. The post being edited.
  */
-function meta_form($post = null) {
+function meta_form($post = null)
+{
     global $wpdb;
     $post = get_post($post);
 
@@ -804,7 +814,8 @@ function meta_form($post = null) {
  * @param int|bool $multi     Optional. Whether the additional fields and buttons should be added.
  *                            Default 0|false.
  */
-function touch_time($edit = 1, $for_post = 1, $tab_index = 0, $multi = 0) {
+function touch_time($edit = 1, $for_post = 1, $tab_index = 0, $multi = 0)
+{
     global $wp_locale;
     $post = get_post();
 
@@ -909,7 +920,8 @@ function touch_time($edit = 1, $for_post = 1, $tab_index = 0, $multi = 0) {
  * @param string $default_template Optional. The template file name. Default empty.
  * @param string $post_type        Optional. Post type to get templates for. Default 'page'.
  */
-function page_template_dropdown($default_template = '', $post_type = 'page') {
+function page_template_dropdown($default_template = '', $post_type = 'page')
+{
     $templates = get_page_templates(null, $post_type);
 
     ksort($templates);
@@ -934,7 +946,8 @@ function page_template_dropdown($default_template = '', $post_type = 'page') {
  * @param int|WP_Post $post         Post ID or WP_Post object.
  * @return void|false Void on success, false if the page has no children.
  */
-function parent_dropdown($default_page = 0, $parent_page = 0, $level = 0, $post = null) {
+function parent_dropdown($default_page = 0, $parent_page = 0, $level = 0, $post = null)
+{
     global $wpdb;
 
     $post  = get_post($post);
@@ -973,7 +986,8 @@ function parent_dropdown($default_page = 0, $parent_page = 0, $level = 0, $post 
  *
  * @param string $selected Slug for the role that should be already selected.
  */
-function wp_dropdown_roles($selected = '') {
+function wp_dropdown_roles($selected = '')
+{
     $r = '';
 
     $editable_roles = array_reverse(get_editable_roles());
@@ -998,7 +1012,8 @@ function wp_dropdown_roles($selected = '') {
  *
  * @param string $action The action attribute for the form.
  */
-function wp_import_upload_form($action) {
+function wp_import_upload_form($action)
+{
 
     /**
      * Filters the maximum allowed upload size for import files.
@@ -1075,7 +1090,8 @@ function wp_import_upload_form($action) {
  *                                              of the box array (which is the second parameter passed
  *                                              to your callback). Default null.
  */
-function add_meta_box($id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null) {
+function add_meta_box($id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null)
+{
     global $wp_meta_boxes;
 
     if (empty($screen)) {
@@ -1183,7 +1199,8 @@ function add_meta_box($id, $title, $callback, $screen = null, $context = 'advanc
  *     @type array    $args         Extra meta box arguments.
  * }
  */
-function do_block_editor_incompatible_meta_box($data_object, $box) {
+function do_block_editor_incompatible_meta_box($data_object, $box)
+{
     $plugin  = _get_plugin_from_callback($box['old_callback']);
     $plugins = get_plugins();
     echo '<p>';
@@ -1244,7 +1261,8 @@ function do_block_editor_incompatible_meta_box($data_object, $box) {
  * @param callable $callback The callback function to check.
  * @return array|null The plugin that the callback belongs to, or null if it doesn't belong to a plugin.
  */
-function _get_plugin_from_callback($callback) {
+function _get_plugin_from_callback($callback)
+{
     try {
         if (is_array($callback)) {
             $reflection = new ReflectionMethod($callback[0], $callback[1]);
@@ -1299,7 +1317,8 @@ function _get_plugin_from_callback($callback) {
  *                                      for example a `WP_Post` or `WP_Comment` object.
  * @return int Number of meta_boxes.
  */
-function do_meta_boxes($screen, $context, $data_object) {
+function do_meta_boxes($screen, $context, $data_object)
+{
     global $wp_meta_boxes;
     static $already_sorted = false;
 
@@ -1484,7 +1503,8 @@ function do_meta_boxes($screen, $context, $data_object) {
  *                                        include 'normal' and 'side'. Menus meta boxes (accordion sections)
  *                                        all use the 'side' context.
  */
-function remove_meta_box($id, $screen, $context) {
+function remove_meta_box($id, $screen, $context)
+{
     global $wp_meta_boxes;
 
     if (empty($screen)) {
@@ -1534,7 +1554,8 @@ function remove_meta_box($id, $screen, $context) {
  * @param mixed         $data_object Gets passed to the section callback function as the first parameter.
  * @return int Number of meta boxes as accordion sections.
  */
-function do_accordion_sections($screen, $context, $data_object) {
+function do_accordion_sections($screen, $context, $data_object)
+{
     global $wp_meta_boxes;
 
     wp_enqueue_script('accordion');
@@ -1631,7 +1652,8 @@ function do_accordion_sections($screen, $context, $data_object) {
  *     @type string $section_class  The class name to use for the section. Default empty.
  * }
  */
-function add_settings_section($id, $title, $callback, $page, $args = array()) {
+function add_settings_section($id, $title, $callback, $page, $args = array())
+{
     global $wp_settings_sections;
 
     $defaults = array(
@@ -1709,7 +1731,8 @@ function add_settings_section($id, $title, $callback, $page, $args = array()) {
  *                             field is output.
  * }
  */
-function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array()) {
+function add_settings_field($id, $title, $callback, $page, $section = 'default', $args = array())
+{
     global $wp_settings_fields;
 
     if ('misc' === $page) {
@@ -1759,7 +1782,8 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
  *
  * @param string $page The slug name of the page whose settings sections you want to output.
  */
-function do_settings_sections($page) {
+function do_settings_sections($page)
+{
     global $wp_settings_sections, $wp_settings_fields;
 
     if (! isset($wp_settings_sections[ $page ])) {
@@ -1810,7 +1834,8 @@ function do_settings_sections($page) {
  * @param string $page Slug title of the admin page whose settings fields you want to show.
  * @param string $section Slug title of the settings section whose fields you want to show.
  */
-function do_settings_fields($page, $section) {
+function do_settings_fields($page, $section)
+{
     global $wp_settings_fields;
 
     if (! isset($wp_settings_fields[ $page ][ $section ])) {
@@ -1864,7 +1889,8 @@ function do_settings_fields($page, $section) {
  * @param string $type    Optional. Message type, controls HTML class. Possible values include 'error',
  *                        'success', 'warning', 'info'. Default 'error'.
  */
-function add_settings_error($setting, $code, $message, $type = 'error') {
+function add_settings_error($setting, $code, $message, $type = 'error')
+{
     global $wp_settings_errors;
 
     $wp_settings_errors[] = array(
@@ -1911,7 +1937,8 @@ function add_settings_error($setting, $code, $message, $type = 'error') {
  *     }
  * }
  */
-function get_settings_errors($setting = '', $sanitize = false) {
+function get_settings_errors($setting = '', $sanitize = false)
+{
     global $wp_settings_errors;
 
     /*
@@ -1979,7 +2006,8 @@ function get_settings_errors($setting = '', $sanitize = false) {
  * @param bool   $hide_on_update If set to true errors will not be shown if the settings page has
  *                               already been submitted.
  */
-function settings_errors($setting = '', $sanitize = false, $hide_on_update = false) {
+function settings_errors($setting = '', $sanitize = false, $hide_on_update = false)
+{
 
     if ($hide_on_update && ! empty($_GET['settings-updated'])) {
         return;
@@ -2026,7 +2054,8 @@ function settings_errors($setting = '', $sanitize = false, $hide_on_update = fal
  *
  * @param string $found_action Optional. The value of the 'found_action' input field. Default empty string.
  */
-function find_posts_div($found_action = '') {
+function find_posts_div($found_action = '')
+{
     ?>
     <div id="find-posts" class="find-box" style="display: none;">
         <div id="find-posts-head" class="find-box-head">
@@ -2073,7 +2102,8 @@ function find_posts_div($found_action = '') {
  *
  * @since 2.7.0
  */
-function the_post_password() {
+function the_post_password()
+{
     $post = get_post();
     if (isset($post->post_password)) {
         echo esc_attr($post->post_password);
@@ -2091,7 +2121,8 @@ function the_post_password() {
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string The post title if set.
  */
-function _draft_or_post_title($post = 0) {
+function _draft_or_post_title($post = 0)
+{
     $title = get_the_title($post);
     if (empty($title)) {
         $title = __('(no title)');
@@ -2107,7 +2138,8 @@ function _draft_or_post_title($post = 0) {
  *
  * @since 2.7.0
  */
-function _admin_search_query() {
+function _admin_search_query()
+{
     echo isset($_REQUEST['s']) ? esc_attr(wp_unslash($_REQUEST['s'])) : '';
 }
 
@@ -2124,7 +2156,8 @@ function _admin_search_query() {
  * @param string $title      Optional. Title of the Iframe page. Default empty.
  * @param bool   $deprecated Not used.
  */
-function iframe_header($title = '', $deprecated = false) {
+function iframe_header($title = '', $deprecated = false)
+{
     global $hook_suffix, $admin_body_class, $body_id, $wp_locale;
 
     show_admin_bar(false);
@@ -2204,7 +2237,8 @@ document.body.className = c;
  *
  * @since 2.7.0
  */
-function iframe_footer() {
+function iframe_footer()
+{
     /*
      * We're going to hide any footer output on iFrame pages,
      * but run the hooks anyway since they output JavaScript
@@ -2247,7 +2281,8 @@ function iframe_footer() {
  *                         Default true.
  * @return string Post states string.
  */
-function _post_states($post, $display = true) {
+function _post_states($post, $display = true)
+{
     $post_states        = get_post_states($post);
     $post_states_string = '';
 
@@ -2282,7 +2317,8 @@ function _post_states($post, $display = true) {
  * @param WP_Post $post The post to retrieve states for.
  * @return string[] Array of post state labels keyed by their state.
  */
-function get_post_states($post) {
+function get_post_states($post)
+{
     $post_states = array();
 
     if (isset($_REQUEST['post_status'])) {
@@ -2361,7 +2397,8 @@ function get_post_states($post) {
  *                         Default true.
  * @return string Media states string.
  */
-function _media_states($post, $display = true) {
+function _media_states($post, $display = true)
+{
     $media_states        = get_media_states($post);
     $media_states_string = '';
 
@@ -2396,7 +2433,8 @@ function _media_states($post, $display = true) {
  * @param WP_Post $post The attachment to retrieve states for.
  * @return string[] Array of media state labels keyed by their state.
  */
-function get_media_states($post) {
+function get_media_states($post)
+{
     static $header_images;
 
     $media_states = array();
@@ -2479,7 +2517,8 @@ function get_media_states($post) {
  *
  * @since 2.8.0
  */
-function compression_test() {
+function compression_test()
+{
     ?>
     <script type="text/javascript">
     var compressionNonce = <?php echo wp_json_encode(wp_create_nonce('update_can_compress_scripts')); ?>;
@@ -2555,7 +2594,8 @@ function compression_test() {
  *                                       e.g. `id="search-submit"`, though the array format is generally preferred.
  *                                       Default empty string.
  */
-function submit_button($text = '', $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = '') {
+function submit_button($text = '', $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = '')
+{
     echo get_submit_button($text, $type, $name, $wrap, $other_attributes);
 }
 
@@ -2580,7 +2620,8 @@ function submit_button($text = '', $type = 'primary', $name = 'submit', $wrap = 
  *                                       Default empty string.
  * @return string Submit button HTML.
  */
-function get_submit_button($text = '', $type = 'primary large', $name = 'submit', $wrap = true, $other_attributes = '') {
+function get_submit_button($text = '', $type = 'primary large', $name = 'submit', $wrap = true, $other_attributes = '')
+{
     if (! is_array($type)) {
         $type = explode(' ', $type);
     }
@@ -2636,7 +2677,8 @@ function get_submit_button($text = '', $type = 'primary large', $name = 'submit'
  *
  * @global bool $is_IE
  */
-function _wp_admin_html_begin() {
+function _wp_admin_html_begin()
+{
     global $is_IE;
 
     $admin_html_class = (is_admin_bar_showing()) ? 'wp-toolbar' : '';
@@ -2672,7 +2714,8 @@ function _wp_admin_html_begin() {
  * @param string $hook_name The hook name (also known as the hook suffix) used to determine the screen.
  * @return WP_Screen Screen object.
  */
-function convert_to_screen($hook_name) {
+function convert_to_screen($hook_name)
+{
     if (! class_exists('WP_Screen')) {
         _doing_it_wrong(
             'convert_to_screen(), add_meta_box()',
@@ -2700,7 +2743,8 @@ function convert_to_screen($hook_name) {
  * @since 3.6.0
  * @access private
  */
-function _local_storage_notice() {
+function _local_storage_notice()
+{
     $local_storage_message  = '<p class="local-restore">';
     $local_storage_message .= __('The backup of this post in your browser is different from the version below.');
     $local_storage_message .= '<button type="button" class="button restore-backup">' . __('Restore the backup') . '</button></p>';
@@ -2742,7 +2786,8 @@ function _local_storage_notice() {
  * }
  * @return string Star rating HTML.
  */
-function wp_star_rating($args = array()) {
+function wp_star_rating($args = array())
+{
     $defaults    = array(
         'rating' => 0,
         'type'   => 'rating',
@@ -2793,7 +2838,8 @@ function wp_star_rating($args = array()) {
  * @ignore
  * @since 4.2.0
  */
-function _wp_posts_page_notice() {
+function _wp_posts_page_notice()
+{
     wp_admin_notice(
         __('You are currently editing the page that shows your latest posts.'),
         array(
@@ -2809,7 +2855,8 @@ function _wp_posts_page_notice() {
  * @ignore
  * @since 5.8.0
  */
-function _wp_block_editor_posts_page_notice() {
+function _wp_block_editor_posts_page_notice()
+{
     wp_add_inline_script(
         'wp-notices',
         sprintf(

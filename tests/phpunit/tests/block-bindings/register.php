@@ -9,7 +9,8 @@
  * @group blocks
  * @group block-bindings
  */
-class Tests_Block_Bindings_Register extends WP_UnitTestCase {
+class Tests_Block_Bindings_Register extends WP_UnitTestCase
+{
 
     public static $test_source_name       = 'test/source';
     public static $test_source_properties = array();
@@ -19,7 +20,8 @@ class Tests_Block_Bindings_Register extends WP_UnitTestCase {
      *
      * @since 6.5.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         self::$test_source_properties = array(
@@ -35,7 +37,8 @@ class Tests_Block_Bindings_Register extends WP_UnitTestCase {
      *
      * @since 6.5.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         foreach (get_all_registered_block_bindings_sources() as $source_name => $source_properties) {
             if (str_starts_with($source_name, 'test/')) {
                 unregister_block_bindings_source($source_name);
@@ -55,7 +58,8 @@ class Tests_Block_Bindings_Register extends WP_UnitTestCase {
      * @covers ::get_block_bindings_source
      * @covers WP_Block_Bindings_Source::__construct
      */
-    public function test_get_all_registered() {
+    public function test_get_all_registered()
+    {
         $source_one_name       = 'test/source-one';
         $source_one_properties = self::$test_source_properties;
         register_block_bindings_source($source_one_name, $source_one_properties);
@@ -89,7 +93,8 @@ class Tests_Block_Bindings_Register extends WP_UnitTestCase {
      * @covers ::unregister_block_bindings_source
      * @covers WP_Block_Bindings_Source::__construct
      */
-    public function test_unregister_block_source() {
+    public function test_unregister_block_source()
+    {
         register_block_bindings_source(self::$test_source_name, self::$test_source_properties);
 
         $result = unregister_block_bindings_source(self::$test_source_name);

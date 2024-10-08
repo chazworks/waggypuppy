@@ -9,7 +9,8 @@
  *
  * @covers ::is_serialized_string
  */
-class Tests_Functions_IsSerializedString extends WP_UnitTestCase {
+class Tests_Functions_IsSerializedString extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_is_serialized_string
@@ -17,7 +18,8 @@ class Tests_Functions_IsSerializedString extends WP_UnitTestCase {
      * @param array|object|int|string $data     Data value to test.
      * @param bool                    $expected Expected function result.
      */
-    public function test_is_serialized_string($data, $expected) {
+    public function test_is_serialized_string($data, $expected)
+    {
         $this->assertSame($expected, is_serialized_string($data));
     }
 
@@ -26,7 +28,8 @@ class Tests_Functions_IsSerializedString extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_serialized_string() {
+    public function data_is_serialized_string()
+    {
         return array(
             'an array'                                => array(
                 'data'     => array(),

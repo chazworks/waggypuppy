@@ -16,7 +16,8 @@
  * @since 3.5.0
  */
 #[AllowDynamicProperties]
-class WP_SimplePie_Sanitize_KSES extends SimplePie\Sanitize {
+class WP_SimplePie_Sanitize_KSES extends SimplePie\Sanitize
+{
 
     /**
      * WordPress SimplePie sanitization using KSES.
@@ -31,7 +32,8 @@ class WP_SimplePie_Sanitize_KSES extends SimplePie\Sanitize {
      *                      URLs to absolute ones. Default empty.
      * @return mixed Sanitized data.
      */
-    public function sanitize($data, $type, $base = '') {
+    public function sanitize($data, $type, $base = '')
+    {
         $data = trim($data);
         if ($type & SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML) {
             if (preg_match('/(&(#(x[0-9a-fA-F]+|[0-9]+)|[a-zA-Z0-9]+)|<\/[A-Za-z][^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3E]*' . SIMPLEPIE_PCRE_HTML_ATTRIBUTE . '>)/', $data)) {

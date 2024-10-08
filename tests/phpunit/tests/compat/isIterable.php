@@ -5,14 +5,16 @@
  *
  * @covers ::is_iterable
  */
-class Tests_Compat_isIterable extends WP_UnitTestCase {
+class Tests_Compat_isIterable extends WP_UnitTestCase
+{
 
     /**
      * Test that is_iterable() is always available (either from PHP or WP).
      *
      * @ticket 43619
      */
-    public function test_is_iterable_availability() {
+    public function test_is_iterable_availability()
+    {
         $this->assertTrue(function_exists('is_iterable'));
     }
 
@@ -26,7 +28,8 @@ class Tests_Compat_isIterable extends WP_UnitTestCase {
      * @param mixed $variable    Variable to check.
      * @param bool  $is_iterable The expected return value of PHP 7.1 is_iterable() function.
      */
-    public function test_is_iterable_functionality($variable, $is_iterable) {
+    public function test_is_iterable_functionality($variable, $is_iterable)
+    {
         $this->assertSame($is_iterable, is_iterable($variable));
     }
 
@@ -42,7 +45,8 @@ class Tests_Compat_isIterable extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_is_iterable_functionality() {
+    public function data_is_iterable_functionality()
+    {
         return array(
             'empty array'           => array(
                 'variable'    => array(),

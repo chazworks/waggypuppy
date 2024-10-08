@@ -6,7 +6,8 @@
  *
  * @covers ::wp_set_option_autoload_values
  */
-class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
+class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase
+{
 
     /**
      * Tests setting options' autoload to 'yes' where for some options this is already the case.
@@ -15,7 +16,8 @@ class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_values_all_yes_partial_update() {
+    public function test_wp_set_option_autoload_values_all_yes_partial_update()
+    {
         global $wpdb;
 
         $options = array(
@@ -48,7 +50,8 @@ class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_values_all_no_partial_update() {
+    public function test_wp_set_option_autoload_values_all_no_partial_update()
+    {
         global $wpdb;
 
         $options = array(
@@ -78,7 +81,8 @@ class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_values_all_yes_no_update() {
+    public function test_wp_set_option_autoload_values_all_yes_no_update()
+    {
         global $wpdb;
 
         $options = array(
@@ -108,7 +112,8 @@ class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_values_mixed_partial_update() {
+    public function test_wp_set_option_autoload_values_mixed_partial_update()
+    {
         global $wpdb;
 
         $options = array(
@@ -144,7 +149,8 @@ class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_values_mixed_only_update_no() {
+    public function test_wp_set_option_autoload_values_mixed_only_update_no()
+    {
         global $wpdb;
 
         $options = array(
@@ -179,7 +185,8 @@ class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_values_with_sql_query_failure() {
+    public function test_wp_set_option_autoload_values_with_sql_query_failure()
+    {
         global $wpdb;
 
         $options = array(
@@ -213,7 +220,8 @@ class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_values_with_bool() {
+    public function test_wp_set_option_autoload_values_with_bool()
+    {
         global $wpdb;
 
         $options = array(
@@ -238,7 +246,8 @@ class Tests_Option_WpSetOptionAutoloadValues extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_values_with_empty_array() {
+    public function test_wp_set_option_autoload_values_with_empty_array()
+    {
         $num_queries = get_num_queries();
         $this->assertSame(array(), wp_set_option_autoload_values(array()), 'Function produced unexpected result');
         $this->assertSame($num_queries, get_num_queries(), 'Function made unexpected amount of database queries');

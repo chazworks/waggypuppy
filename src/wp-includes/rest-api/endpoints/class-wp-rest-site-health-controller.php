@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Site_Health_Controller extends WP_REST_Controller {
+class WP_REST_Site_Health_Controller extends WP_REST_Controller
+{
 
     /**
      * An instance of the site health class.
@@ -32,7 +33,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @param WP_Site_Health $site_health An instance of the site health class.
      */
-    public function __construct($site_health) {
+    public function __construct($site_health)
+    {
         $this->namespace = 'wp-site-health/v1';
         $this->rest_base = 'tests';
 
@@ -47,7 +49,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             sprintf(
@@ -185,7 +188,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      * @param string $check The endpoint check being ran.
      * @return bool
      */
-    protected function validate_request_permission($check) {
+    protected function validate_request_permission($check)
+    {
         $default_capability = 'view_site_health_checks';
 
         /**
@@ -208,7 +212,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @return array
      */
-    public function test_background_updates() {
+    public function test_background_updates()
+    {
         $this->load_admin_textdomain();
         return $this->site_health->get_test_background_updates();
     }
@@ -220,7 +225,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @return array
      */
-    public function test_dotorg_communication() {
+    public function test_dotorg_communication()
+    {
         $this->load_admin_textdomain();
         return $this->site_health->get_test_dotorg_communication();
     }
@@ -232,7 +238,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @return array
      */
-    public function test_loopback_requests() {
+    public function test_loopback_requests()
+    {
         $this->load_admin_textdomain();
         return $this->site_health->get_test_loopback_requests();
     }
@@ -244,7 +251,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @return array
      */
-    public function test_https_status() {
+    public function test_https_status()
+    {
         $this->load_admin_textdomain();
         return $this->site_health->get_test_https_status();
     }
@@ -256,7 +264,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @return array
      */
-    public function test_authorization_header() {
+    public function test_authorization_header()
+    {
         $this->load_admin_textdomain();
         return $this->site_health->get_test_authorization_header();
     }
@@ -268,7 +277,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @return array The test result.
      */
-    public function test_page_cache() {
+    public function test_page_cache()
+    {
         $this->load_admin_textdomain();
         return $this->site_health->get_test_page_cache();
     }
@@ -280,7 +290,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @return array|WP_Error
      */
-    public function get_directory_sizes() {
+    public function get_directory_sizes()
+    {
         if (! class_exists('WP_Debug_Data')) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
         }
@@ -332,7 +343,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @since 5.6.0
      */
-    protected function load_admin_textdomain() {
+    protected function load_admin_textdomain()
+    {
         // Accounts for inner REST API requests in the admin.
         if (! is_admin()) {
             $locale = determine_locale();
@@ -347,7 +359,8 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
      *
      * @return array The test schema.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->schema;
         }

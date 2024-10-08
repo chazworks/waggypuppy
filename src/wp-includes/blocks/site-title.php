@@ -14,7 +14,8 @@
  *
  * @return string The render.
  */
-function render_block_core_site_title($attributes) {
+function render_block_core_site_title($attributes)
+{
     $site_title = get_bloginfo('name');
     if (! $site_title) {
         return;
@@ -58,7 +59,8 @@ function render_block_core_site_title($attributes) {
  *
  * @since 5.8.0
  */
-function register_block_core_site_title() {
+function register_block_core_site_title()
+{
     register_block_type_from_metadata(
         __DIR__ . '/site-title',
         array(

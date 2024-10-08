@@ -143,7 +143,8 @@
  *
  * @since 6.6.0
  */
-class WP_Token_Map {
+class WP_Token_Map
+{
     /**
      * Denotes the version of the code which produces pre-computed source tables.
      *
@@ -280,7 +281,8 @@ class WP_Token_Map {
      *
      * @return WP_Token_Map|null Token map, unless unable to create it.
      */
-    public static function from_array(array $mappings, int $key_length = 2): ?WP_Token_Map {
+    public static function from_array(array $mappings, int $key_length = 2): ?WP_Token_Map
+    {
         $map             = new WP_Token_Map();
         $map->key_length = $key_length;
 
@@ -384,7 +386,8 @@ class WP_Token_Map {
      *
      * @return WP_Token_Map Map with precomputed data loaded.
      */
-    public static function from_precomputed_table($state): ?WP_Token_Map {
+    public static function from_precomputed_table($state): ?WP_Token_Map
+    {
         $has_necessary_state = isset(
             $state['storage_version'],
             $state['key_length'],
@@ -438,7 +441,8 @@ class WP_Token_Map {
      * @param string $case_sensitivity Optional. Pass 'ascii-case-insensitive' to ignore ASCII case when matching. Default 'case-sensitive'.
      * @return bool Whether there's an entry for the given word in the map.
      */
-    public function contains(string $word, string $case_sensitivity = 'case-sensitive'): bool {
+    public function contains(string $word, string $case_sensitivity = 'case-sensitive'): bool
+    {
         $ignore_case = 'ascii-case-insensitive' === $case_sensitivity;
 
         if ($this->key_length >= strlen($word)) {
@@ -526,7 +530,8 @@ class WP_Token_Map {
      *
      * @return string|null Mapped value of lookup key if found, otherwise `null`.
      */
-    public function read_token(string $text, int $offset = 0, &$matched_token_byte_length = null, $case_sensitivity = 'case-sensitive'): ?string {
+    public function read_token(string $text, int $offset = 0, &$matched_token_byte_length = null, $case_sensitivity = 'case-sensitive'): ?string
+    {
         $ignore_case = 'ascii-case-insensitive' === $case_sensitivity;
         $text_length = strlen($text);
 
@@ -579,7 +584,8 @@ class WP_Token_Map {
      *
      * @return string|null Mapped value of lookup key if found, otherwise `null`.
      */
-    private function read_small_token(string $text, int $offset = 0, &$matched_token_byte_length = null, $case_sensitivity = 'case-sensitive'): ?string {
+    private function read_small_token(string $text, int $offset = 0, &$matched_token_byte_length = null, $case_sensitivity = 'case-sensitive'): ?string
+    {
         $ignore_case  = 'ascii-case-insensitive' === $case_sensitivity;
         $small_length = strlen($this->small_words);
         $search_text  = substr($text, $offset, $this->key_length);
@@ -632,7 +638,8 @@ class WP_Token_Map {
      *
      * @return array The lookup key/substitution values as an associate array.
      */
-    public function to_array(): array {
+    public function to_array(): array
+    {
         $tokens = array();
 
         $at            = 0;
@@ -694,7 +701,8 @@ class WP_Token_Map {
      * @param string $indent Optional. Use this string for indentation, or rely on the default horizontal tab character. Default "\t".
      * @return string Value which can be pasted into a PHP source file for quick loading of table.
      */
-    public function precomputed_php_source_table(string $indent = "\t"): string {
+    public function precomputed_php_source_table(string $indent = "\t"): string
+    {
         $i1 = $indent;
         $i2 = $i1 . $indent;
         $i3 = $i2 . $indent;
@@ -799,7 +807,8 @@ class WP_Token_Map {
      * @param string $b Second string to compare.
      * @return int -1 or lower if `$a` is less than `$b`; 1 or greater if `$a` is greater than `$b`, and 0 if they are equal.
      */
-    private static function longest_first_then_alphabetical(string $a, string $b): int {
+    private static function longest_first_then_alphabetical(string $a, string $b): int
+    {
         if ($a === $b) {
             return 0;
         }

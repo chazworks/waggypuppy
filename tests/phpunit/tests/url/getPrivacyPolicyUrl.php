@@ -11,7 +11,8 @@
  *
  * @covers ::get_privacy_policy_url
  */
-class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase {
+class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase
+{
     /**
      * The ID of the Privacy Policy page.
      *
@@ -33,7 +34,8 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The base factory object.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$privacy_policy_page_id = $factory->post->create(
             array(
                 'post_type'  => 'page',
@@ -45,14 +47,16 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase {
     /**
      * The function should return an empty string when `wp_page_for_privacy_policy` is _not_ set.
      */
-    public function test_get_privacy_policy_url_should_return_empty_string_when_policy_page_not_set() {
+    public function test_get_privacy_policy_url_should_return_empty_string_when_policy_page_not_set()
+    {
         $this->assertSame('', get_privacy_policy_url());
     }
 
     /**
      * The function should return the privacy policy URL when `wp_page_for_privacy_policy` is set.
      */
-    public function test_get_privacy_policy_url_should_return_valid_url_when_policy_page_set() {
+    public function test_get_privacy_policy_url_should_return_valid_url_when_policy_page_set()
+    {
         $privacy_policy_url = get_permalink(self::$privacy_policy_page_id);
         update_option('wp_page_for_privacy_policy', self::$privacy_policy_page_id);
 
@@ -62,7 +66,8 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase {
     /**
      * The function should return an empty string for an invalid `wp_page_for_privacy_policy` value.
      */
-    public function test_get_privacy_policy_url_should_return_empty_for_non_existing_page() {
+    public function test_get_privacy_policy_url_should_return_empty_for_non_existing_page()
+    {
         update_option('wp_page_for_privacy_policy', PHP_INT_MAX);
 
         $this->assertSame('', get_privacy_policy_url());
@@ -71,7 +76,8 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase {
     /**
      * The output of `get_privacy_policy_url()` should be filterable with the 'privacy_policy_url' filter.
      */
-    public function test_get_privacy_policy_url_should_be_filterable() {
+    public function test_get_privacy_policy_url_should_be_filterable()
+    {
         update_option('wp_page_for_privacy_policy', self::$privacy_policy_page_id);
 
         add_filter('privacy_policy_url', array($this, 'modify_policy_url'), 10, 2);
@@ -87,7 +93,8 @@ class Tests_Url_GetPrivacyPolicyUrl extends WP_UnitTestCase {
      * @param int    $policy_page_id The ID of privacy policy page.
      * @return string
      */
-    public static function modify_policy_url($url, $policy_page_id) {
+    public static function modify_policy_url($url, $policy_page_id)
+    {
         return 'Page ID: ' . $policy_page_id;
     }
 }

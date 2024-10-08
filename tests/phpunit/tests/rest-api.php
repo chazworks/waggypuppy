@@ -13,8 +13,10 @@ require_once __DIR__ . '/../includes/class-jsonserializable-object.php';
 /**
  * @group restapi
  */
-class Tests_REST_API extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_REST_API extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
 
         // Override the normal server with our spying server.
@@ -22,16 +24,19 @@ class Tests_REST_API extends WP_UnitTestCase {
         do_action('rest_api_init', $GLOBALS['wp_rest_server']);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         remove_filter('wp_rest_server_class', array($this, 'filter_wp_rest_server_class'));
         parent::tear_down();
     }
 
-    public function filter_wp_rest_server_class($class_name) {
+    public function filter_wp_rest_server_class($class_name)
+    {
         return 'Spy_REST_Server';
     }
 
-    public function test_rest_get_server_fails_with_undefined_method() {
+    public function test_rest_get_server_fails_with_undefined_method()
+    {
         $this->expectException(Error::class);
         rest_get_server()->does_not_exist();
     }
@@ -39,7 +44,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * Checks that the main classes are loaded.
      */
-    public function test_rest_api_active() {
+    public function test_rest_api_active()
+    {
         $this->assertTrue(class_exists('WP_REST_Server'));
         $this->assertTrue(class_exists('WP_REST_Request'));
         $this->assertTrue(class_exists('WP_REST_Response'));
@@ -50,11 +56,13 @@ class Tests_REST_API extends WP_UnitTestCase {
      * The rest_api_init hook should have been registered with init, and should
      * have a default priority of 10.
      */
-    public function test_init_action_added() {
+    public function test_init_action_added()
+    {
         $this->assertSame(10, has_action('init', 'rest_api_init'));
     }
 
-    public function test_add_extra_api_taxonomy_arguments() {
+    public function test_add_extra_api_taxonomy_arguments()
+    {
         $taxonomy = get_taxonomy('category');
         $this->assertTrue($taxonomy->show_in_rest);
         $this->assertSame('categories', $taxonomy->rest_base);
@@ -66,7 +74,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         $this->assertSame('WP_REST_Terms_Controller', $taxonomy->rest_controller_class);
     }
 
-    public function test_add_extra_api_post_type_arguments() {
+    public function test_add_extra_api_post_type_arguments()
+    {
         $post_type = get_post_type_object('post');
         $this->assertTrue($post_type->show_in_rest);
         $this->assertSame('posts', $post_type->rest_base);
@@ -88,7 +97,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * Ensures that single and multiple routes are handled correctly.
      */
-    public function test_route_canonicalized() {
+    public function test_route_canonicalized()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -124,7 +134,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * Ensures that single and multiple routes are handled correctly.
      */
-    public function test_route_canonicalized_multiple() {
+    public function test_route_canonicalized_multiple()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -167,7 +178,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * Check that routes are merged by default.
      */
-    public function test_route_merge() {
+    public function test_route_merge()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -196,7 +208,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * Check that we can override routes.
      */
-    public function test_route_override() {
+    public function test_route_override()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -234,7 +247,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage register_rest_route
      */
-    public function test_route_reject_empty_namespace() {
+    public function test_route_reject_empty_namespace()
+    {
         register_rest_route(
             '',
             '/test-empty-namespace',
@@ -254,7 +268,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage register_rest_route
      */
-    public function test_route_reject_empty_route() {
+    public function test_route_reject_empty_route()
+    {
         register_rest_route(
             '/test-empty-route',
             '',
@@ -272,12 +287,14 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * The rest_route query variable should be registered.
      */
-    public function test_rest_route_query_var() {
+    public function test_rest_route_query_var()
+    {
         rest_api_init();
         $this->assertContains('rest_route', $GLOBALS['wp']->public_query_vars);
     }
 
-    public function test_route_method() {
+    public function test_route_method()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -296,7 +313,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * The 'methods' arg should accept a single value as well as array.
      */
-    public function test_route_method_string() {
+    public function test_route_method_string()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -315,7 +333,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * The 'methods' arg should accept a single value as well as array.
      */
-    public function test_route_method_array() {
+    public function test_route_method_array()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -340,7 +359,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * The 'methods' arg should a comma-separated string.
      */
-    public function test_route_method_comma_separated() {
+    public function test_route_method_comma_separated()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -362,7 +382,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         );
     }
 
-    public function test_options_request() {
+    public function test_options_request()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -385,7 +406,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * Ensure that the OPTIONS handler doesn't kick in for non-OPTIONS requests.
      */
-    public function test_options_request_not_options() {
+    public function test_options_request_not_options()
+    {
         register_rest_route(
             'test-ns',
             '/test',
@@ -405,7 +427,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * Ensure that result fields are not allowed if no request['_fields'] is present.
      */
-    public function test_rest_filter_response_fields_no_request_filter() {
+    public function test_rest_filter_response_fields_no_request_filter()
+    {
         $response = new WP_REST_Response();
         $response->set_data(array('a' => true));
         $request = array();
@@ -417,7 +440,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * Ensure that result fields are allowed if request['_fields'] is present.
      */
-    public function test_rest_filter_response_fields_single_field_filter() {
+    public function test_rest_filter_response_fields_single_field_filter()
+    {
         $response = new WP_REST_Response();
         $response->set_data(
             array(
@@ -437,7 +461,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * Ensure that multiple comma-separated fields may be allowed with request['_fields'].
      */
-    public function test_rest_filter_response_fields_multi_field_filter() {
+    public function test_rest_filter_response_fields_multi_field_filter()
+    {
         $response = new WP_REST_Response();
         $response->set_data(
             array(
@@ -468,7 +493,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      * Ensure that multiple comma-separated fields may be allowed
      * with request['_fields'] using query parameter array syntax.
      */
-    public function test_rest_filter_response_fields_multi_field_filter_array() {
+    public function test_rest_filter_response_fields_multi_field_filter_array()
+    {
         $response = new WP_REST_Response();
 
         $response->set_data(
@@ -499,7 +525,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * Ensure that request['_fields'] allowed list apply to items in response collections.
      */
-    public function test_rest_filter_response_fields_numeric_array() {
+    public function test_rest_filter_response_fields_numeric_array()
+    {
         $response = new WP_REST_Response();
         $response->set_data(
             array(
@@ -549,7 +576,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @ticket 42094
      */
-    public function test_rest_filter_response_fields_nested_field_filter() {
+    public function test_rest_filter_response_fields_nested_field_filter()
+    {
         $response = new WP_REST_Response();
 
         $response->set_data(
@@ -590,7 +618,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @ticket 49648
      */
-    public function test_rest_filter_response_fields_deeply_nested_field_filter() {
+    public function test_rest_filter_response_fields_deeply_nested_field_filter()
+    {
         $response = new WP_REST_Response();
 
         $response->set_data(
@@ -632,7 +661,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @ticket 48266
      */
-    public function test_rest_filter_response_fields_top_level_key() {
+    public function test_rest_filter_response_fields_top_level_key()
+    {
         $response = new WP_REST_Response();
 
         $response->set_data(
@@ -664,7 +694,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @ticket 48266
      */
-    public function test_rest_filter_response_fields_child_after_parent() {
+    public function test_rest_filter_response_fields_child_after_parent()
+    {
         $response = new WP_REST_Response();
 
         $response->set_data(
@@ -696,7 +727,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @ticket 48266
      */
-    public function test_rest_filter_response_fields_include_all_specified_siblings() {
+    public function test_rest_filter_response_fields_include_all_specified_siblings()
+    {
         $response = new WP_REST_Response();
 
         $response->set_data(
@@ -726,7 +758,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 42094
      */
-    public function test_rest_is_field_included() {
+    public function test_rest_is_field_included()
+    {
         $fields = array(
             'id',
             'title',
@@ -751,7 +784,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      * The get_rest_url function should return a URL consistently terminated with a "/",
      * whether the blog is configured with pretty permalink support or not.
      */
-    public function test_rest_url_generation() {
+    public function test_rest_url_generation()
+    {
         // In pretty permalinks case, we expect a path of wp-json/ with no query.
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
         $this->assertSame('http://' . WP_TESTS_DOMAIN . '/wp-json/', get_rest_url());
@@ -768,7 +802,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 34299
      */
-    public function test_rest_url_scheme() {
+    public function test_rest_url_scheme()
+    {
         $_SERVER['SERVER_NAME'] = parse_url(home_url(), PHP_URL_HOST);
         $_siteurl               = get_option('siteurl');
 
@@ -807,7 +842,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 42452
      */
-    public function test_always_prepend_path_with_slash_in_rest_url_filter() {
+    public function test_always_prepend_path_with_slash_in_rest_url_filter()
+    {
         $filter = new MockAction();
         add_filter('rest_url', array($filter, 'filter'), 10, 2);
 
@@ -834,11 +870,13 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @dataProvider data_jsonp_callback_check
      */
-    public function test_jsonp_callback_check($callback, $expected) {
+    public function test_jsonp_callback_check($callback, $expected)
+    {
         $this->assertSame($expected, wp_check_jsonp_callback($callback));
     }
 
-    public function data_jsonp_callback_check() {
+    public function data_jsonp_callback_check()
+    {
         return array(
             // Standard names.
             array('Springfield', true),
@@ -859,11 +897,13 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @dataProvider data_rest_parse_date
      */
-    public function test_rest_parse_date($date, $expected) {
+    public function test_rest_parse_date($date, $expected)
+    {
         $this->assertEquals($expected, rest_parse_date($date));
     }
 
-    public function data_rest_parse_date() {
+    public function data_rest_parse_date()
+    {
         return array(
             // Valid dates with timezones.
             array('2017-01-16T11:30:00-05:00', gmmktime(11, 30, 0, 1, 16, 2017) + 5 * HOUR_IN_SECONDS),
@@ -891,11 +931,13 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @dataProvider data_rest_parse_date_force_utc
      */
-    public function test_rest_parse_date_force_utc($date, $expected) {
+    public function test_rest_parse_date_force_utc($date, $expected)
+    {
         $this->assertSame($expected, rest_parse_date($date, true));
     }
 
-    public function data_rest_parse_date_force_utc() {
+    public function data_rest_parse_date_force_utc()
+    {
         return array(
             // Valid dates with timezones.
             array('2017-01-16T11:30:00-05:00', gmmktime(11, 30, 0, 1, 16, 2017)),
@@ -920,7 +962,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         );
     }
 
-    public function test_register_rest_route_without_server() {
+    public function test_register_rest_route_without_server()
+    {
         $GLOBALS['wp_rest_server'] = null;
         add_filter('wp_rest_server_class', array($this, 'filter_wp_rest_server_class'));
 
@@ -938,7 +981,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         $this->assertSame($routes['/test-ns/test'][0]['methods'], array('GET' => true));
     }
 
-    public function test_rest_preload_api_request_with_method() {
+    public function test_rest_preload_api_request_with_method()
+    {
         $rest_server               = $GLOBALS['wp_rest_server'];
         $GLOBALS['wp_rest_server'] = null;
 
@@ -962,7 +1006,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 51636
      */
-    public function test_rest_preload_api_request_removes_trailing_slashes() {
+    public function test_rest_preload_api_request_removes_trailing_slashes()
+    {
         $rest_server               = $GLOBALS['wp_rest_server'];
         $GLOBALS['wp_rest_server'] = null;
 
@@ -987,7 +1032,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 40614
      */
-    public function test_rest_ensure_request_accepts_path_string() {
+    public function test_rest_ensure_request_accepts_path_string()
+    {
         $request = rest_ensure_request('/wp/v2/posts');
         $this->assertInstanceOf('WP_REST_Request', $request);
         $this->assertSame('/wp/v2/posts', $request->get_route());
@@ -997,11 +1043,13 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @dataProvider data_rest_parse_embed_param
      */
-    public function test_rest_parse_embed_param($expected, $embed) {
+    public function test_rest_parse_embed_param($expected, $embed)
+    {
         $this->assertSame($expected, rest_parse_embed_param($embed));
     }
 
-    public function data_rest_parse_embed_param() {
+    public function data_rest_parse_embed_param()
+    {
         return array(
             array(true, ''),
             array(true, null),
@@ -1026,14 +1074,16 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @dataProvider data_rest_filter_response_by_context
      */
-    public function test_rest_filter_response_by_context($schema, $data, $expected) {
+    public function test_rest_filter_response_by_context($schema, $data, $expected)
+    {
         $this->assertSame($expected, rest_filter_response_by_context($data, $schema, 'view'));
     }
 
     /**
      * @ticket 49749
      */
-    public function test_register_route_with_invalid_namespace() {
+    public function test_register_route_with_invalid_namespace()
+    {
         $this->setExpectedIncorrectUsage('register_rest_route');
 
         register_rest_route(
@@ -1054,7 +1104,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 50075
      */
-    public function test_register_route_with_missing_permission_callback_top_level_route() {
+    public function test_register_route_with_missing_permission_callback_top_level_route()
+    {
         $this->setExpectedIncorrectUsage('register_rest_route');
 
         $registered = register_rest_route(
@@ -1071,7 +1122,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 50075
      */
-    public function test_register_route_with_missing_permission_callback_single_wrapped_route() {
+    public function test_register_route_with_missing_permission_callback_single_wrapped_route()
+    {
         $this->setExpectedIncorrectUsage('register_rest_route');
 
         $registered = register_rest_route(
@@ -1091,7 +1143,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 50075
      */
-    public function test_register_route_with_missing_permission_callback_multiple_wrapped_route() {
+    public function test_register_route_with_missing_permission_callback_multiple_wrapped_route()
+    {
         $this->setExpectedIncorrectUsage('register_rest_route');
 
         $registered = register_rest_route(
@@ -1111,7 +1164,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         $this->assertTrue($registered);
     }
 
-    public function data_rest_filter_response_by_context() {
+    public function data_rest_filter_response_by_context()
+    {
         return array(
             'default'                                      => array(
                 array(
@@ -1782,7 +1836,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         );
     }
 
-    public function test_rest_ensure_response_accepts_wp_error_and_returns_wp_error() {
+    public function test_rest_ensure_response_accepts_wp_error_and_returns_wp_error()
+    {
         $response = rest_ensure_response(new WP_Error());
         $this->assertInstanceOf('WP_Error', $response);
     }
@@ -1793,7 +1848,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @param mixed $response      The response passed to rest_ensure_response().
      * @param mixed $expected_data The expected data a response should include.
      */
-    public function test_rest_ensure_response_returns_instance_of_wp_rest_response($response, $expected_data) {
+    public function test_rest_ensure_response_returns_instance_of_wp_rest_response($response, $expected_data)
+    {
         $response_object = rest_ensure_response($response);
         $this->assertInstanceOf('WP_REST_Response', $response_object);
         $this->assertSame($expected_data, $response_object->get_data());
@@ -1804,7 +1860,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_rest_ensure_response_returns_instance_of_wp_rest_response() {
+    public function data_rest_ensure_response_returns_instance_of_wp_rest_response()
+    {
         return array(
             array(null, null),
             array(array('chocolate' => 'cookies'), array('chocolate' => 'cookies')),
@@ -1819,14 +1876,16 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_post_non_post() {
+    public function test_rest_get_route_for_post_non_post()
+    {
         $this->assertSame('', rest_get_route_for_post('garbage'));
     }
 
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_post_invalid_post_type() {
+    public function test_rest_get_route_for_post_invalid_post_type()
+    {
         register_post_type('invalid');
         $post = self::factory()->post->create_and_get(array('post_type' => 'invalid'));
         unregister_post_type('invalid');
@@ -1837,7 +1896,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 53656
      */
-    public function test_rest_get_route_for_post_custom_namespace() {
+    public function test_rest_get_route_for_post_custom_namespace()
+    {
         register_post_type(
             'cpt',
             array(
@@ -1855,14 +1915,16 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 53656
      */
-    public function test_rest_get_route_for_post_type_items() {
+    public function test_rest_get_route_for_post_type_items()
+    {
         $this->assertSame('/wp/v2/posts', rest_get_route_for_post_type_items('post'));
     }
 
     /**
      * @ticket 53656
      */
-    public function test_rest_get_route_for_post_type_items_custom_namespace() {
+    public function test_rest_get_route_for_post_type_items_custom_namespace()
+    {
         register_post_type(
             'cpt',
             array(
@@ -1879,7 +1941,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_post_non_rest() {
+    public function test_rest_get_route_for_post_non_rest()
+    {
         $post = self::factory()->post->create_and_get(array('post_type' => 'custom_css'));
         $this->assertSame('', rest_get_route_for_post($post));
     }
@@ -1888,7 +1951,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @ticket 49116
      * @ticket 53656
      */
-    public function test_rest_get_route_for_post_custom_controller() {
+    public function test_rest_get_route_for_post_custom_controller()
+    {
         $post = self::factory()->post->create_and_get(array('post_type' => 'wp_block'));
         $this->assertSame('/wp/v2/blocks/' . $post->ID, rest_get_route_for_post($post));
     }
@@ -1896,7 +1960,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_post() {
+    public function test_rest_get_route_for_post()
+    {
         $post = self::factory()->post->create_and_get();
         $this->assertSame('/wp/v2/posts/' . $post->ID, rest_get_route_for_post($post));
     }
@@ -1904,7 +1969,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_media() {
+    public function test_rest_get_route_for_media()
+    {
         $post = self::factory()->attachment->create_and_get();
         $this->assertSame('/wp/v2/media/' . $post->ID, rest_get_route_for_post($post));
     }
@@ -1912,7 +1978,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_post_id() {
+    public function test_rest_get_route_for_post_id()
+    {
         $post = self::factory()->post->create_and_get();
         $this->assertSame('/wp/v2/posts/' . $post->ID, rest_get_route_for_post($post->ID));
     }
@@ -1920,14 +1987,16 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_term_non_term() {
+    public function test_rest_get_route_for_term_non_term()
+    {
         $this->assertSame('', rest_get_route_for_term('garbage'));
     }
 
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_term_invalid_term_type() {
+    public function test_rest_get_route_for_term_invalid_term_type()
+    {
         register_taxonomy('invalid', 'post');
         $term = self::factory()->term->create_and_get(array('taxonomy' => 'invalid'));
         unregister_taxonomy('invalid');
@@ -1938,7 +2007,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_term_non_rest() {
+    public function test_rest_get_route_for_term_non_rest()
+    {
         $term = self::factory()->term->create_and_get(array('taxonomy' => 'post_format'));
         $this->assertSame('', rest_get_route_for_term($term));
     }
@@ -1946,7 +2016,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_term() {
+    public function test_rest_get_route_for_term()
+    {
         $term = self::factory()->term->create_and_get();
         $this->assertSame('/wp/v2/tags/' . $term->term_id, rest_get_route_for_term($term));
     }
@@ -1954,7 +2025,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_category() {
+    public function test_rest_get_route_for_category()
+    {
         $term = self::factory()->category->create_and_get();
         $this->assertSame('/wp/v2/categories/' . $term->term_id, rest_get_route_for_term($term));
     }
@@ -1962,7 +2034,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 49116
      */
-    public function test_rest_get_route_for_term_id() {
+    public function test_rest_get_route_for_term_id()
+    {
         $term = self::factory()->term->create_and_get();
         $this->assertSame('/wp/v2/tags/' . $term->term_id, rest_get_route_for_term($term->term_id));
     }
@@ -1970,7 +2043,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 54267
      */
-    public function test_rest_get_route_for_taxonomy_custom_namespace() {
+    public function test_rest_get_route_for_taxonomy_custom_namespace()
+    {
         register_taxonomy(
             'ct',
             'post',
@@ -1989,14 +2063,16 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 54267
      */
-    public function test_rest_get_route_for_taxonomy_items() {
+    public function test_rest_get_route_for_taxonomy_items()
+    {
         $this->assertSame('/wp/v2/categories', rest_get_route_for_taxonomy_items('category'));
     }
 
     /**
      * @ticket 54267
      */
-    public function test_rest_get_route_for_taxonomy_items_custom_namespace() {
+    public function test_rest_get_route_for_taxonomy_items_custom_namespace()
+    {
         register_taxonomy(
             'ct',
             'post',
@@ -2019,7 +2095,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @param bool  $expected Expected result of the check.
      * @param mixed $value    The value to check.
      */
-    public function test_rest_is_object($expected, $value) {
+    public function test_rest_is_object($expected, $value)
+    {
         $is_object = rest_is_object($value);
 
         if ($expected) {
@@ -2029,7 +2106,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         }
     }
 
-    public function data_rest_is_object() {
+    public function data_rest_is_object()
+    {
         return array(
             array(
                 true,
@@ -2082,12 +2160,14 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @param array $expected Expected sanitized version.
      * @param mixed $value    The value to sanitize.
      */
-    public function test_rest_sanitize_object($expected, $value) {
+    public function test_rest_sanitize_object($expected, $value)
+    {
         $sanitized = rest_sanitize_object($value);
         $this->assertSame($expected, $sanitized);
     }
 
-    public function data_rest_sanitize_object() {
+    public function data_rest_sanitize_object()
+    {
         return array(
             array(
                 array(),
@@ -2140,7 +2220,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @param bool  $expected Expected result of the check.
      * @param mixed $value    The value to check.
      */
-    public function test_rest_is_array($expected, $value) {
+    public function test_rest_is_array($expected, $value)
+    {
         $is_array = rest_is_array($value);
 
         if ($expected) {
@@ -2150,7 +2231,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         }
     }
 
-    public function data_rest_is_array() {
+    public function data_rest_is_array()
+    {
         return array(
             array(
                 true,
@@ -2211,12 +2293,14 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @param array $expected Expected sanitized version.
      * @param mixed $value    The value to sanitize.
      */
-    public function test_rest_sanitize_array($expected, $value) {
+    public function test_rest_sanitize_array($expected, $value)
+    {
         $sanitized = rest_sanitize_array($value);
         $this->assertSame($expected, $sanitized);
     }
 
-    public function data_rest_sanitize_array() {
+    public function data_rest_sanitize_array()
+    {
         return array(
             array(
                 array(),
@@ -2281,7 +2365,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @param bool  $expected Expected result of the check.
      * @param mixed $value    The value to check.
      */
-    public function test_rest_is_integer($expected, $value) {
+    public function test_rest_is_integer($expected, $value)
+    {
         $is_integer = rest_is_integer($value);
 
         if ($expected) {
@@ -2291,7 +2376,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         }
     }
 
-    public function data_rest_is_integer() {
+    public function data_rest_is_integer()
+    {
         return array(
             array(
                 true,
@@ -2345,11 +2431,13 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @param mixed  $value    The value to test.
      * @param array  $types    The list of available types.
      */
-    public function test_get_best_type_for_value($expected, $value, $types) {
+    public function test_get_best_type_for_value($expected, $value, $types)
+    {
         $this->assertSame($expected, rest_get_best_type_for_value($value, $types));
     }
 
-    public function data_get_best_type_for_value() {
+    public function data_get_best_type_for_value()
+    {
         return array(
             array(
                 'array',
@@ -2452,7 +2540,8 @@ class Tests_REST_API extends WP_UnitTestCase {
      * @param string[] $expected     The list of link relations that should be embedded.
      * @param string[] $not_expected The list of link relations that should not be embedded.
      */
-    public function test_rest_preload_api_request_embeds_links($embed, $expected, $not_expected) {
+    public function test_rest_preload_api_request_embeds_links($embed, $expected, $not_expected)
+    {
         wp_set_current_user(1);
         $post_id = self::factory()->post->create();
         self::factory()->comment->create_post_comments($post_id);
@@ -2485,7 +2574,8 @@ class Tests_REST_API extends WP_UnitTestCase {
         }
     }
 
-    public function data_rest_preload_api_request_embeds_links() {
+    public function data_rest_preload_api_request_embeds_links()
+    {
         return array(
             array('_embed=wp:term,author', array('wp:term', 'author'), array('replies')),
             array('_embed[]=wp:term&_embed[]=author', array('wp:term', 'author'), array('replies')),
@@ -2499,7 +2589,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 55213
      */
-    public function test_rest_preload_api_request_fields() {
+    public function test_rest_preload_api_request_fields()
+    {
         $preload_paths = array(
             '/',
             '/?_fields=description',
@@ -2527,7 +2618,8 @@ class Tests_REST_API extends WP_UnitTestCase {
     /**
      * @ticket 51986
      */
-    public function test_route_args_is_array_of_arrays() {
+    public function test_route_args_is_array_of_arrays()
+    {
         $this->setExpectedIncorrectUsage('register_rest_route');
 
         $registered = register_rest_route(

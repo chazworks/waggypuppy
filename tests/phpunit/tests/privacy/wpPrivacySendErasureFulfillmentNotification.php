@@ -9,7 +9,8 @@
  * @group privacy
  * @covers ::_wp_privacy_send_erasure_fulfillment_notification
  */
-class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitTestCase {
+class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitTestCase
+{
     /**
      * Request ID.
      *
@@ -53,7 +54,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @param WP_UnitTest_Factory $factory Factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$requester_email = 'erase-my-data@local.test';
         self::$request_user    = $factory->user->create_and_get(
             array(
@@ -82,7 +84,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @since 5.1.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         reset_phpmailer_instance();
     }
@@ -92,7 +95,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @since 5.1.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         reset_phpmailer_instance();
         restore_previous_locale();
         parent::tear_down();
@@ -103,7 +107,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_should_not_send_email_when_not_a_valid_request_id() {
+    public function test_should_not_send_email_when_not_a_valid_request_id()
+    {
         _wp_privacy_send_erasure_fulfillment_notification(1234567890);
 
         $mailer = tests_retrieve_phpmailer_instance();
@@ -116,7 +121,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_should_not_send_email_when_not_a_user_request() {
+    public function test_should_not_send_email_when_not_a_user_request()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type' => 'post', // Should be 'user_request'.
@@ -134,7 +140,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_should_not_send_email_when_request_not_completed() {
+    public function test_should_not_send_email_when_request_not_completed()
+    {
         wp_update_post(
             array(
                 'ID'          => self::$request_id,
@@ -155,7 +162,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_should_send_email_no_privacy_policy() {
+    public function test_should_send_email_no_privacy_policy()
+    {
 
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
@@ -176,7 +184,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_should_send_email_with_privacy_policy() {
+    public function test_should_send_email_with_privacy_policy()
+    {
         $privacy_policy = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -201,7 +210,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_should_send_email_only_once() {
+    public function test_should_send_email_only_once()
+    {
         // First function call.
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
@@ -229,7 +239,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_email_address_of_recipient_should_be_filterable() {
+    public function test_email_address_of_recipient_should_be_filterable()
+    {
         add_filter('user_erasure_fulfillment_email_to', array($this, 'filter_email_address'));
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
@@ -246,7 +257,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @param string $user_email The email address of the notification recipient.
      * @return string The email address of the notification recipient.
      */
-    public function filter_email_address($user_email) {
+    public function filter_email_address($user_email)
+    {
         return 'modified-' . $user_email;
     }
 
@@ -255,7 +267,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_email_subject_should_be_filterable() {
+    public function test_email_subject_should_be_filterable()
+    {
         add_filter('user_erasure_fulfillment_email_subject', array($this, 'filter_email_subject'));
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
@@ -272,7 +285,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @param string $subject The email subject.
      * @return string The email subject.
      */
-    public function filter_email_subject($subject) {
+    public function filter_email_subject($subject)
+    {
         return 'Modified subject';
     }
 
@@ -281,7 +295,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44234
      */
-    public function test_email_body_text_should_be_filterable() {
+    public function test_email_body_text_should_be_filterable()
+    {
         add_filter('user_erasure_fulfillment_email_content', array($this, 'filter_email_body_text'));
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
@@ -298,7 +313,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @param string $email_text Text in the email.
      * @return string Text in the email.
      */
-    public function filter_email_body_text($email_text) {
+    public function filter_email_body_text($email_text)
+    {
         return 'Modified text';
     }
 
@@ -309,7 +325,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      *
      * @ticket 44501
      */
-    public function test_email_headers_should_be_filterable() {
+    public function test_email_headers_should_be_filterable()
+    {
         add_filter('user_erasure_fulfillment_email_headers', array($this, 'modify_email_headers'));
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
 
@@ -326,7 +343,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @param string|array $headers The email headers.
      * @return array The new email headers.
      */
-    public function modify_email_headers($headers) {
+    public function modify_email_headers($headers)
+    {
         $headers = array(
             'From: Tester <tester@example.com>',
         );
@@ -341,7 +359,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @ticket 44721
      * @group l10n
      */
-    public function test_should_send_fulfillment_email_in_user_locale() {
+    public function test_should_send_fulfillment_email_in_user_locale()
+    {
         update_user_meta(self::$request_user->ID, 'locale', 'es_ES');
 
         _wp_privacy_send_erasure_fulfillment_notification(self::$request_id);
@@ -358,7 +377,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @ticket 44721
      * @group l10n
      */
-    public function test_should_send_fulfillment_email_in_user_locale_when_site_is_not_en_us() {
+    public function test_should_send_fulfillment_email_in_user_locale_when_site_is_not_en_us()
+    {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
 
@@ -379,7 +399,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @ticket 44721
      * @group l10n
      */
-    public function test_should_send_fulfillment_email_in_user_locale_when_admin_and_site_have_different_locales() {
+    public function test_should_send_fulfillment_email_in_user_locale_when_admin_and_site_have_different_locales()
+    {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
 
@@ -400,7 +421,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @ticket 44721
      * @group l10n
      */
-    public function test_should_send_fulfillment_email_in_user_locale_when_both_have_different_locales_than_site() {
+    public function test_should_send_fulfillment_email_in_user_locale_when_both_have_different_locales_than_site()
+    {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
 
@@ -423,7 +445,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @ticket 44721
      * @group l10n
      */
-    public function test_should_send_fulfillment_email_in_site_locale() {
+    public function test_should_send_fulfillment_email_in_site_locale()
+    {
         update_user_meta(self::$admin_user->ID, 'locale', 'es_ES');
         wp_set_current_user(self::$admin_user->ID);
 
@@ -449,7 +472,8 @@ class Tests_Privacy_wpPrivacySendErasureFulfillmentNotification extends WP_UnitT
      * @ticket 44721
      * @group l10n
      */
-    public function test_should_send_fulfillment_email_in_site_locale_when_not_en_us_and_admin_has_different_locale() {
+    public function test_should_send_fulfillment_email_in_site_locale_when_not_en_us_and_admin_has_different_locale()
+    {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
 

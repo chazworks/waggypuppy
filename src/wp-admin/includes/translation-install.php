@@ -33,7 +33,8 @@
  *     }
  * }
  */
-function translations_api($type, $args = null) {
+function translations_api($type, $args = null)
+{
     if (! in_array($type, array('plugins', 'themes', 'core'), true)) {
         return new WP_Error('invalid_type', __('Invalid translation type.'));
     }
@@ -164,7 +165,8 @@ function translations_api($type, $args = null) {
  *     }
  * }
  */
-function wp_get_available_translations() {
+function wp_get_available_translations()
+{
     if (! wp_installing()) {
         $translations = get_site_transient('available_translations');
         if (false !== $translations) {
@@ -200,7 +202,8 @@ function wp_get_available_translations() {
  *
  * @param array[] $languages Array of available languages (populated via the Translation API).
  */
-function wp_install_language_form($languages) {
+function wp_install_language_form($languages)
+{
     global $wp_local_package;
 
     $installed_languages = get_available_languages();
@@ -251,7 +254,8 @@ function wp_install_language_form($languages) {
  * @return string|false Returns the language code if successfully downloaded
  *                      (or already installed), or false on failure.
  */
-function wp_download_language_pack($download) {
+function wp_download_language_pack($download)
+{
     // Check if the translation is already installed.
     if (in_array($download, get_available_languages(), true)) {
         return $download;
@@ -299,7 +303,8 @@ function wp_download_language_pack($download) {
  *
  * @return bool Returns true on success, false on failure.
  */
-function wp_can_install_language_pack() {
+function wp_can_install_language_pack()
+{
     if (! wp_is_file_mod_allowed('can_install_language_pack')) {
         return false;
     }

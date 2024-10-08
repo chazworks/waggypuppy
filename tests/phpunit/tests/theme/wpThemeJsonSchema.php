@@ -10,11 +10,13 @@
  *
  * @group themes
  */
-class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase {
+class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
+{
     /**
      * @ticket 54336
      */
-    public function test_migrate_v1_to_latest() {
+    public function test_migrate_v1_to_latest()
+    {
         $theme_json_v1 = array(
             'version'  => 1,
             'settings' => array(
@@ -211,7 +213,8 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase {
         $this->assertEqualSetsWithIndex($expected, $actual);
     }
 
-    public function test_migrate_v2_to_latest() {
+    public function test_migrate_v2_to_latest()
+    {
         $theme_json_v2 = array(
             'version'  => 2,
             'settings' => array(

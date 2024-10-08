@@ -7,7 +7,8 @@
  *
  * @covers ::clean_dirsize_cache
  */
-class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase {
+class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase
+{
 
     /**
      * Tests the handling of invalid data passed as the $path parameter.
@@ -19,7 +20,8 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase {
      * @param mixed  $path             Path input to use in the test.
      * @param string $expected_message Expected notice message.
      */
-    public function test_clean_dirsize_cache_with_invalid_inputs($path, $expected_message) {
+    public function test_clean_dirsize_cache_with_invalid_inputs($path, $expected_message)
+    {
         $this->expectNotice();
         $this->expectNoticeMessage($expected_message);
 
@@ -31,7 +33,8 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_clean_dirsize_cache_with_invalid_inputs() {
+    public function data_clean_dirsize_cache_with_invalid_inputs()
+    {
         return array(
             'null'         => array(
                 'path'             => null,
@@ -62,7 +65,8 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase {
      * @param string $path           Path input to use in the test.
      * @param int    $expected_count Expected number of paths in the cache after cleaning.
      */
-    public function test_clean_dirsize_cache_with_non_path_string($path, $expected_count) {
+    public function test_clean_dirsize_cache_with_non_path_string($path, $expected_count)
+    {
         // Set the dirsize cache to our mock.
         set_transient('dirsize_cache', $this->mock_dirsize_cache_with_non_path_string());
 
@@ -78,7 +82,8 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_clean_dirsize_cache_with_non_path_string() {
+    public function data_clean_dirsize_cache_with_non_path_string()
+    {
         return array(
             'single dot'                        => array(
                 'path'           => '.',
@@ -95,7 +100,8 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase {
         );
     }
 
-    private function mock_dirsize_cache_with_non_path_string() {
+    private function mock_dirsize_cache_with_non_path_string()
+    {
         return array(
             '.'      => array('size' => 50),
             'string' => array('size' => 42),
@@ -110,7 +116,8 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase {
      *
      * @covers ::recurse_dirsize
      */
-    public function test_recurse_dirsize_without_transient() {
+    public function test_recurse_dirsize_without_transient()
+    {
         delete_transient('dirsize_cache');
 
         $size = recurse_dirsize(DIR_TESTDATA . '/functions');
@@ -128,7 +135,8 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase {
      *
      * @covers ::recurse_dirsize
      */
-    public function test_recurse_dirsize_with_invalid_transient() {
+    public function test_recurse_dirsize_with_invalid_transient()
+    {
         set_transient('dirsize_cache', 'this is not a valid transient for dirsize cache');
 
         $size = recurse_dirsize(DIR_TESTDATA . '/functions');

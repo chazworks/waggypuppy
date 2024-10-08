@@ -5,7 +5,8 @@
  * @group slashes
  * @ticket 21767
  */
-class Tests_User_Slashes extends WP_UnitTestCase {
+class Tests_User_Slashes extends WP_UnitTestCase
+{
 
     /*
      * It is important to test with both even and odd numbered slashes,
@@ -23,12 +24,14 @@ class Tests_User_Slashes extends WP_UnitTestCase {
     protected static $author_id;
     protected static $user_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$author_id = $factory->user->create(array('role' => 'administrator'));
         self::$user_id   = $factory->user->create();
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         wp_set_current_user(self::$author_id);
@@ -37,7 +40,8 @@ class Tests_User_Slashes extends WP_UnitTestCase {
     /**
      * Tests the controller function that expects slashed data.
      */
-    public function test_add_user() {
+    public function test_add_user()
+    {
         $_POST                 = array();
         $_GET                  = array();
         $_REQUEST              = array();
@@ -92,7 +96,8 @@ class Tests_User_Slashes extends WP_UnitTestCase {
     /**
      * Tests the controller function that expects slashed data.
      */
-    public function test_edit_user() {
+    public function test_edit_user()
+    {
         $user_id = self::$user_id;
 
         $_POST                 = array();
@@ -143,7 +148,8 @@ class Tests_User_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_wp_insert_user() {
+    public function test_wp_insert_user()
+    {
         $user_id = wp_insert_user(
             array(
                 'user_login'   => 'slash_example_user_3',
@@ -190,7 +196,8 @@ class Tests_User_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_wp_update_user() {
+    public function test_wp_update_user()
+    {
         $user_id = self::$user_id;
         $user_id = wp_update_user(
             array(

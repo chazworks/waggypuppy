@@ -3,12 +3,14 @@
  * @group link
  * @covers ::get_post_type_archive_link
  */
-class Tests_Link_GetPostTypeArchiveLink extends WP_UnitTestCase {
+class Tests_Link_GetPostTypeArchiveLink extends WP_UnitTestCase
+{
 
     /**
      * @ticket 19902
      */
-    public function test_get_post_archive_link_with_post_archive_on_front_page() {
+    public function test_get_post_archive_link_with_post_archive_on_front_page()
+    {
         update_option('show_on_front', 'posts');
         $actual   = get_post_type_archive_link('post');
         $expected = get_home_url();
@@ -18,7 +20,8 @@ class Tests_Link_GetPostTypeArchiveLink extends WP_UnitTestCase {
     /**
      * @ticket 19902
      */
-    public function test_get_post_archive_link_with_post_archive_on_a_blog_page() {
+    public function test_get_post_archive_link_with_post_archive_on_a_blog_page()
+    {
         $page_for_posts = self::factory()->post->create(
             array(
                 'post_title' => 'blog-page',

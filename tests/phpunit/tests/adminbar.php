@@ -5,7 +5,8 @@
  * @group toolbar
  * @group admin
  */
-class Tests_AdminBar extends WP_UnitTestCase {
+class Tests_AdminBar extends WP_UnitTestCase
+{
     protected static $editor_id;
     protected static $admin_id;
     protected static $no_role_id;
@@ -14,13 +15,15 @@ class Tests_AdminBar extends WP_UnitTestCase {
 
     protected static $user_ids = array();
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . WPINC . '/class-wp-admin-bar.php';
     }
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$editor_id  = $factory->user->create(array('role' => 'editor'));
         self::$user_ids[] = self::$editor_id;
         self::$admin_id   = $factory->user->create(array('role' => 'administrator'));
@@ -32,7 +35,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 21117
      */
-    public function test_content_post_type() {
+    public function test_content_post_type()
+    {
         wp_set_current_user(self::$editor_id);
 
         register_post_type('content', array('show_in_admin_bar' => true));
@@ -51,7 +55,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 21117
      */
-    public function test_merging_existing_meta_values() {
+    public function test_merging_existing_meta_values()
+    {
         wp_set_current_user(self::$editor_id);
 
         $admin_bar = new WP_Admin_Bar();
@@ -87,7 +92,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 25162
      * @group ms-excluded
      */
-    public function test_admin_bar_contains_correct_links_for_users_with_no_role() {
+    public function test_admin_bar_contains_correct_links_for_users_with_no_role()
+    {
         $this->assertFalse(user_can(self::$no_role_id, 'read'));
 
         wp_set_current_user(self::$no_role_id);
@@ -110,7 +116,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 25162
      * @group ms-excluded
      */
-    public function test_admin_bar_contains_correct_links_for_users_with_role() {
+    public function test_admin_bar_contains_correct_links_for_users_with_role()
+    {
         $this->assertTrue(user_can(self::$editor_id, 'read'));
 
         wp_set_current_user(self::$editor_id);
@@ -136,7 +143,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_admin_bar_contains_correct_links_for_users_with_no_role_on_blog() {
+    public function test_admin_bar_contains_correct_links_for_users_with_no_role_on_blog()
+    {
         $blog_id = self::factory()->blog->create(
             array(
                 'user_id' => self::$admin_id,
@@ -183,7 +191,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_admin_bar_contains_correct_links_for_users_with_no_role_on_network() {
+    public function test_admin_bar_contains_correct_links_for_users_with_no_role_on_network()
+    {
         $this->assertTrue(user_can(self::$admin_id, 'read'));
         $this->assertFalse(user_can(self::$no_role_id, 'read'));
 
@@ -231,7 +240,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
         restore_current_blog();
     }
 
-    protected function get_standard_admin_bar() {
+    protected function get_standard_admin_bar()
+    {
         global $wp_admin_bar;
 
         _wp_admin_bar_init();
@@ -252,7 +262,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @param array  $node_data     The data for a node, passed to `WP_Admin_Bar::add_node()`.
      * @param string $expected_html The expected HTML when admin menu is rendered.
      */
-    public function test_admin_bar_with_tabindex_meta($node_data, $expected_html) {
+    public function test_admin_bar_with_tabindex_meta($node_data, $expected_html)
+    {
         $admin_bar = new WP_Admin_Bar();
         $admin_bar->add_node($node_data);
         $admin_bar_html = get_echo(array($admin_bar, 'render'));
@@ -269,7 +280,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_admin_bar_nodes_with_tabindex_meta() {
+    public function data_admin_bar_nodes_with_tabindex_meta()
+    {
         return array(
             array(
                 // No tabindex.
@@ -340,7 +352,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 22247
      */
-    public function test_admin_bar_has_edit_link_for_existing_posts() {
+    public function test_admin_bar_has_edit_link_for_existing_posts()
+    {
         wp_set_current_user(self::$editor_id);
 
         $post = array(
@@ -367,7 +380,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 22247
      */
-    public function test_admin_bar_has_no_edit_link_for_non_existing_posts() {
+    public function test_admin_bar_has_no_edit_link_for_non_existing_posts()
+    {
         wp_set_current_user(self::$editor_id);
 
         // Set queried object to a non-existing post.
@@ -386,7 +400,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 34113
      */
-    public function test_admin_bar_has_no_archives_link_if_no_static_front_page() {
+    public function test_admin_bar_has_no_archives_link_if_no_static_front_page()
+    {
         set_current_screen('edit-post');
 
         $wp_admin_bar = $this->get_standard_admin_bar();
@@ -398,7 +413,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 34113
      */
-    public function test_admin_bar_contains_view_archive_link_if_static_front_page() {
+    public function test_admin_bar_contains_view_archive_link_if_static_front_page()
+    {
         update_option('show_on_front', 'page');
         set_current_screen('edit-post');
 
@@ -411,7 +427,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 34113
      */
-    public function test_admin_bar_has_no_archives_link_for_pages() {
+    public function test_admin_bar_has_no_archives_link_for_pages()
+    {
         set_current_screen('edit-page');
 
         $wp_admin_bar = $this->get_standard_admin_bar();
@@ -424,7 +441,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 37949
      * @group ms-excluded
      */
-    public function test_admin_bar_contains_correct_about_link_for_users_with_role() {
+    public function test_admin_bar_contains_correct_about_link_for_users_with_role()
+    {
         wp_set_current_user(self::$editor_id);
 
         $wp_admin_bar = $this->get_standard_admin_bar();
@@ -441,7 +459,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 37949
      * @group ms-excluded
      */
-    public function test_admin_bar_contains_correct_about_link_for_users_with_no_role() {
+    public function test_admin_bar_contains_correct_about_link_for_users_with_no_role()
+    {
         wp_set_current_user(self::$no_role_id);
 
         $wp_admin_bar = $this->get_standard_admin_bar();
@@ -460,7 +479,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_admin_bar_contains_correct_about_link_for_users_with_no_role_in_multisite() {
+    public function test_admin_bar_contains_correct_about_link_for_users_with_no_role_in_multisite()
+    {
         // User is not a member of the site.
         remove_user_from_blog(self::$no_role_id, get_current_blog_id());
 
@@ -485,7 +505,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      *
      * @covers ::wp_admin_bar_wp_menu
      */
-    public function test_admin_bar_contains_contribute_node_for_users_with_role() {
+    public function test_admin_bar_contains_contribute_node_for_users_with_role()
+    {
         wp_set_current_user(self::$editor_id);
 
         $wp_admin_bar = $this->get_standard_admin_bar();
@@ -502,7 +523,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      *
      * @covers ::wp_admin_bar_wp_menu
      */
-    public function test_admin_bar_does_not_contain_contribute_node_for_users_with_no_role() {
+    public function test_admin_bar_does_not_contain_contribute_node_for_users_with_no_role()
+    {
         wp_set_current_user(self::$no_role_id);
 
         $wp_admin_bar = $this->get_standard_admin_bar();
@@ -520,7 +542,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      *
      * @covers ::wp_admin_bar_wp_menu
      */
-    public function test_admin_bar_contains_contribute_node_for_users_with_no_role_in_multisite() {
+    public function test_admin_bar_contains_contribute_node_for_users_with_no_role_in_multisite()
+    {
         // User is not a member of the site.
         remove_user_from_blog(self::$no_role_id, get_current_blog_id());
 
@@ -534,7 +557,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 34113
      */
-    public function test_admin_bar_has_no_archives_link_for_non_public_cpt() {
+    public function test_admin_bar_has_no_archives_link_for_non_public_cpt()
+    {
         register_post_type(
             'foo-non-public',
             array(
@@ -557,7 +581,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 34113
      */
-    public function test_admin_bar_has_no_archives_link_for_cpt_without_archive() {
+    public function test_admin_bar_has_no_archives_link_for_cpt_without_archive()
+    {
         register_post_type(
             'foo-non-public',
             array(
@@ -580,7 +605,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 34113
      */
-    public function test_admin_bar_has_no_archives_link_for_cpt_not_shown_in_admin_bar() {
+    public function test_admin_bar_has_no_archives_link_for_cpt_not_shown_in_admin_bar()
+    {
         register_post_type(
             'foo-non-public',
             array(
@@ -600,7 +626,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
         $this->assertNull($node);
     }
 
-    public function map_meta_cap_grant_create_users($caps, $cap) {
+    public function map_meta_cap_grant_create_users($caps, $cap)
+    {
         if ('create_users' === $cap) {
             $caps = array('exist');
         }
@@ -608,7 +635,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
         return $caps;
     }
 
-    public function map_meta_cap_deny_create_users($caps, $cap) {
+    public function map_meta_cap_deny_create_users($caps, $cap)
+    {
         if ('create_users' === $cap) {
             $caps = array('do_not_allow');
         }
@@ -616,7 +644,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
         return $caps;
     }
 
-    public function map_meta_cap_grant_promote_users($caps, $cap) {
+    public function map_meta_cap_grant_promote_users($caps, $cap)
+    {
         if ('promote_users' === $cap) {
             $caps = array('exist');
         }
@@ -624,7 +653,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
         return $caps;
     }
 
-    public function map_meta_cap_deny_promote_users($caps, $cap) {
+    public function map_meta_cap_deny_promote_users($caps, $cap)
+    {
         if ('promote_users' === $cap) {
             $caps = array('do_not_allow');
         }
@@ -635,7 +665,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 39252
      */
-    public function test_new_user_link_exists_for_user_with_create_users() {
+    public function test_new_user_link_exists_for_user_with_create_users()
+    {
         wp_set_current_user(self::$admin_id);
 
         add_filter('map_meta_cap', array($this, 'map_meta_cap_grant_create_users'), 10, 2);
@@ -654,7 +685,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 39252
      */
-    public function test_new_user_link_existence_for_user_with_promote_users() {
+    public function test_new_user_link_existence_for_user_with_promote_users()
+    {
         wp_set_current_user(self::$admin_id);
 
         add_filter('map_meta_cap', array($this, 'map_meta_cap_deny_create_users'), 10, 2);
@@ -677,7 +709,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
     /**
      * @ticket 39252
      */
-    public function test_new_user_link_does_not_exist_for_user_without_create_or_promote_users() {
+    public function test_new_user_link_does_not_exist_for_user_without_create_or_promote_users()
+    {
         wp_set_current_user(self::$admin_id);
 
         add_filter('map_meta_cap', array($this, 'map_meta_cap_deny_create_users'), 10, 2);
@@ -696,7 +729,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 30937
      * @covers ::wp_admin_bar_customize_menu
      */
-    public function test_customize_link() {
+    public function test_customize_link()
+    {
         global $wp_customize;
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $uuid = wp_generate_uuid4();
@@ -732,7 +766,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 39082
      * @group ms-required
      */
-    public function test_my_sites_network_menu_for_regular_user() {
+    public function test_my_sites_network_menu_for_regular_user()
+    {
         wp_set_current_user(self::$editor_id);
 
         $wp_admin_bar = $this->get_standard_admin_bar();
@@ -747,7 +782,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 39082
      * @group ms-required
      */
-    public function test_my_sites_network_menu_for_super_admin() {
+    public function test_my_sites_network_menu_for_super_admin()
+    {
         wp_set_current_user(self::$editor_id);
 
         grant_super_admin(self::$editor_id);
@@ -764,7 +800,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 39082
      * @group ms-required
      */
-    public function test_my_sites_network_menu_for_regular_user_with_network_caps() {
+    public function test_my_sites_network_menu_for_regular_user_with_network_caps()
+    {
         global $current_user;
 
         $network_user_caps = array('manage_network', 'manage_network_themes', 'manage_network_plugins');
@@ -789,7 +826,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
         }
     }
 
-    private function get_my_sites_network_menu_items() {
+    private function get_my_sites_network_menu_items()
+    {
         return array(
             'my-sites-super-admin' => 'manage_network',
             'network-admin'        => 'manage_network',
@@ -808,7 +846,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 56876
      * @coversNothing
      */
-    public function test_proto_property_is_not_defined() {
+    public function test_proto_property_is_not_defined()
+    {
         $admin_bar = new WP_Admin_Bar();
         $this->assertFalse(property_exists($admin_bar, 'proto'), 'WP_Admin_Bar::$proto should not be defined.');
         $this->assertFalse(isset($admin_bar->proto), 'WP_Admin_Bar::$proto should not be defined.');
@@ -820,7 +859,8 @@ class Tests_AdminBar extends WP_UnitTestCase {
      * @ticket 56876
      * @coversNothing
      */
-    public function test_menu_property_is_defined() {
+    public function test_menu_property_is_defined()
+    {
         $admin_bar = new WP_Admin_Bar();
         $this->assertTrue(property_exists($admin_bar, 'menu'), 'WP_Admin_Bar::$proto property should be defined.');
 

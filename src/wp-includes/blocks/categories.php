@@ -17,7 +17,8 @@
  *
  * @return string Returns the categories list/dropdown markup.
  */
-function render_block_core_categories($attributes, $content, $block) {
+function render_block_core_categories($attributes, $content, $block)
+{
     static $block_id = 0;
     ++$block_id;
 
@@ -97,7 +98,8 @@ function render_block_core_categories($attributes, $content, $block) {
  *
  * @return string Returns the dropdown onChange redirection script.
  */
-function build_dropdown_script_block_core_categories($dropdown_id) {
+function build_dropdown_script_block_core_categories($dropdown_id)
+{
     ob_start();
     ?>
     <script>
@@ -120,7 +122,8 @@ function build_dropdown_script_block_core_categories($dropdown_id) {
  *
  * @since 5.0.0
  */
-function register_block_core_categories() {
+function register_block_core_categories()
+{
     register_block_type_from_metadata(
         __DIR__ . '/categories',
         array(

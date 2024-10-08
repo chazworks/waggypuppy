@@ -7,12 +7,14 @@
  *
  * @covers ::comments_template
  */
-class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
+class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
+{
 
     /**
      * Performs setup tasks for every test.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme('default');
     }
@@ -20,7 +22,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 8071
      */
-    public function test_should_respect_comment_order_asc_when_default_comments_page_is_newest() {
+    public function test_should_respect_comment_order_asc_when_default_comments_page_is_newest()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -54,7 +57,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 8071
      */
-    public function test_should_respect_comment_order_desc_when_default_comments_page_is_newest() {
+    public function test_should_respect_comment_order_desc_when_default_comments_page_is_newest()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -88,7 +92,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 8071
      */
-    public function test_should_respect_comment_order_asc_when_default_comments_page_is_oldest() {
+    public function test_should_respect_comment_order_asc_when_default_comments_page_is_oldest()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -122,7 +127,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 8071
      */
-    public function test_should_respect_comment_order_desc_when_default_comments_page_is_oldest() {
+    public function test_should_respect_comment_order_desc_when_default_comments_page_is_oldest()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -156,7 +162,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 8071
      */
-    public function test_should_respect_comment_order_asc_when_default_comments_page_is_newest_on_subsequent_pages() {
+    public function test_should_respect_comment_order_asc_when_default_comments_page_is_newest_on_subsequent_pages()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -227,7 +234,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 8071
      */
-    public function test_should_respect_comment_order_desc_when_default_comments_page_is_newest_on_subsequent_pages() {
+    public function test_should_respect_comment_order_desc_when_default_comments_page_is_newest_on_subsequent_pages()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -298,7 +306,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 8071
      */
-    public function test_should_respect_comment_order_asc_when_default_comments_page_is_oldest_on_subsequent_pages() {
+    public function test_should_respect_comment_order_asc_when_default_comments_page_is_oldest_on_subsequent_pages()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -355,7 +364,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 8071
      */
-    public function test_should_respect_comment_order_desc_when_default_comments_page_is_oldest_on_subsequent_pages() {
+    public function test_should_respect_comment_order_desc_when_default_comments_page_is_oldest_on_subsequent_pages()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -414,7 +424,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
      * @ticket 34073
      * @ticket 29462
      */
-    public function test_last_page_of_comments_should_be_full_when_default_comment_page_is_newest() {
+    public function test_last_page_of_comments_should_be_full_when_default_comment_page_is_newest()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -466,7 +477,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
      * @ticket 34073
      * @ticket 29462
      */
-    public function test_first_page_of_comments_should_have_remainder_when_default_comments_page_is_newest() {
+    public function test_first_page_of_comments_should_have_remainder_when_default_comments_page_is_newest()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -516,7 +528,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 34073
      */
-    public function test_comment_permalinks_should_be_correct_when_using_default_display_callback_with_default_comment_page_oldest() {
+    public function test_comment_permalinks_should_be_correct_when_using_default_display_callback_with_default_comment_page_oldest()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -595,7 +608,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 34073
      */
-    public function test_comment_permalinks_should_be_correct_when_using_default_display_callback_with_default_comment_page_newest() {
+    public function test_comment_permalinks_should_be_correct_when_using_default_display_callback_with_default_comment_page_newest()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -708,7 +722,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 35068
      */
-    public function test_query_offset_should_not_include_unapproved_comments() {
+    public function test_query_offset_should_not_include_unapproved_comments()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -762,7 +777,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 35068
      */
-    public function test_query_offset_should_include_unapproved_comments() {
+    public function test_query_offset_should_include_unapproved_comments()
+    {
         $comment_author_email = 'foo@example.com';
 
         $now       = time();
@@ -836,7 +852,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
         $this->assertSame(array($comment_4, $comment_3), $found_cids);
     }
 
-    public function fake_current_commenter($commenter) {
+    public function fake_current_commenter($commenter)
+    {
         $commenter['comment_author_email'] = 'foo@example.com';
         return $commenter;
     }
@@ -844,7 +861,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 43857
      */
-    public function test_comments_list_should_include_just_posted_unapproved_comment() {
+    public function test_comments_list_should_include_just_posted_unapproved_comment()
+    {
         $now     = time();
         $p       = self::factory()->post->create();
         $c       = self::factory()->comment->create(
@@ -880,7 +898,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 35378
      */
-    public function test_hierarchy_should_be_ignored_when_threading_is_disabled() {
+    public function test_hierarchy_should_be_ignored_when_threading_is_disabled()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -925,7 +944,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
     /**
      * @ticket 35419
      */
-    public function test_pagination_calculation_should_ignore_comment_hierarchy_when_threading_is_disabled() {
+    public function test_pagination_calculation_should_ignore_comment_hierarchy_when_threading_is_disabled()
+    {
         $now       = time();
         $p         = self::factory()->post->create();
         $comment_1 = self::factory()->comment->create(
@@ -979,7 +999,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
      * @param array $query_args           Args for the 'comments_template_query_args' filter.
      * @param array $top_level_query_args Args for the 'comments_template_top_level_query_args' filter.
      */
-    public function test_comments_template_top_level_query_args($expected, $query_args, $top_level_query_args) {
+    public function test_comments_template_top_level_query_args($expected, $query_args, $top_level_query_args)
+    {
         $now         = time();
         $offset      = 0;
         $p           = self::factory()->post->create();
@@ -1033,7 +1054,8 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase {
         $this->assertEquals($expected['offset'], $offset);
     }
 
-    public function data_comments_template_top_level_query_args() {
+    public function data_comments_template_top_level_query_args()
+    {
         return array(
             array(
                 array(

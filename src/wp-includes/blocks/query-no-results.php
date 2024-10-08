@@ -18,7 +18,8 @@
  *
  * @return string Returns the wrapper for the no results block.
  */
-function render_block_core_query_no_results($attributes, $content, $block) {
+function render_block_core_query_no_results($attributes, $content, $block)
+{
     if (empty(trim($content))) {
         return '';
     }
@@ -54,7 +55,8 @@ function render_block_core_query_no_results($attributes, $content, $block) {
  *
  * @since 6.0.0
  */
-function register_block_core_query_no_results() {
+function register_block_core_query_no_results()
+{
     register_block_type_from_metadata(
         __DIR__ . '/query-no-results',
         array(

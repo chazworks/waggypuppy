@@ -14,14 +14,16 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
+class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller
+{
 
     /**
      * Constructor.
      *
      * @since 5.9.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp-block-editor/v1';
         $this->rest_base = 'export';
     }
@@ -31,7 +33,8 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
      *
      * @since 5.9.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -52,7 +55,8 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
      *
      * @return true|WP_Error True if the request has access, or WP_Error object.
      */
-    public function permissions_check() {
+    public function permissions_check()
+    {
         if (current_user_can('edit_theme_options')) {
             return true;
         }
@@ -72,7 +76,8 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
      *
      * @return void|WP_Error
      */
-    public function export() {
+    public function export()
+    {
         // Generate the export file.
         $filename = wp_generate_block_templates_export_file();
 

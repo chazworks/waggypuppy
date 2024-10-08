@@ -17,7 +17,8 @@
  * @param int|object $category Category ID or object.
  * @return string Link on success, empty string if category does not exist.
  */
-function get_category_link($category) {
+function get_category_link($category)
+{
     if (! is_object($category)) {
         $category = (int) $category;
     }
@@ -44,7 +45,8 @@ function get_category_link($category) {
  * @param array  $deprecated  Not used.
  * @return string|WP_Error A list of category parents on success, WP_Error on failure.
  */
-function get_category_parents($category_id, $link = false, $separator = '/', $nicename = false, $deprecated = array()) {
+function get_category_parents($category_id, $link = false, $separator = '/', $nicename = false, $deprecated = array())
+{
 
     if (! empty($deprecated)) {
         _deprecated_argument(__FUNCTION__, '4.8.0');
@@ -74,7 +76,8 @@ function get_category_parents($category_id, $link = false, $separator = '/', $ni
  * @param int $post_id Optional. The post ID. Defaults to current post ID.
  * @return WP_Term[] Array of WP_Term objects, one for each category assigned to the post.
  */
-function get_the_category($post_id = false) {
+function get_the_category($post_id = false)
+{
     $categories = get_the_terms($post_id, 'category');
     if (! $categories || is_wp_error($categories)) {
         $categories = array();
@@ -106,7 +109,8 @@ function get_the_category($post_id = false) {
  * @param int $cat_id Category ID.
  * @return string|WP_Error Category name on success, WP_Error on failure.
  */
-function get_the_category_by_ID($cat_id) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function get_the_category_by_ID($cat_id)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+{
     $cat_id   = (int) $cat_id;
     $category = get_term($cat_id);
 
@@ -138,7 +142,8 @@ function get_the_category_by_ID($cat_id) { // phpcs:ignore WordPress.NamingConve
  * @param int    $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
  * @return string Category list for a post.
  */
-function get_the_category_list($separator = '', $parents = '', $post_id = false) {
+function get_the_category_list($separator = '', $parents = '', $post_id = false)
+{
     global $wp_rewrite;
 
     if (! is_object_in_taxonomy(get_post_type($post_id), 'category')) {
@@ -254,7 +259,8 @@ function get_the_category_list($separator = '', $parents = '', $post_id = false)
  * @param int|WP_Post               $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post is in any of the given categories.
  */
-function in_category($category, $post = null) {
+function in_category($category, $post = null)
+{
     if (empty($category)) {
         return false;
     }
@@ -273,7 +279,8 @@ function in_category($category, $post = null) {
  *                          Default empty string.
  * @param int    $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
  */
-function the_category($separator = '', $parents = '', $post_id = false) {
+function the_category($separator = '', $parents = '', $post_id = false)
+{
     echo get_the_category_list($separator, $parents, $post_id);
 }
 
@@ -285,7 +292,8 @@ function the_category($separator = '', $parents = '', $post_id = false) {
  * @param int $category Optional. Category ID. Defaults to the current category ID.
  * @return string Category description, if available.
  */
-function category_description($category = 0) {
+function category_description($category = 0)
+{
     return term_description($category);
 }
 
@@ -341,7 +349,8 @@ function category_description($category = 0) {
  * }
  * @return string HTML dropdown list of categories.
  */
-function wp_dropdown_categories($args = '') {
+function wp_dropdown_categories($args = '')
+{
     $defaults = array(
         'show_option_all'   => '',
         'show_option_none'  => '',
@@ -535,7 +544,8 @@ function wp_dropdown_categories($args = '') {
  * @return void|string|false Void if 'echo' argument is true, HTML list of categories if 'echo' is false.
  *                           False if the taxonomy does not exist.
  */
-function wp_list_categories($args = '') {
+function wp_list_categories($args = '')
+{
     $defaults = array(
         'child_of'            => 0,
         'current_category'    => 0,
@@ -713,7 +723,8 @@ function wp_list_categories($args = '') {
  * @return void|string|string[] Void if 'echo' argument is true, or on failure. Otherwise, tag cloud
  *                              as a string or an array, depending on 'format' argument.
  */
-function wp_tag_cloud($args = '') {
+function wp_tag_cloud($args = '')
+{
     $defaults = array(
         'smallest'   => 8,
         'largest'    => 22,
@@ -792,7 +803,8 @@ function wp_tag_cloud($args = '') {
  * @param int $count Number of posts with that tag.
  * @return int Scaled count.
  */
-function default_topic_count_scale($count) {
+function default_topic_count_scale($count)
+{
     return round(log10($count + 1) * 100);
 }
 
@@ -842,7 +854,8 @@ function default_topic_count_scale($count) {
  * }
  * @return string|string[] Tag cloud as a string or an array, depending on 'format' argument.
  */
-function wp_generate_tag_cloud($tags, $args = '') {
+function wp_generate_tag_cloud($tags, $args = '')
+{
     $defaults = array(
         'smallest'                   => 8,
         'largest'                    => 22,
@@ -1070,7 +1083,8 @@ function wp_generate_tag_cloud($tags, $args = '') {
  * @return int Negative number if `$a->name` is less than `$b->name`, zero if they are equal,
  *             or greater than zero if `$a->name` is greater than `$b->name`.
  */
-function _wp_object_name_sort_cb($a, $b) {
+function _wp_object_name_sort_cb($a, $b)
+{
     return strnatcasecmp($a->name, $b->name);
 }
 
@@ -1087,7 +1101,8 @@ function _wp_object_name_sort_cb($a, $b) {
  * @return int Negative number if `$a->count` is less than `$b->count`, zero if they are equal,
  *             or greater than zero if `$a->count` is greater than `$b->count`.
  */
-function _wp_object_count_sort_cb($a, $b) {
+function _wp_object_count_sort_cb($a, $b)
+{
     return ($a->count - $b->count);
 }
 
@@ -1108,7 +1123,8 @@ function _wp_object_count_sort_cb($a, $b) {
  * @param mixed ...$args Elements array, maximum hierarchical depth and optional additional arguments.
  * @return string
  */
-function walk_category_tree(...$args) {
+function walk_category_tree(...$args)
+{
     // The user's options are the third parameter.
     if (empty($args[2]['walker']) || ! ($args[2]['walker'] instanceof Walker)) {
         $walker = new Walker_Category();
@@ -1134,7 +1150,8 @@ function walk_category_tree(...$args) {
  * @param mixed ...$args Elements array, maximum hierarchical depth and optional additional arguments.
  * @return string
  */
-function walk_category_dropdown_tree(...$args) {
+function walk_category_dropdown_tree(...$args)
+{
     // The user's options are the third parameter.
     if (empty($args[2]['walker']) || ! ($args[2]['walker'] instanceof Walker)) {
         $walker = new Walker_CategoryDropdown();
@@ -1161,7 +1178,8 @@ function walk_category_dropdown_tree(...$args) {
  * @param int|object $tag Tag ID or object.
  * @return string Link on success, empty string if tag does not exist.
  */
-function get_tag_link($tag) {
+function get_tag_link($tag)
+{
     return get_category_link($tag);
 }
 
@@ -1174,7 +1192,8 @@ function get_tag_link($tag) {
  * @return WP_Term[]|false|WP_Error Array of WP_Term objects on success, false if there are no terms
  *                                  or the post does not exist, WP_Error on failure.
  */
-function get_the_tags($post = 0) {
+function get_the_tags($post = 0)
+{
     $terms = get_the_terms($post, 'post_tag');
 
     /**
@@ -1202,7 +1221,8 @@ function get_the_tags($post = 0) {
  * @return string|false|WP_Error A list of tags on success, false if there are no terms,
  *                               WP_Error on failure.
  */
-function get_the_tag_list($before = '', $sep = '', $after = '', $post_id = 0) {
+function get_the_tag_list($before = '', $sep = '', $after = '', $post_id = 0)
+{
     $tag_list = get_the_term_list($post_id, 'post_tag', $before, $sep, $after);
 
     /**
@@ -1228,7 +1248,8 @@ function get_the_tag_list($before = '', $sep = '', $after = '', $post_id = 0) {
  * @param string $sep    Optional. String to use between the tags. Default ', '.
  * @param string $after  Optional. String to use after the tags. Default empty.
  */
-function the_tags($before = null, $sep = ', ', $after = '') {
+function the_tags($before = null, $sep = ', ', $after = '')
+{
     if (null === $before) {
         $before = __('Tags: ');
     }
@@ -1248,7 +1269,8 @@ function the_tags($before = null, $sep = ', ', $after = '') {
  * @param int $tag Optional. Tag ID. Defaults to the current tag ID.
  * @return string Tag description, if available.
  */
-function tag_description($tag = 0) {
+function tag_description($tag = 0)
+{
     return term_description($tag);
 }
 
@@ -1262,7 +1284,8 @@ function tag_description($tag = 0) {
  * @param null $deprecated Deprecated. Not used.
  * @return string Term description, if available.
  */
-function term_description($term = 0, $deprecated = null) {
+function term_description($term = 0, $deprecated = null)
+{
     if (! $term && (is_tax() || is_tag() || is_category())) {
         $term = get_queried_object();
         if ($term) {
@@ -1285,7 +1308,8 @@ function term_description($term = 0, $deprecated = null) {
  * @return WP_Term[]|false|WP_Error Array of WP_Term objects on success, false if there are no terms
  *                                  or the post does not exist, WP_Error on failure.
  */
-function get_the_terms($post, $taxonomy) {
+function get_the_terms($post, $taxonomy)
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1335,7 +1359,8 @@ function get_the_terms($post, $taxonomy) {
  * @return string|false|WP_Error A list of terms on success, false if there are no terms,
  *                               WP_Error on failure.
  */
-function get_the_term_list($post_id, $taxonomy, $before = '', $sep = '', $after = '') {
+function get_the_term_list($post_id, $taxonomy, $before = '', $sep = '', $after = '')
+{
     $terms = get_the_terms($post_id, $taxonomy);
 
     if (is_wp_error($terms)) {
@@ -1395,7 +1420,8 @@ function get_the_term_list($post_id, $taxonomy, $before = '', $sep = '', $after 
  * }
  * @return string|WP_Error A list of term parents on success, WP_Error or empty string on failure.
  */
-function get_term_parents_list($term_id, $taxonomy, $args = array()) {
+function get_term_parents_list($term_id, $taxonomy, $args = array())
+{
     $list = '';
     $term = get_term($term_id, $taxonomy);
 
@@ -1454,7 +1480,8 @@ function get_term_parents_list($term_id, $taxonomy, $args = array()) {
  * @param string $after    Optional. String to use after the terms. Default empty.
  * @return void|false Void on success, false on failure.
  */
-function the_terms($post_id, $taxonomy, $before = '', $sep = ', ', $after = '') {
+function the_terms($post_id, $taxonomy, $before = '', $sep = ', ', $after = '')
+{
     $term_list = get_the_term_list($post_id, $taxonomy, $before, $sep, $after);
 
     if (is_wp_error($term_list)) {
@@ -1491,7 +1518,8 @@ function the_terms($post_id, $taxonomy, $before = '', $sep = ', ', $after = '') 
  * @return bool True if the current post has any of the given categories
  *              (or any category, if no category specified). False otherwise.
  */
-function has_category($category = '', $post = null) {
+function has_category($category = '', $post = null)
+{
     return has_term($category, 'category', $post);
 }
 
@@ -1518,7 +1546,8 @@ function has_category($category = '', $post = null) {
  * @return bool True if the current post has any of the given tags
  *              (or any tag, if no tag specified). False otherwise.
  */
-function has_tag($tag = '', $post = null) {
+function has_tag($tag = '', $post = null)
+{
     return has_term($tag, 'post_tag', $post);
 }
 
@@ -1539,7 +1568,8 @@ function has_tag($tag = '', $post = null) {
  * @return bool True if the current post has any of the given terms
  *              (or any term, if no term specified). False otherwise.
  */
-function has_term($term = '', $taxonomy = '', $post = null) {
+function has_term($term = '', $taxonomy = '', $post = null)
+{
     $post = get_post($post);
 
     if (! $post) {

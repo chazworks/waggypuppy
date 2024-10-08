@@ -16,13 +16,15 @@
  * @since 4.4.0
  */
 #[AllowDynamicProperties]
-final class WP_oEmbed_Controller {
+final class WP_oEmbed_Controller
+{
     /**
      * Register the oEmbed REST API route.
      *
      * @since 4.4.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         /**
          * Filters the maxwidth oEmbed parameter.
          *
@@ -116,7 +118,8 @@ final class WP_oEmbed_Controller {
      * @param WP_REST_Request $request Full data about the request.
      * @return array|WP_Error oEmbed response data or WP_Error on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $post_id = url_to_postid($request['url']);
 
         /**
@@ -145,7 +148,8 @@ final class WP_oEmbed_Controller {
      *
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_proxy_item_permissions_check() {
+    public function get_proxy_item_permissions_check()
+    {
         if (! current_user_can('edit_posts')) {
             return new WP_Error('rest_forbidden', __('Sorry, you are not allowed to make proxied oEmbed requests.'), array('status' => rest_authorization_required_code()));
         }
@@ -166,7 +170,8 @@ final class WP_oEmbed_Controller {
      * @param WP_REST_Request $request Full data about the request.
      * @return object|WP_Error oEmbed response data or WP_Error on failure.
      */
-    public function get_proxy_item($request) {
+    public function get_proxy_item($request)
+    {
         global $wp_embed, $wp_scripts;
 
         $args = $request->get_params();

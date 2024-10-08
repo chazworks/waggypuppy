@@ -3,7 +3,8 @@
 /**
  * @group sitemaps
  */
-class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
+class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase
+{
 
     /**
      * Tests getting sitemap entries for post type page with 'posts' homepage.
@@ -12,7 +13,8 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
      *
      * @ticket 50571
      */
-    public function test_get_sitemap_entries_homepage() {
+    public function test_get_sitemap_entries_homepage()
+    {
         update_option('show_on_front', 'posts');
 
         $posts_provider = new WP_Sitemaps_Posts();
@@ -31,7 +33,8 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
     /**
      * Tests ability to filter object subtypes.
      */
-    public function test_filter_sitemaps_post_types() {
+    public function test_filter_sitemaps_post_types()
+    {
         $posts_provider = new WP_Sitemaps_Posts();
 
         // Return an empty array to show that the list of subtypes is filterable.
@@ -44,7 +47,8 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
     /**
      * Tests `wp_sitemaps_posts_show_on_front_entry` filter.
      */
-    public function test_posts_show_on_front_entry() {
+    public function test_posts_show_on_front_entry()
+    {
         $posts_provider = new WP_Sitemaps_Posts();
         update_option('show_on_front', 'page');
 
@@ -71,7 +75,8 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
     /**
      * Callback for 'wp_sitemaps_posts_show_on_front_entry' filter.
      */
-    public function _show_on_front_entry($sitemap_entry) {
+    public function _show_on_front_entry($sitemap_entry)
+    {
         $sitemap_entry['lastmod'] = '2000-01-01';
 
         return $sitemap_entry;
@@ -82,7 +87,8 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase {
      *
      * @ticket 55633
      */
-    public function test_posts_sticky_posts_not_moved_to_front() {
+    public function test_posts_sticky_posts_not_moved_to_front()
+    {
         $factory = self::factory();
 
         // Create 4 posts, and stick the last one.

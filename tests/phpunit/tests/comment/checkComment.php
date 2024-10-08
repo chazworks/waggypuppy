@@ -5,8 +5,10 @@
  *
  * @covers ::check_comment
  */
-class Tests_Comment_CheckComment extends WP_UnitTestCase {
-    public function test_should_return_true_when_comment_previously_approved_is_disabled() {
+class Tests_Comment_CheckComment extends WP_UnitTestCase
+{
+    public function test_should_return_true_when_comment_previously_approved_is_disabled()
+    {
         $author       = 'BobtheBuilder';
         $author_email = 'bob@example.com';
         $author_url   = 'http://example.com';
@@ -20,7 +22,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
         $this->assertTrue($results);
     }
 
-    public function test_should_return_false_when_comment_previously_approved_is_enabled_and_author_does_not_have_approved_comment() {
+    public function test_should_return_false_when_comment_previously_approved_is_enabled_and_author_does_not_have_approved_comment()
+    {
         $author       = 'BobtheBuilder';
         $author_email = 'bob@example.com';
         $author_url   = 'http://example.com';
@@ -34,7 +37,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
         $this->assertFalse($results);
     }
 
-    public function test_should_return_true_when_comment_previously_approved_is_enabled_and_author_has_approved_comment() {
+    public function test_should_return_true_when_comment_previously_approved_is_enabled_and_author_has_approved_comment()
+    {
         $post_id         = self::factory()->post->create();
         $prev_args       = array(
             'comment_post_ID'      => $post_id,
@@ -69,7 +73,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
         $this->assertTrue($results);
     }
 
-    public function test_should_return_false_when_content_matches_moderation_keys() {
+    public function test_should_return_false_when_content_matches_moderation_keys()
+    {
         update_option('comment_previously_approved', 0);
 
         $author       = 'WendytheBuilder';
@@ -88,7 +93,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
     /**
      * @ticket 57207
      */
-    public function test_should_return_false_when_content_with_non_latin_words_matches_moderation_keys() {
+    public function test_should_return_false_when_content_with_non_latin_words_matches_moderation_keys()
+    {
         update_option('comment_previously_approved', 0);
 
         $author       = 'Setup';
@@ -104,7 +110,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
         $this->assertFalse($results);
     }
 
-    public function test_should_return_true_when_content_does_not_match_moderation_keys() {
+    public function test_should_return_true_when_content_does_not_match_moderation_keys()
+    {
         update_option('comment_previously_approved', 0);
 
         $author       = 'WendytheBuilder';
@@ -120,7 +127,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
         $this->assertTrue($results);
     }
 
-    public function test_should_return_false_when_link_count_exceeds_comment_max_length_setting() {
+    public function test_should_return_false_when_link_count_exceeds_comment_max_length_setting()
+    {
         update_option('comment_previously_approved', 0);
 
         $author       = 'BobtheBuilder';
@@ -136,7 +144,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
         $this->assertFalse($results);
     }
 
-    public function test_should_return_true_when_link_count_does_not_exceed_comment_max_length_setting() {
+    public function test_should_return_true_when_link_count_does_not_exceed_comment_max_length_setting()
+    {
         update_option('comment_previously_approved', 0);
 
         $author       = 'BobtheBuilder';
@@ -155,7 +164,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
     /**
      * @ticket 28603
      */
-    public function test_should_return_true_when_comment_previously_approved_is_enabled_and_user_has_previously_approved_comments_with_different_email() {
+    public function test_should_return_true_when_comment_previously_approved_is_enabled_and_user_has_previously_approved_comments_with_different_email()
+    {
         $subscriber_id = self::factory()->user->create(
             array(
                 'role'  => 'subscriber',
@@ -187,7 +197,8 @@ class Tests_Comment_CheckComment extends WP_UnitTestCase {
     /**
      * @ticket 28603
      */
-    public function test_should_return_false_when_comment_previously_approved_is_enabled_and_user_does_not_have_a_previously_approved_comment_with_any_email() {
+    public function test_should_return_false_when_comment_previously_approved_is_enabled_and_user_does_not_have_a_previously_approved_comment_with_any_email()
+    {
         $subscriber_id = self::factory()->user->create(
             array(
                 'role'  => 'subscriber',

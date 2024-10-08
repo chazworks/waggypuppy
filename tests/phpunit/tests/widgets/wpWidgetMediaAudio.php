@@ -11,7 +11,8 @@
  *
  * @group widgets
  */
-class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
+class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase
+{
 
     /**
      * Clean up global scope.
@@ -19,7 +20,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      * @global WP_Scripts $wp_scripts
      * @global WP_Styles $wp_styles
      */
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_scripts, $wp_styles;
         parent::clean_up_global_scope();
         $wp_scripts = null;
@@ -31,7 +33,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Audio::get_instance_schema
      */
-    public function test_get_instance_schema() {
+    public function test_get_instance_schema()
+    {
         $wp_widget_audio = new WP_Widget_Media_Audio();
         $schema          = $wp_widget_audio->get_instance_schema();
 
@@ -57,7 +60,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      *
      * @ticket 45029
      */
-    public function test_get_instance_schema_filtering() {
+    public function test_get_instance_schema_filtering()
+    {
         $wp_widget_audio = new WP_Widget_Media_Audio();
         $schema          = $wp_widget_audio->get_instance_schema();
 
@@ -76,7 +80,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      * @param WP_Widget_Media_Audio $widget Widget.
      * @return array
      */
-    public function filter_instance_schema($schema, $widget) {
+    public function filter_instance_schema($schema, $widget)
+    {
         // Override the default loop value (false).
         $schema['loop']['default'] = true;
         return $schema;
@@ -87,7 +92,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Audio::__construct
      */
-    public function test_constructor() {
+    public function test_constructor()
+    {
         $widget = new WP_Widget_Media_Audio();
 
         $this->assertArrayHasKey('mime_type', $widget->widget_options);
@@ -116,7 +122,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Audio::update
      */
-    public function test_update() {
+    public function test_update()
+    {
         $widget   = new WP_Widget_Media_Audio();
         $instance = array();
 
@@ -216,7 +223,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Audio::render_media
      */
-    public function test_render_media() {
+    public function test_render_media()
+    {
         $test_audio_file = __FILE__ . '../../data/uploads/small-audio.mp3';
         $widget          = new WP_Widget_Media_Audio();
         $attachment_id   = self::factory()->attachment->create_object(
@@ -282,7 +290,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      * @global WP_Styles $wp_styles
      * @covers WP_Widget_Media_Audio::enqueue_preview_scripts
      */
-    public function test_enqueue_preview_scripts() {
+    public function test_enqueue_preview_scripts()
+    {
         global $wp_scripts, $wp_styles;
         $wp_scripts = null;
         $wp_styles  = null;
@@ -302,7 +311,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Audio::enqueue_admin_scripts
      */
-    public function test_enqueue_admin_scripts() {
+    public function test_enqueue_admin_scripts()
+    {
         set_current_screen('widgets.php');
         $widget = new WP_Widget_Media_Audio();
         $widget->enqueue_admin_scripts();
@@ -315,7 +325,8 @@ class Tests_Widgets_wpWidgetMediaAudio extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Audio::render_control_template_scripts
      */
-    public function test_render_control_template_scripts() {
+    public function test_render_control_template_scripts()
+    {
         $widget = new WP_Widget_Media_Audio();
 
         ob_start();

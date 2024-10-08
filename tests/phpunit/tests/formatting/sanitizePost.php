@@ -6,12 +6,14 @@
  * @covers ::sanitize_post
  * @covers WP_Post::__construct
  */
-class Tests_Formatting_SanitizePost extends WP_UnitTestCase {
+class Tests_Formatting_SanitizePost extends WP_UnitTestCase
+{
 
     /**
      * @ticket 22324
      */
-    public function test_int_fields() {
+    public function test_int_fields()
+    {
         $post       = self::factory()->post->create_and_get();
         $int_fields = array(
             'ID'            => 'integer',

@@ -13,7 +13,8 @@
  * @since 3.3.0
  */
 #[AllowDynamicProperties]
-final class WP_Internal_Pointers {
+final class WP_Internal_Pointers
+{
     /**
      * Initializes the new feature pointers.
      *
@@ -34,7 +35,8 @@ final class WP_Internal_Pointers {
      *
      * @param string $hook_suffix The current admin page.
      */
-    public static function enqueue_scripts($hook_suffix) {
+    public static function enqueue_scripts($hook_suffix)
+    {
         /*
          * Register feature pointers
          *
@@ -112,7 +114,8 @@ final class WP_Internal_Pointers {
      * @param string $selector The HTML elements, on which the pointer should be attached.
      * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.js).
      */
-    private static function print_js($pointer_id, $selector, $args) {
+    private static function print_js($pointer_id, $selector, $args)
+    {
         if (empty($pointer_id) || empty($selector) || empty($args) || empty($args['content'])) {
             return;
         }
@@ -150,17 +153,28 @@ final class WP_Internal_Pointers {
         <?php
     }
 
-    public static function pointer_wp330_toolbar() {}
-    public static function pointer_wp330_media_uploader() {}
-    public static function pointer_wp330_saving_widgets() {}
-    public static function pointer_wp340_customize_current_theme_link() {}
-    public static function pointer_wp340_choose_image_from_library() {}
-    public static function pointer_wp350_media() {}
-    public static function pointer_wp360_revisions() {}
-    public static function pointer_wp360_locks() {}
-    public static function pointer_wp390_widgets() {}
-    public static function pointer_wp410_dfw() {}
-    public static function pointer_wp496_privacy() {}
+    public static function pointer_wp330_toolbar()
+    {}
+    public static function pointer_wp330_media_uploader()
+    {}
+    public static function pointer_wp330_saving_widgets()
+    {}
+    public static function pointer_wp340_customize_current_theme_link()
+    {}
+    public static function pointer_wp340_choose_image_from_library()
+    {}
+    public static function pointer_wp350_media()
+    {}
+    public static function pointer_wp360_revisions()
+    {}
+    public static function pointer_wp360_locks()
+    {}
+    public static function pointer_wp390_widgets()
+    {}
+    public static function pointer_wp410_dfw()
+    {}
+    public static function pointer_wp496_privacy()
+    {}
 
     /**
      * Prevents new users from seeing existing 'new feature' pointers.
@@ -169,7 +183,8 @@ final class WP_Internal_Pointers {
      *
      * @param int $user_id User ID.
      */
-    public static function dismiss_pointers_for_new_users($user_id) {
+    public static function dismiss_pointers_for_new_users($user_id)
+    {
         add_user_meta($user_id, 'dismissed_wp_pointers', '');
     }
 }

@@ -14,7 +14,8 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php';
  *
  * @covers ::wp_ajax_crop_image
  */
-class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase
+{
 
     /**
      * @var WP_Post|null
@@ -26,14 +27,16 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
      */
     private $cropped_attachment;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         // Become an administrator.
         $this->_setRole('administrator');
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         if ($this->attachment instanceof WP_Post) {
             wp_delete_attachment($this->attachment->ID, true);
         }
@@ -52,7 +55,8 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
      *
      * @ticket 37750
      */
-    public function test_it_copies_metadata_from_original_image() {
+    public function test_it_copies_metadata_from_original_image()
+    {
         $this->attachment = $this->make_attachment(true);
         $this->prepare_post($this->attachment);
 
@@ -80,7 +84,8 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
      *
      * @ticket 37750
      */
-    public function test_it_populates_title_if_title_was_not_modified() {
+    public function test_it_populates_title_if_title_was_not_modified()
+    {
 
         $this->attachment = $this->make_attachment(true);
         $filename         = $this->get_attachment_filename($this->attachment);
@@ -114,7 +119,8 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
      *
      * @ticket 37750
      */
-    public function test_it_doesnt_generate_new_metadata_if_metadata_is_empty() {
+    public function test_it_doesnt_generate_new_metadata_if_metadata_is_empty()
+    {
         $this->attachment = $this->make_attachment(false);
         $this->prepare_post($this->attachment);
 
@@ -143,7 +149,8 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
      *
      * @return WP_Post
      */
-    private function make_attachment($with_metadata = true) {
+    private function make_attachment($with_metadata = true)
+    {
         $uniq_id = uniqid('crop-image-ajax-action-test-');
 
         $test_file        = DIR_TESTDATA . '/images/test-image.jpg';
@@ -180,7 +187,8 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
     /**
      * @param array $response Response to validate.
      */
-    private function validate_response($response) {
+    private function validate_response($response)
+    {
         $this->assertArrayHasKey('success', $response, 'Response array must contain "success" key.');
         $this->assertArrayHasKey('data', $response, 'Response array must contain "data" key.');
         $this->assertNotEmpty($response['data']['id'], 'Response array must contain "ID" value of the post entity.');
@@ -191,7 +199,8 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
      *
      * @param WP_Post $attachment
      */
-    private function prepare_post(WP_Post $attachment) {
+    private function prepare_post(WP_Post $attachment)
+    {
         $_POST = array(
             'wp_customize' => 'on',
             'nonce'        => wp_create_nonce('image_editor-' . $attachment->ID),
@@ -217,7 +226,8 @@ class Tests_Ajax_WpAjaxCropImage extends WP_Ajax_UnitTestCase {
      *
      * @return string
      */
-    private function get_attachment_filename(WP_Post $attachment) {
+    private function get_attachment_filename(WP_Post $attachment)
+    {
         return wp_basename(wp_get_attachment_url($attachment->ID));
     }
 }

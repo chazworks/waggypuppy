@@ -12,7 +12,8 @@
  *
  * @coversDefaultClass WP_HTML_Processor
  */
-class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitTestCase
+{
     /*******************************************************************
      * RULES FOR "IN BODY" MODE
      *******************************************************************/
@@ -28,7 +29,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
      *
      * @param string $tag_name Name of H1 - H6 element under test.
      */
-    public function test_in_body_heading_element_closes_open_p_tag($tag_name) {
+    public function test_in_body_heading_element_closes_open_p_tag($tag_name)
+    {
         $processor = WP_HTML_Processor::create_fragment(
             "<p>Open<{$tag_name}>Closed P</{$tag_name}><img></p>"
         );
@@ -53,7 +55,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
      *
      * @return array[].
      */
-    public static function data_heading_elements() {
+    public static function data_heading_elements()
+    {
         return array(
             'H1' => array('H1'),
             'H2' => array('H2'),
@@ -76,7 +79,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
      * @param string $first_heading  H1 - H6 element appearing (unclosed) before the second.
      * @param string $second_heading H1 - H6 element appearing after the first.
      */
-    public function test_in_body_heading_element_closes_other_heading_elements($first_heading, $second_heading) {
+    public function test_in_body_heading_element_closes_other_heading_elements($first_heading, $second_heading)
+    {
         $processor = WP_HTML_Processor::create_fragment(
             "<div><{$first_heading} first> then <{$second_heading} second> and end </{$second_heading}><img></{$first_heading}></div>"
         );
@@ -109,7 +113,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesHeadingElements extends WP_UnitT
      *
      * @return array[]
      */
-    public static function data_heading_combinations() {
+    public static function data_heading_combinations()
+    {
         $headings = array('H1', 'H2', 'H3', 'H4', 'H5', 'H6');
 
         $combinations = array();

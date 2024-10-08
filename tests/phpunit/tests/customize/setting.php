@@ -5,7 +5,8 @@
  *
  * @group customize
  */
-class Tests_WP_Customize_Setting extends WP_UnitTestCase {
+class Tests_WP_Customize_Setting extends WP_UnitTestCase
+{
 
     /**
      * @var WP_Customize_Manager
@@ -17,7 +18,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      */
     public $undefined;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $GLOBALS['wp_customize'] = new WP_Customize_Manager();
@@ -25,13 +27,15 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
         $this->undefined         = new stdClass();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->manager = null;
         unset($GLOBALS['wp_customize']);
         parent::tear_down();
     }
 
-    public function test_constructor_without_args() {
+    public function test_constructor_without_args()
+    {
         $setting = new WP_Customize_Setting($this->manager, 'foo');
         $this->assertSame($this->manager, $setting->manager);
         $this->assertSame('foo', $setting->id);
@@ -54,7 +58,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @param mixed                $value   The setting value.
      * @param WP_Customize_Setting $setting The setting object.
      */
-    public function validate_callback_for_tests($value, $setting) {
+    public function validate_callback_for_tests($value, $setting)
+    {
         return $value . ':validate_callback';
     }
 
@@ -64,7 +69,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @param mixed                $value   The setting value.
      * @param WP_Customize_Setting $setting The setting object.
      */
-    public function sanitize_callback_for_tests($value, $setting) {
+    public function sanitize_callback_for_tests($value, $setting)
+    {
         return $value . ':sanitize_callback';
     }
 
@@ -74,7 +80,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @param mixed                $value   The setting value.
      * @param WP_Customize_Setting $setting The setting object.
      */
-    public function sanitize_js_callback_for_tests($value, $setting) {
+    public function sanitize_js_callback_for_tests($value, $setting)
+    {
         return $value . ':sanitize_js_callback';
     }
 
@@ -84,11 +91,13 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @param mixed                $value   The setting value.
      * @param WP_Customize_Setting $setting The setting object.
      */
-    public function sanitize_js_callback_base64_for_testing($value, $setting) {
+    public function sanitize_js_callback_base64_for_testing($value, $setting)
+    {
         return base64_encode($value);
     }
 
-    public function test_constructor_with_args() {
+    public function test_constructor_with_args()
+    {
         $args    = array(
             'type'                 => 'option',
             'capability'           => 'edit_posts',
@@ -136,7 +145,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Setting::value()
      */
-    public function test_preview_standard_types_non_multidimensional() {
+    public function test_preview_standard_types_non_multidimensional()
+    {
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         $_POST['customized'] = wp_slash(wp_json_encode($this->post_data_overrides));
 
@@ -215,7 +225,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @see WP_Customize_Setting::preview()
      * @see WP_Customize_Setting::value()
      */
-    public function test_preview_standard_types_multidimensional() {
+    public function test_preview_standard_types_multidimensional()
+    {
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         $_POST['customized'] = wp_slash(wp_json_encode($this->post_data_overrides));
 
@@ -316,7 +327,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      */
     protected $custom_type_data_previewed;
 
-    private function custom_type_getter($name, $default_value = null) {
+    private function custom_type_getter($name, $default_value = null)
+    {
         if (did_action("customize_preview_{$name}") && array_key_exists($name, $this->custom_type_data_previewed)) {
             $value = $this->custom_type_data_previewed[ $name ];
         } elseif (array_key_exists($name, $this->custom_type_data_saved)) {
@@ -327,7 +339,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
         return $value;
     }
 
-    private function custom_type_setter($name, $value) {
+    private function custom_type_setter($name, $value)
+    {
         $this->custom_type_data_saved[ $name ] = $value;
     }
 
@@ -339,7 +352,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      *
      * @return mixed|null
      */
-    public function custom_type_value_filter($default_value, $setting = null) {
+    public function custom_type_value_filter($default_value, $setting = null)
+    {
         $name = preg_replace('/^customize_value_/', '', current_filter());
         $this->assertInstanceOf('WP_Customize_Setting', $setting);
         $id_data = $setting->id_data();
@@ -350,7 +364,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
     /**
      * @param WP_Customize_Setting $setting
      */
-    public function custom_type_preview($setting) {
+    public function custom_type_preview($setting)
+    {
         $previewed_value = $setting->post_value($this->undefined);
         if ($this->undefined !== $previewed_value) {
             $this->custom_type_data_previewed[ $setting->id ] = $previewed_value;
@@ -361,7 +376,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Setting::preview()
      */
-    public function test_preview_custom_type() {
+    public function test_preview_custom_type()
+    {
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         $type                = 'custom_type';
         $post_data_overrides = array(
@@ -473,7 +489,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      *
      * @ticket 30988
      */
-    public function test_non_posted_setting_applying_default_value_in_preview() {
+    public function test_non_posted_setting_applying_default_value_in_preview()
+    {
         $type    = 'option';
         $name    = 'unset_option_without_post_value';
         $default = "default_value_{$name}";
@@ -491,7 +508,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @see WP_Customize_Setting::save()
      * @see WP_Customize_Setting::update()
      */
-    public function test_update_custom_type() {
+    public function test_update_custom_type()
+    {
         $type    = 'custom';
         $name    = 'foo';
         $setting = new WP_Customize_Setting($this->manager, $name, compact('type'));
@@ -526,7 +544,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @param mixed $value
      * @param WP_Customize_Setting $setting
      */
-    public function handle_customize_update_custom_foo_action($value, $setting = null) {
+    public function handle_customize_update_custom_foo_action($value, $setting = null)
+    {
         $this->assertSame('hello world \\o/', $value);
         $this->assertInstanceOf('WP_Customize_Setting', $setting);
     }
@@ -537,7 +556,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @see Tests_WP_Customize_Setting::test_update_custom_type()
      * @param WP_Customize_Setting $setting
      */
-    public function handle_customize_save_custom_foo_action($setting) {
+    public function handle_customize_save_custom_foo_action($setting)
+    {
         $this->assertInstanceOf('WP_Customize_Setting', $setting);
         $this->assertSame('custom', $setting->type);
         $this->assertSame('foo', $setting->id);
@@ -550,7 +570,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      *
      * @ticket 31428
      */
-    public function test_is_current_blog_previewed() {
+    public function test_is_current_blog_previewed()
+    {
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         $type       = 'option';
         $name       = 'blogname';
@@ -572,7 +593,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_previewing_with_switch_to_blog() {
+    public function test_previewing_with_switch_to_blog()
+    {
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         $type       = 'option';
         $name       = 'blogdescription';
@@ -594,7 +616,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
     /**
      * @ticket 33499
      */
-    public function test_option_autoloading() {
+    public function test_option_autoloading()
+    {
         global $wpdb;
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
 
@@ -674,7 +697,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      * @see WP_Customize_Setting::js_value()
      * @see WP_Customize_Setting::json()
      */
-    public function test_js_value() {
+    public function test_js_value()
+    {
         $default = "\x00";
         $args    = array(
             'type'                 => 'binary',
@@ -704,7 +728,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Setting::validate()
      */
-    public function test_validate() {
+    public function test_validate()
+    {
         $setting  = new WP_Customize_Setting(
             $this->manager,
             'name',
@@ -728,7 +753,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      *
      * @return WP_Error
      */
-    public function filter_validate_for_test_validate($validity, $value) {
+    public function filter_validate_for_test_validate($validity, $value)
+    {
         $this->assertInstanceOf('WP_Error', $validity);
         $this->assertIsString($value);
         if (sanitize_key($value) !== $value) {
@@ -742,7 +768,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase {
      *
      * @ticket 37294
      */
-    public function test_multidimensional_value_when_previewed() {
+    public function test_multidimensional_value_when_previewed()
+    {
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         WP_Customize_Setting::reset_aggregated_multidimensionals();
 

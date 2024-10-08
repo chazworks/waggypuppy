@@ -3,14 +3,16 @@
 /**
  * @group error-protection
  */
-class Tests_Error_Protection_wpRecoveryModeCookieService extends WP_UnitTestCase {
+class Tests_Error_Protection_wpRecoveryModeCookieService extends WP_UnitTestCase
+{
 
     /**
      * @ticket 46130
      *
      * @covers WP_Recovery_Mode_Cookie_Service::validate_cookie
      */
-    public function test_validate_cookie_returns_wp_error_if_invalid_format() {
+    public function test_validate_cookie_returns_wp_error_if_invalid_format()
+    {
 
         $service = new WP_Recovery_Mode_Cookie_Service();
 
@@ -32,7 +34,8 @@ class Tests_Error_Protection_wpRecoveryModeCookieService extends WP_UnitTestCase
      *
      * @covers WP_Recovery_Mode_Cookie_Service::validate_cookie
      */
-    public function test_validate_cookie_returns_wp_error_if_expired() {
+    public function test_validate_cookie_returns_wp_error_if_expired()
+    {
         $service    = new WP_Recovery_Mode_Cookie_Service();
         $reflection = new ReflectionMethod($service, 'recovery_mode_hash');
         $reflection->setAccessible(true);
@@ -51,7 +54,8 @@ class Tests_Error_Protection_wpRecoveryModeCookieService extends WP_UnitTestCase
      *
      * @covers WP_Recovery_Mode_Cookie_Service::validate_cookie
      */
-    public function test_validate_cookie_returns_wp_error_if_signature_mismatch() {
+    public function test_validate_cookie_returns_wp_error_if_signature_mismatch()
+    {
         $service    = new WP_Recovery_Mode_Cookie_Service();
         $reflection = new ReflectionMethod($service, 'generate_cookie');
         $reflection->setAccessible(true);
@@ -69,7 +73,8 @@ class Tests_Error_Protection_wpRecoveryModeCookieService extends WP_UnitTestCase
      *
      * @covers WP_Recovery_Mode_Cookie_Service::validate_cookie
      */
-    public function test_validate_cookie_returns_wp_error_if_created_at_is_invalid_format() {
+    public function test_validate_cookie_returns_wp_error_if_created_at_is_invalid_format()
+    {
         $service    = new WP_Recovery_Mode_Cookie_Service();
         $reflection = new ReflectionMethod($service, 'recovery_mode_hash');
         $reflection->setAccessible(true);
@@ -88,7 +93,8 @@ class Tests_Error_Protection_wpRecoveryModeCookieService extends WP_UnitTestCase
      *
      * @covers WP_Recovery_Mode_Cookie_Service::validate_cookie
      */
-    public function test_validate_cookie_returns_true_for_valid_cookie() {
+    public function test_validate_cookie_returns_true_for_valid_cookie()
+    {
 
         $service    = new WP_Recovery_Mode_Cookie_Service();
         $reflection = new ReflectionMethod($service, 'generate_cookie');

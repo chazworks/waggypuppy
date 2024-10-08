@@ -9,7 +9,8 @@
  *
  * @covers ::_wp_to_kebab_case
  */
-class Tests_Functions_wpToKebabCase extends WP_UnitTestCase {
+class Tests_Functions_wpToKebabCase extends WP_UnitTestCase
+{
 
     /**
      * Tests _wp_to_kebab_case().
@@ -21,7 +22,8 @@ class Tests_Functions_wpToKebabCase extends WP_UnitTestCase {
      * @param string $test_value Test value.
      * @param string $expected   Expected return value.
      */
-    public function test_wp_to_kebab_case($test_value, $expected) {
+    public function test_wp_to_kebab_case($test_value, $expected)
+    {
         $this->assertSame($expected, _wp_to_kebab_case($test_value));
     }
 
@@ -33,7 +35,8 @@ class Tests_Functions_wpToKebabCase extends WP_UnitTestCase {
      *     @type string $expected   Expected return value.
      * }
      */
-    public function data_wp_to_kebab_case() {
+    public function data_wp_to_kebab_case()
+    {
         return array(
             array('white', 'white'),
             array('white+black', 'white-black'),

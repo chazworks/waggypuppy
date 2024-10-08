@@ -17,7 +17,8 @@
  * @since 6.5.0
  * @access private
  */
-class WP_Font_Utils {
+class WP_Font_Utils
+{
     /**
      * Adds surrounding quotes to font family names that contain special characters.
      *
@@ -29,7 +30,8 @@ class WP_Font_Utils {
      * @param string $item A font family name.
      * @return string The font family name with surrounding quotes, if necessary.
      */
-    private static function maybe_add_quotes($item) {
+    private static function maybe_add_quotes($item)
+    {
         // Matches strings that are not exclusively alphabetic characters or hyphens, and do not exactly follow the pattern generic(alphabetic characters or hyphens).
         $regex = '/^(?!generic\([a-zA-Z\-]+\)$)(?!^[a-zA-Z\-]+$).+/';
         $item  = trim($item);
@@ -57,7 +59,8 @@ class WP_Font_Utils {
      * @param string $font_family Font family name(s), comma-separated.
      * @return string Sanitized and formatted font family name(s).
      */
-    public static function sanitize_font_family($font_family) {
+    public static function sanitize_font_family($font_family)
+    {
         if (! $font_family) {
             return '';
         }
@@ -101,7 +104,8 @@ class WP_Font_Utils {
      * }
      * @return string Font face slug.
      */
-    public static function get_font_face_slug($settings) {
+    public static function get_font_face_slug($settings)
+    {
         $defaults = array(
             'fontFamily'   => '',
             'fontStyle'    => 'normal',
@@ -172,7 +176,8 @@ class WP_Font_Utils {
      * @param array $schema The schema used for sanitization.
      * @return array The sanitized data.
      */
-    public static function sanitize_from_schema($tree, $schema) {
+    public static function sanitize_from_schema($tree, $schema)
+    {
         if (! is_array($tree) || ! is_array($schema)) {
             return array();
         }
@@ -225,7 +230,8 @@ class WP_Font_Utils {
      * @param callable $sanitizer The sanitizer function to apply.
      * @return mixed The sanitized value.
      */
-    private static function apply_sanitizer($value, $sanitizer) {
+    private static function apply_sanitizer($value, $sanitizer)
+    {
         if (null === $sanitizer) {
             return $value;
 
@@ -246,7 +252,8 @@ class WP_Font_Utils {
      *
      * @return string[] A collection of mime types keyed by file extension.
      */
-    public static function get_allowed_font_mime_types() {
+    public static function get_allowed_font_mime_types()
+    {
         $php_7_ttf_mime_type = PHP_VERSION_ID >= 70300 ? 'application/font-sfnt' : 'application/x-font-ttf';
 
         return array(

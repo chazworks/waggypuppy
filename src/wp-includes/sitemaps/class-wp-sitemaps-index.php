@@ -16,7 +16,8 @@
  * @since 5.5.0
  */
 #[AllowDynamicProperties]
-class WP_Sitemaps_Index {
+class WP_Sitemaps_Index
+{
     /**
      * The main registry of supported sitemaps.
      *
@@ -41,7 +42,8 @@ class WP_Sitemaps_Index {
      *
      * @param WP_Sitemaps_Registry $registry Sitemap provider registry.
      */
-    public function __construct(WP_Sitemaps_Registry $registry) {
+    public function __construct(WP_Sitemaps_Registry $registry)
+    {
         $this->registry = $registry;
     }
 
@@ -52,7 +54,8 @@ class WP_Sitemaps_Index {
      *
      * @return array[] Array of all sitemaps.
      */
-    public function get_sitemap_list() {
+    public function get_sitemap_list()
+    {
         $sitemaps = array();
 
         $providers = $this->registry->get_providers();
@@ -84,7 +87,8 @@ class WP_Sitemaps_Index {
      *
      * @return string The sitemap index URL.
      */
-    public function get_index_url() {
+    public function get_index_url()
+    {
         global $wp_rewrite;
 
         if (! $wp_rewrite->using_permalinks()) {

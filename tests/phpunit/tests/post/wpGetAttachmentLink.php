@@ -7,7 +7,8 @@
  *
  * @covers ::wp_get_attachment_link
  */
-class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase {
+class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase
+{
 
     /**
      * The ID of an attachment for testing.
@@ -19,7 +20,8 @@ class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase {
     /**
      * Creates an attachment for testing before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         self::$attachment = self::factory()->attachment->create();
@@ -36,7 +38,8 @@ class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase {
      * @param array  $attributes Attributes to return from the callback.
      * @param string $expected   The substring expected to be in the attachment link.
      */
-    public function test_should_apply_attributes_filter($attributes, $expected) {
+    public function test_should_apply_attributes_filter($attributes, $expected)
+    {
         $expected = str_replace('ATTACHMENT_ID', self::$attachment, $expected);
 
         add_filter(
@@ -57,7 +60,8 @@ class Tests_Post_WpGetAttachmentLink extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_apply_attributes_filter() {
+    public function data_should_apply_attributes_filter()
+    {
         return array(
             'no new attributes'                         => array(
                 'attributes' => array(),

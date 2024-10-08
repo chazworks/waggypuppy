@@ -15,14 +15,16 @@
  * @see WP_Widget_Media
  * @see WP_Widget
  */
-class WP_Widget_Media_Audio extends WP_Widget_Media {
+class WP_Widget_Media_Audio extends WP_Widget_Media
+{
 
     /**
      * Constructor.
      *
      * @since 4.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(
             'media_audio',
             __('Audio'),
@@ -63,7 +65,8 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
      *
      * @return array Schema for properties.
      */
-    public function get_instance_schema() {
+    public function get_instance_schema()
+    {
         $schema = array(
             'preload' => array(
                 'type'        => 'string',
@@ -98,7 +101,8 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
      *
      * @param array $instance Widget instance props.
      */
-    public function render_media($instance) {
+    public function render_media($instance)
+    {
         $instance   = array_merge(wp_list_pluck($this->get_instance_schema(), 'default'), $instance);
         $attachment = null;
 
@@ -130,7 +134,8 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
      *
      * @since 4.8.0
      */
-    public function enqueue_preview_scripts() {
+    public function enqueue_preview_scripts()
+    {
         /** This filter is documented in wp-includes/media.php */
         if ('mediaelement' === apply_filters('wp_audio_shortcode_library', 'mediaelement')) {
             wp_enqueue_style('wp-mediaelement');
@@ -143,7 +148,8 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
      *
      * @since 4.8.0
      */
-    public function enqueue_admin_scripts() {
+    public function enqueue_admin_scripts()
+    {
         parent::enqueue_admin_scripts();
 
         wp_enqueue_style('wp-mediaelement');
@@ -184,7 +190,8 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
      *
      * @since 4.8.0
      */
-    public function render_control_template_scripts() {
+    public function render_control_template_scripts()
+    {
         parent::render_control_template_scripts()
         ?>
         <script type="text/html" id="tmpl-wp-media-widget-audio-preview">

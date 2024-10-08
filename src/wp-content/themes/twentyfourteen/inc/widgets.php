@@ -10,7 +10,8 @@
  * @subpackage Twenty_Fourteen
  * @since Twenty Fourteen 1.0
  */
-class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
+class Twenty_Fourteen_Ephemera_Widget extends WP_Widget
+{
 
     /**
      * The supported post formats.
@@ -28,7 +29,8 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
      *
      * @return Twenty_Fourteen_Ephemera_Widget
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(
             'widget_twentyfourteen_ephemera',
             __('Twenty Fourteen Ephemera', 'twentyfourteen'),
@@ -49,7 +51,8 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
      *
      * @since Twenty Fourteen 1.7
      */
-    public function enqueue_scripts() {
+    public function enqueue_scripts()
+    {
         /** This filter is documented in wp-includes/media.php */
         $audio_library = apply_filters('wp_audio_shortcode_library', 'mediaelement');
         /** This filter is documented in wp-includes/media.php */
@@ -69,7 +72,8 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
      * @param array $args     An array of standard parameters for widgets in this theme.
      * @param array $instance An array of settings for this widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         $format = isset($instance['format']) ? $instance['format'] : '';
 
         if (! $format || ! in_array($format, $this->formats, true)) {
@@ -268,7 +272,8 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
      * @param array $old_instance Original widget instance.
      * @return array Updated widget instance.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $old_instance['title']  = strip_tags($new_instance['title']);
         $old_instance['number'] = empty($new_instance['number']) ? 2 : absint($new_instance['number']);
 
@@ -286,7 +291,8 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
      *
      * @param array $instance
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         $title  = ! empty($instance['title']) ? esc_attr($instance['title']) : '';
         $number = ! empty($instance['number']) ? absint($instance['number']) : 2;
         $format = isset($instance['format']) ? $instance['format'] : '';

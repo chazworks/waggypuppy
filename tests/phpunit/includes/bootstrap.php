@@ -298,7 +298,8 @@ tests_add_filter('automatic_updater_disabled', '__return_true');
 // Preset WordPress options defined in bootstrap file.
 // Used to activate themes, plugins, as well as other settings.
 if (isset($GLOBALS['wp_tests_options'])) {
-    function wp_tests_options($value) {
+    function wp_tests_options($value)
+    {
         $key = substr(current_filter(), strlen('pre_option_'));
         return $GLOBALS['wp_tests_options'][ $key ];
     }
@@ -349,9 +350,11 @@ require __DIR__ . '/class-wp-sitemaps-large-test-provider.php';
  * If WP_TESTS_FORCE_KNOWN_BUGS is already set in wp-tests-config.php, then
  * how you call phpunit has no effect.
  */
-class WP_PHPUnit_Util_Getopt {
+class WP_PHPUnit_Util_Getopt
+{
 
-    public function __construct($argv) {
+    public function __construct($argv)
+    {
         $skipped_groups = array(
             'ajax'          => true,
             'ms-files'      => true,

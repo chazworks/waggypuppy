@@ -7,7 +7,8 @@
  */
 if (! class_exists('Plural_Forms', false)) :
     #[AllowDynamicProperties]
-    class Plural_Forms {
+    class Plural_Forms
+    {
         /**
          * Operator characters.
          *
@@ -80,7 +81,8 @@ if (! class_exists('Plural_Forms', false)) :
          *
          * @param string $str Plural function (just the bit after `plural=` from Plural-Forms)
          */
-        public function __construct($str) {
+        public function __construct($str)
+        {
             $this->parse($str);
         }
 
@@ -96,7 +98,8 @@ if (! class_exists('Plural_Forms', false)) :
          *
          * @param string $str String to parse.
          */
-        protected function parse($str) {
+        protected function parse($str)
+        {
             $pos = 0;
             $len = strlen($str);
 
@@ -240,7 +243,8 @@ if (! class_exists('Plural_Forms', false)) :
          * @param int $num Number to get plural form for.
          * @return int Plural form value.
          */
-        public function get($num) {
+        public function get($num)
+        {
             if (isset($this->cache[ $num ])) {
                 return $this->cache[ $num ];
             }
@@ -258,7 +262,8 @@ if (! class_exists('Plural_Forms', false)) :
          * @param int $n Variable "n" to substitute.
          * @return int Plural form value.
          */
-        public function execute($n) {
+        public function execute($n)
+        {
             $stack = array();
             $i     = 0;
             $total = count($this->tokens);

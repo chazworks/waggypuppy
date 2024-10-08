@@ -25,7 +25,8 @@ if (! function_exists('twentynineteen_setup')) :
      * runs before the init hook. The init hook is too late for some features, such
      * as indicating support for post thumbnails.
      */
-    function twentynineteen_setup() {
+    function twentynineteen_setup()
+    {
 
         // Add default posts and comments RSS feed links to head.
         add_theme_support('automatic-feed-links');
@@ -183,7 +184,8 @@ if (! function_exists('wp_get_list_item_separator')) :
      *
      * @since 6.0.0
      */
-    function wp_get_list_item_separator() {
+    function wp_get_list_item_separator()
+    {
         /* translators: Used between list items, there is a space after the comma. */
         return __(', ', 'twentynineteen');
     }
@@ -194,7 +196,8 @@ endif;
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
-function twentynineteen_widgets_init() {
+function twentynineteen_widgets_init()
+{
 
     register_sidebar(
         array(
@@ -219,7 +222,8 @@ add_action('widgets_init', 'twentynineteen_widgets_init');
  * @param string $link Link to single post/page.
  * @return string 'Continue reading' link prepended with an ellipsis.
  */
-function twentynineteen_excerpt_more($link) {
+function twentynineteen_excerpt_more($link)
+{
     if (is_admin()) {
         return $link;
     }
@@ -241,7 +245,8 @@ add_filter('excerpt_more', 'twentynineteen_excerpt_more');
  *
  * @global int $content_width Content width.
  */
-function twentynineteen_content_width() {
+function twentynineteen_content_width()
+{
     // This variable is intended to be overruled from themes.
     // Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
@@ -252,7 +257,8 @@ add_action('after_setup_theme', 'twentynineteen_content_width', 0);
 /**
  * Enqueue scripts and styles.
  */
-function twentynineteen_scripts() {
+function twentynineteen_scripts()
+{
     wp_enqueue_style('twentynineteen-style', get_stylesheet_uri(), array(), wp_get_theme()->get('Version'));
 
     wp_style_add_data('twentynineteen-style', 'rtl', 'replace');
@@ -299,7 +305,8 @@ add_action('wp_enqueue_scripts', 'twentynineteen_scripts');
  *
  * @link https://git.io/vWdr2
  */
-function twentynineteen_skip_link_focus_fix() {
+function twentynineteen_skip_link_focus_fix()
+{
     // The following is minified via `terser --compress --mangle -- js/skip-link-focus-fix.js`.
     ?>
     <script>
@@ -311,7 +318,8 @@ function twentynineteen_skip_link_focus_fix() {
 /**
  * Enqueue supplemental block editor styles.
  */
-function twentynineteen_editor_customizer_styles() {
+function twentynineteen_editor_customizer_styles()
+{
 
     wp_enqueue_style('twentynineteen-editor-customizer-styles', get_theme_file_uri('/style-editor-customizer.css'), false, '2.1', 'all');
 
@@ -326,7 +334,8 @@ add_action('enqueue_block_editor_assets', 'twentynineteen_editor_customizer_styl
 /**
  * Display custom color CSS in customizer and on frontend.
  */
-function twentynineteen_colors_css_wrap() {
+function twentynineteen_colors_css_wrap()
+{
 
     // Only include custom colors in customizer or frontend.
     if ((! is_customize_preview() && 'default' === get_theme_mod('primary_color', 'default')) || is_admin()) {

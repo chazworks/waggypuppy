@@ -6,14 +6,16 @@
  *
  * @covers ::links_add_target
  */
-class Tests_Formatting_LinksAddTarget extends WP_UnitTestCase {
+class Tests_Formatting_LinksAddTarget extends WP_UnitTestCase
+{
 
     /**
      * @ticket 26164
      *
      * @dataProvider data_links_add_target
      */
-    public function test_links_add_target($content, $target, $tags, $expected) {
+    public function test_links_add_target($content, $target, $tags, $expected)
+    {
         if (is_null($target)) {
             $this->assertSame($expected, links_add_target($content));
         } elseif (is_null($tags)) {
@@ -35,7 +37,8 @@ class Tests_Formatting_LinksAddTarget extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_links_add_target() {
+    public function data_links_add_target()
+    {
         return array(
             array(
                 'MY CONTENT <div> SOME ADDITIONAL TEXT <a href="XYZ" src="ABC">LINK</a> HERE </div> END TEXT',

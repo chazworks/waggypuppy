@@ -8,14 +8,16 @@
  *
  * @coversDefaultClass WP_HTML_Tag_Processor
  */
-class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase
+{
     /**
      * Ensures that calls to `get_modifiable_text()` don't change the
      * parser state in a way that would corrupt repeated calls.
      *
      * @ticket 61576
      */
-    public function test_get_modifiable_text_is_idempotent() {
+    public function test_get_modifiable_text_is_idempotent()
+    {
         $processor = new WP_HTML_Tag_Processor("<pre>\nFirst newline ignored.</pre>");
 
         // Find the text node in the middle.
@@ -45,7 +47,8 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase {
      *
      * @ticket 61617
      */
-    public function test_get_modifiable_text_is_consistent_after_writes() {
+    public function test_get_modifiable_text_is_consistent_after_writes()
+    {
         $before    = 'just some text';
         $after     = 'different text';
         $processor = new WP_HTML_Tag_Processor($before);
@@ -84,7 +87,8 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase {
      *
      * @ticket 61617
      */
-    public function test_get_modifiable_text_is_consistent_after_writes_to_empty_text() {
+    public function test_get_modifiable_text_is_consistent_after_writes_to_empty_text()
+    {
         $after     = 'different text';
         $processor = new WP_HTML_Tag_Processor('<script></script>');
         $processor->next_token();
@@ -122,7 +126,8 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase {
      *
      * @ticket 61617
      */
-    public function test_setting_shorter_modifiable_text() {
+    public function test_setting_shorter_modifiable_text()
+    {
         $processor = new WP_HTML_Tag_Processor('<div><textarea>very long text</textarea><div id="not a <span>">');
 
         // Find the test node in the middle.
@@ -168,7 +173,8 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase {
      *
      * @ticket 61617
      */
-    public function test_modifiable_text_reads_updates_after_setting() {
+    public function test_modifiable_text_reads_updates_after_setting()
+    {
         $processor = new WP_HTML_Tag_Processor('This is text<!-- this is not -->');
 
         $processor->next_token();
@@ -204,7 +210,8 @@ class Tests_HtmlApi_WpHtmlTagProcessorModifiableText extends WP_UnitTestCase {
      * Ensures that when ignoring a newline after LISTING and PRE tags, that this
      * happens appropriately after seeking.
      */
-    public function test_get_modifiable_text_ignores_newlines_after_seeking() {
+    public function test_get_modifiable_text_ignores_newlines_after_seeking()
+    {
         $processor = new WP_HTML_Tag_Processor(
             <<<HTML
 <span>\nhere</span>
@@ -280,7 +287,8 @@ HTML
      * @param string $html             Contains HTML with a token not supporting modifiable text updates.
      * @param int    $advance_n_tokens Count of times to run `next_token()` before reaching target node.
      */
-    public function test_rejects_updates_on_unsupported_match_locations(string $html, int $advance_n_tokens) {
+    public function test_rejects_updates_on_unsupported_match_locations(string $html, int $advance_n_tokens)
+    {
         $processor = new WP_HTML_Tag_Processor($html);
         while (--$advance_n_tokens >= 0) {
             $processor->next_token();
@@ -303,7 +311,8 @@ HTML
      *
      * @return array[]
      */
-    public static function data_tokens_not_supporting_modifiable_text_updates() {
+    public static function data_tokens_not_supporting_modifiable_text_updates()
+    {
         return array(
             'Before parsing'               => array('nothing to see here', 0),
             'After parsing'                => array('nothing here either', 2),
@@ -329,7 +338,8 @@ HTML
      * @param string $raw_replacement  This should be escaped properly when replaced as modifiable text.
      * @param string $transformed      Expected output after updating modifiable text.
      */
-    public function test_updates_basic_modifiable_text_on_supported_nodes(string $html, int $advance_n_tokens, string $raw_replacement, string $transformed) {
+    public function test_updates_basic_modifiable_text_on_supported_nodes(string $html, int $advance_n_tokens, string $raw_replacement, string $transformed)
+    {
         $processor = new WP_HTML_Tag_Processor($html);
         while (--$advance_n_tokens >= 0) {
             $processor->next_token();
@@ -352,7 +362,8 @@ HTML
      *
      * @return array[]
      */
-    public static function data_tokens_with_basic_modifiable_text_updates() {
+    public static function data_tokens_with_basic_modifiable_text_updates()
+    {
         return array(
             'Text node (start)'       => array('Text', 1, 'Blubber', 'Blubber'),
             'Text node (middle)'      => array('<em>Bold move</em>', 2, 'yo', '<em>yo</em>'),
@@ -382,7 +393,8 @@ HTML
      * @param string $html_with_nonempty_modifiable_text Will be used to find the test element.
      * @param string $invalid_update                     Update containing possibly-compromising text.
      */
-    public function test_rejects_updates_with_unallowed_substrings(string $html_with_nonempty_modifiable_text, string $invalid_update) {
+    public function test_rejects_updates_with_unallowed_substrings(string $html_with_nonempty_modifiable_text, string $invalid_update)
+    {
         $processor = new WP_HTML_Tag_Processor($html_with_nonempty_modifiable_text);
 
         while ('' === $processor->get_modifiable_text() && $processor->next_token()) {
@@ -412,7 +424,8 @@ HTML
      *
      * @return array[]
      */
-    public static function data_unallowed_modifiable_text_updates() {
+    public static function data_unallowed_modifiable_text_updates()
+    {
         return array(
             'Comment with -->'                 => array('<!-- this is a comment -->', 'Comments end in -->'),
             'Comment with --!>'                => array('<!-- this is a comment -->', 'Invalid but legitimate comments end in --!>'),

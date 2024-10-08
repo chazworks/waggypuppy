@@ -17,7 +17,8 @@
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader.php.
  */
 #[AllowDynamicProperties]
-class File_Upload_Upgrader {
+class File_Upload_Upgrader
+{
 
     /**
      * The full path to the file package.
@@ -51,7 +52,8 @@ class File_Upload_Upgrader {
      * @param string $form      The name of the form the file was uploaded from.
      * @param string $urlholder The name of the `GET` parameter that holds the filename.
      */
-    public function __construct($form, $urlholder) {
+    public function __construct($form, $urlholder)
+    {
 
         if (empty($_FILES[ $form ]['name']) && empty($_GET[ $urlholder ])) {
             wp_die(__('Please select a file'));
@@ -145,7 +147,8 @@ class File_Upload_Upgrader {
      *
      * @return bool Whether the cleanup was successful.
      */
-    public function cleanup() {
+    public function cleanup()
+    {
         if ($this->id) {
             wp_delete_attachment($this->id);
 

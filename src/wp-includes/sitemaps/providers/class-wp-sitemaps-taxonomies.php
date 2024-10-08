@@ -14,13 +14,15 @@
  *
  * @since 5.5.0
  */
-class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
+class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider
+{
     /**
      * WP_Sitemaps_Taxonomies constructor.
      *
      * @since 5.5.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->name        = 'taxonomies';
         $this->object_type = 'term';
     }
@@ -32,7 +34,8 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
      *
      * @return WP_Taxonomy[] Array of registered taxonomy objects keyed by their name.
      */
-    public function get_object_subtypes() {
+    public function get_object_subtypes()
+    {
         $taxonomies = get_taxonomies(array('public' => true), 'objects');
 
         $taxonomies = array_filter($taxonomies, 'is_taxonomy_viewable');
@@ -58,7 +61,8 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Taxonomy name. Default empty.
      * @return array[] Array of URL information for a sitemap.
      */
-    public function get_url_list($page_num, $object_subtype = '') {
+    public function get_url_list($page_num, $object_subtype = '')
+    {
         // Restores the more descriptive, specific name for use within this method.
         $taxonomy = $object_subtype;
 
@@ -144,7 +148,8 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
      * @param string $object_subtype Optional. Taxonomy name. Default empty.
      * @return int Total number of pages.
      */
-    public function get_max_num_pages($object_subtype = '') {
+    public function get_max_num_pages($object_subtype = '')
+    {
         if (empty($object_subtype)) {
             return 0;
         }
@@ -182,7 +187,8 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
      * @param string $taxonomy Taxonomy name.
      * @return array Array of WP_Term_Query arguments.
      */
-    protected function get_taxonomies_query_args($taxonomy) {
+    protected function get_taxonomies_query_args($taxonomy)
+    {
         /**
          * Filters the taxonomy terms query arguments.
          *

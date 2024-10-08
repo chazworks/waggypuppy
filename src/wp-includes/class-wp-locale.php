@@ -14,7 +14,8 @@
  * @since 4.6.0 Moved to its own file from wp-includes/locale.php.
  */
 #[AllowDynamicProperties]
-class WP_Locale {
+class WP_Locale
+{
     /**
      * Stores the translated strings for the full weekday names.
      *
@@ -127,7 +128,8 @@ class WP_Locale {
      *
      * @since 2.1.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->init();
         $this->register_globals();
     }
@@ -143,7 +145,8 @@ class WP_Locale {
      *
      * @global string $text_direction
      */
-    public function init() {
+    public function init()
+    {
         // The weekdays.
         $this->weekday[0] = /* translators: Weekday. */ __('Sunday');
         $this->weekday[1] = /* translators: Weekday. */ __('Monday');
@@ -265,7 +268,8 @@ class WP_Locale {
      * @param int $weekday_number 0 for Sunday through 6 Saturday.
      * @return string Full translated weekday.
      */
-    public function get_weekday($weekday_number) {
+    public function get_weekday($weekday_number)
+    {
         return $this->weekday[ $weekday_number ];
     }
 
@@ -282,7 +286,8 @@ class WP_Locale {
      * @param string $weekday_name Full translated weekday word.
      * @return string Translated weekday initial.
      */
-    public function get_weekday_initial($weekday_name) {
+    public function get_weekday_initial($weekday_name)
+    {
         return $this->weekday_initial[ $weekday_name ];
     }
 
@@ -297,7 +302,8 @@ class WP_Locale {
      * @param string $weekday_name Full translated weekday word.
      * @return string Translated weekday abbreviation.
      */
-    public function get_weekday_abbrev($weekday_name) {
+    public function get_weekday_abbrev($weekday_name)
+    {
         return $this->weekday_abbrev[ $weekday_name ];
     }
 
@@ -317,7 +323,8 @@ class WP_Locale {
      * @param string|int $month_number '01' through '12'.
      * @return string Translated full month name.
      */
-    public function get_month($month_number) {
+    public function get_month($month_number)
+    {
         return $this->month[ zeroise($month_number, 2) ];
     }
 
@@ -332,7 +339,8 @@ class WP_Locale {
      * @param string $month_name Translated month to get abbreviated version.
      * @return string Translated abbreviated month.
      */
-    public function get_month_abbrev($month_name) {
+    public function get_month_abbrev($month_name)
+    {
         return $this->month_abbrev[ $month_name ];
     }
 
@@ -346,7 +354,8 @@ class WP_Locale {
      * @param string $meridiem Either 'am', 'pm', 'AM', or 'PM'. Not translated version.
      * @return string Translated version
      */
-    public function get_meridiem($meridiem) {
+    public function get_meridiem($meridiem)
+    {
         return $this->meridiem[ $meridiem ];
     }
 
@@ -364,7 +373,8 @@ class WP_Locale {
      * @global array $month
      * @global array $month_abbrev
      */
-    public function register_globals() {
+    public function register_globals()
+    {
         $GLOBALS['weekday']         = $this->weekday;
         $GLOBALS['weekday_initial'] = $this->weekday_initial;
         $GLOBALS['weekday_abbrev']  = $this->weekday_abbrev;
@@ -378,7 +388,8 @@ class WP_Locale {
      * @since 3.0.0
      * @return bool Whether locale is RTL.
      */
-    public function is_rtl() {
+    public function is_rtl()
+    {
         return 'rtl' === $this->text_direction;
     }
 
@@ -391,7 +402,8 @@ class WP_Locale {
      *
      * @since 3.6.0
      */
-    public function _strings_for_pot() {
+    public function _strings_for_pot()
+    {
         /* translators: Localized date format, see https://www.php.net/manual/datetime.format.php */
         __('F j, Y');
         /* translators: Localized time format, see https://www.php.net/manual/datetime.format.php */
@@ -407,7 +419,8 @@ class WP_Locale {
      *
      * @return string Localized list item separator.
      */
-    public function get_list_item_separator() {
+    public function get_list_item_separator()
+    {
         return $this->list_item_separator;
     }
 
@@ -419,7 +432,8 @@ class WP_Locale {
      * @return string Localized word count type. Possible values are `characters_excluding_spaces`,
      *                `characters_including_spaces`, or `words`. Defaults to `words`.
      */
-    public function get_word_count_type() {
+    public function get_word_count_type()
+    {
 
         /*
          * translators: If your word count is based on single characters (e.g. East Asian characters),

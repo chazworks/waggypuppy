@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string  Returns the post link.
  */
-function render_block_core_read_more($attributes, $content, $block) {
+function render_block_core_read_more($attributes, $content, $block)
+{
     if (! isset($block->context['postId'])) {
         return '';
     }
@@ -52,7 +53,8 @@ function render_block_core_read_more($attributes, $content, $block) {
  *
  * @since 6.0.0
  */
-function register_block_core_read_more() {
+function register_block_core_read_more()
+{
     register_block_type_from_metadata(
         __DIR__ . '/read-more',
         array(

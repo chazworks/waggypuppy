@@ -11,7 +11,8 @@
  * @group restapi-blocks
  * @group restapi
  */
-class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testcase {
+class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * The REST API route for the block renderer.
@@ -92,7 +93,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_id = $factory->user->create(
             array(
                 'role' => 'editor',
@@ -117,7 +119,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @since 5.0.0
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$user_id);
     }
 
@@ -126,7 +129,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @since 5.0.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->register_test_block();
@@ -140,7 +144,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @since 5.0.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         WP_Block_Type_Registry::get_instance()->unregister(self::$block_name);
         WP_Block_Type_Registry::get_instance()->unregister(self::$context_block_name);
         WP_Block_Type_Registry::get_instance()->unregister(self::$non_dynamic_block_name);
@@ -153,7 +158,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @since 5.0.0
      */
-    public function register_test_block() {
+    public function register_test_block()
+    {
         register_block_type(
             self::$block_name,
             array(
@@ -182,7 +188,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @since 5.0.0
      */
-    public function register_post_context_test_block() {
+    public function register_post_context_test_block()
+    {
         register_block_type(
             self::$context_block_name,
             array(
@@ -197,7 +204,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @since 5.5.0
      */
-    protected function register_non_dynamic_block() {
+    protected function register_non_dynamic_block()
+    {
         register_block_type(self::$non_dynamic_block_name);
     }
 
@@ -206,7 +214,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @since 5.5.0
      */
-    protected function register_dynamic_block_with_boolean_attributes() {
+    protected function register_dynamic_block_with_boolean_attributes()
+    {
         register_block_type(
             self::$dynamic_block_with_boolean_attributes_block_name,
             array(
@@ -233,7 +242,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      * @param array $attributes Props.
      * @return string Rendered attributes, which is here just JSON.
      */
-    public function render_test_block($attributes) {
+    public function render_test_block($attributes)
+    {
         return wp_json_encode($attributes);
     }
 
@@ -244,7 +254,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @return string
      */
-    public function render_post_context_test_block() {
+    public function render_post_context_test_block()
+    {
         return get_the_title();
     }
 
@@ -255,7 +266,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @covers WP_REST_Block_Renderer_Controller::register_routes
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $dynamic_block_names = get_dynamic_block_names();
         $this->assertContains(self::$block_name, $dynamic_block_names);
 
@@ -270,7 +282,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @covers WP_REST_Block_Renderer_Controller::get_item
      */
-    public function test_get_item_without_permissions() {
+    public function test_get_item_without_permissions()
+    {
         wp_set_current_user(0);
 
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$block_name);
@@ -286,7 +299,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @ticket 45098
      */
-    public function test_get_item_with_invalid_context() {
+    public function test_get_item_with_invalid_context()
+    {
         wp_set_current_user(self::$user_id);
 
         $request  = new WP_REST_Request('GET', self::$rest_api_route . self::$block_name);
@@ -302,7 +316,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @covers WP_REST_Block_Renderer_Controller::get_item
      */
-    public function test_get_item_invalid_block_name() {
+    public function test_get_item_invalid_block_name()
+    {
         wp_set_current_user(self::$user_id);
         $request = new WP_REST_Request('GET', self::$rest_api_route . 'core/123');
 
@@ -319,7 +334,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @covers WP_REST_Block_Renderer_Controller::get_item
      */
-    public function test_get_item_invalid_attribute() {
+    public function test_get_item_invalid_attribute()
+    {
         wp_set_current_user(self::$user_id);
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$block_name);
         $request->set_param('context', 'edit');
@@ -340,7 +356,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @covers WP_REST_Block_Renderer_Controller::get_item
      */
-    public function test_get_item_unrecognized_attribute() {
+    public function test_get_item_unrecognized_attribute()
+    {
         wp_set_current_user(self::$user_id);
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$block_name);
         $request->set_param('context', 'edit');
@@ -361,7 +378,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @covers WP_REST_Block_Renderer_Controller::get_item
      */
-    public function test_get_item_default_attributes() {
+    public function test_get_item_default_attributes()
+    {
         wp_set_current_user(self::$user_id);
 
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered(self::$block_name);
@@ -393,7 +411,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @covers WP_REST_Block_Renderer_Controller::get_item
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$user_id);
 
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered(self::$block_name);
@@ -426,7 +445,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @ticket 49387
      */
-    public function test_get_item_with_pre_render_block_filter() {
+    public function test_get_item_with_pre_render_block_filter()
+    {
         wp_set_current_user(self::$user_id);
 
         $pre_render_filter = static function ($output, $block) {
@@ -459,7 +479,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @ticket 45098
      */
-    public function test_get_item_with_post_context() {
+    public function test_get_item_with_post_context()
+    {
         wp_set_current_user(self::$user_id);
 
         $expected_title = 'Test Post';
@@ -489,7 +510,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @ticket 49680
      */
-    public function test_get_item_post_request() {
+    public function test_get_item_post_request()
+    {
         wp_set_current_user(self::$user_id);
         $string_attribute = 'Lorem ipsum dolor';
         $attributes       = array('some_string' => $string_attribute);
@@ -508,7 +530,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @ticket 45098
      */
-    public function test_get_item_without_permissions_invalid_post() {
+    public function test_get_item_without_permissions_invalid_post()
+    {
         wp_set_current_user(self::$user_id);
 
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$context_block_name);
@@ -526,7 +549,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @ticket 45098
      */
-    public function test_get_item_without_permissions_cannot_edit_post() {
+    public function test_get_item_without_permissions_cannot_edit_post()
+    {
         wp_set_current_user(self::$author_id);
 
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$context_block_name);
@@ -542,7 +566,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
     /**
      * @ticket 48079
      */
-    public function test_get_item_non_dynamic_block() {
+    public function test_get_item_non_dynamic_block()
+    {
         wp_set_current_user(self::$user_id);
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$non_dynamic_block_name);
 
@@ -555,7 +580,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
     /**
      * @ticket 50620
      */
-    public function test_get_sanitized_attributes_for_dynamic_block_with_boolean_attributes() {
+    public function test_get_sanitized_attributes_for_dynamic_block_with_boolean_attributes()
+    {
         wp_set_current_user(self::$user_id);
 
         $request = new WP_REST_Request('GET', self::$rest_api_route . self::$dynamic_block_with_boolean_attributes_block_name);
@@ -586,7 +612,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @covers WP_REST_Block_Renderer_Controller::get_item_schema
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request  = new WP_REST_Request('OPTIONS', self::$rest_api_route . self::$block_name);
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -611,7 +638,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
@@ -620,7 +648,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
@@ -629,7 +658,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
@@ -638,7 +668,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @doesNotPerformAssertions
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         // Controller does not implement get_items().
     }
 
@@ -647,7 +678,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @doesNotPerformAssertions
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Controller does not use get_context_param().
     }
 
@@ -656,7 +688,8 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
      *
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 }

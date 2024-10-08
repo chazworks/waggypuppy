@@ -24,7 +24,8 @@
  * @param bool  $force_check Whether to bypass the transient cache and force a fresh update check.
  *                           Defaults to false, true if $extra_stats is set.
  */
-function wp_version_check($extra_stats = array(), $force_check = false) {
+function wp_version_check($extra_stats = array(), $force_check = false)
+{
     global $wpdb, $wp_local_package;
 
     if (wp_installing()) {
@@ -312,7 +313,8 @@ function wp_version_check($extra_stats = array(), $force_check = false) {
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  */
-function wp_update_plugins($extra_stats = array()) {
+function wp_update_plugins($extra_stats = array())
+{
     if (wp_installing()) {
         return;
     }
@@ -584,7 +586,8 @@ function wp_update_plugins($extra_stats = array()) {
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  */
-function wp_update_themes($extra_stats = array()) {
+function wp_update_themes($extra_stats = array())
+{
     if (wp_installing()) {
         return;
     }
@@ -843,7 +846,8 @@ function wp_update_themes($extra_stats = array()) {
  *
  * @since 3.7.0
  */
-function wp_maybe_auto_update() {
+function wp_maybe_auto_update()
+{
     require_once ABSPATH . 'wp-admin/includes/admin.php';
     require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
@@ -858,7 +862,8 @@ function wp_maybe_auto_update() {
  *
  * @return object[] Array of translation objects that have available updates.
  */
-function wp_get_translation_updates() {
+function wp_get_translation_updates()
+{
     $updates    = array();
     $transients = array(
         'update_core'    => 'core',
@@ -888,7 +893,8 @@ function wp_get_translation_updates() {
  *
  * @return array
  */
-function wp_get_update_data() {
+function wp_get_update_data()
+{
     $counts = array(
         'plugins'      => 0,
         'themes'       => 0,
@@ -984,7 +990,8 @@ function wp_get_update_data() {
  *
  * @global string $wp_version The WordPress version string.
  */
-function _maybe_update_core() {
+function _maybe_update_core()
+{
     $current = get_site_transient('update_core');
 
     if (isset($current->last_checked, $current->version_checked)
@@ -1006,7 +1013,8 @@ function _maybe_update_core() {
  * @since 2.7.0
  * @access private
  */
-function _maybe_update_plugins() {
+function _maybe_update_plugins()
+{
     $current = get_site_transient('update_plugins');
 
     if (isset($current->last_checked)
@@ -1027,7 +1035,8 @@ function _maybe_update_plugins() {
  * @since 2.7.0
  * @access private
  */
-function _maybe_update_themes() {
+function _maybe_update_themes()
+{
     $current = get_site_transient('update_themes');
 
     if (isset($current->last_checked)
@@ -1044,7 +1053,8 @@ function _maybe_update_themes() {
  *
  * @since 3.1.0
  */
-function wp_schedule_update_checks() {
+function wp_schedule_update_checks()
+{
     if (! wp_next_scheduled('wp_version_check') && ! wp_installing()) {
         wp_schedule_event(time(), 'twicedaily', 'wp_version_check');
     }
@@ -1063,7 +1073,8 @@ function wp_schedule_update_checks() {
  *
  * @since 4.1.0
  */
-function wp_clean_update_cache() {
+function wp_clean_update_cache()
+{
     if (function_exists('wp_clean_plugins_cache')) {
         wp_clean_plugins_cache();
     } else {
@@ -1080,7 +1091,8 @@ function wp_clean_update_cache() {
  *
  * @since 6.3.0
  */
-function wp_delete_all_temp_backups() {
+function wp_delete_all_temp_backups()
+{
     /*
      * Check if there is a lock, or if currently performing an Ajax request,
      * in which case there is a chance an update is running.
@@ -1104,7 +1116,8 @@ function wp_delete_all_temp_backups() {
  *
  * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  */
-function _wp_delete_all_temp_backups() {
+function _wp_delete_all_temp_backups()
+{
     global $wp_filesystem;
 
     if (! function_exists('WP_Filesystem')) {

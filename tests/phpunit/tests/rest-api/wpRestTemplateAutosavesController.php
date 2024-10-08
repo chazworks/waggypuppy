@@ -7,7 +7,8 @@
  *
  * @group restapi
  */
-class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controller_Testcase {
+class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * @var string
@@ -56,7 +57,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$contributor_id = $factory->user->create(
             array(
                 'role' => 'contributor',
@@ -92,7 +94,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::register_routes
      * @ticket 56922
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey(
             '/wp/v2/templates/(?P<id>([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)[\/\w%-]+)/autosaves',
@@ -120,7 +123,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::get_context_param
      * @ticket 56922
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves');
         $response = rest_get_server()->dispatch($request);
@@ -168,7 +172,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::get_items
      * @ticket 56922
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
         $autosave_post_id = wp_create_post_autosave(
             array(
@@ -212,7 +217,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::get_item
      * @ticket 56922
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $autosave_post_id = wp_create_post_autosave(
@@ -247,7 +253,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::prepare_item_for_response
      * @ticket 56922
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         wp_set_current_user(self::$admin_id);
         $autosave_post_id = wp_create_post_autosave(
             array(
@@ -303,7 +310,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::get_item_schema
      * @ticket 56922
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -335,7 +343,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::create_item
      * @ticket 56922
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
@@ -368,7 +377,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::delete_item
      * @ticket 56922
      */
-    public function test_create_item_incorrect_permission() {
+    public function test_create_item_incorrect_permission()
+    {
         wp_set_current_user(self::$contributor_id);
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
         $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
@@ -380,7 +390,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Autosaves_Controller::delete_item
      * @ticket 56922
      */
-    public function test_create_item_no_permission() {
+    public function test_create_item_no_permission()
+    {
         wp_set_current_user(0);
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
         $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
@@ -392,7 +403,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @coversNothing
      * @ticket 56922
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         $this->markTestSkipped(
             sprintf(
                 "The '%s' controller doesn't currently support the ability to update template autosaves.",
@@ -405,7 +417,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      * @coversNothing
      * @ticket 56922
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         $this->markTestSkipped(
             sprintf(
                 "The '%s' controller doesn't currently support the ability to delete template autosaves.",

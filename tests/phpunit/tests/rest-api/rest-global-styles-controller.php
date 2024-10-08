@@ -10,7 +10,8 @@
  * @group restapi-global-styles
  * @group restapi
  */
-class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Testcase {
+class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Testcase
+{
     /**
      * @var int
      */
@@ -41,13 +42,15 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      */
     protected static $post_id;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme('tt1-blocks');
         add_filter('theme_file_uri', array($this, 'filter_theme_file_uri'));
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         remove_filter('theme_file_uri', array($this, 'filter_theme_file_uri'));
         parent::tear_down();
     }
@@ -57,7 +60,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetupBeforeClass($factory) {
+    public static function wpSetupBeforeClass($factory)
+    {
         self::$admin_id = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -108,7 +112,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     /**
      * Clean up after our tests run.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
         self::delete_user(self::$editor_id);
         self::delete_user(self::$subscriber_id);
@@ -121,7 +126,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * The test suite otherwise returns full system dir path, e.g.,
      * /var/www/tests/phpunit/includes/../data/themedir1/block-theme/assets/sugarloaf-mountain.jpg
      */
-    public function filter_theme_file_uri($file) {
+    public function filter_theme_file_uri($file)
+    {
         $file_name = substr(strrchr($file, '/'), 1);
         return 'https://example.org/wp-content/themes/example-theme/assets/' . $file_name;
     }
@@ -130,7 +136,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::register_routes
      * @ticket 54596
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey(
             '/wp/v2/global-styles/(?P<id>[\/\w-]+)',
@@ -162,7 +169,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     /**
      * @doesNotPerformAssertions
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Controller does not use get_context_param().
     }
 
@@ -172,7 +180,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_theme_items
      * @ticket 61273
      */
-    public function test_get_theme_items() {
+    public function test_get_theme_items()
+    {
         wp_set_current_user(self::$admin_id);
         switch_theme('block-theme');
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/themes/block-theme/variations');
@@ -282,7 +291,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         // Controller does not implement get_items().
     }
 
@@ -290,7 +300,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_theme_item
      * @ticket 54516
      */
-    public function test_get_theme_item_no_user() {
+    public function test_get_theme_item_no_user()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/themes/tt1-blocks');
         $response = rest_get_server()->dispatch($request);
@@ -302,7 +313,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @ticket 54516
      * @ticket 62042
      */
-    public function test_get_theme_item_subscriber_permission_check() {
+    public function test_get_theme_item_subscriber_permission_check()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/themes/tt1-blocks');
         $response = rest_get_server()->dispatch($request);
@@ -313,7 +325,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_theme_item
      * @ticket 62042
      */
-    public function test_get_theme_item_editor_permission_check() {
+    public function test_get_theme_item_editor_permission_check()
+    {
         wp_set_current_user(self::$editor_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/themes/tt1-blocks');
         $response = rest_get_server()->dispatch($request);
@@ -329,7 +342,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller_Gutenberg::get_theme_item
      * @ticket 62042
      */
-    public function test_get_theme_item_theme_options_manager_permission_check() {
+    public function test_get_theme_item_theme_options_manager_permission_check()
+    {
         wp_set_current_user(self::$theme_manager_id);
         switch_theme('emptytheme');
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/themes/emptytheme');
@@ -346,7 +360,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_theme_item
      * @ticket 54516
      */
-    public function test_get_theme_item_invalid() {
+    public function test_get_theme_item_invalid()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/themes/invalid');
         $response = rest_get_server()->dispatch($request);
@@ -361,7 +376,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @param string $theme_dirname Theme directory to test.
      * @param string $expected      Expected error code.
      */
-    public function test_get_theme_item_invalid_theme_dirname($theme_dirname, $expected) {
+    public function test_get_theme_item_invalid_theme_dirname($theme_dirname, $expected)
+    {
         wp_set_current_user(self::$admin_id);
         switch_theme($theme_dirname);
 
@@ -375,7 +391,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      *
      * @return array
      */
-    public function data_get_theme_item_invalid_theme_dirname() {
+    public function data_get_theme_item_invalid_theme_dirname()
+    {
         return array(
             '+'                      => array(
                 'theme_dirname' => 'my+theme+',
@@ -420,7 +437,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      *
      * @param string $theme Theme directory to test.
      */
-    public function test_get_theme_item($theme) {
+    public function test_get_theme_item($theme)
+    {
         wp_set_current_user(self::$admin_id);
         switch_theme($theme);
 
@@ -439,7 +457,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      *
      * @return array
      */
-    public function data_get_theme_item() {
+    public function data_get_theme_item()
+    {
         return array(
             'alphabetic'                     => array('mytheme'),
             'alphanumeric'                   => array('mythemev1'),
@@ -476,7 +495,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_theme_item
      * @ticket 54595
      */
-    public function test_get_theme_item_fields() {
+    public function test_get_theme_item_fields()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/themes/tt1-blocks');
         $request->set_param('_fields', 'settings');
@@ -490,7 +510,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_item
      * @ticket 54516
      */
-    public function test_get_item_no_user() {
+    public function test_get_item_no_user()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id);
         $response = rest_get_server()->dispatch($request);
@@ -501,7 +522,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_item
      * @ticket 54516
      */
-    public function test_get_item_invalid_post() {
+    public function test_get_item_invalid_post()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$post_id);
         $response = rest_get_server()->dispatch($request);
@@ -512,7 +534,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_item
      * @ticket 54516
      */
-    public function test_get_item_permission_check() {
+    public function test_get_item_permission_check()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id);
         $response = rest_get_server()->dispatch($request);
@@ -523,7 +546,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_item
      * @ticket 54516
      */
-    public function test_get_item_no_user_edit() {
+    public function test_get_item_no_user_edit()
+    {
         wp_set_current_user(0);
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id);
         $request->set_param('context', 'edit');
@@ -535,7 +559,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_item
      * @ticket 54516
      */
-    public function test_get_item_permission_check_edit() {
+    public function test_get_item_permission_check_edit()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id);
         $request->set_param('context', 'edit');
@@ -546,7 +571,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     /**
      * @covers WP_REST_Global_Styles_Controller::get_item
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id);
         $response = rest_get_server()->dispatch($request);
@@ -573,7 +599,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
@@ -581,7 +608,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::update_item
      * @ticket 54516
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('PUT', '/wp/v2/global-styles/' . self::$global_styles_id);
         $request->set_body_params(
@@ -598,7 +626,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::update_item
      * @ticket 54516
      */
-    public function test_update_item_no_user() {
+    public function test_update_item_no_user()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('PUT', '/wp/v2/global-styles/' . self::$global_styles_id);
         $response = rest_get_server()->dispatch($request);
@@ -609,7 +638,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::update_item
      * @ticket 54516
      */
-    public function test_update_item_invalid_post() {
+    public function test_update_item_invalid_post()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('PUT', '/wp/v2/global-styles/' . self::$post_id);
         $response = rest_get_server()->dispatch($request);
@@ -620,7 +650,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::update_item
      * @ticket 54516
      */
-    public function test_update_item_permission_check() {
+    public function test_update_item_permission_check()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('PUT', '/wp/v2/global-styles/' . self::$global_styles_id);
         $response = rest_get_server()->dispatch($request);
@@ -631,7 +662,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::update_item
      * @ticket 57536
      */
-    public function test_update_item_valid_styles_css() {
+    public function test_update_item_valid_styles_css()
+    {
         wp_set_current_user(self::$admin_id);
         if (is_multisite()) {
             grant_super_admin(self::$admin_id);
@@ -651,7 +683,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::update_item
      * @ticket 57536
      */
-    public function test_update_item_invalid_styles_css() {
+    public function test_update_item_invalid_styles_css()
+    {
         wp_set_current_user(self::$admin_id);
         if (is_multisite()) {
             grant_super_admin(self::$admin_id);
@@ -675,7 +708,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @ticket 61312
      * @ticket 61451
      */
-    public function test_update_item_with_custom_block_style_variations() {
+    public function test_update_item_with_custom_block_style_variations()
+    {
         wp_set_current_user(self::$admin_id);
         if (is_multisite()) {
             grant_super_admin(self::$admin_id);
@@ -731,14 +765,16 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     /**
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
@@ -746,7 +782,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
      * @covers WP_REST_Global_Styles_Controller::get_item_schema
      * @ticket 54516
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/global-styles/' . self::$global_styles_id);
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -761,7 +798,8 @@ class WP_REST_Global_Styles_Controller_Test extends WP_Test_REST_Controller_Test
     /**
      * @covers WP_REST_Global_Styles_Controller::get_available_actions
      */
-    public function test_assign_edit_css_action_admin() {
+    public function test_assign_edit_css_action_admin()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('GET', '/wp/v2/global-styles/' . self::$global_styles_id);

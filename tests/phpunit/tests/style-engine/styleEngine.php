@@ -12,11 +12,13 @@
 /**
  * Tests for registering, storing and generating styles.
  */
-class Tests_wpStyleEngine extends WP_UnitTestCase {
+class Tests_wpStyleEngine extends WP_UnitTestCase
+{
     /**
      * Cleans up stores after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
         parent::tear_down();
     }
@@ -46,7 +48,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      * }
      * @param string $expected_output The expected output.
      */
-    public function test_wp_style_engine_get_styles($block_styles, $options, $expected_output) {
+    public function test_wp_style_engine_get_styles($block_styles, $options, $expected_output)
+    {
         $generated_styles = wp_style_engine_get_styles($block_styles, $options);
 
         $this->assertSame($expected_output, $generated_styles);
@@ -57,7 +60,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_style_engine_get_styles() {
+    public function data_wp_style_engine_get_styles()
+    {
         return array(
             'default_return_value'                         => array(
                 'block_styles'    => array(),
@@ -571,7 +575,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      *
      * @covers ::wp_style_engine_get_styles
      */
-    public function test_should_store_block_styles_using_context() {
+    public function test_should_store_block_styles_using_context()
+    {
         $block_styles = array(
             'spacing' => array(
                 'padding' => array(
@@ -603,7 +608,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      *
      * @covers ::wp_style_engine_get_styles
      */
-    public function test_should_not_store_block_styles_without_context() {
+    public function test_should_not_store_block_styles_without_context()
+    {
         $block_styles = array(
             'typography' => array(
                 'fontSize' => '999px',
@@ -629,7 +635,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      *
      * @covers ::wp_style_engine_get_stylesheet_from_context
      */
-    public function test_should_get_stored_stylesheet_from_context() {
+    public function test_should_get_stored_stylesheet_from_context()
+    {
         $css_rules           = array(
             array(
                 'selector'     => '.frodo',
@@ -667,7 +674,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      *
      * @covers ::wp_style_engine_get_stylesheet_from_css_rules
      */
-    public function test_should_return_stylesheet_from_css_rules() {
+    public function test_should_return_stylesheet_from_css_rules()
+    {
         $css_rules = array(
             array(
                 'selector'     => '.saruman',
@@ -711,7 +719,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      *
      * @covers ::wp_style_engine_get_stylesheet_from_css_rules
      */
-    public function test_should_dedupe_and_merge_css_rules() {
+    public function test_should_dedupe_and_merge_css_rules()
+    {
         $css_rules = array(
             array(
                 'selector'     => '.gandalf',
@@ -760,7 +769,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      *
      * @covers ::wp_style_engine_get_stylesheet_from_css_rules
      */
-    public function test_should_merge_declarations_for_rules_groups() {
+    public function test_should_merge_declarations_for_rules_groups()
+    {
         $css_rules = array(
             array(
                 'selector'     => '.saruman',
@@ -794,7 +804,8 @@ class Tests_wpStyleEngine extends WP_UnitTestCase {
      *
      * @covers ::wp_style_engine_get_stylesheet_from_css_rules
      */
-    public function test_should_return_stylesheet_with_nested_rules() {
+    public function test_should_return_stylesheet_with_nested_rules()
+    {
         $css_rules = array(
             array(
                 'rules_group'  => '.foo',

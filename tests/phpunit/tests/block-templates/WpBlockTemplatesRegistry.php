@@ -4,14 +4,16 @@
  *
  * @coversDefaultClass WP_Block_Templates_Registry
  */
-class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
+class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase
+{
 
     /**
      * @var WP_Block_Templates_Registry
      */
     protected static $registry;
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         self::$registry = WP_Block_Templates_Registry::get_instance();
@@ -24,7 +26,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::register
      */
-    public function test_register_template() {
+    public function test_register_template()
+    {
         // Register a valid template.
         $template_name = 'test-plugin//test-template';
         $template      = self::$registry->register($template_name);
@@ -41,7 +44,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::register
      */
-    public function test_register_template_invalid_name() {
+    public function test_register_template_invalid_name()
+    {
         // Try to register a template with invalid name (non-string).
         $template_name = array('invalid-template-name');
 
@@ -61,7 +65,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::register
      */
-    public function test_register_template_invalid_name_uppercase() {
+    public function test_register_template_invalid_name_uppercase()
+    {
         // Try to register a template with uppercase characters in the name.
         $template_name = 'test-plugin//Invalid-Template-Name';
 
@@ -80,7 +85,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::register
      */
-    public function test_register_template_no_prefix() {
+    public function test_register_template_no_prefix()
+    {
         // Try to register a template without a namespace.
         $this->setExpectedIncorrectUsage('WP_Block_Templates_Registry::register');
         $result = self::$registry->register('template-no-plugin', array());
@@ -97,7 +103,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::register
      */
-    public function test_register_template_already_exists() {
+    public function test_register_template_already_exists()
+    {
         // Register the template for the first time.
         $template_name = 'test-plugin//duplicate-template';
         self::$registry->register($template_name);
@@ -120,7 +127,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::get_all_registered
      */
-    public function test_get_all_registered() {
+    public function test_get_all_registered()
+    {
         $template_name_1 = 'test-plugin//template-1';
         $template_name_2 = 'test-plugin//template-2';
         self::$registry->register($template_name_1);
@@ -144,7 +152,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::get_registered
      */
-    public function test_get_registered() {
+    public function test_get_registered()
+    {
         $template_name = 'test-plugin//registered-template';
         $args          = array(
             'content'     => 'Template content',
@@ -177,7 +186,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::get_by_slug
      */
-    public function test_get_by_slug() {
+    public function test_get_by_slug()
+    {
         $slug          = 'slug-template';
         $template_name = 'test-plugin//' . $slug;
         $args          = array(
@@ -201,7 +211,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::get_by_query
      */
-    public function test_get_by_query() {
+    public function test_get_by_query()
+    {
         $template_name_1 = 'test-plugin//query-template-1';
         $template_name_2 = 'test-plugin//query-template-2';
         $args_1          = array(
@@ -234,7 +245,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::is_registered
      */
-    public function test_is_registered() {
+    public function test_is_registered()
+    {
         $template_name = 'test-plugin//is-registered-template';
         $args          = array(
             'content' => 'Template content',
@@ -254,7 +266,8 @@ class Tests_Block_Templates_wpBlockTemplatesRegistry extends WP_UnitTestCase {
      *
      * @covers ::unregister
      */
-    public function test_unregister() {
+    public function test_unregister()
+    {
         $template_name = 'test-plugin//unregister-template';
         $args          = array(
             'content' => 'Template content',

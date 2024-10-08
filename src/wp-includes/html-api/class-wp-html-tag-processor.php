@@ -408,7 +408,8 @@
  *              Introduces "special" elements which act like void elements, e.g. TITLE, STYLE.
  *              Allows scanning through all tokens and processing modifiable text, where applicable.
  */
-class WP_HTML_Tag_Processor {
+class WP_HTML_Tag_Processor
+{
     /**
      * The maximum number of bookmarks allowed to exist at
      * any given time.
@@ -833,7 +834,8 @@ class WP_HTML_Tag_Processor {
      *
      * @param string $html HTML to process.
      */
-    public function __construct($html) {
+    public function __construct($html)
+    {
         $this->html = $html;
     }
 
@@ -847,7 +849,8 @@ class WP_HTML_Tag_Processor {
      *                              namespace the next tokens will be processed.
      * @return bool Whether the namespace was valid and changed.
      */
-    public function change_parsing_namespace(string $new_namespace): bool {
+    public function change_parsing_namespace(string $new_namespace): bool
+    {
         if (! in_array($new_namespace, array('html', 'math', 'svg'), true)) {
             return false;
         }
@@ -874,7 +877,8 @@ class WP_HTML_Tag_Processor {
      * }
      * @return bool Whether a tag was matched.
      */
-    public function next_tag($query = null): bool {
+    public function next_tag($query = null): bool
+    {
         $this->parse_query($query);
         $already_found = 0;
 
@@ -923,7 +927,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether a token was parsed.
      */
-    public function next_token(): bool {
+    public function next_token(): bool
+    {
         return $this->base_class_next_token();
     }
 
@@ -942,7 +947,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether a token was parsed.
      */
-    private function base_class_next_token(): bool {
+    private function base_class_next_token(): bool
+    {
         $was_at = $this->bytes_already_parsed;
         $this->after_tag();
 
@@ -1143,7 +1149,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether the parse paused at the start of an incomplete token.
      */
-    public function paused_at_incomplete_token(): bool {
+    public function paused_at_incomplete_token(): bool
+    {
         return self::STATE_INCOMPLETE_INPUT === $this->parser_state;
     }
 
@@ -1163,7 +1170,8 @@ class WP_HTML_Tag_Processor {
      *
      * @since 6.4.0
      */
-    public function class_list() {
+    public function class_list()
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state) {
             return;
         }
@@ -1222,7 +1230,8 @@ class WP_HTML_Tag_Processor {
      * @param string $wanted_class Look for this CSS class name, ASCII case-insensitive.
      * @return bool|null Whether the matched tag contains the given class name, or null if not matched.
      */
-    public function has_class($wanted_class): ?bool {
+    public function has_class($wanted_class): ?bool
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state) {
             return null;
         }
@@ -1322,7 +1331,8 @@ class WP_HTML_Tag_Processor {
      * @param string $name Identifies this particular bookmark.
      * @return bool Whether the bookmark was successfully created.
      */
-    public function set_bookmark($name): bool {
+    public function set_bookmark($name): bool
+    {
         // It only makes sense to set a bookmark if the parser has paused on a concrete token.
         if (self::STATE_COMPLETE === $this->parser_state ||
             self::STATE_INCOMPLETE_INPUT === $this->parser_state
@@ -1354,7 +1364,8 @@ class WP_HTML_Tag_Processor {
      * @param string $name Name of the bookmark to remove.
      * @return bool Whether the bookmark already existed before removal.
      */
-    public function release_bookmark($name): bool {
+    public function release_bookmark($name): bool
+    {
         if (! array_key_exists($name, $this->bookmarks)) {
             return false;
         }
@@ -1374,7 +1385,8 @@ class WP_HTML_Tag_Processor {
      * @param string $tag_name The uppercase tag name which will close the RAWTEXT region.
      * @return bool Whether an end to the RAWTEXT region was found before the end of the document.
      */
-    private function skip_rawtext(string $tag_name): bool {
+    private function skip_rawtext(string $tag_name): bool
+    {
         /*
          * These two functions distinguish themselves on whether character references are
          * decoded, and since functionality to read the inner markup isn't supported, it's
@@ -1393,7 +1405,8 @@ class WP_HTML_Tag_Processor {
      * @param string $tag_name The uppercase tag name which will close the RCDATA region.
      * @return bool Whether an end to the RCDATA region was found before the end of the document.
      */
-    private function skip_rcdata(string $tag_name): bool {
+    private function skip_rcdata(string $tag_name): bool
+    {
         $html       = $this->html;
         $doc_length = strlen($html);
         $tag_length = strlen($tag_name);
@@ -1481,7 +1494,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether the script tag was closed before the end of the document.
      */
-    private function skip_script_data(): bool {
+    private function skip_script_data(): bool
+    {
         $state      = 'unescaped';
         $html       = $this->html;
         $doc_length = strlen($html);
@@ -1633,7 +1647,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether a tag was found before the end of the document.
      */
-    private function parse_next_tag(): bool {
+    private function parse_next_tag(): bool
+    {
         $this->after_tag();
 
         $html       = $this->html;
@@ -2050,7 +2065,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether an attribute was found before the end of the document.
      */
-    private function parse_next_attribute(): bool {
+    private function parse_next_attribute(): bool
+    {
         $doc_length = strlen($this->html);
 
         // Skip whitespace and slashes.
@@ -2185,7 +2201,8 @@ class WP_HTML_Tag_Processor {
      *
      * @since 6.2.0
      */
-    private function skip_whitespace(): void {
+    private function skip_whitespace(): void
+    {
         $this->bytes_already_parsed += strspn($this->html, " \t\f\r\n", $this->bytes_already_parsed);
     }
 
@@ -2194,7 +2211,8 @@ class WP_HTML_Tag_Processor {
      *
      * @since 6.2.0
      */
-    private function after_tag(): void {
+    private function after_tag(): void
+    {
         /*
          * There could be lexical updates enqueued for an attribute that
          * also exists on the next tag. In order to avoid conflating the
@@ -2256,7 +2274,8 @@ class WP_HTML_Tag_Processor {
      * @see WP_HTML_Tag_Processor::$lexical_updates
      * @see WP_HTML_Tag_Processor::$classname_updates
      */
-    private function class_name_updates_to_attributes_updates(): void {
+    private function class_name_updates_to_attributes_updates(): void
+    {
         if (count($this->classname_updates) === 0) {
             return;
         }
@@ -2417,7 +2436,8 @@ class WP_HTML_Tag_Processor {
      * @param int $shift_this_point Accumulate and return shift for this position.
      * @return int How many bytes the given pointer moved in response to the updates.
      */
-    private function apply_attributes_updates(int $shift_this_point): int {
+    private function apply_attributes_updates(int $shift_this_point): int
+    {
         if (! count($this->lexical_updates)) {
             return 0;
         }
@@ -2514,7 +2534,8 @@ class WP_HTML_Tag_Processor {
      * @param string $bookmark_name Name to identify a bookmark that potentially exists.
      * @return bool Whether that bookmark exists.
      */
-    public function has_bookmark($bookmark_name): bool {
+    public function has_bookmark($bookmark_name): bool
+    {
         return array_key_exists($bookmark_name, $this->bookmarks);
     }
 
@@ -2529,7 +2550,8 @@ class WP_HTML_Tag_Processor {
      * @param string $bookmark_name Jump to the place in the document identified by this bookmark name.
      * @return bool Whether the internal cursor was successfully moved to the bookmark's location.
      */
-    public function seek($bookmark_name): bool {
+    public function seek($bookmark_name): bool
+    {
         if (! array_key_exists($bookmark_name, $this->bookmarks)) {
             _doing_it_wrong(
                 __METHOD__,
@@ -2566,7 +2588,8 @@ class WP_HTML_Tag_Processor {
      * @param WP_HTML_Text_Replacement $b Second attribute update.
      * @return int Comparison value for string order.
      */
-    private static function sort_start_ascending(WP_HTML_Text_Replacement $a, WP_HTML_Text_Replacement $b): int {
+    private static function sort_start_ascending(WP_HTML_Text_Replacement $a, WP_HTML_Text_Replacement $b): int
+    {
         $by_start = $a->start - $b->start;
         if (0 !== $by_start) {
             return $by_start;
@@ -2598,7 +2621,8 @@ class WP_HTML_Tag_Processor {
      * @param string $comparable_name The attribute name in its comparable form.
      * @return string|boolean|null Value of enqueued update if present, otherwise false.
      */
-    private function get_enqueued_attribute_value(string $comparable_name) {
+    private function get_enqueued_attribute_value(string $comparable_name)
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state) {
             return false;
         }
@@ -2669,7 +2693,8 @@ class WP_HTML_Tag_Processor {
      * @param string $name Name of attribute whose value is requested.
      * @return string|true|null Value of attribute or `null` if not available. Boolean attributes return `true`.
      */
-    public function get_attribute($name) {
+    public function get_attribute($name)
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state) {
             return null;
         }
@@ -2749,7 +2774,8 @@ class WP_HTML_Tag_Processor {
      * @param string $prefix Prefix of requested attribute names.
      * @return array|null List of attribute names, or `null` when no tag opener is matched.
      */
-    public function get_attribute_names_with_prefix($prefix): ?array {
+    public function get_attribute_names_with_prefix($prefix): ?array
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state ||
             $this->is_closing_tag
         ) {
@@ -2774,7 +2800,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string One of 'html', 'math', or 'svg'.
      */
-    public function get_namespace(): string {
+    public function get_namespace(): string
+    {
         return $this->parsing_namespace;
     }
 
@@ -2794,7 +2821,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string|null Name of currently matched tag in input HTML, or `null` if none found.
      */
-    public function get_tag(): ?string {
+    public function get_tag(): ?string
+    {
         if (null === $this->tag_name_starts_at) {
             return null;
         }
@@ -2822,7 +2850,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string|null Name of current tag name.
      */
-    public function get_qualified_tag_name(): ?string {
+    public function get_qualified_tag_name(): ?string
+    {
         $tag_name = $this->get_tag();
         if (null === $tag_name) {
             return null;
@@ -2969,7 +2998,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string|null
      */
-    public function get_qualified_attribute_name($attribute_name): ?string {
+    public function get_qualified_attribute_name($attribute_name): ?string
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state) {
             return null;
         }
@@ -3216,7 +3246,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether the currently matched tag contains the self-closing flag.
      */
-    public function has_self_closing_flag(): bool {
+    public function has_self_closing_flag(): bool
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state) {
             return false;
         }
@@ -3249,7 +3280,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether the current tag is a tag closer.
      */
-    public function is_tag_closer(): bool {
+    public function is_tag_closer(): bool
+    {
         return (
             self::STATE_MATCHED_TAG === $this->parser_state &&
             $this->is_closing_tag &&
@@ -3287,7 +3319,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string|null What kind of token is matched, or null.
      */
-    public function get_token_type(): ?string {
+    public function get_token_type(): ?string
+    {
         switch ($this->parser_state) {
             case self::STATE_MATCHED_TAG:
                 return '#tag';
@@ -3320,7 +3353,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string|null Name of the matched token.
      */
-    public function get_token_name(): ?string {
+    public function get_token_name(): ?string
+    {
         switch ($this->parser_state) {
             case self::STATE_MATCHED_TAG:
                 return $this->get_tag();
@@ -3366,7 +3400,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string|null
      */
-    public function get_comment_type(): ?string {
+    public function get_comment_type(): ?string
+    {
         if (self::STATE_COMMENT !== $this->parser_state) {
             return null;
         }
@@ -3392,7 +3427,8 @@ class WP_HTML_Tag_Processor {
      * @return string|null The comment text as it would appear in the browser or null
      *                     if not on a comment type node.
      */
-    public function get_full_comment_text(): ?string {
+    public function get_full_comment_text(): ?string
+    {
         if (self::STATE_FUNKY_COMMENT === $this->parser_state) {
             return $this->get_modifiable_text();
         }
@@ -3457,7 +3493,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether the text node was subdivided.
      */
-    public function subdivide_text_appropriately(): bool {
+    public function subdivide_text_appropriately(): bool
+    {
         if (self::STATE_TEXT_NODE !== $this->parser_state) {
             return false;
         }
@@ -3540,7 +3577,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string
      */
-    public function get_modifiable_text(): string {
+    public function get_modifiable_text(): string
+    {
         $has_enqueued_update = isset($this->lexical_updates['modifiable text']);
 
         if (! $has_enqueued_update && (null === $this->text_starts_at || 0 === $this->text_length)) {
@@ -3664,7 +3702,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether the text was able to update.
      */
-    public function set_modifiable_text(string $plaintext_content): bool {
+    public function set_modifiable_text(string $plaintext_content): bool
+    {
         if (self::STATE_TEXT_NODE === $this->parser_state) {
             $this->lexical_updates['modifiable text'] = new WP_HTML_Text_Replacement(
                 $this->text_starts_at,
@@ -3784,7 +3823,8 @@ class WP_HTML_Tag_Processor {
      * @param string|bool $value The new attribute value.
      * @return bool Whether an attribute value was set.
      */
-    public function set_attribute($name, $value): bool {
+    public function set_attribute($name, $value): bool
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state ||
             $this->is_closing_tag
         ) {
@@ -3932,7 +3972,8 @@ class WP_HTML_Tag_Processor {
      * @param string $name The attribute name to remove.
      * @return bool Whether an attribute was removed.
      */
-    public function remove_attribute($name): bool {
+    public function remove_attribute($name): bool
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state ||
             $this->is_closing_tag
         ) {
@@ -4009,7 +4050,8 @@ class WP_HTML_Tag_Processor {
      * @param string $class_name The class name to add.
      * @return bool Whether the class was set to be added.
      */
-    public function add_class($class_name): bool {
+    public function add_class($class_name): bool
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state ||
             $this->is_closing_tag
         ) {
@@ -4049,7 +4091,8 @@ class WP_HTML_Tag_Processor {
      * @param string $class_name The class name to remove.
      * @return bool Whether the class was set to be removed.
      */
-    public function remove_class($class_name): bool {
+    public function remove_class($class_name): bool
+    {
         if (self::STATE_MATCHED_TAG !== $this->parser_state ||
             $this->is_closing_tag
         ) {
@@ -4090,7 +4133,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string The processed HTML.
      */
-    public function __toString(): string {
+    public function __toString(): string
+    {
         return $this->get_updated_html();
     }
 
@@ -4103,7 +4147,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return string The processed HTML.
      */
-    public function get_updated_html(): string {
+    public function get_updated_html(): string
+    {
         $requires_no_updating = 0 === count($this->classname_updates) && 0 === count($this->lexical_updates);
 
         /*
@@ -4168,7 +4213,8 @@ class WP_HTML_Tag_Processor {
      *     @type string      $tag_closers  "visit" or "skip": whether to stop on tag closers, e.g. </div>.
      * }
      */
-    private function parse_query($query) {
+    private function parse_query($query)
+    {
         if (null !== $query && $query === $this->last_query) {
             return;
         }
@@ -4225,7 +4271,8 @@ class WP_HTML_Tag_Processor {
      *
      * @return bool Whether the given tag and its attribute match the search criteria.
      */
-    private function matches(): bool {
+    private function matches(): bool
+    {
         if ($this->is_closing_tag && ! $this->stop_on_tag_closers) {
             return false;
         }
@@ -4260,7 +4307,8 @@ class WP_HTML_Tag_Processor {
      * @return WP_HTML_Doctype_Info|null The DOCTYPE declaration information or `null` if not
      *                                   currently at a DOCTYPE node.
      */
-    public function get_doctype_info(): ?WP_HTML_Doctype_Info {
+    public function get_doctype_info(): ?WP_HTML_Doctype_Info
+    {
         if (self::STATE_DOCTYPE !== $this->parser_state) {
             return null;
         }

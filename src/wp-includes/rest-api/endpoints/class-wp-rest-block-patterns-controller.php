@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
+class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
+{
 
     /**
      * Defines whether remote patterns should be loaded.
@@ -41,7 +42,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
      *
      * @since 6.0.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'block-patterns/patterns';
     }
@@ -51,7 +53,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
      *
      * @since 6.0.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -74,7 +77,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         if (current_user_can('edit_posts')) {
             return true;
         }
@@ -101,7 +105,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         if (! $this->remote_patterns_loaded) {
             // Load block patterns from w.org.
             _load_remote_block_patterns(); // Patterns with the `core` keyword.
@@ -132,7 +137,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
      * @param array $pattern Raw pattern as registered, before applying any changes.
      * @return array Migrated pattern.
      */
-    protected function migrate_pattern_categories($pattern) {
+    protected function migrate_pattern_categories($pattern)
+    {
         // No categories to migrate.
         if (! isset($pattern['categories']) ||
             ! is_array($pattern['categories'])
@@ -160,7 +166,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Resolve pattern blocks so they don't need to be resolved client-side
         // in the editor, improving performance.
         $blocks          = parse_blocks($item['content']);
@@ -203,7 +210,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }

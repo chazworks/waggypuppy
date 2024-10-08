@@ -16,7 +16,8 @@
  *
  * @return string Returns the next comments link for the query pagination.
  */
-function render_block_core_comments_pagination_next($attributes, $content, $block) {
+function render_block_core_comments_pagination_next($attributes, $content, $block)
+{
     // Bail out early if the post ID is not set for some reason.
     if (empty($block->context['postId'])) {
         return '';
@@ -53,7 +54,8 @@ function render_block_core_comments_pagination_next($attributes, $content, $bloc
  *
  * @since 6.0.0
  */
-function register_block_core_comments_pagination_next() {
+function register_block_core_comments_pagination_next()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comments-pagination-next',
         array(

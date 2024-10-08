@@ -5,13 +5,15 @@
  *
  * @group post
  */
-class Tests_Post extends WP_UnitTestCase {
+class Tests_Post extends WP_UnitTestCase
+{
     protected static $editor_id;
     protected static $grammarian_id;
 
     private $post_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$editor_id = $factory->user->create(array('role' => 'editor'));
 
         add_role(
@@ -28,11 +30,13 @@ class Tests_Post extends WP_UnitTestCase {
         self::$grammarian_id = $factory->user->create(array('role' => 'grammarian'));
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         remove_role('grammarian');
     }
 
-    public function test_parse_post_content_single_page() {
+    public function test_parse_post_content_single_page()
+    {
         global $multipage, $pages, $numpages;
 
         $post_id = self::factory()->post->create(
@@ -49,7 +53,8 @@ class Tests_Post extends WP_UnitTestCase {
         $this->assertSame(array('Page 0'), $pages);
     }
 
-    public function test_parse_post_content_multi_page() {
+    public function test_parse_post_content_multi_page()
+    {
         global $multipage, $pages, $numpages;
 
         $post_id = self::factory()->post->create(
@@ -66,7 +71,8 @@ class Tests_Post extends WP_UnitTestCase {
         $this->assertSame(array('Page 0', 'Page 1', 'Page 2', 'Page 3'), $pages);
     }
 
-    public function test_parse_post_content_remaining_single_page() {
+    public function test_parse_post_content_remaining_single_page()
+    {
         global $multipage, $pages, $numpages;
 
         $post_id = self::factory()->post->create(
@@ -83,7 +89,8 @@ class Tests_Post extends WP_UnitTestCase {
         $this->assertSame(array('Page 0'), $pages);
     }
 
-    public function test_parse_post_content_remaining_multi_page() {
+    public function test_parse_post_content_remaining_multi_page()
+    {
         global $multipage, $pages, $numpages;
 
         $post_id = self::factory()->post->create(
@@ -103,7 +110,8 @@ class Tests_Post extends WP_UnitTestCase {
     /**
      * @ticket 16746
      */
-    public function test_parse_post_content_starting_with_nextpage() {
+    public function test_parse_post_content_starting_with_nextpage()
+    {
         global $multipage, $pages, $numpages;
 
         $post_id = self::factory()->post->create(
@@ -123,7 +131,8 @@ class Tests_Post extends WP_UnitTestCase {
     /**
      * @ticket 16746
      */
-    public function test_parse_post_content_starting_with_nextpage_multi() {
+    public function test_parse_post_content_starting_with_nextpage_multi()
+    {
         global $multipage, $pages, $numpages;
 
         $post_id = self::factory()->post->create(
@@ -143,7 +152,8 @@ class Tests_Post extends WP_UnitTestCase {
     /**
      * @ticket 24803
      */
-    public function test_wp_count_posts() {
+    public function test_wp_count_posts()
+    {
         $post_type = rand_str(20);
         register_post_type($post_type);
 
@@ -161,7 +171,8 @@ class Tests_Post extends WP_UnitTestCase {
         $this->assertEquals(new stdClass(), $count);
     }
 
-    public function test_wp_count_posts_filtered() {
+    public function test_wp_count_posts_filtered()
+    {
         $post_type = rand_str(20);
         register_post_type($post_type);
 
@@ -181,12 +192,14 @@ class Tests_Post extends WP_UnitTestCase {
         $this->assertEquals(2, $count2->publish);
     }
 
-    public function filter_wp_count_posts($counts) {
+    public function filter_wp_count_posts($counts)
+    {
         $counts->publish = 2;
         return $counts;
     }
 
-    public function test_wp_count_posts_insert_invalidation() {
+    public function test_wp_count_posts_insert_invalidation()
+    {
         $post_ids       = self::factory()->post->create_many(3);
         $initial_counts = wp_count_posts();
 
@@ -206,7 +219,8 @@ class Tests_Post extends WP_UnitTestCase {
         $this->assertNotEquals($initial_counts->publish, $after_draft_counts->publish);
     }
 
-    public function test_wp_count_posts_trash_invalidation() {
+    public function test_wp_count_posts_trash_invalidation()
+    {
         $post_ids       = self::factory()->post->create_many(3);
         $initial_counts = wp_count_posts();
 
@@ -227,7 +241,8 @@ class Tests_Post extends WP_UnitTestCase {
     /**
      * @ticket 49685
      */
-    public function test_wp_count_posts_status_changes_visible() {
+    public function test_wp_count_posts_status_changes_visible()
+    {
         self::factory()->post->create_many(3);
 
         // Trigger a cache.
@@ -243,7 +258,8 @@ class Tests_Post extends WP_UnitTestCase {
     /**
      * @ticket 25566
      */
-    public function test_wp_tag_cloud_link_with_post_type() {
+    public function test_wp_tag_cloud_link_with_post_type()
+    {
         $post_type = 'new_post_type';
         $tax       = 'new_tag';
         register_post_type($post_type, array('taxonomies' => array('post_tag', $tax)));
@@ -278,7 +294,8 @@ class Tests_Post extends WP_UnitTestCase {
     /**
      * @ticket 21212
      */
-    public function test_utf8mb3_post_saves_with_emoji() {
+    public function test_utf8mb3_post_saves_with_emoji()
+    {
         global $wpdb;
 
         if ('utf8' !== $wpdb->get_col_charset($wpdb->posts, 'post_title')) {
@@ -319,7 +336,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @ticket 24153
      */
-    public function test_user_without_publish_posts_cannot_affect_sticky() {
+    public function test_user_without_publish_posts_cannot_affect_sticky()
+    {
         // Create a sticky post.
         $post = self::factory()->post->create_and_get(
             array(
@@ -357,7 +375,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @ticket 24153
      */
-    public function test_user_without_publish_posts_cannot_affect_sticky_with_edit_post() {
+    public function test_user_without_publish_posts_cannot_affect_sticky_with_edit_post()
+    {
         // Create a sticky post.
         $post = self::factory()->post->create_and_get(
             array(
@@ -397,7 +416,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @ticket 35600
      */
-    public function test_hooks_fire_when_post_gets_stuck_and_unstuck() {
+    public function test_hooks_fire_when_post_gets_stuck_and_unstuck()
+    {
         $post_id = self::factory()->post->create();
         $a1      = new MockAction();
         $a2      = new MockAction();
@@ -420,7 +440,8 @@ class Tests_Post extends WP_UnitTestCase {
         $this->assertSame(1, $a2->get_call_count());
     }
 
-    public function test_wp_delete_post_reassign_hierarchical_post_type() {
+    public function test_wp_delete_post_reassign_hierarchical_post_type()
+    {
         $grandparent_page_id = self::factory()->post->create(array('post_type' => 'page'));
         $parent_page_id      = self::factory()->post->create(
             array(
@@ -451,7 +472,8 @@ class Tests_Post extends WP_UnitTestCase {
      * @see wp_unique_post_slug()
      * @ticket 21112
      */
-    public function test_pre_wp_unique_post_slug_filter() {
+    public function test_pre_wp_unique_post_slug_filter()
+    {
         add_filter('pre_wp_unique_post_slug', array($this, 'filter_pre_wp_unique_post_slug'), 10, 6);
 
         $post_id = self::factory()->post->create(
@@ -467,14 +489,16 @@ class Tests_Post extends WP_UnitTestCase {
         remove_filter('pre_wp_unique_post_slug', array($this, 'filter_pre_wp_unique_post_slug'), 10, 6);
     }
 
-    public function filter_pre_wp_unique_post_slug($override_slug, $slug, $post_id, $post_status, $post_type, $post_parent) {
+    public function filter_pre_wp_unique_post_slug($override_slug, $slug, $post_id, $post_status, $post_type, $post_parent)
+    {
         return 'override-slug-' . $post_type;
     }
 
     /**
      * @ticket 52187
      */
-    public function test_wp_resolve_post_date() {
+    public function test_wp_resolve_post_date()
+    {
         $post_date     = '2020-12-28 11:26:35';
         $post_date_gmt = '2020-12-29 10:11:45';
         $invalid_date  = '2020-12-41 14:15:27';
@@ -517,7 +541,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @covers ::stick_post
      */
-    public function test_stick_post_updates_option() {
+    public function test_stick_post_updates_option()
+    {
         stick_post(1);
         $this->assertSameSets(array(1), get_option('sticky_posts'));
 
@@ -534,7 +559,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @param mixed $stick Value to pass to stick_post().
      */
-    public function test_stick_post_does_not_duplicate_post_ids($stick) {
+    public function test_stick_post_does_not_duplicate_post_ids($stick)
+    {
         update_option('sticky_posts', array(1, 2));
 
         stick_post($stick);
@@ -550,7 +576,8 @@ class Tests_Post extends WP_UnitTestCase {
      *     @type mixed $stick Value to pass to stick_post().
      * }
      */
-    public function data_stick_post_does_not_duplicate_post_ids() {
+    public function data_stick_post_does_not_duplicate_post_ids()
+    {
         return array(
             array(1),
             array('1'),
@@ -565,7 +592,8 @@ class Tests_Post extends WP_UnitTestCase {
      * @ticket 55176
      * @covers ::stick_post
      */
-    public function test_stick_post_after_delete_sticky_posts_option() {
+    public function test_stick_post_after_delete_sticky_posts_option()
+    {
         delete_option('sticky_posts');
 
         stick_post(1);
@@ -582,7 +610,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @param mixed $starting_option Starting value for sticky_posts option.
      */
-    public function test_stick_post_with_unexpected_sticky_posts_option($starting_option) {
+    public function test_stick_post_with_unexpected_sticky_posts_option($starting_option)
+    {
         update_option('sticky_posts', $starting_option);
 
         stick_post(1);
@@ -594,7 +623,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_stick_post_with_unexpected_sticky_posts_option() {
+    public function data_stick_post_with_unexpected_sticky_posts_option()
+    {
         return array(
             'false'     => array(false),
             'a string'  => array('string'),
@@ -613,7 +643,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @param mixed $stick Value to pass to stick_post().
      */
-    public function test_stick_post_removes_duplicate_post_ids_when_adding_new_value() {
+    public function test_stick_post_removes_duplicate_post_ids_when_adding_new_value()
+    {
         update_option('sticky_posts', array(1, 1, 2, 2));
 
         stick_post(3);
@@ -625,7 +656,8 @@ class Tests_Post extends WP_UnitTestCase {
      *
      * @covers ::unstick_post
      */
-    public function test_unstick_post_updates_option() {
+    public function test_unstick_post_updates_option()
+    {
         update_option('sticky_posts', array(1));
         unstick_post(1);
         $this->assertEmpty(get_option('sticky_posts'));
@@ -647,7 +679,8 @@ class Tests_Post extends WP_UnitTestCase {
      * @param mixed $unstick         Parameter passed to `unstick_post()`
      * @param array $expected
      */
-    public function test_unstick_post_removes_duplicate_post_ids($starting_option, $unstick, $expected) {
+    public function test_unstick_post_removes_duplicate_post_ids($starting_option, $unstick, $expected)
+    {
         update_option('sticky_posts', $starting_option);
         unstick_post($unstick);
         $this->assertSameSets($expected, get_option('sticky_posts'));
@@ -664,7 +697,8 @@ class Tests_Post extends WP_UnitTestCase {
      *     @type array $expected
      * }
      */
-    public function data_unstick_post_removes_duplicate_post_ids() {
+    public function data_unstick_post_removes_duplicate_post_ids()
+    {
         return array(
             array(
                 array(1, 1),
@@ -700,7 +734,8 @@ class Tests_Post extends WP_UnitTestCase {
      * @ticket 52007
      * @covers ::stick_post
      */
-    public function test_stick_post_with_duplicate_post_id_does_not_update_option() {
+    public function test_stick_post_with_duplicate_post_id_does_not_update_option()
+    {
         update_option('sticky_posts', array(1, 2, 2));
         stick_post(2);
         $this->assertSameSets(array(1, 2, 2), get_option('sticky_posts'));
@@ -712,7 +747,8 @@ class Tests_Post extends WP_UnitTestCase {
      * @ticket 52007
      * @covers ::unstick_post
      */
-    public function test_unstick_post_with_non_sticky_post_id_does_not_update_option() {
+    public function test_unstick_post_with_non_sticky_post_id_does_not_update_option()
+    {
         update_option('sticky_posts', array(1, 2, 2));
         unstick_post(3);
         $this->assertSameSets(array(1, 2, 2), get_option('sticky_posts'));
@@ -724,7 +760,8 @@ class Tests_Post extends WP_UnitTestCase {
      * @ticket 51819
      * @covers ::use_block_editor_for_post
      */
-    public function test_use_block_editor_for_post() {
+    public function test_use_block_editor_for_post()
+    {
         $this->assertFalse(use_block_editor_for_post(-1));
         $bogus_post_id = self::factory()->post->create(
             array(

@@ -12,7 +12,8 @@
  *
  * @since 6.5.0
  */
-class WP_Translation_File_MO extends WP_Translation_File {
+class WP_Translation_File_MO extends WP_Translation_File
+{
     /**
      * Endian value.
      *
@@ -41,7 +42,8 @@ class WP_Translation_File_MO extends WP_Translation_File {
      * @param string $header File contents.
      * @return false|'V'|'N' V for little endian, N for big endian, or false on failure.
      */
-    protected function detect_endian_and_validate_file(string $header) {
+    protected function detect_endian_and_validate_file(string $header)
+    {
         $big = unpack('N', $header);
 
         if (false === $big) {
@@ -87,7 +89,8 @@ class WP_Translation_File_MO extends WP_Translation_File {
      *
      * @return bool True on success, false otherwise.
      */
-    protected function parse_file(): bool {
+    protected function parse_file(): bool
+    {
         $this->parsed = true;
 
         $file_contents = file_get_contents($this->file); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
@@ -185,7 +188,8 @@ class WP_Translation_File_MO extends WP_Translation_File {
      *
      * @return string Translation file contents.
      */
-    public function export(): string {
+    public function export(): string
+    {
         // Prefix the headers as the first key.
         $headers_string = '';
         foreach ($this->headers as $header => $value) {

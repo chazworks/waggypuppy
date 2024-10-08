@@ -17,14 +17,16 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
+class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller
+{
 
     /**
      * Constructs the controller.
      *
      * @since 5.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'pattern-directory';
     }
@@ -34,7 +36,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
      *
      * @since 5.8.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/patterns',
@@ -58,7 +61,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has permission, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         if (current_user_can('edit_posts')) {
             return true;
         }
@@ -86,7 +90,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $valid_query_args = array(
             'offset'   => true,
             'order'    => true,
@@ -184,7 +189,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $raw_pattern = $item;
 
@@ -223,7 +229,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -304,7 +311,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $query_params = parent::get_collection_params();
 
         $query_params['per_page']['default'] = 100;
@@ -383,7 +391,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
      * @param array $query_args Query arguments to generate a transient key from.
      * @return string Transient key.
      */
-    protected function get_transient_key($query_args) {
+    protected function get_transient_key($query_args)
+    {
 
         if (isset($query_args['slug'])) {
             // This is an additional precaution because the "sort" function expects an array.

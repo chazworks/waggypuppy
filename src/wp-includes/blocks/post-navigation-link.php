@@ -15,7 +15,8 @@
  *
  * @return string Returns the next or previous post link that is adjacent to the current post.
  */
-function render_block_core_post_navigation_link($attributes, $content) {
+function render_block_core_post_navigation_link($attributes, $content)
+{
     if (! is_singular()) {
         return '';
     }
@@ -128,7 +129,8 @@ function render_block_core_post_navigation_link($attributes, $content) {
  *
  * @since 5.9.0
  */
-function register_block_core_post_navigation_link() {
+function register_block_core_post_navigation_link()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-navigation-link',
         array(

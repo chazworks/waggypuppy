@@ -16,7 +16,8 @@
  *
  * @since 6.2.0
  */
-class Tests_Query_SearchColumns extends WP_UnitTestCase {
+class Tests_Query_SearchColumns extends WP_UnitTestCase
+{
     /**
      * The post ID of the first fixture post.
      *
@@ -46,7 +47,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory The factory instance.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$pid1 = $factory->post->create(
             array(
                 'post_status'  => 'publish',
@@ -79,7 +81,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_use_default_search_columns_when_empty_search_columns() {
+    public function test_s_should_use_default_search_columns_when_empty_search_columns()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -99,7 +102,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_post_title_search_column() {
+    public function test_s_should_support_post_title_search_column()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -116,7 +120,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_post_excerpt_search_column() {
+    public function test_s_should_support_post_excerpt_search_column()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -133,7 +138,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_post_content_search_column() {
+    public function test_s_should_support_post_content_search_column()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -149,7 +155,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_post_title_and_post_excerpt_search_columns() {
+    public function test_s_should_support_post_title_and_post_excerpt_search_columns()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -166,7 +173,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_post_title_and_post_content_search_columns() {
+    public function test_s_should_support_post_title_and_post_content_search_columns()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -183,7 +191,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_post_excerpt_and_post_content_search_columns() {
+    public function test_s_should_support_post_excerpt_and_post_content_search_columns()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -200,7 +209,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_post_title_and_post_excerpt_and_post_content_search_columns() {
+    public function test_s_should_support_post_title_and_post_excerpt_and_post_content_search_columns()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -217,7 +227,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_use_default_search_columns_when_using_non_existing_search_column() {
+    public function test_s_should_use_default_search_columns_when_using_non_existing_search_column()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -237,7 +248,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_ignore_non_existing_search_column_when_used_with_supported_one() {
+    public function test_s_should_ignore_non_existing_search_column_when_used_with_supported_one()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo',
@@ -254,7 +266,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_search_columns_when_searching_multiple_terms() {
+    public function test_s_should_support_search_columns_when_searching_multiple_terms()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'foo bar',
@@ -271,7 +284,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_search_columns_when_sentence_true() {
+    public function test_s_should_support_search_columns_when_sentence_true()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'bar foo',
@@ -289,7 +303,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_search_columns_when_sentence_false() {
+    public function test_s_should_support_search_columns_when_sentence_false()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'bar foo',
@@ -307,7 +322,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_s_should_support_search_columns_when_searching_with_term_exclusion() {
+    public function test_s_should_support_search_columns_when_searching_with_term_exclusion()
+    {
         $q = new WP_Query(
             array(
                 's'              => 'bar -baz',
@@ -324,7 +340,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_search_columns_should_be_filterable() {
+    public function test_search_columns_should_be_filterable()
+    {
         add_filter('post_search_columns', array($this, 'post_supported_search_column'), 10, 3);
         $q = new WP_Query(
             array(
@@ -344,7 +361,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      * @param  WP_Query $wp_query       The current WP_Query instance.
      * @return string[] $search_columns Array of column names to be searched.
      */
-    public function post_supported_search_column($search_columns, $search, $wp_query) {
+    public function post_supported_search_column($search_columns, $search, $wp_query)
+    {
         $search_columns = array('post_title');
         return $search_columns;
     }
@@ -354,7 +372,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_search_columns_should_not_be_filterable_with_non_supported_search_columns() {
+    public function test_search_columns_should_not_be_filterable_with_non_supported_search_columns()
+    {
         add_filter('post_search_columns', array($this, 'post_non_supported_search_column'), 10, 3);
         $q = new WP_Query(
             array(
@@ -375,7 +394,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      * @param  WP_Query $wp_query       The current WP_Query instance.
      * @return string[] $search_columns Array of column names to be searched.
      */
-    public function post_non_supported_search_column($search_columns, $search, $wp_query) {
+    public function post_non_supported_search_column($search_columns, $search, $wp_query)
+    {
         $search_columns = array('post_name');
         return $search_columns;
     }
@@ -385,7 +405,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      *
      * @ticket 43867
      */
-    public function test_search_columns_should_not_be_filterable_with_non_existing_search_column() {
+    public function test_search_columns_should_not_be_filterable_with_non_existing_search_column()
+    {
         add_filter('post_search_columns', array($this, 'post_non_existing_search_column'), 10, 3);
         $q = new WP_Query(
             array(
@@ -406,7 +427,8 @@ class Tests_Query_SearchColumns extends WP_UnitTestCase {
      * @param  WP_Query $wp_query       The current WP_Query instance.
      * @return string[] $search_columns Array of column names to be searched.
      */
-    public function post_non_existing_search_column($search_columns, $search, $wp_query) {
+    public function post_non_existing_search_column($search_columns, $search, $wp_query)
+    {
         $search_columns = array('post_non_existing_column');
         return $search_columns;
     }

@@ -17,7 +17,8 @@
  * @since 5.2.0
  */
 #[AllowDynamicProperties]
-class WP_Fatal_Error_Handler {
+class WP_Fatal_Error_Handler
+{
 
     /**
      * Runs the shutdown handler.
@@ -28,7 +29,8 @@ class WP_Fatal_Error_Handler {
      *
      * @global WP_Locale $wp_locale WordPress date and time locale object.
      */
-    public function handle() {
+    public function handle()
+    {
         if (defined('WP_SANDBOX_SCRAPING') && WP_SANDBOX_SCRAPING) {
             return;
         }
@@ -72,7 +74,8 @@ class WP_Fatal_Error_Handler {
      * @return array|null Error information returned by `error_get_last()`, or null
      *                    if none was recorded or the error should not be handled.
      */
-    protected function detect_error() {
+    protected function detect_error()
+    {
         $error = error_get_last();
 
         // No error, just skip the error handling code.
@@ -97,7 +100,8 @@ class WP_Fatal_Error_Handler {
      * @param array $error Error information retrieved from `error_get_last()`.
      * @return bool Whether WordPress should handle this error.
      */
-    protected function should_handle_error($error) {
+    protected function should_handle_error($error)
+    {
         $error_types_to_handle = array(
             E_ERROR,
             E_PARSE,
@@ -141,7 +145,8 @@ class WP_Fatal_Error_Handler {
      * @param array         $error   Error information retrieved from `error_get_last()`.
      * @param true|WP_Error $handled Whether Recovery Mode handled the fatal error.
      */
-    protected function display_error_template($error, $handled) {
+    protected function display_error_template($error, $handled)
+    {
         if (defined('WP_CONTENT_DIR')) {
             // Load custom PHP error template, if present.
             $php_error_pluggable = WP_CONTENT_DIR . '/php-error.php';
@@ -171,7 +176,8 @@ class WP_Fatal_Error_Handler {
      * @param array         $error   Error information retrieved from `error_get_last()`.
      * @param true|WP_Error $handled Whether Recovery Mode handled the fatal error.
      */
-    protected function display_default_error_template($error, $handled) {
+    protected function display_default_error_template($error, $handled)
+    {
         if (! function_exists('__')) {
             wp_load_translations_early();
         }

@@ -5,7 +5,8 @@
  *
  * @covers ::wp_is_numeric_array
  */
-class Tests_Functions_wpIsNumericArray extends WP_UnitTestCase {
+class Tests_Functions_wpIsNumericArray extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_wp_is_numeric_array
@@ -15,7 +16,8 @@ class Tests_Functions_wpIsNumericArray extends WP_UnitTestCase {
      * @param mixed $input    Input to test.
      * @param array $expected Expected result.
      */
-    public function test_wp_is_numeric_array($input, $expected) {
+    public function test_wp_is_numeric_array($input, $expected)
+    {
         $this->assertSame($expected, wp_is_numeric_array($input));
     }
 
@@ -24,7 +26,8 @@ class Tests_Functions_wpIsNumericArray extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_is_numeric_array() {
+    public function data_wp_is_numeric_array()
+    {
         return array(
             'no index'             => array(
                 'test_array' => array('www', 'eee'),

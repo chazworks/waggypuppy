@@ -14,7 +14,8 @@
  *
  * @since 6.3.0
  */
-class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
+class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller
+{
 
     /**
      * The Post Type for the Controller
@@ -30,7 +31,8 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
      *
      * @since 6.3.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp-block-editor/v1';
         $this->rest_base = 'navigation-fallback';
         $this->post_type = 'wp_navigation';
@@ -41,7 +43,8 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
      *
      * @since 6.3.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
 
         // Lists a single nav item based on the given id or slug.
         register_rest_route(
@@ -67,7 +70,8 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
 
         $post_type = get_post_type_object($this->post_type);
 
@@ -99,7 +103,8 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $post = WP_Navigation_Fallback::get_fallback();
 
         if (empty($post)) {
@@ -118,7 +123,8 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -149,7 +155,8 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response $response The response data.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         $data = array();
 
         $fields = $this->get_fields_for_response($request);
@@ -180,7 +187,8 @@ class WP_REST_Navigation_Fallback_Controller extends WP_REST_Controller {
      * @param WP_Post $post the Navigation Menu post object.
      * @return array Links for the given request.
      */
-    private function prepare_links($post) {
+    private function prepare_links($post)
+    {
         return array(
             'self' => array(
                 'href'       => rest_url(rest_get_route_for_post($post->ID)),

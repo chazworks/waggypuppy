@@ -6,9 +6,11 @@
  * @group hooks
  * @covers WP_Hook::add_filter
  */
-class Tests_Hooks_Iterator extends WP_UnitTestCase {
+class Tests_Hooks_Iterator extends WP_UnitTestCase
+{
 
-    public function test_foreach() {
+    public function test_foreach()
+    {
         $callback_one  = '__return_null';
         $callback_two  = '__return_false';
         $hook          = new WP_Hook();

@@ -14,14 +14,16 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
+class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller
+{
 
     /**
      * Constructs the controller.
      *
      * @since 6.0.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'block-patterns/categories';
     }
@@ -31,7 +33,8 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      *
      * @since 6.0.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -54,7 +57,8 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         if (current_user_can('edit_posts')) {
             return true;
         }
@@ -80,7 +84,8 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $response   = array();
         $categories = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered();
         foreach ($categories as $category) {
@@ -100,7 +105,8 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         $fields = $this->get_fields_for_response($request);
         $keys   = array('name', 'label', 'description');
         $data   = array();
@@ -124,7 +130,8 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }

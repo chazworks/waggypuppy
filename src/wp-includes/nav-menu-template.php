@@ -54,7 +54,8 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  * @return void|string|false Void if 'echo' argument is true, menu output if 'echo' is false.
  *                           False if there are no items or no menu was found.
  */
-function wp_nav_menu($args = array()) {
+function wp_nav_menu($args = array())
+{
     static $menu_id_slugs = array();
 
     $defaults = array(
@@ -319,7 +320,8 @@ function wp_nav_menu($args = array()) {
  *
  * @param array $menu_items The current menu item objects to which to add the class property information.
  */
-function _wp_menu_item_classes_by_context(&$menu_items) {
+function _wp_menu_item_classes_by_context(&$menu_items)
+{
     global $wp_query, $wp_rewrite;
 
     $queried_object    = $wp_query->get_queried_object();
@@ -604,7 +606,8 @@ function _wp_menu_item_classes_by_context(&$menu_items) {
  * @param stdClass $args  An object containing wp_nav_menu() arguments.
  * @return string The HTML list content for the menu items.
  */
-function walk_nav_menu_tree($items, $depth, $args) {
+function walk_nav_menu_tree($items, $depth, $args)
+{
     $walker = (empty($args->walker)) ? new Walker_Nav_Menu() : $args->walker;
 
     return $walker->walk($items, $depth, $args);
@@ -620,7 +623,8 @@ function walk_nav_menu_tree($items, $depth, $args) {
  * @param object $item
  * @return string
  */
-function _nav_menu_item_id_use_once($id, $item) {
+function _nav_menu_item_id_use_once($id, $item)
+{
     static $_used_ids = array();
 
     if (in_array($item->ID, $_used_ids, true)) {
@@ -650,7 +654,8 @@ function _nav_menu_item_id_use_once($id, $item) {
  * @param int|false      $depth     Depth of menu item. Default false ($depth unspecified when filter is called).
  * @return string[] Modified nav menu classes.
  */
-function wp_nav_menu_remove_menu_item_has_children_class($classes, $menu_item, $args = false, $depth = false) {
+function wp_nav_menu_remove_menu_item_has_children_class($classes, $menu_item, $args = false, $depth = false)
+{
     /*
      * Account for the filter being called without the $args or $depth parameters.
      *

@@ -14,14 +14,16 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
+class WP_REST_Widget_Types_Controller extends WP_REST_Controller
+{
 
     /**
      * Constructor.
      *
      * @since 5.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'widget-types';
     }
@@ -33,7 +35,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -132,7 +135,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         return $this->check_read_permission();
     }
 
@@ -144,7 +148,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $data = array();
         foreach ($this->get_widgets() as $widget) {
             $widget_type = $this->prepare_item_for_response($widget, $request);
@@ -162,7 +167,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         $check = $this->check_read_permission();
         if (is_wp_error($check)) {
             return $check;
@@ -183,7 +189,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @return true|WP_Error True if the widget type is visible, WP_Error otherwise.
      */
-    protected function check_read_permission() {
+    protected function check_read_permission()
+    {
         if (! current_user_can('edit_theme_options')) {
             return new WP_Error(
                 'rest_cannot_manage_widgets',
@@ -205,7 +212,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param string $id The widget type id.
      * @return array|WP_Error The array of widget data if the name is valid, WP_Error otherwise.
      */
-    public function get_widget($id) {
+    public function get_widget($id)
+    {
         foreach ($this->get_widgets() as $widget) {
             if ($id === $widget['id']) {
                 return $widget;
@@ -225,7 +233,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @return array Array of widgets.
      */
-    protected function get_widgets() {
+    protected function get_widgets()
+    {
         global $wp_widget_factory, $wp_registered_widgets;
 
         $widgets = array();
@@ -273,7 +282,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $widget_id   = $request['id'];
         $widget_type = $this->get_widget($widget_id);
         if (is_wp_error($widget_type)) {
@@ -294,7 +304,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response Widget type data.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $widget_type = $item;
 
@@ -360,7 +371,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param array $widget_type Widget type data.
      * @return array Links for the given widget type.
      */
-    protected function prepare_links($widget_type) {
+    protected function prepare_links($widget_type)
+    {
         return array(
             'collection' => array(
                 'href' => rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)),
@@ -378,7 +390,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -451,7 +464,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function encode_form_data($request) {
+    public function encode_form_data($request)
+    {
         global $wp_widget_factory;
 
         $id            = $request['id'];
@@ -547,7 +561,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param array     $instance Widget instance settings.
      * @return string
      */
-    private function get_widget_preview($widget, $instance) {
+    private function get_widget_preview($widget, $instance)
+    {
         ob_start();
         the_widget($widget, $instance);
         return ob_get_clean();
@@ -563,7 +578,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      * @param array     $instance Widget instance settings.
      * @return string
      */
-    private function get_widget_form($widget_object, $instance) {
+    private function get_widget_form($widget_object, $instance)
+    {
         ob_start();
 
         /** This filter is documented in wp-includes/class-wp-widget.php */
@@ -595,7 +611,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @return array An array with rendered Legacy Widget HTML.
      */
-    public function render($request) {
+    public function render($request)
+    {
         return array(
             'preview' => $this->render_legacy_widget_preview_iframe(
                 $request['id'],
@@ -614,7 +631,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @return string Rendered Legacy Widget block preview.
      */
-    private function render_legacy_widget_preview_iframe($id_base, $instance) {
+    private function render_legacy_widget_preview_iframe($id_base, $instance)
+    {
         if (! defined('IFRAME_REQUEST')) {
             define('IFRAME_REQUEST', true);
         }
@@ -665,7 +683,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         return array(
             'context' => $this->get_context_param(array('default' => 'view')),
         );

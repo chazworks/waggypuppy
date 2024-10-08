@@ -6,14 +6,16 @@
  * @group rest-api
  * @covers ::wp_is_rest_endpoint
  */
-class Tests_Media_Wp_Is_Rest_Endpoint extends WP_UnitTestCase {
+class Tests_Media_Wp_Is_Rest_Endpoint extends WP_UnitTestCase
+{
 
     /**
      * Tests that `wp_is_rest_endpoint()` returns false by default.
      *
      * @ticket 42061
      */
-    public function test_wp_is_rest_endpoint_default() {
+    public function test_wp_is_rest_endpoint_default()
+    {
         $this->assertFalse(wp_is_rest_endpoint());
     }
 
@@ -22,7 +24,8 @@ class Tests_Media_Wp_Is_Rest_Endpoint extends WP_UnitTestCase {
      *
      * @ticket 42061
      */
-    public function test_wp_is_rest_endpoint_via_global() {
+    public function test_wp_is_rest_endpoint_via_global()
+    {
         global $wp_rest_server;
 
         $wp_rest_server = new Spy_REST_Server();
@@ -59,7 +62,8 @@ class Tests_Media_Wp_Is_Rest_Endpoint extends WP_UnitTestCase {
      *
      * @ticket 42061
      */
-    public function test_wp_is_rest_endpoint_via_filter() {
+    public function test_wp_is_rest_endpoint_via_filter()
+    {
         add_filter('wp_is_rest_endpoint', '__return_true');
         $this->assertTrue(wp_is_rest_endpoint());
     }

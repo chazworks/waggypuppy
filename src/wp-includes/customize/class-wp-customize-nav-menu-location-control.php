@@ -16,7 +16,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
+class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control
+{
 
     /**
      * Control type.
@@ -41,7 +42,8 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
      *
      * @see WP_Customize_Control::to_json()
      */
-    public function to_json() {
+    public function to_json()
+    {
         parent::to_json();
         $this->json['locationId'] = $this->location_id;
     }
@@ -52,7 +54,8 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
      * @since 4.3.0
      * @since 4.9.0 Added a button to create menus.
      */
-    public function render_content() {
+    public function render_content()
+    {
         if (empty($this->choices)) {
             return;
         }

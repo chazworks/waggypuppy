@@ -14,7 +14,8 @@
  *
  * @see WP_Widget
  */
-abstract class WP_Widget_Media extends WP_Widget {
+abstract class WP_Widget_Media extends WP_Widget
+{
 
     /**
      * Translation labels.
@@ -69,7 +70,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      * @param array  $control_options Optional. Widget control options. See wp_register_widget_control()
      *                                for information on accepted arguments. Default empty array.
      */
-    public function __construct($id_base, $name, $widget_options = array(), $control_options = array()) {
+    public function __construct($id_base, $name, $widget_options = array(), $control_options = array())
+    {
         $widget_opts = wp_parse_args(
             $widget_options,
             array(
@@ -100,7 +102,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      * @param int $number Optional. The unique order number of this widget instance
      *                    compared to other instances of the same class. Default -1.
      */
-    public function _register_one($number = -1) {
+    public function _register_one($number = -1)
+    {
         parent::_register_one($number);
         if ($this->registered) {
             return;
@@ -137,7 +140,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      *
      * @return array Schema for properties.
      */
-    public function get_instance_schema() {
+    public function get_instance_schema()
+    {
         $schema = array(
             'attachment_id' => array(
                 'type'        => 'integer',
@@ -183,7 +187,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      * @param string      $mime_type  MIME type.
      * @return bool Is matching MIME type.
      */
-    public function is_attachment_with_mime_type($attachment, $mime_type) {
+    public function is_attachment_with_mime_type($attachment, $mime_type)
+    {
         if (empty($attachment)) {
             return false;
         }
@@ -207,7 +212,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      * @param string|array $tokens List of tokens separated by spaces, or an array of tokens.
      * @return string Sanitized token string list.
      */
-    public function sanitize_token_list($tokens) {
+    public function sanitize_token_list($tokens)
+    {
         if (is_string($tokens)) {
             $tokens = preg_split('/\s+/', trim($tokens));
         }
@@ -226,7 +232,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      * @param array $args     Display arguments including before_title, after_title, before_widget, and after_widget.
      * @param array $instance Saved setting from the database.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         $instance = wp_parse_args($instance, wp_list_pluck($this->get_instance_schema(), 'default'));
 
         // Short-circuit if no media is selected.
@@ -274,7 +281,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      * @param array $old_instance Previously saved values from database.
      * @return array Updated safe values to be saved.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
 
         $schema = $this->get_instance_schema();
         foreach ($schema as $field => $field_schema) {
@@ -335,7 +343,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    final public function form($instance) {
+    final public function form($instance)
+    {
         $instance_schema = $this->get_instance_schema();
         $instance        = wp_array_slice_assoc(
             wp_parse_args((array) $instance, wp_list_pluck($instance_schema, 'default')),
@@ -364,7 +373,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      * @param WP_Post $post   The current attachment object.
      * @return array
      */
-    public function display_media_state($states, $post = null) {
+    public function display_media_state($states, $post = null)
+    {
         if (! $post) {
             $post = get_post();
         }
@@ -396,14 +406,16 @@ abstract class WP_Widget_Media extends WP_Widget {
      *
      * @since 4.8.0
      */
-    public function enqueue_preview_scripts() {}
+    public function enqueue_preview_scripts()
+    {}
 
     /**
      * Loads the required scripts and styles for the widget control.
      *
      * @since 4.8.0
      */
-    public function enqueue_admin_scripts() {
+    public function enqueue_admin_scripts()
+    {
         wp_enqueue_media();
         wp_enqueue_script('media-widgets');
     }
@@ -413,7 +425,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      *
      * @since 4.8.0
      */
-    public function render_control_template_scripts() {
+    public function render_control_template_scripts()
+    {
         ?>
         <script type="text/html" id="tmpl-widget-media-<?php echo esc_attr($this->id_base); ?>-control">
             <# var elementIdPrefix = 'el' + String( Math.random() ) + '_' #>
@@ -449,7 +462,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      *
      * @since 6.0.0
      */
-    public static function reset_default_labels() {
+    public static function reset_default_labels()
+    {
         self::$default_description = '';
         self::$l10n_defaults       = array();
     }
@@ -462,7 +476,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      * @param array $instance Widget instance props.
      * @return bool Whether widget has content.
      */
-    protected function has_content($instance) {
+    protected function has_content($instance)
+    {
         return ($instance['attachment_id'] && 'attachment' === get_post_type($instance['attachment_id'])) || $instance['url'];
     }
 
@@ -473,7 +488,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      *
      * @return string
      */
-    protected static function get_default_description() {
+    protected static function get_default_description()
+    {
         if (self::$default_description) {
             return self::$default_description;
         }
@@ -489,7 +505,8 @@ abstract class WP_Widget_Media extends WP_Widget {
      *
      * @return (string|array)[]
      */
-    protected static function get_l10n_defaults() {
+    protected static function get_l10n_defaults()
+    {
         if (! empty(self::$l10n_defaults)) {
             return self::$l10n_defaults;
         }

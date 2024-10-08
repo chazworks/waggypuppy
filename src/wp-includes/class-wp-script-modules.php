@@ -13,7 +13,8 @@
  *
  * @since 6.5.0
  */
-class WP_Script_Modules {
+class WP_Script_Modules
+{
     /**
      * Holds the registered script modules, keyed by script module identifier.
      *
@@ -72,7 +73,8 @@ class WP_Script_Modules {
      *                                    is set to false, the version number is the currently installed WordPress version.
      *                                    If $version is set to null, no version is added.
      */
-    public function register(string $id, string $src, array $deps = array(), $version = false) {
+    public function register(string $id, string $src, array $deps = array(), $version = false)
+    {
         if (! isset($this->registered[ $id ])) {
             $dependencies = array();
             foreach ($deps as $dependency) {
@@ -137,7 +139,8 @@ class WP_Script_Modules {
      *                                    is set to false, the version number is the currently installed WordPress version.
      *                                    If $version is set to null, no version is added.
      */
-    public function enqueue(string $id, string $src = '', array $deps = array(), $version = false) {
+    public function enqueue(string $id, string $src = '', array $deps = array(), $version = false)
+    {
         if (isset($this->registered[ $id ])) {
             $this->registered[ $id ]['enqueue'] = true;
         } elseif ($src) {
@@ -155,7 +158,8 @@ class WP_Script_Modules {
      *
      * @param string $id The identifier of the script module.
      */
-    public function dequeue(string $id) {
+    public function dequeue(string $id)
+    {
         if (isset($this->registered[ $id ])) {
             $this->registered[ $id ]['enqueue'] = false;
         }
@@ -169,7 +173,8 @@ class WP_Script_Modules {
      *
      * @param string $id The identifier of the script module.
      */
-    public function deregister(string $id) {
+    public function deregister(string $id)
+    {
         unset($this->registered[ $id ]);
         unset($this->enqueued_before_registered[ $id ]);
     }
@@ -184,7 +189,8 @@ class WP_Script_Modules {
      *
      * @since 6.5.0
      */
-    public function add_hooks() {
+    public function add_hooks()
+    {
         $position = wp_is_block_theme() ? 'wp_head' : 'wp_footer';
         add_action($position, array($this, 'print_import_map'));
         add_action($position, array($this, 'print_enqueued_script_modules'));
@@ -206,7 +212,8 @@ class WP_Script_Modules {
      *
      * @since 6.5.0
      */
-    public function print_enqueued_script_modules() {
+    public function print_enqueued_script_modules()
+    {
         foreach ($this->get_marked_for_enqueue() as $id => $script_module) {
             wp_print_script_tag(
                 array(
@@ -226,7 +233,8 @@ class WP_Script_Modules {
      *
      * @since 6.5.0
      */
-    public function print_script_module_preloads() {
+    public function print_script_module_preloads()
+    {
         foreach ($this->get_dependencies(array_keys($this->get_marked_for_enqueue()), array('static')) as $id => $script_module) {
             // Don't preload if it's marked for enqueue.
             if (true !== $script_module['enqueue']) {
@@ -244,7 +252,8 @@ class WP_Script_Modules {
      *
      * @since 6.5.0
      */
-    public function print_import_map() {
+    public function print_import_map()
+    {
         $import_map = $this->get_import_map();
         if (! empty($import_map['imports'])) {
             wp_print_inline_script_tag(
@@ -265,7 +274,8 @@ class WP_Script_Modules {
      * @return array Array with an `imports` key mapping to an array of script module identifiers and their respective
      *               URLs, including the version query.
      */
-    private function get_import_map(): array {
+    private function get_import_map(): array
+    {
         $imports = array();
         foreach ($this->get_dependencies(array_keys($this->get_marked_for_enqueue())) as $id => $script_module) {
             $imports[ $id ] = $this->get_src($id);
@@ -280,7 +290,8 @@ class WP_Script_Modules {
      *
      * @return array[] Script modules marked for enqueue, keyed by script module identifier.
      */
-    private function get_marked_for_enqueue(): array {
+    private function get_marked_for_enqueue(): array
+    {
         $enqueued = array();
         foreach ($this->registered as $id => $script_module) {
             if (true === $script_module['enqueue']) {
@@ -305,7 +316,8 @@ class WP_Script_Modules {
      *                               Default is both.
      * @return array[] List of dependencies, keyed by script module identifier.
      */
-    private function get_dependencies(array $ids, array $import_types = array('static', 'dynamic')) {
+    private function get_dependencies(array $ids, array $import_types = array('static', 'dynamic'))
+    {
         return array_reduce(
             $ids,
             function ($dependency_script_modules, $id) use ($import_types) {
@@ -336,7 +348,8 @@ class WP_Script_Modules {
      * @param string $id The script module identifier.
      * @return string The script module src with a version if relevant.
      */
-    private function get_src(string $id): string {
+    private function get_src(string $id): string
+    {
         if (! isset($this->registered[ $id ])) {
             return '';
         }
@@ -376,7 +389,8 @@ class WP_Script_Modules {
      * The data for a Script Module will be serialized as JSON in a script tag with an ID of the
      * form `wp-script-module-data-{$module_id}`.
      */
-    public function print_script_module_data(): void {
+    public function print_script_module_data(): void
+    {
         $modules = array();
         foreach (array_keys($this->get_marked_for_enqueue()) as $id) {
             if ('@wordpress/a11y' === $id) {
@@ -489,7 +503,8 @@ class WP_Script_Modules {
      *
      * @since 6.7.0
      */
-    public function print_a11y_script_module_html() {
+    public function print_a11y_script_module_html()
+    {
         if (! $this->a11y_available) {
             return;
         }

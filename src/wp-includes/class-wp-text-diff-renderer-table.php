@@ -14,7 +14,8 @@
  * @uses Text_Diff_Renderer Extends
  */
 #[AllowDynamicProperties]
-class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
+class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
+{
 
     /**
      * @see Text_Diff_Renderer::_leading_context_lines
@@ -105,7 +106,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      *
      * @param array $params
      */
-    public function __construct($params = array()) {
+    public function __construct($params = array())
+    {
         parent::__construct($params);
         if (isset($params['show_split_view'])) {
             $this->_show_split_view = $params['show_split_view'];
@@ -118,7 +120,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param string $header
      * @return string
      */
-    public function _startBlock($header) {
+    public function _startBlock($header)
+    {
         return '';
     }
 
@@ -128,7 +131,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param array  $lines
      * @param string $prefix
      */
-    public function _lines($lines, $prefix = ' ') {
+    public function _lines($lines, $prefix = ' ')
+    {
     }
 
     /**
@@ -137,7 +141,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param string $line HTML-escape the value.
      * @return string
      */
-    public function addedLine($line) {
+    public function addedLine($line)
+    {
         return "<td class='diff-addedline'><span aria-hidden='true' class='dashicons dashicons-plus'></span><span class='screen-reader-text'>" .
             /* translators: Hidden accessibility text. */
             __('Added:') .
@@ -150,7 +155,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param string $line HTML-escape the value.
      * @return string
      */
-    public function deletedLine($line) {
+    public function deletedLine($line)
+    {
         return "<td class='diff-deletedline'><span aria-hidden='true' class='dashicons dashicons-minus'></span><span class='screen-reader-text'>" .
             /* translators: Hidden accessibility text. */
             __('Deleted:') .
@@ -163,7 +169,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param string $line HTML-escape the value.
      * @return string
      */
-    public function contextLine($line) {
+    public function contextLine($line)
+    {
         return "<td class='diff-context'><span class='screen-reader-text'>" .
             /* translators: Hidden accessibility text. */
             __('Unchanged:') .
@@ -175,7 +182,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      *
      * @return string
      */
-    public function emptyLine() {
+    public function emptyLine()
+    {
         return '<td>&nbsp;</td>';
     }
 
@@ -186,7 +194,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param bool  $encode
      * @return string
      */
-    public function _added($lines, $encode = true) {
+    public function _added($lines, $encode = true)
+    {
         $r = '';
         foreach ($lines as $line) {
             if ($encode) {
@@ -224,7 +233,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param bool  $encode
      * @return string
      */
-    public function _deleted($lines, $encode = true) {
+    public function _deleted($lines, $encode = true)
+    {
         $r = '';
         foreach ($lines as $line) {
             if ($encode) {
@@ -249,7 +259,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param bool  $encode
      * @return string
      */
-    public function _context($lines, $encode = true) {
+    public function _context($lines, $encode = true)
+    {
         $r = '';
         foreach ($lines as $line) {
             if ($encode) {
@@ -279,7 +290,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param array $final
      * @return string
      */
-    public function _changed($orig, $final) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.finalFound
+    public function _changed($orig, $final)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.finalFound
+    {
         $r = '';
 
         /*
@@ -392,7 +404,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      *                                Value < 0 indicates a blank row.
      * }
      */
-    public function interleave_changed_lines($orig, $final) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.finalFound
+    public function interleave_changed_lines($orig, $final)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.finalFound
+    {
 
         // Contains all pairwise string comparisons. Keys are such that this need only be a one dimensional array.
         $matches = array();
@@ -485,7 +498,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param string $string2
      * @return int
      */
-    public function compute_string_distance($string1, $string2) {
+    public function compute_string_distance($string1, $string2)
+    {
         // Use an md5 hash of the strings for a count cache, as it's fast to generate, and collisions aren't a concern.
         $count_key1 = md5($string1);
         $count_key2 = md5($string2);
@@ -526,7 +540,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param int $b
      * @return int
      */
-    public function difference($a, $b) {
+    public function difference($a, $b)
+    {
         return abs($a - $b);
     }
 
@@ -539,7 +554,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param string $name Property to get.
      * @return mixed A declared property's value, else null.
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if (in_array($name, $this->compat_fields, true)) {
             return $this->$name;
         }
@@ -562,7 +578,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param string $name  Property to check if set.
      * @param mixed  $value Property value.
      */
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         if (in_array($name, $this->compat_fields, true)) {
             $this->$name = $value;
             return;
@@ -585,7 +602,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      * @param string $name Property to check if set.
      * @return bool Whether the property is set.
      */
-    public function __isset($name) {
+    public function __isset($name)
+    {
         if (in_array($name, $this->compat_fields, true)) {
             return isset($this->$name);
         }
@@ -607,7 +625,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
      *
      * @param string $name Property to unset.
      */
-    public function __unset($name) {
+    public function __unset($name)
+    {
         if (in_array($name, $this->compat_fields, true)) {
             unset($this->$name);
             return;

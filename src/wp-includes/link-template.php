@@ -14,7 +14,8 @@
  *
  * @param int|WP_Post $post Optional. Post ID or post object. Default is the global `$post`.
  */
-function the_permalink($post = 0) {
+function the_permalink($post = 0)
+{
     /**
      * Filters the display of the permalink for the current post.
      *
@@ -44,7 +45,8 @@ function the_permalink($post = 0) {
  *                            for use in the filter. Default empty string.
  * @return string The URL with the trailing slash appended or stripped.
  */
-function user_trailingslashit($url, $type_of_url = '') {
+function user_trailingslashit($url, $type_of_url = '')
+{
     global $wp_rewrite;
     if ($wp_rewrite->use_trailing_slashes) {
         $url = trailingslashit($url);
@@ -75,7 +77,8 @@ function user_trailingslashit($url, $type_of_url = '') {
  *
  * @param string $mode Optional. Permalink mode. Accepts 'title' or 'id'. Default 'id'.
  */
-function permalink_anchor($mode = 'id') {
+function permalink_anchor($mode = 'id')
+{
     $post = get_post();
     switch (strtolower($mode)) {
         case 'title':
@@ -100,7 +103,8 @@ function permalink_anchor($mode = 'id') {
  *                                 with the filter property set to 'sample'.
  * @return bool Whether to use a plain permalink structure.
  */
-function wp_force_plain_post_permalink($post = null, $sample = null) {
+function wp_force_plain_post_permalink($post = null, $sample = null)
+{
     if (null === $sample &&
         is_object($post) &&
         isset($post->filter) &&
@@ -153,7 +157,8 @@ function wp_force_plain_post_permalink($post = null, $sample = null) {
  * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
  * @return string|false The permalink URL. False if the post does not exist.
  */
-function get_the_permalink($post = 0, $leavename = false) {
+function get_the_permalink($post = 0, $leavename = false)
+{
     return get_permalink($post, $leavename);
 }
 
@@ -166,7 +171,8 @@ function get_the_permalink($post = 0, $leavename = false) {
  * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
  * @return string|false The permalink URL. False if the post does not exist.
  */
-function get_permalink($post = 0, $leavename = false) {
+function get_permalink($post = 0, $leavename = false)
+{
     $rewritecode = array(
         '%year%',
         '%monthnum%',
@@ -319,7 +325,8 @@ function get_permalink($post = 0, $leavename = false) {
  * @param bool        $sample    Optional. Is it a sample permalink. Default false.
  * @return string|false The post permalink URL. False if the post does not exist.
  */
-function get_post_permalink($post = 0, $leavename = false, $sample = false) {
+function get_post_permalink($post = 0, $leavename = false, $sample = false)
+{
     global $wp_rewrite;
 
     $post = get_post($post);
@@ -386,7 +393,8 @@ function get_post_permalink($post = 0, $leavename = false, $sample = false) {
  *                               Default false.
  * @return string The page permalink.
  */
-function get_page_link($post = false, $leavename = false, $sample = false) {
+function get_page_link($post = false, $leavename = false, $sample = false)
+{
     $post = get_post($post);
 
     if ('page' === get_option('show_on_front') && (int) get_option('page_on_front') === $post->ID) {
@@ -423,7 +431,8 @@ function get_page_link($post = false, $leavename = false, $sample = false) {
  *                               Default false.
  * @return string The page permalink.
  */
-function _get_page_link($post = false, $leavename = false, $sample = false) {
+function _get_page_link($post = false, $leavename = false, $sample = false)
+{
     global $wp_rewrite;
 
     $post = get_post($post);
@@ -467,7 +476,8 @@ function _get_page_link($post = false, $leavename = false, $sample = false) {
  * @param bool        $leavename Optional. Whether to keep the page name. Default false.
  * @return string The attachment permalink.
  */
-function get_attachment_link($post = null, $leavename = false) {
+function get_attachment_link($post = null, $leavename = false)
+{
     global $wp_rewrite;
 
     $link = false;
@@ -541,7 +551,8 @@ function get_attachment_link($post = null, $leavename = false) {
  * @param int|false $year Integer of year. False for current year.
  * @return string The permalink for the specified year archive.
  */
-function get_year_link($year) {
+function get_year_link($year)
+{
     global $wp_rewrite;
     if (! $year) {
         $year = current_time('Y');
@@ -576,7 +587,8 @@ function get_year_link($year) {
  * @param int|false $month Integer of month. False for current month.
  * @return string The permalink for the specified month and year archive.
  */
-function get_month_link($year, $month) {
+function get_month_link($year, $month)
+{
     global $wp_rewrite;
     if (! $year) {
         $year = current_time('Y');
@@ -617,7 +629,8 @@ function get_month_link($year, $month) {
  * @param int|false $day   Integer of day. False for current day.
  * @return string The permalink for the specified day, month, and year archive.
  */
-function get_day_link($year, $month, $day) {
+function get_day_link($year, $month, $day)
+{
     global $wp_rewrite;
     if (! $year) {
         $year = current_time('Y');
@@ -661,7 +674,8 @@ function get_day_link($year, $month, $day) {
  * @param string $feed   Optional. Feed type. Possible values include 'rss2', 'atom'.
  *                       Default is the value of get_default_feed().
  */
-function the_feed_link($anchor, $feed = '') {
+function the_feed_link($anchor, $feed = '')
+{
     $link = '<a href="' . esc_url(get_feed_link($feed)) . '">' . $anchor . '</a>';
 
     /**
@@ -687,7 +701,8 @@ function the_feed_link($anchor, $feed = '') {
  *                     Default is the value of get_default_feed().
  * @return string The feed permalink.
  */
-function get_feed_link($feed = '') {
+function get_feed_link($feed = '')
+{
     global $wp_rewrite;
 
     $permalink = $wp_rewrite->get_feed_permastruct();
@@ -739,7 +754,8 @@ function get_feed_link($feed = '') {
  *                        Default is the value of get_default_feed().
  * @return string The permalink for the comments feed for the given post on success, empty string on failure.
  */
-function get_post_comments_feed_link($post_id = 0, $feed = '') {
+function get_post_comments_feed_link($post_id = 0, $feed = '')
+{
     $post_id = absint($post_id);
 
     if (! $post_id) {
@@ -831,7 +847,8 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
  * @param string $feed      Optional. Feed type. Possible values include 'rss2', 'atom'.
  *                          Default is the value of get_default_feed().
  */
-function post_comments_feed_link($link_text = '', $post_id = '', $feed = '') {
+function post_comments_feed_link($link_text = '', $post_id = '', $feed = '')
+{
     $url = get_post_comments_feed_link($post_id, $feed);
     if (empty($link_text)) {
         $link_text = __('Comments Feed');
@@ -864,7 +881,8 @@ function post_comments_feed_link($link_text = '', $post_id = '', $feed = '') {
  *                          Default is the value of get_default_feed().
  * @return string Link to the feed for the author specified by $author_id.
  */
-function get_author_feed_link($author_id, $feed = '') {
+function get_author_feed_link($author_id, $feed = '')
+{
     $author_id           = (int) $author_id;
     $permalink_structure = get_option('permalink_structure');
 
@@ -911,7 +929,8 @@ function get_author_feed_link($author_id, $feed = '') {
  *                                 Default is the value of get_default_feed().
  * @return string Link to the feed for the category specified by `$cat`.
  */
-function get_category_feed_link($cat, $feed = '') {
+function get_category_feed_link($cat, $feed = '')
+{
     return get_term_feed_link($cat, 'category', $feed);
 }
 
@@ -929,7 +948,8 @@ function get_category_feed_link($cat, $feed = '') {
  *                                     Default is the value of get_default_feed().
  * @return string|false Link to the feed for the term specified by `$term` and `$taxonomy`.
  */
-function get_term_feed_link($term, $taxonomy = '', $feed = '') {
+function get_term_feed_link($term, $taxonomy = '', $feed = '')
+{
     if (! is_object($term)) {
         $term = (int) $term;
     }
@@ -1014,7 +1034,8 @@ function get_term_feed_link($term, $taxonomy = '', $feed = '') {
  *                                 Default is the value of get_default_feed().
  * @return string                  The feed permalink for the given tag.
  */
-function get_tag_feed_link($tag, $feed = '') {
+function get_tag_feed_link($tag, $feed = '')
+{
     return get_term_feed_link($tag, 'post_tag', $feed);
 }
 
@@ -1027,7 +1048,8 @@ function get_tag_feed_link($tag, $feed = '') {
  * @param string             $taxonomy Optional. Taxonomy slug. Default 'post_tag'.
  * @return string The edit tag link URL for the given tag.
  */
-function get_edit_tag_link($tag, $taxonomy = 'post_tag') {
+function get_edit_tag_link($tag, $taxonomy = 'post_tag')
+{
     /**
      * Filters the edit link for a tag (or term in another taxonomy).
      *
@@ -1049,7 +1071,8 @@ function get_edit_tag_link($tag, $taxonomy = 'post_tag') {
  * @param WP_Term $tag    Optional. Term object. If null, the queried object will be inspected.
  *                        Default null.
  */
-function edit_tag_link($link = '', $before = '', $after = '', $tag = null) {
+function edit_tag_link($link = '', $before = '', $after = '', $tag = null)
+{
     $link = edit_term_link($link, '', '', $tag, false);
 
     /**
@@ -1076,7 +1099,8 @@ function edit_tag_link($link = '', $before = '', $after = '', $tag = null) {
  *                                        with the taxonomy.
  * @return string|null The edit term link URL for the given term, or null on failure.
  */
-function get_edit_term_link($term, $taxonomy = '', $object_type = '') {
+function get_edit_term_link($term, $taxonomy = '', $object_type = '')
+{
     $term = get_term($term, $taxonomy);
     if (! $term || is_wp_error($term)) {
         return;
@@ -1130,7 +1154,8 @@ function get_edit_term_link($term, $taxonomy = '', $object_type = '') {
  * @param bool             $display Optional. Whether or not to echo the return. Default true.
  * @return string|void HTML content.
  */
-function edit_term_link($link = '', $before = '', $after = '', $term = null, $display = true) {
+function edit_term_link($link = '', $before = '', $after = '', $term = null, $display = true)
+{
     if (is_null($term)) {
         $term = get_queried_object();
     } else {
@@ -1179,7 +1204,8 @@ function edit_term_link($link = '', $before = '', $after = '', $term = null, $di
  * @param string $query Optional. The query string to use. If empty the current query is used. Default empty.
  * @return string The search permalink.
  */
-function get_search_link($query = '') {
+function get_search_link($query = '')
+{
     global $wp_rewrite;
 
     if (empty($query)) {
@@ -1222,7 +1248,8 @@ function get_search_link($query = '') {
  *                             Default is the value of get_default_feed().
  * @return string The search results feed permalink.
  */
-function get_search_feed_link($search_query = '', $feed = '') {
+function get_search_feed_link($search_query = '', $feed = '')
+{
     global $wp_rewrite;
     $link = get_search_link($search_query);
 
@@ -1263,7 +1290,8 @@ function get_search_feed_link($search_query = '', $feed = '') {
  *                             Default is the value of get_default_feed().
  * @return string The comments feed search results permalink.
  */
-function get_search_comments_feed_link($search_query = '', $feed = '') {
+function get_search_comments_feed_link($search_query = '', $feed = '')
+{
     global $wp_rewrite;
 
     if (empty($feed)) {
@@ -1296,7 +1324,8 @@ function get_search_comments_feed_link($search_query = '', $feed = '') {
  * @return string|false The post type archive permalink. False if the post type
  *                      does not exist or does not have an archive.
  */
-function get_post_type_archive_link($post_type) {
+function get_post_type_archive_link($post_type)
+{
     global $wp_rewrite;
 
     $post_type_obj = get_post_type_object($post_type);
@@ -1356,7 +1385,8 @@ function get_post_type_archive_link($post_type) {
  * @return string|false The post type feed permalink. False if the post type
  *                      does not exist or does not have an archive.
  */
-function get_post_type_archive_feed_link($post_type, $feed = '') {
+function get_post_type_archive_feed_link($post_type, $feed = '')
+{
     $default_feed = get_default_feed();
     if (empty($feed)) {
         $feed = $default_feed;
@@ -1403,7 +1433,8 @@ function get_post_type_archive_feed_link($post_type, $feed = '') {
  *                                  post permalink. Default empty.
  * @return string|null URL used for the post preview, or null if the post does not exist.
  */
-function get_preview_post_link($post = null, $query_args = array(), $preview_link = '') {
+function get_preview_post_link($post = null, $query_args = array(), $preview_link = '')
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1447,7 +1478,8 @@ function get_preview_post_link($post = null, $query_args = array(), $preview_lin
  * @return string|null The edit post link for the given post. Null if the post type does not exist
  *                     or does not allow an editing UI.
  */
-function get_edit_post_link($post = 0, $context = 'display') {
+function get_edit_post_link($post = 0, $context = 'display')
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1508,7 +1540,8 @@ function get_edit_post_link($post = 0, $context = 'display') {
  * @param int|WP_Post $post      Optional. Post ID or post object. Default is the global `$post`.
  * @param string      $css_class Optional. Add custom class to link. Default 'post-edit-link'.
  */
-function edit_post_link($text = null, $before = '', $after = '', $post = 0, $css_class = 'post-edit-link') {
+function edit_post_link($text = null, $before = '', $after = '', $post = 0, $css_class = 'post-edit-link')
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -1551,7 +1584,8 @@ function edit_post_link($text = null, $before = '', $after = '', $post = 0, $css
  * @param bool        $force_delete Optional. Whether to bypass Trash and force deletion. Default false.
  * @return string|void The delete post link URL for the given post.
  */
-function get_delete_post_link($post = 0, $deprecated = '', $force_delete = false) {
+function get_delete_post_link($post = 0, $deprecated = '', $force_delete = false)
+{
     if (! empty($deprecated)) {
         _deprecated_argument(__FUNCTION__, '3.0.0');
     }
@@ -1600,7 +1634,8 @@ function get_delete_post_link($post = 0, $deprecated = '', $force_delete = false
  * @return string|void The edit comment link URL for the given comment, or void if the comment id does not exist or
  *                     the current user is not allowed to edit it.
  */
-function get_edit_comment_link($comment_id = 0, $context = 'display') {
+function get_edit_comment_link($comment_id = 0, $context = 'display')
+{
     $comment = get_comment($comment_id);
 
     if (! is_object($comment) || ! current_user_can('edit_comment', $comment->comment_ID)) {
@@ -1640,7 +1675,8 @@ function get_edit_comment_link($comment_id = 0, $context = 'display') {
  * @param string $before Optional. Display before edit link. Default empty.
  * @param string $after  Optional. Display after edit link. Default empty.
  */
-function edit_comment_link($text = null, $before = '', $after = '') {
+function edit_comment_link($text = null, $before = '', $after = '')
+{
     $comment = get_comment();
 
     if (! current_user_can('edit_comment', $comment->comment_ID)) {
@@ -1673,7 +1709,8 @@ function edit_comment_link($text = null, $before = '', $after = '') {
  * @param int|stdClass $link Optional. Bookmark ID. Default is the ID of the current bookmark.
  * @return string|void The edit bookmark link URL.
  */
-function get_edit_bookmark_link($link = 0) {
+function get_edit_bookmark_link($link = 0)
+{
     $link = get_bookmark($link);
 
     if (! current_user_can('manage_links')) {
@@ -1703,7 +1740,8 @@ function get_edit_bookmark_link($link = 0) {
  * @param string $after    Optional. Display after edit link. Default empty.
  * @param int    $bookmark Optional. Bookmark ID. Default is the current bookmark.
  */
-function edit_bookmark_link($link = '', $before = '', $after = '', $bookmark = null) {
+function edit_bookmark_link($link = '', $before = '', $after = '', $bookmark = null)
+{
     $bookmark = get_bookmark($bookmark);
 
     if (! current_user_can('manage_links')) {
@@ -1735,7 +1773,8 @@ function edit_bookmark_link($link = '', $before = '', $after = '', $bookmark = n
  * @param int $user_id Optional. User ID. Defaults to the current user.
  * @return string URL to edit user page or empty string.
  */
-function get_edit_user_link($user_id = null) {
+function get_edit_user_link($user_id = null)
+{
     if (! $user_id) {
         $user_id = get_current_user_id();
     }
@@ -1784,7 +1823,8 @@ function get_edit_user_link($user_id = null) {
  * @return WP_Post|null|string Post object if successful. Null if global `$post` is not set.
  *                             Empty string if no corresponding post exists.
  */
-function get_previous_post($in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function get_previous_post($in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     return get_adjacent_post($in_same_term, $excluded_terms, true, $taxonomy);
 }
 
@@ -1801,7 +1841,8 @@ function get_previous_post($in_same_term = false, $excluded_terms = '', $taxonom
  * @return WP_Post|null|string Post object if successful. Null if global `$post` is not set.
  *                             Empty string if no corresponding post exists.
  */
-function get_next_post($in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function get_next_post($in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     return get_adjacent_post($in_same_term, $excluded_terms, false, $taxonomy);
 }
 
@@ -1824,7 +1865,8 @@ function get_next_post($in_same_term = false, $excluded_terms = '', $taxonomy = 
  * @return WP_Post|null|string Post object if successful. Null if global `$post` is not set.
  *                             Empty string if no corresponding post exists.
  */
-function get_adjacent_post($in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category') {
+function get_adjacent_post($in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category')
+{
     global $wpdb;
 
     $post = get_post();
@@ -2047,7 +2089,8 @@ function get_adjacent_post($in_same_term = false, $excluded_terms = '', $previou
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  * @return string|void The adjacent post relational link URL.
  */
-function get_adjacent_post_rel_link($title = '%title', $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category') {
+function get_adjacent_post_rel_link($title = '%title', $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category')
+{
     $post = get_post();
     if ($previous && is_attachment() && $post) {
         $post = get_post($post->post_parent);
@@ -2111,7 +2154,8 @@ function get_adjacent_post_rel_link($title = '%title', $in_same_term = false, $e
  *                                     Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  */
-function adjacent_posts_rel_link($title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function adjacent_posts_rel_link($title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     echo get_adjacent_post_rel_link($title, $in_same_term, $excluded_terms, true, $taxonomy);
     echo get_adjacent_post_rel_link($title, $in_same_term, $excluded_terms, false, $taxonomy);
 }
@@ -2127,7 +2171,8 @@ function adjacent_posts_rel_link($title = '%title', $in_same_term = false, $excl
  *
  * @see adjacent_posts_rel_link()
  */
-function adjacent_posts_rel_link_wp_head() {
+function adjacent_posts_rel_link_wp_head()
+{
     if (! is_single() || is_attachment()) {
         return;
     }
@@ -2148,7 +2193,8 @@ function adjacent_posts_rel_link_wp_head() {
  *                                     Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  */
-function next_post_rel_link($title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function next_post_rel_link($title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     echo get_adjacent_post_rel_link($title, $in_same_term, $excluded_terms, false, $taxonomy);
 }
 
@@ -2166,7 +2212,8 @@ function next_post_rel_link($title = '%title', $in_same_term = false, $excluded_
  *                                     Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  */
-function prev_post_rel_link($title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function prev_post_rel_link($title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     echo get_adjacent_post_rel_link($title, $in_same_term, $excluded_terms, true, $taxonomy);
 }
 
@@ -2187,7 +2234,8 @@ function prev_post_rel_link($title = '%title', $in_same_term = false, $excluded_
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  * @return array|null Array containing the boundary post object if successful, null otherwise.
  */
-function get_boundary_post($in_same_term = false, $excluded_terms = '', $start = true, $taxonomy = 'category') {
+function get_boundary_post($in_same_term = false, $excluded_terms = '', $start = true, $taxonomy = 'category')
+{
     $post = get_post();
 
     if (! $post || ! is_single() || is_attachment() || ! taxonomy_exists($taxonomy)) {
@@ -2252,7 +2300,8 @@ function get_boundary_post($in_same_term = false, $excluded_terms = '', $start =
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  * @return string The link URL of the previous post in relation to the current post.
  */
-function get_previous_post_link($format = '&laquo; %link', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function get_previous_post_link($format = '&laquo; %link', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     return get_adjacent_post_link($format, $link, $in_same_term, $excluded_terms, true, $taxonomy);
 }
 
@@ -2271,7 +2320,8 @@ function get_previous_post_link($format = '&laquo; %link', $link = '%title', $in
  *                                     Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  */
-function previous_post_link($format = '&laquo; %link', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function previous_post_link($format = '&laquo; %link', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     echo get_previous_post_link($format, $link, $in_same_term, $excluded_terms, $taxonomy);
 }
 
@@ -2289,7 +2339,8 @@ function previous_post_link($format = '&laquo; %link', $link = '%title', $in_sam
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  * @return string The link URL of the next post in relation to the current post.
  */
-function get_next_post_link($format = '%link &raquo;', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function get_next_post_link($format = '%link &raquo;', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     return get_adjacent_post_link($format, $link, $in_same_term, $excluded_terms, false, $taxonomy);
 }
 
@@ -2308,7 +2359,8 @@ function get_next_post_link($format = '%link &raquo;', $link = '%title', $in_sam
  *                                     Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  */
-function next_post_link($format = '%link &raquo;', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category') {
+function next_post_link($format = '%link &raquo;', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category')
+{
     echo get_next_post_link($format, $link, $in_same_term, $excluded_terms, $taxonomy);
 }
 
@@ -2330,7 +2382,8 @@ function next_post_link($format = '%link &raquo;', $link = '%title', $in_same_te
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  * @return string The link URL of the previous or next post in relation to the current post.
  */
-function get_adjacent_post_link($format, $link, $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category') {
+function get_adjacent_post_link($format, $link, $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category')
+{
     if ($previous && is_attachment()) {
         $post = get_post(get_post()->post_parent);
     } else {
@@ -2402,7 +2455,8 @@ function get_adjacent_post_link($format, $link, $in_same_term = false, $excluded
  *                                     Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if `$in_same_term` is true. Default 'category'.
  */
-function adjacent_post_link($format, $link, $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category') {
+function adjacent_post_link($format, $link, $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category')
+{
     echo get_adjacent_post_link($format, $link, $in_same_term, $excluded_terms, $previous, $taxonomy);
 }
 
@@ -2418,7 +2472,8 @@ function adjacent_post_link($format, $link, $in_same_term = false, $excluded_ter
  *                      If set to false, prepares the URL with sanitize_url(). Default true.
  * @return string The link URL for the given page number.
  */
-function get_pagenum_link($pagenum = 1, $escape = true) {
+function get_pagenum_link($pagenum = 1, $escape = true)
+{
     global $wp_rewrite;
 
     $pagenum = (int) $pagenum;
@@ -2505,7 +2560,8 @@ function get_pagenum_link($pagenum = 1, $escape = true) {
  * @param int $max_page Optional. Max pages. Default 0.
  * @return string|void The link URL for next posts page.
  */
-function get_next_posts_page_link($max_page = 0) {
+function get_next_posts_page_link($max_page = 0)
+{
     global $paged;
 
     if (! is_single()) {
@@ -2530,7 +2586,8 @@ function get_next_posts_page_link($max_page = 0) {
  * @param bool $display  Optional. Whether to echo the link. Default true.
  * @return string|void The link URL for next posts page if `$display = false`.
  */
-function next_posts($max_page = 0, $display = true) {
+function next_posts($max_page = 0, $display = true)
+{
     $link   = get_next_posts_page_link($max_page);
     $output = $link ? esc_url($link) : '';
 
@@ -2553,7 +2610,8 @@ function next_posts($max_page = 0, $display = true) {
  * @param int    $max_page Optional. Max pages. Default 0.
  * @return string|void HTML-formatted next posts page link.
  */
-function get_next_posts_link($label = null, $max_page = 0) {
+function get_next_posts_link($label = null, $max_page = 0)
+{
     global $paged, $wp_query;
 
     if (! $max_page) {
@@ -2597,7 +2655,8 @@ function get_next_posts_link($label = null, $max_page = 0) {
  * @param string $label    Content for link text.
  * @param int    $max_page Optional. Max pages. Default 0.
  */
-function next_posts_link($label = null, $max_page = 0) {
+function next_posts_link($label = null, $max_page = 0)
+{
     echo get_next_posts_link($label, $max_page);
 }
 
@@ -2614,7 +2673,8 @@ function next_posts_link($label = null, $max_page = 0) {
  *
  * @return string|void The link for the previous posts page.
  */
-function get_previous_posts_page_link() {
+function get_previous_posts_page_link()
+{
     global $paged;
 
     if (! is_single()) {
@@ -2636,7 +2696,8 @@ function get_previous_posts_page_link() {
  * @param bool $display Optional. Whether to echo the link. Default true.
  * @return string|void The previous posts page link if `$display = false`.
  */
-function previous_posts($display = true) {
+function previous_posts($display = true)
+{
     $output = esc_url(get_previous_posts_page_link());
 
     if ($display) {
@@ -2656,7 +2717,8 @@ function previous_posts($display = true) {
  * @param string $label Optional. Previous page link text.
  * @return string|void HTML-formatted previous page link.
  */
-function get_previous_posts_link($label = null) {
+function get_previous_posts_link($label = null)
+{
     global $paged;
 
     if (null === $label) {
@@ -2689,7 +2751,8 @@ function get_previous_posts_link($label = null) {
  *
  * @param string $label Optional. Previous page link text.
  */
-function previous_posts_link($label = null) {
+function previous_posts_link($label = null)
+{
     echo get_previous_posts_link($label);
 }
 
@@ -2711,7 +2774,8 @@ function previous_posts_link($label = null) {
  * }
  * @return string The posts link navigation.
  */
-function get_posts_nav_link($args = array()) {
+function get_posts_nav_link($args = array())
+{
     global $wp_query;
 
     $return = '';
@@ -2750,7 +2814,8 @@ function get_posts_nav_link($args = array()) {
  * @param string $prelabel Optional. Label for previous pages. Default empty.
  * @param string $nxtlabel Optional Label for next pages. Default empty.
  */
-function posts_nav_link($sep = '', $prelabel = '', $nxtlabel = '') {
+function posts_nav_link($sep = '', $prelabel = '', $nxtlabel = '')
+{
     $args = array_filter(compact('sep', 'prelabel', 'nxtlabel'));
     echo get_posts_nav_link($args);
 }
@@ -2782,7 +2847,8 @@ function posts_nav_link($sep = '', $prelabel = '', $nxtlabel = '') {
  * }
  * @return string Markup for post links.
  */
-function get_the_post_navigation($args = array()) {
+function get_the_post_navigation($args = array())
+{
     // Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
     if (! empty($args['screen_reader_text']) && empty($args['aria_label'])) {
         $args['aria_label'] = $args['screen_reader_text'];
@@ -2836,7 +2902,8 @@ function get_the_post_navigation($args = array()) {
  * @param array $args Optional. See get_the_post_navigation() for available arguments.
  *                    Default empty array.
  */
-function the_post_navigation($args = array()) {
+function the_post_navigation($args = array())
+{
     echo get_the_post_navigation($args);
 }
 
@@ -2863,7 +2930,8 @@ function the_post_navigation($args = array()) {
  * }
  * @return string Markup for posts links.
  */
-function get_the_posts_navigation($args = array()) {
+function get_the_posts_navigation($args = array())
+{
     global $wp_query;
 
     $navigation = '';
@@ -2911,7 +2979,8 @@ function get_the_posts_navigation($args = array()) {
  * @param array $args Optional. See get_the_posts_navigation() for available arguments.
  *                    Default empty array.
  */
-function the_posts_navigation($args = array()) {
+function the_posts_navigation($args = array())
+{
     echo get_the_posts_navigation($args);
 }
 
@@ -2934,7 +3003,8 @@ function the_posts_navigation($args = array()) {
  * }
  * @return string Markup for pagination links.
  */
-function get_the_posts_pagination($args = array()) {
+function get_the_posts_pagination($args = array())
+{
     global $wp_query;
 
     $navigation = '';
@@ -2998,7 +3068,8 @@ function get_the_posts_pagination($args = array()) {
  * @param array $args Optional. See get_the_posts_pagination() for available arguments.
  *                    Default empty array.
  */
-function the_posts_pagination($args = array()) {
+function the_posts_pagination($args = array())
+{
     echo get_the_posts_pagination($args);
 }
 
@@ -3018,7 +3089,8 @@ function the_posts_pagination($args = array()) {
  *                                   Defaults to the value of `$screen_reader_text`.
  * @return string Navigation template tag.
  */
-function _navigation_markup($links, $css_class = 'posts-navigation', $screen_reader_text = '', $aria_label = '') {
+function _navigation_markup($links, $css_class = 'posts-navigation', $screen_reader_text = '', $aria_label = '')
+{
     if (empty($screen_reader_text)) {
         $screen_reader_text = /* translators: Hidden accessibility text. */ __('Posts navigation');
     }
@@ -3066,7 +3138,8 @@ function _navigation_markup($links, $css_class = 'posts-navigation', $screen_rea
  * @param int $max_page Optional. The maximum number of comment pages. Default 0.
  * @return string The comments page number link URL.
  */
-function get_comments_pagenum_link($pagenum = 1, $max_page = 0) {
+function get_comments_pagenum_link($pagenum = 1, $max_page = 0)
+{
     global $wp_rewrite;
 
     $pagenum  = (int) $pagenum;
@@ -3115,7 +3188,8 @@ function get_comments_pagenum_link($pagenum = 1, $max_page = 0) {
  * @param int|null $page     Optional. Page number. Default null.
  * @return string|void HTML-formatted link for the next page of comments.
  */
-function get_next_comments_link($label = '', $max_page = 0, $page = null) {
+function get_next_comments_link($label = '', $max_page = 0, $page = null)
+{
     global $wp_query;
 
     if (! is_singular()) {
@@ -3173,7 +3247,8 @@ function get_next_comments_link($label = '', $max_page = 0, $page = null) {
  * @param string $label    Optional. Label for link text. Default empty.
  * @param int    $max_page Optional. Max page. Default 0.
  */
-function next_comments_link($label = '', $max_page = 0) {
+function next_comments_link($label = '', $max_page = 0)
+{
     echo get_next_comments_link($label, $max_page);
 }
 
@@ -3187,7 +3262,8 @@ function next_comments_link($label = '', $max_page = 0) {
  * @param int|null $page  Optional. Page number. Default null.
  * @return string|void HTML-formatted link for the previous page of comments.
  */
-function get_previous_comments_link($label = '', $page = null) {
+function get_previous_comments_link($label = '', $page = null)
+{
     if (! is_singular()) {
         return;
     }
@@ -3230,7 +3306,8 @@ function get_previous_comments_link($label = '', $page = null) {
  *
  * @param string $label Optional. Label for comments link text. Default empty.
  */
-function previous_comments_link($label = '') {
+function previous_comments_link($label = '')
+{
     echo get_previous_comments_link($label);
 }
 
@@ -3248,7 +3325,8 @@ function previous_comments_link($label = '') {
  *                           Otherwise, markup for comment page links or array of comment page links,
  *                           depending on 'type' argument.
  */
-function paginate_comments_links($args = array()) {
+function paginate_comments_links($args = array())
+{
     global $wp_rewrite;
 
     if (! is_singular()) {
@@ -3303,7 +3381,8 @@ function paginate_comments_links($args = array()) {
  * }
  * @return string Markup for comments links.
  */
-function get_the_comments_navigation($args = array()) {
+function get_the_comments_navigation($args = array())
+{
     $navigation = '';
 
     // Are there comments to navigate through?
@@ -3348,7 +3427,8 @@ function get_the_comments_navigation($args = array()) {
  *
  * @param array $args See get_the_comments_navigation() for available arguments. Default empty array.
  */
-function the_comments_navigation($args = array()) {
+function the_comments_navigation($args = array())
+{
     echo get_the_comments_navigation($args);
 }
 
@@ -3370,7 +3450,8 @@ function the_comments_navigation($args = array()) {
  * }
  * @return string Markup for pagination links.
  */
-function get_the_comments_pagination($args = array()) {
+function get_the_comments_pagination($args = array())
+{
     $navigation = '';
 
     // Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
@@ -3409,7 +3490,8 @@ function get_the_comments_pagination($args = array()) {
  *
  * @param array $args See get_the_comments_pagination() for available arguments. Default empty array.
  */
-function the_comments_pagination($args = array()) {
+function the_comments_pagination($args = array())
+{
     echo get_the_comments_pagination($args);
 }
 
@@ -3427,7 +3509,8 @@ function the_comments_pagination($args = array()) {
  *                            'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
  */
-function home_url($path = '', $scheme = null) {
+function home_url($path = '', $scheme = null)
+{
     return get_home_url(null, $path, $scheme);
 }
 
@@ -3446,7 +3529,8 @@ function home_url($path = '', $scheme = null) {
  *                             'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
  */
-function get_home_url($blog_id = null, $path = '', $scheme = null) {
+function get_home_url($blog_id = null, $path = '', $scheme = null)
+{
     $orig_scheme = $scheme;
 
     if (empty($blog_id) || ! is_multisite()) {
@@ -3499,7 +3583,8 @@ function get_home_url($blog_id = null, $path = '', $scheme = null) {
  * @param string|null $scheme Optional. Scheme to give the site URL context. See set_url_scheme().
  * @return string Site URL link with optional path appended.
  */
-function site_url($path = '', $scheme = null) {
+function site_url($path = '', $scheme = null)
+{
     return get_site_url(null, $path, $scheme);
 }
 
@@ -3520,7 +3605,8 @@ function site_url($path = '', $scheme = null) {
  *                             'relative'. Default null.
  * @return string Site URL link with optional path appended.
  */
-function get_site_url($blog_id = null, $path = '', $scheme = null) {
+function get_site_url($blog_id = null, $path = '', $scheme = null)
+{
     if (empty($blog_id) || ! is_multisite()) {
         $url = get_option('siteurl');
     } else {
@@ -3559,7 +3645,8 @@ function get_site_url($blog_id = null, $path = '', $scheme = null) {
  *                       'http' or 'https' can be passed to force those schemes.
  * @return string Admin URL link with optional path appended.
  */
-function admin_url($path = '', $scheme = 'admin') {
+function admin_url($path = '', $scheme = 'admin')
+{
     return get_admin_url(null, $path, $scheme);
 }
 
@@ -3575,7 +3662,8 @@ function admin_url($path = '', $scheme = 'admin') {
  *                          force_ssl_admin() and is_ssl().
  * @return string Admin URL link with optional path appended.
  */
-function get_admin_url($blog_id = null, $path = '', $scheme = 'admin') {
+function get_admin_url($blog_id = null, $path = '', $scheme = 'admin')
+{
     $url = get_site_url($blog_id, 'wp-admin/', $scheme);
 
     if ($path && is_string($path)) {
@@ -3607,7 +3695,8 @@ function get_admin_url($blog_id = null, $path = '', $scheme = 'admin') {
  *                            'http', 'https', or 'relative'. Default null.
  * @return string Includes URL link with optional path appended.
  */
-function includes_url($path = '', $scheme = null) {
+function includes_url($path = '', $scheme = null)
+{
     $url = site_url('/' . WPINC . '/', $scheme);
 
     if ($path && is_string($path)) {
@@ -3637,7 +3726,8 @@ function includes_url($path = '', $scheme = null) {
  * @param string $path Optional. Path relative to the content URL. Default empty.
  * @return string Content URL link with optional path appended.
  */
-function content_url($path = '') {
+function content_url($path = '')
+{
     $url = set_url_scheme(WP_CONTENT_URL);
 
     if ($path && is_string($path)) {
@@ -3670,7 +3760,8 @@ function content_url($path = '') {
  *                       Typically this is done by passing `__FILE__` as the argument.
  * @return string Plugins URL link with optional paths appended.
  */
-function plugins_url($path = '', $plugin = '') {
+function plugins_url($path = '', $plugin = '')
+{
 
     $path          = wp_normalize_path($path);
     $plugin        = wp_normalize_path($plugin);
@@ -3725,7 +3816,8 @@ function plugins_url($path = '', $plugin = '') {
  *                            'http', 'https', or 'relative'. Default null.
  * @return string Site URL link with optional path appended.
  */
-function network_site_url($path = '', $scheme = null) {
+function network_site_url($path = '', $scheme = null)
+{
     if (! is_multisite()) {
         return site_url($path, $scheme);
     }
@@ -3770,7 +3862,8 @@ function network_site_url($path = '', $scheme = null) {
  *                            'http', 'https', or 'relative'. Default null.
  * @return string Home URL link with optional path appended.
  */
-function network_home_url($path = '', $scheme = null) {
+function network_home_url($path = '', $scheme = null)
+{
     if (! is_multisite()) {
         return home_url($path, $scheme);
     }
@@ -3816,7 +3909,8 @@ function network_home_url($path = '', $scheme = null) {
  *                       and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin URL link with optional path appended.
  */
-function network_admin_url($path = '', $scheme = 'admin') {
+function network_admin_url($path = '', $scheme = 'admin')
+{
     if (! is_multisite()) {
         return admin_url($path, $scheme);
     }
@@ -3852,7 +3946,8 @@ function network_admin_url($path = '', $scheme = 'admin') {
  *                       and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin URL link with optional path appended.
  */
-function user_admin_url($path = '', $scheme = 'admin') {
+function user_admin_url($path = '', $scheme = 'admin')
+{
     $url = network_site_url('wp-admin/user/', $scheme);
 
     if ($path && is_string($path)) {
@@ -3884,7 +3979,8 @@ function user_admin_url($path = '', $scheme = 'admin') {
  *                       and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin URL link with optional path appended.
  */
-function self_admin_url($path = '', $scheme = 'admin') {
+function self_admin_url($path = '', $scheme = 'admin')
+{
     if (is_network_admin()) {
         $url = network_admin_url($path, $scheme);
     } elseif (is_user_admin()) {
@@ -3916,7 +4012,8 @@ function self_admin_url($path = '', $scheme = 'admin') {
  *                            'login_post', 'admin', 'relative', 'rest', 'rpc', or null. Default null.
  * @return string URL with chosen scheme.
  */
-function set_url_scheme($url, $scheme = null) {
+function set_url_scheme($url, $scheme = null)
+{
     $orig_scheme = $scheme;
 
     if (! $scheme) {
@@ -3970,7 +4067,8 @@ function set_url_scheme($url, $scheme = null) {
  *                        and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Dashboard URL link with optional path appended.
  */
-function get_dashboard_url($user_id = 0, $path = '', $scheme = 'admin') {
+function get_dashboard_url($user_id = 0, $path = '', $scheme = 'admin')
+{
     $user_id = $user_id ? (int) $user_id : get_current_user_id();
 
     $blogs = get_blogs_of_user($user_id);
@@ -4018,7 +4116,8 @@ function get_dashboard_url($user_id = 0, $path = '', $scheme = 'admin') {
  *                        and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Dashboard URL link with optional path appended.
  */
-function get_edit_profile_url($user_id = 0, $scheme = 'admin') {
+function get_edit_profile_url($user_id = 0, $scheme = 'admin')
+{
     $user_id = $user_id ? (int) $user_id : get_current_user_id();
 
     if (is_user_admin()) {
@@ -4054,7 +4153,8 @@ function get_edit_profile_url($user_id = 0, $scheme = 'admin') {
  * @return string|false The canonical URL. False if the post does not exist
  *                      or has not been published yet.
  */
-function wp_get_canonical_url($post = null) {
+function wp_get_canonical_url($post = null)
+{
     $post = get_post($post);
 
     if (! $post) {
@@ -4101,7 +4201,8 @@ function wp_get_canonical_url($post = null) {
  * @since 2.9.0
  * @since 4.6.0 Adjusted to use `wp_get_canonical_url()`.
  */
-function rel_canonical() {
+function rel_canonical()
+{
     if (! is_singular()) {
         return;
     }
@@ -4139,7 +4240,8 @@ function rel_canonical() {
  * @return string A shortlink or an empty string if no shortlink exists for the requested resource or if shortlinks
  *                are not enabled.
  */
-function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
+function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true)
+{
     /**
      * Filters whether to preempt generating a shortlink for the given post.
      *
@@ -4205,7 +4307,8 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
  *
  * @since 3.0.0
  */
-function wp_shortlink_wp_head() {
+function wp_shortlink_wp_head()
+{
     $shortlink = wp_get_shortlink(0, 'query');
 
     if (empty($shortlink)) {
@@ -4222,7 +4325,8 @@ function wp_shortlink_wp_head() {
  *
  * @since 3.0.0
  */
-function wp_shortlink_header() {
+function wp_shortlink_header()
+{
     if (headers_sent()) {
         return;
     }
@@ -4250,7 +4354,8 @@ function wp_shortlink_header() {
  * @param string $before Optional HTML to display before the link. Default empty.
  * @param string $after  Optional HTML to display after the link. Default empty.
  */
-function the_shortlink($text = '', $title = '', $before = '', $after = '') {
+function the_shortlink($text = '', $title = '', $before = '', $after = '')
+{
     $post = get_post();
 
     if (empty($text)) {
@@ -4319,7 +4424,8 @@ function the_shortlink($text = '', $title = '', $before = '', $after = '') {
  * }
  * @return string|false The URL of the avatar on success, false on failure.
  */
-function get_avatar_url($id_or_email, $args = null) {
+function get_avatar_url($id_or_email, $args = null)
+{
     $args = get_avatar_data($id_or_email, $args);
     return $args['url'];
 }
@@ -4332,7 +4438,8 @@ function get_avatar_url($id_or_email, $args = null) {
  * @param string $comment_type Comment type to check.
  * @return bool Whether the comment type is allowed for retrieving avatars.
  */
-function is_avatar_comment_type($comment_type) {
+function is_avatar_comment_type($comment_type)
+{
     /**
      * Filters the list of allowed comment types for retrieving avatars.
      *
@@ -4397,7 +4504,8 @@ function is_avatar_comment_type($comment_type) {
  *     @type string|false $url          The URL of the avatar that was found, or false.
  * }
  */
-function get_avatar_data($id_or_email, $args = null) {
+function get_avatar_data($id_or_email, $args = null)
+{
     $args = wp_parse_args(
         $args,
         array(
@@ -4590,7 +4698,8 @@ function get_avatar_data($id_or_email, $args = null) {
  * @param string $file Optional. File to search for in the stylesheet directory.
  * @return string The URL of the file.
  */
-function get_theme_file_uri($file = '') {
+function get_theme_file_uri($file = '')
+{
     $file = ltrim($file, '/');
 
     $stylesheet_directory = get_stylesheet_directory();
@@ -4622,7 +4731,8 @@ function get_theme_file_uri($file = '') {
  * @param string $file Optional. File to return the URL for in the template directory.
  * @return string The URL of the file.
  */
-function get_parent_theme_file_uri($file = '') {
+function get_parent_theme_file_uri($file = '')
+{
     $file = ltrim($file, '/');
 
     if (empty($file)) {
@@ -4653,7 +4763,8 @@ function get_parent_theme_file_uri($file = '') {
  * @param string $file Optional. File to search for in the stylesheet directory.
  * @return string The path of the file.
  */
-function get_theme_file_path($file = '') {
+function get_theme_file_path($file = '')
+{
     $file = ltrim($file, '/');
 
     $stylesheet_directory = get_stylesheet_directory();
@@ -4686,7 +4797,8 @@ function get_theme_file_path($file = '') {
  * @param string $file Optional. File to return the path for in the template directory.
  * @return string The path of the file.
  */
-function get_parent_theme_file_path($file = '') {
+function get_parent_theme_file_path($file = '')
+{
     $file = ltrim($file, '/');
 
     if (empty($file)) {
@@ -4713,7 +4825,8 @@ function get_parent_theme_file_path($file = '') {
  *
  * @return string The URL to the privacy policy page. Empty string if it doesn't exist.
  */
-function get_privacy_policy_url() {
+function get_privacy_policy_url()
+{
     $url            = '';
     $policy_page_id = (int) get_option('wp_page_for_privacy_policy');
 
@@ -4741,7 +4854,8 @@ function get_privacy_policy_url() {
  * @param string $before Optional. Display before privacy policy link. Default empty.
  * @param string $after  Optional. Display after privacy policy link. Default empty.
  */
-function the_privacy_policy_link($before = '', $after = '') {
+function the_privacy_policy_link($before = '', $after = '')
+{
     echo get_the_privacy_policy_link($before, $after);
 }
 
@@ -4756,7 +4870,8 @@ function the_privacy_policy_link($before = '', $after = '') {
  * @return string Markup for the link and surrounding elements. Empty string if it
  *                doesn't exist.
  */
-function get_the_privacy_policy_link($before = '', $after = '') {
+function get_the_privacy_policy_link($before = '', $after = '')
+{
     $link               = '';
     $privacy_policy_url = get_privacy_policy_url();
     $policy_page_id     = (int) get_option('wp_page_for_privacy_policy');
@@ -4806,7 +4921,8 @@ function get_the_privacy_policy_link($before = '', $after = '') {
  *
  * @return string[] An array of URL hosts.
  */
-function wp_internal_hosts() {
+function wp_internal_hosts()
+{
     static $internal_hosts;
 
     if (empty($internal_hosts)) {
@@ -4841,7 +4957,8 @@ function wp_internal_hosts() {
  * @param string $link The URL to test.
  * @return bool Returns true for internal URLs and false for all other URLs.
  */
-function wp_is_internal_link($link) {
+function wp_is_internal_link($link)
+{
     $link = strtolower($link);
     if (in_array(wp_parse_url($link, PHP_URL_SCHEME), wp_allowed_protocols(), true)) {
         return in_array(wp_parse_url($link, PHP_URL_HOST), wp_internal_hosts(), true);

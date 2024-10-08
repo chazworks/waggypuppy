@@ -5,7 +5,8 @@
  *
  * @covers ::get_block_templates
  */
-class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
+class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase
+{
 
     const TEST_THEME = 'block-theme';
 
@@ -24,7 +25,8 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      */
     private static $small_header_template_part;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         /*
          * This template has to have the same ID ("block-theme/index") as the template
          * that is shipped with the "block-theme" theme. This is needed for testing purposes.
@@ -83,13 +85,15 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
         wp_set_post_terms(self::$small_header_template_part->ID, self::TEST_THEME, 'wp_theme');
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         wp_delete_post(self::$index_template->ID);
         wp_delete_post(self::$custom_single_post_template->ID);
         wp_delete_post(self::$small_header_template_part->ID);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme(self::TEST_THEME);
     }
@@ -100,7 +104,8 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      * @param object[] $templates Array of template objects to parse.
      * @return string[] The template IDs.
      */
-    private function get_template_ids($templates) {
+    private function get_template_ids($templates)
+    {
         return array_map(
             static function ($template) {
                 return $template->id;
@@ -112,7 +117,8 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
     /**
      * Should retrieve block templates (file and CPT)
      */
-    public function test_get_block_templates() {
+    public function test_get_block_templates()
+    {
         // All results.
         $templates    = get_block_templates(array(), 'wp_template');
         $template_ids = $this->get_template_ids($templates);
@@ -154,7 +160,8 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      * @param string $original_template_id ID (slug) of the default entity.
      * @param string $error_message        An error message to display if the test fails.
      */
-    public function test_get_block_templates_returns_unique_entities($template_type, $original_template_id, $error_message) {
+    public function test_get_block_templates_returns_unique_entities($template_type, $original_template_id, $error_message)
+    {
         $original_template = _get_block_template_file($template_type, $original_template_id);
         $this->assertNotEmpty($original_template, 'An original (non-duplicate) template must exist for this test to work correctly.');
 
@@ -170,7 +177,8 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_get_block_templates_returns_unique_entities() {
+    public function data_get_block_templates_returns_unique_entities()
+    {
         return array(
             'wp_template template type'      => array(
                 'template_type'        => 'wp_template',
@@ -193,7 +201,8 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      * @param string $post_type Post type for query.
      * @param array  $expected  Expected template IDs.
      */
-    public function test_get_block_templates_should_respect_posttypes_property($post_type, $expected) {
+    public function test_get_block_templates_should_respect_posttypes_property($post_type, $expected)
+    {
         $templates = get_block_templates(array('post_type' => $post_type));
 
         $this->assertSameSets(
@@ -210,7 +219,8 @@ class Tests_Blocks_GetBlockTemplates extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_get_block_templates_should_respect_posttypes_property() {
+    public function data_get_block_templates_should_respect_posttypes_property()
+    {
         return array(
             'post' => array(
                 'post_type' => 'post',

@@ -6,14 +6,16 @@
  *
  * @covers ::wp_prime_network_option_caches
  */
-class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase {
+class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
+{
 
     /**
      * @var int|WP_Error
      */
     private static $different_network_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         if (is_multisite()) {
             self::$different_network_id = $factory->network->create(
                 array(
@@ -29,7 +31,8 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase {
      *
      * @ticket 61053
      */
-    public function test_wp_prime_network_option_caches() {
+    public function test_wp_prime_network_option_caches()
+    {
         // Create some options to prime.
         $network_id = get_current_network_id();
         if (is_multisite()) {
@@ -95,7 +98,8 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase {
      *
      * @ticket 61053
      */
-    public function test_wp_prime_network_option_caches_run_twice() {
+    public function test_wp_prime_network_option_caches_run_twice()
+    {
         // Create some options to prime.
         $network_id = get_current_network_id();
         if (is_multisite()) {
@@ -154,7 +158,8 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase {
      *
      * @ticket 61053
      */
-    public function test_wp_prime_network_option_caches_handles_a_mix_of_primed_and_unprimed_options() {
+    public function test_wp_prime_network_option_caches_handles_a_mix_of_primed_and_unprimed_options()
+    {
         // Create some options to prime.
         $options_to_prime = array(
             'option1',
@@ -228,7 +233,8 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase {
      *
      * @ticket 61053
      */
-    public function test_wp_prime_network_option_caches_no_exists_cache() {
+    public function test_wp_prime_network_option_caches_no_exists_cache()
+    {
         $options_to_prime = array(
             'option1',
             'option2',
@@ -250,7 +256,8 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase {
      *
      * @ticket 61053
      */
-    public function test_wp_prime_network_option_caches_multiple_networks() {
+    public function test_wp_prime_network_option_caches_multiple_networks()
+    {
         $network_id  = get_current_network_id();
         $cache_group = 'site-options';
 

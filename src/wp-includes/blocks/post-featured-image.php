@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the featured image for the current post.
  */
-function render_block_core_post_featured_image($attributes, $content, $block) {
+function render_block_core_post_featured_image($attributes, $content, $block)
+{
     if (! isset($block->context['postId'])) {
         return '';
     }
@@ -140,7 +141,8 @@ function render_block_core_post_featured_image($attributes, $content, $block) {
  *
  * @return string HTML markup in string format.
  */
-function get_block_core_post_featured_image_overlay_element_markup($attributes) {
+function get_block_core_post_featured_image_overlay_element_markup($attributes)
+{
     $has_dim_background  = isset($attributes['dimRatio']) && $attributes['dimRatio'];
     $has_gradient        = isset($attributes['gradient']) && $attributes['gradient'];
     $has_custom_gradient = isset($attributes['customGradient']) && $attributes['customGradient'];
@@ -207,7 +209,8 @@ function get_block_core_post_featured_image_overlay_element_markup($attributes) 
  * @param array $attributes The block attributes.
  * @return array The border-related classnames and styles for the block.
  */
-function get_block_core_post_featured_image_border_attributes($attributes) {
+function get_block_core_post_featured_image_border_attributes($attributes)
+{
     $border_styles = array();
     $sides         = array('top', 'right', 'bottom', 'left');
 
@@ -257,7 +260,8 @@ function get_block_core_post_featured_image_border_attributes($attributes) {
  *
  * @since 5.8.0
  */
-function register_block_core_post_featured_image() {
+function register_block_core_post_featured_image()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-featured-image',
         array(

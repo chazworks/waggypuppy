@@ -4,13 +4,15 @@
  * @group l10n
  * @group i18n
  */
-class Tests_Locale extends WP_UnitTestCase {
+class Tests_Locale extends WP_UnitTestCase
+{
     /**
      * @var WP_Locale
      */
     protected $locale;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->locale = new WP_Locale();
     }
@@ -22,7 +24,8 @@ class Tests_Locale extends WP_UnitTestCase {
      *
      * @param string $name Property name to test.
      */
-    public function test_property_initializes_to_array($name) {
+    public function test_property_initializes_to_array($name)
+    {
         $this->assertIsArray($this->locale->$name, "WP_Locale::{$name} property should be an array");
 
         // Test a custom implementation when `init()` is not invoked in the constructor.
@@ -35,7 +38,8 @@ class Tests_Locale extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_property_initializes_to_array() {
+    public function data_property_initializes_to_array()
+    {
         return array(
             'weekday'         => array('weekday'),
             'weekday_initial' => array('weekday_initial'),
@@ -51,7 +55,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::get_weekday
      */
-    public function test_get_weekday() {
+    public function test_get_weekday()
+    {
         $this->assertSame(__('Sunday'), $this->locale->get_weekday(0));
         $this->assertSame(__('Monday'), $this->locale->get_weekday(1));
         $this->assertSame(__('Tuesday'), $this->locale->get_weekday(2));
@@ -64,7 +69,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::get_weekday
      */
-    public function test_get_weekday_undefined_index() {
+    public function test_get_weekday_undefined_index()
+    {
         if (PHP_VERSION_ID >= 80000) {
             $this->expectWarning();
         } else {
@@ -77,7 +83,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::get_weekday_initial
      */
-    public function test_get_weekday_initial() {
+    public function test_get_weekday_initial()
+    {
         $this->assertSame(__('S'), $this->locale->get_weekday_initial(__('Sunday')));
         $this->assertSame(__('M'), $this->locale->get_weekday_initial(__('Monday')));
         $this->assertSame(__('T'), $this->locale->get_weekday_initial(__('Tuesday')));
@@ -90,7 +97,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::get_weekday_abbrev
      */
-    public function test_get_weekday_abbrev() {
+    public function test_get_weekday_abbrev()
+    {
         $this->assertSame(__('Sun'), $this->locale->get_weekday_abbrev(__('Sunday')));
         $this->assertSame(__('Mon'), $this->locale->get_weekday_abbrev(__('Monday')));
         $this->assertSame(__('Tue'), $this->locale->get_weekday_abbrev(__('Tuesday')));
@@ -103,7 +111,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::get_month
      */
-    public function test_get_month() {
+    public function test_get_month()
+    {
         $this->assertSame(__('January'), $this->locale->get_month(1));
         $this->assertSame(__('February'), $this->locale->get_month(2));
         $this->assertSame(__('March'), $this->locale->get_month(3));
@@ -121,7 +130,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::get_month
      */
-    public function test_get_month_leading_zero() {
+    public function test_get_month_leading_zero()
+    {
         $this->assertSame(__('January'), $this->locale->get_month('01'));
         $this->assertSame(__('February'), $this->locale->get_month('02'));
         $this->assertSame(__('March'), $this->locale->get_month('03'));
@@ -136,7 +146,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::get_month_abbrev
      */
-    public function test_get_month_abbrev() {
+    public function test_get_month_abbrev()
+    {
         $this->assertSame(__('Jan'), $this->locale->get_month_abbrev(__('January')));
         $this->assertSame(__('Feb'), $this->locale->get_month_abbrev(__('February')));
         $this->assertSame(__('Mar'), $this->locale->get_month_abbrev(__('March')));
@@ -154,7 +165,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::get_meridiem
      */
-    public function test_get_meridiem() {
+    public function test_get_meridiem()
+    {
         $this->assertSame(__('am'), $this->locale->get_meridiem('am'));
         $this->assertSame(__('AM'), $this->locale->get_meridiem('AM'));
         $this->assertSame(__('pm'), $this->locale->get_meridiem('pm'));
@@ -164,7 +176,8 @@ class Tests_Locale extends WP_UnitTestCase {
     /**
      * @covers WP_Locale::is_rtl
      */
-    public function test_is_rtl() {
+    public function test_is_rtl()
+    {
         $this->assertFalse($this->locale->is_rtl());
         $this->locale->text_direction = 'foo';
         $this->assertFalse($this->locale->is_rtl());
@@ -187,7 +200,8 @@ class Tests_Locale extends WP_UnitTestCase {
      * @param string $word_count_type The word count type.
      * @param string $expected        The expected return value.
      */
-    public function test_get_word_count_type($word_count_type, $expected) {
+    public function test_get_word_count_type($word_count_type, $expected)
+    {
         if (is_string($word_count_type)) {
             $this->locale->word_count_type = $word_count_type;
 
@@ -201,7 +215,8 @@ class Tests_Locale extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_word_count_type() {
+    public function data_get_word_count_type()
+    {
         return array(
             'default'                   => array(
                 'word_count_type' => null,
@@ -231,8 +246,10 @@ class Tests_Locale extends WP_UnitTestCase {
     }
 }
 
-class Custom_WP_Locale extends WP_Locale {
-    public function __construct() {
+class Custom_WP_Locale extends WP_Locale
+{
+    public function __construct()
+    {
         // Do not initialize to test property initialization.
         // $this->init();
         $this->register_globals();

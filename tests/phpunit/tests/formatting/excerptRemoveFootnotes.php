@@ -6,7 +6,8 @@
  * @covers ::excerpt_remove_footnotes
  */
 
-class Tests_Formatting_ExcerptRemoveFootnotes extends WP_UnitTestCase {
+class Tests_Formatting_ExcerptRemoveFootnotes extends WP_UnitTestCase
+{
     /**
      * @ticket 58805
      *
@@ -15,7 +16,8 @@ class Tests_Formatting_ExcerptRemoveFootnotes extends WP_UnitTestCase {
      * @param string $expected Expected output.
      * @param string $content  Content to run strip_shortcodes() on.
      */
-    public function test_remove_footnotes($expected, $content) {
+    public function test_remove_footnotes($expected, $content)
+    {
         $this->assertSame($expected, excerpt_remove_footnotes($content));
     }
 
@@ -24,7 +26,8 @@ class Tests_Formatting_ExcerptRemoveFootnotes extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_remove_footnotes() {
+    public function data_remove_footnotes()
+    {
         return array(
             'no footnote'                         => array(
                 'expected' => '<p>This is a paragraph<sup class="fn" id="1"><a href="#1" id="1a">1</a></sup>.</p>',

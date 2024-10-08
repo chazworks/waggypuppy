@@ -1,6 +1,7 @@
 <?php
 
-abstract class WP_Import_UnitTestCase extends WP_UnitTestCase {
+abstract class WP_Import_UnitTestCase extends WP_UnitTestCase
+{
     /**
      * Import a WXR file.
      *
@@ -20,7 +21,8 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase {
      * @param array $users User import settings
      * @param bool $fetch_files Whether or not do download remote attachments
      */
-    protected function _import_wp($filename, $users = array(), $fetch_files = true) {
+    protected function _import_wp($filename, $users = array(), $fetch_files = true)
+    {
         $importer = new WP_Import();
         $file     = realpath($filename);
 

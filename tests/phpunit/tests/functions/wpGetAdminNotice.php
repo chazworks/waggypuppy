@@ -7,7 +7,8 @@
  *
  * @covers ::wp_get_admin_notice
  */
-class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
+class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase
+{
 
     /**
      * Tests that `wp_get_admin_notice()` returns the expected admin notice markup.
@@ -20,7 +21,8 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
      * @param array  $args     Arguments for the admin notice.
      * @param string $expected The expected admin notice markup.
      */
-    public function test_should_return_admin_notice($message, $args, $expected) {
+    public function test_should_return_admin_notice($message, $args, $expected)
+    {
         $this->assertSame($expected, wp_get_admin_notice($message, $args));
     }
 
@@ -29,7 +31,8 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_return_admin_notice() {
+    public function data_should_return_admin_notice()
+    {
         return array(
             'defaults'                                  => array(
                 'message'  => 'A notice with defaults.',
@@ -284,7 +287,8 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage wp_get_admin_notice
      */
-    public function test_should_throw_doing_it_wrong_with_a_type_containing_spaces() {
+    public function test_should_throw_doing_it_wrong_with_a_type_containing_spaces()
+    {
         $this->assertSame(
             '<div class="notice notice-first second third fourth"><p>A type containing spaces.</p></div>',
             wp_get_admin_notice(
@@ -303,7 +307,8 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
      *
      * @param string $hook_name The name of the filter hook.
      */
-    public function test_should_apply_filters($hook_name) {
+    public function test_should_apply_filters($hook_name)
+    {
         $filter = new MockAction();
         add_filter($hook_name, array($filter, 'filter'));
 
@@ -317,7 +322,8 @@ class Tests_Functions_WpGetAdminNotice extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_apply_filters() {
+    public function data_should_apply_filters()
+    {
         return array(
             'wp_admin_notice_args'   => array('hook_name' => 'wp_admin_notice_args'),
             'wp_admin_notice_markup' => array('hook_name' => 'wp_admin_notice_markup'),

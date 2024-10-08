@@ -4,7 +4,8 @@
  *
  * @group themes
  */
-class Tests_Template extends WP_UnitTestCase {
+class Tests_Template extends WP_UnitTestCase
+{
 
     protected $hierarchy = array();
 
@@ -22,7 +23,8 @@ class Tests_Template extends WP_UnitTestCase {
      */
     protected static $page_for_privacy_policy;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$page_on_front = $factory->post->create_and_get(
             array(
                 'post_type' => 'page',
@@ -63,7 +65,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         register_post_type(
             'cpt',
@@ -82,7 +85,8 @@ class Tests_Template extends WP_UnitTestCase {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unregister_post_type('cpt');
         unregister_taxonomy('taxo');
         $this->set_permalink_structure('');
@@ -90,7 +94,8 @@ class Tests_Template extends WP_UnitTestCase {
     }
 
 
-    public function test_404_template_hierarchy() {
+    public function test_404_template_hierarchy()
+    {
         $url = add_query_arg(
             array(
                 'p' => '-1',
@@ -106,7 +111,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_author_template_hierarchy() {
+    public function test_author_template_hierarchy()
+    {
         $author = self::factory()->user->create_and_get(
             array(
                 'user_nicename' => 'foo',
@@ -124,7 +130,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_category_template_hierarchy() {
+    public function test_category_template_hierarchy()
+    {
         $term = self::factory()->term->create_and_get(
             array(
                 'taxonomy' => 'category',
@@ -144,7 +151,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_tag_template_hierarchy() {
+    public function test_tag_template_hierarchy()
+    {
         $term = self::factory()->term->create_and_get(
             array(
                 'taxonomy' => 'post_tag',
@@ -164,7 +172,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_taxonomy_template_hierarchy() {
+    public function test_taxonomy_template_hierarchy()
+    {
         $term = self::factory()->term->create_and_get(
             array(
                 'taxonomy' => 'taxo',
@@ -184,7 +193,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_date_template_hierarchy_for_year() {
+    public function test_date_template_hierarchy_for_year()
+    {
         $this->assertTemplateHierarchy(
             get_year_link(1984),
             array(
@@ -194,7 +204,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_date_template_hierarchy_for_month() {
+    public function test_date_template_hierarchy_for_month()
+    {
         $this->assertTemplateHierarchy(
             get_month_link(1984, 2),
             array(
@@ -204,7 +215,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_date_template_hierarchy_for_day() {
+    public function test_date_template_hierarchy_for_day()
+    {
         $this->assertTemplateHierarchy(
             get_day_link(1984, 2, 25),
             array(
@@ -214,7 +226,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_search_template_hierarchy() {
+    public function test_search_template_hierarchy()
+    {
         $url = add_query_arg(
             array(
                 's' => 'foo',
@@ -230,7 +243,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_front_page_template_hierarchy_with_posts_on_front() {
+    public function test_front_page_template_hierarchy_with_posts_on_front()
+    {
         $this->assertSame('posts', get_option('show_on_front'));
         $this->assertTemplateHierarchy(
             home_url(),
@@ -242,7 +256,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_front_page_template_hierarchy_with_page_on_front() {
+    public function test_front_page_template_hierarchy_with_page_on_front()
+    {
         update_option('show_on_front', 'page');
         update_option('page_on_front', self::$page_on_front->ID);
         update_option('page_for_posts', self::$page_for_posts->ID);
@@ -260,7 +275,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_home_template_hierarchy_with_page_on_front() {
+    public function test_home_template_hierarchy_with_page_on_front()
+    {
         update_option('show_on_front', 'page');
         update_option('page_on_front', self::$page_on_front->ID);
         update_option('page_for_posts', self::$page_for_posts->ID);
@@ -274,7 +290,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_page_template_hierarchy() {
+    public function test_page_template_hierarchy()
+    {
         $this->assertTemplateHierarchy(
             get_permalink(self::$page),
             array(
@@ -292,7 +309,8 @@ class Tests_Template extends WP_UnitTestCase {
      * @ticket 44005
      * @group privacy
      */
-    public function test_privacy_template_hierarchy() {
+    public function test_privacy_template_hierarchy()
+    {
         update_option('wp_page_for_privacy_policy', self::$page_for_privacy_policy->ID);
 
         $this->assertTemplateHierarchy(
@@ -310,7 +328,8 @@ class Tests_Template extends WP_UnitTestCase {
     /**
      * @ticket 18375
      */
-    public function test_single_template_hierarchy_for_post() {
+    public function test_single_template_hierarchy_for_post()
+    {
         $this->assertTemplateHierarchy(
             get_permalink(self::$post),
             array(
@@ -324,7 +343,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_single_template_hierarchy_for_custom_post_type() {
+    public function test_single_template_hierarchy_for_custom_post_type()
+    {
         $cpt = self::factory()->post->create_and_get(
             array(
                 'post_type' => 'cpt',
@@ -347,7 +367,8 @@ class Tests_Template extends WP_UnitTestCase {
     /**
      * @ticket 18375
      */
-    public function test_single_template_hierarchy_for_custom_post_type_with_template() {
+    public function test_single_template_hierarchy_for_custom_post_type_with_template()
+    {
         $cpt = self::factory()->post->create_and_get(
             array(
                 'post_type' => 'cpt',
@@ -369,7 +390,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_attachment_template_hierarchy() {
+    public function test_attachment_template_hierarchy()
+    {
         $attachment = self::factory()->attachment->create_and_get(
             array(
                 'post_name'      => 'attachment-name-😀',
@@ -396,7 +418,8 @@ class Tests_Template extends WP_UnitTestCase {
     /**
      * @ticket 18375
      */
-    public function test_attachment_template_hierarchy_with_template() {
+    public function test_attachment_template_hierarchy_with_template()
+    {
         $attachment = self::factory()->attachment->create_and_get(
             array(
                 'post_name'      => 'attachment-name-😀',
@@ -423,7 +446,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_embed_template_hierarchy_for_post() {
+    public function test_embed_template_hierarchy_for_post()
+    {
         $this->assertTemplateHierarchy(
             get_post_embed_url(self::$post),
             array(
@@ -440,7 +464,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    public function test_embed_template_hierarchy_for_page() {
+    public function test_embed_template_hierarchy_for_page()
+    {
         $this->assertTemplateHierarchy(
             get_post_embed_url(self::$page),
             array(
@@ -463,7 +488,8 @@ class Tests_Template extends WP_UnitTestCase {
      *
      * @covers ::locate_template
      */
-    public function test_locate_template_uses_current_theme() {
+    public function test_locate_template_uses_current_theme()
+    {
         $themes = wp_get_themes();
 
         // Look for parent themes with an index.php template.
@@ -494,14 +520,16 @@ class Tests_Template extends WP_UnitTestCase {
         $this->assertSame($new_theme->get_stylesheet_directory() . '/index.php', locate_template($template_names), 'Incorrect index template found in theme after switch.');
     }
 
-    public function assertTemplateHierarchy($url, array $expected, $message = '') {
+    public function assertTemplateHierarchy($url, array $expected, $message = '')
+    {
         $this->go_to($url);
         $hierarchy = $this->get_template_hierarchy();
 
         $this->assertSame($expected, $hierarchy, $message);
     }
 
-    protected static function get_query_template_conditions() {
+    protected static function get_query_template_conditions()
+    {
         return array(
             'embed'             => 'is_embed',
             '404'               => 'is_404',
@@ -524,7 +552,8 @@ class Tests_Template extends WP_UnitTestCase {
         );
     }
 
-    protected function get_template_hierarchy() {
+    protected function get_template_hierarchy()
+    {
         foreach (self::get_query_template_conditions() as $type => $condition) {
 
             if (call_user_func($condition)) {
@@ -539,7 +568,8 @@ class Tests_Template extends WP_UnitTestCase {
         return $hierarchy;
     }
 
-    public function log_template_hierarchy(array $hierarchy) {
+    public function log_template_hierarchy(array $hierarchy)
+    {
         $this->hierarchy = array_merge($this->hierarchy, $hierarchy);
         return $hierarchy;
     }

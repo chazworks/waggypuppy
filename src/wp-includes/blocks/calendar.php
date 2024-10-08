@@ -17,7 +17,8 @@
  *
  * @return string Returns the block content.
  */
-function render_block_core_calendar($attributes) {
+function render_block_core_calendar($attributes)
+{
     global $monthnum, $year;
 
     // Calendar shouldn't be rendered
@@ -83,7 +84,8 @@ function render_block_core_calendar($attributes) {
  *
  * @since 5.2.0
  */
-function register_block_core_calendar() {
+function register_block_core_calendar()
+{
     register_block_type_from_metadata(
         __DIR__ . '/calendar',
         array(
@@ -104,7 +106,8 @@ add_action('init', 'register_block_core_calendar');
  *
  * @return bool Has any published posts or not.
  */
-function block_core_calendar_has_published_posts() {
+function block_core_calendar_has_published_posts()
+{
     // Multisite already has an option that stores the count of the published posts.
     // Let's use that for multisites.
     if (is_multisite()) {
@@ -131,7 +134,8 @@ function block_core_calendar_has_published_posts() {
  *
  * @return bool Has any published posts or not.
  */
-function block_core_calendar_update_has_published_posts() {
+function block_core_calendar_update_has_published_posts()
+{
     global $wpdb;
     $has_published_posts = (bool) $wpdb->get_var("SELECT 1 as test FROM {$wpdb->posts} WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
     update_option('wp_calendar_block_has_published_posts', $has_published_posts);
@@ -148,7 +152,8 @@ if (! is_multisite()) {
      *
      * @param int $post_id Deleted post ID.
      */
-    function block_core_calendar_update_has_published_post_on_delete($post_id) {
+    function block_core_calendar_update_has_published_post_on_delete($post_id)
+    {
         $post = get_post($post_id);
 
         if (! $post || 'publish' !== $post->post_status || 'post' !== $post->post_type) {
@@ -167,7 +172,8 @@ if (! is_multisite()) {
      * @param string  $old_status The status the post is changing from.
      * @param WP_Post $post       Post object.
      */
-    function block_core_calendar_update_has_published_post_on_transition_post_status($new_status, $old_status, $post) {
+    function block_core_calendar_update_has_published_post_on_transition_post_status($new_status, $old_status, $post)
+    {
         if ($new_status === $old_status) {
             return;
         }

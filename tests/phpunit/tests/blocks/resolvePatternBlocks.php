@@ -10,8 +10,10 @@
  * @group blocks
  * @covers resolve_pattern_blocks
  */
-class Tests_Blocks_ResolvePatternBlocks extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_Blocks_ResolvePatternBlocks extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
 
         register_block_pattern(
@@ -32,7 +34,8 @@ class Tests_Blocks_ResolvePatternBlocks extends WP_UnitTestCase {
         );
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unregister_block_pattern('core/test');
         unregister_block_pattern('core/recursive');
 
@@ -47,7 +50,8 @@ class Tests_Blocks_ResolvePatternBlocks extends WP_UnitTestCase {
      * @param string $blocks   A string representing blocks that need resolving.
      * @param string $expected Expected result.
      */
-    public function test_should_resolve_pattern_blocks_as_expected($blocks, $expected) {
+    public function test_should_resolve_pattern_blocks_as_expected($blocks, $expected)
+    {
         $actual = resolve_pattern_blocks(parse_blocks($blocks));
         $this->assertSame($expected, serialize_blocks($actual));
     }
@@ -57,7 +61,8 @@ class Tests_Blocks_ResolvePatternBlocks extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_resolve_pattern_blocks_as_expected() {
+    public function data_should_resolve_pattern_blocks_as_expected()
+    {
         return array(
             // Works without attributes, leaves the block as is.
             'pattern with no slug attribute' => array('<!-- wp:pattern /-->', '<!-- wp:pattern /-->'),

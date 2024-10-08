@@ -25,7 +25,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post comments for the current post wrapped inside "p" tags.
  */
-function render_block_core_comments($attributes, $content, $block) {
+function render_block_core_comments($attributes, $content, $block)
+{
     global $post;
 
     $post_id = $block->context['postId'];
@@ -90,7 +91,8 @@ function render_block_core_comments($attributes, $content, $block) {
  *
  * @since 6.1.0
  */
-function register_block_core_comments() {
+function register_block_core_comments()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comments',
         array(
@@ -110,7 +112,8 @@ add_action('init', 'register_block_core_comments');
  *
  * @return array Returns the modified fields.
  */
-function comments_block_form_defaults($fields) {
+function comments_block_form_defaults($fields)
+{
     if (wp_is_block_theme()) {
         $fields['submit_button'] = '<input name="%1$s" type="submit" id="%2$s" class="%3$s wp-block-button__link ' . wp_theme_get_element_class_name('button') . '" value="%4$s" />';
         $fields['submit_field']  = '<p class="form-submit wp-block-button">%1$s %2$s</p>';
@@ -128,7 +131,8 @@ add_filter('comment_form_defaults', 'comments_block_form_defaults');
  *
  * @param string $block_name Name of the new block type.
  */
-function enqueue_legacy_post_comments_block_styles($block_name) {
+function enqueue_legacy_post_comments_block_styles($block_name)
+{
     static $are_styles_enqueued = false;
 
     if (! $are_styles_enqueued) {
@@ -156,7 +160,8 @@ function enqueue_legacy_post_comments_block_styles($block_name) {
  * @see https://github.com/WordPress/gutenberg/pull/41807
  * @see https://github.com/WordPress/gutenberg/pull/32514
  */
-function register_legacy_post_comments_block() {
+function register_legacy_post_comments_block()
+{
     $registry = WP_Block_Type_Registry::get_instance();
 
     /*

@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Block_Types_Controller extends WP_REST_Controller {
+class WP_REST_Block_Types_Controller extends WP_REST_Controller
+{
 
     const NAME_PATTERN = '^[a-z][a-z0-9-]*/[a-z][a-z0-9-]*$';
 
@@ -39,7 +40,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      *
      * @since 5.5.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace      = 'wp/v2';
         $this->rest_base      = 'block-types';
         $this->block_registry = WP_Block_Type_Registry::get_instance();
@@ -53,7 +55,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
 
         register_rest_route(
             $this->namespace,
@@ -118,7 +121,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         return $this->check_read_permission();
     }
 
@@ -130,7 +134,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $data        = array();
         $block_types = $this->block_registry->get_all_registered();
 
@@ -164,7 +169,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         $check = $this->check_read_permission();
         if (is_wp_error($check)) {
             return $check;
@@ -185,7 +191,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      *
      * @return true|WP_Error True if the block type is visible, WP_Error otherwise.
      */
-    protected function check_read_permission() {
+    protected function check_read_permission()
+    {
         if (current_user_can('edit_posts')) {
             return true;
         }
@@ -206,7 +213,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      * @param string $name Block name.
      * @return WP_Block_Type|WP_Error Block type object if name is valid, WP_Error otherwise.
      */
-    protected function get_block($name) {
+    protected function get_block($name)
+    {
         $block_type = $this->block_registry->get_registered($name);
         if (empty($block_type)) {
             return new WP_Error('rest_block_type_invalid', __('Invalid block type.'), array('status' => 404));
@@ -223,7 +231,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $block_name = sprintf('%s/%s', $request['namespace'], $request['name']);
         $block_type = $this->get_block($block_name);
         if (is_wp_error($block_type)) {
@@ -246,7 +255,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response Block type data.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $block_type = $item;
 
@@ -357,7 +367,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      * @param WP_Block_Type $block_type Block type data.
      * @return array Links for the given block type.
      */
-    protected function prepare_links($block_type) {
+    protected function prepare_links($block_type)
+    {
         list( $namespace ) = explode('/', $block_type->name);
 
         $links = array(
@@ -393,7 +404,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -815,7 +827,8 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         return array(
             'context'   => $this->get_context_param(array('default' => 'view')),
             'namespace' => array(

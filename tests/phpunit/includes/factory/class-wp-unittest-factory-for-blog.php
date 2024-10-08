@@ -10,9 +10,11 @@
  * @method WP_Site|WP_Error create_and_get( $args = array(), $generation_definitions = null )
  * @method (int|WP_Error)[] create_many( $count, $args = array(), $generation_definitions = null )
  */
-class WP_UnitTest_Factory_For_Blog extends WP_UnitTest_Factory_For_Thing {
+class WP_UnitTest_Factory_For_Blog extends WP_UnitTest_Factory_For_Thing
+{
 
-    public function __construct($factory = null) {
+    public function __construct($factory = null)
+    {
         global $current_site, $base;
         parent::__construct($factory);
         $this->default_generation_definitions = array(
@@ -30,7 +32,8 @@ class WP_UnitTest_Factory_For_Blog extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The site ID on success, WP_Error object on failure.
      */
-    public function create_object($args) {
+    public function create_object($args)
+    {
         global $wpdb;
 
         // Map some arguments for backward compatibility with `wpmu_create_blog()` previously used here.
@@ -74,7 +77,8 @@ class WP_UnitTest_Factory_For_Blog extends WP_UnitTest_Factory_For_Thing {
      * @param int   $blog_id ID of the site to update.
      * @param array $fields  The fields to update.
      */
-    public function update_object($blog_id, $fields) {}
+    public function update_object($blog_id, $fields)
+    {}
 
     /**
      * Retrieves a site by a given ID.
@@ -83,7 +87,8 @@ class WP_UnitTest_Factory_For_Blog extends WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_Site|null The site object on success, null on failure.
      */
-    public function get_object_by_id($blog_id) {
+    public function get_object_by_id($blog_id)
+    {
         return get_site($blog_id);
     }
 }

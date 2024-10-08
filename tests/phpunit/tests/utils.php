@@ -5,12 +5,14 @@
  *
  * @group testsuite
  */
-class Tests_Utils extends WP_UnitTestCase {
+class Tests_Utils extends WP_UnitTestCase
+{
 
     /**
      * @covers ::strip_ws
      */
-    public function test_strip_ws() {
+    public function test_strip_ws()
+    {
         $this->assertSame('', strip_ws(''));
         $this->assertSame('foo', strip_ws('foo'));
         $this->assertSame('', strip_ws("\r\n\t  \n\r\t"));
@@ -39,7 +41,8 @@ class Tests_Utils extends WP_UnitTestCase {
     /**
      * @covers ::mask_input_value
      */
-    public function test_mask_input_value() {
+    public function test_mask_input_value()
+    {
         $in = <<<EOF
 <h2>Assign Authors</h2>
 <p>To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as <code>admin</code>s entries.</p>

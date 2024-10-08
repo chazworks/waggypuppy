@@ -5,13 +5,16 @@
  * @group formatting
  * @group redirect
  */
-class Tests_Formatting_Redirect extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_Formatting_Redirect extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
         add_filter('home_url', array($this, 'home_url'));
     }
 
-    public function home_url() {
+    public function home_url()
+    {
         return 'http://example.com/';
     }
 
@@ -25,13 +28,15 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase {
      * @param string $location The path or URL to redirect to.
      * @param int    $status   HTTP response status code to use.
      */
-    public function test_wp_redirect_bad_status_code($location, $status) {
+    public function test_wp_redirect_bad_status_code($location, $status)
+    {
         $this->expectException('WPDieException');
 
         wp_redirect($location, $status);
     }
 
-    public function data_wp_redirect_bad_status_code() {
+    public function data_wp_redirect_bad_status_code()
+    {
         return array(
             // Tests for bad arguments.
             array('/wp-admin', 404),
@@ -46,7 +51,8 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase {
     /**
      * @covers ::wp_sanitize_redirect
      */
-    public function test_wp_sanitize_redirect() {
+    public function test_wp_sanitize_redirect()
+    {
         $this->assertSame('http://example.com/watchthelinefeedgo', wp_sanitize_redirect('http://example.com/watchthelinefeed%0Ago'));
         $this->assertSame('http://example.com/watchthelinefeedgo', wp_sanitize_redirect('http://example.com/watchthelinefeed%0ago'));
         $this->assertSame('http://example.com/watchthecarriagereturngo', wp_sanitize_redirect('http://example.com/watchthecarriagereturn%0Dgo'));
@@ -67,7 +73,8 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase {
      *
      * @covers ::wp_sanitize_redirect
      */
-    public function test_wp_sanitize_redirect_should_encode_spaces() {
+    public function test_wp_sanitize_redirect_should_encode_spaces()
+    {
         $this->assertSame('http://example.com/test%20spaces', wp_sanitize_redirect('http://example.com/test%20spaces'));
         $this->assertSame('http://example.com/test%20spaces%20in%20url', wp_sanitize_redirect('http://example.com/test spaces in url'));
     }
@@ -80,11 +87,13 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase {
      * @param string $url      Redirect requested.
      * @param string $expected Expected destination.
      */
-    public function test_wp_validate_redirect_valid_url($url, $expected) {
+    public function test_wp_validate_redirect_valid_url($url, $expected)
+    {
         $this->assertSame($expected, wp_validate_redirect($url));
     }
 
-    public function data_wp_validate_redirect_valid_url() {
+    public function data_wp_validate_redirect_valid_url()
+    {
         return array(
             array('http://example.com', 'http://example.com'),
             array('http://example.com/', 'http://example.com/'),
@@ -108,11 +117,13 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase {
      * @param string       $url      Redirect requested.
      * @param string|false $expected Optional. Expected destination. Default false.
      */
-    public function test_wp_validate_redirect_invalid_url($url, $expected = false) {
+    public function test_wp_validate_redirect_invalid_url($url, $expected = false)
+    {
         $this->assertSame($expected, wp_validate_redirect($url, false));
     }
 
-    public function data_wp_validate_redirect_invalid_url() {
+    public function data_wp_validate_redirect_invalid_url()
+    {
         return array(
             // parse_url() fails.
             array('', ''),
@@ -190,7 +201,8 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase {
      * @param string $url         Redirect requested.
      * @param string $expected    Expected destination.
      */
-    public function test_wp_validate_redirect_relative_url($current_uri, $url, $expected) {
+    public function test_wp_validate_redirect_relative_url($current_uri, $url, $expected)
+    {
         // Backup the global.
         $unset = false;
         if (! isset($_SERVER['REQUEST_URI'])) {
@@ -221,7 +233,8 @@ class Tests_Formatting_Redirect extends WP_UnitTestCase {
      *      string Expected destination.
      * }
      */
-    public function data_wp_validate_redirect_relative_url() {
+    public function data_wp_validate_redirect_relative_url()
+    {
         return array(
             array(
                 '/',

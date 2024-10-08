@@ -16,7 +16,8 @@
  *
  * @return string|false Base domain if network exists, otherwise false.
  */
-function network_domain_check() {
+function network_domain_check()
+{
     global $wpdb;
 
     $sql = $wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($wpdb->site));
@@ -32,7 +33,8 @@ function network_domain_check() {
  * @since 3.0.0
  * @return bool Whether subdomain installation is allowed
  */
-function allow_subdomain_install() {
+function allow_subdomain_install()
+{
     $home   = get_option('home');
     $domain = parse_url($home, PHP_URL_HOST);
     if (parse_url($home, PHP_URL_PATH) || 'localhost' === $domain || preg_match('|^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$|', $domain)) {
@@ -51,7 +53,8 @@ function allow_subdomain_install() {
  *
  * @return bool Whether subdirectory installation is allowed
  */
-function allow_subdirectory_install() {
+function allow_subdirectory_install()
+{
     global $wpdb;
 
     /**
@@ -84,7 +87,8 @@ function allow_subdirectory_install() {
  * @since 3.0.0
  * @return string Base domain.
  */
-function get_clean_basedomain() {
+function get_clean_basedomain()
+{
     $existing_domain = network_domain_check();
     if ($existing_domain) {
         return $existing_domain;
@@ -110,7 +114,8 @@ function get_clean_basedomain() {
  *
  * @param false|WP_Error $errors Optional. Error object. Default false.
  */
-function network_step1($errors = false) {
+function network_step1($errors = false)
+{
     global $is_apache;
 
     if (defined('DO_NOT_UPGRADE_GLOBAL_TABLES')) {
@@ -406,7 +411,8 @@ function network_step1($errors = false) {
  *
  * @param false|WP_Error $errors Optional. Error object. Default false.
  */
-function network_step2($errors = false) {
+function network_step2($errors = false)
+{
     global $wpdb, $is_nginx;
 
     $hostname          = get_clean_basedomain();

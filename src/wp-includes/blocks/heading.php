@@ -21,7 +21,8 @@
  *
  * @return string The content of the block being rendered.
  */
-function block_core_heading_render($attributes, $content) {
+function block_core_heading_render($attributes, $content)
+{
     if (! $content) {
         return $content;
     }
@@ -44,7 +45,8 @@ function block_core_heading_render($attributes, $content) {
  *
  * @since 6.2.0
  */
-function register_block_core_heading() {
+function register_block_core_heading()
+{
     register_block_type_from_metadata(
         __DIR__ . '/heading',
         array(

@@ -5,7 +5,8 @@
  *
  * @coversNothing
  */
-class Tests_Pluggable_Signatures extends WP_UnitTestCase {
+class Tests_Pluggable_Signatures extends WP_UnitTestCase
+{
 
     /**
      * Tests that the signatures of all functions in pluggable.php match their expected signature.
@@ -15,7 +16,8 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
      *
      * @dataProvider get_defined_pluggable_functions
      */
-    public function test_pluggable_function_signatures_match($function_name) {
+    public function test_pluggable_function_signatures_match($function_name)
+    {
 
         $signatures = $this->get_pluggable_function_signatures();
 
@@ -55,7 +57,8 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
      * @ticket 33654
      * @ticket 33867
      */
-    public function test_all_pluggable_functions_exist() {
+    public function test_all_pluggable_functions_exist()
+    {
 
         $defined  = wp_list_pluck($this->get_defined_pluggable_functions(), 0);
         $expected = $this->get_pluggable_function_signatures();
@@ -72,7 +75,8 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
      *
      * @return array Data provider array of pluggable function names.
      */
-    public function get_defined_pluggable_functions() {
+    public function get_defined_pluggable_functions()
+    {
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
@@ -118,7 +122,8 @@ class Tests_Pluggable_Signatures extends WP_UnitTestCase {
      *
      * @return array Array of signatures keyed by their function name.
      */
-    public function get_pluggable_function_signatures() {
+    public function get_pluggable_function_signatures()
+    {
 
         $signatures = array(
 

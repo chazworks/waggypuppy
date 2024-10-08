@@ -4,11 +4,13 @@
  * @group rewrite
  * @ticket 5305
  */
-class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
+class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase
+{
     private $old_current_user;
     private $author_id;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->author_id = self::factory()->user->create(array('role' => 'editor'));
 
@@ -16,7 +18,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         add_filter('wp_unique_post_slug', array($this, 'filter_unique_post_slug'), 10, 6);
     }
 
-    public function test_go_to_year_segment_collision_without_title() {
+    public function test_go_to_year_segment_collision_without_title()
+    {
         global $wpdb;
         $this->set_permalink_structure('/%postname%/');
 
@@ -46,7 +49,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_url_to_postid_year_segment_collision_without_title() {
+    public function test_url_to_postid_year_segment_collision_without_title()
+    {
         global $wpdb;
         $this->set_permalink_structure('/%postname%/');
 
@@ -74,7 +78,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertSame(2015, url_to_postid(get_permalink('2015')));
     }
 
-    public function test_go_to_year_segment_collision_with_title() {
+    public function test_go_to_year_segment_collision_with_title()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         $id = self::factory()->post->create(
@@ -92,7 +97,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_url_to_postid_year_segment_collision_with_title() {
+    public function test_url_to_postid_year_segment_collision_with_title()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         $id = self::factory()->post->create(
@@ -108,7 +114,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertSame($id, url_to_postid(get_permalink($id)));
     }
 
-    public function test_go_to_month_segment_collision_without_title() {
+    public function test_go_to_month_segment_collision_without_title()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -127,7 +134,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_url_to_postid_month_segment_collision_without_title() {
+    public function test_url_to_postid_month_segment_collision_without_title()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -144,7 +152,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertSame($id, url_to_postid(get_permalink($id)));
     }
 
-    public function test_go_to_month_segment_collision_without_title_no_leading_zero() {
+    public function test_go_to_month_segment_collision_without_title_no_leading_zero()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -163,7 +172,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_url_to_postid_month_segment_collision_without_title_no_leading_zero() {
+    public function test_url_to_postid_month_segment_collision_without_title_no_leading_zero()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -180,7 +190,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertSame($id, url_to_postid(get_permalink($id)));
     }
 
-    public function test_go_to_month_segment_collision_with_title() {
+    public function test_go_to_month_segment_collision_with_title()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -198,7 +209,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_url_to_postid_month_segment_collision_with_title() {
+    public function test_url_to_postid_month_segment_collision_with_title()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -214,7 +226,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertSame($id, url_to_postid(get_permalink($id)));
     }
 
-    public function test_go_to_month_segment_collision_with_title_no_leading_zero() {
+    public function test_go_to_month_segment_collision_with_title_no_leading_zero()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -232,7 +245,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_url_to_postid_month_segment_collision_with_title_no_leading_zero() {
+    public function test_url_to_postid_month_segment_collision_with_title_no_leading_zero()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -248,7 +262,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertSame($id, url_to_postid(get_permalink($id)));
     }
 
-    public function test_go_to_day_segment_collision_without_title() {
+    public function test_go_to_day_segment_collision_without_title()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -267,7 +282,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_url_to_postid_day_segment_collision_without_title() {
+    public function test_url_to_postid_day_segment_collision_without_title()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -284,7 +300,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertSame($id, url_to_postid(get_permalink($id)));
     }
 
-    public function test_go_to_day_segment_collision_with_title() {
+    public function test_go_to_day_segment_collision_with_title()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -302,7 +319,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_url_to_postid_day_segment_collision_with_title() {
+    public function test_url_to_postid_day_segment_collision_with_title()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -318,7 +336,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertSame($id, url_to_postid(get_permalink($id)));
     }
 
-    public function test_numeric_slug_permalink_conflicts_should_only_be_resolved_for_the_main_query() {
+    public function test_numeric_slug_permalink_conflicts_should_only_be_resolved_for_the_main_query()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -343,7 +362,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertFalse($q->is_single);
     }
 
-    public function test_month_slug_collision_should_resolve_to_date_archive_when_year_does_not_match_post_year() {
+    public function test_month_slug_collision_should_resolve_to_date_archive_when_year_does_not_match_post_year()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         // Make sure a post is published in 2013/02, to avoid 404s.
@@ -375,7 +395,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertTrue(is_month());
     }
 
-    public function test_day_slug_collision_should_resolve_to_date_archive_when_monthnum_does_not_match_post_month() {
+    public function test_day_slug_collision_should_resolve_to_date_archive_when_monthnum_does_not_match_post_month()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         // Make sure a post is published on 2015/01/01, to avoid 404s.
@@ -407,7 +428,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertTrue(is_day());
     }
 
-    public function test_date_slug_collision_should_distinguish_valid_pagination_from_date() {
+    public function test_date_slug_collision_should_distinguish_valid_pagination_from_date()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -425,7 +447,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertFalse(is_day());
     }
 
-    public function test_date_slug_collision_should_distinguish_too_high_pagination_from_date() {
+    public function test_date_slug_collision_should_distinguish_too_high_pagination_from_date()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -443,7 +466,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertTrue(is_day());
     }
 
-    public function test_date_slug_collision_should_not_require_pagination_query_var() {
+    public function test_date_slug_collision_should_not_require_pagination_query_var()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -462,7 +486,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertFalse(is_date());
     }
 
-    public function test_date_slug_collision_should_be_ignored_when_pagination_var_is_present_but_post_does_not_have_multiple_pages() {
+    public function test_date_slug_collision_should_be_ignored_when_pagination_var_is_present_but_post_does_not_have_multiple_pages()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $id = self::factory()->post->create(
@@ -480,7 +505,8 @@ class Tests_Rewrite_NumericSlugs extends WP_UnitTestCase {
         $this->assertTrue(is_day());
     }
 
-    public function filter_unique_post_slug($slug, $post_id, $post_status, $post_type, $post_parent, $original_slug) {
+    public function filter_unique_post_slug($slug, $post_id, $post_status, $post_type, $post_parent, $original_slug)
+    {
         return $original_slug;
     }
 }

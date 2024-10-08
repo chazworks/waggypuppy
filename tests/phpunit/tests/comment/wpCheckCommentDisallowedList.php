@@ -5,9 +5,11 @@
  *
  * @covers ::wp_check_comment_disallowed_list
  */
-class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
+class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase
+{
 
-    public function test_should_return_true_when_content_matches_disallowed_keys() {
+    public function test_should_return_true_when_content_matches_disallowed_keys()
+    {
         $author       = 'Sting';
         $author_email = 'sting@example.com';
         $author_url   = 'http://example.com';
@@ -25,7 +27,8 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
     /**
      * @ticket 37208
      */
-    public function test_should_return_true_when_content_with_html_matches_disallowed_keys() {
+    public function test_should_return_true_when_content_with_html_matches_disallowed_keys()
+    {
         $author       = 'Sting';
         $author_email = 'sting@example.com';
         $author_url   = 'http://example.com';
@@ -43,7 +46,8 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
     /**
      * @ticket 57207
      */
-    public function test_should_return_true_when_content_with_non_latin_words_matches_disallowed_keys() {
+    public function test_should_return_true_when_content_with_non_latin_words_matches_disallowed_keys()
+    {
         $author       = 'Setup';
         $author_email = 'setup@example.com';
         $author_url   = 'http://example.com';
@@ -58,7 +62,8 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $this->assertTrue($result);
     }
 
-    public function test_should_return_true_when_author_matches_disallowed_keys() {
+    public function test_should_return_true_when_author_matches_disallowed_keys()
+    {
         $author       = 'Sideshow Mel';
         $author_email = 'mel@example.com';
         $author_url   = 'http://example.com';
@@ -73,7 +78,8 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $this->assertTrue($result);
     }
 
-    public function test_should_return_true_when_url_matches_disallowed_keys() {
+    public function test_should_return_true_when_url_matches_disallowed_keys()
+    {
         $author       = 'Rainier Wolfcastle';
         $author_email = 'rainier@wolfcastle.com';
         $author_url   = 'http://example.com';
@@ -91,7 +97,8 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
     /**
      * @ticket 37208
      */
-    public function test_should_return_true_when_link_matches_disallowed_keys() {
+    public function test_should_return_true_when_link_matches_disallowed_keys()
+    {
         $author       = 'Rainier Wolfcastle';
         $author_email = 'rainier@wolfcastle.com';
         $author_url   = 'http://example.com';
@@ -106,7 +113,8 @@ class Tests_Comment_wpCheckCommentDisallowedList extends WP_UnitTestCase {
         $this->assertTrue($result);
     }
 
-    public function test_should_return_false_when_no_match() {
+    public function test_should_return_false_when_no_match()
+    {
         $author       = 'Krusty the Clown';
         $author_email = 'krusty@example.com';
         $author_url   = 'http://example.com';

@@ -6,16 +6,19 @@
  * @covers ::hash_hmac
  * @covers ::_hash_hmac
  */
-class Tests_Compat_hashHmac extends WP_UnitTestCase {
+class Tests_Compat_hashHmac extends WP_UnitTestCase
+{
 
     /**
      * Test that hash_hmac() is always available (either from PHP or WP).
      */
-    public function test_hash_hmac_availability() {
+    public function test_hash_hmac_availability()
+    {
         $this->assertTrue(function_exists('hash_hmac'));
     }
 
-    public function test_hash_hmac_simple() {
+    public function test_hash_hmac_simple()
+    {
         $data = 'simple';
         $key  = 'key';
 
@@ -31,7 +34,8 @@ class Tests_Compat_hashHmac extends WP_UnitTestCase {
         );
     }
 
-    public function test_hash_hmac_padding() {
+    public function test_hash_hmac_padding()
+    {
         $data = 'simple';
         $key  = '65 character key 65 character key 65 character key 65 character k';
 
@@ -47,7 +51,8 @@ class Tests_Compat_hashHmac extends WP_UnitTestCase {
         );
     }
 
-    public function test_hash_hmac_output() {
+    public function test_hash_hmac_output()
+    {
         $data = 'simple';
         $key  = 'key';
 

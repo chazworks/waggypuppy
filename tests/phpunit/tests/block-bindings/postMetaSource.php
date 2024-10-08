@@ -9,7 +9,8 @@
  * @group blocks
  * @group block-bindings
  */
-class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
+class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase
+{
     protected static $post;
     protected static $wp_meta_keys_saved;
 
@@ -18,7 +19,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @param string $content The new content.
      */
-    private function get_modified_post_content($content) {
+    private function get_modified_post_content($content)
+    {
         $GLOBALS['post']->post_content = $content;
         return apply_filters('the_content', $GLOBALS['post']->post_content);
     }
@@ -26,7 +28,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
     /**
      * Sets up shared fixtures.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post               = $factory->post->create_and_get();
         self::$wp_meta_keys_saved = isset($GLOBALS['wp_meta_keys']) ? $GLOBALS['wp_meta_keys'] : array();
     }
@@ -34,7 +37,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
     /**
      * Tear down after class.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         $GLOBALS['wp_meta_keys'] = self::$wp_meta_keys_saved;
     }
 
@@ -43,7 +47,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @since 6.5.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         // Needed because tear_down() will reset it between tests.
         $GLOBALS['post'] = self::$post;
@@ -54,7 +59,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_custom_field_value_is_rendered() {
+    public function test_custom_field_value_is_rendered()
+    {
         register_meta(
             'post',
             'tests_custom_field',
@@ -79,7 +85,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_html_attribute_connected_to_custom_field_value_is_rendered() {
+    public function test_html_attribute_connected_to_custom_field_value_is_rendered()
+    {
         register_meta(
             'post',
             'tests_url_custom_field',
@@ -104,7 +111,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_custom_field_value_is_not_shown_in_password_protected_posts() {
+    public function test_custom_field_value_is_not_shown_in_password_protected_posts()
+    {
         register_meta(
             'post',
             'tests_custom_field',
@@ -134,7 +142,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_custom_field_value_is_not_shown_in_non_viewable_posts() {
+    public function test_custom_field_value_is_not_shown_in_non_viewable_posts()
+    {
         register_meta(
             'post',
             'tests_custom_field',
@@ -164,7 +173,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_binding_to_non_existing_meta_key() {
+    public function test_binding_to_non_existing_meta_key()
+    {
         $content = $this->get_modified_post_content('<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta","args":{"key":"tests_non_existing_field"}}}}} --><p>Fallback value</p><!-- /wp:paragraph -->');
 
         $this->assertSame(
@@ -179,7 +189,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_binding_without_key_renders_the_fallback() {
+    public function test_binding_without_key_renders_the_fallback()
+    {
         $content = $this->get_modified_post_content('<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"core/post-meta"}}}} --><p>Fallback value</p><!-- /wp:paragraph -->');
 
         $this->assertSame(
@@ -194,7 +205,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_protected_field_value_is_not_shown() {
+    public function test_protected_field_value_is_not_shown()
+    {
         register_meta(
             'post',
             '_tests_protected_field',
@@ -220,7 +232,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_custom_field_not_exposed_in_rest_api_is_not_shown() {
+    public function test_custom_field_not_exposed_in_rest_api_is_not_shown()
+    {
         register_meta(
             'post',
             'tests_show_in_rest_false_field',
@@ -246,7 +259,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 60651
      */
-    public function test_custom_field_with_unsafe_html_is_sanitized() {
+    public function test_custom_field_with_unsafe_html_is_sanitized()
+    {
         register_meta(
             'post',
             'tests_unsafe_html_field',
@@ -272,7 +286,8 @@ class Tests_Block_Bindings_Post_Meta_Source extends WP_UnitTestCase {
      *
      * @ticket 61181
      */
-    public function test_filter_block_bindings_source_value() {
+    public function test_filter_block_bindings_source_value()
+    {
         register_meta(
             'post',
             'tests_filter_field',

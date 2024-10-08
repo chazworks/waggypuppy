@@ -5,15 +5,18 @@
  * @group media
  * @group upload
  */
-class Tests_Post_Attachments extends WP_UnitTestCase {
+class Tests_Post_Attachments extends WP_UnitTestCase
+{
 
-    public function tear_down() {
+    public function tear_down()
+    {
         // Remove all uploads.
         $this->remove_added_uploads();
         parent::tear_down();
     }
 
-    public function test_insert_bogus_image() {
+    public function test_insert_bogus_image()
+    {
         $filename = rand_str() . '.jpg';
         $contents = rand_str();
 
@@ -21,7 +24,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
         $this->assertEmpty($upload['error']);
     }
 
-    public function test_insert_image_no_thumb() {
+    public function test_insert_image_no_thumb()
+    {
 
         // This image is smaller than the thumbnail size so it won't have one.
         $filename = (DIR_TESTDATA . '/images/test-image.jpg');
@@ -57,7 +61,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @requires function imagejpeg
      */
-    public function test_insert_image_thumb_only() {
+    public function test_insert_image_thumb_only()
+    {
         update_option('medium_size_w', 0);
         update_option('medium_size_h', 0);
 
@@ -108,7 +113,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @requires function imagejpeg
      */
-    public function test_insert_image_medium_sizes() {
+    public function test_insert_image_medium_sizes()
+    {
         update_option('medium_size_w', 400);
         update_option('medium_size_h', 0);
 
@@ -165,7 +171,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @requires function imagejpeg
      */
-    public function test_insert_image_delete() {
+    public function test_insert_image_delete()
+    {
         update_option('medium_size_w', 400);
         update_option('medium_size_h', 0);
 
@@ -213,7 +220,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
      * @ticket 18310
      * @ticket 21963
      */
-    public function test_insert_image_without_guid() {
+    public function test_insert_image_without_guid()
+    {
         // This image is smaller than the thumbnail size so it won't have one.
         $filename = (DIR_TESTDATA . '/images/test-image.jpg');
         $contents = file_get_contents($filename);
@@ -231,7 +239,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 21963
      */
-    public function test_update_attachment_fields() {
+    public function test_update_attachment_fields()
+    {
         $filename = (DIR_TESTDATA . '/images/test-image.jpg');
         $contents = file_get_contents($filename);
 
@@ -257,7 +266,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 29646
      */
-    public function test_update_orphan_attachment_parent() {
+    public function test_update_orphan_attachment_parent()
+    {
         $filename = (DIR_TESTDATA . '/images/test-image.jpg');
         $contents = file_get_contents($filename);
 
@@ -286,7 +296,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 15928
      */
-    public function test_wp_get_attachment_url_should_not_force_https_when_current_page_is_non_ssl_and_siteurl_is_non_ssl() {
+    public function test_wp_get_attachment_url_should_not_force_https_when_current_page_is_non_ssl_and_siteurl_is_non_ssl()
+    {
         $siteurl = get_option('siteurl');
         update_option('siteurl', set_url_scheme($siteurl, 'http'));
 
@@ -311,7 +322,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
      *
      * This situation (current request is non-SSL but siteurl is https) should never arise.
      */
-    public function test_wp_get_attachment_url_should_not_force_https_when_current_page_is_non_ssl_and_siteurl_is_ssl() {
+    public function test_wp_get_attachment_url_should_not_force_https_when_current_page_is_non_ssl_and_siteurl_is_ssl()
+    {
         $siteurl = get_option('siteurl');
         update_option('siteurl', set_url_scheme($siteurl, 'https'));
 
@@ -336,7 +348,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
      *
      * Canonical siteurl is non-SSL, but SSL support is available/optional.
      */
-    public function test_wp_get_attachment_url_should_force_https_with_https_on_same_host_when_siteurl_is_non_ssl_but_ssl_is_available() {
+    public function test_wp_get_attachment_url_should_force_https_with_https_on_same_host_when_siteurl_is_non_ssl_but_ssl_is_available()
+    {
         $siteurl = get_option('siteurl');
         update_option('siteurl', set_url_scheme($siteurl, 'http'));
 
@@ -364,7 +377,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 15928
      */
-    public function test_wp_get_attachment_url_with_https_on_same_host_when_siteurl_is_https() {
+    public function test_wp_get_attachment_url_with_https_on_same_host_when_siteurl_is_https()
+    {
         $siteurl = get_option('siteurl');
         update_option('siteurl', set_url_scheme($siteurl, 'https'));
 
@@ -392,7 +406,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 15928
      */
-    public function test_wp_get_attachment_url_should_not_force_https_when_administering_over_https_but_siteurl_is_not_https() {
+    public function test_wp_get_attachment_url_should_not_force_https_when_administering_over_https_but_siteurl_is_not_https()
+    {
         $siteurl = get_option('siteurl');
         update_option('siteurl', set_url_scheme($siteurl, 'http'));
 
@@ -416,7 +431,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 15928
      */
-    public function test_wp_get_attachment_url_should_force_https_when_administering_over_https_and_siteurl_is_https() {
+    public function test_wp_get_attachment_url_should_force_https_when_administering_over_https_and_siteurl_is_https()
+    {
         // Set https upload URL.
         add_filter('upload_dir', '_upload_dir_https');
 
@@ -440,7 +456,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
         $this->assertSame('https', parse_url($url, PHP_URL_SCHEME));
     }
 
-    public function test_wp_attachment_is() {
+    public function test_wp_attachment_is()
+    {
         $filename = DIR_TESTDATA . '/images/test-image.jpg';
         $contents = file_get_contents($filename);
 
@@ -453,7 +470,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
         $this->assertFalse(wp_attachment_is('video', $attachment_id));
     }
 
-    public function test_wp_attachment_is_default() {
+    public function test_wp_attachment_is_default()
+    {
         // On Multisite, psd is not an allowed mime type by default.
         if (is_multisite()) {
             add_filter('upload_mimes', array($this, 'allow_psd_mime_type'), 10, 2);
@@ -475,7 +493,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
         }
     }
 
-    public function test_upload_mimes_filter_is_applied() {
+    public function test_upload_mimes_filter_is_applied()
+    {
         $filename = DIR_TESTDATA . '/images/test-image.jpg';
         $contents = file_get_contents($filename);
 
@@ -492,12 +511,14 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
         $this->assertNotEmpty($upload['error']);
     }
 
-    public function allow_psd_mime_type($mimes) {
+    public function allow_psd_mime_type($mimes)
+    {
         $mimes['psd'] = 'application/octet-stream';
         return $mimes;
     }
 
-    public function disallow_jpg_mime_type($mimes) {
+    public function disallow_jpg_mime_type($mimes)
+    {
         unset($mimes['jpg|jpeg|jpe']);
         return $mimes;
     }
@@ -505,7 +526,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 33012
      */
-    public function test_wp_mime_type_icon() {
+    public function test_wp_mime_type_icon()
+    {
         $icon = wp_mime_type_icon();
 
         $this->assertStringContainsString('images/media/default.png', $icon);
@@ -514,7 +536,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 33012
      */
-    public function test_wp_mime_type_icon_video() {
+    public function test_wp_mime_type_icon_video()
+    {
         $icon = wp_mime_type_icon('video/mp4');
 
         $this->assertStringContainsString('images/media/video.png', $icon);
@@ -523,7 +546,8 @@ class Tests_Post_Attachments extends WP_UnitTestCase {
     /**
      * @ticket 60610
      */
-    public function test_wp_mime_type_icon_video_with_preferred_ext() {
+    public function test_wp_mime_type_icon_video_with_preferred_ext()
+    {
         $icon1 = wp_mime_type_icon('video/mp4', '.png'); // Added `$preferred_ext` parameter.
         $icon2 = wp_mime_type_icon('video/mp4', 'png'); // Added `$preferred_ext` parameter without period.
 

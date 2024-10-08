@@ -3,16 +3,20 @@
  * @group plugins
  * @group admin
  */
-class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
-    public static function wpSetUpBeforeClass($factory) {
+class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
+{
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::_back_up_mu_plugins();
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::_restore_mu_plugins();
     }
 
-    public function test_get_plugin_data() {
+    public function test_get_plugin_data()
+    {
         $data = get_plugin_data(DIR_TESTDATA . '/plugins/hello.php');
 
         $default_headers = array(
@@ -35,7 +39,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
         }
     }
 
-    public function test_menu_page_url() {
+    public function test_menu_page_url()
+    {
         $current_user = get_current_user_id();
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
         update_option('siteurl', 'http://example.com');
@@ -77,7 +82,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @dataProvider data_submenu_position
      */
-    public function test_submenu_position($position, $expected_position) {
+    public function test_submenu_position($position, $expected_position)
+    {
         global $submenu;
         global $menu;
         $current_user = get_current_user_id();
@@ -125,7 +131,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @dataProvider data_submenu_position
      */
-    public function test_submenu_helpers_position($position, $expected_position) {
+    public function test_submenu_helpers_position($position, $expected_position)
+    {
         global $submenu;
         global $menu;
 
@@ -227,7 +234,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *     }
      * }
      */
-    private function submenus_to_add() {
+    private function submenus_to_add()
+    {
         return array(
             array('Submenu Position', 'Submenu Position', 'manage_options', 'sub-page', ''),
             array('Submenu Position 2', 'Submenu Position 2', 'manage_options', 'sub-page2', ''),
@@ -249,7 +257,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_submenu_position() {
+    public function data_submenu_position()
+    {
         $menu_count = count($this->submenus_to_add());
         return array(
             array(null, $menu_count),        // Insert at the end of the menu if null is passed. Default behavior.
@@ -276,7 +285,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @ticket 48599
      */
-    public function test_position_when_parent_slug_child_slug_are_the_same() {
+    public function test_position_when_parent_slug_child_slug_are_the_same()
+    {
         global $submenu, $menu;
 
         // Reset menus.
@@ -308,7 +318,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @ticket 48599
      */
-    public function test_passing_string_as_position_fires_doing_it_wrong_submenu() {
+    public function test_passing_string_as_position_fires_doing_it_wrong_submenu()
+    {
         $this->setExpectedIncorrectUsage('add_submenu_page');
         global $submenu, $menu;
 
@@ -337,7 +348,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @ticket 54798
      */
-    public function test_passing_float_as_position_does_not_override_int() {
+    public function test_passing_float_as_position_does_not_override_int()
+    {
         global $submenu, $menu;
 
         // Reset menus.
@@ -364,7 +376,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
         $this->assertSame('main_slug_15', $menu['1.5'][2]);
     }
 
-    public function test_is_plugin_active_true() {
+    public function test_is_plugin_active_true()
+    {
         activate_plugin('hello.php');
         $test = is_plugin_active('hello.php');
         $this->assertTrue($test);
@@ -372,19 +385,22 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
         deactivate_plugins('hello.php');
     }
 
-    public function test_is_plugin_active_false() {
+    public function test_is_plugin_active_false()
+    {
         deactivate_plugins('hello.php');
         $test = is_plugin_active('hello.php');
         $this->assertFalse($test);
     }
 
-    public function test_is_plugin_inactive_true() {
+    public function test_is_plugin_inactive_true()
+    {
         deactivate_plugins('hello.php');
         $test = is_plugin_inactive('hello.php');
         $this->assertTrue($test);
     }
 
-    public function test_is_plugin_inactive_false() {
+    public function test_is_plugin_inactive_false()
+    {
         activate_plugin('hello.php');
         $test = is_plugin_inactive('hello.php');
         $this->assertFalse($test);
@@ -395,7 +411,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_plugin_files
      */
-    public function test_get_plugin_files_single() {
+    public function test_get_plugin_files_single()
+    {
         $name = 'hello.php';
         $this->assertSame(array($name), get_plugin_files($name));
     }
@@ -403,7 +420,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_plugin_files
      */
-    public function test_get_plugin_files_folder() {
+    public function test_get_plugin_files_folder()
+    {
         $plugin_dir = WP_PLUGIN_DIR . '/list_files_test_plugin';
         @mkdir($plugin_dir);
         $plugin = $this->_create_plugin('', 'list_files_test_plugin.php', $plugin_dir);
@@ -429,7 +447,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_mu_plugins
      */
-    public function test_get_mu_plugins_when_mu_plugins_exists_but_is_empty() {
+    public function test_get_mu_plugins_when_mu_plugins_exists_but_is_empty()
+    {
         mkdir(WPMU_PLUGIN_DIR);
 
         $mu_plugins = get_mu_plugins();
@@ -442,7 +461,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_mu_plugins
      */
-    public function test_get_mu_plugins_when_mu_plugins_directory_does_not_exist() {
+    public function test_get_mu_plugins_when_mu_plugins_directory_does_not_exist()
+    {
         $this->assertFileDoesNotExist(WPMU_PLUGIN_DIR);
         $this->assertSame(array(), get_mu_plugins());
     }
@@ -450,7 +470,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_mu_plugins
      */
-    public function test_get_mu_plugins_should_ignore_index_php_containing_silence_is_golden() {
+    public function test_get_mu_plugins_should_ignore_index_php_containing_silence_is_golden()
+    {
         mkdir(WPMU_PLUGIN_DIR);
 
         $this->_create_plugin('<?php\n//Silence is golden.', 'index.php', WPMU_PLUGIN_DIR);
@@ -466,7 +487,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_mu_plugins
      */
-    public function test_get_mu_plugins_should_not_ignore_index_php_containing_something_other_than_silence_is_golden() {
+    public function test_get_mu_plugins_should_not_ignore_index_php_containing_something_other_than_silence_is_golden()
+    {
         mkdir(WPMU_PLUGIN_DIR);
 
         $this->_create_plugin('<?php\n//Silence is not golden.', 'index.php', WPMU_PLUGIN_DIR);
@@ -482,7 +504,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_mu_plugins
      */
-    public function test_get_mu_plugins_should_ignore_files_without_php_extensions() {
+    public function test_get_mu_plugins_should_ignore_files_without_php_extensions()
+    {
         mkdir(WPMU_PLUGIN_DIR);
 
         $this->_create_plugin('<?php\n//Test', 'foo.php', WPMU_PLUGIN_DIR);
@@ -499,7 +522,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::_sort_uname_callback
      */
-    public function test__sort_uname_callback() {
+    public function test__sort_uname_callback()
+    {
         $this->assertLessThan(0, _sort_uname_callback(array('Name' => 'a'), array('Name' => 'b')));
         $this->assertGreaterThan(0, _sort_uname_callback(array('Name' => 'c'), array('Name' => 'b')));
         $this->assertSame(0, _sort_uname_callback(array('Name' => 'a'), array('Name' => 'a')));
@@ -508,7 +532,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_dropins
      */
-    public function test_get_dropins_empty() {
+    public function test_get_dropins_empty()
+    {
         $this->_back_up_drop_ins();
 
         $this->assertSame(array(), get_dropins());
@@ -520,7 +545,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::get_dropins
      */
-    public function test_get_dropins_not_empty() {
+    public function test_get_dropins_not_empty()
+    {
         $this->_back_up_drop_ins();
 
         $p1 = $this->_create_plugin("<?php\n//Test", 'advanced-cache.php', WP_CONTENT_DIR);
@@ -540,14 +566,16 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::is_network_only_plugin
      */
-    public function test_is_network_only_plugin_hello() {
+    public function test_is_network_only_plugin_hello()
+    {
         $this->assertFalse(is_network_only_plugin('hello.php'));
     }
 
     /**
      * @covers ::is_network_only_plugin
      */
-    public function test_is_network_only_plugin() {
+    public function test_is_network_only_plugin()
+    {
         $p = $this->_create_plugin("<?php\n/*\nPlugin Name: test\nNetwork: true");
 
         $network_only = is_network_only_plugin($p[0]);
@@ -560,7 +588,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::activate_plugins
      */
-    public function test_activate_plugins_single_no_array() {
+    public function test_activate_plugins_single_no_array()
+    {
         $name = 'hello.php';
         activate_plugins($name);
         $this->assertTrue(is_plugin_active($name));
@@ -570,7 +599,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::activate_plugins
      */
-    public function test_activate_plugins_single_array() {
+    public function test_activate_plugins_single_array()
+    {
         $name = 'hello.php';
         activate_plugins(array($name));
         $this->assertTrue(is_plugin_active($name));
@@ -580,7 +610,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::validate_active_plugins
      */
-    public function test_validate_active_plugins_remove_invalid() {
+    public function test_validate_active_plugins_remove_invalid()
+    {
         $plugin = $this->_create_plugin();
 
         activate_plugin($plugin[0]);
@@ -593,21 +624,24 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
     /**
      * @covers ::validate_active_plugins
      */
-    public function test_validate_active_plugins_empty() {
+    public function test_validate_active_plugins_empty()
+    {
         $this->assertSame(array(), validate_active_plugins());
     }
 
     /**
      * @covers ::is_uninstallable_plugin
      */
-    public function test_is_uninstallable_plugin() {
+    public function test_is_uninstallable_plugin()
+    {
         $this->assertFalse(is_uninstallable_plugin('hello'));
     }
 
     /**
      * @covers ::is_uninstallable_plugin
      */
-    public function test_is_uninstallable_plugin_true() {
+    public function test_is_uninstallable_plugin_true()
+    {
         $plugin = $this->_create_plugin();
 
         $uninstallable_plugins               = (array) get_option('uninstall_plugins');
@@ -638,7 +672,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      * @param string $dir_path Optional. Path for directory where the plugin should live.
      * @return array Two-membered array of filename and full plugin path.
      */
-    private function _create_plugin($data = "<?php\n/*\nPlugin Name: Test\n*/", $filename = false, $dir_path = false) {
+    private function _create_plugin($data = "<?php\n/*\nPlugin Name: Test\n*/", $filename = false, $dir_path = false)
+    {
         if (false === $filename) {
             $filename = __FUNCTION__ . '.php';
         }
@@ -664,7 +699,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @access private
      */
-    private static function _back_up_mu_plugins() {
+    private static function _back_up_mu_plugins()
+    {
         if (is_dir(WPMU_PLUGIN_DIR)) {
             $mu_bu_dir = WP_CONTENT_DIR . '/mu-plugin-backup';
             rename(WPMU_PLUGIN_DIR, $mu_bu_dir);
@@ -678,7 +714,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @access private
      */
-    private static function _restore_mu_plugins() {
+    private static function _restore_mu_plugins()
+    {
         $mu_bu_dir = WP_CONTENT_DIR . '/mu-plugin-backup';
 
         if (is_dir(WPMU_PLUGIN_DIR)) {
@@ -697,7 +734,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @access private
      */
-    private function _back_up_drop_ins() {
+    private function _back_up_drop_ins()
+    {
         $di_bu_dir = WP_CONTENT_DIR . '/drop-ins-backup';
         if (! is_dir($di_bu_dir)) {
             mkdir($di_bu_dir);
@@ -717,7 +755,8 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase {
      *
      * @access private
      */
-    private function _restore_drop_ins() {
+    private function _restore_drop_ins()
+    {
         $di_bu_dir = WP_CONTENT_DIR . '/drop-ins-backup';
 
         foreach (_get_dropins() as $file_to_move => $v) {

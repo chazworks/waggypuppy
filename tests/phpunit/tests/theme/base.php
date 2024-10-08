@@ -1,6 +1,7 @@
 <?php
 
-abstract class WP_Theme_UnitTestCase extends WP_UnitTestCase {
+abstract class WP_Theme_UnitTestCase extends WP_UnitTestCase
+{
 
     /**
      * Theme root directory.
@@ -16,7 +17,8 @@ abstract class WP_Theme_UnitTestCase extends WP_UnitTestCase {
      */
     private $orig_theme_dir;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
@@ -35,7 +37,8 @@ abstract class WP_Theme_UnitTestCase extends WP_UnitTestCase {
         unset($GLOBALS['wp_themes']);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
 
         // Clear up the filters to modify the theme root.
@@ -55,13 +58,15 @@ abstract class WP_Theme_UnitTestCase extends WP_UnitTestCase {
      *
      * @global WP_Styles $wp_styles
      */
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_styles;
         parent::clean_up_global_scope();
         $wp_styles = null;
     }
 
-    public function filter_set_theme_root() {
+    public function filter_set_theme_root()
+    {
         return $this->theme_root;
     }
 }

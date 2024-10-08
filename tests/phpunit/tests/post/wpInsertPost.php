@@ -4,7 +4,8 @@
  * @group post
  * @covers ::wp_insert_post
  */
-class Tests_Post_wpInsertPost extends WP_UnitTestCase {
+class Tests_Post_wpInsertPost extends WP_UnitTestCase
+{
 
     protected static $user_ids = array(
         'administrator' => null,
@@ -12,7 +13,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
         'contributor'   => null,
     );
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_ids = array(
             'administrator' => $factory->user->create(
                 array(
@@ -36,7 +38,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
         $role->add_cap('publish_unmapped_meta_caps');
     }
 
-    public static function tear_down_after_class() {
+    public static function tear_down_after_class()
+    {
         $role = get_role('administrator');
         $role->remove_cap('publish_mapped_meta_caps');
         $role->remove_cap('publish_unmapped_meta_caps');
@@ -44,7 +47,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
         parent::tear_down_after_class();
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         register_post_type(
@@ -75,14 +79,16 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * Helper function: return the timestamp(s) of cron jobs for the specified hook and post.
      */
-    private function next_schedule_for_post($hook, $post_id) {
+    private function next_schedule_for_post($hook, $post_id)
+    {
         return wp_next_scheduled('publish_future_post', array(0 => (int) $post_id));
     }
 
     /**
      * Helper function, unsets current user globally.
      */
-    private function unset_current_user() {
+    private function unset_current_user()
+    {
         global $current_user, $user_ID;
 
         $current_user = null;
@@ -94,7 +100,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @dataProvider data_vb_insert_get_delete
      */
-    public function test_vb_insert_get_delete($post_type) {
+    public function test_vb_insert_get_delete($post_type)
+    {
         register_post_type(
             'cpt',
             array(
@@ -157,7 +164,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
         $GLOBALS['wp_taxonomies']['post_tag']->object_type = array('post');
     }
 
-    public function data_vb_insert_get_delete() {
+    public function data_vb_insert_get_delete()
+    {
         $post_types = array('post', 'cpt');
 
         return $this->text_array_to_dataprovider($post_types);
@@ -166,7 +174,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * Insert a post with a future date, and make sure the status and cron schedule are correct.
      */
-    public function test_vb_insert_future() {
+    public function test_vb_insert_future()
+    {
         $future_date = strtotime('+1 day');
 
         $data = array(
@@ -196,7 +205,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * Insert a post with a future date, and make sure the status and cron schedule are correct.
      */
-    public function test_vb_insert_future_over_dst() {
+    public function test_vb_insert_future_over_dst()
+    {
         // Some magic days - one DST one not.
         $future_date_1 = strtotime('June 21st +1 year');
         $future_date_2 = strtotime('Jan 11th +1 year');
@@ -239,7 +249,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @ticket 4710
      */
-    public function test_vb_insert_future_edit_bug() {
+    public function test_vb_insert_future_edit_bug()
+    {
         $future_date_1 = strtotime('+1 day');
         $future_date_2 = strtotime('+2 day');
 
@@ -279,7 +290,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * Insert a draft post with a future date, and make sure no cron schedule is set.
      */
-    public function test_vb_insert_future_draft() {
+    public function test_vb_insert_future_draft()
+    {
         $future_date = strtotime('+1 day');
 
         $data = array(
@@ -309,7 +321,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * Insert a future post, then edit and change it to draft, and make sure cron gets it right.
      */
-    public function test_vb_insert_future_change_to_draft() {
+    public function test_vb_insert_future_change_to_draft()
+    {
         $future_date_1 = strtotime('+1 day');
 
         $data = array(
@@ -349,7 +362,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @dataProvider data_vb_insert_future_change_status
      */
-    public function test_vb_insert_future_change_status($status) {
+    public function test_vb_insert_future_change_status($status)
+    {
         $future_date_1 = strtotime('+1 day');
 
         $data = array(
@@ -384,7 +398,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
         $this->assertFalse($this->next_schedule_for_post('publish_future_post', $post_id));
     }
 
-    public function data_vb_insert_future_change_status() {
+    public function data_vb_insert_future_change_status()
+    {
         $statuses = array(
             'draft',
             'static',
@@ -400,7 +415,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * Insert a draft post with a future date, and make sure no cron schedule is set.
      */
-    public function test_vb_insert_future_private() {
+    public function test_vb_insert_future_private()
+    {
         $future_date = strtotime('+1 day');
 
         $data = array(
@@ -432,7 +448,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @ticket 17180
      */
-    public function test_vb_insert_invalid_date() {
+    public function test_vb_insert_invalid_date()
+    {
         $data = array(
             'post_status'  => 'publish',
             'post_content' => 'content',
@@ -452,7 +469,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * Insert a future post, then edit and change it to private, and make sure cron gets it right.
      */
-    public function test_vb_insert_future_change_to_private() {
+    public function test_vb_insert_future_change_to_private()
+    {
         $future_date_1 = strtotime('+1 day');
 
         $data = array(
@@ -490,7 +508,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_wp_insert_post_should_not_allow_a_bare_numeric_slug_that_might_conflict_with_a_date_archive_when_generating_from_an_empty_post_title() {
+    public function test_wp_insert_post_should_not_allow_a_bare_numeric_slug_that_might_conflict_with_a_date_archive_when_generating_from_an_empty_post_title()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         $post_id = wp_insert_post(
@@ -511,7 +530,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 5305
      * @ticket 33392
      */
-    public function test_wp_insert_post_should_invalidate_post_cache_before_generating_guid_when_post_name_is_empty_and_is_generated_from_the_post_ID() {
+    public function test_wp_insert_post_should_invalidate_post_cache_before_generating_guid_when_post_name_is_empty_and_is_generated_from_the_post_ID()
+    {
         register_post_type('wptests_pt');
 
         $post_id = wp_insert_post(
@@ -531,7 +551,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 55877
      * @covers ::wp_insert_post
      */
-    public function test_wp_insert_post_should_not_trigger_warning_for_pending_posts_with_unknown_cpt() {
+    public function test_wp_insert_post_should_not_trigger_warning_for_pending_posts_with_unknown_cpt()
+    {
         $post_id = wp_insert_post(
             array(
                 'post_title'  => 'title',
@@ -547,7 +568,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 20451
      */
-    public function test_wp_insert_post_with_meta_input() {
+    public function test_wp_insert_post_with_meta_input()
+    {
         $post_id = wp_insert_post(
             array(
                 'post_title'   => '',
@@ -571,7 +593,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 5364
      * @covers ::wp_delete_post
      */
-    public function test_delete_future_post_cron() {
+    public function test_delete_future_post_cron()
+    {
         $future_date = strtotime('+1 day');
 
         $data = array(
@@ -600,7 +623,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @ticket 5305
      */
-    public function test_permalink_without_title() {
+    public function test_permalink_without_title()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
         $data = array(
@@ -621,7 +645,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 23708
      */
-    public function test_get_post_ancestors_within_loop() {
+    public function test_get_post_ancestors_within_loop()
+    {
         global $post;
 
         $parent_id = self::factory()->post->create();
@@ -638,7 +663,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 23474
      * @covers ::wp_update_post
      */
-    public function test_update_invalid_post_id() {
+    public function test_update_invalid_post_id()
+    {
         $post_id = self::factory()->post->create();
         $post    = get_post($post_id, ARRAY_A);
 
@@ -654,7 +680,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 19373
      */
-    public function test_insert_programmatic_sanitized() {
+    public function test_insert_programmatic_sanitized()
+    {
         $this->unset_current_user();
 
         register_taxonomy('test_tax', 'post');
@@ -682,7 +709,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 31168
      */
-    public function test_wp_insert_post_default_comment_ping_status_open() {
+    public function test_wp_insert_post_default_comment_ping_status_open()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -697,7 +725,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 31168
      */
-    public function test_wp_insert_post_page_default_comment_ping_status_closed() {
+    public function test_wp_insert_post_page_default_comment_ping_status_closed()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -713,7 +742,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 31168
      */
-    public function test_wp_insert_post_cpt_default_comment_ping_status_open() {
+    public function test_wp_insert_post_cpt_default_comment_ping_status_open()
+    {
         register_post_type(
             'cpt',
             array(
@@ -738,7 +768,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 31168
      */
-    public function test_wp_insert_post_cpt_default_comment_ping_status_closed() {
+    public function test_wp_insert_post_cpt_default_comment_ping_status_closed()
+    {
         register_post_type('cpt');
 
         $post_id = self::factory()->post->create(
@@ -761,7 +792,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @ticket 34865
      */
-    public function test_post_updates_without_slug_provided() {
+    public function test_post_updates_without_slug_provided()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_title'  => 'Stuff',
@@ -784,7 +816,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 32585
      */
-    public function test_wp_insert_post_author_zero() {
+    public function test_wp_insert_post_author_zero()
+    {
         $post_id = self::factory()->post->create(array('post_author' => 0));
 
         $this->assertSame('0', get_post($post_id)->post_author);
@@ -793,7 +826,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 32585
      */
-    public function test_wp_insert_post_author_null() {
+    public function test_wp_insert_post_author_null()
+    {
         wp_set_current_user(self::$user_ids['editor']);
 
         $post_id = self::factory()->post->create(array('post_author' => null));
@@ -804,7 +838,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 15946
      */
-    public function test_wp_insert_post_should_respect_post_date_gmt() {
+    public function test_wp_insert_post_should_respect_post_date_gmt()
+    {
         $data = array(
             'post_status'   => 'publish',
             'post_content'  => 'content',
@@ -829,7 +864,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @see _wp_customize_changeset_filter_insert_post_data()
      * @ticket 30937
      */
-    public function test_wp_insert_post_for_customize_changeset_should_not_drop_post_name() {
+    public function test_wp_insert_post_for_customize_changeset_should_not_drop_post_name()
+    {
         $this->assertSame(10, has_filter('wp_insert_post_data', '_wp_customize_changeset_filter_insert_post_data'));
 
         $changeset_data = array(
@@ -877,7 +913,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 19954
      */
-    public function test_updating_a_post_should_not_trash_categories() {
+    public function test_updating_a_post_should_not_trash_categories()
+    {
         // Create a category and attach it to a new post.
         $term_id = self::factory()->term->create(
             array(
@@ -922,7 +959,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 48113
      */
-    public function test_insert_post_should_respect_date_floating_post_status_arg() {
+    public function test_insert_post_should_respect_date_floating_post_status_arg()
+    {
         register_post_status('floating', array('date_floating' => true));
 
         $post_id = self::factory()->post->create(
@@ -940,7 +978,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 48113
      */
-    public function test_insert_post_should_respect_date_floating_post_status_arg_not_set() {
+    public function test_insert_post_should_respect_date_floating_post_status_arg_not_set()
+    {
         register_post_status('not-floating', array('date_floating' => false));
 
         $post_id = self::factory()->post->create(
@@ -970,7 +1009,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 45121
      * @covers ::wp_update_post
      */
-    public function test_update_post_should_only_modify_post_tags_if_different_tags_input_was_provided() {
+    public function test_update_post_should_only_modify_post_tags_if_different_tags_input_was_provided()
+    {
         $tag_1 = wp_insert_term('wp_update_post_tag', 'post_tag', array('slug' => 'wp_update_post_tag_1'));
         $tag_2 = wp_insert_term('wp_update_post_tag', 'post_tag', array('slug' => 'wp_update_post_tag_2'));
         $tag_3 = wp_insert_term('wp_update_post_tag', 'post_tag', array('slug' => 'wp_update_post_tag_3'));
@@ -1005,7 +1045,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 52187
      */
-    public function test_insert_empty_post_date() {
+    public function test_insert_empty_post_date()
+    {
         $post_date_gmt = '2020-12-29 10:11:45';
         $invalid_date  = '2020-12-41 14:15:27';
 
@@ -1103,7 +1144,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 52187
      */
-    public function test_insert_valid_post_date() {
+    public function test_insert_valid_post_date()
+    {
         $post_date     = '2020-12-28 11:26:35';
         $post_date_gmt = '2020-12-29 10:11:45';
         $invalid_date  = '2020-12-41 14:15:27';
@@ -1178,7 +1220,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 52187
      */
-    public function test_insert_invalid_post_date() {
+    public function test_insert_invalid_post_date()
+    {
         $post_date     = '2020-12-28 11:26:35';
         $post_date_gmt = '2020-12-29 10:11:45';
         $invalid_date  = '2020-12-41 14:15:27';
@@ -1241,7 +1284,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 11863
      */
-    public function test_trashing_a_post_should_add_trashed_suffix_to_post_name() {
+    public function test_trashing_a_post_should_add_trashed_suffix_to_post_name()
+    {
         $trashed_about_page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -1256,7 +1300,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 11863
      */
-    public function test_trashed_suffix_should_be_added_to_post_with__trashed_in_slug() {
+    public function test_trashed_suffix_should_be_added_to_post_with__trashed_in_slug()
+    {
         $trashed_about_page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -1272,7 +1317,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 11863
      */
-    public function test_trashed_posts_original_post_name_should_be_reassigned_after_untrashing() {
+    public function test_trashed_posts_original_post_name_should_be_reassigned_after_untrashing()
+    {
         $about_page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -1289,7 +1335,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 11863
      */
-    public function test_creating_a_new_post_should_add_trashed_suffix_to_post_name_of_trashed_posts_with_the_desired_slug() {
+    public function test_creating_a_new_post_should_add_trashed_suffix_to_post_name_of_trashed_posts_with_the_desired_slug()
+    {
         $trashed_about_page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -1313,7 +1360,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 11863
      */
-    public function test_untrashing_a_post_with_a_stored_desired_post_name_should_get_its_post_name_suffixed_if_another_post_has_taken_the_desired_post_name() {
+    public function test_untrashing_a_post_with_a_stored_desired_post_name_should_get_its_post_name_suffixed_if_another_post_has_taken_the_desired_post_name()
+    {
         $about_page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -1347,7 +1395,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 23022
      * @dataProvider data_various_post_statuses
      */
-    public function test_untrashing_a_post_should_always_restore_it_to_draft_status($post_status) {
+    public function test_untrashing_a_post_should_always_restore_it_to_draft_status($post_status)
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -1365,7 +1414,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 23022
      * @dataProvider data_various_post_statuses
      */
-    public function test_wp_untrash_post_status_filter_restores_post_to_correct_status($post_status) {
+    public function test_wp_untrash_post_status_filter_restores_post_to_correct_status($post_status)
+    {
         add_filter('wp_untrash_post_status', 'wp_untrash_post_set_previous_status', 10, 3);
 
         $page_id = self::factory()->post->create(
@@ -1388,7 +1438,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @return array Array of test arguments.
      */
-    public function data_various_post_types() {
+    public function data_various_post_types()
+    {
         $post_types = array(
             'mapped_meta_caps',
             'unmapped_meta_caps',
@@ -1403,7 +1454,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @return array Array of test arguments.
      */
-    public function data_various_post_statuses() {
+    public function data_various_post_statuses()
+    {
         $post_statuses = array(
             'draft',
             'pending',
@@ -1420,7 +1472,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 42464
      * @dataProvider data_various_post_types
      */
-    public function test_contributor_cannot_set_post_slug($post_type) {
+    public function test_contributor_cannot_set_post_slug($post_type)
+    {
         wp_set_current_user(self::$user_ids['contributor']);
 
         $post_id = self::factory()->post->create(
@@ -1459,7 +1512,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      * @ticket 42464
      * @dataProvider data_various_post_types
      */
-    public function test_administrator_can_set_post_slug($post_type) {
+    public function test_administrator_can_set_post_slug($post_type)
+    {
         wp_set_current_user(self::$user_ids['administrator']);
 
         $post_id = self::factory()->post->create(
@@ -1500,7 +1554,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
      *
      * @ticket 42464
      */
-    public function test_administrator_cannot_set_post_slug_on_post_type_they_cannot_publish() {
+    public function test_administrator_cannot_set_post_slug_on_post_type_they_cannot_publish()
+    {
         wp_set_current_user(self::$user_ids['administrator']);
 
         $post_id = self::factory()->post->create(
@@ -1536,7 +1591,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase {
     /**
      * @ticket 25347
      */
-    public function test_scheduled_post_with_a_past_date_should_be_published() {
+    public function test_scheduled_post_with_a_past_date_should_be_published()
+    {
 
         $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
 

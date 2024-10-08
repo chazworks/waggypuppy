@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Posts_Controller
  */
-class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
+class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
+{
 
     /**
      * Gets the nav menu item, if the ID is valid.
@@ -24,7 +25,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param int $id Supplied ID.
      * @return object|WP_Error Post object if ID is valid, WP_Error otherwise.
      */
-    protected function get_nav_menu_item($id) {
+    protected function get_nav_menu_item($id)
+    {
         $post = $this->get_post($id);
         if (is_wp_error($post)) {
             return $post;
@@ -41,7 +43,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         $has_permission = parent::get_items_permissions_check($request);
 
         if (true !== $has_permission) {
@@ -59,7 +62,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return bool|WP_Error True if the request has read access for the item, WP_Error object or false otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         $permission_check = parent::get_item_permissions_check($request);
 
         if (true !== $permission_check) {
@@ -79,7 +83,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    protected function check_has_read_only_access($request) {
+    protected function check_has_read_only_access($request)
+    {
         if (current_user_can('edit_theme_options')) {
             return true;
         }
@@ -109,7 +114,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function create_item($request) {
+    public function create_item($request)
+    {
         if (! empty($request['id'])) {
             return new WP_Error('rest_post_exists', __('Cannot create existing post.'), array('status' => 400));
         }
@@ -200,7 +206,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function update_item($request) {
+    public function update_item($request)
+    {
         $valid_check = $this->get_nav_menu_item($request['id']);
         if (is_wp_error($valid_check)) {
             return $valid_check;
@@ -274,7 +281,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error True on success, or WP_Error object on failure.
      */
-    public function delete_item($request) {
+    public function delete_item($request)
+    {
         $menu_item = $this->get_nav_menu_item($request['id']);
         if (is_wp_error($menu_item)) {
             return $menu_item;
@@ -325,7 +333,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      *
      * @return object|WP_Error
      */
-    protected function prepare_item_for_database($request) {
+    protected function prepare_item_for_database($request)
+    {
         $menu_item_db_id = $request['id'];
         $menu_item_obj   = $this->get_nav_menu_item($menu_item_db_id);
         // Need to persist the menu item data. See https://core.trac.wordpress.org/ticket/28138
@@ -490,7 +499,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Base fields for every post.
         $fields    = $this->get_fields_for_response($request);
         $menu_item = $this->get_nav_menu_item($item->ID);
@@ -647,7 +657,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_Post $post Post object.
      * @return array Links for the given post.
      */
-    protected function prepare_links($post) {
+    protected function prepare_links($post)
+    {
         $links     = parent::prepare_links($post);
         $menu_item = $this->get_nav_menu_item($post->ID);
 
@@ -684,7 +695,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      *
      * @return array
      */
-    protected function get_schema_links() {
+    protected function get_schema_links()
+    {
         $links   = parent::get_schema_links();
         $href    = rest_url("{$this->namespace}/{$this->rest_base}/{id}");
         $links[] = array(
@@ -711,7 +723,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -932,7 +945,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $query_params = parent::get_collection_params();
 
         $query_params['menu_order'] = array(
@@ -981,7 +995,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request       Optional. Full details about the request.
      * @return array Items query arguments.
      */
-    protected function prepare_items_query($prepared_args = array(), $request = null) {
+    protected function prepare_items_query($prepared_args = array(), $request = null)
+    {
         $query_args = parent::prepare_items_query($prepared_args, $request);
 
         // Map to proper WP_Query orderby param.
@@ -1012,7 +1027,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
      * @param int $menu_item_id Menu item id.
      * @return int
      */
-    protected function get_menu_id($menu_item_id) {
+    protected function get_menu_id($menu_item_id)
+    {
         $menu_ids = wp_get_post_terms($menu_item_id, 'nav_menu', array('fields' => 'ids'));
         $menu_id  = 0;
         if ($menu_ids && ! is_wp_error($menu_ids)) {

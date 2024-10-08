@@ -11,7 +11,8 @@
  *
  * @covers WP_Theme::get_block_patterns
  */
-class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
+class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
+{
     /**
      * The initial cache object.
      *
@@ -19,23 +20,27 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      */
     private $initial_cache_object;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->initial_cache_object = wp_using_ext_object_cache();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         wp_using_ext_object_cache($this->initial_cache_object);
         parent::tear_down();
     }
 
-    public static function wpSetUpBeforeClass() {
+    public static function wpSetUpBeforeClass()
+    {
         // Ensure development mode is reset before running these tests.
         unset($GLOBALS['_wp_tests_development_mode']);
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         // Ensure development mode is reset after running these tests.
         unset($GLOBALS['_wp_tests_development_mode']);
     }
@@ -46,7 +51,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      * @param WP_Theme $wp_theme A WP_Theme object.
      * @return array|false Returns an array of patterns if cache is found, otherwise false.
      */
-    private function get_pattern_cache($wp_theme) {
+    private function get_pattern_cache($wp_theme)
+    {
         $reflection = new ReflectionMethod($wp_theme, 'get_pattern_cache');
         $reflection->setAccessible(true);
 
@@ -62,7 +68,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      * @param WP_Theme $wp_theme A WP_Theme object.
      * @return array|false Returns an array of patterns if cache is found, otherwise false.
      */
-    private function get_cache_hash($wp_theme) {
+    private function get_cache_hash($wp_theme)
+    {
         $reflection = new ReflectionProperty(get_class($wp_theme), 'cache_hash');
         $reflection->setAccessible(true);
         $cache_hash = $reflection->getValue($wp_theme);
@@ -78,7 +85,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      * @param string $theme_slug The theme's slug.
      * @param array  $expected   The expected pattern data.
      */
-    public function test_should_return_block_patterns($theme_slug, $expected) {
+    public function test_should_return_block_patterns($theme_slug, $expected)
+    {
         $theme    = wp_get_theme($theme_slug);
         $patterns = $theme->get_block_patterns();
         $this->assertSameSets($expected, $patterns);
@@ -89,7 +97,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      *
      * @covers WP_Theme::delete_pattern_cache
      */
-    public function test_delete_pattern_cache() {
+    public function test_delete_pattern_cache()
+    {
         $theme = wp_get_theme('block-theme-patterns');
 
         $this->assertTrue($theme->exists(), 'The test theme could not be found.');
@@ -119,7 +128,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      * @ticket 59490
      * @group ms-excluded
      */
-    public function test_should_clear_cache_after_switching_theme() {
+    public function test_should_clear_cache_after_switching_theme()
+    {
         switch_theme('block-theme');
         $theme1 = wp_get_theme();
 
@@ -161,7 +171,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_block_patterns() {
+    public function data_get_block_patterns()
+    {
         return array(
             array(
                 'theme'    => 'block-theme',
@@ -198,7 +209,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      *
      * @ticket 59591
      */
-    public function test_should_clear_existing_cache_when_in_development_mode() {
+    public function test_should_clear_existing_cache_when_in_development_mode()
+    {
         $theme = wp_get_theme('block-theme-patterns');
 
         $this->assertTrue($theme->exists(), 'The test theme could not be found.');
@@ -233,7 +245,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      *
      * @covers WP_Theme::delete_pattern_cache
      */
-    public function test_delete_pattern_cache_non_obj_cache() {
+    public function test_delete_pattern_cache_non_obj_cache()
+    {
         // Ensure object cache is disabled.
         wp_using_ext_object_cache(false);
 
@@ -267,7 +280,8 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase {
      *
      * @ticket 59600
      */
-    public function test_pattern_transient_cache_for_non_cache_site() {
+    public function test_pattern_transient_cache_for_non_cache_site()
+    {
         // Ensure object cache is disabled.
         wp_using_ext_object_cache(false);
 

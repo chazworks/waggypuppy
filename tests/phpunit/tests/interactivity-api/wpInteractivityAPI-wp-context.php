@@ -12,7 +12,8 @@
  *
  * @group interactivity-api
  */
-class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
+class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
+{
     /**
      * Instance of WP_Interactivity_API.
      *
@@ -23,7 +24,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
     }
@@ -34,7 +36,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      * @param string $html The HTML that needs to be processed.
      * @return array An array containing an instance of the WP_HTML_Tag_Processor and the processed HTML.
      */
-    private function process_directives($html) {
+    private function process_directives($html)
+    {
         $new_html = $this->interactivity->process_directives($html);
         $p        = new WP_HTML_Tag_Processor($new_html);
         $p->next_tag(array('class_name' => 'test'));
@@ -49,7 +52,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_sets_a_context_in_a_custom_namespace() {
+    public function test_wp_context_directive_sets_a_context_in_a_custom_namespace()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id" }\'>
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -67,7 +71,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_can_set_a_context_in_the_same_tag() {
+    public function test_wp_context_directive_can_set_a_context_in_the_same_tag()
+    {
         $html    = '
 			<div
 				class="test"
@@ -89,7 +94,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_merges_context_in_the_same_custom_namespace() {
+    public function test_wp_context_directive_merges_context_in_the_same_custom_namespace()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id1": "some-id-1" }\'>
 				<div data-wp-context=\'myPlugin::{ "id2": "some-id-2" }\'>
@@ -112,7 +118,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_overwrites_context_in_the_same_custom_namespace() {
+    public function test_wp_context_directive_overwrites_context_in_the_same_custom_namespace()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context=\'myPlugin::{ "id": "some-id-2" }\'>
@@ -132,7 +139,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_replaces_old_context_after_closing_tag_in_the_same_custom_namespace() {
+    public function test_wp_context_directive_replaces_old_context_after_closing_tag_in_the_same_custom_namespace()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context=\'myPlugin::{ "id": "some-id-2" }\'>
@@ -155,7 +163,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_merges_context_in_different_custom_namespaces() {
+    public function test_wp_context_directive_merges_context_in_different_custom_namespaces()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context=\'otherPlugin::{ "id": "some-id-2" }\'>
@@ -178,7 +187,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_doesnt_throw_on_malformed_context_objects() {
+    public function test_wp_context_directive_doesnt_throw_on_malformed_context_objects()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ id: "some-id" }\'>
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -196,7 +206,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_doesnt_overwrite_context_on_malformed_context_objects() {
+    public function test_wp_context_directive_doesnt_overwrite_context_on_malformed_context_objects()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context=\'myPlugin::{ id: "some-id-2" }\'>
@@ -219,7 +230,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_doesnt_throw_on_empty_context() {
+    public function test_wp_context_directive_doesnt_throw_on_empty_context()
+    {
         $html    = '
 			<div data-wp-context="">
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -237,7 +249,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_doesnt_overwrite_context_on_empty_context() {
+    public function test_wp_context_directive_doesnt_overwrite_context_on_empty_context()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context="">
@@ -260,7 +273,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_doesnt_throw_on_context_without_value() {
+    public function test_wp_context_directive_doesnt_throw_on_context_without_value()
+    {
         $html    = '
 			<div data-wp-context>
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -278,7 +292,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_doesnt_overwrite_context_on_context_without_value() {
+    public function test_wp_context_directive_doesnt_overwrite_context_on_context_without_value()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context>
@@ -300,7 +315,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_works_with_multiple_directives() {
+    public function test_wp_context_works_with_multiple_directives()
+    {
         $html    = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id" }\' data-wp-context=\'myPlugin::{ "id": "some-id" }\'>
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -319,7 +335,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      * @covers ::process_directives
      * @expectedIncorrectUsage WP_Interactivity_API::evaluate
      */
-    public function test_wp_context_directive_doesnt_work_without_any_namespace() {
+    public function test_wp_context_directive_doesnt_work_without_any_namespace()
+    {
         $html    = '
 			<div data-wp-context=\'{ "id": "some-id" }\'>
 				<div class="test" data-wp-bind--id="context.id">Text</div>
@@ -336,7 +353,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_works_with_default_namespace() {
+    public function test_wp_context_directive_works_with_default_namespace()
+    {
         $html    = '
 			<div
 			 data-wp-interactive=\'{ "namespace": "myPlugin" }\'
@@ -356,7 +374,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_overrides_default_namespace() {
+    public function test_wp_context_directive_overrides_default_namespace()
+    {
         $html    = '
 			<div
 			 data-wp-interactive=\'{ "namespace": "myPlugin" }\'
@@ -379,7 +398,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_overrides_default_namespace_with_same_namespace() {
+    public function test_wp_context_directive_overrides_default_namespace_with_same_namespace()
+    {
         $html    = '
 			<div
 			 data-wp-interactive=\'{ "namespace": "myPlugin" }\'
@@ -400,7 +420,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_works_with_nested_default_namespaces() {
+    public function test_wp_context_directive_works_with_nested_default_namespaces()
+    {
         $html    = '
 			<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 				<div data-wp-context=\'{ "id": "some-id" }\'>
@@ -433,7 +454,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_works_with_default_namespace_in_the_same_tag() {
+    public function test_wp_context_directive_works_with_default_namespace_in_the_same_tag()
+    {
         $html    = '
 			<div
 			 class="test"
@@ -456,7 +478,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_merges_context_in_the_same_default_namespace() {
+    public function test_wp_context_directive_merges_context_in_the_same_default_namespace()
+    {
         $html    = '
 			<div
 				data-wp-interactive=\'{ "namespace": "myPlugin" }\'
@@ -482,7 +505,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_overwrites_context_in_the_same_default_namespace() {
+    public function test_wp_context_directive_overwrites_context_in_the_same_default_namespace()
+    {
         $html    = '
 			<div
 				data-wp-interactive=\'{ "namespace": "myPlugin" }\'
@@ -505,7 +529,8 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_context_directive_replaces_old_context_after_closing_tag_in_the_same_default_namespace() {
+    public function test_wp_context_directive_replaces_old_context_after_closing_tag_in_the_same_default_namespace()
+    {
         $html    = '
 			<div
 				data-wp-interactive=\'{ "namespace": "myPlugin" }\'

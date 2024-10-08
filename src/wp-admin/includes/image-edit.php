@@ -15,7 +15,8 @@
  * @param false|object $msg     Optional. Message to display for image editor updates or errors.
  *                              Default false.
  */
-function wp_image_editor($post_id, $msg = false) {
+function wp_image_editor($post_id, $msg = false)
+{
     $nonce     = wp_create_nonce("image_editor-$post_id");
     $meta      = wp_get_attachment_metadata($post_id);
     $thumb     = image_get_intermediate_size($post_id, 'thumbnail');
@@ -341,7 +342,8 @@ function wp_image_editor($post_id, $msg = false) {
  * @param int             $attachment_id The image's attachment post ID.
  * @return bool True on success, false on failure.
  */
-function wp_stream_image($image, $mime_type, $attachment_id) {
+function wp_stream_image($image, $mime_type, $attachment_id)
+{
     if ($image instanceof WP_Image_Editor) {
 
         /**
@@ -427,7 +429,8 @@ function wp_stream_image($image, $mime_type, $attachment_id) {
  *     @type int    $filesize  File size of the image.
  * }
  */
-function wp_save_image_file($filename, $image, $mime_type, $post_id) {
+function wp_save_image_file($filename, $image, $mime_type, $post_id)
+{
     if ($image instanceof WP_Image_Editor) {
 
         /** This filter is documented in wp-admin/includes/image-edit.php */
@@ -521,7 +524,8 @@ function wp_save_image_file($filename, $image, $mime_type, $post_id) {
  * @param int $h Image height in pixels.
  * @return float|int Image preview ratio.
  */
-function _image_get_preview_ratio($w, $h) {
+function _image_get_preview_ratio($w, $h)
+{
     $max = max($w, $h);
     return $max > 600 ? (600 / $max) : 1;
 }
@@ -538,7 +542,8 @@ function _image_get_preview_ratio($w, $h) {
  * @param float|int         $angle Image rotation angle, in degrees.
  * @return resource|GdImage|false GD image resource or GdImage instance, false otherwise.
  */
-function _rotate_image_resource($img, $angle) {
+function _rotate_image_resource($img, $angle)
+{
     _deprecated_function(__FUNCTION__, '3.5.0', 'WP_Image_Editor::rotate()');
 
     if (function_exists('imagerotate')) {
@@ -566,7 +571,8 @@ function _rotate_image_resource($img, $angle) {
  * @param bool             $vert Whether to flip vertically.
  * @return resource|GdImage (maybe) flipped image resource or GdImage instance.
  */
-function _flip_image_resource($img, $horz, $vert) {
+function _flip_image_resource($img, $horz, $vert)
+{
     _deprecated_function(__FUNCTION__, '3.5.0', 'WP_Image_Editor::flip()');
 
     $w   = imagesx($img);
@@ -601,7 +607,8 @@ function _flip_image_resource($img, $horz, $vert) {
  * @param float            $h   Source height.
  * @return resource|GdImage (maybe) cropped image resource or GdImage instance.
  */
-function _crop_image_resource($img, $x, $y, $w, $h) {
+function _crop_image_resource($img, $x, $y, $w, $h)
+{
     $dst = wp_imagecreatetruecolor($w, $h);
 
     if (is_gd_image($dst)) {
@@ -623,7 +630,8 @@ function _crop_image_resource($img, $x, $y, $w, $h) {
  * @param array           $changes Array of change operations.
  * @return WP_Image_Editor WP_Image_Editor instance with changes applied.
  */
-function image_edit_apply_changes($image, $changes) {
+function image_edit_apply_changes($image, $changes)
+{
     if (is_gd_image($image)) {
         /* translators: 1: $image, 2: WP_Image_Editor */
         _deprecated_argument(__FUNCTION__, '3.5.0', sprintf(__('%1$s needs to be a %2$s object.'), '$image', 'WP_Image_Editor'));
@@ -758,7 +766,8 @@ function image_edit_apply_changes($image, $changes) {
  * @param int $post_id Attachment post ID.
  * @return bool True on success, false on failure.
  */
-function stream_preview_image($post_id) {
+function stream_preview_image($post_id)
+{
     $post = get_post($post_id);
 
     wp_raise_memory_limit('admin');
@@ -798,7 +807,8 @@ function stream_preview_image($post_id) {
  * @param int $post_id Attachment post ID.
  * @return stdClass Image restoration message object.
  */
-function wp_restore_image($post_id) {
+function wp_restore_image($post_id)
+{
     $meta             = wp_get_attachment_metadata($post_id);
     $file             = get_attached_file($post_id);
     $backup_sizes     = get_post_meta($post_id, '_wp_attachment_backup_sizes', true);
@@ -892,7 +902,8 @@ function wp_restore_image($post_id) {
  * @param int $post_id Attachment post ID.
  * @return stdClass
  */
-function wp_save_image($post_id) {
+function wp_save_image($post_id)
+{
     $_wp_additional_image_sizes = wp_get_additional_image_sizes();
 
     $return  = new stdClass();

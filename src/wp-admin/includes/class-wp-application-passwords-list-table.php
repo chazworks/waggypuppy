@@ -14,7 +14,8 @@
  *
  * @see WP_List_Table
  */
-class WP_Application_Passwords_List_Table extends WP_List_Table {
+class WP_Application_Passwords_List_Table extends WP_List_Table
+{
 
     /**
      * Gets the list of columns.
@@ -23,7 +24,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         return array(
             'name'      => __('Name'),
             'created'   => __('Created'),
@@ -40,7 +42,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @global int $user_id User ID.
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         global $user_id;
         $this->items = array_reverse(WP_Application_Passwords::get_user_application_passwords($user_id));
     }
@@ -52,7 +55,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @param array $item The current application password item.
      */
-    public function column_name($item) {
+    public function column_name($item)
+    {
         echo esc_html($item['name']);
     }
 
@@ -63,7 +67,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @param array $item The current application password item.
      */
-    public function column_created($item) {
+    public function column_created($item)
+    {
         if (empty($item['created'])) {
             echo '&mdash;';
         } else {
@@ -78,7 +83,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @param array $item The current application password item.
      */
-    public function column_last_used($item) {
+    public function column_last_used($item)
+    {
         if (empty($item['last_used'])) {
             echo '&mdash;';
         } else {
@@ -93,7 +99,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @param array $item The current application password item.
      */
-    public function column_last_ip($item) {
+    public function column_last_ip($item)
+    {
         if (empty($item['last_ip'])) {
             echo '&mdash;';
         } else {
@@ -108,7 +115,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @param array $item The current application password item.
      */
-    public function column_revoke($item) {
+    public function column_revoke($item)
+    {
         $name = 'revoke-application-password-' . $item['uuid'];
         printf(
             '<button type="button" name="%1$s" id="%1$s" class="button delete" aria-label="%2$s">%3$s</button>',
@@ -127,7 +135,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      * @param array  $item        The current item.
      * @param string $column_name The current column name.
      */
-    protected function column_default($item, $column_name) {
+    protected function column_default($item, $column_name)
+    {
         /**
          * Fires for each custom column in the Application Passwords list table.
          *
@@ -148,7 +157,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @param string $which The location of the bulk actions: Either 'top' or 'bottom'.
      */
-    protected function display_tablenav($which) {
+    protected function display_tablenav($which)
+    {
         ?>
         <div class="tablenav <?php echo esc_attr($which); ?>">
             <?php if ('bottom' === $which) : ?>
@@ -175,7 +185,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @param array $item The current item.
      */
-    public function single_row($item) {
+    public function single_row($item)
+    {
         echo '<tr data-uuid="' . esc_attr($item['uuid']) . '">';
         $this->single_row_columns($item);
         echo '</tr>';
@@ -188,7 +199,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @return string Name of the default primary column, in this case, 'name'.
      */
-    protected function get_default_primary_column_name() {
+    protected function get_default_primary_column_name()
+    {
         return 'name';
     }
 
@@ -197,7 +209,8 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
      *
      * @since 5.6.0
      */
-    public function print_js_template_row() {
+    public function print_js_template_row()
+    {
         list( $columns, $hidden, , $primary ) = $this->get_column_info();
 
         echo '<tr data-uuid="{{ data.uuid }}">';

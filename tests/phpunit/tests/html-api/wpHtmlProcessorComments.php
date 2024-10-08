@@ -11,7 +11,8 @@
  *
  * @coversDefaultClass WP_HTML_Processor
  */
-class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase
+{
     /**
      * Ensures that different types of comments are processed correctly.
      *
@@ -19,7 +20,8 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase {
      *
      * @dataProvider data_comments
      */
-    public function test_comment_processing($html, $expected_comment_type, $expected_modifiable_text, $expected_tag = null) {
+    public function test_comment_processing($html, $expected_comment_type, $expected_modifiable_text, $expected_tag = null)
+    {
         $processor = WP_HTML_Processor::create_fragment($html);
         $processor->next_token();
 
@@ -34,7 +36,8 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_comments() {
+    public static function data_comments()
+    {
         return array(
             'Normative comment'              => array('<!-- A comment. -->', WP_HTML_Processor::COMMENT_AS_HTML_COMMENT, ' A comment. '),
             'Abruptly closed comment'        => array('<!-->', WP_HTML_Processor::COMMENT_AS_ABRUPTLY_CLOSED_COMMENT, ''),
@@ -53,7 +56,8 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase {
      *
      * @dataProvider data_funky_comments
      */
-    public function test_funky_comment($html, $expected_modifiable_text) {
+    public function test_funky_comment($html, $expected_modifiable_text)
+    {
         $processor = WP_HTML_Processor::create_fragment($html);
         $processor->next_token();
 
@@ -66,7 +70,8 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_funky_comments() {
+    public static function data_funky_comments()
+    {
         return array(
             'Funky comment # (empty)' => array('</#>', '#'),
             'Funky comment #'         => array('</# foo>', '# foo'),

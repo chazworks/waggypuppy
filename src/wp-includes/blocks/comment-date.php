@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Return the post comment's date.
  */
-function render_block_core_comment_date($attributes, $content, $block) {
+function render_block_core_comment_date($attributes, $content, $block)
+{
     if (! isset($block->context['commentId'])) {
         return '';
     }
@@ -53,7 +54,8 @@ function render_block_core_comment_date($attributes, $content, $block) {
  *
  * @since 6.0.0
  */
-function register_block_core_comment_date() {
+function register_block_core_comment_date()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comment-date',
         array(

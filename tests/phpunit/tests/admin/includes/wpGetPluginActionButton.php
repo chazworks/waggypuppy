@@ -8,7 +8,8 @@
  *
  * @covers ::wp_get_plugin_action_button
  */
-class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
+class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase
+{
 
     /**
      * User role.
@@ -34,7 +35,8 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
     /**
      * Sets up properties and adds a test plugin before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
@@ -60,7 +62,8 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
     /**
      * Removes the test plugin and its directory after all tests run.
      */
-    public static function tear_down_after_class() {
+    public static function tear_down_after_class()
+    {
         parent::tear_down_after_class();
 
         remove_role(self::$role->name);
@@ -74,7 +77,8 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
      *
      * @ticket 61400
      */
-    public function test_should_return_empty_string_without_proper_capabilities() {
+    public function test_should_return_empty_string_without_proper_capabilities()
+    {
         wp_set_current_user(self::$user_id);
 
         $actual = wp_get_plugin_action_button(
@@ -100,7 +104,8 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
      *
      * @param string $capability The name of the capability.
      */
-    public function test_should_not_return_empty_string_with_proper_capabilities_single_site($capability) {
+    public function test_should_not_return_empty_string_with_proper_capabilities_single_site($capability)
+    {
         self::$role->add_cap($capability);
 
         wp_set_current_user(self::$user_id);
@@ -123,7 +128,8 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_capabilities() {
+    public function data_capabilities()
+    {
         return self::text_array_to_dataprovider(array('install_plugins', 'update_plugins'));
     }
 
@@ -135,7 +141,8 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase {
      *
      * @group ms-required
      */
-    public function test_should_not_return_empty_string_with_proper_capabilities_multisite() {
+    public function test_should_not_return_empty_string_with_proper_capabilities_multisite()
+    {
         wp_set_current_user(self::$user_id);
 
         grant_super_admin(self::$user_id);

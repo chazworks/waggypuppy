@@ -8,7 +8,8 @@
  * @group restapi
  * @group pattern-directory
  */
-class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_Testcase {
+class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * Contributor user id.
@@ -44,7 +45,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$contributor_id = $factory->user->create(
             array(
                 'role' => 'contributor',
@@ -61,7 +63,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 6.2.0
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$contributor_id);
     }
 
@@ -70,7 +73,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 6.2.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         self::$http_request_urls = array();
         parent::tear_down();
     }
@@ -80,7 +84,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @param WP_REST_Response[] $pattern An individual pattern from the REST API response.
      */
-    public function assertPatternMatchesSchema($pattern) {
+    public function assertPatternMatchesSchema($pattern)
+    {
         $schema     = static::$controller->get_item_schema();
         $pattern_id = isset($pattern->id) ? $pattern->id : '{pattern ID is missing}';
 
@@ -101,7 +106,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
 
         $this->assertArrayHasKey('/wp/v2/pattern-directory/patterns', $routes);
@@ -112,7 +118,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/pattern-directory/patterns');
         $response = rest_get_server()->dispatch($request);
         $patterns = $response->get_data();
@@ -126,7 +133,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$contributor_id);
         self::mock_successful_response('browse-all', true);
 
@@ -149,7 +157,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_by_category() {
+    public function test_get_items_by_category()
+    {
         wp_set_current_user(self::$contributor_id);
         self::mock_successful_response('browse-category', true);
 
@@ -174,7 +183,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_by_keyword() {
+    public function test_get_items_by_keyword()
+    {
         wp_set_current_user(self::$contributor_id);
         self::mock_successful_response('browse-keyword', true);
 
@@ -195,7 +205,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_search() {
+    public function test_get_items_search()
+    {
         wp_set_current_user(self::$contributor_id);
         self::mock_successful_response('search', true);
 
@@ -223,7 +234,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_wdotorg_unavailable() {
+    public function test_get_items_wdotorg_unavailable()
+    {
         wp_set_current_user(self::$contributor_id);
         self::prevent_requests_to_host('api.wordpress.org');
 
@@ -238,7 +250,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_logged_out() {
+    public function test_get_items_logged_out()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/pattern-directory/patterns');
         $request->set_query_params(array('search' => 'button'));
         $response = rest_do_request($request);
@@ -251,7 +264,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_no_results() {
+    public function test_get_items_no_results()
+    {
         wp_set_current_user(self::$contributor_id);
         self::mock_successful_response('browse-all', false);
 
@@ -269,7 +283,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_search_no_results() {
+    public function test_get_items_search_no_results()
+    {
         wp_set_current_user(self::$contributor_id);
         self::mock_successful_response('search', false);
 
@@ -287,7 +302,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_invalid_response_data() {
+    public function test_get_items_invalid_response_data()
+    {
         wp_set_current_user(self::$contributor_id);
         self::mock_successful_response('invalid-data', true);
 
@@ -303,7 +319,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_get_items_prepare_filter() {
+    public function test_get_items_prepare_filter()
+    {
         wp_set_current_user(self::$contributor_id);
         self::mock_successful_response('browse-all', true);
 
@@ -354,7 +371,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      * @param bool   $is_error Whether this value should error or not.
      * @param mixed  $expected Expected value (or expected error code).
      */
-    public function test_get_items_query_args($param, $value, $is_error, $expected) {
+    public function test_get_items_query_args($param, $value, $is_error, $expected)
+    {
         wp_set_current_user(self::$contributor_id);
         add_filter('pre_http_request', array($this, 'mock_request_to_apiwporg_url'), 10, 3);
 
@@ -379,7 +397,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * return array[]
      */
-    public function data_get_items_query_args() {
+    public function data_get_items_query_args()
+    {
         return array(
             'per_page default'   => array(
                 'param'    => 'per_page',
@@ -511,28 +530,32 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         // Controller does not implement get_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
@@ -541,7 +564,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $raw_patterns                 = json_decode(self::get_raw_response('browse-all'));
         $raw_patterns[0]->extra_field = 'this should be removed';
 
@@ -558,7 +582,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    public function test_prepare_item_search() {
+    public function test_prepare_item_search()
+    {
         $raw_patterns                 = json_decode(self::get_raw_response('search'));
         $raw_patterns[0]->extra_field = 'this should be removed';
 
@@ -575,7 +600,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @return string
      */
-    private static function get_raw_response($action) {
+    private static function get_raw_response($action)
+    {
         $fixtures_dir = DIR_TESTDATA . '/blocks/pattern-directory';
 
         switch ($action) {
@@ -615,7 +641,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @doesNotPerformAssertions
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         // The controller's schema is hardcoded, so tests would not be meaningful.
     }
 
@@ -635,7 +662,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      * @param string    $message        An error message to display.
      * @param bool      $assert_same    Assertion type (assertSame vs assertNotSame).
      */
-    public function test_transient_keys_get_generated_correctly($parameters_1, $parameters_2, $message, $assert_same = true) {
+    public function test_transient_keys_get_generated_correctly($parameters_1, $parameters_2, $message, $assert_same = true)
+    {
         $reflection_method = new ReflectionMethod(static::$controller, 'get_transient_key');
         $reflection_method->setAccessible(true);
 
@@ -660,7 +688,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @ticket 55617
      */
-    public function data_get_query_parameters() {
+    public function data_get_query_parameters()
+    {
         return array(
             'same key and empty slugs'              => array(
                 'parameters_1' => array(
@@ -716,7 +745,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @since 5.8.0
      */
-    private static function mock_successful_response($action, $expects_results) {
+    private static function mock_successful_response($action, $expects_results)
+    {
         add_filter(
             'pre_http_request',
             static function ($response, $parsed_args, $url) use ($action, $expects_results) {
@@ -750,7 +780,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @param string $blocked_host The host to block connections to.
      */
-    private static function prevent_requests_to_host($blocked_host = 'api.wordpress.org') {
+    private static function prevent_requests_to_host($blocked_host = 'api.wordpress.org')
+    {
         add_filter(
             'pre_http_request',
             static function ($response, $parsed_args, $url) use ($blocked_host) {
@@ -778,7 +809,8 @@ class WP_REST_Pattern_Directory_Controller_Test extends WP_Test_REST_Controller_
      *
      * @return array faux/mocked response.
      */
-    public function mock_request_to_apiwporg_url($response, $args, $url) {
+    public function mock_request_to_apiwporg_url($response, $args, $url)
+    {
         if ('api.wordpress.org' !== wp_parse_url($url, PHP_URL_HOST)) {
             return $response;
         }

@@ -7,7 +7,8 @@
  *
  * @covers ::maybe_hash_hex_color
  */
-class Tests_Formatting_MaybeHashHexColor extends WP_UnitTestCase {
+class Tests_Formatting_MaybeHashHexColor extends WP_UnitTestCase
+{
 
     /**
      * @ticket 60272
@@ -17,7 +18,8 @@ class Tests_Formatting_MaybeHashHexColor extends WP_UnitTestCase {
      * @param string $color    Color.
      * @param string $expected Expected.
      */
-    public function test_maybe_hash_hex_color($color, $expected) {
+    public function test_maybe_hash_hex_color($color, $expected)
+    {
         $this->assertSame($expected, maybe_hash_hex_color($color));
     }
 
@@ -26,7 +28,8 @@ class Tests_Formatting_MaybeHashHexColor extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_sanitize_hex_color_no_hash() {
+    public function data_sanitize_hex_color_no_hash()
+    {
         return array(
             '$maybe_alpha = false, 3 digit'               => array(
                 'color'    => '#123',

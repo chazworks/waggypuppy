@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::get_contents
  */
-class Tests_Filesystem_WpFilesystemDirect_GetContents extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_GetContents extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::get_contents()` gets the
@@ -22,7 +23,8 @@ class Tests_Filesystem_WpFilesystemDirect_GetContents extends WP_Filesystem_Dire
      *
      * @ticket 57774
      */
-    public function test_should_get_the_contents_of_a_file() {
+    public function test_should_get_the_contents_of_a_file()
+    {
         $file = self::$file_structure['visible_file']['path'];
 
         $this->assertSame(
@@ -41,7 +43,8 @@ class Tests_Filesystem_WpFilesystemDirect_GetContents extends WP_Filesystem_Dire
      *
      * @param string $path The path.
      */
-    public function test_should_return_false($path) {
+    public function test_should_return_false($path)
+    {
         $this->assertFalse(self::$filesystem->get_contents(self::$file_structure['test_dir']['path'] . $path));
     }
 }

@@ -8,11 +8,13 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_wpSiteQuery extends WP_UnitTestCase {
+    class Tests_Multisite_wpSiteQuery extends WP_UnitTestCase
+    {
         protected static $network_ids;
         protected static $site_ids;
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$network_ids = array(
                 'wordpress.org/'      => array(
                     'domain' => 'wordpress.org',
@@ -85,7 +87,8 @@ if (is_multisite()) :
             unset($id);
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             global $wpdb;
 
             foreach (self::$site_ids as $id) {
@@ -100,7 +103,8 @@ if (is_multisite()) :
             wp_update_network_site_counts();
         }
 
-        public function test_wp_site_query_by_ID() {
+        public function test_wp_site_query_by_ID()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -112,7 +116,8 @@ if (is_multisite()) :
             $this->assertSameSets(array(self::$site_ids['www.w.org/']), $found);
         }
 
-        public function test_wp_site_query_by_number() {
+        public function test_wp_site_query_by_number()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -124,7 +129,8 @@ if (is_multisite()) :
             $this->assertCount(3, $found);
         }
 
-        public function test_wp_site_query_by_site__in_with_single_id() {
+        public function test_wp_site_query_by_site__in_with_single_id()
+        {
             $expected = array(self::$site_ids['wordpress.org/foo/']);
 
             $q     = new WP_Site_Query();
@@ -138,7 +144,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_site__in_with_multiple_ids() {
+        public function test_wp_site_query_by_site__in_with_multiple_ids()
+        {
             $expected = array(self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']);
 
             $q     = new WP_Site_Query();
@@ -155,7 +162,8 @@ if (is_multisite()) :
         /**
          * Test the `count` query var
          */
-        public function test_wp_site_query_by_site__in_and_count_with_multiple_ids() {
+        public function test_wp_site_query_by_site__in_and_count_with_multiple_ids()
+        {
             $expected = array(self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']);
 
             $q     = new WP_Site_Query();
@@ -170,7 +178,8 @@ if (is_multisite()) :
             $this->assertSame(2, $found);
         }
 
-        public function test_wp_site_query_by_site__not_in_with_single_id() {
+        public function test_wp_site_query_by_site__not_in_with_single_id()
+        {
             $excluded = array(self::$site_ids['wordpress.org/foo/']);
             $expected = array_diff(self::$site_ids, $excluded);
 
@@ -188,7 +197,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_site__not_in_with_multiple_ids() {
+        public function test_wp_site_query_by_site__not_in_with_multiple_ids()
+        {
             $excluded = array(self::$site_ids['wordpress.org/'], self::$site_ids['wordpress.org/foo/']);
             $expected = array_diff(self::$site_ids, $excluded);
 
@@ -206,7 +216,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_network_id_with_order() {
+        public function test_wp_site_query_by_network_id_with_order()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -237,7 +248,8 @@ if (is_multisite()) :
             $this->assertSame(array_reverse($expected), $found);
         }
 
-        public function test_wp_site_query_by_network_id_with_existing_sites() {
+        public function test_wp_site_query_by_network_id_with_existing_sites()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -254,7 +266,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_network_id_with_no_existing_sites() {
+        public function test_wp_site_query_by_network_id_with_no_existing_sites()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -266,7 +279,8 @@ if (is_multisite()) :
             $this->assertEmpty($found);
         }
 
-        public function test_wp_site_query_by_domain() {
+        public function test_wp_site_query_by_domain()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -285,7 +299,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_domain_and_offset() {
+        public function test_wp_site_query_by_domain_and_offset()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -304,7 +319,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_domain_and_number_and_offset() {
+        public function test_wp_site_query_by_domain_and_number_and_offset()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -323,7 +339,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_domain__in_with_single_domain() {
+        public function test_wp_site_query_by_domain__in_with_single_domain()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -340,7 +357,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_domain__in_with_multiple_domains() {
+        public function test_wp_site_query_by_domain__in_with_multiple_domains()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -360,7 +378,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_domain__not_in_with_single_domain() {
+        public function test_wp_site_query_by_domain__not_in_with_single_domain()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -381,7 +400,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_domain__not_in_with_multiple_domains() {
+        public function test_wp_site_query_by_domain__not_in_with_multiple_domains()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -399,7 +419,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_path_with_expected_results() {
+        public function test_wp_site_query_by_path_with_expected_results()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -416,7 +437,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_path_with_no_expected_results() {
+        public function test_wp_site_query_by_path_with_no_expected_results()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -430,7 +452,8 @@ if (is_multisite()) :
 
         // archived, mature, spam, deleted, public.
 
-        public function test_wp_site_query_by_archived() {
+        public function test_wp_site_query_by_archived()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -444,7 +467,8 @@ if (is_multisite()) :
             $this->assertSameSets(array_values(self::$site_ids), $found);
         }
 
-        public function test_wp_site_query_by_mature() {
+        public function test_wp_site_query_by_mature()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -458,7 +482,8 @@ if (is_multisite()) :
             $this->assertSameSets(array_values(self::$site_ids), $found);
         }
 
-        public function test_wp_site_query_by_spam() {
+        public function test_wp_site_query_by_spam()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -472,7 +497,8 @@ if (is_multisite()) :
             $this->assertSameSets(array_values(self::$site_ids), $found);
         }
 
-        public function test_wp_site_query_by_deleted() {
+        public function test_wp_site_query_by_deleted()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -486,7 +512,8 @@ if (is_multisite()) :
             $this->assertSameSets(array_values(self::$site_ids), $found);
         }
 
-        public function test_wp_site_query_by_deleted_with_no_results() {
+        public function test_wp_site_query_by_deleted_with_no_results()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -498,7 +525,8 @@ if (is_multisite()) :
             $this->assertEmpty($found);
         }
 
-        public function test_wp_site_query_by_public() {
+        public function test_wp_site_query_by_public()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -512,7 +540,8 @@ if (is_multisite()) :
             $this->assertSameSets(array_values(self::$site_ids), $found);
         }
 
-        public function test_wp_site_query_by_lang_id_with_zero() {
+        public function test_wp_site_query_by_lang_id_with_zero()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -526,7 +555,8 @@ if (is_multisite()) :
             $this->assertSameSets(array_diff(array_values(self::$site_ids), array(self::$site_ids['www.w.org/make/'])), $found);
         }
 
-        public function test_wp_site_query_by_lang_id() {
+        public function test_wp_site_query_by_lang_id()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -542,7 +572,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_lang_id_with_no_results() {
+        public function test_wp_site_query_by_lang_id_with_no_results()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -554,7 +585,8 @@ if (is_multisite()) :
             $this->assertEmpty($found);
         }
 
-        public function test_wp_site_query_by_lang__in() {
+        public function test_wp_site_query_by_lang__in()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -570,7 +602,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_lang__in_with_multiple_ids() {
+        public function test_wp_site_query_by_lang__in_with_multiple_ids()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -584,7 +617,8 @@ if (is_multisite()) :
             $this->assertSameSets(array_values(self::$site_ids), $found);
         }
 
-        public function test_wp_site_query_by_lang__not_in() {
+        public function test_wp_site_query_by_lang__not_in()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -600,7 +634,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_lang__not_in_with_multiple_ids() {
+        public function test_wp_site_query_by_lang__not_in_with_multiple_ids()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -612,7 +647,8 @@ if (is_multisite()) :
             $this->assertEmpty($found);
         }
 
-        public function test_wp_site_query_by_search_with_text_in_domain() {
+        public function test_wp_site_query_by_search_with_text_in_domain()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -629,7 +665,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_search_with_text_in_path() {
+        public function test_wp_site_query_by_search_with_text_in_path()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -649,7 +686,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_search_with_text_in_path_and_domain() {
+        public function test_wp_site_query_by_search_with_text_in_path_and_domain()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -667,7 +705,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_search_with_text_in_path_and_domain_order_by_domain_desc() {
+        public function test_wp_site_query_by_search_with_text_in_path_and_domain_order_by_domain_desc()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -687,7 +726,8 @@ if (is_multisite()) :
             $this->assertSame($expected, $found);
         }
 
-        public function test_wp_site_query_by_search_with_text_in_path_exclude_domain_from_search() {
+        public function test_wp_site_query_by_search_with_text_in_path_exclude_domain_from_search()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -704,7 +744,8 @@ if (is_multisite()) :
             $this->assertSame($expected, $found);
         }
 
-        public function test_wp_site_query_by_search_with_text_in_domain_exclude_path_from_search() {
+        public function test_wp_site_query_by_search_with_text_in_domain_exclude_path_from_search()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -722,7 +763,8 @@ if (is_multisite()) :
             $this->assertSame($expected, $found);
         }
 
-        public function test_wp_site_query_by_search_with_wildcard_in_text() {
+        public function test_wp_site_query_by_search_with_wildcard_in_text()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -740,7 +782,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_search_with_wildcard_in_text_exclude_path_from_search() {
+        public function test_wp_site_query_by_search_with_wildcard_in_text_exclude_path_from_search()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -758,7 +801,8 @@ if (is_multisite()) :
             $this->assertSameSets($expected, $found);
         }
 
-        public function test_wp_site_query_by_search_with_wildcard_in_text_exclude_domain_from_search() {
+        public function test_wp_site_query_by_search_with_wildcard_in_text_exclude_domain_from_search()
+        {
             $q     = new WP_Site_Query();
             $found = $q->query(
                 array(
@@ -778,7 +822,8 @@ if (is_multisite()) :
         /**
          * @ticket 41197
          */
-        public function test_wp_site_query_cache_with_different_fields_no_count() {
+        public function test_wp_site_query_cache_with_different_fields_no_count()
+        {
             $q                 = new WP_Site_Query();
             $query_1           = $q->query(
                 array(
@@ -805,7 +850,8 @@ if (is_multisite()) :
         /**
          * @ticket 41197
          */
-        public function test_wp_site_query_cache_with_different_fields_active_count() {
+        public function test_wp_site_query_cache_with_different_fields_active_count()
+        {
             $q = new WP_Site_Query();
 
             $query_1           = $q->query(
@@ -834,7 +880,8 @@ if (is_multisite()) :
         /**
          * @ticket 41197
          */
-        public function test_wp_site_query_cache_with_same_fields_different_count() {
+        public function test_wp_site_query_cache_with_same_fields_different_count()
+        {
             $q = new WP_Site_Query();
 
             $query_1 = $q->query(
@@ -863,7 +910,8 @@ if (is_multisite()) :
         /**
          * @ticket 55462
          */
-        public function test_wp_site_query_cache_with_same_fields_same_cache_fields() {
+        public function test_wp_site_query_cache_with_same_fields_same_cache_fields()
+        {
             $q = new WP_Site_Query();
 
             $query_1 = $q->query(
@@ -895,7 +943,8 @@ if (is_multisite()) :
         /**
          * @ticket 55462
          */
-        public function test_wp_site_query_cache_with_same_fields_different_cache_fields() {
+        public function test_wp_site_query_cache_with_same_fields_different_cache_fields()
+        {
             $q = new WP_Site_Query();
 
             $query_1 = $q->query(
@@ -928,7 +977,8 @@ if (is_multisite()) :
          * @ticket 40229
          * @dataProvider data_wp_site_query_meta_query
          */
-        public function test_wp_site_query_meta_query($query, $expected, $strict) {
+        public function test_wp_site_query_meta_query($query, $expected, $strict)
+        {
             if (! is_site_meta_supported()) {
                 $this->markTestSkipped('Test only runs with the blogmeta database table installed.');
             }
@@ -956,7 +1006,8 @@ if (is_multisite()) :
             }
         }
 
-        public function data_wp_site_query_meta_query() {
+        public function data_wp_site_query_meta_query()
+        {
             return array(
                 array(
                     array(
@@ -1115,7 +1166,8 @@ if (is_multisite()) :
          * @ticket 45749
          * @ticket 47599
          */
-        public function test_sites_pre_query_filter_should_bypass_database_query() {
+        public function test_sites_pre_query_filter_should_bypass_database_query()
+        {
             add_filter('sites_pre_query', array(__CLASS__, 'filter_sites_pre_query'), 10, 2);
 
             $num_queries = get_num_queries();
@@ -1135,7 +1187,8 @@ if (is_multisite()) :
             $this->assertSame(1, $q->found_sites);
         }
 
-        public static function filter_sites_pre_query($sites, $query) {
+        public static function filter_sites_pre_query($sites, $query)
+        {
             $query->found_sites = 1;
 
             return array(555);
@@ -1144,7 +1197,8 @@ if (is_multisite()) :
         /**
          * @ticket 51333
          */
-        public function test_sites_pre_query_filter_should_set_sites_property() {
+        public function test_sites_pre_query_filter_should_set_sites_property()
+        {
             add_filter('sites_pre_query', array(__CLASS__, 'filter_sites_pre_query_and_set_sites'), 10, 2);
 
             $q       = new WP_Site_Query();
@@ -1159,14 +1213,16 @@ if (is_multisite()) :
             $this->assertSame('wordpress.org', $q->sites[0]->domain);
         }
 
-        public static function filter_sites_pre_query_and_set_sites($sites, $query) {
+        public static function filter_sites_pre_query_and_set_sites($sites, $query)
+        {
             return array(get_site(self::$site_ids['wordpress.org/']));
         }
 
         /**
          * @ticket 56841
          */
-        public function test_wp_site_query_does_not_have_leading_whitespace() {
+        public function test_wp_site_query_does_not_have_leading_whitespace()
+        {
             $q = new WP_Site_Query();
 
             $q->query(

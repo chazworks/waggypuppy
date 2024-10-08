@@ -12,7 +12,8 @@
  * @package WordPress
  */
 #[AllowDynamicProperties]
-class WP_Application_Passwords {
+class WP_Application_Passwords
+{
 
     /**
      * The application passwords user meta key.
@@ -50,7 +51,8 @@ class WP_Application_Passwords {
      *
      * @return bool
      */
-    public static function is_in_use() {
+    public static function is_in_use()
+    {
         $network_id = get_main_network_id();
         return (bool) get_network_option($network_id, self::OPTION_KEY_IN_USE);
     }
@@ -85,7 +87,8 @@ class WP_Application_Passwords {
      *     }
      * }
      */
-    public static function create_new_application_password($user_id, $args = array()) {
+    public static function create_new_application_password($user_id, $args = array())
+    {
         if (! empty($args['name'])) {
             $args['name'] = sanitize_text_field($args['name']);
         }
@@ -170,7 +173,8 @@ class WP_Application_Passwords {
      *     }
      * }
      */
-    public static function get_user_application_passwords($user_id) {
+    public static function get_user_application_passwords($user_id)
+    {
         $passwords = get_user_meta($user_id, static::USERMETA_KEY_APPLICATION_PASSWORDS, true);
 
         if (! is_array($passwords)) {
@@ -212,7 +216,8 @@ class WP_Application_Passwords {
      *     @type string|null $last_ip   The IP address the application password was last used by.
      * }
      */
-    public static function get_user_application_password($user_id, $uuid) {
+    public static function get_user_application_password($user_id, $uuid)
+    {
         $passwords = static::get_user_application_passwords($user_id);
 
         foreach ($passwords as $password) {
@@ -233,7 +238,8 @@ class WP_Application_Passwords {
      * @param string $name    Application name.
      * @return bool Whether the provided application name exists.
      */
-    public static function application_name_exists_for_user($user_id, $name) {
+    public static function application_name_exists_for_user($user_id, $name)
+    {
         $passwords = static::get_user_application_passwords($user_id);
 
         foreach ($passwords as $password) {
@@ -265,7 +271,8 @@ class WP_Application_Passwords {
      * }
      * @return true|WP_Error True if successful, otherwise a WP_Error instance is returned on error.
      */
-    public static function update_application_password($user_id, $uuid, $update = array()) {
+    public static function update_application_password($user_id, $uuid, $update = array())
+    {
         $passwords = static::get_user_application_passwords($user_id);
 
         foreach ($passwords as &$item) {
@@ -328,7 +335,8 @@ class WP_Application_Passwords {
      * @param string $uuid    The password's UUID.
      * @return true|WP_Error True if the usage was recorded, a WP_Error if an error occurs.
      */
-    public static function record_application_password_usage($user_id, $uuid) {
+    public static function record_application_password_usage($user_id, $uuid)
+    {
         $passwords = static::get_user_application_passwords($user_id);
 
         foreach ($passwords as &$password) {
@@ -366,7 +374,8 @@ class WP_Application_Passwords {
      * @param string $uuid    The password's UUID.
      * @return true|WP_Error Whether the password was successfully found and deleted, a WP_Error otherwise.
      */
-    public static function delete_application_password($user_id, $uuid) {
+    public static function delete_application_password($user_id, $uuid)
+    {
         $passwords = static::get_user_application_passwords($user_id);
 
         foreach ($passwords as $key => $item) {
@@ -403,7 +412,8 @@ class WP_Application_Passwords {
      * @param int $user_id User ID.
      * @return int|WP_Error The number of passwords that were deleted or a WP_Error on failure.
      */
-    public static function delete_all_application_passwords($user_id) {
+    public static function delete_all_application_passwords($user_id)
+    {
         $passwords = static::get_user_application_passwords($user_id);
 
         if ($passwords) {
@@ -447,7 +457,8 @@ class WP_Application_Passwords {
      *                  has been saved for the user), true on successful update, false on failure or if the value passed
      *                  is the same as the one that is already in the database.
      */
-    protected static function set_user_application_passwords($user_id, $passwords) {
+    protected static function set_user_application_passwords($user_id, $passwords)
+    {
         return update_user_meta($user_id, static::USERMETA_KEY_APPLICATION_PASSWORDS, $passwords);
     }
 
@@ -459,7 +470,8 @@ class WP_Application_Passwords {
      * @param string $raw_password The raw application password.
      * @return string The chunked password.
      */
-    public static function chunk_password($raw_password) {
+    public static function chunk_password($raw_password)
+    {
         $raw_password = preg_replace('/[^a-z\d]/i', '', $raw_password);
 
         return trim(chunk_split($raw_password, 4, ' '));

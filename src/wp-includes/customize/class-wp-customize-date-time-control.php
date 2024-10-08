@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Date_Time_Control extends WP_Customize_Control {
+class WP_Customize_Date_Time_Control extends WP_Customize_Control
+{
 
     /**
      * Customize control type.
@@ -70,7 +71,8 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      *
      * @since 4.9.0
      */
-    public function render_content() {}
+    public function render_content()
+    {}
 
     /**
      * Export data to JS.
@@ -78,7 +80,8 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      * @since 4.9.0
      * @return array
      */
-    public function json() {
+    public function json()
+    {
         $data = parent::json();
 
         $data['maxYear']          = (int) $this->max_year;
@@ -95,7 +98,8 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      *
      * @since 4.9.0
      */
-    public function content_template() {
+    public function content_template()
+    {
         $data          = array_merge($this->json(), $this->get_month_choices());
         $timezone_info = $this->get_timezone_info();
 
@@ -224,7 +228,8 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      *
      * @return array
      */
-    public function get_month_choices() {
+    public function get_month_choices()
+    {
         global $wp_locale;
         $months = array();
         for ($i = 1; $i < 13; $i++) {
@@ -251,7 +256,8 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      *     @type string $description Human-readable timezone description as HTML.
      * }
      */
-    public function get_timezone_info() {
+    public function get_timezone_info()
+    {
         $tz_string     = get_option('timezone_string');
         $timezone_info = array();
 
@@ -303,7 +309,8 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
      * @param float $offset Offset in hours.
      * @return string Formatted offset.
      */
-    public function format_gmt_offset($offset) {
+    public function format_gmt_offset($offset)
+    {
         if (0 <= $offset) {
             $formatted_offset = '+' . (string) $offset;
         } else {

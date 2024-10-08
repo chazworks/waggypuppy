@@ -4,7 +4,8 @@
  *
  * @group vars
  */
-class Tests_Vars extends WP_UnitTestCase {
+class Tests_Vars extends WP_UnitTestCase
+{
 
     /**
      * Backup of $_SERVER.
@@ -16,7 +17,8 @@ class Tests_Vars extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         $this->server_vars = $_SERVER;
         parent::set_up();
     }
@@ -24,7 +26,8 @@ class Tests_Vars extends WP_UnitTestCase {
     /**
      * Tear down.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $_SERVER = $this->server_vars;
         parent::tear_down();
     }
@@ -34,7 +37,8 @@ class Tests_Vars extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function get_data_to_test_wp_is_mobile(): array {
+    public function get_data_to_test_wp_is_mobile(): array
+    {
         return array(
             'mobile client hint'  => array(
                 'headers'  => array(
@@ -113,7 +117,8 @@ class Tests_Vars extends WP_UnitTestCase {
      * @param array $headers  Headers in $_SERVER.
      * @param bool  $expected Whether expected.
      */
-    public function test_wp_is_mobile(array $headers, bool $expected) {
+    public function test_wp_is_mobile(array $headers, bool $expected)
+    {
         foreach ($headers as $key => $value) {
             $_SERVER[ $key ] = $value;
         }
@@ -125,7 +130,8 @@ class Tests_Vars extends WP_UnitTestCase {
      *
      * @covers ::wp_is_mobile
      */
-    public function test_wp_is_mobile_is_true_with_filter() {
+    public function test_wp_is_mobile_is_true_with_filter()
+    {
         $this->assertFalse(wp_is_mobile());
         add_filter('wp_is_mobile', '__return_true');
         $this->assertTrue(wp_is_mobile());
@@ -136,7 +142,8 @@ class Tests_Vars extends WP_UnitTestCase {
      *
      * @covers ::wp_is_mobile
      */
-    public function test_wp_is_mobile_is_false_with_filter() {
+    public function test_wp_is_mobile_is_false_with_filter()
+    {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.5938.60 Mobile Safari/537.36';
         $this->assertTrue(wp_is_mobile());
         add_filter('wp_is_mobile', '__return_false');

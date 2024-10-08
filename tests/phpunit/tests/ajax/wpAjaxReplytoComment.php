@@ -16,7 +16,8 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_replyto_comment
  */
-class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase
+{
 
     /**
      * A post with at least one comment.
@@ -34,13 +35,15 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
 
     protected static $comment_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$comment_post = $factory->post->create_and_get();
         self::$comment_ids  = $factory->comment->create_post_comments(self::$comment_post->ID, 5);
         self::$draft_post   = $factory->post->create_and_get(array('post_status' => 'draft'));
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         remove_filter('query', array($this, '_block_comments'));
         parent::tear_down();
     }
@@ -50,7 +53,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to pass.
      */
-    public function test_as_admin() {
+    public function test_as_admin()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -96,7 +100,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to fail.
      */
-    public function test_as_subscriber() {
+    public function test_as_subscriber()
+    {
 
         // Become a subscriber.
         $this->_setRole('subscriber');
@@ -126,7 +131,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to fail.
      */
-    public function test_bad_nonce() {
+    public function test_bad_nonce()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -156,7 +162,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to fail.
      */
-    public function test_invalid_post() {
+    public function test_invalid_post()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -177,7 +184,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to fail.
      */
-    public function test_with_draft_post() {
+    public function test_with_draft_post()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -200,7 +208,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
      *
      * @global $wpdb
      */
-    public function test_blocked_comment() {
+    public function test_blocked_comment()
+    {
         global $wpdb;
 
         // Become an administrator.
@@ -232,7 +241,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
      * @param string $sql
      * @return string
      */
-    public function _block_comments($sql) {
+    public function _block_comments($sql)
+    {
         global $wpdb;
         if (false !== strpos($sql, $wpdb->comments) && 0 === stripos(trim($sql), 'INSERT INTO')) {
             return '';
@@ -245,7 +255,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
      *
      * @ticket 39730
      */
-    public function test_pre_comments_approved() {
+    public function test_pre_comments_approved()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -267,7 +278,8 @@ class Tests_Ajax_wpAjaxReplytoComment extends WP_Ajax_UnitTestCase {
     /**
      * Blocks comments from being saved on 'pre_comment_approved', by returning WP_Error.
      */
-    public function _pre_comment_approved_filter($approved, $commentdata) {
+    public function _pre_comment_approved_filter($approved, $commentdata)
+    {
         return new WP_Error('comment_wrong', 'pre_comment_approved filter fails for new comment.', 403);
     }
 }

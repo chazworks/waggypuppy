@@ -18,7 +18,8 @@
  *
  * @see WP_Upgrader
  */
-class Theme_Upgrader extends WP_Upgrader {
+class Theme_Upgrader extends WP_Upgrader
+{
 
     /**
      * Result of the theme upgrade offer.
@@ -52,7 +53,8 @@ class Theme_Upgrader extends WP_Upgrader {
      *
      * @since 2.8.0
      */
-    public function upgrade_strings() {
+    public function upgrade_strings()
+    {
         $this->strings['up_to_date'] = __('The theme is at the latest version.');
         $this->strings['no_package'] = __('Update package not available.');
         /* translators: %s: Package URL. */
@@ -69,7 +71,8 @@ class Theme_Upgrader extends WP_Upgrader {
      *
      * @since 2.8.0
      */
-    public function install_strings() {
+    public function install_strings()
+    {
         $this->strings['no_package'] = __('Installation package not available.');
         /* translators: %s: Package URL. */
         $this->strings['downloading_package'] = sprintf(__('Downloading installation package from %s&#8230;'), '<span class="code pre">%s</span>');
@@ -121,7 +124,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * @param array $child_result
      * @return bool
      */
-    public function check_parent_theme_filter($install_result, $hook_extra, $child_result) {
+    public function check_parent_theme_filter($install_result, $hook_extra, $child_result)
+    {
         // Check to see if we need to install a parent theme.
         $theme_info = $this->theme_info();
 
@@ -206,7 +210,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * @param array $actions Preview actions.
      * @return array
      */
-    public function hide_activate_preview_actions($actions) {
+    public function hide_activate_preview_actions($actions)
+    {
         unset($actions['activate'], $actions['preview']);
         return $actions;
     }
@@ -227,7 +232,8 @@ class Theme_Upgrader extends WP_Upgrader {
      *
      * @return bool|WP_Error True if the installation was successful, false or a WP_Error object otherwise.
      */
-    public function install($package, $args = array()) {
+    public function install($package, $args = array())
+    {
         $defaults    = array(
             'clear_update_cache' => true,
             'overwrite_package'  => false, // Do not overwrite files.
@@ -292,7 +298,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * }
      * @return bool|WP_Error True if the upgrade was successful, false or a WP_Error object otherwise.
      */
-    public function upgrade($theme, $args = array()) {
+    public function upgrade($theme, $args = array())
+    {
         $defaults    = array(
             'clear_update_cache' => true,
         );
@@ -380,7 +387,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * }
      * @return array[]|false An array of results, or false if unable to connect to the filesystem.
      */
-    public function bulk_upgrade($themes, $args = array()) {
+    public function bulk_upgrade($themes, $args = array())
+    {
         $wp_version  = wp_get_wp_version();
         $defaults    = array(
             'clear_update_cache' => true,
@@ -559,7 +567,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * @param string $source The path to the downloaded package source.
      * @return string|WP_Error The source as passed, or a WP_Error object on failure.
      */
-    public function check_package($source) {
+    public function check_package($source)
+    {
         global $wp_filesystem;
 
         $wp_version           = wp_get_wp_version();
@@ -679,7 +688,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * @param array         $theme    Theme arguments.
      * @return bool|WP_Error The original `$response` parameter or WP_Error.
      */
-    public function current_before($response, $theme) {
+    public function current_before($response, $theme)
+    {
         if (is_wp_error($response)) {
             return $response;
         }
@@ -711,7 +721,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * @param array         $theme    Theme arguments.
      * @return bool|WP_Error The original `$response` parameter or WP_Error.
      */
-    public function current_after($response, $theme) {
+    public function current_after($response, $theme)
+    {
         if (is_wp_error($response)) {
             return $response;
         }
@@ -753,7 +764,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * @param array  $theme
      * @return bool
      */
-    public function delete_old_theme($removed, $local_destination, $remote_destination, $theme) {
+    public function delete_old_theme($removed, $local_destination, $remote_destination, $theme)
+    {
         global $wp_filesystem;
 
         if (is_wp_error($removed)) {
@@ -786,7 +798,8 @@ class Theme_Upgrader extends WP_Upgrader {
      * @return WP_Theme|false The theme's info object, or false `$theme` is not supplied
      *                        and the last result isn't set.
      */
-    public function theme_info($theme = null) {
+    public function theme_info($theme = null)
+    {
         if (empty($theme)) {
             if (! empty($this->result['destination_name'])) {
                 $theme = $this->result['destination_name'];

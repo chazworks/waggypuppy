@@ -5,13 +5,15 @@
  *
  * @group query
  */
-class Tests_Query_Vars extends WP_UnitTestCase {
+class Tests_Query_Vars extends WP_UnitTestCase
+{
 
     /**
      * @ticket 35115
      * @ticket 51154
      */
-    public function testPublicQueryVarsAreAsExpected() {
+    public function testPublicQueryVarsAreAsExpected()
+    {
         global $wp;
 
         // Re-initialize any dynamically-added public query vars:

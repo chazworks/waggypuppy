@@ -6,8 +6,10 @@
  *
  * @covers ::get_the_category_by_ID
  */
-class Tests_Category_GetTheCategoryById extends WP_UnitTestCase {
-    public function test_success() {
+class Tests_Category_GetTheCategoryById extends WP_UnitTestCase
+{
+    public function test_success()
+    {
         $c = self::factory()->category->create(
             array(
                 'name' => 'Foo',
@@ -22,7 +24,8 @@ class Tests_Category_GetTheCategoryById extends WP_UnitTestCase {
     /**
      * @ticket 42771
      */
-    public function test_should_return_link_for_term_from_another_taxonomy_on_primed_cache() {
+    public function test_should_return_link_for_term_from_another_taxonomy_on_primed_cache()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
@@ -42,7 +45,8 @@ class Tests_Category_GetTheCategoryById extends WP_UnitTestCase {
     /**
      * @ticket 42771
      */
-    public function test_should_return_link_for_term_from_another_taxonomy_on_empty_cache() {
+    public function test_should_return_link_for_term_from_another_taxonomy_on_empty_cache()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(

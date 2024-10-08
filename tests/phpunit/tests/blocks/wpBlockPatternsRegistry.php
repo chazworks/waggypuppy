@@ -8,7 +8,8 @@
  *
  * @group blocks
  */
-class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
+class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase
+{
 
     /**
      * Fake block patterns registry.
@@ -32,7 +33,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @since 6.4.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->registry                     = new WP_Block_Patterns_Registry();
@@ -44,7 +46,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @since 6.4.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->registry = null;
 
         $registry = WP_Block_Type_Registry::get_instance();
@@ -66,7 +69,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Patterns_Registry::register
      */
-    public function test_missing_name() {
+    public function test_missing_name()
+    {
         $name     = null;
         $settings = array(
             'title'   => 'Test Pattern',
@@ -86,7 +90,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Patterns_Registry::register
      */
-    public function test_invalid_non_string_name() {
+    public function test_invalid_non_string_name()
+    {
         $name     = 123;
         $settings = array(
             'title'   => 'Test Pattern',
@@ -106,7 +111,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Patterns_Registry::register
      */
-    public function test_missing_title() {
+    public function test_missing_title()
+    {
         $name     = 'test/pattern';
         $settings = array(
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
@@ -125,7 +131,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Patterns_Registry::register
      */
-    public function test_invalid_non_string_title() {
+    public function test_invalid_non_string_title()
+    {
         $name     = 'test/pattern';
         $settings = array(
             'title'   => 456,
@@ -145,7 +152,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Patterns_Registry::register
      */
-    public function test_missing_content() {
+    public function test_missing_content()
+    {
         $name     = 'Test Pattern';
         $settings = array(
             'title' => 'Test Pattern',
@@ -164,7 +172,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Patterns_Registry::register
      */
-    public function test_invalid_non_string_content() {
+    public function test_invalid_non_string_content()
+    {
         $name     = 'Test Pattern';
         $settings = array(
             'title'   => 'Test Pattern',
@@ -182,7 +191,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @ticket 59476
      */
-    public function test_register_block_pattern() {
+    public function test_register_block_pattern()
+    {
         $name     = 'test/pattern';
         $settings = array(
             'title'   => 'Pattern One',
@@ -202,7 +212,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Block_Patterns_Registry::unregister
      */
-    public function test_unregister_not_registered_block() {
+    public function test_unregister_not_registered_block()
+    {
         $success = $this->registry->unregister('test/unregistered');
         $this->assertFalse($success);
     }
@@ -214,7 +225,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @covers WP_Block_Patterns_Registry::unregister
      */
-    public function test_unregister_block_pattern() {
+    public function test_unregister_block_pattern()
+    {
         $name     = 'test/pattern';
         $settings = array(
             'title'   => 'Pattern One',
@@ -234,7 +246,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::get_all_registered
      */
-    public function test_get_all_registered() {
+    public function test_get_all_registered()
+    {
         $pattern_one = array(
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
@@ -275,7 +288,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::get_registered
      */
-    public function test_get_registered_rejects_unknown_pattern_name() {
+    public function test_get_registered_rejects_unknown_pattern_name()
+    {
         $pattern_one = array(
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
@@ -300,7 +314,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::get_registered
      */
-    public function test_get_registered() {
+    public function test_get_registered()
+    {
         $pattern_one = array(
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
@@ -333,7 +348,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::get_all_registered
      */
-    public function test_get_all_registered_includes_theme_attribute() {
+    public function test_get_all_registered_includes_theme_attribute()
+    {
         $test_pattern = array(
             'title'   => 'Test Pattern',
             'content' => '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header"} /-->',
@@ -358,7 +374,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::get_all_registered
      */
-    public function test_get_all_registered_includes_hooked_blocks() {
+    public function test_get_all_registered_includes_hooked_blocks()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -406,7 +423,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::get_registered
      */
-    public function test_get_registered_includes_theme_attribute() {
+    public function test_get_registered_includes_theme_attribute()
+    {
         $test_pattern = array(
             'title'   => 'Test Pattern',
             'content' => '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header"} /-->',
@@ -431,7 +449,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::get_registered
      */
-    public function test_get_registered_includes_hooked_blocks() {
+    public function test_get_registered_includes_hooked_blocks()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -465,7 +484,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::is_registered
      */
-    public function test_is_registered_for_unknown_pattern() {
+    public function test_is_registered_for_unknown_pattern()
+    {
         $pattern = $this->registry->is_registered('test/one');
         $this->assertFalse($pattern);
     }
@@ -478,7 +498,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      * @covers WP_Block_Patterns_Registry::register
      * @covers WP_Block_Patterns_Registry::is_registered
      */
-    public function test_is_registered_for_known_pattern() {
+    public function test_is_registered_for_known_pattern()
+    {
         $pattern_one = array(
             'title'   => 'Pattern One',
             'content' => '<!-- wp:heading {"level":1} --><h1>One</h1><!-- /wp:heading -->',
@@ -496,7 +517,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @covers ::_register_theme_block_patterns
      */
-    public function test_register_theme_block_patterns_on_init() {
+    public function test_register_theme_block_patterns_on_init()
+    {
         // This test needs to use access static class properties.
         $registry = WP_Block_Patterns_Registry::get_instance();
 
@@ -526,7 +548,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @covers ::_register_theme_block_patterns
      */
-    public function test_register_theme_block_patterns_on_init_skipped_during_install() {
+    public function test_register_theme_block_patterns_on_init_skipped_during_install()
+    {
         // This test needs to use access static class properties.
         $registry = WP_Block_Patterns_Registry::get_instance();
 
@@ -560,7 +583,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @covers WP_Block_Patterns_Registry::get_all_registered
      */
-    public function test_lazy_loading_block_patterns_get_all_registered() {
+    public function test_lazy_loading_block_patterns_get_all_registered()
+    {
         // This test needs to use access static class properties.
         $registry = WP_Block_Patterns_Registry::get_instance();
 
@@ -614,7 +638,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @covers WP_Block_Patterns_Registry::get_registered
      */
-    public function test_lazy_loading_block_patterns_get_registered() {
+    public function test_lazy_loading_block_patterns_get_registered()
+    {
         // This test needs to use access static class properties.
         $registry = WP_Block_Patterns_Registry::get_instance();
 
@@ -657,7 +682,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @return array
      */
-    private function get_registered_patterns_variable_value() {
+    private function get_registered_patterns_variable_value()
+    {
         $registry = WP_Block_Patterns_Registry::get_instance();
         // Use Reflection to access private property.
         $reflection = new ReflectionClass($registry);
@@ -676,7 +702,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase {
      *
      * @param array $value The value to set.
      */
-    private function set_registered_patterns_variable_value($value) {
+    private function set_registered_patterns_variable_value($value)
+    {
         $registry = WP_Block_Patterns_Registry::get_instance();
         // Use Reflection to access private property.
         $reflection = new ReflectionClass($registry);

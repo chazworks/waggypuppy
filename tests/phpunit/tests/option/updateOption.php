@@ -3,7 +3,8 @@
 /**
  * @group option
  */
-class Tests_Option_UpdateOption extends WP_UnitTestCase {
+class Tests_Option_UpdateOption extends WP_UnitTestCase
+{
     /**
      * @ticket 31047
      *
@@ -11,7 +12,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::update_option
      * @covers ::remove_filter
      */
-    public function test_should_respect_default_option_filter_when_option_does_not_yet_exist_in_database() {
+    public function test_should_respect_default_option_filter_when_option_does_not_yet_exist_in_database()
+    {
         add_filter('default_option_doesnotexist', array($this, '__return_foo'));
         $added = update_option('doesnotexist', 'bar');
         remove_filter('default_option_doesnotexist', array($this, '__return_foo'));
@@ -27,7 +29,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::wp_load_alloptions
      * @covers ::get_option
      */
-    public function test_should_set_autoload_yes_for_nonexistent_option_when_autoload_param_is_missing() {
+    public function test_should_set_autoload_yes_for_nonexistent_option_when_autoload_param_is_missing()
+    {
         $this->flush_cache();
         update_option('test_update_option_default', 'value');
         $this->flush_cache();
@@ -50,7 +53,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::wp_load_alloptions
      * @covers ::get_option
      */
-    public function test_should_set_autoload_yes_for_nonexistent_option_when_autoload_param_is_yes() {
+    public function test_should_set_autoload_yes_for_nonexistent_option_when_autoload_param_is_yes()
+    {
         $this->flush_cache();
         update_option('test_update_option_default', 'value', true);
         $this->flush_cache();
@@ -73,7 +77,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::wp_load_alloptions
      * @covers ::get_option
      */
-    public function test_should_set_autoload_no_for_nonexistent_option_when_autoload_param_is_no() {
+    public function test_should_set_autoload_no_for_nonexistent_option_when_autoload_param_is_no()
+    {
         $this->flush_cache();
         update_option('test_update_option_default', 'value', false);
         $this->flush_cache();
@@ -97,7 +102,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::wp_load_alloptions
      * @covers ::get_option
      */
-    public function test_should_set_autoload_no_for_nonexistent_option_when_autoload_param_is_false() {
+    public function test_should_set_autoload_no_for_nonexistent_option_when_autoload_param_is_false()
+    {
         $this->flush_cache();
         update_option('test_update_option_default', 'value', false);
         $this->flush_cache();
@@ -121,7 +127,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::wp_load_alloptions
      * @covers ::get_option
      */
-    public function test_autoload_should_be_updated_for_existing_option_when_value_is_changed() {
+    public function test_autoload_should_be_updated_for_existing_option_when_value_is_changed()
+    {
         add_option('foo', 'bar', '', false);
         $updated = update_option('foo', 'bar2', true);
         $this->assertTrue($updated);
@@ -145,7 +152,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::wp_load_alloptions
      * @covers ::get_option
      */
-    public function test_autoload_should_not_be_updated_for_existing_option_when_value_is_unchanged() {
+    public function test_autoload_should_not_be_updated_for_existing_option_when_value_is_unchanged()
+    {
         add_option('foo', 'bar', '', true);
         $updated = update_option('foo', 'bar', false);
         $this->assertFalse($updated);
@@ -170,7 +178,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::wp_load_alloptions
      * @covers ::get_option
      */
-    public function test_autoload_should_not_be_updated_for_existing_option_when_value_is_changed_but_no_value_of_autoload_is_provided() {
+    public function test_autoload_should_not_be_updated_for_existing_option_when_value_is_changed_but_no_value_of_autoload_is_provided()
+    {
         add_option('foo', 'bar', '', true);
 
         // Don't pass a value for `$autoload`.
@@ -197,7 +206,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
      * @covers ::get_num_queries
      * @covers ::update_option
      */
-    public function test_update_option_array_with_object() {
+    public function test_update_option_array_with_object()
+    {
         $array_w_object = array(
             'url'       => 'http://src.wordpress-develop.dev/wp-content/uploads/2016/10/cropped-Blurry-Lights.jpg',
             'meta_data' => (object) array(
@@ -222,7 +232,8 @@ class Tests_Option_UpdateOption extends WP_UnitTestCase {
     /**
      * `add_filter()` callback for test_should_respect_default_option_filter_when_option_does_not_yet_exist_in_database().
      */
-    public function __return_foo() {
+    public function __return_foo()
+    {
         return 'foo';
     }
 }

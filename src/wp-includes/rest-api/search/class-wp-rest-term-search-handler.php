@@ -14,14 +14,16 @@
  *
  * @see WP_REST_Search_Handler
  */
-class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
+class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
+{
 
     /**
      * Constructor.
      *
      * @since 5.6.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->type = 'term';
 
         $this->subtypes = array_values(
@@ -50,7 +52,8 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
      *                                      the requested taxonomy does not exist.
      * }
      */
-    public function search_items(WP_REST_Request $request) {
+    public function search_items(WP_REST_Request $request)
+    {
         $taxonomies = $request[ WP_REST_Search_Controller::PROP_SUBTYPE ];
         if (in_array(WP_REST_Search_Controller::TYPE_ANY, $taxonomies, true)) {
             $taxonomies = $this->subtypes;
@@ -125,7 +128,8 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
      *     @type string $type  Optional. Term taxonomy name.
      * }
      */
-    public function prepare_item($id, array $fields) {
+    public function prepare_item($id, array $fields)
+    {
         $term = get_term($id);
 
         $data = array();
@@ -154,7 +158,8 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
      * @param int $id Item ID.
      * @return array[] Array of link arrays for the given item.
      */
-    public function prepare_item_links($id) {
+    public function prepare_item_links($id)
+    {
         $term = get_term($id);
 
         $links = array();

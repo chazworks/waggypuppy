@@ -7,7 +7,8 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * Posts with title 'my-footitle'.
@@ -49,7 +50,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         add_theme_support('post-formats', array('aside'));
 
         self::$my_title_post_ids = $factory->post->create_many(
@@ -95,7 +97,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Delete our fake data after our tests run.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         remove_theme_support('post-formats');
 
         $post_ids = array_merge(
@@ -121,7 +124,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Check that our routes get set up properly.
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
 
         $this->assertArrayHasKey('/wp/v2/search', $routes);
@@ -131,7 +135,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Check the context parameter.
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         $response = $this->do_request_with_params(array(), 'OPTIONS');
         $data     = $response->get_data();
 
@@ -142,7 +147,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through all content.
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -163,7 +169,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through all content with a low limit.
      */
-    public function test_get_items_with_limit() {
+    public function test_get_items_with_limit()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 3,
@@ -177,7 +184,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through posts of any post type.
      */
-    public function test_get_items_search_type_post() {
+    public function test_get_items_search_type_post()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -199,7 +207,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through posts of post type 'post'.
      */
-    public function test_get_items_search_type_post_subtype_post() {
+    public function test_get_items_search_type_post_subtype_post()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -221,7 +230,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through posts of post type 'page'.
      */
-    public function test_get_items_search_type_post_subtype_page() {
+    public function test_get_items_search_type_post_subtype_page()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -240,7 +250,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through an invalid type
      */
-    public function test_get_items_search_type_invalid() {
+    public function test_get_items_search_type_invalid()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -254,7 +265,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through posts of an invalid post type.
      */
-    public function test_get_items_search_type_post_subtype_invalid() {
+    public function test_get_items_search_type_post_subtype_invalid()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -269,7 +281,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through posts and pages.
      */
-    public function test_get_items_search_posts_and_pages() {
+    public function test_get_items_search_posts_and_pages()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -292,7 +305,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through all that matches a 'footitle' search.
      */
-    public function test_get_items_search_for_footitle() {
+    public function test_get_items_search_for_footitle()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -313,7 +327,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Search through all that matches a 'foocontent' search.
      */
-    public function test_get_items_search_for_foocontent() {
+    public function test_get_items_search_for_foocontent()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -331,7 +346,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 55674
      */
-    public function test_get_items_search_prime_ids() {
+    public function test_get_items_search_prime_ids()
+    {
         $action = new MockAction();
         add_filter('query', array($action, 'filter'), 10, 2);
 
@@ -361,7 +377,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test retrieving a single item isn't possible.
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         /** The search controller does not allow getting individual item content */
         $request  = new WP_REST_Request('GET', '/wp/v2/search' . self::$my_title_post_ids[0]);
         $response = rest_get_server()->dispatch($request);
@@ -371,7 +388,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test creating an item isn't possible.
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         /** The search controller does not allow creating content */
         $request  = new WP_REST_Request('POST', '/wp/v2/search');
         $response = rest_get_server()->dispatch($request);
@@ -381,7 +399,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test updating an item isn't possible.
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         /** The search controller does not allow upading content */
         $request  = new WP_REST_Request('POST', '/wp/v2/search' . self::$my_title_post_ids[0]);
         $response = rest_get_server()->dispatch($request);
@@ -391,7 +410,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test deleting an item isn't possible.
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         /** The search controller does not allow deleting content */
         $request  = new WP_REST_Request('DELETE', '/wp/v2/search' . self::$my_title_post_ids[0]);
         $response = rest_get_server()->dispatch($request);
@@ -401,7 +421,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test preparing the data contains the correct fields.
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $response = $this->do_request_with_params();
         $this->assertSame(200, $response->get_status());
 
@@ -422,7 +443,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test preparing the data with limited fields contains the correct fields.
      */
-    public function test_prepare_item_limit_fields() {
+    public function test_prepare_item_limit_fields()
+    {
         if (! method_exists('WP_REST_Controller', 'get_fields_for_response')) {
             $this->markTestSkipped('Limiting fields requires the WP_REST_Controller::get_fields_for_response() method.');
         }
@@ -447,7 +469,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Tests the item schema is correct.
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/search');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -463,7 +486,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Tests that non-public post types are not allowed.
      */
-    public function test_non_public_post_type() {
+    public function test_non_public_post_type()
+    {
         $response = $this->do_request_with_params(
             array(
                 'type'    => 'post',
@@ -476,7 +500,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test getting items directly with a custom search handler.
      */
-    public function test_custom_search_handler_get_items() {
+    public function test_custom_search_handler_get_items()
+    {
         $controller = new WP_REST_Search_Controller(array(new WP_REST_Test_Search_Handler(10)));
 
         $request  = $this->get_request(
@@ -505,7 +530,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test preparing an item directly with a custom search handler.
      */
-    public function test_custom_search_handler_prepare_item() {
+    public function test_custom_search_handler_prepare_item()
+    {
         $controller = new WP_REST_Search_Controller(array(new WP_REST_Test_Search_Handler(10)));
 
         $request  = $this->get_request(
@@ -531,7 +557,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test preparing an item directly with a custom search handler with limited fields.
      */
-    public function test_custom_search_handler_prepare_item_limit_fields() {
+    public function test_custom_search_handler_prepare_item_limit_fields()
+    {
         if (! method_exists('WP_REST_Controller', 'get_fields_for_response')) {
             $this->markTestSkipped('Limiting fields requires the WP_REST_Controller::get_fields_for_response() method.');
         }
@@ -559,7 +586,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Test getting the collection params directly with a custom search handler.
      */
-    public function test_custom_search_handler_get_collection_params() {
+    public function test_custom_search_handler_get_collection_params()
+    {
         $controller = new WP_REST_Search_Controller(array(new WP_REST_Test_Search_Handler(10)));
 
         $params = $controller->get_collection_params();
@@ -571,7 +599,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 47684
      */
-    public function test_search_result_links_are_embedded() {
+    public function test_search_result_links_are_embedded()
+    {
         $response = $this->do_request_with_params(array('per_page' => 1));
         $data     = rest_get_server()->response_to_data($response, true)[0];
 
@@ -587,7 +616,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51458
      */
-    public function test_get_items_search_type_term() {
+    public function test_get_items_search_type_term()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -610,7 +640,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51458
      */
-    public function test_get_items_search_type_term_subtype_category() {
+    public function test_get_items_search_type_term_subtype_category()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -634,7 +665,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51458
      */
-    public function test_get_items_search_term_subtype_invalid() {
+    public function test_get_items_search_term_subtype_invalid()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -651,7 +683,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51458
      */
-    public function test_get_items_search_categories_and_tags() {
+    public function test_get_items_search_categories_and_tags()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -675,7 +708,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51458
      */
-    public function test_get_items_search_for_test_category() {
+    public function test_get_items_search_for_test_category()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -698,7 +732,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51458
      */
-    public function test_get_items_search_for_test_tag() {
+    public function test_get_items_search_for_test_tag()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -721,7 +756,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51458
      */
-    public function test_get_items_search_for_missing_term() {
+    public function test_get_items_search_for_missing_term()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -739,7 +775,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51459
      */
-    public function test_get_items_search_type_post_format() {
+    public function test_get_items_search_type_post_format()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -758,7 +795,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51459
      */
-    public function test_get_items_search_for_test_post_format() {
+    public function test_get_items_search_for_test_post_format()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -780,7 +818,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 51459
      */
-    public function test_get_items_search_for_missing_post_format() {
+    public function test_get_items_search_for_missing_post_format()
+    {
         $response = $this->do_request_with_params(
             array(
                 'per_page' => 100,
@@ -796,7 +835,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Perform a REST request to our search endpoint with given parameters.
      */
-    private function do_request_with_params($params = array(), $method = 'GET') {
+    private function do_request_with_params($params = array(), $method = 'GET')
+    {
         $request = $this->get_request($params, $method);
 
         return rest_get_server()->dispatch($request);
@@ -805,7 +845,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Get a REST request object for given parameters.
      */
-    private function get_request($params = array(), $method = 'GET') {
+    private function get_request($params = array(), $method = 'GET')
+    {
         $request = new WP_REST_Request($method, '/wp/v2/search');
 
         foreach ($params as $param => $value) {
@@ -818,7 +859,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 56546
      */
-    public function test_get_items_search_posts_include_ids() {
+    public function test_get_items_search_posts_include_ids()
+    {
         $response = $this->do_request_with_params(
             array(
                 'include' => array_slice(self::$my_title_post_ids, 1, 2),
@@ -835,7 +877,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 56546
      */
-    public function test_get_items_search_posts_exclude_ids() {
+    public function test_get_items_search_posts_exclude_ids()
+    {
         $response = $this->do_request_with_params(
             array(
                 'exclude' => self::$my_title_page_ids,
@@ -855,7 +898,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 56546
      */
-    public function test_get_items_search_terms_include_ids() {
+    public function test_get_items_search_terms_include_ids()
+    {
         $response = $this->do_request_with_params(
             array(
                 'include' => self::$my_tag_id,
@@ -873,7 +917,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 56546
      */
-    public function test_get_items_search_terms_exclude_ids() {
+    public function test_get_items_search_terms_exclude_ids()
+    {
         $response = $this->do_request_with_params(
             array(
                 // "1" is the default category.
@@ -892,7 +937,8 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 60771
      */
-    public function test_sanitize_subtypes_validates_type() {
+    public function test_sanitize_subtypes_validates_type()
+    {
         $response = $this->do_request_with_params(
             array(
                 'subtype' => 'page',

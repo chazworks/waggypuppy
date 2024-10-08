@@ -3,7 +3,8 @@
 /**
  * @group post
  */
-class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase {
+class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
+{
 
     /**
      * Array of post IDs to use as parents.
@@ -12,7 +13,8 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase {
      */
     public static $parent_post_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         $post_statuses = array('publish', 'private', 'future', 'trash', 'delete');
         foreach ($post_statuses as $post_status) {
             $date          = '';
@@ -48,7 +50,8 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase {
      * @param bool   $expected    The expected result of the function call.
      * @param string $parent_key  The parent key as set up in shared fixtures.
      */
-    public function test_is_post_publicly_viewable($post_type, $post_status, $expected, $parent_key = '') {
+    public function test_is_post_publicly_viewable($post_type, $post_status, $expected, $parent_key = '')
+    {
         $date = '';
         if ('future' === $post_status) {
             $date = date_format(date_create('+1 year'), 'Y-m-d H:i:s');
@@ -76,7 +79,8 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase {
      *     @type string $parent_key  The parent key as set up in shared fixtures.
      * }
      */
-    public function data_is_post_publicly_viewable() {
+    public function data_is_post_publicly_viewable()
+    {
         return array(
             array('post', 'publish', true),
             array('post', 'private', false),

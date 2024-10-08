@@ -14,7 +14,8 @@
  *
  * @coversDefaultClass WP_Style_Engine_Processor
  */
-class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
+class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase
+{
     /**
      * Tests adding rules and returning compiled CSS rules.
      *
@@ -23,7 +24,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      * @covers ::add_rules
      * @covers ::get_css
      */
-    public function test_should_return_rules_as_compiled_css() {
+    public function test_should_return_rules_as_compiled_css()
+    {
         $a_nice_css_rule = new WP_Style_Engine_CSS_Rule('.a-nice-rule');
         $a_nice_css_rule->add_declarations(
             array(
@@ -56,7 +58,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      * @covers ::add_rules
      * @covers ::get_css
      */
-    public function test_should_return_nested_rules_as_compiled_css() {
+    public function test_should_return_nested_rules_as_compiled_css()
+    {
         $a_nice_css_rule = new WP_Style_Engine_CSS_Rule('.a-nice-rule');
         $a_nice_css_rule->add_declarations(
             array(
@@ -92,7 +95,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      *
      * @covers ::get_css
      */
-    public function test_should_return_prettified_css_rules() {
+    public function test_should_return_prettified_css_rules()
+    {
         $a_wonderful_css_rule = new WP_Style_Engine_CSS_Rule('.a-wonderful-rule');
         $a_wonderful_css_rule->add_declarations(
             array(
@@ -145,7 +149,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      *
      * @covers ::get_css
      */
-    public function test_should_return_prettified_nested_css_rules() {
+    public function test_should_return_prettified_nested_css_rules()
+    {
         $a_wonderful_css_rule = new WP_Style_Engine_CSS_Rule('.a-wonderful-rule');
         $a_wonderful_css_rule->add_declarations(
             array(
@@ -193,7 +198,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      *
      * @covers ::add_store
      */
-    public function test_should_return_store_rules_as_css() {
+    public function test_should_return_store_rules_as_css()
+    {
         $a_nice_store = WP_Style_Engine_CSS_Rules_Store::get_store('nice');
         $a_nice_store->add_rule('.a-nice-rule')->add_declarations(
             array(
@@ -225,7 +231,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      * @covers ::add_rules
      * @covers ::get_css
      */
-    public function test_should_dedupe_and_merge_css_declarations() {
+    public function test_should_dedupe_and_merge_css_declarations()
+    {
         $an_excellent_rule      = new WP_Style_Engine_CSS_Rule('.an-excellent-rule');
         $an_excellent_processor = new WP_Style_Engine_Processor();
         $an_excellent_rule->add_declarations(
@@ -279,7 +286,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      *
      * @covers ::get_css
      */
-    public function test_should_not_optimize_css_output() {
+    public function test_should_not_optimize_css_output()
+    {
         $a_sweet_rule = new WP_Style_Engine_CSS_Rule(
             '.a-sweet-rule',
             array(
@@ -326,7 +334,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      *
      * @covers ::get_css
      */
-    public function test_should_not_optimize_css_output_by_default() {
+    public function test_should_not_optimize_css_output_by_default()
+    {
         $a_sweet_rule = new WP_Style_Engine_CSS_Rule(
             '.a-sweet-rule',
             array(
@@ -360,7 +369,8 @@ class Tests_Style_Engine_wpStyleEngineProcessor extends WP_UnitTestCase {
      *
      * @covers ::add_rules
      */
-    public function test_should_combine_previously_added_css_rules() {
+    public function test_should_combine_previously_added_css_rules()
+    {
         $a_lovely_processor = new WP_Style_Engine_Processor();
         $a_lovely_rule      = new WP_Style_Engine_CSS_Rule(
             '.a-lovely-rule',

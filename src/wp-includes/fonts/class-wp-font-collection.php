@@ -16,7 +16,8 @@
  *
  * @see wp_register_font_collection()
  */
-final class WP_Font_Collection {
+final class WP_Font_Collection
+{
     /**
      * The unique slug for the font collection.
      *
@@ -50,7 +51,8 @@ final class WP_Font_Collection {
      *                     and underscores. See sanitize_title().
      * @param array  $args Font collection data. See wp_register_font_collection() for information on accepted arguments.
      */
-    public function __construct(string $slug, array $args) {
+    public function __construct(string $slug, array $args)
+    {
         $this->slug = sanitize_title($slug);
         if ($this->slug !== $slug) {
             _doing_it_wrong(
@@ -81,7 +83,8 @@ final class WP_Font_Collection {
      *
      * @return array|WP_Error An array containing the font collection data, or a WP_Error on failure.
      */
-    public function get_data() {
+    public function get_data()
+    {
         if (is_wp_error($this->data)) {
             return $this->data;
         }
@@ -113,7 +116,8 @@ final class WP_Font_Collection {
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
      */
-    private function load_from_json($file_or_url) {
+    private function load_from_json($file_or_url)
+    {
         $url  = wp_http_validate_url($file_or_url);
         $file = file_exists($file_or_url) ? wp_normalize_path(realpath($file_or_url)) : false;
 
@@ -155,7 +159,8 @@ final class WP_Font_Collection {
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
      */
-    private function load_from_file($file) {
+    private function load_from_file($file)
+    {
         $data = wp_json_file_decode($file, array('associative' => true));
         if (empty($data)) {
             return new WP_Error('font_collection_decode_error', __('Error decoding the font collection JSON file contents.'));
@@ -173,7 +178,8 @@ final class WP_Font_Collection {
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
      */
-    private function load_from_url($url) {
+    private function load_from_url($url)
+    {
         // Limit key to 167 characters to avoid failure in the case of a long URL.
         $transient_key = substr('wp_font_collection_url_' . $url, 0, 167);
         $data          = get_site_transient($transient_key);
@@ -217,7 +223,8 @@ final class WP_Font_Collection {
      * @param array $required_properties Required properties that must exist in the passed data.
      * @return array|WP_Error Sanitized data if valid, otherwise a WP_Error instance.
      */
-    private function sanitize_and_validate_data($data, $required_properties = array()) {
+    private function sanitize_and_validate_data($data, $required_properties = array())
+    {
         $schema = self::get_sanitization_schema();
         $data   = WP_Font_Utils::sanitize_from_schema($data, $schema);
 
@@ -244,7 +251,8 @@ final class WP_Font_Collection {
      *
      * @return array Font collection sanitization schema.
      */
-    private static function get_sanitization_schema() {
+    private static function get_sanitization_schema()
+    {
         return array(
             'name'          => 'sanitize_text_field',
             'description'   => 'sanitize_text_field',

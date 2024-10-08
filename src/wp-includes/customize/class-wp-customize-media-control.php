@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Media_Control extends WP_Customize_Control {
+class WP_Customize_Media_Control extends WP_Customize_Control
+{
     /**
      * Control type.
      *
@@ -53,7 +54,8 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct($manager, $id, $args = array()) {
+    public function __construct($manager, $id, $args = array())
+    {
         parent::__construct($manager, $id, $args);
 
         $this->button_labels = wp_parse_args($this->button_labels, $this->get_default_button_labels());
@@ -65,7 +67,8 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      * @since 3.4.0
      * @since 4.2.0 Moved from WP_Customize_Upload_Control.
      */
-    public function enqueue() {
+    public function enqueue()
+    {
         wp_enqueue_media();
     }
 
@@ -77,7 +80,8 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      *
      * @see WP_Customize_Control::to_json()
      */
-    public function to_json() {
+    public function to_json()
+    {
         parent::to_json();
         $this->json['label']         = html_entity_decode($this->label, ENT_QUOTES, get_bloginfo('charset'));
         $this->json['mime_type']     = $this->mime_type;
@@ -129,7 +133,8 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      *
      * @see WP_Customize_Media_Control::content_template()
      */
-    public function render_content() {}
+    public function render_content()
+    {}
 
     /**
      * Render a JS template for the content of the media control.
@@ -137,7 +142,8 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      * @since 4.1.0
      * @since 4.2.0 Moved from WP_Customize_Upload_Control.
      */
-    public function content_template() {
+    public function content_template()
+    {
         ?>
         <#
         var descriptionId = _.uniqueId( 'customize-media-control-description-' );
@@ -217,7 +223,8 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
      *
      * @return string[] An associative array of default button labels keyed by the button name.
      */
-    public function get_default_button_labels() {
+    public function get_default_button_labels()
+    {
         // Get just the mime type and strip the mime subtype if present.
         $mime_type = ! empty($this->mime_type) ? strtok(ltrim($this->mime_type, '/'), '/') : 'default';
 

@@ -5,8 +5,10 @@
  * @group l10n
  * @group i18n
  */
-class WP_Translations_Tests extends WP_UnitTestCase {
-    public function tear_down() {
+class WP_Translations_Tests extends WP_UnitTestCase
+{
+    public function tear_down()
+    {
         unload_textdomain('wp-tests-domain');
 
         parent::tear_down();
@@ -17,7 +19,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
      * @covers ::__get
      * @covers ::make_entry
      */
-    public function test_get_entries() {
+    public function test_get_entries()
+    {
         global $l10n;
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
@@ -54,7 +57,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
      * @covers ::__get
      * @covers ::make_entry
      */
-    public function test_get_entries_plural() {
+    public function test_get_entries_plural()
+    {
         global $l10n;
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/plural.mo');
@@ -93,7 +97,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
      * @covers ::__get
      * @covers ::make_entry
      */
-    public function test_get_entries_context() {
+    public function test_get_entries_context()
+    {
         global $l10n;
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/context.mo');
@@ -136,7 +141,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
     /**
      * @covers ::__get
      */
-    public function test_get_headers() {
+    public function test_get_headers()
+    {
         global $l10n;
 
         $load_successful = load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
@@ -163,7 +169,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
     /**
      * @covers ::__get
      */
-    public function test_getter_unsupported_property() {
+    public function test_getter_unsupported_property()
+    {
         global $l10n;
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
@@ -178,7 +185,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
     /**
      * @covers ::translate
      */
-    public function test_translate() {
+    public function test_translate()
+    {
         global $l10n;
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
@@ -199,7 +207,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
     /**
      * @covers ::translate_plural
      */
-    public function test_translate_plural() {
+    public function test_translate_plural()
+    {
         global $l10n;
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/plural.mo');
@@ -223,7 +232,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
      * @covers ::translate_plural
      * @covers WP_Translation_File::get_plural_form
      */
-    public function test_translate_plural_complex() {
+    public function test_translate_plural_complex()
+    {
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/l10n/plural-complex.mo');
 
         $this->assertSame('%s razpoložljiva posodobitev', _n('%s update available', '%s updates available', 101, 'wp-tests-domain')); // 1, 101, 201
@@ -236,7 +246,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
      * @covers ::translate_plural
      * @covers WP_Translation_File::get_plural_form
      */
-    public function test_translate_plural_complex_php() {
+    public function test_translate_plural_complex_php()
+    {
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/l10n/plural-complex.php');
 
         $this->assertSame('%s razpoložljiva posodobitev', _n('%s update available', '%s updates available', 101, 'wp-tests-domain')); // 1, 101, 201
@@ -248,7 +259,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
     /**
      * @covers WP_Translation_File::get_plural_form
      */
-    public function test_get_plural_form() {
+    public function test_get_plural_form()
+    {
         $moe = WP_Translation_File::create(DIR_TESTDATA . '/l10n/plural-complex.mo');
 
         $this->assertSame(0, $moe->get_plural_form(1));
@@ -268,7 +280,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
     /**
      * @covers ::translate_plural
      */
-    public function test_translate_plural_missing() {
+    public function test_translate_plural_missing()
+    {
         global $l10n;
 
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/plural.mo');
@@ -292,7 +305,8 @@ class WP_Translations_Tests extends WP_UnitTestCase {
      *
      * @ticket 41257
      */
-    public function test_translate_invalid_edge_cases() {
+    public function test_translate_invalid_edge_cases()
+    {
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
 
 		// phpcs:disable WordPress.WP.I18n

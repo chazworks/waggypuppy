@@ -14,14 +14,16 @@
  *
  * @see WP_Widget
  */
-class WP_Widget_Search extends WP_Widget {
+class WP_Widget_Search extends WP_Widget
+{
 
     /**
      * Sets up a new Search widget instance.
      *
      * @since 2.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $widget_ops = array(
             'classname'                   => 'widget_search',
             'description'                 => __('A search form for your site.'),
@@ -40,7 +42,8 @@ class WP_Widget_Search extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Search widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         $title = ! empty($instance['title']) ? $instance['title'] : '';
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
@@ -64,7 +67,8 @@ class WP_Widget_Search extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         $instance = wp_parse_args((array) $instance, array('title' => ''));
         $title    = $instance['title'];
         ?>
@@ -85,7 +89,8 @@ class WP_Widget_Search extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Updated settings.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $instance          = $old_instance;
         $new_instance      = wp_parse_args((array) $new_instance, array('title' => ''));
         $instance['title'] = sanitize_text_field($new_instance['title']);

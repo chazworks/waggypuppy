@@ -5,7 +5,8 @@
  *
  * @group hooks
  */
-class Tests_Actions extends WP_UnitTestCase {
+class Tests_Actions extends WP_UnitTestCase
+{
 
     /**
      * Flag to keep track whether a certain filter has been applied.
@@ -28,7 +29,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * Clean up after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Make sure potentially changed properties are reverted to their default value.
         $this->apply_testing_filter        = false;
         $this->apply_testing_nested_filter = false;
@@ -39,7 +41,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::do_action
      */
-    public function test_simple_action() {
+    public function test_simple_action()
+    {
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
@@ -59,7 +62,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::remove_action
      */
-    public function test_remove_action() {
+    public function test_remove_action()
+    {
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
@@ -80,7 +84,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::has_action
      */
-    public function test_has_action() {
+    public function test_has_action()
+    {
         $hook_name = __FUNCTION__;
         $callback  = __FUNCTION__ . '_func';
 
@@ -101,7 +106,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action
      */
-    public function test_multiple_actions() {
+    public function test_multiple_actions()
+    {
         $a1        = new MockAction();
         $a2        = new MockAction();
         $hook_name = __FUNCTION__;
@@ -122,7 +128,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action
      */
-    public function test_action_args_1() {
+    public function test_action_args_1()
+    {
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
         $val       = __FUNCTION__ . '_val';
@@ -142,7 +149,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action
      */
-    public function test_action_args_2() {
+    public function test_action_args_2()
+    {
         $a1        = new MockAction();
         $a2        = new MockAction();
         $hook_name = __FUNCTION__;
@@ -176,7 +184,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action
      */
-    public function test_action_args_3() {
+    public function test_action_args_3()
+    {
         $a1        = new MockAction();
         $a2        = new MockAction();
         $a3        = new MockAction();
@@ -215,7 +224,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action
      */
-    public function test_action_args_with_php4_syntax() {
+    public function test_action_args_with_php4_syntax()
+    {
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
         $val       = new stdClass();
@@ -246,7 +256,8 @@ class Tests_Actions extends WP_UnitTestCase {
      * @param array  $expected_call_order  An array of callback names in expected call order.
      * @param string $expected_deprecation Optional. Deprecation message. Default ''.
      */
-    public function test_priority_callback_order($priorities, $expected_call_order, $expected_deprecation = '') {
+    public function test_priority_callback_order($priorities, $expected_call_order, $expected_deprecation = '')
+    {
         $mock      = new MockAction();
         $hook_name = __FUNCTION__;
 
@@ -270,7 +281,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_priority_callback_order_with_integers() {
+    public function data_priority_callback_order_with_integers()
+    {
         return array(
             'int DESC' => array(
                 'priorities'          => array(10, 9),
@@ -288,7 +300,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_priority_callback_order_with_unhappy_path_nonintegers() {
+    public function data_priority_callback_order_with_unhappy_path_nonintegers()
+    {
         return array(
             // Numbers as strings and floats.
             'int as string DESC'               => array(
@@ -361,7 +374,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::did_action
      */
-    public function test_did_action() {
+    public function test_did_action()
+    {
         $hook_name1 = 'action1';
         $hook_name2 = 'action2';
 
@@ -384,7 +398,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::do_action
      */
-    public function test_all_action() {
+    public function test_all_action()
+    {
         $a          = new MockAction();
         $hook_name1 = __FUNCTION__ . '_1';
         $hook_name2 = __FUNCTION__ . '_2';
@@ -410,7 +425,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::remove_action
      */
-    public function test_remove_all_action() {
+    public function test_remove_all_action()
+    {
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
@@ -433,7 +449,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::do_action_ref_array
      */
-    public function test_action_ref_array() {
+    public function test_action_ref_array()
+    {
         $obj       = new stdClass();
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
@@ -454,7 +471,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action
      */
-    public function test_action_keyed_array() {
+    public function test_action_keyed_array()
+    {
         $a         = new MockAction();
         $hook_name = __FUNCTION__;
 
@@ -483,7 +501,8 @@ class Tests_Actions extends WP_UnitTestCase {
      * @covers ::has_action
      * @covers ::do_action
      */
-    public function test_action_closure() {
+    public function test_action_closure()
+    {
         $hook_name = __FUNCTION__;
         $closure   = static function ($a, $b) {
             $GLOBALS[ $a ] = $b;
@@ -518,7 +537,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::add_action
      */
-    public function test_action_callback_representations() {
+    public function test_action_callback_representations()
+    {
         $hook_name = __FUNCTION__;
 
         $this->assertFalse(has_action($hook_name));
@@ -533,13 +553,15 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::remove_action
      */
-    public function test_action_self_removal() {
+    public function test_action_self_removal()
+    {
         add_action('test_action_self_removal', array($this, 'action_self_removal'));
         do_action('test_action_self_removal');
         $this->assertSame(1, did_action('test_action_self_removal'));
     }
 
-    public function action_self_removal() {
+    public function action_self_removal()
+    {
         remove_action('test_action_self_removal', array($this, 'action_self_removal'));
     }
 
@@ -548,7 +570,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action
      */
-    public function test_action_recursion() {
+    public function test_action_recursion()
+    {
         $hook_name = __FUNCTION__;
         $a         = new MockAction();
         $b         = new MockAction();
@@ -565,7 +588,8 @@ class Tests_Actions extends WP_UnitTestCase {
     /**
      * @covers ::do_action
      */
-    public function action_that_causes_recursion($hook_name) {
+    public function action_that_causes_recursion($hook_name)
+    {
         static $recursing = false;
         if (! $recursing) {
             $recursing = true;
@@ -581,7 +605,8 @@ class Tests_Actions extends WP_UnitTestCase {
      * @covers ::remove_action
      * @covers ::add_action
      */
-    public function test_action_callback_manipulation_while_running() {
+    public function test_action_callback_manipulation_while_running()
+    {
         $hook_name = __FUNCTION__;
         $a         = new MockAction();
         $b         = new MockAction();
@@ -603,7 +628,8 @@ class Tests_Actions extends WP_UnitTestCase {
         $this->assertSame(1, $e->get_call_count(), 'callback added by later priority callback should not get called');
     }
 
-    public function action_that_manipulates_a_running_hook($hook_name, $mocks) {
+    public function action_that_manipulates_a_running_hook($hook_name, $mocks)
+    {
         remove_action($hook_name, array($mocks[1], 'action'), 12, 2);
         add_action($hook_name, array($mocks[2], 'action'), 12, 2);
         add_action($hook_name, array($mocks[3], 'action'), 13, 2);
@@ -618,7 +644,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::remove_filter
      */
-    public function test_remove_anonymous_callback() {
+    public function test_remove_anonymous_callback()
+    {
         $hook_name = __FUNCTION__;
         $a         = new MockAction();
         add_action($hook_name, array($a, 'action'), 12, 1);
@@ -655,7 +682,8 @@ class Tests_Actions extends WP_UnitTestCase {
      * @covers WP_Hook::offsetSet
      * @covers WP_Hook::offsetUnset
      */
-    public function test_array_access_of_wp_filter_global() {
+    public function test_array_access_of_wp_filter_global()
+    {
         global $wp_filter;
 
         $hook_name = __FUNCTION__;
@@ -684,7 +712,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::current_action
      */
-    public function test_current_action() {
+    public function test_current_action()
+    {
         global $wp_current_filter;
 
         $wp_current_filter[] = 'first';
@@ -698,7 +727,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::doing_filter
      */
-    public function test_doing_filter() {
+    public function test_doing_filter()
+    {
         global $wp_current_filter;
 
         $wp_current_filter = array(); // Set to an empty array first.
@@ -720,7 +750,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::doing_filter
      */
-    public function test_doing_action() {
+    public function test_doing_action()
+    {
         global $wp_current_filter;
 
         $wp_current_filter = array(); // Set to an empty array first.
@@ -742,7 +773,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::doing_filter
      */
-    public function test_doing_filter_real() {
+    public function test_doing_filter_real()
+    {
         $this->assertFalse(doing_filter());            // No filter is passed in, and no filter is being processed.
         $this->assertFalse(doing_filter('testing')); // Filter is passed in but not being processed.
 
@@ -759,7 +791,8 @@ class Tests_Actions extends WP_UnitTestCase {
         $this->assertFalse(doing_filter('testing')); // No longer doing this filter.
     }
 
-    public function apply_testing_filter() {
+    public function apply_testing_filter()
+    {
         $this->apply_testing_filter = true;
 
         $this->assertTrue(doing_filter());
@@ -780,7 +813,8 @@ class Tests_Actions extends WP_UnitTestCase {
         $this->assertFalse(doing_filter('testing_nested'));
     }
 
-    public function apply_testing_nested_filter() {
+    public function apply_testing_nested_filter()
+    {
         $this->apply_testing_nested_filter = true;
         $this->assertTrue(doing_filter());
         $this->assertTrue(doing_filter('testing'));
@@ -794,7 +828,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action_deprecated
      */
-    public function test_do_action_deprecated() {
+    public function test_do_action_deprecated()
+    {
         $p = new WP_Post((object) array('post_title' => 'Foo'));
 
         add_action('tests_do_action_deprecated', array(__CLASS__, 'deprecated_action_callback'));
@@ -804,7 +839,8 @@ class Tests_Actions extends WP_UnitTestCase {
         $this->assertSame('Bar', $p->post_title);
     }
 
-    public static function deprecated_action_callback($p) {
+    public static function deprecated_action_callback($p)
+    {
         $p->post_title = 'Bar';
     }
 
@@ -814,7 +850,8 @@ class Tests_Actions extends WP_UnitTestCase {
      *
      * @covers ::do_action_deprecated
      */
-    public function test_do_action_deprecated_with_multiple_params() {
+    public function test_do_action_deprecated_with_multiple_params()
+    {
         $p1 = new WP_Post((object) array('post_title' => 'Foo1'));
         $p2 = new WP_Post((object) array('post_title' => 'Foo2'));
 
@@ -826,7 +863,8 @@ class Tests_Actions extends WP_UnitTestCase {
         $this->assertSame('Bar2', $p2->post_title);
     }
 
-    public static function deprecated_action_callback_multiple_params($p1, $p2) {
+    public static function deprecated_action_callback_multiple_params($p1, $p2)
+    {
         $p1->post_title = 'Bar1';
         $p2->post_title = 'Bar2';
     }

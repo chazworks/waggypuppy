@@ -13,7 +13,8 @@
  * @since 4.3.0
  */
 #[AllowDynamicProperties]
-class WP_Site_Icon {
+class WP_Site_Icon
+{
 
     /**
      * The minimum size of the site icon.
@@ -69,7 +70,8 @@ class WP_Site_Icon {
      *
      * @since 4.3.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         add_action('delete_attachment', array($this, 'delete_attachment_data'));
         add_filter('get_post_metadata', array($this, 'get_post_metadata'), 10, 4);
     }
@@ -84,7 +86,8 @@ class WP_Site_Icon {
      * @param int    $parent_attachment_id Attachment ID of parent image.
      * @return array An array with attachment object data.
      */
-    public function create_attachment_object($cropped, $parent_attachment_id) {
+    public function create_attachment_object($cropped, $parent_attachment_id)
+    {
         _deprecated_function(__METHOD__, '6.5.0', 'wp_copy_parent_attachment_properties()');
 
         $parent     = get_post($parent_attachment_id);
@@ -115,7 +118,8 @@ class WP_Site_Icon {
      * @param string $file       File path of the attached image.
      * @return int               Attachment ID.
      */
-    public function insert_attachment($attachment, $file) {
+    public function insert_attachment($attachment, $file)
+    {
         $attachment_id = wp_insert_attachment($attachment, $file);
         $metadata      = wp_generate_attachment_metadata($attachment_id, $file);
 
@@ -142,7 +146,8 @@ class WP_Site_Icon {
      * @param array[] $sizes Array of arrays containing information for additional sizes.
      * @return array[] Array of arrays containing additional image sizes.
      */
-    public function additional_sizes($sizes = array()) {
+    public function additional_sizes($sizes = array())
+    {
         $only_crop_sizes = array();
 
         /**
@@ -186,7 +191,8 @@ class WP_Site_Icon {
      * @param string[] $sizes Array of image size names.
      * @return string[] Array of image size names.
      */
-    public function intermediate_image_sizes($sizes = array()) {
+    public function intermediate_image_sizes($sizes = array())
+    {
         /** This filter is documented in wp-admin/includes/class-wp-site-icon.php */
         $this->site_icon_sizes = apply_filters('site_icon_image_sizes', $this->site_icon_sizes);
         foreach ($this->site_icon_sizes as $size) {
@@ -203,7 +209,8 @@ class WP_Site_Icon {
      *
      * @param int $post_id Attachment ID.
      */
-    public function delete_attachment_data($post_id) {
+    public function delete_attachment_data($post_id)
+    {
         $site_icon_id = (int) get_option('site_icon');
 
         if ($site_icon_id && $post_id === $site_icon_id) {
@@ -223,7 +230,8 @@ class WP_Site_Icon {
      * @param bool              $single   Whether to return only the first value of the specified `$meta_key`.
      * @return array|null|string The attachment metadata value, array of values, or null.
      */
-    public function get_post_metadata($value, $post_id, $meta_key, $single) {
+    public function get_post_metadata($value, $post_id, $meta_key, $single)
+    {
         if ($single && '_wp_attachment_backup_sizes' === $meta_key) {
             $site_icon_id = (int) get_option('site_icon');
 

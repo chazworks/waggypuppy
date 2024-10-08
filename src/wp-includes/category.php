@@ -23,7 +23,8 @@
  * }
  * @return array List of category objects.
  */
-function get_categories($args = '') {
+function get_categories($args = '')
+{
     $defaults = array('taxonomy' => 'category');
     $args     = wp_parse_args($args, $defaults);
 
@@ -88,7 +89,8 @@ function get_categories($args = '') {
  * @return object|array|WP_Error|null Category data in type defined by $output parameter.
  *                                    WP_Error if $category is empty, null if it does not exist.
  */
-function get_category($category, $output = OBJECT, $filter = 'raw') {
+function get_category($category, $output = OBJECT, $filter = 'raw')
+{
     $category = get_term($category, 'category', $output, $filter);
 
     if (is_wp_error($category)) {
@@ -121,7 +123,8 @@ function get_category($category, $output = OBJECT, $filter = 'raw') {
  *                              respectively. Default OBJECT.
  * @return WP_Term|array|WP_Error|null Type is based on $output value.
  */
-function get_category_by_path($category_path, $full_match = true, $output = OBJECT) {
+function get_category_by_path($category_path, $full_match = true, $output = OBJECT)
+{
     $category_path  = rawurlencode(urldecode($category_path));
     $category_path  = str_replace('%2F', '/', $category_path);
     $category_path  = str_replace('%20', ' ', $category_path);
@@ -185,7 +188,8 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
  * @param string $slug The category slug.
  * @return object|false Category data object on success, false if not found.
  */
-function get_category_by_slug($slug) {
+function get_category_by_slug($slug)
+{
     $category = get_term_by('slug', $slug, 'category');
 
     if ($category) {
@@ -203,7 +207,8 @@ function get_category_by_slug($slug) {
  * @param string $cat_name Category name.
  * @return int Category ID on success, 0 if the category doesn't exist.
  */
-function get_cat_ID($cat_name) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function get_cat_ID($cat_name)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+{
     $cat = get_term_by('name', $cat_name, 'category');
 
     if ($cat) {
@@ -221,7 +226,8 @@ function get_cat_ID($cat_name) { // phpcs:ignore WordPress.NamingConventions.Val
  * @param int $cat_id Category ID.
  * @return string Category name, or an empty string if the category doesn't exist.
  */
-function get_cat_name($cat_id) {
+function get_cat_name($cat_id)
+{
     $cat_id   = (int) $cat_id;
     $category = get_term($cat_id, 'category');
 
@@ -244,7 +250,8 @@ function get_cat_name($cat_id) {
  * @param int|object $cat2 The child category.
  * @return bool Whether $cat2 is child of $cat1.
  */
-function cat_is_ancestor_of($cat1, $cat2) {
+function cat_is_ancestor_of($cat1, $cat2)
+{
     return term_is_ancestor_of($cat1, $cat2, 'category');
 }
 
@@ -257,7 +264,8 @@ function cat_is_ancestor_of($cat1, $cat2) {
  * @param string       $context  Optional. Default 'display'.
  * @return object|array Same type as $category with sanitized data for safe use.
  */
-function sanitize_category($category, $context = 'display') {
+function sanitize_category($category, $context = 'display')
+{
     return sanitize_term($category, 'category', $context);
 }
 
@@ -272,7 +280,8 @@ function sanitize_category($category, $context = 'display') {
  * @param string $context What filter to use, 'raw', 'display', etc.
  * @return mixed Value after $value has been sanitized.
  */
-function sanitize_category_field($field, $value, $cat_id, $context) {
+function sanitize_category_field($field, $value, $cat_id, $context)
+{
     return sanitize_term_field($field, $value, $cat_id, 'category', $context);
 }
 
@@ -291,7 +300,8 @@ function sanitize_category_field($field, $value, $cat_id, $context) {
  * @return WP_Term[]|int|WP_Error Array of 'post_tag' term objects, a count thereof,
  *                                or WP_Error if any of the taxonomies do not exist.
  */
-function get_tags($args = '') {
+function get_tags($args = '')
+{
     $defaults = array('taxonomy' => 'post_tag');
     $args     = wp_parse_args($args, $defaults);
 
@@ -337,7 +347,8 @@ function get_tags($args = '') {
  * @return WP_Term|array|WP_Error|null Tag data in type defined by $output parameter.
  *                                     WP_Error if $tag is empty, null if it does not exist.
  */
-function get_tag($tag, $output = OBJECT, $filter = 'raw') {
+function get_tag($tag, $output = OBJECT, $filter = 'raw')
+{
     return get_term($tag, 'post_tag', $output, $filter);
 }
 
@@ -350,7 +361,8 @@ function get_tag($tag, $output = OBJECT, $filter = 'raw') {
  *
  * @param int $id Category ID
  */
-function clean_category_cache($id) {
+function clean_category_cache($id)
+{
     clean_term_cache($id, 'category');
 }
 
@@ -374,7 +386,8 @@ function clean_category_cache($id) {
  *
  * @param array|object|WP_Term $category Category row object or array.
  */
-function _make_cat_compat(&$category) {
+function _make_cat_compat(&$category)
+{
     if (is_object($category) && ! is_wp_error($category)) {
         $category->cat_ID               = $category->term_id;
         $category->category_count       = $category->count;

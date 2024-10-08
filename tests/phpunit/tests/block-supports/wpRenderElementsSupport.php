@@ -5,13 +5,15 @@
  *
  * @covers ::wp_render_elements_support
  */
-class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase {
+class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase
+{
     /**
      * @var string|null
      */
     private $test_block_name;
 
-    public function tear_down() {
+    public function tear_down()
+    {
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
         unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
@@ -26,7 +28,8 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase {
      *
      * @covers ::wp_render_elements_support
      */
-    public function test_leaves_block_content_alone_when_block_type_not_registered() {
+    public function test_leaves_block_content_alone_when_block_type_not_registered()
+    {
         $block = array(
             'blockName' => 'test/element-block-supports',
             'attrs'     => array(
@@ -63,7 +66,8 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase {
      * @param string $block_markup    Original block markup.
      * @param string $expected_markup Resulting markup after application of elements block support.
      */
-    public function test_elements_block_support_class($color_settings, $elements_styles, $block_markup, $expected_markup) {
+    public function test_elements_block_support_class($color_settings, $elements_styles, $block_markup, $expected_markup)
+    {
         $this->test_block_name = 'test/element-block-supports';
 
         register_block_type(
@@ -111,7 +115,8 @@ class Tests_Block_Supports_WpRenderElementsSupport extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_elements_block_support_class() {
+    public function data_elements_block_support_class()
+    {
         $color_styles = array(
             'text'       => 'var:preset|color|vivid-red',
             'background' => '#fff',

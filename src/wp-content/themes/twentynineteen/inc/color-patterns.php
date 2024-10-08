@@ -10,7 +10,8 @@
 /**
  * Generate the CSS for the current primary color.
  */
-function twentynineteen_custom_colors_css() {
+function twentynineteen_custom_colors_css()
+{
 
     $primary_color = 199;
     if ('default' !== get_theme_mod('primary_color', 'default')) {

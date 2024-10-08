@@ -21,7 +21,8 @@ _deprecated_file(
  * @since 2.8.0
  */
 #[AllowDynamicProperties]
-class WP_Feed_Cache extends SimplePie\Cache {
+class WP_Feed_Cache extends SimplePie\Cache
+{
 
     /**
      * Creates a new SimplePie\Cache object.
@@ -33,7 +34,8 @@ class WP_Feed_Cache extends SimplePie\Cache {
      * @param string $extension 'spi' or 'spc'.
      * @return WP_Feed_Cache_Transient Feed cache handler object that uses transients.
      */
-    public function create($location, $filename, $extension) {
+    public function create($location, $filename, $extension)
+    {
         return new WP_Feed_Cache_Transient($location, $filename, $extension);
     }
 }

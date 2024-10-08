@@ -14,7 +14,8 @@
  *
  * @see WP_List_Table
  */
-class WP_Plugins_List_Table extends WP_List_Table {
+class WP_Plugins_List_Table extends WP_List_Table
+{
     /**
      * Whether to show the auto-updates UI.
      *
@@ -36,7 +37,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         global $status, $page;
 
         parent::__construct(
@@ -67,14 +69,16 @@ class WP_Plugins_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_table_classes() {
+    protected function get_table_classes()
+    {
         return array('widefat', $this->_args['plural']);
     }
 
     /**
      * @return bool
      */
-    public function ajax_user_can() {
+    public function ajax_user_can()
+    {
         return current_user_can('activate_plugins');
     }
 
@@ -87,7 +91,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @global string $order
      * @global string $s
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         global $status, $plugins, $totals, $page, $orderby, $order, $s;
 
         $orderby = ! empty($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']) : '';
@@ -371,7 +376,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @param array $plugin
      * @return bool
      */
-    public function _search_callback($plugin) {
+    public function _search_callback($plugin)
+    {
         global $s;
 
         foreach ($plugin as $value) {
@@ -390,7 +396,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @param array $plugin_b
      * @return int
      */
-    public function _order_callback($plugin_a, $plugin_b) {
+    public function _order_callback($plugin_a, $plugin_b)
+    {
         global $orderby, $order;
 
         $a = $plugin_a[ $orderby ];
@@ -410,7 +417,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
     /**
      * @global array $plugins
      */
-    public function no_items() {
+    public function no_items()
+    {
         global $plugins;
 
         if (! empty($_REQUEST['s'])) {
@@ -438,7 +446,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @param string $text     The 'submit' button label.
      * @param string $input_id ID attribute value for the search input field.
      */
-    public function search_box($text, $input_id) {
+    public function search_box($text, $input_id)
+    {
         if (empty($_REQUEST['s']) && ! $this->has_items()) {
             return;
         }
@@ -465,7 +474,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      *
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         global $status;
 
         $columns = array(
@@ -484,7 +494,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_sortable_columns() {
+    protected function get_sortable_columns()
+    {
         return array();
     }
 
@@ -493,7 +504,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @global string $status
      * @return array
      */
-    protected function get_views() {
+    protected function get_views()
+    {
         global $totals, $status;
 
         $status_links = array();
@@ -602,7 +614,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @global string $status
      * @return array
      */
-    protected function get_bulk_actions() {
+    protected function get_bulk_actions()
+    {
         global $status;
 
         $actions = array();
@@ -641,7 +654,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @global string $status
      * @param string $which
      */
-    public function bulk_actions($which = '') {
+    public function bulk_actions($which = '')
+    {
         global $status;
 
         if (in_array($status, array('mustuse', 'dropins'), true)) {
@@ -655,7 +669,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @global string $status
      * @param string $which
      */
-    protected function extra_tablenav($which) {
+    protected function extra_tablenav($which)
+    {
         global $status;
 
         if (! in_array($status, array('recently_activated', 'mustuse', 'dropins'), true)) {
@@ -685,7 +700,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
     /**
      * @return string
      */
-    public function current_action() {
+    public function current_action()
+    {
         if (isset($_POST['clear-recent-list'])) {
             return 'clear-recent-list';
         }
@@ -700,7 +716,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      *
      * @global string $status
      */
-    public function display_rows() {
+    public function display_rows()
+    {
         global $status;
 
         if (is_multisite() && ! $this->screen->in_admin('network') && in_array($status, array('mustuse', 'dropins'), true)) {
@@ -720,7 +737,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      *
      * @param array $item
      */
-    public function single_row($item) {
+    public function single_row($item)
+    {
         global $status, $page, $s, $totals;
         static $plugin_id_attrs = array();
 
@@ -1517,7 +1535,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      *
      * @return string Unalterable name for the primary column, in this case, 'name'.
      */
-    protected function get_primary_column_name() {
+    protected function get_primary_column_name()
+    {
         return 'name';
     }
 
@@ -1528,7 +1547,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      *
      * @param string $dependency The dependency's filepath, relative to the plugins directory.
      */
-    protected function add_dependents_to_dependency_plugin_row($dependency) {
+    protected function add_dependents_to_dependency_plugin_row($dependency)
+    {
         $dependent_names = WP_Plugin_Dependencies::get_dependent_names($dependency);
 
         if (empty($dependent_names)) {
@@ -1558,7 +1578,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      *
      * @param string $dependent The dependent plugin's filepath, relative to the plugins directory.
      */
-    protected function add_dependencies_to_dependent_plugin_row($dependent) {
+    protected function add_dependencies_to_dependent_plugin_row($dependent)
+    {
         $dependency_names = WP_Plugin_Dependencies::get_dependency_names($dependent);
 
         if (array() === $dependency_names) {
@@ -1611,7 +1632,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @param string $slug The dependency's slug.
      * @return string A 'View details' link for the dependency.
      */
-    protected function get_dependency_view_details_link($name, $slug) {
+    protected function get_dependency_view_details_link($name, $slug)
+    {
         $dependency_data = WP_Plugin_Dependencies::get_dependency_data($slug);
 
         if (false === $dependency_data
@@ -1634,7 +1656,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
      * @param string $slug The plugin's slug.
      * @return string A 'View details' link for the plugin.
      */
-    protected function get_view_details_link($name, $slug) {
+    protected function get_view_details_link($name, $slug)
+    {
         $url = add_query_arg(
             array(
                 'tab'       => 'plugin-information',

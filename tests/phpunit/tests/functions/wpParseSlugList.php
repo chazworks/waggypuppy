@@ -7,7 +7,8 @@
  *
  * @covers ::wp_parse_slug_list
  */
-class Tests_Functions_WpParseSlugList extends WP_UnitTestCase {
+class Tests_Functions_WpParseSlugList extends WP_UnitTestCase
+{
 
     /**
      * @ticket 35582
@@ -16,7 +17,8 @@ class Tests_Functions_WpParseSlugList extends WP_UnitTestCase {
      * @dataProvider data_wp_parse_slug_list
      * @dataProvider data_unexpected_input
      */
-    public function test_wp_parse_slug_list($input_list, $expected) {
+    public function test_wp_parse_slug_list($input_list, $expected)
+    {
         $this->assertSameSets($expected, wp_parse_slug_list($input_list));
     }
 
@@ -25,7 +27,8 @@ class Tests_Functions_WpParseSlugList extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_parse_slug_list() {
+    public function data_wp_parse_slug_list()
+    {
         return array(
             'regular'                    => array(
                 'input_list' => 'apple,banana,carrot,dog',
@@ -59,7 +62,8 @@ class Tests_Functions_WpParseSlugList extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_unexpected_input() {
+    public function data_unexpected_input()
+    {
         return array(
             'string with commas' => array(
                 'input_list' => '1,2,string with spaces',

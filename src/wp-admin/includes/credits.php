@@ -17,7 +17,8 @@
  * @param string $locale  WordPress locale. Defaults to the current user's locale.
  * @return array|false A list of all of the contributors, or false on error.
  */
-function wp_credits($version = '', $locale = '') {
+function wp_credits($version = '', $locale = '')
+{
     if (! $version) {
         $version = wp_get_wp_version();
     }
@@ -67,7 +68,8 @@ function wp_credits($version = '', $locale = '') {
  * @param string $username      The contributor's username.
  * @param string $profiles      URL to the contributor's WordPress.org profile page.
  */
-function _wp_credits_add_profile_link(&$display_name, $username, $profiles) {
+function _wp_credits_add_profile_link(&$display_name, $username, $profiles)
+{
     $display_name = '<a href="' . esc_url(sprintf($profiles, $username)) . '">' . esc_html($display_name) . '</a>';
 }
 
@@ -79,7 +81,8 @@ function _wp_credits_add_profile_link(&$display_name, $username, $profiles) {
  *
  * @param string $data External library data (passed by reference).
  */
-function _wp_credits_build_object_link(&$data) {
+function _wp_credits_build_object_link(&$data)
+{
     $data = '<a href="' . esc_url($data[1]) . '">' . esc_html($data[0]) . '</a>';
 }
 
@@ -90,7 +93,8 @@ function _wp_credits_build_object_link(&$data) {
  *
  * @param array $group_data The current contributor group.
  */
-function wp_credits_section_title($group_data = array()) {
+function wp_credits_section_title($group_data = array())
+{
     if (! count($group_data)) {
         return;
     }
@@ -119,7 +123,8 @@ function wp_credits_section_title($group_data = array()) {
  * @param array  $credits The credits groups returned from the API.
  * @param string $slug    The current group to display.
  */
-function wp_credits_section_list($credits = array(), $slug = '') {
+function wp_credits_section_list($credits = array(), $slug = '')
+{
     $group_data   = isset($credits['groups'][ $slug ]) ? $credits['groups'][ $slug ] : array();
     $credits_data = $credits['data'];
     if (! count($group_data)) {

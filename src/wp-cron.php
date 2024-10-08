@@ -61,7 +61,8 @@ wp_raise_memory_limit('cron');
  *
  * @return string|int|false Value of the `doing_cron` transient, 0|false otherwise.
  */
-function _get_cron_lock() {
+function _get_cron_lock()
+{
     global $wpdb;
 
     $value = 0;

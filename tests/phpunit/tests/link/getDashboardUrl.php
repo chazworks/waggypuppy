@@ -4,28 +4,33 @@
  * @group link
  * @covers ::get_dashboard_url
  */
-class Tests_Link_GetDashboardUrl extends WP_UnitTestCase {
+class Tests_Link_GetDashboardUrl extends WP_UnitTestCase
+{
     public static $user_id = false;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_id = $factory->user->create(array('role' => 'administrator'));
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$user_id);
     }
 
     /**
      * @ticket 39065
      */
-    public function test_get_dashboard_url_for_current_site_user() {
+    public function test_get_dashboard_url_for_current_site_user()
+    {
         $this->assertSame(admin_url(), get_dashboard_url(self::$user_id));
     }
 
     /**
      * @ticket 39065
      */
-    public function test_get_dashboard_url_for_user_with_no_sites() {
+    public function test_get_dashboard_url_for_user_with_no_sites()
+    {
         add_filter('get_blogs_of_user', '__return_empty_array');
 
         $expected = is_multisite() ? user_admin_url() : admin_url();
@@ -37,7 +42,8 @@ class Tests_Link_GetDashboardUrl extends WP_UnitTestCase {
      * @ticket 39065
      * @group ms-required
      */
-    public function test_get_dashboard_url_for_network_administrator_with_no_sites() {
+    public function test_get_dashboard_url_for_network_administrator_with_no_sites()
+    {
         grant_super_admin(self::$user_id);
 
         add_filter('get_blogs_of_user', '__return_empty_array');
@@ -54,7 +60,8 @@ class Tests_Link_GetDashboardUrl extends WP_UnitTestCase {
      * @ticket 39065
      * @group ms-required
      */
-    public function test_get_dashboard_url_for_administrator_of_different_site() {
+    public function test_get_dashboard_url_for_administrator_of_different_site()
+    {
         $site_id = self::factory()->blog->create(array('user_id' => self::$user_id));
 
         remove_user_from_blog(self::$user_id, get_current_blog_id());

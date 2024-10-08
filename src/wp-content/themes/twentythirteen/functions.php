@@ -67,7 +67,8 @@ require get_template_directory() . '/inc/block-patterns.php';
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_setup() {
+function twentythirteen_setup()
+{
     /*
      * Makes Twenty Thirteen available for translation.
      *
@@ -268,7 +269,8 @@ if (! function_exists('twentythirteen_fonts_url')) :
      *
      * @return string Font stylesheet or empty string if disabled.
      */
-    function twentythirteen_fonts_url() {
+    function twentythirteen_fonts_url()
+    {
         $fonts_url = '';
 
         /*
@@ -306,7 +308,8 @@ endif;
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_scripts_styles() {
+function twentythirteen_scripts_styles()
+{
     /*
      * Adds JavaScript to pages with the comment form to support
      * sites with threaded comments (when in use).
@@ -361,7 +364,8 @@ add_action('wp_enqueue_scripts', 'twentythirteen_scripts_styles');
  * @param string  $relation_type The relation type the URLs are printed.
  * @return array URLs to print for resource hints.
  */
-function twentythirteen_resource_hints($urls, $relation_type) {
+function twentythirteen_resource_hints($urls, $relation_type)
+{
     if (wp_style_is('twentythirteen-fonts', 'queue') && 'preconnect' === $relation_type) {
         if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '>=')) {
             $urls[] = array(
@@ -382,7 +386,8 @@ function twentythirteen_resource_hints($urls, $relation_type) {
  *
  * @since Twenty Thirteen 2.5
  */
-function twentythirteen_block_editor_styles() {
+function twentythirteen_block_editor_styles()
+{
     // Block styles.
     wp_enqueue_style('twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240506');
     // Add custom fonts.
@@ -406,7 +411,8 @@ add_action('enqueue_block_editor_assets', 'twentythirteen_block_editor_styles');
  * @param string $sep   Optional separator.
  * @return string The filtered title.
  */
-function twentythirteen_wp_title($title, $sep) {
+function twentythirteen_wp_title($title, $sep)
+{
     global $paged, $page;
 
     if (is_feed()) {
@@ -437,7 +443,8 @@ add_filter('wp_title', 'twentythirteen_wp_title', 10, 2);
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_widgets_init() {
+function twentythirteen_widgets_init()
+{
     register_sidebar(
         array(
             'name'          => __('Main Widget Area', 'twentythirteen'),
@@ -472,7 +479,8 @@ if (! function_exists('wp_get_list_item_separator')) :
      *
      * @since 6.0.0
      */
-    function wp_get_list_item_separator() {
+    function wp_get_list_item_separator()
+    {
         /* translators: Used between list items, there is a space after the comma. */
         return __(', ', 'twentythirteen');
     }
@@ -484,7 +492,8 @@ if (! function_exists('twentythirteen_paging_nav')) :
      *
      * @since Twenty Thirteen 1.0
      */
-    function twentythirteen_paging_nav() {
+    function twentythirteen_paging_nav()
+    {
         global $wp_query;
 
         // Don't print empty markup if there's only one page.
@@ -523,7 +532,8 @@ if (! function_exists('twentythirteen_post_nav')) :
      *
      * @global WP_Post $post Global post object.
      */
-    function twentythirteen_post_nav() {
+    function twentythirteen_post_nav()
+    {
         global $post;
 
         // Don't print empty markup if there's nowhere to navigate.
@@ -560,7 +570,8 @@ if (! function_exists('twentythirteen_entry_meta')) :
      *
      * @since Twenty Thirteen 1.0
      */
-    function twentythirteen_entry_meta() {
+    function twentythirteen_entry_meta()
+    {
         if (is_sticky() && is_home() && ! is_paged()) {
             echo '<span class="featured-post">' . esc_html__('Sticky', 'twentythirteen') . '</span>';
         }
@@ -603,7 +614,8 @@ if (! function_exists('twentythirteen_entry_date')) :
      * @param bool $display (optional) Whether to display the date. Default true.
      * @return string The HTML-formatted post date.
      */
-    function twentythirteen_entry_date($display = true) {
+    function twentythirteen_entry_date($display = true)
+    {
         if (has_post_format(array('chat', 'status'))) {
             /* translators: 1: Post format name, 2: Date. */
             $format_prefix = _x('%1$s on %2$s', '1: post format name. 2: date', 'twentythirteen');
@@ -634,7 +646,8 @@ if (! function_exists('twentythirteen_the_attached_image')) :
      *
      * @since Twenty Thirteen 1.0
      */
-    function twentythirteen_the_attached_image() {
+    function twentythirteen_the_attached_image()
+    {
         /**
          * Filters the image attachment size to use.
          *
@@ -707,7 +720,8 @@ endif;
  *
  * @return string The Link format URL.
  */
-function twentythirteen_get_link_url() {
+function twentythirteen_get_link_url()
+{
     $content = get_the_content();
     $has_url = get_url_in_content($content);
 
@@ -724,7 +738,8 @@ if (! function_exists('twentythirteen_excerpt_more') && ! is_admin()) :
      * @param string $more Default Read More excerpt link.
      * @return string Filtered Read More excerpt link.
      */
-    function twentythirteen_excerpt_more($more) {
+    function twentythirteen_excerpt_more($more)
+    {
         $link = sprintf(
             '<a href="%1$s" class="more-link">%2$s</a>',
             esc_url(get_permalink(get_the_ID())),
@@ -749,7 +764,8 @@ endif;
  * @param array $classes A list of existing body class values.
  * @return array The filtered body class list.
  */
-function twentythirteen_body_class($classes) {
+function twentythirteen_body_class($classes)
+{
     if (! is_multi_author()) {
         $classes[] = 'single-author';
     }
@@ -773,7 +789,8 @@ add_filter('body_class', 'twentythirteen_body_class');
  *
  * @global int $content_width Content width.
  */
-function twentythirteen_content_width() {
+function twentythirteen_content_width()
+{
     global $content_width;
 
     if (is_attachment()) {
@@ -791,7 +808,8 @@ add_action('template_redirect', 'twentythirteen_content_width');
  *
  * @param WP_Customize_Manager $wp_customize Customizer object.
  */
-function twentythirteen_customize_register($wp_customize) {
+function twentythirteen_customize_register($wp_customize)
+{
     $wp_customize->get_setting('blogname')->transport         = 'postMessage';
     $wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
     $wp_customize->get_setting('header_textcolor')->transport = 'postMessage';
@@ -826,7 +844,8 @@ add_action('customize_register', 'twentythirteen_customize_register');
  *
  * @return void
  */
-function twentythirteen_customize_partial_blogname() {
+function twentythirteen_customize_partial_blogname()
+{
     bloginfo('name');
 }
 
@@ -839,7 +858,8 @@ function twentythirteen_customize_partial_blogname() {
  *
  * @return void
  */
-function twentythirteen_customize_partial_blogdescription() {
+function twentythirteen_customize_partial_blogdescription()
+{
     bloginfo('description');
 }
 
@@ -851,7 +871,8 @@ function twentythirteen_customize_partial_blogdescription() {
  *
  * @since Twenty Thirteen 1.0
  */
-function twentythirteen_customize_preview_js() {
+function twentythirteen_customize_preview_js()
+{
     wp_enqueue_script('twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array('customize-preview'), '20200516', array('in_footer' => true));
 }
 add_action('customize_preview_init', 'twentythirteen_customize_preview_js');
@@ -865,7 +886,8 @@ add_action('customize_preview_init', 'twentythirteen_customize_preview_js');
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentythirteen_widget_tag_cloud_args($args) {
+function twentythirteen_widget_tag_cloud_args($args)
+{
     $args['largest']  = 22;
     $args['smallest'] = 8;
     $args['unit']     = 'pt';
@@ -884,7 +906,8 @@ add_filter('widget_tag_cloud_args', 'twentythirteen_widget_tag_cloud_args');
  * @param string $template Template file.
  * @return string Replacement template file.
  */
-function twentythirteen_author_bio_template($template) {
+function twentythirteen_author_bio_template($template)
+{
     if (is_author()) {
         $author = get_queried_object();
         if ($author instanceof WP_User && 'bio' === $author->user_nicename) {
@@ -905,7 +928,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Thirteen 2.8
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Triggered after the opening <body> tag.
          *
@@ -921,7 +945,8 @@ endif;
  * @since Twenty Thirteen 3.4
  */
 if (function_exists('register_block_style')) {
-    function twentythirteen_register_block_styles() {
+    function twentythirteen_register_block_styles()
+    {
 
         /**
          * Register block style

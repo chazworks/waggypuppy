@@ -3,7 +3,8 @@
 /**
  * @group oembed
  */
-class Tests_WP_oEmbed extends WP_UnitTestCase {
+class Tests_WP_oEmbed extends WP_UnitTestCase
+{
     /**
      * @var WP_oEmbed
      */
@@ -11,7 +12,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
 
     public $pre_oembed_result_filtered = false;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         require_once ABSPATH . WPINC . '/class-wp-oembed.php';
@@ -23,7 +25,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
         self::touch(ABSPATH . WPINC . '/js/wp-embed.js');
     }
 
-    public function _filter_pre_oembed_result($result) {
+    public function _filter_pre_oembed_result($result)
+    {
         // If this is not null, the oEmbed result has been filtered before any HTTP requests were made.
         $this->pre_oembed_result_filtered = $result;
 
@@ -31,7 +34,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
         return $result ? $result : false;
     }
 
-    public function test_wp_filter_pre_oembed_result_prevents_http_request_for_internal_permalinks() {
+    public function test_wp_filter_pre_oembed_result_prevents_http_request_for_internal_permalinks()
+    {
         $post_id   = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
@@ -43,7 +47,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
         $this->assertSame($this->pre_oembed_result_filtered, $actual);
     }
 
-    public function test_wp_filter_pre_oembed_result_prevents_http_request_when_viewing_the_post() {
+    public function test_wp_filter_pre_oembed_result_prevents_http_request_when_viewing_the_post()
+    {
         $post_id   = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
@@ -58,7 +63,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
         $this->assertSame($this->pre_oembed_result_filtered, $actual);
     }
 
-    public function test_wp_filter_pre_oembed_result_non_existent_post() {
+    public function test_wp_filter_pre_oembed_result_non_existent_post()
+    {
         $post_id   = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
@@ -78,7 +84,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_wp_filter_pre_oembed_result_multisite_root_root() {
+    public function test_wp_filter_pre_oembed_result_multisite_root_root()
+    {
         $post_id   = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
@@ -95,7 +102,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_wp_filter_pre_oembed_result_multisite_sub_samesub() {
+    public function test_wp_filter_pre_oembed_result_multisite_sub_samesub()
+    {
         $user_id = self::factory()->user->create();
 
         $blog_id = self::factory()->blog->create(
@@ -124,7 +132,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_wp_filter_pre_oembed_result_multisite_sub_othersub() {
+    public function test_wp_filter_pre_oembed_result_multisite_sub_othersub()
+    {
         $user_id = self::factory()->user->create();
 
         $blog_id = self::factory()->blog->create(
@@ -161,7 +170,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_wp_filter_pre_oembed_result_multisite_sub_main() {
+    public function test_wp_filter_pre_oembed_result_multisite_sub_main()
+    {
         $post_id   = self::factory()->post->create();
         $permalink = get_permalink($post_id);
         $user_id   = self::factory()->user->create();
@@ -188,7 +198,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_wp_filter_pre_oembed_result_multisite_preserves_switched_state() {
+    public function test_wp_filter_pre_oembed_result_multisite_preserves_switched_state()
+    {
         $user_id = self::factory()->user->create();
 
         $blog_id = self::factory()->blog->create(array('user_id' => $user_id));
@@ -217,7 +228,8 @@ class Tests_WP_oEmbed extends WP_UnitTestCase {
      * @group multisite
      * @group ms-required
      */
-    public function test_wp_filter_pre_oembed_result_multisite_restores_state_if_no_post_is_found() {
+    public function test_wp_filter_pre_oembed_result_multisite_restores_state_if_no_post_is_found()
+    {
         $current_blog_id = get_current_blog_id();
 
         $user_id = self::factory()->user->create();

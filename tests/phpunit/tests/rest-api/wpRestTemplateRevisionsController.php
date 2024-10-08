@@ -7,7 +7,8 @@
  *
  * @group restapi
  */
-class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controller_Testcase {
+class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * @var string
@@ -75,7 +76,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_id = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -159,7 +161,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
     /**
      * Remove revisions when tests are complete.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         // Also deletes revisions.
         foreach (self::$revisions as $revision) {
             wp_delete_post($revision, true);
@@ -170,7 +173,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::register_routes
      * @ticket 56922
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey(
             '/wp/v2/templates/(?P<parent>([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)[\/\w%-]+)/revisions',
@@ -198,7 +202,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::get_context_param
      * @ticket 56922
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/revisions');
         $response = rest_get_server()->dispatch($request);
@@ -239,7 +244,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::get_items
      * @ticket 56922
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
         $request   = new WP_REST_Request(
             'GET',
@@ -304,7 +310,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::get_items_permissions_check
      * @ticket 56922
      */
-    public function test_get_items_endpoint_should_return_unauthorized_https_status_code_for_unauthorized_request() {
+    public function test_get_items_endpoint_should_return_unauthorized_https_status_code_for_unauthorized_request()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/revisions');
         $response = rest_get_server()->dispatch($request);
@@ -315,7 +322,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::get_items_permissions_check
      * @ticket 56922
      */
-    public function test_get_items_endpoint_should_return_forbidden_https_status_code_for_users_with_insufficient_permissions() {
+    public function test_get_items_endpoint_should_return_forbidden_https_status_code_for_users_with_insufficient_permissions()
+    {
         wp_set_current_user(self::$contributor_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/revisions');
         $response = rest_get_server()->dispatch($request);
@@ -326,7 +334,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::get_item
      * @ticket 56922
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $revisions   = wp_get_post_revisions(self::$template_post, array('fields' => 'ids'));
@@ -356,7 +365,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::get_item
      * @ticket 56922
      */
-    public function test_get_item_not_found() {
+    public function test_get_item_not_found()
+    {
         wp_set_current_user(self::$admin_id);
 
         $revisions   = wp_get_post_revisions(self::$template_post, array('fields' => 'ids'));
@@ -370,7 +380,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
     /**
      * @ticket 59875
      */
-    public function test_get_item_invalid_parent_id() {
+    public function test_get_item_invalid_parent_id()
+    {
         wp_set_current_user(self::$admin_id);
         $revisions   = wp_get_post_revisions(self::$template_post, array('fields' => 'ids'));
         $revision_id = array_shift($revisions);
@@ -388,7 +399,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::prepare_item_for_response
      * @ticket 56922
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $revisions   = wp_get_post_revisions(self::$template_post, array('fields' => 'ids'));
         $revision_id = array_shift($revisions);
         $post        = get_post($revision_id);
@@ -443,7 +455,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::get_item_schema
      * @ticket 56922
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/revisions');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -474,7 +487,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @coversNothing
      * @ticket 56922
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         $this->markTestSkipped(
             sprintf(
                 "The '%s' controller doesn't currently support the ability to create template revisions.",
@@ -487,7 +501,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @coversNothing
      * @ticket 56922
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         $this->markTestSkipped(
             sprintf(
                 "The '%s' controller doesn't currently support the ability to update template revisions.",
@@ -500,7 +515,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Templates_Controller::delete_item
      * @ticket 56922
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $revision_id       = _wp_put_post_revision(self::$template_post);
@@ -518,7 +534,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Templates_Controller::delete_item
      * @ticket 56922
      */
-    public function test_delete_item_incorrect_permission() {
+    public function test_delete_item_incorrect_permission()
+    {
         wp_set_current_user(self::$contributor_id);
         $revision_id       = _wp_put_post_revision(self::$template_post);
         self::$revisions[] = $revision_id;
@@ -533,7 +550,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Templates_Controller::delete_item
      * @ticket 56922
      */
-    public function test_delete_item_no_permission() {
+    public function test_delete_item_no_permission()
+    {
         wp_set_current_user(0);
         $revision_id       = _wp_put_post_revision(self::$template_post);
         self::$revisions[] = $revision_id;
@@ -548,7 +566,8 @@ class Tests_REST_wpRestTemplateRevisionsController extends WP_Test_REST_Controll
      * @covers WP_REST_Template_Revisions_Controller::get_item
      * @ticket 56922
      */
-    public function test_delete_item_not_found() {
+    public function test_delete_item_not_found()
+    {
         wp_set_current_user(self::$admin_id);
 
         $revision_id       = _wp_put_post_revision(self::$template_post);

@@ -7,7 +7,8 @@
  *
  * @covers ::sanitize_hex_color_no_hash
  */
-class Tests_Formatting_SanitizeHexColorNoHash extends WP_UnitTestCase {
+class Tests_Formatting_SanitizeHexColorNoHash extends WP_UnitTestCase
+{
 
     /**
      * @ticket 60271
@@ -17,7 +18,8 @@ class Tests_Formatting_SanitizeHexColorNoHash extends WP_UnitTestCase {
      * @param string $color    Color.
      * @param string $expected Expected.
      */
-    public function test_sanitize_hex_color_no_hash($color, $expected) {
+    public function test_sanitize_hex_color_no_hash($color, $expected)
+    {
         $this->assertSame($expected, sanitize_hex_color_no_hash($color));
     }
 
@@ -26,7 +28,8 @@ class Tests_Formatting_SanitizeHexColorNoHash extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_sanitize_hex_color_no_hash() {
+    public function data_sanitize_hex_color_no_hash()
+    {
         return array(
             '$maybe_alpha = false, 3 digit'               => array(
                 'color'    => '#123',

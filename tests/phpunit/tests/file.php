@@ -3,13 +3,15 @@
 /**
  * @group file
  */
-class Tests_File extends WP_UnitTestCase {
+class Tests_File extends WP_UnitTestCase
+{
 
     const BADCHARS = '"\'[]*&?$';
 
     private $dir;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->dir = untrailingslashit(get_temp_dir());
@@ -19,7 +21,8 @@ class Tests_File extends WP_UnitTestCase {
      * @group plugins
      * @group themes
      */
-    public function test_get_file_data() {
+    public function test_get_file_data()
+    {
         $theme_headers = array(
             'Name'        => 'Theme Name',
             'ThemeURI'    => 'Theme URI',
@@ -50,7 +53,8 @@ class Tests_File extends WP_UnitTestCase {
      * @group plugins
      * @group themes
      */
-    public function test_get_file_data_with_cr_line_endings() {
+    public function test_get_file_data_with_cr_line_endings()
+    {
         $headers = array(
             'SomeHeader'  => 'Some Header',
             'Description' => 'Description',
@@ -74,7 +78,8 @@ class Tests_File extends WP_UnitTestCase {
      * @group plugins
      * @group themes
      */
-    public function test_get_file_data_with_php_open_tag_prefix() {
+    public function test_get_file_data_with_php_open_tag_prefix()
+    {
         $headers = array(
             'TemplateName' => 'Template Name',
         );
@@ -89,7 +94,8 @@ class Tests_File extends WP_UnitTestCase {
         }
     }
 
-    private function is_unique_writable_file($path, $filename) {
+    private function is_unique_writable_file($path, $filename)
+    {
         $fullpath = $path . DIRECTORY_SEPARATOR . $filename;
 
         $fp = fopen($fullpath, 'x');
@@ -112,7 +118,8 @@ class Tests_File extends WP_UnitTestCase {
         return $result;
     }
 
-    public function test_unique_filename_is_valid() {
+    public function test_unique_filename_is_valid()
+    {
         // Make sure it produces a valid, writable, unique filename.
         $filename = wp_unique_filename($this->dir, __FUNCTION__ . '.txt');
 
@@ -121,7 +128,8 @@ class Tests_File extends WP_UnitTestCase {
         unlink($this->dir . DIRECTORY_SEPARATOR . $filename);
     }
 
-    public function test_unique_filename_is_unique() {
+    public function test_unique_filename_is_unique()
+    {
         // Make sure it produces two unique filenames.
         $name = __FUNCTION__;
 
@@ -137,7 +145,8 @@ class Tests_File extends WP_UnitTestCase {
         unlink($this->dir . DIRECTORY_SEPARATOR . $filename2);
     }
 
-    public function test_unique_filename_is_sanitized() {
+    public function test_unique_filename_is_sanitized()
+    {
         $name     = __FUNCTION__;
         $filename = wp_unique_filename($this->dir, $name . self::BADCHARS . '.txt');
 
@@ -149,7 +158,8 @@ class Tests_File extends WP_UnitTestCase {
         unlink($this->dir . DIRECTORY_SEPARATOR . $filename);
     }
 
-    public function test_unique_filename_with_slashes() {
+    public function test_unique_filename_with_slashes()
+    {
         $name = __FUNCTION__;
         // "foo/foo.txt"
         $filename = wp_unique_filename($this->dir, $name . '/' . $name . '.txt');
@@ -162,7 +172,8 @@ class Tests_File extends WP_UnitTestCase {
         unlink($this->dir . DIRECTORY_SEPARATOR . $filename);
     }
 
-    public function test_unique_filename_multiple_ext() {
+    public function test_unique_filename_multiple_ext()
+    {
         $name     = __FUNCTION__;
         $filename = wp_unique_filename($this->dir, $name . '.php.txt');
 
@@ -174,7 +185,8 @@ class Tests_File extends WP_UnitTestCase {
         unlink($this->dir . DIRECTORY_SEPARATOR . $filename);
     }
 
-    public function test_unique_filename_no_ext() {
+    public function test_unique_filename_no_ext()
+    {
         $name     = __FUNCTION__;
         $filename = wp_unique_filename($this->dir, $name);
 
@@ -188,13 +200,15 @@ class Tests_File extends WP_UnitTestCase {
     /**
      * @dataProvider data_wp_tempnam_filenames
      */
-    public function test_wp_tempnam($filename) {
+    public function test_wp_tempnam($filename)
+    {
         $file = wp_tempnam($filename);
         unlink($file);
 
         $this->assertNotEmpty(basename(basename($file, '.tmp'), '.zip'));
     }
-    public function data_wp_tempnam_filenames() {
+    public function data_wp_tempnam_filenames()
+    {
         return array(
             array('0.zip'),
             array('0.1.2.3.zip'),
@@ -214,7 +228,8 @@ class Tests_File extends WP_UnitTestCase {
      *
      * @dataProvider data_wp_tempnam_should_limit_filename_length_to_252_characters
      */
-    public function test_wp_tempnam_should_limit_filename_length_to_252_characters($filename) {
+    public function test_wp_tempnam_should_limit_filename_length_to_252_characters($filename)
+    {
         $file = wp_tempnam($filename);
 
         if (file_exists($file)) {
@@ -229,7 +244,8 @@ class Tests_File extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_tempnam_should_limit_filename_length_to_252_characters() {
+    public function data_wp_tempnam_should_limit_filename_length_to_252_characters()
+    {
         return array(
             'the limit before adding characters for uniqueness' => array('filename' => str_pad('', 241, 'filename')),
             'one more than the limit before adding characters for uniqueness' => array('filename' => str_pad('', 242, 'filename')),
@@ -247,7 +263,8 @@ class Tests_File extends WP_UnitTestCase {
      *
      * @covers ::wp_tempnam
      */
-    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_with_name_conflict() {
+    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_with_name_conflict()
+    {
         // Create a conflict by removing the randomness of the generated password.
         add_filter(
             'random_password',
@@ -281,7 +298,8 @@ class Tests_File extends WP_UnitTestCase {
      *
      * @covers ::wp_tempnam
      */
-    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_random_password_is_filtered() {
+    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_random_password_is_filtered()
+    {
         // Force random passwords to 12 characters.
         add_filter(
             'random_password',
@@ -309,7 +327,8 @@ class Tests_File extends WP_UnitTestCase {
      *
      * @covers ::wp_tempnam
      */
-    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_wp_unique_filename_is_filtered() {
+    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_wp_unique_filename_is_filtered()
+    {
         // Determine the number of additional characters added by `wp_tempnam()`.
         $temp_dir                    = get_temp_dir();
         $additional_chars_filename   = wp_unique_filename($temp_dir, 'filename');
@@ -353,7 +372,8 @@ class Tests_File extends WP_UnitTestCase {
      *
      * @covers ::wp_tempnam
      */
-    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_random_password_and_wp_unique_filename_are_filtered() {
+    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_random_password_and_wp_unique_filename_are_filtered()
+    {
         // Force random passwords to 12 characters.
         add_filter(
             'random_password',
@@ -401,7 +421,8 @@ class Tests_File extends WP_UnitTestCase {
     /**
      * @ticket 47186
      */
-    public function test_file_signature_functions_as_expected() {
+    public function test_file_signature_functions_as_expected()
+    {
         $file = wp_tempnam();
         file_put_contents($file, 'WordPress');
 
@@ -434,7 +455,8 @@ class Tests_File extends WP_UnitTestCase {
     /**
      * @ticket 47186
      */
-    public function test_file_signature_expected_failure() {
+    public function test_file_signature_expected_failure()
+    {
         $file = wp_tempnam();
         file_put_contents($file, 'WordPress');
 
@@ -451,7 +473,8 @@ class Tests_File extends WP_UnitTestCase {
         $this->assertSame('signature_verification_failed', $verify->get_error_code());
     }
 
-    public function filter_trust_plus85Tq_key($keys) {
+    public function filter_trust_plus85Tq_key($keys)
+    {
         // A static once-off key used to verify verify_file_signature() works as expected.
         $keys[] = '+85TqMhxQVAYVW4BSCVkJQvZH4q7z8I9lePbvngvf7A=';
 

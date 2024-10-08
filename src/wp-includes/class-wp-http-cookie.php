@@ -19,7 +19,8 @@
  * @since 2.8.0
  */
 #[AllowDynamicProperties]
-class WP_Http_Cookie {
+class WP_Http_Cookie
+{
 
     /**
      * Cookie name.
@@ -107,7 +108,8 @@ class WP_Http_Cookie {
      * @param string       $requested_url The URL which the cookie was set on, used for default $domain
      *                                    and $port values.
      */
-    public function __construct($data, $requested_url = '') {
+    public function __construct($data, $requested_url = '')
+    {
         if ($requested_url) {
             $parsed_url = parse_url($requested_url);
         }
@@ -178,7 +180,8 @@ class WP_Http_Cookie {
      * @param string $url URL you intend to send this cookie to
      * @return bool true if allowed, false otherwise.
      */
-    public function test($url) {
+    public function test($url)
+    {
         if (is_null($this->name)) {
             return false;
         }
@@ -227,7 +230,8 @@ class WP_Http_Cookie {
      *
      * @return string Header encoded cookie name and value.
      */
-    public function getHeaderValue() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public function getHeaderValue()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    {
         if (! isset($this->name) || ! isset($this->value)) {
             return '';
         }
@@ -250,7 +254,8 @@ class WP_Http_Cookie {
      *
      * @return string
      */
-    public function getFullHeader() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public function getFullHeader()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    {
         return 'Cookie: ' . $this->getHeaderValue();
     }
 
@@ -267,7 +272,8 @@ class WP_Http_Cookie {
      *     @type string          $domain  Cookie domain.
      * }
      */
-    public function get_attributes() {
+    public function get_attributes()
+    {
         return array(
             'expires' => $this->expires,
             'path'    => $this->path,

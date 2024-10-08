@@ -7,14 +7,16 @@
  *
  * @covers ::links_add_base_url
  */
-class Tests_Formatting_LinksAddBaseUrl extends WP_UnitTestCase {
+class Tests_Formatting_LinksAddBaseUrl extends WP_UnitTestCase
+{
 
     /**
      * @ticket 60389
      *
      * @dataProvider data_links_add_base_url
      */
-    public function test_links_add_base_url($content, $base, $attrs, $expected) {
+    public function test_links_add_base_url($content, $base, $attrs, $expected)
+    {
         if (is_null($attrs)) {
             $this->assertSame($expected, links_add_base_url($content, $base));
         } else {
@@ -34,7 +36,8 @@ class Tests_Formatting_LinksAddBaseUrl extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_links_add_base_url() {
+    public function data_links_add_base_url()
+    {
         return array(
             'https'           => array(
                 'content'  => '<a href="url" />',

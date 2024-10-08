@@ -12,7 +12,8 @@
  * @since 3.0.0
  */
 #[AllowDynamicProperties]
-class Custom_Background {
+class Custom_Background
+{
 
     /**
      * Callback for administration header.
@@ -48,7 +49,8 @@ class Custom_Background {
      * @param callable $admin_image_div_callback Optional. Custom image div output callback.
      *                                           Default empty string.
      */
-    public function __construct($admin_header_callback = '', $admin_image_div_callback = '') {
+    public function __construct($admin_header_callback = '', $admin_image_div_callback = '')
+    {
         $this->admin_header_callback    = $admin_header_callback;
         $this->admin_image_div_callback = $admin_image_div_callback;
 
@@ -65,7 +67,8 @@ class Custom_Background {
      *
      * @since 3.0.0
      */
-    public function init() {
+    public function init()
+    {
         $page = add_theme_page(
             _x('Background', 'custom background'),
             _x('Background', 'custom background'),
@@ -92,7 +95,8 @@ class Custom_Background {
      *
      * @since 3.0.0
      */
-    public function admin_load() {
+    public function admin_load()
+    {
         get_current_screen()->add_help_tab(
             array(
                 'id'      => 'overview',
@@ -121,7 +125,8 @@ class Custom_Background {
      *
      * @since 3.0.0
      */
-    public function take_action() {
+    public function take_action()
+    {
         if (empty($_POST)) {
             return;
         }
@@ -237,7 +242,8 @@ class Custom_Background {
      *
      * @since 3.0.0
      */
-    public function admin_page() {
+    public function admin_page()
+    {
         ?>
 <div class="wrap" id="custom-background">
 <h1><?php _e('Custom Background'); ?></h1>
@@ -527,7 +533,8 @@ class Custom_Background {
      *
      * @since 3.0.0
      */
-    public function handle_upload() {
+    public function handle_upload()
+    {
         if (empty($_FILES)) {
             return;
         }
@@ -588,7 +595,8 @@ class Custom_Background {
      *
      * @since 4.1.0
      */
-    public function ajax_background_add() {
+    public function ajax_background_add()
+    {
         check_ajax_referer('background-add', 'nonce');
 
         if (! current_user_can('edit_theme_options')) {
@@ -612,7 +620,8 @@ class Custom_Background {
      * @param array $form_fields
      * @return array $form_fields
      */
-    public function attachment_fields_to_edit($form_fields) {
+    public function attachment_fields_to_edit($form_fields)
+    {
         return $form_fields;
     }
 
@@ -623,7 +632,8 @@ class Custom_Background {
      * @param array $tabs
      * @return array $tabs
      */
-    public function filter_upload_tabs($tabs) {
+    public function filter_upload_tabs($tabs)
+    {
         return $tabs;
     }
 
@@ -631,7 +641,8 @@ class Custom_Background {
      * @since 3.4.0
      * @deprecated 3.5.0
      */
-    public function wp_set_background_image() {
+    public function wp_set_background_image()
+    {
         check_ajax_referer('custom-background');
 
         if (! current_user_can('edit_theme_options') || ! isset($_POST['attachment_id'])) {

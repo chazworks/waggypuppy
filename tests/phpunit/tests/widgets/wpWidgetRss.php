@@ -11,7 +11,8 @@
  *
  * @group widgets
  */
-class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
+class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase
+{
 
     /**
      * @ticket 53278
@@ -20,7 +21,8 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
      *
      * @param mixed $url When null, unsets 'url' arg, else, sets to given value.
      */
-    public function test_url_unhappy_path($url) {
+    public function test_url_unhappy_path($url)
+    {
         $widget   = new WP_Widget_RSS();
         $args     = array(
             'before_title'  => '<h2>',
@@ -42,7 +44,8 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
         $widget->widget($args, $instance);
     }
 
-    public function data_url_unhappy_path() {
+    public function data_url_unhappy_path()
+    {
         return array(
             'when unset'         => array(
                 'url' => null,
@@ -64,7 +67,8 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
      * @param mixed  $url      URL argument.
      * @param string $expected Expected output.
      */
-    public function test_url_happy_path($url, $expected) {
+    public function test_url_happy_path($url, $expected)
+    {
         add_filter('pre_http_request', array($this, 'mocked_rss_response'));
 
         $widget   = new WP_Widget_RSS();
@@ -90,7 +94,8 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
         $this->assertStringContainsString($expected, $actual);
     }
 
-    public function data_url_happy_path() {
+    public function data_url_happy_path()
+    {
         return array(
             'when url is given' => array(
                 'url' => 'https://wordpress.org/news/feed/',
@@ -99,7 +104,8 @@ class Tests_Widgets_wpWidgetRss extends WP_UnitTestCase {
         );
     }
 
-    public function mocked_rss_response() {
+    public function mocked_rss_response()
+    {
         $single_value_headers = array(
             'Content-Type' => 'application/rss+xml; charset=UTF-8',
             'link'         => '<https://wordpress.org/news/wp-json/>; rel="https://api.w.org/"',

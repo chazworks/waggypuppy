@@ -54,7 +54,8 @@ define('WXR_VERSION', '1.2');
  *                              'trash'. Default false (all statuses except 'auto-draft').
  * }
  */
-function export_wp($args = array()) {
+function export_wp($args = array())
+{
     global $wpdb, $post;
 
     $defaults = array(
@@ -242,7 +243,8 @@ function export_wp($args = array()) {
      * @param string $str String to wrap in XML CDATA tag.
      * @return string
      */
-    function wxr_cdata($str) {
+    function wxr_cdata($str)
+    {
         if (! seems_utf8($str)) {
             $str = utf8_encode($str);
         }
@@ -259,7 +261,8 @@ function export_wp($args = array()) {
      *
      * @return string Site URL.
      */
-    function wxr_site_url() {
+    function wxr_site_url()
+    {
         if (is_multisite()) {
             // Multisite: the base URL.
             return network_home_url();
@@ -276,7 +279,8 @@ function export_wp($args = array()) {
      *
      * @param WP_Term $category Category Object.
      */
-    function wxr_cat_name($category) {
+    function wxr_cat_name($category)
+    {
         if (empty($category->name)) {
             return;
         }
@@ -291,7 +295,8 @@ function export_wp($args = array()) {
      *
      * @param WP_Term $category Category Object.
      */
-    function wxr_category_description($category) {
+    function wxr_category_description($category)
+    {
         if (empty($category->description)) {
             return;
         }
@@ -306,7 +311,8 @@ function export_wp($args = array()) {
      *
      * @param WP_Term $tag Tag Object.
      */
-    function wxr_tag_name($tag) {
+    function wxr_tag_name($tag)
+    {
         if (empty($tag->name)) {
             return;
         }
@@ -321,7 +327,8 @@ function export_wp($args = array()) {
      *
      * @param WP_Term $tag Tag Object.
      */
-    function wxr_tag_description($tag) {
+    function wxr_tag_description($tag)
+    {
         if (empty($tag->description)) {
             return;
         }
@@ -336,7 +343,8 @@ function export_wp($args = array()) {
      *
      * @param WP_Term $term Term Object.
      */
-    function wxr_term_name($term) {
+    function wxr_term_name($term)
+    {
         if (empty($term->name)) {
             return;
         }
@@ -351,7 +359,8 @@ function export_wp($args = array()) {
      *
      * @param WP_Term $term Term Object.
      */
-    function wxr_term_description($term) {
+    function wxr_term_description($term)
+    {
         if (empty($term->description)) {
             return;
         }
@@ -368,7 +377,8 @@ function export_wp($args = array()) {
      *
      * @param WP_Term $term Term object.
      */
-    function wxr_term_meta($term) {
+    function wxr_term_meta($term)
+    {
         global $wpdb;
 
         $termmeta = $wpdb->get_results($wpdb->prepare("SELECT * FROM $wpdb->termmeta WHERE term_id = %d", $term->term_id));
@@ -401,7 +411,8 @@ function export_wp($args = array()) {
      *
      * @param int[] $post_ids Optional. Array of post IDs to filter the query by.
      */
-    function wxr_authors_list(?array $post_ids = null) {
+    function wxr_authors_list(?array $post_ids = null)
+    {
         global $wpdb;
 
         if (! empty($post_ids)) {
@@ -436,7 +447,8 @@ function export_wp($args = array()) {
      *
      * @since 3.1.0
      */
-    function wxr_nav_menu_terms() {
+    function wxr_nav_menu_terms()
+    {
         $nav_menus = wp_get_nav_menus();
         if (empty($nav_menus) || ! is_array($nav_menus)) {
             return;
@@ -457,7 +469,8 @@ function export_wp($args = array()) {
      *
      * @since 2.3.0
      */
-    function wxr_post_taxonomy() {
+    function wxr_post_taxonomy()
+    {
         $post = get_post();
 
         $taxonomies = get_object_taxonomies($post->post_type);
@@ -480,7 +493,8 @@ function export_wp($args = array()) {
      * @param string $meta_key  Meta key.
      * @return bool
      */
-    function wxr_filter_postmeta($return_me, $meta_key) {
+    function wxr_filter_postmeta($return_me, $meta_key)
+    {
         if ('_edit_lock' === $meta_key) {
             $return_me = true;
         }

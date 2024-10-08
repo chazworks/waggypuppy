@@ -11,7 +11,8 @@
  * Class to provide access to update a theme.json structure.
  */
 #[AllowDynamicProperties]
-class WP_Theme_JSON_Data {
+class WP_Theme_JSON_Data
+{
 
     /**
      * Container of the data to update.
@@ -39,7 +40,8 @@ class WP_Theme_JSON_Data {
      * @param array  $data   Array following the theme.json specification.
      * @param string $origin The origin of the data: default, theme, user.
      */
-    public function __construct($data = array('version' => WP_Theme_JSON::LATEST_SCHEMA), $origin = 'theme') {
+    public function __construct($data = array('version' => WP_Theme_JSON::LATEST_SCHEMA), $origin = 'theme')
+    {
         $this->origin     = $origin;
         $this->theme_json = new WP_Theme_JSON($data, $this->origin);
     }
@@ -53,7 +55,8 @@ class WP_Theme_JSON_Data {
      *
      * @return WP_Theme_JSON_Data The own instance with access to the modified data.
      */
-    public function update_with($new_data) {
+    public function update_with($new_data)
+    {
         $this->theme_json->merge(new WP_Theme_JSON($new_data, $this->origin));
         return $this;
     }
@@ -66,7 +69,8 @@ class WP_Theme_JSON_Data {
      *
      * @return array
      */
-    public function get_data() {
+    public function get_data()
+    {
         return $this->theme_json->get_raw_data();
     }
 
@@ -77,7 +81,8 @@ class WP_Theme_JSON_Data {
      *
      * @return WP_Theme_JSON The theme JSON structure stored in this data object.
      */
-    public function get_theme_json() {
+    public function get_theme_json()
+    {
         return $this->theme_json;
     }
 }

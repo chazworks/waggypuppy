@@ -14,7 +14,8 @@
  *
  * @coversDefaultClass WP_Style_Engine_CSS_Declarations
  */
-class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
+class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase
+{
     /**
      * Tests setting declarations on instantiation.
      *
@@ -22,7 +23,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      *
      * @covers ::__construct
      */
-    public function test_should_set_declarations_on_instantiation() {
+    public function test_should_set_declarations_on_instantiation()
+    {
         $input_declarations = array(
             'margin-top' => '10px',
             'font-size'  => '2rem',
@@ -40,7 +42,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      * @covers ::add_declarations
      * @covers ::add_declaration
      */
-    public function test_should_add_declarations() {
+    public function test_should_add_declarations()
+    {
         $input_declarations = array(
             'padding' => '20px',
             'color'   => 'var(--wp--preset--elbow-patches)',
@@ -59,7 +62,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      * @covers ::add_declarations
      * @covers ::add_declaration
      */
-    public function test_should_add_new_declarations_to_existing() {
+    public function test_should_add_new_declarations_to_existing()
+    {
         $input_declarations = array(
             'border-width'     => '1%',
             'background-color' => 'var(--wp--preset--english-mustard)',
@@ -80,7 +84,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      *
      * @covers ::sanitize_property
      */
-    public function test_should_sanitize_properties() {
+    public function test_should_sanitize_properties()
+    {
         $input_declarations = array(
             '^--wp--style--sleepy-potato$' => '40px',
             '<background-//color>'         => 'var(--wp--preset--english-mustard)',
@@ -104,7 +109,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      * @covers ::get_declarations_string
      * @covers ::filter_declaration
      */
-    public function test_should_strip_html_tags_and_remove_unsafe_css_properties() {
+    public function test_should_strip_html_tags_and_remove_unsafe_css_properties()
+    {
         $input_declarations         = array(
             'font-size'    => '<red/>',
             'padding'      => '</style>',
@@ -140,7 +146,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      * @covers ::get_declarations_string
      * @covers ::filter_declaration
      */
-    public function test_should_allow_css_functions_and_strip_unsafe_css_values() {
+    public function test_should_allow_css_functions_and_strip_unsafe_css_values()
+    {
         $input_declarations                        = array(
             'background'       => 'var(--wp--preset--color--primary, 10px)', // Simple var().
             'font-size'        => 'clamp(36.00rem, calc(32.00rem + 10.00vw), 40.00rem)', // Nested clamp().
@@ -185,7 +192,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      * @param bool   $should_prettify Optional. Whether to pretty the string. Default false.
      * @param int    $indent_count    Optional. The number of tab indents. Default false.
      */
-    public function test_should_compile_css_declarations_to_css_declarations_string($expected, $should_prettify = false, $indent_count = 0) {
+    public function test_should_compile_css_declarations_to_css_declarations_string($expected, $should_prettify = false, $indent_count = 0)
+    {
         $input_declarations = array(
             'color'                  => 'red',
             'border-top-left-radius' => '99px',
@@ -204,7 +212,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_compile_css_declarations_to_css_declarations_string() {
+    public function data_should_compile_css_declarations_to_css_declarations_string()
+    {
         return array(
             'unprettified, no indent'  => array(
                 'expected' => 'color:red;border-top-left-radius:99px;text-decoration:underline;',
@@ -238,7 +247,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      *
      * @covers ::remove_declaration
      */
-    public function test_should_remove_single_declaration() {
+    public function test_should_remove_single_declaration()
+    {
         $input_declarations = array(
             'color'       => 'tomato',
             'margin'      => '10em 10em 20em 1px',
@@ -268,7 +278,8 @@ class Tests_Style_Engine_wpStyleEngineCSSDeclarations extends WP_UnitTestCase {
      *
      * @covers ::remove_declarations
      */
-    public function test_should_remove_multiple_declarations() {
+    public function test_should_remove_multiple_declarations()
+    {
         $input_declarations = array(
             'color'       => 'cucumber',
             'margin'      => '10em 10em 20em 1px',

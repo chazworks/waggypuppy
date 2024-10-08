@@ -3,9 +3,11 @@
 /**
  * @group rewrite
  */
-class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase {
+class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->set_permalink_structure('/%postname%/');
@@ -14,7 +16,8 @@ class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase {
     /**
      * @ticket 16840
      */
-    public function test_add_rewrite_rule_redirect() {
+    public function test_add_rewrite_rule_redirect()
+    {
         global $wp_rewrite;
 
         $pattern  = 'path/to/rewrite/([^/]+)/?$';
@@ -31,7 +34,8 @@ class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase {
     /**
      * @ticket 16840
      */
-    public function test_add_rewrite_rule_redirect_array() {
+    public function test_add_rewrite_rule_redirect_array()
+    {
         global $wp_rewrite;
 
         $pattern  = 'path/to/rewrite/([^/]+)/?$';

@@ -3,12 +3,14 @@
 /**
  * @group https-migration
  */
-class Tests_HTTPS_Migration extends WP_UnitTestCase {
+class Tests_HTTPS_Migration extends WP_UnitTestCase
+{
 
     /**
      * @ticket 51437
      */
-    public function test_wp_should_replace_insecure_home_url() {
+    public function test_wp_should_replace_insecure_home_url()
+    {
         // Should return false because site is not using HTTPS.
         $this->force_wp_is_using_https(false);
         $this->assertFalse(wp_should_replace_insecure_home_url());
@@ -33,7 +35,8 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase {
     /**
      * @ticket 51437
      */
-    public function test_wp_replace_insecure_home_url() {
+    public function test_wp_replace_insecure_home_url()
+    {
         $http_url  = home_url('', 'http');
         $https_url = home_url('', 'https');
 
@@ -71,7 +74,8 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase {
     /**
      * @ticket 51437
      */
-    public function test_wp_update_urls_to_https() {
+    public function test_wp_update_urls_to_https()
+    {
         remove_all_filters('option_home');
         remove_all_filters('option_siteurl');
         remove_all_filters('home_url');
@@ -105,7 +109,8 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase {
     /**
      * @ticket 51437
      */
-    public function test_wp_update_https_migration_required() {
+    public function test_wp_update_https_migration_required()
+    {
         // Changing HTTP to HTTPS on a site with content should result in flag being set, requiring migration.
         update_option('fresh_site', '0');
         wp_update_https_migration_required('http://example.org', 'https://example.org');
@@ -129,7 +134,8 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase {
     /**
      * @ticket 51437
      */
-    public function test_wp_should_replace_insecure_home_url_integration() {
+    public function test_wp_should_replace_insecure_home_url_integration()
+    {
         // Setup (a site on HTTP, with existing content).
         remove_all_filters('option_home');
         remove_all_filters('option_siteurl');
@@ -158,7 +164,8 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase {
         $this->assertFalse(wp_should_replace_insecure_home_url());
     }
 
-    private function force_wp_is_using_https($enabled) {
+    private function force_wp_is_using_https($enabled)
+    {
         $scheme = $enabled ? 'https' : 'http';
 
         $replace_scheme = static function ($url) use ($scheme) {
@@ -169,7 +176,8 @@ class Tests_HTTPS_Migration extends WP_UnitTestCase {
         add_filter('site_url', $replace_scheme, 99);
     }
 
-    private function force_option($option, $value) {
+    private function force_option($option, $value)
+    {
         add_filter(
             "option_$option",
             static function () use ($value) {

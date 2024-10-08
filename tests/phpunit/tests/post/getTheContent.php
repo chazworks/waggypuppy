@@ -4,11 +4,13 @@
  * @group post
  * @group formatting
  */
-class Tests_Post_GetTheContent extends WP_UnitTestCase {
+class Tests_Post_GetTheContent extends WP_UnitTestCase
+{
     /**
      * @ticket 42814
      */
-    public function test_argument_back_compat_more_link_text() {
+    public function test_argument_back_compat_more_link_text()
+    {
         $text = 'Foo<!--more-->Bar';
         $p    = self::factory()->post->create(array('post_content' => $text));
 
@@ -25,7 +27,8 @@ class Tests_Post_GetTheContent extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_argument_back_compat_strip_teaser() {
+    public function test_argument_back_compat_strip_teaser()
+    {
         $text = 'Foo<!--more-->Bar';
         $p    = self::factory()->post->create(array('post_content' => $text));
 
@@ -44,7 +47,8 @@ class Tests_Post_GetTheContent extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_content_other_post() {
+    public function test_content_other_post()
+    {
         $text_1 = 'Foo<!--nextpage-->Bar<!--nextpage-->Baz';
         $post_1 = self::factory()->post->create_and_get(array('post_content' => $text_1));
 
@@ -59,7 +63,8 @@ class Tests_Post_GetTheContent extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_should_respect_pagination_of_inner_post() {
+    public function test_should_respect_pagination_of_inner_post()
+    {
         $text_1 = 'Foo<!--nextpage-->Bar<!--nextpage-->Baz';
         $post_1 = self::factory()->post->create_and_get(array('post_content' => $text_1));
 
@@ -79,7 +84,8 @@ class Tests_Post_GetTheContent extends WP_UnitTestCase {
     /**
      * @ticket 47824
      */
-    public function test_should_fall_back_to_post_global_outside_of_the_loop() {
+    public function test_should_fall_back_to_post_global_outside_of_the_loop()
+    {
         $GLOBALS['post'] = self::factory()->post->create(array('post_content' => 'Foo'));
 
         $this->assertSame('Foo', get_the_content());

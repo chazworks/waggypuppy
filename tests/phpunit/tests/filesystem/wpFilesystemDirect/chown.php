@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::chown
  */
-class Tests_Filesystem_WpFilesystemDirect_Chown extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Chown extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::chown()`
@@ -26,7 +27,8 @@ class Tests_Filesystem_WpFilesystemDirect_Chown extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_return_false($path) {
+    public function test_should_return_false($path)
+    {
         $this->assertFalse(self::$filesystem->chown($path, fileowner(__FILE__)));
     }
 }

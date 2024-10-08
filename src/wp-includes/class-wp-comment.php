@@ -13,7 +13,8 @@
  * @since 4.4.0
  */
 #[AllowDynamicProperties]
-final class WP_Comment {
+final class WP_Comment
+{
 
     /**
      * Comment ID.
@@ -180,7 +181,8 @@ final class WP_Comment {
      * @param int $id Comment ID.
      * @return WP_Comment|false Comment object, otherwise false.
      */
-    public static function get_instance($id) {
+    public static function get_instance($id)
+    {
         global $wpdb;
 
         $comment_id = (int) $id;
@@ -212,7 +214,8 @@ final class WP_Comment {
      *
      * @param WP_Comment $comment Comment object.
      */
-    public function __construct($comment) {
+    public function __construct($comment)
+    {
         foreach (get_object_vars($comment) as $key => $value) {
             $this->$key = $value;
         }
@@ -225,7 +228,8 @@ final class WP_Comment {
      *
      * @return array Object as array.
      */
-    public function to_array() {
+    public function to_array()
+    {
         return get_object_vars($this);
     }
 
@@ -265,7 +269,8 @@ final class WP_Comment {
      * }
      * @return WP_Comment[] Array of `WP_Comment` objects.
      */
-    public function get_children($args = array()) {
+    public function get_children($args = array())
+    {
         $defaults = array(
             'format'       => 'tree',
             'status'       => 'all',
@@ -310,7 +315,8 @@ final class WP_Comment {
      *
      * @param WP_Comment $child Child comment.
      */
-    public function add_child(WP_Comment $child) {
+    public function add_child(WP_Comment $child)
+    {
         $this->children[ $child->comment_ID ] = $child;
     }
 
@@ -322,7 +328,8 @@ final class WP_Comment {
      * @param int $child_id ID of the child.
      * @return WP_Comment|false Returns the comment object if found, otherwise false.
      */
-    public function get_child($child_id) {
+    public function get_child($child_id)
+    {
         if (isset($this->children[ $child_id ])) {
             return $this->children[ $child_id ];
         }
@@ -340,7 +347,8 @@ final class WP_Comment {
      *
      * @param bool $set Whether the comment's children have already been populated.
      */
-    public function populated_children($set) {
+    public function populated_children($set)
+    {
         $this->populated_children = (bool) $set;
     }
 
@@ -354,7 +362,8 @@ final class WP_Comment {
      * @param string $name Property name.
      * @return bool
      */
-    public function __isset($name) {
+    public function __isset($name)
+    {
         if (in_array($name, $this->post_fields, true) && 0 !== (int) $this->comment_post_ID) {
             $post = get_post($this->comment_post_ID);
             return property_exists($post, $name);
@@ -371,7 +380,8 @@ final class WP_Comment {
      * @param string $name Property name.
      * @return mixed
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if (in_array($name, $this->post_fields, true)) {
             $post = get_post($this->comment_post_ID);
             return $post->$name;

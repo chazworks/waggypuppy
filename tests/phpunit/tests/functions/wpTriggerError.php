@@ -9,7 +9,8 @@
  *
  * @covers ::wp_trigger_error
  */
-class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
+class Tests_Functions_WpTriggerError extends WP_UnitTestCase
+{
 
     /**
      * @ticket 57686
@@ -20,7 +21,8 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      * @param string $message          The message to test.
      * @param string $expected_message The expected error message.
      */
-    public function test_should_throw_exception($function_name, $message, $expected_message) {
+    public function test_should_throw_exception($function_name, $message, $expected_message)
+    {
         $this->expectException(WP_Exception::class);
         $this->expectExceptionMessage($expected_message);
 
@@ -36,7 +38,8 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      * @param string $message          The message to test.
      * @param string $expected_message The expected error message.
      */
-    public function test_should_trigger_warning($function_name, $message, $expected_message) {
+    public function test_should_trigger_warning($function_name, $message, $expected_message)
+    {
         $this->expectWarning();
         $this->expectWarningMessage($expected_message);
 
@@ -52,7 +55,8 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      * @param string $message          The message to test.
      * @param string $expected_message The expected error message.
      */
-    public function test_should_trigger_notice($function_name, $message, $expected_message) {
+    public function test_should_trigger_notice($function_name, $message, $expected_message)
+    {
         $this->expectNotice();
         $this->expectNoticeMessage($expected_message);
 
@@ -68,7 +72,8 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      * @param string $message          The message to test.
      * @param string $expected_message The expected error message.
      */
-    public function test_should_trigger_deprecation($function_name, $message, $expected_message) {
+    public function test_should_trigger_deprecation($function_name, $message, $expected_message)
+    {
         $this->expectDeprecation();
         $this->expectDeprecationMessage($expected_message);
 
@@ -80,7 +85,8 @@ class Tests_Functions_WpTriggerError extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_trigger_error() {
+    public function data_should_trigger_error()
+    {
         return array(
             'function name and message are given'          => array(
                 'function_name'    => 'some_function',

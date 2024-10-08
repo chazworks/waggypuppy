@@ -7,11 +7,13 @@ require_once dirname(__DIR__) . '/canonical.php';
  * @group rewrite
  * @group query
  */
-class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase {
+class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase
+{
 
     // These test cases are run against the test handler in WP_Canonical.
 
-    public function set_up() {
+    public function set_up()
+    {
         global $wp_rewrite;
 
         parent::set_up();
@@ -24,11 +26,13 @@ class Tests_Canonical_NoRewrite extends WP_Canonical_UnitTestCase {
     /**
      * @dataProvider data
      */
-    public function test($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array()) {
+    public function test($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = array())
+    {
         $this->assertCanonical($test_url, $expected, $ticket, $expected_doing_it_wrong);
     }
 
-    public function data() {
+    public function data()
+    {
         /*
          * Test URL.
          * [0]: Test URL.

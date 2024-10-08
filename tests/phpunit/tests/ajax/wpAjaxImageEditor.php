@@ -17,12 +17,14 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @requires function imagejpeg
  */
-class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase
+{
 
     /**
      * Tear down the test fixture.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Cleanup.
         $this->remove_added_uploads();
         parent::tear_down();
@@ -34,7 +36,8 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase {
      *
      * @covers ::wp_save_image
      */
-    public function testCropImageIntoLargerOne() {
+    public function testCropImageIntoLargerOne()
+    {
         require_once ABSPATH . 'wp-admin/includes/image-edit.php';
 
         $filename = DIR_TESTDATA . '/images/canola.jpg';
@@ -62,7 +65,8 @@ class Tests_Ajax_wpAjaxImageEditor extends WP_Ajax_UnitTestCase {
      * @covers ::wp_insert_attachment
      * @covers ::wp_save_image
      */
-    public function testImageEditOverwriteConstant() {
+    public function testImageEditOverwriteConstant()
+    {
         define('IMAGE_EDIT_OVERWRITE', true);
 
         require_once ABSPATH . 'wp-admin/includes/image-edit.php';

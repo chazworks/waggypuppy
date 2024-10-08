@@ -14,7 +14,8 @@
  *
  * @return string The render.
  */
-function render_block_core_site_tagline($attributes) {
+function render_block_core_site_tagline($attributes)
+{
     $site_tagline = get_bloginfo('description');
     if (! $site_tagline) {
         return;
@@ -41,7 +42,8 @@ function render_block_core_site_tagline($attributes) {
  *
  * @since 5.8.0
  */
-function register_block_core_site_tagline() {
+function register_block_core_site_tagline()
+{
     register_block_type_from_metadata(
         __DIR__ . '/site-tagline',
         array(

@@ -12,7 +12,8 @@
  * @since 6.3.0
  * @access public
  */
-class WP_Classic_To_Block_Menu_Converter {
+class WP_Classic_To_Block_Menu_Converter
+{
 
     /**
      * Converts a Classic Menu to blocks.
@@ -24,7 +25,8 @@ class WP_Classic_To_Block_Menu_Converter {
      *                         an empty string when there are no menus to convert,
      *                         or WP_Error on invalid menu.
      */
-    public static function convert($menu) {
+    public static function convert($menu)
+    {
 
         if (! is_nav_menu($menu)) {
             return new WP_Error(
@@ -65,7 +67,8 @@ class WP_Classic_To_Block_Menu_Converter {
      * @param array $menu_items An array of menu items.
      * @return array
      */
-    private static function group_by_parent_id($menu_items) {
+    private static function group_by_parent_id($menu_items)
+    {
         $menu_items_by_parent_id = array();
 
         foreach ($menu_items as $menu_item) {
@@ -88,7 +91,8 @@ class WP_Classic_To_Block_Menu_Converter {
      *                                       that parent.
      * @return array An array of parsed block data.
      */
-    private static function to_blocks($menu_items, $menu_items_by_parent_id) {
+    private static function to_blocks($menu_items, $menu_items_by_parent_id)
+    {
 
         if (empty($menu_items)) {
             return array();

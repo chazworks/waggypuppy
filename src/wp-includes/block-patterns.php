@@ -15,7 +15,8 @@ add_theme_support('core-block-patterns');
  * @since 6.3.0 Added source to core block patterns.
  * @access private
  */
-function _register_core_block_patterns_and_categories() {
+function _register_core_block_patterns_and_categories()
+{
     $should_register_core_patterns = get_theme_support('core-block-patterns');
 
     if ($should_register_core_patterns) {
@@ -182,7 +183,8 @@ function _register_core_block_patterns_and_categories() {
  * @param array $pattern Pattern as returned from the Pattern Directory API.
  * @return array Normalized pattern.
  */
-function wp_normalize_remote_block_pattern($pattern) {
+function wp_normalize_remote_block_pattern($pattern)
+{
     if (isset($pattern['block_types'])) {
         $pattern['blockTypes'] = $pattern['block_types'];
         unset($pattern['block_types']);
@@ -207,7 +209,8 @@ function wp_normalize_remote_block_pattern($pattern) {
  *
  * @param WP_Screen $deprecated Unused. Formerly the screen that the current request was triggered from.
  */
-function _load_remote_block_patterns($deprecated = null) {
+function _load_remote_block_patterns($deprecated = null)
+{
     if (! empty($deprecated)) {
         _deprecated_argument(__FUNCTION__, '5.9.0');
         $current_screen = $deprecated;
@@ -254,7 +257,8 @@ function _load_remote_block_patterns($deprecated = null) {
  *              format expected by `register_block_pattern()` (camelCase).
  * @since 6.3.0 Add 'pattern-directory/featured' to the pattern's 'source'.
  */
-function _load_remote_featured_patterns() {
+function _load_remote_featured_patterns()
+{
     $supports_core_patterns = get_theme_support('core-block-patterns');
 
     /** This filter is documented in wp-includes/block-patterns.php */
@@ -295,7 +299,8 @@ function _load_remote_featured_patterns() {
  * @since 6.3.0 Add 'pattern-directory/theme' to the pattern's 'source'.
  * @access private
  */
-function _register_remote_theme_patterns() {
+function _register_remote_theme_patterns()
+{
     /** This filter is documented in wp-includes/block-patterns.php */
     if (! apply_filters('should_load_remote_block_patterns', true)) {
         return;
@@ -340,7 +345,8 @@ function _register_remote_theme_patterns() {
  * @since 6.4.0 Uses the `WP_Theme::get_block_patterns` method.
  * @access private
  */
-function _register_theme_block_patterns() {
+function _register_theme_block_patterns()
+{
 
     /*
      * During the bootstrap process, a check for active and valid themes is run.

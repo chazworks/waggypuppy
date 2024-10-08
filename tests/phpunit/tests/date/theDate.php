@@ -8,7 +8,8 @@
  * @covers ::the_date
  * @covers ::the_weekday_date
  */
-class Tests_Date_TheDate extends WP_UnitTestCase {
+class Tests_Date_TheDate extends WP_UnitTestCase
+{
 
     /** @var array $hooks_called Count of hooks called. */
     protected $hooks_called = array(
@@ -24,7 +25,8 @@ class Tests_Date_TheDate extends WP_UnitTestCase {
         'get_post_modified_time' => 0,
     );
 
-    public function test_should_call_hooks() {
+    public function test_should_call_hooks()
+    {
         add_filter('the_time', array($this, 'count_hook'));
         add_filter('get_the_time', array($this, 'count_hook'));
         add_filter('get_post_time', array($this, 'count_hook'));
@@ -80,7 +82,8 @@ class Tests_Date_TheDate extends WP_UnitTestCase {
         $this->assertSame(5, $this->hooks_called['get_post_modified_time']);
     }
 
-    public function count_hook($input) {
+    public function count_hook($input)
+    {
         ++$this->hooks_called[ current_filter() ];
 
         return $input;
@@ -89,7 +92,8 @@ class Tests_Date_TheDate extends WP_UnitTestCase {
     /**
      * @ticket 33750
      */
-    public function test_the_date() {
+    public function test_the_date()
+    {
         ob_start();
         the_date();
         $actual = ob_get_clean();
@@ -129,7 +133,8 @@ class Tests_Date_TheDate extends WP_UnitTestCase {
     /**
      * @ticket 47354
      */
-    public function test_the_weekday_date() {
+    public function test_the_weekday_date()
+    {
         ob_start();
         the_weekday_date();
         $actual = ob_get_clean();

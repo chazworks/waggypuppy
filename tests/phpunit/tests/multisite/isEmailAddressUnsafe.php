@@ -5,8 +5,10 @@ if (is_multisite()) :
     /**
      * @group multisite
      */
-    class Tests_Multisite_IsEmailAddressUnsafe extends WP_UnitTestCase {
-        public function test_string_domain_list_should_be_split_on_line_breaks() {
+    class Tests_Multisite_IsEmailAddressUnsafe extends WP_UnitTestCase
+    {
+        public function test_string_domain_list_should_be_split_on_line_breaks()
+        {
             update_site_option('banned_email_domains', "foo.com\nbar.org\nbaz.gov");
             $this->assertTrue(is_email_address_unsafe('foo@bar.org'));
             $this->assertFalse(is_email_address_unsafe('foo@example.org'));
@@ -17,7 +19,8 @@ if (is_multisite()) :
          * @ticket 25046
          * @ticket 21570
          */
-        public function test_unsafe_emails($banned, $email) {
+        public function test_unsafe_emails($banned, $email)
+        {
             update_site_option('banned_email_domains', $banned);
             $this->assertTrue(is_email_address_unsafe($email));
         }
@@ -27,12 +30,14 @@ if (is_multisite()) :
          * @ticket 25046
          * @ticket 21570
          */
-        public function test_safe_emails($banned, $email) {
+        public function test_safe_emails($banned, $email)
+        {
             update_site_option('banned_email_domains', $banned);
             $this->assertFalse(is_email_address_unsafe($email));
         }
 
-        public function data_unsafe() {
+        public function data_unsafe()
+        {
             return array(
                 // 25046
                 'case_insensitive_1' => array(
@@ -76,7 +81,8 @@ if (is_multisite()) :
             );
         }
 
-        public function data_safe() {
+        public function data_safe()
+        {
             return array(
                 // 25046
                 array(
@@ -120,7 +126,8 @@ if (is_multisite()) :
             );
         }
 
-        public function test_email_with_only_top_level_domain_returns_safe() {
+        public function test_email_with_only_top_level_domain_returns_safe()
+        {
             update_site_option('banned_email_domains', 'bar.com');
             $safe = is_email_address_unsafe('email@localhost');
             delete_site_option('banned_email_domains');
@@ -128,7 +135,8 @@ if (is_multisite()) :
             $this->assertFalse($safe);
         }
 
-        public function test_invalid_email_without_domain_returns_safe() {
+        public function test_invalid_email_without_domain_returns_safe()
+        {
             update_site_option('banned_email_domains', 'bar.com');
             $safe = is_email_address_unsafe('invalid-email');
             delete_site_option('bar.com');

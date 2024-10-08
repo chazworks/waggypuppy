@@ -3,7 +3,8 @@
 /**
  * @group post
  */
-class Tests_Post_GetPostStatus extends WP_UnitTestCase {
+class Tests_Post_GetPostStatus extends WP_UnitTestCase
+{
 
     /**
      * Array of post IDs.
@@ -15,7 +16,8 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase {
     /**
      * Create shared fixtures.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         $post_statuses = array('publish', 'future', 'draft', 'auto-draft', 'trash', 'private', 'delete');
         foreach ($post_statuses as $post_status) {
             $date          = '';
@@ -82,7 +84,8 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase {
      * @param string $post_key The post key in self::$post_ids.
      * @param string $expected The expected get_post_status() return value.
      */
-    public function test_get_post_status_resolves($post_key, $expected) {
+    public function test_get_post_status_resolves($post_key, $expected)
+    {
         $this->assertSame($expected, get_post_status(self::$post_ids[ $post_key ]));
     }
 
@@ -94,7 +97,8 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase {
      *     @type string $expected The expected get_post_status() return value.
      * }
      */
-    public function data_get_post_status_resolves() {
+    public function data_get_post_status_resolves()
+    {
         return array(
             array('publish', 'publish'),
             array('future', 'future'),
@@ -137,7 +141,8 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase {
      * @param string $post_to_trash The post key to trash then delete in self::$post_ids.
      * @param string $expected      The expected result after trashing the post.
      */
-    public function test_get_post_status_after_trashing($post_to_test, $post_to_trash, $expected) {
+    public function test_get_post_status_after_trashing($post_to_test, $post_to_trash, $expected)
+    {
         wp_trash_post(self::$post_ids[ $post_to_trash ]);
         $this->assertSame($expected, get_post_status(self::$post_ids[ $post_to_test ]));
 
@@ -154,7 +159,8 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase {
      *     @type string $expected      The expected result after trashing the post.
      * }
      */
-    public function data_get_post_status_after_trashing() {
+    public function data_get_post_status_after_trashing()
+    {
         return array(
             array('publish-attachment', 'publish', 'publish'),
             array('future-attachment', 'future', 'future'),

@@ -8,7 +8,8 @@
  *
  * @group blocks
  */
-class Tests_Blocks_wpBlockStylesRegistry extends WP_UnitTestCase {
+class Tests_Blocks_wpBlockStylesRegistry extends WP_UnitTestCase
+{
 
     /**
      * Fake block styles registry.
@@ -23,7 +24,8 @@ class Tests_Blocks_wpBlockStylesRegistry extends WP_UnitTestCase {
      *
      * @since 6.6.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->registry = new WP_Block_Styles_Registry();
@@ -34,7 +36,8 @@ class Tests_Blocks_wpBlockStylesRegistry extends WP_UnitTestCase {
      *
      * @since 6.6.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->registry = null;
 
         parent::tear_down();
@@ -45,7 +48,8 @@ class Tests_Blocks_wpBlockStylesRegistry extends WP_UnitTestCase {
      *
      * @ticket 61274
      */
-    public function test_register_block_style_with_string_block_name() {
+    public function test_register_block_style_with_string_block_name()
+    {
         $name             = 'core/paragraph';
         $style_properties = array('name' => 'fancy');
         $result           = $this->registry->register($name, $style_properties);
@@ -58,7 +62,8 @@ class Tests_Blocks_wpBlockStylesRegistry extends WP_UnitTestCase {
      *
      * @ticket 61274
      */
-    public function test_register_block_style_with_array_of_block_names() {
+    public function test_register_block_style_with_array_of_block_names()
+    {
         $names            = array('core/paragraph', 'core/group');
         $style_properties = array('name' => 'plain');
         $result           = $this->registry->register($names, $style_properties);

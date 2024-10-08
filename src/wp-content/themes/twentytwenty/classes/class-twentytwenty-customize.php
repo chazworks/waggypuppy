@@ -13,7 +13,8 @@ if (! class_exists('TwentyTwenty_Customize')) {
      *
      * @since Twenty Twenty 1.0
      */
-    class TwentyTwenty_Customize {
+    class TwentyTwenty_Customize
+    {
 
         /**
          * Register customizer options.
@@ -22,7 +23,8 @@ if (! class_exists('TwentyTwenty_Customize')) {
          *
          * @param WP_Customize_Manager $wp_customize Theme Customizer object.
          */
-        public static function register($wp_customize) {
+        public static function register($wp_customize)
+        {
 
             /**
              * Site Title & Description.
@@ -422,7 +424,8 @@ if (! class_exists('TwentyTwenty_Customize')) {
          * @param array $value The value we want to sanitize.
          * @return array Returns sanitized value. Each item in the array gets sanitized separately.
          */
-        public static function sanitize_accent_accessible_colors($value) {
+        public static function sanitize_accent_accessible_colors($value)
+        {
 
             // Make sure the value is an array. Do not typecast, use empty array as fallback.
             $value = is_array($value) ? $value : array();
@@ -446,7 +449,8 @@ if (! class_exists('TwentyTwenty_Customize')) {
          * @param object $setting The selected setting.
          * @return string The input from the setting or the default setting.
          */
-        public static function sanitize_select($input, $setting) {
+        public static function sanitize_select($input, $setting)
+        {
             $input   = sanitize_key($input);
             $choices = $setting->manager->get_control($setting->id)->choices;
             return (array_key_exists($input, $choices) ? $input : $setting->default);
@@ -460,7 +464,8 @@ if (! class_exists('TwentyTwenty_Customize')) {
          * @param bool $checked Whether or not a box is checked.
          * @return bool
          */
-        public static function sanitize_checkbox($checked) {
+        public static function sanitize_checkbox($checked)
+        {
             return ((isset($checked) && true === $checked) ? true : false);
         }
     }
@@ -479,7 +484,8 @@ if (! function_exists('twentytwenty_customize_partial_blogname')) {
      *
      * @since Twenty Twenty 1.0
      */
-    function twentytwenty_customize_partial_blogname() {
+    function twentytwenty_customize_partial_blogname()
+    {
         bloginfo('name');
     }
 }
@@ -490,7 +496,8 @@ if (! function_exists('twentytwenty_customize_partial_blogdescription')) {
      *
      * @since Twenty Twenty 1.0
      */
-    function twentytwenty_customize_partial_blogdescription() {
+    function twentytwenty_customize_partial_blogdescription()
+    {
         bloginfo('description');
     }
 }
@@ -503,7 +510,8 @@ if (! function_exists('twentytwenty_customize_partial_site_logo')) {
      *
      * @since Twenty Twenty 1.0
      */
-    function twentytwenty_customize_partial_site_logo() {
+    function twentytwenty_customize_partial_site_logo()
+    {
         twentytwenty_site_logo();
     }
 }
@@ -516,7 +524,8 @@ if (! function_exists('twentytwenty_customize_partial_site_logo')) {
  *
  * @return array Array containing attribute names and their values.
  */
-function twentytwenty_customize_opacity_range() {
+function twentytwenty_customize_opacity_range()
+{
     /**
      * Filters the input attributes for opacity.
      *

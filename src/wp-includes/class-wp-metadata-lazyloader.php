@@ -29,7 +29,8 @@
  * @since 4.5.0
  */
 #[AllowDynamicProperties]
-class WP_Metadata_Lazyloader {
+class WP_Metadata_Lazyloader
+{
     /**
      * Pending objects queue.
      *
@@ -51,7 +52,8 @@ class WP_Metadata_Lazyloader {
      *
      * @since 4.5.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->settings = array(
             'term'    => array(
                 'filter'   => 'get_term_metadata',
@@ -77,7 +79,8 @@ class WP_Metadata_Lazyloader {
      * @param array  $object_ids  Array of object IDs.
      * @return void|WP_Error WP_Error on failure.
      */
-    public function queue_objects($object_type, $object_ids) {
+    public function queue_objects($object_type, $object_ids)
+    {
         if (! isset($this->settings[ $object_type ])) {
             return new WP_Error('invalid_object_type', __('Invalid object type.'));
         }
@@ -117,7 +120,8 @@ class WP_Metadata_Lazyloader {
      * @param string $object_type Object type. Accepts 'comment' or 'term'.
      * @return void|WP_Error WP_Error on failure.
      */
-    public function reset_queue($object_type) {
+    public function reset_queue($object_type)
+    {
         if (! isset($this->settings[ $object_type ])) {
             return new WP_Error('invalid_object_type', __('Invalid object type.'));
         }
@@ -141,7 +145,8 @@ class WP_Metadata_Lazyloader {
      * @return mixed In order not to short-circuit `get_metadata()`. Generally, this is `null`, but it could be
      *               another value if filtered by a plugin.
      */
-    public function lazyload_term_meta($check) {
+    public function lazyload_term_meta($check)
+    {
         _deprecated_function(__METHOD__, '6.3.0', 'WP_Metadata_Lazyloader::lazyload_meta_callback');
         return $this->lazyload_meta_callback($check, 0, '', false, 'term');
     }
@@ -158,7 +163,8 @@ class WP_Metadata_Lazyloader {
      * @param mixed $check The `$check` param passed from the {@see 'get_comment_metadata'} hook.
      * @return mixed The original value of `$check`, so as not to short-circuit `get_comment_metadata()`.
      */
-    public function lazyload_comment_meta($check) {
+    public function lazyload_comment_meta($check)
+    {
         _deprecated_function(__METHOD__, '6.3.0', 'WP_Metadata_Lazyloader::lazyload_meta_callback');
         return $this->lazyload_meta_callback($check, 0, '', false, 'comment');
     }
@@ -180,7 +186,8 @@ class WP_Metadata_Lazyloader {
      * @return mixed In order not to short-circuit `get_metadata()`. Generally, this is `null`, but it could be
      *               another value if filtered by a plugin.
      */
-    public function lazyload_meta_callback($check, $object_id, $meta_key, $single, $meta_type) {
+    public function lazyload_meta_callback($check, $object_id, $meta_key, $single, $meta_type)
+    {
         if (empty($this->pending_objects[ $meta_type ])) {
             return $check;
         }

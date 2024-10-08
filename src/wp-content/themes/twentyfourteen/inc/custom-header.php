@@ -16,7 +16,8 @@
  * @uses twentyfourteen_admin_header_style()
  * @uses twentyfourteen_admin_header_image()
  */
-function twentyfourteen_custom_header_setup() {
+function twentyfourteen_custom_header_setup()
+{
     add_theme_support(
         'custom-header',
         /**
@@ -59,7 +60,8 @@ if (! function_exists('twentyfourteen_header_style')) :
      *
      * @see twentyfourteen_custom_header_setup().
      */
-    function twentyfourteen_header_style() {
+    function twentyfourteen_header_style()
+    {
         $text_color = get_header_textcolor();
 
         // If no custom color for text is set, let's bail.
@@ -102,7 +104,8 @@ if (! function_exists('twentyfourteen_admin_header_style')) :
      *
      * @since Twenty Fourteen 1.0
      */
-    function twentyfourteen_admin_header_style() {
+    function twentyfourteen_admin_header_style()
+    {
         ?>
     <style type="text/css" id="twentyfourteen-admin-header-css">
     .appearance_page_custom-header #headimg {
@@ -140,7 +143,8 @@ if (! function_exists('twentyfourteen_admin_header_image')) :
      *
      * @since Twenty Fourteen 1.0
      */
-    function twentyfourteen_admin_header_image() {
+    function twentyfourteen_admin_header_image()
+    {
         ?>
     <div id="headimg">
         <?php if (get_header_image()) : ?>
@@ -161,7 +165,8 @@ if (! function_exists('twentyfourteen_header_image')) :
      *
      * @since Twenty Fourteen 3.8
      */
-    function twentyfourteen_header_image() {
+    function twentyfourteen_header_image()
+    {
         $custom_header = get_custom_header();
         $attrs         = array(
             'alt'    => get_bloginfo('name', 'display'),

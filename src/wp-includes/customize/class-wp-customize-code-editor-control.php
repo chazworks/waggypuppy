@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
+class WP_Customize_Code_Editor_Control extends WP_Customize_Control
+{
 
     /**
      * Customize control type.
@@ -46,7 +47,8 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
      *
      * @since 4.9.0
      */
-    public function enqueue() {
+    public function enqueue()
+    {
         $this->editor_settings = wp_enqueue_code_editor(
             array_merge(
                 array(
@@ -70,7 +72,8 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
      *
      * @return array Array of parameters passed to the JavaScript.
      */
-    public function json() {
+    public function json()
+    {
         $json                    = parent::json();
         $json['editor_settings'] = $this->editor_settings;
         $json['input_attrs']     = $this->input_attrs;
@@ -82,14 +85,16 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
      *
      * @since 4.9.0
      */
-    public function render_content() {}
+    public function render_content()
+    {}
 
     /**
      * Render a JS template for control display.
      *
      * @since 4.9.0
      */
-    public function content_template() {
+    public function content_template()
+    {
         ?>
         <# var elementIdPrefix = 'el' + String( Math.random() ); #>
         <# if ( data.label ) { #>

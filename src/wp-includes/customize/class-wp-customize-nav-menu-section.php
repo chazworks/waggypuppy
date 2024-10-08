@@ -16,7 +16,8 @@
  *
  * @see WP_Customize_Section
  */
-class WP_Customize_Nav_Menu_Section extends WP_Customize_Section {
+class WP_Customize_Nav_Menu_Section extends WP_Customize_Section
+{
 
     /**
      * Control type.
@@ -32,7 +33,8 @@ class WP_Customize_Nav_Menu_Section extends WP_Customize_Section {
      * @since 4.3.0
      * @return array Exported parameters.
      */
-    public function json() {
+    public function json()
+    {
         $exported            = parent::json();
         $exported['menu_id'] = (int) preg_replace('/^nav_menu\[(-?\d+)\]/', '$1', $this->id);
 

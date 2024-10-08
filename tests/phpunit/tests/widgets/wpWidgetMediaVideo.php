@@ -11,7 +11,8 @@
  *
  * @group widgets
  */
-class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
+class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase
+{
 
     /**
      * Clean up global scope.
@@ -19,7 +20,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      * @global WP_Scripts $wp_scripts
      * @global WP_Styles $wp_styles
      */
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_scripts, $wp_styles;
         parent::clean_up_global_scope();
         $wp_scripts = null;
@@ -31,7 +33,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Video::get_instance_schema
      */
-    public function test_get_instance_schema() {
+    public function test_get_instance_schema()
+    {
         $widget = new WP_Widget_Media_Video();
         $schema = $widget->get_instance_schema();
 
@@ -58,7 +61,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      *
      * @ticket 45029
      */
-    public function test_get_instance_schema_filtering() {
+    public function test_get_instance_schema_filtering()
+    {
         $widget = new WP_Widget_Media_Video();
         $schema = $widget->get_instance_schema();
 
@@ -77,7 +81,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      * @param WP_Widget_Media_Video $widget Widget.
      * @return array
      */
-    public function filter_instance_schema($schema, $widget) {
+    public function filter_instance_schema($schema, $widget)
+    {
         // Override the default loop value (false).
         $schema['loop']['default'] = true;
         return $schema;
@@ -88,7 +93,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Video::__construct
      */
-    public function test_constructor() {
+    public function test_constructor()
+    {
         $widget = new WP_Widget_Media_Video();
 
         $this->assertArrayHasKey('mime_type', $widget->widget_options);
@@ -117,7 +123,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Video::update
      */
-    public function test_update() {
+    public function test_update()
+    {
         $widget   = new WP_Widget_Media_Video();
         $instance = array();
 
@@ -218,7 +225,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      * @covers WP_Widget_Media_Video::render_media
      * @covers WP_Widget_Media_Video::inject_video_max_width_style
      */
-    public function test_render_media() {
+    public function test_render_media()
+    {
         $test_movie_file = __FILE__ . '../../data/uploads/small-video.m4v';
         $widget          = new WP_Widget_Media_Video();
         $attachment_id   = self::factory()->attachment->create_object(
@@ -305,7 +313,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      * @global WP_Styles $wp_styles
      * @covers WP_Widget_Media_Video::enqueue_preview_scripts
      */
-    public function test_enqueue_preview_scripts() {
+    public function test_enqueue_preview_scripts()
+    {
         global $wp_scripts, $wp_styles;
         $widget = new WP_Widget_Media_Video();
 
@@ -330,7 +339,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Video::enqueue_admin_scripts
      */
-    public function test_enqueue_admin_scripts() {
+    public function test_enqueue_admin_scripts()
+    {
         set_current_screen('widgets.php');
         $widget = new WP_Widget_Media_Video();
         $widget->enqueue_admin_scripts();
@@ -343,7 +353,8 @@ class Tests_Widgets_wpWidgetMediaVideo extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Video::render_control_template_scripts
      */
-    public function test_render_control_template_scripts() {
+    public function test_render_control_template_scripts()
+    {
         $widget = new WP_Widget_Media_Video();
 
         ob_start();

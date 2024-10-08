@@ -1,6 +1,7 @@
 <?php
 
-class TracTickets {
+class TracTickets
+{
     /**
      * When open tickets for a Trac installation is requested, the results are stored here.
      *
@@ -13,7 +14,8 @@ class TracTickets {
      *
      * @return bool|null True if the ticket is resolved, false if not resolved, null on error.
      */
-    public static function isTracTicketClosed($trac_url, $ticket_id) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    public static function isTracTicketClosed($trac_url, $ticket_id)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+    {
         if (! extension_loaded('openssl')) {
             $trac_url = preg_replace('/^https:/', 'http:', $trac_url);
         }
@@ -48,14 +50,16 @@ class TracTickets {
     }
 
 	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
-    public static function usingLocalCache() {
+    public static function usingLocalCache()
+    {
         echo PHP_EOL . "\x1b[0m\x1b[30;43m\x1b[2K";
         echo 'Info: Trac was inaccessible, so a local ticket status cache was used.' . PHP_EOL;
         echo "\x1b[0m\x1b[2K";
     }
 
 	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
-    public static function forcingKnownBugs() {
+    public static function forcingKnownBugs()
+    {
         echo PHP_EOL . "\x1b[0m\x1b[37;41m\x1b[2K";
         echo "Error: Trac was inaccessible, so known bugs weren't able to be skipped." . PHP_EOL;
         echo "\x1b[0m\x1b[2K";

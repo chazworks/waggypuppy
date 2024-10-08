@@ -4,7 +4,8 @@
  * @group post
  * @group meta
  */
-class Tests_Post_Meta extends WP_UnitTestCase {
+class Tests_Post_Meta extends WP_UnitTestCase
+{
 
     private $last_register_meta_call = array(
         'object_type' => '',
@@ -16,7 +17,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
     protected static $post_id;
     protected static $post_id_2;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$author = $factory->user->create_and_get(array('role' => 'editor'));
 
         self::$post_id = $factory->post->create(
@@ -38,13 +40,15 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         wp_delete_post(self::$post_id, true);
         wp_delete_post(self::$post_id_2, true);
         self::delete_user(self::$author);
     }
 
-    public function test_unique_postmeta() {
+    public function test_unique_postmeta()
+    {
         // Add a unique post meta item.
         $this->assertIsInt(add_post_meta(self::$post_id, 'unique', 'value', true));
 
@@ -66,7 +70,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         $this->assertSame(array(), get_post_meta(self::$post_id, 'unique', false));
     }
 
-    public function test_nonunique_postmeta() {
+    public function test_nonunique_postmeta()
+    {
         // Add two non-unique post meta items.
         $this->assertIsInt(add_post_meta(self::$post_id, 'nonunique', 'value'));
         $this->assertIsInt(add_post_meta(self::$post_id, 'nonunique', 'another value'));
@@ -103,7 +108,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         $this->assertTrue(delete_post_meta_by_key('nonunique'));
     }
 
-    public function test_update_post_meta() {
+    public function test_update_post_meta()
+    {
         // Add a unique post meta item.
         $this->assertIsInt(add_post_meta(self::$post_id, 'unique_update', 'value', true));
 
@@ -129,7 +135,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         $this->assertSame(array('new', 'another new'), get_post_meta(self::$post_id, 'nonunique_update', false));
     }
 
-    public function test_delete_post_meta() {
+    public function test_delete_post_meta()
+    {
         // Add two unique post meta items.
         $this->assertIsInt(add_post_meta(self::$post_id, 'unique_delete', 'value', true));
         $this->assertIsInt(add_post_meta(self::$post_id_2, 'unique_delete', 'value', true));
@@ -145,7 +152,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         $this->assertSame('value', get_post_meta(self::$post_id_2, 'unique_delete', true));
     }
 
-    public function test_delete_post_meta_by_key() {
+    public function test_delete_post_meta_by_key()
+    {
         // Add two unique post meta items.
         $this->assertIsInt(add_post_meta(self::$post_id, 'unique_delete_by_key', 'value', true));
         $this->assertIsInt(add_post_meta(self::$post_id_2, 'unique_delete_by_key', 'value', true));
@@ -162,7 +170,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         $this->assertSame('', get_post_meta(self::$post_id_2, 'unique_delete_by_key', true));
     }
 
-    public function test_get_post_meta_by_id() {
+    public function test_get_post_meta_by_id()
+    {
         $mid = add_post_meta(self::$post_id, 'get_post_meta_by_key', 'get_post_meta_by_key_value', true);
         $this->assertIsInt($mid);
 
@@ -182,7 +191,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         delete_metadata_by_mid('post', $mid);
     }
 
-    public function test_delete_meta() {
+    public function test_delete_meta()
+    {
         $mid = add_post_meta(self::$post_id, 'delete_meta', 'delete_meta_value', true);
         $this->assertIsInt($mid);
 
@@ -192,7 +202,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         $this->assertFalse(delete_meta(123456789));
     }
 
-    public function test_update_meta() {
+    public function test_update_meta()
+    {
         // Add a unique post meta item.
         $mid1 = add_post_meta(self::$post_id, 'unique_update', 'value', true);
         $this->assertIsInt($mid1);
@@ -230,7 +241,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
     /**
      * @ticket 12860
      */
-    public function test_funky_post_meta() {
+    public function test_funky_post_meta()
+    {
         $classy          = new StdClass();
         $classy->ID      = 1;
         $classy->stringy = 'I love slashes\\\\';
@@ -252,7 +264,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
      * @ticket 38323
      * @dataProvider data_register_post_meta
      */
-    public function test_register_post_meta($post_type, $meta_key, $args) {
+    public function test_register_post_meta($post_type, $meta_key, $args)
+    {
         add_filter('register_meta_args', array($this, 'filter_register_meta_args_set_last_register_meta_call'), 10, 4);
 
         register_post_meta($post_type, $meta_key, $args);
@@ -267,7 +280,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         $this->assertSame($args, $this->last_register_meta_call['args']);
     }
 
-    public function data_register_post_meta() {
+    public function data_register_post_meta()
+    {
         return array(
             array('post', 'registered_key1', array('single' => true)),
             array('page', 'registered_key2', array()),
@@ -275,7 +289,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         );
     }
 
-    public function filter_register_meta_args_set_last_register_meta_call($args, $defaults, $object_type, $meta_key) {
+    public function filter_register_meta_args_set_last_register_meta_call($args, $defaults, $object_type, $meta_key)
+    {
         $this->last_register_meta_call['object_type'] = $object_type;
         $this->last_register_meta_call['meta_key']    = $meta_key;
         $this->last_register_meta_call['args']        = $args;
@@ -287,7 +302,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
      * @ticket 38323
      * @dataProvider data_unregister_post_meta
      */
-    public function test_unregister_post_meta($post_type, $meta_key) {
+    public function test_unregister_post_meta($post_type, $meta_key)
+    {
         global $wp_meta_keys;
 
         register_post_meta($post_type, $meta_key, array());
@@ -301,7 +317,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
         $this->assertEmpty($actual);
     }
 
-    public function data_unregister_post_meta() {
+    public function data_unregister_post_meta()
+    {
         return array(
             array('post', 'registered_key1'),
             array('page', 'registered_key2'),
@@ -312,7 +329,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
     /**
      * @ticket 44467
      */
-    public function test_add_metadata_sets_posts_last_changed() {
+    public function test_add_metadata_sets_posts_last_changed()
+    {
         $post_id = self::factory()->post->create();
 
         wp_cache_delete('last_changed', 'posts');
@@ -324,7 +342,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
     /**
      * @ticket 44467
      */
-    public function test_update_metadata_sets_posts_last_changed() {
+    public function test_update_metadata_sets_posts_last_changed()
+    {
         $post_id = self::factory()->post->create();
 
         wp_cache_delete('last_changed', 'posts');
@@ -336,7 +355,8 @@ class Tests_Post_Meta extends WP_UnitTestCase {
     /**
      * @ticket 44467
      */
-    public function test_delete_metadata_sets_posts_last_changed() {
+    public function test_delete_metadata_sets_posts_last_changed()
+    {
         $post_id = self::factory()->post->create();
 
         update_metadata('post', $post_id, 'foo', 'bar');

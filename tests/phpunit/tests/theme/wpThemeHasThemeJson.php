@@ -9,7 +9,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers ::wp_theme_has_theme_json
  */
-class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase {
+class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase
+{
 
     /**
      * @ticket 56975
@@ -19,7 +20,8 @@ class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase {
      * @param string $theme    The slug of the theme to switch to.
      * @param bool   $expected The expected result.
      */
-    public function test_theme_has_theme_json_reports_correctly($theme, $expected) {
+    public function test_theme_has_theme_json_reports_correctly($theme, $expected)
+    {
         switch_theme($theme);
         $this->assertSame($expected, wp_theme_has_theme_json());
     }
@@ -29,7 +31,8 @@ class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_theme_has_theme_json_reports_correctly() {
+    public function data_theme_has_theme_json_reports_correctly()
+    {
         return array(
             'a theme with theme.json'       => array(
                 'theme'    => 'block-theme',
@@ -57,7 +60,8 @@ class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_switching_themes_recalculates_support() {
+    public function test_switching_themes_recalculates_support()
+    {
         // The "default" theme doesn't have theme.json support.
         switch_theme('default');
         $default = wp_theme_has_theme_json();

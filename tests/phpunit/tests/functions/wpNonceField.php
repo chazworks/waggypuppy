@@ -9,12 +9,14 @@
  *
  * @covers ::wp_nonce_field
  */
-class Tests_Functions_wpNonceField extends WP_UnitTestCase {
+class Tests_Functions_wpNonceField extends WP_UnitTestCase
+{
 
     /**
      * @ticket 55578
      */
-    public function test_wp_nonce_field() {
+    public function test_wp_nonce_field()
+    {
         wp_nonce_field();
         $this->expectOutputRegex(
             '#^<input type="hidden" id="_wpnonce" name="_wpnonce" value=".{10}" />' .
@@ -32,7 +34,8 @@ class Tests_Functions_wpNonceField extends WP_UnitTestCase {
      * @param bool       $referer         Whether to set the referer field for validation.
      * @param string     $expected_regexp The expected regular expression.
      */
-    public function test_wp_nonce_field_return($action, $name, $referer, $expected_regexp) {
+    public function test_wp_nonce_field_return($action, $name, $referer, $expected_regexp)
+    {
         if (-1 !== $action) {
             $nonce_value     = wp_create_nonce($action);
             $expected_regexp = str_replace('%%NONCE_VALUE%%', $nonce_value, $expected_regexp);
@@ -46,7 +49,8 @@ class Tests_Functions_wpNonceField extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_nonce_field() {
+    public function data_wp_nonce_field()
+    {
         return array(
             'default'     => array(
                 'action'          => -1,

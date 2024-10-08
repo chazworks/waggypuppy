@@ -6,7 +6,8 @@
  *
  * @covers ::wp_set_options_autoload
  */
-class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase {
+class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase
+{
 
     /**
      * Tests that setting options' autoload value to 'yes' works as expected.
@@ -15,7 +16,8 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_options_autoload_yes() {
+    public function test_wp_set_options_autoload_yes()
+    {
         global $wpdb;
 
         $options = array(
@@ -46,7 +48,8 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_options_autoload_no() {
+    public function test_wp_set_options_autoload_no()
+    {
         global $wpdb;
 
         $options = array(
@@ -74,7 +77,8 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_options_autoload_same() {
+    public function test_wp_set_options_autoload_same()
+    {
         global $wpdb;
 
         $options = array(
@@ -99,7 +103,8 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_options_autoload_missing() {
+    public function test_wp_set_options_autoload_missing()
+    {
         global $wpdb;
 
         $options = array(
@@ -121,7 +126,8 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_options_autoload_mixed() {
+    public function test_wp_set_options_autoload_mixed()
+    {
         global $wpdb;
 
         $options = array(
@@ -149,7 +155,8 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_options_autoload_true() {
+    public function test_wp_set_options_autoload_true()
+    {
         global $wpdb;
 
         $options = array(
@@ -173,7 +180,8 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_options_autoload_false() {
+    public function test_wp_set_options_autoload_false()
+    {
         global $wpdb;
 
         $options = array(

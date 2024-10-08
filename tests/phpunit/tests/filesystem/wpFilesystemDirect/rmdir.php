@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::rmdir
  */
-class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::rmdir()` returns false
@@ -22,7 +23,8 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      *
      * @ticket 57774
      */
-    public function test_should_return_false_for_empty_path() {
+    public function test_should_return_false_for_empty_path()
+    {
         $this->assertFalse(self::$filesystem->rmdir(''));
     }
 
@@ -31,7 +33,8 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      *
      * @ticket 57774
      */
-    public function test_should_delete_an_empty_directory() {
+    public function test_should_delete_an_empty_directory()
+    {
         $dir = self::$file_structure['test_dir']['path'] . 'directory-to-delete/';
 
         if (! is_dir($dir)) {
@@ -53,7 +56,8 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      *
      * @ticket 57774
      */
-    public function test_should_recursively_delete_a_directory() {
+    public function test_should_recursively_delete_a_directory()
+    {
         $dir     = self::$file_structure['test_dir']['path'] . 'directory-to-delete/';
         $file    = $dir . 'file-to-delete.txt';
         $subdir  = $dir . 'subdirectory-to-delete/';
@@ -81,7 +85,8 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      *
      * @ticket 57774
      */
-    public function test_should_delete_a_file() {
+    public function test_should_delete_a_file()
+    {
         $file = self::$file_structure['test_dir']['path'] . 'file-to-delete.txt';
 
         touch($file);
@@ -105,7 +110,8 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_return_true_when_deleting_path_that_does_not_exist($path) {
+    public function test_should_return_true_when_deleting_path_that_does_not_exist($path)
+    {
         if ('' === $path
             || str_starts_with($path, '.')
             || str_starts_with($path, '/')
@@ -122,7 +128,8 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      *
      * @ticket 57774
      */
-    public function test_should_return_false_when_contents_cannot_be_deleted() {
+    public function test_should_return_false_when_contents_cannot_be_deleted()
+    {
 
         global $wp_filesystem;
 
@@ -167,7 +174,8 @@ class Tests_Filesystem_WpFilesystemDirect_Rmdir extends WP_Filesystem_Direct_Uni
      *
      * @ticket 57774
      */
-    public function test_should_return_false_when_path_exists_but_is_not_a_file_or_directory() {
+    public function test_should_return_false_when_path_exists_but_is_not_a_file_or_directory()
+    {
         global $wp_filesystem;
 
         $wp_filesystem = new WP_Filesystem_Direct(array());

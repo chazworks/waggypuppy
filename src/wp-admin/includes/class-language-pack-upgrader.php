@@ -16,7 +16,8 @@
  *
  * @see WP_Upgrader
  */
-class Language_Pack_Upgrader extends WP_Upgrader {
+class Language_Pack_Upgrader extends WP_Upgrader
+{
 
     /**
      * Result of the language pack upgrade.
@@ -46,7 +47,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
      *                                    a Language_Pack_Upgrader instance, the method will bail to
      *                                    avoid recursion. Otherwise unused. Default false.
      */
-    public static function async_upgrade($upgrader = false) {
+    public static function async_upgrade($upgrader = false)
+    {
         // Avoid recursion.
         if ($upgrader && $upgrader instanceof Language_Pack_Upgrader) {
             return;
@@ -109,7 +111,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
      *
      * @since 3.7.0
      */
-    public function upgrade_strings() {
+    public function upgrade_strings()
+    {
         $this->strings['starting_upgrade'] = __('Some of your translations need updating. Sit tight for a few more seconds while they are updated as well.');
         $this->strings['up_to_date']       = __('Your translations are all up to date.');
         $this->strings['no_package']       = __('Update package not available.');
@@ -132,7 +135,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
      *                             Language_Pack_Upgrader::bulk_upgrade(). Default empty array.
      * @return array|bool|WP_Error The result of the upgrade, or a WP_Error object instead.
      */
-    public function upgrade($update = false, $args = array()) {
+    public function upgrade($update = false, $args = array())
+    {
         if ($update) {
             $update = array($update);
         }
@@ -164,7 +168,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
      * @return array|bool|WP_Error Will return an array of results, or true if there are no updates,
      *                             false or WP_Error for initial errors.
      */
-    public function bulk_upgrade($language_updates = array(), $args = array()) {
+    public function bulk_upgrade($language_updates = array(), $args = array())
+    {
         global $wp_filesystem;
 
         $defaults    = array(
@@ -322,7 +327,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
      * @param string          $remote_source Remote file source location.
      * @return string|WP_Error The source as passed, or a WP_Error object on failure.
      */
-    public function check_package($source, $remote_source) {
+    public function check_package($source, $remote_source)
+    {
         global $wp_filesystem;
 
         if (is_wp_error($source)) {
@@ -375,7 +381,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
      * @param object $update The data for an update.
      * @return string The name of the item being updated.
      */
-    public function get_name_for_update($update) {
+    public function get_name_for_update($update)
+    {
         switch ($update->type) {
             case 'core':
                 return 'WordPress'; // Not translated.
@@ -407,7 +414,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
      * @param string $remote_destination The location on the remote filesystem to be cleared.
      * @return bool|WP_Error True upon success, WP_Error on failure.
      */
-    public function clear_destination($remote_destination) {
+    public function clear_destination($remote_destination)
+    {
         global $wp_filesystem;
 
         $language_update    = $this->skin->language_update;

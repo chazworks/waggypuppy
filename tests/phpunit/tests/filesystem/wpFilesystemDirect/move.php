@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::move
  */
-class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::copy()` overwrites an existing
@@ -22,7 +23,8 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_overwrite_an_existing_file_when_overwriting_is_enabled() {
+    public function test_should_overwrite_an_existing_file_when_overwriting_is_enabled()
+    {
         $source      = self::$file_structure['visible_file']['path'];
         $destination = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.dest';
         $actual      = self::$filesystem->move($source, $destination, true);
@@ -38,7 +40,8 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_not_overwrite_an_existing_file_when_overwriting_is_disabled() {
+    public function test_should_not_overwrite_an_existing_file_when_overwriting_is_disabled()
+    {
         $source      = self::$file_structure['visible_file']['path'];
         $destination = self::$file_structure['subfile']['path'];
         $actual      = self::$filesystem->move($source, $destination);
@@ -51,7 +54,8 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_move_directories() {
+    public function test_should_move_directories()
+    {
         $source      = self::$file_structure['test_dir']['path'];
         $destination = untrailingslashit(self::$file_structure['test_dir']['path']) . '-dest';
         $actual      = self::$filesystem->move($source, $destination, true);
@@ -75,7 +79,8 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_return_false_for_invalid_destination() {
+    public function test_should_return_false_for_invalid_destination()
+    {
         $source      = self::$file_structure['test_dir']['path'];
         $destination = 'http://example.org';
 
@@ -88,7 +93,8 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_return_false_when_overwriting_is_enabled_the_destination_exists_but_cannot_be_deleted() {
+    public function test_should_return_false_when_overwriting_is_enabled_the_destination_exists_but_cannot_be_deleted()
+    {
         global $wp_filesystem;
         $wpfilesystem_backup = $wp_filesystem;
 
@@ -121,7 +127,8 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      *
      * @ticket 57774
      */
-    public function test_should_fall_back_to_single_file_copy_when_source_and_destination_do_not_exist() {
+    public function test_should_fall_back_to_single_file_copy_when_source_and_destination_do_not_exist()
+    {
         global $wp_filesystem;
 
         $source      = self::$file_structure['test_dir']['path'] . 'a_file_that_does_not_exist.txt';

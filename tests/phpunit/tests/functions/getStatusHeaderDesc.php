@@ -9,7 +9,8 @@
  *
  * @covers ::get_status_header_desc
  */
-class Tests_Functions_GetStatusHeaderDesc extends WP_UnitTestCase {
+class Tests_Functions_GetStatusHeaderDesc extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_get_status_header_desc
@@ -17,7 +18,8 @@ class Tests_Functions_GetStatusHeaderDesc extends WP_UnitTestCase {
      * @param int    $code     HTTP status code.
      * @param string $expected Status description.
      */
-    public function test_get_status_header_desc($code, $expected) {
+    public function test_get_status_header_desc($code, $expected)
+    {
         $this->assertSame($expected, get_status_header_desc($code));
     }
 
@@ -26,7 +28,8 @@ class Tests_Functions_GetStatusHeaderDesc extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_status_header_desc() {
+    public function data_get_status_header_desc()
+    {
         return array(
             array(200, 'OK'),
             array(301, 'Moved Permanently'),

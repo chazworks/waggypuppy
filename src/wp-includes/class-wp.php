@@ -6,7 +6,8 @@
  * @since 2.0.0
  */
 #[AllowDynamicProperties]
-class WP {
+class WP
+{
     /**
      * Public query variables.
      *
@@ -90,7 +91,8 @@ class WP {
      *
      * @param string $qv Query variable name.
      */
-    public function add_query_var($qv) {
+    public function add_query_var($qv)
+    {
         if (! in_array($qv, $this->public_query_vars, true)) {
             $this->public_query_vars[] = $qv;
         }
@@ -103,7 +105,8 @@ class WP {
      *
      * @param string $name Query variable name.
      */
-    public function remove_query_var($name) {
+    public function remove_query_var($name)
+    {
         $this->public_query_vars = array_diff($this->public_query_vars, array($name));
     }
 
@@ -115,7 +118,8 @@ class WP {
      * @param string $key   Query variable name.
      * @param mixed  $value Query variable value.
      */
-    public function set_query_var($key, $value) {
+    public function set_query_var($key, $value)
+    {
         $this->query_vars[ $key ] = $value;
     }
 
@@ -133,7 +137,8 @@ class WP {
      * @param array|string $extra_query_vars Set the extra query variables.
      * @return bool Whether the request was parsed.
      */
-    public function parse_request($extra_query_vars = '') {
+    public function parse_request($extra_query_vars = '')
+    {
         global $wp_rewrite;
 
         /**
@@ -432,7 +437,8 @@ class WP {
      *
      * @global WP_Query $wp_query WordPress Query object.
      */
-    public function send_headers() {
+    public function send_headers()
+    {
         global $wp_query;
 
         $headers       = array();
@@ -598,7 +604,8 @@ class WP {
      *
      * @since 2.0.0
      */
-    public function build_query_string() {
+    public function build_query_string()
+    {
         $this->query_string = '';
 
         foreach ((array) array_keys($this->query_vars) as $wpvar) {
@@ -651,7 +658,8 @@ class WP {
      * @global int          $single       If single page or post. Only set, if single page or post.
      * @global WP_User      $authordata   Only set, if author archive.
      */
-    public function register_globals() {
+    public function register_globals()
+    {
         global $wp_query;
 
         // Extract updated query vars back into global namespace.
@@ -679,7 +687,8 @@ class WP {
      *
      * @since 2.0.0
      */
-    public function init() {
+    public function init()
+    {
         wp_get_current_user();
     }
 
@@ -690,7 +699,8 @@ class WP {
      *
      * @global WP_Query $wp_the_query WordPress Query object.
      */
-    public function query_posts() {
+    public function query_posts()
+    {
         global $wp_the_query;
         $this->build_query_string();
         $wp_the_query->query($this->query_vars);
@@ -713,7 +723,8 @@ class WP {
      *
      * @global WP_Query $wp_query WordPress Query object.
      */
-    public function handle_404() {
+    public function handle_404()
+    {
         global $wp_query;
 
         /**
@@ -807,7 +818,8 @@ class WP {
      *
      * @param string|array $query_args Passed to parse_request().
      */
-    public function main($query_args = '') {
+    public function main($query_args = '')
+    {
         $this->init();
 
         $parsed = $this->parse_request($query_args);

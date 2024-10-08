@@ -14,14 +14,16 @@
  *
  * @see WP_Widget
  */
-class WP_Widget_Categories extends WP_Widget {
+class WP_Widget_Categories extends WP_Widget
+{
 
     /**
      * Sets up a new Categories widget instance.
      *
      * @since 2.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $widget_ops = array(
             'classname'                   => 'widget_categories',
             'description'                 => __('A list or dropdown of categories.'),
@@ -42,7 +44,8 @@ class WP_Widget_Categories extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Categories widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         static $first_dropdown = true;
 
         $default_title = __('Categories');
@@ -159,7 +162,8 @@ class WP_Widget_Categories extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Updated settings to save.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $instance                 = $old_instance;
         $instance['title']        = sanitize_text_field($new_instance['title']);
         $instance['count']        = ! empty($new_instance['count']) ? 1 : 0;
@@ -176,7 +180,8 @@ class WP_Widget_Categories extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         // Defaults.
         $instance     = wp_parse_args((array) $instance, array('title' => ''));
         $count        = isset($instance['count']) ? (bool) $instance['count'] : false;

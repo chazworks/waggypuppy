@@ -8,7 +8,8 @@
  *
  * @covers ::wp_zip_file_is_valid
  */
-class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase {
+class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase
+{
 
     /**
      * The test data directory.
@@ -21,7 +22,8 @@ class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase {
      * Sets up the filesystem and test data directory property
      * before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -40,7 +42,8 @@ class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase {
      * @param string $file     The ZIP file to test.
      * @param bool   $expected Whether the ZIP file is expected to be valid.
      */
-    public function test_zip_file_validity($file, $expected) {
+    public function test_zip_file_validity($file, $expected)
+    {
         $zip_file = self::$test_data_dir . $file;
 
         $expected_message = $expected ? 'valid' : 'invalid';
@@ -52,7 +55,8 @@ class Tests_Filesystem_WpZipFileIsValid extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_zip_file_validity() {
+    public function data_zip_file_validity()
+    {
         return array(
             'standard zip'           => array('archive.zip', true),
             'large zip'              => array('archive-large.zip', true),

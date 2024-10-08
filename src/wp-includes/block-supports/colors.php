@@ -15,7 +15,8 @@
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_colors_support($block_type) {
+function wp_register_colors_support($block_type)
+{
     $color_support = false;
     if ($block_type instanceof WP_Block_Type) {
         $color_support = isset($block_type->supports['color']) ? $block_type->supports['color'] : false;
@@ -80,7 +81,8 @@ function wp_register_colors_support($block_type) {
  *
  * @return array Colors CSS classes and inline styles.
  */
-function wp_apply_colors_support($block_type, $block_attributes) {
+function wp_apply_colors_support($block_type, $block_attributes)
+{
     $color_support = isset($block_type->supports['color']) ? $block_type->supports['color'] : false;
 
     if (is_array($color_support) &&

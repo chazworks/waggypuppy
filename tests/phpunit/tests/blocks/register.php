@@ -8,7 +8,8 @@
  *
  * @group blocks
  */
-class Tests_Blocks_Register extends WP_UnitTestCase {
+class Tests_Blocks_Register extends WP_UnitTestCase
+{
 
     /**
      * ID for a test post.
@@ -23,7 +24,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @since 5.0.0
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = $factory->post->create(
             array(
                 'post_content' => file_get_contents(DIR_TESTDATA . '/blocks/do-blocks-original.html'),
@@ -36,7 +38,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @since 5.0.0
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         // Also deletes revisions.
         wp_delete_post(self::$post_id, true);
     }
@@ -44,14 +47,16 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * Empty render function for tests to use.
      */
-    public function render_stub() {}
+    public function render_stub()
+    {}
 
     /**
      * Tear down after each test.
      *
      * @since 5.0.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Removes test block types registered by test cases.
         $block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
         foreach ($block_types as $block_type) {
@@ -75,14 +80,16 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @return string
      */
-    public function filter_set_locale_to_polish() {
+    public function filter_set_locale_to_polish()
+    {
         return 'pl_PL';
     }
 
     /**
      * @ticket 45109
      */
-    public function test_register_affects_main_registry() {
+    public function test_register_affects_main_registry()
+    {
         $name     = 'tests/static';
         $settings = array(
             'icon' => 'text',
@@ -97,7 +104,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 45109
      */
-    public function test_unregister_affects_main_registry() {
+    public function test_unregister_affects_main_registry()
+    {
         $name     = 'tests/static';
         $settings = array(
             'icon' => 'text',
@@ -113,7 +121,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_does_not_remove_block_asset_path_prefix() {
+    public function test_does_not_remove_block_asset_path_prefix()
+    {
         $result = remove_block_asset_path_prefix('script-handle');
 
         $this->assertSame('script-handle', $result);
@@ -122,7 +131,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_removes_block_asset_path_prefix() {
+    public function test_removes_block_asset_path_prefix()
+    {
         $result = remove_block_asset_path_prefix('file:block.js');
 
         $this->assertSame('block.js', $result);
@@ -131,7 +141,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 54797
      */
-    public function test_removes_block_asset_path_prefix_and_current_directory() {
+    public function test_removes_block_asset_path_prefix_and_current_directory()
+    {
         $result = remove_block_asset_path_prefix('file:./block.js');
 
         $this->assertSame('block.js', $result);
@@ -141,7 +152,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @ticket 50263
      * @ticket 60233
      */
-    public function test_generate_block_asset_handle() {
+    public function test_generate_block_asset_handle()
+    {
         $block_name = 'tests/my-block';
 
         $this->assertSame(
@@ -187,7 +199,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50328
      */
-    public function test_generate_block_asset_handle_core_block() {
+    public function test_generate_block_asset_handle_core_block()
+    {
         $block_name = 'core/paragraph';
 
         $this->assertSame(
@@ -215,7 +228,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_generate_block_asset_handle_core_block_module() {
+    public function test_generate_block_asset_handle_core_block_module()
+    {
         $block_name = 'core/paragraph';
 
         $this->assertSame(
@@ -261,7 +275,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_field_not_found_register_block_script_handle() {
+    public function test_field_not_found_register_block_script_handle()
+    {
         $result = register_block_script_handle(array(), 'script');
 
         $this->assertFalse($result);
@@ -270,21 +285,24 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_empty_string_value_do_not_register_block_script_handle() {
+    public function test_empty_string_value_do_not_register_block_script_handle()
+    {
         $metadata = array('script' => '');
         $result   = register_block_script_handle($metadata, 'script');
 
         $this->assertFalse($result);
     }
 
-    public function test_empty_array_value_do_not_register_block_script_handle() {
+    public function test_empty_array_value_do_not_register_block_script_handle()
+    {
         $metadata = array('script' => array());
         $result   = register_block_script_handle($metadata, 'script');
 
         $this->assertFalse($result);
     }
 
-    public function test_wrong_array_index_do_not_register_block_script_handle() {
+    public function test_wrong_array_index_do_not_register_block_script_handle()
+    {
         $metadata = array('script' => array('test-script-handle'));
         $result   = register_block_script_handle($metadata, 'script', 1);
 
@@ -294,7 +312,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_field_not_found_register_block_script_module_id() {
+    public function test_field_not_found_register_block_script_module_id()
+    {
         $result = register_block_script_module_id(array(), 'viewScriptModule');
 
         $this->assertFalse($result);
@@ -303,7 +322,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_empty_string_value_do_not_register_block_script_module_id() {
+    public function test_empty_string_value_do_not_register_block_script_module_id()
+    {
         $metadata = array('viewScriptModule' => '');
         $result   = register_block_script_module_id($metadata, 'viewScriptModule');
 
@@ -313,7 +333,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_empty_array_value_do_not_register_block_script_module_id() {
+    public function test_empty_array_value_do_not_register_block_script_module_id()
+    {
         $metadata = array('viewScriptModule' => array());
         $result   = register_block_script_module_id($metadata, 'viewScriptModule');
 
@@ -323,7 +344,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_wrong_array_index_do_not_register_block_script_module_id() {
+    public function test_wrong_array_index_do_not_register_block_script_module_id()
+    {
         $metadata = array('viewScriptModule' => array('test-module_id'));
         $result   = register_block_script_module_id($metadata, 'script', 1);
 
@@ -333,7 +355,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_missing_asset_file_register_block_script_module_id() {
+    public function test_missing_asset_file_register_block_script_module_id()
+    {
         $metadata = array(
             'file'             => __FILE__,
             'name'             => 'tests/test-block',
@@ -347,7 +370,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_handle_passed_register_block_script_module_id() {
+    public function test_handle_passed_register_block_script_module_id()
+    {
         $metadata = array(
             'viewScriptModule' => 'test-script-module-id',
         );
@@ -359,7 +383,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_handles_passed_register_block_script_module_ids() {
+    public function test_handles_passed_register_block_script_module_ids()
+    {
         $metadata = array(
             'viewScriptModule' => array('test-id', 'test-id-other'),
         );
@@ -374,7 +399,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60233
      */
-    public function test_success_register_block_script_module_id() {
+    public function test_success_register_block_script_module_id()
+    {
         $metadata = array(
             'file'             => DIR_TESTDATA . '/blocks/notice/block.json',
             'name'             => 'tests/test-block',
@@ -403,7 +429,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_handle_passed_register_block_script_handle() {
+    public function test_handle_passed_register_block_script_handle()
+    {
         $metadata = array(
             'script' => 'test-script-handle',
         );
@@ -412,7 +439,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
         $this->assertSame('test-script-handle', $result);
     }
 
-    public function test_handles_passed_register_block_script_handles() {
+    public function test_handles_passed_register_block_script_handles()
+    {
         $metadata = array(
             'script' => array('test-script-handle', 'test-script-handle-other'),
         );
@@ -428,7 +456,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @ticket 50263
      * @ticket 60460
      */
-    public function test_missing_asset_file_register_block_script_handle_with_default_settings() {
+    public function test_missing_asset_file_register_block_script_handle_with_default_settings()
+    {
         $metadata = array(
             'file'   => __FILE__,
             'name'   => 'tests/test-block',
@@ -442,7 +471,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_success_register_block_script_handle() {
+    public function test_success_register_block_script_handle()
+    {
         $metadata = array(
             'file'   => DIR_TESTDATA . '/blocks/notice/block.json',
             'name'   => 'tests/test-block',
@@ -471,7 +501,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60485
      */
-    public function test_success_register_block_script_handle_with_custom_handle_name() {
+    public function test_success_register_block_script_handle_with_custom_handle_name()
+    {
         $custom_script_handle = 'tests-my-shared-script';
         $metadata             = array(
             'file'   => DIR_TESTDATA . '/blocks/notice/block.json',
@@ -490,7 +521,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 60485
      */
-    public function test_reuse_registered_block_script_handle_with_custom_handle_name() {
+    public function test_reuse_registered_block_script_handle_with_custom_handle_name()
+    {
         $custom_script_handle = 'tests-my-shared-script';
         $custom_script_src    = 'https://example.com/foo.js';
         wp_register_script($custom_script_handle, $custom_script_src);
@@ -516,7 +548,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 55513
      */
-    public function test_success_register_block_script_handle_in_theme() {
+    public function test_success_register_block_script_handle_in_theme()
+    {
         switch_theme('block-theme');
 
         $metadata = array(
@@ -533,7 +566,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_field_not_found_register_block_style_handle() {
+    public function test_field_not_found_register_block_style_handle()
+    {
         $result = register_block_style_handle(array(), 'style');
 
         $this->assertFalse($result);
@@ -542,21 +576,24 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_empty_string_value_do_not_register_block_style_handle() {
+    public function test_empty_string_value_do_not_register_block_style_handle()
+    {
         $metadata = array('style' => '');
         $result   = register_block_style_handle($metadata, 'style');
 
         $this->assertFalse($result);
     }
 
-    public function test_empty_array_value_do_not_register_block_style_handle() {
+    public function test_empty_array_value_do_not_register_block_style_handle()
+    {
         $metadata = array('style' => array());
         $result   = register_block_style_handle($metadata, 'style');
 
         $this->assertFalse($result);
     }
 
-    public function test_wrong_array_index_do_not_register_block_style_handle() {
+    public function test_wrong_array_index_do_not_register_block_style_handle()
+    {
         $metadata = array('style' => array('test-style-handle'));
         $result   = register_block_style_handle($metadata, 'style', 1);
 
@@ -572,7 +609,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @param string      $style_field     Either 'style' or 'editorStyle'.
      * @param string|bool $expected_path   Expected path of registered stylesheet, relative to ABSPATH.
      */
-    public function test_register_block_style_handle_uses_correct_core_stylesheet($block_json_path, $style_field, $expected_path) {
+    public function test_register_block_style_handle_uses_correct_core_stylesheet($block_json_path, $style_field, $expected_path)
+    {
         $metadata_file = ABSPATH . $block_json_path;
         $metadata      = wp_json_file_decode($metadata_file, array('associative' => true));
 
@@ -608,7 +646,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
         }
     }
 
-    public function data_register_block_style_handle_uses_correct_core_stylesheet() {
+    public function data_register_block_style_handle_uses_correct_core_stylesheet()
+    {
         return array(
             'block with style'           => array(
                 WPINC . '/blocks/archives/block.json',
@@ -636,7 +675,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 50263
      */
-    public function test_handle_passed_register_block_style_handle() {
+    public function test_handle_passed_register_block_style_handle()
+    {
         $metadata = array(
             'name'  => 'test-block',
             'style' => 'test-style-handle',
@@ -646,7 +686,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
         $this->assertSame('test-style-handle', $result);
     }
 
-    public function test_handles_passed_register_block_style_handles() {
+    public function test_handles_passed_register_block_style_handles()
+    {
         $metadata = array(
             'name'  => 'test-block',
             'style' => array('test-style-handle', 'test-style-handle-2'),
@@ -663,7 +704,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @ticket 50263
      * @ticket 50328
      */
-    public function test_success_register_block_style_handle() {
+    public function test_success_register_block_style_handle()
+    {
         $metadata = array(
             'file'      => DIR_TESTDATA . '/blocks/notice/block.json',
             'name'      => 'tests/test-block',
@@ -716,7 +758,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @covers ::register_block_style_handle
      */
-    public function test_register_block_style_handle_should_load_rtl_stylesheets_for_rtl_text_direction() {
+    public function test_register_block_style_handle_should_load_rtl_stylesheets_for_rtl_text_direction()
+    {
         global $wp_locale;
 
         $metadata = array(
@@ -763,7 +806,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 56664
      */
-    public function test_register_nonexistent_stylesheet() {
+    public function test_register_nonexistent_stylesheet()
+    {
         $metadata = array(
             'file'  => DIR_TESTDATA . '/blocks/notice/block.json',
             'name'  => 'tests/test-block-nonexistent-stylesheet',
@@ -778,7 +822,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 55513
      */
-    public function test_success_register_block_style_handle_in_theme() {
+    public function test_success_register_block_style_handle_in_theme()
+    {
         switch_theme('block-theme');
 
         $metadata = array(
@@ -798,7 +843,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @covers ::register_block_style_handle
      */
-    public function test_success_register_block_style_handle_exists() {
+    public function test_success_register_block_style_handle_exists()
+    {
         $expected_style_handle = 'block-theme-example-block-editor-style';
         wp_register_style($expected_style_handle, false);
         switch_theme('block-theme');
@@ -819,7 +865,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @ticket 50263
      */
-    public function test_metadata_not_found_in_wordpress_core() {
+    public function test_metadata_not_found_in_wordpress_core()
+    {
         $result = register_block_type_from_metadata('unknown');
 
         $this->assertFalse($result);
@@ -831,7 +878,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @ticket 50263
      */
-    public function test_metadata_not_found_in_the_current_directory() {
+    public function test_metadata_not_found_in_the_current_directory()
+    {
         $result = register_block_type_from_metadata(__DIR__);
 
         $this->assertFalse($result);
@@ -844,7 +892,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @covers ::register_block_type_from_metadata
      */
-    public function test_register_block_type_from_metadata_with_arguments() {
+    public function test_register_block_type_from_metadata_with_arguments()
+    {
         $result = register_block_type_from_metadata(
             '',
             array(
@@ -883,7 +932,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @covers ::register_block_type_from_metadata
      */
-    public function test_block_registers_with_args_override() {
+    public function test_block_registers_with_args_override()
+    {
         $result = register_block_type_from_metadata(
             DIR_TESTDATA . '/blocks/notice',
             array(
@@ -923,7 +973,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @param string $file The metadata file.
      * @param array  $args Array of block type arguments.
      */
-    public function test_block_registers_with_args_override_returns_false_when_name_is_missing($file, $args) {
+    public function test_block_registers_with_args_override_returns_false_when_name_is_missing($file, $args)
+    {
         $this->assertFalse(register_block_type_from_metadata($file, $args));
     }
 
@@ -932,7 +983,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_register_block_registers_with_args_override_returns_false_when_name_is_missing() {
+    public function data_register_block_registers_with_args_override_returns_false_when_name_is_missing()
+    {
         return array(
             'no block.json file and no name argument' => array(
                 'file' => '', // No block.json file.
@@ -964,7 +1016,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @covers ::register_block_type_from_metadata
      */
-    public function test_register_block_type_from_metadata_with_variations_php_file() {
+    public function test_register_block_type_from_metadata_with_variations_php_file()
+    {
         $filter_metadata_registration = static function ($metadata) {
             $metadata['variations'] = 'file:./variations.php';
             return $metadata;
@@ -998,7 +1051,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @ticket 59797
      * @ticket 60233
      */
-    public function test_block_registers_with_metadata_fixture() {
+    public function test_block_registers_with_metadata_fixture()
+    {
         $result = register_block_type_from_metadata(
             DIR_TESTDATA . '/blocks/notice'
         );
@@ -1138,7 +1192,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 53233
      */
-    public function test_block_register_block_type_proxy_for_metadata() {
+    public function test_block_register_block_type_proxy_for_metadata()
+    {
         $result = register_block_type(
             DIR_TESTDATA . '/blocks/notice'
         );
@@ -1164,7 +1219,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @param array $editor_script The editor script array to register.
      * @param array $expected      The expected registered editor script.
      */
-    public function test_register_block_type_accepts_editor_script_array($editor_script, $expected) {
+    public function test_register_block_type_accepts_editor_script_array($editor_script, $expected)
+    {
         $settings = array('editor_script' => $editor_script);
         register_block_type('tests/static', $settings);
 
@@ -1192,7 +1248,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_register_block_type_accepts_editor_script_array() {
+    public function data_register_block_type_accepts_editor_script_array()
+    {
         return array(
             'an empty array'      => array(
                 'editor_script' => array(),
@@ -1230,7 +1287,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @param array $editor_script The editor script array to register.
      * @param array $expected      The expected registered editor script.
      */
-    public function test_register_block_type_throws_doing_it_wrong($editor_script, $expected) {
+    public function test_register_block_type_throws_doing_it_wrong($editor_script, $expected)
+    {
         $settings = array('editor_script' => $editor_script);
         register_block_type('tests/static', $settings);
 
@@ -1258,7 +1316,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_register_block_type_throws_doing_it_wrong() {
+    public function data_register_block_type_throws_doing_it_wrong()
+    {
         return array(
             'a non-string array'     => array(
                 'editor_script' => array(null, false, true, -1, 0, 1, -1.0, 0.0, 1.0, INF, NAN, new stdClass()),
@@ -1278,7 +1337,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 52301
      */
-    public function test_block_registers_with_metadata_i18n_support() {
+    public function test_block_registers_with_metadata_i18n_support()
+    {
         add_filter('locale', array($this, 'filter_set_locale_to_polish'));
         load_textdomain('notice', WP_LANG_DIR . '/plugins/notice-pl_PL.mo');
 
@@ -1324,7 +1384,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 45109
      */
-    public function test_get_dynamic_block_names() {
+    public function test_get_dynamic_block_names()
+    {
         register_block_type('tests/static', array());
         register_block_type('tests/dynamic', array('render_callback' => array($this, 'render_stub')));
 
@@ -1337,7 +1398,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 45109
      */
-    public function test_has_blocks() {
+    public function test_has_blocks()
+    {
         // Test with passing post ID.
         $this->assertTrue(has_blocks(self::$post_id));
 
@@ -1365,7 +1427,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @covers ::has_blocks
      */
-    public function test_has_blocks_with_invalid_post() {
+    public function test_has_blocks_with_invalid_post()
+    {
         $a_post = (object) array(
             'ID'     => 55705,
             'filter' => 'display',
@@ -1376,7 +1439,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 49615
      */
-    public function test_filter_block_registration() {
+    public function test_filter_block_registration()
+    {
         $filter_registration = static function ($args, $name) {
             $args['attributes'] = array($name => array('type' => 'boolean'));
             return $args;
@@ -1394,7 +1458,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 52138
      */
-    public function test_filter_block_registration_metadata() {
+    public function test_filter_block_registration_metadata()
+    {
         $filter_metadata_registration = static function ($metadata) {
             $metadata['apiVersion'] = 3;
             return $metadata;
@@ -1412,7 +1477,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
     /**
      * @ticket 52138
      */
-    public function test_filter_block_registration_metadata_settings() {
+    public function test_filter_block_registration_metadata_settings()
+    {
         $filter_metadata_registration = static function ($settings, $metadata) {
             $settings['api_version'] = $metadata['apiVersion'] + 1;
             return $settings;
@@ -1440,7 +1506,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      * @expectedIncorrectUsage WP_Block_Styles_Registry::register
      * @param array $block_styles Array of block styles to test.
      */
-    public function test_register_block_style_name_contains_spaces(array $block_styles) {
+    public function test_register_block_style_name_contains_spaces(array $block_styles)
+    {
         register_block_style('core/query', $block_styles);
     }
 
@@ -1449,7 +1516,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_register_block_style_name_contains_spaces() {
+    public function data_register_block_style_name_contains_spaces()
+    {
         return array(
             'multiple spaces' => array(
                 array(
@@ -1474,7 +1542,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @covers ::register_block_style
      */
-    public function test_register_block_style_name_without_spaces() {
+    public function test_register_block_style_name_without_spaces()
+    {
         $block_styles = array(
             'name'  => 'style-class-1',
             'label' => 'Custom Style Label',
@@ -1491,7 +1560,8 @@ class Tests_Blocks_Register extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage register_block_type_from_metadata
      */
-    public function test_register_block_hooks_targeting_itself() {
+    public function test_register_block_hooks_targeting_itself()
+    {
         $block_type = register_block_type(
             DIR_TESTDATA . '/blocks/hooked-block-error'
         );

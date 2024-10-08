@@ -7,19 +7,22 @@
  *
  * @covers ::wp_autoload_values_to_autoload
  */
-class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase {
+class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase
+{
 
     /**
      * @ticket 42441
      */
-    public function test_wp_autoload_values_to_autoload() {
+    public function test_wp_autoload_values_to_autoload()
+    {
         $this->assertSameSets(array('yes', 'on', 'auto-on', 'auto'), wp_autoload_values_to_autoload());
     }
 
     /**
      * @ticket 42441
      */
-    public function test_wp_autoload_values_to_autoload_filter_remove() {
+    public function test_wp_autoload_values_to_autoload_filter_remove()
+    {
 
         add_filter(
             'wp_autoload_values_to_autoload',
@@ -34,7 +37,8 @@ class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase {
     /**
      * @ticket 42441
      */
-    public function test_wp_autoload_values_to_autoload_filter_extra() {
+    public function test_wp_autoload_values_to_autoload_filter_extra()
+    {
 
         add_filter(
             'wp_autoload_values_to_autoload',
@@ -49,7 +53,8 @@ class Tests_Option_wpAutoloadValuesToAutoload extends WP_UnitTestCase {
     /**
      * @ticket 42441
      */
-    public function test_wp_autoload_values_to_autoload_filter_replace() {
+    public function test_wp_autoload_values_to_autoload_filter_replace()
+    {
 
         add_filter(
             'wp_autoload_values_to_autoload',

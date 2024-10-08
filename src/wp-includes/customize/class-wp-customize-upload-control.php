@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Media_Control
  */
-class WP_Customize_Upload_Control extends WP_Customize_Media_Control {
+class WP_Customize_Upload_Control extends WP_Customize_Media_Control
+{
     /**
      * Control type.
      *
@@ -50,7 +51,8 @@ class WP_Customize_Upload_Control extends WP_Customize_Media_Control {
      *
      * @uses WP_Customize_Media_Control::to_json()
      */
-    public function to_json() {
+    public function to_json()
+    {
         parent::to_json();
 
         $value = $this->value();

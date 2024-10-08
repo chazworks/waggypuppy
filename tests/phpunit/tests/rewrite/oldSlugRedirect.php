@@ -5,12 +5,14 @@
  * @ticket 33920
  * @covers wp_old_slug_redirect
  */
-class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
+class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase
+{
     protected $old_slug_redirect_url;
 
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = $factory->post->create(
             array(
                 'post_title' => 'Foo Bar',
@@ -19,7 +21,8 @@ class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
         );
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         add_filter('old_slug_redirect_url', array($this, 'filter_old_slug_redirect_url'), 10, 1);
@@ -32,13 +35,15 @@ class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
         flush_rewrite_rules();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->old_slug_redirect_url = null;
 
         parent::tear_down();
     }
 
-    public function test_old_slug_redirect() {
+    public function test_old_slug_redirect()
+    {
         $old_permalink = user_trailingslashit(get_permalink(self::$post_id));
 
         wp_update_post(
@@ -58,7 +63,8 @@ class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
     /**
      * @ticket 36723
      */
-    public function test_old_slug_redirect_cache() {
+    public function test_old_slug_redirect_cache()
+    {
         $old_permalink = user_trailingslashit(get_permalink(self::$post_id));
 
         wp_update_post(
@@ -84,7 +90,8 @@ class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
     /**
      * @ticket 36723
      */
-    public function test_old_slug_redirect_cache_invalidation() {
+    public function test_old_slug_redirect_cache_invalidation()
+    {
         $old_permalink = user_trailingslashit(get_permalink(self::$post_id));
 
         wp_update_post(
@@ -116,7 +123,8 @@ class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
         $this->assertSame($num_queries + 1, get_num_queries());
     }
 
-    public function test_old_slug_redirect_attachment() {
+    public function test_old_slug_redirect_attachment()
+    {
         $file          = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_id = self::factory()->attachment->create_object(
             $file,
@@ -157,7 +165,8 @@ class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
         $this->assertSame($permalink, $this->old_slug_redirect_url);
     }
 
-    public function test_old_slug_redirect_paged() {
+    public function test_old_slug_redirect_paged()
+    {
         wp_update_post(
             array(
                 'ID'           => self::$post_id,
@@ -184,7 +193,8 @@ class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
     /**
      * @ticket 35031
      */
-    public function test_old_slug_doesnt_redirect_when_reused() {
+    public function test_old_slug_doesnt_redirect_when_reused()
+    {
         $old_permalink = user_trailingslashit(get_permalink(self::$post_id));
 
         wp_update_post(
@@ -210,7 +220,8 @@ class Tests_Rewrite_OldSlugRedirect extends WP_UnitTestCase {
         $this->assertNull($this->old_slug_redirect_url);
     }
 
-    public function filter_old_slug_redirect_url($url) {
+    public function filter_old_slug_redirect_url($url)
+    {
         $this->old_slug_redirect_url = $url;
         return false;
     }

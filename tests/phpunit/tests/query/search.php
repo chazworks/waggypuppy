@@ -3,11 +3,13 @@
  * @group query
  * @group search
  */
-class Tests_Query_Search extends WP_UnitTestCase {
+class Tests_Query_Search extends WP_UnitTestCase
+{
     protected $q;
     protected $post_type;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->post_type = 'foo1';
@@ -16,13 +18,15 @@ class Tests_Query_Search extends WP_UnitTestCase {
         $this->q = new WP_Query();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unset($this->q);
 
         parent::tear_down();
     }
 
-    private function get_search_results($terms) {
+    private function get_search_results($terms)
+    {
         $args = http_build_query(
             array(
                 's'         => $terms,
@@ -32,7 +36,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
         return $this->q->query($args);
     }
 
-    public function test_search_order_title_relevance() {
+    public function test_search_order_title_relevance()
+    {
         foreach (range(1, 7) as $i) {
             self::factory()->post->create(
                 array(
@@ -52,14 +57,16 @@ class Tests_Query_Search extends WP_UnitTestCase {
         $this->assertSame($post_id, reset($posts)->ID);
     }
 
-    public function test_search_terms_query_var() {
+    public function test_search_terms_query_var()
+    {
         $terms = 'This is a search term';
         $query = new WP_Query(array('s' => 'This is a search term'));
         $this->assertNotEquals(explode(' ', $terms), $query->get('search_terms'));
         $this->assertSame(array('search', 'term'), $query->get('search_terms'));
     }
 
-    public function test_filter_stopwords() {
+    public function test_filter_stopwords()
+    {
         $terms = 'This is a search term';
         add_filter('wp_search_stopwords', array($this, 'filter_wp_search_stopwords'));
         $query = new WP_Query(array('s' => $terms));
@@ -69,14 +76,16 @@ class Tests_Query_Search extends WP_UnitTestCase {
         $this->assertSame(array('This', 'is', 'search', 'term'), $query->get('search_terms'));
     }
 
-    public function filter_wp_search_stopwords() {
+    public function filter_wp_search_stopwords()
+    {
         return array();
     }
 
     /**
      * @ticket 38099
      */
-    public function test_disable_search_exclusion_prefix() {
+    public function test_disable_search_exclusion_prefix()
+    {
         $title = '-HYPHENATION_TEST';
 
         // Create a post with a title which starts with a hyphen.
@@ -101,7 +110,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 38099
      */
-    public function test_change_search_exclusion_prefix() {
+    public function test_change_search_exclusion_prefix()
+    {
         $title = '#OCTOTHORPE_TEST';
 
         // Create a post with a title that starts with a non-hyphen prefix.
@@ -124,14 +134,16 @@ class Tests_Query_Search extends WP_UnitTestCase {
         $this->assertSame(array(), $found);
     }
 
-    public function filter_search_exclusion_prefix_octothorpe() {
+    public function filter_search_exclusion_prefix_octothorpe()
+    {
         return '#';
     }
 
     /**
      * @ticket 33988
      */
-    public function test_s_should_exclude_term_prefixed_with_dash() {
+    public function test_s_should_exclude_term_prefixed_with_dash()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_status'  => 'publish',
@@ -158,7 +170,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 33988
      */
-    public function test_s_should_exclude_first_term_if_prefixed_with_dash() {
+    public function test_s_should_exclude_first_term_if_prefixed_with_dash()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_status'  => 'publish',
@@ -185,7 +198,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 33988
      */
-    public function test_s_should_not_exclude_for_dashes_in_the_middle_of_words() {
+    public function test_s_should_not_exclude_for_dashes_in_the_middle_of_words()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_status'  => 'publish',
@@ -218,7 +232,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 36195
      */
-    public function test_s_should_not_exclude_for_dashes_between_words() {
+    public function test_s_should_not_exclude_for_dashes_between_words()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_status'  => 'publish',
@@ -251,7 +266,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 35361
      */
-    public function test_search_orderby_should_be_empty_when_search_string_is_longer_than_6_words_and_exclusion_operator_is_used() {
+    public function test_search_orderby_should_be_empty_when_search_string_is_longer_than_6_words_and_exclusion_operator_is_used()
+    {
         $q = new WP_Query(
             array(
                 's'      => 'foo1 foo2 foo3 foo4 foo5 foo6 foo7 -bar',
@@ -265,7 +281,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 31025
      */
-    public function test_s_zero() {
+    public function test_s_zero()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_status'  => 'publish',
@@ -297,7 +314,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 35594
      */
-    public function test_search_should_respect_suppress_filters() {
+    public function test_search_should_respect_suppress_filters()
+    {
         add_filter('posts_search', array($this, 'filter_posts_search'));
         add_filter('posts_search_orderby', array($this, 'filter_posts_search'));
         $q = new WP_Query(
@@ -315,7 +333,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 35762
      */
-    public function test_search_post_excerpt() {
+    public function test_search_post_excerpt()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_status'  => 'publish',
@@ -368,7 +387,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 35762
      */
-    public function test_search_order_title_before_excerpt_and_content() {
+    public function test_search_order_title_before_excerpt_and_content()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_status'  => 'publish',
@@ -413,7 +433,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
      *
      * @ticket 22744
      */
-    public function test_exclude_file_names_in_attachment_search_by_default() {
+    public function test_exclude_file_names_in_attachment_search_by_default()
+    {
         $attachment = self::factory()->post->create(
             array(
                 'post_type'    => 'attachment',
@@ -442,7 +463,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 22744
      */
-    public function test_include_file_names_in_attachment_search_as_string() {
+    public function test_include_file_names_in_attachment_search_as_string()
+    {
         $attachment = self::factory()->post->create(
             array(
                 'post_type'    => 'attachment',
@@ -472,7 +494,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 22744
      */
-    public function test_include_file_names_in_attachment_search_as_array() {
+    public function test_include_file_names_in_attachment_search_as_array()
+    {
         $attachment = self::factory()->post->create(
             array(
                 'post_type'    => 'attachment',
@@ -502,7 +525,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 22744
      */
-    public function test_exclude_attachment_file_names_in_general_searches() {
+    public function test_exclude_attachment_file_names_in_general_searches()
+    {
         $attachment = self::factory()->post->create(
             array(
                 'post_type'    => 'attachment',
@@ -530,7 +554,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 22744
      */
-    public function test_include_file_names_in_attachment_search_with_meta_query() {
+    public function test_include_file_names_in_attachment_search_with_meta_query()
+    {
         $attachment = self::factory()->post->create(
             array(
                 'post_type'    => 'attachment',
@@ -568,7 +593,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 22744
      */
-    public function test_include_file_names_in_attachment_search_with_tax_query() {
+    public function test_include_file_names_in_attachment_search_with_tax_query()
+    {
         $attachment = self::factory()->post->create(
             array(
                 'post_type'    => 'attachment',
@@ -608,7 +634,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
     /**
      * @ticket 22744
      */
-    public function test_wp_query_removes_filter_wp_allow_query_attachment_by_filename() {
+    public function test_wp_query_removes_filter_wp_allow_query_attachment_by_filename()
+    {
         $attachment = self::factory()->post->create(
             array(
                 'post_type'    => 'attachment',
@@ -641,7 +668,8 @@ class Tests_Query_Search extends WP_UnitTestCase {
         $this->assertEmpty($q->posts);
     }
 
-    public function filter_posts_search($sql) {
+    public function filter_posts_search($sql)
+    {
         return $sql . ' /* posts_search */';
     }
 }

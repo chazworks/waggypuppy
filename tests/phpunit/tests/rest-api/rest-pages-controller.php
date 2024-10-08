@@ -8,10 +8,12 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Testcase {
+class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Testcase
+{
     protected static $editor_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$editor_id = $factory->user->create(
             array(
                 'role' => 'editor',
@@ -19,11 +21,13 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$editor_id);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         add_filter('theme_page_templates', array($this, 'filter_theme_page_templates'));
         // Re-register the route as we now have a template available.
@@ -33,7 +37,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $GLOBALS['wp_rest_server']->override_by_default = false;
     }
 
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/pages', $routes);
         $this->assertCount(2, $routes['/wp/v2/pages']);
@@ -41,7 +46,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertCount(3, $routes['/wp/v2/pages/(?P<id>[\d]+)']);
     }
 
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
@@ -57,7 +63,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame(array('view', 'embed', 'edit'), $data['endpoints'][0]['args']['context']['enum']);
     }
 
-    public function test_registered_query_params() {
+    public function test_registered_query_params()
+    {
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -93,7 +100,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         );
     }
 
-    public function test_get_items() {
+    public function test_get_items()
+    {
         $id1      = self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -113,7 +121,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame($id1, $data[0]['id']);
     }
 
-    public function test_get_items_parent_query() {
+    public function test_get_items_parent_query()
+    {
         $id1 = self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -147,7 +156,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_get_items_parents_query() {
+    public function test_get_items_parents_query()
+    {
         $id1 = self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -189,7 +199,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSameSets(array($id2, $id4), wp_list_pluck($data, 'id'));
     }
 
-    public function test_get_items_parent_exclude_query() {
+    public function test_get_items_parent_exclude_query()
+    {
         $id1 = self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -223,7 +234,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_get_items_menu_order_query() {
+    public function test_get_items_menu_order_query()
+    {
         $id1 = self::factory()->post->create(
             array(
                 'post_status' => 'publish',
@@ -282,7 +294,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_get_items_min_max_pages_query() {
+    public function test_get_items_min_max_pages_query()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $request->set_param('per_page', 0);
         $response = rest_get_server()->dispatch($request);
@@ -299,7 +312,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertStringContainsString('per_page must be between 1 (inclusive) and 100 (inclusive)', $first_error);
     }
 
-    public function test_get_items_private_filter_query_var() {
+    public function test_get_items_private_filter_query_var()
+    {
         // Private query vars inaccessible to unauthorized users.
         wp_set_current_user(0);
         $page_id  = self::factory()->post->create(
@@ -327,7 +341,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame($draft_id, $data[0]['id']);
     }
 
-    public function test_get_items_invalid_date() {
+    public function test_get_items_invalid_date()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $request->set_param('after', 'foo');
         $request->set_param('before', 'bar');
@@ -335,7 +350,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
     }
 
-    public function test_get_items_valid_date() {
+    public function test_get_items_valid_date()
+    {
         $post1   = self::factory()->post->create(
             array(
                 'post_date' => '2016-01-15T00:00:00Z',
@@ -366,7 +382,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     /**
      * @ticket 50617
      */
-    public function test_get_items_invalid_modified_date() {
+    public function test_get_items_invalid_modified_date()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/pages');
         $request->set_param('modified_after', 'foo');
         $request->set_param('modified_before', 'bar');
@@ -377,7 +394,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     /**
      * @ticket 50617
      */
-    public function test_get_items_valid_modified_date() {
+    public function test_get_items_valid_modified_date()
+    {
         $post1 = self::factory()->post->create(
             array(
                 'post_date' => '2016-01-01 00:00:00',
@@ -411,11 +429,13 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         // Controller does not implement get_item().
     }
 
-    public function test_get_item_invalid_post_type() {
+    public function test_get_item_invalid_post_type()
+    {
         $post_id  = self::factory()->post->create();
         $request  = new WP_REST_Request('GET', '/wp/v2/pages/' . $post_id);
         $response = rest_get_server()->dispatch($request);
@@ -425,11 +445,13 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
-    public function test_create_item_with_template() {
+    public function test_create_item_with_template()
+    {
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/pages');
@@ -447,7 +469,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame('page-my-test-template.php', get_page_template_slug($new_post->ID));
     }
 
-    public function test_create_page_with_parent() {
+    public function test_create_page_with_parent()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'type' => 'page',
@@ -475,7 +498,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame($page_id, $new_post->post_parent);
     }
 
-    public function test_create_page_with_invalid_parent() {
+    public function test_create_page_with_invalid_parent()
+    {
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/pages');
@@ -493,11 +517,13 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     /**
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -519,11 +545,13 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
     /**
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
-    public function test_prepare_item_limit_fields() {
+    public function test_prepare_item_limit_fields()
+    {
         wp_set_current_user(self::$editor_id);
         $page_id  = self::factory()->post->create(
             array(
@@ -546,7 +574,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         );
     }
 
-    public function test_get_pages_params() {
+    public function test_get_pages_params()
+    {
         self::factory()->post->create_many(
             8,
             array(
@@ -576,7 +605,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         }
     }
 
-    public function test_update_page_menu_order() {
+    public function test_update_page_menu_order()
+    {
 
         $page_id = self::factory()->post->create(
             array(
@@ -599,7 +629,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame(1, $new_data['menu_order']);
     }
 
-    public function test_update_page_menu_order_to_zero() {
+    public function test_update_page_menu_order_to_zero()
+    {
 
         $page_id = self::factory()->post->create(
             array(
@@ -623,7 +654,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame(0, $new_data['menu_order']);
     }
 
-    public function test_update_page_parent_non_zero() {
+    public function test_update_page_parent_non_zero()
+    {
         $page_id1 = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -646,7 +678,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame($page_id1, $new_data['parent']);
     }
 
-    public function test_update_page_parent_zero() {
+    public function test_update_page_parent_zero()
+    {
         $page_id1 = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -670,7 +703,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertSame(0, $new_data['parent']);
     }
 
-    public function test_get_page_with_password() {
+    public function test_get_page_with_password()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'     => 'page',
@@ -688,7 +722,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertTrue($data['excerpt']['protected']);
     }
 
-    public function test_get_page_with_password_using_password() {
+    public function test_get_page_with_password_using_password()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'     => 'page',
@@ -710,7 +745,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertTrue($data['excerpt']['protected']);
     }
 
-    public function test_get_page_with_password_using_incorrect_password() {
+    public function test_get_page_with_password_using_incorrect_password()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'     => 'page',
@@ -726,7 +762,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertErrorResponse('rest_post_incorrect_password', $response, 403);
     }
 
-    public function test_get_page_with_password_without_permission() {
+    public function test_get_page_with_password_without_permission()
+    {
         $page_id  = self::factory()->post->create(
             array(
                 'post_type'     => 'page',
@@ -744,7 +781,8 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertTrue($data['excerpt']['protected']);
     }
 
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/pages');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -777,14 +815,16 @@ class WP_Test_REST_Pages_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertArrayHasKey('class_list', $properties);
     }
 
-    public function filter_theme_page_templates($page_templates) {
+    public function filter_theme_page_templates($page_templates)
+    {
         return array(
             'page-my-test-template.php' => 'My Test Template',
         );
         return $page_templates;
     }
 
-    protected function set_post_data($args = array()) {
+    protected function set_post_data($args = array())
+    {
         $args         = parent::set_post_data($args);
         $args['type'] = 'page';
         return $args;

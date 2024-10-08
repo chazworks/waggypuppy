@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
+class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control
+{
 
     /**
      * Type of control, used by JS.
@@ -29,14 +30,16 @@ class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
      *
      * @since 4.3.0
      */
-    protected function render_content() {}
+    protected function render_content()
+    {}
 
     /**
      * Render the Underscore template for this control.
      *
      * @since 4.3.0
      */
-    protected function content_template() {
+    protected function content_template()
+    {
         ?>
         <# var elementId = _.uniqueId( 'customize-nav-menu-auto-add-control-' ); #>
         <span class="customize-control-title"><?php _e('Menu Options'); ?></span>

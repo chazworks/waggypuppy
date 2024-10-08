@@ -4,7 +4,8 @@
  * @group admin
  * @group comment
  */
-class Tests_Admin_IncludesComment extends WP_UnitTestCase {
+class Tests_Admin_IncludesComment extends WP_UnitTestCase
+{
     /**
      * Post ID to add comments to.
      *
@@ -24,7 +25,8 @@ class Tests_Admin_IncludesComment extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = $factory->post->create();
 
         self::$comment_ids[] = $factory->comment->create(
@@ -50,7 +52,8 @@ class Tests_Admin_IncludesComment extends WP_UnitTestCase {
      *
      * @covers ::comment_exists
      */
-    public function test_must_match_date_and_author() {
+    public function test_must_match_date_and_author()
+    {
         $this->assertNull(comment_exists(1, '2004-01-02 12:00:00'));
         $this->assertSame((string) self::$post_id, comment_exists(1, '2014-05-06 12:00:00'));
     }
@@ -60,7 +63,8 @@ class Tests_Admin_IncludesComment extends WP_UnitTestCase {
      *
      * @covers ::comment_exists
      */
-    public function test_default_value_of_timezone_should_be_blog() {
+    public function test_default_value_of_timezone_should_be_blog()
+    {
         $this->assertSame((string) self::$post_id, comment_exists(1, '2014-05-06 12:00:00'));
     }
 
@@ -69,7 +73,8 @@ class Tests_Admin_IncludesComment extends WP_UnitTestCase {
      *
      * @covers ::comment_exists
      */
-    public function test_should_respect_timezone_blog() {
+    public function test_should_respect_timezone_blog()
+    {
         $this->assertSame((string) self::$post_id, comment_exists(1, '2014-05-06 12:00:00', 'blog'));
     }
 
@@ -78,7 +83,8 @@ class Tests_Admin_IncludesComment extends WP_UnitTestCase {
      *
      * @covers ::comment_exists
      */
-    public function test_should_respect_timezone_gmt() {
+    public function test_should_respect_timezone_gmt()
+    {
         $this->assertSame((string) self::$post_id, comment_exists(1, '2014-05-06 07:00:00', 'gmt'));
     }
 
@@ -87,7 +93,8 @@ class Tests_Admin_IncludesComment extends WP_UnitTestCase {
      *
      * @covers ::comment_exists
      */
-    public function test_invalid_timezone_should_fall_back_on_blog() {
+    public function test_invalid_timezone_should_fall_back_on_blog()
+    {
         $this->assertSame((string) self::$post_id, comment_exists(1, '2014-05-06 12:00:00', 'not_a_valid_value'));
     }
 }

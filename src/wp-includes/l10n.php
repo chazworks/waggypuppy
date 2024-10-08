@@ -27,7 +27,8 @@
  *
  * @return string The locale of the blog or from the {@see 'locale'} hook.
  */
-function get_locale() {
+function get_locale()
+{
     global $locale, $wp_local_package;
 
     if (isset($locale)) {
@@ -91,7 +92,8 @@ function get_locale() {
  * @param int|WP_User $user User's ID or a WP_User object. Defaults to current user.
  * @return string The locale of the user.
  */
-function get_user_locale($user = 0) {
+function get_user_locale($user = 0)
+{
     $user_object = false;
 
     if (0 === $user && function_exists('wp_get_current_user')) {
@@ -120,7 +122,8 @@ function get_user_locale($user = 0) {
  *
  * @return string The determined locale.
  */
-function determine_locale() {
+function determine_locale()
+{
     /**
      * Filters the locale for the current request prior to the default determination process.
      *
@@ -187,7 +190,8 @@ function determine_locale() {
  *                       Default 'default'.
  * @return string Translated text.
  */
-function translate($text, $domain = 'default') {
+function translate($text, $domain = 'default')
+{
     $translations = get_translations_for_domain($domain);
     $translation  = $translations->translate($text);
 
@@ -229,7 +233,8 @@ function translate($text, $domain = 'default') {
  * @param string $text A pipe-delimited string.
  * @return string Either $text or everything before the last pipe.
  */
-function before_last_bar($text) {
+function before_last_bar($text)
+{
     $last_bar = strrpos($text, '|');
     if (false === $last_bar) {
         return $text;
@@ -254,7 +259,8 @@ function before_last_bar($text) {
  *                        Default 'default'.
  * @return string Translated text on success, original text on failure.
  */
-function translate_with_gettext_context($text, $context, $domain = 'default') {
+function translate_with_gettext_context($text, $context, $domain = 'default')
+{
     $translations = get_translations_for_domain($domain);
     $translation  = $translations->translate($text, $context);
 
@@ -299,7 +305,8 @@ function translate_with_gettext_context($text, $context, $domain = 'default') {
  *                       Default 'default'.
  * @return string Translated text.
  */
-function __($text, $domain = 'default') {
+function __($text, $domain = 'default')
+{
     return translate($text, $domain);
 }
 
@@ -315,7 +322,8 @@ function __($text, $domain = 'default') {
  *                       Default 'default'.
  * @return string Translated text on success, original text on failure.
  */
-function esc_attr__($text, $domain = 'default') {
+function esc_attr__($text, $domain = 'default')
+{
     return esc_attr(translate($text, $domain));
 }
 
@@ -332,7 +340,8 @@ function esc_attr__($text, $domain = 'default') {
  *                       Default 'default'.
  * @return string Translated text.
  */
-function esc_html__($text, $domain = 'default') {
+function esc_html__($text, $domain = 'default')
+{
     return esc_html(translate($text, $domain));
 }
 
@@ -345,7 +354,8 @@ function esc_html__($text, $domain = 'default') {
  * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
  *                       Default 'default'.
  */
-function _e($text, $domain = 'default') {
+function _e($text, $domain = 'default')
+{
     echo translate($text, $domain);
 }
 
@@ -363,7 +373,8 @@ function _e($text, $domain = 'default') {
  * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
  *                       Default 'default'.
  */
-function esc_attr_e($text, $domain = 'default') {
+function esc_attr_e($text, $domain = 'default')
+{
     echo esc_attr(translate($text, $domain));
 }
 
@@ -381,7 +392,8 @@ function esc_attr_e($text, $domain = 'default') {
  * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
  *                       Default 'default'.
  */
-function esc_html_e($text, $domain = 'default') {
+function esc_html_e($text, $domain = 'default')
+{
     echo esc_html(translate($text, $domain));
 }
 
@@ -402,7 +414,8 @@ function esc_html_e($text, $domain = 'default') {
  *                        Default 'default'.
  * @return string Translated context string without pipe.
  */
-function _x($text, $context, $domain = 'default') {
+function _x($text, $context, $domain = 'default')
+{
     return translate_with_gettext_context($text, $context, $domain);
 }
 
@@ -416,7 +429,8 @@ function _x($text, $context, $domain = 'default') {
  * @param string $domain  Optional. Text domain. Unique identifier for retrieving translated strings.
  *                        Default 'default'.
  */
-function _ex($text, $context, $domain = 'default') {
+function _ex($text, $context, $domain = 'default')
+{
     echo _x($text, $context, $domain);
 }
 
@@ -434,7 +448,8 @@ function _ex($text, $context, $domain = 'default') {
  *                        Default 'default'.
  * @return string Translated text.
  */
-function esc_attr_x($text, $context, $domain = 'default') {
+function esc_attr_x($text, $context, $domain = 'default')
+{
     return esc_attr(translate_with_gettext_context($text, $context, $domain));
 }
 
@@ -452,7 +467,8 @@ function esc_attr_x($text, $context, $domain = 'default') {
  *                        Default 'default'.
  * @return string Translated text.
  */
-function esc_html_x($text, $context, $domain = 'default') {
+function esc_html_x($text, $context, $domain = 'default')
+{
     return esc_html(translate_with_gettext_context($text, $context, $domain));
 }
 
@@ -476,7 +492,8 @@ function esc_html_x($text, $context, $domain = 'default') {
  *                       Default 'default'.
  * @return string The translated singular or plural form.
  */
-function _n($single, $plural, $number, $domain = 'default') {
+function _n($single, $plural, $number, $domain = 'default')
+{
     $translations = get_translations_for_domain($domain);
     $translation  = $translations->translate_plural($single, $plural, $number);
 
@@ -535,7 +552,8 @@ function _n($single, $plural, $number, $domain = 'default') {
  *                        Default 'default'.
  * @return string The translated singular or plural form.
  */
-function _nx($single, $plural, $number, $context, $domain = 'default') {
+function _nx($single, $plural, $number, $context, $domain = 'default')
+{
     $translations = get_translations_for_domain($domain);
     $translation  = $translations->translate_plural($single, $plural, $number, $context);
 
@@ -601,7 +619,8 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  *     @type string|null $domain   Text domain.
  * }
  */
-function _n_noop($singular, $plural, $domain = null) {
+function _n_noop($singular, $plural, $domain = null)
+{
     return array(
         0          => $singular,
         1          => $plural,
@@ -647,7 +666,8 @@ function _n_noop($singular, $plural, $domain = null) {
  *     @type string|null $domain   Text domain.
  * }
  */
-function _nx_noop($singular, $plural, $context, $domain = null) {
+function _nx_noop($singular, $plural, $context, $domain = null)
+{
     return array(
         0          => $singular,
         1          => $plural,
@@ -686,7 +706,8 @@ function _nx_noop($singular, $plural, $context, $domain = null) {
  *                              a text domain passed to _n_noop() or _nx_noop(), it will override this value. Default 'default'.
  * @return string Either $singular or $plural translated text.
  */
-function translate_nooped_plural($nooped_plural, $count, $domain = 'default') {
+function translate_nooped_plural($nooped_plural, $count, $domain = 'default')
+{
     if ($nooped_plural['domain']) {
         $domain = $nooped_plural['domain'];
     }
@@ -719,7 +740,8 @@ function translate_nooped_plural($nooped_plural, $count, $domain = 'default') {
  * @param string $locale Optional. Locale. Default is the current locale.
  * @return bool True on success, false on failure.
  */
-function load_textdomain($domain, $mofile, $locale = null) {
+function load_textdomain($domain, $mofile, $locale = null)
+{
     /** @var WP_Textdomain_Registry $wp_textdomain_registry */
     global $l10n, $l10n_unloaded, $wp_textdomain_registry;
 
@@ -872,7 +894,8 @@ function load_textdomain($domain, $mofile, $locale = null) {
  * @param bool   $reloadable Whether the text domain can be loaded just-in-time again.
  * @return bool Whether textdomain was unloaded.
  */
-function unload_textdomain($domain, $reloadable = false) {
+function unload_textdomain($domain, $reloadable = false)
+{
     global $l10n, $l10n_unloaded;
 
     $l10n_unloaded = (array) $l10n_unloaded;
@@ -945,7 +968,8 @@ function unload_textdomain($domain, $reloadable = false) {
  * @param string $locale Optional. Locale to load. Default is the value of get_locale().
  * @return bool Whether the textdomain was loaded.
  */
-function load_default_textdomain($locale = null) {
+function load_default_textdomain($locale = null)
+{
     if (null === $locale) {
         $locale = determine_locale();
     }
@@ -989,7 +1013,8 @@ function load_default_textdomain($locale = null) {
  *                                      Default false.
  * @return bool True when textdomain is successfully loaded, false otherwise.
  */
-function load_plugin_textdomain($domain, $deprecated = false, $plugin_rel_path = false) {
+function load_plugin_textdomain($domain, $deprecated = false, $plugin_rel_path = false)
+{
     /** @var WP_Textdomain_Registry $wp_textdomain_registry */
     global $wp_textdomain_registry;
 
@@ -1025,7 +1050,8 @@ function load_plugin_textdomain($domain, $deprecated = false, $plugin_rel_path =
  *                                   file resides. Default empty string.
  * @return bool True when textdomain is successfully loaded, false otherwise.
  */
-function load_muplugin_textdomain($domain, $mu_plugin_rel_path = '') {
+function load_muplugin_textdomain($domain, $mu_plugin_rel_path = '')
+{
     /** @var WP_Textdomain_Registry $wp_textdomain_registry */
     global $wp_textdomain_registry;
 
@@ -1059,7 +1085,8 @@ function load_muplugin_textdomain($domain, $mu_plugin_rel_path = '') {
  *                             Default false.
  * @return bool True when textdomain is successfully loaded, false otherwise.
  */
-function load_theme_textdomain($domain, $path = false) {
+function load_theme_textdomain($domain, $path = false)
+{
     /** @var WP_Textdomain_Registry $wp_textdomain_registry */
     global $wp_textdomain_registry;
 
@@ -1091,7 +1118,8 @@ function load_theme_textdomain($domain, $path = false) {
  *                             Default false.
  * @return bool True when the theme textdomain is successfully loaded, false otherwise.
  */
-function load_child_theme_textdomain($domain, $path = false) {
+function load_child_theme_textdomain($domain, $path = false)
+{
     if (! $path) {
         $path = get_stylesheet_directory();
     }
@@ -1113,7 +1141,8 @@ function load_child_theme_textdomain($domain, $path = false) {
  * @return string|false The translated strings in JSON encoding on success,
  *                      false if the script textdomain could not be loaded.
  */
-function load_script_textdomain($handle, $domain = 'default', $path = '') {
+function load_script_textdomain($handle, $domain = 'default', $path = '')
+{
     $wp_scripts = wp_scripts();
 
     if (! isset($wp_scripts->registered[ $handle ])) {
@@ -1250,7 +1279,8 @@ function load_script_textdomain($handle, $domain = 'default', $path = '') {
  * @return string|false The JSON-encoded translated strings for the given script handle and text domain.
  *                      False if there are none.
  */
-function load_script_translations($file, $handle, $domain) {
+function load_script_translations($file, $handle, $domain)
+{
     /**
      * Pre-filters script translations for the given file, script handle and text domain.
      *
@@ -1315,7 +1345,8 @@ function load_script_translations($file, $handle, $domain) {
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool True when the textdomain is successfully loaded, false otherwise.
  */
-function _load_textdomain_just_in_time($domain) {
+function _load_textdomain_just_in_time($domain)
+{
     /** @var WP_Textdomain_Registry $wp_textdomain_registry */
     global $l10n_unloaded, $wp_textdomain_registry;
 
@@ -1373,7 +1404,8 @@ function _load_textdomain_just_in_time($domain) {
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return Translations|NOOP_Translations A Translations instance.
  */
-function get_translations_for_domain($domain) {
+function get_translations_for_domain($domain)
+{
     global $l10n;
     if (isset($l10n[ $domain ]) || (_load_textdomain_just_in_time($domain) && isset($l10n[ $domain ]))) {
         return $l10n[ $domain ];
@@ -1399,7 +1431,8 @@ function get_translations_for_domain($domain) {
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool Whether there are translations.
  */
-function is_textdomain_loaded($domain) {
+function is_textdomain_loaded($domain)
+{
     global $l10n;
     return isset($l10n[ $domain ]) && ! $l10n[ $domain ] instanceof NOOP_Translations;
 }
@@ -1424,7 +1457,8 @@ function is_textdomain_loaded($domain) {
  *                       Default 'default'.
  * @return string Translated role name on success, original name on failure.
  */
-function translate_user_role($name, $domain = 'default') {
+function translate_user_role($name, $domain = 'default')
+{
     return translate_with_gettext_context(before_last_bar($name), 'User role', $domain);
 }
 
@@ -1444,7 +1478,8 @@ function translate_user_role($name, $domain = 'default') {
  * @return string[] An array of language codes or an empty array if no languages are present.
  *                  Language codes are formed by stripping the file extension from the language file names.
  */
-function get_available_languages($dir = null) {
+function get_available_languages($dir = null)
+{
     global $wp_textdomain_registry;
 
     $languages = array();
@@ -1488,7 +1523,8 @@ function get_available_languages($dir = null) {
  * @param string $type What to search for. Accepts 'plugins', 'themes', 'core'.
  * @return array Array of language data.
  */
-function wp_get_installed_translations($type) {
+function wp_get_installed_translations($type)
+{
     global $wp_textdomain_registry;
 
     if ('themes' !== $type && 'plugins' !== $type && 'core' !== $type) {
@@ -1548,7 +1584,8 @@ function wp_get_installed_translations($type) {
  * @param string $po_file Path to PO file.
  * @return string[] Array of PO file header values keyed by header name.
  */
-function wp_get_pomo_file_data($po_file) {
+function wp_get_pomo_file_data($po_file)
+{
     $headers = get_file_data(
         $po_file,
         array(
@@ -1573,7 +1610,8 @@ function wp_get_pomo_file_data($po_file) {
  * @param string $php_file Path to a `.l10n.php` file.
  * @return string[] Array of file header values keyed by header name.
  */
-function wp_get_l10n_php_file_data($php_file) {
+function wp_get_l10n_php_file_data($php_file)
+{
     $data = (array) include $php_file;
 
     unset($data['messages']);
@@ -1632,7 +1670,8 @@ function wp_get_l10n_php_file_data($php_file) {
  * }
  * @return string HTML dropdown list of languages.
  */
-function wp_dropdown_languages($args = array()) {
+function wp_dropdown_languages($args = array())
+{
 
     $parsed_args = wp_parse_args(
         $args,
@@ -1773,7 +1812,8 @@ function wp_dropdown_languages($args = array()) {
  *
  * @return bool Whether locale is RTL.
  */
-function is_rtl() {
+function is_rtl()
+{
     global $wp_locale;
     if (! ($wp_locale instanceof WP_Locale)) {
         return false;
@@ -1791,7 +1831,8 @@ function is_rtl() {
  * @param string $locale The locale.
  * @return bool True on success, false on failure.
  */
-function switch_to_locale($locale) {
+function switch_to_locale($locale)
+{
     /* @var WP_Locale_Switcher $wp_locale_switcher */
     global $wp_locale_switcher;
 
@@ -1812,7 +1853,8 @@ function switch_to_locale($locale) {
  * @param int $user_id User ID.
  * @return bool True on success, false on failure.
  */
-function switch_to_user_locale($user_id) {
+function switch_to_user_locale($user_id)
+{
     /* @var WP_Locale_Switcher $wp_locale_switcher */
     global $wp_locale_switcher;
 
@@ -1832,7 +1874,8 @@ function switch_to_user_locale($user_id) {
  *
  * @return string|false Locale on success, false on error.
  */
-function restore_previous_locale() {
+function restore_previous_locale()
+{
     /* @var WP_Locale_Switcher $wp_locale_switcher */
     global $wp_locale_switcher;
 
@@ -1852,7 +1895,8 @@ function restore_previous_locale() {
  *
  * @return string|false Locale on success, false on error.
  */
-function restore_current_locale() {
+function restore_current_locale()
+{
     /* @var WP_Locale_Switcher $wp_locale_switcher */
     global $wp_locale_switcher;
 
@@ -1872,7 +1916,8 @@ function restore_current_locale() {
  *
  * @return bool True if the locale has been switched, false otherwise.
  */
-function is_locale_switched() {
+function is_locale_switched()
+{
     /* @var WP_Locale_Switcher $wp_locale_switcher */
     global $wp_locale_switcher;
 
@@ -1891,7 +1936,8 @@ function is_locale_switched() {
  *
  * @return string|string[]|array[] Translated settings.
  */
-function translate_settings_using_i18n_schema($i18n_schema, $settings, $textdomain) {
+function translate_settings_using_i18n_schema($i18n_schema, $settings, $textdomain)
+{
     if (empty($i18n_schema) || empty($settings) || empty($textdomain)) {
         return $settings;
     }
@@ -1932,7 +1978,8 @@ function translate_settings_using_i18n_schema($i18n_schema, $settings, $textdoma
  *
  * @return string Locale-specific list item separator.
  */
-function wp_get_list_item_separator() {
+function wp_get_list_item_separator()
+{
     global $wp_locale;
 
     if (! ($wp_locale instanceof WP_Locale)) {
@@ -1954,7 +2001,8 @@ function wp_get_list_item_separator() {
  * @return string Locale-specific word count type. Possible values are `characters_excluding_spaces`,
  *                `characters_including_spaces`, or `words`. Defaults to `words`.
  */
-function wp_get_word_count_type() {
+function wp_get_word_count_type()
+{
     global $wp_locale;
 
     if (! ($wp_locale instanceof WP_Locale)) {
@@ -1975,6 +2023,7 @@ function wp_get_word_count_type() {
  * @param ?string $locale     Optional. Locale. Default current locale.
  * @return bool  True if the translation exists, false otherwise.
  */
-function has_translation(string $singular, string $textdomain = 'default', ?string $locale = null): bool {
+function has_translation(string $singular, string $textdomain = 'default', ?string $locale = null): bool
+{
     return WP_Translation_Controller::get_instance()->has_translation($singular, $textdomain, $locale);
 }

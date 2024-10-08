@@ -15,14 +15,16 @@
  * @see WP_Widget_Media
  * @see WP_Widget
  */
-class WP_Widget_Media_Image extends WP_Widget_Media {
+class WP_Widget_Media_Image extends WP_Widget_Media
+{
 
     /**
      * Constructor.
      *
      * @since 4.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(
             'media_image',
             __('Image'),
@@ -62,7 +64,8 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
      *
      * @return array Schema for properties.
      */
-    public function get_instance_schema() {
+    public function get_instance_schema()
+    {
         return array_merge(
             array(
                 'size'              => array(
@@ -174,7 +177,8 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
      *
      * @param array $instance Widget instance props.
      */
-    public function render_media($instance) {
+    public function render_media($instance)
+    {
         $instance = array_merge(wp_list_pluck($this->get_instance_schema(), 'default'), $instance);
         $instance = wp_parse_args(
             $instance,
@@ -309,7 +313,8 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
      *
      * @since 4.8.0
      */
-    public function enqueue_admin_scripts() {
+    public function enqueue_admin_scripts()
+    {
         parent::enqueue_admin_scripts();
 
         $handle = 'media-image-widget';
@@ -347,7 +352,8 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
      *
      * @since 4.8.0
      */
-    public function render_control_template_scripts() {
+    public function render_control_template_scripts()
+    {
         parent::render_control_template_scripts();
 
         ?>

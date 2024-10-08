@@ -10,13 +10,15 @@
  * @group user
  * @covers ::_wp_privacy_send_request_confirmation_notification
  */
-class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_UnitTestCase {
+class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_UnitTestCase
+{
     /**
      * Reset the mocked PHPMailer instance before each test method.
      *
      * @since 4.9.8
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         reset_phpmailer_instance();
     }
@@ -26,7 +28,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @since 4.9.8
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         reset_phpmailer_instance();
         parent::tear_down();
     }
@@ -36,7 +39,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @ticket 43967
      */
-    public function test_should_not_send_email_when_not_a_valid_request_id() {
+    public function test_should_not_send_email_when_not_a_valid_request_id()
+    {
         _wp_privacy_send_request_confirmation_notification(1234567890);
         $mailer = tests_retrieve_phpmailer_instance();
 
@@ -48,7 +52,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @ticket 43967
      */
-    public function test_should_not_send_email_when_not_a_user_request() {
+    public function test_should_not_send_email_when_not_a_user_request()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type' => 'post', // Should be 'user_request'.
@@ -66,7 +71,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @ticket 43967
      */
-    public function test_should_send_email_to_site_admin_when_user_request_confirmed() {
+    public function test_should_send_email_to_site_admin_when_user_request_confirmed()
+    {
         $email      = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
@@ -89,7 +95,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @ticket 43967
      */
-    public function test_should_only_send_email_to_site_admin_when_user_request_is_confirmed() {
+    public function test_should_only_send_email_to_site_admin_when_user_request_is_confirmed()
+    {
         $email      = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
@@ -109,7 +116,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @ticket 43967
      */
-    public function test_should_only_send_email_once_to_admin_when_user_request_is_confirmed() {
+    public function test_should_only_send_email_once_to_admin_when_user_request_is_confirmed()
+    {
         $email      = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
@@ -133,7 +141,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @ticket 43967
      */
-    public function test_email_address_should_be_filterable() {
+    public function test_email_address_should_be_filterable()
+    {
         $email      = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
@@ -156,7 +165,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      * @param WP_User_Request $request     The request that is initiating the notification.
      * @return string Admin email address.
      */
-    public function modify_email_address($admin_email, $request) {
+    public function modify_email_address($admin_email, $request)
+    {
         $admin_email = $request->email;
         return $admin_email;
     }
@@ -166,7 +176,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @ticket 43967
      */
-    public function test_email_content_should_be_filterable() {
+    public function test_email_content_should_be_filterable()
+    {
         $email      = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
@@ -198,7 +209,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      * }
      * @return string Email text.
      */
-    public function modify_email_content($email_text, $email_data) {
+    public function modify_email_content($email_text, $email_data)
+    {
         $email_text = 'Custom content containing email address:' . $email_data['user_email'];
         return $email_text;
     }
@@ -210,7 +222,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      *
      * @ticket 44501
      */
-    public function test_email_headers_should_be_filterable() {
+    public function test_email_headers_should_be_filterable()
+    {
         $email      = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
@@ -233,7 +246,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      * @param string|array $headers The email headers.
      * @return array The new email headers.
      */
-    public function modify_email_headers($headers) {
+    public function modify_email_headers($headers)
+    {
         $headers = array(
             'From: Tester <tester@example.com>',
         );

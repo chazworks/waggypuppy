@@ -5,9 +5,11 @@
  *
  * @covers ::get_comment_count
  */
-class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
+class Tests_Comment_GetCommentCount extends WP_UnitTestCase
+{
 
-    public function test_get_comment_count() {
+    public function test_get_comment_count()
+    {
         $count = get_comment_count();
 
         $this->assertSame(0, $count['approved']);
@@ -19,7 +21,8 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
         $this->assertSame(0, $count['all']);
     }
 
-    public function test_get_comment_count_approved() {
+    public function test_get_comment_count_approved()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 1,
@@ -36,7 +39,8 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
         $this->assertSame(1, $count['total_comments']);
     }
 
-    public function test_get_comment_count_awaiting() {
+    public function test_get_comment_count_awaiting()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 0,
@@ -53,7 +57,8 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
         $this->assertSame(1, $count['total_comments']);
     }
 
-    public function test_get_comment_count_spam() {
+    public function test_get_comment_count_spam()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 'spam',
@@ -70,7 +75,8 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
         $this->assertSame(1, $count['total_comments']);
     }
 
-    public function test_get_comment_count_trash() {
+    public function test_get_comment_count_trash()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 'trash',
@@ -87,7 +93,8 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
         $this->assertSame(0, $count['total_comments']);
     }
 
-    public function test_get_comment_count_post_trashed() {
+    public function test_get_comment_count_post_trashed()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 'post-trashed',
@@ -109,7 +116,8 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
      *
      * @covers ::get_comment_count
      */
-    public function test_get_comment_count_validate_cache_comment_deleted() {
+    public function test_get_comment_count_validate_cache_comment_deleted()
+    {
 
         $comment_id = self::factory()->comment->create();
 
@@ -129,7 +137,8 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
      *
      * @covers ::get_comment_count
      */
-    public function test_get_comment_count_validate_cache_post_deleted() {
+    public function test_get_comment_count_validate_cache_post_deleted()
+    {
 
         $post_id = self::factory()->post->create();
 
@@ -155,7 +164,8 @@ class Tests_Comment_GetCommentCount extends WP_UnitTestCase {
      *
      * @covers ::get_comment_count
      */
-    public function test_get_comment_count_validate_cache_comment_status() {
+    public function test_get_comment_count_validate_cache_comment_status()
+    {
         $comment_id = self::factory()->comment->create();
 
         $count = get_comment_count();

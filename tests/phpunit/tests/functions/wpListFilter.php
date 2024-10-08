@@ -7,7 +7,8 @@
  *
  * @covers ::wp_list_filter
  */
-class Tests_Functions_wpListFilter extends WP_UnitTestCase {
+class Tests_Functions_wpListFilter extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_wp_list_filter
@@ -18,7 +19,8 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase {
      * @param string $operator   The logical operation to perform.
      * @param array  $expected   Expected result.
      */
-    public function test_wp_list_filter($input_list, $args, $operator, $expected) {
+    public function test_wp_list_filter($input_list, $args, $operator, $expected)
+    {
         $this->assertEqualSetsWithIndex($expected, wp_list_filter($input_list, $args, $operator));
     }
 
@@ -27,7 +29,8 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_list_filter() {
+    public function data_wp_list_filter()
+    {
         return array(
             'string instead of array'  => array(
                 'foo',

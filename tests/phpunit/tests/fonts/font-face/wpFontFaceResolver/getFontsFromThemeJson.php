@@ -12,16 +12,19 @@
  *
  * @covers WP_Font_Face_Resolver::get_fonts_from_theme_json
  */
-class Tests_Fonts_WPFontFaceResolver_GetFontsFromThemeJson extends WP_Font_Face_UnitTestCase {
+class Tests_Fonts_WPFontFaceResolver_GetFontsFromThemeJson extends WP_Font_Face_UnitTestCase
+{
     const FONTS_THEME = 'fonts-block-theme';
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         self::$requires_switch_theme_fixtures = true;
 
         parent::set_up_before_class();
     }
 
-    public function test_should_return_empty_array_when_no_fonts_defined_in_theme() {
+    public function test_should_return_empty_array_when_no_fonts_defined_in_theme()
+    {
         switch_theme('block-theme');
 
         $fonts = WP_Font_Face_Resolver::get_fonts_from_theme_json();
@@ -29,7 +32,8 @@ class Tests_Fonts_WPFontFaceResolver_GetFontsFromThemeJson extends WP_Font_Face_
         $this->assertEmpty($fonts, 'Should return an empty array');
     }
 
-    public function test_should_return_all_fonts_from_theme() {
+    public function test_should_return_all_fonts_from_theme()
+    {
         switch_theme(static::FONTS_THEME);
 
         $actual   = WP_Font_Face_Resolver::get_fonts_from_theme_json();
@@ -40,7 +44,8 @@ class Tests_Fonts_WPFontFaceResolver_GetFontsFromThemeJson extends WP_Font_Face_
     /**
      * @ticket 60605
      */
-    public function test_should_return_all_fonts_from_all_theme_origins() {
+    public function test_should_return_all_fonts_from_all_theme_origins()
+    {
         switch_theme(static::FONTS_THEME);
 
         $add_custom_fonts = static function ($theme_json_data) {
@@ -70,7 +75,8 @@ class Tests_Fonts_WPFontFaceResolver_GetFontsFromThemeJson extends WP_Font_Face_
      * @param string $font_style  Font's style.
      * @param string $expected   Expected src.
      */
-    public function test_should_replace_src_file_placeholder($font_name, $font_weight, $font_style, $expected) {
+    public function test_should_replace_src_file_placeholder($font_name, $font_weight, $font_style, $expected)
+    {
         switch_theme(static::FONTS_THEME);
 
         $fonts = WP_Font_Face_Resolver::get_fonts_from_theme_json();
@@ -99,7 +105,8 @@ class Tests_Fonts_WPFontFaceResolver_GetFontsFromThemeJson extends WP_Font_Face_
      *
      * @return array
      */
-    public function data_should_replace_src_file_placeholder() {
+    public function data_should_replace_src_file_placeholder()
+    {
         return array(
             // Theme's theme.json.
             'DM Sans: 400 normal'              => array(
@@ -147,7 +154,8 @@ class Tests_Fonts_WPFontFaceResolver_GetFontsFromThemeJson extends WP_Font_Face_
      * @param array  $fonts         Fonts to test.
      * @param string $expected_name Expected font-family name.
      */
-    public function test_should_get_font_family_name($fonts, $expected_name) {
+    public function test_should_get_font_family_name($fonts, $expected_name)
+    {
         switch_theme(static::FONTS_THEME);
 
         $replace_fonts = static function ($theme_json_data) use ($fonts) {
@@ -180,7 +188,8 @@ class Tests_Fonts_WPFontFaceResolver_GetFontsFromThemeJson extends WP_Font_Face_
      *
      * @return array
      */
-    public function data_should_get_font_family_name() {
+    public function data_should_get_font_family_name()
+    {
         $font_face = array(
             array(
                 'fontFamily'  => 'DM Sans',

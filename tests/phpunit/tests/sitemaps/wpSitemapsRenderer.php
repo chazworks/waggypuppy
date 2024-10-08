@@ -3,16 +3,19 @@
 /**
  * @group sitemaps
  */
-class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
+class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase
+{
 
-    public function test_get_sitemap_stylesheet_url() {
+    public function test_get_sitemap_stylesheet_url()
+    {
         $sitemap_renderer = new WP_Sitemaps_Renderer();
         $stylesheet_url   = $sitemap_renderer->get_sitemap_stylesheet_url();
 
         $this->assertStringEndsWith('/?sitemap-stylesheet=sitemap', $stylesheet_url);
     }
 
-    public function test_get_sitemap_stylesheet_url_pretty_permalinks() {
+    public function test_get_sitemap_stylesheet_url_pretty_permalinks()
+    {
         // Set permalinks for testing.
         $this->set_permalink_structure('/%year%/%postname%/');
 
@@ -25,14 +28,16 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
         $this->assertStringEndsWith('/wp-sitemap.xsl', $stylesheet_url);
     }
 
-    public function test_get_sitemap_index_stylesheet_url() {
+    public function test_get_sitemap_index_stylesheet_url()
+    {
         $sitemap_renderer = new WP_Sitemaps_Renderer();
         $stylesheet_url   = $sitemap_renderer->get_sitemap_index_stylesheet_url();
 
         $this->assertStringEndsWith('/?sitemap-stylesheet=index', $stylesheet_url);
     }
 
-    public function test_get_sitemap_index_stylesheet_url_pretty_permalinks() {
+    public function test_get_sitemap_index_stylesheet_url_pretty_permalinks()
+    {
         // Set permalinks for testing.
         $this->set_permalink_structure('/%year%/%postname%/');
 
@@ -48,7 +53,8 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
     /**
      * Test XML output for the sitemap index renderer.
      */
-    public function test_get_sitemap_index_xml() {
+    public function test_get_sitemap_index_xml()
+    {
         $entries = array(
             array(
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
@@ -86,7 +92,8 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
     /**
      * Test XML output for the sitemap index renderer with lastmod attributes.
      */
-    public function test_get_sitemap_index_xml_with_lastmod() {
+    public function test_get_sitemap_index_xml_with_lastmod()
+    {
         $entries = array(
             array(
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
@@ -135,7 +142,8 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
      *
      * @expectedIncorrectUsage WP_Sitemaps_Renderer::get_sitemap_index_xml
      */
-    public function test_get_sitemap_index_xml_extra_elements() {
+    public function test_get_sitemap_index_xml_extra_elements()
+    {
         $url_list = array(
             array(
                 'loc'     => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
@@ -163,7 +171,8 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
     /**
      * Test XML output for the sitemap index renderer when stylesheet is disabled.
      */
-    public function test_get_sitemap_index_xml_without_stylesheet() {
+    public function test_get_sitemap_index_xml_without_stylesheet()
+    {
         $entries = array(
             array(
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/wp-sitemap-posts-post-1.xml',
@@ -187,7 +196,8 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
     /**
      * Test XML output for the sitemap page renderer.
      */
-    public function test_get_sitemap_xml() {
+    public function test_get_sitemap_xml()
+    {
         $url_list = array(
             array(
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
@@ -225,7 +235,8 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
     /**
      * Test XML output for the sitemap page renderer when stylesheet is disabled.
      */
-    public function test_get_sitemap_xml_without_stylesheet() {
+    public function test_get_sitemap_xml_without_stylesheet()
+    {
         $url_list = array(
             array(
                 'loc' => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',
@@ -255,7 +266,8 @@ class Tests_Sitemaps_wpSitemapsRenderer extends WP_Test_XML_TestCase {
      *
      * @expectedIncorrectUsage WP_Sitemaps_Renderer::get_sitemap_xml
      */
-    public function test_get_sitemap_xml_extra_elements() {
+    public function test_get_sitemap_xml_extra_elements()
+    {
         $url_list = array(
             array(
                 'loc'    => 'http://' . WP_TESTS_DOMAIN . '/2019/10/post-1',

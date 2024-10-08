@@ -97,7 +97,8 @@
  *         {@link https://developer.wordpress.org/reference/functions/plugins_api/ function reference article}
  *         for more information on the make-up of possible return values depending on the value of `$action`.
  */
-function plugins_api($action, $args = array()) {
+function plugins_api($action, $args = array())
+{
     if (is_array($args)) {
         $args = (object) $args;
     }
@@ -238,7 +239,8 @@ function plugins_api($action, $args = array()) {
  * @param array $args
  * @return array|WP_Error
  */
-function install_popular_tags($args = array()) {
+function install_popular_tags($args = array())
+{
     $key  = md5(serialize($args));
     $tags = get_site_transient('poptags_' . $key);
     if (false !== $tags) {
@@ -261,7 +263,8 @@ function install_popular_tags($args = array()) {
  *
  * @since 2.7.0
  */
-function install_dashboard() {
+function install_dashboard()
+{
     display_plugins_table();
     ?>
 
@@ -310,7 +313,8 @@ function install_dashboard() {
  *
  * @param bool $deprecated Not used.
  */
-function install_search_form($deprecated = true) {
+function install_search_form($deprecated = true)
+{
     $type = isset($_REQUEST['type']) ? wp_unslash($_REQUEST['type']) : 'term';
     $term = isset($_REQUEST['s']) ? urldecode(wp_unslash($_REQUEST['s'])) : '';
     ?>
@@ -339,7 +343,8 @@ function install_search_form($deprecated = true) {
  *
  * @since 2.8.0
  */
-function install_plugins_upload() {
+function install_plugins_upload()
+{
     ?>
 <div class="upload-plugin">
     <p class="install-help"><?php _e('If you have a plugin in a .zip format, you may install or update it by uploading it here.'); ?></p>
@@ -363,7 +368,8 @@ function install_plugins_upload() {
  *
  * @since 3.5.0
  */
-function install_plugins_favorites_form() {
+function install_plugins_favorites_form()
+{
     $user   = get_user_option('wporg_favorites');
     $action = 'save_wporg_username_' . get_current_user_id();
     ?>
@@ -387,7 +393,8 @@ function install_plugins_favorites_form() {
  *
  * @global WP_List_Table $wp_list_table
  */
-function display_plugins_table() {
+function display_plugins_table()
+{
     global $wp_list_table;
 
     switch (current_filter()) {
@@ -437,7 +444,8 @@ function display_plugins_table() {
  *     @type string $file    Plugin filename relative to the plugins directory.
  * }
  */
-function install_plugin_install_status($api, $loop = false) {
+function install_plugin_install_status($api, $loop = false)
+{
     // This function is called recursively, $loop prevents further loops.
     if (is_array($api)) {
         $api = (object) $api;
@@ -520,7 +528,8 @@ function install_plugin_install_status($api, $loop = false) {
  *
  * @global string $tab
  */
-function install_plugin_information() {
+function install_plugin_information()
+{
     global $tab;
 
     if (empty($_REQUEST['plugin'])) {
@@ -910,7 +919,8 @@ function install_plugin_information() {
  * @param bool         $compatible_wp    The result of a WP compatibility check.
  * @return string The markup for the dependency row button. An empty string if the user does not have capabilities.
  */
-function wp_get_plugin_action_button($name, $data, $compatible_php, $compatible_wp) {
+function wp_get_plugin_action_button($name, $data, $compatible_php, $compatible_wp)
+{
     $button           = '';
     $data             = (object) $data;
     $status           = install_plugin_install_status($data);

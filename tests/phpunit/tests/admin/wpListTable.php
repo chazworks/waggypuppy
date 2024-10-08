@@ -5,7 +5,8 @@
  *
  * @covers WP_List_Table
  */
-class Tests_Admin_WpListTable extends WP_UnitTestCase {
+class Tests_Admin_WpListTable extends WP_UnitTestCase
+{
 
     /**
      * List table.
@@ -21,7 +22,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      */
     private static $original_hook_suffix;
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         static::$original_hook_suffix = $GLOBALS['hook_suffix'];
@@ -29,14 +31,16 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
         require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         global $hook_suffix;
         $hook_suffix      = '_wp_tests';
         $this->list_table = new WP_List_Table();
     }
 
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $hook_suffix;
         $hook_suffix = static::$original_hook_suffix;
         parent::clean_up_global_scope();
@@ -57,7 +61,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      * @param array  $expected            The expected column headers.
      * @param int    $expected_hook_count The expected number of times the hook is called.
      */
-    public function test_should_only_add_primary_column_when_needed($list_class, $headers, $expected, $expected_hook_count) {
+    public function test_should_only_add_primary_column_when_needed($list_class, $headers, $expected, $expected_hook_count)
+    {
         $hook = new MockAction();
         add_filter('list_table_primary_column', array($hook, 'filter'));
 
@@ -85,7 +90,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_only_add_primary_column_when_needed() {
+    public function data_should_only_add_primary_column_when_needed()
+    {
         /*
          * `WP_Post_Comments_List_Table` overrides `get_column_info()` rather than
          * use the default `WP_List_Table::get_column_info()`. Therefore it is
@@ -158,7 +164,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      * }
      * @param array $expected
      */
-    public function test_get_views_links($link_data, $expected) {
+    public function test_get_views_links($link_data, $expected)
+    {
         $get_views_links = new ReflectionMethod($this->list_table, 'get_views_links');
         $get_views_links->setAccessible(true);
 
@@ -172,7 +179,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_get_views_links() {
+    public function data_get_views_links()
+    {
         return array(
             'one "current" link'                           => array(
                 'link_data' => array(
@@ -273,7 +281,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *     @type bool   $current Optional. Whether this is the currently selected view.
      * }
      */
-    public function test_get_views_links_doing_it_wrong($link_data) {
+    public function test_get_views_links_doing_it_wrong($link_data)
+    {
         $get_views_links = new ReflectionMethod($this->list_table, 'get_views_links');
         $get_views_links->setAccessible(true);
         $get_views_links->invokeArgs($this->list_table, array($link_data));
@@ -284,7 +293,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_get_views_links_doing_it_wrong() {
+    public function data_get_views_links_doing_it_wrong()
+    {
         return array(
             'non-array $link_data'               => array(
                 'link_data' => 'https://example.org, All, class="current" aria-current="page"',
@@ -371,7 +381,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      * @param string $property_name Property name to get.
      * @param mixed $expected       Expected value.
      */
-    public function test_should_get_compat_fields($property_name, $expected) {
+    public function test_should_get_compat_fields($property_name, $expected)
+    {
         $list_table = new WP_List_Table(array('plural' => '_wp_tests__get'));
 
         if ('screen' === $property_name) {
@@ -386,7 +397,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @covers WP_List_Table::__get()
      */
-    public function test_should_throw_deprecation_when_getting_dynamic_property() {
+    public function test_should_throw_deprecation_when_getting_dynamic_property()
+    {
         $this->expectDeprecation();
         $this->expectDeprecationMessage(
             'WP_List_Table::__get(): ' .
@@ -404,7 +416,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @param string $property_name Property name to set.
      */
-    public function test_should_set_compat_fields_defined_property($property_name) {
+    public function test_should_set_compat_fields_defined_property($property_name)
+    {
         $value                            = uniqid();
         $this->list_table->$property_name = $value;
 
@@ -416,7 +429,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @covers WP_List_Table::__set()
      */
-    public function test_should_throw_deprecation_when_setting_dynamic_property() {
+    public function test_should_throw_deprecation_when_setting_dynamic_property()
+    {
         $this->expectDeprecation();
         $this->expectDeprecationMessage(
             'WP_List_Table::__set(): ' .
@@ -435,7 +449,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      * @param string $property_name Property name to check.
      * @param mixed $expected       Expected value.
      */
-    public function test_should_isset_compat_fields($property_name, $expected) {
+    public function test_should_isset_compat_fields($property_name, $expected)
+    {
         $actual = isset($this->list_table->$property_name);
         if (is_null($expected)) {
             $this->assertFalse($actual);
@@ -449,7 +464,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @covers WP_List_Table::__isset()
      */
-    public function test_should_throw_deprecation_when_isset_of_dynamic_property() {
+    public function test_should_throw_deprecation_when_isset_of_dynamic_property()
+    {
         $this->expectDeprecation();
         $this->expectDeprecationMessage(
             'WP_List_Table::__isset(): ' .
@@ -467,7 +483,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @param string $property_name Property name to unset.
      */
-    public function test_should_unset_compat_fields_defined_property($property_name) {
+    public function test_should_unset_compat_fields_defined_property($property_name)
+    {
         unset($this->list_table->$property_name);
         $this->assertFalse(isset($this->list_table->$property_name));
     }
@@ -477,7 +494,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @covers WP_List_Table::__unset()
      */
-    public function test_should_throw_deprecation_when_unset_of_dynamic_property() {
+    public function test_should_throw_deprecation_when_unset_of_dynamic_property()
+    {
         $this->expectDeprecation();
         $this->expectDeprecationMessage(
             'WP_List_Table::__unset(): ' .
@@ -492,7 +510,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_compat_fields() {
+    public function data_compat_fields()
+    {
         return array(
             '_args'            => array(
                 'property_name' => '_args',
@@ -529,7 +548,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @covers WP_List_Table::search_box()
      */
-    public function test_search_box_working_with_array_of_orderby_multiple_values() {
+    public function test_search_box_working_with_array_of_orderby_multiple_values()
+    {
         $_REQUEST['s']       = 'search term';
         $_REQUEST['orderby'] = array(
             'menu_order' => 'ASC',
@@ -552,7 +572,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @covers WP_List_Table::search_box()
      */
-    public function test_search_box_working_with_array_of_orderby_single_value() {
+    public function test_search_box_working_with_array_of_orderby_single_value()
+    {
         // Test with one 'orderby' element.
         $_REQUEST['s']       = 'search term';
         $_REQUEST['orderby'] = array(
@@ -573,7 +594,8 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase {
      *
      * @covers WP_List_Table::search_box()
      */
-    public function test_search_box_works_with_orderby_string() {
+    public function test_search_box_works_with_orderby_string()
+    {
         // Test with one 'orderby' element.
         $_REQUEST['s']       = 'search term';
         $_REQUEST['orderby'] = 'title';

@@ -12,7 +12,8 @@
  * @since 5.5.0
  */
 #[AllowDynamicProperties]
-class WP_Block_List implements Iterator, ArrayAccess, Countable {
+class WP_Block_List implements Iterator, ArrayAccess, Countable
+{
 
     /**
      * Original array of parsed block data, or block instances.
@@ -52,7 +53,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @param array                  $available_context Optional array of ancestry context values.
      * @param WP_Block_Type_Registry $registry          Optional block type registry.
      */
-    public function __construct($blocks, $available_context = array(), $registry = null) {
+    public function __construct($blocks, $available_context = array(), $registry = null)
+    {
         if (! $registry instanceof WP_Block_Type_Registry) {
             $registry = WP_Block_Type_Registry::get_instance();
         }
@@ -74,7 +76,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @return bool Whether block exists.
      */
     #[ReturnTypeWillChange]
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->blocks[ $offset ]);
     }
 
@@ -89,7 +92,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @return mixed|null Block value if exists, or null.
      */
     #[ReturnTypeWillChange]
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         $block = $this->blocks[ $offset ];
 
         if (isset($block) && is_array($block)) {
@@ -112,7 +116,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @param mixed  $value Block value.
      */
     #[ReturnTypeWillChange]
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->blocks[] = $value;
         } else {
@@ -130,7 +135,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @param string $offset Offset of block value to unset.
      */
     #[ReturnTypeWillChange]
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->blocks[ $offset ]);
     }
 
@@ -142,7 +148,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @link https://www.php.net/manual/en/iterator.rewind.php
      */
     #[ReturnTypeWillChange]
-    public function rewind() {
+    public function rewind()
+    {
         reset($this->blocks);
     }
 
@@ -156,7 +163,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @return mixed Current element.
      */
     #[ReturnTypeWillChange]
-    public function current() {
+    public function current()
+    {
         return $this->offsetGet($this->key());
     }
 
@@ -170,7 +178,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @return mixed Key of the current element.
      */
     #[ReturnTypeWillChange]
-    public function key() {
+    public function key()
+    {
         return key($this->blocks);
     }
 
@@ -182,7 +191,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @link https://www.php.net/manual/en/iterator.next.php
      */
     #[ReturnTypeWillChange]
-    public function next() {
+    public function next()
+    {
         next($this->blocks);
     }
 
@@ -194,7 +204,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @link https://www.php.net/manual/en/iterator.valid.php
      */
     #[ReturnTypeWillChange]
-    public function valid() {
+    public function valid()
+    {
         return null !== key($this->blocks);
     }
 
@@ -208,7 +219,8 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable {
      * @return int Block count.
      */
     #[ReturnTypeWillChange]
-    public function count() {
+    public function count()
+    {
         return count($this->blocks);
     }
 }

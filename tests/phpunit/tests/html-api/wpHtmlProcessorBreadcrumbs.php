@@ -11,7 +11,8 @@
  *
  * @coversDefaultClass WP_HTML_Processor
  */
-class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
+{
     /**
      * @ticket 58517
      *
@@ -22,7 +23,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      * @param string $html     HTML with at least one tag to scan.
      * @param string $tag_name Name of first tag in HTML (because HTML treats IMAGE as IMG this may not match the HTML).
      */
-    public function test_navigates_into_normative_html_for_supported_elements($html, $tag_name) {
+    public function test_navigates_into_normative_html_for_supported_elements($html, $tag_name)
+    {
         $processor = WP_HTML_Processor::create_fragment($html);
 
         $this->assertTrue($processor->next_token(), "Failed to step into supported {$tag_name} element.");
@@ -34,7 +36,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_single_tag_of_supported_elements() {
+    public static function data_single_tag_of_supported_elements()
+    {
         $supported_elements = array(
             'A',
             'ABBR',
@@ -171,7 +174,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @param string $html HTML containing unsupported markup.
      */
-    public function test_fails_when_encountering_unsupported_markup($html, $description) {
+    public function test_fails_when_encountering_unsupported_markup($html, $description)
+    {
         $processor = WP_HTML_Processor::create_fragment($html);
 
         while ($processor->next_token() && null === $processor->get_attribute('supported')) {
@@ -193,7 +197,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_unsupported_markup() {
+    public static function data_unsupported_markup()
+    {
         return array(
             'A with formatting following unclosed A' => array(
                 '<a><strong>Click <span supported><a unsupported><big>Here</big></a></strong></a>',
@@ -218,7 +223,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      * @param array  $breadcrumbs Breadcrumbs of element with "target" attribute set.
      * @param int    $n           How many breadcrumb matches to scan through in order to find "target" element.
      */
-    public function test_finds_correct_tag_given_breadcrumbs($html, $breadcrumbs, $n) {
+    public function test_finds_correct_tag_given_breadcrumbs($html, $breadcrumbs, $n)
+    {
         $processor = WP_HTML_Processor::create_fragment($html);
 
         $processor->next_tag(
@@ -243,7 +249,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      * @param array  $breadcrumbs Breadcrumbs of element with "target" attribute set.
      * @param int    $ignored_n   Not used in this test but provided in the dataset for other tests.
      */
-    public function test_reports_correct_breadcrumbs_for_html($html, $breadcrumbs, $ignored_n) {
+    public function test_reports_correct_breadcrumbs_for_html($html, $breadcrumbs, $ignored_n)
+    {
         $processor = WP_HTML_Processor::create_fragment($html);
 
         while ($processor->next_tag() && null === $processor->get_attribute('target')) {
@@ -259,7 +266,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_html_target_with_breadcrumbs() {
+    public static function data_html_target_with_breadcrumbs()
+    {
         return array(
             'Simple IMG tag'                        => array('<img target>', array('HTML', 'BODY', 'IMG'), 1),
             'Two sibling IMG tags'                  => array('<img><img target>', array('HTML', 'BODY', 'IMG'), 2),
@@ -322,7 +330,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      * @param string[] $breadcrumbs           Breadcrumbs to test at the target node.
      * @param bool     $should_match          Whether the target node should match the breadcrumbs.
      */
-    public function test_reports_if_tag_matches_breadcrumbs_of_various_specificity($html_with_target_node, $breadcrumbs, $should_match) {
+    public function test_reports_if_tag_matches_breadcrumbs_of_various_specificity($html_with_target_node, $breadcrumbs, $should_match)
+    {
         $processor = WP_HTML_Processor::create_fragment($html_with_target_node);
         while ($processor->next_tag() && null === $processor->get_attribute('target')) {
             continue;
@@ -342,7 +351,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_html_with_breadcrumbs_of_various_specificity() {
+    public static function data_html_with_breadcrumbs_of_various_specificity()
+    {
         return array(
             // Test with void elements.
             'Inner IMG'                               => array('<div><span><figure><img target></figure></span></div>', array('span', 'figure', 'img'), true),
@@ -381,7 +391,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @covers WP_HTML_Tag_Processor::get_updated_html
      */
-    public function test_remains_stable_when_editing_attributes() {
+    public function test_remains_stable_when_editing_attributes()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><button>First<button><b here>Second');
         $processor->next_tag(array('breadcrumbs' => array('BUTTON', 'B')));
 
@@ -427,7 +438,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @covers WP_HTML_Tag_Processor::set_attribute
      */
-    public function test_can_modify_attributes_after_finding_tag() {
+    public function test_can_modify_attributes_after_finding_tag()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><figure><img><figcaption>test</figcaption></figure>');
 
         $this->assertTrue($processor->next_tag(array('breadcrumbs' => array('figcaption'))), 'Unable to find given tag.');
@@ -445,7 +457,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @covers WP_HTML_Processor::next_tag
      */
-    public function test_can_query_an_element_by_tag_name() {
+    public function test_can_query_an_element_by_tag_name()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><DIV><strong><img></strong></DIV>');
         $processor->next_tag('IMG');
         $processor->set_attribute('loading', 'lazy');
@@ -462,7 +475,8 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase {
      *
      * @covers WP_HTML_Processor::seek
      */
-    public function test_can_seek_back_and_forth() {
+    public function test_can_seek_back_and_forth()
+    {
         $processor = WP_HTML_Processor::create_fragment(
             <<<'HTML'
 <div>text<p one>more stuff<div><![CDATA[this is not real CDATA]]><p><!-- hi --><div two><p><div><p>three comes soon<div><p three>' );
@@ -501,7 +515,8 @@ HTML
      *
      * @ticket 60687
      */
-    public function test_retains_proper_bookmarks_after_seeking_back_to_closed_element() {
+    public function test_retains_proper_bookmarks_after_seeking_back_to_closed_element()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><img></div><div><hr></div>');
 
         $processor->next_tag('IMG');
@@ -526,7 +541,8 @@ HTML
      *
      * @covers WP_HTML_Processor::get_breadcrumbs
      */
-    public function test_breadcrumbs_on_virtual_nodes(string $html, int $token_position, string $expected_tag_name, string $expect_open_close, array $expected_breadcrumbs) {
+    public function test_breadcrumbs_on_virtual_nodes(string $html, int $token_position, string $expected_tag_name, string $expect_open_close, array $expected_breadcrumbs)
+    {
         $processor = WP_HTML_Processor::create_fragment($html);
 
         for ($i = 0; $i < $token_position; $i++) {
@@ -552,7 +568,8 @@ HTML
      *
      * @covers WP_HTML_Processor::get_current_depth
      */
-    public function test_depth_on_virtual_nodes(string $html, int $token_position, string $expected_tag_name, string $expect_open_close, array $expected_breadcrumbs) {
+    public function test_depth_on_virtual_nodes(string $html, int $token_position, string $expected_tag_name, string $expect_open_close, array $expected_breadcrumbs)
+    {
         $processor = WP_HTML_Processor::create_fragment($html);
 
         for ($i = 0; $i < $token_position; $i++) {
@@ -572,7 +589,8 @@ HTML
      *
      * @return array[]
      */
-    public static function data_virtual_nodes_breadcrumbs() {
+    public static function data_virtual_nodes_breadcrumbs()
+    {
         return array(
             'Implied P tag opener on unmatched closer'    => array('</p>', 1, 'P', 'open', array('HTML', 'BODY', 'P')),
             'Implied heading tag closer on heading child' => array('<h1><h2>', 2, 'H1', 'close', array('HTML', 'BODY')),

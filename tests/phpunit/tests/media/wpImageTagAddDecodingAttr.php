@@ -6,7 +6,8 @@
  * @group media
  * @covers ::wp_img_tag_add_decoding_attr
  */
-class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase {
+class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase
+{
     /**
      * Tests that the `wp_img_tag_add_decoding_attr()` function should add
      * the 'decoding' attribute.
@@ -22,7 +23,8 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase {
      *
      * @expectedDeprecated wp_img_tag_add_decoding_attr
      */
-    public function test_should_add_decoding_attr($image, $context, $decoding, $expected) {
+    public function test_should_add_decoding_attr($image, $context, $decoding, $expected)
+    {
         // Falsey values are allowed in the filter, cannot use `null` or `false` here.
         if ('no value' !== $decoding) {
             add_filter(
@@ -41,7 +43,8 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_add_decoding_attr() {
+    public function data_should_add_decoding_attr()
+    {
         return array(
             'default' => array(
                 'image'    => '<img src="my-image.png">',
@@ -85,7 +88,8 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase {
      *
      * @expectedDeprecated wp_img_tag_add_decoding_attr
      */
-    public function test_should_not_add_decoding_attr($image, $context, $decoding, $expected) {
+    public function test_should_not_add_decoding_attr($image, $context, $decoding, $expected)
+    {
         // Falsey values are allowed in the filter, cannot use `null` or `false` here.
         if ('no value' !== $decoding) {
             add_filter(
@@ -104,7 +108,8 @@ class Tests_Media_Wp_Img_Tag_Add_Decoding_Attr extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_not_add_decoding_attr() {
+    public function data_should_not_add_decoding_attr()
+    {
         return array(
             // Unhappy paths.
             'lazy (unaccepted value)' => array(

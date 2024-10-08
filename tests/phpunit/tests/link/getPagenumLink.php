@@ -4,7 +4,8 @@
  * @group link
  * @covers ::get_pagenum_link
  */
-class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
+class Tests_Link_GetPagenumLink extends WP_UnitTestCase
+{
 
     /**
      * The original value of `$_SERVER['REQUEST_URI']`.
@@ -16,7 +17,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
     /**
      * Backs up the value of `$_SERVER['REQUEST_URI']` before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         if (isset($_SERVER['REQUEST_URI'])) {
@@ -27,7 +29,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
     /**
      * Restores the value of `$_SERVER['REQUEST_URI']` after each test runs.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         if (null === self::$request_uri_original) {
             unset($_SERVER['REQUEST_URI']);
         } else {
@@ -40,7 +43,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
     /**
      * @ticket 8847
      */
-    public function test_get_pagenum_link_case_insensitivity() {
+    public function test_get_pagenum_link_case_insensitivity()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
         add_filter('home_url', array($this, 'get_pagenum_link_cb'));
@@ -59,7 +63,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      * @param string $url The base URL.
      * @return string The base URL with '/WooHoo' appended.
      */
-    public function get_pagenum_link_cb($url) {
+    public function get_pagenum_link_cb($url)
+    {
         return $url . '/WooHoo';
     }
 
@@ -76,7 +81,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      * @param int    $pagenum             The page number to get the link for.
      * @param string $expected            The expected relative URL.
      */
-    public function test_get_pagenum_link_should_not_add_trailing_slash($permalink_structure, $request_uri, $pagenum, $expected) {
+    public function test_get_pagenum_link_should_not_add_trailing_slash($permalink_structure, $request_uri, $pagenum, $expected)
+    {
         $this->set_permalink_structure($permalink_structure);
         $_SERVER['REQUEST_URI'] = $request_uri;
         $paged                  = get_pagenum_link($pagenum);
@@ -89,7 +95,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_pagenum_link_plain_permalinks() {
+    public function data_get_pagenum_link_plain_permalinks()
+    {
         return array(
             'page 1 and plain permalinks' => array(
                 'permalink_structure' => '',
@@ -119,7 +126,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      * @param int    $pagenum             The page number to get the link for.
      * @param string $expected            The expected relative URL.
      */
-    public function test_get_pagenum_link_should_add_trailing_slash($permalink_structure, $request_uri, $pagenum, $expected) {
+    public function test_get_pagenum_link_should_add_trailing_slash($permalink_structure, $request_uri, $pagenum, $expected)
+    {
         // Ensure the permalink structure has a trailing slash.
         $permalink_structure = trailingslashit($permalink_structure);
 
@@ -144,7 +152,8 @@ class Tests_Link_GetPagenumLink extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_pagenum_link() {
+    public function data_get_pagenum_link()
+    {
         return array(
             'page 1 and index.php'                  => array(
                 'permalink_structure' => '/index.php/%year%/%monthnum%/%day%/%postname%',

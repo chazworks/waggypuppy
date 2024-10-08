@@ -5,8 +5,10 @@ require_once __DIR__ . '/base.php';
 /**
  * @group import
  */
-class Tests_Import_Import extends WP_Import_UnitTestCase {
-    public function set_up() {
+class Tests_Import_Import extends WP_Import_UnitTestCase
+{
+    public function set_up()
+    {
         global $wpdb;
 
         parent::set_up();
@@ -32,7 +34,8 @@ class Tests_Import_Import extends WP_Import_UnitTestCase {
     /**
      * @covers WP_Import::import
      */
-    public function test_small_import() {
+    public function test_small_import()
+    {
         global $wpdb;
 
         $authors = array(
@@ -203,7 +206,8 @@ class Tests_Import_Import extends WP_Import_UnitTestCase {
     /**
      * @covers WP_Import::import
      */
-    public function test_double_import() {
+    public function test_double_import()
+    {
         $authors = array(
             'admin'  => false,
             'editor' => false,
@@ -247,7 +251,8 @@ class Tests_Import_Import extends WP_Import_UnitTestCase {
     /**
      * @covers ::get_importers
      */
-    public function test_ordering_of_importers() {
+    public function test_ordering_of_importers()
+    {
         global $wp_importers;
         $_wp_importers = $wp_importers; // Preserve global state.
         $wp_importers  = array(
@@ -275,7 +280,8 @@ class Tests_Import_Import extends WP_Import_UnitTestCase {
      *
      * @covers WP_Import::import
      */
-    public function test_slashes_should_not_be_stripped() {
+    public function test_slashes_should_not_be_stripped()
+    {
         global $wpdb;
 
         $authors = array('admin' => false);

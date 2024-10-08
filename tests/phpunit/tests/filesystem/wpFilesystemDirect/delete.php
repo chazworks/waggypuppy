@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::delete
  */
-class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::delete()` returns false
@@ -22,7 +23,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      *
      * @ticket 57774
      */
-    public function test_should_return_false_for_empty_path() {
+    public function test_should_return_false_for_empty_path()
+    {
         $this->assertFalse(self::$filesystem->delete(''));
     }
 
@@ -31,7 +33,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      *
      * @ticket 57774
      */
-    public function test_should_delete_an_empty_directory() {
+    public function test_should_delete_an_empty_directory()
+    {
         $dir = self::$file_structure['test_dir']['path'] . 'directory-to-delete';
 
         $this->assertTrue(
@@ -50,7 +53,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      *
      * @ticket 57774
      */
-    public function test_should_delete_a_directory_with_contents() {
+    public function test_should_delete_a_directory_with_contents()
+    {
         $this->assertTrue(
             self::$filesystem->delete(self::$file_structure['test_dir']['path'], true),
             'Directory deletion failed.'
@@ -71,7 +75,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      *
      * @param string $key The key for the file in `self::$filesystem_structure`.
      */
-    public function test_should_delete_a_file($file) {
+    public function test_should_delete_a_file($file)
+    {
         $file = self::$file_structure[ $file ]['path'] . $file;
 
         $this->assertTrue(self::$filesystem->delete($file), 'File deletion failed.');
@@ -83,7 +88,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      *
      * @return array[]
      */
-    public function data_should_delete_a_file() {
+    public function data_should_delete_a_file()
+    {
         return array(
             'A visible file' => array(
                 'key' => 'visible_file',
@@ -104,7 +110,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      *
      * @param string $path The path.
      */
-    public function test_should_return_true_when_deleting_path_that_does_not_exist($path) {
+    public function test_should_return_true_when_deleting_path_that_does_not_exist($path)
+    {
         $path = self::$file_structure['test_dir']['path'] . $path;
 
         /*
@@ -128,7 +135,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      *
      * @ticket 57774
      */
-    public function test_should_return_false_when_contents_cannot_be_deleted() {
+    public function test_should_return_false_when_contents_cannot_be_deleted()
+    {
         global $wp_filesystem;
 
         $wp_filesystem = new WP_Filesystem_Direct(array());
@@ -172,7 +180,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      *
      * @ticket 57774
      */
-    public function test_should_return_false_when_path_exists_but_is_not_a_file_or_directory() {
+    public function test_should_return_false_when_path_exists_but_is_not_a_file_or_directory()
+    {
         global $wp_filesystem;
 
         $wp_filesystem = new WP_Filesystem_Direct(array());

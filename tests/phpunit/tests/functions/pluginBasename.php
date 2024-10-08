@@ -8,7 +8,8 @@
  *
  * @covers ::plugin_basename
  */
-class Tests_Functions_PluginBasename extends WP_UnitTestCase {
+class Tests_Functions_PluginBasename extends WP_UnitTestCase
+{
 
     /**
      * @var array
@@ -22,14 +23,16 @@ class Tests_Functions_PluginBasename extends WP_UnitTestCase {
      */
     protected $wp_plugin_path;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->wp_plugin_paths_backup = $GLOBALS['wp_plugin_paths'];
         $this->wp_plugin_path         = wp_normalize_path(WP_PLUGIN_DIR);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_plugin_paths'] = $this->wp_plugin_paths_backup;
 
         parent::tear_down();
@@ -38,7 +41,8 @@ class Tests_Functions_PluginBasename extends WP_UnitTestCase {
     /**
      * @ticket 29154
      */
-    public function test_return_correct_basename_for_symlinked_plugins() {
+    public function test_return_correct_basename_for_symlinked_plugins()
+    {
         global $wp_plugin_paths;
 
         $wp_plugin_paths = array(
@@ -52,7 +56,8 @@ class Tests_Functions_PluginBasename extends WP_UnitTestCase {
     /**
      * @ticket 28441
      */
-    public function test_return_correct_basename_for_symlinked_plugins_with_path_conflicts() {
+    public function test_return_correct_basename_for_symlinked_plugins_with_path_conflicts()
+    {
         global $wp_plugin_paths;
 
         $wp_plugin_paths = array(

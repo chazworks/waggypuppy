@@ -16,7 +16,8 @@
  *
  * @return string Rendered HTML of the referenced block.
  */
-function render_block_core_block($attributes) {
+function render_block_core_block($attributes)
+{
     static $seen_refs = array();
 
     if (empty($attributes['ref'])) {
@@ -102,7 +103,8 @@ function render_block_core_block($attributes) {
  *
  * @since 5.3.0
  */
-function register_block_core_block() {
+function register_block_core_block()
+{
     register_block_type_from_metadata(
         __DIR__ . '/block',
         array(

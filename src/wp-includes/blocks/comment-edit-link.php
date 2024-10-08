@@ -16,7 +16,8 @@
  *
  * @return string Return the post comment's date.
  */
-function render_block_core_comment_edit_link($attributes, $content, $block) {
+function render_block_core_comment_edit_link($attributes, $content, $block)
+{
     if (! isset($block->context['commentId']) || ! current_user_can('edit_comment', $block->context['commentId'])) {
         return '';
     }
@@ -53,7 +54,8 @@ function render_block_core_comment_edit_link($attributes, $content, $block) {
  *
  * @since 6.0.0
  */
-function register_block_core_comment_edit_link() {
+function register_block_core_comment_edit_link()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comment-edit-link',
         array(

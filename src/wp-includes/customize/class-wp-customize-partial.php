@@ -17,7 +17,8 @@
  * @since 4.5.0
  */
 #[AllowDynamicProperties]
-class WP_Customize_Partial {
+class WP_Customize_Partial
+{
 
     /**
      * Component.
@@ -158,7 +159,8 @@ class WP_Customize_Partial {
      *                                           false.
      * }
      */
-    public function __construct(WP_Customize_Selective_Refresh $component, $id, $args = array()) {
+    public function __construct(WP_Customize_Selective_Refresh $component, $id, $args = array())
+    {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
             if (isset($args[ $key ])) {
@@ -199,7 +201,8 @@ class WP_Customize_Partial {
      *     @type array  $keys Keys for multidimensional array.
      * }
      */
-    final public function id_data() {
+    final public function id_data()
+    {
         return $this->id_data;
     }
 
@@ -213,7 +216,8 @@ class WP_Customize_Partial {
      * @return string|array|false The rendered partial as a string, raw data array (for client-side JS template),
      *                            or false if no render applied.
      */
-    final public function render($container_context = array()) {
+    final public function render($container_context = array())
+    {
         $partial  = $this;
         $rendered = false;
 
@@ -280,7 +284,8 @@ class WP_Customize_Partial {
      * @param array                $context Context.
      * @return string|array|false
      */
-    public function render_callback(WP_Customize_Partial $partial, $context = array()) {
+    public function render_callback(WP_Customize_Partial $partial, $context = array())
+    {
         unset($partial, $context);
         return false;
     }
@@ -292,7 +297,8 @@ class WP_Customize_Partial {
      *
      * @return array Array of parameters passed to the JavaScript.
      */
-    public function json() {
+    public function json()
+    {
         $exports = array(
             'settings'           => $this->settings,
             'primarySetting'     => $this->primary_setting,
@@ -315,7 +321,8 @@ class WP_Customize_Partial {
      * @return bool False if user can't edit one of the related settings,
      *                    or if one of the associated settings does not exist.
      */
-    final public function check_capabilities() {
+    final public function check_capabilities()
+    {
         if (! empty($this->capability) && ! current_user_can($this->capability)) {
             return false;
         }

@@ -16,7 +16,8 @@
  *
  * @return string Returns the HTML representing the footnotes.
  */
-function render_block_core_footnotes($attributes, $content, $block) {
+function render_block_core_footnotes($attributes, $content, $block)
+{
     // Bail out early if the post ID is not set for some reason.
     if (empty($block->context['postId'])) {
         return '';
@@ -67,7 +68,8 @@ function render_block_core_footnotes($attributes, $content, $block) {
  *
  * @since 6.3.0
  */
-function register_block_core_footnotes() {
+function register_block_core_footnotes()
+{
     register_block_type_from_metadata(
         __DIR__ . '/footnotes',
         array(
@@ -83,7 +85,8 @@ add_action('init', 'register_block_core_footnotes');
  *
  * @since 6.5.0
  */
-function register_block_core_footnotes_post_meta() {
+function register_block_core_footnotes_post_meta()
+{
     $post_types = get_post_types(array('show_in_rest' => true));
     foreach ($post_types as $post_type) {
         // Only register the meta field if the post type supports the editor, custom fields, and revisions.
@@ -118,7 +121,8 @@ add_action('init', 'register_block_core_footnotes_post_meta', 20);
  * @param array $fields The revision fields.
  * @return array The revision fields.
  */
-function wp_add_footnotes_to_revision($fields) {
+function wp_add_footnotes_to_revision($fields)
+{
     $fields['footnotes'] = __('Footnotes');
     return $fields;
 }
@@ -135,7 +139,8 @@ add_filter('_wp_post_revision_fields', 'wp_add_footnotes_to_revision');
  * @param object $revision       The revision object to compare against.
  * @return string The field value.
  */
-function wp_get_footnotes_from_revision($revision_field, $field, $revision) {
+function wp_get_footnotes_from_revision($revision_field, $field, $revision)
+{
     return get_metadata('post', $revision->ID, $field, true);
 }
 add_filter('_wp_post_revision_field_footnotes', 'wp_get_footnotes_from_revision', 10, 3);

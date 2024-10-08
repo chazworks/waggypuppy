@@ -11,7 +11,8 @@
  * @access private
  * @since 5.9.0
  */
-function _add_template_loader_filters() {
+function _add_template_loader_filters()
+{
     if (isset($_GET['_wp-find-template']) && current_theme_supports('block-templates')) {
         add_action('pre_get_posts', '_resolve_template_for_new_post');
     }
@@ -33,7 +34,8 @@ function _add_template_loader_filters() {
  * @param string[] $templates A list of template candidates, in descending order of priority.
  * @return string The path to the Site Editor template canvas file, or the fallback PHP template.
  */
-function locate_block_template($template, $type, array $templates) {
+function locate_block_template($template, $type, array $templates)
+{
     global $_wp_current_template_content, $_wp_current_template_id;
 
     if (! current_theme_supports('block-templates')) {
@@ -119,7 +121,8 @@ function locate_block_template($template, $type, array $templates) {
  * @param string   $fallback_template  A PHP fallback template to use if no matching block template is found.
  * @return WP_Block_Template|null template A template object, or null if none could be found.
  */
-function resolve_block_template($template_type, $template_hierarchy, $fallback_template) {
+function resolve_block_template($template_type, $template_hierarchy, $fallback_template)
+{
     if (! $template_type) {
         return null;
     }
@@ -196,7 +199,8 @@ function resolve_block_template($template_type, $template_hierarchy, $fallback_t
  *
  * @see _wp_render_title_tag()
  */
-function _block_template_render_title_tag() {
+function _block_template_render_title_tag()
+{
     echo '<title>' . wp_get_document_title() . '</title>' . "\n";
 }
 
@@ -213,7 +217,8 @@ function _block_template_render_title_tag() {
  *
  * @return string Block template markup.
  */
-function get_the_block_template_html() {
+function get_the_block_template_html()
+{
     global $_wp_current_template_id, $_wp_current_template_content, $wp_embed, $wp_query;
 
     if (! $_wp_current_template_content) {
@@ -278,7 +283,8 @@ function get_the_block_template_html() {
  * @access private
  * @since 5.8.0
  */
-function _block_template_viewport_meta_tag() {
+function _block_template_viewport_meta_tag()
+{
     echo '<meta name="viewport" content="width=device-width, initial-scale=1" />' . "\n";
 }
 
@@ -291,7 +297,8 @@ function _block_template_viewport_meta_tag() {
  * @param string $template_file Template file name.
  * @return string Template file name without extension.
  */
-function _strip_template_file_suffix($template_file) {
+function _strip_template_file_suffix($template_file)
+{
     return preg_replace('/\.(php|html)$/', '', $template_file);
 }
 
@@ -305,7 +312,8 @@ function _strip_template_file_suffix($template_file) {
  *
  * @return array Filtered context.
  */
-function _block_template_render_without_post_block_context($context) {
+function _block_template_render_without_post_block_context($context)
+{
     /*
      * When loading a template directly and not through a page that resolves it,
      * the top-level post ID and type context get set to that of the template.
@@ -331,7 +339,8 @@ function _block_template_render_without_post_block_context($context) {
  *
  * @param WP_Query $wp_query Current WP_Query instance, passed by reference.
  */
-function _resolve_template_for_new_post($wp_query) {
+function _resolve_template_for_new_post($wp_query)
+{
     if (! $wp_query->is_main_query()) {
         return;
     }
@@ -373,7 +382,8 @@ function _resolve_template_for_new_post($wp_query) {
  * }
  * @return WP_Block_Template|WP_Error The registered template object on success, WP_Error object on failure.
  */
-function wp_register_block_template($template_name, $args = array()) {
+function wp_register_block_template($template_name, $args = array())
+{
     return WP_Block_Templates_Registry::get_instance()->register($template_name, $args);
 }
 
@@ -386,6 +396,7 @@ function wp_register_block_template($template_name, $args = array()) {
  * @return WP_Block_Template|WP_Error The unregistered template object on success, WP_Error object on failure or if the
  *                                    template doesn't exist.
  */
-function wp_unregister_block_template($template_name) {
+function wp_unregister_block_template($template_name)
+{
     return WP_Block_Templates_Registry::get_instance()->unregister($template_name);
 }

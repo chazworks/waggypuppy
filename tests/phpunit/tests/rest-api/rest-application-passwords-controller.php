@@ -7,7 +7,8 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * Subscriber user ID.
@@ -34,7 +35,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$subscriber_id = $factory->user->create(
             array(
                 'role' => 'subscriber',
@@ -56,18 +58,21 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      *
      * @since 5.6.0
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$subscriber_id);
         self::delete_user(self::$admin);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         add_filter('wp_is_application_passwords_available', '__return_true');
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'], $GLOBALS['wp_rest_application_password_status'], $GLOBALS['wp_rest_application_password_uuid']);
         parent::tear_down();
     }
@@ -75,7 +80,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
 
         $this->assertArrayHasKey('/wp/v2/users/(?P<user_id>(?:[\\d]+|me))/application-passwords', $routes);
@@ -87,7 +93,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -110,7 +117,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_disabled() {
+    public function test_disabled()
+    {
         wp_set_current_user(self::$admin);
         add_filter('wp_is_application_passwords_available', '__return_false');
 
@@ -121,7 +129,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_disabled_for_user() {
+    public function test_disabled_for_user()
+    {
         wp_set_current_user(self::$admin);
         add_filter('wp_is_application_passwords_available_for_user', '__return_false');
 
@@ -132,7 +141,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -145,7 +155,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_items_self_user_id_admin() {
+    public function test_get_items_self_user_id_admin()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -158,7 +169,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_items_self_user_id_subscriber() {
+    public function test_get_items_self_user_id_subscriber()
+    {
         wp_set_current_user(self::$subscriber_id);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -171,7 +183,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_items_other_user_id() {
+    public function test_get_items_other_user_id()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -184,7 +197,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_items_other_user_id_invalid_permission() {
+    public function test_get_items_other_user_id_invalid_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
 
         $response = rest_do_request(sprintf('/wp/v2/users/%d/application-passwords', self::$admin));
@@ -194,7 +208,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_items_logged_out() {
+    public function test_get_items_logged_out()
+    {
         $response = rest_do_request('/wp/v2/users/me/application-passwords');
         $this->assertErrorResponse('rest_not_logged_in', $response, 401);
     }
@@ -202,7 +217,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_items_invalid_user_id() {
+    public function test_get_items_invalid_user_id()
+    {
         wp_set_current_user(self::$admin);
 
         $response = rest_do_request('/wp/v2/users/0/application-passwords');
@@ -212,7 +228,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -225,7 +242,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item_self_user_id_admin() {
+    public function test_get_item_self_user_id_admin()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -238,7 +256,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item_self_user_id_subscriber() {
+    public function test_get_item_self_user_id_subscriber()
+    {
         wp_set_current_user(self::$subscriber_id);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -251,7 +270,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item_other_user_id() {
+    public function test_get_item_other_user_id()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -264,7 +284,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item_other_user_id_invalid_permission() {
+    public function test_get_item_other_user_id_invalid_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -276,7 +297,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item_logged_out() {
+    public function test_get_item_logged_out()
+    {
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
         $uuid     = $item['uuid'];
@@ -287,7 +309,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item_invalid_user_id() {
+    public function test_get_item_invalid_user_id()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -299,7 +322,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item_invalid_password_uuid() {
+    public function test_get_item_invalid_password_uuid()
+    {
         wp_set_current_user(self::$admin);
         $response = rest_do_request(sprintf('/wp/v2/users/%d/application-passwords/%s', self::$admin, '123456abcdef'));
         $this->assertErrorResponse('rest_application_password_not_found', $response, 404);
@@ -308,7 +332,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         wp_set_current_user(self::$admin);
 
         $app_id  = wp_generate_uuid4();
@@ -335,7 +360,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_create_item_self_user_id_admin() {
+    public function test_create_item_self_user_id_admin()
+    {
         wp_set_current_user(self::$admin);
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/users/%d/application-passwords', self::$admin));
@@ -352,7 +378,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_create_item_self_user_id_subscriber() {
+    public function test_create_item_self_user_id_subscriber()
+    {
         wp_set_current_user(self::$subscriber_id);
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/users/%d/application-passwords', self::$subscriber_id));
@@ -369,7 +396,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_create_item_other_user_id() {
+    public function test_create_item_other_user_id()
+    {
         wp_set_current_user(self::$admin);
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/users/%d/application-passwords', self::$subscriber_id));
@@ -386,7 +414,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_create_item_other_user_id_invalid_permission() {
+    public function test_create_item_other_user_id_invalid_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/users/%d/application-passwords', self::$admin));
@@ -398,7 +427,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_create_item_invalid_user_id() {
+    public function test_create_item_invalid_user_id()
+    {
         wp_set_current_user(self::$admin);
 
         $request = new WP_REST_Request('POST', sprintf('/wp/v2/users/%d/application-passwords', 0));
@@ -411,7 +441,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      * @ticket 53224
      * @group ms-required
      */
-    public function test_create_item_for_super_admin_on_site_where_they_are_not_a_member() {
+    public function test_create_item_for_super_admin_on_site_where_they_are_not_a_member()
+    {
         wp_set_current_user(self::$admin);
 
         // Create a site where the Super Admin is not a member.
@@ -436,7 +467,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 51939
      */
-    public function test_create_item_records_app_passwords_in_use() {
+    public function test_create_item_records_app_passwords_in_use()
+    {
         wp_set_current_user(self::$admin);
 
         $this->assertFalse(WP_Application_Passwords::is_in_use());
@@ -452,7 +484,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -468,7 +501,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_update_item_self_user_id_admin() {
+    public function test_update_item_self_user_id_admin()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -484,7 +518,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_update_item_self_user_id_subscriber() {
+    public function test_update_item_self_user_id_subscriber()
+    {
         wp_set_current_user(self::$subscriber_id);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -500,7 +535,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_update_item_other_user_id() {
+    public function test_update_item_other_user_id()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -516,7 +552,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_update_item_other_user_id_invalid_permission() {
+    public function test_update_item_other_user_id_invalid_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -530,7 +567,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_update_item_logged_out() {
+    public function test_update_item_logged_out()
+    {
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
         $uuid    = $item['uuid'];
@@ -543,7 +581,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_update_item_invalid_user_id() {
+    public function test_update_item_invalid_user_id()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -557,7 +596,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_update_item_invalid_password_uuid() {
+    public function test_update_item_invalid_password_uuid()
+    {
         wp_set_current_user(self::$admin);
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/users/%d/application-passwords/%s', self::$admin, '123456abcdef'));
         $request->set_body_params(array('name' => 'New App'));
@@ -569,7 +609,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      * @ticket 51583
      * @ticket 51941
      */
-    public function test_update_item_cannot_overwrite_app_id() {
+    public function test_update_item_cannot_overwrite_app_id()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -599,7 +640,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -618,7 +660,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_item_self_user_id_admin() {
+    public function test_delete_item_self_user_id_admin()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -632,7 +675,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_item_self_user_id_subscriber() {
+    public function test_delete_item_self_user_id_subscriber()
+    {
         wp_set_current_user(self::$subscriber_id);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -646,7 +690,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_item_other_user_id() {
+    public function test_delete_item_other_user_id()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -660,7 +705,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_item_other_user_id_invalid_permission() {
+    public function test_delete_item_other_user_id_invalid_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -673,7 +719,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_item_logged_out() {
+    public function test_delete_item_logged_out()
+    {
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
         $uuid     = $item['uuid'];
@@ -685,7 +732,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_item_invalid_user_id() {
+    public function test_delete_item_invalid_user_id()
+    {
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -698,7 +746,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_item_invalid_password_uuid() {
+    public function test_delete_item_invalid_password_uuid()
+    {
         wp_set_current_user(self::$admin);
         $request  = new WP_REST_Request('DELETE', sprintf('/wp/v2/users/%d/application-passwords/%s', self::$admin, '123456abcdef'));
         $response = rest_do_request($request);
@@ -708,7 +757,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_items() {
+    public function test_delete_items()
+    {
         wp_set_current_user(self::$admin);
         WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App 1'));
         WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App 2'));
@@ -727,7 +777,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_items_self_user_id_admin() {
+    public function test_delete_items_self_user_id_admin()
+    {
         wp_set_current_user(self::$admin);
         WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -740,7 +791,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_items_self_user_id_subscriber() {
+    public function test_delete_items_self_user_id_subscriber()
+    {
         wp_set_current_user(self::$subscriber_id);
         WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -753,7 +805,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_items_other_user_id() {
+    public function test_delete_items_other_user_id()
+    {
         wp_set_current_user(self::$admin);
         WP_Application_Passwords::create_new_application_password(self::$subscriber_id, array('name' => 'App'));
 
@@ -766,7 +819,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_items_other_user_id_invalid_permission() {
+    public function test_delete_items_other_user_id_invalid_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
 
         $request  = new WP_REST_Request('DELETE', sprintf('/wp/v2/users/%d/application-passwords', self::$admin));
@@ -777,7 +831,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_items_logged_out() {
+    public function test_delete_items_logged_out()
+    {
         $request  = new WP_REST_Request('DELETE', '/wp/v2/users/me/application-passwords');
         $response = rest_do_request($request);
         $this->assertErrorResponse('rest_not_logged_in', $response, 401);
@@ -786,7 +841,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_delete_items_invalid_user_id() {
+    public function test_delete_items_invalid_user_id()
+    {
         wp_set_current_user(self::$admin);
 
         $request  = new WP_REST_Request('DELETE', '/wp/v2/users/0/application-passwords');
@@ -797,7 +853,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         wp_set_current_user(self::$admin);
         list( $password, $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'App'));
 
@@ -856,7 +913,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      * @param array $item     The created password item.
      * @param bool  $password If the password is expected.
      */
-    protected function check_response($response, $item, $password = false) {
+    protected function check_response($response, $item, $password = false)
+    {
         $this->assertArrayHasKey('uuid', $response);
         $this->assertArrayHasKey('app_id', $response);
         $this->assertArrayHasKey('name', $response);
@@ -891,7 +949,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 42790
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/users/me/application-passwords');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -910,7 +969,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 52275
      */
-    public function test_introspect_item() {
+    public function test_introspect_item()
+    {
         $password = $this->setup_app_password_authenticated_request();
         $response = rest_do_request('/wp/v2/users/me/application-passwords/introspect');
         $this->assertNotWPError($response->as_error());
@@ -921,7 +981,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 52275
      */
-    public function test_introspect_item_specific_user() {
+    public function test_introspect_item_specific_user()
+    {
         $password = $this->setup_app_password_authenticated_request();
         $response = rest_do_request('/wp/v2/users/' . self::$admin . '/application-passwords/introspect');
 
@@ -931,7 +992,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 52275
      */
-    public function test_introspect_item_logged_out() {
+    public function test_introspect_item_logged_out()
+    {
         $response = rest_do_request('/wp/v2/users/me/application-passwords/introspect');
         $this->assertErrorResponse('rest_not_logged_in', $response, 401);
     }
@@ -939,7 +1001,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 52275
      */
-    public function test_introspect_item_wrong_user() {
+    public function test_introspect_item_wrong_user()
+    {
         $this->setup_app_password_authenticated_request();
         $response = rest_do_request('/wp/v2/users/' . self::$subscriber_id . '/application-passwords/introspect');
         $this->assertErrorResponse('rest_cannot_introspect_app_password_for_non_authenticated_user', $response, 403);
@@ -948,7 +1011,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 52275
      */
-    public function test_introspect_item_no_app_password_used() {
+    public function test_introspect_item_no_app_password_used()
+    {
         wp_set_current_user(self::$admin);
         $response = rest_do_request('/wp/v2/users/me/application-passwords/introspect');
         $this->assertErrorResponse('rest_no_authenticated_app_password', $response, 404);
@@ -957,7 +1021,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
     /**
      * @ticket 52275
      */
-    public function test_introspect_item_password_invalid() {
+    public function test_introspect_item_password_invalid()
+    {
         $this->setup_app_password_authenticated_request();
         add_action(
             'application_password_did_authenticate',
@@ -975,7 +1040,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      *
      * @covers ::wp_is_application_passwords_supported
      */
-    public function test_wp_is_application_passwords_supported_with_https_only() {
+    public function test_wp_is_application_passwords_supported_with_https_only()
+    {
         $_SERVER['HTTPS'] = 'on';
         $this->assertTrue(wp_is_application_passwords_supported());
     }
@@ -985,7 +1051,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      *
      * @covers ::wp_is_application_passwords_supported
      */
-    public function test_wp_is_application_passwords_supported_with_local_environment_only() {
+    public function test_wp_is_application_passwords_supported_with_local_environment_only()
+    {
         putenv('WP_ENVIRONMENT_TYPE=local');
 
         $actual = wp_is_application_passwords_supported();
@@ -1007,7 +1074,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      * @param string|null $callback Optional. The callback for the `wp_is_application_passwords_available` hook.
      *                              Default: null.
      */
-    public function test_wp_is_application_passwords_available($expected, $callback = null) {
+    public function test_wp_is_application_passwords_available($expected, $callback = null)
+    {
         remove_filter('wp_is_application_passwords_available', '__return_true');
 
         if ($callback) {
@@ -1034,7 +1102,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      *
      * @return array
      */
-    public function data_wp_is_application_passwords_available() {
+    public function data_wp_is_application_passwords_available()
+    {
         return array(
             'availability not forced'   => array(
                 'expected' => 'default',
@@ -1057,7 +1126,8 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
      *
      * @return array The created App Password.
      */
-    private function setup_app_password_authenticated_request() {
+    private function setup_app_password_authenticated_request()
+    {
         list( $password, $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, array('name' => 'Test'));
 
         $_SERVER['PHP_AUTH_USER'] = get_userdata(self::$admin)->user_login;

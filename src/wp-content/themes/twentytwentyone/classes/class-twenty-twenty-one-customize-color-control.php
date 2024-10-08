@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Control {
+class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Control
+{
     /**
      * The control type.
      *
@@ -40,7 +41,8 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
      *
      * @return void
      */
-    public function enqueue() {
+    public function enqueue()
+    {
         parent::enqueue();
 
         // Enqueue the script.
@@ -62,7 +64,8 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
      *
      * @return void
      */
-    public function to_json() {
+    public function to_json()
+    {
         parent::to_json();
         $this->json['palette'] = $this->palette;
     }

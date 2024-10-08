@@ -5,14 +5,16 @@
  *
  * @covers ::wp_register_persisted_preferences_meta
  */
-class Tests_User_WpRegisterPersistedPreferencesMeta extends WP_UnitTestCase {
+class Tests_User_WpRegisterPersistedPreferencesMeta extends WP_UnitTestCase
+{
 
     /**
      * Test that user persisted preferences meta is registered.
      *
      * @ticket 56467
      */
-    public function test_should_register_persisted_preferences_meta() {
+    public function test_should_register_persisted_preferences_meta()
+    {
         global $wpdb, $wp_meta_keys;
         $meta_key = $wpdb->get_blog_prefix() . 'persisted_preferences';
 

@@ -13,7 +13,8 @@
  * @since 6.1.0
  */
 #[AllowDynamicProperties]
-class WP_Style_Engine_Processor {
+class WP_Style_Engine_Processor
+{
 
     /**
      * A collection of Style Engine Store objects.
@@ -39,7 +40,8 @@ class WP_Style_Engine_Processor {
      * @param WP_Style_Engine_CSS_Rules_Store $store The store to add.
      * @return WP_Style_Engine_Processor Returns the object to allow chaining methods.
      */
-    public function add_store($store) {
+    public function add_store($store)
+    {
         if (! $store instanceof WP_Style_Engine_CSS_Rules_Store) {
             _doing_it_wrong(
                 __METHOD__,
@@ -65,7 +67,8 @@ class WP_Style_Engine_Processor {
      *                                                                       from a store or otherwise.
      * @return WP_Style_Engine_Processor Returns the object to allow chaining methods.
      */
-    public function add_rules($css_rules) {
+    public function add_rules($css_rules)
+    {
         if (! is_array($css_rules)) {
             $css_rules = array($css_rules);
         }
@@ -115,7 +118,8 @@ class WP_Style_Engine_Processor {
      * }
      * @return string The computed CSS.
      */
-    public function get_css($options = array()) {
+    public function get_css($options = array())
+    {
         $defaults = array(
             'optimize' => false,
             'prettify' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG,
@@ -147,7 +151,8 @@ class WP_Style_Engine_Processor {
      *
      * @since 6.1.0
      */
-    private function combine_rules_selectors() {
+    private function combine_rules_selectors()
+    {
         // Build an array of selectors along with the JSON-ified styles to make comparisons easier.
         $selectors_json = array();
         foreach ($this->css_rules as $rule) {

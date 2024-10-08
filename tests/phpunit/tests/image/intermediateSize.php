@@ -4,8 +4,10 @@
  * @group media
  * @group upload
  */
-class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
-    public function tear_down() {
+class Tests_Image_Intermediate_Size extends WP_UnitTestCase
+{
+    public function tear_down()
+    {
         $this->remove_added_uploads();
 
         remove_image_size('test-size');
@@ -15,14 +17,16 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
         parent::tear_down();
     }
 
-    public function _make_attachment($file, $parent_post_id = 0) {
+    public function _make_attachment($file, $parent_post_id = 0)
+    {
         $contents = file_get_contents($file);
         $upload   = wp_upload_bits(wp_basename($file), null, $contents);
 
         return parent::_make_attachment($upload, $parent_post_id);
     }
 
-    public function test_make_intermediate_size_no_size() {
+    public function test_make_intermediate_size_no_size()
+    {
         $image = image_make_intermediate_size(DIR_TESTDATA . '/images/a2-small.jpg', 0, 0, false);
 
         $this->assertFalse($image);
@@ -31,7 +35,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
     /**
      * @requires function imagejpeg
      */
-    public function test_make_intermediate_size_width() {
+    public function test_make_intermediate_size_width()
+    {
         $image = image_make_intermediate_size(DIR_TESTDATA . '/images/a2-small.jpg', 100, 0, false);
 
         $this->assertIsArray($image);
@@ -40,7 +45,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
     /**
      * @requires function imagejpeg
      */
-    public function test_make_intermediate_size_height() {
+    public function test_make_intermediate_size_height()
+    {
         $image = image_make_intermediate_size(DIR_TESTDATA . '/images/a2-small.jpg', 0, 75, false);
 
         $this->assertIsArray($image);
@@ -49,7 +55,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
     /**
      * @requires function imagejpeg
      */
-    public function test_make_intermediate_size_successful() {
+    public function test_make_intermediate_size_successful()
+    {
         $image = image_make_intermediate_size(DIR_TESTDATA . '/images/a2-small.jpg', 100, 75, true);
 
         unlink(DIR_TESTDATA . '/images/a2-small-100x75.jpg');
@@ -66,7 +73,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 52867
      * @requires function imagejpeg
      */
-    public function test_image_editor_output_format_filter() {
+    public function test_image_editor_output_format_filter()
+    {
         add_filter(
             'image_editor_output_format',
             static function () {
@@ -92,7 +100,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 17626
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_sizes_by_name() {
+    public function test_get_intermediate_sizes_by_name()
+    {
         add_image_size('test-size', 330, 220, true);
 
         $file = DIR_TESTDATA . '/images/waffles.jpg';
@@ -113,7 +122,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 17626
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_sizes_by_array_exact() {
+    public function test_get_intermediate_sizes_by_array_exact()
+    {
         // Only one dimension match shouldn't return false positive (see: #17626).
         add_image_size('test-size', 330, 220, true);
         add_image_size('false-height', 330, 400, true);
@@ -135,7 +145,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 17626
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_sizes_by_array_nearest() {
+    public function test_get_intermediate_sizes_by_array_nearest()
+    {
         // If an exact size is not found, it should be returned.
         // If not, find nearest size that is larger (see: #17626).
         add_image_size('test-size', 450, 300, true);
@@ -158,7 +169,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 17626
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_sizes_by_array_nearest_false() {
+    public function test_get_intermediate_sizes_by_array_nearest_false()
+    {
         // If an exact size is not found, it should be returned.
         // If not, find nearest size that is larger, otherwise return false (see: #17626).
         add_image_size('false-height', 330, 100, true);
@@ -180,7 +192,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 17626
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_sizes_by_array_zero_height() {
+    public function test_get_intermediate_sizes_by_array_zero_height()
+    {
         // Use this width.
         $width = 300;
 
@@ -209,7 +222,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 34087
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_sizes_by_array_zero_width() {
+    public function test_get_intermediate_sizes_by_array_zero_width()
+    {
         // 202 is the smallest height that will trigger a miss for 'false-height'.
         $height = 202;
 
@@ -238,7 +252,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 34087
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_sizes_should_match_size_with_off_by_one_aspect_ratio() {
+    public function test_get_intermediate_sizes_should_match_size_with_off_by_one_aspect_ratio()
+    {
         // Original is 600x400. 300x201 is close enough to match.
         $width  = 300;
         $height = 201;
@@ -262,7 +277,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 34384
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_size_with_small_size_array() {
+    public function test_get_intermediate_size_with_small_size_array()
+    {
         // Add a hard cropped size that matches the aspect ratio we're going to test.
         add_image_size('test-size', 200, 100, true);
 
@@ -280,7 +296,8 @@ class Tests_Image_Intermediate_Size extends WP_UnitTestCase {
      * @ticket 34384
      * @requires function imagejpeg
      */
-    public function test_get_intermediate_size_with_small_size_array_fallback() {
+    public function test_get_intermediate_size_with_small_size_array_fallback()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
         $id   = $this->_make_attachment($file, 0);
 

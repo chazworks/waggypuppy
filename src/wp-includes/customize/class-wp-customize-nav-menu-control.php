@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
+class WP_Customize_Nav_Menu_Control extends WP_Customize_Control
+{
 
     /**
      * Control type.
@@ -29,14 +30,16 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
      *
      * @since 4.3.0
      */
-    public function render_content() {}
+    public function render_content()
+    {}
 
     /**
      * JS/Underscore template for the control UI.
      *
      * @since 4.3.0
      */
-    public function content_template() {
+    public function content_template()
+    {
         $add_items = __('Add Items');
         ?>
         <p class="new-menu-item-invitation">
@@ -73,7 +76,8 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
      *
      * @return array Exported parameters.
      */
-    public function json() {
+    public function json()
+    {
         $exported            = parent::json();
         $exported['menu_id'] = $this->setting->term_id;
 

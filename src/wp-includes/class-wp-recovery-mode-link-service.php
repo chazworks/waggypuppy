@@ -12,7 +12,8 @@
  * @since 5.2.0
  */
 #[AllowDynamicProperties]
-class WP_Recovery_Mode_Link_Service {
+class WP_Recovery_Mode_Link_Service
+{
     const LOGIN_ACTION_ENTER   = 'enter_recovery_mode';
     const LOGIN_ACTION_ENTERED = 'entered_recovery_mode';
 
@@ -40,7 +41,8 @@ class WP_Recovery_Mode_Link_Service {
      * @param WP_Recovery_Mode_Cookie_Service $cookie_service Service to handle setting the recovery mode cookie.
      * @param WP_Recovery_Mode_Key_Service    $key_service    Service to handle generating recovery mode keys.
      */
-    public function __construct(WP_Recovery_Mode_Cookie_Service $cookie_service, WP_Recovery_Mode_Key_Service $key_service) {
+    public function __construct(WP_Recovery_Mode_Cookie_Service $cookie_service, WP_Recovery_Mode_Key_Service $key_service)
+    {
         $this->cookie_service = $cookie_service;
         $this->key_service    = $key_service;
     }
@@ -54,7 +56,8 @@ class WP_Recovery_Mode_Link_Service {
      *
      * @return string Generated URL.
      */
-    public function generate_url() {
+    public function generate_url()
+    {
         $token = $this->key_service->generate_recovery_mode_token();
         $key   = $this->key_service->generate_and_store_recovery_mode_key($token);
 
@@ -70,7 +73,8 @@ class WP_Recovery_Mode_Link_Service {
      *
      * @param int $ttl Number of seconds the link should be valid for.
      */
-    public function handle_begin_link($ttl) {
+    public function handle_begin_link($ttl)
+    {
         if (! isset($GLOBALS['pagenow']) || 'wp-login.php' !== $GLOBALS['pagenow']) {
             return;
         }
@@ -105,7 +109,8 @@ class WP_Recovery_Mode_Link_Service {
      * @param string $key   Recovery Mode key created by {@see generate_and_store_recovery_mode_key()}.
      * @return string Recovery mode begin URL.
      */
-    private function get_recovery_mode_begin_url($token, $key) {
+    private function get_recovery_mode_begin_url($token, $key)
+    {
 
         $url = add_query_arg(
             array(

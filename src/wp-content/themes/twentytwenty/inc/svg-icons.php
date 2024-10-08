@@ -18,7 +18,8 @@ if (! function_exists('twentytwenty_the_theme_svg')) {
      * @param string $group    The group the icon belongs to.
      * @param string $color    Color code.
      */
-    function twentytwenty_the_theme_svg($svg_name, $group = 'ui', $color = '') {
+    function twentytwenty_the_theme_svg($svg_name, $group = 'ui', $color = '')
+    {
         echo twentytwenty_get_theme_svg($svg_name, $group, $color); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_theme_svg().
     }
 }
@@ -34,7 +35,8 @@ if (! function_exists('twentytwenty_get_theme_svg')) {
      * @param string $group    The group the icon belongs to.
      * @param string $color    Color code.
      */
-    function twentytwenty_get_theme_svg($svg_name, $group = 'ui', $color = '') {
+    function twentytwenty_get_theme_svg($svg_name, $group = 'ui', $color = '')
+    {
 
         // Make sure that only our allowed tags and attributes are included.
         $svg = wp_kses(

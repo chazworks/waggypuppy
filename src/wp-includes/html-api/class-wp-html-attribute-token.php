@@ -19,7 +19,8 @@
  *
  * @see WP_HTML_Tag_Processor
  */
-class WP_HTML_Attribute_Token {
+class WP_HTML_Attribute_Token
+{
     /**
      * Attribute name.
      *
@@ -105,7 +106,8 @@ class WP_HTML_Attribute_Token {
      * @param int    $length       Byte length of the entire attribute name or name and value pair expression.
      * @param bool   $is_true      Whether the attribute is a boolean attribute with true value.
      */
-    public function __construct($name, $value_start, $value_length, $start, $length, $is_true) {
+    public function __construct($name, $value_start, $value_length, $start, $length, $is_true)
+    {
         $this->name            = $name;
         $this->value_starts_at = $value_start;
         $this->value_length    = $value_length;

@@ -5,8 +5,10 @@
  *
  * @covers ::wp_determine_option_autoload_value
  */
-class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         add_filter('wp_max_autoloaded_option_size', array($this, 'filter_max_option_size'));
         parent::set_up();
     }
@@ -19,12 +21,14 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase {
      * @param $autoload
      * @param $expected
      */
-    public function test_determine_option_autoload_value($autoload, $expected) {
+    public function test_determine_option_autoload_value($autoload, $expected)
+    {
         $test = wp_determine_option_autoload_value(null, '', '', $autoload);
         $this->assertSame($expected, $test);
     }
 
-    public function data_values() {
+    public function data_values()
+    {
         return array(
             'yes'      => array(
                 'autoload' => 'yes',
@@ -76,7 +80,8 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase {
     /**
      * @ticket 42441
      */
-    public function test_small_option() {
+    public function test_small_option()
+    {
         $test = wp_determine_option_autoload_value('foo', 'bar', 'bar', null);
         $this->assertSame('auto', $test);
     }
@@ -84,7 +89,8 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase {
     /**
      * @ticket 42441
      */
-    public function test_large_option() {
+    public function test_large_option()
+    {
         $value            = file(DIR_TESTDATA . '/formatting/entities.txt');
         $serialized_value = maybe_serialize($value);
         $test             = wp_determine_option_autoload_value('foo', $value, $serialized_value, null);
@@ -94,14 +100,16 @@ class Tests_WP_Determine_Option_Autoload_Value extends WP_UnitTestCase {
     /**
      * @ticket 42441
      */
-    public function test_large_option_json() {
+    public function test_large_option_json()
+    {
         $value            = file(DIR_TESTDATA . '/themedir1/block-theme/theme.json');
         $serialized_value = maybe_serialize($value);
         $test             = wp_determine_option_autoload_value('foo', $value, $serialized_value, null);
         $this->assertSame('auto-off', $test);
     }
 
-    public function filter_max_option_size($current) {
+    public function filter_max_option_size($current)
+    {
         return 1000;
     }
 }

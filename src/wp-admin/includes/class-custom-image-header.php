@@ -12,7 +12,8 @@
  * @since 2.1.0
  */
 #[AllowDynamicProperties]
-class Custom_Image_Header {
+class Custom_Image_Header
+{
 
     /**
      * Callback for administration header.
@@ -55,7 +56,8 @@ class Custom_Image_Header {
      * @param callable $admin_image_div_callback Optional. Custom image div output callback.
      *                                           Default empty string.
      */
-    public function __construct($admin_header_callback, $admin_image_div_callback = '') {
+    public function __construct($admin_header_callback, $admin_image_div_callback = '')
+    {
         $this->admin_header_callback    = $admin_header_callback;
         $this->admin_image_div_callback = $admin_image_div_callback;
 
@@ -72,7 +74,8 @@ class Custom_Image_Header {
      *
      * @since 2.1.0
      */
-    public function init() {
+    public function init()
+    {
         $page = add_theme_page(
             _x('Header', 'custom image header'),
             _x('Header', 'custom image header'),
@@ -101,7 +104,8 @@ class Custom_Image_Header {
      *
      * @since 3.0.0
      */
-    public function help() {
+    public function help()
+    {
         get_current_screen()->add_help_tab(
             array(
                 'id'      => 'overview',
@@ -154,7 +158,8 @@ class Custom_Image_Header {
      *
      * @return int Current step.
      */
-    public function step() {
+    public function step()
+    {
         if (! isset($_GET['step'])) {
             return 1;
         }
@@ -175,7 +180,8 @@ class Custom_Image_Header {
      *
      * @since 2.1.0
      */
-    public function js_includes() {
+    public function js_includes()
+    {
         $step = $this->step();
 
         if ((1 === $step || 3 === $step)) {
@@ -194,7 +200,8 @@ class Custom_Image_Header {
      *
      * @since 2.7.0
      */
-    public function css_includes() {
+    public function css_includes()
+    {
         $step = $this->step();
 
         if ((1 === $step || 3 === $step) && current_theme_supports('custom-header', 'header-text')) {
@@ -209,7 +216,8 @@ class Custom_Image_Header {
      *
      * @since 2.6.0
      */
-    public function take_action() {
+    public function take_action()
+    {
         if (! current_user_can('edit_theme_options')) {
             return;
         }
@@ -270,7 +278,8 @@ class Custom_Image_Header {
      *
      * @global array $_wp_default_headers
      */
-    public function process_default_headers() {
+    public function process_default_headers()
+    {
         global $_wp_default_headers;
 
         if (! isset($_wp_default_headers)) {
@@ -311,7 +320,8 @@ class Custom_Image_Header {
      * @param string $type The header type. One of 'default' (for the Uploaded Images control)
      *                     or 'uploaded' (for the Uploaded Images control).
      */
-    public function show_header_selector($type = 'default') {
+    public function show_header_selector($type = 'default')
+    {
         if ('default' === $type) {
             $headers = $this->default_headers;
         } else {
@@ -352,7 +362,8 @@ class Custom_Image_Header {
      *
      * @since 2.1.0
      */
-    public function js() {
+    public function js()
+    {
         $step = $this->step();
 
         if ((1 === $step || 3 === $step) && current_theme_supports('custom-header', 'header-text')) {
@@ -367,7 +378,8 @@ class Custom_Image_Header {
      *
      * @since 2.6.0
      */
-    public function js_1() {
+    public function js_1()
+    {
         $default_color = '';
         if (current_theme_supports('custom-header', 'default-text-color')) {
             $default_color = get_theme_support('custom-header', 'default-text-color');
@@ -428,7 +440,8 @@ class Custom_Image_Header {
      *
      * @since 2.6.0
      */
-    public function js_2() {
+    public function js_2()
+    {
 
         ?>
 <script type="text/javascript">
@@ -504,7 +517,8 @@ class Custom_Image_Header {
      *
      * @since 2.1.0
      */
-    public function step_1() {
+    public function step_1()
+    {
         $this->process_default_headers();
         ?>
 
@@ -825,7 +839,8 @@ endif;
      *
      * @since 2.1.0
      */
-    public function step_2() {
+    public function step_2()
+    {
         check_admin_referer('custom-header-upload', '_wpnonce-custom-header-upload');
 
         if (! current_theme_supports('custom-header', 'uploads')) {
@@ -970,7 +985,8 @@ endif;
      *
      * @since 3.4.0
      */
-    public function step_2_manage_upload() {
+    public function step_2_manage_upload()
+    {
         $overrides = array('test_form' => false);
 
         $uploaded_file = $_FILES['import'];
@@ -1013,7 +1029,8 @@ endif;
      * @since 4.4.0 Switched to using wp_get_attachment_url() instead of the guid
      *              for retrieving the header image URL.
      */
-    public function step_3() {
+    public function step_3()
+    {
         check_admin_referer('custom-header-crop-image');
 
         if (! current_theme_supports('custom-header', 'uploads')) {
@@ -1107,7 +1124,8 @@ endif;
      *
      * @since 2.1.0
      */
-    public function finished() {
+    public function finished()
+    {
         $this->updated = true;
         $this->step_1();
     }
@@ -1117,7 +1135,8 @@ endif;
      *
      * @since 2.1.0
      */
-    public function admin_page() {
+    public function admin_page()
+    {
         if (! current_user_can('edit_theme_options')) {
             wp_die(__('Sorry, you are not allowed to customize headers.'));
         }
@@ -1141,7 +1160,8 @@ endif;
      * @param array $form_fields
      * @return array $form_fields
      */
-    public function attachment_fields_to_edit($form_fields) {
+    public function attachment_fields_to_edit($form_fields)
+    {
         return $form_fields;
     }
 
@@ -1153,7 +1173,8 @@ endif;
      * @param array $tabs
      * @return array $tabs
      */
-    public function filter_upload_tabs($tabs) {
+    public function filter_upload_tabs($tabs)
+    {
         return $tabs;
     }
 
@@ -1170,7 +1191,8 @@ endif;
      *                      (the attachment ID of the image). Or an array of arguments: attachment_id,
      *                      url, width, height. All are required.
      */
-    final public function set_header_image($choice) {
+    final public function set_header_image($choice)
+    {
         if (is_array($choice) || is_object($choice)) {
             $choice = (array) $choice;
 
@@ -1225,7 +1247,8 @@ endif;
      *
      * @since 3.4.0
      */
-    final public function remove_header_image() {
+    final public function remove_header_image()
+    {
         $this->set_header_image('remove-header');
     }
 
@@ -1236,7 +1259,8 @@ endif;
      *
      * @since 3.4.0
      */
-    final public function reset_header_image() {
+    final public function reset_header_image()
+    {
         $this->process_default_headers();
         $default = get_theme_support('custom-header', 'default-image');
 
@@ -1267,7 +1291,8 @@ endif;
      * @param array $dimensions
      * @return array dst_height and dst_width of header image.
      */
-    final public function get_header_dimensions($dimensions) {
+    final public function get_header_dimensions($dimensions)
+    {
         $max_width       = 0;
         $width           = absint($dimensions['width']);
         $height          = absint($dimensions['height']);
@@ -1320,7 +1345,8 @@ endif;
      * @param int    $parent_attachment_id Attachment ID of parent image.
      * @return array An array with attachment object data.
      */
-    final public function create_attachment_object($cropped, $parent_attachment_id) {
+    final public function create_attachment_object($cropped, $parent_attachment_id)
+    {
         _deprecated_function(__METHOD__, '6.5.0', 'wp_copy_parent_attachment_properties()');
         $parent     = get_post($parent_attachment_id);
         $parent_url = wp_get_attachment_url($parent->ID);
@@ -1350,7 +1376,8 @@ endif;
      * @param string $cropped    File path to cropped image.
      * @return int Attachment ID.
      */
-    final public function insert_attachment($attachment, $cropped) {
+    final public function insert_attachment($attachment, $cropped)
+    {
         $parent_id = isset($attachment['post_parent']) ? $attachment['post_parent'] : null;
         unset($attachment['post_parent']);
 
@@ -1384,7 +1411,8 @@ endif;
      *
      * @since 3.9.0
      */
-    public function ajax_header_crop() {
+    public function ajax_header_crop()
+    {
         check_ajax_referer('image_editor-' . $_POST['id'], 'nonce');
 
         if (! current_user_can('edit_theme_options')) {
@@ -1453,7 +1481,8 @@ endif;
      *
      * @since 3.9.0
      */
-    public function ajax_header_add() {
+    public function ajax_header_add()
+    {
         check_ajax_referer('header-add', 'nonce');
 
         if (! current_user_can('edit_theme_options')) {
@@ -1481,7 +1510,8 @@ endif;
      *
      * @since 3.9.0
      */
-    public function ajax_header_remove() {
+    public function ajax_header_remove()
+    {
         check_ajax_referer('header-remove', 'nonce');
 
         if (! current_user_can('edit_theme_options')) {
@@ -1507,7 +1537,8 @@ endif;
      *
      * @param WP_Customize_Manager $wp_customize Customize manager.
      */
-    public function customize_set_last_used($wp_customize) {
+    public function customize_set_last_used($wp_customize)
+    {
 
         $header_image_data_setting = $wp_customize->get_setting('header_image_data');
 
@@ -1533,7 +1564,8 @@ endif;
      *
      * @return array Default header images.
      */
-    public function get_default_header_images() {
+    public function get_default_header_images()
+    {
         $this->process_default_headers();
 
         // Get the default image if there is one.
@@ -1577,7 +1609,8 @@ endif;
      *
      * @return array Uploaded header images.
      */
-    public function get_uploaded_header_images() {
+    public function get_uploaded_header_images()
+    {
         $header_images = get_uploaded_header_images();
         $timestamp_key = '_wp_attachment_custom_header_last_used_' . get_stylesheet();
         $alt_text_key  = '_wp_attachment_image_alt';
@@ -1599,7 +1632,8 @@ endif;
      * @param array $attachment An array with a cropped attachment object data.
      * @return int|false An attachment ID if one exists. False if none.
      */
-    public function get_previous_crop($attachment) {
+    public function get_previous_crop($attachment)
+    {
         $header_images = $this->get_uploaded_header_images();
 
         // Bail early if there are no header images.

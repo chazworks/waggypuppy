@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Revisions_Controller extends WP_REST_Controller {
+class WP_REST_Revisions_Controller extends WP_REST_Controller
+{
 
     /**
      * Parent post type.
@@ -55,7 +56,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      *
      * @param string $parent_post_type Post type of the parent.
      */
-    public function __construct($parent_post_type) {
+    public function __construct($parent_post_type)
+    {
         $this->parent_post_type = $parent_post_type;
         $post_type_object       = get_post_type_object($parent_post_type);
         $parent_controller      = $post_type_object->get_rest_controller();
@@ -78,7 +80,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
 
         register_rest_route(
             $this->namespace,
@@ -147,7 +150,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param int $parent_post_id Supplied ID.
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
      */
-    protected function get_parent($parent_post_id) {
+    protected function get_parent($parent_post_id)
+    {
         $error = new WP_Error(
             'rest_post_invalid_parent',
             __('Invalid post parent ID.'),
@@ -177,7 +181,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         $parent = $this->get_parent($request['parent']);
         if (is_wp_error($parent)) {
             return $parent;
@@ -202,7 +207,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param int $id Supplied ID.
      * @return WP_Post|WP_Error Revision post object if ID is valid, WP_Error otherwise.
      */
-    protected function get_revision($id) {
+    protected function get_revision($id)
+    {
         $error = new WP_Error(
             'rest_post_invalid_id',
             __('Invalid revision ID.'),
@@ -229,7 +235,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $parent = $this->get_parent($request['parent']);
         if (is_wp_error($parent)) {
             return $parent;
@@ -379,7 +386,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         return $this->get_items_permissions_check($request);
     }
 
@@ -392,7 +400,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $parent = $this->get_parent($request['parent']);
         if (is_wp_error($parent)) {
             return $parent;
@@ -424,7 +433,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
      */
-    public function delete_item_permissions_check($request) {
+    public function delete_item_permissions_check($request)
+    {
         $parent = $this->get_parent($request['parent']);
         if (is_wp_error($parent)) {
             return $parent;
@@ -467,7 +477,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function delete_item($request) {
+    public function delete_item($request)
+    {
         $revision = $this->get_revision($request['id']);
         if (is_wp_error($revision)) {
             return $revision;
@@ -529,7 +540,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request       Optional. Full details about the request.
      * @return array Items query arguments.
      */
-    protected function prepare_items_query($prepared_args = array(), $request = null) {
+    protected function prepare_items_query($prepared_args = array(), $request = null)
+    {
         $query_args = array();
 
         foreach ($prepared_args as $key => $value) {
@@ -566,7 +578,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $post = $item;
 
@@ -677,7 +690,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param string|null $date     Optional. Local publication time. Default null.
      * @return string|null ISO8601/RFC3339 formatted datetime, otherwise null.
      */
-    protected function prepare_date_response($date_gmt, $date = null) {
+    protected function prepare_date_response($date_gmt, $date = null)
+    {
         if ('0000-00-00 00:00:00' === $date_gmt) {
             return null;
         }
@@ -696,7 +710,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -791,7 +806,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $query_params = parent::get_collection_params();
 
         $query_params['context']['default'] = 'view';
@@ -855,7 +871,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
      * @param WP_Post $post    Post revision object.
      * @return string Prepared excerpt or empty string.
      */
-    protected function prepare_excerpt_response($excerpt, $post) {
+    protected function prepare_excerpt_response($excerpt, $post)
+    {
 
         /** This filter is documented in wp-includes/post-template.php */
         $excerpt = apply_filters('the_excerpt', $excerpt, $post);

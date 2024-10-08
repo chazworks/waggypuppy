@@ -11,7 +11,8 @@
  *
  * @coversDefaultClass WP_HTML_Doctype_Info
  */
-class Tests_HtmlApi_WpHtmlDoctypeInfo extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlDoctypeInfo extends WP_UnitTestCase
+{
     /**
      * Test DOCTYPE handling.
      *
@@ -62,7 +63,8 @@ class Tests_HtmlApi_WpHtmlDoctypeInfo extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_parseable_raw_doctypes(): array {
+    public static function data_parseable_raw_doctypes(): array
+    {
         return array(
             'Missing doctype name'                      => array('<!DOCTYPE>', 'quirks'),
             'HTML5 doctype'                             => array('<!DOCTYPE html>', 'no-quirks', 'html'),
@@ -96,7 +98,8 @@ class Tests_HtmlApi_WpHtmlDoctypeInfo extends WP_UnitTestCase {
      *
      * @ticket 61576
      */
-    public function test_invalid_inputs_return_null(string $html) {
+    public function test_invalid_inputs_return_null(string $html)
+    {
         $this->assertNull(WP_HTML_Doctype_Info::from_doctype_token($html));
     }
 
@@ -105,7 +108,8 @@ class Tests_HtmlApi_WpHtmlDoctypeInfo extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function invalid_inputs(): array {
+    public static function invalid_inputs(): array
+    {
         return array(
             'Empty string'                  => array(''),
             'Other HTML'                    => array('<div>'),

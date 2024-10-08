@@ -5,14 +5,16 @@
  *
  * @covers WP::parse_request
  */
-class Tests_WP_ParseRequest extends WP_UnitTestCase {
+class Tests_WP_ParseRequest extends WP_UnitTestCase
+{
 
     /**
      * @var WP
      */
     protected $wp;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->wp = new WP();
     }
@@ -22,7 +24,8 @@ class Tests_WP_ParseRequest extends WP_UnitTestCase {
      *
      * @ticket 10886
      */
-    public function test_parse_request_returns_bool() {
+    public function test_parse_request_returns_bool()
+    {
         // Check that parse_request() returns true by default.
         $this->assertTrue($this->wp->parse_request());
 
@@ -41,7 +44,8 @@ class Tests_WP_ParseRequest extends WP_UnitTestCase {
      *
      * @ticket 53635
      */
-    public function test_no_deprecation_notice_when_home_url_has_no_path() {
+    public function test_no_deprecation_notice_when_home_url_has_no_path()
+    {
         // Make sure rewrite rules are not empty.
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 

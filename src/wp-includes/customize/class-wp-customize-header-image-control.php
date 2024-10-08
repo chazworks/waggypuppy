@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Image_Control
  */
-class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
+class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control
+{
 
     /**
      * Customize control type.
@@ -47,7 +48,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
      *
      * @param WP_Customize_Manager $manager Customizer bootstrap instance.
      */
-    public function __construct($manager) {
+    public function __construct($manager)
+    {
         parent::__construct(
             $manager,
             'header_image',
@@ -66,7 +68,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 
     /**
      */
-    public function enqueue() {
+    public function enqueue()
+    {
         wp_enqueue_media();
         wp_enqueue_script('customize-views');
 
@@ -98,7 +101,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
     /**
      * @global Custom_Image_Header $custom_image_header
      */
-    public function prepare_control() {
+    public function prepare_control()
+    {
         global $custom_image_header;
         if (empty($custom_image_header)) {
             return;
@@ -114,7 +118,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 
     /**
      */
-    public function print_header_image_template() {
+    public function print_header_image_template()
+    {
         ?>
         <script type="text/template" id="tmpl-header-choice">
             <# if (data.random) { #>
@@ -187,7 +192,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
     /**
      * @return string|void
      */
-    public function get_current_image_src() {
+    public function get_current_image_src()
+    {
         $src = $this->value();
         if (isset($this->get_url)) {
             $src = call_user_func($this->get_url, $src);
@@ -197,7 +203,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 
     /**
      */
-    public function render_content() {
+    public function render_content()
+    {
         $visibility = $this->get_current_image_src() ? '' : ' style="display:none" ';
         $width      = absint(get_theme_support('custom-header', 'width'));
         $height     = absint(get_theme_support('custom-header', 'height'));

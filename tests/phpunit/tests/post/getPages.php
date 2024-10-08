@@ -5,11 +5,13 @@
  *
  * @covers ::get_pages
  */
-class Tests_Post_GetPages extends WP_UnitTestCase {
+class Tests_Post_GetPages extends WP_UnitTestCase
+{
     /**
      * @ticket 23167
      */
-    public function test_get_pages_cache() {
+    public function test_get_pages_cache()
+    {
         self::factory()->post->create_many(3, array('post_type' => 'page'));
         wp_cache_delete('last_changed', 'posts');
         $this->assertFalse(wp_cache_get('last_changed', 'posts'));
@@ -101,7 +103,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 43514
      */
-    public function test_get_pages_cache_empty() {
+    public function test_get_pages_cache_empty()
+    {
         wp_cache_delete('last_changed', 'posts');
         $this->assertFalse(wp_cache_get('last_changed', 'posts'));
 
@@ -121,7 +124,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 40669
      */
-    public function test_get_pages_cache_should_be_invalidated_by_add_post_meta() {
+    public function test_get_pages_cache_should_be_invalidated_by_add_post_meta()
+    {
         $posts = self::factory()->post->create_many(
             2,
             array(
@@ -157,7 +161,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 40669
      */
-    public function test_get_pages_cache_should_be_invalidated_by_update_post_meta() {
+    public function test_get_pages_cache_should_be_invalidated_by_update_post_meta()
+    {
         $posts = self::factory()->post->create_many(
             2,
             array(
@@ -194,7 +199,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 40669
      */
-    public function test_get_pages_cache_should_be_invalidated_by_delete_post_meta() {
+    public function test_get_pages_cache_should_be_invalidated_by_delete_post_meta()
+    {
         $posts = self::factory()->post->create_many(
             2,
             array(
@@ -231,7 +237,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 40669
      */
-    public function test_get_pages_cache_should_be_invalidated_by_delete_post_meta_by_key() {
+    public function test_get_pages_cache_should_be_invalidated_by_delete_post_meta_by_key()
+    {
         $posts = self::factory()->post->create_many(
             2,
             array(
@@ -268,7 +275,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 20376
      */
-    public function test_get_pages_meta() {
+    public function test_get_pages_meta()
+    {
         $posts = self::factory()->post->create_many(3, array('post_type' => 'page'));
         add_post_meta($posts[0], 'some-meta-key', '0');
         add_post_meta($posts[1], 'some-meta-key', '');
@@ -298,7 +306,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 22074
      */
-    public function test_get_pages_include_exclude() {
+    public function test_get_pages_include_exclude()
+    {
         $page_ids = array();
 
         foreach (range(1, 20) as $i) {
@@ -325,7 +334,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
      * @ticket 12821
      * @covers ::get_pages
      */
-    public function test_get_pages_test_filter() {
+    public function test_get_pages_test_filter()
+    {
         register_post_type('wptests_pt', array('hierarchical' => true));
 
         $posts              = self::factory()->post->create_many(
@@ -398,7 +408,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
      * @covers ::get_pages
      * @dataProvider data_get_pages_args
      */
-    public function test_get_pages_args_test_filter($args, $expected_query_args) {
+    public function test_get_pages_args_test_filter($args, $expected_query_args)
+    {
         $filter = new MockAction();
         add_filter('get_pages_query_args', array($filter, 'filter'), 10, 2);
 
@@ -450,7 +461,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
         $this->assertSameSets($parsed_args, $filter_args[0][1], 'Unexpected $parsed_args for get_pages_query_args filter');
     }
 
-    public function data_get_pages_args() {
+    public function data_get_pages_args()
+    {
         return array(
             'default'            => array(
                 'args'                => array(),
@@ -507,7 +519,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_include_ignores_meta_key() {
+    public function test_get_pages_include_ignores_meta_key()
+    {
         $posts = self::factory()->post->create_many(
             2,
             array(
@@ -530,7 +543,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_include_ignores_exclude() {
+    public function test_get_pages_include_ignores_exclude()
+    {
         $includes = self::factory()->post->create_many(
             2,
             array(
@@ -556,7 +570,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
         $this->assertSameSets($includes, $page_ids);
     }
 
-    public function test_get_pages_exclude_tree() {
+    public function test_get_pages_exclude_tree()
+    {
         $post_id1 = self::factory()->post->create(array('post_type' => 'page'));
         $post_id2 = self::factory()->post->create(
             array(
@@ -606,7 +621,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 9470
      */
-    public function test_get_pages_parent() {
+    public function test_get_pages_parent()
+    {
         $page_id1 = self::factory()->post->create(array('post_type' => 'page'));
         $page_id2 = self::factory()->post->create(
             array(
@@ -664,7 +680,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 22208
      */
-    public function test_get_children_fields_ids() {
+    public function test_get_children_fields_ids()
+    {
         $post_id   = self::factory()->post->create();
         $child_ids = self::factory()->post->create_many(5, array('post_parent' => $post_id));
 
@@ -680,7 +697,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 25750
      */
-    public function test_get_pages_hierarchical_and_no_parent() {
+    public function test_get_pages_hierarchical_and_no_parent()
+    {
         global $wpdb;
         $page_1 = self::factory()->post->create(array('post_type' => 'page'));
         $page_2 = self::factory()->post->create(
@@ -730,7 +748,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 18701
      */
-    public function test_get_pages_hierarchical_empty_child_of() {
+    public function test_get_pages_hierarchical_empty_child_of()
+    {
         $page_1 = self::factory()->post->create(array('post_type' => 'page'));
         $page_2 = self::factory()->post->create(array('post_type' => 'page'));
         $page_3 = self::factory()->post->create(
@@ -776,7 +795,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 18701
      */
-    public function test_get_pages_non_hierarchical_empty_child_of() {
+    public function test_get_pages_non_hierarchical_empty_child_of()
+    {
         $page_1 = self::factory()->post->create(array('post_type' => 'page'));
         $page_2 = self::factory()->post->create(array('post_type' => 'page'));
         $page_3 = self::factory()->post->create(
@@ -812,7 +832,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 18701
      */
-    public function test_get_pages_hierarchical_non_empty_child_of() {
+    public function test_get_pages_hierarchical_non_empty_child_of()
+    {
         $page_1 = self::factory()->post->create(array('post_type' => 'page'));
         $page_2 = self::factory()->post->create(array('post_type' => 'page'));
         $page_3 = self::factory()->post->create(
@@ -855,7 +876,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 18701
      */
-    public function test_get_pages_non_hierarchical_non_empty_child_of() {
+    public function test_get_pages_non_hierarchical_non_empty_child_of()
+    {
         $page_1 = self::factory()->post->create(array('post_type' => 'page'));
         $page_2 = self::factory()->post->create(array('post_type' => 'page'));
         $page_3 = self::factory()->post->create(
@@ -906,7 +928,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_post_type() {
+    public function test_get_pages_post_type()
+    {
         register_post_type('wptests_pt', array('hierarchical' => true));
         $posts = self::factory()->post->create_many(2, array('post_type' => 'wptests_pt'));
         $pages = get_pages(
@@ -920,7 +943,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_post_status() {
+    public function test_get_pages_post_status()
+    {
         register_post_status(
             'foo',
             array(
@@ -947,7 +971,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_offset() {
+    public function test_get_pages_offset()
+    {
         $posts = self::factory()->post->create_many(4, array('post_type' => 'page'));
         $pages = get_pages(
             array(
@@ -962,7 +987,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_author() {
+    public function test_get_pages_author()
+    {
         $author_1 = self::factory()->user->create(
             array(
                 'user_login' => 'author1',
@@ -988,7 +1014,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_multiple_authors() {
+    public function test_get_pages_multiple_authors()
+    {
         $author_1 = self::factory()->user->create(
             array(
                 'user_login' => 'author1',
@@ -1030,7 +1057,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_multiple_authors_by_user_login() {
+    public function test_get_pages_multiple_authors_by_user_login()
+    {
         $author_1 = self::factory()->user->create(
             array(
                 'user_login' => 'author1',
@@ -1072,7 +1100,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_orderby() {
+    public function test_get_pages_orderby()
+    {
         global $wpdb;
         // 'rand' is a valid value.
         get_pages(array('sort_column' => 'rand'));
@@ -1138,7 +1167,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
     /**
      * @ticket 12821
      */
-    public function test_get_pages_order() {
+    public function test_get_pages_order()
+    {
         global $wpdb;
 
         get_pages(
@@ -1182,7 +1212,8 @@ class Tests_Post_GetPages extends WP_UnitTestCase {
      *
      * @ticket 59226
      */
-    public function test_get_pages_order_by_post_modified_gmt() {
+    public function test_get_pages_order_by_post_modified_gmt()
+    {
         global $wpdb;
 
         get_pages(

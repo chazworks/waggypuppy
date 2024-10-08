@@ -9,7 +9,8 @@
  * @group admin
  * @group community-events
  */
-class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
+class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase
+{
 
     /**
      * An instance of the class to test.
@@ -25,7 +26,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @since 5.9.0
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/class-wp-community-events.php';
@@ -36,7 +38,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @since 4.8.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->instance = new WP_Community_Events(1, $this->get_user_location());
@@ -50,7 +53,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @return array The mock location.
      */
-    private function get_user_location() {
+    private function get_user_location()
+    {
         return array(
             'description' => 'San Francisco',
             'latitude'    => '37.7749300',
@@ -66,7 +70,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::get_events
      */
-    public function test_get_events_bad_response_code() {
+    public function test_get_events_bad_response_code()
+    {
         add_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
 
         $this->assertWPError($this->instance->get_events());
@@ -81,7 +86,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::get_cached_events
      */
-    public function test_get_cached_events_bad_response_code() {
+    public function test_get_cached_events_bad_response_code()
+    {
         add_filter('pre_http_request', array($this, '_http_request_bad_response_code'));
 
         $this->instance->get_events();
@@ -98,7 +104,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @return array A mock response with a 404 HTTP status code
      */
-    public function _http_request_bad_response_code() {
+    public function _http_request_bad_response_code()
+    {
         return array(
             'headers'  => '',
             'body'     => '',
@@ -118,7 +125,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::get_events
      */
-    public function test_get_events_invalid_response() {
+    public function test_get_events_invalid_response()
+    {
         add_filter('pre_http_request', array($this, '_http_request_invalid_response'));
 
         $this->assertWPError($this->instance->get_events());
@@ -133,7 +141,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::get_cached_events
      */
-    public function test_get_cached_events_invalid_response() {
+    public function test_get_cached_events_invalid_response()
+    {
         add_filter('pre_http_request', array($this, '_http_request_invalid_response'));
 
         $this->instance->get_events();
@@ -150,7 +159,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @return array A mock response that's missing required properties.
      */
-    public function _http_request_invalid_response() {
+    public function _http_request_invalid_response()
+    {
         return array(
             'headers'  => '',
             'body'     => wp_json_encode(array()),
@@ -170,7 +180,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::get_events
      */
-    public function test_get_events_valid_response() {
+    public function test_get_events_valid_response()
+    {
         add_filter('pre_http_request', array($this, '_http_request_valid_response'));
 
         $response = $this->instance->get_events();
@@ -191,7 +202,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::get_cached_events
      */
-    public function test_get_cached_events_valid_response() {
+    public function test_get_cached_events_valid_response()
+    {
         add_filter('pre_http_request', array($this, '_http_request_valid_response'));
 
         $this->instance->get_events();
@@ -213,7 +225,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @return array A mock HTTP response with valid data.
      */
-    public function _http_request_valid_response() {
+    public function _http_request_valid_response()
+    {
         return array(
             'headers'  => '',
             'body'     => wp_json_encode(
@@ -235,7 +248,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    protected function get_valid_events() {
+    protected function get_valid_events()
+    {
         return array(
             array(
                 'type'                 => 'meetup',
@@ -297,7 +311,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::trim_events
      */
-    public function test_trim_expired_events() {
+    public function test_trim_expired_events()
+    {
         $trim_events = new ReflectionMethod($this->instance, 'trim_events');
         $trim_events->setAccessible(true);
 
@@ -326,7 +341,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::trim_events
      */
-    public function test_trim_events_pin_wordcamp() {
+    public function test_trim_events_pin_wordcamp()
+    {
         $trim_events = new ReflectionMethod($this->instance, 'trim_events');
         $trim_events->setAccessible(true);
 
@@ -350,7 +366,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @return array A list of mock events.
      */
-    public function _events_with_unpinned_wordcamp() {
+    public function _events_with_unpinned_wordcamp()
+    {
         return array(
             array(
                 'type'                 => 'meetup',
@@ -431,7 +448,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::trim_events
      */
-    public function test_trim_events_dont_pin_multiple_wordcamps() {
+    public function test_trim_events_dont_pin_multiple_wordcamps()
+    {
         $trim_events = new ReflectionMethod($this->instance, 'trim_events');
         $trim_events->setAccessible(true);
 
@@ -456,7 +474,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @return array A mock HTTP response.
      */
-    public function _events_with_multiple_wordcamps() {
+    public function _events_with_multiple_wordcamps()
+    {
         return array(
             array(
                 'type'                 => 'meetup',
@@ -554,7 +573,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @covers WP_Community_Events::get_unsafe_client_ip
      */
-    public function test_get_unsafe_client_ip($raw_ip, $expected_result) {
+    public function test_get_unsafe_client_ip($raw_ip, $expected_result)
+    {
         $_SERVER['REMOTE_ADDR']    = 'this should not be used';
         $_SERVER['HTTP_CLIENT_IP'] = $raw_ip;
         $actual_result             = WP_Community_Events::get_unsafe_client_ip();
@@ -567,7 +587,8 @@ class Tests_Admin_wpCommunityEvents extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_get_unsafe_client_ip() {
+    public function data_get_unsafe_client_ip()
+    {
         return array(
             // Handle '::' returned from `wp_privacy_anonymize_ip()`.
             array(

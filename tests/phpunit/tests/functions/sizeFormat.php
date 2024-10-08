@@ -11,14 +11,16 @@
  *
  * @covers ::size_format
  */
-class Tests_Functions_SizeFormat extends WP_UnitTestCase {
+class Tests_Functions_SizeFormat extends WP_UnitTestCase
+{
 
     /**
      * Data provider.
      *
      * @return array[]
      */
-    public function data_size_format() {
+    public function data_size_format()
+    {
         return array(
             // Invalid values.
             array(array(), 0, false),
@@ -84,7 +86,8 @@ class Tests_Functions_SizeFormat extends WP_UnitTestCase {
      * @param $decimals
      * @param $expected
      */
-    public function test_size_format($bytes, $decimals, $expected) {
+    public function test_size_format($bytes, $decimals, $expected)
+    {
         $this->assertSame($expected, size_format($bytes, $decimals));
     }
 }

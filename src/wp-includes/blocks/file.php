@@ -16,7 +16,8 @@
  *
  * @return string Returns the block content.
  */
-function render_block_core_file($attributes, $content) {
+function render_block_core_file($attributes, $content)
+{
     // If it's interactive, enqueue the script module and add the directives.
     if (! empty($attributes['displayPreview'])) {
         wp_enqueue_script_module('@wordpress/block-library/file/view');
@@ -51,7 +52,8 @@ function render_block_core_file($attributes, $content) {
  *
  * @since 5.8.0
  */
-function register_block_core_file() {
+function register_block_core_file()
+{
     register_block_type_from_metadata(
         __DIR__ . '/file',
         array(

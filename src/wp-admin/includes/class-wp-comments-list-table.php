@@ -14,7 +14,8 @@
  *
  * @see WP_List_Table
  */
-class WP_Comments_List_Table extends WP_List_Table {
+class WP_Comments_List_Table extends WP_List_Table
+{
 
     public $checkbox = true;
 
@@ -35,7 +36,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         global $post_id;
 
         $post_id = isset($_REQUEST['p']) ? absint($_REQUEST['p']) : 0;
@@ -63,7 +65,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      * @param int    $comment_id Comment ID.
      * @return string Avatar with the user name.
      */
-    public function floated_admin_avatar($name, $comment_id) {
+    public function floated_admin_avatar($name, $comment_id)
+    {
         $comment = get_comment($comment_id);
         $avatar  = get_avatar($comment, 32, 'mystery');
         return "$avatar $name";
@@ -72,7 +75,8 @@ class WP_Comments_List_Table extends WP_List_Table {
     /**
      * @return bool
      */
-    public function ajax_user_can() {
+    public function ajax_user_can()
+    {
         return current_user_can('edit_posts');
     }
 
@@ -83,7 +87,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      * @global string $comment_type
      * @global string $search
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         global $mode, $post_id, $comment_status, $comment_type, $search;
 
         if (! empty($_REQUEST['mode'])) {
@@ -197,7 +202,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      * @param string $comment_status
      * @return int
      */
-    public function get_per_page($comment_status = 'all') {
+    public function get_per_page($comment_status = 'all')
+    {
         $comments_per_page = $this->get_items_per_page('edit_comments_per_page');
 
         /**
@@ -214,7 +220,8 @@ class WP_Comments_List_Table extends WP_List_Table {
     /**
      * @global string $comment_status
      */
-    public function no_items() {
+    public function no_items()
+    {
         global $comment_status;
 
         if ('moderated' === $comment_status) {
@@ -231,7 +238,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      * @global string $comment_status
      * @global string $comment_type
      */
-    protected function get_views() {
+    protected function get_views()
+    {
         global $post_id, $comment_status, $comment_type;
 
         $status_links = array();
@@ -354,7 +362,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @return array
      */
-    protected function get_bulk_actions() {
+    protected function get_bulk_actions()
+    {
         global $comment_status;
 
         $actions = array();
@@ -392,7 +401,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @param string $which
      */
-    protected function extra_tablenav($which) {
+    protected function extra_tablenav($which)
+    {
         global $comment_status, $comment_type;
         static $has_items;
 
@@ -447,7 +457,8 @@ class WP_Comments_List_Table extends WP_List_Table {
     /**
      * @return string|false
      */
-    public function current_action() {
+    public function current_action()
+    {
         if (isset($_REQUEST['delete_all']) || isset($_REQUEST['delete_all2'])) {
             return 'delete_all';
         }
@@ -460,7 +471,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         global $post_id;
 
         $columns = array();
@@ -490,7 +502,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @param string $comment_type The current comment type slug.
      */
-    protected function comment_type_dropdown($comment_type) {
+    protected function comment_type_dropdown($comment_type)
+    {
         /**
          * Filters the comment types shown in the drop-down menu on the Comments list table.
          *
@@ -541,7 +554,8 @@ class WP_Comments_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_sortable_columns() {
+    protected function get_sortable_columns()
+    {
         return array(
             'author'   => array('comment_author', false, __('Author'), __('Table ordered by Comment Author.')),
             'response' => array('comment_post_ID', false, _x('In Response To', 'column name'), __('Table ordered by Post Replied To.')),
@@ -556,7 +570,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @return string Name of the default primary column, in this case, 'comment'.
      */
-    protected function get_default_primary_column_name() {
+    protected function get_default_primary_column_name()
+    {
         return 'comment';
     }
 
@@ -567,7 +582,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @since 3.1.0
      */
-    public function display() {
+    public function display()
+    {
         wp_nonce_field('fetch-list-' . get_class($this), '_ajax_fetch_list_nonce');
         static $has_items;
 
@@ -635,7 +651,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @param WP_Comment $item
      */
-    public function single_row($item) {
+    public function single_row($item)
+    {
         global $post, $comment;
 
         // Restores the more descriptive, specific name for use within this method.
@@ -687,7 +704,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *                if the current column is not the primary column,
      *                or if the current user cannot edit the comment.
      */
-    protected function handle_row_actions($item, $column_name, $primary) {
+    protected function handle_row_actions($item, $column_name, $primary)
+    {
         global $comment_status;
 
         if ($primary !== $column_name) {
@@ -913,7 +931,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @param WP_Comment $item The comment object.
      */
-    public function column_cb($item) {
+    public function column_cb($item)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $comment = $item;
 
@@ -935,7 +954,8 @@ class WP_Comments_List_Table extends WP_List_Table {
     /**
      * @param WP_Comment $comment The comment object.
      */
-    public function column_comment($comment) {
+    public function column_comment($comment)
+    {
         echo '<div class="comment-author">';
             $this->column_author($comment);
         echo '</div>';
@@ -976,7 +996,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      *
      * @param WP_Comment $comment The comment object.
      */
-    public function column_author($comment) {
+    public function column_author($comment)
+    {
         global $comment_status;
 
         $author_url = get_comment_author_url($comment);
@@ -1033,7 +1054,8 @@ class WP_Comments_List_Table extends WP_List_Table {
     /**
      * @param WP_Comment $comment The comment object.
      */
-    public function column_date($comment) {
+    public function column_date($comment)
+    {
         $submitted = sprintf(
             /* translators: 1: Comment date, 2: Comment time. */
             __('%1$s at %2$s'),
@@ -1061,7 +1083,8 @@ class WP_Comments_List_Table extends WP_List_Table {
     /**
      * @param WP_Comment $comment The comment object.
      */
-    public function column_response($comment) {
+    public function column_response($comment)
+    {
         $post = get_post();
 
         if (! $post) {
@@ -1110,7 +1133,8 @@ class WP_Comments_List_Table extends WP_List_Table {
      * @param WP_Comment $item        The comment object.
      * @param string     $column_name The custom column's name.
      */
-    public function column_default($item, $column_name) {
+    public function column_default($item, $column_name)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $comment = $item;
 

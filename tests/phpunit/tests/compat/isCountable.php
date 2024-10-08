@@ -5,14 +5,16 @@
  *
  * @covers ::is_countable
  */
-class Tests_Compat_isCountable extends WP_UnitTestCase {
+class Tests_Compat_isCountable extends WP_UnitTestCase
+{
 
     /**
      * Test that is_countable() is always available (either from PHP or WP).
      *
      * @ticket 43583
      */
-    public function test_is_countable_availability() {
+    public function test_is_countable_availability()
+    {
         $this->assertTrue(function_exists('is_countable'));
     }
 
@@ -26,7 +28,8 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
      * @param mixed $variable     Variable to check.
      * @param bool  $is_countable The expected return value of PHP 7.3 is_countable() function.
      */
-    public function test_is_countable_functionality($variable, $is_countable) {
+    public function test_is_countable_functionality($variable, $is_countable)
+    {
         $this->assertSame($is_countable, is_countable($variable));
     }
 
@@ -42,7 +45,8 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_is_countable_functionality() {
+    public function data_is_countable_functionality()
+    {
         return array(
             'boolean true'                     => array(
                 'variable'     => true,
@@ -90,7 +94,8 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
      *
      * @requires extension intl
      */
-    public function test_is_countable_ResourceBundle() {
+    public function test_is_countable_ResourceBundle()
+    {
         $this->assertTrue(is_countable(new ResourceBundle('en', null)));
     }
 
@@ -101,17 +106,21 @@ class Tests_Compat_isCountable extends WP_UnitTestCase {
      *
      * @requires extension simplexml
      */
-    public function test_is_countable_SimpleXMLElement() {
+    public function test_is_countable_SimpleXMLElement()
+    {
         $this->assertTrue(is_countable(new SimpleXMLElement('<xml><tag>1</tag><tag>2</tag></xml>')));
     }
 }
 
-class ArrayIteratorFakeForIsCountable extends ArrayIterator {
+class ArrayIteratorFakeForIsCountable extends ArrayIterator
+{
 }
 
-class CountableFakeForIsCountable implements Countable {
+class CountableFakeForIsCountable implements Countable
+{
     #[ReturnTypeWillChange]
-    public function count() {
+    public function count()
+    {
         return 16;
     }
 }

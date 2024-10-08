@@ -14,11 +14,13 @@
  *
  * @coversDefaultClass WP_Style_Engine_CSS_Rules_Store
  */
-class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
+class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase
+{
     /**
      * Cleans up stores after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
         parent::tear_down();
     }
@@ -30,7 +32,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
      *
      * @covers ::__construct
      */
-    public function test_should_create_new_store_on_instantiation() {
+    public function test_should_create_new_store_on_instantiation()
+    {
         $new_pancakes_store = WP_Style_Engine_CSS_Rules_Store::get_store('pancakes-with-strawberries');
 
         $this->assertInstanceOf('WP_Style_Engine_CSS_Rules_Store', $new_pancakes_store);
@@ -43,7 +46,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
      *
      * @covers ::get_store
      */
-    public function test_should_not_create_store_without_a_store_name() {
+    public function test_should_not_create_store_without_a_store_name()
+    {
         $not_a_store = WP_Style_Engine_CSS_Rules_Store::get_store('');
 
         $this->assertEmpty($not_a_store, 'get_store() did not return an empty value with empty string as argument.');
@@ -64,7 +68,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
      *
      * @covers ::get_store
      */
-    public function test_should_return_existing_store() {
+    public function test_should_return_existing_store()
+    {
         $new_fish_store = WP_Style_Engine_CSS_Rules_Store::get_store('fish-n-chips');
         $selector       = '.haddock';
 
@@ -84,7 +89,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
      *
      * @covers ::get_stores
      */
-    public function test_should_get_all_existing_stores() {
+    public function test_should_get_all_existing_stores()
+    {
         $burrito_store    = WP_Style_Engine_CSS_Rules_Store::get_store('burrito');
         $quesadilla_store = WP_Style_Engine_CSS_Rules_Store::get_store('quesadilla');
 
@@ -104,7 +110,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
      *
      * @covers ::remove_all_stores
      */
-    public function test_should_remove_all_stores() {
+    public function test_should_remove_all_stores()
+    {
         $dolmades_store = WP_Style_Engine_CSS_Rules_Store::get_store('dolmades');
         $tzatziki_store = WP_Style_Engine_CSS_Rules_Store::get_store('tzatziki');
 
@@ -133,7 +140,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
      *
      * @covers ::add_rule
      */
-    public function test_should_add_rule_to_existing_store() {
+    public function test_should_add_rule_to_existing_store()
+    {
         $new_pie_store = WP_Style_Engine_CSS_Rules_Store::get_store('meat-pie');
         $selector      = '.wp-block-sauce a:hover';
         $store_rule    = $new_pie_store->add_rule($selector);
@@ -162,7 +170,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
      *
      * @covers ::get_all_rules
      */
-    public function test_should_get_all_rule_objects_for_a_store() {
+    public function test_should_get_all_rule_objects_for_a_store()
+    {
         $new_pizza_store = WP_Style_Engine_CSS_Rules_Store::get_store('pizza-with-mozzarella');
         $selector        = '.wp-block-anchovies a:hover';
         $store_rule      = $new_pizza_store->add_rule($selector);
@@ -195,7 +204,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRulesStore extends WP_UnitTestCase {
      *
      * @covers ::add_rule
      */
-    public function test_should_store_as_concatenated_rules_groups_and_selector() {
+    public function test_should_store_as_concatenated_rules_groups_and_selector()
+    {
         $store_one      = WP_Style_Engine_CSS_Rules_Store::get_store('one');
         $store_one_rule = $store_one->add_rule('.tony', '.one');
 

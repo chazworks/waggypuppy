@@ -15,7 +15,8 @@
  *
  * @since 3.0.0
  */
-function ms_upload_constants() {
+function ms_upload_constants()
+{
     // This filter is attached in ms-default-filters.php but that file is not included during SHORTINIT.
     add_filter('default_site_option_ms_files_rewriting', '__return_true');
 
@@ -49,7 +50,8 @@ function ms_upload_constants() {
  *
  * @since 3.0.0
  */
-function ms_cookie_constants() {
+function ms_cookie_constants()
+{
     $current_network = get_network();
 
     /**
@@ -98,7 +100,8 @@ function ms_cookie_constants() {
  *
  * @since 3.0.0
  */
-function ms_file_constants() {
+function ms_file_constants()
+{
     /**
      * Optional support for X-Sendfile header
      *
@@ -128,7 +131,8 @@ function ms_file_constants() {
  *
  * @since 3.0.0
  */
-function ms_subdomain_constants() {
+function ms_subdomain_constants()
+{
     static $subdomain_error      = null;
     static $subdomain_error_warn = null;
 

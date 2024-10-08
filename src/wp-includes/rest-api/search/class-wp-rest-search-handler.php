@@ -13,7 +13,8 @@
  * @since 5.0.0
  */
 #[AllowDynamicProperties]
-abstract class WP_REST_Search_Handler {
+abstract class WP_REST_Search_Handler
+{
 
     /**
      * Field containing the IDs in the search result.
@@ -48,7 +49,8 @@ abstract class WP_REST_Search_Handler {
      *
      * @return string Object type identifier.
      */
-    public function get_type() {
+    public function get_type()
+    {
         return $this->type;
     }
 
@@ -59,7 +61,8 @@ abstract class WP_REST_Search_Handler {
      *
      * @return string[] Array of object subtype identifiers.
      */
-    public function get_subtypes() {
+    public function get_subtypes()
+    {
         return $this->subtypes;
     }
 

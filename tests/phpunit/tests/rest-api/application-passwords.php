@@ -8,7 +8,8 @@
  * @group  restapi
  * @group  app_password
  */
-class Test_WP_Application_Passwords extends WP_UnitTestCase {
+class Test_WP_Application_Passwords extends WP_UnitTestCase
+{
 
     /**
      * Administrator user id.
@@ -17,7 +18,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
      */
     private static $user_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_id = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -35,7 +37,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
      * @ticket       51941
      * @dataProvider data_create_new_application_password_validation
      */
-    public function test_create_new_application_password_validation($expected, array $args = array(), array $names = array()) {
+    public function test_create_new_application_password_validation($expected, array $args = array(), array $names = array())
+    {
         // Create the existing passwords.
         foreach ($names as $name) {
             WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => $name));
@@ -48,7 +51,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
         $this->assertSame($expected['error_message'], $actual->get_error_message($expected['error_code']));
     }
 
-    public function data_create_new_application_password_validation() {
+    public function data_create_new_application_password_validation()
+    {
         return array(
             'application_password_empty_name when no args' => array(
                 'expected' => array(
@@ -85,7 +89,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
      * @ticket       51941
      * @dataProvider data_create_new_application_password
      */
-    public function test_create_new_application_password(array $args, array $names = array()) {
+    public function test_create_new_application_password(array $args, array $names = array())
+    {
         // Create the existing passwords.
         foreach ($names as $name) {
             WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => $name));
@@ -101,7 +106,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
         $this->assertSame($args['name'], $new_item['name']);
     }
 
-    public function data_create_new_application_password() {
+    public function data_create_new_application_password()
+    {
         return array(
             'should create new password when no passwords exists' => array(
                 'args' => array('name' => 'test3'),
@@ -118,7 +124,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
      * @ticket       51941
      * @dataProvider data_application_name_exists_for_user
      */
-    public function test_application_name_exists_for_user($expected, $name) {
+    public function test_application_name_exists_for_user($expected, $name)
+    {
         if ($expected) {
             WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => $name));
         }
@@ -126,7 +133,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
         $this->assertSame($expected, WP_Application_Passwords::application_name_exists_for_user(self::$user_id, $name));
     }
 
-    public function data_application_name_exists_for_user() {
+    public function data_application_name_exists_for_user()
+    {
         return array(
             array(false, 'test1'),
             array(false, 'baz'),
@@ -142,7 +150,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
      * @ticket       51941
      * @dataProvider data_update_application_password
      */
-    public function test_update_application_password(array $update, array $existing) {
+    public function test_update_application_password(array $update, array $existing)
+    {
         // Create the original item.
         list( , $original_item ) = WP_Application_Passwords::create_new_application_password(self::$user_id, $existing);
         $uuid                    = $original_item['uuid'];
@@ -164,7 +173,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
      * @ticket       51941
      * @dataProvider data_update_application_password
      */
-    public function test_update_application_password_when_no_password_found(array $update) {
+    public function test_update_application_password_when_no_password_found(array $update)
+    {
         $actual = WP_Application_Passwords::update_application_password(self::$user_id, '', $update);
 
         $this->assertInstanceOf(WP_Error::class, $actual);
@@ -172,7 +182,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
         $this->assertSame('Could not find an application password with that id.', $actual->get_error_message('application_password_not_found'));
     }
 
-    public function data_update_application_password() {
+    public function data_update_application_password()
+    {
         return array(
             'should not update when no values given to update' => array(
                 'update'   => array(),
@@ -192,7 +203,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase {
     /**
      * @ticket 51941
      */
-    public function test_can_create_duplicate_app_password_names() {
+    public function test_can_create_duplicate_app_password_names()
+    {
         $created = WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => 'My App'));
         $this->assertNotWPError($created, 'First attempt to create an application password should not return an error');
         $created = WP_Application_Passwords::create_new_application_password(self::$user_id, array('name' => 'My App'));

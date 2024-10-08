@@ -4,12 +4,14 @@
  * @group query
  * @covers ::generate_postdata
  */
-class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
+class Tests_Query_GeneratePostdata extends WP_UnitTestCase
+{
 
     /**
      * @ticket 42814
      */
-    public function test_setup_by_id() {
+    public function test_setup_by_id()
+    {
         $p    = self::factory()->post->create_and_get();
         $data = generate_postdata($p->ID);
         $this->assertSame($p->ID, $data['id']);
@@ -18,7 +20,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_setup_by_fake_post() {
+    public function test_setup_by_fake_post()
+    {
         $fake     = new stdClass();
         $fake->ID = 98765;
         $data     = generate_postdata($fake->ID);
@@ -30,7 +33,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_setup_by_postish_object() {
+    public function test_setup_by_postish_object()
+    {
         $p = self::factory()->post->create();
 
         $post     = new stdClass();
@@ -43,7 +47,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_authordata() {
+    public function test_authordata()
+    {
         $u    = self::factory()->user->create_and_get();
         $p    = self::factory()->post->create_and_get(
             array(
@@ -59,7 +64,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_currentday() {
+    public function test_currentday()
+    {
         $p    = self::factory()->post->create_and_get(
             array(
                 'post_date' => '1980-09-09 06:30:00',
@@ -70,7 +76,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
         $this->assertSame('09.09.80', $data['currentday']);
     }
 
-    public function test_currentmonth() {
+    public function test_currentmonth()
+    {
         $p    = self::factory()->post->create_and_get(
             array(
                 'post_date' => '1980-09-09 06:30:00',
@@ -84,7 +91,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_single_page() {
+    public function test_single_page()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_content' => 'Page 0',
@@ -100,7 +108,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_multi_page() {
+    public function test_multi_page()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
@@ -116,7 +125,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_nextpage_at_start_of_content() {
+    public function test_nextpage_at_start_of_content()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_content' => '<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
@@ -132,7 +142,8 @@ class Tests_Query_GeneratePostdata extends WP_UnitTestCase {
     /**
      * @ticket 42814
      */
-    public function test_trim_nextpage_linebreaks() {
+    public function test_trim_nextpage_linebreaks()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_content' => "Page 0\n<!--nextpage-->\nPage 1\nhas a line break\n<!--nextpage-->Page 2<!--nextpage-->\n\nPage 3",

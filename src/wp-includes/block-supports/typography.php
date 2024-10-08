@@ -15,7 +15,8 @@
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_typography_support($block_type) {
+function wp_register_typography_support($block_type)
+{
     if (! ($block_type instanceof WP_Block_Type)) {
         return;
     }
@@ -86,7 +87,8 @@ function wp_register_typography_support($block_type) {
  * @param array         $block_attributes Block attributes.
  * @return array Typography CSS classes and inline styles.
  */
-function wp_apply_typography_support($block_type, $block_attributes) {
+function wp_apply_typography_support($block_type, $block_attributes)
+{
     if (! ($block_type instanceof WP_Block_Type)) {
         return array();
     }
@@ -271,7 +273,8 @@ function wp_apply_typography_support($block_type, $block_attributes) {
  * @param string $css_property Slug for the CSS property the inline style sets.
  * @return string A CSS inline style value.
  */
-function wp_typography_get_preset_inline_style_value($style_value, $css_property) {
+function wp_typography_get_preset_inline_style_value($style_value, $css_property)
+{
     // If the style value is not a preset CSS variable go no further.
     if (empty($style_value) || ! str_contains($style_value, "var:preset|{$css_property}|")) {
         return $style_value;
@@ -300,7 +303,8 @@ function wp_typography_get_preset_inline_style_value($style_value, $css_property
  * @param array  $block         Block object.
  * @return string Filtered block content.
  */
-function wp_render_typography_support($block_content, $block) {
+function wp_render_typography_support($block_content, $block)
+{
     if (! isset($block['attrs']['style']['typography']['fontSize'])) {
         return $block_content;
     }
@@ -337,7 +341,8 @@ function wp_render_typography_support($block_content, $block) {
  * @return array|null An array consisting of `'value'` and `'unit'` properties on success.
  *                    `null` on failure.
  */
-function wp_get_typography_value_and_unit($raw_value, $options = array()) {
+function wp_get_typography_value_and_unit($raw_value, $options = array())
+{
     if (! is_string($raw_value) && ! is_int($raw_value) && ! is_float($raw_value)) {
         _doing_it_wrong(
             __FUNCTION__,
@@ -427,7 +432,8 @@ function wp_get_typography_value_and_unit($raw_value, $options = array()) {
  * }
  * @return string|null A font-size value using clamp() on success, otherwise null.
  */
-function wp_get_computed_fluid_typography_value($args = array()) {
+function wp_get_computed_fluid_typography_value($args = array())
+{
     $maximum_viewport_width_raw = isset($args['maximum_viewport_width']) ? $args['maximum_viewport_width'] : null;
     $minimum_viewport_width_raw = isset($args['minimum_viewport_width']) ? $args['minimum_viewport_width'] : null;
     $maximum_font_size_raw      = isset($args['maximum_font_size']) ? $args['maximum_font_size'] : null;
@@ -528,7 +534,8 @@ function wp_get_computed_fluid_typography_value($args = array()) {
  */
 
 
-function wp_get_typography_font_size_value($preset, $settings = array()) {
+function wp_get_typography_font_size_value($preset, $settings = array())
+{
     if (! isset($preset['size'])) {
         return null;
     }

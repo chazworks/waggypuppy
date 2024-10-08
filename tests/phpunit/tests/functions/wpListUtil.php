@@ -5,12 +5,14 @@
  *
  * @group functions
  */
-class Tests_Functions_wpListUtil extends WP_UnitTestCase {
+class Tests_Functions_wpListUtil extends WP_UnitTestCase
+{
 
     /**
      * @covers WP_List_Util::get_input
      */
-    public function test_wp_list_util_get_input() {
+    public function test_wp_list_util_get_input()
+    {
         $input = array('foo', 'bar');
         $util  = new WP_List_Util($input);
 
@@ -20,7 +22,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
     /**
      * @covers WP_List_Util::get_output
      */
-    public function test_wp_list_util_get_output_immediately() {
+    public function test_wp_list_util_get_output_immediately()
+    {
         $input = array('foo', 'bar');
         $util  = new WP_List_Util($input);
 
@@ -30,7 +33,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
     /**
      * @covers WP_List_Util::get_output
      */
-    public function test_wp_list_util_get_output() {
+    public function test_wp_list_util_get_output()
+    {
         $expected = array(
             (object) array(
                 'foo' => 'bar',
@@ -67,7 +71,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      * @param string $index_key    Optional. Field from the element to use as keys for the new array.
      *                             Default null.
      */
-    public function test_wp_list_util_pluck($target_array, $target_key, $expected, $index_key = null) {
+    public function test_wp_list_util_pluck($target_array, $target_key, $expected, $index_key = null)
+    {
         $util   = new WP_List_Util($target_array);
         $actual = $util->pluck($target_key, $index_key);
 
@@ -89,7 +94,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_list_util_pluck() {
+    public function data_wp_list_util_pluck()
+    {
         return array(
             'simple'        => array(
                 'target_array' => array(
@@ -122,7 +128,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @param array $input An invalid input array.
      */
-    public function test_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input($input) {
+    public function test_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input($input)
+    {
         $this->assertSame(array(), wp_list_pluck($input, 'a_field'));
     }
 
@@ -140,7 +147,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @param array $input An invalid input array.
      */
-    public function test_wp_list_pluck_should_throw_doing_it_wrong_with_index_key_and_invalid_input($input) {
+    public function test_wp_list_pluck_should_throw_doing_it_wrong_with_index_key_and_invalid_input($input)
+    {
         $this->assertSame(array(), wp_list_pluck($input, 'a_field', 'an_index_key'));
     }
 
@@ -149,7 +157,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input() {
+    public function data_wp_list_pluck_should_throw_doing_it_wrong_with_invalid_input()
+    {
         return array(
             'int[] 0'                   => array(array(0)),
             'int[] 1'                   => array(array(1)),
@@ -173,7 +182,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      * @covers WP_List_Util::sort
      * @covers ::wp_list_sort
      */
-    public function test_wp_list_util_sort_simple() {
+    public function test_wp_list_util_sort_simple()
+    {
         $expected     = array(
             1 => 'one',
             2 => 'two',
@@ -224,7 +234,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *                              is a string. Default 'ASC'.
      * @param bool   $preserve_keys Optional. Whether to preserve keys. Default false.
      */
-    public function test_wp_list_util_sort($expected, $target_array, $orderby = array(), $order = 'ASC', $preserve_keys = false) {
+    public function test_wp_list_util_sort($expected, $target_array, $orderby = array(), $order = 'ASC', $preserve_keys = false)
+    {
         $util   = new WP_List_Util($target_array);
         $actual = $util->sort($orderby, $order, $preserve_keys);
 
@@ -246,7 +257,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_list_util_sort_string_arrays() {
+    public function data_wp_list_util_sort_string_arrays()
+    {
         return array(
             'string[], no keys, no ordering'     => array(
                 'expected'     => array('four', 'two', 'three', 'one'),
@@ -322,7 +334,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_list_util_sort_int_arrays() {
+    public function data_wp_list_util_sort_int_arrays()
+    {
         return array(
             'int[], no keys, no ordering'     => array(
                 'expected'     => array(4, 2, 3, 1),
@@ -398,7 +411,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_list_util_sort_arrays_of_arrays() {
+    public function data_wp_list_util_sort_arrays_of_arrays()
+    {
         return array(
             'array[], no keys, no ordering'     => array(
                 'expected'     => array(
@@ -774,7 +788,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_list_util_sort_object_arrays() {
+    public function data_wp_list_util_sort_object_arrays()
+    {
         return array(
             'object[], no keys, no ordering'     => array(
                 'expected'     => array(
@@ -1007,7 +1022,8 @@ class Tests_Functions_wpListUtil extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_list_util_sort_non_existent_orderby_fields() {
+    public function data_wp_list_util_sort_non_existent_orderby_fields()
+    {
         return array(
             'int[], int keys, $orderby a non-existent field, $order = ASC and $preserve_keys = false' => array(
                 'expected'      => array(4, 2, 3, 1),

@@ -3,7 +3,8 @@
 /**
  * @group admin
  */
-class Tests_Admin_IncludesPost extends WP_UnitTestCase {
+class Tests_Admin_IncludesPost extends WP_UnitTestCase
+{
     protected static $contributor_id;
     protected static $author_ids;
     protected static $editor_id;
@@ -12,7 +13,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
 
     protected static $user_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_ids   = $factory->user->create_many(2, array('role' => 'author'));
         self::$author_ids = self::$user_ids;
 
@@ -26,7 +28,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         self::$post_id = $factory->post->create();
     }
 
-    public function test__wp_translate_postdata_cap_checks_contributor() {
+    public function test__wp_translate_postdata_cap_checks_contributor()
+    {
         wp_set_current_user(self::$contributor_id);
 
         // Create new draft post.
@@ -76,7 +79,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame('Sorry, you are not allowed to edit posts as this user.', $_results->get_error_message());
     }
 
-    public function test__wp_translate_postdata_cap_checks_editor() {
+    public function test__wp_translate_postdata_cap_checks_editor()
+    {
         wp_set_current_user(self::$editor_id);
 
         // Create new draft post.
@@ -131,7 +135,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @ticket 25272
      */
-    public function test_edit_post_auto_draft() {
+    public function test_edit_post_auto_draft()
+    {
         wp_set_current_user(self::$editor_id);
         $post = self::factory()->post->create_and_get(array('post_status' => 'auto-draft'));
         $this->assertSame('auto-draft', $post->post_status);
@@ -148,7 +153,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 30615
      */
-    public function test_edit_post_should_parse_tax_input_by_name_rather_than_slug_for_nonhierarchical_taxonomies() {
+    public function test_edit_post_should_parse_tax_input_by_name_rather_than_slug_for_nonhierarchical_taxonomies()
+    {
         wp_set_current_user(self::$editor_id);
 
         register_taxonomy('wptests_tax', array('post'));
@@ -188,7 +194,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 30615
      */
-    public function test_edit_post_should_not_create_terms_for_an_empty_tag_input_field() {
+    public function test_edit_post_should_not_create_terms_for_an_empty_tag_input_field()
+    {
         wp_set_current_user(self::$editor_id);
 
         register_taxonomy('wptests_tax', array('post'));
@@ -217,7 +224,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 27792
      */
-    public function test_bulk_edit_posts_stomping() {
+    public function test_bulk_edit_posts_stomping()
+    {
         wp_set_current_user(self::$admin_id);
 
         $post1 = self::factory()->post->create(
@@ -264,7 +272,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @ticket 44914
      */
-    public function test_bulk_edit_posts_should_preserve_post_format_when_unchanged() {
+    public function test_bulk_edit_posts_should_preserve_post_format_when_unchanged()
+    {
         wp_set_current_user(self::$admin_id);
 
         $post_ids = self::factory()->post->create_many(3);
@@ -296,7 +305,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 31635
      */
-    public function test_bulk_edit_posts_should_publish_scheduled_post() {
+    public function test_bulk_edit_posts_should_publish_scheduled_post()
+    {
         wp_set_current_user(self::$admin_id);
 
         $post = self::factory()->post->create(
@@ -326,7 +336,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 31635
      */
-    public function test_bulk_edit_posts_should_publish_draft_immediately() {
+    public function test_bulk_edit_posts_should_publish_draft_immediately()
+    {
         wp_set_current_user(self::$admin_id);
 
         // Create draft last edited a month ago
@@ -362,7 +373,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 41396
      */
-    public function test_bulk_edit_posts_should_set_post_format_before_wp_update_post_runs() {
+    public function test_bulk_edit_posts_should_set_post_format_before_wp_update_post_runs()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = array(
@@ -378,7 +390,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         remove_action('save_post', array($this, 'check_post_format'));
     }
 
-    public function check_post_format($post_id) {
+    public function check_post_format($post_id)
+    {
         if (self::$post_id === $post_id) {
             $this->assertSame('aside', get_post_format($post_id));
         }
@@ -387,7 +400,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 11302
      */
-    public function test_bulk_edit_if_categories_unchanged() {
+    public function test_bulk_edit_if_categories_unchanged()
+    {
         wp_set_current_user(self::$admin_id);
 
         $post_ids = self::factory()->post->create_many(3);
@@ -422,7 +436,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 11302
      */
-    public function test_bulk_edit_if_some_categories_added() {
+    public function test_bulk_edit_if_some_categories_added()
+    {
         wp_set_current_user(self::$admin_id);
 
         $post_ids = self::factory()->post->create_many(3);
@@ -465,7 +480,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 11302
      */
-    public function test_bulk_edit_if_some_categories_removed() {
+    public function test_bulk_edit_if_some_categories_removed()
+    {
         wp_set_current_user(self::$admin_id);
 
         $post_ids = self::factory()->post->create_many(3);
@@ -516,7 +532,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @covers ::bulk_edit_posts
      */
-    public function test_bulk_edit_posts_should_fire_bulk_edit_posts_action() {
+    public function test_bulk_edit_posts_should_fire_bulk_edit_posts_action()
+    {
         wp_set_current_user(self::$admin_id);
 
         $action = new MockAction();
@@ -537,7 +554,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 38293
      */
-    public function test_user_cant_delete_protected_meta() {
+    public function test_user_cant_delete_protected_meta()
+    {
         $protected_meta_key = '_test_meta_data_that_is_protected';
 
         // Add some protected meta data.
@@ -571,7 +589,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 30910
      */
-    public function test_get_sample_permalink_should_return_pretty_permalink_for_posts_with_post_status_future() {
+    public function test_get_sample_permalink_should_return_pretty_permalink_for_posts_with_post_status_future()
+    {
         $permalink_structure = '%postname%';
         $this->set_permalink_structure("/$permalink_structure/");
 
@@ -594,7 +613,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      * @ticket 30910
      * @ticket 18306
      */
-    public function test_get_sample_permalink_html_should_use_default_permalink_for_view_post_link_when_pretty_permalinks_are_disabled() {
+    public function test_get_sample_permalink_html_should_use_default_permalink_for_view_post_link_when_pretty_permalinks_are_disabled()
+    {
         wp_set_current_user(self::$admin_id);
 
         $future_date = gmdate('Y-m-d H:i:s', time() + 100);
@@ -615,7 +635,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      * @ticket 30910
      * @ticket 18306
      */
-    public function test_get_sample_permalink_html_should_use_pretty_permalink_for_view_post_link_when_pretty_permalinks_are_enabled() {
+    public function test_get_sample_permalink_html_should_use_pretty_permalink_for_view_post_link_when_pretty_permalinks_are_enabled()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         wp_set_current_user(self::$admin_id);
@@ -638,7 +659,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 35980
      */
-    public function test_get_sample_permalink_html_should_use_pretty_permalink_for_view_attachment_link_when_pretty_permalinks_are_enabled() {
+    public function test_get_sample_permalink_html_should_use_pretty_permalink_for_view_attachment_link_when_pretty_permalinks_are_enabled()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         wp_set_current_user(self::$admin_id);
@@ -664,7 +686,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      * @ticket 32954
      * @ticket 18306
      */
-    public function test_get_sample_permalink_html_should_use_correct_permalink_for_view_post_link_when_changing_slug() {
+    public function test_get_sample_permalink_html_should_use_correct_permalink_for_view_post_link_when_changing_slug()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         wp_set_current_user(self::$admin_id);
@@ -722,7 +745,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      * @ticket 30910
      * @ticket 18306
      */
-    public function test_get_sample_permalink_html_should_use_preview_links_for_draft_and_pending_posts_with_no_post_name() {
+    public function test_get_sample_permalink_html_should_use_preview_links_for_draft_and_pending_posts_with_no_post_name()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         wp_set_current_user(self::$admin_id);
@@ -744,7 +768,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_avoid_slugs_that_would_create_clashes_with_year_archives() {
+    public function test_get_sample_permalink_should_avoid_slugs_that_would_create_clashes_with_year_archives()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         $p = self::factory()->post->create(
@@ -760,7 +785,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_allow_yearlike_slugs_if_permastruct_does_not_cause_an_archive_conflict() {
+    public function test_get_sample_permalink_should_allow_yearlike_slugs_if_permastruct_does_not_cause_an_archive_conflict()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $p = self::factory()->post->create(
@@ -776,7 +802,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_avoid_slugs_that_would_create_clashes_with_month_archives() {
+    public function test_get_sample_permalink_should_avoid_slugs_that_would_create_clashes_with_month_archives()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $p = self::factory()->post->create(
@@ -792,7 +819,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_ignore_potential_month_conflicts_for_invalid_monthnum() {
+    public function test_get_sample_permalink_should_ignore_potential_month_conflicts_for_invalid_monthnum()
+    {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $p = self::factory()->post->create(
@@ -808,7 +836,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_avoid_slugs_that_would_create_clashes_with_day_archives() {
+    public function test_get_sample_permalink_should_avoid_slugs_that_would_create_clashes_with_day_archives()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $p = self::factory()->post->create(
@@ -824,7 +853,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_iterate_slug_suffix_when_a_date_conflict_is_found() {
+    public function test_get_sample_permalink_should_iterate_slug_suffix_when_a_date_conflict_is_found()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         self::factory()->post->create(
@@ -846,7 +876,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_ignore_potential_day_conflicts_for_invalid_day() {
+    public function test_get_sample_permalink_should_ignore_potential_day_conflicts_for_invalid_day()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%postname%/');
 
         $p = self::factory()->post->create(
@@ -862,7 +893,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_allow_daylike_slugs_if_permastruct_does_not_cause_an_archive_conflict() {
+    public function test_get_sample_permalink_should_allow_daylike_slugs_if_permastruct_does_not_cause_an_archive_conflict()
+    {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
         $p = self::factory()->post->create(
@@ -878,7 +910,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 35368
      */
-    public function test_get_sample_permalink_should_respect_hierarchy_of_draft_pages() {
+    public function test_get_sample_permalink_should_respect_hierarchy_of_draft_pages()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         $parent = self::factory()->post->create(
@@ -909,7 +942,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @covers ::get_sample_permalink
      */
-    public function test_get_sample_permalink_should_preserve_the_original_post_properties() {
+    public function test_get_sample_permalink_should_preserve_the_original_post_properties()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_status' => 'draft',
@@ -935,7 +969,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 59283
      */
-    public function test_get_sample_permalink_should_return_pretty_permalink_for_posts_with_post_status_auto_draft() {
+    public function test_get_sample_permalink_should_return_pretty_permalink_for_posts_with_post_status_auto_draft()
+    {
         $permalink_structure = '%postname%';
         $this->set_permalink_structure("/$permalink_structure/");
 
@@ -954,7 +989,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame($expected, $found[0]);
     }
 
-    public function test_post_exists_should_match_title() {
+    public function test_post_exists_should_match_title()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_title' => 'Foo Bar',
@@ -964,7 +1000,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame($p, post_exists('Foo Bar'));
     }
 
-    public function test_post_exists_should_not_match_nonexistent_title() {
+    public function test_post_exists_should_not_match_nonexistent_title()
+    {
         $p = self::factory()->post->create(
             array(
                 'post_title' => 'Foo Bar',
@@ -974,7 +1011,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame(0, post_exists('Foo Bar Baz'));
     }
 
-    public function test_post_exists_should_match_nonempty_content() {
+    public function test_post_exists_should_match_nonempty_content()
+    {
         $title   = 'Foo Bar';
         $content = 'Foo Bar Baz';
         $p       = self::factory()->post->create(
@@ -990,7 +1028,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * @ticket 35246
      */
-    public function test_post_exists_should_match_content_with_no_title() {
+    public function test_post_exists_should_match_content_with_no_title()
+    {
         $title   = '';
         $content = 'Foo Bar Baz';
         $p       = self::factory()->post->create(
@@ -1003,7 +1042,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame($p, post_exists($title, $content));
     }
 
-    public function test_post_exists_should_not_match_when_nonempty_content_doesnt_match() {
+    public function test_post_exists_should_not_match_when_nonempty_content_doesnt_match()
+    {
         $title   = 'Foo Bar';
         $content = 'Foo Bar Baz';
         $p       = self::factory()->post->create(
@@ -1016,7 +1056,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame(0, post_exists($title, $content));
     }
 
-    public function test_post_exists_should_match_nonempty_date() {
+    public function test_post_exists_should_match_nonempty_date()
+    {
         $title = 'Foo Bar';
         $date  = '2014-05-08 12:00:00';
         $p     = self::factory()->post->create(
@@ -1029,7 +1070,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame($p, post_exists($title, '', $date));
     }
 
-    public function test_post_exists_should_not_match_when_nonempty_date_doesnt_match() {
+    public function test_post_exists_should_not_match_when_nonempty_date_doesnt_match()
+    {
         $title = 'Foo Bar';
         $date  = '2014-05-08 12:00:00';
         $p     = self::factory()->post->create(
@@ -1042,7 +1084,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame(0, post_exists($title, '', $date));
     }
 
-    public function test_post_exists_should_match_nonempty_title_content_and_date() {
+    public function test_post_exists_should_match_nonempty_title_content_and_date()
+    {
         $title   = 'Foo Bar';
         $content = 'Foo Bar Baz';
         $date    = '2014-05-08 12:00:00';
@@ -1057,7 +1100,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
         $this->assertSame($p, post_exists($title, $content, $date));
     }
 
-    public function test_get_block_editor_server_block_settings() {
+    public function test_get_block_editor_server_block_settings()
+    {
         $name     = 'core/test';
         $settings = array(
             'icon'            => 'text',
@@ -1103,7 +1147,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @covers ::add_meta
      */
-    public function test_add_meta_allows_empty_values() {
+    public function test_add_meta_allows_empty_values()
+    {
         $p = self::factory()->post->create();
 
         $_POST = array(
@@ -1122,7 +1167,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @ticket 37406
      */
-    public function test_post_exists_should_support_post_type() {
+    public function test_post_exists_should_support_post_type()
+    {
         if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
@@ -1149,7 +1195,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @ticket 37406
      */
-    public function test_post_exists_should_not_match_a_page_for_post() {
+    public function test_post_exists_should_not_match_a_page_for_post()
+    {
         if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
@@ -1176,7 +1223,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @ticket 34012
      */
-    public function test_post_exists_should_support_post_status() {
+    public function test_post_exists_should_support_post_status()
+    {
         if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
@@ -1206,7 +1254,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @ticket 34012
      */
-    public function test_post_exists_should_support_post_type_status_combined() {
+    public function test_post_exists_should_support_post_type_status_combined()
+    {
         if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
@@ -1235,7 +1284,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @ticket 34012
      */
-    public function test_post_exists_should_only_match_correct_post_status() {
+    public function test_post_exists_should_only_match_correct_post_status()
+    {
         if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
@@ -1264,7 +1314,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
      *
      * @ticket 34012
      */
-    public function test_post_exists_should_not_match_invalid_post_type_and_status_combined() {
+    public function test_post_exists_should_not_match_invalid_post_type_and_status_combined()
+    {
         if (PHP_VERSION_ID >= 80100) {
             /*
              * For the time being, ignoring PHP 8.1 "null to non-nullable" deprecations coming in
@@ -1293,7 +1344,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase {
     /**
      * Test refreshed nonce for metabox loader.
      */
-    public function test_user_get_refreshed_metabox_nonce() {
+    public function test_user_get_refreshed_metabox_nonce()
+    {
 
         // Create a post by the current user.
         wp_set_current_user(self::$editor_id);

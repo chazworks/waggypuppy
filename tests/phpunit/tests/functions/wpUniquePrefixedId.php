@@ -10,7 +10,8 @@
  * @group functions
  * @covers ::wp_unique_prefixed_id
  */
-class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase {
+class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase
+{
 
     /**
      * Tests that the expected unique prefixed IDs are created.
@@ -25,7 +26,8 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase {
      * @param mixed $prefix   The prefix.
      * @param array $expected The next two expected IDs.
      */
-    public function test_should_create_unique_prefixed_ids($prefix, $expected) {
+    public function test_should_create_unique_prefixed_ids($prefix, $expected)
+    {
         $id1 = wp_unique_prefixed_id($prefix);
         $id2 = wp_unique_prefixed_id($prefix);
 
@@ -38,7 +40,8 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_create_unique_prefixed_ids() {
+    public function data_should_create_unique_prefixed_ids()
+    {
         return array(
             'prefix as empty string'       => array(
                 'prefix'   => '',
@@ -85,7 +88,8 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase {
      * @param string $expected_message          Expected notice message.
      * @param array  $expected_ids              Expected unique IDs.
      */
-    public function test_should_raise_notice_and_use_empty_string_prefix_when_nonstring_given($non_string_prefix, $number_of_ids_to_generate, $expected_message, $expected_ids) {
+    public function test_should_raise_notice_and_use_empty_string_prefix_when_nonstring_given($non_string_prefix, $number_of_ids_to_generate, $expected_message, $expected_ids)
+    {
         $this->expectNotice();
         $this->expectNoticeMessage($expected_message);
 
@@ -103,7 +107,8 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_raise_notice_and_use_empty_string_prefix_when_nonstring_given() {
+    public function data_should_raise_notice_and_use_empty_string_prefix_when_nonstring_given()
+    {
         $message = 'wp_unique_prefixed_id(): The prefix must be a string. "%s" data type given.';
         return array(
             'prefix as null'          => array(
@@ -155,7 +160,8 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase {
      * @param array $prefixes The prefixes to check.
      * @param array $expected The expected unique IDs.
      */
-    public function test_same_prefixes_should_generate_unique_ids(array $prefixes, array $expected) {
+    public function test_same_prefixes_should_generate_unique_ids(array $prefixes, array $expected)
+    {
         // Suppress E_USER_NOTICE, which will be raised when a prefix is non-string.
         $original_error_reporting = error_reporting();
         error_reporting($original_error_reporting & ~E_USER_NOTICE);
@@ -177,7 +183,8 @@ class Tests_Functions_WpUniquePrefixedId extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_same_prefixes_should_generate_unique_ids() {
+    public function data_same_prefixes_should_generate_unique_ids()
+    {
         return array(
             'prefixes = empty string' => array(
                 'prefixes' => array(null, true, ''),

@@ -10,7 +10,8 @@
  *
  * @coversDefaultClass WP_REST_Menus_Controller
  */
-class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase {
+class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase
+{
     /**
      * @var int
      */
@@ -46,7 +47,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$admin_id      = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -67,7 +69,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
     /**
      *
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         // Unregister all nav menu locations.
         foreach (array_keys(get_registered_nav_menus()) as $location) {
@@ -100,7 +103,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      *
      * @param array $locations Location slugs.
      */
-    public function register_nav_menu_locations($locations) {
+    public function register_nav_menu_locations($locations)
+    {
         foreach ($locations as $location) {
             register_nav_menu($location, ucfirst($location));
         }
@@ -110,7 +114,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::register_routes
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/menus', $routes);
         $this->assertArrayHasKey('/wp/v2/menus/(?P<id>[\d]+)', $routes);
@@ -120,7 +125,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::get_context_param
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
         $response = rest_get_server()->dispatch($request);
@@ -142,7 +148,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::get_collection_params
      */
-    public function test_registered_query_params() {
+    public function test_registered_query_params()
+    {
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -171,7 +178,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::get_items
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
         wp_update_nav_menu_object(
             0,
@@ -190,7 +198,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::get_item
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$admin_id);
         $nav_menu_id = wp_update_nav_menu_object(
             0,
@@ -212,7 +221,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menus');
@@ -232,7 +242,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_same_name() {
+    public function test_create_item_same_name()
+    {
         wp_set_current_user(self::$admin_id);
 
         wp_update_nav_menu_object(
@@ -256,7 +267,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @covers ::update_item
      * @covers ::handle_auto_add
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menus/' . $this->menu_id);
@@ -284,7 +296,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::delete_item
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $nav_menu_id = wp_update_nav_menu_object(
@@ -311,7 +324,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @covers ::prepare_item_for_response
      * @covers ::get_item
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $nav_menu_id = wp_update_nav_menu_object(
             0,
             array(
@@ -333,7 +347,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::get_item_schema
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/menus');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -351,7 +366,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_with_location_permission_correct() {
+    public function test_create_item_with_location_permission_correct()
+    {
         $this->register_nav_menu_locations(array('primary', 'secondary'));
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/menus');
@@ -370,7 +386,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_with_invalid_location() {
+    public function test_create_item_with_invalid_location()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/menus');
         $request->set_param('name', 'My Awesome Term');
@@ -387,7 +404,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::update_item
      */
-    public function test_update_item_with_no_location() {
+    public function test_update_item_with_no_location()
+    {
         $this->register_nav_menu_locations(array('primary', 'secondary'));
         wp_set_current_user(self::$admin_id);
 
@@ -404,7 +422,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::update_item
      */
-    public function test_update_item_with_location_permission_correct() {
+    public function test_update_item_with_location_permission_correct()
+    {
         $this->register_nav_menu_locations(array('primary', 'secondary'));
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/menus/' . $this->menu_id);
@@ -422,7 +441,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::update_item
      */
-    public function test_update_item_with_location_permission_incorrect() {
+    public function test_update_item_with_location_permission_incorrect()
+    {
         $this->register_nav_menu_locations(array('primary', 'secondary'));
         wp_set_current_user(self::$subscriber_id);
         $request = new WP_REST_Request('POST', '/wp/v2/menus/' . $this->menu_id);
@@ -438,7 +458,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @ticket 40878
      * @covers ::prepare_links
      */
-    public function test_get_item_links() {
+    public function test_get_item_links()
+    {
         wp_set_current_user(self::$admin_id);
 
         $nav_menu_id = wp_update_nav_menu_object(
@@ -468,7 +489,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @covers ::update_item
      * @covers ::handle_locations
      */
-    public function test_change_menu_location() {
+    public function test_change_menu_location()
+    {
         $this->register_nav_menu_locations(array('primary', 'secondary'));
         $secondary_id = self::factory()->term->create(
             array(
@@ -507,7 +529,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @covers ::get_items
      * @covers ::get_items_permissions_check
      */
-    public function test_get_items_no_permission() {
+    public function test_get_items_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/menus');
         $response = rest_get_server()->dispatch($request);
@@ -519,7 +542,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @covers ::get_items
      * @covers ::get_items_permissions_check
      */
-    public function test_get_item_no_permission() {
+    public function test_get_item_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/menus/' . $this->menu_id);
         $response = rest_get_server()->dispatch($request);
@@ -531,7 +555,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @covers ::get_items
      * @covers ::get_items_permissions_check
      */
-    public function test_get_items_wrong_permission() {
+    public function test_get_items_wrong_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/menus');
         $response = rest_get_server()->dispatch($request);
@@ -543,7 +568,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @covers ::get_item
      * @covers ::get_item_permissions_check
      */
-    public function test_get_item_wrong_permission() {
+    public function test_get_item_wrong_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/menus/' . $this->menu_id);
         $response = rest_get_server()->dispatch($request);
@@ -553,7 +579,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
     /**
      * @ticket 40878
      */
-    public function test_it_allows_batch_requests_when_updating_menus() {
+    public function test_it_allows_batch_requests_when_updating_menus()
+    {
         $rest_server = rest_get_server();
         // This call is needed to initialize route_options.
         $rest_server->get_routes();
@@ -566,7 +593,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
     /**
      * @param WP_REST_Response $response Response Class.
      */
-    protected function check_get_taxonomy_terms_response($response) {
+    protected function check_get_taxonomy_terms_response($response)
+    {
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
         $args = array(
@@ -584,7 +612,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @param WP_REST_Response $response Response Class.
      * @param int              $id Term ID.
      */
-    protected function check_get_taxonomy_term_response($response, $id) {
+    protected function check_get_taxonomy_term_response($response, $id)
+    {
         $this->assertSame(200, $response->get_status());
 
         $data = $response->get_data();
@@ -597,7 +626,8 @@ class Tests_REST_WpRestMenusController extends WP_Test_REST_Controller_Testcase 
      * @param array   $data Data from REST API.
      * @param array   $links Array of links.
      */
-    protected function check_taxonomy_term($term, $data, $links) {
+    protected function check_taxonomy_term($term, $data, $links)
+    {
         $this->assertSame($term->term_id, $data['id']);
         $this->assertSame($term->name, $data['name']);
         $this->assertSame($term->slug, $data['slug']);

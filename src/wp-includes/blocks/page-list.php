@@ -15,7 +15,8 @@
  * @param  array $context    Navigation block context.
  * @return array Colors CSS classes and inline styles.
  */
-function block_core_page_list_build_css_colors($attributes, $context) {
+function block_core_page_list_build_css_colors($attributes, $context)
+{
     $colors = array(
         'css_classes'           => array(),
         'inline_styles'         => '',
@@ -108,7 +109,8 @@ function block_core_page_list_build_css_colors($attributes, $context) {
  * @param  array $context Navigation block context.
  * @return array Font size CSS classes and inline styles.
  */
-function block_core_page_list_build_css_font_sizes($context) {
+function block_core_page_list_build_css_font_sizes($context)
+{
     // CSS classes.
     $font_sizes = array(
         'css_classes'   => array(),
@@ -152,7 +154,8 @@ function block_core_page_list_build_css_font_sizes($context) {
  *
  * @return string List markup.
  */
-function block_core_page_list_render_nested_page_list($open_submenus_on_click, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids = array(), $colors = array(), $depth = 0) {
+function block_core_page_list_render_nested_page_list($open_submenus_on_click, $show_submenu_icons, $is_navigation_child, $nested_pages, $is_nested, $active_page_ancestor_ids = array(), $colors = array(), $depth = 0)
+{
     if (empty($nested_pages)) {
         return;
     }
@@ -235,7 +238,8 @@ function block_core_page_list_render_nested_page_list($open_submenus_on_click, $
  *
  * @return array The nested array of pages.
  */
-function block_core_page_list_nest_pages($current_level, $children) {
+function block_core_page_list_nest_pages($current_level, $children)
+{
     if (empty($current_level)) {
         return;
     }
@@ -258,7 +262,8 @@ function block_core_page_list_nest_pages($current_level, $children) {
  *
  * @return string Returns the page list markup.
  */
-function render_block_core_page_list($attributes, $content, $block) {
+function render_block_core_page_list($attributes, $content, $block)
+{
     static $block_id = 0;
     ++$block_id;
 
@@ -360,7 +365,8 @@ function render_block_core_page_list($attributes, $content, $block) {
  *
  * @since 5.8.0
  */
-function register_block_core_page_list() {
+function register_block_core_page_list()
+{
     register_block_type_from_metadata(
         __DIR__ . '/page-list',
         array(

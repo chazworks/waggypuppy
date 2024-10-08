@@ -18,18 +18,21 @@
  * @group restapi
  * @group navigation
  */
-class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controller_Testcase {
+class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controller_Testcase
+{
 
     protected static $admin_user;
     protected static $editor_user;
 
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$admin_user = $factory->user->create(array('role' => 'administrator'));
 
         self::$editor_user = $factory->user->create(array('role' => 'editor'));
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         wp_set_current_user(self::$admin_user);
@@ -41,7 +44,8 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      *
      * @since 6.3.0 Added Navigation Fallbacks endpoint.
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
 
         $this->assertArrayHasKey('/wp-block-editor/v1/navigation-fallback', $routes, 'Fallback route should be registered.');
@@ -53,7 +57,8 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      *
      * @since 6.3.0 Added Navigation Fallbacks endpoint.
      */
-    public function test_should_not_return_menus_for_users_without_permissions() {
+    public function test_should_not_return_menus_for_users_without_permissions()
+    {
 
         wp_set_current_user(self::$editor_user);
 
@@ -74,7 +79,8 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      *
      * @since 6.3.0 Added Navigation Fallbacks endpoint.
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
 
         $request  = new WP_REST_Request('GET', '/wp-block-editor/v1/navigation-fallback');
         $response = rest_get_server()->dispatch($request);
@@ -100,7 +106,8 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      *
      * @since 6.3.0 Added Navigation Fallbacks endpoint.
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request  = new WP_REST_Request('OPTIONS', '/wp-block-editor/v1/navigation-fallback');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -124,7 +131,8 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      *
      * @since 6.3.0 Added Navigation Fallbacks endpoint.
      */
-    public function test_adds_links() {
+    public function test_adds_links()
+    {
         $request  = new WP_REST_Request('GET', '/wp-block-editor/v1/navigation-fallback');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -156,7 +164,8 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
      *
      * @since 6.3.0 Added Navigation Fallbacks endpoint.
      */
-    public function test_embedded_navigation_post_contains_required_fields() {
+    public function test_embedded_navigation_post_contains_required_fields()
+    {
         // First we'll use the navigation fallback to get a link to the navigation endpoint.
         $request  = new WP_REST_Request('GET', '/wp-block-editor/v1/navigation-fallback');
         $response = rest_get_server()->dispatch($request);
@@ -176,7 +185,8 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
         $this->assertArrayHasKey('raw', $embedded['title'], 'Response title should contain a "raw" key.');
     }
 
-    private function get_navigations_in_database() {
+    private function get_navigations_in_database()
+    {
         $navs_in_db = new WP_Query(
             array(
                 'post_type'      => 'wp_navigation',
@@ -193,42 +203,48 @@ class WP_REST_Navigation_Fallback_Controller_Test extends WP_Test_REST_Controlle
     /**
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Covered by the core test.
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Covered by the core test.
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         // Covered by the core test.
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 }

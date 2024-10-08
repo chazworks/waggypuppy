@@ -14,7 +14,8 @@
  *
  * @see WP_List_Table
  */
-class WP_Themes_List_Table extends WP_List_Table {
+class WP_Themes_List_Table extends WP_List_Table
+{
 
     protected $search_terms = array();
     public $features        = array();
@@ -28,7 +29,8 @@ class WP_Themes_List_Table extends WP_List_Table {
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         parent::__construct(
             array(
                 'ajax'   => true,
@@ -40,14 +42,16 @@ class WP_Themes_List_Table extends WP_List_Table {
     /**
      * @return bool
      */
-    public function ajax_user_can() {
+    public function ajax_user_can()
+    {
         // Do not check edit_theme_options here. Ajax calls for available themes require switch_themes.
         return current_user_can('switch_themes');
     }
 
     /**
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         $themes = wp_get_themes(array('allowed' => true));
 
         if (! empty($_REQUEST['s'])) {
@@ -87,7 +91,8 @@ class WP_Themes_List_Table extends WP_List_Table {
 
     /**
      */
-    public function no_items() {
+    public function no_items()
+    {
         if ($this->search_terms || $this->features) {
             _e('No items found.');
             return;
@@ -136,7 +141,8 @@ class WP_Themes_List_Table extends WP_List_Table {
     /**
      * @param string $which
      */
-    public function tablenav($which = 'top') {
+    public function tablenav($which = 'top')
+    {
         if ($this->get_pagination_arg('total_pages') <= 1) {
             return;
         }
@@ -156,7 +162,8 @@ class WP_Themes_List_Table extends WP_List_Table {
      *
      * @since 3.1.0
      */
-    public function display() {
+    public function display()
+    {
         wp_nonce_field('fetch-list-' . get_class($this), '_ajax_fetch_list_nonce');
         ?>
         <?php $this->tablenav('top'); ?>
@@ -172,13 +179,15 @@ class WP_Themes_List_Table extends WP_List_Table {
     /**
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         return array();
     }
 
     /**
      */
-    public function display_rows_or_placeholder() {
+    public function display_rows_or_placeholder()
+    {
         if ($this->has_items()) {
             $this->display_rows();
         } else {
@@ -193,7 +202,8 @@ class WP_Themes_List_Table extends WP_List_Table {
      *
      * @since 3.1.0
      */
-    public function display_rows() {
+    public function display_rows()
+    {
         $themes = $this->items;
 
         foreach ($themes as $theme) :
@@ -301,7 +311,8 @@ class WP_Themes_List_Table extends WP_List_Table {
      * @param WP_Theme $theme
      * @return bool
      */
-    public function search_theme($theme) {
+    public function search_theme($theme)
+    {
         // Search the features.
         foreach ($this->features as $word) {
             if (! in_array($word, $theme->get('Tags'), true)) {
@@ -343,7 +354,8 @@ class WP_Themes_List_Table extends WP_List_Table {
      *
      * @param array $extra_args
      */
-    public function _js_vars($extra_args = array()) {
+    public function _js_vars($extra_args = array())
+    {
         $search_string = isset($_REQUEST['s']) ? esc_attr(wp_unslash($_REQUEST['s'])) : '';
 
         $args = array(

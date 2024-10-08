@@ -7,13 +7,15 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_SiteDetails extends WP_UnitTestCase {
+    class Tests_Multisite_SiteDetails extends WP_UnitTestCase
+    {
         /**
          * @dataProvider data_allowed_options
          *
          * @ticket 40063
          */
-        public function test_update_allowed_option_deletes_site_details_cache($allowed_option, $temporary_value) {
+        public function test_update_allowed_option_deletes_site_details_cache($allowed_option, $temporary_value)
+        {
             $site = get_site();
 
             $original_value = $site->$allowed_option;
@@ -32,7 +34,8 @@ if (is_multisite()) :
          *
          * @ticket 40063
          */
-        public function test_update_allowed_option_deletes_blog_details_cache($allowed_option, $temporary_value) {
+        public function test_update_allowed_option_deletes_blog_details_cache($allowed_option, $temporary_value)
+        {
             $blog_details = get_blog_details();
 
             $original_value = $blog_details->$allowed_option;
@@ -51,7 +54,8 @@ if (is_multisite()) :
          *
          * @ticket 40063
          */
-        public function test_update_allowed_option_does_not_delete_site_cache($allowed_option, $temporary_value) {
+        public function test_update_allowed_option_does_not_delete_site_cache($allowed_option, $temporary_value)
+        {
             $site = get_site();
 
             $original_value = $site->$allowed_option;
@@ -70,7 +74,8 @@ if (is_multisite()) :
          *
          * @ticket 40063
          */
-        public function test_update_allowed_option_does_not_delete_short_blog_details_cache($allowed_option, $temporary_value) {
+        public function test_update_allowed_option_does_not_delete_short_blog_details_cache($allowed_option, $temporary_value)
+        {
             $blog_details = get_blog_details(null, false);
 
             $original_value = get_option($allowed_option);
@@ -89,7 +94,8 @@ if (is_multisite()) :
          *
          * @ticket 40063
          */
-        public function test_update_allowed_option_does_not_update_sites_last_changed($allowed_option, $temporary_value) {
+        public function test_update_allowed_option_does_not_update_sites_last_changed($allowed_option, $temporary_value)
+        {
             $last_changed = wp_cache_get_last_changed('sites');
 
             $original_value = get_option($allowed_option);
@@ -103,7 +109,8 @@ if (is_multisite()) :
             $this->assertSame($new_last_changed, $last_changed);
         }
 
-        public function data_allowed_options() {
+        public function data_allowed_options()
+        {
             return array(
                 array('blogname', 'Custom Site'),
                 array('home', 'http://custom-site-url.org'),
@@ -115,7 +122,8 @@ if (is_multisite()) :
         /**
          * @ticket 40063
          */
-        public function test_update_random_blog_option_does_not_delete_cache() {
+        public function test_update_random_blog_option_does_not_delete_cache()
+        {
             $site = get_site();
 
             update_option('foobar_option', 'foobar_value');
@@ -129,7 +137,8 @@ if (is_multisite()) :
         /**
          * @ticket 40247
          */
-        public function test_site_details_cached_including_false_values() {
+        public function test_site_details_cached_including_false_values()
+        {
             $id = self::factory()->blog->create();
 
             $site = get_site($id);
@@ -145,7 +154,8 @@ if (is_multisite()) :
             $this->assertNotFalse($cached_details);
         }
 
-        public function test_site_details_filter_with_blogname() {
+        public function test_site_details_filter_with_blogname()
+        {
             add_filter('site_details', array($this, '_filter_site_details_blogname'));
             $site     = get_site();
             $blogname = $site->blogname;
@@ -154,7 +164,8 @@ if (is_multisite()) :
             $this->assertSame('Foo Bar', $blogname);
         }
 
-        public function _filter_site_details_blogname($details) {
+        public function _filter_site_details_blogname($details)
+        {
             $details->blogname = 'Foo Bar';
             return $details;
         }
@@ -162,7 +173,8 @@ if (is_multisite()) :
         /**
          * @ticket 40458
          */
-        public function test_site_details_filter_with_custom_value_isetter() {
+        public function test_site_details_filter_with_custom_value_isetter()
+        {
             add_filter('site_details', array($this, '_filter_site_details_custom_value'));
             $site               = get_site();
             $custom_value_isset = isset($site->custom_value);
@@ -174,7 +186,8 @@ if (is_multisite()) :
         /**
          * @ticket 40458
          */
-        public function test_site_details_filter_with_custom_value_getter() {
+        public function test_site_details_filter_with_custom_value_getter()
+        {
             add_filter('site_details', array($this, '_filter_site_details_custom_value'));
             $site         = get_site();
             $custom_value = $site->custom_value;
@@ -183,7 +196,8 @@ if (is_multisite()) :
             $this->assertSame('foo', $custom_value);
         }
 
-        public function _filter_site_details_custom_value($details) {
+        public function _filter_site_details_custom_value($details)
+        {
             $details->custom_value = 'foo';
             return $details;
         }

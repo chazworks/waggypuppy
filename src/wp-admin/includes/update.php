@@ -13,7 +13,8 @@
  *
  * @return object|array|false The response from the API on success, false on failure.
  */
-function get_preferred_from_update_core() {
+function get_preferred_from_update_core()
+{
     $updates = get_core_updates();
 
     if (! is_array($updates)) {
@@ -36,7 +37,8 @@ function get_preferred_from_update_core() {
  *                       set $options['available'] to false to skip not-dismissed updates.
  * @return array|false Array of the update objects on success, false on failure.
  */
-function get_core_updates($options = array()) {
+function get_core_updates($options = array())
+{
     $options = array_merge(
         array(
             'available' => true,
@@ -90,7 +92,8 @@ function get_core_updates($options = array()) {
  *
  * @return object|false The core update offering on success, false on failure.
  */
-function find_core_auto_update() {
+function find_core_auto_update()
+{
     $updates = get_site_transient('update_core');
 
     if (! $updates || empty($updates->updates)) {
@@ -128,7 +131,8 @@ function find_core_auto_update() {
  * @param string $locale  Locale to query.
  * @return array|false An array of checksums on success, false on failure.
  */
-function get_core_checksums($version, $locale) {
+function get_core_checksums($version, $locale)
+{
     $http_url = 'http://api.wordpress.org/core/checksums/1.0/?' . http_build_query(compact('version', 'locale'), '', '&');
     $url      = $http_url;
 
@@ -180,7 +184,8 @@ function get_core_checksums($version, $locale) {
  * @param object $update
  * @return bool
  */
-function dismiss_core_update($update) {
+function dismiss_core_update($update)
+{
     $dismissed = get_site_option('dismissed_update_core');
     $dismissed[ $update->current . '|' . $update->locale ] = true;
 
@@ -196,7 +201,8 @@ function dismiss_core_update($update) {
  * @param string $locale
  * @return bool
  */
-function undismiss_core_update($version, $locale) {
+function undismiss_core_update($version, $locale)
+{
     $dismissed = get_site_option('dismissed_update_core');
     $key       = $version . '|' . $locale;
 
@@ -218,7 +224,8 @@ function undismiss_core_update($version, $locale) {
  * @param string $locale  Locale to find the update for.
  * @return object|false The core update offering on success, false on failure.
  */
-function find_core_update($version, $locale) {
+function find_core_update($version, $locale)
+{
     $from_api = get_site_transient('update_core');
 
     if (! isset($from_api->updates) || ! is_array($from_api->updates)) {
@@ -244,7 +251,8 @@ function find_core_update($version, $locale) {
  * @param string $msg
  * @return string
  */
-function core_update_footer($msg = '') {
+function core_update_footer($msg = '')
+{
     if (! current_user_can('update_core')) {
         /* translators: %s: WordPress version. */
         return sprintf(__('Version %s'), get_bloginfo('version', 'display'));
@@ -299,7 +307,8 @@ function core_update_footer($msg = '') {
  * @global string $pagenow The filename of the current screen.
  * @return void|false
  */
-function update_nag() {
+function update_nag()
+{
     global $pagenow;
 
     if (is_multisite() && ! current_user_can('update_core')) {
@@ -355,7 +364,8 @@ function update_nag() {
  *
  * @since 2.5.0
  */
-function update_right_now_message() {
+function update_right_now_message()
+{
     $theme_name = wp_get_theme();
 
     if (current_user_can('switch_themes')) {
@@ -403,7 +413,8 @@ function update_right_now_message() {
  *
  * @return array
  */
-function get_plugin_updates() {
+function get_plugin_updates()
+{
     $all_plugins     = get_plugins();
     $upgrade_plugins = array();
     $current         = get_site_transient('update_plugins');
@@ -423,7 +434,8 @@ function get_plugin_updates() {
  *
  * @since 2.9.0
  */
-function wp_plugin_update_rows() {
+function wp_plugin_update_rows()
+{
     if (! current_user_can('update_plugins')) {
         return;
     }
@@ -448,7 +460,8 @@ function wp_plugin_update_rows() {
  * @param array  $plugin_data Plugin information.
  * @return void|false
  */
-function wp_plugin_update_row($file, $plugin_data) {
+function wp_plugin_update_row($file, $plugin_data)
+{
     $current = get_site_transient('update_plugins');
 
     if (! isset($current->response[ $file ])) {
@@ -626,7 +639,8 @@ function wp_plugin_update_row($file, $plugin_data) {
  *
  * @return array
  */
-function get_theme_updates() {
+function get_theme_updates()
+{
     $current = get_site_transient('update_themes');
 
     if (! isset($current->response)) {
@@ -648,7 +662,8 @@ function get_theme_updates() {
  *
  * @since 3.1.0
  */
-function wp_theme_update_rows() {
+function wp_theme_update_rows()
+{
     if (! current_user_can('update_themes')) {
         return;
     }
@@ -673,7 +688,8 @@ function wp_theme_update_rows() {
  * @param WP_Theme $theme     Theme object.
  * @return void|false
  */
-function wp_theme_update_row($theme_key, $theme) {
+function wp_theme_update_row($theme_key, $theme)
+{
     $current = get_site_transient('update_themes');
 
     if (! isset($current->response[ $theme_key ])) {
@@ -850,7 +866,8 @@ function wp_theme_update_row($theme_key, $theme) {
  *
  * @return void|false
  */
-function maintenance_nag() {
+function maintenance_nag()
+{
     global $upgrading;
 
     $nag = isset($upgrading);
@@ -913,7 +930,8 @@ function maintenance_nag() {
  *         @type string type      The type of update the notice is for. Either 'plugin' or 'theme'.
  *     }
  */
-function wp_print_admin_notice_templates() {
+function wp_print_admin_notice_templates()
+{
     ?>
     <script id="tmpl-wp-updates-admin-notice" type="text/html">
         <div <# if ( data.id ) { #>id="{{ data.id }}"<# } #> class="notice {{ data.className }}"><p>{{{ data.message }}}</p></div>
@@ -976,7 +994,8 @@ function wp_print_admin_notice_templates() {
  *         @type string colspan The number of table columns this row spans.
  *     }
  */
-function wp_print_update_row_templates() {
+function wp_print_update_row_templates()
+{
     ?>
     <script id="tmpl-item-update-row" type="text/template">
         <tr class="plugin-update-tr update" id="{{ data.slug }}-update" data-slug="{{ data.slug }}" <# if ( data.plugin ) { #>data-plugin="{{ data.plugin }}"<# } #>>
@@ -1016,7 +1035,8 @@ function wp_print_update_row_templates() {
  *
  * @since 5.2.0
  */
-function wp_recovery_mode_nag() {
+function wp_recovery_mode_nag()
+{
     if (! wp_is_recovery_mode()) {
         return;
     }
@@ -1041,7 +1061,8 @@ function wp_recovery_mode_nag() {
  * @param string $type The type of update being checked: Either 'theme' or 'plugin'.
  * @return bool True if auto-updates are enabled for `$type`, false otherwise.
  */
-function wp_is_auto_update_enabled_for_type($type) {
+function wp_is_auto_update_enabled_for_type($type)
+{
     if (! class_exists('WP_Automatic_Updater')) {
         require_once ABSPATH . 'wp-admin/includes/class-wp-automatic-updater.php';
     }
@@ -1084,7 +1105,8 @@ function wp_is_auto_update_enabled_for_type($type) {
  * @param object    $item   The update offer.
  * @return bool True if auto-updates are forced for `$item`, false otherwise.
  */
-function wp_is_auto_update_forced_for_item($type, $update, $item) {
+function wp_is_auto_update_forced_for_item($type, $update, $item)
+{
     /** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
     return apply_filters("auto_update_{$type}", $update, $item);
 }
@@ -1096,7 +1118,8 @@ function wp_is_auto_update_forced_for_item($type, $update, $item) {
  *
  * @return string The update message to be shown.
  */
-function wp_get_auto_update_message() {
+function wp_get_auto_update_message()
+{
     $next_update_time = wp_next_scheduled('wp_version_check');
 
     // Check if the event exists.

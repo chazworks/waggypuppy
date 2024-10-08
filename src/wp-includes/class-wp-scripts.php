@@ -15,7 +15,8 @@
  *
  * @see WP_Dependencies
  */
-class WP_Scripts extends WP_Dependencies {
+class WP_Scripts extends WP_Dependencies
+{
     /**
      * Base URL for scripts.
      *
@@ -145,7 +146,8 @@ class WP_Scripts extends WP_Dependencies {
      *
      * @since 2.6.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->init();
         add_action('init', array($this, 'init'), 0);
     }
@@ -155,7 +157,8 @@ class WP_Scripts extends WP_Dependencies {
      *
      * @since 3.4.0
      */
-    public function init() {
+    public function init()
+    {
         /**
          * Fires when the WP_Scripts instance is initialized.
          *
@@ -181,7 +184,8 @@ class WP_Scripts extends WP_Dependencies {
      *                                       Default false.
      * @return string[] Handles of scripts that have been printed.
      */
-    public function print_scripts($handles = false, $group = false) {
+    public function print_scripts($handles = false, $group = false)
+    {
         return $this->do_items($handles, $group);
     }
 
@@ -200,7 +204,8 @@ class WP_Scripts extends WP_Dependencies {
      * @return bool|string|void Void if no data exists, extra scripts if `$display` is true,
      *                          true otherwise.
      */
-    public function print_scripts_l10n($handle, $display = true) {
+    public function print_scripts_l10n($handle, $display = true)
+    {
         _deprecated_function(__FUNCTION__, '3.3.0', 'WP_Scripts::print_extra_script()');
         return $this->print_extra_script($handle, $display);
     }
@@ -216,7 +221,8 @@ class WP_Scripts extends WP_Dependencies {
      * @return bool|string|void Void if no data exists, extra scripts if `$display` is true,
      *                          true otherwise.
      */
-    public function print_extra_script($handle, $display = true) {
+    public function print_extra_script($handle, $display = true)
+    {
         $output = $this->get_data($handle, 'data');
         if (! $output) {
             return;
@@ -241,7 +247,8 @@ class WP_Scripts extends WP_Dependencies {
      * @param string $handle Script handle.
      * @return bool Whether all dependents are in the footer.
      */
-    private function are_all_dependents_in_footer($handle) {
+    private function are_all_dependents_in_footer($handle)
+    {
         foreach ($this->get_dependents($handle) as $dep) {
             if (isset($this->groups[ $dep ]) && 0 === $this->groups[ $dep ]) {
                 return false;
@@ -263,7 +270,8 @@ class WP_Scripts extends WP_Dependencies {
      *                          Default false.
      * @return bool True on success, false on failure.
      */
-    public function do_item($handle, $group = false) {
+    public function do_item($handle, $group = false)
+    {
         if (! parent::do_item($handle)) {
             return false;
         }
@@ -459,7 +467,8 @@ class WP_Scripts extends WP_Dependencies {
      *                         before the handle or after. Default 'after'.
      * @return bool True on success, false on failure.
      */
-    public function add_inline_script($handle, $data, $position = 'after') {
+    public function add_inline_script($handle, $data, $position = 'after')
+    {
         if (! $data) {
             return false;
         }
@@ -488,7 +497,8 @@ class WP_Scripts extends WP_Dependencies {
      *                         instead of just returning the script data. Default true.
      * @return string|false Script data on success, false otherwise.
      */
-    public function print_inline_script($handle, $position = 'after', $display = true) {
+    public function print_inline_script($handle, $position = 'after', $display = true)
+    {
         _deprecated_function(__METHOD__, '6.3.0', 'WP_Scripts::get_inline_script_data() or WP_Scripts::get_inline_script_tag()');
 
         $output = $this->get_inline_script_data($handle, $position);
@@ -513,7 +523,8 @@ class WP_Scripts extends WP_Dependencies {
      *                         before the handle or after. Default 'after'.
      * @return string Inline script, which may be empty string.
      */
-    public function get_inline_script_data($handle, $position = 'after') {
+    public function get_inline_script_data($handle, $position = 'after')
+    {
         $data = $this->get_data($handle, $position);
         if (empty($data) || ! is_array($data)) {
             return '';
@@ -533,7 +544,8 @@ class WP_Scripts extends WP_Dependencies {
      *                         scripts in the before or after position. Default 'after'.
      * @return string Inline script, which may be empty string.
      */
-    public function get_inline_script_tag($handle, $position = 'after') {
+    public function get_inline_script_tag($handle, $position = 'after')
+    {
         $js = $this->get_inline_script_data($handle, $position);
         if (empty($js)) {
             return '';
@@ -554,7 +566,8 @@ class WP_Scripts extends WP_Dependencies {
      * @param array  $l10n        Array of data to localize.
      * @return bool True on success, false on failure.
      */
-    public function localize($handle, $object_name, $l10n) {
+    public function localize($handle, $object_name, $l10n)
+    {
         if ('jquery' === $handle) {
             $handle = 'jquery-core';
         }
@@ -622,7 +635,8 @@ class WP_Scripts extends WP_Dependencies {
      *                             Default false.
      * @return bool Not already in the group or a lower group.
      */
-    public function set_group($handle, $recursion, $group = false) {
+    public function set_group($handle, $recursion, $group = false)
+    {
         if (isset($this->registered[ $handle ]->args) && 1 === $this->registered[ $handle ]->args) {
             $calculated_group = 1;
         } else {
@@ -647,7 +661,8 @@ class WP_Scripts extends WP_Dependencies {
      * @param string $path   Optional. The full file path to the directory containing translation files.
      * @return bool True if the text domain was registered, false if not.
      */
-    public function set_translations($handle, $domain = 'default', $path = '') {
+    public function set_translations($handle, $domain = 'default', $path = '')
+    {
         if (! isset($this->registered[ $handle ])) {
             return false;
         }
@@ -673,7 +688,8 @@ class WP_Scripts extends WP_Dependencies {
      *                        instead of just returning it. Default true.
      * @return string|false Script on success, false otherwise.
      */
-    public function print_translations($handle, $display = true) {
+    public function print_translations($handle, $display = true)
+    {
         if (! isset($this->registered[ $handle ]) || empty($this->registered[ $handle ]->textdomain)) {
             return false;
         }
@@ -720,7 +736,8 @@ JS;
      *                                   Default false.
      * @return bool True on success, false on failure.
      */
-    public function all_deps($handles, $recursion = false, $group = false) {
+    public function all_deps($handles, $recursion = false, $group = false)
+    {
         $result = parent::all_deps($handles, $recursion, $group);
         if (! $recursion) {
             /**
@@ -744,7 +761,8 @@ JS;
      *
      * @return string[] Handles of items that have been processed.
      */
-    public function do_head_items() {
+    public function do_head_items()
+    {
         $this->do_items(false, 0);
         return $this->done;
     }
@@ -758,7 +776,8 @@ JS;
      *
      * @return string[] Handles of items that have been processed.
      */
-    public function do_footer_items() {
+    public function do_footer_items()
+    {
         $this->do_items(false, 1);
         return $this->done;
     }
@@ -771,7 +790,8 @@ JS;
      * @param string $src The source of the enqueued script.
      * @return bool True if found, false if not.
      */
-    public function in_default_dir($src) {
+    public function in_default_dir($src)
+    {
         if (! $this->default_dirs) {
             return true;
         }
@@ -798,7 +818,8 @@ JS;
      * @param mixed  $value  The data value.
      * @return bool True on success, false on failure.
      */
-    public function add_data($handle, $key, $value) {
+    public function add_data($handle, $key, $value)
+    {
         if (! isset($this->registered[ $handle ])) {
             return false;
         }
@@ -841,7 +862,8 @@ JS;
      * @param string $handle The script handle.
      * @return string[] Script handles.
      */
-    private function get_dependents($handle) {
+    private function get_dependents($handle)
+    {
         // Check if dependents map for the handle in question is present. If so, use it.
         if (isset($this->dependents_map[ $handle ])) {
             return $this->dependents_map[ $handle ];
@@ -870,7 +892,8 @@ JS;
      * @param string $strategy The strategy to check.
      * @return bool True if $strategy is one of the delayed strategies, otherwise false.
      */
-    private function is_delayed_strategy($strategy) {
+    private function is_delayed_strategy($strategy)
+    {
         return in_array(
             $strategy,
             $this->delayed_strategies,
@@ -886,7 +909,8 @@ JS;
      * @param string $handle The script handle.
      * @return string The best eligible loading strategy.
      */
-    private function get_eligible_loading_strategy($handle) {
+    private function get_eligible_loading_strategy($handle)
+    {
         $intended_strategy = (string) $this->get_data($handle, 'strategy');
 
         // Bail early if there is no intended strategy.
@@ -920,7 +944,8 @@ JS;
      * @param array<string, true> $checked             Optional. An array of already checked script handles, used to avoid recursive loops.
      * @return string[] A list of eligible loading strategies that could be used.
      */
-    private function filter_eligible_strategies($handle, $eligible_strategies = null, $checked = array()) {
+    private function filter_eligible_strategies($handle, $eligible_strategies = null, $checked = array())
+    {
         // If no strategies are being passed, all strategies are eligible.
         if (null === $eligible_strategies) {
             $eligible_strategies = $this->delayed_strategies;
@@ -986,7 +1011,8 @@ JS;
      * @param string $position The position of the inline script.
      * @return bool Whether the handle has an inline script (either before or after).
      */
-    private function has_inline_script($handle, $position = null) {
+    private function has_inline_script($handle, $position = null)
+    {
         if ($position && in_array($position, array('before', 'after'), true)) {
             return (bool) $this->get_data($handle, $position);
         }
@@ -999,7 +1025,8 @@ JS;
      *
      * @since 2.8.0
      */
-    public function reset() {
+    public function reset()
+    {
         $this->do_concat      = false;
         $this->print_code     = '';
         $this->concat         = '';

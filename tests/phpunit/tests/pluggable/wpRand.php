@@ -5,7 +5,8 @@
  *
  * @covers ::wp_rand
  */
-class Tests_Pluggable_wpRand extends WP_UnitTestCase {
+class Tests_Pluggable_wpRand extends WP_UnitTestCase
+{
 
     /**
      * Tests that wp_rand() returns a non-negative integer for both positive and negative input.
@@ -16,7 +17,8 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase {
      * @param int $min Lower limit for the generated number.
      * @param int $max Upper limit for the generated number.
      */
-    public function test_wp_rand_should_return_a_non_negative_integer($min, $max) {
+    public function test_wp_rand_should_return_a_non_negative_integer($min, $max)
+    {
         $this->assertGreaterThanOrEqual(
             0,
             wp_rand($min, $max),
@@ -35,7 +37,8 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_rand_should_return_a_non_negative_integer() {
+    public function data_wp_rand_should_return_a_non_negative_integer()
+    {
         return array(
             '1 and 99'       => array(
                 'min' => 1,
@@ -73,7 +76,8 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase {
      * @param mixed $min Lower limit for the generated number.
      * @param mixed $max Upper limit for the generated number.
      */
-    public function test_wp_rand_should_return_zero_when_min_and_max_are_zero($min, $max) {
+    public function test_wp_rand_should_return_zero_when_min_and_max_are_zero($min, $max)
+    {
         $this->assertSame(0, wp_rand($min, $max));
     }
 
@@ -82,7 +86,8 @@ class Tests_Pluggable_wpRand extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_rand_should_return_zero_when_min_and_max_are_zero() {
+    public function data_wp_rand_should_return_zero_when_min_and_max_are_zero()
+    {
         return array(
             'min and max as 0'      => array(
                 'min' => 0,

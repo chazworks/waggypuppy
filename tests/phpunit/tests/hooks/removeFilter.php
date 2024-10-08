@@ -6,9 +6,11 @@
  * @group hooks
  * @covers WP_Hook::remove_filter
  */
-class Tests_Hooks_RemoveFilter extends WP_UnitTestCase {
+class Tests_Hooks_RemoveFilter extends WP_UnitTestCase
+{
 
-    public function test_remove_filter_with_function() {
+    public function test_remove_filter_with_function()
+    {
         $callback      = '__return_null';
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
@@ -22,7 +24,8 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase {
         $this->assertArrayNotHasKey($priority, $hook->callbacks);
     }
 
-    public function test_remove_filter_with_object() {
+    public function test_remove_filter_with_object()
+    {
         $a             = new MockAction();
         $callback      = array($a, 'action');
         $hook          = new WP_Hook();
@@ -37,7 +40,8 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase {
         $this->assertArrayNotHasKey($priority, $hook->callbacks);
     }
 
-    public function test_remove_filter_with_static_method() {
+    public function test_remove_filter_with_static_method()
+    {
         $callback      = array('MockAction', 'action');
         $hook          = new WP_Hook();
         $hook_name     = __FUNCTION__;
@@ -51,7 +55,8 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase {
         $this->assertArrayNotHasKey($priority, $hook->callbacks);
     }
 
-    public function test_remove_filters_with_another_at_same_priority() {
+    public function test_remove_filters_with_another_at_same_priority()
+    {
         $callback_one  = '__return_null';
         $callback_two  = '__return_false';
         $hook          = new WP_Hook();
@@ -68,7 +73,8 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase {
         $this->check_priority_exists($hook, $priority, 'Has priority of 2');
     }
 
-    public function test_remove_filter_with_another_at_different_priority() {
+    public function test_remove_filter_with_another_at_different_priority()
+    {
         $callback_one  = '__return_null';
         $callback_two  = '__return_false';
         $hook          = new WP_Hook();
@@ -86,19 +92,22 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase {
         $this->check_priority_exists($hook, $priority + 1, 'Should priority of 3');
     }
 
-    protected function check_priority_non_existent($hook, $priority) {
+    protected function check_priority_non_existent($hook, $priority)
+    {
         $priorities = $this->get_priorities($hook);
 
         $this->assertNotContains($priority, $priorities);
     }
 
-    protected function check_priority_exists($hook, $priority) {
+    protected function check_priority_exists($hook, $priority)
+    {
         $priorities = $this->get_priorities($hook);
 
         $this->assertContains($priority, $priorities);
     }
 
-    protected function get_priorities($hook) {
+    protected function get_priorities($hook)
+    {
         $reflection          = new ReflectionClass($hook);
         $reflection_property = $reflection->getProperty('priorities');
         $reflection_property->setAccessible(true);

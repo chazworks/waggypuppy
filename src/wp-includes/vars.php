@@ -155,7 +155,8 @@ $is_iis7 = $is_IIS && (int) substr($_SERVER['SERVER_SOFTWARE'], strpos($_SERVER[
  *
  * @return bool
  */
-function wp_is_mobile() {
+function wp_is_mobile()
+{
     if (isset($_SERVER['HTTP_SEC_CH_UA_MOBILE'])) {
         // This is the `Sec-CH-UA-Mobile` user agent client hint HTTP request header.
         // See <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Sec-CH-UA-Mobile>.

@@ -16,7 +16,8 @@
  * This class does not register itself as a stream handler: test fixtures
  * should make the appropriate call to stream_wrapper_register().
  */
-class WP_Test_Stream {
+class WP_Test_Stream
+{
     const FILE_MODE      = 0100666;
     const DIRECTORY_MODE = 040777;
 
@@ -44,7 +45,8 @@ class WP_Test_Stream {
      *
      * @param string $url A URL of the form "protocol://bucket/path".
      */
-    private function open($url) {
+    private function open($url)
+    {
         $components = array_merge(
             array(
                 'host' => '',
@@ -74,7 +76,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_open
      */
-    public function stream_open($path, $mode, $options, &$opened_path) {
+    public function stream_open($path, $mode, $options, &$opened_path)
+    {
         $this->open($path);
         return true;
     }
@@ -84,7 +87,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_read
      */
-    public function stream_read($count) {
+    public function stream_read($count)
+    {
         if (! isset($this->data_ref)) {
             return '';
         }
@@ -100,7 +104,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_write
      */
-    public function stream_write($data) {
+    public function stream_write($data)
+    {
         if (! isset($this->data_ref)) {
             $this->data_ref = '';
         }
@@ -123,7 +128,8 @@ class WP_Test_Stream {
      * @param int $whence Optional. Seek position.
      * @return bool Returns true when position is updated, else false.
      */
-    public function stream_seek($offset, $whence = SEEK_SET) {
+    public function stream_seek($offset, $whence = SEEK_SET)
+    {
         if (empty($this->data_ref)) {
             return false;
         }
@@ -161,7 +167,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_tell
      */
-    public function stream_tell() {
+    public function stream_tell()
+    {
         return $this->position;
     }
 
@@ -170,7 +177,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_eof
      */
-    public function stream_eof() {
+    public function stream_eof()
+    {
         if (! isset($this->data_ref)) {
             return true;
         }
@@ -183,7 +191,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_metadata
      */
-    public function stream_metadata($path, $option, $value) {
+    public function stream_metadata($path, $option, $value)
+    {
         $this->open($path);
         if (STREAM_META_TOUCH === $option) {
             if (! isset($this->data_ref)) {
@@ -204,7 +213,8 @@ class WP_Test_Stream {
      * @param int    $options A bitwise mask of values, such as STREAM_MKDIR_RECURSIVE.
      * @return bool True on success, false on failure.
      */
-    public function mkdir($path, $mode, $options) {
+    public function mkdir($path, $mode, $options)
+    {
         $this->open($path);
 
         $plainfile = rtrim($this->file, '/');
@@ -228,7 +238,8 @@ class WP_Test_Stream {
      * @param array $stats Partial file metadata.
      * @return array Complete file metadata.
      */
-    private function make_stat($stats) {
+    private function make_stat($stats)
+    {
         $defaults = array(
             'dev'     => 0,
             'ino'     => 0,
@@ -253,7 +264,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::stream_stat
      */
-    public function stream_stat() {
+    public function stream_stat()
+    {
         $dir_ref = & $this->get_directory_ref();
         if (substr($this->file, -1) === '/' || isset($dir_ref)) {
             return $this->make_stat(
@@ -280,7 +292,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::url_stat
      */
-    public function url_stat($path, $flags) {
+    public function url_stat($path, $flags)
+    {
         $this->open($path);
         return $this->stream_stat();
     }
@@ -290,7 +303,8 @@ class WP_Test_Stream {
      *
      * @see streamWrapper::unlink
      */
-    public function unlink($path) {
+    public function unlink($path)
+    {
         if (! isset($this->data_ref)) {
             return false;
         }
@@ -303,7 +317,8 @@ class WP_Test_Stream {
      *
      * @return A reference to the data entry for the directory.
      */
-    private function &get_directory_ref() {
+    private function &get_directory_ref()
+    {
         return WP_Test_Stream::$data[ $this->bucket ][ rtrim($this->file, '/') . '/' ];
     }
 }

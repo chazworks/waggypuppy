@@ -6,7 +6,8 @@
  * @since 3.1.0
  */
 #[AllowDynamicProperties]
-class WP_HTTP_IXR_Client extends IXR_Client {
+class WP_HTTP_IXR_Client extends IXR_Client
+{
     public $scheme;
     /**
      * @var IXR_Error
@@ -19,7 +20,8 @@ class WP_HTTP_IXR_Client extends IXR_Client {
      * @param int|false    $port
      * @param int          $timeout
      */
-    public function __construct($server, $path = false, $port = false, $timeout = 15) {
+    public function __construct($server, $path = false, $port = false, $timeout = 15)
+    {
         if (! $path) {
             // Assume we have been given a URL instead.
             $bits         = parse_url($server);
@@ -53,7 +55,8 @@ class WP_HTTP_IXR_Client extends IXR_Client {
      *
      * @return bool
      */
-    public function query(...$args) {
+    public function query(...$args)
+    {
         $method  = array_shift($args);
         $request = new IXR_Request($method, $args);
         $xml     = $request->getXml();

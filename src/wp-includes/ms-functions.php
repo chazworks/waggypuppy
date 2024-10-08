@@ -19,7 +19,8 @@
  *     @type int $users Number of users on the network.
  * }
  */
-function get_sitestats() {
+function get_sitestats()
+{
     $stats = array(
         'blogs' => get_blog_count(),
         'users' => get_user_count(),
@@ -42,7 +43,8 @@ function get_sitestats() {
  * @param int $user_id The unique ID of the user
  * @return WP_Site|void The blog object
  */
-function get_active_blog_for_user($user_id) {
+function get_active_blog_for_user($user_id)
+{
     $blogs = get_blogs_of_user($user_id);
     if (empty($blogs)) {
         return;
@@ -112,7 +114,8 @@ function get_active_blog_for_user($user_id) {
  * @param int|null $network_id ID of the network. Default is the current network.
  * @return int Number of active sites on the network.
  */
-function get_blog_count($network_id = null) {
+function get_blog_count($network_id = null)
+{
     return get_network_option($network_id, 'blog_count');
 }
 
@@ -128,7 +131,8 @@ function get_blog_count($network_id = null) {
  * @param int $post_id ID of the post being looked for.
  * @return WP_Post|null WP_Post object on success, null on failure
  */
-function get_blog_post($blog_id, $post_id) {
+function get_blog_post($blog_id, $post_id)
+{
     switch_to_blog($blog_id);
     $post = get_post($post_id);
     restore_current_blog();
@@ -149,7 +153,8 @@ function get_blog_post($blog_id, $post_id) {
  * @return true|WP_Error True on success or a WP_Error object if the user doesn't exist
  *                       or could not be added.
  */
-function add_user_to_blog($blog_id, $user_id, $role) {
+function add_user_to_blog($blog_id, $user_id, $role)
+{
     switch_to_blog($blog_id);
 
     $user = get_userdata($user_id);
@@ -227,7 +232,8 @@ function add_user_to_blog($blog_id, $user_id, $role) {
  * @param int $reassign Optional. ID of the user to whom to reassign posts. Default 0.
  * @return true|WP_Error True on success or a WP_Error object if the user doesn't exist.
  */
-function remove_user_from_blog($user_id, $blog_id = 0, $reassign = 0) {
+function remove_user_from_blog($user_id, $blog_id = 0, $reassign = 0)
+{
     global $wpdb;
 
     switch_to_blog($blog_id);
@@ -312,7 +318,8 @@ function remove_user_from_blog($user_id, $blog_id = 0, $reassign = 0) {
  * @param int $post_id ID of the desired post.
  * @return string The post's permalink.
  */
-function get_blog_permalink($blog_id, $post_id) {
+function get_blog_permalink($blog_id, $post_id)
+{
     switch_to_blog($blog_id);
     $link = get_permalink($post_id);
     restore_current_blog();
@@ -336,7 +343,8 @@ function get_blog_permalink($blog_id, $post_id) {
  * @param string $path   Optional. Not required for subdomain installations. Default '/'.
  * @return int 0 if no blog found, otherwise the ID of the matching blog.
  */
-function get_blog_id_from_url($domain, $path = '/') {
+function get_blog_id_from_url($domain, $path = '/')
+{
     $domain = strtolower($domain);
     $path   = strtolower($path);
     $id     = wp_cache_get(md5($domain . $path), 'blog-id-cache');
@@ -384,7 +392,8 @@ function get_blog_id_from_url($domain, $path = '/') {
  * @param string $user_email The email provided by the user at registration.
  * @return bool True when the email address is banned, false otherwise.
  */
-function is_email_address_unsafe($user_email) {
+function is_email_address_unsafe($user_email)
+{
     $banned_names = get_site_option('banned_email_domains');
     if ($banned_names && ! is_array($banned_names)) {
         $banned_names = explode("\n", $banned_names);
@@ -454,7 +463,8 @@ function is_email_address_unsafe($user_email) {
  *     @type WP_Error $errors        WP_Error object containing any errors found.
  * }
  */
-function wpmu_validate_user_signup($user_name, $user_email) {
+function wpmu_validate_user_signup($user_name, $user_email)
+{
     global $wpdb;
 
     $errors = new WP_Error();
@@ -620,7 +630,8 @@ function wpmu_validate_user_signup($user_name, $user_email) {
  *     @type WP_Error       $errors     WP_Error containing any errors found.
  * }
  */
-function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
+function wpmu_validate_blog_signup($blogname, $blog_title, $user = '')
+{
     global $wpdb, $domain;
 
     $current_network = get_network();
@@ -782,7 +793,8 @@ function wpmu_validate_blog_signup($blogname, $blog_title, $user = '') {
  * @param string $user_email The user's email address.
  * @param array  $meta       Optional. Signup meta data. By default, contains the requested privacy setting and lang_id.
  */
-function wpmu_signup_blog($domain, $path, $title, $user, $user_email, $meta = array()) {
+function wpmu_signup_blog($domain, $path, $title, $user, $user_email, $meta = array())
+{
     global $wpdb;
 
     $key = substr(md5(time() . wp_rand() . $domain), 0, 16);
@@ -848,7 +860,8 @@ function wpmu_signup_blog($domain, $path, $title, $user, $user_email, $meta = ar
  * @param string $user_email The user's email address.
  * @param array  $meta       Optional. Signup meta data. Default empty array.
  */
-function wpmu_signup_user($user, $user_email, $meta = array()) {
+function wpmu_signup_user($user, $user_email, $meta = array())
+{
     global $wpdb;
 
     // Format data.
@@ -922,7 +935,8 @@ function wpmu_signup_user($user, $user_email, $meta = array()) {
  * @param array  $meta       Optional. Signup meta data. By default, contains the requested privacy setting and lang_id.
  * @return bool
  */
-function wpmu_signup_blog_notification($domain, $path, $title, $user_login, $user_email, $key, $meta = array()) {
+function wpmu_signup_blog_notification($domain, $path, $title, $user_login, $user_email, $key, $meta = array())
+{
     /**
      * Filters whether to bypass the new site email notification.
      *
@@ -1057,7 +1071,8 @@ function wpmu_signup_blog_notification($domain, $path, $title, $user_login, $use
  * @param array  $meta       Optional. Signup meta data. Default empty array.
  * @return bool
  */
-function wpmu_signup_user_notification($user_login, $user_email, $key, $meta = array()) {
+function wpmu_signup_user_notification($user_login, $user_email, $key, $meta = array())
+{
     /**
      * Filters whether to bypass the email notification for new user sign-up.
      *
@@ -1159,7 +1174,8 @@ function wpmu_signup_user_notification($user_login, $user_email, $key, $meta = a
  * @param string $key The activation key provided to the user.
  * @return array|WP_Error An array containing information about the activated user and/or blog.
  */
-function wpmu_activate_signup($key) {
+function wpmu_activate_signup($key)
+{
     global $wpdb;
 
     $signup = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->signups WHERE activation_key = %s", $key));
@@ -1290,7 +1306,8 @@ function wpmu_activate_signup($key) {
  * @param int|null $reassign ID of the user to reassign posts and links to.
  * @param WP_User  $user     User object.
  */
-function wp_delete_signup_on_user_delete($id, $reassign, $user) {
+function wp_delete_signup_on_user_delete($id, $reassign, $user)
+{
     global $wpdb;
 
     $wpdb->delete($wpdb->signups, array('user_login' => $user->user_login));
@@ -1311,7 +1328,8 @@ function wp_delete_signup_on_user_delete($id, $reassign, $user) {
  * @param string $email     The new user's email address.
  * @return int|false Returns false on failure, or int $user_id on success.
  */
-function wpmu_create_user($user_name, $password, $email) {
+function wpmu_create_user($user_name, $password, $email)
+{
     $user_name = preg_replace('/\s+/', '', sanitize_user($user_name, true));
 
     $user_id = wp_create_user($user_name, $password, $email);
@@ -1362,7 +1380,8 @@ function wpmu_create_user($user_name, $password, $email) {
  *                           Default 1.
  * @return int|WP_Error Returns WP_Error object on failure, the new site ID on success.
  */
-function wpmu_create_blog($domain, $path, $title, $user_id, $options = array(), $network_id = 1) {
+function wpmu_create_blog($domain, $path, $title, $user_id, $options = array(), $network_id = 1)
+{
     $defaults = array(
         'public' => 0,
     );
@@ -1422,7 +1441,8 @@ function wpmu_create_blog($domain, $path, $title, $user_id, $options = array(), 
  * @param string      $deprecated Not used.
  * @return bool
  */
-function newblog_notify_siteadmin($blog_id, $deprecated = '') {
+function newblog_notify_siteadmin($blog_id, $deprecated = '')
+{
     if (is_object($blog_id)) {
         $blog_id = $blog_id->blog_id;
     }
@@ -1487,7 +1507,8 @@ Disable these notifications: %4$s'
  * @param int $user_id The new user's ID.
  * @return bool
  */
-function newuser_notify_siteadmin($user_id) {
+function newuser_notify_siteadmin($user_id)
+{
     if ('yes' !== get_site_option('registrationnotification')) {
         return false;
     }
@@ -1549,7 +1570,8 @@ Disable these notifications: %3$s'
  *                           Default 1.
  * @return int|null The site ID if the site name exists, null otherwise.
  */
-function domain_exists($domain, $path, $network_id = 1) {
+function domain_exists($domain, $path, $network_id = 1)
+{
     $path   = trailingslashit($path);
     $args   = array(
         'network_id'             => $network_id,
@@ -1595,7 +1617,8 @@ function domain_exists($domain, $path, $network_id = 1) {
  * @param array  $meta     Optional. Signup meta data. By default, contains the requested privacy setting and lang_id.
  * @return bool Whether the email notification was sent.
  */
-function wpmu_welcome_notification($blog_id, $user_id, $password, $title, $meta = array()) {
+function wpmu_welcome_notification($blog_id, $user_id, $password, $title, $meta = array())
+{
     $current_network = get_network();
 
     /**
@@ -1712,7 +1735,8 @@ We hope you enjoy your new site. Thanks!
  * @param int $user_id User ID of the administrator of the new site.
  * @return bool Whether the email notification was sent.
  */
-function wpmu_new_site_admin_notification($site_id, $user_id) {
+function wpmu_new_site_admin_notification($site_id, $user_id)
+{
     $site  = get_site($site_id);
     $user  = get_userdata($user_id);
     $email = get_site_option('admin_email');
@@ -1828,7 +1852,8 @@ Name: %3$s'
  * @param array  $meta     Optional. Signup meta data. Default empty array.
  * @return bool
  */
-function wpmu_welcome_user_notification($user_id, $password, $meta = array()) {
+function wpmu_welcome_user_notification($user_id, $password, $meta = array())
+{
     $current_network = get_network();
 
     /**
@@ -1919,7 +1944,8 @@ function wpmu_welcome_user_notification($user_id, $password, $meta = array()) {
  *
  * @return WP_Network The current network.
  */
-function get_current_site() {
+function get_current_site()
+{
     global $current_site;
     return $current_site;
 }
@@ -1937,7 +1963,8 @@ function get_current_site() {
  * @param int $user_id User ID.
  * @return array Contains the blog_id, post_id, post_date_gmt, and post_gmt_ts.
  */
-function get_most_recent_post_of_user($user_id) {
+function get_most_recent_post_of_user($user_id)
+{
     global $wpdb;
 
     $user_blogs       = get_blogs_of_user((int) $user_id);
@@ -1992,7 +2019,8 @@ function get_most_recent_post_of_user($user_id) {
  * @param array $mimes
  * @return array
  */
-function check_upload_mimes($mimes) {
+function check_upload_mimes($mimes)
+{
     $site_exts  = explode(' ', get_site_option('upload_filetypes', 'jpg jpeg png gif'));
     $site_mimes = array();
     foreach ($site_exts as $ext) {
@@ -2019,7 +2047,8 @@ function check_upload_mimes($mimes) {
  *
  * @param string $deprecated Not used.
  */
-function update_posts_count($deprecated = '') {
+function update_posts_count($deprecated = '')
+{
     global $wpdb;
     update_option('post_count', (int) $wpdb->get_var("SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_status = 'publish' and post_type = 'post'"), true);
 }
@@ -2035,7 +2064,8 @@ function update_posts_count($deprecated = '') {
  * @param WP_Site|int $blog_id The new site's object or ID.
  * @param int|array   $user_id User ID, or array of arguments including 'user_id'.
  */
-function wpmu_log_new_registrations($blog_id, $user_id) {
+function wpmu_log_new_registrations($blog_id, $user_id)
+{
     global $wpdb;
 
     if (is_object($blog_id)) {
@@ -2073,7 +2103,8 @@ function wpmu_log_new_registrations($blog_id, $user_id) {
  *     @type string $0 The current site's domain.
  * }
  */
-function redirect_this_site($deprecated = '') {
+function redirect_this_site($deprecated = '')
+{
     return array(get_network()->domain);
 }
 
@@ -2085,7 +2116,8 @@ function redirect_this_site($deprecated = '') {
  * @param array $upload An array of information about the newly-uploaded file.
  * @return string|array If the upload is under the size limit, $upload is returned. Otherwise returns an error message.
  */
-function upload_is_file_too_big($upload) {
+function upload_is_file_too_big($upload)
+{
     if (! is_array($upload) || defined('WP_IMPORTING') || get_site_option('upload_space_check_disabled')) {
         return $upload;
     }
@@ -2103,7 +2135,8 @@ function upload_is_file_too_big($upload) {
  *
  * @since MU (3.0.0)
  */
-function signup_nonce_fields() {
+function signup_nonce_fields()
+{
     $id = mt_rand();
     echo "<input type='hidden' name='signup_form_id' value='{$id}' />";
     wp_nonce_field('signup_form_' . $id, '_signup_form', false);
@@ -2117,7 +2150,8 @@ function signup_nonce_fields() {
  * @param array $result
  * @return array
  */
-function signup_nonce_check($result) {
+function signup_nonce_check($result)
+{
     if (! strpos($_SERVER['PHP_SELF'], 'wp-signup.php')) {
         return $result;
     }
@@ -2134,7 +2168,8 @@ function signup_nonce_check($result) {
  *
  * @since MU (3.0.0)
  */
-function maybe_redirect_404() {
+function maybe_redirect_404()
+{
     if (is_main_site() && is_404() && defined('NOBLOGREDIRECT')) {
         /**
          * Filters the redirect URL for 404s on the main site.
@@ -2167,7 +2202,8 @@ function maybe_redirect_404() {
  *
  * @since MU (3.0.0)
  */
-function maybe_add_existing_user_to_blog() {
+function maybe_add_existing_user_to_blog()
+{
     if (! str_contains($_SERVER['REQUEST_URI'], '/newbloguser/')) {
         return;
     }
@@ -2220,7 +2256,8 @@ function maybe_add_existing_user_to_blog() {
  * @return true|WP_Error|void True on success or a WP_Error object if the user doesn't exist
  *                            or could not be added. Void if $details array was not provided.
  */
-function add_existing_user_to_blog($details = false) {
+function add_existing_user_to_blog($details = false)
+{
     if (is_array($details)) {
         $blog_id = get_current_blog_id();
         $result  = add_user_to_blog($blog_id, $details['user_id'], $details['role']);
@@ -2254,7 +2291,8 @@ function add_existing_user_to_blog($details = false) {
  * @param string $password User password. Ignored.
  * @param array  $meta     Signup meta data.
  */
-function add_new_user_to_blog($user_id, $password, $meta) {
+function add_new_user_to_blog($user_id, $password, $meta)
+{
     if (! empty($meta['add_to_blog'])) {
         $blog_id = $meta['add_to_blog'];
         $role    = $meta['new_role'];
@@ -2275,7 +2313,8 @@ function add_new_user_to_blog($user_id, $password, $meta) {
  *
  * @param PHPMailer $phpmailer The PHPMailer instance (passed by reference).
  */
-function fix_phpmailer_messageid($phpmailer) {
+function fix_phpmailer_messageid($phpmailer)
+{
     $phpmailer->Hostname = get_network()->domain;
 }
 
@@ -2288,7 +2327,8 @@ function fix_phpmailer_messageid($phpmailer) {
  *                             or user login name as a string.
  * @return bool
  */
-function is_user_spammy($user = null) {
+function is_user_spammy($user = null)
+{
     if (! ($user instanceof WP_User)) {
         if ($user) {
             $user = get_user_by('login', $user);
@@ -2310,7 +2350,8 @@ function is_user_spammy($user = null) {
  * @param int $old_value The old public value.
  * @param int $value     The new public value.
  */
-function update_blog_public($old_value, $value) {
+function update_blog_public($old_value, $value)
+{
     update_blog_status(get_current_blog_id(), 'public', (int) $value);
 }
 
@@ -2321,7 +2362,8 @@ function update_blog_public($old_value, $value) {
  *
  * @return bool
  */
-function users_can_register_signup_filter() {
+function users_can_register_signup_filter()
+{
     $registration = get_site_option('registration');
     return ('all' === $registration || 'user' === $registration);
 }
@@ -2334,7 +2376,8 @@ function users_can_register_signup_filter() {
  * @param string $text
  * @return string
  */
-function welcome_user_msg_filter($text) {
+function welcome_user_msg_filter($text)
+{
     if (! $text) {
         remove_filter('site_option_welcome_user_email', 'welcome_user_msg_filter');
 
@@ -2366,7 +2409,8 @@ Thanks!
  * @param bool $force
  * @return bool True if forced, false if not forced.
  */
-function force_ssl_content($force = '') {
+function force_ssl_content($force = '')
+{
     static $forced_content = false;
 
     if (! $force) {
@@ -2388,7 +2432,8 @@ function force_ssl_content($force = '') {
  * @param string $url URL.
  * @return string URL with https as the scheme.
  */
-function filter_SSL($url) {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function filter_SSL($url)   // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+{
     if (! is_string($url)) {
         return get_bloginfo('url'); // Return home site URL with proper scheme.
     }
@@ -2405,7 +2450,8 @@ function filter_SSL($url) {  // phpcs:ignore WordPress.NamingConventions.ValidFu
  *
  * @since 3.1.0
  */
-function wp_schedule_update_network_counts() {
+function wp_schedule_update_network_counts()
+{
     if (! is_main_site()) {
         return;
     }
@@ -2423,7 +2469,8 @@ function wp_schedule_update_network_counts() {
  *
  * @param int|null $network_id ID of the network. Default is the current network.
  */
-function wp_update_network_counts($network_id = null) {
+function wp_update_network_counts($network_id = null)
+{
     wp_update_network_user_counts($network_id);
     wp_update_network_site_counts($network_id);
 }
@@ -2439,7 +2486,8 @@ function wp_update_network_counts($network_id = null) {
  *
  * @param int|null $network_id ID of the network. Default is the current network.
  */
-function wp_maybe_update_network_site_counts($network_id = null) {
+function wp_maybe_update_network_site_counts($network_id = null)
+{
     $is_small_network = ! wp_is_large_network('sites', $network_id);
 
     /**
@@ -2470,7 +2518,8 @@ function wp_maybe_update_network_site_counts($network_id = null) {
  *
  * @param int|null $network_id ID of the network. Default is the current network.
  */
-function wp_maybe_update_network_user_counts($network_id = null) {
+function wp_maybe_update_network_user_counts($network_id = null)
+{
     $is_small_network = ! wp_is_large_network('users', $network_id);
 
     /** This filter is documented in wp-includes/ms-functions.php */
@@ -2489,7 +2538,8 @@ function wp_maybe_update_network_user_counts($network_id = null) {
  *
  * @param int|null $network_id ID of the network. Default is the current network.
  */
-function wp_update_network_site_counts($network_id = null) {
+function wp_update_network_site_counts($network_id = null)
+{
     $network_id = (int) $network_id;
     if (! $network_id) {
         $network_id = get_current_network_id();
@@ -2518,7 +2568,8 @@ function wp_update_network_site_counts($network_id = null) {
  *
  * @param int|null $network_id ID of the network. Default is the current network.
  */
-function wp_update_network_user_counts($network_id = null) {
+function wp_update_network_user_counts($network_id = null)
+{
     wp_update_user_counts($network_id);
 }
 
@@ -2529,7 +2580,8 @@ function wp_update_network_user_counts($network_id = null) {
  *
  * @return int Used space in megabytes.
  */
-function get_space_used() {
+function get_space_used()
+{
     /**
      * Filters the amount of storage space used by the current site, in megabytes.
      *
@@ -2554,7 +2606,8 @@ function get_space_used() {
  *
  * @return int Quota in megabytes.
  */
-function get_space_allowed() {
+function get_space_allowed()
+{
     $space_allowed = get_option('blog_upload_space');
 
     if (! is_numeric($space_allowed)) {
@@ -2582,7 +2635,8 @@ function get_space_allowed() {
  *
  * @return int of upload space available in bytes.
  */
-function get_upload_space_available() {
+function get_upload_space_available()
+{
     $allowed = get_space_allowed();
     if ($allowed < 0) {
         $allowed = 0;
@@ -2607,7 +2661,8 @@ function get_upload_space_available() {
  * @since 3.0.0
  * @return bool True if space is available, false otherwise.
  */
-function is_upload_space_available() {
+function is_upload_space_available()
+{
     if (get_site_option('upload_space_check_disabled')) {
         return true;
     }
@@ -2623,7 +2678,8 @@ function is_upload_space_available() {
  * @param int $size Upload size limit in bytes.
  * @return int Upload size limit in bytes.
  */
-function upload_size_limit_filter($size) {
+function upload_size_limit_filter($size)
+{
     $fileupload_maxk         = (int) get_site_option('fileupload_maxk', 1500);
     $max_fileupload_in_bytes = KB_IN_BYTES * $fileupload_maxk;
 
@@ -2647,7 +2703,8 @@ function upload_size_limit_filter($size) {
  * @param int|null $network_id ID of the network. Default is the current network.
  * @return bool True if the network meets the criteria for large. False otherwise.
  */
-function wp_is_large_network($using = 'sites', $network_id = null) {
+function wp_is_large_network($using = 'sites', $network_id = null)
+{
     $network_id = (int) $network_id;
     if (! $network_id) {
         $network_id = get_current_network_id();
@@ -2685,7 +2742,8 @@ function wp_is_large_network($using = 'sites', $network_id = null) {
  *
  * @return string[] Array of reserved names.
  */
-function get_subdirectory_reserved_names() {
+function get_subdirectory_reserved_names()
+{
     $names = array(
         'page',
         'comments',
@@ -2721,7 +2779,8 @@ function get_subdirectory_reserved_names() {
  * @param string $old_value The old network admin email address.
  * @param string $value     The proposed new network admin email address.
  */
-function update_network_option_new_admin_email($old_value, $value) {
+function update_network_option_new_admin_email($old_value, $value)
+{
     if (get_site_option('admin_email') === $value || ! is_email($value)) {
         return;
     }
@@ -2809,7 +2868,8 @@ All at ###SITENAME###
  * @param string $old_email   The old network admin email address.
  * @param int    $network_id  ID of the network.
  */
-function wp_network_admin_email_change_notification($option_name, $new_email, $old_email, $network_id) {
+function wp_network_admin_email_change_notification($option_name, $new_email, $old_email, $network_id)
+{
     $send = true;
 
     // Don't send the notification to the default 'admin_email' value.

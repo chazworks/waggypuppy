@@ -963,7 +963,8 @@ $_new_bundled_files = array(
  * @param string $to   Path to old WordPress installation.
  * @return string|WP_Error New WordPress version on success, WP_Error on failure.
  */
-function update_core($from, $to) {
+function update_core($from, $to)
+{
     global $wp_filesystem, $_old_files, $_old_requests_files, $_new_bundled_files, $wpdb;
 
     if (function_exists('set_time_limit')) {
@@ -1542,7 +1543,8 @@ function update_core($from, $to) {
  *
  * @param string $to Path to old WordPress installation.
  */
-function _preload_old_requests_classes_and_interfaces($to) {
+function _preload_old_requests_classes_and_interfaces($to)
+{
     global $_old_requests_files, $wp_filesystem;
     $wp_version = wp_get_wp_version();
 
@@ -1592,7 +1594,8 @@ function _preload_old_requests_classes_and_interfaces($to) {
  *
  * @param string $new_version
  */
-function _redirect_to_about_wordpress($new_version) {
+function _redirect_to_about_wordpress($new_version)
+{
     global $pagenow, $action;
     $wp_version = wp_get_wp_version();
 
@@ -1652,7 +1655,8 @@ window.location = 'about.php?updated';
  * @global array              $wp_theme_directories
  * @global WP_Filesystem_Base $wp_filesystem
  */
-function _upgrade_422_remove_genericons() {
+function _upgrade_422_remove_genericons()
+{
     global $wp_theme_directories, $wp_filesystem;
 
     // A list of the affected files using the filesystem absolute paths.
@@ -1697,7 +1701,8 @@ function _upgrade_422_remove_genericons() {
  * @param string $directory Directory path. Expects trailingslashed.
  * @return array
  */
-function _upgrade_422_find_genericons_files_in_folder($directory) {
+function _upgrade_422_find_genericons_files_in_folder($directory)
+{
     $directory = trailingslashit($directory);
     $files     = array();
 
@@ -1740,7 +1745,8 @@ function _upgrade_422_find_genericons_files_in_folder($directory) {
  * @ignore
  * @since 4.4.0
  */
-function _upgrade_440_force_deactivate_incompatible_plugins() {
+function _upgrade_440_force_deactivate_incompatible_plugins()
+{
     if (defined('REST_API_VERSION') && version_compare(REST_API_VERSION, '2.0-beta4', '<=')) {
         deactivate_plugins(array('rest-api/plugin.php'), true);
     }
@@ -1755,7 +1761,8 @@ function _upgrade_440_force_deactivate_incompatible_plugins() {
  * @since 6.4.0 The minimum compatible version of Gutenberg is 16.5.
  * @since 6.5.0 The minimum compatible version of Gutenberg is 17.6.
  */
-function _upgrade_core_deactivate_incompatible_plugins() {
+function _upgrade_core_deactivate_incompatible_plugins()
+{
     if (defined('GUTENBERG_VERSION') && version_compare(GUTENBERG_VERSION, '17.6', '<')) {
         $deactivated_gutenberg['gutenberg'] = array(
             'plugin_name'         => 'Gutenberg',

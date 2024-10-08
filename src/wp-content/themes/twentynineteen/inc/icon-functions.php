@@ -13,7 +13,8 @@
  * @param string $icon The specific icon to retrieve.
  * @param int    $size The desired width and height for the SVG icon.
  */
-function twentynineteen_get_icon_svg($icon, $size = 24) {
+function twentynineteen_get_icon_svg($icon, $size = 24)
+{
     return TwentyNineteen_SVG_Icons::get_svg('ui', $icon, $size);
 }
 
@@ -23,7 +24,8 @@ function twentynineteen_get_icon_svg($icon, $size = 24) {
  * @param string $icon The specific icon to retrieve.
  * @param int    $size The desired width and height for the SVG icon.
  */
-function twentynineteen_get_social_icon_svg($icon, $size = 24) {
+function twentynineteen_get_social_icon_svg($icon, $size = 24)
+{
     return TwentyNineteen_SVG_Icons::get_svg('social', $icon, $size);
 }
 
@@ -33,7 +35,8 @@ function twentynineteen_get_social_icon_svg($icon, $size = 24) {
  * @param string $uri  The URL of the social network link.
  * @param int    $size The desired width and height for the SVG icon.
  */
-function twentynineteen_get_social_link_svg($uri, $size = 24) {
+function twentynineteen_get_social_link_svg($uri, $size = 24)
+{
     return TwentyNineteen_SVG_Icons::get_social_link_svg($uri, $size);
 }
 
@@ -46,7 +49,8 @@ function twentynineteen_get_social_link_svg($uri, $size = 24) {
  * @param stdClass $args        An object of wp_nav_menu() arguments.
  * @return string The menu item output with social icon.
  */
-function twentynineteen_nav_menu_social_icons($item_output, $item, $depth, $args) {
+function twentynineteen_nav_menu_social_icons($item_output, $item, $depth, $args)
+{
     // Change SVG icon inside social links menu if there is supported URL.
     if ('social' === $args->theme_location) {
         $svg = twentynineteen_get_social_link_svg($item->url, 32);
@@ -69,7 +73,8 @@ add_filter('walker_nav_menu_start_el', 'twentynineteen_nav_menu_social_icons', 1
  * @param stdClass $args        An object of wp_nav_menu() arguments.
  * @return string Nav menu item start element.
  */
-function twentynineteen_add_dropdown_icons($item_output, $item, $depth, $args) {
+function twentynineteen_add_dropdown_icons($item_output, $item, $depth, $args)
+{
 
     // Only add class to 'top level' items on the 'primary' menu.
     if (! isset($args->theme_location) || 'menu-1' !== $args->theme_location) {

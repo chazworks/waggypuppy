@@ -6,9 +6,11 @@ require_once __DIR__ . '/base.php';
  * @group block-templates
  * @covers ::get_template_hierarchy
  */
-class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_UnitTestCase {
+class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         register_post_type(
             'custom_book',
@@ -21,7 +23,8 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
         register_taxonomy('books', 'custom_book');
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unregister_post_type('custom_book');
         unregister_taxonomy('book_type');
         unregister_taxonomy('books');
@@ -36,14 +39,16 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
      * @param array $args     Test arguments.
      * @param array $expected Expected results.
      */
-    public function test_get_template_hierarchy(array $args, array $expected) {
+    public function test_get_template_hierarchy(array $args, array $expected)
+    {
         $this->assertSame($expected, get_template_hierarchy(...$args));
     }
 
     /**
      * @ticket 60846
      */
-    public function test_get_template_hierarchy_with_hooks() {
+    public function test_get_template_hierarchy_with_hooks()
+    {
         add_filter(
             'date_template_hierarchy',
             function ($templates) {
@@ -59,7 +64,8 @@ class Tests_Block_Templates_GetTemplate_Hierarchy extends WP_Block_Templates_Uni
      *
      * @return array
      */
-    public function data_get_template_hierarchy() {
+    public function data_get_template_hierarchy()
+    {
         return array(
             'front-page'                               => array(
                 'args'     => array('front-page'),

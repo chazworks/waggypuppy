@@ -55,7 +55,8 @@ if (! function_exists('twentyfourteen_setup')) :
      *
      * @since Twenty Fourteen 1.0
      */
-    function twentyfourteen_setup() {
+    function twentyfourteen_setup()
+    {
 
         /*
          * Make Twenty Fourteen available for translation.
@@ -227,7 +228,8 @@ add_action('after_setup_theme', 'twentyfourteen_setup');
  *
  * @since Twenty Fourteen 1.0
  */
-function twentyfourteen_content_width() {
+function twentyfourteen_content_width()
+{
     if (is_attachment() && wp_attachment_is_image()) {
         $GLOBALS['content_width'] = 810;
     }
@@ -241,7 +243,8 @@ add_action('template_redirect', 'twentyfourteen_content_width');
  *
  * @return array An array of WP_Post objects.
  */
-function twentyfourteen_get_featured_posts() {
+function twentyfourteen_get_featured_posts()
+{
     /**
      * Filters the featured posts to return in Twenty Fourteen.
      *
@@ -259,7 +262,8 @@ function twentyfourteen_get_featured_posts() {
  *
  * @return bool Whether there are featured posts.
  */
-function twentyfourteen_has_featured_posts() {
+function twentyfourteen_has_featured_posts()
+{
     return ! is_paged() && (bool) twentyfourteen_get_featured_posts();
 }
 
@@ -268,7 +272,8 @@ function twentyfourteen_has_featured_posts() {
  *
  * @since Twenty Fourteen 1.0
  */
-function twentyfourteen_widgets_init() {
+function twentyfourteen_widgets_init()
+{
     require get_template_directory() . '/inc/widgets.php';
     register_widget('Twenty_Fourteen_Ephemera_Widget');
 
@@ -317,7 +322,8 @@ if (! function_exists('twentyfourteen_font_url')) :
      *
      * @return string
      */
-    function twentyfourteen_font_url() {
+    function twentyfourteen_font_url()
+    {
         $font_url = '';
         /*
          * translators: If there are characters in your language that are not supported
@@ -336,7 +342,8 @@ endif;
  *
  * @since Twenty Fourteen 1.0
  */
-function twentyfourteen_scripts() {
+function twentyfourteen_scripts()
+{
     // Add Lato font, used in the main stylesheet.
     $font_version = (0 === strpos((string) twentyfourteen_font_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
     wp_enqueue_style('twentyfourteen-lato', twentyfourteen_font_url(), array(), $font_version);
@@ -405,7 +412,8 @@ add_action('wp_enqueue_scripts', 'twentyfourteen_scripts');
  *
  * @since Twenty Fourteen 1.0
  */
-function twentyfourteen_admin_fonts() {
+function twentyfourteen_admin_fonts()
+{
     $font_version = (0 === strpos((string) twentyfourteen_font_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
     wp_enqueue_style('twentyfourteen-lato', twentyfourteen_font_url(), array(), $font_version);
 }
@@ -421,7 +429,8 @@ add_action('admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_
  * @param string  $relation_type The relation type the URLs are printed.
  * @return array URLs to print for resource hints.
  */
-function twentyfourteen_resource_hints($urls, $relation_type) {
+function twentyfourteen_resource_hints($urls, $relation_type)
+{
     if (wp_style_is('twentyfourteen-lato', 'queue') && 'preconnect' === $relation_type) {
         if (version_compare($GLOBALS['wp_version'], '4.7-alpha', '>=')) {
             $urls[] = array(
@@ -442,7 +451,8 @@ function twentyfourteen_resource_hints($urls, $relation_type) {
  *
  * @since Twenty Fourteen 2.3
  */
-function twentyfourteen_block_editor_styles() {
+function twentyfourteen_block_editor_styles()
+{
     // Block styles.
     wp_enqueue_style('twentyfourteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240613');
     // Add custom fonts.
@@ -457,7 +467,8 @@ if (! function_exists('twentyfourteen_the_attached_image')) :
      *
      * @since Twenty Fourteen 1.0
      */
-    function twentyfourteen_the_attached_image() {
+    function twentyfourteen_the_attached_image()
+    {
         $post = get_post();
         /**
          * Filters the default Twenty Fourteen attachment size.
@@ -525,7 +536,8 @@ if (! function_exists('twentyfourteen_list_authors')) :
      *
      * @since Twenty Fourteen 1.0
      */
-    function twentyfourteen_list_authors() {
+    function twentyfourteen_list_authors()
+    {
         $args = array(
             'fields'     => 'ID',
             'orderby'    => 'post_count',
@@ -599,7 +611,8 @@ endif;
  * @param array $classes A list of existing body class values.
  * @return array The filtered body class list.
  */
-function twentyfourteen_body_classes($classes) {
+function twentyfourteen_body_classes($classes)
+{
     if (is_multi_author()) {
         $classes[] = 'group-blog';
     }
@@ -650,7 +663,8 @@ add_filter('body_class', 'twentyfourteen_body_classes');
  * @param array $classes A list of existing post class values.
  * @return array The filtered post class list.
  */
-function twentyfourteen_post_classes($classes) {
+function twentyfourteen_post_classes($classes)
+{
     if (! post_password_required() && ! is_attachment() && has_post_thumbnail()) {
         $classes[] = 'has-post-thumbnail';
     }
@@ -672,7 +686,8 @@ add_filter('post_class', 'twentyfourteen_post_classes');
  * @param string $sep Optional separator.
  * @return string The filtered title.
  */
-function twentyfourteen_wp_title($title, $sep) {
+function twentyfourteen_wp_title($title, $sep)
+{
     global $paged, $page;
 
     if (is_feed()) {
@@ -708,7 +723,8 @@ add_filter('wp_title', 'twentyfourteen_wp_title', 10, 2);
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentyfourteen_widget_tag_cloud_args($args) {
+function twentyfourteen_widget_tag_cloud_args($args)
+{
     $args['largest']  = 22;
     $args['smallest'] = 8;
     $args['unit']     = 'pt';
@@ -750,7 +766,8 @@ if (! class_exists('Featured_Content') && 'plugins.php' !== $GLOBALS['pagenow'])
  * @global WP_Customize_Manager $wp_customize Customizer object.
  */
 if (! function_exists('is_customize_preview')) :
-    function is_customize_preview() {
+    function is_customize_preview()
+    {
         global $wp_customize;
 
         return ($wp_customize instanceof WP_Customize_Manager) && $wp_customize->is_preview();

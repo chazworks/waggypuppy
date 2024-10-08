@@ -12,7 +12,8 @@
  *
  * @group restapi
  */
-class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Controller_Testcase {
+class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * Admin user ID.
@@ -57,7 +58,8 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetupBeforeClass($factory) {
+    public static function wpSetupBeforeClass($factory)
+    {
         self::$admin_id = $factory->user->create(array('role' => 'administrator'));
 
         // Setup an empty testing instance of `WP_Block_Pattern_Categories_Registry` and save the original.
@@ -84,7 +86,8 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
 
         // Restore the original registry instance.
@@ -94,18 +97,21 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
         self::$orig_registry              = null;
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         switch_theme('emptytheme');
     }
 
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey(static::REQUEST_ROUTE, $routes);
     }
 
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
 
         $expected_names  = array('test', 'query');
@@ -126,7 +132,8 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
     /**
      * Verify capability check for unauthorized request (not logged in).
      */
-    public function test_get_items_unauthorized() {
+    public function test_get_items_unauthorized()
+    {
         // Ensure current user is logged out.
         wp_logout();
 
@@ -140,7 +147,8 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
     /**
      * Verify capability check for forbidden request (insufficient capability).
      */
-    public function test_get_items_forbidden() {
+    public function test_get_items_forbidden()
+    {
         // Set current user without `edit_posts` capability.
         wp_set_current_user(self::factory()->user->create(array('role' => 'subscriber')));
 
@@ -154,49 +162,56 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
     /**
      * @doesNotPerformAssertions
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Controller does not use get_context_param().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         // Controller does not implement get_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         // Controller does not implement get_item_schema().
     }
 }

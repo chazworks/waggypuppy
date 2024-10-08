@@ -15,7 +15,8 @@
  *
  * @see WP_Upgrader_Skin
  */
-class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
+class Plugin_Upgrader_Skin extends WP_Upgrader_Skin
+{
 
     /**
      * Holds the plugin slug in the Plugin Directory.
@@ -54,7 +55,8 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
      * @param array $args Optional. The plugin upgrader skin arguments to
      *                    override default options. Default empty array.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $defaults = array(
             'url'    => '',
             'plugin' => '',
@@ -76,7 +78,8 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @since 2.8.0
      */
-    public function after() {
+    public function after()
+    {
         $this->plugin = $this->upgrader->plugin_info();
         if (! empty($this->plugin) && ! is_wp_error($this->result) && $this->plugin_active) {
             // Currently used only when JS is off for a single plugin update?

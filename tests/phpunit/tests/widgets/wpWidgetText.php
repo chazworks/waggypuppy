@@ -11,7 +11,8 @@
  *
  * @group widgets
  */
-class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
+class Tests_Widgets_wpWidgetText extends WP_UnitTestCase
+{
     /**
      * Args passed to the widget_text filter.
      *
@@ -33,7 +34,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      * @global WP_Styles            $wp_style
      * @global WP_Customize_Manager $wp_customize
      */
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_scripts, $wp_styles, $wp_customize;
         parent::clean_up_global_scope();
         $wp_scripts   = null;
@@ -46,7 +48,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::__construct
      */
-    public function test_construct() {
+    public function test_construct()
+    {
         $widget = new WP_Widget_Text();
         $this->assertSame('text', $widget->id_base);
         $this->assertSame('widget_text', $widget->widget_options['classname']);
@@ -60,7 +63,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::_register
      */
-    public function test__register() {
+    public function test__register()
+    {
         set_current_screen('widgets.php');
         $widget = new WP_Widget_Text();
         $widget->_register();
@@ -77,7 +81,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      * @covers WP_Widget_Text::__construct
      * @covers WP_Widget_Text::_register
      */
-    public function test__register_in_customize_preview() {
+    public function test__register_in_customize_preview()
+    {
         global $wp_customize;
         wp_set_current_user(
             self::factory()->user->create(
@@ -106,7 +111,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      * @global WP_Styles $wp_styles
      * @covers WP_Widget_Text::enqueue_preview_scripts
      */
-    public function test_enqueue_preview_scripts() {
+    public function test_enqueue_preview_scripts()
+    {
         global $wp_scripts, $wp_styles;
         $wp_scripts = null;
         $wp_styles  = null;
@@ -128,7 +134,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::widget
      */
-    public function test_widget() {
+    public function test_widget()
+    {
         $widget = new WP_Widget_Text();
         $text   = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n Praesent ut turpis consequat lorem volutpat bibendum vitae vitae ante.";
 
@@ -301,7 +308,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @return string Shortcode content.
      */
-    public function do_example_shortcode() {
+    public function do_example_shortcode()
+    {
         $this->post_during_shortcode = get_post();
         ++$this->shortcode_render_count;
         return $this->example_shortcode_content;
@@ -312,7 +320,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::widget
      */
-    public function test_widget_shortcodes() {
+    public function test_widget_shortcodes()
+    {
         global $post;
         $post_id = self::factory()->post->create();
         $post    = get_post($post_id);
@@ -437,7 +446,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      * @param WP_Widget_Text $widget      Current Text widget instance.
      * @return string Widget text.
      */
-    public function filter_widget_text($widget_text, $instance, $widget) {
+    public function filter_widget_text($widget_text, $instance, $widget)
+    {
         $this->widget_text_args = func_get_args();
 
         $widget_text .= '[filter:widget_text]';
@@ -452,7 +462,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      * @param WP_Widget_Text $widget      Current Text widget instance.
      * @return string Widget content.
      */
-    public function filter_widget_text_content($widget_text, $instance, $widget) {
+    public function filter_widget_text_content($widget_text, $instance, $widget)
+    {
         $this->widget_text_content_args = func_get_args();
 
         $widget_text .= '[filter:widget_text_content]';
@@ -464,7 +475,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::is_legacy_instance
      */
-    public function test_is_legacy_instance() {
+    public function test_is_legacy_instance()
+    {
         $widget        = new WP_Widget_Text();
         $base_instance = array(
             'title' => 'Title',
@@ -629,7 +641,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::form
      */
-    public function test_form() {
+    public function test_form()
+    {
         add_filter('user_can_richedit', '__return_true');
         $widget = new WP_Widget_Text();
         $widget->_set(2);
@@ -705,7 +718,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::update
      */
-    public function test_update() {
+    public function test_update()
+    {
         $widget   = new WP_Widget_Text();
         $instance = array(
             'title'  => "The\nTitle",
@@ -754,7 +768,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::update
      */
-    public function test_update_legacy() {
+    public function test_update_legacy()
+    {
         $widget = new WP_Widget_Text();
 
         // --
@@ -952,7 +967,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      * @param string $cap     Capability name.
      * @return array Caps.
      */
-    public function grant_unfiltered_html_cap($caps, $cap) {
+    public function grant_unfiltered_html_cap($caps, $cap)
+    {
         if ('unfiltered_html' === $cap) {
             $caps   = array_diff($caps, array('do_not_allow'));
             $caps[] = 'unfiltered_html';
@@ -967,7 +983,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      * @param string $cap     Capability name.
      * @return array Caps.
      */
-    public function revoke_unfiltered_html_cap($caps, $cap) {
+    public function revoke_unfiltered_html_cap($caps, $cap)
+    {
         if ('unfiltered_html' === $cap) {
             $caps   = array_diff($caps, array('unfiltered_html'));
             $caps[] = 'do_not_allow';
@@ -980,7 +997,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::enqueue_admin_scripts
      */
-    public function test_enqueue_admin_scripts() {
+    public function test_enqueue_admin_scripts()
+    {
         set_current_screen('widgets.php');
         $widget = new WP_Widget_Text();
         $widget->enqueue_admin_scripts();
@@ -993,7 +1011,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Text::render_control_template_scripts
      */
-    public function test_render_control_template_scripts() {
+    public function test_render_control_template_scripts()
+    {
         ob_start();
         WP_Widget_Text::render_control_template_scripts();
         $output = ob_get_clean();
@@ -1006,7 +1025,8 @@ class Tests_Widgets_wpWidgetText extends WP_UnitTestCase {
      *
      * @ticket 46421
      */
-    public function test_render_links_without_target() {
+    public function test_render_links_without_target()
+    {
         $widget = new WP_Widget_Text();
 
         $text = 'Test content with an internal <a href="/">link</a>.';

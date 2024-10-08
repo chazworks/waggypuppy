@@ -15,7 +15,8 @@
  *
  * @return array[] Array of categories for block types.
  */
-function get_default_block_categories() {
+function get_default_block_categories()
+{
     return array(
         array(
             'slug'  => 'text',
@@ -66,7 +67,8 @@ function get_default_block_categories() {
  *
  * @return array[] Array of categories for block types.
  */
-function get_block_categories($post_or_block_editor_context) {
+function get_block_categories($post_or_block_editor_context)
+{
     $block_categories     = get_default_block_categories();
     $block_editor_context = $post_or_block_editor_context instanceof WP_Post ?
         new WP_Block_Editor_Context(
@@ -112,7 +114,8 @@ function get_block_categories($post_or_block_editor_context) {
  *
  * @return bool|string[] Array of block type slugs, or boolean to enable/disable all.
  */
-function get_allowed_block_types($block_editor_context) {
+function get_allowed_block_types($block_editor_context)
+{
     $allowed_block_types = true;
 
     /**
@@ -152,7 +155,8 @@ function get_allowed_block_types($block_editor_context) {
  *
  * @return array The default block editor settings.
  */
-function get_default_block_editor_settings() {
+function get_default_block_editor_settings()
+{
     // Media settings.
 
     // wp_max_upload_size() can be expensive, so only call it when relevant for the current user.
@@ -243,7 +247,8 @@ function get_default_block_editor_settings() {
  *
  * @return array Settings to be used with get_block_editor_settings().
  */
-function get_legacy_widget_block_editor_settings() {
+function get_legacy_widget_block_editor_settings()
+{
     $editor_settings = array();
 
     /**
@@ -297,7 +302,8 @@ function get_legacy_widget_block_editor_settings() {
  *     @type string|false $scripts String containing the HTML for scripts.
  * }
  */
-function _wp_get_iframed_editor_assets() {
+function _wp_get_iframed_editor_assets()
+{
     global $wp_styles, $wp_scripts;
 
     // Keep track of the styles and scripts instance to restore later.
@@ -396,7 +402,8 @@ function _wp_get_iframed_editor_assets() {
  * @param string $block_name Name of the block to find.
  * @return array Found block, or empty array if none found.
  */
-function wp_get_first_block($blocks, $block_name) {
+function wp_get_first_block($blocks, $block_name)
+{
     foreach ($blocks as $block) {
         if ($block_name === $block['blockName']) {
             return $block;
@@ -424,7 +431,8 @@ function wp_get_first_block($blocks, $block_name) {
  *
  * @return array|null Post Content block attributes array or null if Post Content block doesn't exist.
  */
-function wp_get_post_content_block_attributes() {
+function wp_get_post_content_block_attributes()
+{
     global $post_ID;
 
     $is_block_theme = wp_is_block_theme();
@@ -484,7 +492,8 @@ function wp_get_post_content_block_attributes() {
  *
  * @return array The contextualized block editor settings.
  */
-function get_block_editor_settings(array $custom_settings, $block_editor_context) {
+function get_block_editor_settings(array $custom_settings, $block_editor_context)
+{
     $editor_settings = array_merge(
         get_default_block_editor_settings(),
         array(
@@ -708,7 +717,8 @@ function get_block_editor_settings(array $custom_settings, $block_editor_context
  * @param (string|string[])[]     $preload_paths        List of paths to preload.
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
  */
-function block_editor_rest_api_preload(array $preload_paths, $block_editor_context) {
+function block_editor_rest_api_preload(array $preload_paths, $block_editor_context)
+{
     global $post, $wp_scripts, $wp_styles;
 
     /**
@@ -796,7 +806,8 @@ function block_editor_rest_api_preload(array $preload_paths, $block_editor_conte
  *
  * @return array An array of theme styles for the block editor.
  */
-function get_block_editor_theme_styles() {
+function get_block_editor_theme_styles()
+{
     global $editor_styles;
 
     $styles = array();
@@ -837,7 +848,8 @@ function get_block_editor_theme_styles() {
  *
  * @return array The classic theme supports settings.
  */
-function get_classic_theme_supports_block_editor_settings() {
+function get_classic_theme_supports_block_editor_settings()
+{
     $theme_settings = array(
         'disableCustomColors'    => get_theme_support('disable-custom-colors'),
         'disableCustomFontSizes' => get_theme_support('disable-custom-font-sizes'),

@@ -9,14 +9,16 @@ require_once __DIR__ . '/base.php';
  *
  * @covers ::wp_enqueue_stored_styles
  */
-class Tests_Themes_WpEnqueueStoredStyles extends WP_Theme_UnitTestCase {
+class Tests_Themes_WpEnqueueStoredStyles extends WP_Theme_UnitTestCase
+{
 
     /**
      * Tests that stored CSS is enqueued.
      *
      * @ticket 56467
      */
-    public function test_should_enqueue_stored_styles() {
+    public function test_should_enqueue_stored_styles()
+    {
         $core_styles_to_enqueue = array(
             array(
                 'selector'     => '.saruman',

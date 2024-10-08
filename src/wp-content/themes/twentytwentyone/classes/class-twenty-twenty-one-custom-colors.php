@@ -10,14 +10,16 @@
 /**
  * This class is in charge of color customization via the Customizer.
  */
-class Twenty_Twenty_One_Custom_Colors {
+class Twenty_Twenty_One_Custom_Colors
+{
 
     /**
      * Instantiate the object.
      *
      * @since Twenty Twenty-One 1.0
      */
-    public function __construct() {
+    public function __construct()
+    {
 
         // Enqueue color variables for customizer & frontend.
         add_action('wp_enqueue_scripts', array($this, 'custom_color_variables'));
@@ -37,7 +39,8 @@ class Twenty_Twenty_One_Custom_Colors {
      * @param string $background_color The background color.
      * @return string (hex color)
      */
-    public function custom_get_readable_color($background_color) {
+    public function custom_get_readable_color($background_color)
+    {
         return (127 < self::get_relative_luminance_from_hex($background_color)) ? '#000' : '#fff';
     }
 
@@ -53,7 +56,8 @@ class Twenty_Twenty_One_Custom_Colors {
      * @param string|null $context Can be "editor" or null.
      * @return string
      */
-    public function generate_custom_color_variables($context = null) {
+    public function generate_custom_color_variables($context = null)
+    {
 
         $theme_css        = 'editor' === $context ? ':root .editor-styles-wrapper{' : ':root{';
         $background_color = get_theme_mod('background_color', 'D1E4DD');
@@ -83,7 +87,8 @@ class Twenty_Twenty_One_Custom_Colors {
      *
      * @return void
      */
-    public function custom_color_variables() {
+    public function custom_color_variables()
+    {
         if ('d1e4dd' !== strtolower(get_theme_mod('background_color', 'D1E4DD'))) {
             wp_add_inline_style('twenty-twenty-one-style', $this->generate_custom_color_variables());
         }
@@ -96,7 +101,8 @@ class Twenty_Twenty_One_Custom_Colors {
      *
      * @return void
      */
-    public function editor_custom_color_variables() {
+    public function editor_custom_color_variables()
+    {
         wp_enqueue_style(
             'twenty-twenty-one-custom-color-overrides',
             get_theme_file_uri('assets/css/custom-color-overrides.css'),
@@ -120,7 +126,8 @@ class Twenty_Twenty_One_Custom_Colors {
      * @param string $hex The HEX color.
      * @return int Returns a number (0-255).
      */
-    public static function get_relative_luminance_from_hex($hex) {
+    public static function get_relative_luminance_from_hex($hex)
+    {
 
         // Remove the "#" symbol from the beginning of the color.
         $hex = ltrim($hex, '#');
@@ -148,7 +155,8 @@ class Twenty_Twenty_One_Custom_Colors {
      * @param array $classes The existing body classes.
      * @return array
      */
-    public function body_class($classes) {
+    public function body_class($classes)
+    {
         $background_color = get_theme_mod('background_color', 'D1E4DD');
         $luminance        = self::get_relative_luminance_from_hex($background_color);
 

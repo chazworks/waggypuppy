@@ -3,7 +3,8 @@
 /**
  * @group pomo
  */
-class PluralFormsTest extends WP_UnitTestCase {
+class PluralFormsTest extends WP_UnitTestCase
+{
     /**
      * Parenthesize plural expression.
      *
@@ -12,7 +13,8 @@ class PluralFormsTest extends WP_UnitTestCase {
      * @param string $expression the expression without parentheses
      * @return string the expression with parentheses added
      */
-    protected static function parenthesize_plural_expression($expression) {
+    protected static function parenthesize_plural_expression($expression)
+    {
         $expression .= ';';
         $res         = '';
         $depth       = 0;
@@ -42,7 +44,8 @@ class PluralFormsTest extends WP_UnitTestCase {
      * @dataProvider data_locales
      * @group external-http
      */
-    public function test_regression($lang, $nplurals, $expression) {
+    public function test_regression($lang, $nplurals, $expression)
+    {
         require_once dirname(__DIR__, 2) . '/includes/plural-form-function.php';
 
         $parenthesized = self::parenthesize_plural_expression($expression);
@@ -64,13 +67,15 @@ class PluralFormsTest extends WP_UnitTestCase {
      * @ticket 41562
      * @group external-http
      */
-    public function test_locales_file_not_empty() {
+    public function test_locales_file_not_empty()
+    {
         $locales = self::data_locales();
 
         $this->assertNotEmpty($locales, 'Unable to retrieve GP_Locales file');
     }
 
-    public static function data_locales() {
+    public static function data_locales()
+    {
         if (! class_exists('GP_Locales')) {
             $filename = download_url('https://raw.githubusercontent.com/GlotPress/GlotPress-WP/develop/locales/locales.php');
             if (is_wp_error($filename)) {
@@ -95,7 +100,8 @@ class PluralFormsTest extends WP_UnitTestCase {
      * @ticket 41562
      * @dataProvider data_simple
      */
-    public function test_simple($expression, $expected) {
+    public function test_simple($expression, $expected)
+    {
         $plural_forms = new Plural_Forms($expression);
         $actual       = array();
         foreach (array_keys($expected) as $num) {
@@ -105,7 +111,8 @@ class PluralFormsTest extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public static function data_simple() {
+    public static function data_simple()
+    {
         return array(
             array(
                 // Simple equivalence.
@@ -162,7 +169,8 @@ class PluralFormsTest extends WP_UnitTestCase {
      * @ticket 41562
      * @dataProvider data_exceptions
      */
-    public function test_exceptions($expression, $expected_message, $call_get) {
+    public function test_exceptions($expression, $expected_message, $call_get)
+    {
         $this->expectException('Exception');
         $this->expectExceptionMessage($expected_message);
 
@@ -172,7 +180,8 @@ class PluralFormsTest extends WP_UnitTestCase {
         }
     }
 
-    public function data_exceptions() {
+    public function data_exceptions()
+    {
         return array(
             array(
                 'n # 2',              // Invalid expression to parse.
@@ -215,7 +224,8 @@ class PluralFormsTest extends WP_UnitTestCase {
     /**
      * @ticket 41562
      */
-    public function test_cache() {
+    public function test_cache()
+    {
         $mock = $this->getMockBuilder('Plural_Forms')
             ->setMethods(array('execute'))
             ->setConstructorArgs(array('n != 1'))

@@ -7,7 +7,8 @@
  *
  * @group restapi
  */
-class WP_REST_Test_Controller extends WP_REST_Controller {
+class WP_REST_Test_Controller extends WP_REST_Controller
+{
     /**
      * Prepares the item for the REST response.
      *
@@ -15,7 +16,8 @@ class WP_REST_Test_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         $context  = ! empty($request['context']) ? $request['context'] : 'view';
         $item     = $this->add_additional_fields_to_object($item, $request);
         $item     = $this->filter_response_by_context($item, $context);
@@ -28,7 +30,8 @@ class WP_REST_Test_Controller extends WP_REST_Controller {
      *
      * @return array
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         $schema = array(
             '$schema'    => 'http://json-schema.org/draft-04/schema#',
             'title'      => 'type',

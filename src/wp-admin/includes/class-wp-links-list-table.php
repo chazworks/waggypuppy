@@ -14,7 +14,8 @@
  *
  * @see WP_List_Table
  */
-class WP_Links_List_Table extends WP_List_Table {
+class WP_Links_List_Table extends WP_List_Table
+{
 
     /**
      * Constructor.
@@ -25,7 +26,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         parent::__construct(
             array(
                 'plural' => 'bookmarks',
@@ -37,7 +39,8 @@ class WP_Links_List_Table extends WP_List_Table {
     /**
      * @return bool
      */
-    public function ajax_user_can() {
+    public function ajax_user_can()
+    {
         return current_user_can('manage_links');
     }
 
@@ -47,7 +50,8 @@ class WP_Links_List_Table extends WP_List_Table {
      * @global string $orderby
      * @global string $order
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         global $cat_id, $s, $orderby, $order;
 
         $cat_id  = ! empty($_REQUEST['cat_id']) ? absint($_REQUEST['cat_id']) : 0;
@@ -78,14 +82,16 @@ class WP_Links_List_Table extends WP_List_Table {
 
     /**
      */
-    public function no_items() {
+    public function no_items()
+    {
         _e('No links found.');
     }
 
     /**
      * @return array
      */
-    protected function get_bulk_actions() {
+    protected function get_bulk_actions()
+    {
         $actions           = array();
         $actions['delete'] = __('Delete');
 
@@ -96,7 +102,8 @@ class WP_Links_List_Table extends WP_List_Table {
      * @global int $cat_id
      * @param string $which
      */
-    protected function extra_tablenav($which) {
+    protected function extra_tablenav($which)
+    {
         global $cat_id;
 
         if ('top' !== $which) {
@@ -129,7 +136,8 @@ class WP_Links_List_Table extends WP_List_Table {
     /**
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         return array(
             'cb'         => '<input type="checkbox" />',
             'name'       => _x('Name', 'link name'),
@@ -144,7 +152,8 @@ class WP_Links_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_sortable_columns() {
+    protected function get_sortable_columns()
+    {
         return array(
             'name'    => array('name', false, _x('Name', 'link name'), __('Table ordered by Name.'), 'asc'),
             'url'     => array('url', false, __('URL'), __('Table ordered by URL.')),
@@ -160,7 +169,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @return string Name of the default primary column, in this case, 'name'.
      */
-    protected function get_default_primary_column_name() {
+    protected function get_default_primary_column_name()
+    {
         return 'name';
     }
 
@@ -172,7 +182,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @param object $item The current link object.
      */
-    public function column_cb($item) {
+    public function column_cb($item)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $link = $item;
 
@@ -196,7 +207,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @param object $link The current link object.
      */
-    public function column_name($link) {
+    public function column_name($link)
+    {
         $edit_link = get_edit_bookmark_link($link);
         printf(
             '<strong><a class="row-title" href="%s" aria-label="%s">%s</a></strong>',
@@ -214,7 +226,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @param object $link The current link object.
      */
-    public function column_url($link) {
+    public function column_url($link)
+    {
         $short_url = url_shorten($link->link_url);
         echo "<a href='$link->link_url'>$short_url</a>";
     }
@@ -228,7 +241,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @param object $link The current link object.
      */
-    public function column_categories($link) {
+    public function column_categories($link)
+    {
         global $cat_id;
 
         $cat_names = array();
@@ -253,7 +267,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @param object $link The current link object.
      */
-    public function column_rel($link) {
+    public function column_rel($link)
+    {
         echo empty($link->link_rel) ? '<br />' : $link->link_rel;
     }
 
@@ -264,7 +279,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @param object $link The current link object.
      */
-    public function column_visible($link) {
+    public function column_visible($link)
+    {
         if ('Y' === $link->link_visible) {
             _e('Yes');
         } else {
@@ -279,7 +295,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @param object $link The current link object.
      */
-    public function column_rating($link) {
+    public function column_rating($link)
+    {
         echo $link->link_rating;
     }
 
@@ -292,7 +309,8 @@ class WP_Links_List_Table extends WP_List_Table {
      * @param object $item        Link object.
      * @param string $column_name Current column name.
      */
-    public function column_default($item, $column_name) {
+    public function column_default($item, $column_name)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $link = $item;
 
@@ -312,7 +330,8 @@ class WP_Links_List_Table extends WP_List_Table {
      *
      * @since 3.1.0
      */
-    public function display_rows() {
+    public function display_rows()
+    {
         foreach ($this->items as $link) {
             $link                = sanitize_bookmark($link);
             $link->link_name     = esc_attr($link->link_name);
@@ -337,7 +356,8 @@ class WP_Links_List_Table extends WP_List_Table {
      * @return string Row actions output for links, or an empty string
      *                if the current column is not the primary column.
      */
-    protected function handle_row_actions($item, $column_name, $primary) {
+    protected function handle_row_actions($item, $column_name, $primary)
+    {
         if ($primary !== $column_name) {
             return '';
         }

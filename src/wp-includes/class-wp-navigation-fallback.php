@@ -15,7 +15,8 @@
  * @access public
  * @since 6.3.0
  */
-class WP_Navigation_Fallback {
+class WP_Navigation_Fallback
+{
 
     /**
      * Updates the wp_navigation custom post type schema, in order to expose
@@ -33,7 +34,8 @@ class WP_Navigation_Fallback {
      * @param array $schema The schema for the `wp_navigation` post.
      * @return array The modified schema.
      */
-    public static function update_wp_navigation_post_schema($schema) {
+    public static function update_wp_navigation_post_schema($schema)
+    {
         // Expose top level fields.
         $schema['properties']['status']['context']  = array_merge($schema['properties']['status']['context'], array('embed'));
         $schema['properties']['content']['context'] = array_merge($schema['properties']['content']['context'], array('embed'));
@@ -68,7 +70,8 @@ class WP_Navigation_Fallback {
      *
      * @return WP_Post|null the fallback Navigation Post or null.
      */
-    public static function get_fallback() {
+    public static function get_fallback()
+    {
         /**
          * Filters whether or not a fallback should be created.
          *
@@ -108,7 +111,8 @@ class WP_Navigation_Fallback {
      *
      * @return WP_Post|null the first non-empty Navigation or null.
      */
-    private static function get_most_recently_published_navigation() {
+    private static function get_most_recently_published_navigation()
+    {
 
         $parsed_args = array(
             'post_type'              => 'wp_navigation',
@@ -137,7 +141,8 @@ class WP_Navigation_Fallback {
      *
      * @return int|WP_Error The post ID of the default fallback menu or a WP_Error object.
      */
-    private static function create_classic_menu_fallback() {
+    private static function create_classic_menu_fallback()
+    {
         // See if we have a classic menu.
         $classic_nav_menu = static::get_fallback_classic_menu();
 
@@ -178,7 +183,8 @@ class WP_Navigation_Fallback {
      *
      * @return WP_Term|null The most appropriate classic navigation menu to use as a fallback.
      */
-    private static function get_fallback_classic_menu() {
+    private static function get_fallback_classic_menu()
+    {
         $classic_nav_menus = wp_get_nav_menus();
 
         if (! $classic_nav_menus || is_wp_error($classic_nav_menus)) {
@@ -209,7 +215,8 @@ class WP_Navigation_Fallback {
      * @param WP_Term[] $classic_nav_menus Array of classic nav menu term objects.
      * @return WP_Term The most recently created classic nav menu.
      */
-    private static function get_most_recently_created_nav_menu($classic_nav_menus) {
+    private static function get_most_recently_created_nav_menu($classic_nav_menus)
+    {
         usort(
             $classic_nav_menus,
             static function ($a, $b) {
@@ -228,7 +235,8 @@ class WP_Navigation_Fallback {
      * @param WP_Term[] $classic_nav_menus Array of classic nav menu term objects.
      * @return WP_Term|null The classic nav menu with the slug `primary` or null.
      */
-    private static function get_nav_menu_with_primary_slug($classic_nav_menus) {
+    private static function get_nav_menu_with_primary_slug($classic_nav_menus)
+    {
         foreach ($classic_nav_menus as $classic_nav_menu) {
             if ('primary' === $classic_nav_menu->slug) {
                 return $classic_nav_menu;
@@ -247,7 +255,8 @@ class WP_Navigation_Fallback {
      *
      * @return WP_Term|null The classic nav menu assigned to the `primary` location or null.
      */
-    private static function get_nav_menu_at_primary_location() {
+    private static function get_nav_menu_at_primary_location()
+    {
         $locations = get_nav_menu_locations();
 
         if (isset($locations['primary'])) {
@@ -268,7 +277,8 @@ class WP_Navigation_Fallback {
      *
      * @return int|WP_Error The post ID of the default fallback menu or a WP_Error object.
      */
-    private static function create_default_fallback() {
+    private static function create_default_fallback()
+    {
 
         $default_blocks = static::get_default_fallback_blocks();
 
@@ -294,7 +304,8 @@ class WP_Navigation_Fallback {
      *
      * @return string default blocks markup to use a the fallback.
      */
-    private static function get_default_fallback_blocks() {
+    private static function get_default_fallback_blocks()
+    {
         $registry = WP_Block_Type_Registry::get_instance();
 
         // If `core/page-list` is not registered then use empty blocks.

@@ -16,7 +16,8 @@
  *
  * @return string Returns the filtered post title for the current post wrapped inside "h1" tags.
  */
-function render_block_core_post_title($attributes, $content, $block) {
+function render_block_core_post_title($attributes, $content, $block)
+{
     if (! isset($block->context['postId'])) {
         return '';
     }
@@ -63,7 +64,8 @@ function render_block_core_post_title($attributes, $content, $block) {
  *
  * @since 5.8.0
  */
-function register_block_core_post_title() {
+function register_block_core_post_title()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-title',
         array(

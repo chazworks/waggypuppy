@@ -12,7 +12,8 @@
  * @abstract
  */
 #[AllowDynamicProperties]
-class Walker {
+class Walker
+{
     /**
      * What the class handles.
      *
@@ -60,7 +61,8 @@ class Walker {
      * @param int    $depth  Depth of the item.
      * @param array  $args   An array of additional arguments.
      */
-    public function start_lvl(&$output, $depth = 0, $args = array()) {}
+    public function start_lvl(&$output, $depth = 0, $args = array())
+    {}
 
     /**
      * Ends the list of after the elements are added.
@@ -75,7 +77,8 @@ class Walker {
      * @param int    $depth  Depth of the item.
      * @param array  $args   An array of additional arguments.
      */
-    public function end_lvl(&$output, $depth = 0, $args = array()) {}
+    public function end_lvl(&$output, $depth = 0, $args = array())
+    {}
 
     /**
      * Starts the element output.
@@ -93,7 +96,8 @@ class Walker {
      * @param array  $args              An array of additional arguments.
      * @param int    $current_object_id Optional. ID of the current item. Default 0.
      */
-    public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0) {}
+    public function start_el(&$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0)
+    {}
 
     /**
      * Ends the element output, if needed.
@@ -109,7 +113,8 @@ class Walker {
      * @param int    $depth       Depth of the item.
      * @param array  $args        An array of additional arguments.
      */
-    public function end_el(&$output, $data_object, $depth = 0, $args = array()) {}
+    public function end_el(&$output, $data_object, $depth = 0, $args = array())
+    {}
 
     /**
      * Traverses elements to create list from elements.
@@ -130,7 +135,8 @@ class Walker {
      * @param array  $args              An array of arguments.
      * @param string $output            Used to append additional content (passed by reference).
      */
-    public function display_element($element, &$children_elements, $max_depth, $depth, $args, &$output) {
+    public function display_element($element, &$children_elements, $max_depth, $depth, $args, &$output)
+    {
         if (! $element) {
             return;
         }
@@ -191,7 +197,8 @@ class Walker {
      * @param mixed ...$args   Optional additional arguments.
      * @return string The hierarchical item output.
      */
-    public function walk($elements, $max_depth, ...$args) {
+    public function walk($elements, $max_depth, ...$args)
+    {
         $output = '';
 
         $max_depth = (int) $max_depth;
@@ -289,7 +296,8 @@ class Walker {
      * @param mixed ...$args   Optional additional arguments.
      * @return string XHTML of the specified page of elements.
      */
-    public function paged_walk($elements, $max_depth, $page_num, $per_page, ...$args) {
+    public function paged_walk($elements, $max_depth, $page_num, $per_page, ...$args)
+    {
         $output = '';
 
         $max_depth = (int) $max_depth;
@@ -417,7 +425,8 @@ class Walker {
      * @param array $elements Elements to list.
      * @return int Number of root elements.
      */
-    public function get_number_of_root_elements($elements) {
+    public function get_number_of_root_elements($elements)
+    {
         $num          = 0;
         $parent_field = $this->db_fields['parent'];
 
@@ -437,7 +446,8 @@ class Walker {
      * @param object $element           The top level element.
      * @param array  $children_elements The children elements.
      */
-    public function unset_children($element, &$children_elements) {
+    public function unset_children($element, &$children_elements)
+    {
         if (! $element || ! $children_elements) {
             return;
         }

@@ -5,7 +5,8 @@
  * @group slashes
  * @ticket 21767
  */
-class Tests_Post_Slashes extends WP_UnitTestCase {
+class Tests_Post_Slashes extends WP_UnitTestCase
+{
 
     /*
      * It is important to test with both even and odd numbered slashes,
@@ -23,12 +24,14 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
     protected static $author_id;
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$author_id = $factory->user->create(array('role' => 'editor'));
         self::$post_id   = $factory->post->create();
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         wp_set_current_user(self::$author_id);
@@ -37,7 +40,8 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
     /**
      * Tests the controller function that expects slashed data.
      */
-    public function test_edit_post() {
+    public function test_edit_post()
+    {
         $post_id = self::$post_id;
 
         $_POST               = array();
@@ -74,7 +78,8 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_wp_insert_post() {
+    public function test_wp_insert_post()
+    {
         $post_id = wp_insert_post(
             array(
                 'post_status'  => 'publish',
@@ -110,7 +115,8 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
     /**
      * Tests the model function that expects slashed data.
      */
-    public function test_wp_update_post() {
+    public function test_wp_update_post()
+    {
         $post_id = self::$post_id;
 
         wp_update_post(
@@ -145,7 +151,8 @@ class Tests_Post_Slashes extends WP_UnitTestCase {
     /**
      * @ticket 27550
      */
-    public function test_wp_trash_untrash() {
+    public function test_wp_trash_untrash()
+    {
         $post    = array(
             'post_title'   => self::SLASH_1,
             'post_content' => self::SLASH_3,

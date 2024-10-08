@@ -13,11 +13,13 @@
  * @since 3.0.0
  * @uses Walker_Nav_Menu
  */
-class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
+class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu
+{
     /**
      * @param array|false $fields Database fields to use.
      */
-    public function __construct($fields = false) {
+    public function __construct($fields = false)
+    {
         if ($fields) {
             $this->db_fields = $fields;
         }
@@ -34,7 +36,8 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
      * @param int      $depth  Depth of page. Used for padding.
      * @param stdClass $args   Not used.
      */
-    public function start_lvl(&$output, $depth = 0, $args = null) {
+    public function start_lvl(&$output, $depth = 0, $args = null)
+    {
         $indent  = str_repeat("\t", $depth);
         $output .= "\n$indent<ul class='children'>\n";
     }
@@ -50,7 +53,8 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
      * @param int      $depth  Depth of page. Used for padding.
      * @param stdClass $args   Not used.
      */
-    public function end_lvl(&$output, $depth = 0, $args = null) {
+    public function end_lvl(&$output, $depth = 0, $args = null)
+    {
         $indent  = str_repeat("\t", $depth);
         $output .= "\n$indent</ul>";
     }
@@ -73,7 +77,8 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
      * @param stdClass $args              Not used.
      * @param int      $current_object_id Optional. ID of the current menu item. Default 0.
      */
-    public function start_el(&$output, $data_object, $depth = 0, $args = null, $current_object_id = 0) {
+    public function start_el(&$output, $data_object, $depth = 0, $args = null, $current_object_id = 0)
+    {
         global $_nav_menu_placeholder, $nav_menu_selected_id;
 
         // Restores the more descriptive, specific name for use within this method.

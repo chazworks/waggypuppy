@@ -9,11 +9,13 @@
  * @covers ::wp_script_is
  * @covers WP_Scripts::query
  */
-class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
+class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase
+{
     private static $wp_scripts;
     private static $wp_scripts_was_set = false;
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         // If the global is set, store it for restoring when done testing.
@@ -24,7 +26,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
         }
     }
 
-    public static function tear_down_after_class() {
+    public static function tear_down_after_class()
+    {
         // Restore the global if it was set before running this set of tests.
         if (static::$wp_scripts_was_set) {
             $GLOBALS['wp_scripts'] = static::$wp_scripts;
@@ -33,12 +36,14 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
         parent::tear_down_after_class();
     }
 
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         unset($GLOBALS['wp_scripts']);
         parent::clean_up_global_scope();
     }
 
-    public function test_script_is_registered() {
+    public function test_script_is_registered()
+    {
         $handle = 'test-script';
         wp_register_script($handle, 'https://example.org/script.js');
 
@@ -50,7 +55,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      *
      * @param string $handle Script handle to test.
      */
-    public function test_script_is_enqueued($handle) {
+    public function test_script_is_enqueued($handle)
+    {
         // Test set up.
         wp_enqueue_script($handle);
 
@@ -62,7 +68,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      *
      * @param string $handle Script handle to test.
      */
-    public function test_script_is_not_enqueued($handle) {
+    public function test_script_is_not_enqueued($handle)
+    {
         $this->assertFalse(wp_script_is($handle), "Script `{$handle}` should not be enqueued when test starts");
     }
 
@@ -71,7 +78,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_script_handles() {
+    public function data_script_handles()
+    {
         return array(
             array('heartbeat'),
             array('jquery'),
@@ -89,7 +97,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      * @param string   $handle Script handle.
      * @param string[] $deps   The deps to test for the given script handle.
      */
-    public function test_deps_are_enqueued($handle, $deps) {
+    public function test_deps_are_enqueued($handle, $deps)
+    {
         // Check the deps are not enqueued before enqueuing.
         $this->assertFalse(wp_script_is($handle), 'Script `jquery-ui-accordion` should not be enqueued when test starts');
         foreach ($deps as $dep_handle) {
@@ -111,7 +120,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_deps_are_enqueued() {
+    public function data_deps_are_enqueued()
+    {
         return array(
             'jquery: 1 level of deps'                 => array(
                 'handle' => 'jquery',
@@ -174,7 +184,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      * @param string   $handle   Script handle.
      * @param string[] $not_deps The handles that are not deps of the given script handle.
      */
-    public function test_non_deps_are_not_enqueued($handle, $not_deps) {
+    public function test_non_deps_are_not_enqueued($handle, $not_deps)
+    {
         // Check the deps are not enqueued before enqueuing.
         $this->assertFalse(wp_script_is($handle), "Script `{$handle}` should not be enqueued when test starts");
         foreach ($not_deps as $not_dep_handle) {
@@ -194,7 +205,8 @@ class Tests_Dependencies_WpScriptIs extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_non_deps_should_not_enqueue() {
+    public function data_non_deps_should_not_enqueue()
+    {
         return array(
             'imagesloaded: no dependencies' => array(
                 'handle'   => 'imagesloaded',

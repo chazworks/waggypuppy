@@ -5,18 +5,21 @@
  *
  * @covers ::wp_apply_dimensions_support
  */
-class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase {
+class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase
+{
     /**
      * @var string|null
      */
     private $test_block_name;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->test_block_name = null;
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
         parent::tear_down();
@@ -35,7 +38,8 @@ class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase {
      * @param mixed  $dimensions The dimensions block support settings.
      * @param mixed  $expected   The expected results.
      */
-    public function test_minimum_height_block_support($block_name, $dimensions, $expected) {
+    public function test_minimum_height_block_support($block_name, $dimensions, $expected)
+    {
         $this->test_block_name = $block_name;
         register_block_type(
             $this->test_block_name,
@@ -71,7 +75,8 @@ class Tests_Block_Supports_WpApplyDimensionsSupport extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_minimum_height_block_support() {
+    public function data_minimum_height_block_support()
+    {
         return array(
             'style is applied' => array(
                 'block_name' => 'test/dimensions-block-supports',

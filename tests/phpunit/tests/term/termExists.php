@@ -3,12 +3,15 @@
 /**
  * @group taxonomy
  */
-class Tests_TermExists extends WP_UnitTestCase {
-    public function test_term_exists_term_0() {
+class Tests_TermExists extends WP_UnitTestCase
+{
+    public function test_term_exists_term_0()
+    {
         $this->assertSame(0, term_exists(0));
     }
 
-    public function test_term_exists_term_int_taxonomy_nonempty_term_exists() {
+    public function test_term_exists_term_int_taxonomy_nonempty_term_exists()
+    {
         $t = self::factory()->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -19,11 +22,13 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found['term_id']);
     }
 
-    public function test_term_exists_term_int_taxonomy_nonempty_term_does_not_exist() {
+    public function test_term_exists_term_int_taxonomy_nonempty_term_does_not_exist()
+    {
         $this->assertNull(term_exists(54321, 'post_tag'));
     }
 
-    public function test_term_exists_term_int_taxonomy_nonempty_wrong_taxonomy() {
+    public function test_term_exists_term_int_taxonomy_nonempty_wrong_taxonomy()
+    {
         $t = self::factory()->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -33,7 +38,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertNull(term_exists((int) $t, 'foo'));
     }
 
-    public function test_term_exists_term_int_taxonomy_empty_term_exists() {
+    public function test_term_exists_term_int_taxonomy_empty_term_exists()
+    {
         $t = self::factory()->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -44,11 +50,13 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found['term_id']);
     }
 
-    public function test_term_exists_term_int_taxonomy_empty_term_does_not_exist() {
+    public function test_term_exists_term_int_taxonomy_empty_term_does_not_exist()
+    {
         $this->assertNull(term_exists(54321));
     }
 
-    public function test_term_exists_unslash_term() {
+    public function test_term_exists_unslash_term()
+    {
         $t = self::factory()->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -60,7 +68,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found);
     }
 
-    public function test_term_exists_trim_term() {
+    public function test_term_exists_trim_term()
+    {
         $t = self::factory()->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -72,14 +81,16 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found);
     }
 
-    public function test_term_exists_term_trimmed_to_empty_string() {
+    public function test_term_exists_term_trimmed_to_empty_string()
+    {
         $this->assertNull(term_exists('   '));
     }
 
     /**
      * @ticket 29589
      */
-    public function test_term_exists_existing_term_that_sanitizes_to_empty() {
+    public function test_term_exists_existing_term_that_sanitizes_to_empty()
+    {
         wp_insert_term('//', 'category');
         $this->assertNotEmpty(term_exists('//'));
         $this->assertNotEmpty(term_exists('//', 'category'));
@@ -89,7 +100,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertNotEmpty(term_exists('&gt;&gt;', 'category'));
     }
 
-    public function test_term_exists_taxonomy_nonempty_parent_nonempty_match_slug() {
+    public function test_term_exists_taxonomy_nonempty_parent_nonempty_match_slug()
+    {
         register_taxonomy(
             'foo',
             'post',
@@ -123,7 +135,8 @@ class Tests_TermExists extends WP_UnitTestCase {
     /**
      * @ticket 29851
      */
-    public function test_term_exists_taxonomy_nonempty_parent_0_should_return_false_for_child_term() {
+    public function test_term_exists_taxonomy_nonempty_parent_0_should_return_false_for_child_term()
+    {
         register_taxonomy(
             'foo',
             'post',
@@ -153,7 +166,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertNull($found);
     }
 
-    public function test_term_exists_taxonomy_nonempty_parent_nonempty_match_name() {
+    public function test_term_exists_taxonomy_nonempty_parent_nonempty_match_name()
+    {
         register_taxonomy(
             'foo',
             'post',
@@ -184,7 +198,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found['term_id']);
     }
 
-    public function test_term_exists_taxonomy_nonempty_parent_empty_match_slug() {
+    public function test_term_exists_taxonomy_nonempty_parent_empty_match_slug()
+    {
         register_taxonomy('foo', 'post', array());
 
         $t = self::factory()->term->create(
@@ -202,7 +217,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found['term_id']);
     }
 
-    public function test_term_exists_taxonomy_nonempty_parent_empty_match_name() {
+    public function test_term_exists_taxonomy_nonempty_parent_empty_match_name()
+    {
         register_taxonomy('foo', 'post', array());
 
         $t = self::factory()->term->create(
@@ -220,7 +236,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found['term_id']);
     }
 
-    public function test_term_exists_taxonomy_empty_parent_empty_match_slug() {
+    public function test_term_exists_taxonomy_empty_parent_empty_match_slug()
+    {
         register_taxonomy('foo', 'post', array());
 
         $t = self::factory()->term->create(
@@ -238,7 +255,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found);
     }
 
-    public function test_term_exists_taxonomy_empty_parent_empty_match_name() {
+    public function test_term_exists_taxonomy_empty_parent_empty_match_name()
+    {
         register_taxonomy('foo', 'post', array());
 
         $t = self::factory()->term->create(
@@ -256,7 +274,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         $this->assertEquals($t, $found);
     }
 
-    public function test_term_exists_known() {
+    public function test_term_exists_known()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         // Insert a term.
@@ -275,7 +294,8 @@ class Tests_TermExists extends WP_UnitTestCase {
      * @ticket 36949
      * @covers ::term_exists()
      */
-    public function test_term_lookup_by_id_and_update() {
+    public function test_term_lookup_by_id_and_update()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $slug = __FUNCTION__;
@@ -297,7 +317,8 @@ class Tests_TermExists extends WP_UnitTestCase {
      * @ticket 36949
      * @covers ::term_exists()
      */
-    public function test_term_lookup_by_slug_and_update() {
+    public function test_term_lookup_by_slug_and_update()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $slug = __FUNCTION__;
@@ -319,7 +340,8 @@ class Tests_TermExists extends WP_UnitTestCase {
      * @ticket 36949
      * @covers ::term_exists()
      */
-    public function test_term_exists_caching() {
+    public function test_term_exists_caching()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $slug = __FUNCTION__;
@@ -347,7 +369,8 @@ class Tests_TermExists extends WP_UnitTestCase {
      * @ticket 36949
      * @covers ::term_exists()
      */
-    public function test_term_exists_caching_suspend_cache_invalidation() {
+    public function test_term_exists_caching_suspend_cache_invalidation()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         wp_suspend_cache_invalidation(true);
@@ -373,7 +396,8 @@ class Tests_TermExists extends WP_UnitTestCase {
      * @ticket 36949
      * @covers ::term_exists()
      */
-    public function test_term_exists_caching_by_int_suspend_cache_invalidation() {
+    public function test_term_exists_caching_by_int_suspend_cache_invalidation()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $slug = __FUNCTION__;
@@ -395,7 +419,8 @@ class Tests_TermExists extends WP_UnitTestCase {
         _unregister_taxonomy('wptests_tax');
     }
 
-    public function test_term_exists_unknown() {
+    public function test_term_exists_unknown()
+    {
         $this->assertNull(term_exists(rand_str()));
         $this->assertSame(0, term_exists(0));
         $this->assertNull(term_exists(''));

@@ -19,7 +19,8 @@
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_custom_header_setup() {
+function twentytwelve_custom_header_setup()
+{
     $args = array(
         // Text color and image (empty to use none).
         'default-text-color'     => '515151',
@@ -52,7 +53,8 @@ add_action('after_setup_theme', 'twentytwelve_custom_header_setup');
  *
  * @since Twenty Twelve 1.2
  */
-function twentytwelve_custom_header_fonts() {
+function twentytwelve_custom_header_fonts()
+{
     $font_url = twentytwelve_get_font_url();
     if (! empty($font_url)) {
         wp_enqueue_style('twentytwelve-fonts', esc_url_raw($font_url), array(), null);
@@ -67,7 +69,8 @@ add_action('admin_print_styles-appearance_page_custom-header', 'twentytwelve_cus
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_header_style() {
+function twentytwelve_header_style()
+{
     $text_color = get_header_textcolor();
 
     // If no custom options for text are set, let's bail.
@@ -106,7 +109,8 @@ function twentytwelve_header_style() {
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_admin_header_style() {
+function twentytwelve_admin_header_style()
+{
     ?>
     <style type="text/css" id="twentytwelve-admin-header-css">
     .appearance_page_custom-header #headimg {
@@ -148,7 +152,8 @@ function twentytwelve_admin_header_style() {
  *
  * @since Twenty Twelve 1.0
  */
-function twentytwelve_admin_header_image() {
+function twentytwelve_admin_header_image()
+{
     $style = 'color: #' . get_header_textcolor() . ';';
     if (! display_header_text()) {
         $style = 'display: none;';
@@ -173,7 +178,8 @@ function twentytwelve_admin_header_image() {
  *
  * @since Twenty Twelve 4.1
  */
-function twentytwelve_header_image() {
+function twentytwelve_header_image()
+{
     $custom_header = get_custom_header();
     $attrs         = array(
         'alt'    => get_bloginfo('name', 'display'),

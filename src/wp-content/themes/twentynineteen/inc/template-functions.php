@@ -13,7 +13,8 @@
  * @param array $classes Classes for the body element.
  * @return array
  */
-function twentynineteen_body_classes($classes) {
+function twentynineteen_body_classes($classes)
+{
 
     if (is_singular()) {
         // Adds `singular` to singular pages.
@@ -38,7 +39,8 @@ add_filter('body_class', 'twentynineteen_body_classes');
  * @param array $classes A list of existing post class values.
  * @return array The filtered post class list.
  */
-function twentynineteen_post_classes($classes) {
+function twentynineteen_post_classes($classes)
+{
     $classes[] = 'entry';
 
     return $classes;
@@ -48,7 +50,8 @@ add_filter('post_class', 'twentynineteen_post_classes');
 /**
  * Adds a pingback url auto-discovery header for single posts, pages, or attachments.
  */
-function twentynineteen_pingback_header() {
+function twentynineteen_pingback_header()
+{
     if (is_singular() && pings_open()) {
         echo '<link rel="pingback" href="', esc_url(get_bloginfo('pingback_url')), '">';
     }
@@ -58,7 +61,8 @@ add_action('wp_head', 'twentynineteen_pingback_header');
 /**
  * Changes comment form default fields.
  */
-function twentynineteen_comment_form_defaults($defaults) {
+function twentynineteen_comment_form_defaults($defaults)
+{
     $comment_field = $defaults['comment_field'];
 
     // Adjust height of comment form.
@@ -71,7 +75,8 @@ add_filter('comment_form_defaults', 'twentynineteen_comment_form_defaults');
 /**
  * Filters the default archive titles.
  */
-function twentynineteen_get_the_archive_title() {
+function twentynineteen_get_the_archive_title()
+{
     if (is_category()) {
         $title = __('Category Archives: ', 'twentynineteen') . '<span class="page-description">' . single_term_title('', false) . '</span>';
     } elseif (is_tag()) {
@@ -106,7 +111,8 @@ add_filter('get_the_archive_title', 'twentynineteen_get_the_archive_title');
  *                       See wp_get_attachment_image().
  * @return string[] The filtered attributes for the image markup.
  */
-function twentynineteen_post_thumbnail_sizes_attr($attr) {
+function twentynineteen_post_thumbnail_sizes_attr($attr)
+{
 
     if (is_admin()) {
         return $attr;
@@ -127,7 +133,8 @@ add_filter('wp_get_attachment_image_attributes', 'twentynineteen_post_thumbnail_
  * @param object $args     Nav menu args.
  * @return string More link for hidden menu items.
  */
-function twentynineteen_add_ellipses_to_nav($nav_menu, $args) {
+function twentynineteen_add_ellipses_to_nav($nav_menu, $args)
+{
 
     if ('menu-1' === $args->theme_location) :
 
@@ -177,7 +184,8 @@ add_filter('wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2);
  * @param WP_Post $item The current menu item object.
  * @return string[] Modified attributes.
  */
-function twentynineteen_nav_menu_link_attributes($atts, $item) {
+function twentynineteen_nav_menu_link_attributes($atts, $item)
+{
 
     // Add [aria-haspopup] and [aria-expanded] to menu items that have children.
     $item_has_children = in_array('menu-item-has-children', $item->classes, true);
@@ -199,7 +207,8 @@ add_filter('nav_menu_link_attributes', 'twentynineteen_nav_menu_link_attributes'
  * @param object $args              Nav menu args.
  * @return array Amended nav menu items.
  */
-function twentynineteen_add_mobile_parent_nav_menu_items($sorted_menu_items, $args) {
+function twentynineteen_add_mobile_parent_nav_menu_items($sorted_menu_items, $args)
+{
     static $pseudo_id = 0;
     if (! isset($args->theme_location) || 'menu-1' !== $args->theme_location) {
         return $sorted_menu_items;
@@ -234,7 +243,8 @@ add_filter('wp_nav_menu_objects', 'twentynineteen_add_mobile_parent_nav_menu_ite
  * @param int    $i    Page number for paginated posts' page links.
  * @return string Formatted output in HTML.
  */
-function twentynineteen_link_pages_link($link, $i) {
+function twentynineteen_link_pages_link($link, $i)
+{
     if ($i > 1 && preg_match('/href="([^"]*)"/', $link, $matches)) {
         $link = str_replace($matches[1], $matches[1] . '#content', $link);
     }

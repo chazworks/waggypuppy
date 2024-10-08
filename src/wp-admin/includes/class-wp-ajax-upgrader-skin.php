@@ -16,7 +16,8 @@
  *
  * @see Automatic_Upgrader_Skin
  */
-class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
+class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
+{
 
     /**
      * Plugin info.
@@ -61,7 +62,8 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
      *                    override default options. See WP_Upgrader_Skin::__construct().
      *                    Default empty array.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         parent::__construct($args);
 
         $this->errors = new WP_Error();
@@ -74,7 +76,8 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
      *
      * @return WP_Error Errors during an upgrade.
      */
-    public function get_errors() {
+    public function get_errors()
+    {
         return $this->errors;
     }
 
@@ -85,7 +88,8 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
      *
      * @return string Error messages during an upgrade.
      */
-    public function get_error_messages() {
+    public function get_error_messages()
+    {
         $messages = array();
 
         foreach ($this->errors->get_error_codes() as $error_code) {
@@ -111,7 +115,8 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
      * @param string|WP_Error $errors  Errors.
      * @param mixed           ...$args Optional text replacements.
      */
-    public function error($errors, ...$args) {
+    public function error($errors, ...$args)
+    {
         if (is_string($errors)) {
             $string = $errors;
             if (! empty($this->upgrader->strings[ $string ])) {
@@ -147,7 +152,8 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
      * @param string|array|WP_Error $feedback Message data.
      * @param mixed                 ...$args  Optional text replacements.
      */
-    public function feedback($feedback, ...$args) {
+    public function feedback($feedback, ...$args)
+    {
         if (is_wp_error($feedback)) {
             foreach ($feedback->get_error_codes() as $error_code) {
                 $this->errors->add($error_code, $feedback->get_error_message($error_code), $feedback->get_error_data($error_code));

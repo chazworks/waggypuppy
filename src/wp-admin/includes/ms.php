@@ -15,7 +15,8 @@
  * @param array $file An element from the `$_FILES` array for a given file.
  * @return array The `$_FILES` array element with 'error' key set if file exceeds quota. 'error' is empty otherwise.
  */
-function check_upload_size($file) {
+function check_upload_size($file)
+{
     if (get_site_option('upload_space_check_disabled')) {
         return $file;
     }
@@ -61,7 +62,8 @@ function check_upload_size($file) {
  * @param int  $blog_id Site ID.
  * @param bool $drop    True if site's database tables should be dropped. Default false.
  */
-function wpmu_delete_blog($blog_id, $drop = false) {
+function wpmu_delete_blog($blog_id, $drop = false)
+{
     $blog_id = (int) $blog_id;
 
     $switch = false;
@@ -142,7 +144,8 @@ function wpmu_delete_blog($blog_id, $drop = false) {
  * @param int $id The user ID.
  * @return bool True if the user was deleted, false otherwise.
  */
-function wpmu_delete_user($id) {
+function wpmu_delete_user($id)
+{
     global $wpdb;
 
     if (! is_numeric($id)) {
@@ -222,7 +225,8 @@ function wpmu_delete_user($id) {
  *                              a warning message is displayed. Default true.
  * @return bool True if user is over upload space quota, otherwise false.
  */
-function upload_is_user_over_quota($display_message = true) {
+function upload_is_user_over_quota($display_message = true)
+{
     if (get_site_option('upload_space_check_disabled')) {
         return false;
     }
@@ -252,7 +256,8 @@ function upload_is_user_over_quota($display_message = true) {
  *
  * @since MU (3.0.0)
  */
-function display_space_usage() {
+function display_space_usage()
+{
     $space_allowed = get_space_allowed();
     $space_used    = get_space_used();
 
@@ -277,7 +282,8 @@ function display_space_usage() {
  * @param int $size Current max size in bytes.
  * @return int Max size in bytes.
  */
-function fix_import_form_size($size) {
+function fix_import_form_size($size)
+{
     if (upload_is_user_over_quota(false)) {
         return 0;
     }
@@ -292,7 +298,8 @@ function fix_import_form_size($size) {
  *
  * @param int $id The ID of the site to display the setting for.
  */
-function upload_space_setting($id) {
+function upload_space_setting($id)
+{
     switch_to_blog($id);
     $quota = get_option('blog_upload_space');
     restore_current_blog();
@@ -327,7 +334,8 @@ function upload_space_setting($id) {
  * @param int $id The user ID.
  * @return int|false The ID of the refreshed user or false if the user does not exist.
  */
-function refresh_user_details($id) {
+function refresh_user_details($id)
+{
     $id = (int) $id;
 
     $user = get_userdata($id);
@@ -349,7 +357,8 @@ function refresh_user_details($id) {
  * @return string The language corresponding to $code if it exists. If it does not exist,
  *                then the first two letters of $code is returned.
  */
-function format_code_lang($code = '') {
+function format_code_lang($code = '')
+{
     $code       = strtolower(substr($code, 0, 2));
     $lang_codes = array(
         'aa' => 'Afar',
@@ -558,7 +567,8 @@ function format_code_lang($code = '') {
  * @since 3.2.0
  * @access private
  */
-function _access_denied_splash() {
+function _access_denied_splash()
+{
     if (! is_user_logged_in() || is_network_admin()) {
         return;
     }
@@ -613,7 +623,8 @@ function _access_denied_splash() {
  * @param string $permission A permission to be checked. Currently not used.
  * @return bool True if the user has proper permissions, false if they do not.
  */
-function check_import_new_users($permission) {
+function check_import_new_users($permission)
+{
     if (! current_user_can('manage_network_users')) {
         return false;
     }
@@ -630,7 +641,8 @@ function check_import_new_users($permission) {
  * @param string[] $lang_files Optional. An array of the language files. Default empty array.
  * @param string   $current    Optional. The current language code. Default empty.
  */
-function mu_dropdown_languages($lang_files = array(), $current = '') {
+function mu_dropdown_languages($lang_files = array(), $current = '')
+{
     $flag   = false;
     $output = array();
 
@@ -682,7 +694,8 @@ function mu_dropdown_languages($lang_files = array(), $current = '') {
  *
  * @return void|false Void on success. False if the current user is not a super admin.
  */
-function site_admin_notice() {
+function site_admin_notice()
+{
     global $wp_db_version, $pagenow;
 
     if (! current_user_can('upgrade_network')) {
@@ -723,7 +736,8 @@ function site_admin_notice() {
  * @param array $postarr An array of posts. Not currently used.
  * @return array The new array of post data after checking for collisions.
  */
-function avoid_blog_page_permalink_collision($data, $postarr) {
+function avoid_blog_page_permalink_collision($data, $postarr)
+{
     if (is_subdomain_install()) {
         return $data;
     }
@@ -763,7 +777,8 @@ function avoid_blog_page_permalink_collision($data, $postarr) {
  *
  * @since 3.0.0
  */
-function choose_primary_blog() {
+function choose_primary_blog()
+{
     ?>
     <table class="form-table" role="presentation">
     <tr>
@@ -820,7 +835,8 @@ function choose_primary_blog() {
  * @param int $network_id The network ID to check.
  * @return bool True if network can be edited, false otherwise.
  */
-function can_edit_network($network_id) {
+function can_edit_network($network_id)
+{
     if (get_current_network_id() === (int) $network_id) {
         $result = true;
     } else {
@@ -845,7 +861,8 @@ function can_edit_network($network_id) {
  *
  * @access private
  */
-function _thickbox_path_admin_subfolder() {
+function _thickbox_path_admin_subfolder()
+{
     ?>
 <script type="text/javascript">
 var tb_pathToImage = "<?php echo esc_js(includes_url('js/thickbox/loadingAnimation.gif', 'relative')); ?>";
@@ -857,7 +874,8 @@ var tb_pathToImage = "<?php echo esc_js(includes_url('js/thickbox/loadingAnimati
  * @param array $users
  * @return bool
  */
-function confirm_delete_users($users) {
+function confirm_delete_users($users)
+{
     $current_user = wp_get_current_user();
     if (! is_array($users) || empty($users)) {
         return false;
@@ -1006,7 +1024,8 @@ function confirm_delete_users($users) {
  *
  * @since 4.1.0
  */
-function network_settings_add_js() {
+function network_settings_add_js()
+{
     ?>
 <script type="text/javascript">
 jQuery( function($) {
@@ -1040,7 +1059,8 @@ jQuery( function($) {
  *     @type string $selected The ID of the selected link.
  * }
  */
-function network_edit_site_nav($args = array()) {
+function network_edit_site_nav($args = array())
+{
 
     /**
      * Filters the links that appear on site-editing network pages.
@@ -1143,7 +1163,8 @@ function network_edit_site_nav($args = array()) {
  *
  * @return array Help tab arguments.
  */
-function get_site_screen_help_tab_args() {
+function get_site_screen_help_tab_args()
+{
     return array(
         'id'      => 'overview',
         'title'   => __('Overview'),
@@ -1167,7 +1188,8 @@ function get_site_screen_help_tab_args() {
  *
  * @return string Help sidebar content.
  */
-function get_site_screen_help_sidebar_content() {
+function get_site_screen_help_sidebar_content()
+{
     return '<p><strong>' . __('For more information:') . '</strong></p>' .
         '<p>' . __('<a href="https://developer.wordpress.org/advanced-administration/multisite/admin/#network-admin-sites-screen">Documentation on Site Management</a>') . '</p>' .
         '<p>' . __('<a href="https://wordpress.org/support/forum/multisite/">Support forums</a>') . '</p>';

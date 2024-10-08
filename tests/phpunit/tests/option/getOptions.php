@@ -6,14 +6,16 @@
  *
  * @covers ::get_options
  */
-class Tests_Option_GetOptions extends WP_UnitTestCase {
+class Tests_Option_GetOptions extends WP_UnitTestCase
+{
 
     /**
      * Tests that get_options() retrieves specified options.
      *
      * @ticket 58962
      */
-    public function test_get_options() {
+    public function test_get_options()
+    {
         // Create some options to prime.
         $options_to_prime = array(
             'option1',
@@ -49,7 +51,8 @@ class Tests_Option_GetOptions extends WP_UnitTestCase {
      *
      * @ticket 58962
      */
-    public function test_get_options_with_empty_array() {
+    public function test_get_options_with_empty_array()
+    {
         // Call the get_options function with an empty array.
         $options = get_options(array());
 
@@ -61,7 +64,8 @@ class Tests_Option_GetOptions extends WP_UnitTestCase {
     /**
      * Tests get_options() with options that include some nonexistent options.
      */
-    public function test_get_options_with_nonexistent_options() {
+    public function test_get_options_with_nonexistent_options()
+    {
         // Create some options to prime.
         $options_to_prime = array(
             'option1',

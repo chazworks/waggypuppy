@@ -11,7 +11,8 @@ require_once __DIR__ . '/translations.php';
 require_once __DIR__ . '/streams.php';
 
 if (! class_exists('MO', false)) :
-    class MO extends Gettext_Translations {
+    class MO extends Gettext_Translations
+    {
 
         /**
          * Number of plural forms.
@@ -32,7 +33,8 @@ if (! class_exists('MO', false)) :
          *
          * @return string The loaded MO file.
          */
-        public function get_filename() {
+        public function get_filename()
+        {
             return $this->filename;
         }
 
@@ -42,7 +44,8 @@ if (! class_exists('MO', false)) :
          * @param string $filename MO file to load
          * @return bool True if the import from file was successful, otherwise false.
          */
-        public function import_from_file($filename) {
+        public function import_from_file($filename)
+        {
             $reader = new POMO_FileReader($filename);
 
             if (! $reader->is_resource()) {
@@ -58,7 +61,8 @@ if (! class_exists('MO', false)) :
          * @param string $filename
          * @return bool
          */
-        public function export_to_file($filename) {
+        public function export_to_file($filename)
+        {
             $fh = fopen($filename, 'wb');
             if (! $fh) {
                 return false;
@@ -71,7 +75,8 @@ if (! class_exists('MO', false)) :
         /**
          * @return string|false
          */
-        public function export() {
+        public function export()
+        {
             $tmp_fh = fopen('php://temp', 'r+');
             if (! $tmp_fh) {
                 return false;
@@ -85,7 +90,8 @@ if (! class_exists('MO', false)) :
          * @param Translation_Entry $entry
          * @return bool
          */
-        public function is_entry_good_for_export($entry) {
+        public function is_entry_good_for_export($entry)
+        {
             if (empty($entry->translations)) {
                 return false;
             }
@@ -101,7 +107,8 @@ if (! class_exists('MO', false)) :
          * @param resource $fh
          * @return true
          */
-        public function export_to_file_handle($fh) {
+        public function export_to_file_handle($fh)
+        {
             $entries = array_filter($this->entries, array($this, 'is_entry_good_for_export'));
             ksort($entries);
             $magic                     = 0x950412de;
@@ -162,7 +169,8 @@ if (! class_exists('MO', false)) :
          * @param Translation_Entry $entry
          * @return string
          */
-        public function export_original($entry) {
+        public function export_original($entry)
+        {
             // TODO: Warnings for control characters.
             $exported = $entry->singular;
             if ($entry->is_plural) {
@@ -178,7 +186,8 @@ if (! class_exists('MO', false)) :
          * @param Translation_Entry $entry
          * @return string
          */
-        public function export_translations($entry) {
+        public function export_translations($entry)
+        {
             // TODO: Warnings for control characters.
             return $entry->is_plural ? implode("\0", $entry->translations) : $entry->translations[0];
         }
@@ -186,7 +195,8 @@ if (! class_exists('MO', false)) :
         /**
          * @return string
          */
-        public function export_headers() {
+        public function export_headers()
+        {
             $exported = '';
             foreach ($this->headers as $header => $value) {
                 $exported .= "$header: $value\n";
@@ -198,7 +208,8 @@ if (! class_exists('MO', false)) :
          * @param int $magic
          * @return string|false
          */
-        public function get_byteorder($magic) {
+        public function get_byteorder($magic)
+        {
             // The magic is 0x950412de.
 
             // bug in PHP 5.0.2, see https://savannah.nongnu.org/bugs/?func=detailitem&item_id=10565
@@ -219,7 +230,8 @@ if (! class_exists('MO', false)) :
          * @param POMO_FileReader $reader
          * @return bool True if the import was successful, otherwise false.
          */
-        public function import_from_reader($reader) {
+        public function import_from_reader($reader)
+        {
             $endian_string = MO::get_byteorder($reader->readint32());
             if (false === $endian_string) {
                 return false;
@@ -316,7 +328,8 @@ if (! class_exists('MO', false)) :
          *  0x00 as a plural translations separator
          * @return Translation_Entry Entry instance.
          */
-        public function &make_entry($original, $translation) {
+        public function &make_entry($original, $translation)
+        {
             $entry = new Translation_Entry();
             // Look for context, separated by \4.
             $parts = explode("\4", $original);
@@ -340,14 +353,16 @@ if (! class_exists('MO', false)) :
          * @param int $count
          * @return string
          */
-        public function select_plural_form($count) {
+        public function select_plural_form($count)
+        {
             return $this->gettext_select_plural_form($count);
         }
 
         /**
          * @return int
          */
-        public function get_plural_forms_count() {
+        public function get_plural_forms_count()
+        {
             return $this->_nplurals;
         }
     }

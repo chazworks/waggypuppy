@@ -13,13 +13,15 @@
  *
  * @coversDefaultClass WP_HTML_Processor
  */
-class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase
+{
     /**
      * Ensures that basic text is properly encoded when serialized.
      *
      * @ticket 62036
      */
-    public function test_properly_encodes_text() {
+    public function test_properly_encodes_text()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize("apples > or\x00anges"),
             'apples &gt; oranges',
@@ -36,7 +38,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_closes_unclosed_elements_at_end() {
+    public function test_closes_unclosed_elements_at_end()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('<div>'),
             '<div></div>',
@@ -49,7 +52,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_boolean_attributes_remain_boolean() {
+    public function test_boolean_attributes_remain_boolean()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('<input disabled>'),
             '<input disabled>',
@@ -62,7 +66,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_attributes_are_double_quoted() {
+    public function test_attributes_are_double_quoted()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('<p id=3></p>'),
             '<p id="3"></p>',
@@ -87,7 +92,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_void_elements_get_no_dangerous_self_closing_flag() {
+    public function test_void_elements_get_no_dangerous_self_closing_flag()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('<br class="clear"/>'),
             '<br class="clear">',
@@ -100,7 +106,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_duplicate_attributes_are_removed() {
+    public function test_duplicate_attributes_are_removed()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('<div one=1 one="one" one=\'won\' one>'),
             '<div one="1"></div>',
@@ -113,7 +120,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_script_contents_are_not_escaped() {
+    public function test_script_contents_are_not_escaped()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize("<script>apples > or\x00anges</script>"),
             "<script>apples > or\u{FFFD}anges</script>",
@@ -126,7 +134,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_style_contents_are_not_escaped() {
+    public function test_style_contents_are_not_escaped()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize("<style>apples > or\x00anges</style>"),
             "<style>apples > or\u{FFFD}anges</style>",
@@ -134,7 +143,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
         );
     }
 
-    public function test_unexpected_closing_tags_are_removed() {
+    public function test_unexpected_closing_tags_are_removed()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('one</div>two</span>three'),
             'onetwothree',
@@ -147,7 +157,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_self_closing_foreign_elements_retain_their_self_closing_flag() {
+    public function test_self_closing_foreign_elements_retain_their_self_closing_flag()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('<svg><g><g /></svg>'),
             '<svg><g><g /></g></svg>',
@@ -165,7 +176,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @param string $incomplete_token An incomplete HTML syntax token.
      */
-    public function test_should_remove_incomplete_input_from_end(string $incomplete_token) {
+    public function test_should_remove_incomplete_input_from_end(string $incomplete_token)
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize("content{$incomplete_token}"),
             'content',
@@ -178,7 +190,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_incomplete_syntax_tokens() {
+    public static function data_incomplete_syntax_tokens()
+    {
         return array(
             'Comment opener'       => array('<!--'),
             'Bogus comment opener' => array('<![sneaky['),
@@ -192,7 +205,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_encodes_presumptuous_opening_tags() {
+    public function test_encodes_presumptuous_opening_tags()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('<>'),
             '&lt;&gt;',
@@ -205,7 +219,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @ticket 62036
      */
-    public function test_skips_presumptuous_closing_tags() {
+    public function test_skips_presumptuous_closing_tags()
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize('</>'),
             '',
@@ -224,7 +239,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      * @param string $comment_text Comment content, as reported in a browser.
      * @param string $closing      End of bogus comment, e.g. ">".
      */
-    public function test_normalizes_bogus_comment_forms(string $opening, string $comment_text, string $closing) {
+    public function test_normalizes_bogus_comment_forms(string $opening, string $comment_text, string $closing)
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize("{$opening}{$comment_text}{$closing}"),
             "<!--{$comment_text}-->",
@@ -237,7 +253,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_bogus_comments() {
+    public function data_bogus_comments()
+    {
         return array(
             'False DOCTYPE'                         => array('<!', 'html', '>'),
             'CDATA look-alike'                      => array('<!', '[CDATA[inside]]', '>'),
@@ -259,7 +276,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      * @param string $html_with_nulls HTML token containing NULL bytes in various places.
      * @param string $expected_output Expected parse of HTML after handling NULL bytes.
      */
-    public function test_replaces_null_bytes_appropriately(string $html_with_nulls, string $expected_output) {
+    public function test_replaces_null_bytes_appropriately(string $html_with_nulls, string $expected_output)
+    {
         $this->assertSame(
             WP_HTML_Processor::normalize($html_with_nulls),
             $expected_output,
@@ -272,7 +290,8 @@ class Tests_HtmlApi_WpHtmlProcessor_Serialize extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_tokens_with_null_bytes() {
+    public static function data_tokens_with_null_bytes()
+    {
         return array(
             'Tag name'             => array("<img\x00id=5>", "<img\u{FFFD}id=5></img\u{FFFD}id=5>"),
             'Attribute name'       => array("<img/\x00id=5>", "<img \u{FFFD}id=\"5\">"),

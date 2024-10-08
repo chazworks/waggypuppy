@@ -5,12 +5,14 @@
  *
  * @group user
  */
-class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
+class Tests_User_wpDropdownUsers extends WP_UnitTestCase
+{
 
     /**
      * @ticket 31251
      */
-    public function test_default_value_of_show_should_be_display_name() {
+    public function test_default_value_of_show_should_be_display_name()
+    {
 
         // Create a user with a different display_name.
         $u = self::factory()->user->create(
@@ -34,7 +36,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
     /**
      * @ticket 31251
      */
-    public function test_show_should_display_display_name_show_is_specified_as_empty() {
+    public function test_show_should_display_display_name_show_is_specified_as_empty()
+    {
 
         // Create a user with a different display_name.
         $u = self::factory()->user->create(
@@ -60,7 +63,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
     /**
      * @ticket 31251
      */
-    public function test_show_should_display_user_property_when_the_value_of_show_is_a_valid_user_property() {
+    public function test_show_should_display_user_property_when_the_value_of_show_is_a_valid_user_property()
+    {
 
         // Create a user with a different display_name.
         $u = self::factory()->user->create(
@@ -86,7 +90,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
     /**
      * @ticket 31251
      */
-    public function test_show_display_name_with_login() {
+    public function test_show_display_name_with_login()
+    {
 
         // Create a user with a different display_name.
         $u = self::factory()->user->create(
@@ -112,7 +117,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
     /**
      * @ticket 31251
      */
-    public function test_include_selected() {
+    public function test_include_selected()
+    {
         $users = self::factory()->user->create_many(2);
 
         $found = wp_dropdown_users(
@@ -132,7 +138,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
     /**
      * @ticket 51370
      */
-    public function test_include_selected_with_non_existing_user_id() {
+    public function test_include_selected_with_non_existing_user_id()
+    {
         $found = wp_dropdown_users(
             array(
                 'echo'             => false,
@@ -148,7 +155,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
     /**
      * @ticket 38135
      */
-    public function test_role() {
+    public function test_role()
+    {
         $u1 = self::factory()->user->create_and_get(array('role' => 'subscriber'));
         $u2 = self::factory()->user->create_and_get(array('role' => 'author'));
 
@@ -167,7 +175,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
     /**
      * @ticket 38135
      */
-    public function test_role__in() {
+    public function test_role__in()
+    {
         $u1 = self::factory()->user->create_and_get(array('role' => 'subscriber'));
         $u2 = self::factory()->user->create_and_get(array('role' => 'author'));
 
@@ -186,7 +195,8 @@ class Tests_User_wpDropdownUsers extends WP_UnitTestCase {
     /**
      * @ticket 38135
      */
-    public function test_role__not_in() {
+    public function test_role__not_in()
+    {
         $u1 = self::factory()->user->create_and_get(array('role' => 'subscriber'));
         $u2 = self::factory()->user->create_and_get(array('role' => 'author'));
 

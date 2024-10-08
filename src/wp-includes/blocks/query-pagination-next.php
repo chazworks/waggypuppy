@@ -18,7 +18,8 @@
  *
  * @return string Returns the next posts link for the query pagination.
  */
-function render_block_core_query_pagination_next($attributes, $content, $block) {
+function render_block_core_query_pagination_next($attributes, $content, $block)
+{
     $page_key            = isset($block->context['queryId']) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
     $enhanced_pagination = isset($block->context['enhancedPagination']) && $block->context['enhancedPagination'];
     $page                = empty($_GET[ $page_key ]) ? 1 : (int) $_GET[ $page_key ];
@@ -91,7 +92,8 @@ function render_block_core_query_pagination_next($attributes, $content, $block) 
  *
  * @since 5.8.0
  */
-function register_block_core_query_pagination_next() {
+function register_block_core_query_pagination_next()
+{
     register_block_type_from_metadata(
         __DIR__ . '/query-pagination-next',
         array(

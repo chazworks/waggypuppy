@@ -18,7 +18,8 @@ _deprecated_file(basename(__FILE__), '4.9.0');
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_New_Menu_Control extends WP_Customize_Control {
+class WP_Customize_New_Menu_Control extends WP_Customize_Control
+{
 
     /**
      * Control type.
@@ -42,7 +43,8 @@ class WP_Customize_New_Menu_Control extends WP_Customize_Control {
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct(WP_Customize_Manager $manager, $id, array $args = array()) {
+    public function __construct(WP_Customize_Manager $manager, $id, array $args = array())
+    {
         _deprecated_function(__METHOD__, '4.9.0');
         parent::__construct($manager, $id, $args);
     }
@@ -53,7 +55,8 @@ class WP_Customize_New_Menu_Control extends WP_Customize_Control {
      * @since 4.3.0
      * @deprecated 4.9.0
      */
-    public function render_content() {
+    public function render_content()
+    {
         _deprecated_function(__METHOD__, '4.9.0');
         ?>
         <button type="button" class="button button-primary" id="create-new-menu-submit"><?php _e('Create Menu'); ?></button>

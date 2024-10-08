@@ -11,7 +11,8 @@
  *
  * @coversDefaultClass WP_HTML_Processor
  */
-class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase
+{
     /**
      * Ensure that the HTML Processor's public constructor function warns a developer to call
      * the static creator methods instead of directly instantiating a new class.
@@ -32,7 +33,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers WP_HTML_Processor::__construct
      * @expectedIncorrectUsage WP_HTML_Processor::__construct
      */
-    public function test_warns_that_the_static_creator_methods_should_be_called_instead_of_the_public_constructor() {
+    public function test_warns_that_the_static_creator_methods_should_be_called_instead_of_the_public_constructor()
+    {
         new WP_HTML_Processor('<p>Light roast.</p>');
     }
 
@@ -45,7 +47,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers WP_HTML_Processor::get_tag
      */
-    public function test_get_tag_is_null_once_document_is_finished() {
+    public function test_get_tag_is_null_once_document_is_finished()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div class="test">Test</div>');
         $processor->next_tag();
         $this->assertSame('DIV', $processor->get_tag());
@@ -74,7 +77,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers WP_HTML_Processor::get_tag
      */
-    public function test_get_tag_replaces_image_with_namespace_awareness() {
+    public function test_get_tag_replaces_image_with_namespace_awareness()
+    {
         $processor = WP_HTML_Processor::create_fragment('<image/><svg><image/></svg>');
 
         $this->assertTrue(
@@ -121,7 +125,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @covers WP_HTML_Processor::next_tag
      * @covers WP_HTML_Processor::seek
      */
-    public function test_clear_to_navigate_after_seeking() {
+    public function test_clear_to_navigate_after_seeking()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div one><strong></strong></div><p><strong two></strong></p>');
 
         while ($processor->next_tag()) {
@@ -170,7 +175,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers WP_HTML_Processor::reconstruct_active_formatting_elements
      */
-    public function test_fails_to_reconstruct_formatting_elements() {
+    public function test_fails_to_reconstruct_formatting_elements()
+    {
         $processor = WP_HTML_Processor::create_fragment('<p><em>One<p><em>Two<p><em>Three<p><em>Four');
 
         $this->assertTrue($processor->next_tag('EM'), 'Could not find first EM.');
@@ -189,7 +195,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of void tag under test.
      */
-    public function test_cannot_nest_void_tags($tag_name) {
+    public function test_cannot_nest_void_tags($tag_name)
+    {
         $processor = WP_HTML_Processor::create_fragment("<{$tag_name}><div>");
 
         /*
@@ -234,7 +241,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @ticket 61257
      */
-    public function test_expects_closer_regular_tags() {
+    public function test_expects_closer_regular_tags()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><p><b><em>');
 
         $tags = 0;
@@ -263,7 +271,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @param string $self_contained_token String starting with HTML token that doesn't expect a closer,
      *                                     e.g. an HTML comment, text node, void tag, or special element.
      */
-    public function test_expects_closer_expects_no_closer_for_self_contained_tokens($self_contained_token) {
+    public function test_expects_closer_expects_no_closer_for_self_contained_tokens($self_contained_token)
+    {
         $processor   = WP_HTML_Processor::create_fragment($self_contained_token);
         $found_token = $processor->next_token();
 
@@ -283,7 +292,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_self_contained_node_tokens() {
+    public static function data_self_contained_node_tokens()
+    {
         $self_contained_nodes = array(
             'Normative comment'                => array('<!-- comment -->'),
             'Comment with invalid closing'     => array('<!-- comment --!>'),
@@ -309,7 +319,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_special_tags() {
+    public static function data_special_tags()
+    {
         return array(
             'IFRAME'   => array('IFRAME'),
             'NOEMBED'  => array('NOEMBED'),
@@ -331,7 +342,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of void tag under test.
      */
-    public function test_cannot_nest_void_tags_next_token($tag_name) {
+    public function test_cannot_nest_void_tags_next_token($tag_name)
+    {
         $processor = WP_HTML_Processor::create_fragment("<{$tag_name}><div>");
 
         /*
@@ -365,7 +377,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_void_tags() {
+    public static function data_void_tags()
+    {
         return array(
             'AREA'   => array('AREA'),
             'BASE'   => array('BASE'),
@@ -390,7 +403,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_void_tags_not_ignored_in_body() {
+    public static function data_void_tags_not_ignored_in_body()
+    {
         $all_void_tags = self::data_void_tags();
         unset($all_void_tags['COL']);
 
@@ -407,7 +421,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @param string $html_with_target_element HTML containing element with `target` class.
      * @param int    $depth_at_element         Depth into document at target node.
      */
-    public function test_reports_proper_element_depth_in_body($html_with_target_element, $depth_at_element) {
+    public function test_reports_proper_element_depth_in_body($html_with_target_element, $depth_at_element)
+    {
         $processor = WP_HTML_Processor::create_fragment($html_with_target_element);
 
         $this->assertTrue(
@@ -427,7 +442,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_html_with_target_element_and_depth_in_body() {
+    public static function data_html_with_target_element_and_depth_in_body()
+    {
         return array(
             'Single element'                    => array('<div class="target">', 3),
             'Basic layout and formatting stack' => array('<div><span><p><b><em class="target">', 7),
@@ -445,7 +461,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      * @param string $html_with_target_element HTML containing element with `target` class.
      * @param int    $depth_after_element      Depth into document immediately after target node.
      */
-    public function test_reports_proper_non_element_depth_in_body($html_with_target_element, $depth_after_element) {
+    public function test_reports_proper_non_element_depth_in_body($html_with_target_element, $depth_after_element)
+    {
         $processor = WP_HTML_Processor::create_fragment($html_with_target_element);
 
         $this->assertTrue(
@@ -470,7 +487,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_html_with_target_element_and_depth_of_next_node_in_body() {
+    public static function data_html_with_target_element_and_depth_of_next_node_in_body()
+    {
         return array(
             'Element then text'                 => array('<div class="target">One Deeper', 4),
             'Basic layout and formatting stack' => array('<div><span><p><b><em class="target">Formatted', 8),
@@ -488,7 +506,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @ticket 61576
      */
-    public function test_closes_unclosed_elements() {
+    public function test_closes_unclosed_elements()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><p><span>');
 
         $this->assertTrue(
@@ -529,12 +548,14 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @ticket 61374
      */
-    public function test_subclass_create_fragment_creates_subclass() {
+    public function test_subclass_create_fragment_creates_subclass()
+    {
         $processor = WP_HTML_Processor::create_fragment('');
         $this->assertInstanceOf(WP_HTML_Processor::class, $processor, '::create_fragment did not return class instance.');
 
         $subclass_instance = new class('') extends WP_HTML_Processor {
-            public function __construct($html) {
+            public function __construct($html)
+            {
                 parent::__construct($html, parent::CONSTRUCTOR_UNLOCK_CODE);
             }
         };
@@ -549,7 +570,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @ticket 61576
      */
-    public function test_expects_closer_foreign_content_self_closing() {
+    public function test_expects_closer_foreign_content_self_closing()
+    {
         $processor = WP_HTML_Processor::create_fragment('<svg /><math>');
 
         $this->assertTrue($processor->next_tag());
@@ -566,7 +588,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @ticket 61576
      */
-    public function test_foreign_content_script_self_closing() {
+    public function test_foreign_content_script_self_closing()
+    {
         $processor = WP_HTML_Processor::create_fragment('<svg><script />');
         $this->assertTrue($processor->next_tag('script'));
     }
@@ -586,7 +609,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @ticket 61576
      */
-    public function test_template_tag_closes_html_template_element() {
+    public function test_template_tag_closes_html_template_element()
+    {
         $processor = WP_HTML_Processor::create_fragment('<template><svg><template><foreignObject><div></template><div>');
 
         $this->assertTrue($processor->next_tag('DIV'));
@@ -602,7 +626,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers ::remove_class
      */
-    public function test_remove_class_no_quirks_mode() {
+    public function test_remove_class_no_quirks_mode()
+    {
         $processor = WP_HTML_Processor::create_full_parser('<!DOCTYPE html><span class="UPPER">');
         $processor->next_tag('SPAN');
         $processor->remove_class('upper');
@@ -619,7 +644,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers ::add_class
      */
-    public function test_add_class_no_quirks_mode() {
+    public function test_add_class_no_quirks_mode()
+    {
         $processor = WP_HTML_Processor::create_full_parser('<!DOCTYPE html><span class="UPPER">');
         $processor->next_tag('SPAN');
         $processor->add_class('UPPER');
@@ -636,7 +662,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers ::has_class
      */
-    public function test_has_class_no_quirks_mode() {
+    public function test_has_class_no_quirks_mode()
+    {
         $processor = WP_HTML_Processor::create_full_parser('<!DOCTYPE html><span class="UPPER">');
         $processor->next_tag('SPAN');
         $this->assertFalse($processor->has_class('upper'));
@@ -650,7 +677,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers ::class_list
      */
-    public function test_class_list_no_quirks_mode() {
+    public function test_class_list_no_quirks_mode()
+    {
         $processor = WP_HTML_Processor::create_full_parser(
             /*
              * U+00C9 is LATIN CAPITAL LETTER E WITH ACUTE
@@ -678,7 +706,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers ::remove_class
      */
-    public function test_remove_class_quirks_mode() {
+    public function test_remove_class_quirks_mode()
+    {
         $processor = WP_HTML_Processor::create_full_parser('<span class="uPPER">');
         $processor->next_tag('SPAN');
         $processor->remove_class('upPer');
@@ -692,7 +721,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers ::add_class
      */
-    public function test_add_class_quirks_mode() {
+    public function test_add_class_quirks_mode()
+    {
         $processor = WP_HTML_Processor::create_full_parser('<span class="UPPER">');
         $processor->next_tag('SPAN');
         $processor->add_class('upper');
@@ -710,7 +740,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers ::has_class
      */
-    public function test_has_class_quirks_mode() {
+    public function test_has_class_quirks_mode()
+    {
         $processor = WP_HTML_Processor::create_full_parser('<span class="UPPER">');
         $processor->next_tag('SPAN');
         $this->assertTrue($processor->has_class('upper'));
@@ -724,7 +755,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @covers ::class_list
      */
-    public function test_class_list_quirks_mode() {
+    public function test_class_list_quirks_mode()
+    {
         $processor = WP_HTML_Processor::create_full_parser(
             /*
              * U+00C9 is LATIN CAPITAL LETTER E WITH ACUTE
@@ -752,7 +784,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @ticket 61576
      */
-    public function test_adjusts_for_html_integration_points_in_svg() {
+    public function test_adjusts_for_html_integration_points_in_svg()
+    {
         $processor = WP_HTML_Processor::create_full_parser(
             '<svg><foreignobject><image /><svg /><image />'
         );
@@ -810,7 +843,8 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase {
      *
      * @ticket 61576
      */
-    public function test_adjusts_for_mathml_integration_points() {
+    public function test_adjusts_for_mathml_integration_points()
+    {
         $processor = WP_HTML_Processor::create_fragment(
             '<mo><image /></mo><math><image /><mo><image /></mo></math>'
         );

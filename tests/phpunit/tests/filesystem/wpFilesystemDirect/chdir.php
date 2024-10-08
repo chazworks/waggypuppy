@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::chdir
  */
-class Tests_Filesystem_WpFilesystemDirect_Chdir extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Chdir extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::chdir()`
@@ -26,7 +27,8 @@ class Tests_Filesystem_WpFilesystemDirect_Chdir extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_fail_to_change_directory($path) {
+    public function test_should_fail_to_change_directory($path)
+    {
         $original_cwd = self::$filesystem->cwd();
         $path         = wp_normalize_path(realpath(self::$file_structure['test_dir']['path'])) . $path;
         $chdir_result = self::$filesystem->chdir($path);
@@ -52,7 +54,8 @@ class Tests_Filesystem_WpFilesystemDirect_Chdir extends WP_Filesystem_Direct_Uni
      *
      * @return array[]
      */
-    public function data_should_fail_to_change_directory() {
+    public function data_should_fail_to_change_directory()
+    {
         return array(
             'a file that exists'              => array(
                 'path' => 'a_file_that_exists.txt',
@@ -72,7 +75,8 @@ class Tests_Filesystem_WpFilesystemDirect_Chdir extends WP_Filesystem_Direct_Uni
      *
      * @ticket 57774
      */
-    public function test_should_change_directory() {
+    public function test_should_change_directory()
+    {
         $original_cwd = self::$filesystem->cwd();
         $path         = wp_normalize_path(realpath(self::$file_structure['test_dir']['path']));
         $chdir_result = self::$filesystem->chdir($path);

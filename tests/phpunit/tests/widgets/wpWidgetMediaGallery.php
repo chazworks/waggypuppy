@@ -11,7 +11,8 @@
  *
  * @group widgets
  */
-class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase {
+class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase
+{
 
     /**
      * Clean up global scope.
@@ -19,7 +20,8 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase {
      * @global WP_Scripts $wp_scripts
      * @global WP_Styles $wp_styles
      */
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_scripts, $wp_styles;
         parent::clean_up_global_scope();
         $wp_scripts = null;
@@ -31,7 +33,8 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Gallery::get_instance_schema
      */
-    public function test_get_instance_schema() {
+    public function test_get_instance_schema()
+    {
         $widget = new WP_Widget_Media_Gallery();
         $schema = $widget->get_instance_schema();
 
@@ -54,7 +57,8 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase {
      * @covers WP_Widget_Media_Gallery::render_media
      * @requires function imagejpeg
      */
-    public function test_render_media() {
+    public function test_render_media()
+    {
         $widget = new WP_Widget_Media_Gallery();
 
         $attachments = array();
@@ -92,7 +96,8 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Gallery::enqueue_admin_scripts
      */
-    public function test_enqueue_admin_scripts() {
+    public function test_enqueue_admin_scripts()
+    {
         set_current_screen('widgets.php');
         $widget = new WP_Widget_Media_Gallery();
 
@@ -111,7 +116,8 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Gallery::update
      */
-    public function test_update() {
+    public function test_update()
+    {
         $widget   = new WP_Widget_Media_Gallery();
         $schema   = $widget->get_instance_schema();
         $instance = wp_list_pluck($schema, 'default');
@@ -192,7 +198,8 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Gallery::render_control_template_scripts
      */
-    public function test_render_control_template_scripts() {
+    public function test_render_control_template_scripts()
+    {
         $widget = new WP_Widget_Media_Gallery();
 
         ob_start();

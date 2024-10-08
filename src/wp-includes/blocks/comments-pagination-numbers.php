@@ -16,7 +16,8 @@
  *
  * @return string Returns the pagination numbers for the comments.
  */
-function render_block_core_comments_pagination_numbers($attributes, $content, $block) {
+function render_block_core_comments_pagination_numbers($attributes, $content, $block)
+{
     // Bail out early if the post ID is not set for some reason.
     if (empty($block->context['postId'])) {
         return '';
@@ -55,7 +56,8 @@ function render_block_core_comments_pagination_numbers($attributes, $content, $b
  *
  * @since 6.0.0
  */
-function register_block_core_comments_pagination_numbers() {
+function register_block_core_comments_pagination_numbers()
+{
     register_block_type_from_metadata(
         __DIR__ . '/comments-pagination-numbers',
         array(

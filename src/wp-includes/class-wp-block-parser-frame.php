@@ -13,7 +13,8 @@
  * @internal
  * @since 5.0.0
  */
-class WP_Block_Parser_Frame {
+class WP_Block_Parser_Frame
+{
     /**
      * Full or partial block
      *
@@ -69,7 +70,8 @@ class WP_Block_Parser_Frame {
      * @param int|null              $leading_html_start Optional. Byte offset into document where leading HTML before token starts.
      *                                                  Default null.
      */
-    public function __construct($block, $token_start, $token_length, $prev_offset = null, $leading_html_start = null) {
+    public function __construct($block, $token_start, $token_length, $prev_offset = null, $leading_html_start = null)
+    {
         $this->block              = $block;
         $this->token_start        = $token_start;
         $this->token_length       = $token_length;

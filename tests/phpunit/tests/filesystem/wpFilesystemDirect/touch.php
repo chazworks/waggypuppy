@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::touch
  */
-class Tests_Filesystem_WpFilesystemDirect_Touch extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Touch extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::touch()` creates a file.
@@ -27,7 +28,8 @@ class Tests_Filesystem_WpFilesystemDirect_Touch extends WP_Filesystem_Direct_Uni
      * @param int    $mtime The modified time to set.
      * @param int    $atime The accessed time to set.
      */
-    public function test_should_create_file($file, $mtime, $atime) {
+    public function test_should_create_file($file, $mtime, $atime)
+    {
         $file = str_replace('TEST_DATA', self::$file_structure['test_dir']['path'], $file);
 
         if (is_string($mtime)) {
@@ -71,7 +73,8 @@ class Tests_Filesystem_WpFilesystemDirect_Touch extends WP_Filesystem_Direct_Uni
      *
      * @return array[]
      */
-    public function data_should_create_file() {
+    public function data_should_create_file()
+    {
         return array(
             'default mtime or atime'      => array(
                 'file'  => 'TEST_DATA/file-to-create.txt',

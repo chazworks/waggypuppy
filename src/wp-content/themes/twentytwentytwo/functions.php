@@ -19,7 +19,8 @@ if (! function_exists('twentytwentytwo_support')) :
      *
      * @return void
      */
-    function twentytwentytwo_support() {
+    function twentytwentytwo_support()
+    {
 
         // Add support for block styles.
         add_theme_support('wp-block-styles');
@@ -41,7 +42,8 @@ if (! function_exists('twentytwentytwo_styles')) :
      *
      * @return void
      */
-    function twentytwentytwo_styles() {
+    function twentytwentytwo_styles()
+    {
         // Register theme stylesheet.
         $theme_version = wp_get_theme()->get('Version');
 

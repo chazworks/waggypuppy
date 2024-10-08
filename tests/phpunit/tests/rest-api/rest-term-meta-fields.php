@@ -7,12 +7,14 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
+class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
+{
     protected static $wp_meta_keys_saved;
     protected static $category_id;
     protected static $customtax_term_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         register_taxonomy(
             'customtax',
             'post',
@@ -26,7 +28,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         self::$customtax_term_id  = $factory->term->create(array('taxonomy' => 'customtax'));
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         $GLOBALS['wp_meta_keys'] = self::$wp_meta_keys_saved;
         wp_delete_term(self::$category_id, 'category');
         wp_delete_term(self::$customtax_term_id, 'customtax');
@@ -34,7 +37,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         unregister_taxonomy('customtax');
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         register_meta(
@@ -196,7 +200,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         do_action('rest_api_init', $wp_rest_server);
     }
 
-    protected function grant_write_permission() {
+    protected function grant_write_permission()
+    {
         // Ensure we have write permission.
         $user = self::factory()->user->create(
             array(
@@ -206,7 +211,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         wp_set_current_user($user);
     }
 
-    public function test_get_value() {
+    public function test_get_value()
+    {
         add_term_meta(self::$category_id, 'test_single', 'testvalue');
 
         $request  = new WP_REST_Request('GET', sprintf('/wp/v2/categories/%d', self::$category_id));
@@ -225,7 +231,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_get_value
      */
-    public function test_get_multi_value() {
+    public function test_get_multi_value()
+    {
         add_term_meta(self::$category_id, 'test_multi', 'value1');
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/categories/%d', self::$category_id));
 
@@ -252,7 +259,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_get_value
      */
-    public function test_get_unregistered() {
+    public function test_get_unregistered()
+    {
         add_term_meta(self::$category_id, 'test_unregistered', 'value1');
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/categories/%d', self::$category_id));
 
@@ -267,7 +275,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_get_value
      */
-    public function test_get_registered_no_api_access() {
+    public function test_get_registered_no_api_access()
+    {
         add_term_meta(self::$category_id, 'test_no_rest', 'for_the_wicked');
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/categories/%d', self::$category_id));
 
@@ -282,7 +291,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_get_value
      */
-    public function test_get_registered_api_disabled() {
+    public function test_get_registered_api_disabled()
+    {
         add_term_meta(self::$category_id, 'test_rest_disabled', 'sleepless_nights');
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/categories/%d', self::$category_id));
 
@@ -294,7 +304,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertArrayNotHasKey('test_rest_disabled', $meta);
     }
 
-    public function test_get_value_types() {
+    public function test_get_value_types()
+    {
         register_meta(
             'term',
             'test_string',
@@ -352,7 +363,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertTrue($meta['test_bool']);
     }
 
-    public function test_get_value_custom_name() {
+    public function test_get_value_custom_name()
+    {
         add_term_meta(self::$category_id, 'test_custom_name', 'janet');
 
         $request  = new WP_REST_Request('GET', sprintf('/wp/v2/categories/%d', self::$category_id));
@@ -371,7 +383,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_get_value
      */
-    public function test_set_value() {
+    public function test_set_value()
+    {
         // Ensure no data exists currently.
         $values = get_term_meta(self::$category_id, 'test_single', false);
         $this->assertEmpty($values);
@@ -403,7 +416,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_get_value
      */
-    public function test_set_duplicate_single_value() {
+    public function test_set_duplicate_single_value()
+    {
         // Start with an existing metakey and value.
         $values = update_term_meta(self::$category_id, 'test_single', 'test_value');
         $this->assertSame('test_value', get_term_meta(self::$category_id, 'test_single', true));
@@ -434,7 +448,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_set_value
      */
-    public function test_set_value_unauthenticated() {
+    public function test_set_value_unauthenticated()
+    {
         $data = array(
             'meta' => array(
                 'test_single' => 'test_value',
@@ -456,7 +471,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_set_value
      */
-    public function test_set_value_blocked() {
+    public function test_set_value_blocked()
+    {
         $data = array(
             'meta' => array(
                 'test_bad_auth' => 'test_value',
@@ -476,7 +492,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_set_value
      */
-    public function test_set_value_db_error() {
+    public function test_set_value_db_error()
+    {
         $data = array(
             'meta' => array(
                 'test_single' => 'test_value',
@@ -503,7 +520,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertErrorResponse('rest_meta_database_error', $response, 500);
     }
 
-    public function test_set_value_invalid_type() {
+    public function test_set_value_invalid_type()
+    {
         $values = get_term_meta(self::$category_id, 'test_invalid_type', false);
         $this->assertEmpty($values);
 
@@ -521,7 +539,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertEmpty(get_term_meta(self::$category_id, 'test_invalid_type', false));
     }
 
-    public function test_set_value_multiple() {
+    public function test_set_value_multiple()
+    {
         // Ensure no data exists currently.
         $values = get_term_meta(self::$category_id, 'test_multi', false);
         $this->assertEmpty($values);
@@ -565,7 +584,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * Test removing only one item with duplicate items.
      */
-    public function test_set_value_remove_one() {
+    public function test_set_value_remove_one()
+    {
         add_term_meta(self::$category_id, 'test_multi', 'c');
         add_term_meta(self::$category_id, 'test_multi', 'n');
         add_term_meta(self::$category_id, 'test_multi', 'n');
@@ -593,7 +613,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_set_value_multiple
      */
-    public function test_set_value_multiple_unauthenticated() {
+    public function test_set_value_multiple_unauthenticated()
+    {
         // Ensure no data exists currently.
         $values = get_term_meta(self::$category_id, 'test_multi', false);
         $this->assertEmpty($values);
@@ -615,7 +636,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertEmpty($meta);
     }
 
-    public function test_set_value_invalid_value() {
+    public function test_set_value_invalid_value()
+    {
         register_meta(
             'term',
             'my_meta_key',
@@ -640,7 +662,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertErrorResponse('rest_invalid_type', $response, 400);
     }
 
-    public function test_set_value_invalid_value_multiple() {
+    public function test_set_value_invalid_value_multiple()
+    {
         register_meta(
             'term',
             'my_meta_key',
@@ -665,7 +688,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertErrorResponse('rest_invalid_type', $response, 400);
     }
 
-    public function test_set_value_sanitized() {
+    public function test_set_value_sanitized()
+    {
         register_meta(
             'term',
             'my_meta_key',
@@ -691,7 +715,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertSame(1, $data['meta']['my_meta_key']);
     }
 
-    public function test_set_value_csv() {
+    public function test_set_value_csv()
+    {
         register_meta(
             'term',
             'my_meta_key',
@@ -720,7 +745,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_set_value_multiple
      */
-    public function test_set_value_multiple_blocked() {
+    public function test_set_value_multiple_blocked()
+    {
         $data = array(
             'meta' => array(
                 'test_bad_auth_multi' => array('test_value'),
@@ -737,7 +763,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertEmpty(get_term_meta(self::$category_id, 'test_bad_auth_multi', false));
     }
 
-    public function test_add_multi_value_db_error() {
+    public function test_add_multi_value_db_error()
+    {
         // Ensure no data exists currently.
         $values = get_term_meta(self::$category_id, 'test_multi', false);
         $this->assertEmpty($values);
@@ -770,7 +797,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_get_value
      */
-    public function test_set_value_single_custom_schema() {
+    public function test_set_value_single_custom_schema()
+    {
         // Ensure no data exists currently.
         $values = get_term_meta(self::$category_id, 'test_custom_schema', false);
         $this->assertEmpty($values);
@@ -799,7 +827,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertEquals(3, $meta['test_custom_schema']);
     }
 
-    public function test_set_value_multiple_custom_schema() {
+    public function test_set_value_multiple_custom_schema()
+    {
         // Ensure no data exists currently.
         $values = get_term_meta(self::$category_id, 'test_custom_schema_multi', false);
         $this->assertEmpty($values);
@@ -843,7 +872,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_get_value_custom_name
      */
-    public function test_set_value_custom_name() {
+    public function test_set_value_custom_name()
+    {
         // Ensure no data exists currently.
         $values = get_term_meta(self::$category_id, 'test_custom_name', false);
         $this->assertEmpty($values);
@@ -872,7 +902,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertSame('janet', $meta['new_name']);
     }
 
-    public function test_set_value_custom_name_multiple() {
+    public function test_set_value_custom_name_multiple()
+    {
         // Ensure no data exists currently.
         $values = get_term_meta(self::$category_id, 'test_custom_name_multi', false);
         $this->assertEmpty($values);
@@ -916,7 +947,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @ticket 38989
      */
-    public function test_set_value_invalid_meta_string_request_type() {
+    public function test_set_value_invalid_meta_string_request_type()
+    {
         update_term_meta(self::$category_id, 'test_single', 'So I tied an onion to my belt, which was the style at the time.');
         $term_original = get_term(self::$category_id);
 
@@ -946,7 +978,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @ticket 38989
      */
-    public function test_set_value_invalid_meta_float_request_type() {
+    public function test_set_value_invalid_meta_float_request_type()
+    {
         update_term_meta(self::$category_id, 'test_single', 'Now, to take the ferry cost a nickel, and in those days, nickels had pictures of bumblebees on them.');
         $term_original = get_term(self::$category_id);
 
@@ -972,7 +1005,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertSame($term_original->name, $term_updated->name);
     }
 
-    public function test_remove_multi_value_db_error() {
+    public function test_remove_multi_value_db_error()
+    {
         add_term_meta(self::$category_id, 'test_multi', 'val1');
         $values = get_term_meta(self::$category_id, 'test_multi', false);
         $this->assertSame(array('val1'), $values);
@@ -1003,7 +1037,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     }
 
 
-    public function test_delete_value() {
+    public function test_delete_value()
+    {
         add_term_meta(self::$category_id, 'test_single', 'val1');
         $current = get_term_meta(self::$category_id, 'test_single', true);
         $this->assertSame('val1', $current);
@@ -1028,7 +1063,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_delete_value
      */
-    public function test_delete_value_blocked() {
+    public function test_delete_value_blocked()
+    {
         add_term_meta(self::$category_id, 'test_bad_auth', 'val1');
         $current = get_term_meta(self::$category_id, 'test_bad_auth', true);
         $this->assertSame('val1', $current);
@@ -1053,7 +1089,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @depends test_delete_value
      */
-    public function test_delete_value_db_error() {
+    public function test_delete_value_db_error()
+    {
         add_term_meta(self::$category_id, 'test_single', 'val1');
         $current = get_term_meta(self::$category_id, 'test_single', true);
         $this->assertSame('val1', $current);
@@ -1082,7 +1119,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertErrorResponse('rest_meta_database_error', $response, 500);
     }
 
-    public function test_delete_value_custom_name() {
+    public function test_delete_value_custom_name()
+    {
         add_term_meta(self::$category_id, 'test_custom_name', 'janet');
         $current = get_term_meta(self::$category_id, 'test_custom_name', true);
         $this->assertSame('janet', $current);
@@ -1104,7 +1142,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         $this->assertEmpty($meta);
     }
 
-    public function test_get_schema() {
+    public function test_get_schema()
+    {
         $request  = new WP_REST_Request('OPTIONS', sprintf('/wp/v2/categories/%d', self::$category_id));
         $response = rest_get_server()->dispatch($request);
 
@@ -1135,7 +1174,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
      * @ticket 38323
      * @dataProvider data_get_subtype_meta_value
      */
-    public function test_get_subtype_meta_value($taxonomy, $meta_key, $single, $in_taxonomy) {
+    public function test_get_subtype_meta_value($taxonomy, $meta_key, $single, $in_taxonomy)
+    {
         $term_id  = self::$category_id;
         $endpoint = 'categories';
         if ('customtax' === $taxonomy) {
@@ -1170,7 +1210,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         }
     }
 
-    public function data_get_subtype_meta_value() {
+    public function data_get_subtype_meta_value()
+    {
         return array(
             array('customtax', 'test_customtax_single', true, true),
             array('customtax', 'test_customtax_multi', false, true),
@@ -1187,7 +1228,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
      * @ticket 38323
      * @dataProvider data_set_subtype_meta_value
      */
-    public function test_set_subtype_meta_value($taxonomy, $meta_key, $single, $in_taxonomy, $can_write) {
+    public function test_set_subtype_meta_value($taxonomy, $meta_key, $single, $in_taxonomy, $can_write)
+    {
         $term_id  = self::$category_id;
         $endpoint = 'categories';
         if ('customtax' === $taxonomy) {
@@ -1236,7 +1278,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
         }
     }
 
-    public function data_set_subtype_meta_value() {
+    public function data_set_subtype_meta_value()
+    {
         $data = $this->data_get_subtype_meta_value();
 
         foreach ($data as $index => $dataset) {
@@ -1256,7 +1299,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @ticket 43941
      */
-    public function test_get_default_value() {
+    public function test_get_default_value()
+    {
         $meta_key = 'registered_key1';
         register_term_meta(
             'category',
@@ -1286,7 +1330,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
     /**
      * @ticket 53099
      */
-    public function test_get_term_metadata_returning_false_does_not_cause_php_warnings() {
+    public function test_get_term_metadata_returning_false_does_not_cause_php_warnings()
+    {
         add_filter('get_term_metadata', '__return_false', 11);
 
         // No PHP warning during GET request.
@@ -1335,7 +1380,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
      * Internal function used to disable an insert query which
      * will trigger a wpdb error for testing purposes.
      */
-    public function error_insert_query($query) {
+    public function error_insert_query($query)
+    {
         if (strpos($query, 'INSERT') === 0) {
             $query = '],';
         }
@@ -1346,7 +1392,8 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase {
      * Internal function used to disable an insert query which
      * will trigger a wpdb error for testing purposes.
      */
-    public function error_delete_query($query) {
+    public function error_delete_query($query)
+    {
         if (strpos($query, 'DELETE') === 0) {
             $query = '],';
         }

@@ -6,11 +6,13 @@
  * @ticket 34292
  * @covers ::wp_resource_hints
  */
-class Tests_General_wpResourceHints extends WP_UnitTestCase {
+class Tests_General_wpResourceHints extends WP_UnitTestCase
+{
     private $old_wp_scripts;
     private $old_wp_styles;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->old_wp_scripts = isset($GLOBALS['wp_scripts']) ? $GLOBALS['wp_scripts'] : null;
         $this->old_wp_styles  = isset($GLOBALS['wp_styles']) ? $GLOBALS['wp_styles'] : null;
@@ -24,13 +26,15 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $GLOBALS['wp_styles']->default_version  = get_bloginfo('version');
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_scripts'] = $this->old_wp_scripts;
         $GLOBALS['wp_styles']  = $this->old_wp_styles;
         parent::tear_down();
     }
 
-    public function test_dns_prefetching() {
+    public function test_dns_prefetching()
+    {
         $expected = "<link rel='dns-prefetch' href='//wordpress.org' />\n" .
                     "<link rel='dns-prefetch' href='//google.com' />\n" .
                     "<link rel='dns-prefetch' href='//make.wordpress.org' />\n";
@@ -44,7 +48,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function add_dns_prefetch_domains($hints, $method) {
+    public function add_dns_prefetch_domains($hints, $method)
+    {
         if ('dns-prefetch' === $method) {
             $hints[] = 'http://wordpress.org';
             $hints[] = 'https://wordpress.org';
@@ -60,7 +65,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
     /**
      * @ticket 37652
      */
-    public function test_preconnect() {
+    public function test_preconnect()
+    {
         $expected = "<link rel='preconnect' href='//wordpress.org' />\n" .
                     "<link rel='preconnect' href='https://make.wordpress.org' />\n" .
                     "<link rel='preconnect' href='http://google.com' />\n" .
@@ -75,7 +81,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function add_preconnect_domains($hints, $method) {
+    public function add_preconnect_domains($hints, $method)
+    {
         if ('preconnect' === $method) {
             $hints[] = '//wordpress.org';
             $hints[] = 'https://make.wordpress.org';
@@ -87,7 +94,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         return $hints;
     }
 
-    public function test_prerender() {
+    public function test_prerender()
+    {
         $expected = "<link rel='prerender' href='https://make.wordpress.org/great-again' />\n" .
                     "<link rel='prerender' href='http://jobs.wordpress.net' />\n" .
                     "<link rel='prerender' href='//core.trac.wordpress.org' />\n";
@@ -101,7 +109,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function add_prerender_urls($hints, $method) {
+    public function add_prerender_urls($hints, $method)
+    {
         if ('prerender' === $method) {
             $hints[] = 'https://make.wordpress.org/great-again';
             $hints[] = 'http://jobs.wordpress.net';
@@ -112,7 +121,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         return $hints;
     }
 
-    public function test_parse_url_dns_prefetch() {
+    public function test_parse_url_dns_prefetch()
+    {
         $expected = "<link rel='dns-prefetch' href='//make.wordpress.org' />\n";
 
         add_filter('wp_resource_hints', array($this, 'add_dns_prefetch_long_urls'), 10, 2);
@@ -124,7 +134,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function add_dns_prefetch_long_urls($hints, $method) {
+    public function add_dns_prefetch_long_urls($hints, $method)
+    {
         if ('dns-prefetch' === $method) {
             $hints[] = 'http://make.wordpress.org/wp-includes/css/editor.css';
         }
@@ -132,7 +143,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         return $hints;
     }
 
-    public function test_dns_prefetch_styles() {
+    public function test_dns_prefetch_styles()
+    {
         $expected = "<link rel='dns-prefetch' href='//fonts.googleapis.com' />\n";
 
         $args = array(
@@ -149,7 +161,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function test_dns_prefetch_scripts() {
+    public function test_dns_prefetch_scripts()
+    {
         $expected = "<link rel='dns-prefetch' href='//fonts.googleapis.com' />\n";
 
         $args = array(
@@ -169,7 +182,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
     /**
      * @ticket 37385
      */
-    public function test_dns_prefetch_scripts_does_not_include_registered_only() {
+    public function test_dns_prefetch_scripts_does_not_include_registered_only()
+    {
         $expected   = '';
         $unexpected = "<link rel='dns-prefetch' href='//wordpress.org' />\n";
 
@@ -186,7 +200,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
     /**
      * @ticket 37502
      */
-    public function test_deregistered_scripts_are_ignored() {
+    public function test_deregistered_scripts_are_ignored()
+    {
         $expected = '';
 
         wp_enqueue_script('test-script', 'http://example.org/script.js');
@@ -199,7 +214,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
     /**
      * @ticket 37652
      */
-    public function test_malformed_urls() {
+    public function test_malformed_urls()
+    {
         $expected = '';
 
         // Errant colon.
@@ -215,7 +231,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function add_malformed_url_errant_colon($hints, $method) {
+    public function add_malformed_url_errant_colon($hints, $method)
+    {
         if ('preconnect' === $method) {
             $hints[] = '://core.trac.wordpress.org/ticket/37652';
         }
@@ -223,7 +240,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         return $hints;
     }
 
-    public function add_malformed_url_unsupported_scheme($hints, $method) {
+    public function add_malformed_url_unsupported_scheme($hints, $method)
+    {
         if ('preconnect' === $method) {
             $hints[] = 'git://develop.git.wordpress.org/';
         }
@@ -234,7 +252,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
     /**
      * @ticket 38121
      */
-    public function test_custom_attributes() {
+    public function test_custom_attributes()
+    {
         $expected = "<link rel='preconnect' href='https://make.wordpress.org' />\n" .
                     "<link crossorigin as='image' pr='0.5' href='https://example.com/foo.jpeg' rel='prefetch' />\n" .
                     "<link crossorigin='use-credentials' as='style' href='https://example.com/foo.css' rel='prefetch' />\n" .
@@ -249,7 +268,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function add_url_with_attributes($hints, $method) {
+    public function add_url_with_attributes($hints, $method)
+    {
         // Ignore hints with missing href attributes.
         $hints[] = array(
             'rel' => 'foo',

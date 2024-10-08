@@ -4,11 +4,13 @@
  * @group meta
  * @covers ::update_metadata
  */
-class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
+class Tests_Meta_UpdateMetadata extends WP_UnitTestCase
+{
     /**
      * @ticket 35795
      */
-    public function test_slashed_key_for_new_metadata() {
+    public function test_slashed_key_for_new_metadata()
+    {
         update_metadata('post', 123, wp_slash('foo\foo'), 'bar');
 
         $found = get_metadata('post', 123, 'foo\foo', true);
@@ -18,7 +20,8 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
     /**
      * @ticket 35795
      */
-    public function test_slashed_key_for_existing_metadata() {
+    public function test_slashed_key_for_existing_metadata()
+    {
         global $wpdb;
 
         add_metadata('post', 123, wp_slash('foo\foo'), 'bar');
@@ -37,7 +40,8 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
      *
      * @global wpdb $wpdb WordPress database abstraction object.
      */
-    public function test_clear_user_metadata_caches() {
+    public function test_clear_user_metadata_caches()
+    {
         global $wpdb;
 
         $user_id = self::factory()->user->create();
@@ -76,7 +80,8 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase {
      *
      * @global wpdb $wpdb WordPress database abstraction object.
      */
-    public function test_clear_post_metadata_caches() {
+    public function test_clear_post_metadata_caches()
+    {
         global $wpdb;
 
         $post_id = self::factory()->post->create();

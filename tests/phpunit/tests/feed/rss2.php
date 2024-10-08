@@ -8,7 +8,8 @@
  *
  * @group feed
  */
-class Tests_Feed_RSS2 extends WP_UnitTestCase {
+class Tests_Feed_RSS2 extends WP_UnitTestCase
+{
     public static $user_id;
     public static $posts;
     public static $category;
@@ -20,7 +21,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
     /**
      * Setup a new user and attribute some posts.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Create a user.
         self::$user_id = $factory->user->create(
             array(
@@ -69,7 +71,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
     /**
      * Setup.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->post_count   = (int) get_option('posts_per_rss');
@@ -84,14 +87,16 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
     /**
      * Tear down.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         delete_option('blogdescription');
     }
 
     /**
      * This is a bit of a hack used to buffer feed content.
      */
-    private function do_rss2() {
+    private function do_rss2()
+    {
         ob_start();
         // Nasty hack! In the future it would better to leverage do_feed( 'rss2' ).
         global $post;
@@ -110,7 +115,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      * Test the <rss> element to make sure its present and populated
      * with the expected child elements and attributes.
      */
-    public function test_rss_element() {
+    public function test_rss_element()
+    {
         $this->go_to('/?feed=rss2');
         $feed = $this->do_rss2();
         $xml  = xml_to_array($feed);
@@ -135,7 +141,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @return [type] [description]
      */
-    public function test_channel_element() {
+    public function test_channel_element()
+    {
         $this->go_to('/?feed=rss2');
         $feed = $this->do_rss2();
         $xml  = xml_to_array($feed);
@@ -165,7 +172,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @ticket 39141
      */
-    public function test_channel_pubdate_element_translated() {
+    public function test_channel_pubdate_element_translated()
+    {
         $original_locale = $GLOBALS['wp_locale'];
         /* @var WP_Locale $locale */
         $locale = clone $GLOBALS['wp_locale'];
@@ -188,7 +196,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
         $this->assertStringNotContainsString('Tue_Translated', $pubdate[0]['content']);
     }
 
-    public function test_item_elements() {
+    public function test_item_elements()
+    {
         $this->go_to('/?feed=rss2');
         $feed = $this->do_rss2();
         $xml  = xml_to_array($feed);
@@ -279,7 +288,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
     /**
      * @ticket 9134
      */
-    public function test_items_comments_closed() {
+    public function test_items_comments_closed()
+    {
         add_filter('comments_open', '__return_false');
 
         $this->go_to('/?feed=rss2');
@@ -314,7 +324,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @ticket 30210
      */
-    public function test_valid_home_feed_endpoint() {
+    public function test_valid_home_feed_endpoint()
+    {
         // An example of a valid home feed endpoint.
         $this->go_to('feed/');
 
@@ -342,7 +353,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @ticket 30210
      */
-    public function test_valid_taxonomy_feed_endpoint() {
+    public function test_valid_taxonomy_feed_endpoint()
+    {
         // An example of an valid taxonomy feed endpoint.
         $this->go_to('category/foo/feed/');
 
@@ -370,7 +382,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @ticket 30210
      */
-    public function test_valid_main_comment_feed_endpoint() {
+    public function test_valid_main_comment_feed_endpoint()
+    {
         // Generate a bunch of comments.
         foreach (self::$posts as $post) {
             self::factory()->comment->create_post_comments($post, 3);
@@ -403,7 +416,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @ticket 30210
      */
-    public function test_valid_archive_feed_endpoint() {
+    public function test_valid_archive_feed_endpoint()
+    {
         // An example of an valid date archive feed endpoint.
         $this->go_to('2003/05/27/feed/');
 
@@ -431,7 +445,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @ticket 30210
      */
-    public function test_valid_single_post_comment_feed_endpoint() {
+    public function test_valid_single_post_comment_feed_endpoint()
+    {
         // An example of an valid date archive feed endpoint.
         $this->go_to(get_post_comments_feed_link(self::$posts[0]));
 
@@ -459,7 +474,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @ticket 30210
      */
-    public function test_valid_search_feed_endpoint() {
+    public function test_valid_search_feed_endpoint()
+    {
         // An example of an valid search feed endpoint.
         $this->go_to('?s=Lorem&feed=rss');
 
@@ -488,7 +504,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @dataProvider data_get_feed_build_date
      */
-    public function test_get_feed_build_date($url, $element) {
+    public function test_get_feed_build_date($url, $element)
+    {
         $this->go_to($url);
         $feed = $this->do_rss2();
         $xml  = xml_to_array($feed);
@@ -500,7 +517,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
     }
 
 
-    public function data_get_feed_build_date() {
+    public function data_get_feed_build_date()
+    {
         return array(
             array('/?feed=rss2', 'rss'),
             array('/?feed=commentsrss2', 'rss'),
@@ -515,7 +533,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @covers WP::send_headers
      */
-    public function test_feed_last_modified_should_be_a_post_date_when_withcomments_is_not_passed() {
+    public function test_feed_last_modified_should_be_a_post_date_when_withcomments_is_not_passed()
+    {
         $last_week = gmdate('Y-m-d H:i:s', strtotime('-1 week'));
         $yesterday = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
 
@@ -554,7 +573,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @covers WP::send_headers
      */
-    public function test_feed_last_modified_should_be_the_date_of_a_comment_that_is_the_latest_update_when_withcomments_is_passed() {
+    public function test_feed_last_modified_should_be_the_date_of_a_comment_that_is_the_latest_update_when_withcomments_is_passed()
+    {
         $last_week = gmdate('Y-m-d H:i:s', strtotime('-1 week'));
         $yesterday = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
 
@@ -593,7 +613,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase {
      *
      * @covers WP::send_headers
      */
-    public function test_feed_last_modified_should_be_the_date_of_a_post_that_is_the_latest_update_when_withcomments_is_passed() {
+    public function test_feed_last_modified_should_be_the_date_of_a_post_that_is_the_latest_update_when_withcomments_is_passed()
+    {
         $last_week = gmdate('Y-m-d H:i:s', strtotime('-1 week'));
         $yesterday = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
         $today     = gmdate('Y-m-d H:i:s');

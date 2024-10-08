@@ -5,15 +5,18 @@
  *
  * @covers ::wp_update_comment_count_now
  */
-class Tests_Comment_wpUpdateCommentCountNow extends WP_UnitTestCase {
+class Tests_Comment_wpUpdateCommentCountNow extends WP_UnitTestCase
+{
 
-    public function test_invalid_post_bails_early() {
+    public function test_invalid_post_bails_early()
+    {
         $this->assertFalse(wp_update_comment_count_now(100));
         $this->assertFalse(wp_update_comment_count_now(null));
         $this->assertFalse(wp_update_comment_count_now(0));
     }
 
-    public function test_regular_post_updates_comment_count() {
+    public function test_regular_post_updates_comment_count()
+    {
         $post_id = self::factory()->post->create();
 
         self::factory()->comment->create_post_comments($post_id, 1);
@@ -26,7 +29,8 @@ class Tests_Comment_wpUpdateCommentCountNow extends WP_UnitTestCase {
         $this->assertSame('1', get_comments_number($post_id));
     }
 
-    public function test_using_filter_adjusts_comment_count_without_an_additional_database_query() {
+    public function test_using_filter_adjusts_comment_count_without_an_additional_database_query()
+    {
         global $wpdb;
 
         add_filter('pre_wp_update_comment_count_now', array($this, '_return_100'));
@@ -46,7 +50,8 @@ class Tests_Comment_wpUpdateCommentCountNow extends WP_UnitTestCase {
         remove_filter('pre_wp_update_comment_count_now', array($this, '_return_100'));
     }
 
-    public function _return_100() {
+    public function _return_100()
+    {
         return 100;
     }
 }

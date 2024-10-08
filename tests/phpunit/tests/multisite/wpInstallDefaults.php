@@ -8,11 +8,13 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_wpInstallDefaults extends WP_UnitTestCase {
+    class Tests_Multisite_wpInstallDefaults extends WP_UnitTestCase
+    {
         /**
          * @ticket 40036
          */
-        public function test_option_should_not_be_empty_by_default() {
+        public function test_option_should_not_be_empty_by_default()
+        {
             $blog_id = self::factory()->blog->create();
 
             switch_to_blog($blog_id);
@@ -31,7 +33,8 @@ if (is_multisite()) :
         /**
          * @ticket 40036
          */
-        public function test_empty_option_should_fall_back_to_default() {
+        public function test_empty_option_should_fall_back_to_default()
+        {
             /*
              * Update first_page / first_comment options,
              * just like what happens when the network settings page is saved
@@ -57,7 +60,8 @@ if (is_multisite()) :
         /**
          * @ticket 40036
          */
-        public function test_non_default_option_values() {
+        public function test_non_default_option_values()
+        {
             /*
              * Update first_page / first_comment options,
              * just like what happens when the network settings page is saved

@@ -6,14 +6,16 @@
  *
  * @covers ::wp_prime_option_caches_by_group
  */
-class Tests_Option_WpPrimeOptionCachesByGroup extends WP_UnitTestCase {
+class Tests_Option_WpPrimeOptionCachesByGroup extends WP_UnitTestCase
+{
 
     /**
      * Tests that wp_prime_option_caches_by_group() only primes options in the specified group.
      *
      * @ticket 58962
      */
-    public function test_wp_prime_option_caches_by_group() {
+    public function test_wp_prime_option_caches_by_group()
+    {
         global $new_allowed_options;
 
         // Create some options to prime.
@@ -67,7 +69,8 @@ class Tests_Option_WpPrimeOptionCachesByGroup extends WP_UnitTestCase {
      *
      * @ticket 58962
      */
-    public function test_wp_prime_option_caches_by_group_with_nonexistent_group() {
+    public function test_wp_prime_option_caches_by_group_with_nonexistent_group()
+    {
         // Make sure options are not in cache or database initially.
         $this->assertFalse(wp_cache_get('option1', 'options'), 'option1 was not deleted from the cache.');
         $this->assertFalse(wp_cache_get('option2', 'options'), 'option2 was not deleted from the cache.');

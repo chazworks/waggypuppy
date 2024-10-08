@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Themes_Controller extends WP_REST_Controller {
+class WP_REST_Themes_Controller extends WP_REST_Controller
+{
 
     /**
      * Matches theme's directory: `/themes/<subdirectory>/<theme>/` or `/themes/<theme>/`.
@@ -27,7 +28,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      *
      * @since 5.0.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'themes';
     }
@@ -39,7 +41,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -83,7 +86,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param string $stylesheet The stylesheet name.
      * @return string Sanitized stylesheet.
      */
-    public function _sanitize_stylesheet_callback($stylesheet) {
+    public function _sanitize_stylesheet_callback($stylesheet)
+    {
         return urldecode($stylesheet);
     }
 
@@ -95,7 +99,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, otherwise WP_Error object.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         if (current_user_can('switch_themes') || current_user_can('manage_network_themes')) {
             return true;
         }
@@ -120,7 +125,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, otherwise WP_Error object.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         if (current_user_can('switch_themes') || current_user_can('manage_network_themes')) {
             return true;
         }
@@ -146,7 +152,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      *
      * @return true|WP_Error True if the theme can be read, WP_Error object otherwise.
      */
-    protected function check_read_active_theme_permission() {
+    protected function check_read_active_theme_permission()
+    {
         if (current_user_can('edit_posts')) {
             return true;
         }
@@ -172,7 +179,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $wp_theme = wp_get_theme($request['stylesheet']);
         if (! $wp_theme->exists()) {
             return new WP_Error(
@@ -194,7 +202,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $themes = array();
 
         $active_themes = wp_get_themes();
@@ -230,7 +239,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $theme = $item;
 
@@ -377,7 +387,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param WP_Theme $theme Theme data.
      * @return array Links for the given block type.
      */
-    protected function prepare_links($theme) {
+    protected function prepare_links($theme)
+    {
         $links = array(
             'self'       => array(
                 'href' => rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, $theme->get_stylesheet())),
@@ -413,7 +424,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param WP_Theme $theme_b Second theme to compare.
      * @return bool
      */
-    protected function is_same_theme($theme_a, $theme_b) {
+    protected function is_same_theme($theme_a, $theme_b)
+    {
         return $theme_a->get_stylesheet() === $theme_b->get_stylesheet();
     }
 
@@ -428,7 +440,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request The request object.
      * @return mixed The prepared support value.
      */
-    protected function prepare_theme_support($support, $args, $feature, $request) {
+    protected function prepare_theme_support($support, $args, $feature, $request)
+    {
         $schema = $args['show_in_rest']['schema'];
 
         if ('boolean' === $schema['type']) {
@@ -449,7 +462,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -645,7 +659,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $query_params = array(
             'status' => array(
                 'description' => __('Limit result set to themes assigned one or more statuses.'),
@@ -678,7 +693,8 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
      * @param string          $parameter Additional parameter to pass to validation.
      * @return array|WP_Error A list of valid statuses, otherwise WP_Error object.
      */
-    public function sanitize_theme_status($statuses, $request, $parameter) {
+    public function sanitize_theme_status($statuses, $request, $parameter)
+    {
         _deprecated_function(__METHOD__, '5.7.0');
 
         $statuses = wp_parse_slug_list($statuses);

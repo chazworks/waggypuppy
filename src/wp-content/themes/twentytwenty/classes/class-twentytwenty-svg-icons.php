@@ -14,7 +14,8 @@ if (! class_exists('TwentyTwenty_SVG_Icons')) {
      *
      * @since Twenty Twenty 1.0
      */
-    class TwentyTwenty_SVG_Icons {
+    class TwentyTwenty_SVG_Icons
+    {
         /**
          * GET SVG CODE
          * Get the SVG code for the specified icon
@@ -25,7 +26,8 @@ if (! class_exists('TwentyTwenty_SVG_Icons')) {
          * @param string $group Icon group.
          * @param string $color Color.
          */
-        public static function get_svg($icon, $group = 'ui', $color = '#1A1A1B') {
+        public static function get_svg($icon, $group = 'ui', $color = '#1A1A1B')
+        {
             if ('ui' === $group) {
                 $arr = self::$ui_icons;
             } elseif ('social' === $group) {
@@ -77,7 +79,8 @@ if (! class_exists('TwentyTwenty_SVG_Icons')) {
          *
          * @param string $uri The URL to retrieve SVG for.
          */
-        public static function get_social_link_svg($uri) {
+        public static function get_social_link_svg($uri)
+        {
             static $regex_map; // Only compute regex map once, for performance.
             if (! isset($regex_map)) {
                 $regex_map = array();

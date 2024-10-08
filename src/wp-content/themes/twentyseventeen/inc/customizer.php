@@ -12,7 +12,8 @@
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
-function twentyseventeen_customize_register($wp_customize) {
+function twentyseventeen_customize_register($wp_customize)
+{
     $wp_customize->get_setting('blogname')->transport         = 'postMessage';
     $wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
     $wp_customize->get_setting('header_textcolor')->transport = 'postMessage';
@@ -165,7 +166,8 @@ add_action('customize_register', 'twentyseventeen_customize_register');
  *
  * @param string $input Page layout.
  */
-function twentyseventeen_sanitize_page_layout($input) {
+function twentyseventeen_sanitize_page_layout($input)
+{
     $valid = array(
         'one-column' => __('One Column', 'twentyseventeen'),
         'two-column' => __('Two Column', 'twentyseventeen'),
@@ -183,7 +185,8 @@ function twentyseventeen_sanitize_page_layout($input) {
  *
  * @param string $input Color scheme.
  */
-function twentyseventeen_sanitize_colorscheme($input) {
+function twentyseventeen_sanitize_colorscheme($input)
+{
     $valid = array('light', 'dark', 'custom');
 
     if (in_array($input, $valid, true)) {
@@ -202,7 +205,8 @@ function twentyseventeen_sanitize_colorscheme($input) {
  *
  * @return void
  */
-function twentyseventeen_customize_partial_blogname() {
+function twentyseventeen_customize_partial_blogname()
+{
     bloginfo('name');
 }
 
@@ -215,7 +219,8 @@ function twentyseventeen_customize_partial_blogname() {
  *
  * @return void
  */
-function twentyseventeen_customize_partial_blogdescription() {
+function twentyseventeen_customize_partial_blogdescription()
+{
     bloginfo('description');
 }
 
@@ -229,14 +234,16 @@ function twentyseventeen_customize_partial_blogdescription() {
  *
  * @return bool Whether the current page is the front page and static.
  */
-function twentyseventeen_is_static_front_page() {
+function twentyseventeen_is_static_front_page()
+{
     return twentyseventeen_is_frontpage();
 }
 
 /**
  * Return whether we're on a view that supports a one or two column layout.
  */
-function twentyseventeen_is_view_with_layout_option() {
+function twentyseventeen_is_view_with_layout_option()
+{
     // This option is available on all pages. It's also available on archives when there isn't a sidebar.
     return (is_page() || (is_archive() && ! is_active_sidebar('sidebar-1')));
 }
@@ -244,7 +251,8 @@ function twentyseventeen_is_view_with_layout_option() {
 /**
  * Bind JS handlers to instantly live-preview changes.
  */
-function twentyseventeen_customize_preview_js() {
+function twentyseventeen_customize_preview_js()
+{
     wp_enqueue_script('twentyseventeen-customize-preview', get_theme_file_uri('/assets/js/customize-preview.js'), array('customize-preview'), '20161002', array('in_footer' => true));
 }
 add_action('customize_preview_init', 'twentyseventeen_customize_preview_js');
@@ -252,7 +260,8 @@ add_action('customize_preview_init', 'twentyseventeen_customize_preview_js');
 /**
  * Load dynamic logic for the customizer controls area.
  */
-function twentyseventeen_panels_js() {
+function twentyseventeen_panels_js()
+{
     wp_enqueue_script('twentyseventeen-customize-controls', get_theme_file_uri('/assets/js/customize-controls.js'), array(), '20161020', array('in_footer' => true));
 }
 add_action('customize_controls_enqueue_scripts', 'twentyseventeen_panels_js');

@@ -16,7 +16,8 @@
  *
  * @see WP_Customize_Section
  */
-class WP_Customize_Themes_Section extends WP_Customize_Section {
+class WP_Customize_Themes_Section extends WP_Customize_Section
+{
 
     /**
      * Section type.
@@ -53,7 +54,8 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
      * @since 4.9.0
      * @return array Exported parameters.
      */
-    public function json() {
+    public function json()
+    {
         $exported                = parent::json();
         $exported['action']      = $this->action;
         $exported['filter_type'] = $this->filter_type;
@@ -68,7 +70,8 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
      *
      * @since 4.9.0
      */
-    protected function render_template() {
+    protected function render_template()
+    {
         ?>
         <li id="accordion-section-{{ data.id }}" class="theme-section">
             <button type="button" class="customize-themes-section-title themes-section-{{ data.id }}">{{ data.title }}</button>
@@ -119,7 +122,8 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
      *
      * @since 4.9.0
      */
-    protected function filter_bar_content_template() {
+    protected function filter_bar_content_template()
+    {
         ?>
         <button type="button" class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e('Go to theme sources'); ?></button>
         <# if ( 'wporg' === data.action ) { #>
@@ -181,7 +185,8 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
      *
      * @since 4.9.0
      */
-    protected function filter_drawer_content_template() {
+    protected function filter_drawer_content_template()
+    {
         /*
          * @todo Use the .org API instead of the local core feature list.
          * The .org API is currently outdated and will be reconciled when the .org themes directory is next redesigned.

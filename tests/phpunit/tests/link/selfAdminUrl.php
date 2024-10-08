@@ -4,19 +4,22 @@
  * @group link
  * @covers ::self_admin_url
  */
-class Tests_Link_SelfAdminUrl extends WP_UnitTestCase {
+class Tests_Link_SelfAdminUrl extends WP_UnitTestCase
+{
 
     /**
      * @ticket 37446
      */
-    public function test_self_admin_url() {
+    public function test_self_admin_url()
+    {
         $this->assertSame(admin_url(), self_admin_url());
     }
 
     /**
      * @ticket 37446
      */
-    public function test_self_admin_url_with_path() {
+    public function test_self_admin_url_with_path()
+    {
         $path = 'options-general.php';
 
         $this->assertSame(admin_url($path), self_admin_url($path));
@@ -25,7 +28,8 @@ class Tests_Link_SelfAdminUrl extends WP_UnitTestCase {
     /**
      * @ticket 37446
      */
-    public function test_self_admin_url_with_path_and_scheme() {
+    public function test_self_admin_url_with_path_and_scheme()
+    {
         $path   = 'options-general.php';
         $scheme = 'https';
 
@@ -35,7 +39,8 @@ class Tests_Link_SelfAdminUrl extends WP_UnitTestCase {
     /**
      * @ticket 37446
      */
-    public function test_self_admin_url_filtered() {
+    public function test_self_admin_url_filtered()
+    {
         $path   = 'options-general.php';
         $scheme = 'https';
 
@@ -51,7 +56,8 @@ class Tests_Link_SelfAdminUrl extends WP_UnitTestCase {
     /**
      * @ticket 37446
      */
-    public function filter_self_admin_url($url, $path, $scheme) {
+    public function filter_self_admin_url($url, $path, $scheme)
+    {
         return home_url(path_join('/global-admin/', $path), $scheme);
     }
 }

@@ -7,7 +7,8 @@
  * @since 4.9.6
  */
 
-abstract class WP_Privacy_Requests_Table extends WP_List_Table {
+abstract class WP_Privacy_Requests_Table extends WP_List_Table
+{
 
     /**
      * Action name for the requests this table will work with. Classes
@@ -37,7 +38,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         $columns = array(
             'cb'                => '<input type="checkbox" />',
             'email'             => __('Requester'),
@@ -55,7 +57,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @return string URL to the current admin page.
      */
-    protected function get_admin_url() {
+    protected function get_admin_url()
+    {
         $pagenow = str_replace('_', '-', $this->request_type);
 
         if ('remove-personal-data' === $pagenow) {
@@ -72,7 +75,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @return array Default sortable columns.
      */
-    protected function get_sortable_columns() {
+    protected function get_sortable_columns()
+    {
         /*
          * The initial sorting is by 'Requested' (post_date) and descending.
          * With initial sorting, the first click on 'Requested' should be ascending.
@@ -93,7 +97,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @return string Default primary column name.
      */
-    protected function get_default_primary_column_name() {
+    protected function get_default_primary_column_name()
+    {
         return 'email';
     }
 
@@ -106,7 +111,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @return object Number of posts for each status.
      */
-    protected function get_request_counts() {
+    protected function get_request_counts()
+    {
         global $wpdb;
 
         $cache_key = $this->post_type . '-' . $this->request_type;
@@ -143,7 +149,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @return string[] An array of HTML links keyed by their view.
      */
-    protected function get_views() {
+    protected function get_views()
+    {
         $current_status = isset($_REQUEST['filter-status']) ? sanitize_text_field($_REQUEST['filter-status']) : '';
         $statuses       = _wp_privacy_statuses();
         $views          = array();
@@ -206,7 +213,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @return array Array of bulk action labels keyed by their action.
      */
-    protected function get_bulk_actions() {
+    protected function get_bulk_actions()
+    {
         return array(
             'resend'   => __('Resend confirmation requests'),
             'complete' => __('Mark requests as completed'),
@@ -220,7 +228,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      * @since 4.9.6
      * @since 5.6.0 Added support for the `complete` action.
      */
-    public function process_bulk_action() {
+    public function process_bulk_action()
+    {
         $action      = $this->current_action();
         $request_ids = isset($_REQUEST['request_id']) ? wp_parse_id_list(wp_unslash($_REQUEST['request_id'])) : array();
 
@@ -359,7 +368,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      * @since 4.9.6
      * @since 5.1.0 Added support for column sorting.
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         $this->items    = array();
         $posts_per_page = $this->get_items_per_page($this->request_type . '_requests_per_page');
         $args           = array(
@@ -414,7 +424,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      * @param WP_User_Request $item Item being shown.
      * @return string Checkbox column markup.
      */
-    public function column_cb($item) {
+    public function column_cb($item)
+    {
         return sprintf(
             '<input type="checkbox" name="request_id[]" id="requester_%1$s" value="%1$s" />' .
             '<label for="requester_%1$s"><span class="screen-reader-text">%2$s</span></label><span class="spinner"></span>',
@@ -432,7 +443,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      * @param WP_User_Request $item Item being shown.
      * @return string Status column markup.
      */
-    public function column_status($item) {
+    public function column_status($item)
+    {
         $status        = get_post_status($item->ID);
         $status_object = get_post_status_object($status);
 
@@ -469,7 +481,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      * @param int $timestamp Event timestamp.
      * @return string Human readable date.
      */
-    protected function get_timestamp_as_date($timestamp) {
+    protected function get_timestamp_as_date($timestamp)
+    {
         if (empty($timestamp)) {
             return '';
         }
@@ -493,7 +506,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      * @param WP_User_Request $item        Item being shown.
      * @param string          $column_name Name of column being shown.
      */
-    public function column_default($item, $column_name) {
+    public function column_default($item, $column_name)
+    {
         /**
          * Fires for each custom column of a specific request type in the Requests list table.
          *
@@ -516,7 +530,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      * @param WP_User_Request $item Item being shown.
      * @return string Human readable date.
      */
-    public function column_created_timestamp($item) {
+    public function column_created_timestamp($item)
+    {
         return $this->get_timestamp_as_date($item->created_timestamp);
     }
 
@@ -528,7 +543,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      * @param WP_User_Request $item Item being shown.
      * @return string Email column markup.
      */
-    public function column_email($item) {
+    public function column_email($item)
+    {
         return sprintf('<a href="%1$s">%2$s</a> %3$s', esc_url('mailto:' . $item->email), $item->email, $this->row_actions(array()));
     }
 
@@ -539,7 +555,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @param WP_User_Request $item Item being shown.
      */
-    public function column_next_steps($item) {}
+    public function column_next_steps($item)
+    {}
 
     /**
      * Generates content for a single row of the table,
@@ -548,7 +565,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @param WP_User_Request $item The current item.
      */
-    public function single_row($item) {
+    public function single_row($item)
+    {
         $status = $item->status;
 
         echo '<tr id="request-' . esc_attr($item->ID) . '" class="status-' . esc_attr($status) . '">';
@@ -561,5 +579,6 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
      *
      * @since 4.9.6
      */
-    public function embed_scripts() {}
+    public function embed_scripts()
+    {}
 }

@@ -12,7 +12,8 @@
  *
  * @since Twenty Nineteen 1.0
  */
-class TwentyNineteen_Walker_Comment extends Walker_Comment {
+class TwentyNineteen_Walker_Comment extends Walker_Comment
+{
 
     /**
      * Outputs a comment in the HTML5 format.
@@ -23,7 +24,8 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
      * @param int        $depth   Depth of the current comment.
      * @param array      $args    An array of arguments.
      */
-    protected function html5_comment($comment, $depth, $args) {
+    protected function html5_comment($comment, $depth, $args)
+    {
 
         $tag = ('div' === $args['style']) ? 'div' : 'li';
 

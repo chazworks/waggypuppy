@@ -756,7 +756,8 @@ if (! is_multisite() && $broken_themes) {
  *
  * @return string The template for displaying the auto-update setting link.
  */
-function wp_theme_auto_update_setting_template() {
+function wp_theme_auto_update_setting_template()
+{
     $notice   = wp_get_admin_notice(
         '',
         array(

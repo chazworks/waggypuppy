@@ -15,7 +15,8 @@
  * @since 6.1.0
  */
 #[AllowDynamicProperties]
-class WP_Style_Engine_CSS_Declarations {
+class WP_Style_Engine_CSS_Declarations
+{
 
     /**
      * An array of CSS declarations (property => value pairs).
@@ -38,7 +39,8 @@ class WP_Style_Engine_CSS_Declarations {
      *                               e.g. `array( "$property" => "$value", "$property" => "$value" )`.
      *                               Default empty array.
      */
-    public function __construct($declarations = array()) {
+    public function __construct($declarations = array())
+    {
         $this->add_declarations($declarations);
     }
 
@@ -51,7 +53,8 @@ class WP_Style_Engine_CSS_Declarations {
      * @param string $value    The CSS value.
      * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
      */
-    public function add_declaration($property, $value) {
+    public function add_declaration($property, $value)
+    {
         // Sanitizes the property.
         $property = $this->sanitize_property($property);
         // Bails early if the property is empty.
@@ -79,7 +82,8 @@ class WP_Style_Engine_CSS_Declarations {
      * @param string $property The CSS property.
      * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
      */
-    public function remove_declaration($property) {
+    public function remove_declaration($property)
+    {
         unset($this->declarations[ $property ]);
         return $this;
     }
@@ -92,7 +96,8 @@ class WP_Style_Engine_CSS_Declarations {
      * @param string[] $declarations An array of declarations.
      * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
      */
-    public function add_declarations($declarations) {
+    public function add_declarations($declarations)
+    {
         foreach ($declarations as $property => $value) {
             $this->add_declaration($property, $value);
         }
@@ -107,7 +112,8 @@ class WP_Style_Engine_CSS_Declarations {
      * @param string[] $properties Optional. An array of properties. Default empty array.
      * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
      */
-    public function remove_declarations($properties = array()) {
+    public function remove_declarations($properties = array())
+    {
         foreach ($properties as $property) {
             $this->remove_declaration($property);
         }
@@ -121,7 +127,8 @@ class WP_Style_Engine_CSS_Declarations {
      *
      * @return string[] The declarations array.
      */
-    public function get_declarations() {
+    public function get_declarations()
+    {
         return $this->declarations;
     }
 
@@ -136,7 +143,8 @@ class WP_Style_Engine_CSS_Declarations {
      *                         Default empty string.
      * @return string The filtered declaration or an empty string.
      */
-    protected static function filter_declaration($property, $value, $spacer = '') {
+    protected static function filter_declaration($property, $value, $spacer = '')
+    {
         $filtered_value = wp_strip_all_tags($value, true);
         if ('' !== $filtered_value) {
             return safecss_filter_attr("{$property}:{$spacer}{$filtered_value}");
@@ -155,7 +163,8 @@ class WP_Style_Engine_CSS_Declarations {
      *                              Applies if `prettify` is `true`. Default 0.
      * @return string The CSS declarations.
      */
-    public function get_declarations_string($should_prettify = false, $indent_count = 0) {
+    public function get_declarations_string($should_prettify = false, $indent_count = 0)
+    {
         $declarations_array  = $this->get_declarations();
         $declarations_output = '';
         $indent              = $should_prettify ? str_repeat("\t", $indent_count) : '';
@@ -181,7 +190,8 @@ class WP_Style_Engine_CSS_Declarations {
      * @param string $property The CSS property.
      * @return string The sanitized property name.
      */
-    protected function sanitize_property($property) {
+    protected function sanitize_property($property)
+    {
         return sanitize_key($property);
     }
 }

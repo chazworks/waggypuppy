@@ -3,7 +3,8 @@
 /**
  * @group sitemaps
  */
-class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase {
+class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
+{
 
     /**
      * List of post_tag IDs.
@@ -31,7 +32,8 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$cats      = $factory->term->create_many(10, array('taxonomy' => 'category'));
         self::$post_tags = $factory->term->create_many(10);
         self::$editor_id = $factory->user->create(array('role' => 'editor'));
@@ -41,7 +43,8 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase {
      * Test getting a URL list for default taxonomies via
      * WP_Sitemaps_Taxonomies::get_url_list().
      */
-    public function test_get_url_list_taxonomies() {
+    public function test_get_url_list_taxonomies()
+    {
         // Add the default category to the list of categories we're testing.
         $categories = array_merge(array(1), self::$cats);
 
@@ -86,7 +89,8 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase {
      * Test getting a URL list for a custom taxonomy via
      * WP_Sitemaps_Taxonomies::get_url_list().
      */
-    public function test_get_url_list_custom_taxonomy() {
+    public function test_get_url_list_custom_taxonomy()
+    {
         wp_set_current_user(self::$editor_id);
 
         // Create a custom taxonomy for this test.
@@ -122,7 +126,8 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase {
      * Test getting a URL list for a private custom taxonomy via
      * WP_Sitemaps_Taxonomies::get_url_list().
      */
-    public function test_get_url_list_custom_taxonomy_private() {
+    public function test_get_url_list_custom_taxonomy_private()
+    {
         // Create a custom taxonomy for this test.
         $taxonomy = 'private_taxonomy';
         register_taxonomy($taxonomy, 'post', array('public' => false));
@@ -146,7 +151,8 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase {
     /**
      * Test getting a URL list for a custom taxonomy that is not publicly queryable.
      */
-    public function test_get_url_list_custom_taxonomy_not_publicly_queryable() {
+    public function test_get_url_list_custom_taxonomy_not_publicly_queryable()
+    {
         // Create a custom taxonomy for this test.
         $taxonomy = 'non_queryable_tax';
         register_taxonomy($taxonomy, 'post', array('publicly_queryable' => false));
@@ -170,7 +176,8 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase {
     /**
      * Test sitemap index entries with public and private taxonomies.
      */
-    public function test_get_sitemap_entries_custom_taxonomies() {
+    public function test_get_sitemap_entries_custom_taxonomies()
+    {
         wp_set_current_user(self::$editor_id);
 
         // Create a custom public and private taxonomies for this test.
@@ -210,7 +217,8 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase {
     /**
      * Test ability to filter object subtypes.
      */
-    public function test_filter_sitemaps_taxonomies() {
+    public function test_filter_sitemaps_taxonomies()
+    {
         $taxonomies_provider = new WP_Sitemaps_Taxonomies();
 
         // Return an empty array to show that the list of subtypes is filterable.

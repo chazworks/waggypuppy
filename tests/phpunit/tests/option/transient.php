@@ -3,9 +3,11 @@
 /**
  * @group option
  */
-class Tests_Option_Transient extends WP_UnitTestCase {
+class Tests_Option_Transient extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         if (wp_using_ext_object_cache()) {
@@ -18,7 +20,8 @@ class Tests_Option_Transient extends WP_UnitTestCase {
      * @covers ::set_transient
      * @covers ::delete_transient
      */
-    public function test_the_basics() {
+    public function test_the_basics()
+    {
         $key    = 'key1';
         $value  = 'value1';
         $value2 = 'value2';
@@ -39,7 +42,8 @@ class Tests_Option_Transient extends WP_UnitTestCase {
      * @covers ::set_transient
      * @covers ::delete_transient
      */
-    public function test_serialized_data() {
+    public function test_serialized_data()
+    {
         $key   = rand_str();
         $value = array(
             'foo' => true,
@@ -62,7 +66,8 @@ class Tests_Option_Transient extends WP_UnitTestCase {
      * @covers ::set_transient
      * @covers ::update_option
      */
-    public function test_transient_data_with_timeout() {
+    public function test_transient_data_with_timeout()
+    {
         $key   = rand_str();
         $value = rand_str();
 
@@ -87,7 +92,8 @@ class Tests_Option_Transient extends WP_UnitTestCase {
      *
      * @covers ::get_transient
      */
-    public function test_get_transient_with_timeout_makes_a_single_database_call() {
+    public function test_get_transient_with_timeout_makes_a_single_database_call()
+    {
         global $wpdb;
         $key                        = 'test_transient';
         $value                      = 'test_value';
@@ -133,7 +139,8 @@ class Tests_Option_Transient extends WP_UnitTestCase {
      *
      * @covers ::set_transient
      */
-    public function test_set_transient_primes_option_cache() {
+    public function test_set_transient_primes_option_cache()
+    {
         global $wpdb;
         $key                        = 'test_transient';
         $value                      = 'test_value';
@@ -169,7 +176,8 @@ class Tests_Option_Transient extends WP_UnitTestCase {
      * @covers ::get_option
      * @covers ::update_option
      */
-    public function test_transient_add_timeout() {
+    public function test_transient_add_timeout()
+    {
         $key    = rand_str();
         $value  = rand_str();
         $value2 = rand_str();
@@ -195,7 +203,8 @@ class Tests_Option_Transient extends WP_UnitTestCase {
      * @covers ::set_transient
      * @covers ::get_transient
      */
-    public function test_nonexistent_key_dont_delete_if_false() {
+    public function test_nonexistent_key_dont_delete_if_false()
+    {
         // Create a bogus a transient.
         $key = 'test_transient';
         set_transient($key, 'test', 60 * 10);
@@ -226,7 +235,8 @@ class Tests_Option_Transient extends WP_UnitTestCase {
      * @covers ::set_transient
      * @covers ::get_transient
      */
-    public function test_nonexistent_key_old_timeout() {
+    public function test_nonexistent_key_old_timeout()
+    {
         // Create a transient.
         $key = 'test_transient';
         set_transient($key, 'test', 60 * 10);

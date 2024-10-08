@@ -11,7 +11,8 @@
  *
  * @group xmlrpc
  */
-class Tests_XMLRPC_Message extends WP_UnitTestCase {
+class Tests_XMLRPC_Message extends WP_UnitTestCase
+{
 
     /**
      * Tests that `IXR_Message::tag_open()` does not create a dynamic `currentTag` property,
@@ -24,7 +25,8 @@ class Tests_XMLRPC_Message extends WP_UnitTestCase {
      *
      * @covers IXR_Message::tag_open
      */
-    public function test_tag_open_does_not_create_dynamic_property() {
+    public function test_tag_open_does_not_create_dynamic_property()
+    {
         $message = new IXR_Message('<methodResponse><params><param><value>1</value></param></params></methodResponse>');
         $this->assertTrue($message->parse());
         $this->assertSame('methodResponse', $message->messageType); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
@@ -38,20 +40,24 @@ class Tests_XMLRPC_Message extends WP_UnitTestCase {
      *
      * @covers IXR_Message::parse
      */
-    public function test_parse_sets_handlers() {
+    public function test_parse_sets_handlers()
+    {
         $xml     = '<methodResponse><params><param><value>1</value></param></params></methodResponse>';
         $message = new class( $xml ) extends IXR_Message {
             public $tag_open_call_counter  = 0;
             public $tag_close_call_counter = 0;
             public $cdata_call_counter     = 0;
 
-            public function tag_open($parser, $tag, $attr) {
+            public function tag_open($parser, $tag, $attr)
+            {
                 ++$this->tag_open_call_counter;
             }
-            public function cdata($parser, $cdata) {
+            public function cdata($parser, $cdata)
+            {
                 ++$this->cdata_call_counter;
             }
-            public function tag_close($parser, $tag) {
+            public function tag_close($parser, $tag)
+            {
                 ++$this->tag_close_call_counter;
             }
         };

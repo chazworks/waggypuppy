@@ -14,7 +14,8 @@
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_custom_classname_support($block_type) {
+function wp_register_custom_classname_support($block_type)
+{
     $has_custom_classname_support = block_has_support($block_type, 'customClassName', true);
 
     if ($has_custom_classname_support) {
@@ -41,7 +42,8 @@ function wp_register_custom_classname_support($block_type) {
  *
  * @return array Block CSS classes and inline styles.
  */
-function wp_apply_custom_classname_support($block_type, $block_attributes) {
+function wp_apply_custom_classname_support($block_type, $block_attributes)
+{
     $has_custom_classname_support = block_has_support($block_type, 'customClassName', true);
     $attributes                   = array();
     if ($has_custom_classname_support) {

@@ -8,7 +8,8 @@
  *
  * @group feed
  */
-class Tests_Feed_Atom extends WP_UnitTestCase {
+class Tests_Feed_Atom extends WP_UnitTestCase
+{
     public static $user_id;
     public static $posts;
     public static $category;
@@ -19,7 +20,8 @@ class Tests_Feed_Atom extends WP_UnitTestCase {
     /**
      * Setup a new user and attribute some posts.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Create a user.
         self::$user_id = $factory->user->create(
             array(
@@ -61,7 +63,8 @@ class Tests_Feed_Atom extends WP_UnitTestCase {
     /**
      * Setup.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->post_count   = (int) get_option('posts_per_rss');
@@ -71,14 +74,16 @@ class Tests_Feed_Atom extends WP_UnitTestCase {
     /**
      * Tear down.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         delete_option('blogdescription');
     }
 
     /**
      * This is a bit of a hack used to buffer feed content.
      */
-    private function do_atom() {
+    private function do_atom()
+    {
         ob_start();
         // Nasty hack! In the future it would better to leverage do_feed( 'atom' ).
         global $post;
@@ -97,7 +102,8 @@ class Tests_Feed_Atom extends WP_UnitTestCase {
      * Test the <feed> element to make sure its present and populated
      * with the expected child elements and attributes.
      */
-    public function test_feed_element() {
+    public function test_feed_element()
+    {
         $this->go_to('/?feed=atom');
         $feed = $this->do_atom();
         $xml  = xml_to_array($feed);
@@ -140,7 +146,8 @@ class Tests_Feed_Atom extends WP_UnitTestCase {
     /**
      * Validate <entry> child elements.
      */
-    public function test_entry_elements() {
+    public function test_entry_elements()
+    {
         $this->go_to('/?feed=atom');
         $feed = $this->do_atom();
         $xml  = xml_to_array($feed);
@@ -220,7 +227,8 @@ class Tests_Feed_Atom extends WP_UnitTestCase {
     /**
      * @ticket 33591
      */
-    public function test_atom_enclosure_with_extended_url_length_type_parsing() {
+    public function test_atom_enclosure_with_extended_url_length_type_parsing()
+    {
         $enclosures = array(
             array(
                 // URL, length, type.

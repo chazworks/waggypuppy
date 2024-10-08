@@ -26,7 +26,8 @@ if (! function_exists('twenty_twenty_one_setup')) {
      *
      * @return void
      */
-    function twenty_twenty_one_setup() {
+    function twenty_twenty_one_setup()
+    {
 
         // Add default posts and comments RSS feed links to head.
         add_theme_support('automatic-feed-links');
@@ -347,7 +348,8 @@ add_action('after_setup_theme', 'twenty_twenty_one_setup');
  *
  * @return void
  */
-function twenty_twenty_one_widgets_init() {
+function twenty_twenty_one_widgets_init()
+{
 
     register_sidebar(
         array(
@@ -374,7 +376,8 @@ add_action('widgets_init', 'twenty_twenty_one_widgets_init');
  *
  * @return void
  */
-function twenty_twenty_one_content_width() {
+function twenty_twenty_one_content_width()
+{
     // This variable is intended to be overruled from themes.
     // Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
@@ -392,7 +395,8 @@ add_action('after_setup_theme', 'twenty_twenty_one_content_width', 0);
  *
  * @return void
  */
-function twenty_twenty_one_scripts() {
+function twenty_twenty_one_scripts()
+{
     // Note, the is_IE global variable is defined by WordPress and is used
     // to detect if the current browser is internet explorer.
     global $is_IE, $wp_scripts;
@@ -474,7 +478,8 @@ add_action('wp_enqueue_scripts', 'twenty_twenty_one_scripts');
  *
  * @return void
  */
-function twentytwentyone_block_editor_script() {
+function twentytwentyone_block_editor_script()
+{
 
     wp_enqueue_script('twentytwentyone-editor', get_theme_file_uri('/assets/js/editor.js'), array('wp-blocks', 'wp-dom'), wp_get_theme()->get('Version'), array('in_footer' => true));
 }
@@ -492,7 +497,8 @@ add_action('enqueue_block_editor_assets', 'twentytwentyone_block_editor_script')
  *
  * @link https://git.io/vWdr2
  */
-function twenty_twenty_one_skip_link_focus_fix() {
+function twenty_twenty_one_skip_link_focus_fix()
+{
 
     // If SCRIPT_DEBUG is defined and true, print the unminified file.
     if (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) {
@@ -516,7 +522,8 @@ function twenty_twenty_one_skip_link_focus_fix() {
  *
  * @return void
  */
-function twenty_twenty_one_non_latin_languages() {
+function twenty_twenty_one_non_latin_languages()
+{
     $custom_css = twenty_twenty_one_get_non_latin_css('front-end');
 
     if ($custom_css) {
@@ -562,7 +569,8 @@ new Twenty_Twenty_One_Dark_Mode();
  *
  * @return void
  */
-function twentytwentyone_customize_preview_init() {
+function twentytwentyone_customize_preview_init()
+{
     wp_enqueue_script(
         'twentytwentyone-customize-helpers',
         get_theme_file_uri('/assets/js/customize-helpers.js'),
@@ -588,7 +596,8 @@ add_action('customize_preview_init', 'twentytwentyone_customize_preview_init');
  *
  * @return void
  */
-function twentytwentyone_customize_controls_enqueue_scripts() {
+function twentytwentyone_customize_controls_enqueue_scripts()
+{
 
     wp_enqueue_script(
         'twentytwentyone-customize-helpers',
@@ -607,7 +616,8 @@ add_action('customize_controls_enqueue_scripts', 'twentytwentyone_customize_cont
  *
  * @return void
  */
-function twentytwentyone_the_html_classes() {
+function twentytwentyone_the_html_classes()
+{
     /**
      * Filters the classes for the main <html> element.
      *
@@ -629,7 +639,8 @@ function twentytwentyone_the_html_classes() {
  *
  * @return void
  */
-function twentytwentyone_add_ie_class() {
+function twentytwentyone_add_ie_class()
+{
     ?>
     <script>
     if ( -1 !== navigator.userAgent.indexOf( 'MSIE' ) || -1 !== navigator.appVersion.indexOf( 'Trident/' ) ) {
@@ -648,7 +659,8 @@ if (! function_exists('wp_get_list_item_separator')) :
      *
      * @since 6.0.0
      */
-    function wp_get_list_item_separator() {
+    function wp_get_list_item_separator()
+    {
         /* translators: Used between list items, there is a space after the comma. */
         return __(', ', 'twentytwentyone');
     }

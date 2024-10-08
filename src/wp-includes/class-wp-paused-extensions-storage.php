@@ -12,7 +12,8 @@
  * @since 5.2.0
  */
 #[AllowDynamicProperties]
-class WP_Paused_Extensions_Storage {
+class WP_Paused_Extensions_Storage
+{
 
     /**
      * Type of extension. Used to key extension storage. Either 'plugin' or 'theme'.
@@ -29,7 +30,8 @@ class WP_Paused_Extensions_Storage {
      *
      * @param string $extension_type Extension type. Either 'plugin' or 'theme'.
      */
-    public function __construct($extension_type) {
+    public function __construct($extension_type)
+    {
         $this->type = $extension_type;
     }
 
@@ -52,7 +54,8 @@ class WP_Paused_Extensions_Storage {
      * }
      * @return bool True on success, false on failure.
      */
-    public function set($extension, $error) {
+    public function set($extension, $error)
+    {
         if (! $this->is_api_loaded()) {
             return false;
         }
@@ -83,7 +86,8 @@ class WP_Paused_Extensions_Storage {
      * @param string $extension Plugin or theme directory name.
      * @return bool True on success, false on failure.
      */
-    public function delete($extension) {
+    public function delete($extension)
+    {
         if (! $this->is_api_loaded()) {
             return false;
         }
@@ -123,7 +127,8 @@ class WP_Paused_Extensions_Storage {
      * @param string $extension Plugin or theme directory name.
      * @return array|null Error that is stored, or null if the extension is not paused.
      */
-    public function get($extension) {
+    public function get($extension)
+    {
         if (! $this->is_api_loaded()) {
             return null;
         }
@@ -148,7 +153,8 @@ class WP_Paused_Extensions_Storage {
      *     @type array ...$0 Error information returned by `error_get_last()`.
      * }
      */
-    public function get_all() {
+    public function get_all()
+    {
         if (! $this->is_api_loaded()) {
             return array();
         }
@@ -171,7 +177,8 @@ class WP_Paused_Extensions_Storage {
      *
      * @return bool
      */
-    public function delete_all() {
+    public function delete_all()
+    {
         if (! $this->is_api_loaded()) {
             return false;
         }
@@ -200,7 +207,8 @@ class WP_Paused_Extensions_Storage {
      *
      * @return bool True if the API is loaded, false otherwise.
      */
-    protected function is_api_loaded() {
+    protected function is_api_loaded()
+    {
         return function_exists('get_option');
     }
 
@@ -211,7 +219,8 @@ class WP_Paused_Extensions_Storage {
      *
      * @return string
      */
-    protected function get_option_name() {
+    protected function get_option_name()
+    {
         if (! wp_recovery_mode()->is_active()) {
             return '';
         }

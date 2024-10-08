@@ -13,7 +13,8 @@
  * @param string $current_stylesheet The current theme's stylesheet or template path.
  * @return string The previewed theme's stylesheet or template path.
  */
-function wp_get_theme_preview_path($current_stylesheet = null) {
+function wp_get_theme_preview_path($current_stylesheet = null)
+{
     if (! current_user_can('switch_themes')) {
         return $current_stylesheet;
     }
@@ -39,7 +40,8 @@ function wp_get_theme_preview_path($current_stylesheet = null) {
  *
  * @since 6.3.0
  */
-function wp_attach_theme_preview_middleware() {
+function wp_attach_theme_preview_middleware()
+{
     // Don't allow non-admins to preview themes.
     if (! current_user_can('switch_themes')) {
         return;
@@ -66,7 +68,8 @@ function wp_attach_theme_preview_middleware() {
  * @since 6.3.0
  * @access private
  */
-function wp_block_theme_activate_nonce() {
+function wp_block_theme_activate_nonce()
+{
     $nonce_handle = 'switch-theme_' . wp_get_theme_preview_path();
     ?>
     <script type="text/javascript">
@@ -83,7 +86,8 @@ function wp_block_theme_activate_nonce() {
  *
  * @since 6.3.2
  */
-function wp_initialize_theme_preview_hooks() {
+function wp_initialize_theme_preview_hooks()
+{
     if (! empty($_GET['wp_theme_preview'])) {
         add_filter('stylesheet', 'wp_get_theme_preview_path');
         add_filter('template', 'wp_get_theme_preview_path');

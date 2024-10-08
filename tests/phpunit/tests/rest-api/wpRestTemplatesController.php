@@ -9,7 +9,8 @@
  *
  * @group restapi
  */
-class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testcase {
+class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testcase
+{
     /**
      * @var int
      */
@@ -24,7 +25,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetupBeforeClass($factory) {
+    public static function wpSetupBeforeClass($factory)
+    {
         self::$admin_id      = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -78,7 +80,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         wp_set_post_terms(self::$template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         wp_delete_post(self::$template_post->ID);
     }
 
@@ -87,7 +90,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      *
      * @since 6.5.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         if (has_filter('rest_pre_insert_wp_template_part', 'inject_ignored_hooked_blocks_metadata_attributes')) {
             remove_filter('rest_pre_insert_wp_template_part', 'inject_ignored_hooked_blocks_metadata_attributes');
         }
@@ -103,7 +107,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @ticket 54596
      * @ticket 56467
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey(
             '/wp/v2/templates',
@@ -125,7 +130,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::get_context_param
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates');
         $response = rest_get_server()->dispatch($request);
@@ -143,7 +149,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::get_items
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates');
         $response = rest_get_server()->dispatch($request);
@@ -178,7 +185,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::get_items
      */
-    public function test_get_items_editor() {
+    public function test_get_items_editor()
+    {
         wp_set_current_user(self::$editor_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates');
         $response = rest_get_server()->dispatch($request);
@@ -213,7 +221,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::get_items
      */
-    public function test_get_items_no_permission_subscriber() {
+    public function test_get_items_no_permission_subscriber()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates');
         $response = rest_get_server()->dispatch($request);
@@ -223,7 +232,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::get_items
      */
-    public function test_get_items_no_permission() {
+    public function test_get_items_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates');
         $response = rest_get_server()->dispatch($request);
@@ -233,7 +243,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::get_item
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates/default//my_template');
         $response = rest_get_server()->dispatch($request);
@@ -270,7 +281,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::get_item
      */
-    public function test_get_item_editor() {
+    public function test_get_item_editor()
+    {
         wp_set_current_user(self::$editor_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates/default//my_template');
         $response = rest_get_server()->dispatch($request);
@@ -307,7 +319,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::get_item
      */
-    public function test_get_item_subscriber() {
+    public function test_get_item_subscriber()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/templates/default//my_template');
         $response = rest_get_server()->dispatch($request);
@@ -319,7 +332,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @ticket 54507
      * @dataProvider data_get_item_works_with_a_single_slash
      */
-    public function test_get_item_works_with_a_single_slash($endpoint_url) {
+    public function test_get_item_works_with_a_single_slash($endpoint_url)
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', $endpoint_url);
         $response = rest_get_server()->dispatch($request);
@@ -354,7 +368,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         );
     }
 
-    public function data_get_item_works_with_a_single_slash() {
+    public function data_get_item_works_with_a_single_slash()
+    {
         return array(
             array('/wp/v2/templates/default/my_template'),
             array('/wp/v2/templates/default//my_template'),
@@ -370,7 +385,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @param string $template  Template to test.
      * @param array  $args      Arguments to create the 'wp_template" post.
      */
-    public function test_get_item_with_valid_theme_dirname($theme_dir, $template, array $args) {
+    public function test_get_item_with_valid_theme_dirname($theme_dir, $template, array $args)
+    {
         wp_set_current_user(self::$admin_id);
         switch_theme($theme_dir);
 
@@ -422,7 +438,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      *
      * @return array
      */
-    public function data_get_item_with_valid_theme_dirname() {
+    public function data_get_item_with_valid_theme_dirname()
+    {
         $theme_root_dir = DIR_TESTDATA . '/themedir1/';
         return array(
             'template parts: parent theme'                => array(
@@ -535,7 +552,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      *
      * @covers WP_REST_Templates_Controller::get_item
      */
-    public function test_get_item_from_registry() {
+    public function test_get_item_from_registry()
+    {
         wp_set_current_user(self::$admin_id);
 
         $template_name = 'test-plugin//test-template';
@@ -579,7 +597,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @ticket 54507
      * @dataProvider data_sanitize_template_id
      */
-    public function test_sanitize_template_id($input_id, $sanitized_id) {
+    public function test_sanitize_template_id($input_id, $sanitized_id)
+    {
         $endpoint = new WP_REST_Templates_Controller('wp_template');
         $this->assertSame(
             $sanitized_id,
@@ -587,7 +606,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         );
     }
 
-    public function data_sanitize_template_id() {
+    public function data_sanitize_template_id()
+    {
         return array(
             array('tt1-blocks/index', 'tt1-blocks//index'),
             array('tt1-blocks//index', 'tt1-blocks//index'),
@@ -601,7 +621,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @ticket 54422
      * @covers WP_REST_Templates_Controller::create_item
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/templates');
         $request->set_body_params(
@@ -654,7 +675,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @covers WP_REST_Templates_Controller::create_item
      * @covers WP_REST_Templates_Controller::get_item_schema
      */
-    public function test_create_item_with_numeric_slug() {
+    public function test_create_item_with_numeric_slug()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/templates');
         $request->set_body_params(
@@ -705,7 +727,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @ticket 54422
      * @covers WP_REST_Templates_Controller::create_item
      */
-    public function test_create_item_raw() {
+    public function test_create_item_raw()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/templates');
         $request->set_body_params(
@@ -757,7 +780,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         );
     }
 
-    public function test_create_item_invalid_author() {
+    public function test_create_item_invalid_author()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/templates');
         $request->set_body_params(
@@ -776,7 +800,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::update_item
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('PUT', '/wp/v2/templates/default//my_template');
         $request->set_body_params(
@@ -793,7 +818,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::update_item
      */
-    public function test_update_item_raw() {
+    public function test_update_item_raw()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('PUT', '/wp/v2/templates/default//my_template');
         $request->set_body_params(
@@ -810,7 +836,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::delete_item
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Set up template post.
         $args    = array(
             'post_type'    => 'wp_template',
@@ -839,7 +866,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::delete_item
      */
-    public function test_delete_item_skip_trash() {
+    public function test_delete_item_skip_trash()
+    {
         // Set up template post.
         $args    = array(
             'post_type'    => 'wp_template',
@@ -869,7 +897,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @covers WP_REST_Templates_Controller::delete_item
      */
-    public function test_delete_item_fail() {
+    public function test_delete_item_fail()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('DELETE', '/wp/v2/templates/justrandom//template');
         $response = rest_get_server()->dispatch($request);
@@ -879,11 +908,13 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
     /**
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
-    public function test_prepare_item_limit_fields() {
+    public function test_prepare_item_limit_fields()
+    {
         wp_set_current_user(self::$admin_id);
 
         $endpoint = new WP_REST_Templates_Controller('wp_template');
@@ -905,7 +936,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @ticket 54422
      * @covers WP_REST_Templates_Controller::get_item_schema
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/templates');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -932,7 +964,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
         $this->assertArrayHasKey('plugin', $properties);
     }
 
-    protected function find_and_normalize_template_by_id($templates, $id) {
+    protected function find_and_normalize_template_by_id($templates, $id)
+    {
         foreach ($templates as $template) {
             if ($template['id'] === $id) {
                 unset($template['content']);
@@ -952,7 +985,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @param array $body_params Data set to test.
      * @param array $expected    Expected results.
      */
-    public function test_create_item_with_is_wp_suggestion(array $body_params, array $expected) {
+    public function test_create_item_with_is_wp_suggestion(array $body_params, array $expected)
+    {
         // Set up the user.
         $body_params['author'] = self::$admin_id;
         $expected['author']    = self::$admin_id;
@@ -978,7 +1012,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      *
      * @return array
      */
-    public function data_create_item_with_is_wp_suggestion() {
+    public function data_create_item_with_is_wp_suggestion()
+    {
         $expected = array(
             'id'             => 'default//page-rigas',
             'theme'          => 'default',
@@ -1037,7 +1072,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @ticket 56467
      * @covers WP_REST_Templates_Controller::get_template_fallback
      */
-    public function test_get_template_fallback() {
+    public function test_get_template_fallback()
+    {
         wp_set_current_user(self::$admin_id);
         switch_theme('block-theme');
         $request = new WP_REST_Request('GET', '/wp/v2/templates/lookup');
@@ -1066,7 +1102,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @ticket 60909
      * @covers WP_REST_Templates_Controller::get_template_fallback
      */
-    public function test_get_template_fallback_not_found() {
+    public function test_get_template_fallback_not_found()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('GET', '/wp/v2/templates/lookup');
         $request->set_param('slug', 'not-found');
@@ -1080,7 +1117,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      *
      * @covers WP_REST_Templates_Controller::prepare_item_for_database
      */
-    public function test_prepare_item_for_database() {
+    public function test_prepare_item_for_database()
+    {
         $endpoint = new WP_REST_Templates_Controller('wp_template_part');
 
         $prepare_item_for_database = new ReflectionMethod($endpoint, 'prepare_item_for_database');
@@ -1121,7 +1159,8 @@ class Tests_REST_WpRestTemplatesController extends WP_Test_REST_Controller_Testc
      * @covers WP_REST_Templates_Controller::prepare_item_for_database
      * @covers inject_ignored_hooked_blocks_metadata_attributes
      */
-    public function test_prepare_item_for_database_injects_hooked_block() {
+    public function test_prepare_item_for_database_injects_hooked_block()
+    {
         register_block_type(
             'tests/hooked-block',
             array(

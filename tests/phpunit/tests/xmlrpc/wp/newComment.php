@@ -3,7 +3,8 @@
 /**
  * @group xmlrpc
  */
-class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
+class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
+{
 
     /**
      * Array of posts.
@@ -21,7 +22,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      */
     public static $user_ids;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$user_ids                     = array(
             'administrator' => self::make_user_by_role('administrator'),
             'contributor'   => self::make_user_by_role('contributor'),
@@ -47,7 +49,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
         );
     }
 
-    public function test_valid_comment() {
+    public function test_valid_comment()
+    {
         $result = $this->myxmlrpcserver->wp_newComment(
             array(
                 1,
@@ -63,7 +66,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
         $this->assertNotIXRError($result);
     }
 
-    public function test_empty_comment() {
+    public function test_empty_comment()
+    {
         $result = $this->myxmlrpcserver->wp_newComment(
             array(
                 1,
@@ -83,7 +87,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
     /**
      * @ticket 43177
      */
-    public function test_empty_content_multiple_spaces() {
+    public function test_empty_content_multiple_spaces()
+    {
         $result = $this->myxmlrpcserver->wp_newComment(
             array(
                 1,
@@ -103,7 +108,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
     /**
      * @ticket 43177
      */
-    public function test_valid_comment_0_content() {
+    public function test_valid_comment_0_content()
+    {
         $result = $this->myxmlrpcserver->wp_newComment(
             array(
                 1,
@@ -122,7 +128,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
     /**
      * @ticket 43177
      */
-    public function test_valid_comment_allow_empty_content() {
+    public function test_valid_comment_allow_empty_content()
+    {
         add_filter('allow_empty_comment', '__return_true');
         $result = $this->myxmlrpcserver->wp_newComment(
             array(
@@ -139,7 +146,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
         $this->assertNotIXRError($result);
     }
 
-    public function test_new_comment_post_closed() {
+    public function test_new_comment_post_closed()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'comment_status' => 'closed',
@@ -164,7 +172,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
         $this->assertSame(403, $result->code);
     }
 
-    public function test_new_comment_duplicated() {
+    public function test_new_comment_duplicated()
+    {
         $comment_args = array(
             1,
             'administrator',
@@ -191,7 +200,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      *
      * @ticket 51595
      */
-    public function test_allowed_anon_comments() {
+    public function test_allowed_anon_comments()
+    {
         add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
         $comment_args = array(
@@ -216,7 +226,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      *
      * @ticket 51595
      */
-    public function test_anon_comments_require_email() {
+    public function test_anon_comments_require_email()
+    {
         add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
         $comment_args = array(
@@ -241,7 +252,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      *
      * @ticket 51595
      */
-    public function test_username_avoids_anon_flow() {
+    public function test_username_avoids_anon_flow()
+    {
         add_filter('xmlrpc_allow_anonymous_comments', '__return_true');
 
         $comment_args = array(
@@ -273,7 +285,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      * @param bool   $expected      Expected result. True: successful comment. False: Refused comment.
      * @param string $anon_callback Optional. Allow anonymous comment callback. Default __return_false.
      */
-    public function test_comments_observe_post_permissions($post_key, $username, $expected, $anon_callback = '__return_false') {
+    public function test_comments_observe_post_permissions($post_key, $username, $expected, $anon_callback = '__return_false')
+    {
         add_filter('xmlrpc_allow_anonymous_comments', $anon_callback);
 
         $comment_args = array(
@@ -308,7 +321,8 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase {
      *     @type string Optional. Allow anonymous comment callback. Default __return_false.
      * }
      */
-    public function data_comments_observe_post_permissions() {
+    public function data_comments_observe_post_permissions()
+    {
         return array(
             // 0: Post author, password protected public post.
             array(

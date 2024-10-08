@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Posts_Controller
  */
-class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
+class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
+{
 
     /**
      * Whether the controller supports batching.
@@ -31,7 +32,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         parent::register_routes();
         register_rest_route(
             $this->namespace,
@@ -75,7 +77,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request       Optional. Request to prepare items for.
      * @return array Array of query arguments.
      */
-    protected function prepare_items_query($prepared_args = array(), $request = null) {
+    protected function prepare_items_query($prepared_args = array(), $request = null)
+    {
         $query_args = parent::prepare_items_query($prepared_args, $request);
 
         if (empty($query_args['post_status'])) {
@@ -111,7 +114,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error Boolean true if the attachment may be created, or a WP_Error if not.
      */
-    public function create_item_permissions_check($request) {
+    public function create_item_permissions_check($request)
+    {
         $ret = parent::create_item_permissions_check($request);
 
         if (! $ret || is_wp_error($ret)) {
@@ -146,7 +150,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
      */
-    public function create_item($request) {
+    public function create_item($request)
+    {
         if (! empty($request['post']) && in_array(get_post_type($request['post']), array('revision', 'attachment'), true)) {
             return new WP_Error(
                 'rest_invalid_param',
@@ -249,7 +254,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request
      * @return array|WP_Error
      */
-    protected function insert_attachment($request) {
+    protected function insert_attachment($request)
+    {
         // Get the file via $_FILES or raw data.
         $files   = $request->get_file_params();
         $headers = $request->get_headers();
@@ -360,7 +366,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param int $post_id        Post ID.
      * @return bool|WP_Error Whether the post thumbnail was successfully deleted, otherwise WP_Error.
      */
-    protected function handle_featured_media($featured_media, $post_id) {
+    protected function handle_featured_media($featured_media, $post_id)
+    {
         $post_type         = get_post_type($post_id);
         $thumbnail_support = current_theme_supports('post-thumbnails', $post_type) && post_type_supports($post_type, 'thumbnail');
 
@@ -396,7 +403,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
      */
-    public function update_item($request) {
+    public function update_item($request)
+    {
         if (! empty($request['post']) && in_array(get_post_type($request['post']), array('revision', 'attachment'), true)) {
             return new WP_Error(
                 'rest_invalid_param',
@@ -456,7 +464,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
      */
-    public function post_process_item($request) {
+    public function post_process_item($request)
+    {
         switch ($request['action']) {
             case 'create-image-subsizes':
                 require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -477,7 +486,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to update the item, WP_Error object otherwise.
      */
-    public function post_process_item_permissions_check($request) {
+    public function post_process_item_permissions_check($request)
+    {
         return $this->update_item_permissions_check($request);
     }
 
@@ -489,7 +499,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function edit_media_item_permissions_check($request) {
+    public function edit_media_item_permissions_check($request)
+    {
         if (! current_user_can('upload_files')) {
             return new WP_Error(
                 'rest_cannot_edit_image',
@@ -509,7 +520,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, WP_Error object on failure.
      */
-    public function edit_media_item($request) {
+    public function edit_media_item($request)
+    {
         require_once ABSPATH . 'wp-admin/includes/image.php';
 
         $attachment_id = $request['id'];
@@ -770,7 +782,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return stdClass|WP_Error Post object.
      */
-    protected function prepare_item_for_database($request) {
+    protected function prepare_item_for_database($request)
+    {
         $prepared_attachment = parent::prepare_item_for_database($request);
 
         // Attachment caption (post_excerpt internally).
@@ -808,7 +821,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $post = $item;
 
@@ -938,7 +952,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Item schema as an array.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -1062,7 +1077,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param string|null $time    Optional. Time formatted in 'yyyy/mm'. Default null.
      * @return array|WP_Error Data from wp_handle_sideload().
      */
-    protected function upload_from_data($data, $headers, $time = null) {
+    protected function upload_from_data($data, $headers, $time = null)
+    {
         if (empty($data)) {
             return new WP_Error(
                 'rest_upload_no_data',
@@ -1194,7 +1210,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param string[] $disposition_header List of Content-Disposition header values.
      * @return string|null Filename if available, or null if not found.
      */
-    public static function get_filename_from_disposition($disposition_header) {
+    public static function get_filename_from_disposition($disposition_header)
+    {
         // Get the filename.
         $filename = null;
 
@@ -1242,7 +1259,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Query parameters for the attachment collection as an array.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $params                            = parent::get_collection_params();
         $params['status']['default']       = 'inherit';
         $params['status']['items']['enum'] = array('inherit', 'private', 'trash');
@@ -1275,7 +1293,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param string|null $time    Optional. Time formatted in 'yyyy/mm'. Default null.
      * @return array|WP_Error Data from wp_handle_upload().
      */
-    protected function upload_from_file($files, $headers, $time = null) {
+    protected function upload_from_file($files, $headers, $time = null)
+    {
         if (empty($files)) {
             return new WP_Error(
                 'rest_upload_no_data',
@@ -1339,7 +1358,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Array of supported media types.
      */
-    protected function get_media_types() {
+    protected function get_media_types()
+    {
         $media_types = array();
 
         foreach (get_allowed_mime_types() as $mime_type) {
@@ -1365,7 +1385,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      * @param array $file $_FILES array for a given file.
      * @return true|WP_Error True if can upload, error for errors.
      */
-    protected function check_upload_size($file) {
+    protected function check_upload_size($file)
+    {
         if (! is_multisite()) {
             return true;
         }
@@ -1417,7 +1438,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
      *
      * @return array
      */
-    protected function get_edit_media_item_args() {
+    protected function get_edit_media_item_args()
+    {
         return array(
             'src'       => array(
                 'description' => __('URL to the edited image file.'),

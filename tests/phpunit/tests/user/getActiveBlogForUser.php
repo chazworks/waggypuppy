@@ -9,14 +9,17 @@ if (is_multisite()) :
      * @group ms-user
      * @group multisite
      */
-    class Tests_User_GetActiveBlogForUser extends WP_UnitTestCase {
+    class Tests_User_GetActiveBlogForUser extends WP_UnitTestCase
+    {
         public static $user_id = false;
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$user_id = $factory->user->create();
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             wpmu_delete_user(self::$user_id);
 
             global $wp_rewrite;
@@ -26,7 +29,8 @@ if (is_multisite()) :
         /**
          * @ticket 38355
          */
-        public function test_get_active_blog_for_user_with_no_sites() {
+        public function test_get_active_blog_for_user_with_no_sites()
+        {
             $current_site_id = get_current_blog_id();
 
             remove_user_from_blog(self::$user_id, $current_site_id);
@@ -39,7 +43,8 @@ if (is_multisite()) :
         /**
          * @ticket 38355
          */
-        public function test_get_active_blog_for_user_with_primary_site() {
+        public function test_get_active_blog_for_user_with_primary_site()
+        {
             $site_id_one = self::factory()->blog->create(array('user_id' => self::$user_id));
             $site_id_two = self::factory()->blog->create(array('user_id' => self::$user_id));
 
@@ -60,7 +65,8 @@ if (is_multisite()) :
         /**
          * @ticket 38355
          */
-        public function test_get_active_blog_for_user_without_primary_site() {
+        public function test_get_active_blog_for_user_without_primary_site()
+        {
             $sites           = get_blogs_of_user(self::$user_id);
             $site_ids        = array_keys($sites);
             $primary_site_id = $site_ids[0];
@@ -77,7 +83,8 @@ if (is_multisite()) :
         /**
          * @ticket 38355
          */
-        public function test_get_active_blog_for_user_with_spam_site() {
+        public function test_get_active_blog_for_user_with_spam_site()
+        {
             $current_site_id = get_current_blog_id();
 
             $site_id = self::factory()->blog->create(

@@ -5,11 +5,13 @@
  *
  * @group avatar
  */
-class Tests_Avatar extends WP_UnitTestCase {
+class Tests_Avatar extends WP_UnitTestCase
+{
     /**
      * @ticket 21195
      */
-    public function test_get_avatar_url_gravatar_url() {
+    public function test_get_avatar_url_gravatar_url()
+    {
         $url = get_avatar_url(1);
         $this->assertSame(preg_match('|^https?://secure.gravatar.com/avatar/[0-9a-f]{32}\?|', $url), 1);
     }
@@ -17,7 +19,8 @@ class Tests_Avatar extends WP_UnitTestCase {
     /**
      * @ticket 21195
      */
-    public function test_get_avatar_url_size() {
+    public function test_get_avatar_url_size()
+    {
         $url = get_avatar_url(1);
         $this->assertSame(preg_match('|\?.*s=96|', $url), 1);
 
@@ -29,7 +32,8 @@ class Tests_Avatar extends WP_UnitTestCase {
     /**
      * @ticket 21195
      */
-    public function test_get_avatar_url_default() {
+    public function test_get_avatar_url_default()
+    {
         $url = get_avatar_url(1);
         $this->assertSame(preg_match('|\?.*d=mm|', $url), 1);
 
@@ -46,7 +50,8 @@ class Tests_Avatar extends WP_UnitTestCase {
     /**
      * @ticket 21195
      */
-    public function test_get_avatar_url_rating() {
+    public function test_get_avatar_url_rating()
+    {
         $url = get_avatar_url(1);
         $this->assertSame(preg_match('|\?.*r=g|', $url), 1);
 
@@ -63,7 +68,8 @@ class Tests_Avatar extends WP_UnitTestCase {
      *
      * @covers ::get_avatar_url
      */
-    public function test_get_avatar_url_scheme() {
+    public function test_get_avatar_url_scheme()
+    {
         $url = get_avatar_url(1);
         $this->assertSame(preg_match('|^https://|', $url), 1, 'Avatars should default to the HTTPS scheme');
 
@@ -84,7 +90,8 @@ class Tests_Avatar extends WP_UnitTestCase {
     /**
      * @ticket 21195
      */
-    public function test_get_avatar_url_user() {
+    public function test_get_avatar_url_user()
+    {
         $url = get_avatar_url(1);
 
         $url2 = get_avatar_url(WP_TESTS_EMAIL);
@@ -117,7 +124,8 @@ class Tests_Avatar extends WP_UnitTestCase {
     /**
      * @ticket 21195
      */
-    public function test_pre_get_avatar_url_filter() {
+    public function test_pre_get_avatar_url_filter()
+    {
         $this->fake_url = 'haha wat';
 
         add_filter('pre_get_avatar_data', array($this, 'pre_get_avatar_url_filter'), 10, 1);
@@ -126,7 +134,8 @@ class Tests_Avatar extends WP_UnitTestCase {
 
         $this->assertSame($url, $this->fake_url);
     }
-    public function pre_get_avatar_url_filter($args) {
+    public function pre_get_avatar_url_filter($args)
+    {
         $args['url'] = $this->fake_url;
         return $args;
     }
@@ -134,7 +143,8 @@ class Tests_Avatar extends WP_UnitTestCase {
     /**
      * @ticket 21195
      */
-    public function test_get_avatar_url_filter() {
+    public function test_get_avatar_url_filter()
+    {
         $this->fake_url = 'omg lol';
 
         add_filter('get_avatar_url', array($this, 'get_avatar_url_filter'), 10, 1);
@@ -143,14 +153,16 @@ class Tests_Avatar extends WP_UnitTestCase {
 
         $this->assertSame($url, $this->fake_url);
     }
-    public function get_avatar_url_filter($url) {
+    public function get_avatar_url_filter($url)
+    {
         return $this->fake_url;
     }
 
     /**
      * @ticket 21195
      */
-    public function test_get_avatar_comment_types_filter() {
+    public function test_get_avatar_comment_types_filter()
+    {
         $url = get_avatar_url(1);
 
         $post_id    = self::factory()->post->create(array('post_author' => 1));
@@ -172,40 +184,47 @@ class Tests_Avatar extends WP_UnitTestCase {
 
         $this->assertSame($url, $url2);
     }
-    public function get_avatar_comment_types_filter($comment_types) {
+    public function get_avatar_comment_types_filter($comment_types)
+    {
         $comment_types[] = 'pingback';
         return $comment_types;
     }
 
-    public function test_get_avatar() {
+    public function test_get_avatar()
+    {
         $img = get_avatar(1);
         $this->assertSame(preg_match("|^<img alt='[^']*' src='[^']*' srcset='[^']*' class='[^']*' height='[^']*' width='[^']*' loading='lazy' decoding='async'/>$|", $img), 1);
     }
 
-    public function test_get_avatar_size() {
+    public function test_get_avatar_size()
+    {
         $size = '100';
         $img  = get_avatar(1, $size);
         $this->assertSame(preg_match("|^<img .*height='$size'.*width='$size'|", $img), 1);
     }
 
-    public function test_get_avatar_alt() {
+    public function test_get_avatar_alt()
+    {
         $alt = 'Mr Hyde';
         $img = get_avatar(1, 96, '', $alt);
         $this->assertSame(preg_match("|^<img alt='$alt'|", $img), 1);
     }
 
-    public function test_get_avatar_class() {
+    public function test_get_avatar_class()
+    {
         $class = 'first';
         $img   = get_avatar(1, 96, '', '', array('class' => $class));
         $this->assertSame(preg_match("|^<img .*class='[^']*{$class}[^']*'|", $img), 1);
     }
 
-    public function test_get_avatar_default_class() {
+    public function test_get_avatar_default_class()
+    {
         $img = get_avatar(1, 96, '', '', array('force_default' => true));
         $this->assertSame(preg_match("|^<img .*class='[^']*avatar-default[^']*'|", $img), 1);
     }
 
-    public function test_get_avatar_force_display() {
+    public function test_get_avatar_force_display()
+    {
         $old = get_option('show_avatars');
         update_option('show_avatars', false);
 
@@ -221,7 +240,8 @@ class Tests_Avatar extends WP_UnitTestCase {
     /**
      * @ticket 21195
      */
-    public function test_pre_get_avatar_filter() {
+    public function test_pre_get_avatar_filter()
+    {
         $this->fake_img = 'YOU TOO?!';
 
         add_filter('pre_get_avatar', array($this, 'pre_get_avatar_filter'), 10, 1);
@@ -230,14 +250,16 @@ class Tests_Avatar extends WP_UnitTestCase {
 
         $this->assertSame($img, $this->fake_img);
     }
-    public function pre_get_avatar_filter($img) {
+    public function pre_get_avatar_filter($img)
+    {
         return $this->fake_img;
     }
 
     /**
      * @ticket 21195
      */
-    public function test_get_avatar_filter() {
+    public function test_get_avatar_filter()
+    {
         $this->fake_url = 'YA RLY';
 
         add_filter('get_avatar', array($this, 'get_avatar_filter'), 10, 1);
@@ -246,7 +268,8 @@ class Tests_Avatar extends WP_UnitTestCase {
 
         $this->assertSame($img, $this->fake_url);
     }
-    public function get_avatar_filter($img) {
+    public function get_avatar_filter($img)
+    {
         return $this->fake_url;
     }
 
@@ -255,7 +278,8 @@ class Tests_Avatar extends WP_UnitTestCase {
      *
      * @ticket 44033
      */
-    public function test_get_avatar_data_should_return_gravatar_url_when_input_avatar_comment_type() {
+    public function test_get_avatar_data_should_return_gravatar_url_when_input_avatar_comment_type()
+    {
         $comment_type = 'comment';
         $comment      = self::factory()->comment->create_and_get(
             array(
@@ -275,7 +299,8 @@ class Tests_Avatar extends WP_UnitTestCase {
      *
      * @ticket 44033
      */
-    public function test_get_avatar_data_should_return_invalid_url_when_input_not_avatar_comment_type() {
+    public function test_get_avatar_data_should_return_invalid_url_when_input_not_avatar_comment_type()
+    {
         $comment_type = 'review';
         $comment      = self::factory()->comment->create_and_get(
             array(

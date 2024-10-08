@@ -5,12 +5,14 @@
  *
  * @covers ::wp_list_comments
  */
-class Tests_Comment_WpListComments extends WP_UnitTestCase {
+class Tests_Comment_WpListComments extends WP_UnitTestCase
+{
 
     /**
      * Performs setup tasks for every test.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         switch_theme('default');
     }
@@ -18,7 +20,8 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase {
     /**
      * @ticket 35175
      */
-    public function test_should_respect_page_param() {
+    public function test_should_respect_page_param()
+    {
         $p = self::factory()->post->create();
 
         $comments = array();
@@ -56,7 +59,8 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase {
     /**
      * @ticket 35175
      */
-    public function test_should_respect_per_page_param() {
+    public function test_should_respect_per_page_param()
+    {
         $p = self::factory()->post->create();
 
         $comments = array();
@@ -94,7 +98,8 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase {
     /**
      * @ticket 35175
      */
-    public function test_should_respect_reverse_top_level_param() {
+    public function test_should_respect_reverse_top_level_param()
+    {
         $p = self::factory()->post->create();
 
         $comments = array();
@@ -140,7 +145,8 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase {
      * @ticket 35356
      * @ticket 35175
      */
-    public function test_comments_param_should_be_respected_when_custom_pagination_params_are_passed() {
+    public function test_comments_param_should_be_respected_when_custom_pagination_params_are_passed()
+    {
         $p = self::factory()->post->create();
 
         $comments = array();
@@ -180,7 +186,8 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase {
     /**
      * @ticket 37048
      */
-    public function test_custom_pagination_should_not_result_in_unapproved_comments_being_shown() {
+    public function test_custom_pagination_should_not_result_in_unapproved_comments_being_shown()
+    {
         $p = self::factory()->post->create();
 
         $comments = array();
@@ -224,7 +231,8 @@ class Tests_Comment_WpListComments extends WP_UnitTestCase {
     /**
      * @ticket 37048
      */
-    public function test_custom_pagination_should_allow_ones_own_unapproved_comments() {
+    public function test_custom_pagination_should_allow_ones_own_unapproved_comments()
+    {
         $p = self::factory()->post->create();
         $u = self::factory()->user->create();
 

@@ -5,7 +5,8 @@
  * @group rewrite
  * @group query
  */
-class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
+class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
+{
 
     /**
      * User IDs.
@@ -21,7 +22,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      */
     public static $posts;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::setup_custom_types();
         self::$users = array(
             'anon'           => 0,
@@ -166,7 +168,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
         wp_trash_post(self::$posts['trash-page']->ID);
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         self::setup_custom_types();
     }
@@ -177,7 +180,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      * This needs to be called both in the class setup and
      * test setup.
      */
-    public static function setup_custom_types() {
+    public static function setup_custom_types()
+    {
         // Register public custom post type.
         register_post_type(
             'a-public-cpt',
@@ -223,7 +227,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      * @param string $expected  Expected URL.
      * @param string $enable_attachment_pages Whether to enable attachment pages. Default true.
      */
-    public function test_canonical_redirects_to_plain_permalinks($post_key, $user_role, $requested, $expected, $enable_attachment_pages = true) {
+    public function test_canonical_redirects_to_plain_permalinks($post_key, $user_role, $requested, $expected, $enable_attachment_pages = true)
+    {
         if ($enable_attachment_pages) {
             update_option('wp_attachment_pages_enabled', 1);
         } else {
@@ -250,7 +255,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_canonical_redirects_to_plain_permalinks() {
+    public function data_canonical_redirects_to_plain_permalinks()
+    {
         $data              = array();
         $all_user_list     = array('anon', 'subscriber', 'content_author', 'editor');
         $select_allow_list = array('content_author', 'editor');
@@ -849,7 +855,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      * @param string $expected  Expected URL.
      * @param string $enable_attachment_pages Whether to enable attachment pages. Default true.
      */
-    public function test_canonical_redirects_to_pretty_permalinks($post_key, $user_role, $requested, $expected, $enable_attachment_pages = true) {
+    public function test_canonical_redirects_to_pretty_permalinks($post_key, $user_role, $requested, $expected, $enable_attachment_pages = true)
+    {
         if ($enable_attachment_pages) {
             update_option('wp_attachment_pages_enabled', 1);
         } else {
@@ -881,7 +888,8 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase {
      *     @type string $expected  Expected URL.
      * }
      */
-    public function data_canonical_redirects_to_pretty_permalinks() {
+    public function data_canonical_redirects_to_pretty_permalinks()
+    {
         $data              = array();
         $all_user_list     = array('anon', 'subscriber', 'content_author', 'editor');
         $select_allow_list = array('content_author', 'editor');

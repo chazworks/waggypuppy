@@ -16,7 +16,8 @@
  * @see WP_Term_Query::__construct() for accepted arguments.
  */
 #[AllowDynamicProperties]
-class WP_Term_Query {
+class WP_Term_Query
+{
 
     /**
      * SQL string used to perform database query.
@@ -195,7 +196,8 @@ class WP_Term_Query {
      *                                                   See WP_Meta_Query::__construct() for accepted values.
      * }
      */
-    public function __construct($query = '') {
+    public function __construct($query = '')
+    {
         $this->query_var_defaults = array(
             'taxonomy'               => null,
             'object_ids'             => null,
@@ -243,7 +245,8 @@ class WP_Term_Query {
      *
      * @param string|array $query WP_Term_Query arguments. See WP_Term_Query::__construct() for accepted arguments.
      */
-    public function parse_query($query = '') {
+    public function parse_query($query = '')
+    {
         if (empty($query)) {
             $query = $this->query_vars;
         }
@@ -306,7 +309,8 @@ class WP_Term_Query {
      * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
      *                                         when 'count' is passed as a query var.
      */
-    public function query($query) {
+    public function query($query)
+    {
         $this->query_vars = wp_parse_args($query);
         return $this->get_terms();
     }
@@ -348,7 +352,8 @@ class WP_Term_Query {
      * @return WP_Term[]|int[]|string[]|string Array of terms, or number of terms as numeric string
      *                                         when 'count' is passed as a query var.
      */
-    public function get_terms() {
+    public function get_terms()
+    {
         global $wpdb;
 
         $this->parse_query($this->query_vars);
@@ -918,7 +923,8 @@ class WP_Term_Query {
      * @param string $orderby_raw Alias for the field to order by.
      * @return string|false Value to used in the ORDER clause. False otherwise.
      */
-    protected function parse_orderby($orderby_raw) {
+    protected function parse_orderby($orderby_raw)
+    {
         $_orderby           = strtolower($orderby_raw);
         $maybe_orderby_meta = false;
 
@@ -977,7 +983,8 @@ class WP_Term_Query {
      *
      * @return WP_Term[]|int[]|string[] Array of terms / strings / ints depending on field requested.
      */
-    protected function format_terms($term_objects, $_fields) {
+    protected function format_terms($term_objects, $_fields)
+    {
         $_terms = array();
         if ('id=>parent' === $_fields) {
             foreach ($term_objects as $term) {
@@ -1022,7 +1029,8 @@ class WP_Term_Query {
      * @param string $orderby_raw Raw 'orderby' value passed to WP_Term_Query.
      * @return string ORDER BY clause.
      */
-    protected function parse_orderby_meta($orderby_raw) {
+    protected function parse_orderby_meta($orderby_raw)
+    {
         $orderby = '';
 
         // Tell the meta query to generate its SQL, so we have access to table aliases.
@@ -1081,7 +1089,8 @@ class WP_Term_Query {
      * @param string $order The 'order' query variable.
      * @return string The sanitized 'order' query variable.
      */
-    protected function parse_order($order) {
+    protected function parse_order($order)
+    {
         if (! is_string($order) || empty($order)) {
             return 'DESC';
         }
@@ -1103,7 +1112,8 @@ class WP_Term_Query {
      * @param string $search Search string.
      * @return string Search SQL.
      */
-    protected function get_search_sql($search) {
+    protected function get_search_sql($search)
+    {
         global $wpdb;
 
         $like = '%' . $wpdb->esc_like($search) . '%';
@@ -1121,7 +1131,8 @@ class WP_Term_Query {
      * @param Object[]|int[] $terms List of objects or term ids.
      * @return WP_Term[] Array of `WP_Term` objects.
      */
-    protected function populate_terms($terms) {
+    protected function populate_terms($terms)
+    {
         $term_objects = array();
         if (! is_array($terms)) {
             return $term_objects;
@@ -1160,7 +1171,8 @@ class WP_Term_Query {
      *
      * @return string Cache key.
      */
-    protected function generate_cache_key(array $args, $sql) {
+    protected function generate_cache_key(array $args, $sql)
+    {
         global $wpdb;
         // $args can be anything. Only use the args defined in defaults to compute the key.
         $cache_args = wp_array_slice_assoc($args, array_keys($this->query_var_defaults));

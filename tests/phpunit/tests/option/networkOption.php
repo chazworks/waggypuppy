@@ -10,14 +10,16 @@
  * @group ms-option
  * @group multisite
  */
-class Tests_Option_NetworkOption extends WP_UnitTestCase {
+class Tests_Option_NetworkOption extends WP_UnitTestCase
+{
 
     /**
      * @group ms-required
      *
      * @covers ::add_site_option
      */
-    public function test_add_network_option_not_available_on_other_network() {
+    public function test_add_network_option_not_available_on_other_network()
+    {
         $id     = self::factory()->network->create();
         $option = __FUNCTION__;
         $value  = __FUNCTION__;
@@ -31,7 +33,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::add_network_option
      */
-    public function test_add_network_option_available_on_same_network() {
+    public function test_add_network_option_available_on_same_network()
+    {
         $id     = self::factory()->network->create();
         $option = __FUNCTION__;
         $value  = __FUNCTION__;
@@ -45,7 +48,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::delete_site_option
      */
-    public function test_delete_network_option_on_only_one_network() {
+    public function test_delete_network_option_on_only_one_network()
+    {
         $id     = self::factory()->network->create();
         $option = __FUNCTION__;
         $value  = __FUNCTION__;
@@ -64,7 +68,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::delete_network_option
      */
-    public function test_check_delete_network_option_updates_notoptions() {
+    public function test_check_delete_network_option_updates_notoptions()
+    {
         add_network_option(1, 'foo', 'value1');
 
         delete_network_option(1, 'foo');
@@ -92,7 +97,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::add_network_option
      */
-    public function test_add_network_option_is_not_stored_as_autoload_option() {
+    public function test_add_network_option_is_not_stored_as_autoload_option()
+    {
         $key = __FUNCTION__;
 
         add_network_option(null, $key, 'Not an autoload option');
@@ -108,7 +114,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::update_network_option
      */
-    public function test_update_network_option_is_not_stored_as_autoload_option() {
+    public function test_update_network_option_is_not_stored_as_autoload_option()
+    {
         $key = __FUNCTION__;
 
         update_network_option(null, $key, 'Not an autoload option');
@@ -126,7 +133,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::add_network_option
      */
-    public function test_add_network_option_network_id_parameter($network_id, $expected_response) {
+    public function test_add_network_option_network_id_parameter($network_id, $expected_response)
+    {
         $option = rand_str();
         $value  = rand_str();
 
@@ -141,13 +149,15 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::get_network_option
      */
-    public function test_get_network_option_network_id_parameter($network_id, $expected_response) {
+    public function test_get_network_option_network_id_parameter($network_id, $expected_response)
+    {
         $option = rand_str();
 
         $this->assertSame($expected_response, get_network_option($network_id, $option, true));
     }
 
-    public function data_network_id_parameter() {
+    public function data_network_id_parameter()
+    {
         return array(
             // Numeric values should always be accepted.
             array(1, true),
@@ -174,7 +184,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      * @covers ::wp_cache_get
      * @covers ::wp_cache_delete
      */
-    public function test_get_network_option_sets_notoptions_if_option_found() {
+    public function test_get_network_option_sets_notoptions_if_option_found()
+    {
         $network_id     = get_current_network_id();
         $notoptions_key = "$network_id:notoptions";
 
@@ -201,7 +212,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      * @covers ::get_network_option
      * @covers ::wp_cache_get
      */
-    public function test_get_network_option_sets_notoptions_if_option_not_found() {
+    public function test_get_network_option_sets_notoptions_if_option_not_found()
+    {
         $network_id     = get_current_network_id();
         $notoptions_key = "$network_id:notoptions";
 
@@ -228,7 +240,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::update_network_option
      */
-    public function test_update_network_option_array_with_object() {
+    public function test_update_network_option_array_with_object()
+    {
         $array_w_object = array(
             'url'       => 'http://src.wordpress-develop.dev/wp-content/uploads/2016/10/cropped-Blurry-Lights.jpg',
             'meta_data' => (object) array(
@@ -266,7 +279,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::update_network_option
      */
-    public function test_update_network_option_clears_the_notoptions_cache() {
+    public function test_update_network_option_clears_the_notoptions_cache()
+    {
         $option_name = 'ticket_61484_option_to_be_created';
         $cache_key   = is_multisite() ? '1:notoptions' : 'notoptions';
         $cache_group = is_multisite() ? 'site-options' : 'options';
@@ -291,7 +305,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::add_network_option
      */
-    public function test_add_network_option_clears_the_notoptions_cache() {
+    public function test_add_network_option_clears_the_notoptions_cache()
+    {
         $option_name = 'ticket_61484_option_to_be_created';
         $cache_key   = is_multisite() ? '1:notoptions' : 'notoptions';
         $cache_group = is_multisite() ? 'site-options' : 'options';
@@ -317,7 +332,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      * @covers ::add_network_option
      * @covers ::delete_network_option
      */
-    public function test_adding_previous_notoption_returns_correct_value() {
+    public function test_adding_previous_notoption_returns_correct_value()
+    {
         $option_name = 'ticket_61730_option_to_be_created';
 
         add_network_option(1, $option_name, 'baz');
@@ -338,7 +354,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::get_network_option
      */
-    public function test_get_network_option_does_not_use_network_notoptions_cache_for_single_sites() {
+    public function test_get_network_option_does_not_use_network_notoptions_cache_for_single_sites()
+    {
         get_network_option(1, 'ticket_61730_notoption');
 
         $network_notoptions_cache     = wp_cache_get('1:notoptions', 'site-options');
@@ -359,7 +376,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::delete_network_option
      */
-    public function test_delete_network_option_does_not_use_network_notoptions_cache_for_single_sites() {
+    public function test_delete_network_option_does_not_use_network_notoptions_cache_for_single_sites()
+    {
         add_network_option(1, 'ticket_61730_notoption', 'value');
         delete_network_option(1, 'ticket_61730_notoption');
 
@@ -380,7 +398,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::get_network_option
      */
-    public function test_get_network_option_does_not_use_single_site_notoptions_cache_for_networks() {
+    public function test_get_network_option_does_not_use_single_site_notoptions_cache_for_networks()
+    {
         get_network_option(1, 'ticket_61730_notoption');
 
         $network_notoptions_cache     = wp_cache_get('1:notoptions', 'site-options');
@@ -401,7 +420,8 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase {
      *
      * @covers ::delete_network_option
      */
-    public function test_delete_network_option_does_not_use_single_site_notoptions_cache_for_networks() {
+    public function test_delete_network_option_does_not_use_single_site_notoptions_cache_for_networks()
+    {
         add_network_option(1, 'ticket_61730_notoption', 'value');
         delete_network_option(1, 'ticket_61730_notoption');
 

@@ -6,7 +6,8 @@
  *
  * @covers ::wp_set_option_autoload
  */
-class Tests_Option_WpSetOptionAutoload extends WP_UnitTestCase {
+class Tests_Option_WpSetOptionAutoload extends WP_UnitTestCase
+{
 
     /**
      * Tests that setting an option's autoload value to 'yes' works as expected.
@@ -15,7 +16,8 @@ class Tests_Option_WpSetOptionAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_yes() {
+    public function test_wp_set_option_autoload_yes()
+    {
         global $wpdb;
 
         $option = 'test_option';
@@ -36,7 +38,8 @@ class Tests_Option_WpSetOptionAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_no() {
+    public function test_wp_set_option_autoload_no()
+    {
         global $wpdb;
 
         $option = 'test_option';
@@ -54,7 +57,8 @@ class Tests_Option_WpSetOptionAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_same() {
+    public function test_wp_set_option_autoload_same()
+    {
         global $wpdb;
 
         $option = 'test_option';
@@ -71,7 +75,8 @@ class Tests_Option_WpSetOptionAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_missing() {
+    public function test_wp_set_option_autoload_missing()
+    {
         global $wpdb;
 
         $option = 'test_option';
@@ -87,7 +92,8 @@ class Tests_Option_WpSetOptionAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_true() {
+    public function test_wp_set_option_autoload_true()
+    {
         global $wpdb;
 
         $option = 'test_option';
@@ -104,7 +110,8 @@ class Tests_Option_WpSetOptionAutoload extends WP_UnitTestCase {
      *
      * @ticket 58964
      */
-    public function test_wp_set_option_autoload_false() {
+    public function test_wp_set_option_autoload_false()
+    {
         global $wpdb;
 
         $option = 'test_option';

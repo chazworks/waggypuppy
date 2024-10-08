@@ -1,6 +1,7 @@
 <?php
 
-abstract class WP_Test_REST_TestCase extends WP_UnitTestCase {
+abstract class WP_Test_REST_TestCase extends WP_UnitTestCase
+{
 
     /**
      * Asserts that the REST API response has the specified error.
@@ -13,7 +14,8 @@ abstract class WP_Test_REST_TestCase extends WP_UnitTestCase {
      * @param int                       $status   Optional. Status code.
      * @param string                    $message  Optional. Message to display when the assertion fails.
      */
-    protected function assertErrorResponse($code, $response, $status = null, $message = '') {
+    protected function assertErrorResponse($code, $response, $status = null, $message = '')
+    {
 
         if ($response instanceof WP_REST_Response) {
             $response = $response->as_error();

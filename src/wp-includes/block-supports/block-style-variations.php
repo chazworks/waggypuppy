@@ -16,7 +16,8 @@
  *
  * @return array|null The block style variation name if found.
  */
-function wp_get_block_style_variation_name_from_class($class_string) {
+function wp_get_block_style_variation_name_from_class($class_string)
+{
     if (! is_string($class_string)) {
         return null;
     }
@@ -34,7 +35,8 @@ function wp_get_block_style_variation_name_from_class($class_string) {
  * @param array $variation_data Reference to the variation data being processed.
  * @param array $theme_json     Theme.json data to retrieve referenced values from.
  */
-function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_json) {
+function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_json)
+{
     foreach ($variation_data as $key => &$value) {
         // Only need to potentially process arrays.
         if (is_array($value)) {
@@ -78,7 +80,8 @@ function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_js
  *
  * @return array The parsed block with block style variation classname added.
  */
-function wp_render_block_style_variation_support_styles($parsed_block) {
+function wp_render_block_style_variation_support_styles($parsed_block)
+{
     $classes    = $parsed_block['attrs']['className'] ?? null;
     $variations = wp_get_block_style_variation_name_from_class($classes);
 
@@ -208,7 +211,8 @@ function wp_render_block_style_variation_support_styles($parsed_block) {
  *
  * @return string                Filtered block content.
  */
-function wp_render_block_style_variation_class_name($block_content, $block) {
+function wp_render_block_style_variation_class_name($block_content, $block)
+{
     if (! $block_content || empty($block['attrs']['className'])) {
         return $block_content;
     }
@@ -243,7 +247,8 @@ function wp_render_block_style_variation_class_name($block_content, $block) {
  * @since 6.6.0
  * @access private
  */
-function wp_enqueue_block_style_variation_styles() {
+function wp_enqueue_block_style_variation_styles()
+{
     wp_enqueue_style('block-style-variation-styles');
 }
 
@@ -262,7 +267,8 @@ add_action('wp_enqueue_scripts', 'wp_enqueue_block_style_variation_styles', 1);
  *
  * @param array $variations Shared block style variations.
  */
-function wp_register_block_style_variations_from_theme_json_partials($variations) {
+function wp_register_block_style_variations_from_theme_json_partials($variations)
+{
     if (empty($variations)) {
         return;
     }

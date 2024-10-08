@@ -21,7 +21,8 @@
  * @see IXR_Server
  */
 #[AllowDynamicProperties]
-class wp_xmlrpc_server extends IXR_Server {
+class wp_xmlrpc_server extends IXR_Server
+{
     /**
      * Methods.
      *
@@ -66,7 +67,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *
      * @since 1.5.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->methods = array(
             // WordPress API.
             'wp.getUsersBlogs'                 => 'this:wp_getUsersBlogs',
@@ -186,7 +188,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *
      * @since 5.7.3
      */
-    private function set_is_enabled() {
+    private function set_is_enabled()
+    {
         /*
          * Respect old get_option() filters left for back-compat when the 'enable_xmlrpc'
          * option was deprecated in 3.5.0. Use the {@see 'xmlrpc_enabled'} hook instead.
@@ -230,7 +233,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array  $arguments Arguments to pass when calling.
      * @return array|IXR_Error|false Return value of the callback, false otherwise.
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if ('_multisite_getUsersBlogs' === $name) {
             return $this->_multisite_getUsersBlogs(...$arguments);
         }
@@ -242,7 +246,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *
      * @since 2.9.0
      */
-    public function serve_request() {
+    public function serve_request()
+    {
         $this->IXR_Server($this->methods);
     }
 
@@ -253,7 +258,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *
      * @return string Hello string response.
      */
-    public function sayHello() {
+    public function sayHello()
+    {
         return 'Hello!';
     }
 
@@ -270,7 +276,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int Sum of the two given numbers.
      */
-    public function addTwoNumbers($args) {
+    public function addTwoNumbers($args)
+    {
         $number1 = $args[0];
         $number2 = $args[1];
         return $number1 + $number2;
@@ -285,7 +292,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param string $password User's password.
      * @return WP_User|false WP_User object if authentication passed, false otherwise.
      */
-    public function login($username, $password) {
+    public function login($username, $password)
+    {
         if (! $this->is_enabled) {
             $this->error = new IXR_Error(405, sprintf(__('XML-RPC services are disabled on this site.')));
             return false;
@@ -330,7 +338,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param string $password User's password.
      * @return bool Whether authentication passed.
      */
-    public function login_pass_ok($username, $password) {
+    public function login_pass_ok($username, $password)
+    {
         return (bool) $this->login($username, $password);
     }
 
@@ -343,7 +352,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @return string|void Returns with string is passed, alters by-reference
      *                     when array is passed.
      */
-    public function escape(&$data) {
+    public function escape(&$data)
+    {
         if (! is_array($data)) {
             return wp_slash($data);
         }
@@ -368,7 +378,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param IXR_Error|string $error   Error code or an error object.
      * @param false            $message Error message. Optional.
      */
-    public function error($error, $message = false) {
+    public function error($error, $message = false)
+    {
         // Accepts either an error object or an error code and message
         if ($message && ! is_object($error)) {
             $error = new IXR_Error($error, $message);
@@ -389,7 +400,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int $post_id Post ID.
      * @return array Custom fields, if exist.
      */
-    public function get_custom_fields($post_id) {
+    public function get_custom_fields($post_id)
+    {
         $post_id = (int) $post_id;
 
         $custom_fields = array();
@@ -418,7 +430,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int   $post_id Post ID.
      * @param array $fields  Custom fields.
      */
-    public function set_custom_fields($post_id, $fields) {
+    public function set_custom_fields($post_id, $fields)
+    {
         $post_id = (int) $post_id;
 
         foreach ((array) $fields as $meta) {
@@ -456,7 +469,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int $term_id Term ID.
      * @return array Array of custom fields, if they exist.
      */
-    public function get_term_custom_fields($term_id) {
+    public function get_term_custom_fields($term_id)
+    {
         $term_id = (int) $term_id;
 
         $custom_fields = array();
@@ -485,7 +499,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int   $term_id Term ID.
      * @param array $fields  Custom fields.
      */
-    public function set_term_custom_fields($term_id, $fields) {
+    public function set_term_custom_fields($term_id, $fields)
+    {
         $term_id = (int) $term_id;
 
         foreach ((array) $fields as $meta) {
@@ -517,7 +532,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *
      * @since 2.6.0
      */
-    public function initialise_blog_option_info() {
+    public function initialise_blog_option_info()
+    {
         $this->blog_options = array(
             // Read-only options.
             'software_name'           => array(
@@ -698,7 +714,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *  - 'blogName'
      *  - 'xmlrpc' - url of xmlrpc endpoint
      */
-    public function wp_getUsersBlogs($args) {
+    public function wp_getUsersBlogs($args)
+    {
         if (! $this->minimum_args($args, 2)) {
             return $this->error;
         }
@@ -780,7 +797,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int   $count Minimum number of arguments.
      * @return bool True if `$args` contains at least `$count` arguments, false otherwise.
      */
-    protected function minimum_args($args, $count) {
+    protected function minimum_args($args, $count)
+    {
         if (! is_array($args) || count($args) < $count) {
             $this->error = new IXR_Error(400, __('Insufficient arguments passed to this XML-RPC method.'));
             return false;
@@ -796,7 +814,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array       $fields   The subset of taxonomy fields to return.
      * @return array The prepared taxonomy data.
      */
-    protected function _prepare_taxonomy($taxonomy, $fields) {
+    protected function _prepare_taxonomy($taxonomy, $fields)
+    {
         $_taxonomy = array(
             'name'         => $taxonomy->name,
             'label'        => $taxonomy->label,
@@ -840,7 +859,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array|object $term The unprepared term data.
      * @return array The prepared term data.
      */
-    protected function _prepare_term($term) {
+    protected function _prepare_term($term)
+    {
         $_term = $term;
         if (! is_array($_term)) {
             $_term = get_object_vars($_term);
@@ -875,7 +895,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param string $date Date string to convert.
      * @return IXR_Date IXR_Date object.
      */
-    protected function _convert_date($date) {
+    protected function _convert_date($date)
+    {
         if ('0000-00-00 00:00:00' === $date) {
             return new IXR_Date('00000000T00:00:00Z');
         }
@@ -889,7 +910,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param string $date     Date string.
      * @return IXR_Date IXR_Date object.
      */
-    protected function _convert_date_gmt($date_gmt, $date) {
+    protected function _convert_date_gmt($date_gmt, $date)
+    {
         if ('0000-00-00 00:00:00' !== $date && '0000-00-00 00:00:00' === $date_gmt) {
             return new IXR_Date(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $date, false), 'Ymd\TH:i:s'));
         }
@@ -903,7 +925,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array $fields The subset of post type fields to return.
      * @return array The prepared post data.
      */
-    protected function _prepare_post($post, $fields) {
+    protected function _prepare_post($post, $fields)
+    {
         // Holds the data for this post. built up based on $fields.
         $_post = array('post_id' => (string) $post['ID']);
 
@@ -1006,7 +1029,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array        $fields    The subset of post fields to return.
      * @return array The prepared post type data.
      */
-    protected function _prepare_post_type($post_type, $fields) {
+    protected function _prepare_post_type($post_type, $fields)
+    {
         $_post_type = array(
             'name'         => $post_type->name,
             'label'        => $post_type->label,
@@ -1056,7 +1080,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param string  $thumbnail_size The image size to use for the thumbnail URL.
      * @return array The prepared media item data.
      */
-    protected function _prepare_media_item($media_item, $thumbnail_size = 'thumbnail') {
+    protected function _prepare_media_item($media_item, $thumbnail_size = 'thumbnail')
+    {
         $_media_item = array(
             'attachment_id'    => (string) $media_item->ID,
             'date_created_gmt' => $this->_convert_date_gmt($media_item->post_date_gmt, $media_item->post_date),
@@ -1095,7 +1120,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param WP_Post $page The unprepared page data.
      * @return array The prepared page data.
      */
-    protected function _prepare_page($page) {
+    protected function _prepare_page($page)
+    {
         // Get all of the page content and link.
         $full_page = get_extended($page->post_content);
         $link      = get_permalink($page->ID);
@@ -1175,7 +1201,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param WP_Comment $comment The unprepared comment data.
      * @return array The prepared comment data.
      */
-    protected function _prepare_comment($comment) {
+    protected function _prepare_comment($comment)
+    {
         // Format page date.
         $comment_date_gmt = $this->_convert_date_gmt($comment->comment_date_gmt, $comment->comment_date);
 
@@ -1223,7 +1250,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array   $fields The subset of user fields to return.
      * @return array The prepared user data.
      */
-    protected function _prepare_user($user, $fields) {
+    protected function _prepare_user($user, $fields)
+    {
         $_user = array('user_id' => (string) $user->ID);
 
         $user_fields = array(
@@ -1310,7 +1338,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int|IXR_Error Post ID on success, IXR_Error instance otherwise.
      */
-    public function wp_newPost($args) {
+    public function wp_newPost($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -1359,7 +1388,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int $count Number to compare to one.
      * @return bool True if the number is greater than one, false otherwise.
      */
-    private function _is_greater_than_one($count) {
+    private function _is_greater_than_one($count)
+    {
         return $count > 1;
     }
 
@@ -1373,7 +1403,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param bool  $update
      * @return void|IXR_Error
      */
-    private function _toggle_sticky($post_data, $update = false) {
+    private function _toggle_sticky($post_data, $update = false)
+    {
         $post_type = get_post_type_object($post_data['post_type']);
 
         // Private and password-protected posts cannot be stickied.
@@ -1411,7 +1442,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array|IXR_Error $content_struct Post data to insert.
      * @return IXR_Error|string
      */
-    protected function _insert_post($user, $content_struct) {
+    protected function _insert_post($user, $content_struct)
+    {
         $defaults = array(
             'post_status'    => 'draft',
             'post_type'      => 'post',
@@ -1727,7 +1759,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True on success, IXR_Error on failure.
      */
-    public function wp_editPost($args) {
+    public function wp_editPost($args)
+    {
         if (! $this->minimum_args($args, 5)) {
             return $this->error;
         }
@@ -1811,7 +1844,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True on success, IXR_Error instance on failure.
      */
-    public function wp_deletePost($args) {
+    public function wp_deletePost($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -1897,7 +1931,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *  - 'tags'
      *  - 'enclosure'
      */
-    public function wp_getPost($args) {
+    public function wp_getPost($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -1966,7 +2001,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error Array containing a collection of posts.
      */
-    public function wp_getPosts($args) {
+    public function wp_getPosts($args)
+    {
         if (! $this->minimum_args($args, 3)) {
             return $this->error;
         }
@@ -2072,7 +2108,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int|IXR_Error The term ID on success, or an IXR_Error object on failure.
      */
-    public function wp_newTerm($args) {
+    public function wp_newTerm($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -2176,7 +2213,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True on success, IXR_Error instance on failure.
      */
-    public function wp_editTerm($args) {
+    public function wp_editTerm($args)
+    {
         if (! $this->minimum_args($args, 5)) {
             return $this->error;
         }
@@ -2292,7 +2330,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True on success, IXR_Error instance on failure.
      */
-    public function wp_deleteTerm($args) {
+    public function wp_deleteTerm($args)
+    {
         if (! $this->minimum_args($args, 5)) {
             return $this->error;
         }
@@ -2371,7 +2410,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *  - 'parent'
      *  - 'count'
      */
-    public function wp_getTerm($args) {
+    public function wp_getTerm($args)
+    {
         if (! $this->minimum_args($args, 5)) {
             return $this->error;
         }
@@ -2436,7 +2476,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error An associative array of terms data on success, IXR_Error instance otherwise.
      */
-    public function wp_getTerms($args) {
+    public function wp_getTerms($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -2529,7 +2570,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error An array of taxonomy data on success, IXR_Error instance otherwise.
      */
-    public function wp_getTaxonomy($args) {
+    public function wp_getTaxonomy($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -2595,7 +2637,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @return array|IXR_Error An associative array of taxonomy data with returned fields determined
      *                         by `$fields`, or an IXR_Error instance on failure.
      */
-    public function wp_getTaxonomies($args) {
+    public function wp_getTaxonomies($args)
+    {
         if (! $this->minimum_args($args, 3)) {
             return $this->error;
         }
@@ -2674,7 +2717,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *  - 'display_name'
      *  - 'roles'
      */
-    public function wp_getUser($args) {
+    public function wp_getUser($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -2744,7 +2788,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error users data
      */
-    public function wp_getUsers($args) {
+    public function wp_getUsers($args)
+    {
         if (! $this->minimum_args($args, 3)) {
             return $this->error;
         }
@@ -2825,7 +2870,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error (@see wp_getUser)
      */
-    public function wp_getProfile($args) {
+    public function wp_getProfile($args)
+    {
         if (! $this->minimum_args($args, 3)) {
             return $this->error;
         }
@@ -2881,7 +2927,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True, on success.
      */
-    public function wp_editProfile($args) {
+    public function wp_editProfile($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -2965,7 +3012,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getPage($args) {
+    public function wp_getPage($args)
+    {
         $this->escape($args);
 
         $page_id  = (int) $args[1];
@@ -3013,7 +3061,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getPages($args) {
+    public function wp_getPages($args)
+    {
         $this->escape($args);
 
         $username  = $args[1];
@@ -3074,7 +3123,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int|IXR_Error
      */
-    public function wp_newPage($args) {
+    public function wp_newPage($args)
+    {
         // Items not escaped here will be escaped in wp_newPost().
         $username = $this->escape($args[1]);
         $password = $this->escape($args[2]);
@@ -3109,7 +3159,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True, if success.
      */
-    public function wp_deletePage($args) {
+    public function wp_deletePage($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -3174,7 +3225,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_editPage($args) {
+    public function wp_editPage($args)
+    {
         // Items will be escaped in mw_editPost().
         $page_id  = (int) $args[1];
         $username = $args[2];
@@ -3236,7 +3288,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getPageList($args) {
+    public function wp_getPageList($args)
+    {
         global $wpdb;
 
         $this->escape($args);
@@ -3299,7 +3352,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getAuthors($args) {
+    public function wp_getAuthors($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -3343,7 +3397,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getTags($args) {
+    public function wp_getTags($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -3396,7 +3451,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int|IXR_Error Category ID.
      */
-    public function wp_newCategory($args) {
+    public function wp_newCategory($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -3483,7 +3539,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return bool|IXR_Error See wp_delete_term() for return info.
      */
-    public function wp_deleteCategory($args) {
+    public function wp_deleteCategory($args)
+    {
         $this->escape($args);
 
         $username    = $args[1];
@@ -3535,7 +3592,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_suggestCategories($args) {
+    public function wp_suggestCategories($args)
+    {
         $this->escape($args);
 
         $username    = $args[1];
@@ -3586,7 +3644,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getComment($args) {
+    public function wp_getComment($args)
+    {
         $this->escape($args);
 
         $username   = $args[1];
@@ -3642,7 +3701,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *                         See wp_xmlrpc_server::wp_getComment() for a description
      *                         of each item contents.
      */
-    public function wp_getComments($args) {
+    public function wp_getComments($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -3729,7 +3789,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return bool|IXR_Error See wp_delete_comment().
      */
-    public function wp_deleteComment($args) {
+    public function wp_deleteComment($args)
+    {
         $this->escape($args);
 
         $username   = $args[1];
@@ -3796,7 +3857,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True, on success.
      */
-    public function wp_editComment($args) {
+    public function wp_editComment($args)
+    {
         $this->escape($args);
 
         $username       = $args[1];
@@ -3896,7 +3958,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int|IXR_Error See wp_new_comment().
      */
-    public function wp_newComment($args) {
+    public function wp_newComment($args)
+    {
         $this->escape($args);
 
         $username       = $args[1];
@@ -4047,7 +4110,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getCommentStatusList($args) {
+    public function wp_getCommentStatusList($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4083,7 +4147,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getCommentCount($args) {
+    public function wp_getCommentCount($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4131,7 +4196,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getPostStatusList($args) {
+    public function wp_getPostStatusList($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4166,7 +4232,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getPageStatusList($args) {
+    public function wp_getPageStatusList($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4201,7 +4268,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getPageTemplates($args) {
+    public function wp_getPageTemplates($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4237,7 +4305,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getOptions($args) {
+    public function wp_getOptions($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4265,7 +4334,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array $options Options to retrieve.
      * @return array
      */
-    public function _getOptions($options) {
+    public function _getOptions($options)
+    {
         $data       = array();
         $can_manage = current_user_can('manage_options');
         foreach ($options as $option) {
@@ -4301,7 +4371,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_setOptions($args) {
+    public function wp_setOptions($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4358,7 +4429,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *  - 'description'
      *  - 'metadata'
      */
-    public function wp_getMediaItem($args) {
+    public function wp_getMediaItem($args)
+    {
         $this->escape($args);
 
         $username      = $args[1];
@@ -4414,7 +4486,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *                         See wp_xmlrpc_server::wp_getMediaItem() for a description
      *                         of each item contents.
      */
-    public function wp_getMediaLibrary($args) {
+    public function wp_getMediaLibrary($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4471,7 +4544,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error List of post formats, otherwise IXR_Error object.
      */
-    public function wp_getPostFormats($args) {
+    public function wp_getPostFormats($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4536,7 +4610,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *  - 'taxonomies'
      *  - 'supports'
      */
-    public function wp_getPostType($args) {
+    public function wp_getPostType($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -4601,7 +4676,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function wp_getPostTypes($args) {
+    public function wp_getPostTypes($args)
+    {
         if (! $this->minimum_args($args, 3)) {
             return $this->error;
         }
@@ -4664,7 +4740,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error Array containing a collection of posts.
      */
-    public function wp_getRevisions($args) {
+    public function wp_getRevisions($args)
+    {
         if (! $this->minimum_args($args, 4)) {
             return $this->error;
         }
@@ -4753,7 +4830,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return bool|IXR_Error false if there was an error restoring, true if success.
      */
-    public function wp_restoreRevision($args) {
+    public function wp_restoreRevision($args)
+    {
         if (! $this->minimum_args($args, 3)) {
             return $this->error;
         }
@@ -4821,7 +4899,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function blogger_getUsersBlogs($args) {
+    public function blogger_getUsersBlogs($args)
+    {
         if (! $this->minimum_args($args, 3)) {
             return $this->error;
         }
@@ -4870,7 +4949,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    protected function _multisite_getUsersBlogs($args) {
+    protected function _multisite_getUsersBlogs($args)
+    {
         $current_blog = get_site();
 
         $domain = $current_blog->domain;
@@ -4909,7 +4989,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function blogger_getUserInfo($args) {
+    public function blogger_getUserInfo($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -4953,7 +5034,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function blogger_getPost($args) {
+    public function blogger_getPost($args)
+    {
         $this->escape($args);
 
         $post_id  = (int) $args[1];
@@ -5009,7 +5091,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function blogger_getRecentPosts($args) {
+    public function blogger_getRecentPosts($args)
+    {
 
         $this->escape($args);
 
@@ -5074,7 +5157,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array $args Unused.
      * @return IXR_Error Error object.
      */
-    public function blogger_getTemplate($args) {
+    public function blogger_getTemplate($args)
+    {
         return new IXR_Error(403, __('Sorry, this method is not supported.'));
     }
 
@@ -5087,7 +5171,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param array $args Unused.
      * @return IXR_Error Error object.
      */
-    public function blogger_setTemplate($args) {
+    public function blogger_setTemplate($args)
+    {
         return new IXR_Error(403, __('Sorry, this method is not supported.'));
     }
 
@@ -5108,7 +5193,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int|IXR_Error
      */
-    public function blogger_newPost($args) {
+    public function blogger_newPost($args)
+    {
         $this->escape($args);
 
         $username = $args[2];
@@ -5183,7 +5269,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error true when done.
      */
-    public function blogger_editPost($args) {
+    public function blogger_editPost($args)
+    {
 
         $this->escape($args);
 
@@ -5260,7 +5347,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True when post is deleted.
      */
-    public function blogger_deletePost($args) {
+    public function blogger_deletePost($args)
+    {
         $this->escape($args);
 
         $post_id  = (int) $args[1];
@@ -5347,7 +5435,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int|IXR_Error
      */
-    public function mw_newPost($args) {
+    public function mw_newPost($args)
+    {
         $this->escape($args);
 
         $username       = $args[1];
@@ -5663,7 +5752,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int   $post_id   Post ID.
      * @param array $enclosure Enclosure data.
      */
-    public function add_enclosure_if_new($post_id, $enclosure) {
+    public function add_enclosure_if_new($post_id, $enclosure)
+    {
         if (is_array($enclosure) && isset($enclosure['url']) && isset($enclosure['length']) && isset($enclosure['type'])) {
             $encstring  = $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] . "\n";
             $found      = false;
@@ -5693,7 +5783,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int    $post_id      Post ID.
      * @param string $post_content Post Content for attachment.
      */
-    public function attach_uploads($post_id, $post_content) {
+    public function attach_uploads($post_id, $post_content)
+    {
         global $wpdb;
 
         // Find any unattached files.
@@ -5723,7 +5814,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True on success.
      */
-    public function mw_editPost($args) {
+    public function mw_editPost($args)
+    {
         $this->escape($args);
 
         $post_id        = (int) $args[0];
@@ -6053,7 +6145,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function mw_getPost($args) {
+    public function mw_getPost($args)
+    {
         $this->escape($args);
 
         $post_id  = (int) $args[0];
@@ -6195,7 +6288,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function mw_getRecentPosts($args) {
+    public function mw_getRecentPosts($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -6321,7 +6415,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function mw_getCategories($args) {
+    public function mw_getCategories($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -6379,7 +6474,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function mw_newMediaObject($args) {
+    public function mw_newMediaObject($args)
+    {
         $username = $this->escape($args[1]);
         $password = $this->escape($args[2]);
         $data     = $args[3];
@@ -6496,7 +6592,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function mt_getRecentPostTitles($args) {
+    public function mt_getRecentPostTitles($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -6559,7 +6656,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function mt_getCategoryList($args) {
+    public function mt_getCategoryList($args)
+    {
         $this->escape($args);
 
         $username = $args[1];
@@ -6612,7 +6710,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return array|IXR_Error
      */
-    public function mt_getPostCategories($args) {
+    public function mt_getPostCategories($args)
+    {
         $this->escape($args);
 
         $post_id  = (int) $args[0];
@@ -6666,7 +6765,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return true|IXR_Error True on success.
      */
-    public function mt_setPostCategories($args) {
+    public function mt_setPostCategories($args)
+    {
         $this->escape($args);
 
         $post_id    = (int) $args[0];
@@ -6707,7 +6807,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *
      * @return array
      */
-    public function mt_supportedMethods() {
+    public function mt_supportedMethods()
+    {
         /** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
         do_action('xmlrpc_call', 'mt.supportedMethods', array(), $this);
 
@@ -6719,7 +6820,8 @@ class wp_xmlrpc_server extends IXR_Server {
      *
      * @since 1.5.0
      */
-    public function mt_supportedTextFilters() {
+    public function mt_supportedTextFilters()
+    {
         /** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
         do_action('xmlrpc_call', 'mt.supportedTextFilters', array(), $this);
 
@@ -6743,7 +6845,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param int $post_id
      * @return array|IXR_Error
      */
-    public function mt_getTrackbackPings($post_id) {
+    public function mt_getTrackbackPings($post_id)
+    {
         global $wpdb;
 
         /** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
@@ -6791,7 +6894,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return int|IXR_Error
      */
-    public function mt_publishPost($args) {
+    public function mt_publishPost($args)
+    {
         $this->escape($args);
 
         $post_id  = (int) $args[0];
@@ -6844,7 +6948,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * }
      * @return string|IXR_Error
      */
-    public function pingback_ping($args) {
+    public function pingback_ping($args)
+    {
         global $wpdb;
 
         /** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
@@ -7100,7 +7205,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param string $url
      * @return array|IXR_Error
      */
-    public function pingback_extensions_getPingbacks($url) {
+    public function pingback_extensions_getPingbacks($url)
+    {
         global $wpdb;
 
         /** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
@@ -7146,7 +7252,8 @@ class wp_xmlrpc_server extends IXR_Server {
      * @param string $message Error message.
      * @return IXR_Error Error object.
      */
-    protected function pingback_error($code, $message) {
+    protected function pingback_error($code, $message)
+    {
         /**
          * Filters the XML-RPC pingback error return.
          *

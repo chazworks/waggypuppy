@@ -14,7 +14,8 @@
  * @global array $wp_importers
  * @return array
  */
-function get_importers() {
+function get_importers()
+{
     global $wp_importers;
     if (is_array($wp_importers)) {
         uasort($wp_importers, '_usort_by_first_member');
@@ -34,7 +35,8 @@ function get_importers() {
  * @param array $b
  * @return int
  */
-function _usort_by_first_member($a, $b) {
+function _usort_by_first_member($a, $b)
+{
     return strnatcasecmp($a[0], $b[0]);
 }
 
@@ -51,7 +53,8 @@ function _usort_by_first_member($a, $b) {
  * @param callable $callback    Callback to run.
  * @return void|WP_Error Void on success. WP_Error when $callback is WP_Error.
  */
-function register_importer($id, $name, $description, $callback) {
+function register_importer($id, $name, $description, $callback)
+{
     global $wp_importers;
     if (is_wp_error($callback)) {
         return $callback;
@@ -68,7 +71,8 @@ function register_importer($id, $name, $description, $callback) {
  *
  * @param string $id Importer ID.
  */
-function wp_import_cleanup($id) {
+function wp_import_cleanup($id)
+{
     wp_delete_attachment($id);
 }
 
@@ -79,7 +83,8 @@ function wp_import_cleanup($id) {
  *
  * @return array Uploaded file's details on success, error message on failure.
  */
-function wp_import_handle_upload() {
+function wp_import_handle_upload()
+{
     if (! isset($_FILES['import'])) {
         return array(
             'error' => sprintf(
@@ -135,7 +140,8 @@ function wp_import_handle_upload() {
  *
  * @return array Importers with metadata for each.
  */
-function wp_get_popular_importers() {
+function wp_get_popular_importers()
+{
     $locale            = get_user_locale();
     $cache_key         = 'popular_importers_' . md5($locale . wp_get_wp_version());
     $popular_importers = get_site_transient($cache_key);

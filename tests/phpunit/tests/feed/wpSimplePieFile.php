@@ -9,8 +9,10 @@
  * @group feed
  * @group wp-simplepie-file
  */
-class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase {
-    public static function set_up_before_class() {
+class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
+{
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-includes/class-simplepie.php';
@@ -28,7 +30,8 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase {
      *
      * @ticket 51056
      */
-    public function test_header_parsing($callback, $header_field, $expected) {
+    public function test_header_parsing($callback, $header_field, $expected)
+    {
         add_filter('pre_http_request', array($this, $callback));
 
         $file = new WP_SimplePie_File('https://wordpress.org/news/feed/');
@@ -41,7 +44,8 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_header_parsing() {
+    public function data_header_parsing()
+    {
         return array(
             'single content type header works' => array(
                 'mocked_response_single_header_values',
@@ -72,7 +76,8 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase {
     /**
      * Mock a feed HTTP response where headers only have one value.
      */
-    public function mocked_response_single_header_values() {
+    public function mocked_response_single_header_values()
+    {
         $single_value_headers = array(
             'content-type' => 'application/rss+xml; charset=UTF-8',
             'link'         => '<https://wordpress.org/news/wp-json/>; rel="https://api.w.org/"',
@@ -93,7 +98,8 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase {
     /**
      * Mock a feed HTTP response where headers have multiple values.
      */
-    public function mocked_response_multiple_header_values() {
+    public function mocked_response_multiple_header_values()
+    {
         $response = $this->mocked_response_single_header_values();
 
         $multiple_value_headers = array(

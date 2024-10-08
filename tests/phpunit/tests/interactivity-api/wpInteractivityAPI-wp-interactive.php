@@ -12,7 +12,8 @@
  *
  * @group interactivity-api
  */
-class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
+class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
+{
     /**
      * Instance of WP_Interactivity_API.
      *
@@ -23,7 +24,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
         $this->interactivity->state('myPlugin', array('id' => 'some-id'));
@@ -36,7 +38,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      * @param string $html The HTML that needs to be processed.
      * @return array An array containing an instance of the WP_HTML_Tag_Processor and the processed HTML.
      */
-    private function process_directives($html) {
+    private function process_directives($html)
+    {
         $new_html = $this->interactivity->process_directives($html);
         $p        = new WP_HTML_Tag_Processor($new_html);
         $p->next_tag(array('class_name' => 'test'));
@@ -51,7 +54,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_sets_a_default_namespace_with_object() {
+    public function test_wp_interactive_sets_a_default_namespace_with_object()
+    {
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -69,7 +73,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_sets_a_default_namespace_with_string() {
+    public function test_wp_interactive_sets_a_default_namespace_with_string()
+    {
         $html    = '
 					<div data-wp-interactive="myPlugin">
 							<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -87,7 +92,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_replaces_the_previous_default_namespace() {
+    public function test_wp_interactive_replaces_the_previous_default_namespace()
+    {
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "otherPlugin" }\'>
 							<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
@@ -111,7 +117,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_json_without_namespace_doesnt_replace_the_previous_default_namespace() {
+    public function test_wp_interactive_json_without_namespace_doesnt_replace_the_previous_default_namespace()
+    {
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div data-wp-interactive=\'{}\'>
@@ -134,7 +141,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_with_empty_value_doesnt_replace_the_previous_default_namespace() {
+    public function test_wp_interactive_with_empty_value_doesnt_replace_the_previous_default_namespace()
+    {
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div data-wp-interactive="">
@@ -157,7 +165,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_with_invalid_value_doesnt_replace_the_previous_default_namespace() {
+    public function test_wp_interactive_with_invalid_value_doesnt_replace_the_previous_default_namespace()
+    {
         $html    = '
 				<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 						<div data-wp-interactive="$myPlugin">
@@ -180,7 +189,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_without_value_doesnt_replace_the_previous_default_namespace() {
+    public function test_wp_interactive_without_value_doesnt_replace_the_previous_default_namespace()
+    {
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div data-wp-interactive>
@@ -202,7 +212,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_works_with_multiple_directives() {
+    public function test_wp_interactive_works_with_multiple_directives()
+    {
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\' data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -220,7 +231,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_namespace_can_be_override_by_custom_one() {
+    public function test_wp_interactive_namespace_can_be_override_by_custom_one()
+    {
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div class="test" data-wp-bind--id="otherPlugin::state.id">Text</div>
@@ -238,7 +250,8 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_interactive_set_is_unset_on_closing_tag() {
+    public function test_wp_interactive_set_is_unset_on_closing_tag()
+    {
         $html    = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div class="test" data-wp-bind--id="state.id">Text</div>

@@ -16,7 +16,8 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_edit_comment
  */
-class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase
+{
 
     /**
      * A post with at least one comment.
@@ -28,7 +29,8 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
     /**
      * Sets up the test fixture.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $post_id = self::factory()->post->create();
         self::factory()->comment->create_post_comments($post_id, 5);
@@ -40,7 +42,8 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to pass.
      */
-    public function test_as_admin() {
+    public function test_as_admin()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -83,7 +86,8 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
     /**
      * @ticket 33154
      */
-    public function test_editor_can_edit_orphan_comments() {
+    public function test_editor_can_edit_orphan_comments()
+    {
         global $wpdb;
 
         // Become an editor.
@@ -133,7 +137,8 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to fail.
      */
-    public function test_as_subscriber() {
+    public function test_as_subscriber()
+    {
 
         // Become a subscriber.
         $this->_setRole('subscriber');
@@ -162,7 +167,8 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to fail.
      */
-    public function test_bad_nonce() {
+    public function test_bad_nonce()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -191,7 +197,8 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
      *
      * This should return valid XML.
      */
-    public function test_invalid_comment() {
+    public function test_invalid_comment()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -210,7 +217,8 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
     /**
      * @ticket 39732
      */
-    public function test_wp_update_comment_data_is_wp_error() {
+    public function test_wp_update_comment_data_is_wp_error()
+    {
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -239,7 +247,8 @@ class Tests_Ajax_wpAjaxEditComment extends WP_Ajax_UnitTestCase {
     /**
      * Blocks comments from being updated by returning WP_Error.
      */
-    public function _wp_update_comment_data_filter($data, $comment, $commentarr) {
+    public function _wp_update_comment_data_filter($data, $comment, $commentarr)
+    {
         return new WP_Error('comment_wrong', 'wp_update_comment_data filter fails for this comment.', 500);
     }
 }

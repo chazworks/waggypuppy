@@ -38,7 +38,8 @@ if (force_ssl_admin() && ! is_ssl()) {
  * @param string        $message  Optional. Message to display in header. Default empty.
  * @param WP_Error|null $wp_error Optional. The error to pass. Defaults to a WP_Error instance.
  */
-function login_header($title = null, $message = '', $wp_error = null) {
+function login_header($title = null, $message = '', $wp_error = null)
+{
     global $error, $interim_login, $action;
 
     if (null === $title) {
@@ -322,7 +323,8 @@ function login_header($title = null, $message = '', $wp_error = null) {
  *
  * @param string $input_id Which input to auto-focus.
  */
-function login_footer($input_id = '') {
+function login_footer($input_id = '')
+{
     global $interim_login;
 
     // Don't allow interim logins to navigate away from the page.
@@ -457,7 +459,8 @@ function login_footer($input_id = '') {
  *
  * @since 3.0.0
  */
-function wp_shake_js() {
+function wp_shake_js()
+{
     wp_print_inline_script_tag("document.querySelector('form').classList.add('shake');");
 }
 
@@ -466,7 +469,8 @@ function wp_shake_js() {
  *
  * @since 3.7.0
  */
-function wp_login_viewport_meta() {
+function wp_login_viewport_meta()
+{
     ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <?php

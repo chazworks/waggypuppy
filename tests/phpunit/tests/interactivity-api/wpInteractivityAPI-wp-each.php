@@ -10,7 +10,8 @@
  *
  * @group interactivity-api
  */
-class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
+class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
+{
     /**
      * Instance of WP_Interactivity_API.
      *
@@ -21,7 +22,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
         $this->interactivity->state('myPlugin', array('list' => array(1, 2)));
@@ -36,7 +38,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_doesnt_do_anything_on_non_template_tags() {
+    public function test_wp_each_doesnt_do_anything_on_non_template_tags()
+    {
         $original = '
 			<div data-wp-each="myPlugin::state.list">
 				<span data-wp-text="myPlugin::context.item"></span>
@@ -53,7 +56,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_doesnt_do_anything_on_associative_arrays() {
+    public function test_wp_each_doesnt_do_anything_on_associative_arrays()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -78,7 +82,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_simple_tags() {
+    public function test_wp_each_simple_tags()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.item"></span>' .
@@ -103,7 +108,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_empty_array() {
+    public function test_wp_each_empty_array()
+    {
         $this->interactivity->state('myPlugin', array('empty' => array()));
         $original = '' .
             '<template data-wp-each="myPlugin::state.empty">' .
@@ -127,7 +133,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_merges_context_correctly() {
+    public function test_wp_each_merges_context_correctly()
+    {
         $original = '' .
             '<div data-wp-context=\'myPlugin::{ "item": "New text", "id": "some-id", "after": "after-wp-each" }\'>' .
                 '<template data-wp-each="myPlugin::state.list">' .
@@ -155,7 +162,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_gets_arrays_from_context() {
+    public function test_wp_each_gets_arrays_from_context()
+    {
         $original = '' .
             '<div data-wp-context=\'myPlugin::{ "list": [ 1, 2 ] }\'>' .
                 '<template data-wp-each="myPlugin::context.list">' .
@@ -183,7 +191,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_default_namespace() {
+    public function test_wp_each_default_namespace()
+    {
         $original = '' .
             '<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>' .
                 '<template data-wp-each="state.list">' .
@@ -211,7 +220,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_multiple_tags_per_item() {
+    public function test_wp_each_multiple_tags_per_item()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.item"></span>' .
@@ -239,7 +249,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_void_tags() {
+    public function test_wp_each_void_tags()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 '<img data-wp-bind--id="myPlugin::context.item">' .
@@ -268,7 +279,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_void_and_non_void_tags() {
+    public function test_wp_each_void_and_non_void_tags()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 '<img data-wp-bind--id="myPlugin::context.item">' .
@@ -296,7 +308,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_nested_tags() {
+    public function test_wp_each_nested_tags()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 '<div data-wp-bind--id="myPlugin::context.item">' .
@@ -328,7 +341,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_nested_item_properties() {
+    public function test_wp_each_nested_item_properties()
+    {
         $this->interactivity->state(
             'myPlugin',
             array(
@@ -371,7 +385,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_different_item_names() {
+    public function test_wp_each_different_item_names()
+    {
         $original = '' .
             '<template data-wp-each--myitem="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.myitem"></span>' .
@@ -396,7 +411,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_different_item_names_transforms_camelcase() {
+    public function test_wp_each_different_item_names_transforms_camelcase()
+    {
         $original = '' .
             '<template data-wp-each--my-item="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.myItem"></span>' .
@@ -420,7 +436,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_doesnt_work_with_top_level_text() {
+    public function test_wp_each_doesnt_work_with_top_level_text()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 'id: <span data-wp-text="myPlugin::context.item"></span>' .
@@ -456,7 +473,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_nested_template_tags() {
+    public function test_wp_each_nested_template_tags()
+    {
         $this->interactivity->state('myPlugin', array('list2' => array(3, 4)));
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
@@ -498,7 +516,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_directly_nested_template_tags() {
+    public function test_wp_each_directly_nested_template_tags()
+    {
         $this->interactivity->state('myPlugin', array('list2' => array(3, 4)));
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
@@ -544,7 +563,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_nested_template_tags_using_previous_item_as_list() {
+    public function test_wp_each_nested_template_tags_using_previous_item_as_list()
+    {
         $this->interactivity->state('myPlugin', array('list2' => array(array(1, 2), array(3, 4))));
         $original = '' .
             '<template data-wp-each--list="myPlugin::state.list2">' .
@@ -583,7 +603,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Interactivity_API::_process_directives
      */
-    public function test_wp_each_unbalanced_tags() {
+    public function test_wp_each_unbalanced_tags()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.item">' .
@@ -603,7 +624,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @expectedIncorrectUsage WP_Interactivity_API::_process_directives
      */
-    public function test_wp_each_unbalanced_tags_in_nested_template_tags() {
+    public function test_wp_each_unbalanced_tags_in_nested_template_tags()
+    {
         $this->interactivity->state('myPlugin', array('list2' => array(3, 4)));
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
@@ -625,7 +647,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_doesnt_process_if_not_array() {
+    public function test_wp_each_doesnt_process_if_not_array()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.item"></span>' .
@@ -666,7 +689,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_each_doesnt_process_with_manual_server_directive_processing() {
+    public function test_wp_each_doesnt_process_with_manual_server_directive_processing()
+    {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
                 '<span data-wp-text="myPlugin::context.item"></span>' .

@@ -6,14 +6,16 @@
  * @ticket 42438
  * @covers ::wp_preload_resources
  */
-class Tests_General_wpPreloadResources extends WP_UnitTestCase {
+class Tests_General_wpPreloadResources extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_preload_resources
      *
      * @ticket 42438
      */
-    public function test_preload_resources($expected, $preload_resources) {
+    public function test_preload_resources($expected, $preload_resources)
+    {
         $callback = static function () use ($preload_resources) {
             return $preload_resources;
         };
@@ -30,7 +32,8 @@ class Tests_General_wpPreloadResources extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_preload_resources() {
+    public function data_preload_resources()
+    {
         return array(
             'basic_preload'          => array(
                 'expected' => "<link rel='preload' href='https://example.com/style.css' as='style' />\n",

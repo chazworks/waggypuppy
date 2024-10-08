@@ -5,11 +5,13 @@
  *
  * @covers ::get_comment_reply_link
  */
-class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase {
+class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase
+{
     /**
      * @ticket 38170
      */
-    public function test_should_return_null_when_max_depth_is_less_than_depth() {
+    public function test_should_return_null_when_max_depth_is_less_than_depth()
+    {
         $args = array(
             'depth'     => 5,
             'max_depth' => 4,
@@ -21,7 +23,8 @@ class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase {
     /**
      * @ticket 38170
      */
-    public function test_should_return_null_when_default_max_depth_is_less_than_depth() {
+    public function test_should_return_null_when_default_max_depth_is_less_than_depth()
+    {
         $args = array(
             'depth' => 5,
         );
@@ -34,7 +37,8 @@ class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase {
      *
      * @ticket 47174
      */
-    public function test_get_comment_reply_link_should_include_post_permalink() {
+    public function test_get_comment_reply_link_should_include_post_permalink()
+    {
         // Create a sample post.
         $post_id = self::factory()->post->create();
 
@@ -72,7 +76,8 @@ class Tests_Comment_GetCommentReplyLink extends WP_UnitTestCase {
     /**
      * @ticket 41846
      */
-    public function test_should_return_null_when_depth_less_than_max_depth_and_comment_null_and_no_current_global_comment() {
+    public function test_should_return_null_when_depth_less_than_max_depth_and_comment_null_and_no_current_global_comment()
+    {
 
         // Let max depth be greater than depth and depth be non-zero.
         $args = array(

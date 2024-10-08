@@ -52,7 +52,8 @@
  *
  * @see WP_HTML_Processor
  */
-class WP_HTML_Doctype_Info {
+class WP_HTML_Doctype_Info
+{
     /**
      * Name of the DOCTYPE: should be "html" for HTML documents.
      *
@@ -404,7 +405,8 @@ class WP_HTML_Doctype_Info {
      * @return WP_HTML_Doctype_Info|null A WP_HTML_Doctype_Info instance will be returned if the
      *                                   provided DOCTYPE HTML is a valid DOCTYPE. Otherwise, null.
      */
-    public static function from_doctype_token(string $doctype_html): ?self {
+    public static function from_doctype_token(string $doctype_html): ?self
+    {
         $doctype_name      = null;
         $doctype_public_id = null;
         $doctype_system_id = null;

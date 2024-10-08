@@ -5,7 +5,8 @@
  *
  * @coversDefaultClass WP_Sitemaps_Users
  */
-class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
+class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase
+{
 
     /**
      * List of user IDs.
@@ -26,7 +27,8 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory A WP_UnitTest_Factory object.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$users     = $factory->user->create_many(10, array('role' => 'editor'));
         self::$editor_id = self::$users[0];
     }
@@ -37,7 +39,8 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
      *
      * @covers ::get_url_list
      */
-    public function test_get_url_list_users() {
+    public function test_get_url_list_users()
+    {
         // Set up the user to an editor to assign posts to other users.
         wp_set_current_user(self::$editor_id);
 
@@ -64,7 +67,8 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase {
      * @covers ::get_url_list
      * @covers ::get_users_query_args
      */
-    public function test_get_url_list_skips_users_with_only_attachments_and_pages() {
+    public function test_get_url_list_skips_users_with_only_attachments_and_pages()
+    {
         // Set up the user to an editor to assign posts to other users.
         wp_set_current_user(self::$editor_id);
 

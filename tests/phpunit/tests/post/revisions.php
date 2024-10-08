@@ -4,7 +4,8 @@
  * @group post
  * @group revision
  */
-class Tests_Post_Revisions extends WP_UnitTestCase {
+class Tests_Post_Revisions extends WP_UnitTestCase
+{
 
     const POST_TYPE = 'test-revision';
 
@@ -12,7 +13,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
     protected static $editor_user_id;
     protected static $author_user_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_user_id  = $factory->user->create(array('role' => 'administrator'));
         self::$editor_user_id = $factory->user->create(array('role' => 'editor'));
         self::$author_user_id = $factory->user->create(array('role' => 'author'));
@@ -24,7 +26,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      * @ticket 20982
      * @ticket 16215
      */
-    public function test_revision_restore_updates_edit_last_post_meta() {
+    public function test_revision_restore_updates_edit_last_post_meta()
+    {
         // Create a post as Author.
         wp_set_current_user(self::$author_user_id);
         $post    = get_default_post_to_edit('post', true);
@@ -67,7 +70,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      * @ticket 7392
      * @ticket 9843
      */
-    public function test_revision_dont_save_revision_if_unchanged() {
+    public function test_revision_dont_save_revision_if_unchanged()
+    {
         $post    = get_default_post_to_edit('post', true);
         $post_id = $post->ID;
 
@@ -137,7 +141,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      * @ticket 7392
      * @ticket 9843
      */
-    public function test_revision_force_save_revision_even_if_unchanged() {
+    public function test_revision_force_save_revision_even_if_unchanged()
+    {
         add_filter('wp_save_post_revision_check_for_changes', '__return_false');
 
         $post    = get_default_post_to_edit('post', true);
@@ -212,7 +217,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @ticket 16847
      */
-    public function test_revision_view_caps_post() {
+    public function test_revision_view_caps_post()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type'   => 'post',
@@ -245,7 +251,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @ticket 16847
      */
-    public function test_revision_restore_caps_post() {
+    public function test_revision_restore_caps_post()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type'   => 'post',
@@ -276,7 +283,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @ticket 16847
      */
-    public function test_revision_diff_caps_post() {
+    public function test_revision_diff_caps_post()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type'   => 'post',
@@ -314,7 +322,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @ticket 16847
      */
-    public function test_revision_view_caps_cpt() {
+    public function test_revision_view_caps_cpt()
+    {
         register_post_type(
             self::POST_TYPE,
             array(
@@ -356,7 +365,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @ticket 16847
      */
-    public function test_revision_restore_caps_cpt() {
+    public function test_revision_restore_caps_cpt()
+    {
         register_post_type(
             self::POST_TYPE,
             array(
@@ -402,7 +412,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @ticket 16847
      */
-    public function test_revision_restore_caps_before_publish() {
+    public function test_revision_restore_caps_before_publish()
+    {
         register_post_type(
             self::POST_TYPE,
             array(
@@ -462,7 +473,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @ticket 16847
      */
-    public function test_revision_diff_caps_cpt() {
+    public function test_revision_diff_caps_cpt()
+    {
         register_post_type(
             self::POST_TYPE,
             array(
@@ -507,7 +519,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
     /**
      * @ticket 26042
      */
-    public function test_wp_get_post_revisions_should_order_by_post_date() {
+    public function test_wp_get_post_revisions_should_order_by_post_date()
+    {
         global $wpdb;
 
         $post = self::factory()->post->create_and_get(
@@ -543,7 +556,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
     /**
      * @ticket 26042
      */
-    public function test_wp_get_post_revisions_should_order_by_ID_when_post_date_matches() {
+    public function test_wp_get_post_revisions_should_order_by_ID_when_post_date_matches()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_title'   => 'some-post',
@@ -578,7 +592,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
     /**
      * @ticket 51550
      */
-    public function test_wp_revisions_to_keep_filter() {
+    public function test_wp_revisions_to_keep_filter()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_title'   => 'some-post',
@@ -603,7 +618,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
     /**
      * @ticket 51550
      */
-    public function test_wp_post_type_revisions_to_keep_filter() {
+    public function test_wp_post_type_revisions_to_keep_filter()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'post_title'   => 'some-post',
@@ -641,7 +657,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @ticket 30009
      */
-    public function test_wp_save_post_revision_error() {
+    public function test_wp_save_post_revision_error()
+    {
         $post = self::factory()->post->create_and_get(
             array(
                 'ID' => PHP_INT_MAX,
@@ -660,7 +677,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      * @ticket 55857
      * @dataProvider data_wp_get_post_revisions_url
      */
-    public function test_wp_get_latest_revision_id_and_total_count($revisions) {
+    public function test_wp_get_latest_revision_id_and_total_count($revisions)
+    {
         $post_id = self::factory()->post->create();
         for ($i = 0; $i < $revisions; ++$i) {
             wp_update_post(
@@ -694,7 +712,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      * @covers ::wp_get_latest_revision_id_and_total_count
      * @ticket 55857
      */
-    public function test_wp_get_latest_revision_id_and_total_count_no_revisions() {
+    public function test_wp_get_latest_revision_id_and_total_count_no_revisions()
+    {
         $revision = wp_get_latest_revision_id_and_total_count(null);
 
         $this->assertWPError($revision, 'Invalid post, no revisions should exist.');
@@ -719,7 +738,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @param int $revisions The number of revisions to create.
      */
-    public function test_wp_get_post_revisions_url($revisions) {
+    public function test_wp_get_post_revisions_url($revisions)
+    {
         wp_set_current_user(self::$admin_user_id);
 
         $post_id            = self::factory()->post->create(array('post_title' => 'Some Post'));
@@ -767,7 +787,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @param int $revisions The number of revisions to create.
      */
-    public function test_wp_get_post_revisions_url_with_post_object($revisions) {
+    public function test_wp_get_post_revisions_url_with_post_object($revisions)
+    {
         wp_set_current_user(self::$admin_user_id);
 
         $post               = self::factory()->post->create_and_get(array('post_title' => 'Some Post'));
@@ -808,7 +829,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_get_post_revisions_url() {
+    public function data_wp_get_post_revisions_url()
+    {
         return array(
             'one revision'       => array('revisions' => 1),
             'multiple revisions' => array('revisions' => 2),
@@ -822,7 +844,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @covers ::wp_get_post_revisions_url
      */
-    public function test_wp_get_post_revisions_url_returns_null_when_post_does_not_exist() {
+    public function test_wp_get_post_revisions_url_returns_null_when_post_does_not_exist()
+    {
         wp_set_current_user(self::$admin_user_id);
         $post_id = 99999;
         $this->assertNull(wp_get_post_revisions_url($post_id));
@@ -835,7 +858,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @covers ::wp_get_post_revisions_url
      */
-    public function test_wp_get_post_revisions_url_returns_null_with_no_revisions() {
+    public function test_wp_get_post_revisions_url_returns_null_with_no_revisions()
+    {
         wp_set_current_user(self::$admin_user_id);
         $post_id = self::factory()->post->create(array('post_title' => 'Some Post'));
         $this->assertNull(wp_get_post_revisions_url($post_id));
@@ -848,7 +872,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @covers ::wp_get_post_revisions_url
      */
-    public function test_wp_get_post_revisions_url_returns_null_with_revisions_disabled() {
+    public function test_wp_get_post_revisions_url_returns_null_with_revisions_disabled()
+    {
         wp_set_current_user(self::$admin_user_id);
 
         remove_post_type_support('post', 'revisions');
@@ -878,7 +903,8 @@ class Tests_Post_Revisions extends WP_UnitTestCase {
      *
      * @covers ::wp_save_post_revision
      */
-    public function test_wp_save_post_revision_should_respect_revisions_before_deletion_filter() {
+    public function test_wp_save_post_revision_should_respect_revisions_before_deletion_filter()
+    {
         $post_id = self::factory()->post->create(array('post_title' => 'Test 57320'));
 
         add_filter(

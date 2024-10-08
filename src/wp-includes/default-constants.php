@@ -15,7 +15,8 @@
  * @global int    $blog_id    The current site ID.
  * @global string $wp_version The WordPress version string.
  */
-function wp_initial_constants() {
+function wp_initial_constants()
+{
     global $blog_id, $wp_version;
 
     /**#@+
@@ -171,7 +172,8 @@ function wp_initial_constants() {
  *
  * @since 3.0.0
  */
-function wp_plugin_directory_constants() {
+function wp_plugin_directory_constants()
+{
     if (! defined('WP_CONTENT_URL')) {
         define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // Full URL - WP_CONTENT_DIR is defined further up.
     }
@@ -240,7 +242,8 @@ function wp_plugin_directory_constants() {
  *
  * @since 3.0.0
  */
-function wp_cookie_constants() {
+function wp_cookie_constants()
+{
     /**
      * Used to guarantee unique hash cookies.
      *
@@ -346,7 +349,8 @@ function wp_cookie_constants() {
  *
  * @since 3.0.0
  */
-function wp_ssl_constants() {
+function wp_ssl_constants()
+{
     /**
      * @since 2.6.0
      */
@@ -373,7 +377,8 @@ function wp_ssl_constants() {
  *
  * @since 3.0.0
  */
-function wp_functionality_constants() {
+function wp_functionality_constants()
+{
     /**
      * @since 2.5.0
      */
@@ -405,7 +410,8 @@ function wp_functionality_constants() {
  *
  * @since 3.0.0
  */
-function wp_templating_constants() {
+function wp_templating_constants()
+{
     /**
      * Filesystem path to the current active template directory.
      *

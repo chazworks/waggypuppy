@@ -6,7 +6,8 @@ require_once __DIR__ . '/testcase-adjacent-image-link.php';
  * @group media
  * @covers ::next_image_link
  */
-class Tests_Media_NextImageLink extends WP_Test_Adjacent_Image_Link_TestCase {
+class Tests_Media_NextImageLink extends WP_Test_Adjacent_Image_Link_TestCase
+{
     protected $default_args = array(
         'size' => 'thumbnail',
         'text' => false,
@@ -17,14 +18,16 @@ class Tests_Media_NextImageLink extends WP_Test_Adjacent_Image_Link_TestCase {
      *
      * @dataProvider data_next_image_link
      */
-    public function test_next_image_link($current_attachment_index, $expected_attachment_index, $expected, array $args = array()) {
+    public function test_next_image_link($current_attachment_index, $expected_attachment_index, $expected, array $args = array())
+    {
         list( $expected, $args ) = $this->setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, $args);
 
         $this->expectOutputString($expected);
         $this->assertNull(next_image_link(...$args));
     }
 
-    public function data_next_image_link() {
+    public function data_next_image_link()
+    {
         return array(
             // Happy paths.
             'when has next link'           => array(

@@ -17,7 +17,8 @@
  * @since 5.7.0
  * @since 5.7.1 No longer prevents specific directives to occur together.
  */
-function wp_robots() {
+function wp_robots()
+{
     /**
      * Filters the directives to be included in the 'robots' meta tag.
      *
@@ -67,7 +68,8 @@ function wp_robots() {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_noindex(array $robots) {
+function wp_robots_noindex(array $robots)
+{
     if (! get_option('blog_public')) {
         return wp_robots_no_robots($robots);
     }
@@ -89,7 +91,8 @@ function wp_robots_noindex(array $robots) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_noindex_embeds(array $robots) {
+function wp_robots_noindex_embeds(array $robots)
+{
     if (is_embed()) {
         return wp_robots_no_robots($robots);
     }
@@ -115,7 +118,8 @@ function wp_robots_noindex_embeds(array $robots) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_noindex_search(array $robots) {
+function wp_robots_noindex_search(array $robots)
+{
     if (is_search()) {
         return wp_robots_no_robots($robots);
     }
@@ -137,7 +141,8 @@ function wp_robots_noindex_search(array $robots) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_no_robots(array $robots) {
+function wp_robots_no_robots(array $robots)
+{
     $robots['noindex'] = true;
 
     if (get_option('blog_public')) {
@@ -164,7 +169,8 @@ function wp_robots_no_robots(array $robots) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_sensitive_page(array $robots) {
+function wp_robots_sensitive_page(array $robots)
+{
     $robots['noindex']   = true;
     $robots['noarchive'] = true;
     return $robots;
@@ -185,7 +191,8 @@ function wp_robots_sensitive_page(array $robots) {
  * @param array $robots Associative array of robots directives.
  * @return array Filtered robots directives.
  */
-function wp_robots_max_image_preview_large(array $robots) {
+function wp_robots_max_image_preview_large(array $robots)
+{
     if (get_option('blog_public')) {
         $robots['max-image-preview'] = 'large';
     }

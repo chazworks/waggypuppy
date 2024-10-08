@@ -13,14 +13,16 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Plugin_Dependencies::has_unmet_dependencies
  */
-class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDependencies_UnitTestCase {
+class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDependencies_UnitTestCase
+{
 
     /**
      * Tests that a plugin with no dependencies will return false.
      *
      * @ticket 22316
      */
-    public function test_should_return_false_when_a_plugin_has_no_dependencies() {
+    public function test_should_return_false_when_a_plugin_has_no_dependencies()
+    {
         $this->set_property_value('dependencies', array('dependent/dependent.php' => array('dependency')));
         $this->assertFalse(self::$instance::has_unmet_dependencies('dependent2/dependent2.php'));
     }
@@ -30,7 +32,8 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
      *
      * @ticket 22316
      */
-    public function test_should_return_false_when_a_plugin_has_no_unmet_dependencies() {
+    public function test_should_return_false_when_a_plugin_has_no_unmet_dependencies()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent/dependent.php' => array('dependency'))
@@ -51,7 +54,8 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_a_plugin_has_a_dependency_that_is_not_installed() {
+    public function test_should_return_true_when_a_plugin_has_a_dependency_that_is_not_installed()
+    {
         self::$instance::initialize();
         $this->set_property_value(
             'dependencies',
@@ -66,7 +70,8 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_a_plugin_has_a_dependency_that_is_inactive() {
+    public function test_should_return_true_when_a_plugin_has_a_dependency_that_is_inactive()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent/dependent.php' => array('dependency'))
@@ -85,7 +90,8 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_a_plugin_has_one_active_dependency_and_one_inactive_dependency() {
+    public function test_should_return_true_when_a_plugin_has_one_active_dependency_and_one_inactive_dependency()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent/dependent.php' => array('dependency', 'dependency2'))
@@ -109,7 +115,8 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_a_plugin_has_one_active_dependency_and_one_that_is_not_installed() {
+    public function test_should_return_true_when_a_plugin_has_one_active_dependency_and_one_that_is_not_installed()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent/dependent.php' => array('dependency', 'dependency2'))
@@ -130,7 +137,8 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
      *
      * @ticket 22316
      */
-    public function test_should_return_true_when_a_plugin_has_one_inactive_dependency_and_one_that_is_not_installed() {
+    public function test_should_return_true_when_a_plugin_has_one_inactive_dependency_and_one_that_is_not_installed()
+    {
         $this->set_property_value(
             'dependencies',
             array('dependent/dependent.php' => array('dependency', 'dependency2'))

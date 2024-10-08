@@ -18,14 +18,16 @@
  *
  * @see WP_Upgrader
  */
-class Core_Upgrader extends WP_Upgrader {
+class Core_Upgrader extends WP_Upgrader
+{
 
     /**
      * Initializes the upgrade strings.
      *
      * @since 2.8.0
      */
-    public function upgrade_strings() {
+    public function upgrade_strings()
+    {
         $this->strings['up_to_date'] = __('waggypuppy is at the latest version.');
         $this->strings['locked']     = __('Another update is currently in progress.');
         $this->strings['no_package'] = __('Update package not available.');
@@ -59,7 +61,8 @@ class Core_Upgrader extends WP_Upgrader {
      * }
      * @return string|false|WP_Error New WordPress version on success, false or WP_Error on failure.
      */
-    public function upgrade($current, $args = array()) {
+    public function upgrade($current, $args = array())
+    {
         global $wp_filesystem;
 
         require ABSPATH . WPINC . '/version.php'; // $wp_version;
@@ -272,7 +275,8 @@ class Core_Upgrader extends WP_Upgrader {
      * @param string $offered_ver The offered version, of the format x.y.z.
      * @return bool True if we should update to the offered version, otherwise false.
      */
-    public static function should_update_to_version($offered_ver) {
+    public static function should_update_to_version($offered_ver)
+    {
         require ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 
         $current_branch = implode('.', array_slice(preg_split('/[.-]/', $wp_version), 0, 2)); // x.y
@@ -395,7 +399,8 @@ class Core_Upgrader extends WP_Upgrader {
      *
      * @return bool True if the checksums match, otherwise false.
      */
-    public function check_files() {
+    public function check_files()
+    {
         global $wp_local_package;
         $wp_version = wp_get_wp_version();
 

@@ -10,7 +10,8 @@
  *
  * @covers WP_Ajax_Response::send
  */
-class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
+class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase
+{
 
     /**
      * Saved error reporting level
@@ -23,7 +24,8 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      * Set up the test fixture.
      * Override wp_die(), pretend to be ajax, and suppress warnings.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         add_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1, 1);
@@ -38,7 +40,8 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      * Tear down the test fixture.
      * Remove the wp_die() override, restore error reporting
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         remove_filter('wp_die_ajax_handler', array($this, 'getDieHandler'), 1, 1);
         error_reporting($this->_error_level);
         parent::tear_down();
@@ -49,7 +52,8 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      *
      * @return callback
      */
-    public function getDieHandler() {
+    public function getDieHandler()
+    {
         return array($this, 'dieHandler');
     }
 
@@ -59,7 +63,8 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      *
      * @param string $message
      */
-    public function dieHandler($message) {
+    public function dieHandler($message)
+    {
     }
 
     /**
@@ -75,7 +80,8 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      * @group xdebug
      * @requires function xdebug_get_headers
      */
-    public function test_response_charset_in_header() {
+    public function test_response_charset_in_header()
+    {
 
         // Generate an Ajax response.
         ob_start();
@@ -94,7 +100,8 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase {
      *
      * @ticket 19448
      */
-    public function test_response_charset_in_xml() {
+    public function test_response_charset_in_xml()
+    {
 
         // Generate an Ajax response.
         ob_start();

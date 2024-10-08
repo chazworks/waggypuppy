@@ -4,21 +4,25 @@
  *
  * @group blocks
  */
-class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTestCase {
+class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTestCase
+{
     private $temp_manifest_file;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->temp_manifest_file = wp_tempnam('block-metadata-manifest');
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->unregister_test_blocks();
         unlink($this->temp_manifest_file);
         parent::tear_down();
     }
 
-    public function test_register_block_type_from_metadata_with_registry() {
+    public function test_register_block_type_from_metadata_with_registry()
+    {
         $plugin_path     = WP_PLUGIN_DIR . '/test-plugin';
         $block_json_path = $plugin_path . '/blocks/test-block/block.json';
 
@@ -52,7 +56,8 @@ class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTest
         $this->assertEquals(array('html' => false), $registered_block->supports);
     }
 
-    public function test_register_block_type_from_metadata_with_registry_and_override() {
+    public function test_register_block_type_from_metadata_with_registry_and_override()
+    {
         $plugin_path     = WP_PLUGIN_DIR . '/test-plugin-2';
         $block_json_path = $plugin_path . '/blocks/test-block/block.json';
 
@@ -91,7 +96,8 @@ class Tests_Blocks_RegisterBlockTypeFromMetadataWithRegistry extends WP_UnitTest
         $this->assertEquals(array('html' => true), $registered_block->supports);
     }
 
-    private function unregister_test_blocks() {
+    private function unregister_test_blocks()
+    {
         $registry   = WP_Block_Type_Registry::get_instance();
         $block_name = 'test-suite/test-block';
 

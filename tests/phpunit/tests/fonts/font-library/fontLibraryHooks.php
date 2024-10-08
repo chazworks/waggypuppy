@@ -8,9 +8,11 @@
  * @group fonts
  * @group font-library
  */
-class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase {
+class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase
+{
 
-    public function test_deleting_font_family_deletes_child_font_faces() {
+    public function test_deleting_font_family_deletes_child_font_faces()
+    {
         $font_family_id       = self::factory()->post->create(
             array(
                 'post_type' => 'wp_font_family',
@@ -40,7 +42,8 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase {
         $this->assertNotNull(get_post($other_font_face_id), 'The other post should exist.');
     }
 
-    public function test_deleting_font_faces_deletes_associated_font_files() {
+    public function test_deleting_font_faces_deletes_associated_font_files()
+    {
         list( $font_face_id, $font_path ) = $this->create_font_face_with_file('OpenSans-Regular.woff2');
         list( , $other_font_path )        = $this->create_font_face_with_file('OpenSans-Regular.ttf');
 
@@ -50,7 +53,8 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase {
         $this->assertFileExists($other_font_path, 'The other font file should exist.');
     }
 
-    protected function create_font_face_with_file($filename) {
+    protected function create_font_face_with_file($filename)
+    {
         $font_face_id = self::factory()->post->create(
             array(
                 'post_type' => 'wp_font_face',
@@ -69,7 +73,8 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase {
         return array($font_face_id, $font_path);
     }
 
-    protected function upload_font_file($font_filename) {
+    protected function upload_font_file($font_filename)
+    {
         $font_file_path = DIR_TESTDATA . '/fonts/' . $font_filename;
 
         add_filter('upload_mimes', array('WP_Font_Utils', 'get_allowed_font_mime_types'));

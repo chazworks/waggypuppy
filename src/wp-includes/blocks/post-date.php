@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post date for the current post wrapped inside "time" tags.
  */
-function render_block_core_post_date($attributes, $content, $block) {
+function render_block_core_post_date($attributes, $content, $block)
+{
     if (! isset($block->context['postId'])) {
         return '';
     }
@@ -82,7 +83,8 @@ function render_block_core_post_date($attributes, $content, $block) {
  *
  * @since 5.8.0
  */
-function register_block_core_post_date() {
+function register_block_core_post_date()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-date',
         array(

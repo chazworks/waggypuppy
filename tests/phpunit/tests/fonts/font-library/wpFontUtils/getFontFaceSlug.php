@@ -10,14 +10,16 @@
  *
  * @covers WP_Font_Utils::get_font_face_slug
  */
-class Tests_Fonts_WpFontUtils_GetFontFaceSlug extends WP_UnitTestCase {
+class Tests_Fonts_WpFontUtils_GetFontFaceSlug extends WP_UnitTestCase
+{
     /**
      * @dataProvider data_get_font_face_slug_normalizes_values
      *
      * @param string[] $settings      Settings to test.
      * @param string   $expected_slug Expected slug results.
      */
-    public function test_get_font_face_slug_normalizes_values($settings, $expected_slug) {
+    public function test_get_font_face_slug_normalizes_values($settings, $expected_slug)
+    {
         $slug = WP_Font_Utils::get_font_face_slug($settings);
 
         $this->assertSame($expected_slug, $slug);
@@ -28,7 +30,8 @@ class Tests_Fonts_WpFontUtils_GetFontFaceSlug extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_get_font_face_slug_normalizes_values() {
+    public function data_get_font_face_slug_normalizes_values()
+    {
         return array(
             'Sets defaults'                           => array(
                 'settings'      => array(

@@ -14,14 +14,16 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
+class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
+{
 
     /**
      * Constructs the controller.
      *
      * @since 5.0.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'block-renderer';
     }
@@ -33,7 +35,8 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/(?P<name>[a-z0-9-]+/[a-z0-9-]+)',
@@ -108,7 +111,8 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         global $post;
 
         $post_id = isset($request['post_id']) ? (int) $request['post_id'] : 0;
@@ -150,7 +154,8 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         global $post;
 
         $post_id = isset($request['post_id']) ? (int) $request['post_id'] : 0;
@@ -200,7 +205,8 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->schema;
         }

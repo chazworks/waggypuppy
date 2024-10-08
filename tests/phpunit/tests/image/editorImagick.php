@@ -9,11 +9,13 @@
  */
 require_once __DIR__ . '/base.php';
 
-class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
+class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase
+{
 
     public $editor_engine = 'WP_Image_Editor_Imagick';
 
-    public function set_up() {
+    public function set_up()
+    {
         require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
         require_once ABSPATH . WPINC . '/class-wp-image-editor-imagick.php';
         require_once DIR_TESTROOT . '/includes/class-wp-test-stream.php';
@@ -22,7 +24,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
         parent::set_up();
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $folder = DIR_TESTDATA . '/images/waffles-*.jpg';
 
         foreach (glob($folder) as $file) {
@@ -37,7 +40,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * Tests support for ImageMagick compatible mime types.
      */
-    public function test_supports_mime_type() {
+    public function test_supports_mime_type()
+    {
         $imagick_image_editor = new WP_Image_Editor_Imagick(null);
 
         $this->assertTrue($imagick_image_editor->supports_mime_type('image/jpeg'), 'Does not support image/jpeg');
@@ -48,7 +52,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * Tests resizing an image, not using crop.
      */
-    public function test_resize() {
+    public function test_resize()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -68,7 +73,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * Tests multi_resize() with single image resize and no crop.
      */
-    public function test_single_multi_resize() {
+    public function test_single_multi_resize()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -111,7 +117,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      *
      * @ticket 26823
      */
-    public function test_multi_resize_does_not_create() {
+    public function test_multi_resize_does_not_create()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -179,7 +186,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      *
      * @ticket 26823
      */
-    public function test_multi_resize() {
+    public function test_multi_resize()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -393,7 +401,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * Tests resizing an image with cropping.
      */
-    public function test_resize_and_crop() {
+    public function test_resize_and_crop()
+    {
         $file = DIR_TESTDATA . '/images/waffles.jpg';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -413,7 +422,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * Tests cropping an image.
      */
-    public function test_crop() {
+    public function test_crop()
+    {
         $file = DIR_TESTDATA . '/images/gradient-square.jpg';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -433,7 +443,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * Tests rotating an image 180 deg.
      */
-    public function test_rotate() {
+    public function test_rotate()
+    {
         $file = DIR_TESTDATA . '/images/one-blue-pixel-100x100.png';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -452,7 +463,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * Tests flipping an image.
      */
-    public function test_flip() {
+    public function test_flip()
+    {
         $file = DIR_TESTDATA . '/images/one-blue-pixel-100x100.png';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -473,7 +485,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      *
      * @ticket 24871
      */
-    public function test_image_preserves_alpha() {
+    public function test_image_preserves_alpha()
+    {
         $file = DIR_TESTDATA . '/images/transparent.png';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -497,7 +510,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      *
      * @ticket 24871
      */
-    public function test_image_preserves_alpha_on_resize() {
+    public function test_image_preserves_alpha_on_resize()
+    {
         $file = DIR_TESTDATA . '/images/transparent.png';
 
         $imagick_image_editor = new WP_Image_Editor_Imagick($file);
@@ -520,7 +534,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * @ticket 30596
      */
-    public function test_image_preserves_alpha_on_rotate() {
+    public function test_image_preserves_alpha_on_rotate()
+    {
         $file = DIR_TESTDATA . '/images/transparent.png';
 
         $pre_rotate_editor = new Imagick($file);
@@ -547,7 +562,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      *
      * @ticket 39195
      */
-    public function test_image_non_existent_extension() {
+    public function test_image_non_existent_extension()
+    {
         $imagick_image_editor = new WP_Image_Editor_Imagick(DIR_TESTDATA . '/images/test-image-no-extension');
 
         $loaded = $imagick_image_editor->load();
@@ -561,7 +577,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      * @ticket 37140
      * @requires function exif_read_data
      */
-    public function test_remove_orientation_data_on_rotate() {
+    public function test_remove_orientation_data_on_rotate()
+    {
         $file = DIR_TESTDATA . '/images/test-image-upside-down.jpg';
         $data = wp_read_image_metadata($file);
 
@@ -590,7 +607,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * Tests that images can be loaded and written over streams.
      */
-    public function test_streams() {
+    public function test_streams()
+    {
         stream_wrapper_register('wptest', 'WP_Test_Stream');
         WP_Test_Stream::$data = array(
             'Tests_Image_Editor_Imagick' => array(
@@ -620,7 +638,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
     /**
      * @ticket 51665
      */
-    public function test_directory_creation() {
+    public function test_directory_creation()
+    {
         $file      = realpath(DIR_TESTDATA) . '/images/a2-small.jpg';
         $directory = realpath(DIR_TESTDATA) . '/images/nonexistent-directory';
 
@@ -651,7 +670,8 @@ class Tests_Image_Editor_Imagick extends WP_Image_UnitTestCase {
      *
      * @covers WP_Image_Editor_Imagick::remove_pdf_alpha_channel
      */
-    public function test_remove_pdf_alpha_channel_should_remove_the_alpha_channel_in_preview() {
+    public function test_remove_pdf_alpha_channel_should_remove_the_alpha_channel_in_preview()
+    {
         if (! wp_image_editor_supports(array('mime_type' => 'application/pdf'))) {
             $this->markTestSkipped('Rendering PDFs is not supported on this system.');
         }

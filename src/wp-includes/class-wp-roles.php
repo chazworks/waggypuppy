@@ -24,7 +24,8 @@
  * @since 2.0.0
  */
 #[AllowDynamicProperties]
-class WP_Roles {
+class WP_Roles
+{
     /**
      * List of roles and capabilities.
      *
@@ -83,7 +84,8 @@ class WP_Roles {
      *
      * @param int $site_id Site ID to initialize roles for. Default is the current site.
      */
-    public function __construct($site_id = null) {
+    public function __construct($site_id = null)
+    {
         global $wp_user_roles;
 
         $this->use_db = empty($wp_user_roles);
@@ -100,7 +102,8 @@ class WP_Roles {
      * @param array  $arguments Arguments to pass when calling.
      * @return mixed|false Return value of the callback, false otherwise.
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if ('_init' === $name) {
             return $this->_init(...$arguments);
         }
@@ -117,7 +120,8 @@ class WP_Roles {
      * @since 2.1.0
      * @deprecated 4.9.0 Use WP_Roles::for_site()
      */
-    protected function _init() {
+    protected function _init()
+    {
         _deprecated_function(__METHOD__, '4.9.0', 'WP_Roles::for_site()');
 
         $this->for_site();
@@ -132,7 +136,8 @@ class WP_Roles {
      * @since 3.5.0
      * @deprecated 4.7.0 Use WP_Roles::for_site()
      */
-    public function reinit() {
+    public function reinit()
+    {
         _deprecated_function(__METHOD__, '4.7.0', 'WP_Roles::for_site()');
 
         $this->for_site();
@@ -155,7 +160,8 @@ class WP_Roles {
      *                             Default empty array.
      * @return WP_Role|void WP_Role object, if the role is added.
      */
-    public function add_role($role, $display_name, $capabilities = array()) {
+    public function add_role($role, $display_name, $capabilities = array())
+    {
         if (empty($role) || isset($this->roles[ $role ])) {
             return;
         }
@@ -179,7 +185,8 @@ class WP_Roles {
      *
      * @param string $role Role name.
      */
-    public function remove_role($role) {
+    public function remove_role($role)
+    {
         if (! isset($this->role_objects[ $role ])) {
             return;
         }
@@ -207,7 +214,8 @@ class WP_Roles {
      * @param bool   $grant Optional. Whether role is capable of performing capability.
      *                      Default true.
      */
-    public function add_cap($role, $cap, $grant = true) {
+    public function add_cap($role, $cap, $grant = true)
+    {
         if (! isset($this->roles[ $role ])) {
             return;
         }
@@ -226,7 +234,8 @@ class WP_Roles {
      * @param string $role Role name.
      * @param string $cap  Capability name.
      */
-    public function remove_cap($role, $cap) {
+    public function remove_cap($role, $cap)
+    {
         if (! isset($this->roles[ $role ])) {
             return;
         }
@@ -245,7 +254,8 @@ class WP_Roles {
      * @param string $role Role name.
      * @return WP_Role|null WP_Role object if found, null if the role does not exist.
      */
-    public function get_role($role) {
+    public function get_role($role)
+    {
         if (isset($this->role_objects[ $role ])) {
             return $this->role_objects[ $role ];
         } else {
@@ -260,7 +270,8 @@ class WP_Roles {
      *
      * @return string[] List of role names.
      */
-    public function get_names() {
+    public function get_names()
+    {
         return $this->role_names;
     }
 
@@ -272,7 +283,8 @@ class WP_Roles {
      * @param string $role Role name to look up.
      * @return bool
      */
-    public function is_role($role) {
+    public function is_role($role)
+    {
         return isset($this->role_names[ $role ]);
     }
 
@@ -281,7 +293,8 @@ class WP_Roles {
      *
      * @since 4.9.0
      */
-    public function init_roles() {
+    public function init_roles()
+    {
         if (empty($this->roles)) {
             return;
         }
@@ -312,7 +325,8 @@ class WP_Roles {
      *
      * @param int $site_id Site ID to initialize roles for. Default is the current site.
      */
-    public function for_site($site_id = null) {
+    public function for_site($site_id = null)
+    {
         global $wpdb;
 
         if (! empty($site_id)) {
@@ -339,7 +353,8 @@ class WP_Roles {
      *
      * @return int Site ID.
      */
-    public function get_site_id() {
+    public function get_site_id()
+    {
         return $this->site_id;
     }
 
@@ -352,7 +367,8 @@ class WP_Roles {
      *
      * @return array Roles array.
      */
-    protected function get_roles_data() {
+    protected function get_roles_data()
+    {
         global $wp_user_roles;
 
         if (! empty($wp_user_roles)) {

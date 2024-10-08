@@ -15,7 +15,8 @@
  * @see register_block_type()
  */
 #[AllowDynamicProperties]
-class WP_Block_Type {
+class WP_Block_Type
+{
 
     /**
      * Block API version.
@@ -344,7 +345,8 @@ class WP_Block_Type {
      *     @type string[]      $view_style_handles       Block type front end only style handles.
      * }
      */
-    public function __construct($block_type, $args = array()) {
+    public function __construct($block_type, $args = array())
+    {
         $this->name = $block_type;
 
         $this->set_props($args);
@@ -361,7 +363,8 @@ class WP_Block_Type {
      * @return string|string[]|null|void The value read from the new property if the first item in the array provided,
      *                                   null when value not found, or void when unknown property name provided.
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if ('variations' === $name) {
             return $this->get_variations();
         }
@@ -397,7 +400,8 @@ class WP_Block_Type {
      * @return bool Returns true when for the new property the first item in the array exists,
      *              or false otherwise.
      */
-    public function __isset($name) {
+    public function __isset($name)
+    {
         if (in_array($name, array('variations', 'uses_context'), true)) {
             return true;
         }
@@ -420,7 +424,8 @@ class WP_Block_Type {
      * @param string $name  Property name.
      * @param mixed  $value Property value.
      */
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         if (! in_array($name, $this->deprecated_properties, true)) {
             $this->{$name} = $value;
             return;
@@ -463,7 +468,8 @@ class WP_Block_Type {
      * @param string $content    Optional. Block content. Default empty string.
      * @return string Rendered block type output.
      */
-    public function render($attributes = array(), $content = '') {
+    public function render($attributes = array(), $content = '')
+    {
         if (! $this->is_dynamic()) {
             return '';
         }
@@ -481,7 +487,8 @@ class WP_Block_Type {
      *
      * @return bool Whether block type is dynamic.
      */
-    public function is_dynamic() {
+    public function is_dynamic()
+    {
         return is_callable($this->render_callback);
     }
 
@@ -494,7 +501,8 @@ class WP_Block_Type {
      * @param array $attributes Original block attributes.
      * @return array Prepared block attributes.
      */
-    public function prepare_attributes_for_render($attributes) {
+    public function prepare_attributes_for_render($attributes)
+    {
         // If there are no attribute definitions for the block type, skip
         // processing and return verbatim.
         if (! isset($this->attributes)) {
@@ -540,7 +548,8 @@ class WP_Block_Type {
      * @param array|string $args Array or string of arguments for registering a block type.
      *                           See WP_Block_Type::__construct() for information on accepted arguments.
      */
-    public function set_props($args) {
+    public function set_props($args)
+    {
         $args = wp_parse_args(
             $args,
             array(
@@ -584,7 +593,8 @@ class WP_Block_Type {
      *
      * @return array Array of attributes.
      */
-    public function get_attributes() {
+    public function get_attributes()
+    {
         return is_array($this->attributes) ?
             $this->attributes :
             array();
@@ -597,7 +607,8 @@ class WP_Block_Type {
      *
      * @return array[]
      */
-    public function get_variations() {
+    public function get_variations()
+    {
         if (! isset($this->variations)) {
             $this->variations = array();
             if (is_callable($this->variation_callback)) {
@@ -623,7 +634,8 @@ class WP_Block_Type {
      *
      * @return string[]
      */
-    public function get_uses_context() {
+    public function get_uses_context()
+    {
         /**
          * Filters the registered uses context for a block type.
          *

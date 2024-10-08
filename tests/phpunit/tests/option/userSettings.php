@@ -3,10 +3,12 @@
  * @group option
  * @group user
  */
-class Tests_Option_UserSettings extends WP_UnitTestCase {
+class Tests_Option_UserSettings extends WP_UnitTestCase
+{
     protected $user_id;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->user_id = self::factory()->user->create(
@@ -18,7 +20,8 @@ class Tests_Option_UserSettings extends WP_UnitTestCase {
         wp_set_current_user($this->user_id);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         unset($GLOBALS['_updated_user_settings']);
 
         parent::tear_down();
@@ -29,7 +32,8 @@ class Tests_Option_UserSettings extends WP_UnitTestCase {
      * @covers ::get_all_user_settings
      * @covers ::wp_set_all_user_settings
      */
-    public function test_set_user_setting() {
+    public function test_set_user_setting()
+    {
         $foo = get_user_setting('foo');
 
         $this->assertEmpty($foo);
@@ -44,7 +48,8 @@ class Tests_Option_UserSettings extends WP_UnitTestCase {
      * @covers ::get_all_user_settings
      * @covers ::wp_set_all_user_settings
      */
-    public function test_set_user_setting_dashes() {
+    public function test_set_user_setting_dashes()
+    {
         $foo = get_user_setting('foo');
 
         $this->assertEmpty($foo);
@@ -59,7 +64,8 @@ class Tests_Option_UserSettings extends WP_UnitTestCase {
      * @covers ::get_all_user_settings
      * @covers ::wp_set_all_user_settings
      */
-    public function test_set_user_setting_strip_asterisks() {
+    public function test_set_user_setting_strip_asterisks()
+    {
         $foo = get_user_setting('foo');
 
         $this->assertEmpty($foo);
@@ -70,7 +76,8 @@ class Tests_Option_UserSettings extends WP_UnitTestCase {
     }
 
     // set_user_setting() bails if `headers_sent()` is true.
-    private function set_user_setting($name, $value) {
+    private function set_user_setting($name, $value)
+    {
         $all_user_settings          = get_all_user_settings();
         $all_user_settings[ $name ] = $value;
 

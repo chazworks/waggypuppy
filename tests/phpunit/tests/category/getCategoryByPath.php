@@ -5,12 +5,14 @@
  *
  * @covers ::get_category_by_path
  */
-class Tests_Category_GetCategoryByPath extends WP_UnitTestCase {
+class Tests_Category_GetCategoryByPath extends WP_UnitTestCase
+{
 
     /**
      * Validate get_category_by_path function
      */
-    public function test_get_category_by_path() {
+    public function test_get_category_by_path()
+    {
 
         // Create test categories.
         $root_id           = self::factory()->category->create(

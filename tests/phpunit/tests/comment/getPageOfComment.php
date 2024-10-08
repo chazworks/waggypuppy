@@ -5,9 +5,11 @@
  *
  * @covers ::get_page_of_comment
  */
-class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
+class Tests_Comment_GetPageOfComment extends WP_UnitTestCase
+{
 
-    public function test_last_comment() {
+    public function test_last_comment()
+    {
         $p = self::factory()->post->create();
 
         // Page 4.
@@ -36,7 +38,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $this->assertSame(1, get_page_of_comment($comment_first[0], array('per_page' => 10)));
     }
 
-    public function test_type_pings() {
+    public function test_type_pings()
+    {
         $p   = self::factory()->post->create();
         $now = time();
 
@@ -99,7 +102,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 11334
      */
-    public function test_subsequent_calls_should_hit_cache() {
+    public function test_subsequent_calls_should_hit_cache()
+    {
         $p = self::factory()->post->create();
         $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
@@ -116,7 +120,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 11334
      */
-    public function test_cache_hits_should_be_sensitive_to_comment_type() {
+    public function test_cache_hits_should_be_sensitive_to_comment_type()
+    {
         $p       = self::factory()->post->create();
         $comment = self::factory()->comment->create(
             array(
@@ -163,7 +168,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 11334
      */
-    public function test_cache_should_be_invalidated_when_comment_is_approved() {
+    public function test_cache_should_be_invalidated_when_comment_is_approved()
+    {
         $p = self::factory()->post->create();
         $c = self::factory()->comment->create(
             array(
@@ -184,7 +190,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 11334
      */
-    public function test_cache_should_be_invalidated_when_comment_is_deleted() {
+    public function test_cache_should_be_invalidated_when_comment_is_deleted()
+    {
         $p = self::factory()->post->create();
         $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
@@ -200,7 +207,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 11334
      */
-    public function test_cache_should_be_invalidated_when_comment_is_spammed() {
+    public function test_cache_should_be_invalidated_when_comment_is_spammed()
+    {
         $p = self::factory()->post->create();
         $c = self::factory()->comment->create(array('comment_post_ID' => $p));
 
@@ -216,7 +224,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 11334
      */
-    public function test_cache_should_be_invalidated_when_older_comment_is_published() {
+    public function test_cache_should_be_invalidated_when_older_comment_is_published()
+    {
         $now = time();
 
         $p  = self::factory()->post->create();
@@ -250,7 +259,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 34057
      */
-    public function test_query_should_be_limited_to_comments_on_the_proper_post() {
+    public function test_query_should_be_limited_to_comments_on_the_proper_post()
+    {
         $posts = self::factory()->post->create_many(2);
 
         $now        = time();
@@ -281,7 +291,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 13939
      */
-    public function test_only_top_level_comments_should_be_included_in_older_count() {
+    public function test_only_top_level_comments_should_be_included_in_older_count()
+    {
         $post = self::factory()->post->create();
 
         $now              = time();
@@ -328,7 +339,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 13939
      */
-    public function test_comments_per_page_option_should_be_fallback_when_query_var_is_not_available() {
+    public function test_comments_per_page_option_should_be_fallback_when_query_var_is_not_available()
+    {
         $now = time();
 
         $p  = self::factory()->post->create();
@@ -361,7 +373,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
      * @ticket 31101
      * @ticket 39280
      */
-    public function test_should_ignore_comment_order() {
+    public function test_should_ignore_comment_order()
+    {
         $now = time();
 
         $p  = self::factory()->post->create();
@@ -401,7 +414,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
      * @ticket 31101
      * @ticket 39280
      */
-    public function test_should_ignore_default_comment_page() {
+    public function test_should_ignore_default_comment_page()
+    {
         $now = time();
 
         $p  = self::factory()->post->create();
@@ -440,7 +454,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 8973
      */
-    public function test_page_number_when_unapproved_comments_are_included_for_current_commenter() {
+    public function test_page_number_when_unapproved_comments_are_included_for_current_commenter()
+    {
         $post         = self::factory()->post->create();
         $comment_args = array(
             'comment_post_ID'      => $post,
@@ -485,7 +500,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
         $this->assertContains((string) $new_unapproved, wp_list_pluck($comments, 'comment_ID'));
     }
 
-    public function get_current_commenter() {
+    public function get_current_commenter()
+    {
         return array(
             'comment_author_email' => 'foo@bar.test',
             'comment_author'       => 'Foo',
@@ -496,7 +512,8 @@ class Tests_Comment_GetPageOfComment extends WP_UnitTestCase {
     /**
      * @ticket 8973
      */
-    public function test_page_number_when_unapproved_comments_are_included_for_current_user() {
+    public function test_page_number_when_unapproved_comments_are_included_for_current_user()
+    {
         $current_user = get_current_user_id();
         $post         = self::factory()->post->create();
         $user         = self::factory()->user->create_and_get();

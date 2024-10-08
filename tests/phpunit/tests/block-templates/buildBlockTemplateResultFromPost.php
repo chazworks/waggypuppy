@@ -6,14 +6,16 @@ require_once __DIR__ . '/base.php';
  * @group block-templates
  * @covers ::_build_block_template_result_from_post
  */
-class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Templates_UnitTestCase {
+class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Templates_UnitTestCase
+{
 
     /**
      * Tear down each test method.
      *
      * @since 6.5.0
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $registry = WP_Block_Type_Registry::get_instance();
 
         if ($registry->is_registered('tests/my-block')) {
@@ -30,7 +32,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     /**
      * @ticket 54335
      */
-    public function test_should_build_template() {
+    public function test_should_build_template()
+    {
         $template = _build_block_template_result_from_post(
             self::$template_post,
             'wp_template'
@@ -51,7 +54,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
     /**
      * @ticket 54335
      */
-    public function test_should_build_template_part() {
+    public function test_should_build_template_part()
+    {
         $template_part = _build_block_template_result_from_post(
             self::$template_part_post,
             'wp_template_part'
@@ -73,7 +77,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
      * @ticket 59646
      * @ticket 60506
      */
-    public function test_should_inject_hooked_block_into_template() {
+    public function test_should_inject_hooked_block_into_template()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -94,7 +99,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
      * @ticket 59646
      * @ticket 60506
      */
-    public function test_should_inject_hooked_block_into_template_part() {
+    public function test_should_inject_hooked_block_into_template_part()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -116,7 +122,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
      * @ticket 60506
      * @ticket 60854
      */
-    public function test_should_injected_hooked_block_into_template_part_first_child() {
+    public function test_should_injected_hooked_block_into_template_part_first_child()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -138,7 +145,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
      * @ticket 60506
      * @ticket 60854
      */
-    public function test_should_injected_hooked_block_into_template_part_last_child() {
+    public function test_should_injected_hooked_block_into_template_part_last_child()
+    {
         register_block_type(
             'tests/my-block',
             array(
@@ -159,7 +167,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
      * @ticket 59646
      * @ticket 60506
      */
-    public function test_should_not_inject_ignored_hooked_block_into_template() {
+    public function test_should_not_inject_ignored_hooked_block_into_template()
+    {
         register_block_type(
             'tests/ignored',
             array(
@@ -180,7 +189,8 @@ class Tests_Block_Templates_BuildBlockTemplateResultFromPost extends WP_Block_Te
      * @ticket 59646
      * @ticket 60506
      */
-    public function test_should_not_inject_ignored_hooked_block_into_template_part() {
+    public function test_should_not_inject_ignored_hooked_block_into_template_part()
+    {
         register_block_type(
             'tests/ignored',
             array(

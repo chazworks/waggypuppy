@@ -11,7 +11,8 @@
  *
  * @group widgets
  */
-class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
+class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
+{
 
     /**
      * Args passed to the widget_custom_html_content filter.
@@ -33,7 +34,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      * @global WP_Scripts $wp_scripts
      * @global WP_Styles  $wp_style
      */
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_scripts, $wp_styles;
         parent::clean_up_global_scope();
         $wp_scripts = null;
@@ -45,7 +47,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Custom_HTML::__construct
      */
-    public function test_construct() {
+    public function test_construct()
+    {
         $widget = new WP_Widget_Custom_HTML();
         $this->assertSame('custom_html', $widget->id_base);
         $this->assertSame('widget_custom_html', $widget->widget_options['classname']);
@@ -59,7 +62,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Custom_HTML::_register
      */
-    public function test__register() {
+    public function test__register()
+    {
         set_current_screen('widgets.php');
         $widget = new WP_Widget_Custom_HTML();
         $widget->_register();
@@ -74,7 +78,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Custom_HTML::widget
      */
-    public function test_widget() {
+    public function test_widget()
+    {
         $widget  = new WP_Widget_Custom_HTML();
         $content = "<i>Custom HTML</i>\n\n<b>CODE</b>\nLast line.<u>unclosed";
 
@@ -138,7 +143,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      * @param WP_Widget_Custom_HTML $widget   Current widget instance.
      * @return string Widget content.
      */
-    public function filter_widget_text($text, $instance, $widget) {
+    public function filter_widget_text($text, $instance, $widget)
+    {
         $this->widget_text_args = array($text, $instance, $widget);
         $text                  .= '[filter:widget_text]';
         return $text;
@@ -152,7 +158,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      * @param WP_Widget_Custom_HTML $widget         Current Custom HTML widget instance.
      * @return string Widget content.
      */
-    public function filter_widget_custom_html_content($widget_content, $instance, $widget) {
+    public function filter_widget_custom_html_content($widget_content, $instance, $widget)
+    {
         $this->widget_custom_html_content_args = array($widget_content, $instance, $widget);
         $widget_content                       .= '[filter:widget_custom_html_content]';
         return $widget_content;
@@ -163,7 +170,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Custom_HTML::update
      */
-    public function test_update() {
+    public function test_update()
+    {
         $widget   = new WP_Widget_Custom_HTML();
         $instance = array(
             'title'   => "The\n<b>Title</b>",
@@ -211,7 +219,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      * @param string $cap     Capability name.
      * @return array Caps.
      */
-    public function grant_unfiltered_html_cap($caps, $cap) {
+    public function grant_unfiltered_html_cap($caps, $cap)
+    {
         if ('unfiltered_html' === $cap) {
             $caps   = array_diff($caps, array('do_not_allow'));
             $caps[] = 'unfiltered_html';
@@ -226,7 +235,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      * @param string $cap     Capability name.
      * @return array Caps.
      */
-    public function revoke_unfiltered_html_cap($caps, $cap) {
+    public function revoke_unfiltered_html_cap($caps, $cap)
+    {
         if ('unfiltered_html' === $cap) {
             $caps   = array_diff($caps, array('unfiltered_html'));
             $caps[] = 'do_not_allow';
@@ -239,7 +249,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Custom_HTML::enqueue_admin_scripts
      */
-    public function test_enqueue_admin_scripts_when_logged_in_and_syntax_highlighting_on() {
+    public function test_enqueue_admin_scripts_when_logged_in_and_syntax_highlighting_on()
+    {
         $user = self::factory()->user->create();
         wp_set_current_user($user);
         wp_get_current_user()->syntax_highlighting = 'true';
@@ -260,7 +271,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Custom_HTML::enqueue_admin_scripts
      */
-    public function test_enqueue_admin_scripts_when_logged_in_and_syntax_highlighting_off() {
+    public function test_enqueue_admin_scripts_when_logged_in_and_syntax_highlighting_off()
+    {
         $user = self::factory()->user->create();
         wp_set_current_user($user);
         update_user_meta($user, 'syntax_highlighting', 'false');
@@ -281,7 +293,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Custom_HTML::render_control_template_scripts
      */
-    public function test_render_control_template_scripts() {
+    public function test_render_control_template_scripts()
+    {
         ob_start();
         WP_Widget_Custom_HTML::render_control_template_scripts();
         $output = ob_get_clean();
@@ -294,7 +307,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Custom_HTML::add_help_text
      */
-    public function test_add_help_text() {
+    public function test_add_help_text()
+    {
         set_current_screen('widgets.php');
         WP_Widget_Custom_HTML::add_help_text();
         $help_tab = get_current_screen()->get_help_tab('custom_html_widget');
@@ -307,7 +321,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase {
      *
      * @ticket 46421
      */
-    public function test_render_links_without_target() {
+    public function test_render_links_without_target()
+    {
         $widget = new WP_Widget_Custom_HTML();
 
         $content = 'Test content with an internal <a href="/">link</a>.';

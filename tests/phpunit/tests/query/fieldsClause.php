@@ -4,7 +4,8 @@
  *
  * @covers WP_Query::get_posts
  */
-class Tests_Query_FieldsClause extends WP_UnitTestCase {
+class Tests_Query_FieldsClause extends WP_UnitTestCase
+{
 
     /**
      * Post IDs.
@@ -20,14 +21,16 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      */
     private static $page_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Register CPT for use with shared fixtures.
         register_post_type('wptests_pt');
 
         self::$post_ids = $factory->post->create_many(5, array('post_type' => 'wptests_pt'));
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         /*
          * Re-register the CPT for use within each test.
@@ -44,7 +47,8 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      *
      * @ticket 57012
      */
-    public function test_should_limit_fields_to_id_and_parent_subset() {
+    public function test_should_limit_fields_to_id_and_parent_subset()
+    {
         $query_args = array(
             'post_type' => 'wptests_pt',
             'fields'    => 'id=>parent',
@@ -74,7 +78,8 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      *
      * @ticket 57012
      */
-    public function test_should_limit_fields_to_ids() {
+    public function test_should_limit_fields_to_ids()
+    {
         $query_args = array(
             'post_type' => 'wptests_pt',
             'fields'    => 'ids',
@@ -98,7 +103,8 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      *
      * @ticket 57012
      */
-    public function test_should_query_all_fields() {
+    public function test_should_query_all_fields()
+    {
         $query_args = array(
             'post_type' => 'wptests_pt',
             'fields'    => 'all',
@@ -122,7 +128,8 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      *
      * @ticket 57012
      */
-    public function test_should_include_filtered_values_in_addition_to_id_and_parent_subset() {
+    public function test_should_include_filtered_values_in_addition_to_id_and_parent_subset()
+    {
         add_filter('posts_fields', array($this, 'filter_posts_fields'));
         add_filter('posts_clauses', array($this, 'filter_posts_clauses'));
 
@@ -157,7 +164,8 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      *
      * @ticket 57012
      */
-    public function test_should_include_filtered_values_in_addition_to_id() {
+    public function test_should_include_filtered_values_in_addition_to_id()
+    {
         add_filter('posts_fields', array($this, 'filter_posts_fields'));
         add_filter('posts_clauses', array($this, 'filter_posts_clauses'));
 
@@ -185,7 +193,8 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      *
      * @ticket 57012
      */
-    public function test_should_include_filtered_values() {
+    public function test_should_include_filtered_values()
+    {
         add_filter('posts_fields', array($this, 'filter_posts_fields'));
         add_filter('posts_clauses', array($this, 'filter_posts_clauses'));
 
@@ -217,7 +226,8 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      * @param string $fields The fields to SELECT.
      * @return string The filtered fields.
      */
-    public function filter_posts_fields($fields) {
+    public function filter_posts_fields($fields)
+    {
         return "$fields, 1 as test_post_fields";
     }
 
@@ -227,7 +237,8 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase {
      * @param array $clauses The WP_Query database clauses.
      * @return array The filtered database clauses.
      */
-    public function filter_posts_clauses($clauses) {
+    public function filter_posts_clauses($clauses)
+    {
         $clauses['fields'] .= ', 2 as test_post_clauses';
         return $clauses;
     }

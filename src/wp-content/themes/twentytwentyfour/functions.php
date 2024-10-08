@@ -19,7 +19,8 @@ if (! function_exists('twentytwentyfour_block_styles')) :
      * @since Twenty Twenty-Four 1.0
      * @return void
      */
-    function twentytwentyfour_block_styles() {
+    function twentytwentyfour_block_styles()
+    {
 
         register_block_style(
             'core/details',
@@ -157,7 +158,8 @@ if (! function_exists('twentytwentyfour_block_stylesheets')) :
      * @since Twenty Twenty-Four 1.0
      * @return void
      */
-    function twentytwentyfour_block_stylesheets() {
+    function twentytwentyfour_block_stylesheets()
+    {
         /**
          * The wp_enqueue_block_style() function allows us to enqueue a stylesheet
          * for a specific block. These will only get loaded when the block is rendered
@@ -191,7 +193,8 @@ if (! function_exists('twentytwentyfour_pattern_categories')) :
      * @since Twenty Twenty-Four 1.0
      * @return void
      */
-    function twentytwentyfour_pattern_categories() {
+    function twentytwentyfour_pattern_categories()
+    {
 
         register_block_pattern_category(
             'twentytwentyfour_page',

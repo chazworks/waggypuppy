@@ -13,7 +13,8 @@
  * @since 4.7.0
  */
 #[AllowDynamicProperties]
-final class WP_Taxonomy {
+final class WP_Taxonomy
+{
     /**
      * Taxonomy key.
      *
@@ -284,7 +285,8 @@ final class WP_Taxonomy {
      *                                  See register_taxonomy() for information on accepted arguments.
      *                                  Default empty array.
      */
-    public function __construct($taxonomy, $object_type, $args = array()) {
+    public function __construct($taxonomy, $object_type, $args = array())
+    {
         $this->name = $taxonomy;
 
         $this->set_props($object_type, $args);
@@ -300,7 +302,8 @@ final class WP_Taxonomy {
      * @param string|string[] $object_type Name or array of names of the object types for the taxonomy.
      * @param array|string    $args        Array or query string of arguments for registering a taxonomy.
      */
-    public function set_props($object_type, $args) {
+    public function set_props($object_type, $args)
+    {
         $args = wp_parse_args($args);
 
         /**
@@ -494,7 +497,8 @@ final class WP_Taxonomy {
      *
      * @global WP $wp Current WordPress environment instance.
      */
-    public function add_rewrite_rules() {
+    public function add_rewrite_rules()
+    {
         /* @var WP $wp */
         global $wp;
 
@@ -522,7 +526,8 @@ final class WP_Taxonomy {
      *
      * @global WP $wp Current WordPress environment instance.
      */
-    public function remove_rewrite_rules() {
+    public function remove_rewrite_rules()
+    {
         /* @var WP $wp */
         global $wp;
 
@@ -543,7 +548,8 @@ final class WP_Taxonomy {
      *
      * @since 4.7.0
      */
-    public function add_hooks() {
+    public function add_hooks()
+    {
         add_filter('wp_ajax_add-' . $this->name, '_wp_ajax_add_hierarchical_term');
     }
 
@@ -552,7 +558,8 @@ final class WP_Taxonomy {
      *
      * @since 4.7.0
      */
-    public function remove_hooks() {
+    public function remove_hooks()
+    {
         remove_filter('wp_ajax_add-' . $this->name, '_wp_ajax_add_hierarchical_term');
     }
 
@@ -566,7 +573,8 @@ final class WP_Taxonomy {
      * @return WP_REST_Controller|null The controller instance, or null if the taxonomy
      *                                 is set not to show in rest.
      */
-    public function get_rest_controller() {
+    public function get_rest_controller()
+    {
         if (! $this->show_in_rest) {
             return null;
         }
@@ -599,7 +607,8 @@ final class WP_Taxonomy {
      *
      * @return (string|null)[][] The default labels for taxonomies.
      */
-    public static function get_default_labels() {
+    public static function get_default_labels()
+    {
         if (! empty(self::$default_labels)) {
             return self::$default_labels;
         }
@@ -655,7 +664,8 @@ final class WP_Taxonomy {
      *
      * @since 6.0.0
      */
-    public static function reset_default_labels() {
+    public static function reset_default_labels()
+    {
         self::$default_labels = array();
     }
 }

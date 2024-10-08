@@ -10,7 +10,8 @@
 /**
  * Generate the CSS for the current custom color scheme.
  */
-function twentyseventeen_custom_colors_css() {
+function twentyseventeen_custom_colors_css()
+{
     $hue = absint(get_theme_mod('colorscheme_hue', 250));
 
     /**

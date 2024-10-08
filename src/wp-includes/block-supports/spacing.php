@@ -17,7 +17,8 @@
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_spacing_support($block_type) {
+function wp_register_spacing_support($block_type)
+{
     $has_spacing_support = block_has_support($block_type, 'spacing', false);
 
     // Setup attributes and styles within that if needed.
@@ -44,7 +45,8 @@ function wp_register_spacing_support($block_type) {
  * @param array         $block_attributes Block attributes.
  * @return array Block spacing CSS classes and inline styles.
  */
-function wp_apply_spacing_support($block_type, $block_attributes) {
+function wp_apply_spacing_support($block_type, $block_attributes)
+{
     if (wp_should_skip_block_supports_serialization($block_type, 'spacing')) {
         return array();
     }

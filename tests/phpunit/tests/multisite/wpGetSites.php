@@ -7,10 +7,12 @@ if (is_multisite()) :
      * @group ms-site
      * @group multisite
      */
-    class Tests_Multisite_wpGetSites extends WP_UnitTestCase {
+    class Tests_Multisite_wpGetSites extends WP_UnitTestCase
+    {
         protected static $site_ids;
 
-        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+        public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+        {
             self::$site_ids = array(
                 'w.org/'      => array(
                     'domain'     => 'w.org',
@@ -41,7 +43,8 @@ if (is_multisite()) :
             unset($id);
         }
 
-        public static function wpTearDownAfterClass() {
+        public static function wpTearDownAfterClass()
+        {
             foreach (self::$site_ids as $id) {
                 wp_delete_site($id);
             }
@@ -52,7 +55,8 @@ if (is_multisite()) :
         /**
          * @expectedDeprecated wp_get_sites
          */
-        public function test_wp_get_sites_site_is_expected_array() {
+        public function test_wp_get_sites_site_is_expected_array()
+        {
 
             $keys  = array(
                 'blog_id',
@@ -83,14 +87,16 @@ if (is_multisite()) :
          * @param $args
          * @param $error
          */
-        public function test_wp_get_sites($expected, $args, $error) {
+        public function test_wp_get_sites($expected, $args, $error)
+        {
             $this->assertCount($expected, wp_get_sites($args), $error);
         }
 
         /**
          * @return array
          */
-        public function data_wp_get_sites() {
+        public function data_wp_get_sites()
+        {
             return array(
                 array(3, array(), 'Default arguments should return all sites from the current network.'),
                 array(0, array('network_id' => 999), 'No sites should match a query with an invalid network ID.'),

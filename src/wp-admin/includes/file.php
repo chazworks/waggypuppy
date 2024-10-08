@@ -77,7 +77,8 @@ $wp_file_descriptions = array(
  * @return string Description of file from $wp_file_descriptions or basename of $file if description doesn't exist.
  *                Appends 'Page Template' to basename of $file if the file is a page template.
  */
-function get_file_description($file) {
+function get_file_description($file)
+{
     global $wp_file_descriptions, $allowed_files;
 
     $dirname   = pathinfo($file, PATHINFO_DIRNAME);
@@ -104,7 +105,8 @@ function get_file_description($file) {
  *
  * @return string Full filesystem path to the root of the WordPress installation.
  */
-function get_home_path() {
+function get_home_path()
+{
     $home    = set_url_scheme(get_option('home'), 'http');
     $siteurl = set_url_scheme(get_option('siteurl'), 'http');
 
@@ -136,7 +138,8 @@ function get_home_path() {
  *                                 Default false.
  * @return string[]|false Array of files on success, false on failure.
  */
-function list_files($folder = '', $levels = 100, $exclusions = array(), $include_hidden = false) {
+function list_files($folder = '', $levels = 100, $exclusions = array(), $include_hidden = false)
+{
     if (empty($folder)) {
         return false;
     }
@@ -189,7 +192,8 @@ function list_files($folder = '', $levels = 100, $exclusions = array(), $include
  * @param string $plugin Path to the plugin file relative to the plugins directory.
  * @return string[] Array of editable file extensions.
  */
-function wp_get_plugin_file_editable_extensions($plugin) {
+function wp_get_plugin_file_editable_extensions($plugin)
+{
 
     $default_types = array(
         'bash',
@@ -248,7 +252,8 @@ function wp_get_plugin_file_editable_extensions($plugin) {
  * @param WP_Theme $theme Theme object.
  * @return string[] Array of editable file extensions.
  */
-function wp_get_theme_file_editable_extensions($theme) {
+function wp_get_theme_file_editable_extensions($theme)
+{
 
     $default_types = array(
         'bash',
@@ -304,7 +309,8 @@ function wp_get_theme_file_editable_extensions($theme) {
  *
  * @since 4.9.0
  */
-function wp_print_file_editor_templates() {
+function wp_print_file_editor_templates()
+{
     ?>
     <script type="text/html" id="tmpl-wp-file-editor-notice">
         <div class="notice inline notice-{{ data.type || 'info' }} {{ data.alt ? 'notice-alt' : '' }} {{ data.dismissible ? 'is-dismissible' : '' }} {{ data.classes || '' }}">
@@ -375,7 +381,8 @@ function wp_print_file_editor_templates() {
  * }
  * @return true|WP_Error True on success or `WP_Error` on failure.
  */
-function wp_edit_theme_plugin_file($args) {
+function wp_edit_theme_plugin_file($args)
+{
     if (empty($args['file'])) {
         return new WP_Error('missing_file');
     }
@@ -668,7 +675,8 @@ function wp_edit_theme_plugin_file($args) {
  * @param string $dir      Optional. Directory to store the file in. Default empty.
  * @return string A writable filename.
  */
-function wp_tempnam($filename = '', $dir = '') {
+function wp_tempnam($filename = '', $dir = '')
+{
     if (empty($dir)) {
         $dir = get_temp_dir();
     }
@@ -734,7 +742,8 @@ function wp_tempnam($filename = '', $dir = '') {
  *                                `$file` must match an entry exactly.
  * @return string|void Returns the file name on success, dies on failure.
  */
-function validate_file_to_edit($file, $allowed_files = array()) {
+function validate_file_to_edit($file, $allowed_files = array())
+{
     $code = validate_file($file, $allowed_files);
 
     if (! $code) {
@@ -799,10 +808,12 @@ function validate_file_to_edit($file, $allowed_files = array()) {
  *     @type string $type Mime type of the newly-uploaded file.
  * }
  */
-function _wp_handle_upload(&$file, $overrides, $time, $action) {
+function _wp_handle_upload(&$file, $overrides, $time, $action)
+{
     // The default error handler.
     if (! function_exists('wp_handle_upload_error')) {
-        function wp_handle_upload_error(&$file, $message) {
+        function wp_handle_upload_error(&$file, $message)
+        {
             return array('error' => $message);
         }
     }
@@ -1092,7 +1103,8 @@ function _wp_handle_upload(&$file, $overrides, $time, $action) {
  * @param string|null $time      Optional. Time formatted in 'yyyy/mm'. Default null.
  * @return array See _wp_handle_upload() for return value.
  */
-function wp_handle_upload(&$file, $overrides = false, $time = null) {
+function wp_handle_upload(&$file, $overrides = false, $time = null)
+{
     /*
      *  $_POST['action'] must be set and its value must equal $overrides['action']
      *  or this:
@@ -1123,7 +1135,8 @@ function wp_handle_upload(&$file, $overrides = false, $time = null) {
  * @param string|null $time      Optional. Time formatted in 'yyyy/mm'. Default null.
  * @return array See _wp_handle_upload() for return value.
  */
-function wp_handle_sideload(&$file, $overrides = false, $time = null) {
+function wp_handle_sideload(&$file, $overrides = false, $time = null)
+{
     /*
      *  $_POST['action'] must be set and its value must equal $overrides['action']
      *  or this:
@@ -1152,7 +1165,8 @@ function wp_handle_sideload(&$file, $overrides = false, $time = null) {
  *                                       Default false.
  * @return string|WP_Error Filename on success, WP_Error on failure.
  */
-function download_url($url, $timeout = 300, $signature_verification = false) {
+function download_url($url, $timeout = 300, $signature_verification = false)
+{
     // WARNING: The file is not automatically deleted, the script must delete or move the file.
     if (! $url) {
         return new WP_Error('http_no_url', __('No URL Provided.'));
@@ -1347,7 +1361,8 @@ function download_url($url, $timeout = 300, $signature_verification = false) {
  * @return bool|WP_Error True on success, false when the MD5 format is unknown/unexpected,
  *                       WP_Error on failure.
  */
-function verify_file_md5($filename, $expected_md5) {
+function verify_file_md5($filename, $expected_md5)
+{
     if (32 === strlen($expected_md5)) {
         $expected_raw_md5 = pack('H*', $expected_md5);
     } elseif (24 === strlen($expected_md5)) {
@@ -1384,7 +1399,8 @@ function verify_file_md5($filename, $expected_md5) {
  * @return bool|WP_Error True on success, false if verification not attempted,
  *                       or WP_Error describing an error condition.
  */
-function verify_file_signature($filename, $signatures, $filename_for_errors = false) {
+function verify_file_signature($filename, $signatures, $filename_for_errors = false)
+{
     if (! $filename_for_errors) {
         $filename_for_errors = wp_basename($filename);
     }
@@ -1519,7 +1535,8 @@ function verify_file_signature($filename, $signatures, $filename_for_errors = fa
  *
  * @return string[] Array of base64-encoded signing keys.
  */
-function wp_trusted_keys() {
+function wp_trusted_keys()
+{
     $trusted_keys = array();
 
     if (time() < 1617235200) {
@@ -1550,7 +1567,8 @@ function wp_trusted_keys() {
  * @param string $file Full path to the ZIP file.
  * @return bool Whether the file is a valid ZIP file.
  */
-function wp_zip_file_is_valid($file) {
+function wp_zip_file_is_valid($file)
+{
     /** This filter is documented in wp-admin/includes/file.php */
     if (class_exists('ZipArchive', false) && apply_filters('unzip_file_use_ziparchive', true)) {
         $archive          = new ZipArchive();
@@ -1588,7 +1606,8 @@ function wp_zip_file_is_valid($file) {
  * @param string $to   Full path on the filesystem to extract archive to.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
-function unzip_file($file, $to) {
+function unzip_file($file, $to)
+{
     global $wp_filesystem;
 
     if (! $wp_filesystem || ! is_object($wp_filesystem)) {
@@ -1662,7 +1681,8 @@ function unzip_file($file, $to) {
  * @param string[] $needed_dirs A partial list of required folders needed to be created.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
-function _unzip_file_ziparchive($file, $to, $needed_dirs = array()) {
+function _unzip_file_ziparchive($file, $to, $needed_dirs = array())
+{
     global $wp_filesystem;
 
     $z = new ZipArchive();
@@ -1853,7 +1873,8 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array()) {
  * @param string[] $needed_dirs A partial list of required folders needed to be created.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
-function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
+function _unzip_file_pclzip($file, $to, $needed_dirs = array())
+{
     global $wp_filesystem;
 
     mbstring_binary_safe_encoding();
@@ -1991,7 +2012,8 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
  * @param string[] $skip_list An array of files/folders to skip copying.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
-function copy_dir($from, $to, $skip_list = array()) {
+function copy_dir($from, $to, $skip_list = array())
+{
     global $wp_filesystem;
 
     $dirlist = $wp_filesystem->dirlist($from);
@@ -2075,7 +2097,8 @@ function copy_dir($from, $to, $skip_list = array()) {
  *                          Default false.
  * @return true|WP_Error True on success, WP_Error on failure.
  */
-function move_dir($from, $to, $overwrite = false) {
+function move_dir($from, $to, $overwrite = false)
+{
     global $wp_filesystem;
 
     if (trailingslashit(strtolower($from)) === trailingslashit(strtolower($to))) {
@@ -2149,7 +2172,8 @@ function move_dir($from, $to, $overwrite = false) {
  * @return bool|null True on success, false on failure,
  *                   null if the filesystem method class file does not exist.
  */
-function WP_Filesystem($args = false, $context = false, $allow_relaxed_file_ownership = false) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function WP_Filesystem($args = false, $context = false, $allow_relaxed_file_ownership = false)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+{
     global $wp_filesystem;
 
     require_once ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php';
@@ -2240,7 +2264,8 @@ function WP_Filesystem($args = false, $context = false, $allow_relaxed_file_owne
  *                                             Default false.
  * @return string The transport to use, see description for valid return values.
  */
-function get_filesystem_method($args = array(), $context = '', $allow_relaxed_file_ownership = false) {
+function get_filesystem_method($args = array(), $context = '', $allow_relaxed_file_ownership = false)
+{
     // Please ensure that this is either 'direct', 'ssh2', 'ftpext', or 'ftpsockets'.
     $method = defined('FS_METHOD') ? FS_METHOD : false;
 
@@ -2344,7 +2369,8 @@ function get_filesystem_method($args = array(), $context = '', $allow_relaxed_fi
  *                    false if they are required but have not been provided,
  *                    array of credentials if they are required and have been provided.
  */
-function request_filesystem_credentials($form_post, $type = '', $error = false, $context = '', $extra_fields = null, $allow_relaxed_file_ownership = false) {
+function request_filesystem_credentials($form_post, $type = '', $error = false, $context = '', $extra_fields = null, $allow_relaxed_file_ownership = false)
+{
     global $pagenow;
 
     /**
@@ -2653,7 +2679,8 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
  *
  * @since 4.2.0
  */
-function wp_print_request_filesystem_credentials_modal() {
+function wp_print_request_filesystem_credentials_modal()
+{
     $filesystem_method = get_filesystem_method();
 
     ob_start();
@@ -2694,7 +2721,8 @@ function wp_print_request_filesystem_credentials_modal() {
  * @return bool True if opcache was invalidated for `$filepath`, or there was nothing to invalidate.
  *              False if opcache invalidation is not available, or is disabled via filter.
  */
-function wp_opcache_invalidate($filepath, $force = false) {
+function wp_opcache_invalidate($filepath, $force = false)
+{
     static $can_invalidate = null;
 
     /*
@@ -2761,7 +2789,8 @@ function wp_opcache_invalidate($filepath, $force = false) {
  *
  * @param string $dir The path to the directory for which the opcode cache is to be cleared.
  */
-function wp_opcache_invalidate_directory($dir) {
+function wp_opcache_invalidate_directory($dir)
+{
     global $wp_filesystem;
 
     if (! is_string($dir) || '' === trim($dir)) {

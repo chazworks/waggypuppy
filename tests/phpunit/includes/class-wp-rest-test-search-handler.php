@@ -9,11 +9,13 @@
 /**
  * Test class extending WP_REST_Search_Handler
  */
-class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler {
+class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler
+{
 
     protected $items = array();
 
-    public function __construct($amount = 10) {
+    public function __construct($amount = 10)
+    {
         $this->type = 'test';
 
         $this->subtypes = array('test_first_type', 'test_second_type');
@@ -31,7 +33,8 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler {
         }
     }
 
-    public function search_items(WP_REST_Request $request) {
+    public function search_items(WP_REST_Request $request)
+    {
         $subtypes = $request[ WP_REST_Search_Controller::PROP_SUBTYPE ];
         if (in_array(WP_REST_Search_Controller::TYPE_ANY, $subtypes, true)) {
             $subtypes = $this->subtypes;
@@ -57,7 +60,8 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler {
         );
     }
 
-    public function prepare_item($id, array $fields) {
+    public function prepare_item($id, array $fields)
+    {
         $test = $this->items[ $id ];
 
         $data = array();
@@ -85,7 +89,8 @@ class WP_REST_Test_Search_Handler extends WP_REST_Search_Handler {
         return $data;
     }
 
-    public function prepare_item_links($id) {
+    public function prepare_item_links($id)
+    {
         return array();
     }
 }

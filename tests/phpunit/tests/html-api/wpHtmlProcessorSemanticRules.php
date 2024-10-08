@@ -11,7 +11,8 @@
  *
  * @coversDefaultClass WP_HTML_Processor
  */
-class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase
+{
     /*******************************************************************
      * RULES FOR "IN BODY" MODE
      *******************************************************************/
@@ -28,7 +29,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of tag in group under test.
      */
-    public function test_in_body_article_group_closes_open_p_element($tag_name) {
+    public function test_in_body_article_group_closes_open_p_element($tag_name)
+    {
         $processor = WP_HTML_Processor::create_fragment("<p><p><p><p><{$tag_name} target>");
 
         while ($processor->next_tag() && null === $processor->get_attribute('target')) {
@@ -60,7 +62,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of tag in group under test.
      */
-    public function test_in_body_article_group_can_nest_inside_itself($tag_name) {
+    public function test_in_body_article_group_can_nest_inside_itself($tag_name)
+    {
         $processor = WP_HTML_Processor::create_fragment("<div><{$tag_name}><{$tag_name}></{$tag_name}><{$tag_name}><span><{$tag_name} target>");
 
         while ($processor->next_tag() && null === $processor->get_attribute('target')) {
@@ -79,7 +82,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_article_container_group() {
+    public static function data_article_container_group()
+    {
         $group = array();
 
         foreach (array(
@@ -120,7 +124,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @ticket 58961
      */
-    public function test_in_body_skips_unexpected_button_closer() {
+    public function test_in_body_skips_unexpected_button_closer()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div>Test</button></div>');
 
         $processor->step();
@@ -144,7 +149,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @ticket 58961
      */
-    public function test_in_body_button_with_no_button_in_scope() {
+    public function test_in_body_button_with_no_button_in_scope()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><p>Click the button <button one>here</button>!</p></div><button two>not here</button>');
 
         $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected first button.');
@@ -169,7 +175,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @since 6.4.0
      */
-    public function test_in_body_button_with_button_in_scope_as_parent() {
+    public function test_in_body_button_with_button_in_scope_as_parent()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><p>Click the button <button one>almost<button two>here</button>!</p></div><button three>not here</button>');
 
         $this->assertTrue($processor->next_tag('BUTTON'), 'Could not find expected first button.');
@@ -202,7 +209,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @since 6.4.0
      */
-    public function test_in_body_button_with_button_in_scope_as_ancestor() {
+    public function test_in_body_button_with_button_in_scope_as_ancestor()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><button one><p>Click the button <span><button two>here</button>!</span></p></div><button three>not here</button>');
 
         // This button finds itself normally nesting inside the DIV.
@@ -231,7 +239,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @ticket 60283
      */
-    public function test_in_body_hr_element_closes_open_p_tag() {
+    public function test_in_body_hr_element_closes_open_p_tag()
+    {
         $processor = WP_HTML_Processor::create_fragment('<p><hr>');
 
         $processor->next_tag('HR');
@@ -251,7 +260,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @param string $tag_name Name of H1 - H6 element under test.
      */
-    public function test_in_body_heading_element_closes_open_p_tag($tag_name) {
+    public function test_in_body_heading_element_closes_open_p_tag($tag_name)
+    {
         $processor = WP_HTML_Processor::create_fragment(
             "<p>Open<{$tag_name}>Closed P</{$tag_name}><img></p>"
         );
@@ -276,7 +286,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public static function data_heading_elements() {
+    public static function data_heading_elements()
+    {
         return array(
             'H1' => array('H1'),
             'H2' => array('H2'),
@@ -297,7 +308,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      * @param string $first_heading  H1 - H6 element appearing (unclosed) before the second.
      * @param string $second_heading H1 - H6 element appearing after the first.
      */
-    public function test_in_body_heading_element_closes_other_heading_elements($first_heading, $second_heading) {
+    public function test_in_body_heading_element_closes_other_heading_elements($first_heading, $second_heading)
+    {
         $processor = WP_HTML_Processor::create_fragment(
             "<div><{$first_heading} first> then <{$second_heading} second> and end </{$second_heading}><img></{$first_heading}></div>"
         );
@@ -330,7 +342,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public static function data_heading_combinations() {
+    public static function data_heading_combinations()
+    {
         $headings = array('H1', 'H2', 'H3', 'H4', 'H5', 'H6');
 
         $combinations = array();
@@ -356,7 +369,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @since 6.4.0
      */
-    public function test_in_body_any_other_end_tag_with_unclosed_special_element() {
+    public function test_in_body_any_other_end_tag_with_unclosed_special_element()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><span><p></span><div>');
 
         $processor->next_tag('P');
@@ -379,7 +393,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @since 6.4.0
      */
-    public function test_in_body_any_other_end_tag_with_unclosed_non_special_element() {
+    public function test_in_body_any_other_end_tag_with_unclosed_non_special_element()
+    {
         $processor = WP_HTML_Processor::create_fragment('<div><span><code></span><div>');
 
         $processor->next_tag('CODE');
@@ -416,7 +431,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @ticket 60283
      */
-    public function test_br_end_tag_unsupported() {
+    public function test_br_end_tag_unsupported()
+    {
         $processor = WP_HTML_Processor::create_fragment('</br id="an-opener" html>');
 
         $this->assertTrue($processor->next_tag(), 'Failed to find the expected opening BR tag.');
@@ -433,7 +449,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase {
      *
      * @ticket 61576
      */
-    public function test_table_form_element_immediately_popped() {
+    public function test_table_form_element_immediately_popped()
+    {
         $processor = WP_HTML_Processor::create_fragment('<table><form><!--comment-->');
 
         // There should be a FORM opener and a (virtual) FORM closer.

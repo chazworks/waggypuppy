@@ -21,7 +21,8 @@
  * @param string       $filter   Optional. How to sanitize bookmark fields. Default 'raw'.
  * @return array|object|null Type returned depends on $output value.
  */
-function get_bookmark($bookmark, $output = OBJECT, $filter = 'raw') {
+function get_bookmark($bookmark, $output = OBJECT, $filter = 'raw')
+{
     global $wpdb;
 
     if (empty($bookmark)) {
@@ -75,7 +76,8 @@ function get_bookmark($bookmark, $output = OBJECT, $filter = 'raw') {
  * @param string $context  Optional. The context of how the field will be used. Default 'display'.
  * @return string|WP_Error
  */
-function get_bookmark_field($field, $bookmark, $context = 'display') {
+function get_bookmark_field($field, $bookmark, $context = 'display')
+{
     $bookmark = (int) $bookmark;
     $bookmark = get_bookmark($bookmark);
 
@@ -133,7 +135,8 @@ function get_bookmark_field($field, $bookmark, $context = 'display') {
  * }
  * @return object[] List of bookmark row objects.
  */
-function get_bookmarks($args = '') {
+function get_bookmarks($args = '')
+{
     global $wpdb;
 
     $defaults = array(
@@ -331,7 +334,8 @@ function get_bookmarks($args = '') {
  * @param string         $context  Optional. How to filter the fields. Default 'display'.
  * @return stdClass|array Same type as $bookmark but with fields sanitized.
  */
-function sanitize_bookmark($bookmark, $context = 'display') {
+function sanitize_bookmark($bookmark, $context = 'display')
+{
     $fields = array(
         'link_id',
         'link_url',
@@ -396,7 +400,8 @@ function sanitize_bookmark($bookmark, $context = 'display') {
  *                            'display', 'attribute', or 'js'. Default 'display'.
  * @return mixed The filtered value.
  */
-function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
+function sanitize_bookmark_field($field, $value, $bookmark_id, $context)
+{
     $int_fields = array('link_id', 'link_rating');
     if (in_array($field, $int_fields, true)) {
         $value = (int) $value;
@@ -464,7 +469,8 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
  *
  * @param int $bookmark_id Bookmark ID.
  */
-function clean_bookmark_cache($bookmark_id) {
+function clean_bookmark_cache($bookmark_id)
+{
     wp_cache_delete($bookmark_id, 'bookmark');
     wp_cache_delete('get_bookmarks', 'bookmark');
     clean_object_term_cache($bookmark_id, 'link');

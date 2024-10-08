@@ -15,7 +15,8 @@
  *
  * @see WP_Upgrader_Skin
  */
-class Theme_Installer_Skin extends WP_Upgrader_Skin {
+class Theme_Installer_Skin extends WP_Upgrader_Skin
+{
     public $api;
     public $type;
     public $url;
@@ -32,7 +33,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
      *
      * @param array $args
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $defaults = array(
             'type'      => 'web',
             'url'       => '',
@@ -56,7 +58,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
      *
      * @since 2.8.0
      */
-    public function before() {
+    public function before()
+    {
         if (! empty($this->api)) {
             $this->upgrader->strings['process_success'] = sprintf(
                 $this->upgrader->strings['process_success_specific'],
@@ -74,7 +77,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
      * @param WP_Error $wp_error WP_Error object.
      * @return bool True if the error should be hidden, false otherwise.
      */
-    public function hide_process_failed($wp_error) {
+    public function hide_process_failed($wp_error)
+    {
         if ('upload' === $this->type &&
             '' === $this->overwrite &&
             $wp_error->get_error_code() === 'folder_exists'
@@ -90,7 +94,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
      *
      * @since 2.8.0
      */
-    public function after() {
+    public function after()
+    {
         if ($this->do_overwrite()) {
             return;
         }
@@ -199,7 +204,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
      *
      * @return bool Whether the theme can be overwritten and HTML was outputted.
      */
-    private function do_overwrite() {
+    private function do_overwrite()
+    {
         if ('upload' !== $this->type || ! is_wp_error($this->result) || 'folder_exists' !== $this->result->get_error_code()) {
             return false;
         }

@@ -22,7 +22,8 @@
  *
  * @see WP_HTML_Tag_Processor
  */
-class WP_HTML_Span {
+class WP_HTML_Span
+{
     /**
      * Byte offset into document where span begins.
      *
@@ -49,7 +50,8 @@ class WP_HTML_Span {
      * @param int $start  Byte offset into document where replacement span begins.
      * @param int $length Byte length of span.
      */
-    public function __construct(int $start, int $length) {
+    public function __construct(int $start, int $length)
+    {
         $this->start  = $start;
         $this->length = $length;
     }

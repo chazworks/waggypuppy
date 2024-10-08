@@ -7,15 +7,18 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcase
+{
 
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/types', $routes);
         $this->assertArrayHasKey('/wp/v2/types/(?P<type>[\w-]+)', $routes);
     }
 
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/types');
         $response = rest_get_server()->dispatch($request);
@@ -30,7 +33,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSameSets(array('view', 'edit', 'embed'), $data['endpoints'][0]['args']['context']['enum']);
     }
 
-    public function test_get_items() {
+    public function test_get_items()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/types');
         $response = rest_get_server()->dispatch($request);
 
@@ -44,7 +48,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertArrayNotHasKey('revision', $data);
     }
 
-    public function test_get_items_invalid_permission_for_context() {
+    public function test_get_items_invalid_permission_for_context()
+    {
         wp_set_current_user(0);
         $request = new WP_REST_Request('GET', '/wp/v2/types');
         $request->set_param('context', 'edit');
@@ -52,7 +57,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertErrorResponse('rest_cannot_view', $response, 401);
     }
 
-    public function test_get_item() {
+    public function test_get_item()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/types/post');
         $response = rest_get_server()->dispatch($request);
         $this->check_post_type_object_response('view', $response);
@@ -63,7 +69,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
     /**
      * @ticket 53656
      */
-    public function test_get_item_cpt() {
+    public function test_get_item_cpt()
+    {
         register_post_type(
             'cpt',
             array(
@@ -80,7 +87,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
     /**
      * @ticket 61477
      */
-    public function test_get_item_template_cpt() {
+    public function test_get_item_template_cpt()
+    {
         register_post_type(
             'cpt_template',
             array(
@@ -98,7 +106,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->check_post_type_object_response('view', $response, 'cpt_template');
     }
 
-    public function test_get_item_page() {
+    public function test_get_item_page()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/types/page');
         $response = rest_get_server()->dispatch($request);
         $this->check_post_type_object_response('view', $response, 'page');
@@ -106,13 +115,15 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSame(array(), $data['taxonomies']);
     }
 
-    public function test_get_item_invalid_type() {
+    public function test_get_item_invalid_type()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/types/invalid');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_type_invalid', $response, 404);
     }
 
-    public function test_get_item_edit_context() {
+    public function test_get_item_edit_context()
+    {
         $editor_id = self::factory()->user->create(array('role' => 'editor'));
         wp_set_current_user($editor_id);
         $request = new WP_REST_Request('GET', '/wp/v2/types/post');
@@ -121,7 +132,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->check_post_type_object_response('edit', $response);
     }
 
-    public function test_get_item_invalid_permission_for_context() {
+    public function test_get_item_invalid_permission_for_context()
+    {
         wp_set_current_user(0);
         $request = new WP_REST_Request('GET', '/wp/v2/types/post');
         $request->set_param('context', 'edit');
@@ -129,28 +141,32 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertErrorResponse('rest_forbidden_context', $response, 401);
     }
 
-    public function test_create_item() {
+    public function test_create_item()
+    {
         /** Post types can't be created */
         $request  = new WP_REST_Request('POST', '/wp/v2/types');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_update_item() {
+    public function test_update_item()
+    {
         /** Post types can't be updated */
         $request  = new WP_REST_Request('POST', '/wp/v2/types/post');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         /** Post types can't be deleted */
         $request  = new WP_REST_Request('DELETE', '/wp/v2/types/post');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $obj      = get_post_type_object('post');
         $endpoint = new WP_REST_Post_Types_Controller();
         $request  = new WP_REST_Request();
@@ -159,7 +175,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->check_post_type_obj('edit', $obj, $response->get_data(), $response->get_links());
     }
 
-    public function test_prepare_item_limit_fields() {
+    public function test_prepare_item_limit_fields()
+    {
         $obj      = get_post_type_object('post');
         $request  = new WP_REST_Request();
         $endpoint = new WP_REST_Post_Types_Controller();
@@ -180,7 +197,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
      *
      * @covers WP_REST_Post_Types_Controller::get_item_schema
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/types');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -205,7 +223,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertArrayHasKey('template_lock', $properties, '`template_lock` should be included in the schema');
     }
 
-    public function test_get_additional_field_registration() {
+    public function test_get_additional_field_registration()
+    {
 
         $schema = array(
             'type'        => 'integer',
@@ -241,11 +260,13 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         $wp_rest_additional_fields = array();
     }
 
-    public function additional_field_get_callback($response_data) {
+    public function additional_field_get_callback($response_data)
+    {
         return 123;
     }
 
-    protected function check_post_type_obj($context, $post_type_obj, $data, $links) {
+    protected function check_post_type_obj($context, $post_type_obj, $data, $links)
+    {
         $this->assertSame($post_type_obj->label, $data['name']);
         $this->assertSame($post_type_obj->name, $data['slug']);
         $this->assertSame($post_type_obj->description, $data['description']);
@@ -282,7 +303,8 @@ class WP_Test_REST_Post_Types_Controller extends WP_Test_REST_Controller_Testcas
         }
     }
 
-    protected function check_post_type_object_response($context, $response, $post_type = 'post') {
+    protected function check_post_type_object_response($context, $response, $post_type = 'post')
+    {
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
         $obj  = get_post_type_object($post_type);

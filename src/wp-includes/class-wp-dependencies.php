@@ -16,7 +16,8 @@
  * @see _WP_Dependency
  */
 #[AllowDynamicProperties]
-class WP_Dependencies {
+class WP_Dependencies
+{
     /**
      * An array of all registered dependencies keyed by handle.
      *
@@ -118,7 +119,8 @@ class WP_Dependencies {
      * @param int|false             $group   Optional. Group level: level (int), no group (false).
      * @return string[] Array of handles of items that have been processed.
      */
-    public function do_items($handles = false, $group = false) {
+    public function do_items($handles = false, $group = false)
+    {
         /*
          * If nothing is passed, print the queue. If a string is passed,
          * print that item. If an array is passed, print those items.
@@ -156,7 +158,8 @@ class WP_Dependencies {
      *                          Default false.
      * @return bool True on success, false if not set.
      */
-    public function do_item($handle, $group = false) {
+    public function do_item($handle, $group = false)
+    {
         return isset($this->registered[ $handle ]);
     }
 
@@ -177,7 +180,8 @@ class WP_Dependencies {
      *                                   Default false.
      * @return bool True on success, false on failure.
      */
-    public function all_deps($handles, $recursion = false, $group = false) {
+    public function all_deps($handles, $recursion = false, $group = false)
+    {
         $handles = (array) $handles;
         if (! $handles) {
             return false;
@@ -253,7 +257,8 @@ class WP_Dependencies {
      *                                 Examples: $media, $in_footer.
      * @return bool Whether the item has been registered. True on success, false on failure.
      */
-    public function add($handle, $src, $deps = array(), $ver = false, $args = null) {
+    public function add($handle, $src, $deps = array(), $ver = false, $args = null)
+    {
         if (isset($this->registered[ $handle ])) {
             return false;
         }
@@ -285,7 +290,8 @@ class WP_Dependencies {
      * @param mixed  $value  The data value.
      * @return bool True on success, false on failure.
      */
-    public function add_data($handle, $key, $value) {
+    public function add_data($handle, $key, $value)
+    {
         if (! isset($this->registered[ $handle ])) {
             return false;
         }
@@ -304,7 +310,8 @@ class WP_Dependencies {
      * @param string $key    The data key.
      * @return mixed Extra item data (string), false otherwise.
      */
-    public function get_data($handle, $key) {
+    public function get_data($handle, $key)
+    {
         if (! isset($this->registered[ $handle ])) {
             return false;
         }
@@ -324,7 +331,8 @@ class WP_Dependencies {
      *
      * @param string|string[] $handles Item handle (string) or item handles (array of strings).
      */
-    public function remove($handles) {
+    public function remove($handles)
+    {
         foreach ((array) $handles as $handle) {
             unset($this->registered[ $handle ]);
         }
@@ -343,7 +351,8 @@ class WP_Dependencies {
      *
      * @param string|string[] $handles Item handle (string) or item handles (array of strings).
      */
-    public function enqueue($handles) {
+    public function enqueue($handles)
+    {
         foreach ((array) $handles as $handle) {
             $handle = explode('?', $handle);
 
@@ -377,7 +386,8 @@ class WP_Dependencies {
      *
      * @param string|string[] $handles Item handle (string) or item handles (array of strings).
      */
-    public function dequeue($handles) {
+    public function dequeue($handles)
+    {
         foreach ((array) $handles as $handle) {
             $handle = explode('?', $handle);
             $key    = array_search($handle[0], $this->queue, true);
@@ -403,7 +413,8 @@ class WP_Dependencies {
      * @param string   $handle Name of the item. Should be unique.
      * @return bool Whether the handle is found after recursively searching the dependency tree.
      */
-    protected function recurse_deps($queue, $handle) {
+    protected function recurse_deps($queue, $handle)
+    {
         if (isset($this->all_queued_deps)) {
             return isset($this->all_queued_deps[ $handle ]);
         }
@@ -441,7 +452,8 @@ class WP_Dependencies {
      * @param string $status Optional. Status of the item to query. Default 'registered'.
      * @return bool|_WP_Dependency Found, or object Item data.
      */
-    public function query($handle, $status = 'registered') {
+    public function query($handle, $status = 'registered')
+    {
         switch ($status) {
             case 'registered':
             case 'scripts': // Back compat.
@@ -479,7 +491,8 @@ class WP_Dependencies {
      * @param int|false $group     Group level: level (int), no group (false).
      * @return bool Not already in the group or a lower group.
      */
-    public function set_group($handle, $recursion, $group) {
+    public function set_group($handle, $recursion, $group)
+    {
         $group = (int) $group;
 
         if (isset($this->groups[ $handle ]) && $this->groups[ $handle ] <= $group) {
@@ -501,7 +514,8 @@ class WP_Dependencies {
      * @param string[] $load Array of script or style handles to load.
      * @return string Etag header.
      */
-    public function get_etag($load) {
+    public function get_etag($load)
+    {
         /*
          * Note: wp_get_wp_version() is not used here, as this file can be included
          * via wp-admin/load-scripts.php or wp-admin/load-styles.php, in which case

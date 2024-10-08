@@ -16,7 +16,8 @@
  *
  * @param string $hook_suffix An admin page's hook suffix.
  */
-function twentyeleven_admin_enqueue_scripts($hook_suffix) {
+function twentyeleven_admin_enqueue_scripts($hook_suffix)
+{
     wp_enqueue_style('twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.css', false, '20110602');
     wp_enqueue_script('twentyeleven-theme-options', get_template_directory_uri() . '/inc/theme-options.js', array('farbtastic'), '20110610');
     wp_enqueue_style('farbtastic');
@@ -34,7 +35,8 @@ add_action('admin_print_styles-appearance_page_theme_options', 'twentyeleven_adm
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_theme_options_init() {
+function twentyeleven_theme_options_init()
+{
 
     register_setting(
         'twentyeleven_options',               // Options group, see settings_fields() call in twentyeleven_theme_options_render_page().
@@ -78,7 +80,8 @@ add_action('admin_init', 'twentyeleven_theme_options_init');
  * @param string $capability The capability used for the page, which is manage_options by default.
  * @return string The capability to actually use.
  */
-function twentyeleven_option_page_capability($capability) {
+function twentyeleven_option_page_capability($capability)
+{
     return 'edit_theme_options';
 }
 add_filter('option_page_capability_twentyeleven_options', 'twentyeleven_option_page_capability');
@@ -90,7 +93,8 @@ add_filter('option_page_capability_twentyeleven_options', 'twentyeleven_option_p
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_theme_options_add_page() {
+function twentyeleven_theme_options_add_page()
+{
     $theme_page = add_theme_page(
         __('Theme Options', 'twentyeleven'),   // Name of page.
         __('Theme Options', 'twentyeleven'),   // Label in menu.
@@ -107,7 +111,8 @@ function twentyeleven_theme_options_add_page() {
 }
 add_action('admin_menu', 'twentyeleven_theme_options_add_page');
 
-function twentyeleven_theme_options_help() {
+function twentyeleven_theme_options_help()
+{
 
     $help = '<p>' . __('Some themes provide customization options that are grouped together on a Theme Options screen. If you change themes, options may change or disappear, as they are theme-specific. Your current theme, Twenty Eleven, provides the following Theme Options:', 'twentyeleven') . '</p>' .
             '<ol>' .
@@ -145,7 +150,8 @@ function twentyeleven_theme_options_help() {
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_color_schemes() {
+function twentyeleven_color_schemes()
+{
     $color_scheme_options = array(
         'light' => array(
             'value'              => 'light',
@@ -176,7 +182,8 @@ function twentyeleven_color_schemes() {
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_layouts() {
+function twentyeleven_layouts()
+{
     $layout_options = array(
         'content-sidebar' => array(
             'value'     => 'content-sidebar',
@@ -212,7 +219,8 @@ function twentyeleven_layouts() {
  *
  * @return array An array of default theme options.
  */
-function twentyeleven_get_default_theme_options() {
+function twentyeleven_get_default_theme_options()
+{
     $default_theme_options = array(
         'color_scheme' => 'light',
         'link_color'   => twentyeleven_get_default_link_color('light'),
@@ -242,7 +250,8 @@ function twentyeleven_get_default_theme_options() {
  *                             Default null (or the active color scheme).
  * @return string The default link color.
  */
-function twentyeleven_get_default_link_color($color_scheme = null) {
+function twentyeleven_get_default_link_color($color_scheme = null)
+{
     if (null === $color_scheme) {
         $options      = twentyeleven_get_theme_options();
         $color_scheme = $options['color_scheme'];
@@ -261,7 +270,8 @@ function twentyeleven_get_default_link_color($color_scheme = null) {
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_get_theme_options() {
+function twentyeleven_get_theme_options()
+{
     return get_option('twentyeleven_theme_options', twentyeleven_get_default_theme_options());
 }
 
@@ -270,7 +280,8 @@ function twentyeleven_get_theme_options() {
  *
  * @since Twenty Eleven 1.3
  */
-function twentyeleven_settings_field_color_scheme() {
+function twentyeleven_settings_field_color_scheme()
+{
     $options = twentyeleven_get_theme_options();
 
     foreach (twentyeleven_color_schemes() as $scheme) {
@@ -294,7 +305,8 @@ function twentyeleven_settings_field_color_scheme() {
  *
  * @since Twenty Eleven 1.3
  */
-function twentyeleven_settings_field_link_color() {
+function twentyeleven_settings_field_link_color()
+{
     $options = twentyeleven_get_theme_options();
     ?>
     <input type="text" name="twentyeleven_theme_options[link_color]" id="link-color" value="<?php echo esc_attr($options['link_color']); ?>" />
@@ -316,7 +328,8 @@ function twentyeleven_settings_field_link_color() {
  *
  * @since Twenty Eleven 1.3
  */
-function twentyeleven_settings_field_layout() {
+function twentyeleven_settings_field_layout()
+{
     $options = twentyeleven_get_theme_options();
     foreach (twentyeleven_layouts() as $layout) {
         ?>
@@ -338,7 +351,8 @@ function twentyeleven_settings_field_layout() {
  *
  * @since Twenty Eleven 1.2
  */
-function twentyeleven_theme_options_render_page() {
+function twentyeleven_theme_options_render_page()
+{
     $theme_name = function_exists('wp_get_theme') ? wp_get_theme()->display('Name') : get_option('current_theme');
     ?>
     <div class="wrap">
@@ -373,7 +387,8 @@ function twentyeleven_theme_options_render_page() {
  *
  * @param array $input An array of form input.
  */
-function twentyeleven_theme_options_validate($input) {
+function twentyeleven_theme_options_validate($input)
+{
     $defaults = twentyeleven_get_default_theme_options();
     $output   = $defaults;
 
@@ -413,7 +428,8 @@ function twentyeleven_theme_options_validate($input) {
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_enqueue_color_scheme() {
+function twentyeleven_enqueue_color_scheme()
+{
     $options      = twentyeleven_get_theme_options();
     $color_scheme = $options['color_scheme'];
 
@@ -439,7 +455,8 @@ add_action('wp_enqueue_scripts', 'twentyeleven_enqueue_color_scheme');
  *
  * @since Twenty Eleven 1.0
  */
-function twentyeleven_print_link_color_style() {
+function twentyeleven_print_link_color_style()
+{
     $options    = twentyeleven_get_theme_options();
     $link_color = $options['link_color'];
 
@@ -488,7 +505,8 @@ add_action('wp_head', 'twentyeleven_print_link_color_style');
  *
  * @param array $existing_classes An array of existing body classes.
  */
-function twentyeleven_layout_classes($existing_classes) {
+function twentyeleven_layout_classes($existing_classes)
+{
     $options        = twentyeleven_get_theme_options();
     $current_layout = $options['theme_layout'];
 
@@ -527,7 +545,8 @@ add_filter('body_class', 'twentyeleven_layout_classes');
  *
  * @param WP_Customize_Manager $wp_customize Customizer object.
  */
-function twentyeleven_customize_register($wp_customize) {
+function twentyeleven_customize_register($wp_customize)
+{
     $wp_customize->get_setting('blogname')->transport         = 'postMessage';
     $wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
     $wp_customize->get_setting('header_textcolor')->transport = 'postMessage';
@@ -648,7 +667,8 @@ add_action('customize_register', 'twentyeleven_customize_register');
  *
  * @return void
  */
-function twentyeleven_customize_partial_blogname() {
+function twentyeleven_customize_partial_blogname()
+{
     bloginfo('name');
 }
 
@@ -661,7 +681,8 @@ function twentyeleven_customize_partial_blogname() {
  *
  * @return void
  */
-function twentyeleven_customize_partial_blogdescription() {
+function twentyeleven_customize_partial_blogdescription()
+{
     bloginfo('description');
 }
 
@@ -672,7 +693,8 @@ function twentyeleven_customize_partial_blogdescription() {
  *
  * @since Twenty Eleven 1.3
  */
-function twentyeleven_customize_preview_js() {
+function twentyeleven_customize_preview_js()
+{
     wp_enqueue_script('twentyeleven-customizer', get_template_directory_uri() . '/inc/theme-customizer.js', array('customize-preview'), '20150401', array('in_footer' => true));
 }
 add_action('customize_preview_init', 'twentyeleven_customize_preview_js');

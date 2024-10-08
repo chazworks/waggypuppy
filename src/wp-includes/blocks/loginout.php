@@ -14,7 +14,8 @@
  *
  * @return string Returns the login-out link or form.
  */
-function render_block_core_loginout($attributes) {
+function render_block_core_loginout($attributes)
+{
 
     // Build the redirect URL.
     $current_url = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -44,7 +45,8 @@ function render_block_core_loginout($attributes) {
  *
  * @since 5.8.0
  */
-function register_block_core_loginout() {
+function register_block_core_loginout()
+{
     register_block_type_from_metadata(
         __DIR__ . '/loginout',
         array(

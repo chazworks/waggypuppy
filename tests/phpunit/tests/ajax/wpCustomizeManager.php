@@ -8,7 +8,8 @@
  *
  * @group ajax
  */
-class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
+{
 
     /**
      * Instance of WP_Customize_Manager which is reset for each test.
@@ -43,7 +44,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$subscriber_user_id = $factory->user->create(array('role' => 'subscriber'));
         self::$admin_user_id      = $factory->user->create(array('role' => 'administrator'));
     }
@@ -51,7 +53,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
     /**
      * Set up the test fixture.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
     }
@@ -59,7 +62,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
     /**
      * Tear down.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $_REQUEST = array();
         parent::tear_down();
     }
@@ -69,7 +73,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @param string $action Action.
      */
-    protected function make_ajax_call($action) {
+    protected function make_ajax_call($action)
+    {
         $this->_last_response_parsed = null;
         $this->_last_response        = '';
         try {
@@ -95,7 +100,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      * @param array $allcaps An array of all the user's capabilities.
      * @return array All caps.
      */
-    public function filter_user_has_cap($allcaps) {
+    public function filter_user_has_cap($allcaps)
+    {
         $allcaps = array_merge($allcaps, $this->overridden_caps);
         return $allcaps;
     }
@@ -107,7 +113,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @covers WP_Customize_Manager::save
      */
-    public function test_save_failures() {
+    public function test_save_failures()
+    {
         global $wp_customize;
         $wp_customize = new WP_Customize_Manager();
         $wp_customize->register_controls();
@@ -251,7 +258,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      * @param string $uuid Changeset UUID.
      * @return WP_Customize_Manager
      */
-    protected function set_up_valid_state($uuid = null) {
+    protected function set_up_valid_state($uuid = null)
+    {
         global $wp_customize;
         wp_set_current_user(self::$admin_user_id);
         $wp_customize = new WP_Customize_Manager(
@@ -275,7 +283,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @covers WP_Customize_Manager::save
      */
-    public function test_save_success_publish_create() {
+    public function test_save_success_publish_create()
+    {
         $wp_customize = $this->set_up_valid_state();
 
         $_POST['customize_changeset_status'] = 'publish';
@@ -305,7 +314,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @covers WP_Customize_Manager::save
      */
-    public function test_save_success_publish_edit() {
+    public function test_save_success_publish_edit()
+    {
         $uuid = wp_generate_uuid4();
 
         $post_id      = self::factory()->post->create(
@@ -345,7 +355,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @covers WP_Customize_Manager::save
      */
-    public function test_success_save_post_date() {
+    public function test_success_save_post_date()
+    {
         $uuid         = wp_generate_uuid4();
         $post_id      = self::factory()->post->create(
             array(
@@ -444,7 +455,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @covers WP_Customize_Manager::save
      */
-    public function test_save_autosave() {
+    public function test_save_autosave()
+    {
         $uuid = wp_generate_uuid4();
 
         $post_id = self::factory()->post->create(
@@ -491,7 +503,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @covers WP_Customize_Manager::handle_changeset_trash_request
      */
-    public function test_handle_changeset_trash_request() {
+    public function test_handle_changeset_trash_request()
+    {
         $uuid         = wp_generate_uuid4();
         $wp_customize = $this->set_up_valid_state($uuid);
 
@@ -569,7 +582,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      *
      * @return array Caps.
      */
-    public function return_do_not_allow() {
+    public function return_do_not_allow()
+    {
         return array('do_not_allow');
     }
 
@@ -580,7 +594,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      * @covers WP_Customize_Manager::handle_dismiss_autosave_or_lock_request
      * @covers WP_Customize_Manager::dismiss_user_auto_draft_changesets
      */
-    public function test_handle_dismiss_autosave_or_lock_request() {
+    public function test_handle_dismiss_autosave_or_lock_request()
+    {
         $uuid          = wp_generate_uuid4();
         $wp_customize  = $this->set_up_valid_state($uuid);
         $valid_user_id = get_current_user_id();
@@ -728,7 +743,8 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase {
      * @ticket 54549
      * @covers WP_Customize_Manager::handle_load_themes_request
      */
-    public function test_wp_ajax_customize_load_themes_action() {
+    public function test_wp_ajax_customize_load_themes_action()
+    {
         $arguments = array(
             'changeset_uuid'     => false,
             'settings_previewed' => true,

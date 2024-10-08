@@ -25,7 +25,8 @@
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string The post title if set; "(no title)" if no title is set.
  */
-function wp_latest_comments_draft_or_post_title($post = 0) {
+function wp_latest_comments_draft_or_post_title($post = 0)
+{
     $title = get_the_title($post);
     if (empty($title)) {
         $title = __('(no title)');
@@ -42,7 +43,8 @@ function wp_latest_comments_draft_or_post_title($post = 0) {
  *
  * @return string Returns the post content with latest comments added.
  */
-function render_block_core_latest_comments($attributes = array()) {
+function render_block_core_latest_comments($attributes = array())
+{
     $comments = get_comments(
         /** This filter is documented in wp-includes/widgets/class-wp-widget-recent-comments.php */
         apply_filters(
@@ -150,7 +152,8 @@ function render_block_core_latest_comments($attributes = array()) {
  *
  * @since 5.3.0
  */
-function register_block_core_latest_comments() {
+function register_block_core_latest_comments()
+{
     register_block_type_from_metadata(
         __DIR__ . '/latest-comments',
         array(

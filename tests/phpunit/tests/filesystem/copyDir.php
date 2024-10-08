@@ -8,7 +8,8 @@
  *
  * @covers ::copy_dir
  */
-class Tests_Filesystem_CopyDir extends WP_UnitTestCase {
+class Tests_Filesystem_CopyDir extends WP_UnitTestCase
+{
 
     /**
      * The test directory.
@@ -20,7 +21,8 @@ class Tests_Filesystem_CopyDir extends WP_UnitTestCase {
     /**
      * Sets up the filesystem and test directory before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -32,7 +34,8 @@ class Tests_Filesystem_CopyDir extends WP_UnitTestCase {
     /**
      * Sets up the test directory before each test.
      */
-    public function set_up() {
+    public function set_up()
+    {
         global $wp_filesystem;
 
         parent::set_up();
@@ -44,7 +47,8 @@ class Tests_Filesystem_CopyDir extends WP_UnitTestCase {
     /**
      * Removes the test directory after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         global $wp_filesystem;
 
         // Delete the root directory and its contents.
@@ -58,7 +62,8 @@ class Tests_Filesystem_CopyDir extends WP_UnitTestCase {
      *
      * @ticket 41855
      */
-    public function test_should_create_destination_it_if_does_not_exist() {
+    public function test_should_create_destination_it_if_does_not_exist()
+    {
         global $wp_filesystem;
 
         $from = self::$test_dir . 'folder1/folder2/';

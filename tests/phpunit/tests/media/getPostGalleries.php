@@ -4,7 +4,8 @@
  *
  * @covers ::get_post_galleries
  */
-class Tests_Media_GetPostGalleries extends WP_UnitTestCase {
+class Tests_Media_GetPostGalleries extends WP_UnitTestCase
+{
 
     const IMG_META = array(
         'width'  => 100,
@@ -17,7 +18,8 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase {
      *
      * @ticket 43826
      */
-    public function test_returns_empty_array_with_non_existent_post() {
+    public function test_returns_empty_array_with_non_existent_post()
+    {
         $galleries = get_post_galleries(99999, false);
         $this->assertEmpty($galleries);
     }
@@ -27,7 +29,8 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase {
      *
      * @ticket 43826
      */
-    public function test_returns_empty_array_with_post_with_no_gallery() {
+    public function test_returns_empty_array_with_post_with_no_gallery()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_content' => '<p>A post with no gallery</p>',
@@ -48,7 +51,8 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase {
      * @param string $content The content of the post.
      * @param string $needle  The content of a non-gallery block.
      */
-    public function test_returns_only_galleries($content, $needle) {
+    public function test_returns_only_galleries($content, $needle)
+    {
         $image_id = self::factory()->attachment->create_object(
             array(
                 'file'           => 'test.jpg',
@@ -83,7 +87,8 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_returns_only_galleries() {
+    public function data_returns_only_galleries()
+    {
         $gallery = '
 		<!-- wp:gallery {"linkTo":"none","className":"columns-2"} -->
 		<figure
@@ -122,7 +127,8 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase {
      *
      * @group shortcode
      */
-    public function test_returns_no_srcs_with_shortcode_in_post_with_no_attached_images() {
+    public function test_returns_no_srcs_with_shortcode_in_post_with_no_attached_images()
+    {
         // Set up an unattached image.
         self::factory()->attachment->create_object(
             array(
@@ -171,7 +177,8 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase {
      *
      * @group blocks
      */
-    public function test_returns_no_srcs_with_block_in_post_with_no_attached_images() {
+    public function test_returns_no_srcs_with_block_in_post_with_no_attached_images()
+    {
         // Set up an unattached image.
         self::factory()->attachment->create_object(
             array(
@@ -229,7 +236,8 @@ class Tests_Media_GetPostGalleries extends WP_UnitTestCase {
      *
      * @group blocks
      */
-    public function test_returns_no_srcs_with_block_v2_in_post_with_no_attached_images() {
+    public function test_returns_no_srcs_with_block_v2_in_post_with_no_attached_images()
+    {
         // Set up an unattached image.
         $image_id = self::factory()->attachment->create_object(
             array(
@@ -308,7 +316,8 @@ BLOB;
      *
      * @group shortcode
      */
-    public function test_returns_html_with_shortcode_gallery() {
+    public function test_returns_html_with_shortcode_gallery()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_content' => 'I have no gallery',
@@ -362,7 +371,8 @@ BLOB;
      *
      * @group blocks
      */
-    public function test_returns_html_with_block_gallery() {
+    public function test_returns_html_with_block_gallery()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_content' => 'I have no gallery.',
@@ -425,7 +435,8 @@ BLOB;
      *
      * @group blocks
      */
-    public function test_returns_html_with_block_gallery_v2() {
+    public function test_returns_html_with_block_gallery_v2()
+    {
         $image_id = self::factory()->attachment->create_object(
             array(
                 'file'           => 'test.jpg',
@@ -494,7 +505,8 @@ BLOB;
      *
      * @group shortcode
      */
-    public function test_respects_post_id_with_shortcode_gallery() {
+    public function test_respects_post_id_with_shortcode_gallery()
+    {
         $global_post_id = self::factory()->post->create(
             array(
                 'post_content' => 'Global Post',
@@ -553,7 +565,8 @@ BLOB;
      *
      * @group block
      */
-    public function test_respects_post_id_with_block_gallery() {
+    public function test_respects_post_id_with_block_gallery()
+    {
         $ids      = array();
         $imgs     = array();
         $ids_srcs = array();
@@ -646,7 +659,8 @@ BLOB;
      *
      * @group block
      */
-    public function test_respects_post_id_with_block_gallery_v2() {
+    public function test_respects_post_id_with_block_gallery_v2()
+    {
         $attachment_id  = self::factory()->attachment->create_object(
             'image1.jpg',
             0,
@@ -741,7 +755,8 @@ BLOB;
      *
      * @group shortcode
      */
-    public function test_respects_shortcode_id_attribute() {
+    public function test_respects_shortcode_id_attribute()
+    {
         $post_id     = self::factory()->post->create(
             array(
                 'post_content' => 'No gallery defined',
@@ -818,7 +833,8 @@ BLOB;
      * @group blocks
      * @group shortcode
      */
-    public function test_respects_shortcode_and_block_id_attributes() {
+    public function test_respects_shortcode_and_block_id_attributes()
+    {
         /*
          * Test the get_post_galleries() function in `$html = false` mode,
          * with both shortcode and block galleries.
@@ -881,7 +897,8 @@ BLOB;
      * @group blocks
      * @group shortcode
      */
-    public function test_respects_additional_shortcode_and_block_attributes() {
+    public function test_respects_additional_shortcode_and_block_attributes()
+    {
         /*
          * Test attributes returned by get_post_galleries() function in `$html = false` mode,
          * with both shortcode and block galleries.
@@ -946,7 +963,8 @@ BLOB;
      *
      * @group blocks
      */
-    public function test_returns_srcs_from_html_with_block_with_no_json_blob() {
+    public function test_returns_srcs_from_html_with_block_with_no_json_blob()
+    {
         // Set up an unattached image.
         $image_id = self::factory()->attachment->create_object(
             array(
@@ -1019,7 +1037,8 @@ BLOB;
      *
      * @group blocks
      */
-    public function test_returns_srcs_with_nested_block_gallery() {
+    public function test_returns_srcs_with_nested_block_gallery()
+    {
         $post_id  = self::factory()->post->create(
             array(
                 'post_content' => 'I have no gallery.',

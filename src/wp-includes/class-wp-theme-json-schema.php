@@ -18,7 +18,8 @@
  * @access private
  */
 #[AllowDynamicProperties]
-class WP_Theme_JSON_Schema {
+class WP_Theme_JSON_Schema
+{
 
     /**
      * Maps old properties to their new location within the schema's settings.
@@ -42,7 +43,8 @@ class WP_Theme_JSON_Schema {
      *                          One of 'blocks', 'default', 'theme', or 'custom'. Default 'theme'.
      * @return array The structure in the last version.
      */
-    public static function migrate($theme_json, $origin = 'theme') {
+    public static function migrate($theme_json, $origin = 'theme')
+    {
         if (! isset($theme_json['version'])) {
             $theme_json = array(
                 'version' => WP_Theme_JSON::LATEST_SCHEMA,
@@ -76,7 +78,8 @@ class WP_Theme_JSON_Schema {
      *
      * @return array Data without the custom prefixes.
      */
-    private static function migrate_v1_to_v2($old) {
+    private static function migrate_v1_to_v2($old)
+    {
         // Copy everything.
         $new = $old;
 
@@ -106,7 +109,8 @@ class WP_Theme_JSON_Schema {
      *                       One of 'blocks', 'default', 'theme', or 'custom'.
      * @return array Data with defaultFontSizes set to false.
      */
-    private static function migrate_v2_to_v3($old, $origin) {
+    private static function migrate_v2_to_v3($old, $origin)
+    {
         // Copy everything.
         $new = $old;
 
@@ -171,7 +175,8 @@ class WP_Theme_JSON_Schema {
      *
      * @return array The settings in the new format.
      */
-    private static function rename_paths($settings, $paths_to_rename) {
+    private static function rename_paths($settings, $paths_to_rename)
+    {
         $new_settings = $settings;
 
         // Process any renamed/moved paths within default settings.
@@ -195,7 +200,8 @@ class WP_Theme_JSON_Schema {
      * @param array $settings        Reference to settings either defaults or an individual block's.
      * @param array $paths_to_rename Paths to rename.
      */
-    private static function rename_settings(&$settings, $paths_to_rename) {
+    private static function rename_settings(&$settings, $paths_to_rename)
+    {
         foreach ($paths_to_rename as $original => $renamed) {
             $original_path = explode('.', $original);
             $renamed_path  = explode('.', $renamed);
@@ -216,7 +222,8 @@ class WP_Theme_JSON_Schema {
      * @param array $settings Reference to the current settings array.
      * @param array $path Path to the property to be removed.
      */
-    private static function unset_setting_by_path(&$settings, $path) {
+    private static function unset_setting_by_path(&$settings, $path)
+    {
         $tmp_settings = &$settings;
         $last_key     = array_pop($path);
         foreach ($path as $key) {

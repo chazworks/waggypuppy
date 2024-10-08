@@ -4,10 +4,12 @@
  * @group post
  * @covers ::get_body_class
  */
-class Tests_Post_GetBodyClass extends WP_UnitTestCase {
+class Tests_Post_GetBodyClass extends WP_UnitTestCase
+{
     protected $post_id;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->post_id = self::factory()->post->create();
     }
@@ -15,7 +17,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
     /**
      * @ticket 30883
      */
-    public function test_with_utf8_category_slugs() {
+    public function test_with_utf8_category_slugs()
+    {
         $cat_id1 = self::factory()->category->create(array('name' => 'Первая рубрика'));
         $cat_id2 = self::factory()->category->create(array('name' => 'Вторая рубрика'));
         $cat_id3 = self::factory()->category->create(array('name' => '25кадр'));
@@ -34,7 +37,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
     /**
      * @ticket 30883
      */
-    public function test_with_utf8_tag_slugs() {
+    public function test_with_utf8_tag_slugs()
+    {
         $tag_id1 = self::factory()->tag->create(array('name' => 'Первая метка'));
         $tag_id2 = self::factory()->tag->create(array('name' => 'Вторая метка'));
         $tag_id3 = self::factory()->tag->create(array('name' => '25кадр'));
@@ -57,7 +61,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
     /**
      * @ticket 30883
      */
-    public function test_with_utf8_term_slugs() {
+    public function test_with_utf8_term_slugs()
+    {
         register_taxonomy('wptests_tax', 'post');
         $term_id1 = self::factory()->term->create(
             array(
@@ -97,7 +102,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
      * @ticket 35164
      * @ticket 36510
      */
-    public function test_singular_body_classes() {
+    public function test_singular_body_classes()
+    {
         $post_id = self::factory()->post->create();
         $this->go_to(get_permalink($post_id));
 
@@ -107,7 +113,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
         $this->assertContains('single-format-standard', $class);
     }
 
-    public function test_page_template_body_classes_no_template() {
+    public function test_page_template_body_classes_no_template()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -121,7 +128,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
         $this->assertContains('page-template-default', $class);
     }
 
-    public function test_page_template_body_classes() {
+    public function test_page_template_body_classes()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -143,7 +151,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
     /**
      * @ticket 18375
      */
-    public function test_page_template_body_classes_attachment() {
+    public function test_page_template_body_classes_attachment()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type' => 'attachment',
@@ -165,7 +174,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
     /**
      * @ticket 18375
      */
-    public function test_page_template_body_classes_post() {
+    public function test_page_template_body_classes_post()
+    {
         $post_id = self::factory()->post->create();
 
         add_post_meta($post_id, '_wp_page_template', 'templates/cpt.php');
@@ -183,7 +193,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
     /**
      * @ticket 38225
      */
-    public function test_attachment_body_classes() {
+    public function test_attachment_body_classes()
+    {
         $post_id = self::factory()->post->create();
 
         $attachment_id = self::factory()->attachment->create_object(
@@ -206,7 +217,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
     /**
      * @ticket 38168
      */
-    public function test_custom_background_class_is_added_when_theme_supports_it() {
+    public function test_custom_background_class_is_added_when_theme_supports_it()
+    {
         add_theme_support('custom-background', array('default-color', '#ffffff'));
         set_theme_mod('background_color', '#000000');
 
@@ -223,7 +235,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
     /**
      * @ticket 38168
      */
-    public function test_custom_background_class_is_not_added_when_theme_support_is_missing() {
+    public function test_custom_background_class_is_not_added_when_theme_support_is_missing()
+    {
         set_theme_mod('background_color', '#000000');
 
         $class                     = get_body_class();
@@ -239,7 +252,8 @@ class Tests_Post_GetBodyClass extends WP_UnitTestCase {
      * @ticket 44005
      * @group privacy
      */
-    public function test_privacy_policy_body_class() {
+    public function test_privacy_policy_body_class()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',

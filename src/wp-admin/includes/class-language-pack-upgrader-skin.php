@@ -15,7 +15,8 @@
  *
  * @see WP_Upgrader_Skin
  */
-class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
+class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin
+{
     public $language_update        = null;
     public $done_header            = false;
     public $done_footer            = false;
@@ -30,7 +31,8 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @param array $args
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $defaults = array(
             'url'                => '',
             'nonce'              => '',
@@ -51,7 +53,8 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @since 3.7.0
      */
-    public function before() {
+    public function before()
+    {
         $name = $this->upgrader->get_name_for_update($this->language_update);
 
         echo '<div class="update-messages lp-show-latest">';
@@ -68,7 +71,8 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @param string|WP_Error $errors Errors.
      */
-    public function error($errors) {
+    public function error($errors)
+    {
         echo '<div class="lp-error">';
         parent::error($errors);
         echo '</div>';
@@ -79,7 +83,8 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @since 3.7.0
      */
-    public function after() {
+    public function after()
+    {
         echo '</div>';
     }
 
@@ -88,7 +93,8 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
      *
      * @since 3.7.0
      */
-    public function bulk_footer() {
+    public function bulk_footer()
+    {
         $this->decrement_update_count('translation');
 
         $update_actions = array(

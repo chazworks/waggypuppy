@@ -5,12 +5,14 @@
  *
  * @covers ::wp_set_object_terms
  */
-class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
+class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
+{
     protected static $taxonomy = 'category';
     protected static $post_ids = array();
     protected static $term_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_ids = $factory->post->create_many(5);
         self::$term_ids = $factory->term->create_many(5, array('taxonomy' => self::$taxonomy));
     }
@@ -18,7 +20,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
     /**
      * @ticket 26570
      */
-    public function test_set_object_terms() {
+    public function test_set_object_terms()
+    {
         $non_hier = rand_str(10);
         $hier     = rand_str(10);
 
@@ -103,7 +106,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         $this->assertTrue(has_term(array($cat1->slug, $cat2->slug, $cat3->slug), $hier, $post_id));
     }
 
-    public function test_set_object_terms_by_id() {
+    public function test_set_object_terms_by_id()
+    {
         $ids = self::$post_ids;
 
         $terms = array();
@@ -133,7 +137,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         }
     }
 
-    public function test_set_object_terms_by_name() {
+    public function test_set_object_terms_by_name()
+    {
         $ids = self::$post_ids;
 
         $terms = array(
@@ -166,13 +171,15 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         }
     }
 
-    public function test_set_object_terms_invalid() {
+    public function test_set_object_terms_invalid()
+    {
         // Bogus taxonomy.
         $result = wp_set_object_terms(self::$post_ids[0], array('foo'), 'invalid-taxonomy');
         $this->assertWPError($result);
     }
 
-    public function test_wp_set_object_terms_append_true() {
+    public function test_wp_set_object_terms_append_true()
+    {
         register_taxonomy('wptests_tax', 'post');
         $p  = self::$post_ids[0];
         $t1 = self::factory()->term->create(
@@ -197,7 +204,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         _unregister_taxonomy('wptests_tax');
     }
 
-    public function test_wp_set_object_terms_append_false() {
+    public function test_wp_set_object_terms_append_false()
+    {
         register_taxonomy('wptests_tax', 'post');
         $p  = self::$post_ids[0];
         $t1 = self::factory()->term->create(
@@ -222,7 +230,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         _unregister_taxonomy('wptests_tax');
     }
 
-    public function test_wp_set_object_terms_append_default_to_false() {
+    public function test_wp_set_object_terms_append_default_to_false()
+    {
         register_taxonomy('wptests_tax', 'post');
         $p  = self::$post_ids[0];
         $t1 = self::factory()->term->create(
@@ -250,7 +259,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
     /**
      * Set some terms on an object; then change them while leaving one intact.
      */
-    public function test_change_object_terms_by_id() {
+    public function test_change_object_terms_by_id()
+    {
         $post_id = self::$post_ids[0];
 
         // First set: 3 terms.
@@ -307,7 +317,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
     /**
      * Set some terms on an object; then change them while leaving one intact.
      */
-    public function test_change_object_terms_by_name() {
+    public function test_change_object_terms_by_name()
+    {
         $post_id = self::$post_ids[0];
 
         $terms_1 = array('foo', 'bar', 'baz');
@@ -347,7 +358,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         $this->assertEquals($tt_1[1], $tt_2[0]);
     }
 
-    public function test_should_create_term_that_does_not_exist() {
+    public function test_should_create_term_that_does_not_exist()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $this->assertFalse(get_term_by('slug', 'foo', 'wptests_tax'));
@@ -360,7 +372,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         $this->assertSame('foo', $term->slug);
     }
 
-    public function test_should_find_existing_term_by_slug_match() {
+    public function test_should_find_existing_term_by_slug_match()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
@@ -379,7 +392,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         $this->assertSame($t, $term->term_id);
     }
 
-    public function test_should_find_existing_term_by_name_match() {
+    public function test_should_find_existing_term_by_name_match()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t = self::factory()->term->create(
@@ -398,7 +412,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         $this->assertSame($t, $term->term_id);
     }
 
-    public function test_should_give_precedence_to_slug_match_over_name_match() {
+    public function test_should_give_precedence_to_slug_match_over_name_match()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $t1 = self::factory()->term->create(
@@ -425,7 +440,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
         $this->assertSame($t2, $term->term_id);
     }
 
-    public function test_non_existent_integers_should_be_ignored() {
+    public function test_non_existent_integers_should_be_ignored()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $tt_ids = wp_set_object_terms(self::$post_ids[0], 12345, 'wptests_tax');
@@ -442,7 +458,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
      *
      * @param mixed $empty_value An empty value.
      */
-    public function test_empty_value_should_clear_terms($empty_value) {
+    public function test_empty_value_should_clear_terms($empty_value)
+    {
         $post_id = self::$post_ids[0];
 
         // Assign some terms.
@@ -465,7 +482,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_empty_value_should_clear_terms() {
+    public function data_empty_value_should_clear_terms()
+    {
         return array(
             '(bool) false' => array(false),
             'null'         => array(null),

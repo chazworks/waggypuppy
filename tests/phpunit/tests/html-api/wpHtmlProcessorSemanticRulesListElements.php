@@ -12,7 +12,8 @@
  *
  * @coversDefaultClass WP_HTML_Processor
  */
-class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTestCase {
+class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTestCase
+{
     /*******************************************************************
      * RULES FOR "IN BODY" MODE
      *******************************************************************/
@@ -22,7 +23,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_li_closes_open_li() {
+    public function test_in_body_li_closes_open_li()
+    {
         $processor = WP_HTML_Processor::create_fragment('<li><li><li target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -48,7 +50,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_li_generates_implied_end_tags_inside_open_li() {
+    public function test_in_body_li_generates_implied_end_tags_inside_open_li()
+    {
         $processor = WP_HTML_Processor::create_fragment('<li><li><div><li target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -74,7 +77,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_li_generates_implied_end_tags_inside_open_li_but_stopping_at_special_tags() {
+    public function test_in_body_li_generates_implied_end_tags_inside_open_li_but_stopping_at_special_tags()
+    {
         $processor = WP_HTML_Processor::create_fragment('<li><li><blockquote><li target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -100,7 +104,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_li_in_li_closes_p_in_button_scope() {
+    public function test_in_body_li_in_li_closes_p_in_button_scope()
+    {
         $processor = WP_HTML_Processor::create_fragment('<li><li><p><button><p><li target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -128,7 +133,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dd_closes_open_dd() {
+    public function test_in_body_dd_closes_open_dd()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dd><dd><dd target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -156,7 +162,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dd_closes_open_dt() {
+    public function test_in_body_dd_closes_open_dt()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dt><dt><dd target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -182,7 +189,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dd_generates_implied_end_tags_inside_open_dd() {
+    public function test_in_body_dd_generates_implied_end_tags_inside_open_dd()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dd><dd><div><dd target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -209,7 +217,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dd_generates_implied_end_tags_inside_open_dd_but_stopping_at_special_tags() {
+    public function test_in_body_dd_generates_implied_end_tags_inside_open_dd_but_stopping_at_special_tags()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dd><dd><blockquote><dd target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -235,7 +244,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dd_in_dd_closes_p_in_button_scope() {
+    public function test_in_body_dd_in_dd_closes_p_in_button_scope()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dd><dd><p><button><p><dd target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -261,7 +271,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dt_closes_open_dt() {
+    public function test_in_body_dt_closes_open_dt()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dt><dt><dt target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -287,7 +298,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dt_closes_open_dd() {
+    public function test_in_body_dt_closes_open_dd()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dd><dd><dt target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -313,7 +325,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dt_generates_implied_end_tags_inside_open_dt() {
+    public function test_in_body_dt_generates_implied_end_tags_inside_open_dt()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dt><dt><div><dt target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -340,7 +353,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dt_generates_implied_end_tags_inside_open_dt_but_stopping_at_special_tags() {
+    public function test_in_body_dt_generates_implied_end_tags_inside_open_dt_but_stopping_at_special_tags()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dt><dt><blockquote><dt target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -366,7 +380,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_in_body_dt_in_dt_closes_p_in_button_scope() {
+    public function test_in_body_dt_in_dt_closes_p_in_button_scope()
+    {
         $processor = WP_HTML_Processor::create_fragment('<dt><dt><p><button><p><dt target>');
 
         while (null === $processor->get_attribute('target') &&
@@ -393,7 +408,8 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRulesListElements extends WP_UnitTest
      *
      * @ticket 60215
      */
-    public function test_unexpected_li_close_tag_is_properly_contained() {
+    public function test_unexpected_li_close_tag_is_properly_contained()
+    {
         $processor = WP_HTML_Processor::create_fragment('<ul><li><ul></li><li target>a</li></ul></li></ul>');
 
         while (null === $processor->get_attribute('target') &&

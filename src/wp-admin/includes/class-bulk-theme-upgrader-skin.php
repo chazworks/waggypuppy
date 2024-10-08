@@ -15,7 +15,8 @@
  *
  * @see Bulk_Upgrader_Skin
  */
-class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
+class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin
+{
 
     /**
      * Theme info.
@@ -34,7 +35,8 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
      *
      * @since 3.0.0
      */
-    public function add_strings() {
+    public function add_strings()
+    {
         parent::add_strings();
         /* translators: 1: Theme name, 2: Number of the theme, 3: Total number of themes being updated. */
         $this->upgrader->strings['skin_before_update_header'] = __('Updating Theme %1$s (%2$d/%3$d)');
@@ -47,7 +49,8 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
      *
      * @param string $title
      */
-    public function before($title = '') {
+    public function before($title = '')
+    {
         parent::before($this->theme_info->display('Name'));
     }
 
@@ -58,7 +61,8 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
      *
      * @param string $title
      */
-    public function after($title = '') {
+    public function after($title = '')
+    {
         parent::after($this->theme_info->display('Name'));
         $this->decrement_update_count('theme');
     }
@@ -68,7 +72,8 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
      *
      * @since 3.0.0
      */
-    public function bulk_footer() {
+    public function bulk_footer()
+    {
         parent::bulk_footer();
 
         $update_actions = array(

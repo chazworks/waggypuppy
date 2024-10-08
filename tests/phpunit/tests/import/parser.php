@@ -5,8 +5,10 @@ require_once __DIR__ . '/base.php';
 /**
  * @group import
  */
-class Tests_Import_Parser extends WP_Import_UnitTestCase {
-    public function set_up() {
+class Tests_Import_Parser extends WP_Import_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
 
         if (! defined('WP_IMPORTING')) {
@@ -24,7 +26,8 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase {
      * @covers WXR_Parser_SimpleXML::parse
      * @covers WXR_Parser_XML::parse
      */
-    public function test_malformed_wxr() {
+    public function test_malformed_wxr()
+    {
         if (PHP_VERSION_ID >= 80400) {
             $this->markTestSkipped('The Importer plugin is not ready for PHP 8.4 yet. This skip should be removed once it is.');
         }
@@ -45,7 +48,8 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase {
      * @covers WXR_Parser_XML::parse
      * @covers WXR_Parser_Regex::parse
      */
-    public function test_invalid_wxr() {
+    public function test_invalid_wxr()
+    {
         if (PHP_VERSION_ID >= 80400) {
             $this->markTestSkipped('The Importer plugin is not ready for PHP 8.4 yet. This skip should be removed once it is.');
         }
@@ -68,7 +72,8 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase {
      * @covers WXR_Parser_XML::parse
      * @covers WXR_Parser_Regex::parse
      */
-    public function test_wxr_version_1_1() {
+    public function test_wxr_version_1_1()
+    {
         if (PHP_VERSION_ID >= 80400) {
             $this->markTestSkipped('The Importer plugin is not ready for PHP 8.4 yet. This skip should be removed once it is.');
         }
@@ -170,7 +175,8 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase {
      * @covers WXR_Parser_XML::parse
      * @covers WXR_Parser_Regex::parse
      */
-    public function test_wxr_version_1_0() {
+    public function test_wxr_version_1_0()
+    {
         if (PHP_VERSION_ID >= 80400) {
             $this->markTestSkipped('The Importer plugin is not ready for PHP 8.4 yet. This skip should be removed once it is.');
         }
@@ -272,7 +278,8 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase {
      * @covers WXR_Parser_XML::parse
      * @covers WXR_Parser_Regex::parse
      */
-    public function test_escaped_cdata_closing_sequence() {
+    public function test_escaped_cdata_closing_sequence()
+    {
         if (PHP_VERSION_ID >= 80400) {
             $this->markTestSkipped('The Importer plugin is not ready for PHP 8.4 yet. This skip should be removed once it is.');
         }
@@ -311,7 +318,8 @@ class Tests_Import_Parser extends WP_Import_UnitTestCase {
      *
      * @covers WXR_Parser_Regex::parse
      */
-    public function test_unescaped_cdata_closing_sequence() {
+    public function test_unescaped_cdata_closing_sequence()
+    {
         $file = DIR_TESTDATA . '/export/crazy-cdata.xml';
 
         $parser = new WXR_Parser_Regex();

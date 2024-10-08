@@ -7,7 +7,8 @@
  *
  * @covers wpdb::_real_escape
  */
-class Tests_DB_RealEscape extends WP_UnitTestCase {
+class Tests_DB_RealEscape extends WP_UnitTestCase
+{
 
     /**
      * Test that various types of input passed to `wpdb::_real_escape()` are handled correctly.
@@ -22,7 +23,8 @@ class Tests_DB_RealEscape extends WP_UnitTestCase {
      * @param mixed  $input    The input to escape.
      * @param string $expected The expected function output.
      */
-    public function test_real_escape_input_type_handling($input, $expected) {
+    public function test_real_escape_input_type_handling($input, $expected)
+    {
         global $wpdb;
 
         $this->assertSame($expected, $wpdb->_real_escape($input));
@@ -33,7 +35,8 @@ class Tests_DB_RealEscape extends WP_UnitTestCase {
      *
      * @var array
      */
-    public function data_real_escape_input_type_handling() {
+    public function data_real_escape_input_type_handling()
+    {
         return array(
             'null'             => array(
                 'input'    => null,

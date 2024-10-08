@@ -7,7 +7,8 @@
  * @since 4.9.6
  */
 #[AllowDynamicProperties]
-final class WP_User_Request {
+final class WP_User_Request
+{
     /**
      * Request ID.
      *
@@ -103,7 +104,8 @@ final class WP_User_Request {
      *
      * @param WP_Post|object $post Post object.
      */
-    public function __construct($post) {
+    public function __construct($post)
+    {
         $this->ID                  = $post->ID;
         $this->user_id             = $post->post_author;
         $this->email               = $post->post_title;

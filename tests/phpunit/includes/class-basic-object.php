@@ -12,13 +12,15 @@
  *
  * @since 4.0.0
  */
-class Basic_Object {
+class Basic_Object
+{
 
     private $arbitrary_props = array(
         'foo' => 'bar',
     );
 
-    public function __get($name) {
+    public function __get($name)
+    {
         if (array_key_exists($name, $this->arbitrary_props)) {
             return $this->arbitrary_props[ $name ];
         }
@@ -26,24 +28,29 @@ class Basic_Object {
         return null;
     }
 
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         $this->arbitrary_props[ $name ] = $value;
     }
 
-    public function __isset($name) {
+    public function __isset($name)
+    {
         return isset($this->arbitrary_props[ $name ]);
     }
 
-    public function __unset($name) {
+    public function __unset($name)
+    {
         unset($this->arbitrary_props[ $name ]);
     }
 
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         return call_user_func_array(array($this, $name), $arguments);
     }
 
 	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
-    private function callMe() {
+    private function callMe()
+    {
         return 'maybe';
     }
 }

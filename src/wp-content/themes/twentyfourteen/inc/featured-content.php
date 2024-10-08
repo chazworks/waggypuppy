@@ -10,7 +10,8 @@
  * this tag now has special meaning beyond that of a normal tags, users
  * will have the ability to hide it from the front end of their site.
  */
-class Featured_Content {
+class Featured_Content
+{
 
     /**
      * The maximum number of posts a Featured Content area can contain.
@@ -34,7 +35,8 @@ class Featured_Content {
      *
      * @since Twenty Fourteen 1.0
      */
-    public static function setup() {
+    public static function setup()
+    {
         add_action('init', array(__CLASS__, 'init'), 30);
     }
 
@@ -49,7 +51,8 @@ class Featured_Content {
      *
      * @since Twenty Fourteen 1.0
      */
-    public static function init() {
+    public static function init()
+    {
         $theme_support = get_theme_support('featured-content');
 
         // Return early if theme does not support Featured Content.
@@ -96,7 +99,8 @@ class Featured_Content {
      *
      * @since Twenty Fourteen 1.0
      */
-    public static function wp_loaded() {
+    public static function wp_loaded()
+    {
         if (self::get_setting('hide-tag')) {
             add_filter('get_terms', array(__CLASS__, 'hide_featured_term'), 10, 3);
             add_filter('get_the_terms', array(__CLASS__, 'hide_the_featured_term'), 10, 3);
@@ -110,7 +114,8 @@ class Featured_Content {
      *
      * @return array Array of featured posts.
      */
-    public static function get_featured_posts() {
+    public static function get_featured_posts()
+    {
         $post_ids = self::get_featured_post_ids();
 
         // No need to query if there is are no featured posts.
@@ -140,7 +145,8 @@ class Featured_Content {
      *
      * @return array Array of post IDs.
      */
-    public static function get_featured_post_ids() {
+    public static function get_featured_post_ids()
+    {
         // Get array of cached results if they exist.
         $featured_ids = get_transient('featured_content_ids');
 
@@ -185,7 +191,8 @@ class Featured_Content {
      *
      * @return array Array of sticky posts.
      */
-    public static function get_sticky_posts() {
+    public static function get_sticky_posts()
+    {
         return array_slice(get_option('sticky_posts', array()), 0, self::$max_posts);
     }
 
@@ -198,7 +205,8 @@ class Featured_Content {
      *
      * @since Twenty Fourteen 1.0
      */
-    public static function delete_transient() {
+    public static function delete_transient()
+    {
         delete_transient('featured_content_ids');
     }
 
@@ -214,7 +222,8 @@ class Featured_Content {
      * @param WP_Query $query WP_Query object.
      * @return WP_Query Possibly-modified WP_Query.
      */
-    public static function pre_get_posts($query) {
+    public static function pre_get_posts($query)
+    {
 
         // Bail if not home or not main query.
         if (! $query->is_home() || ! $query->is_main_query()) {
@@ -259,7 +268,8 @@ class Featured_Content {
      *
      * @param int $tag_id The term_id of the tag that has been deleted.
      */
-    public static function delete_post_tag($tag_id) {
+    public static function delete_post_tag($tag_id)
+    {
         $settings = self::get_setting();
 
         if (empty($settings['tag-id']) || $tag_id !== $settings['tag-id']) {
@@ -284,7 +294,8 @@ class Featured_Content {
      *
      * @uses Featured_Content::get_setting()
      */
-    public static function hide_featured_term($terms, $taxonomies, $args) {
+    public static function hide_featured_term($terms, $taxonomies, $args)
+    {
 
         // This filter is only appropriate on the front end.
         if (is_admin()) {
@@ -331,7 +342,8 @@ class Featured_Content {
      *
      * @uses Featured_Content::get_setting()
      */
-    public static function hide_the_featured_term($terms, $id, $taxonomy) {
+    public static function hide_the_featured_term($terms, $id, $taxonomy)
+    {
 
         // This filter is only appropriate on the front end.
         if (is_admin()) {
@@ -363,7 +375,8 @@ class Featured_Content {
      *
      * @since Twenty Fourteen 1.0
      */
-    public static function register_setting() {
+    public static function register_setting()
+    {
         register_setting('featured-content', 'featured-content', array(__CLASS__, 'validate_settings'));
     }
 
@@ -374,7 +387,8 @@ class Featured_Content {
      *
      * @param WP_Customize_Manager $wp_customize Customizer object.
      */
-    public static function customize_register($wp_customize) {
+    public static function customize_register($wp_customize)
+    {
         $wp_customize->add_section(
             'featured_content',
             array(
@@ -433,7 +447,8 @@ class Featured_Content {
      *
      * @since Twenty Fourteen 1.0
      */
-    public static function enqueue_scripts() {
+    public static function enqueue_scripts()
+    {
         wp_enqueue_script('featured-content-suggest', get_template_directory_uri() . '/js/featured-content-admin.js', array('jquery', 'suggest'), '20211130', array('in_footer' => true));
     }
 
@@ -454,7 +469,8 @@ class Featured_Content {
      * @param string $key The key of a recognized setting.
      * @return mixed Array of all settings by default. A single value if passed as first parameter.
      */
-    public static function get_setting($key = 'all') {
+    public static function get_setting($key = 'all')
+    {
         $saved = (array) get_option('featured-content');
 
         $defaults = array(
@@ -485,7 +501,8 @@ class Featured_Content {
      * @param array $input Array of settings input.
      * @return array Validated settings output.
      */
-    public static function validate_settings($input) {
+    public static function validate_settings($input)
+    {
         $output = array();
 
         if (empty($input['tag-name'])) {

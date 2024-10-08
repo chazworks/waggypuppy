@@ -4,7 +4,8 @@
  * @group query
  * @covers WP_Query::get_posts
  */
-class Test_Query_CacheResults extends WP_UnitTestCase {
+class Test_Query_CacheResults extends WP_UnitTestCase
+{
     /**
      * Page IDs.
      *
@@ -49,7 +50,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      */
     public static $wp_query_placeholder_cache_key_tested = false;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         // Make some post objects.
         self::$posts = $factory->post->create_many(5);
         self::$pages = $factory->post->create_many(5, array('post_type' => 'page'));
@@ -82,7 +84,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @dataProvider data_query_cache
      */
-    public function test_generate_cache_key($args) {
+    public function test_generate_cache_key($args)
+    {
         global $wpdb;
         $query1 = new WP_Query();
         $query1->query($args);
@@ -119,7 +122,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @depends test_generate_cache_key
      */
-    public function test_sql_placeholder_cache_key_tested() {
+    public function test_sql_placeholder_cache_key_tested()
+    {
         $this->assertTrue(self::$sql_placeholder_cache_key_tested, 'Cache key containing WPDB placeholder in SQL query was not tested.');
     }
 
@@ -135,7 +139,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @depends test_generate_cache_key
      */
-    public function test_wp_query_placeholder_cache_key_tested() {
+    public function test_wp_query_placeholder_cache_key_tested()
+    {
         $this->assertTrue(self::$wp_query_placeholder_cache_key_tested, 'Cache key containing WPDB placeholder in WP_Query arguments was not tested.');
     }
 
@@ -146,7 +151,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @covers WP_Query::generate_cache_key
      */
-    public function test_generate_cache_key_placeholder() {
+    public function test_generate_cache_key_placeholder()
+    {
         global $wpdb;
         $query1 = new WP_Query();
         $query1->query(array());
@@ -175,7 +181,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      * @covers WP_Query::generate_cache_key
      * @ticket 59442
      */
-    public function test_generate_cache_key_unregister_post_type() {
+    public function test_generate_cache_key_unregister_post_type()
+    {
         global $wpdb;
         register_post_type(
             'wptests_pt',
@@ -207,7 +214,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @dataProvider data_query_cache_duplicate
      */
-    public function test_generate_cache_key_normalize($query_vars1, $query_vars2) {
+    public function test_generate_cache_key_normalize($query_vars1, $query_vars2)
+    {
         global $wpdb;
 
         $fields   = "{$wpdb->posts}.ID";
@@ -232,7 +240,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      * @dataProvider data_query_cache
      * @ticket 22176
      */
-    public function test_query_cache($args) {
+    public function test_query_cache($args)
+    {
         $query1 = new WP_Query();
         $posts1 = $query1->query($args);
 
@@ -278,7 +287,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_query_cache_duplicate() {
+    public function data_query_cache_duplicate()
+    {
         return array(
             'post type empty'           => array(
                 'query_vars1' => array('post_type' => ''),
@@ -346,7 +356,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @return array[] Test parameters.
      */
-    public function data_query_cache() {
+    public function data_query_cache()
+    {
         return array(
             'cache true'                                  => array(
                 'args' => array(
@@ -536,7 +547,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_seeded_random_queries_only_cache_post_objects() {
+    public function test_seeded_random_queries_only_cache_post_objects()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'ids',
@@ -557,7 +569,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_unseeded_random_queries_only_cache_post_objects() {
+    public function test_unseeded_random_queries_only_cache_post_objects()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'ids',
@@ -578,7 +591,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_filter_request() {
+    public function test_query_cache_filter_request()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'ids',
@@ -600,7 +614,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_no_caching() {
+    public function test_query_cache_no_caching()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'ids',
@@ -618,14 +633,16 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
         $this->assertNotSame($queries_before, $queries_after);
     }
 
-    public function filter_posts_request($request) {
+    public function filter_posts_request($request)
+    {
         return $request . ' -- Add comment';
     }
 
     /**
      * @ticket 22176
      */
-    public function test_query_cache_new_post() {
+    public function test_query_cache_new_post()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'ids',
@@ -646,7 +663,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_main_query_sticky_posts_change() {
+    public function test_main_query_sticky_posts_change()
+    {
         add_action('parse_query', array($this, 'set_cache_results'));
         update_option('posts_per_page', 5);
 
@@ -677,7 +695,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_main_query_in_query_sticky_posts_change() {
+    public function test_main_query_in_query_sticky_posts_change()
+    {
         add_action('parse_query', array($this, 'set_cache_results'));
         update_option('posts_per_page', 5);
 
@@ -707,7 +726,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_sticky_posts_change() {
+    public function test_query_sticky_posts_change()
+    {
         add_action('parse_query', array($this, 'set_cache_results'));
 
         $old_date = date_create('-25 hours');
@@ -752,7 +772,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_in_query_sticky_posts_change() {
+    public function test_query_in_query_sticky_posts_change()
+    {
         add_action('parse_query', array($this, 'set_cache_results'));
 
         $middle_post = self::$posts[2];
@@ -793,14 +814,16 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
         $this->assertNotSame($unstuck, $stuck);
     }
 
-    public function set_cache_results($q) {
+    public function set_cache_results($q)
+    {
         $q->set('cache_results', true);
     }
 
     /**
      * @ticket 22176
      */
-    public function test_query_cache_different_args() {
+    public function test_query_cache_different_args()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'ids',
@@ -830,7 +853,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_different_fields() {
+    public function test_query_cache_different_fields()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'all',
@@ -867,7 +891,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 59188
      */
-    public function test_query_cache_unprimed_parents() {
+    public function test_query_cache_unprimed_parents()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'id=>parent',
@@ -899,7 +924,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 59188
      */
-    public function test_query_cache_update_parent() {
+    public function test_query_cache_update_parent()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -938,7 +964,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 59188
      */
-    public function test_query_cache_delete_parent() {
+    public function test_query_cache_delete_parent()
+    {
         $parent_page_id = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -977,7 +1004,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_logged_in() {
+    public function test_query_cache_logged_in()
+    {
         $user_id = self::$author_id;
 
         self::factory()->post->create(
@@ -1006,7 +1034,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_logged_in_password() {
+    public function test_query_cache_logged_in_password()
+    {
         $user_id = self::$author_id;
         self::factory()->post->create(
             array(
@@ -1035,7 +1064,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_new_comment() {
+    public function test_query_cache_new_comment()
+    {
         $args   = array(
             'cache_results' => true,
             'fields'        => 'ids',
@@ -1058,7 +1088,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_main_comments_feed_includes_attachment_comments() {
+    public function test_main_comments_feed_includes_attachment_comments()
+    {
         $attachment_id = self::factory()->post->create(array('post_type' => 'attachment'));
         $comment_id    = self::factory()->comment->create(
             array(
@@ -1088,7 +1119,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_delete_comment() {
+    public function test_query_cache_delete_comment()
+    {
         $comment_id = self::factory()->comment->create(array('comment_post_ID' => self::$posts[0]));
         $args       = array(
             'cache_results' => true,
@@ -1111,7 +1143,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_update_post() {
+    public function test_query_cache_update_post()
+    {
         $p1 = self::$posts[0];
 
         $args   = array(
@@ -1140,7 +1173,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_new_meta() {
+    public function test_query_cache_new_meta()
+    {
         $p1 = self::$posts[1]; // Post 0 already has a color meta value.
 
         $args   = array(
@@ -1168,7 +1202,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_update_meta() {
+    public function test_query_cache_update_meta()
+    {
         // Posts[0] already has a color meta value set to #000000.
         $p1 = self::$posts[0];
 
@@ -1200,7 +1235,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_delete_attachment() {
+    public function test_query_cache_delete_attachment()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type'   => 'attachment',
@@ -1231,7 +1267,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_delete_meta() {
+    public function test_query_cache_delete_meta()
+    {
         // Post 0 already has a color meta value.
         $p1 = self::$posts[1];
         add_post_meta($p1, 'color', 'black');
@@ -1262,7 +1299,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_new_term() {
+    public function test_query_cache_new_term()
+    {
         // Post 0 already has the category foo.
         $p1 = self::$posts[1];
 
@@ -1293,7 +1331,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_delete_term() {
+    public function test_query_cache_delete_term()
+    {
         // Post 0 already has the category foo.
         $p1 = self::$posts[1];
         register_taxonomy('wptests_tax1', 'post');
@@ -1330,7 +1369,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 58599
      */
-    public function test_query_posts_fields_request() {
+    public function test_query_posts_fields_request()
+    {
         global $wpdb;
 
         $args = array(
@@ -1359,7 +1399,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
         );
     }
 
-    public function filter_posts_fields_request($fields) {
+    public function filter_posts_fields_request($fields)
+    {
         global $wpdb;
         return "{$wpdb->posts}.ID";
     }
@@ -1368,7 +1409,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      * @ticket 58599
      * @dataProvider data_query_filter_posts_results
      */
-    public function test_query_filter_posts_results($filter) {
+    public function test_query_filter_posts_results($filter)
+    {
         global $wpdb;
 
         $args = array(
@@ -1395,11 +1437,13 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
         );
     }
 
-    public function filter_posts_results() {
+    public function filter_posts_results()
+    {
         return array(get_post(self::$posts[0]));
     }
 
-    public function data_query_filter_posts_results() {
+    public function data_query_filter_posts_results()
+    {
         return array(
             array('posts_results'),
             array('the_posts'),
@@ -1409,7 +1453,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_should_exclude_post_with_excluded_term() {
+    public function test_query_cache_should_exclude_post_with_excluded_term()
+    {
         $term_id = self::$t1;
         // Post 0 has the term applied
         $post_id = self::$posts[0];
@@ -1438,7 +1483,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_should_exclude_post_when_excluded_term_is_added_after_caching() {
+    public function test_query_cache_should_exclude_post_when_excluded_term_is_added_after_caching()
+    {
         $term_id = self::$t1;
         // Post 1 does not have the term applied.
         $post_id = self::$posts[1];
@@ -1468,7 +1514,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
     /**
      * @ticket 22176
      */
-    public function test_query_cache_should_not_exclude_post_when_excluded_term_is_removed_after_caching() {
+    public function test_query_cache_should_not_exclude_post_when_excluded_term_is_removed_after_caching()
+    {
         $term_id = self::$t1;
         // Post 0 has the term applied.
         $post_id = self::$posts[0];
@@ -1500,7 +1547,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      * @ticket 22176
      * @dataProvider data_query_cache_with_empty_result_set
      */
-    public function test_query_cache_with_empty_result_set($fields_q1, $fields_q2) {
+    public function test_query_cache_with_empty_result_set($fields_q1, $fields_q2)
+    {
         _delete_all_posts();
 
         $args_q1 = array(
@@ -1522,7 +1570,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
         $this->assertSame($num_queries, get_num_queries(), 'Second query is not cached.');
     }
 
-    public function data_query_cache_with_empty_result_set() {
+    public function data_query_cache_with_empty_result_set()
+    {
         return array(
             array('', ''),
             array('', 'ids'),
@@ -1550,7 +1599,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @param string $fields Query fields.
      */
-    public function test_author_cache_warmed_by_the_loop($fields) {
+    public function test_author_cache_warmed_by_the_loop($fields)
+    {
         // Update post author for the parent post.
         self::factory()->post->update_object(self::$pages[0], array('post_author' => self::$author_id));
 
@@ -1594,7 +1644,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_author_cache_warmed_by_the_loop() {
+    public function data_author_cache_warmed_by_the_loop()
+    {
         return array(
             'fields: empty' => array(''),
             'fields: all'   => array('all'),
@@ -1614,7 +1665,8 @@ class Test_Query_CacheResults extends WP_UnitTestCase {
      * @ticket 57163
      * @ticket 22176
      */
-    public function test_get_post_meta_lazy_loads_all_term_meta_data() {
+    public function test_get_post_meta_lazy_loads_all_term_meta_data()
+    {
         $query = new WP_Query();
 
         $t2 = $this->factory()->term->create(

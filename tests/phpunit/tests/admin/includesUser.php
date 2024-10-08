@@ -4,7 +4,8 @@
  * @group admin
  * @group user
  */
-class Tests_Admin_IncludesUser extends WP_UnitTestCase {
+class Tests_Admin_IncludesUser extends WP_UnitTestCase
+{
 
     /**
      * Test redirect URLs for application password authorization requests.
@@ -20,7 +21,8 @@ class Tests_Admin_IncludesUser extends WP_UnitTestCase {
      * @param string $expected_error_code The expected error code, empty if no error is expected.
      * @param string $env                 The environment type. Defaults to 'production'.
      */
-    public function test_is_authorize_application_password_request_valid($request, $expected_error_code, $env = 'production') {
+    public function test_is_authorize_application_password_request_valid($request, $expected_error_code, $env = 'production')
+    {
         putenv("WP_ENVIRONMENT_TYPE=$env");
 
         $actual = wp_is_authorize_application_password_request_valid($request, get_userdata(1));
@@ -35,7 +37,8 @@ class Tests_Admin_IncludesUser extends WP_UnitTestCase {
         }
     }
 
-    public function data_is_authorize_application_password_request_valid() {
+    public function data_is_authorize_application_password_request_valid()
+    {
         $environment_types = array('local', 'development', 'staging', 'production');
 
         $datasets = array();

@@ -1,8 +1,10 @@
 <?php
 
-abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_Controller_Testcase {
+abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_Controller_Testcase
+{
 
-    protected function check_post_data($post, $data, $context, $links) {
+    protected function check_post_data($post, $data, $context, $links)
+    {
         $post_type_obj = get_post_type_object($post->post_type);
 
         // Standard fields.
@@ -208,7 +210,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
         }
     }
 
-    protected function check_get_posts_response($response, $context = 'view') {
+    protected function check_get_posts_response($response, $context = 'view')
+    {
         $this->assertNotWPError($response);
         $response = rest_ensure_response($response);
         $this->assertSame(200, $response->get_status());
@@ -241,7 +244,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
         }
     }
 
-    protected function check_get_post_response($response, $context = 'view') {
+    protected function check_get_post_response($response, $context = 'view')
+    {
         $this->assertNotWPError($response);
         $response = rest_ensure_response($response);
         $this->assertSame(200, $response->get_status());
@@ -251,7 +255,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
         $this->check_post_data($post, $data, $context, $response->get_links());
     }
 
-    protected function check_create_post_response($response) {
+    protected function check_create_post_response($response)
+    {
         $this->assertNotWPError($response);
         $response = rest_ensure_response($response);
 
@@ -264,7 +269,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
         $this->check_post_data($post, $data, 'edit', $response->get_links());
     }
 
-    protected function check_update_post_response($response) {
+    protected function check_update_post_response($response)
+    {
         $this->assertNotWPError($response);
         $response = rest_ensure_response($response);
 
@@ -277,7 +283,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
         $this->check_post_data($post, $data, 'edit', $response->get_links());
     }
 
-    protected function set_post_data($args = array()) {
+    protected function set_post_data($args = array())
+    {
         $defaults = array(
             'title'   => 'Post Title',
             'content' => 'Post content',
@@ -291,7 +298,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
         return wp_parse_args($args, $defaults);
     }
 
-    protected function set_raw_post_data($args = array()) {
+    protected function set_raw_post_data($args = array())
+    {
         return wp_parse_args(
             $args,
             $this->set_post_data(
@@ -319,7 +327,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
      *
      * @return string
      */
-    public function protected_title_format() {
+    public function protected_title_format()
+    {
         return '%s';
     }
 }

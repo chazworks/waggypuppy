@@ -12,14 +12,16 @@
  *
  * @covers ::do_enclose
  */
-class Tests_Functions_DoEnclose extends WP_UnitTestCase {
+class Tests_Functions_DoEnclose extends WP_UnitTestCase
+{
 
     /**
      * Setup before each test method.
      *
      * @since 5.3.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         add_filter('pre_http_request', array($this, 'mock_http_request'), 10, 3);
     }
@@ -31,7 +33,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *
      * @dataProvider data_do_enclose
      */
-    public function test_function_with_explicit_content_input($content, $expected) {
+    public function test_function_with_explicit_content_input($content, $expected)
+    {
         $post_id = self::factory()->post->create();
 
         do_enclose($content, $post_id);
@@ -47,7 +50,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *
      * @dataProvider data_do_enclose
      */
-    public function test_function_with_implicit_content_input($content, $expected) {
+    public function test_function_with_implicit_content_input($content, $expected)
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_content' => $content,
@@ -73,7 +77,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_do_enclose() {
+    public function data_do_enclose()
+    {
         return array(
             'null'                  => array(
                 'content'  => null,
@@ -133,7 +138,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *
      * @since 5.3.0
      */
-    public function test_function_should_return_false_when_invalid_post_id() {
+    public function test_function_should_return_false_when_invalid_post_id()
+    {
         $post_id = null;
         $result  = do_enclose(null, $post_id);
         $this->assertFalse($result);
@@ -144,7 +150,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *
      * @since 5.3.0
      */
-    public function test_function_should_delete_enclosed_link_when_no_longer_in_post_content() {
+    public function test_function_should_delete_enclosed_link_when_no_longer_in_post_content()
+    {
         $data = $this->data_do_enclose();
 
         // Create a post with a single movie link.
@@ -178,7 +185,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *
      * @since 5.3.0
      */
-    public function test_function_should_support_post_object_input() {
+    public function test_function_should_support_post_object_input()
+    {
         $data = $this->data_do_enclose();
 
         $post_object = self::factory()->post->create_and_get(
@@ -198,7 +206,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      *
      * @since 5.3.0
      */
-    public function test_function_enclosure_links_should_be_filterable() {
+    public function test_function_enclosure_links_should_be_filterable()
+    {
         $data = $this->data_do_enclose();
 
         $post_id = self::factory()->post->create(
@@ -225,7 +234,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      * @param  int   $post_id    Post ID.
      * @return array An array of enclosure links.
      */
-    public function filter_enclosure_links($enclosure_links, $post_id) {
+    public function filter_enclosure_links($enclosure_links, $post_id)
+    {
         // Replace the link host to contain the post ID, to test both filter input arguments.
         foreach ($enclosure_links as &$link) {
             $link = str_replace('example.org', sprintf('example-%d.org', $post_id), $link);
@@ -241,7 +251,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      * @param  int    $post_id Post ID.
      * @return string  All enclosure data for the given post.
      */
-    protected function get_enclosed_by_post_id($post_id) {
+    protected function get_enclosed_by_post_id($post_id)
+    {
         return implode('', (array) get_post_meta($post_id, 'enclosure', false));
     }
 
@@ -255,7 +266,8 @@ class Tests_Functions_DoEnclose extends WP_UnitTestCase {
      * @param string               $url         The request URL.
      * @return array Response data.
      */
-    public function mock_http_request($response, $parsed_args, $url) {
+    public function mock_http_request($response, $parsed_args, $url)
+    {
 
         // Video and audio headers.
         $fake_headers = array(

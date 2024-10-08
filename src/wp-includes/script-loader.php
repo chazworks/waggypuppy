@@ -46,7 +46,8 @@ require ABSPATH . WPINC . '/functions.wp-styles.php';
  * @param WP_Scripts $scripts            WP_Scripts object.
  * @param bool       $force_uncompressed Whether to forcibly prevent gzip compression. Default false.
  */
-function wp_register_tinymce_scripts($scripts, $force_uncompressed = false) {
+function wp_register_tinymce_scripts($scripts, $force_uncompressed = false)
+{
     global $tinymce_version, $concatenate_scripts, $compress_scripts;
 
     $suffix     = wp_scripts_get_suffix();
@@ -82,7 +83,8 @@ function wp_register_tinymce_scripts($scripts, $force_uncompressed = false) {
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
-function wp_default_packages_vendor($scripts) {
+function wp_default_packages_vendor($scripts)
+{
     global $wp_locale;
 
     $suffix = wp_scripts_get_suffix();
@@ -177,7 +179,8 @@ function wp_default_packages_vendor($scripts) {
  * @param string[]   $tests   Features to detect.
  * @return string Conditional polyfill inline script.
  */
-function wp_get_script_polyfill($scripts, $tests) {
+function wp_get_script_polyfill($scripts, $tests)
+{
     $polyfill = '';
     foreach ($tests as $test => $handle) {
         if (! array_key_exists($handle, $scripts->registered)) {
@@ -228,7 +231,8 @@ function wp_get_script_polyfill($scripts, $tests) {
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
-function wp_register_development_scripts($scripts) {
+function wp_register_development_scripts($scripts)
+{
     if (! defined('SCRIPT_DEBUG') || ! SCRIPT_DEBUG
         || empty($scripts->registered['react'])
         || defined('WP_RUN_CORE_TESTS')
@@ -268,7 +272,8 @@ function wp_register_development_scripts($scripts) {
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
-function wp_default_packages_scripts($scripts) {
+function wp_default_packages_scripts($scripts)
+{
     $suffix = defined('WP_RUN_CORE_TESTS') ? '.min' : wp_scripts_get_suffix();
     /*
      * Expects multidimensional array like:
@@ -336,7 +341,8 @@ function wp_default_packages_scripts($scripts) {
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
-function wp_default_packages_inline_scripts($scripts) {
+function wp_default_packages_inline_scripts($scripts)
+{
     global $wp_locale, $wpdb;
 
     if (isset($scripts->registered['wp-api-fetch'])) {
@@ -512,7 +518,8 @@ function wp_default_packages_inline_scripts($scripts) {
  *
  * @global WP_Scripts $wp_scripts
  */
-function wp_tinymce_inline_scripts() {
+function wp_tinymce_inline_scripts()
+{
     global $wp_scripts;
 
     /** This filter is documented in wp-includes/class-wp-editor.php */
@@ -655,7 +662,8 @@ function wp_tinymce_inline_scripts() {
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
-function wp_default_packages($scripts) {
+function wp_default_packages($scripts)
+{
     wp_default_packages_vendor($scripts);
     wp_register_development_scripts($scripts);
     wp_register_tinymce_scripts($scripts);
@@ -676,7 +684,8 @@ function wp_default_packages($scripts) {
  * @param string $type The type of suffix to retrieve.
  * @return string The script suffix.
  */
-function wp_scripts_get_suffix($type = '') {
+function wp_scripts_get_suffix($type = '')
+{
     static $suffixes;
 
     if (null === $suffixes) {
@@ -726,7 +735,8 @@ function wp_scripts_get_suffix($type = '') {
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
-function wp_default_scripts($scripts) {
+function wp_default_scripts($scripts)
+{
     $suffix     = wp_scripts_get_suffix();
     $dev_suffix = wp_scripts_get_suffix('dev');
     $guessurl   = site_url();
@@ -1521,7 +1531,8 @@ function wp_default_scripts($scripts) {
  *
  * @param WP_Styles $styles
  */
-function wp_default_styles($styles) {
+function wp_default_styles($styles)
+{
     global $editor_styles;
 
     /*
@@ -1857,7 +1868,8 @@ function wp_default_styles($styles) {
  * @param string[] $js_array JavaScript scripts array
  * @return string[] Reordered array, if needed.
  */
-function wp_prototype_before_jquery($js_array) {
+function wp_prototype_before_jquery($js_array)
+{
     $prototype = array_search('prototype', $js_array, true);
 
     if (false === $prototype) {
@@ -1890,7 +1902,8 @@ function wp_prototype_before_jquery($js_array) {
  *
  * @global array $shortcode_tags
  */
-function wp_just_in_time_script_localization() {
+function wp_just_in_time_script_localization()
+{
 
     wp_localize_script(
         'autosave',
@@ -1928,7 +1941,8 @@ function wp_just_in_time_script_localization() {
  *
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  */
-function wp_localize_jquery_ui_datepicker() {
+function wp_localize_jquery_ui_datepicker()
+{
     global $wp_locale;
 
     if (! wp_script_is('jquery-ui-datepicker', 'enqueued')) {
@@ -1989,7 +2003,8 @@ function wp_localize_jquery_ui_datepicker() {
  *
  * @since 4.8.0
  */
-function wp_localize_community_events() {
+function wp_localize_community_events()
+{
     if (! wp_script_is('dashboard')) {
         return;
     }
@@ -2047,7 +2062,8 @@ function wp_localize_community_events() {
  * @param string $handle Either 'colors' or 'colors-rtl'.
  * @return string|false URL path to CSS stylesheet for Administration Screens.
  */
-function wp_style_loader_src($src, $handle) {
+function wp_style_loader_src($src, $handle)
+{
     global $_wp_admin_css_colors;
 
     if (wp_installing()) {
@@ -2094,7 +2110,8 @@ function wp_style_loader_src($src, $handle) {
  *
  * @return array
  */
-function print_head_scripts() {
+function print_head_scripts()
+{
     global $concatenate_scripts;
 
     if (! did_action('wp_print_scripts')) {
@@ -2133,7 +2150,8 @@ function print_head_scripts() {
  *
  * @return array
  */
-function print_footer_scripts() {
+function print_footer_scripts()
+{
     global $wp_scripts, $concatenate_scripts;
 
     if (! ($wp_scripts instanceof WP_Scripts)) {
@@ -2166,7 +2184,8 @@ function print_footer_scripts() {
  * @global WP_Scripts $wp_scripts
  * @global bool       $compress_scripts
  */
-function _print_scripts() {
+function _print_scripts()
+{
     global $wp_scripts, $compress_scripts;
 
     $zip = $compress_scripts ? 1 : 0;
@@ -2214,7 +2233,8 @@ function _print_scripts() {
  *
  * @return array
  */
-function wp_print_head_scripts() {
+function wp_print_head_scripts()
+{
     global $wp_scripts;
 
     if (! did_action('wp_print_scripts')) {
@@ -2234,7 +2254,8 @@ function wp_print_head_scripts() {
  *
  * @since 3.3.0
  */
-function _wp_footer_scripts() {
+function _wp_footer_scripts()
+{
     print_late_styles();
     print_footer_scripts();
 }
@@ -2244,7 +2265,8 @@ function _wp_footer_scripts() {
  *
  * @since 2.8.0
  */
-function wp_print_footer_scripts() {
+function wp_print_footer_scripts()
+{
     /**
      * Fires when footer scripts are printed.
      *
@@ -2261,7 +2283,8 @@ function wp_print_footer_scripts() {
  *
  * @since 2.8.0
  */
-function wp_enqueue_scripts() {
+function wp_enqueue_scripts()
+{
     /**
      * Fires when scripts and styles are enqueued.
      *
@@ -2279,7 +2302,8 @@ function wp_enqueue_scripts() {
  *
  * @return array
  */
-function print_admin_styles() {
+function print_admin_styles()
+{
     global $concatenate_scripts;
 
     $wp_styles = wp_styles();
@@ -2313,7 +2337,8 @@ function print_admin_styles() {
  *
  * @return array|void
  */
-function print_late_styles() {
+function print_late_styles()
+{
     global $wp_styles, $concatenate_scripts;
 
     if (! ($wp_styles instanceof WP_Styles)) {
@@ -2347,7 +2372,8 @@ function print_late_styles() {
  *
  * @global bool $compress_css
  */
-function _print_styles() {
+function _print_styles()
+{
     global $compress_css;
 
     $wp_styles = wp_styles();
@@ -2395,7 +2421,8 @@ function _print_styles() {
  * @global bool $compress_scripts
  * @global bool $compress_css
  */
-function script_concat_settings() {
+function script_concat_settings()
+{
     global $concatenate_scripts, $compress_scripts, $compress_css;
 
     $compressed_output = (ini_get('zlib.output_compression') || 'ob_gzhandler' === ini_get('output_handler'));
@@ -2430,7 +2457,8 @@ function script_concat_settings() {
  *
  * @since 5.0.0
  */
-function wp_common_block_scripts_and_styles() {
+function wp_common_block_scripts_and_styles()
+{
     if (is_admin() && ! wp_should_load_block_editor_scripts_and_styles()) {
         return;
     }
@@ -2468,7 +2496,8 @@ function wp_common_block_scripts_and_styles() {
  * @param array $nodes The nodes to filter.
  * @return array A filtered array of style nodes.
  */
-function wp_filter_out_block_nodes($nodes) {
+function wp_filter_out_block_nodes($nodes)
+{
     return array_filter(
         $nodes,
         static function ($node) {
@@ -2483,7 +2512,8 @@ function wp_filter_out_block_nodes($nodes) {
  *
  * @since 5.8.0
  */
-function wp_enqueue_global_styles() {
+function wp_enqueue_global_styles()
+{
     $separate_assets  = wp_should_load_separate_core_block_assets();
     $is_block_theme   = wp_is_block_theme();
     $is_classic_theme = ! $is_block_theme;
@@ -2546,7 +2576,8 @@ function wp_enqueue_global_styles() {
  *
  * @return bool Whether scripts and styles should be enqueued.
  */
-function wp_should_load_block_editor_scripts_and_styles() {
+function wp_should_load_block_editor_scripts_and_styles()
+{
     global $current_screen;
 
     $is_block_editor_screen = ($current_screen instanceof WP_Screen) && $current_screen->is_block_editor();
@@ -2583,7 +2614,8 @@ function wp_should_load_block_editor_scripts_and_styles() {
  *
  * @return bool Whether separate assets will be loaded.
  */
-function wp_should_load_separate_core_block_assets() {
+function wp_should_load_separate_core_block_assets()
+{
     if (is_admin() || is_feed() || wp_is_rest_endpoint()) {
         return false;
     }
@@ -2610,7 +2642,8 @@ function wp_should_load_separate_core_block_assets() {
  *
  * @global WP_Screen $current_screen WordPress current screen object.
  */
-function wp_enqueue_registered_block_scripts_and_styles() {
+function wp_enqueue_registered_block_scripts_and_styles()
+{
     global $current_screen;
 
     if (wp_should_load_separate_core_block_assets()) {
@@ -2652,7 +2685,8 @@ function wp_enqueue_registered_block_scripts_and_styles() {
  *
  * @global WP_Styles $wp_styles
  */
-function enqueue_block_styles_assets() {
+function enqueue_block_styles_assets()
+{
     global $wp_styles;
 
     $block_styles = WP_Block_Styles_Registry::get_instance()->get_all_registered();
@@ -2704,7 +2738,8 @@ function enqueue_block_styles_assets() {
  *
  * @since 5.3.0
  */
-function enqueue_editor_block_styles_assets() {
+function enqueue_editor_block_styles_assets()
+{
     $block_styles = WP_Block_Styles_Registry::get_instance()->get_all_registered();
 
     $register_script_lines = array('( function() {');
@@ -2737,7 +2772,8 @@ function enqueue_editor_block_styles_assets() {
  *
  * @since 5.5.0
  */
-function wp_enqueue_editor_block_directory_assets() {
+function wp_enqueue_editor_block_directory_assets()
+{
     wp_enqueue_script('wp-block-directory');
     wp_enqueue_style('wp-block-directory');
 }
@@ -2747,7 +2783,8 @@ function wp_enqueue_editor_block_directory_assets() {
  *
  * @since 5.8.0
  */
-function wp_enqueue_editor_format_library_assets() {
+function wp_enqueue_editor_format_library_assets()
+{
     wp_enqueue_script('wp-format-library');
     wp_enqueue_style('wp-format-library');
 }
@@ -2763,7 +2800,8 @@ function wp_enqueue_editor_format_library_assets() {
  * @param array $attributes Key-value pairs representing `<script>` tag attributes.
  * @return string String made of sanitized `<script>` tag attributes.
  */
-function wp_sanitize_script_attributes($attributes) {
+function wp_sanitize_script_attributes($attributes)
+{
     $html5_script_support = ! is_admin() && ! current_theme_supports('html5', 'script');
     $attributes_string    = '';
 
@@ -2795,7 +2833,8 @@ function wp_sanitize_script_attributes($attributes) {
  * @param array $attributes Key-value pairs representing `<script>` tag attributes.
  * @return string String containing `<script>` opening and closing tags.
  */
-function wp_get_script_tag($attributes) {
+function wp_get_script_tag($attributes)
+{
     if (! isset($attributes['type']) && ! is_admin() && ! current_theme_supports('html5', 'script')) {
         // Keep the type attribute as the first for legacy reasons (it has always been this way in core).
         $attributes = array_merge(
@@ -2827,7 +2866,8 @@ function wp_get_script_tag($attributes) {
  *
  * @param array $attributes Key-value pairs representing `<script>` tag attributes.
  */
-function wp_print_script_tag($attributes) {
+function wp_print_script_tag($attributes)
+{
     echo wp_get_script_tag($attributes);
 }
 
@@ -2843,7 +2883,8 @@ function wp_print_script_tag($attributes) {
  * @param array  $attributes Optional. Key-value pairs representing `<script>` tag attributes.
  * @return string String containing inline JavaScript code wrapped around `<script>` tag.
  */
-function wp_get_inline_script_tag($data, $attributes = array()) {
+function wp_get_inline_script_tag($data, $attributes = array())
+{
     $is_html5 = current_theme_supports('html5', 'script') || is_admin();
     if (! isset($attributes['type']) && ! $is_html5) {
         // Keep the type attribute as the first for legacy reasons (it has always been this way in core).
@@ -2930,7 +2971,8 @@ function wp_get_inline_script_tag($data, $attributes = array()) {
  * @param string $data       Data for script tag: JavaScript, importmap, speculationrules, etc.
  * @param array  $attributes Optional. Key-value pairs representing `<script>` tag attributes.
  */
-function wp_print_inline_script_tag($data, $attributes = array()) {
+function wp_print_inline_script_tag($data, $attributes = array())
+{
     echo wp_get_inline_script_tag($data, $attributes);
 }
 
@@ -2946,7 +2988,8 @@ function wp_print_inline_script_tag($data, $attributes = array()) {
  *
  * @global WP_Styles $wp_styles
  */
-function wp_maybe_inline_styles() {
+function wp_maybe_inline_styles()
+{
     global $wp_styles;
 
     $total_inline_limit = 20000;
@@ -3040,7 +3083,8 @@ function wp_maybe_inline_styles() {
  *
  * @return string The CSS with URLs made relative to the WordPress installation.
  */
-function _wp_normalize_relative_css_links($css, $stylesheet_url) {
+function _wp_normalize_relative_css_links($css, $stylesheet_url)
+{
     return preg_replace_callback(
         '#(url\s*\(\s*[\'"]?\s*)([^\'"\)]+)#',
         static function ($matches) use ($stylesheet_url) {
@@ -3074,7 +3118,8 @@ function _wp_normalize_relative_css_links($css, $stylesheet_url) {
  *
  * @since 5.9.0
  */
-function wp_enqueue_global_styles_css_custom_properties() {
+function wp_enqueue_global_styles_css_custom_properties()
+{
     wp_register_style('global-styles-css-custom-properties', false);
     wp_add_inline_style('global-styles-css-custom-properties', wp_get_global_stylesheet(array('variables')));
     wp_enqueue_style('global-styles-css-custom-properties');
@@ -3094,7 +3139,8 @@ function wp_enqueue_global_styles_css_custom_properties() {
  * @param string $style    String containing the CSS styles to be added.
  * @param int    $priority To set the priority for the add_action.
  */
-function wp_enqueue_block_support_styles($style, $priority = 10) {
+function wp_enqueue_block_support_styles($style, $priority = 10)
+{
     $action_hook_name = 'wp_footer';
     if (wp_is_block_theme()) {
         $action_hook_name = 'wp_head';
@@ -3126,7 +3172,8 @@ function wp_enqueue_block_support_styles($style, $priority = 10) {
  *                          Default to whether the `SCRIPT_DEBUG` constant is defined.
  * }
  */
-function wp_enqueue_stored_styles($options = array()) {
+function wp_enqueue_stored_styles($options = array())
+{
     $is_block_theme   = wp_is_block_theme();
     $is_classic_theme = ! $is_block_theme;
 
@@ -3198,7 +3245,8 @@ function wp_enqueue_stored_styles($options = array()) {
  *     @type string|null      $path   Absolute path to the stylesheet, so that it can potentially be inlined.
  * }
  */
-function wp_enqueue_block_style($block_name, $args) {
+function wp_enqueue_block_style($block_name, $args)
+{
     $args = wp_parse_args(
         $args,
         array(
@@ -3298,7 +3346,8 @@ function wp_enqueue_block_style($block_name, $args) {
  *
  * @since 6.1.0
  */
-function wp_enqueue_classic_theme_styles() {
+function wp_enqueue_classic_theme_styles()
+{
     if (! wp_theme_has_theme_json()) {
         $suffix = wp_scripts_get_suffix();
         wp_register_style('classic-theme-styles', '/' . WPINC . "/css/classic-themes$suffix.css");
@@ -3317,7 +3366,8 @@ function wp_enqueue_classic_theme_styles() {
  * @param array $editor_settings The array of editor settings.
  * @return array A filtered array of editor settings.
  */
-function wp_add_editor_classic_theme_styles($editor_settings) {
+function wp_add_editor_classic_theme_styles($editor_settings)
+{
     if (wp_theme_has_theme_json()) {
         return $editor_settings;
     }
@@ -3372,7 +3422,8 @@ function wp_add_editor_classic_theme_styles($editor_settings) {
  * @return string Script body without surrounding script tag literals, or
  *                original contents if both exact literals aren't present.
  */
-function wp_remove_surrounding_empty_script_tags($contents) {
+function wp_remove_surrounding_empty_script_tags($contents)
+{
     $contents = trim($contents);
     $opener   = '<SCRIPT>';
     $closer   = '</SCRIPT>';

@@ -18,7 +18,8 @@ if (function_exists('register_block_pattern_category')) {
      *
      * @return void
      */
-    function twenty_twenty_one_register_block_pattern_category() {
+    function twenty_twenty_one_register_block_pattern_category()
+    {
         register_block_pattern_category(
             'twentytwentyone',
             array('label' => esc_html__('Twenty Twenty-One', 'twentytwentyone'))
@@ -38,7 +39,8 @@ if (function_exists('register_block_pattern')) {
      *
      * @return void
      */
-    function twenty_twenty_one_register_block_pattern() {
+    function twenty_twenty_one_register_block_pattern()
+    {
 
         // Large Text.
         register_block_pattern(

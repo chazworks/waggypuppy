@@ -4,7 +4,8 @@
  * @group post
  * @covers ::wp_publish_post
  */
-class Tests_Post_wpPublishPost extends WP_UnitTestCase {
+class Tests_Post_wpPublishPost extends WP_UnitTestCase
+{
 
     /**
      * Auto-draft post ID.
@@ -18,11 +19,13 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Test suite factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$auto_draft_id = $factory->post->create(array('post_status' => 'auto-draft'));
     }
 
-    public function test_wp_publish_post() {
+    public function test_wp_publish_post()
+    {
         $draft_id = self::factory()->post->create(
             array(
                 'post_status' => 'draft',
@@ -42,7 +45,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @ticket 22944
      * @covers ::wp_insert_post
      */
-    public function test_wp_insert_post_and_wp_publish_post_with_future_date() {
+    public function test_wp_insert_post_and_wp_publish_post_with_future_date()
+    {
         $future_date = gmdate('Y-m-d H:i:s', time() + 10000000);
         $post_id     = self::factory()->post->create(
             array(
@@ -66,7 +70,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @ticket 48145
      * @covers ::wp_insert_post
      */
-    public function test_wp_insert_post_should_default_to_publish_if_post_date_is_within_59_seconds_from_current_time() {
+    public function test_wp_insert_post_should_default_to_publish_if_post_date_is_within_59_seconds_from_current_time()
+    {
         $future_date = gmdate('Y-m-d H:i:s', time() + 59);
         $post_id     = self::factory()->post->create(
             array(
@@ -83,7 +88,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @ticket 22944
      * @covers ::wp_update_post
      */
-    public function test_wp_update_post_with_content_filtering() {
+    public function test_wp_update_post_with_content_filtering()
+    {
         kses_remove_filters();
 
         $post_id = wp_insert_post(
@@ -113,7 +119,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
     /**
      * @ticket 22944
      */
-    public function test_wp_publish_post_and_avoid_content_filtering() {
+    public function test_wp_publish_post_and_avoid_content_filtering()
+    {
         kses_remove_filters();
 
         $post_id = wp_insert_post(
@@ -140,7 +147,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      *
      * @ticket 51292
      */
-    public function test_wp_publish_post_respects_current_categories() {
+    public function test_wp_publish_post_respects_current_categories()
+    {
         $post_id     = self::$auto_draft_id;
         $category_id = self::factory()->term->create(array('taxonomy' => 'category'));
         wp_set_post_categories($post_id, $category_id);
@@ -161,7 +169,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @covers ::wp_publish_post
      * @ticket 51292
      */
-    public function test_wp_publish_post_adds_default_category() {
+    public function test_wp_publish_post_adds_default_category()
+    {
         $post_id = self::$auto_draft_id;
 
         wp_publish_post($post_id);
@@ -181,7 +190,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @covers ::wp_publish_post
      * @ticket 51292
      */
-    public function test_wp_publish_post_adds_default_category_when_tagged() {
+    public function test_wp_publish_post_adds_default_category_when_tagged()
+    {
         $post_id = self::$auto_draft_id;
         $tag_id  = self::factory()->term->create(array('taxonomy' => 'post_tag'));
         wp_set_post_tags($post_id, array($tag_id));
@@ -202,7 +212,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @covers ::wp_publish_post
      * @ticket 51292
      */
-    public function test_wp_publish_post_respects_current_terms() {
+    public function test_wp_publish_post_respects_current_terms()
+    {
         // Create custom taxonomy to test with.
         register_taxonomy(
             'tax_51292',
@@ -237,7 +248,8 @@ class Tests_Post_wpPublishPost extends WP_UnitTestCase {
      * @covers ::wp_publish_post
      * @ticket 51292
      */
-    public function test_wp_publish_post_adds_default_term() {
+    public function test_wp_publish_post_adds_default_term()
+    {
         // Create custom taxonomy to test with.
         register_taxonomy(
             'tax_51292',

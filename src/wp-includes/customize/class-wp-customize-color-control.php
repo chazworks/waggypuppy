@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Color_Control extends WP_Customize_Control {
+class WP_Customize_Color_Control extends WP_Customize_Control
+{
     /**
      * Type.
      *
@@ -50,7 +51,8 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
      */
-    public function __construct($manager, $id, $args = array()) {
+    public function __construct($manager, $id, $args = array())
+    {
         $this->statuses = array('' => __('Default'));
         parent::__construct($manager, $id, $args);
     }
@@ -60,7 +62,8 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
      *
      * @since 3.4.0
      */
-    public function enqueue() {
+    public function enqueue()
+    {
         wp_enqueue_script('wp-color-picker');
         wp_enqueue_style('wp-color-picker');
     }
@@ -71,7 +74,8 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
      * @since 3.4.0
      * @uses WP_Customize_Control::to_json()
      */
-    public function to_json() {
+    public function to_json()
+    {
         parent::to_json();
         $this->json['statuses']     = $this->statuses;
         $this->json['defaultValue'] = $this->setting->default;
@@ -83,14 +87,16 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
      *
      * @since 3.4.0
      */
-    public function render_content() {}
+    public function render_content()
+    {}
 
     /**
      * Render a JS template for the content of the color picker control.
      *
      * @since 4.1.0
      */
-    public function content_template() {
+    public function content_template()
+    {
         ?>
         <# var defaultValue = '#RRGGBB', defaultValueAttr = '',
             isHueSlider = data.mode === 'hue';

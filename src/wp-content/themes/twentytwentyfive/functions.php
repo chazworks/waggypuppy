@@ -18,7 +18,8 @@ if (! function_exists('twentytwentyfive_post_format_setup')) :
      *
      * @return void
      */
-    function twentytwentyfive_post_format_setup() {
+    function twentytwentyfive_post_format_setup()
+    {
         add_theme_support('post-formats', array('audio', 'gallery', 'image', 'link', 'quote', 'video'));
     }
 endif;
@@ -33,7 +34,8 @@ if (! function_exists('twentytwentyfive_editor_style')) :
      *
      * @return void
      */
-    function twentytwentyfive_editor_style() {
+    function twentytwentyfive_editor_style()
+    {
         add_editor_style(get_parent_theme_file_uri('assets/css/editor-style.css'));
     }
 endif;
@@ -48,7 +50,8 @@ if (! function_exists('twentytwentyfive_enqueue_styles')) :
      *
      * @return void
      */
-    function twentytwentyfive_enqueue_styles() {
+    function twentytwentyfive_enqueue_styles()
+    {
         wp_enqueue_style(
             'twentytwentyfive-style',
             get_parent_theme_file_uri('style.css'),
@@ -68,7 +71,8 @@ if (! function_exists('twentytwentyfive_block_styles')) :
      *
      * @return void
      */
-    function twentytwentyfive_block_styles() {
+    function twentytwentyfive_block_styles()
+    {
         register_block_style(
             'core/list',
             array(
@@ -97,7 +101,8 @@ if (! function_exists('twentytwentyfive_pattern_categories')) :
      *
      * @return void
      */
-    function twentytwentyfive_pattern_categories() {
+    function twentytwentyfive_pattern_categories()
+    {
 
         register_block_pattern_category(
             'twentytwentyfive_page',
@@ -127,7 +132,8 @@ if (! function_exists('twentytwentyfive_register_block_bindings')) :
      *
      * @return void
      */
-    function twentytwentyfive_register_block_bindings() {
+    function twentytwentyfive_register_block_bindings()
+    {
         register_block_bindings_source(
             'twentytwentyfive/copyright',
             array(
@@ -147,7 +153,8 @@ if (! function_exists('twentytwentyfive_copyright_binding')) :
      *
      * @return string Copyright text.
      */
-    function twentytwentyfive_copyright_binding() {
+    function twentytwentyfive_copyright_binding()
+    {
         $copyright_text = sprintf(
             /* translators: 1: Copyright symbol or word, 2: Year */
             esc_html__('%1$s %2$s', 'twentytwentyfive'),

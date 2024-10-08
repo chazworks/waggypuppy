@@ -7,16 +7,19 @@
  *
  * @covers ::list_files
  */
-class Tests_Functions_ListFiles extends WP_UnitTestCase {
+class Tests_Functions_ListFiles extends WP_UnitTestCase
+{
 
-    public function test_list_files_returns_a_list_of_files() {
+    public function test_list_files_returns_a_list_of_files()
+    {
         $admin_files = list_files(ABSPATH . 'wp-admin/');
         $this->assertIsArray($admin_files);
         $this->assertNotEmpty($admin_files);
         $this->assertContains(ABSPATH . 'wp-admin/index.php', $admin_files);
     }
 
-    public function test_list_files_can_exclude_files() {
+    public function test_list_files_can_exclude_files()
+    {
         $admin_files = list_files(ABSPATH . 'wp-admin/', 100, array('index.php'));
         $this->assertNotContains(ABSPATH . 'wp-admin/index.php', $admin_files);
     }
@@ -33,7 +36,8 @@ class Tests_Functions_ListFiles extends WP_UnitTestCase {
      * @param string[] $exclusions     List of folders and files to skip.
      * @param bool     $expected       Whether the file should be included in the results.
      */
-    public function test_list_files_should_optionally_include_hidden_files($filename, $include_hidden, $exclusions, $expected) {
+    public function test_list_files_should_optionally_include_hidden_files($filename, $include_hidden, $exclusions, $expected)
+    {
         $test_dir    = get_temp_dir() . 'test-list-files/';
         $hidden_file = $test_dir . $filename;
 
@@ -57,7 +61,8 @@ class Tests_Functions_ListFiles extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_list_files_should_optionally_include_hidden_files() {
+    public function data_list_files_should_optionally_include_hidden_files()
+    {
         return array(
             '$include_hidden = false and no exclusions' => array(
                 'filename'       => '.hidden_file',

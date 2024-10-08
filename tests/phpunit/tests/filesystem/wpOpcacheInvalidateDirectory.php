@@ -8,12 +8,14 @@
  *
  * @covers ::wp_opcache_invalidate_directory
  */
-class Tests_Filesystem_WpOpcacheInvalidateDirectory extends WP_UnitTestCase {
+class Tests_Filesystem_WpOpcacheInvalidateDirectory extends WP_UnitTestCase
+{
 
     /**
      * Sets up the filesystem before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         global $wp_filesystem;
 
         parent::set_up_before_class();
@@ -34,7 +36,8 @@ class Tests_Filesystem_WpOpcacheInvalidateDirectory extends WP_UnitTestCase {
      *
      * @param mixed $dir An invalid directory path.
      */
-    public function test_should_trigger_error_with_invalid_dir($dir) {
+    public function test_should_trigger_error_with_invalid_dir($dir)
+    {
         $this->expectError();
         $this->expectErrorMessage(
             '<code>wp_opcache_invalidate_directory()</code> expects a non-empty string.',
@@ -49,7 +52,8 @@ class Tests_Filesystem_WpOpcacheInvalidateDirectory extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_trigger_error_with_invalid_dir() {
+    public function data_should_trigger_error_with_invalid_dir()
+    {
         return array(
             'an empty string'                => array(''),
             'a string with spaces'           => array('   '),
@@ -84,7 +88,8 @@ class Tests_Filesystem_WpOpcacheInvalidateDirectory extends WP_UnitTestCase {
      *
      * @param string $dir A directory path.
      */
-    public function test_should_not_trigger_error_wp_opcache_valid_directory($dir) {
+    public function test_should_not_trigger_error_wp_opcache_valid_directory($dir)
+    {
         $this->assertNull(wp_opcache_invalidate_directory($dir));
     }
 
@@ -93,7 +98,8 @@ class Tests_Filesystem_WpOpcacheInvalidateDirectory extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_not_trigger_error_wp_opcache_valid_directory() {
+    public function data_should_not_trigger_error_wp_opcache_valid_directory()
+    {
         return array(
             'an existing directory'    => array(DIR_TESTDATA),
             'a non-existent directory' => array('non_existent_directory'),

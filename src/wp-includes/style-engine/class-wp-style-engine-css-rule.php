@@ -15,7 +15,8 @@
  * @since 6.1.0
  */
 #[AllowDynamicProperties]
-class WP_Style_Engine_CSS_Rule {
+class WP_Style_Engine_CSS_Rule
+{
 
     /**
      * The selector.
@@ -58,7 +59,8 @@ class WP_Style_Engine_CSS_Rule {
      * @param string                                    $rules_group  A parent CSS selector in the case of nested CSS, or a CSS nested @rule,
      *                                                                such as `@media (min-width: 80rem)` or `@layer module`.
      */
-    public function __construct($selector = '', $declarations = array(), $rules_group = '') {
+    public function __construct($selector = '', $declarations = array(), $rules_group = '')
+    {
         $this->set_selector($selector);
         $this->add_declarations($declarations);
         $this->set_rules_group($rules_group);
@@ -72,7 +74,8 @@ class WP_Style_Engine_CSS_Rule {
      * @param string $selector The CSS selector.
      * @return WP_Style_Engine_CSS_Rule Returns the object to allow chaining of methods.
      */
-    public function set_selector($selector) {
+    public function set_selector($selector)
+    {
         $this->selector = $selector;
         return $this;
     }
@@ -86,7 +89,8 @@ class WP_Style_Engine_CSS_Rule {
      *                                                                or a WP_Style_Engine_CSS_Declarations object.
      * @return WP_Style_Engine_CSS_Rule Returns the object to allow chaining of methods.
      */
-    public function add_declarations($declarations) {
+    public function add_declarations($declarations)
+    {
         $is_declarations_object = ! is_array($declarations);
         $declarations_array     = $is_declarations_object ? $declarations->get_declarations() : $declarations;
 
@@ -111,7 +115,8 @@ class WP_Style_Engine_CSS_Rule {
      *                            such as `@media (min-width: 80rem)` or `@layer module`.
      * @return WP_Style_Engine_CSS_Rule Returns the object to allow chaining of methods.
      */
-    public function set_rules_group($rules_group) {
+    public function set_rules_group($rules_group)
+    {
         $this->rules_group = $rules_group;
         return $this;
     }
@@ -123,7 +128,8 @@ class WP_Style_Engine_CSS_Rule {
      *
      * @return string
      */
-    public function get_rules_group() {
+    public function get_rules_group()
+    {
         return $this->rules_group;
     }
 
@@ -134,7 +140,8 @@ class WP_Style_Engine_CSS_Rule {
      *
      * @return WP_Style_Engine_CSS_Declarations The declarations object.
      */
-    public function get_declarations() {
+    public function get_declarations()
+    {
         return $this->declarations;
     }
 
@@ -145,7 +152,8 @@ class WP_Style_Engine_CSS_Rule {
      *
      * @return string
      */
-    public function get_selector() {
+    public function get_selector()
+    {
         return $this->selector;
     }
 
@@ -161,7 +169,8 @@ class WP_Style_Engine_CSS_Rule {
      *                              Applies if `prettify` is `true`. Default 0.
      * @return string
      */
-    public function get_css($should_prettify = false, $indent_count = 0) {
+    public function get_css($should_prettify = false, $indent_count = 0)
+    {
         $rule_indent                = $should_prettify ? str_repeat("\t", $indent_count) : '';
         $nested_rule_indent         = $should_prettify ? str_repeat("\t", $indent_count + 1) : '';
         $declarations_indent        = $should_prettify ? $indent_count + 1 : 0;

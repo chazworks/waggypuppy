@@ -9,7 +9,8 @@
  *
  * @covers ::wp_checkdate
  */
-class Tests_Date_wpCheckdate extends WP_UnitTestCase {
+class Tests_Date_wpCheckdate extends WP_UnitTestCase
+{
 
     /**
      * @ticket 59825
@@ -22,7 +23,8 @@ class Tests_Date_wpCheckdate extends WP_UnitTestCase {
      * @param string     $source_date The date to pass to the wp_checkdate filter.
      * @param bool       $expected    The expected result.
      */
-    public function test_wp_checkdate($month, $day, $year, $source_date, $expected) {
+    public function test_wp_checkdate($month, $day, $year, $source_date, $expected)
+    {
         $this->assertSame($expected, wp_checkdate($month, $day, $year, $source_date));
     }
 
@@ -31,7 +33,8 @@ class Tests_Date_wpCheckdate extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_checkdate() {
+    public function data_wp_checkdate()
+    {
         return array(
             'integers'              => array(1, 1, 1, '1-1-1', true),
             'strings'               => array('1', '1', '1', '1-1-1', true),
@@ -46,7 +49,8 @@ class Tests_Date_wpCheckdate extends WP_UnitTestCase {
     /**
      * Checks that the filter overrides the return value.
      */
-    public function test_wp_checkdate_filter() {
+    public function test_wp_checkdate_filter()
+    {
         add_filter(
             'wp_checkdate',
             static function ($is_valid_date, $source_date) {

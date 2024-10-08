@@ -5,7 +5,8 @@
  *
  * @covers ::_disable_block_editor_for_navigation_post_type
  */
-class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCase {
+class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCase
+{
     const NAVIGATION_POST_TYPE = 'wp_navigation';
 
     /**
@@ -14,7 +15,8 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
      *
      * @param bool $supports Whether the CPT supports block editor or not.
      */
-    public function test_should_return_false_when_wp_navigation($supports) {
+    public function test_should_return_false_when_wp_navigation($supports)
+    {
         $this->assertFalse(_disable_block_editor_for_navigation_post_type($supports, static::NAVIGATION_POST_TYPE));
     }
 
@@ -23,7 +25,8 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
      *
      * @return array
      */
-    public function data_should_return_false_when_wp_navigation() {
+    public function data_should_return_false_when_wp_navigation()
+    {
         return array(
             'support value: true'  => array(true),
             'support value: false' => array(false),
@@ -37,7 +40,8 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
      * @param bool   $supports  Whether the CPT supports block editor or not.
      * @param string $post_type The post type
      */
-    public function test_should_return_given_value_for_non_wp_navigation_post_types($supports, $post_type) {
+    public function test_should_return_given_value_for_non_wp_navigation_post_types($supports, $post_type)
+    {
         $this->assertSame($supports, _disable_block_editor_for_navigation_post_type($supports, $post_type));
     }
 
@@ -46,7 +50,8 @@ class Tests_Editor_DisableBlockEditorForNavigationPostType extends WP_UnitTestCa
      *
      * @return array
      */
-    public function data_should_return_given_value_for_non_wp_navigation_post_types() {
+    public function data_should_return_given_value_for_non_wp_navigation_post_types()
+    {
         return array(
             'post'                => array(
                 'post_type' => 'post',

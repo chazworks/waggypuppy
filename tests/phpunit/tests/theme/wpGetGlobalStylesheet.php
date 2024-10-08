@@ -9,7 +9,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers ::wp_get_global_stylesheet
  */
-class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
+class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase
+{
 
     /**
      * Flag to indicate whether to remove 'editor-font-sizes' theme support at tear_down().
@@ -32,7 +33,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      */
     private $switch_to_default_theme_at_teardown = false;
 
-    public function tear_down() {
+    public function tear_down()
+    {
         // Reset development mode after each test.
         unset($GLOBALS['_wp_tests_development_mode']);
 
@@ -66,7 +68,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      * @param array  $types               Optional. Types of styles to load. Default empty array.
      * @param bool   $classic_has_presets Optional. Whether to apply presets for classic theme tests. Default false.
      */
-    public function test_should_conditionally_include_font_sizes(array $expected, $theme, array $types = array(), $classic_has_presets = false) {
+    public function test_should_conditionally_include_font_sizes(array $expected, $theme, array $types = array(), $classic_has_presets = false)
+    {
         $this->maybe_switch_theme($theme);
         $this->add_custom_font_sizes($classic_has_presets);
 
@@ -87,7 +90,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_conditionally_include_font_sizes() {
+    public function data_should_conditionally_include_font_sizes()
+    {
         return array(
             'block theme using defaults'                   => array(
                 'expected' => array(
@@ -164,7 +168,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      * @param array  $types               Optional. Types of styles to load. Default empty array.
      * @param bool   $classic_has_presets Optional. Whether to apply presets for classic theme tests. Default false.
      */
-    public function test_should_not_conditionally_include_font_sizes(array $expected, $theme, array $types = array(), $classic_has_presets = false) {
+    public function test_should_not_conditionally_include_font_sizes(array $expected, $theme, array $types = array(), $classic_has_presets = false)
+    {
         $this->maybe_switch_theme($theme);
         $this->add_custom_font_sizes($classic_has_presets);
 
@@ -185,7 +190,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_not_conditionally_include_font_sizes() {
+    public function data_should_not_conditionally_include_font_sizes()
+    {
         return array(
             'block theme using presets'                   => array(
                 'expected' => array(
@@ -225,7 +231,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
     /**
      * @ticket 56970
      */
-    public function test_switching_themes_should_recalculate_stylesheet() {
+    public function test_switching_themes_should_recalculate_stylesheet()
+    {
         $expected = '--wp--preset--font-size--custom: 100px;';
 
         $stylesheet_for_default_theme = wp_get_global_stylesheet();
@@ -241,7 +248,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      *
      * @ticket 57487
      */
-    public function test_caching_is_used_when_developing_theme() {
+    public function test_caching_is_used_when_developing_theme()
+    {
         global $_wp_tests_development_mode;
 
         $this->maybe_switch_theme('block-theme');
@@ -264,7 +272,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      *
      * @ticket 60134
      */
-    public function test_theme_color_palette_presets_output_when_border_support_enabled() {
+    public function test_theme_color_palette_presets_output_when_border_support_enabled()
+    {
 
         $args = array(
             array(
@@ -324,7 +333,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      * @param int  $small             Optional. Small font size in pixels. Default 18.
      * @param int  $large             Optional. Large font size in pixels. Default 26.25.
      */
-    private function add_custom_font_sizes($add_theme_support, $small = 18, $large = 26.25) {
+    private function add_custom_font_sizes($add_theme_support, $small = 18, $large = 26.25)
+    {
         if (! $add_theme_support) {
             return;
         }
@@ -350,7 +360,8 @@ class Tests_Theme_WpGetGlobalStylesheet extends WP_Theme_UnitTestCase {
      *
      * @param string $theme Theme name to switch to.
      */
-    private function maybe_switch_theme($theme) {
+    private function maybe_switch_theme($theme)
+    {
         if ('default' === $theme) {
             return;
         }

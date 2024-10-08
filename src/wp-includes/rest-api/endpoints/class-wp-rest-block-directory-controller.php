@@ -14,12 +14,14 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
+class WP_REST_Block_Directory_Controller extends WP_REST_Controller
+{
 
     /**
      * Constructs the controller.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'block-directory';
     }
@@ -27,7 +29,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
     /**
      * Registers the necessary REST API routes.
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/search',
@@ -51,7 +54,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has permission, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         if (! current_user_can('install_plugins') || ! current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_block_directory_cannot_view',
@@ -71,7 +75,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
@@ -115,7 +120,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $plugin = $item;
 
@@ -164,7 +170,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param array $plugin The plugin data from WordPress.org.
      * @return array
      */
-    protected function prepare_links($plugin) {
+    protected function prepare_links($plugin)
+    {
         $links = array(
             'https://api.w.org/install-plugin' => array(
                 'href' => add_query_arg('slug', urlencode($plugin['slug']), rest_url('wp/v2/plugins')),
@@ -191,7 +198,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      * @param string $slug The WordPress.org directory slug for a plugin.
      * @return string The plugin file found matching it.
      */
-    protected function find_plugin_for_slug($slug) {
+    protected function find_plugin_for_slug($slug)
+    {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         $plugin_files = get_plugins('/' . $slug);
@@ -212,7 +220,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -302,7 +311,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $query_params = parent::get_collection_params();
 
         $query_params['context']['default'] = 'view';

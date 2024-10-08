@@ -5,7 +5,8 @@
  * @group rewrite
  * @group query
  */
-class Tests_Canonical_HTTPS extends WP_Canonical_UnitTestCase {
+class Tests_Canonical_HTTPS extends WP_Canonical_UnitTestCase
+{
 
     /**
      * Dummy HTTP URL.
@@ -21,7 +22,8 @@ class Tests_Canonical_HTTPS extends WP_Canonical_UnitTestCase {
      */
     private $https = '';
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
@@ -31,14 +33,16 @@ class Tests_Canonical_HTTPS extends WP_Canonical_UnitTestCase {
         $this->https = set_url_scheme(home_url('sample-page/'), 'https');
     }
 
-    public function set_https($url) {
+    public function set_https($url)
+    {
         return set_url_scheme($url, 'https');
     }
 
     /**
      * @ticket 27954
      */
-    public function test_http_request_with_http_home() {
+    public function test_http_request_with_http_home()
+    {
         $redirect = redirect_canonical($this->http, false);
 
         $this->assertNull($redirect);
@@ -47,7 +51,8 @@ class Tests_Canonical_HTTPS extends WP_Canonical_UnitTestCase {
     /**
      * @ticket 27954
      */
-    public function test_https_request_with_http_home() {
+    public function test_https_request_with_http_home()
+    {
         $redirect = redirect_canonical($this->https, false);
 
         $this->assertNull($redirect);
@@ -56,7 +61,8 @@ class Tests_Canonical_HTTPS extends WP_Canonical_UnitTestCase {
     /**
      * @ticket 27954
      */
-    public function test_https_request_with_https_home() {
+    public function test_https_request_with_https_home()
+    {
         add_filter('home_url', array($this, 'set_https'));
 
         $redirect = redirect_canonical($this->https, false);

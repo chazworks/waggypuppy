@@ -5,7 +5,8 @@
  *
  * @covers ::sanitize_key
  */
-class Tests_Formatting_SanitizeKey extends WP_UnitTestCase {
+class Tests_Formatting_SanitizeKey extends WP_UnitTestCase
+{
 
     /**
      * @ticket       54160
@@ -14,7 +15,8 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase {
      * @param string $key      The key to sanitize.
      * @param string $expected The expected value.
      */
-    public function test_sanitize_key($key, $expected) {
+    public function test_sanitize_key($key, $expected)
+    {
         $this->assertSame($expected, sanitize_key($key));
     }
 
@@ -23,7 +25,8 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_sanitize_key() {
+    public function data_sanitize_key()
+    {
         return array(
             'an empty string key'            => array(
                 'key'      => '',
@@ -67,7 +70,8 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase {
      * @param mixed  $key      The key to sanitize.
      * @param string $expected The expected value.
      */
-    public function test_sanitize_key_nonstring_scalar($key, $expected) {
+    public function test_sanitize_key_nonstring_scalar($key, $expected)
+    {
         $this->assertSame($expected, sanitize_key($key));
     }
 
@@ -76,7 +80,8 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_sanitize_key_nonstring_scalar() {
+    public function data_sanitize_key_nonstring_scalar()
+    {
         return array(
             'integer type'  => array(
                 'key'      => 0,
@@ -103,7 +108,8 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase {
      *
      * @param mixed $nonscalar_key A non-scalar data type given as a key.
      */
-    public function test_sanitize_key_with_non_scalars($nonscalar_key) {
+    public function test_sanitize_key_with_non_scalars($nonscalar_key)
+    {
         add_filter(
             'sanitize_key',
             function ($sanitized_key, $key) use ($nonscalar_key) {
@@ -122,7 +128,8 @@ class Tests_Formatting_SanitizeKey extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_sanitize_key_with_non_scalars() {
+    public function data_sanitize_key_with_non_scalars()
+    {
         return array(
             'array type' => array(
                 'key'      => array('key'),

@@ -21,7 +21,8 @@
  * @param string $deprecated Deprecated.
  * @return string The author's display name, empty string if unknown.
  */
-function get_the_author($deprecated = '') {
+function get_the_author($deprecated = '')
+{
     global $authordata;
 
     if (! empty($deprecated)) {
@@ -58,7 +59,8 @@ function get_the_author($deprecated = '') {
  * @param bool   $deprecated_echo Deprecated. Use get_the_author(). Echo the string or return it.
  * @return string The author's display name, from get_the_author().
  */
-function the_author($deprecated = '', $deprecated_echo = true) {
+function the_author($deprecated = '', $deprecated_echo = true)
+{
     if (! empty($deprecated)) {
         _deprecated_argument(__FUNCTION__, '2.1.0');
     }
@@ -89,7 +91,8 @@ function the_author($deprecated = '', $deprecated_echo = true) {
  *
  * @return string|void The author's display name, empty string if unknown.
  */
-function get_the_modified_author() {
+function get_the_modified_author()
+{
     $last_id = get_post_meta(get_post()->ID, '_edit_last', true);
 
     if ($last_id) {
@@ -114,7 +117,8 @@ function get_the_modified_author() {
  *
  * @see get_the_author()
  */
-function the_modified_author() {
+function the_modified_author()
+{
     echo get_the_modified_author();
 }
 
@@ -159,7 +163,8 @@ function the_modified_author() {
  * @param int|false $user_id Optional. User ID. Defaults to the current post author.
  * @return string The author's field from the current author's DB object, otherwise an empty string.
  */
-function get_the_author_meta($field = '', $user_id = false) {
+function get_the_author_meta($field = '', $user_id = false)
+{
     $original_user_id = $user_id;
 
     if (! $user_id) {
@@ -201,7 +206,8 @@ function get_the_author_meta($field = '', $user_id = false) {
  *
  * @see get_the_author_meta()
  */
-function the_author_meta($field = '', $user_id = false) {
+function the_author_meta($field = '', $user_id = false)
+{
     $author_meta = get_the_author_meta($field, $user_id);
 
     /**
@@ -230,7 +236,8 @@ function the_author_meta($field = '', $user_id = false) {
  * @return string An HTML link if the author's URL exists in user meta,
  *                otherwise the result of get_the_author().
  */
-function get_the_author_link() {
+function get_the_author_link()
+{
     if (get_the_author_meta('url')) {
         global $authordata;
 
@@ -270,7 +277,8 @@ function get_the_author_link() {
  *
  * @since 2.1.0
  */
-function the_author_link() {
+function the_author_link()
+{
     echo get_the_author_link();
 }
 
@@ -281,7 +289,8 @@ function the_author_link() {
  *
  * @return int The number of posts by the author.
  */
-function get_the_author_posts() {
+function get_the_author_posts()
+{
     $post = get_post();
     if (! $post) {
         return 0;
@@ -295,7 +304,8 @@ function get_the_author_posts() {
  * @link https://developer.wordpress.org/reference/functions/the_author_posts/
  * @since 0.71
  */
-function the_author_posts() {
+function the_author_posts()
+{
     echo get_the_author_posts();
 }
 
@@ -310,7 +320,8 @@ function the_author_posts() {
  *
  * @return string An HTML link to the author page, or an empty string if $authordata is not set.
  */
-function get_the_author_posts_link() {
+function get_the_author_posts_link()
+{
     global $authordata;
 
     if (! is_object($authordata)) {
@@ -343,7 +354,8 @@ function get_the_author_posts_link() {
  *
  * @param string $deprecated Unused.
  */
-function the_author_posts_link($deprecated = '') {
+function the_author_posts_link($deprecated = '')
+{
     if (! empty($deprecated)) {
         _deprecated_argument(__FUNCTION__, '2.1.0');
     }
@@ -361,7 +373,8 @@ function the_author_posts_link($deprecated = '') {
  * @param string $author_nicename Optional. The author's nicename (slug). Default empty.
  * @return string The URL to the author's page.
  */
-function get_author_posts_url($author_id, $author_nicename = '') {
+function get_author_posts_url($author_id, $author_nicename = '')
+{
     global $wp_rewrite;
 
     $author_id = (int) $author_id;
@@ -431,7 +444,8 @@ function get_author_posts_url($author_id, $author_nicename = '') {
  * }
  * @return void|string Void if 'echo' argument is true, list of authors if 'echo' is false.
  */
-function wp_list_authors($args = '') {
+function wp_list_authors($args = '')
+{
     global $wpdb;
 
     $defaults = array(
@@ -599,7 +613,8 @@ function wp_list_authors($args = '') {
  *
  * @return bool Whether or not we have more than one author
  */
-function is_multi_author() {
+function is_multi_author()
+{
     global $wpdb;
 
     $is_multi_author = get_transient('is_multi_author');
@@ -625,6 +640,7 @@ function is_multi_author() {
  * @since 3.2.0
  * @access private
  */
-function __clear_multi_author_cache() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __clear_multi_author_cache()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+{
     delete_transient('is_multi_author');
 }

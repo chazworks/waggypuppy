@@ -5,12 +5,14 @@
  *
  * @covers ::_wp_batch_update_comment_type
  */
-class Tests_Comment_wpBatchUpdateCommentType extends WP_UnitTestCase {
+class Tests_Comment_wpBatchUpdateCommentType extends WP_UnitTestCase
+{
 
     /**
      * @ticket 49236
      */
-    public function test__wp_batch_update_comment_type() {
+    public function test__wp_batch_update_comment_type()
+    {
         global $wpdb;
 
         $comment_ids     = self::factory()->comment->create_many(3);
@@ -44,7 +46,8 @@ class Tests_Comment_wpBatchUpdateCommentType extends WP_UnitTestCase {
         }
     }
 
-    public function filter_comment_type_batch_size() {
+    public function filter_comment_type_batch_size()
+    {
         return 3;
     }
 }

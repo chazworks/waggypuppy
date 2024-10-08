@@ -8,7 +8,8 @@
  *
  * @group themes
  */
-class Tests_Theme_wpTheme extends WP_UnitTestCase {
+class Tests_Theme_wpTheme extends WP_UnitTestCase
+{
 
     /**
      * Theme root directory.
@@ -24,7 +25,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      */
     private $orig_theme_dir;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
 
@@ -39,7 +41,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
         unset($GLOBALS['wp_themes']);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
@@ -47,11 +50,13 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
     }
 
     // Replace the normal theme root directory with our premade test directory.
-    public function _theme_root($dir) {
+    public function _theme_root($dir)
+    {
         return $this->theme_root;
     }
 
-    public function test_new_WP_Theme_top_level() {
+    public function test_new_WP_Theme_top_level()
+    {
         $theme = new WP_Theme('theme1', $this->theme_root);
 
         // Meta.
@@ -70,7 +75,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
         $this->assertSame('theme1', $theme->get_template());
     }
 
-    public function test_new_WP_Theme_subdir() {
+    public function test_new_WP_Theme_subdir()
+    {
         $theme = new WP_Theme('subdir/theme2', $this->theme_root);
 
         // Meta.
@@ -92,7 +98,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
     /**
      * @ticket 20313
      */
-    public function test_new_WP_Theme_subdir_bad_root() {
+    public function test_new_WP_Theme_subdir_bad_root()
+    {
         // This is what get_theme_data() does when you pass it a style.css file for a theme in a subdirectory.
         $theme = new WP_Theme('theme2', $this->theme_root . '/subdir');
 
@@ -119,7 +126,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      *
      * @covers WP_Theme::__construct
      */
-    public function test_new_WP_Theme_numeric_theme_directory() {
+    public function test_new_WP_Theme_numeric_theme_directory()
+    {
         $theme = new WP_Theme(1234, $this->theme_root);
 
         $this->assertSame('1234', $theme->get_stylesheet(), 'The stylesheet property should be a string.');
@@ -129,7 +137,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
     /**
      * @ticket 21749
      */
-    public function test_wp_theme_uris_with_spaces() {
+    public function test_wp_theme_uris_with_spaces()
+    {
         $theme = new WP_Theme('theme with spaces', $this->theme_root . '/subdir');
         // Make sure subdir/ is considered part of the stylesheet, as we must avoid encoding /'s.
         $this->assertSame('subdir/theme with spaces', $theme->get_stylesheet());
@@ -146,7 +155,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
     /**
      * @ticket 21969
      */
-    public function test_theme_uris_with_spaces() {
+    public function test_theme_uris_with_spaces()
+    {
         $callback = array($this, 'filter_theme_with_spaces');
         add_filter('stylesheet', $callback);
         add_filter('template', $callback);
@@ -158,14 +168,16 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
         remove_filter('template', $callback);
     }
 
-    public function filter_theme_with_spaces() {
+    public function filter_theme_with_spaces()
+    {
         return 'subdir/theme with spaces';
     }
 
     /**
      * @ticket 26873
      */
-    public function test_display_method_on_get_method_failure() {
+    public function test_display_method_on_get_method_failure()
+    {
         $theme = new WP_Theme('nonexistent', $this->theme_root);
         $this->assertSame('nonexistent', $theme->get('Name'));
         $this->assertFalse($theme->get('AuthorURI'));
@@ -176,7 +188,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
     /**
      * @ticket 40820
      */
-    public function test_child_theme_with_itself_as_parent_should_appear_as_broken() {
+    public function test_child_theme_with_itself_as_parent_should_appear_as_broken()
+    {
         $theme  = new WP_Theme('child-parent-itself', $this->theme_root);
         $errors = $theme->errors();
         $this->assertWPError($errors);
@@ -190,7 +203,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      * @ticket 30594
      * @group ms-required
      */
-    public function test_wp_theme_network_enable_single_theme() {
+    public function test_wp_theme_network_enable_single_theme()
+    {
         $theme                  = 'testtheme-1';
         $current_allowed_themes = get_site_option('allowedthemes');
         WP_Theme::network_enable_theme($theme);
@@ -207,7 +221,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      * @ticket 30594
      * @group ms-required
      */
-    public function test_wp_theme_network_enable_multiple_themes() {
+    public function test_wp_theme_network_enable_multiple_themes()
+    {
         $themes                 = array('testtheme-2', 'testtheme-3');
         $current_allowed_themes = get_site_option('allowedthemes');
         WP_Theme::network_enable_theme($themes);
@@ -230,7 +245,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      * @ticket 30594
      * @group ms-required
      */
-    public function test_network_disable_single_theme() {
+    public function test_network_disable_single_theme()
+    {
         $current_allowed_themes = get_site_option('allowedthemes');
 
         $allowed_themes = array(
@@ -255,7 +271,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      * @ticket 30594
      * @group ms-required
      */
-    public function test_network_disable_multiple_themes() {
+    public function test_network_disable_multiple_themes()
+    {
         $current_allowed_themes = get_site_option('allowedthemes');
 
         $allowed_themes = array(
@@ -284,7 +301,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      * @param string $theme_dir Directory of the theme to test.
      * @param bool   $expected  Expected result.
      */
-    public function test_is_block_theme($theme_dir, $expected) {
+    public function test_is_block_theme($theme_dir, $expected)
+    {
         $theme = new WP_Theme($theme_dir, $this->theme_root);
         $this->assertSame($expected, $theme->is_block_theme());
     }
@@ -296,7 +314,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      *
      * @dataProvider data_is_block_theme
      */
-    public function test_is_block_theme_property($theme_dir, $expected) {
+    public function test_is_block_theme_property($theme_dir, $expected)
+    {
         $theme = new WP_Theme($theme_dir, $this->theme_root);
         $theme->is_block_theme();
         $reflection          = new ReflectionClass($theme);
@@ -312,7 +331,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      * @covers WP_Theme::is_block_theme
      * @covers WP_Theme::cache_get
      */
-    public function test_is_block_theme_check_cache() {
+    public function test_is_block_theme_check_cache()
+    {
         $filter = new MockAction();
         add_filter('theme_file_path', array($filter, 'filter'));
 
@@ -332,7 +352,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      * @covers WP_Theme::is_block_theme
      * @covers WP_Theme::cache_delete
      */
-    public function test_is_block_theme_delete_cache() {
+    public function test_is_block_theme_delete_cache()
+    {
         $filter = new MockAction();
         add_filter('theme_file_path', array($filter, 'filter'));
 
@@ -351,7 +372,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      *
      * @ticket 53599
      */
-    public function test_get_files_theme() {
+    public function test_get_files_theme()
+    {
         $theme = new WP_Theme('theme1', $this->theme_root);
         $files = $theme->get_files();
 
@@ -367,7 +389,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      *
      * @ticket 53599
      */
-    public function test_get_files_nonexistent_theme() {
+    public function test_get_files_nonexistent_theme()
+    {
         $theme = new WP_Theme('nonexistent', $this->theme_root);
         $files = $theme->get_files();
 
@@ -380,7 +403,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_is_block_theme() {
+    public function data_is_block_theme()
+    {
         return array(
             'default - non-block theme' => array(
                 'theme_dir' => 'default',
@@ -411,7 +435,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      * @param string $file      Given file name to test.
      * @param string $expected  Expected file path.
      */
-    public function test_get_file_path($theme_dir, $file, $expected) {
+    public function test_get_file_path($theme_dir, $file, $expected)
+    {
         $theme = new WP_Theme($theme_dir, $this->theme_root);
 
         $this->assertStringEndsWith($expected, $theme->get_file_path($file));
@@ -422,7 +447,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_get_file_path() {
+    public function data_get_file_path()
+    {
         return array(
             'no theme: no file given'              => array(
                 'theme_dir' => 'nonexistent',
@@ -484,7 +510,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      *
      * @covers WP_Theme::get
      */
-    public function test_theme_get_update_uri_header() {
+    public function test_theme_get_update_uri_header()
+    {
         $theme = new WP_Theme('update-uri-theme', $this->theme_root);
 
         $this->assertTrue(
@@ -513,7 +540,8 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase {
      *
      * @covers WP_Theme::sanitize_header
      */
-    public function test_should_strip_tags_from_update_uri_header() {
+    public function test_should_strip_tags_from_update_uri_header()
+    {
         $theme           = new WP_Theme('twentytwentytwo', $this->theme_root);
         $sanitize_header = new ReflectionMethod($theme, 'sanitize_header');
         $sanitize_header->setAccessible(true);

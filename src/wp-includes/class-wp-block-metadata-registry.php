@@ -17,7 +17,8 @@
  *
  * @since 6.7.0
  */
-class WP_Block_Metadata_Registry {
+class WP_Block_Metadata_Registry
+{
 
     /**
      * Container for storing block metadata collections.
@@ -89,7 +90,8 @@ class WP_Block_Metadata_Registry {
      * @param string $manifest The absolute path to the manifest file containing the metadata collection.
      * @return bool True if the collection was registered successfully, false otherwise.
      */
-    public static function register_collection($path, $manifest) {
+    public static function register_collection($path, $manifest)
+    {
         $path = wp_normalize_path(rtrim($path, '/'));
 
         $wpinc_dir  = self::get_wpinc_dir();
@@ -147,7 +149,8 @@ class WP_Block_Metadata_Registry {
      * @param string $file_or_folder The path to the file or folder containing the block.
      * @return array|null The block metadata for the block, or null if not found.
      */
-    public static function get_metadata($file_or_folder) {
+    public static function get_metadata($file_or_folder)
+    {
         $path = self::find_collection_path($file_or_folder);
         if (! $path) {
             return null;
@@ -174,7 +177,8 @@ class WP_Block_Metadata_Registry {
      * @param string $file_or_folder The path to the file or folder.
      * @return string|null The collection path if found, or null if not found.
      */
-    private static function find_collection_path($file_or_folder) {
+    private static function find_collection_path($file_or_folder)
+    {
         if (empty($file_or_folder)) {
             return null;
         }
@@ -203,7 +207,8 @@ class WP_Block_Metadata_Registry {
      * @param string $file_or_folder The path to the file or folder containing the block metadata.
      * @return bool True if metadata exists for the block, false otherwise.
      */
-    public static function has_metadata($file_or_folder) {
+    public static function has_metadata($file_or_folder)
+    {
         return null !== self::get_metadata($file_or_folder);
     }
 
@@ -228,7 +233,8 @@ class WP_Block_Metadata_Registry {
      * @param string $path The file or folder path to determine the block identifier from.
      * @return string The block identifier, or an empty string if the path is empty.
      */
-    private static function default_identifier_callback($path) {
+    private static function default_identifier_callback($path)
+    {
         // Ensure $path is not empty to prevent unexpected behavior.
         if (empty($path)) {
             return '';
@@ -250,7 +256,8 @@ class WP_Block_Metadata_Registry {
      *
      * @return string The WordPress 'wp-includes' directory path.
      */
-    private static function get_wpinc_dir() {
+    private static function get_wpinc_dir()
+    {
         if (! isset(self::$wpinc_dir)) {
             self::$wpinc_dir = wp_normalize_path(ABSPATH . WPINC);
         }
@@ -264,7 +271,8 @@ class WP_Block_Metadata_Registry {
      *
      * @return string The normalized WordPress plugin directory path.
      */
-    private static function get_plugin_dir() {
+    private static function get_plugin_dir()
+    {
         if (! isset(self::$plugin_dir)) {
             self::$plugin_dir = wp_normalize_path(WP_PLUGIN_DIR);
         }

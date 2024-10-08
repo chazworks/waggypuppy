@@ -10,7 +10,8 @@
  *
  * @group interactivity-api
  */
-class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase {
+class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase
+{
     /**
      * Instance of WP_Interactivity_API.
      *
@@ -35,7 +36,8 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->interactivity = new WP_Interactivity_API();
 
@@ -54,7 +56,8 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase {
     /**
      * Tear down.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Restores all previous hooks set for `wp_footer`.
         global $wp_filter;
         $wp_filter['wp_footer'] = $this->original_wp_footer;
@@ -70,7 +73,8 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase {
     /**
      * Executes the hooks associated to `wp_footer`.
      */
-    protected function render_wp_footer() {
+    protected function render_wp_footer()
+    {
         ob_start();
         do_action('wp_footer');
         return ob_get_clean();
@@ -84,7 +88,8 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_router_region_missing() {
+    public function test_wp_router_region_missing()
+    {
         $html     = '<div>Nothing here</div>';
         $new_html = $this->interactivity->process_directives($html);
         $footer   = $this->render_wp_footer();
@@ -102,7 +107,8 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase {
      *
      * @covers ::process_directives
      */
-    public function test_wp_router_region_adds_loading_bar_region_only_once() {
+    public function test_wp_router_region_adds_loading_bar_region_only_once()
+    {
         $html     = '
 			<div data-wp-router-region="region A">Interactive region</div>
 			<div data-wp-router-region="region B">Another interactive region</div>

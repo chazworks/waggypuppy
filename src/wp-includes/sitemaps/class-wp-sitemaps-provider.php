@@ -15,7 +15,8 @@
  * @since 5.5.0
  */
 #[AllowDynamicProperties]
-abstract class WP_Sitemaps_Provider {
+abstract class WP_Sitemaps_Provider
+{
     /**
      * Provider name.
      *
@@ -64,7 +65,8 @@ abstract class WP_Sitemaps_Provider {
      *
      * @return array[] Array of sitemap types including object subtype name and number of pages.
      */
-    public function get_sitemap_type_data() {
+    public function get_sitemap_type_data()
+    {
         $sitemap_data = array();
 
         $object_subtypes = $this->get_object_subtypes();
@@ -103,7 +105,8 @@ abstract class WP_Sitemaps_Provider {
      *
      * @return array[] Array of sitemap entries.
      */
-    public function get_sitemap_entries() {
+    public function get_sitemap_entries()
+    {
         $sitemaps = array();
 
         $sitemap_types = $this->get_sitemap_type_data();
@@ -145,7 +148,8 @@ abstract class WP_Sitemaps_Provider {
      * @param int    $page The page of the sitemap.
      * @return string The composed URL for a sitemap entry.
      */
-    public function get_sitemap_url($name, $page) {
+    public function get_sitemap_url($name, $page)
+    {
         global $wp_rewrite;
 
         // Accounts for cases where name is not included, ex: sitemaps-users-1.xml.
@@ -176,7 +180,8 @@ abstract class WP_Sitemaps_Provider {
      *
      * @return array List of object subtypes objects keyed by their name.
      */
-    public function get_object_subtypes() {
+    public function get_object_subtypes()
+    {
         return array();
     }
 }

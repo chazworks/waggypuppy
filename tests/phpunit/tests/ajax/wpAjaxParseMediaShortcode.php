@@ -16,10 +16,12 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_parse-media-shortcode
  */
-class Tests_Ajax_wpAjaxParseMediaShortcode extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxParseMediaShortcode extends WP_Ajax_UnitTestCase
+{
     const SHORTCODE_RETURN_VALUE = 'TEST';
     private static $media_id;
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$media_id = self::factory()->attachment->create_object(
             get_temp_dir() . 'canola.jpg',
             0,
@@ -37,7 +39,8 @@ class Tests_Ajax_wpAjaxParseMediaShortcode extends WP_Ajax_UnitTestCase {
     /**
      * @dataProvider shortcode_provider
      */
-    public function test_parse_shortcode(array $payload, $expected) {
+    public function test_parse_shortcode(array $payload, $expected)
+    {
         add_shortcode('test', array($this, 'shortcode_test'));
 
         $_POST = array_merge(
@@ -62,11 +65,13 @@ class Tests_Ajax_wpAjaxParseMediaShortcode extends WP_Ajax_UnitTestCase {
         $this->assertSame($expected['success'], $response['success']);
     }
 
-    public function shortcode_test() {
+    public function shortcode_test()
+    {
         return self::SHORTCODE_RETURN_VALUE;
     }
 
-    public function shortcode_provider() {
+    public function shortcode_provider()
+    {
         return array(
             'gallery_shortcode_is_allowed'         => array(
                 'payload'  => array('shortcode' => '[gallery ids=" ' . self::$media_id . '"]'),

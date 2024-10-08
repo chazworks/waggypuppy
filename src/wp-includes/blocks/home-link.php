@@ -14,7 +14,8 @@
  * @param  array $context home link block context.
  * @return array Colors CSS classes and inline styles.
  */
-function block_core_home_link_build_css_colors($context) {
+function block_core_home_link_build_css_colors($context)
+{
     $colors = array(
         'css_classes'   => array(),
         'inline_styles' => '',
@@ -68,7 +69,8 @@ function block_core_home_link_build_css_colors($context) {
  * @param  array $context Home link block context.
  * @return array Font size CSS classes and inline styles.
  */
-function block_core_home_link_build_css_font_sizes($context) {
+function block_core_home_link_build_css_font_sizes($context)
+{
     // CSS classes.
     $font_sizes = array(
         'css_classes'   => array(),
@@ -97,7 +99,8 @@ function block_core_home_link_build_css_font_sizes($context) {
  * @param  array $context    Home link block context.
  * @return string The li wrapper attributes.
  */
-function block_core_home_link_build_li_wrapper_attributes($context) {
+function block_core_home_link_build_li_wrapper_attributes($context)
+{
     $colors          = block_core_home_link_build_css_colors($context);
     $font_sizes      = block_core_home_link_build_css_font_sizes($context);
     $classes         = array_merge(
@@ -135,7 +138,8 @@ function block_core_home_link_build_li_wrapper_attributes($context) {
  *
  * @return string Returns the post content with the home url added.
  */
-function render_block_core_home_link($attributes, $content, $block) {
+function render_block_core_home_link($attributes, $content, $block)
+{
     if (empty($attributes['label'])) {
         // Using a fallback for the label attribute allows rendering the block even if no attributes have been set,
         // e.g. when using the block as a hooked block.
@@ -168,7 +172,8 @@ function render_block_core_home_link($attributes, $content, $block) {
  * @uses render_block_core_home_link()
  * @throws WP_Error An WP_Error exception parsing the block definition.
  */
-function register_block_core_home_link() {
+function register_block_core_home_link()
+{
     register_block_type_from_metadata(
         __DIR__ . '/home-link',
         array(

@@ -10,7 +10,8 @@
 /**
  * Add SVG definitions to the footer.
  */
-function twentyseventeen_include_svg_icons() {
+function twentyseventeen_include_svg_icons()
+{
     // Define SVG sprite file.
     $svg_icons = get_parent_theme_file_path('/assets/images/svg-icons.svg');
 
@@ -33,7 +34,8 @@ add_action('wp_footer', 'twentyseventeen_include_svg_icons', 9999);
  * }
  * @return string SVG markup.
  */
-function twentyseventeen_get_svg($args = array()) {
+function twentyseventeen_get_svg($args = array())
+{
     // Make sure $args are an array.
     if (empty($args)) {
         return __('Please define default parameters in the form of an array.', 'twentyseventeen');
@@ -123,7 +125,8 @@ function twentyseventeen_get_svg($args = array()) {
  * @param stdClass $args        An object of wp_nav_menu() arguments.
  * @return string The menu item output with social icon.
  */
-function twentyseventeen_nav_menu_social_icons($item_output, $item, $depth, $args) {
+function twentyseventeen_nav_menu_social_icons($item_output, $item, $depth, $args)
+{
     // Get supported social icons.
     $social_icons = twentyseventeen_social_links_icons();
 
@@ -149,7 +152,8 @@ add_filter('walker_nav_menu_start_el', 'twentyseventeen_nav_menu_social_icons', 
  * @param int      $depth Depth of menu item. Used for padding.
  * @return string The menu item's title with dropdown icon.
  */
-function twentyseventeen_dropdown_icon_to_menu_link($title, $item, $args, $depth) {
+function twentyseventeen_dropdown_icon_to_menu_link($title, $item, $args, $depth)
+{
     if ('top' === $args->theme_location) {
         foreach ($item->classes as $value) {
             if ('menu-item-has-children' === $value || 'page_item_has_children' === $value) {
@@ -167,7 +171,8 @@ add_filter('nav_menu_item_title', 'twentyseventeen_dropdown_icon_to_menu_link', 
  *
  * @return array Array of social links icons.
  */
-function twentyseventeen_social_links_icons() {
+function twentyseventeen_social_links_icons()
+{
     // Supported social links icons.
     $social_links_icons = array(
         'behance.net'     => 'behance',

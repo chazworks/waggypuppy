@@ -15,7 +15,8 @@
  * @param array $classes Classes for the body element.
  * @return array
  */
-function twenty_twenty_one_body_classes($classes) {
+function twenty_twenty_one_body_classes($classes)
+{
 
     // Helps detect if JS is enabled or not.
     $classes[] = 'no-js';
@@ -45,7 +46,8 @@ add_filter('body_class', 'twenty_twenty_one_body_classes');
  * @param array $classes An array of CSS classes.
  * @return array
  */
-function twenty_twenty_one_post_classes($classes) {
+function twenty_twenty_one_post_classes($classes)
+{
     $classes[] = 'entry';
 
     return $classes;
@@ -59,7 +61,8 @@ add_filter('post_class', 'twenty_twenty_one_post_classes', 10, 3);
  *
  * @return void
  */
-function twenty_twenty_one_pingback_header() {
+function twenty_twenty_one_pingback_header()
+{
     if (is_singular() && pings_open()) {
         echo '<link rel="pingback" href="', esc_url(get_bloginfo('pingback_url')), '">';
     }
@@ -73,7 +76,8 @@ add_action('wp_head', 'twenty_twenty_one_pingback_header');
  *
  * @return void
  */
-function twenty_twenty_one_supports_js() {
+function twenty_twenty_one_supports_js()
+{
     echo '<script>document.body.classList.remove("no-js");</script>';
 }
 add_action('wp_footer', 'twenty_twenty_one_supports_js');
@@ -86,7 +90,8 @@ add_action('wp_footer', 'twenty_twenty_one_supports_js');
  * @param array $defaults The form defaults.
  * @return array
  */
-function twenty_twenty_one_comment_form_defaults($defaults) {
+function twenty_twenty_one_comment_form_defaults($defaults)
+{
 
     // Adjust height of comment form.
     $defaults['comment_field'] = preg_replace('/rows="\d+"/', 'rows="5"', $defaults['comment_field']);
@@ -102,7 +107,8 @@ add_filter('comment_form_defaults', 'twenty_twenty_one_comment_form_defaults');
  *
  * @return bool
  */
-function twenty_twenty_one_can_show_post_thumbnail() {
+function twenty_twenty_one_can_show_post_thumbnail()
+{
     /**
      * Filters whether post thumbnail can be displayed.
      *
@@ -123,7 +129,8 @@ function twenty_twenty_one_can_show_post_thumbnail() {
  *
  * @return int
  */
-function twenty_twenty_one_get_avatar_size() {
+function twenty_twenty_one_get_avatar_size()
+{
     return 60;
 }
 
@@ -132,7 +139,8 @@ function twenty_twenty_one_get_avatar_size() {
  *
  * @since Twenty Twenty-One 1.0
  */
-function twenty_twenty_one_continue_reading_text() {
+function twenty_twenty_one_continue_reading_text()
+{
     $continue_reading = sprintf(
         /* translators: %s: Post title. Only visible to screen readers. */
         esc_html__('Continue reading %s', 'twentytwentyone'),
@@ -147,7 +155,8 @@ function twenty_twenty_one_continue_reading_text() {
  *
  * @since Twenty Twenty-One 1.0
  */
-function twenty_twenty_one_continue_reading_link_excerpt() {
+function twenty_twenty_one_continue_reading_link_excerpt()
+{
     if (! is_admin()) {
         return '&hellip; <a class="more-link" href="' . esc_url(get_permalink()) . '">' . twenty_twenty_one_continue_reading_text() . '</a>';
     }
@@ -161,7 +170,8 @@ add_filter('excerpt_more', 'twenty_twenty_one_continue_reading_link_excerpt');
  *
  * @since Twenty Twenty-One 1.0
  */
-function twenty_twenty_one_continue_reading_link() {
+function twenty_twenty_one_continue_reading_link()
+{
     if (! is_admin()) {
         return '<div class="more-link-container"><a class="more-link" href="' . esc_url(get_permalink()) . '#more-' . esc_attr(get_the_ID()) . '">' . twenty_twenty_one_continue_reading_text() . '</a></div>';
     }
@@ -179,7 +189,8 @@ if (! function_exists('twenty_twenty_one_post_title')) {
      * @param string $title The title.
      * @return string
      */
-    function twenty_twenty_one_post_title($title) {
+    function twenty_twenty_one_post_title($title)
+    {
         return '' === $title ? esc_html_x('Untitled', 'Added to posts and pages that are missing titles', 'twentytwentyone') : $title;
     }
 }
@@ -195,7 +206,8 @@ add_filter('the_title', 'twenty_twenty_one_post_title');
  * @param int    $size  The icon size in pixels.
  * @return string
  */
-function twenty_twenty_one_get_icon_svg($group, $icon, $size = 24) {
+function twenty_twenty_one_get_icon_svg($group, $icon, $size = 24)
+{
     return Twenty_Twenty_One_SVG_Icons::get_svg($group, $icon, $size);
 }
 
@@ -207,7 +219,8 @@ function twenty_twenty_one_get_icon_svg($group, $icon, $size = 24) {
  * @param string $calendar_output The generated HTML of the calendar.
  * @return string
  */
-function twenty_twenty_one_change_calendar_nav_arrows($calendar_output) {
+function twenty_twenty_one_change_calendar_nav_arrows($calendar_output)
+{
     $calendar_output = str_replace('&laquo; ', is_rtl() ? twenty_twenty_one_get_icon_svg('ui', 'arrow_right') : twenty_twenty_one_get_icon_svg('ui', 'arrow_left'), $calendar_output);
     $calendar_output = str_replace(' &raquo;', is_rtl() ? twenty_twenty_one_get_icon_svg('ui', 'arrow_left') : twenty_twenty_one_get_icon_svg('ui', 'arrow_right'), $calendar_output);
     return $calendar_output;
@@ -224,7 +237,8 @@ add_filter('get_calendar', 'twenty_twenty_one_change_calendar_nav_arrows');
  * @param string $type Whether to return CSS for the "front-end", "block-editor", or "classic-editor".
  * @return string
  */
-function twenty_twenty_one_get_non_latin_css($type = 'front-end') {
+function twenty_twenty_one_get_non_latin_css($type = 'front-end')
+{
 
     // Fetch site locale.
     $locale = get_bloginfo('language');
@@ -353,7 +367,8 @@ function twenty_twenty_one_get_non_latin_css($type = 'front-end') {
  * @param int         $instances  How many instances of the block will be printed (max). Default  1.
  * @return bool Returns true if a block was located & printed, otherwise false.
  */
-function twenty_twenty_one_print_first_instance_of_block($block_name, $content = null, $instances = 1) {
+function twenty_twenty_one_print_first_instance_of_block($block_name, $content = null, $instances = 1)
+{
     $instances_count = 0;
     $blocks_content  = '';
 
@@ -416,7 +431,8 @@ function twenty_twenty_one_print_first_instance_of_block($block_name, $content =
  * @param int|WP_Post $post   Optional. Post ID or WP_Post object. Default is global $post.
  * @return string HTML content for password form for password protected post.
  */
-function twenty_twenty_one_password_form($output, $post = 0) {
+function twenty_twenty_one_password_form($output, $post = 0)
+{
     $post   = get_post($post);
     $label  = 'pwbox-' . (empty($post->ID) ? wp_rand() : $post->ID);
     $output = '<p class="post-password-message">' . esc_html__('This content is password protected. Please enter a password to view.', 'twentytwentyone') . '</p>
@@ -439,7 +455,8 @@ add_filter('the_password_form', 'twenty_twenty_one_password_form', 10, 2);
  *                                 an array of width and height values in pixels (in that order).
  * @return string[] The filtered attributes for the image markup.
  */
-function twenty_twenty_one_get_attachment_image_attributes($attr, $attachment, $size) {
+function twenty_twenty_one_get_attachment_image_attributes($attr, $attachment, $size)
+{
 
     if (is_admin()) {
         return $attr;

@@ -8,7 +8,8 @@
  */
 
 #[AllowDynamicProperties]
-class WP_Site_Health {
+class WP_Site_Health
+{
     private static $instance = null;
 
     private $is_acceptable_mysql_version;
@@ -34,7 +35,8 @@ class WP_Site_Health {
      *
      * @since 5.2.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->maybe_create_scheduled_event();
 
         // Save memory limit before it's affected by wp_raise_memory_limit( 'admin' ).
@@ -63,7 +65,8 @@ class WP_Site_Health {
      *
      * @param string $tab Slug of the current tab being displayed.
      */
-    public function show_site_health_tab($tab) {
+    public function show_site_health_tab($tab)
+    {
         if ('debug' === $tab) {
             require_once ABSPATH . 'wp-admin/site-health-info.php';
         }
@@ -76,7 +79,8 @@ class WP_Site_Health {
      *
      * @return WP_Site_Health|null
      */
-    public static function get_instance() {
+    public static function get_instance()
+    {
         if (null === self::$instance) {
             self::$instance = new WP_Site_Health();
         }
@@ -89,7 +93,8 @@ class WP_Site_Health {
      *
      * @since 5.2.0
      */
-    public function enqueue_scripts() {
+    public function enqueue_scripts()
+    {
         $screen = get_current_screen();
         if ('site-health' !== $screen->id && 'dashboard' !== $screen->id) {
             return;
@@ -169,7 +174,8 @@ class WP_Site_Health {
      * @param callable $callback
      * @return mixed|void
      */
-    private function perform_test($callback) {
+    private function perform_test($callback)
+    {
         /**
          * Filters the output of a finished Site Health test.
          *
@@ -204,7 +210,8 @@ class WP_Site_Health {
      *
      * @global wpdb $wpdb WordPress database abstraction object.
      */
-    private function prepare_sql_data() {
+    private function prepare_sql_data()
+    {
         global $wpdb;
 
         $mysql_server_type = $wpdb->db_server_info();
@@ -231,7 +238,8 @@ class WP_Site_Health {
      *
      * @since 5.2.0
      */
-    public function check_wp_version_check_exists() {
+    public function check_wp_version_check_exists()
+    {
         if (! is_admin() || ! is_user_logged_in() || ! current_user_can('update_core') || ! isset($_GET['health-check-test-wp_version_check'])) {
             return;
         }
@@ -251,7 +259,8 @@ class WP_Site_Health {
      *
      * @return array The test result.
      */
-    public function get_test_wordpress_version() {
+    public function get_test_wordpress_version()
+    {
         $result = array(
             'label'       => '',
             'status'      => '',
@@ -352,7 +361,8 @@ class WP_Site_Health {
      *
      * @return array The test result.
      */
-    public function get_test_plugin_version() {
+    public function get_test_plugin_version()
+    {
         $result = array(
             'label'       => __('Your plugins are all up to date'),
             'status'      => 'good',
@@ -486,7 +496,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_theme_version() {
+    public function get_test_theme_version()
+    {
         $result = array(
             'label'       => __('Your themes are all up to date'),
             'status'      => 'good',
@@ -722,7 +733,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_php_version() {
+    public function get_test_php_version()
+    {
         $response = wp_check_php_version();
 
         $result = array(
@@ -840,7 +852,8 @@ class WP_Site_Health {
      * @param string $class_name     Optional. The class name to test for. Default null.
      * @return bool Whether or not the extension and function are available.
      */
-    private function test_php_extension_availability($extension_name = null, $function_name = null, $constant_name = null, $class_name = null) {
+    private function test_php_extension_availability($extension_name = null, $function_name = null, $constant_name = null, $class_name = null)
+    {
         // If no extension or function is passed, claim to fail testing, as we have nothing to test against.
         if (! $extension_name && ! $function_name && ! $constant_name && ! $class_name) {
             return false;
@@ -875,7 +888,8 @@ class WP_Site_Health {
      *
      * @return array
      */
-    public function get_test_php_extensions() {
+    public function get_test_php_extensions()
+    {
         $result = array(
             'label'       => __('Required and recommended modules are installed'),
             'status'      => 'good',
@@ -1113,7 +1127,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_php_default_timezone() {
+    public function get_test_php_default_timezone()
+    {
         $result = array(
             'label'       => __('PHP default timezone is valid'),
             'status'      => 'good',
@@ -1154,7 +1169,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_php_sessions() {
+    public function get_test_php_sessions()
+    {
         $result = array(
             'label'       => __('No PHP sessions detected'),
             'status'      => 'good',
@@ -1200,7 +1216,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_sql_server() {
+    public function get_test_sql_server()
+    {
         if (! $this->mysql_server_version) {
             $this->prepare_sql_data();
         }
@@ -1289,7 +1306,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_dotorg_communication() {
+    public function get_test_dotorg_communication()
+    {
         $result = array(
             'label'       => __('Can communicate with WordPress.org'),
             'status'      => '',
@@ -1359,7 +1377,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_is_in_debug_mode() {
+    public function get_test_is_in_debug_mode()
+    {
         $result = array(
             'label'       => __('Your site is not set to output debug information'),
             'status'      => 'good',
@@ -1434,7 +1453,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_https_status() {
+    public function get_test_https_status()
+    {
         /*
          * Check HTTPS detection results.
          */
@@ -1582,7 +1602,8 @@ class WP_Site_Health {
      *
      * @return array The test result.
      */
-    public function get_test_ssl_support() {
+    public function get_test_ssl_support()
+    {
         $result = array(
             'label'       => '',
             'status'      => '',
@@ -1628,7 +1649,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_scheduled_events() {
+    public function get_test_scheduled_events()
+    {
         $result = array(
             'label'       => __('Scheduled events are running'),
             'status'      => 'good',
@@ -1701,7 +1723,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_background_updates() {
+    public function get_test_background_updates()
+    {
         $result = array(
             'label'       => __('Background updates are working'),
             'status'      => 'good',
@@ -1776,7 +1799,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_plugin_theme_auto_updates() {
+    public function get_test_plugin_theme_auto_updates()
+    {
         $result = array(
             'label'       => __('Plugin and theme auto-updates appear to be configured correctly'),
             'status'      => 'good',
@@ -1815,7 +1839,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_available_updates_disk_space() {
+    public function get_test_available_updates_disk_space()
+    {
         $available_space = function_exists('disk_free_space') ? @disk_free_space(WP_CONTENT_DIR) : false;
 
         $result = array(
@@ -1865,7 +1890,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_update_temp_backup_writable() {
+    public function get_test_update_temp_backup_writable()
+    {
         global $wp_filesystem;
 
         $result = array(
@@ -2004,7 +2030,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_loopback_requests() {
+    public function get_test_loopback_requests()
+    {
         $result = array(
             'label'       => __('Your site can perform loopback requests'),
             'status'      => 'good',
@@ -2047,7 +2074,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_http_requests() {
+    public function get_test_http_requests()
+    {
         $result = array(
             'label'       => __('HTTP requests seem to be working as expected'),
             'status'      => 'good',
@@ -2118,7 +2146,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_rest_availability() {
+    public function get_test_rest_availability()
+    {
         $result = array(
             'label'       => __('The REST API is available'),
             'status'      => 'good',
@@ -2229,7 +2258,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_file_uploads() {
+    public function get_test_file_uploads()
+    {
         $result = array(
             'label'       => __('Files can be uploaded'),
             'status'      => 'good',
@@ -2321,7 +2351,8 @@ class WP_Site_Health {
      *
      * @return array
      */
-    public function get_test_authorization_header() {
+    public function get_test_authorization_header()
+    {
         $result = array(
             'label'       => __('The Authorization header is working as expected'),
             'status'      => 'good',
@@ -2381,7 +2412,8 @@ class WP_Site_Health {
      *
      * @return array The test result.
      */
-    public function get_test_page_cache() {
+    public function get_test_page_cache()
+    {
         $description  = '<p>' . __('Page cache enhances the speed and performance of your site by saving and serving static pages instead of calling for a page every time a user visits.') . '</p>';
         $description .= '<p>' . __('Page cache is detected by looking for an active page cache plugin as well as making three requests to the homepage and looking for one or more of the following HTTP client caching response headers:') . '</p>';
         $description .= '<code>' . implode('</code>, <code>', array_keys($this->get_page_cache_headers())) . '.</code>';
@@ -2495,7 +2527,8 @@ class WP_Site_Health {
      *
      * @return array The test result.
      */
-    public function get_test_persistent_object_cache() {
+    public function get_test_persistent_object_cache()
+    {
         /**
          * Filters the action URL for the persistent object cache health check.
          *
@@ -2592,7 +2625,8 @@ class WP_Site_Health {
      *
      * @return int Autoloaded data in bytes.
      */
-    public function get_autoloaded_options_size() {
+    public function get_autoloaded_options_size()
+    {
         $alloptions = wp_load_alloptions();
 
         $total_length = 0;
@@ -2614,7 +2648,8 @@ class WP_Site_Health {
      *
      * @return array The test results.
      */
-    public function get_test_autoloaded_options() {
+    public function get_test_autoloaded_options()
+    {
         $autoloaded_options_size  = $this->get_autoloaded_options_size();
         $autoloaded_options_count = count(wp_load_alloptions());
 
@@ -2698,7 +2733,8 @@ class WP_Site_Health {
      *
      * @return array The list of tests to run.
      */
-    public static function get_tests() {
+    public static function get_tests()
+    {
         $tests = array(
             'direct' => array(
                 'wordpress_version'            => array(
@@ -2905,7 +2941,8 @@ class WP_Site_Health {
      * @param string $body_class The body class string.
      * @return string The modified body class string.
      */
-    public function admin_body_class($body_class) {
+    public function admin_body_class($body_class)
+    {
         $screen = get_current_screen();
         if ('site-health' !== $screen->id) {
             return $body_class;
@@ -2921,7 +2958,8 @@ class WP_Site_Health {
      *
      * @since 5.2.0
      */
-    private function wp_schedule_test_init() {
+    private function wp_schedule_test_init()
+    {
         $this->schedules = wp_get_schedules();
         $this->get_cron_tasks();
     }
@@ -2931,7 +2969,8 @@ class WP_Site_Health {
      *
      * @since 5.2.0
      */
-    private function get_cron_tasks() {
+    private function get_cron_tasks()
+    {
         $cron_tasks = _get_cron_array();
 
         if (empty($cron_tasks)) {
@@ -2970,7 +3009,8 @@ class WP_Site_Health {
      *
      * @return bool|WP_Error True if a cron was missed, false if not. WP_Error if the cron is set to that.
      */
-    public function has_missed_cron() {
+    public function has_missed_cron()
+    {
         if (is_wp_error($this->crons)) {
             return $this->crons;
         }
@@ -2996,7 +3036,8 @@ class WP_Site_Health {
      *
      * @return bool|WP_Error True if a cron is late, false if not. WP_Error if the cron is set to that.
      */
-    public function has_late_cron() {
+    public function has_late_cron()
+    {
         if (is_wp_error($this->crons)) {
             return $this->crons;
         }
@@ -3025,7 +3066,8 @@ class WP_Site_Health {
      *
      * @return object The test results.
      */
-    public function detect_plugin_theme_auto_update_issues() {
+    public function detect_plugin_theme_auto_update_issues()
+    {
         $mock_plugin = (object) array(
             'id'            => 'w.org/plugins/a-fake-plugin',
             'slug'          => 'a-fake-plugin',
@@ -3108,7 +3150,8 @@ class WP_Site_Health {
      *
      * @return object The test results.
      */
-    public function can_perform_loopback() {
+    public function can_perform_loopback()
+    {
         $body    = array('site-health' => 'loopback-test');
         $cookies = wp_unslash($_COOKIE);
         $timeout = 10; // 10 seconds.
@@ -3175,7 +3218,8 @@ class WP_Site_Health {
      *
      * @since 5.4.0
      */
-    public function maybe_create_scheduled_event() {
+    public function maybe_create_scheduled_event()
+    {
         if (! wp_next_scheduled('wp_site_health_scheduled_check') && ! wp_installing()) {
             wp_schedule_event(time() + DAY_IN_SECONDS, 'weekly', 'wp_site_health_scheduled_check');
         }
@@ -3186,7 +3230,8 @@ class WP_Site_Health {
      *
      * @since 5.4.0
      */
-    public function wp_cron_scheduled_check() {
+    public function wp_cron_scheduled_check()
+    {
         // Bootstrap wp-admin, as WP_Cron doesn't do this for us.
         require_once trailingslashit(ABSPATH) . 'wp-admin/includes/admin.php';
 
@@ -3299,7 +3344,8 @@ class WP_Site_Health {
      *
      * @return bool True if it is a development environment, false if not.
      */
-    public function is_development_environment() {
+    public function is_development_environment()
+    {
         return in_array(wp_get_environment_type(), array('development', 'local'), true);
     }
 
@@ -3313,7 +3359,8 @@ class WP_Site_Health {
      *
      * @return array List of client caching headers and their (optional) verification callbacks.
      */
-    public function get_page_cache_headers() {
+    public function get_page_cache_headers()
+    {
 
         $cache_hit_callback = static function ($header_value) {
             return str_contains(strtolower($header_value), 'hit');
@@ -3364,7 +3411,8 @@ class WP_Site_Health {
      *     @type float[] $response_timing               Response timings.
      * }
      */
-    private function check_for_page_caching() {
+    private function check_for_page_caching()
+    {
 
         /** This filter is documented in wp-includes/class-wp-http-streams.php */
         $sslverify = apply_filters('https_local_ssl_verify', false);
@@ -3444,7 +3492,8 @@ class WP_Site_Health {
      *     @type float    $response_time          Response time of site.
      * }
      */
-    private function get_page_cache_detail() {
+    private function get_page_cache_detail()
+    {
         $page_cache_detail = $this->check_for_page_caching();
         if (is_wp_error($page_cache_detail)) {
             return $page_cache_detail;
@@ -3486,7 +3535,8 @@ class WP_Site_Health {
      *
      * @return int Threshold in milliseconds.
      */
-    private function get_good_response_time_threshold() {
+    private function get_good_response_time_threshold()
+    {
         /**
          * Filters the threshold below which a response time is considered good.
          *
@@ -3508,7 +3558,8 @@ class WP_Site_Health {
      *
      * @return bool Whether to suggest using a persistent object cache.
      */
-    public function should_suggest_persistent_object_cache() {
+    public function should_suggest_persistent_object_cache()
+    {
         global $wpdb;
 
         /**
@@ -3596,7 +3647,8 @@ class WP_Site_Health {
      *
      * @return string[] The list of available persistent object cache services.
      */
-    private function available_object_cache_services() {
+    private function available_object_cache_services()
+    {
         $extensions = array_map(
             'extension_loaded',
             array(

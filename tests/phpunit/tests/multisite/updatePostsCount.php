@@ -9,7 +9,8 @@ if (is_multisite()) :
      *
      * @covers ::update_posts_count
      */
-    class Tests_Multisite_UpdatePostsCount extends WP_UnitTestCase {
+    class Tests_Multisite_UpdatePostsCount extends WP_UnitTestCase
+    {
 
         /**
          * Tests that posts count is updated correctly when posts are added or deleted.
@@ -20,7 +21,8 @@ if (is_multisite()) :
          * @covers ::_update_posts_count_on_transition_post_status
          * @covers ::_update_posts_count_on_delete
          */
-        public function test_update_posts_count() {
+        public function test_update_posts_count()
+        {
             $blog_id = self::factory()->blog->create();
             switch_to_blog($blog_id);
 

@@ -10,13 +10,15 @@
  *
  * @group editor
  */
-class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase {
+class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase
+{
 
     /**
      * @ticket 58557
      * @covers WP_Classic_To_Block_Menu_Converter::get_fallback
      */
-    public function test_class_exists() {
+    public function test_class_exists()
+    {
         $this->assertTrue(class_exists('WP_Classic_To_Block_Menu_Converter'));
     }
 
@@ -25,7 +27,8 @@ class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase {
      * @covers WP_Classic_To_Block_Menu_Converter::convert
      * @dataProvider provider_test_passing_non_menu_object_to_converter_returns_wp_error
      */
-    public function test_passing_non_menu_object_to_converter_returns_wp_error($data) {
+    public function test_passing_non_menu_object_to_converter_returns_wp_error($data)
+    {
 
         $result = WP_Classic_To_Block_Menu_Converter::convert($data);
 
@@ -40,7 +43,8 @@ class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_Classic_To_Block_Menu_Converter::convert
      */
-    public function provider_test_passing_non_menu_object_to_converter_returns_wp_error() {
+    public function provider_test_passing_non_menu_object_to_converter_returns_wp_error()
+    {
         return array(
             array(1),
             array(-1),
@@ -57,7 +61,8 @@ class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_Classic_To_Block_Menu_Converter::convert
      */
-    public function test_can_convert_classic_menu_to_blocks() {
+    public function test_can_convert_classic_menu_to_blocks()
+    {
 
         $menu_id = wp_create_nav_menu('Classic Menu');
 
@@ -130,7 +135,8 @@ class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_Classic_To_Block_Menu_Converter::convert
      */
-    public function test_does_not_convert_menu_items_with_non_publish_status() {
+    public function test_does_not_convert_menu_items_with_non_publish_status()
+    {
 
             $menu_id = wp_create_nav_menu('Classic Menu');
 
@@ -207,7 +213,8 @@ class WP_Classic_To_Block_Menu_Converter_Test extends WP_UnitTestCase {
      * @ticket 58557
      * @covers WP_Classic_To_Block_Menu_Converter::convert
      */
-    public function test_returns_empty_string_for_menus_with_no_items() {
+    public function test_returns_empty_string_for_menus_with_no_items()
+    {
         $menu_id = wp_create_nav_menu('Empty Menu');
 
         $classic_nav_menu = wp_get_nav_menu_object($menu_id);

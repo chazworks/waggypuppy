@@ -6,8 +6,10 @@
  *
  * @covers ::category_description
  */
-class Tests_Category_CategoryDescription extends WP_UnitTestCase {
-    public function test_success_query_by_id() {
+class Tests_Category_CategoryDescription extends WP_UnitTestCase
+{
+    public function test_success_query_by_id()
+    {
         $description = 'Foo';
         $c           = self::factory()->category->create(
             array(
@@ -21,7 +23,8 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
         $this->assertSame($expected, $found);
     }
 
-    public function test_success_query_by_object() {
+    public function test_success_query_by_object()
+    {
         $description = 'Foo';
         $c           = self::factory()->category->create(
             array(
@@ -42,7 +45,8 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
      * @ticket 42605
      * @ticket 42771
      */
-    public function test_should_return_description_for_term_from_another_taxonomy_on_primed_cache() {
+    public function test_should_return_description_for_term_from_another_taxonomy_on_primed_cache()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $description = 'Foo';
@@ -66,7 +70,8 @@ class Tests_Category_CategoryDescription extends WP_UnitTestCase {
      * @ticket 42605
      * @ticket 42771
      */
-    public function test_should_return_description_for_term_from_another_taxonomy_on_empty_cache() {
+    public function test_should_return_description_for_term_from_another_taxonomy_on_empty_cache()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         $description = 'Foo';

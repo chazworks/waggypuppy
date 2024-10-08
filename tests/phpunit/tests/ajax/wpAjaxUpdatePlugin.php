@@ -11,15 +11,18 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_update_plugin
  */
-class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase
+{
 
-    public function test_missing_nonce() {
+    public function test_missing_nonce()
+    {
         $this->expectException('WPAjaxDieStopException');
         $this->expectExceptionMessage('-1');
         $this->_handleAjax('update-plugin');
     }
 
-    public function test_missing_plugin() {
+    public function test_missing_plugin()
+    {
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
         $_POST['slug']        = 'foo';
 
@@ -45,7 +48,8 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase {
         $this->assertSameSets($expected, $response);
     }
 
-    public function test_missing_slug() {
+    public function test_missing_slug()
+    {
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
         $_POST['plugin']      = 'foo/bar.php';
 
@@ -71,7 +75,8 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase {
         $this->assertSameSets($expected, $response);
     }
 
-    public function test_missing_capability() {
+    public function test_missing_capability()
+    {
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
         $_POST['plugin']      = 'foo/bar.php';
         $_POST['slug']        = 'foo';
@@ -100,7 +105,8 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase {
         $this->assertSameSets($expected, $response);
     }
 
-    public function test_invalid_file() {
+    public function test_invalid_file()
+    {
         $this->_setRole('administrator');
 
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
@@ -134,7 +140,8 @@ class Tests_Ajax_wpAjaxUpdatePlugin extends WP_Ajax_UnitTestCase {
     /**
      * @group ms-excluded
      */
-    public function test_update_plugin() {
+    public function test_update_plugin()
+    {
         $this->_setRole('administrator');
 
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');

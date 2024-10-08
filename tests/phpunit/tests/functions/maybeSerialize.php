@@ -8,12 +8,14 @@
  * @covers ::maybe_serialize
  * @covers ::maybe_unserialize
  */
-class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
+class Tests_Functions_MaybeSerialize extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_is_not_serialized
      */
-    public function test_maybe_serialize($value) {
+    public function test_maybe_serialize($value)
+    {
         if (is_array($value) || is_object($value)) {
             $expected = serialize($value);
         } else {
@@ -26,7 +28,8 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
     /**
      * @dataProvider data_is_serialized
      */
-    public function test_maybe_serialize_with_double_serialization($value) {
+    public function test_maybe_serialize_with_double_serialization($value)
+    {
         $expected = serialize($value);
 
         $this->assertSame($expected, maybe_serialize($value));
@@ -36,7 +39,8 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
      * @dataProvider data_is_serialized
      * @dataProvider data_is_not_serialized
      */
-    public function test_maybe_unserialize($value, $is_serialized) {
+    public function test_maybe_unserialize($value, $is_serialized)
+    {
         if ($is_serialized) {
             $expected = unserialize(trim($value));
         } else {
@@ -55,7 +59,8 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_serialized() {
+    public function data_is_serialized()
+    {
         return array(
             'serialized empty array'            => array(
                 'data'     => serialize(array()),
@@ -123,7 +128,8 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_is_not_serialized() {
+    public function data_is_not_serialized()
+    {
         return array(
             'an empty array'                             => array(
                 'data'     => array(),
@@ -211,7 +217,8 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
     /**
      * @dataProvider data_serialize_deserialize_objects
      */
-    public function test_deserialize_request_utility_filtered_iterator_objects($value) {
+    public function test_deserialize_request_utility_filtered_iterator_objects($value)
+    {
         $serialized = maybe_serialize($value);
 
         if (get_class($value) === 'WpOrg\Requests\Utility\FilteredIterator') {
@@ -231,7 +238,8 @@ class Tests_Functions_MaybeSerialize extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_serialize_deserialize_objects() {
+    public function data_serialize_deserialize_objects()
+    {
         return array(
             'filtered iterator using md5'  => array(
                 new WpOrg\Requests\Utility\FilteredIterator(array(1), 'md5'),

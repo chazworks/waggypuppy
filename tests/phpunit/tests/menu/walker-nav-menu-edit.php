@@ -4,7 +4,8 @@
  * @group menu
  * @group walker
  */
-class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase {
+class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase
+{
 
     /**
      * @var \Walker_Nav_Menu_Edit
@@ -13,7 +14,8 @@ class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase {
 
     protected $_wp_nav_menu_max_depth;
 
-    public function set_up() {
+    public function set_up()
+    {
         global $_wp_nav_menu_max_depth;
 
         parent::set_up();
@@ -26,7 +28,8 @@ class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase {
         $this->_wp_nav_menu_max_depth = $_wp_nav_menu_max_depth;
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         global $_wp_nav_menu_max_depth;
 
         $_wp_nav_menu_max_depth = $this->_wp_nav_menu_max_depth;
@@ -37,7 +40,8 @@ class Tests_Menu_Walker_Nav_Menu_Edit extends WP_UnitTestCase {
     /**
      * @ticket 36729
      */
-    public function test_original_title_prefix_should_not_be_shown_if_empty() {
+    public function test_original_title_prefix_should_not_be_shown_if_empty()
+    {
         $expected = '';
 
         $post_id = self::factory()->post->create();

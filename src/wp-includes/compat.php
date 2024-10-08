@@ -13,7 +13,8 @@
 
 // If gettext isn't available.
 if (! function_exists('_')) {
-    function _($message) {
+    function _($message)
+    {
         return $message;
     }
 }
@@ -30,7 +31,8 @@ if (! function_exists('_')) {
  *             false  : Used for testing - return false for future calls to this function
  *             'reset': Used for testing - restore default behavior of this function
  */
-function _wp_can_use_pcre_u($set = null) {
+function _wp_can_use_pcre_u($set = null)
+{
     static $utf8_pcre = 'reset';
 
     if (null !== $set) {
@@ -71,7 +73,8 @@ function _wp_can_use_pcre_u($set = null) {
  *
  * @return bool Whether the slug represents the UTF-8 encoding.
  */
-function _is_utf8_charset($charset_slug) {
+function _is_utf8_charset($charset_slug)
+{
     if (! is_string($charset_slug)) {
         return false;
     }
@@ -98,7 +101,8 @@ if (! function_exists('mb_substr')) :
      * @param string|null $encoding Optional. Character encoding to use. Default null.
      * @return string Extracted substring.
      */
-    function mb_substr($string, $start, $length = null, $encoding = null) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
+    function mb_substr($string, $start, $length = null, $encoding = null)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
+    {
         return _mb_substr($string, $start, $length, $encoding);
     }
 endif;
@@ -120,7 +124,8 @@ endif;
  * @param string|null $encoding Optional. Character encoding to use. Default null.
  * @return string Extracted substring.
  */
-function _mb_substr($str, $start, $length = null, $encoding = null) {
+function _mb_substr($str, $start, $length = null, $encoding = null)
+{
     if (null === $str) {
         return '';
     }
@@ -190,7 +195,8 @@ if (! function_exists('mb_strlen')) :
      * @param string|null $encoding Optional. Character encoding to use. Default null.
      * @return int String length of `$string`.
      */
-    function mb_strlen($string, $encoding = null) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
+    function mb_strlen($string, $encoding = null)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
+    {
         return _mb_strlen($string, $encoding);
     }
 endif;
@@ -209,7 +215,8 @@ endif;
  * @param string|null $encoding Optional. Character encoding to use. Default null.
  * @return int String length of `$str`.
  */
-function _mb_strlen($str, $encoding = null) {
+function _mb_strlen($str, $encoding = null)
+{
     if (null === $encoding) {
         $encoding = get_option('blog_charset');
     }
@@ -287,7 +294,8 @@ if (! function_exists('hash_hmac')) :
      * @return string|false The hash in output determined by `$binary`.
      *                      False if `$algo` is unknown or invalid.
      */
-    function hash_hmac($algo, $data, $key, $binary = false) {
+    function hash_hmac($algo, $data, $key, $binary = false)
+    {
         return _hash_hmac($algo, $data, $key, $binary);
     }
 endif;
@@ -306,7 +314,8 @@ endif;
  * @return string|false The hash in output determined by `$binary`.
  *                      False if `$algo` is unknown or invalid.
  */
-function _hash_hmac($algo, $data, $key, $binary = false) {
+function _hash_hmac($algo, $data, $key, $binary = false)
+{
     $packs = array(
         'md5'  => 'H32',
         'sha1' => 'H40',
@@ -357,7 +366,8 @@ if (! function_exists('hash_equals')) :
      * @param string $user_string  Actual, user supplied, string.
      * @return bool Whether strings are equal.
      */
-    function hash_equals($known_string, $user_string) {
+    function hash_equals($known_string, $user_string)
+    {
         $known_string_length = strlen($known_string);
 
         if (strlen($user_string) !== $known_string_length) {
@@ -392,7 +402,8 @@ if (! function_exists('is_countable')) {
      * @param mixed $value The value to check.
      * @return bool True if `$value` is countable, false otherwise.
      */
-    function is_countable($value) {
+    function is_countable($value)
+    {
         return (is_array($value)
             || $value instanceof Countable
             || $value instanceof SimpleXMLElement
@@ -414,7 +425,8 @@ if (! function_exists('array_key_first')) {
      * @return string|int|null The first key of array if the array
      *                         is not empty; `null` otherwise.
      */
-    function array_key_first(array $array) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+    function array_key_first(array $array)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+    {
         foreach ($array as $key => $value) {
             return $key;
         }
@@ -434,7 +446,8 @@ if (! function_exists('array_key_last')) {
      * @return string|int|null The last key of array if the array
      *.                        is not empty; `null` otherwise.
      */
-    function array_key_last(array $array) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+    function array_key_last(array $array)  // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
+    {
         if (empty($array)) {
             return null;
         }
@@ -460,7 +473,8 @@ if (! function_exists('array_is_list')) {
      * @param array<mixed> $arr The array being evaluated.
      * @return bool True if array is a list, false otherwise.
      */
-    function array_is_list($arr) {
+    function array_is_list($arr)
+    {
         if ((array() === $arr) || (array_values($arr) === $arr)) {
             return true;
         }
@@ -490,7 +504,8 @@ if (! function_exists('str_contains')) {
      * @param string $needle   The substring to search for in the `$haystack`.
      * @return bool True if `$needle` is in `$haystack`, otherwise false.
      */
-    function str_contains($haystack, $needle) {
+    function str_contains($haystack, $needle)
+    {
         if ('' === $needle) {
             return true;
         }
@@ -512,7 +527,8 @@ if (! function_exists('str_starts_with')) {
      * @param string $needle   The substring to search for in the `$haystack`.
      * @return bool True if `$haystack` starts with `$needle`, otherwise false.
      */
-    function str_starts_with($haystack, $needle) {
+    function str_starts_with($haystack, $needle)
+    {
         if ('' === $needle) {
             return true;
         }
@@ -534,7 +550,8 @@ if (! function_exists('str_ends_with')) {
      * @param string $needle   The substring to search for in the `$haystack`.
      * @return bool True if `$haystack` ends with `$needle`, otherwise false.
      */
-    function str_ends_with($haystack, $needle) {
+    function str_ends_with($haystack, $needle)
+    {
         if ('' === $haystack) {
             return '' === $needle;
         }

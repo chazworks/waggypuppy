@@ -15,7 +15,8 @@ if (! function_exists('twenty_twenty_one_posted_on')) {
      *
      * @return void
      */
-    function twenty_twenty_one_posted_on() {
+    function twenty_twenty_one_posted_on()
+    {
         $time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
 
         $time_string = sprintf(
@@ -41,7 +42,8 @@ if (! function_exists('twenty_twenty_one_posted_by')) {
      *
      * @return void
      */
-    function twenty_twenty_one_posted_by() {
+    function twenty_twenty_one_posted_by()
+    {
         if (! get_the_author_meta('description') && post_type_supports(get_post_type(), 'author')) {
             echo '<span class="byline">';
             printf(
@@ -63,7 +65,8 @@ if (! function_exists('twenty_twenty_one_entry_meta_footer')) {
      *
      * @return void
      */
-    function twenty_twenty_one_entry_meta_footer() {
+    function twenty_twenty_one_entry_meta_footer()
+    {
 
         // Early exit if not a post.
         if ('post' !== get_post_type()) {
@@ -176,7 +179,8 @@ if (! function_exists('twenty_twenty_one_post_thumbnail')) {
      *
      * @return void
      */
-    function twenty_twenty_one_post_thumbnail() {
+    function twenty_twenty_one_post_thumbnail()
+    {
         if (! twenty_twenty_one_can_show_post_thumbnail()) {
             return;
         }
@@ -218,7 +222,8 @@ if (! function_exists('twenty_twenty_one_the_posts_navigation')) {
      *
      * @return void
      */
-    function twenty_twenty_one_the_posts_navigation() {
+    function twenty_twenty_one_the_posts_navigation()
+    {
         the_posts_pagination(
             array(
                 'before_page_number' => esc_html__('Page', 'twentytwentyone') . ' ',

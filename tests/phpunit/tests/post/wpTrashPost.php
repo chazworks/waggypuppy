@@ -5,13 +5,15 @@
  *
  * @covers ::wp_trash_post
  */
-class Tests_Post_WpTrashPost extends WP_UnitTestCase {
+class Tests_Post_WpTrashPost extends WP_UnitTestCase
+{
     /**
      * @var WP_Post
      */
     protected $post;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->post = $this->factory()->post->create_and_get(
@@ -29,7 +31,8 @@ class Tests_Post_WpTrashPost extends WP_UnitTestCase {
      *
      * @covers ::wp_trash_post
      */
-    public function test_trash_post() {
+    public function test_trash_post()
+    {
         $result = wp_trash_post($this->post->ID);
 
         $this->assertInstanceOf('WP_Post', $result, 'wp_trash_post returned value should be an instance of WP_Post.');
@@ -60,7 +63,8 @@ class Tests_Post_WpTrashPost extends WP_UnitTestCase {
      *
      * @covers ::wp_trash_post
      */
-    public function test_pre_trash_post_hook() {
+    public function test_pre_trash_post_hook()
+    {
         add_filter(
             'pre_trash_post',
             function ($trash, $post, $previous_status) {
@@ -87,7 +91,8 @@ class Tests_Post_WpTrashPost extends WP_UnitTestCase {
      *
      * @covers ::wp_trash_post
      */
-    public function test_wp_trash_post_hook() {
+    public function test_wp_trash_post_hook()
+    {
         add_action(
             'wp_trash_post',
             function ($post_id, $previous_status) {
@@ -111,7 +116,8 @@ class Tests_Post_WpTrashPost extends WP_UnitTestCase {
      *
      * @covers ::wp_trash_post
      */
-    public function test_trashed_post_hook() {
+    public function test_trashed_post_hook()
+    {
         add_action(
             'trashed_post',
             function ($post_id, $previous_status) {

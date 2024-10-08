@@ -16,7 +16,8 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_ajax_tag_search
  */
-class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase
+{
 
     /**
      * List of terms to insert on setup
@@ -34,7 +35,8 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
 
     private static $term_ids = array();
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         foreach (self::$terms as $t) {
             self::$term_ids[] = wp_insert_term($t, 'post_tag');
         }
@@ -43,7 +45,8 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
     /**
      * Test as an admin
      */
-    public function test_post_tag() {
+    public function test_post_tag()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -66,7 +69,8 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
     /**
      * Test with no results
      */
-    public function test_no_results() {
+    public function test_no_results()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -85,7 +89,8 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
     /**
      * Test with commas
      */
-    public function test_with_comma() {
+    public function test_with_comma()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -108,7 +113,8 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
     /**
      * Test as a logged out user
      */
-    public function test_logged_out() {
+    public function test_logged_out()
+    {
 
         // Log out.
         wp_logout();
@@ -126,7 +132,8 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
     /**
      * Test with an invalid taxonomy type
      */
-    public function test_invalid_tax() {
+    public function test_invalid_tax()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -144,7 +151,8 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
     /**
      * Test as an unprivileged user
      */
-    public function test_unprivileged_user() {
+    public function test_unprivileged_user()
+    {
 
         // Become a subscriber.
         $this->_setRole('subscriber');
@@ -164,7 +172,8 @@ class Tests_Ajax_wpAjaxAjaxTagSearch extends WP_Ajax_UnitTestCase {
      *
      * @ticket 55606
      */
-    public function test_ajax_term_search_results_filter() {
+    public function test_ajax_term_search_results_filter()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');

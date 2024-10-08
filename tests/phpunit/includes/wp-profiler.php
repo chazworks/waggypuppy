@@ -15,19 +15,22 @@
  *
  * Multiple profile blocks are permitted, and they may be nested.
  */
-class WPProfiler {
+class WPProfiler
+{
     public $stack;
     public $profile;
 
     /**
      * PHP5 constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->stack   = array();
         $this->profile = array();
     }
 
-    public function start($name) {
+    public function start($name)
+    {
         $time = $this->microtime();
 
         if (! $this->stack) {
@@ -57,7 +60,8 @@ class WPProfiler {
         );
     }
 
-    public function stop() {
+    public function stop()
+    {
         $item = array_pop($this->stack);
         $time = $this->microtime($item['start']);
         $name = $item['name'];
@@ -103,12 +107,14 @@ class WPProfiler {
         }
     }
 
-    public function microtime($since = 0.0) {
+    public function microtime($since = 0.0)
+    {
         list($usec, $sec) = explode(' ', microtime());
         return (float) $sec + (float) $usec - $since;
     }
 
-    public function log_filter($tag) {
+    public function log_filter($tag)
+    {
         if ($this->stack) {
             global $wp_actions;
             if (end($wp_actions) === $tag) {
@@ -120,22 +126,26 @@ class WPProfiler {
         return $arg;
     }
 
-    public function log_action($tag) {
+    public function log_action($tag)
+    {
         if ($this->stack) {
             ++$this->stack[ count($this->stack) - 1 ]['actions'][ $tag ];
         }
     }
 
-    public function _current_action() {
+    public function _current_action()
+    {
         global $wp_actions;
         return $wp_actions[ count($wp_actions) - 1 ];
     }
 
-    public function results() {
+    public function results()
+    {
         return $this->profile;
     }
 
-    public function _query_summary($queries, &$out) {
+    public function _query_summary($queries, &$out)
+    {
         foreach ($queries as $q) {
             $sql = $q[0];
             $sql = preg_replace('/(WHERE \w+ =) \d+/', '$1 x', $sql);
@@ -147,7 +157,8 @@ class WPProfiler {
         return;
     }
 
-    public function _query_count($queries) {
+    public function _query_count($queries)
+    {
         // This requires the SAVEQUERIES patch at https://core.trac.wordpress.org/ticket/5218
         $out = array();
         foreach ($queries as $q) {
@@ -160,7 +171,8 @@ class WPProfiler {
         return $out;
     }
 
-    public function _dirty_objects_count($dirty_objects) {
+    public function _dirty_objects_count($dirty_objects)
+    {
         $out = array();
         foreach (array_keys($dirty_objects) as $group) {
             $out[ $group ] = count($dirty_objects[ $group ]);
@@ -168,7 +180,8 @@ class WPProfiler {
         return $out;
     }
 
-    public function array_add($a, $b) {
+    public function array_add($a, $b)
+    {
         $out = $a;
         foreach (array_keys($b) as $key) {
             if (array_key_exists($key, $out)) {
@@ -180,7 +193,8 @@ class WPProfiler {
         return $out;
     }
 
-    public function array_sub($a, $b) {
+    public function array_sub($a, $b)
+    {
         $out = $a;
         foreach (array_keys($b) as $key) {
             if (array_key_exists($key, $b)) {
@@ -190,7 +204,8 @@ class WPProfiler {
         return $out;
     }
 
-    public function print_summary() {
+    public function print_summary()
+    {
         $results = $this->results();
 
         printf("\nname                      calls   time action filter   warm   cold misses  dirty\n");
@@ -203,18 +218,22 @@ class WPProfiler {
 global $wppf;
 $wppf = new WPProfiler();
 
-function wppf_start($name) {
+function wppf_start($name)
+{
     $GLOBALS['wppf']->start($name);
 }
 
-function wppf_stop() {
+function wppf_stop()
+{
     $GLOBALS['wppf']->stop();
 }
 
-function wppf_results() {
+function wppf_results()
+{
     return $GLOBALS['wppf']->results();
 }
 
-function wppf_print_summary() {
+function wppf_print_summary()
+{
     $GLOBALS['wppf']->print_summary();
 }

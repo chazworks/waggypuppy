@@ -5,9 +5,11 @@ if (is_multisite()) :
     /**
      * @group multisite
      */
-    class Tests_Multisite_wpmuLogNewRegistrations extends WP_UnitTestCase {
+    class Tests_Multisite_wpmuLogNewRegistrations extends WP_UnitTestCase
+    {
 
-        public function test_wpmu_log_new_registrations() {
+        public function test_wpmu_log_new_registrations()
+        {
             global $wpdb;
 
             $user = new WP_User(1);

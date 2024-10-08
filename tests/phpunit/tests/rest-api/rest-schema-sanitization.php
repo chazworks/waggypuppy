@@ -7,9 +7,11 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
+class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
+{
 
-    public function test_type_number() {
+    public function test_type_number()
+    {
         $schema = array(
             'type' => 'number',
         );
@@ -20,7 +22,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertEquals(0, rest_sanitize_value_from_schema(array(), $schema));
     }
 
-    public function test_type_integer() {
+    public function test_type_integer()
+    {
         $schema = array(
             'type' => 'integer',
         );
@@ -31,7 +34,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame(0, rest_sanitize_value_from_schema(array(), $schema));
     }
 
-    public function test_type_string() {
+    public function test_type_string()
+    {
         $schema = array(
             'type' => 'string',
         );
@@ -41,7 +45,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame('1', rest_sanitize_value_from_schema(1, $schema));
     }
 
-    public function test_type_boolean() {
+    public function test_type_boolean()
+    {
         $schema = array(
             'type' => 'boolean',
         );
@@ -54,7 +59,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertFalse(rest_sanitize_value_from_schema(0, $schema));
     }
 
-    public function test_format_email() {
+    public function test_format_email()
+    {
         $schema = array(
             'type'   => 'string',
             'format' => 'email',
@@ -64,7 +70,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame('invalid', rest_sanitize_value_from_schema('invalid', $schema));
     }
 
-    public function test_format_ip() {
+    public function test_format_ip()
+    {
         $schema = array(
             'type'   => 'string',
             'format' => 'ip',
@@ -78,7 +85,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 49270
      */
-    public function test_format_hex_color() {
+    public function test_format_hex_color()
+    {
         $schema = array(
             'type'   => 'string',
             'format' => 'hex-color',
@@ -91,7 +99,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 50053
      */
-    public function test_format_uuid() {
+    public function test_format_uuid()
+    {
         $schema = array(
             'type'   => 'string',
             'format' => 'uuid',
@@ -104,7 +113,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         );
     }
 
-    public function test_type_array() {
+    public function test_type_array()
+    {
         $schema = array(
             'type'  => 'array',
             'items' => array(
@@ -115,7 +125,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertEquals(array(1), rest_sanitize_value_from_schema(array('1'), $schema));
     }
 
-    public function test_type_array_nested() {
+    public function test_type_array_nested()
+    {
         $schema = array(
             'type'  => 'array',
             'items' => array(
@@ -129,7 +140,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertEquals(array(array(1), array(2)), rest_sanitize_value_from_schema(array(array('1'), array('2')), $schema));
     }
 
-    public function test_type_array_as_csv() {
+    public function test_type_array_as_csv()
+    {
         $schema = array(
             'type'  => 'array',
             'items' => array(
@@ -141,7 +153,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertEquals(array(1, 2), rest_sanitize_value_from_schema('1,2,', $schema));
     }
 
-    public function test_type_array_with_enum() {
+    public function test_type_array_with_enum()
+    {
         $schema = array(
             'type'  => 'array',
             'items' => array(
@@ -153,7 +166,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame(array('coleslaw'), rest_sanitize_value_from_schema(array('coleslaw'), $schema));
     }
 
-    public function test_type_array_with_enum_as_csv() {
+    public function test_type_array_with_enum_as_csv()
+    {
         $schema = array(
             'type'  => 'array',
             'items' => array(
@@ -166,7 +180,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame(array('chicken', 'coleslaw'), rest_sanitize_value_from_schema('chicken,coleslaw,', $schema));
     }
 
-    public function test_type_array_is_associative() {
+    public function test_type_array_is_associative()
+    {
         $schema = array(
             'type'  => 'array',
             'items' => array(
@@ -185,7 +200,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         );
     }
 
-    public function test_type_object() {
+    public function test_type_object()
+    {
         $schema = array(
             'type'       => 'object',
             'properties' => array(
@@ -211,7 +227,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         );
     }
 
-    public function test_type_object_strips_additional_properties() {
+    public function test_type_object_strips_additional_properties()
+    {
         $schema = array(
             'type'                 => 'object',
             'properties'           => array(
@@ -244,7 +261,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
      * @param array $value
      * @param array $expected
      */
-    public function test_type_object_pattern_properties($pattern_properties, $value, $expected) {
+    public function test_type_object_pattern_properties($pattern_properties, $value, $expected)
+    {
         $schema = array(
             'type'                 => 'object',
             'properties'           => array(
@@ -260,7 +278,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @return array
      */
-    public function data_type_object_pattern_properties() {
+    public function data_type_object_pattern_properties()
+    {
         return array(
             array(array(), array(), array()),
             array(array(), array('propA' => 'a'), array('propA' => 'a')),
@@ -331,7 +350,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         );
     }
 
-    public function test_type_object_nested() {
+    public function test_type_object_nested()
+    {
         $schema = array(
             'type'       => 'object',
             'properties' => array(
@@ -386,7 +406,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame(array('a' => array()), rest_sanitize_value_from_schema(array('a' => null), $schema));
     }
 
-    public function test_type_object_stdclass() {
+    public function test_type_object_stdclass()
+    {
         $schema = array(
             'type'       => 'object',
             'properties' => array(
@@ -401,11 +422,13 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 42961
      */
-    public function test_type_object_accepts_empty_string() {
+    public function test_type_object_accepts_empty_string()
+    {
         $this->assertSame(array(), rest_sanitize_value_from_schema('', array('type' => 'object')));
     }
 
-    public function test_type_unknown() {
+    public function test_type_unknown()
+    {
         $this->setExpectedIncorrectUsage('rest_sanitize_value_from_schema');
 
         $schema = array(
@@ -416,7 +439,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame(1, rest_sanitize_value_from_schema(1, $schema));
     }
 
-    public function test_no_type() {
+    public function test_no_type()
+    {
         $this->setExpectedIncorrectUsage('rest_sanitize_value_from_schema');
 
         $schema = array(
@@ -427,7 +451,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame(1, rest_sanitize_value_from_schema(1, $schema));
     }
 
-    public function test_nullable_date() {
+    public function test_nullable_date()
+    {
         $schema = array(
             'type'   => array('string', 'null'),
             'format' => 'date-time',
@@ -441,7 +466,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 50189
      */
-    public function test_format_validation_is_skipped_if_non_string_type() {
+    public function test_format_validation_is_skipped_if_non_string_type()
+    {
         $schema = array(
             'type'   => 'array',
             'format' => 'hex-color',
@@ -453,7 +479,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 50189
      */
-    public function test_format_validation_is_applied_if_missing_type() {
+    public function test_format_validation_is_applied_if_missing_type()
+    {
         if (PHP_VERSION_ID >= 80000) {
             $this->expectWarning(); // For the undefined index.
         } else {
@@ -470,7 +497,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 50189
      */
-    public function test_format_validation_is_applied_if_unknown_type() {
+    public function test_format_validation_is_applied_if_unknown_type()
+    {
         $this->setExpectedIncorrectUsage('rest_sanitize_value_from_schema');
 
         $schema = array(
@@ -481,7 +509,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame('', rest_sanitize_value_from_schema('#jkl', $schema));
     }
 
-    public function test_object_or_string() {
+    public function test_object_or_string()
+    {
         $schema = array(
             'type'       => array('object', 'string'),
             'properties' => array(
@@ -496,7 +525,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
         $this->assertSame(array('raw' => '1'), rest_sanitize_value_from_schema(array('raw' => 1), $schema));
     }
 
-    public function test_object_or_bool() {
+    public function test_object_or_bool()
+    {
         $schema = array(
             'type'       => array('object', 'boolean'),
             'properties' => array(
@@ -528,7 +558,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 50300
      */
-    public function test_multi_type_with_no_known_types() {
+    public function test_multi_type_with_no_known_types()
+    {
         $this->setExpectedIncorrectUsage('rest_handle_multi_type_schema');
         $this->setExpectedIncorrectUsage('rest_sanitize_value_from_schema');
 
@@ -542,7 +573,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 50300
      */
-    public function test_multi_type_with_some_unknown_types() {
+    public function test_multi_type_with_some_unknown_types()
+    {
         $this->setExpectedIncorrectUsage('rest_handle_multi_type_schema');
         $this->setExpectedIncorrectUsage('rest_sanitize_value_from_schema');
 
@@ -556,7 +588,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 50300
      */
-    public function test_multi_type_returns_null_if_no_valid_type() {
+    public function test_multi_type_returns_null_if_no_valid_type()
+    {
         $schema = array(
             'type' => array('number', 'string'),
         );
@@ -567,7 +600,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 48821
      */
-    public function test_unique_items_after_sanitization() {
+    public function test_unique_items_after_sanitization()
+    {
         $schema = array(
             'type'        => 'array',
             'uniqueItems' => true,
@@ -589,7 +623,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 51025
      */
-    public function test_any_of() {
+    public function test_any_of()
+    {
         $schema = array(
             'anyOf' => array(
                 array(
@@ -612,7 +647,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase {
     /**
      * @ticket 51025
      */
-    public function test_one_of() {
+    public function test_one_of()
+    {
         $schema = array(
             'oneOf' => array(
                 array(

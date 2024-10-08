@@ -15,7 +15,8 @@
  * @see WP_Site_Query::__construct() for accepted arguments.
  */
 #[AllowDynamicProperties]
-class WP_Site_Query {
+class WP_Site_Query
+{
 
     /**
      * SQL for database query.
@@ -185,7 +186,8 @@ class WP_Site_Query {
      *                                                   See WP_Meta_Query::__construct() for accepted values.
      * }
      */
-    public function __construct($query = '') {
+    public function __construct($query = '')
+    {
         $this->query_var_defaults = array(
             'fields'                 => '',
             'ID'                     => '',
@@ -240,7 +242,8 @@ class WP_Site_Query {
      *
      * @param string|array $query Array or string of WP_Site_Query arguments. See WP_Site_Query::__construct().
      */
-    public function parse_query($query = '') {
+    public function parse_query($query = '')
+    {
         if (empty($query)) {
             $query = $this->query_vars;
         }
@@ -266,7 +269,8 @@ class WP_Site_Query {
      * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
      *                             or the number of sites when 'count' is passed as a query var.
      */
-    public function query($query) {
+    public function query($query)
+    {
         $this->query_vars = wp_parse_args($query);
 
         return $this->get_sites();
@@ -282,7 +286,8 @@ class WP_Site_Query {
      * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
      *                             or the number of sites when 'count' is passed as a query var.
      */
-    public function get_sites() {
+    public function get_sites()
+    {
         global $wpdb;
 
         $this->parse_query();
@@ -437,7 +442,8 @@ class WP_Site_Query {
      *
      * @return int|array A single count of site IDs if a count query. An array of site IDs if a full query.
      */
-    protected function get_site_ids() {
+    protected function get_site_ids()
+    {
         global $wpdb;
 
         $order = $this->parse_order($this->query_vars['order']);
@@ -730,7 +736,8 @@ class WP_Site_Query {
      *
      * @global wpdb $wpdb WordPress database abstraction object.
      */
-    private function set_found_sites() {
+    private function set_found_sites()
+    {
         global $wpdb;
 
         if ($this->query_vars['number'] && ! $this->query_vars['no_found_rows']) {
@@ -759,7 +766,8 @@ class WP_Site_Query {
      * @param string[] $columns Array of columns to search.
      * @return string Search SQL.
      */
-    protected function get_search_sql($search, $columns) {
+    protected function get_search_sql($search, $columns)
+    {
         global $wpdb;
 
         if (str_contains($search, '*')) {
@@ -786,7 +794,8 @@ class WP_Site_Query {
      * @param string $orderby Alias for the field to order by.
      * @return string|false Value to used in the ORDER clause. False otherwise.
      */
-    protected function parse_orderby($orderby) {
+    protected function parse_orderby($orderby)
+    {
         global $wpdb;
 
         $parsed = false;
@@ -868,7 +877,8 @@ class WP_Site_Query {
      * @param string $order The 'order' query variable.
      * @return string The sanitized 'order' query variable.
      */
-    protected function parse_order($order) {
+    protected function parse_order($order)
+    {
         if (! is_string($order) || empty($order)) {
             return 'ASC';
         }

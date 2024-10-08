@@ -14,7 +14,8 @@
  *
  * @param WP_Customize_Manager $wp_customize Customizer object.
  */
-function twentyfourteen_customize_register($wp_customize) {
+function twentyfourteen_customize_register($wp_customize)
+{
     // Add postMessage support for site title and description.
     $wp_customize->get_setting('blogname')->transport         = 'postMessage';
     $wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
@@ -103,7 +104,8 @@ add_action('customize_register', 'twentyfourteen_customize_register');
  *
  * @return void
  */
-function twentyfourteen_customize_partial_blogname() {
+function twentyfourteen_customize_partial_blogname()
+{
     bloginfo('name');
 }
 
@@ -116,7 +118,8 @@ function twentyfourteen_customize_partial_blogname() {
  *
  * @return void
  */
-function twentyfourteen_customize_partial_blogdescription() {
+function twentyfourteen_customize_partial_blogdescription()
+{
     bloginfo('description');
 }
 
@@ -128,7 +131,8 @@ function twentyfourteen_customize_partial_blogdescription() {
  * @param string $layout Layout type.
  * @return string Filtered layout type (grid|slider).
  */
-function twentyfourteen_sanitize_layout($layout) {
+function twentyfourteen_sanitize_layout($layout)
+{
     if (! in_array($layout, array('grid', 'slider'), true)) {
         $layout = 'grid';
     }
@@ -141,7 +145,8 @@ function twentyfourteen_sanitize_layout($layout) {
  *
  * @since Twenty Fourteen 1.0
  */
-function twentyfourteen_customize_preview_js() {
+function twentyfourteen_customize_preview_js()
+{
     wp_enqueue_script('twentyfourteen_customizer', get_template_directory_uri() . '/js/customizer.js', array('customize-preview'), '20141015', array('in_footer' => true));
 }
 add_action('customize_preview_init', 'twentyfourteen_customize_preview_js');
@@ -151,7 +156,8 @@ add_action('customize_preview_init', 'twentyfourteen_customize_preview_js');
  *
  * @since Twenty Fourteen 1.0
  */
-function twentyfourteen_contextual_help() {
+function twentyfourteen_contextual_help()
+{
     if ('admin_head-edit.php' === current_filter() && 'post' !== $GLOBALS['typenow']) {
         return;
     }

@@ -7,12 +7,14 @@
  *
  * @covers ::wp_scheduled_delete
  */
-class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase {
+class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase
+{
 
     protected static $comment_id;
     protected static $page_id;
 
-    public function tear_down() {
+    public function tear_down()
+    {
         // Remove comment.
         if (self::$comment_id) {
             wp_delete_comment(self::$comment_id);
@@ -31,7 +33,8 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase {
      *
      * @ticket 59938
      */
-    public function test_wp_scheduled_delete() {
+    public function test_wp_scheduled_delete()
+    {
         self::$page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -55,7 +58,8 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase {
      *
      * @ticket 59938
      */
-    public function test_wp_scheduled_delete_status_not_trash() {
+    public function test_wp_scheduled_delete_status_not_trash()
+    {
         self::$page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -80,7 +84,8 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase {
      *
      * @ticket 59938
      */
-    public function test_wp_scheduled_delete_page_not_old_enough() {
+    public function test_wp_scheduled_delete_page_not_old_enough()
+    {
         self::$page_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -104,7 +109,8 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase {
      *
      * @ticket 59938
      */
-    public function test_wp_scheduled_delete_comment() {
+    public function test_wp_scheduled_delete_comment()
+    {
         self::$comment_id = self::factory()->comment->create(
             array(
                 'comment_approved' => 'trash',
@@ -127,7 +133,8 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase {
      *
      * @ticket 59938
      */
-    public function test_wp_scheduled_delete_comment_status_not_trash() {
+    public function test_wp_scheduled_delete_comment_status_not_trash()
+    {
         self::$comment_id = self::factory()->comment->create(
             array(
                 'comment_approved' => '1',
@@ -151,7 +158,8 @@ class Tests_Functions_wpScheduledDelete extends WP_UnitTestCase {
      *
      * @ticket 59938
      */
-    public function test_wp_scheduled_delete_comment_not_old_enough() {
+    public function test_wp_scheduled_delete_comment_not_old_enough()
+    {
         self::$comment_id = self::factory()->comment->create(
             array(
                 'comment_approved' => 'trash',

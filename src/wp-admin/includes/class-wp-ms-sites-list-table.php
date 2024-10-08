@@ -14,7 +14,8 @@
  *
  * @see WP_List_Table
  */
-class WP_MS_Sites_List_Table extends WP_List_Table {
+class WP_MS_Sites_List_Table extends WP_List_Table
+{
 
     /**
      * Site status list.
@@ -33,7 +34,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $this->status_list = array(
             'archived' => array('site-archived', __('Archived')),
             'spam'     => array('site-spammed', _x('Spam', 'site')),
@@ -52,7 +54,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
     /**
      * @return bool
      */
-    public function ajax_user_can() {
+    public function ajax_user_can()
+    {
         return current_user_can('manage_sites');
     }
 
@@ -65,7 +68,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      * @global string $s
      * @global wpdb   $wpdb WordPress database abstraction object.
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         global $mode, $s, $wpdb;
 
         if (! empty($_REQUEST['mode'])) {
@@ -207,7 +211,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
     /**
      */
-    public function no_items() {
+    public function no_items()
+    {
         _e('No sites found.');
     }
 
@@ -218,7 +223,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @return array
      */
-    protected function get_views() {
+    protected function get_views()
+    {
         $counts = wp_count_sites();
 
         $statuses = array(
@@ -288,7 +294,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_bulk_actions() {
+    protected function get_bulk_actions()
+    {
         $actions = array();
         if (current_user_can('delete_sites')) {
             $actions['delete'] = __('Delete');
@@ -304,7 +311,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param string $which The location of the pagination nav markup: Either 'top' or 'bottom'.
      */
-    protected function pagination($which) {
+    protected function pagination($which)
+    {
         global $mode;
 
         parent::pagination($which);
@@ -321,7 +329,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param string $which The location of the extra table nav markup: Either 'top' or 'bottom'.
      */
-    protected function extra_tablenav($which) {
+    protected function extra_tablenav($which)
+    {
         ?>
         <div class="alignleft actions">
         <?php
@@ -361,7 +370,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
     /**
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         $sites_columns = array(
             'cb'          => '<input type="checkbox" />',
             'blogname'    => __('URL'),
@@ -388,7 +398,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_sortable_columns() {
+    protected function get_sortable_columns()
+    {
 
         if (is_subdomain_install()) {
             $blogname_abbr         = __('Domain');
@@ -413,7 +424,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $item Current site.
      */
-    public function column_cb($item) {
+    public function column_cb($item)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $blog = $item;
 
@@ -440,7 +452,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $blog Current site.
      */
-    public function column_id($blog) {
+    public function column_id($blog)
+    {
         echo $blog['blog_id'];
     }
 
@@ -453,7 +466,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $blog Current site.
      */
-    public function column_blogname($blog) {
+    public function column_blogname($blog)
+    {
         global $mode;
 
         $blogname = untrailingslashit($blog['domain'] . $blog['path']);
@@ -494,7 +508,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $blog Current site.
      */
-    public function column_lastupdated($blog) {
+    public function column_lastupdated($blog)
+    {
         global $mode;
 
         if ('list' === $mode) {
@@ -519,7 +534,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $blog Current site.
      */
-    public function column_registered($blog) {
+    public function column_registered($blog)
+    {
         global $mode;
 
         if ('list' === $mode) {
@@ -542,7 +558,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $blog Current site.
      */
-    public function column_users($blog) {
+    public function column_users($blog)
+    {
         $user_count = wp_cache_get($blog['blog_id'] . '_user_count', 'blog-details');
         if (! $user_count) {
             $blog_users = new WP_User_Query(
@@ -571,7 +588,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $blog Current site.
      */
-    public function column_plugins($blog) {
+    public function column_plugins($blog)
+    {
         if (has_filter('wpmublogsaction')) {
             /**
              * Fires inside the auxiliary 'Actions' column of the Sites list table.
@@ -595,7 +613,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      * @param array  $item        Current site.
      * @param string $column_name Current column name.
      */
-    public function column_default($item, $column_name) {
+    public function column_default($item, $column_name)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $blog = $item;
 
@@ -615,7 +634,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @since 3.1.0
      */
-    public function display_rows() {
+    public function display_rows()
+    {
         foreach ($this->items as $blog) {
             $blog  = $blog->to_array();
             $class = '';
@@ -642,7 +662,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @param array $site
      */
-    protected function site_states($site) {
+    protected function site_states($site)
+    {
         $site_states = array();
 
         // $site is still an array, so get the object.
@@ -696,7 +717,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      *
      * @return string Name of the default primary column, in this case, 'blogname'.
      */
-    protected function get_default_primary_column_name() {
+    protected function get_default_primary_column_name()
+    {
         return 'blogname';
     }
 
@@ -712,7 +734,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
      * @return string Row actions output for sites in Multisite, or an empty string
      *                if the current column is not the primary column.
      */
-    protected function handle_row_actions($item, $column_name, $primary) {
+    protected function handle_row_actions($item, $column_name, $primary)
+    {
         if ($primary !== $column_name) {
             return '';
         }

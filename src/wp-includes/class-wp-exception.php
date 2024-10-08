@@ -13,4 +13,6 @@
  *
  * @since 6.7.0
  */
-class WP_Exception extends Exception {}
+class WP_Exception extends Exception
+{
+}

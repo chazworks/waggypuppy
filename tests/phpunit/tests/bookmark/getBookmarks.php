@@ -3,8 +3,10 @@
 /**
  * @group bookmark
  */
-class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase {
-    public function test_should_hit_cache() {
+class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase
+{
+    public function test_should_hit_cache()
+    {
         $bookmarks = self::factory()->bookmark->create_many(2);
 
         $found1 = get_bookmarks(
@@ -25,7 +27,8 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase {
         $this->assertSame($num_queries, get_num_queries());
     }
 
-    public function test_adding_bookmark_should_bust_get_bookmarks_cache() {
+    public function test_adding_bookmark_should_bust_get_bookmarks_cache()
+    {
         $bookmarks = self::factory()->bookmark->create_many(2);
 
         // Prime cache.
@@ -57,7 +60,8 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase {
     /**
      * @ticket 18356
      */
-    public function test_orderby_rand_should_not_be_cached() {
+    public function test_orderby_rand_should_not_be_cached()
+    {
         $bookmarks = self::factory()->bookmark->create_many(2);
 
         $found1 = get_bookmarks(
@@ -79,7 +83,8 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase {
         $this->assertGreaterThan($num_queries, get_num_queries());
     }
 
-    public function test_exclude_param_gets_properly_parsed_as_list() {
+    public function test_exclude_param_gets_properly_parsed_as_list()
+    {
         $bookmarks = self::factory()->bookmark->create_many(3);
 
         $found = get_bookmarks(
@@ -97,7 +102,8 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase {
         $this->assertEqualSets($bookmarks, $found_ids);
     }
 
-    public function test_include_param_gets_properly_parsed_as_list() {
+    public function test_include_param_gets_properly_parsed_as_list()
+    {
         $bookmarks = self::factory()->bookmark->create_many(3);
 
         $found = get_bookmarks(
@@ -115,7 +121,8 @@ class Tests_Bookmark_GetBookmarks extends WP_UnitTestCase {
         $this->assertEqualSets($bookmarks, $found_ids);
     }
 
-    public function test_category_param_properly_gets_parsed_as_list() {
+    public function test_category_param_properly_gets_parsed_as_list()
+    {
         $bookmarks  = self::factory()->bookmark->create_many(3);
         $categories = self::factory()->term->create_many(
             3,

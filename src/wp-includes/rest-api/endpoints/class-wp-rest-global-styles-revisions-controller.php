@@ -14,7 +14,8 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Controller {
+class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Controller
+{
     /**
      * Parent controller.
      *
@@ -47,7 +48,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
      *
      * @param string $parent_post_type Post type of the parent.
      */
-    public function __construct($parent_post_type = 'wp_global_styles') {
+    public function __construct($parent_post_type = 'wp_global_styles')
+    {
         parent::__construct($parent_post_type);
         $post_type_object  = get_post_type_object($parent_post_type);
         $parent_controller = $post_type_object->get_rest_controller();
@@ -68,7 +70,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
      * @since 6.3.0
      * @since 6.6.0 Added route to fetch individual global styles revisions.
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base,
@@ -125,7 +128,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
      * @param string $raw_json Encoded JSON from global styles custom post content.
      * @return Array|WP_Error
      */
-    protected function get_decoded_global_styles_json($raw_json) {
+    protected function get_decoded_global_styles_json($raw_json)
+    {
         $decoded_json = json_decode($raw_json, true);
 
         if (is_array($decoded_json) && isset($decoded_json['isGlobalStylesUserThemeJSON']) && true === $decoded_json['isGlobalStylesUserThemeJSON']) {
@@ -150,7 +154,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
      * @param WP_REST_Request $request The request instance.
      * @return WP_REST_Response|WP_Error
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $parent = $this->get_parent($request['parent']);
 
         if (is_wp_error($parent)) {
@@ -274,7 +279,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object.
      */
-    public function prepare_item_for_response($post, $request) {
+    public function prepare_item_for_response($post, $request)
+    {
         $parent               = $this->get_parent($request['parent']);
         $global_styles_config = $this->get_decoded_global_styles_json($post->post_content);
 
@@ -350,7 +356,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -380,7 +387,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         $query_params = parent::get_collection_params();
         unset(
             $query_params['exclude'],

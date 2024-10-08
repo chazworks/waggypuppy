@@ -44,7 +44,8 @@ if (! function_exists('twentysixteen_setup')) :
      *
      * @since Twenty Sixteen 1.0
      */
-    function twentysixteen_setup() {
+    function twentysixteen_setup()
+    {
         /*
          * Make theme available for translation.
          * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentysixteen
@@ -245,7 +246,8 @@ add_action('after_setup_theme', 'twentysixteen_setup');
  *
  * @since Twenty Sixteen 1.0
  */
-function twentysixteen_content_width() {
+function twentysixteen_content_width()
+{
     $GLOBALS['content_width'] = apply_filters('twentysixteen_content_width', 840);
 }
 add_action('after_setup_theme', 'twentysixteen_content_width', 0);
@@ -260,7 +262,8 @@ add_action('after_setup_theme', 'twentysixteen_content_width', 0);
  * @param string $relation_type The relation type the URLs are printed.
  * @return array URLs to print for resource hints.
  */
-function twentysixteen_resource_hints($urls, $relation_type) {
+function twentysixteen_resource_hints($urls, $relation_type)
+{
     if (wp_style_is('twentysixteen-fonts', 'queue') && 'preconnect' === $relation_type) {
         $urls[] = array(
             'href' => 'https://fonts.gstatic.com',
@@ -279,7 +282,8 @@ function twentysixteen_resource_hints($urls, $relation_type) {
  *
  * @since Twenty Sixteen 1.0
  */
-function twentysixteen_widgets_init() {
+function twentysixteen_widgets_init()
+{
     register_sidebar(
         array(
             'name'          => __('Sidebar', 'twentysixteen'),
@@ -329,7 +333,8 @@ if (! function_exists('twentysixteen_fonts_url')) :
      *
      * @return string Fonts URL for the theme.
      */
-    function twentysixteen_fonts_url() {
+    function twentysixteen_fonts_url()
+    {
         $fonts_url = '';
         $fonts     = array();
 
@@ -372,7 +377,8 @@ endif;
  *
  * @since Twenty Sixteen 1.0
  */
-function twentysixteen_javascript_detection() {
+function twentysixteen_javascript_detection()
+{
     echo "<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>\n";
 }
 add_action('wp_head', 'twentysixteen_javascript_detection', 0);
@@ -382,7 +388,8 @@ add_action('wp_head', 'twentysixteen_javascript_detection', 0);
  *
  * @since Twenty Sixteen 1.0
  */
-function twentysixteen_scripts() {
+function twentysixteen_scripts()
+{
     // Add custom fonts, used in the main stylesheet.
     $font_version = (0 === strpos((string) twentysixteen_fonts_url(), get_template_directory_uri() . '/')) ? '20230328' : null;
     wp_enqueue_style('twentysixteen-fonts', twentysixteen_fonts_url(), array(), $font_version);
@@ -450,7 +457,8 @@ add_action('wp_enqueue_scripts', 'twentysixteen_scripts');
  *
  * @since Twenty Sixteen 1.6
  */
-function twentysixteen_block_editor_styles() {
+function twentysixteen_block_editor_styles()
+{
     // Block styles.
     wp_enqueue_style('twentysixteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20240209');
     // Add custom fonts.
@@ -467,7 +475,8 @@ add_action('enqueue_block_editor_assets', 'twentysixteen_block_editor_styles');
  * @param array $classes Classes for the body element.
  * @return array (Maybe) filtered body classes.
  */
-function twentysixteen_body_classes($classes) {
+function twentysixteen_body_classes($classes)
+{
     // Adds a class of custom-background-image to sites with a custom background image.
     if (get_background_image()) {
         $classes[] = 'custom-background-image';
@@ -501,7 +510,8 @@ add_filter('body_class', 'twentysixteen_body_classes');
  * @return array Array containing RGB (red, green, and blue) values for the given
  *               HEX code, empty array otherwise.
  */
-function twentysixteen_hex2rgb($color) {
+function twentysixteen_hex2rgb($color)
+{
     $color = trim($color, '#');
 
     if (strlen($color) === 3) {
@@ -549,7 +559,8 @@ require get_template_directory() . '/inc/customizer.php';
  *                      values in pixels (in that order).
  * @return string A source size value for use in a content image 'sizes' attribute.
  */
-function twentysixteen_content_image_sizes_attr($sizes, $size) {
+function twentysixteen_content_image_sizes_attr($sizes, $size)
+{
     $width = $size[0];
 
     if (840 <= $width) {
@@ -585,7 +596,8 @@ add_filter('wp_calculate_image_sizes', 'twentysixteen_content_image_sizes_attr',
  *                                 an array of width and height values in pixels (in that order).
  * @return string[] The filtered attributes for the image markup.
  */
-function twentysixteen_post_thumbnail_sizes_attr($attr, $attachment, $size) {
+function twentysixteen_post_thumbnail_sizes_attr($attr, $attachment, $size)
+{
     if ('post-thumbnail' === $size) {
         if (is_active_sidebar('sidebar-1')) {
             $attr['sizes'] = '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 60vw, (max-width: 1362px) 62vw, 840px';
@@ -606,7 +618,8 @@ add_filter('wp_get_attachment_image_attributes', 'twentysixteen_post_thumbnail_s
  * @param array $args Arguments for tag cloud widget.
  * @return array The filtered arguments for tag cloud widget.
  */
-function twentysixteen_widget_tag_cloud_args($args) {
+function twentysixteen_widget_tag_cloud_args($args)
+{
     $args['largest']  = 1;
     $args['smallest'] = 1;
     $args['unit']     = 'em';

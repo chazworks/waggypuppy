@@ -12,7 +12,8 @@
  *
  * @since 6.4.0
  */
-class WP_Font_Face {
+class WP_Font_Face
+{
 
     /**
      * The font-face property defaults.
@@ -77,7 +78,8 @@ class WP_Font_Face {
      *
      * @since 6.4.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         if (function_exists('is_admin') && ! is_admin()
             &&
             function_exists('current_theme_supports') && ! current_theme_supports('html5', 'style')
@@ -95,7 +97,8 @@ class WP_Font_Face {
      *                         See {@see wp_print_font_faces()} for the supported fields.
      *                         Default empty array.
      */
-    public function generate_and_print(array $fonts) {
+    public function generate_and_print(array $fonts)
+    {
         $fonts = $this->validate_fonts($fonts);
 
         // Bail out if there are no fonts are given to process.
@@ -128,7 +131,8 @@ class WP_Font_Face {
      * @param array $fonts The fonts to valid.
      * @return array Prepared font-faces organized by provider and font-family.
      */
-    private function validate_fonts(array $fonts) {
+    private function validate_fonts(array $fonts)
+    {
         $validated_fonts = array();
 
         foreach ($fonts as $font_faces) {
@@ -154,7 +158,8 @@ class WP_Font_Face {
      * @param array $font_face Font face property and value pairings to validate.
      * @return array|false Validated font-face on success, or false on failure.
      */
-    private function validate_font_face_declarations(array $font_face) {
+    private function validate_font_face_declarations(array $font_face)
+    {
         $font_face = wp_parse_args($font_face, $this->font_face_property_defaults);
 
         // Check the font-family.
@@ -225,7 +230,8 @@ class WP_Font_Face {
      *
      * @return string The style element.
      */
-    private function get_style_element() {
+    private function get_style_element()
+    {
         $attributes = $this->generate_style_element_attributes();
 
         return "<style id='wp-fonts-local'{$attributes}>\n%s\n</style>\n";
@@ -238,7 +244,8 @@ class WP_Font_Face {
      *
      * @return string A string of attribute=value when defined, else, empty string.
      */
-    private function generate_style_element_attributes() {
+    private function generate_style_element_attributes()
+    {
         $attributes = '';
         foreach ($this->style_tag_attrs as $name => $value) {
             $attributes .= " {$name}='{$value}'";
@@ -258,7 +265,8 @@ class WP_Font_Face {
      * @param array[] $font_faces The font-faces to generate @font-face CSS styles.
      * @return string The `@font-face` CSS styles.
      */
-    private function get_css($font_faces) {
+    private function get_css($font_faces)
+    {
         $css = '';
 
         foreach ($font_faces as $font_face) {
@@ -281,7 +289,8 @@ class WP_Font_Face {
      * @param array $font_face Font face to process.
      * @return array Font-face with ordered src items.
      */
-    private function order_src(array $font_face) {
+    private function order_src(array $font_face)
+    {
         if (! is_array($font_face['src'])) {
             $font_face['src'] = (array) $font_face['src'];
         }
@@ -354,7 +363,8 @@ class WP_Font_Face {
      * @param array $font_face Font face to process.
      * @return string This font-family's CSS.
      */
-    private function build_font_face_css(array $font_face) {
+    private function build_font_face_css(array $font_face)
+    {
         $css = '';
 
         /*
@@ -395,7 +405,8 @@ class WP_Font_Face {
      * @param array $value Value to process.
      * @return string The CSS.
      */
-    private function compile_src(array $value) {
+    private function compile_src(array $value)
+    {
         $src = '';
 
         foreach ($value as $item) {
@@ -416,7 +427,8 @@ class WP_Font_Face {
      * @param array $font_variation_settings Array of font variation settings.
      * @return string The CSS.
      */
-    private function compile_variations(array $font_variation_settings) {
+    private function compile_variations(array $font_variation_settings)
+    {
         $variations = '';
 
         foreach ($font_variation_settings as $key => $value) {

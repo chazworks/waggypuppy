@@ -12,7 +12,8 @@
  * @since 5.2.0
  */
 #[AllowDynamicProperties]
-class WP_Recovery_Mode {
+class WP_Recovery_Mode
+{
 
     const EXIT_ACTION = 'exit_recovery_mode';
 
@@ -77,7 +78,8 @@ class WP_Recovery_Mode {
      *
      * @since 5.2.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->cookie_service = new WP_Recovery_Mode_Cookie_Service();
         $this->key_service    = new WP_Recovery_Mode_Key_Service();
         $this->link_service   = new WP_Recovery_Mode_Link_Service($this->cookie_service, $this->key_service);
@@ -89,7 +91,8 @@ class WP_Recovery_Mode {
      *
      * @since 5.2.0
      */
-    public function initialize() {
+    public function initialize()
+    {
         $this->is_initialized = true;
 
         add_action('wp_logout', array($this, 'exit_recovery_mode'));
@@ -125,7 +128,8 @@ class WP_Recovery_Mode {
      *
      * @return bool True if recovery mode is active, false otherwise.
      */
-    public function is_active() {
+    public function is_active()
+    {
         return $this->is_active;
     }
 
@@ -136,7 +140,8 @@ class WP_Recovery_Mode {
      *
      * @return string The session ID if recovery mode is active, empty string otherwise.
      */
-    public function get_session_id() {
+    public function get_session_id()
+    {
         return $this->session_id;
     }
 
@@ -149,7 +154,8 @@ class WP_Recovery_Mode {
      *
      * @return bool
      */
-    public function is_initialized() {
+    public function is_initialized()
+    {
         return $this->is_initialized;
     }
 
@@ -165,7 +171,8 @@ class WP_Recovery_Mode {
      *                       Or the request will exit to try and catch multiple errors at once.
      *                       WP_Error if an error occurred preventing it from being handled.
      */
-    public function handle_error(array $error) {
+    public function handle_error(array $error)
+    {
 
         $extension = $this->get_extension_for_error($error);
 
@@ -203,7 +210,8 @@ class WP_Recovery_Mode {
      *
      * @return bool True on success, false on failure.
      */
-    public function exit_recovery_mode() {
+    public function exit_recovery_mode()
+    {
         if (! $this->is_active()) {
             return false;
         }
@@ -222,7 +230,8 @@ class WP_Recovery_Mode {
      *
      * @since 5.2.0
      */
-    public function handle_exit_recovery_mode() {
+    public function handle_exit_recovery_mode()
+    {
         $redirect_to = wp_get_referer();
 
         // Safety check in case referrer returns false.
@@ -258,7 +267,8 @@ class WP_Recovery_Mode {
      *
      * @since 5.2.0
      */
-    public function clean_expired_keys() {
+    public function clean_expired_keys()
+    {
         $this->key_service->clean_expired_keys($this->get_link_ttl());
     }
 
@@ -267,7 +277,8 @@ class WP_Recovery_Mode {
      *
      * @since 5.2.0
      */
-    protected function handle_cookie() {
+    protected function handle_cookie()
+    {
         $validated = $this->cookie_service->validate_cookie();
 
         if (is_wp_error($validated)) {
@@ -296,7 +307,8 @@ class WP_Recovery_Mode {
      *
      * @return int Rate limit in seconds.
      */
-    protected function get_email_rate_limit() {
+    protected function get_email_rate_limit()
+    {
         /**
          * Filters the rate limit between sending new recovery mode email links.
          *
@@ -314,7 +326,8 @@ class WP_Recovery_Mode {
      *
      * @return int Interval in seconds.
      */
-    protected function get_link_ttl() {
+    protected function get_link_ttl()
+    {
 
         $rate_limit = $this->get_email_rate_limit();
         $valid_for  = $rate_limit;
@@ -348,7 +361,8 @@ class WP_Recovery_Mode {
      *     @type string $type The extension type. Either 'plugin' or 'theme'.
      * }
      */
-    protected function get_extension_for_error($error) {
+    protected function get_extension_for_error($error)
+    {
         global $wp_theme_directories;
 
         if (! isset($error['file'])) {
@@ -401,7 +415,8 @@ class WP_Recovery_Mode {
      * @param array $extension Extension data.
      * @return bool True if network plugin, false otherwise.
      */
-    protected function is_network_plugin($extension) {
+    protected function is_network_plugin($extension)
+    {
         if ('plugin' !== $extension['type']) {
             return false;
         }
@@ -429,7 +444,8 @@ class WP_Recovery_Mode {
      * @param array $error Error details from `error_get_last()`.
      * @return bool True if the error was stored successfully, false otherwise.
      */
-    protected function store_error($error) {
+    protected function store_error($error)
+    {
         $extension = $this->get_extension_for_error($error);
 
         if (! $extension) {
@@ -456,7 +472,8 @@ class WP_Recovery_Mode {
      *
      * @since 5.2.0
      */
-    protected function redirect_protected() {
+    protected function redirect_protected()
+    {
         // Pluggable is usually loaded after plugins, so we manually include it here for redirection functionality.
         if (! function_exists('wp_safe_redirect')) {
             require_once ABSPATH . WPINC . '/pluggable.php';

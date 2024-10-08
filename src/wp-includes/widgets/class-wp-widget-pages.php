@@ -14,14 +14,16 @@
  *
  * @see WP_Widget
  */
-class WP_Widget_Pages extends WP_Widget {
+class WP_Widget_Pages extends WP_Widget
+{
 
     /**
      * Sets up a new Pages widget instance.
      *
      * @since 2.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $widget_ops = array(
             'classname'                   => 'widget_pages',
             'description'                 => __('A list of your site&#8217;s Pages.'),
@@ -40,7 +42,8 @@ class WP_Widget_Pages extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Pages widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         $default_title = __('Pages');
         $title         = ! empty($instance['title']) ? $instance['title'] : $default_title;
 
@@ -128,7 +131,8 @@ class WP_Widget_Pages extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Updated settings to save.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $instance          = $old_instance;
         $instance['title'] = sanitize_text_field($new_instance['title']);
         if (in_array($new_instance['sortby'], array('post_title', 'menu_order', 'ID'), true)) {
@@ -149,7 +153,8 @@ class WP_Widget_Pages extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         // Defaults.
         $instance = wp_parse_args(
             (array) $instance,

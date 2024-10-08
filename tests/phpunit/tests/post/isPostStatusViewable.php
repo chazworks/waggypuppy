@@ -3,14 +3,16 @@
 /**
  * @group post
  */
-class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
+class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase
+{
 
     /**
      * Remove the test status from the global when finished.
      *
      * @global $wp_post_statuses
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         global $wp_post_statuses;
         unset($wp_post_statuses['wp_tests_ps']);
     }
@@ -26,7 +28,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      * @param array $cps_args Registration arguments.
      * @param bool  $expected Expected result.
      */
-    public function test_custom_post_statuses($cps_args, $expected) {
+    public function test_custom_post_statuses($cps_args, $expected)
+    {
         register_post_status(
             'wp_tests_ps',
             $cps_args
@@ -46,7 +49,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      *     bool  Expected result.
      * }
      */
-    public function data_custom_post_statuses() {
+    public function data_custom_post_statuses()
+    {
         return array(
             // 0. False for non-publicly queryable types.
             array(
@@ -105,7 +109,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      * @param mixed $status   Post status to check.
      * @param bool  $expected Expected viewable status.
      */
-    public function test_built_unregistered_in_status_types($status, $expected) {
+    public function test_built_unregistered_in_status_types($status, $expected)
+    {
         // Test status passed as string.
         $this->assertSame($expected, is_post_status_viewable($status));
         // Test status passed as object.
@@ -120,7 +125,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      *     @type bool  $expected Expected viewable status.
      * }
      */
-    public function data_built_unregistered_in_status_types() {
+    public function data_built_unregistered_in_status_types()
+    {
         return array(
             array('publish', true),
             array('future', false),
@@ -150,7 +156,8 @@ class Tests_Post_IsPostStatusViewable extends WP_UnitTestCase {
      *
      * @ticket 49380
      */
-    public function test_sanitize_key_not_run() {
+    public function test_sanitize_key_not_run()
+    {
         register_post_status(
             'WP_Tests_ps',
             array(

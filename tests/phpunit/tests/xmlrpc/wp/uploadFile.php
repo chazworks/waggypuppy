@@ -4,15 +4,18 @@
  * @group xmlrpc
  * @requires function imagejpeg
  */
-class Tests_XMLRPC_wp_uploadFile extends WP_XMLRPC_UnitTestCase {
+class Tests_XMLRPC_wp_uploadFile extends WP_XMLRPC_UnitTestCase
+{
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->remove_added_uploads();
 
         parent::tear_down();
     }
 
-    public function test_valid_attachment() {
+    public function test_valid_attachment()
+    {
         $this->make_user_by_role('editor');
 
         // Create attachment.

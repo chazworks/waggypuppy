@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post excerpt for the current post wrapped inside "p" tags.
  */
-function render_block_core_post_excerpt($attributes, $content, $block) {
+function render_block_core_post_excerpt($attributes, $content, $block)
+{
     if (! isset($block->context['postId'])) {
         return '';
     }
@@ -71,7 +72,8 @@ function render_block_core_post_excerpt($attributes, $content, $block) {
  *
  * @since 5.8.0
  */
-function register_block_core_post_excerpt() {
+function register_block_core_post_excerpt()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-excerpt',
         array(

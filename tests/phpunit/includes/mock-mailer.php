@@ -2,10 +2,12 @@
 require_once ABSPATH . 'wp-includes/PHPMailer/PHPMailer.php';
 require_once ABSPATH . 'wp-includes/PHPMailer/Exception.php';
 
-class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer {
+class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer
+{
     public $mock_sent = array();
 
-    public function preSend() {
+    public function preSend()
+    {
         $this->Encoding = '8bit';
         return parent::preSend();
     }
@@ -13,7 +15,8 @@ class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer {
     /**
      * Override postSend() so mail isn't actually sent.
      */
-    public function postSend() {
+    public function postSend()
+    {
         $this->mock_sent[] = array(
             'to'      => $this->to,
             'cc'      => $this->cc,
@@ -34,7 +37,8 @@ class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer {
      * @param int $index Optional. Array index of mock_sent value.
      * @return object
      */
-    public function get_sent($index = 0) {
+    public function get_sent($index = 0)
+    {
         $retval = false;
         if (isset($this->mock_sent[ $index ])) {
             $retval = (object) $this->mock_sent[ $index ];
@@ -52,7 +56,8 @@ class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer {
      * @param int    $recipient_index Optional. The recipient index in the array.
      * @return bool|object Returns object on success, or false if any of the indices don't exist.
      */
-    public function get_recipient($address_type, $mock_sent_index = 0, $recipient_index = 0) {
+    public function get_recipient($address_type, $mock_sent_index = 0, $recipient_index = 0)
+    {
         $retval = false;
         $mock   = $this->get_sent($mock_sent_index);
         if ($mock) {
@@ -78,7 +83,8 @@ class MockPHPMailer extends PHPMailer\PHPMailer\PHPMailer {
  *
  * @return MockPHPMailer|false
  */
-function tests_retrieve_phpmailer_instance() {
+function tests_retrieve_phpmailer_instance()
+{
     $mailer = false;
     if (isset($GLOBALS['phpmailer'])) {
         $mailer = $GLOBALS['phpmailer'];
@@ -93,7 +99,8 @@ function tests_retrieve_phpmailer_instance() {
  *
  * @return bool
  */
-function reset_phpmailer_instance() {
+function reset_phpmailer_instance()
+{
     $mailer = tests_retrieve_phpmailer_instance();
     if ($mailer) {
         $mailer             = new MockPHPMailer(true);

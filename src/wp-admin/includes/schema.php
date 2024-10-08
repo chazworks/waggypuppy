@@ -33,7 +33,8 @@ $charset_collate = $wpdb->get_charset_collate();
  * @param int    $blog_id Optional. The site ID for which to retrieve SQL. Default is the current site ID.
  * @return string The SQL needed to create the requested tables.
  */
-function wp_get_db_schema($scope = 'all', $blog_id = null) {
+function wp_get_db_schema($scope = 'all', $blog_id = null)
+{
     global $wpdb;
 
     $charset_collate = $wpdb->get_charset_collate();
@@ -358,7 +359,8 @@ $wp_queries = wp_get_db_schema('all');
  *
  * @param array $options Optional. Custom option $key => $value pairs to use. Default empty array.
  */
-function populate_options(array $options = array()) {
+function populate_options(array $options = array())
+{
     global $wpdb, $wp_db_version, $wp_current_db_version;
 
     $guessurl = wp_guess_url();
@@ -712,7 +714,8 @@ function populate_options(array $options = array()) {
  *
  * @since 2.0.0
  */
-function populate_roles() {
+function populate_roles()
+{
     populate_roles_160();
     populate_roles_210();
     populate_roles_230();
@@ -728,7 +731,8 @@ function populate_roles() {
  *
  * @since 2.0.0
  */
-function populate_roles_160() {
+function populate_roles_160()
+{
     // Add roles.
     add_role('administrator', 'Administrator');
     add_role('editor', 'Editor');
@@ -820,7 +824,8 @@ function populate_roles_160() {
  *
  * @since 2.1.0
  */
-function populate_roles_210() {
+function populate_roles_210()
+{
     $roles = array('administrator', 'editor');
     foreach ($roles as $role) {
         $role = get_role($role);
@@ -868,7 +873,8 @@ function populate_roles_210() {
  *
  * @since 2.3.0
  */
-function populate_roles_230() {
+function populate_roles_230()
+{
     $role = get_role('administrator');
 
     if (! empty($role)) {
@@ -881,7 +887,8 @@ function populate_roles_230() {
  *
  * @since 2.5.0
  */
-function populate_roles_250() {
+function populate_roles_250()
+{
     $role = get_role('administrator');
 
     if (! empty($role)) {
@@ -894,7 +901,8 @@ function populate_roles_250() {
  *
  * @since 2.6.0
  */
-function populate_roles_260() {
+function populate_roles_260()
+{
     $role = get_role('administrator');
 
     if (! empty($role)) {
@@ -908,7 +916,8 @@ function populate_roles_260() {
  *
  * @since 2.7.0
  */
-function populate_roles_270() {
+function populate_roles_270()
+{
     $role = get_role('administrator');
 
     if (! empty($role)) {
@@ -922,7 +931,8 @@ function populate_roles_270() {
  *
  * @since 2.8.0
  */
-function populate_roles_280() {
+function populate_roles_280()
+{
     $role = get_role('administrator');
 
     if (! empty($role)) {
@@ -935,7 +945,8 @@ function populate_roles_280() {
  *
  * @since 3.0.0
  */
-function populate_roles_300() {
+function populate_roles_300()
+{
     $role = get_role('administrator');
 
     if (! empty($role)) {
@@ -955,7 +966,8 @@ if (! function_exists('install_network')) :
      *
      * @since 3.0.0
      */
-    function install_network() {
+    function install_network()
+    {
         if (! defined('WP_INSTALLING_NETWORK')) {
             define('WP_INSTALLING_NETWORK', true);
         }
@@ -983,7 +995,8 @@ endif;
  * @return true|WP_Error True on success, or WP_Error on warning (with the installation otherwise successful,
  *                       so the error code must be checked) or failure.
  */
-function populate_network($network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false) {
+function populate_network($network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false)
+{
     global $wpdb, $current_site, $wp_rewrite;
 
     $network_id = (int) $network_id;
@@ -1162,7 +1175,8 @@ function populate_network($network_id = 1, $domain = '', $email = '', $site_name
  * @param int   $network_id Network ID to populate meta for.
  * @param array $meta       Optional. Custom meta $key => $value pairs to use. Default empty array.
  */
-function populate_network_meta($network_id, array $meta = array()) {
+function populate_network_meta($network_id, array $meta = array())
+{
     global $wpdb, $wp_db_version;
 
     $network_id = (int) $network_id;
@@ -1316,7 +1330,8 @@ We hope you enjoy your new site. Thanks!
  * @param int   $site_id Site ID to populate meta for.
  * @param array $meta    Optional. Custom meta $key => $value pairs to use. Default empty array.
  */
-function populate_site_meta($site_id, array $meta = array()) {
+function populate_site_meta($site_id, array $meta = array())
+{
     global $wpdb;
 
     $site_id = (int) $site_id;

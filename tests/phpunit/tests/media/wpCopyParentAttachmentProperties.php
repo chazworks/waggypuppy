@@ -6,15 +6,18 @@
  * @group media
  * @covers ::wp_copy_parent_attachment_properties
  */
-class Tests_Media_wpCopyParentAttachmentProperties extends WP_UnitTestCase {
+class Tests_Media_wpCopyParentAttachmentProperties extends WP_UnitTestCase
+{
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->remove_added_uploads();
 
         parent::tear_down();
     }
 
-    public function test_wp_copy_parent_attachment_properties() {
+    public function test_wp_copy_parent_attachment_properties()
+    {
         $attachment = $this->factory->attachment->create_upload_object(DIR_TESTDATA . '/images/canola.jpg');
         $parent_url = get_post($attachment)->guid;
         // Add alternative text.

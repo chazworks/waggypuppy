@@ -15,7 +15,8 @@
  * @param int|string|WP_Term $menu Menu ID, slug, name, or object.
  * @return WP_Term|false Menu object on success, false if $menu param isn't supplied or term does not exist.
  */
-function wp_get_nav_menu_object($menu) {
+function wp_get_nav_menu_object($menu)
+{
     $menu_obj = false;
 
     if (is_object($menu)) {
@@ -59,7 +60,8 @@ function wp_get_nav_menu_object($menu) {
  * @param int|string|WP_Term $menu Menu ID, slug, name, or object of menu to check.
  * @return bool Whether the menu exists.
  */
-function is_nav_menu($menu) {
+function is_nav_menu($menu)
+{
     if (! $menu) {
         return false;
     }
@@ -86,7 +88,8 @@ function is_nav_menu($menu) {
  *
  * @param string[] $locations Associative array of menu location identifiers (like a slug) and descriptive text.
  */
-function register_nav_menus($locations = array()) {
+function register_nav_menus($locations = array())
+{
     global $_wp_registered_nav_menus;
 
     add_theme_support('menus');
@@ -111,7 +114,8 @@ function register_nav_menus($locations = array()) {
  * @param string $location The menu location identifier.
  * @return bool True on success, false on failure.
  */
-function unregister_nav_menu($location) {
+function unregister_nav_menu($location)
+{
     global $_wp_registered_nav_menus;
 
     if (is_array($_wp_registered_nav_menus) && isset($_wp_registered_nav_menus[ $location ])) {
@@ -132,7 +136,8 @@ function unregister_nav_menu($location) {
  * @param string $location    Menu location identifier, like a slug.
  * @param string $description Menu location descriptive text.
  */
-function register_nav_menu($location, $description) {
+function register_nav_menu($location, $description)
+{
     register_nav_menus(array($location => $description));
 }
 /**
@@ -145,7 +150,8 @@ function register_nav_menu($location, $description) {
  * @return string[] Associative array of registered navigation menu descriptions keyed
  *                  by their location. If none are registered, an empty array.
  */
-function get_registered_nav_menus() {
+function get_registered_nav_menus()
+{
     global $_wp_registered_nav_menus;
     if (isset($_wp_registered_nav_menus)) {
         return $_wp_registered_nav_menus;
@@ -161,7 +167,8 @@ function get_registered_nav_menus() {
  * @return int[] Associative array of registered navigation menu IDs keyed by their
  *               location name. If none are registered, an empty array.
  */
-function get_nav_menu_locations() {
+function get_nav_menu_locations()
+{
     $locations = get_theme_mod('nav_menu_locations');
     return (is_array($locations)) ? $locations : array();
 }
@@ -174,7 +181,8 @@ function get_nav_menu_locations() {
  * @param string $location Menu location identifier.
  * @return bool Whether location has a menu.
  */
-function has_nav_menu($location) {
+function has_nav_menu($location)
+{
     $has_nav_menu = false;
 
     $registered_nav_menus = get_registered_nav_menus();
@@ -202,7 +210,8 @@ function has_nav_menu($location) {
  * @param string $location Menu location identifier.
  * @return string Menu name.
  */
-function wp_get_nav_menu_name($location) {
+function wp_get_nav_menu_name($location)
+{
     $menu_name = '';
 
     $locations = get_nav_menu_locations();
@@ -234,7 +243,8 @@ function wp_get_nav_menu_name($location) {
  * @param int $menu_item_id The ID of the potential nav menu item.
  * @return bool Whether the given ID is that of a nav menu item.
  */
-function is_nav_menu_item($menu_item_id = 0) {
+function is_nav_menu_item($menu_item_id = 0)
+{
     return (! is_wp_error($menu_item_id) && ('nav_menu_item' === get_post_type($menu_item_id)));
 }
 
@@ -248,7 +258,8 @@ function is_nav_menu_item($menu_item_id = 0) {
  * @param string $menu_name Menu name.
  * @return int|WP_Error Menu ID on success, WP_Error object on failure.
  */
-function wp_create_nav_menu($menu_name) {
+function wp_create_nav_menu($menu_name)
+{
     // expected_slashed ($menu_name)
     return wp_update_nav_menu_object(0, array('menu-name' => $menu_name));
 }
@@ -261,7 +272,8 @@ function wp_create_nav_menu($menu_name) {
  * @param int|string|WP_Term $menu Menu ID, slug, name, or object.
  * @return bool|WP_Error True on success, false or WP_Error object on failure.
  */
-function wp_delete_nav_menu($menu) {
+function wp_delete_nav_menu($menu)
+{
     $menu = wp_get_nav_menu_object($menu);
     if (! $menu) {
         return false;
@@ -311,7 +323,8 @@ function wp_delete_nav_menu($menu) {
  * @param array $menu_data The array of menu data.
  * @return int|WP_Error Menu ID on success, WP_Error object on failure.
  */
-function wp_update_nav_menu_object($menu_id = 0, $menu_data = array()) {
+function wp_update_nav_menu_object($menu_id = 0, $menu_data = array())
+{
     // expected_slashed ($menu_data)
     $menu_id = (int) $menu_id;
 
@@ -416,7 +429,8 @@ function wp_update_nav_menu_object($menu_id = 0, $menu_data = array()) {
  * @param bool  $fire_after_hooks Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The menu item's database ID or WP_Error object on failure.
  */
-function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_data = array(), $fire_after_hooks = true) {
+function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_data = array(), $fire_after_hooks = true)
+{
     $menu_id         = (int) $menu_id;
     $menu_item_db_id = (int) $menu_item_db_id;
 
@@ -642,7 +656,8 @@ function wp_update_nav_menu_item($menu_id = 0, $menu_item_db_id = 0, $menu_item_
  *                    Default empty array.
  * @return WP_Term[] An array of menu objects.
  */
-function wp_get_nav_menus($args = array()) {
+function wp_get_nav_menus($args = array())
+{
     $defaults = array(
         'taxonomy'   => 'nav_menu',
         'hide_empty' => false,
@@ -674,7 +689,8 @@ function wp_get_nav_menus($args = array()) {
  * @param object $item The menu item to check.
  * @return bool False if invalid, otherwise true.
  */
-function _is_valid_nav_menu_item($item) {
+function _is_valid_nav_menu_item($item)
+{
     return empty($item->_invalid);
 }
 
@@ -710,7 +726,8 @@ function _is_valid_nav_menu_item($item) {
  * }
  * @return array|false Array of menu items, otherwise false.
  */
-function wp_get_nav_menu_items($menu, $args = array()) {
+function wp_get_nav_menu_items($menu, $args = array())
+{
     $menu = wp_get_nav_menu_object($menu);
 
     if (! $menu) {
@@ -785,7 +802,8 @@ function wp_get_nav_menu_items($menu, $args = array()) {
  *
  * @param WP_Post[] $menu_items Array of menu item post objects.
  */
-function update_menu_item_cache($menu_items) {
+function update_menu_item_cache($menu_items)
+{
     $post_ids = array();
     $term_ids = array();
 
@@ -840,7 +858,8 @@ function update_menu_item_cache($menu_items) {
  * @param object $menu_item The menu item to modify.
  * @return object The menu item with standard menu item properties.
  */
-function wp_setup_nav_menu_item($menu_item) {
+function wp_setup_nav_menu_item($menu_item)
+{
 
     /**
      * Filters whether to short-circuit the wp_setup_nav_menu_item() output.
@@ -1050,7 +1069,8 @@ function wp_setup_nav_menu_item($menu_item) {
  *                            of the tax that $object_id belongs to. Default empty.
  * @return int[] The array of menu item IDs; empty array if none.
  */
-function wp_get_associated_nav_menu_items($object_id = 0, $object_type = 'post_type', $taxonomy = '') {
+function wp_get_associated_nav_menu_items($object_id = 0, $object_type = 'post_type', $taxonomy = '')
+{
     $object_id     = (int) $object_id;
     $menu_item_ids = array();
 
@@ -1091,7 +1111,8 @@ function wp_get_associated_nav_menu_items($object_id = 0, $object_type = 'post_t
  *
  * @param int $object_id The ID of the original object being trashed.
  */
-function _wp_delete_post_menu_item($object_id) {
+function _wp_delete_post_menu_item($object_id)
+{
     $object_id = (int) $object_id;
 
     $menu_item_ids = wp_get_associated_nav_menu_items($object_id, 'post_type');
@@ -1111,7 +1132,8 @@ function _wp_delete_post_menu_item($object_id) {
  * @param int    $tt_id     Term taxonomy ID. Unused.
  * @param string $taxonomy  Taxonomy slug.
  */
-function _wp_delete_tax_menu_item($object_id, $tt_id, $taxonomy) {
+function _wp_delete_tax_menu_item($object_id, $tt_id, $taxonomy)
+{
     $object_id = (int) $object_id;
 
     $menu_item_ids = wp_get_associated_nav_menu_items($object_id, 'taxonomy', $taxonomy);
@@ -1131,7 +1153,8 @@ function _wp_delete_tax_menu_item($object_id, $tt_id, $taxonomy) {
  * @param string  $old_status The old status of the post object.
  * @param WP_Post $post       The post object being transitioned from one status to another.
  */
-function _wp_auto_add_pages_to_menu($new_status, $old_status, $post) {
+function _wp_auto_add_pages_to_menu($new_status, $old_status, $post)
+{
     if ('publish' !== $new_status || 'publish' === $old_status || 'page' !== $post->post_type) {
         return;
     }
@@ -1176,7 +1199,8 @@ function _wp_auto_add_pages_to_menu($new_status, $old_status, $post) {
  *
  * @param int $post_id Post ID for the customize_changeset.
  */
-function _wp_delete_customize_changeset_dependent_auto_drafts($post_id) {
+function _wp_delete_customize_changeset_dependent_auto_drafts($post_id)
+{
     $post = get_post($post_id);
 
     if (! $post || 'customize_changeset' !== $post->post_type) {
@@ -1208,7 +1232,8 @@ function _wp_delete_customize_changeset_dependent_auto_drafts($post_id) {
  * @access private
  * @since 4.9.0
  */
-function _wp_menus_changed() {
+function _wp_menus_changed()
+{
     $old_nav_menu_locations    = get_option('theme_switch_menu_locations', array());
     $new_nav_menu_locations    = get_nav_menu_locations();
     $mapped_nav_menu_locations = wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locations);
@@ -1226,7 +1251,8 @@ function _wp_menus_changed() {
  * @param array $old_nav_menu_locations Old nav menu locations assignments.
  * @return array Nav menus mapped to new nav menu locations.
  */
-function wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locations) {
+function wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locations)
+{
     $registered_nav_menus   = get_registered_nav_menus();
     $new_nav_menu_locations = array_intersect_key($new_nav_menu_locations, $registered_nav_menus);
 
@@ -1328,7 +1354,8 @@ function wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locati
  * @param array $menu_item_data The menu item data array.
  * @return array The menu item data with reset menu_item_parent.
  */
-function _wp_reset_invalid_menu_item_parent($menu_item_data) {
+function _wp_reset_invalid_menu_item_parent($menu_item_data)
+{
     if (! is_array($menu_item_data)) {
         return $menu_item_data;
     }

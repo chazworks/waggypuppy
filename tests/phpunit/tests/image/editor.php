@@ -8,13 +8,15 @@ require_once __DIR__ . '/base.php';
  * @group image
  * @group media
  */
-class Tests_Image_Editor extends WP_Image_UnitTestCase {
+class Tests_Image_Editor extends WP_Image_UnitTestCase
+{
     public $editor_engine = 'WP_Image_Editor_Mock';
 
     /**
      * Setup test fixture
      */
-    public function set_up() {
+    public function set_up()
+    {
         require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
 
         require_once DIR_TESTDATA . '/../includes/mock-image-editor.php';
@@ -28,7 +30,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      *
      * @ticket 6821
      */
-    public function test_get_editor_load_returns_true() {
+    public function test_get_editor_load_returns_true()
+    {
         $editor = wp_get_image_editor(DIR_TESTDATA . '/images/canola.jpg');
 
         $this->assertInstanceOf('WP_Image_Editor_Mock', $editor);
@@ -39,7 +42,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      *
      * @ticket 6821
      */
-    public function test_get_editor_load_returns_false() {
+    public function test_get_editor_load_returns_false()
+    {
         WP_Image_Editor_Mock::$load_return = new WP_Error();
 
         $editor = wp_get_image_editor(DIR_TESTDATA . '/images/canola.jpg');
@@ -52,14 +56,16 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
     /**
      * Return integer of 95 for testing.
      */
-    public function return_integer_95() {
+    public function return_integer_95()
+    {
         return 95;
     }
 
     /**
      * Return integer of 100 for testing.
      */
-    public function return_integer_100() {
+    public function return_integer_100()
+    {
         return 100;
     }
 
@@ -68,7 +74,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      *
      * @ticket 6821
      */
-    public function test_set_quality() {
+    public function test_set_quality()
+    {
 
         // Get an editor.
         $editor = wp_get_image_editor(DIR_TESTDATA . '/images/canola.jpg');
@@ -112,7 +119,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      *
      * @ticket 6821
      */
-    public function test_set_quality_with_image_conversion() {
+    public function test_set_quality_with_image_conversion()
+    {
         $editor = wp_get_image_editor(DIR_TESTDATA . '/images/test-image.png');
         $editor->set_mime_type('image/png'); // Ensure mime-specific filters act properly.
 
@@ -175,7 +183,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      *
      * @return array
      */
-    public function image_editor_output_formats($formats) {
+    public function image_editor_output_formats($formats)
+    {
         $formats['image/png']  = 'image/webp';
         $formats['image/jpeg'] = 'image/webp';
         return $formats;
@@ -188,7 +197,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      * @param string $mime_type Image mime-type.
      * @return int The changed quality.
      */
-    public function image_editor_change_quality($quality, $mime_type) {
+    public function image_editor_change_quality($quality, $mime_type)
+    {
         if ('image/jpeg' === $mime_type) {
             return 56;
         } elseif ('image/webp' === $mime_type) {
@@ -203,7 +213,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      *
      * @ticket 6821
      */
-    public function test_generate_filename() {
+    public function test_generate_filename()
+    {
 
         // Get an editor.
         $editor = wp_get_image_editor(DIR_TESTDATA . '/images/canola.jpg');
@@ -242,7 +253,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      *
      * @ticket 6821
      */
-    public function test_get_size() {
+    public function test_get_size()
+    {
 
         $editor = wp_get_image_editor(DIR_TESTDATA . '/images/canola.jpg');
 
@@ -266,7 +278,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      *
      * @ticket 6821
      */
-    public function test_get_suffix() {
+    public function test_get_suffix()
+    {
         $editor = wp_get_image_editor(DIR_TESTDATA . '/images/canola.jpg');
 
         // Size should be false by default.
@@ -291,7 +304,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      * @dataProvider data_wp_get_webp_info
      *
      */
-    public function test_wp_get_webp_info($file, $expected) {
+    public function test_wp_get_webp_info($file, $expected)
+    {
         $file_data = wp_get_webp_info($file);
         $this->assertSame($expected, $file_data);
     }
@@ -299,7 +313,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
     /**
      * Data provider for test_wp_get_webp_info().
      */
-    public function data_wp_get_webp_info() {
+    public function data_wp_get_webp_info()
+    {
         return array(
             // Standard JPEG.
             array(
@@ -368,7 +383,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
      * @param string $file     The path to the AVIF file for testing.
      * @param array  $expected The expected AVIF file information.
      */
-    public function test_wp_get_avif_info($file, $expected) {
+    public function test_wp_get_avif_info($file, $expected)
+    {
         $file_data = wp_get_avif_info($file);
         $this->assertSame($expected, $file_data);
     }
@@ -376,7 +392,8 @@ class Tests_Image_Editor extends WP_Image_UnitTestCase {
     /**
      * Data provider for test_wp_get_avif_info().
      */
-    public function data_wp_get_avif_info() {
+    public function data_wp_get_avif_info()
+    {
         return array(
             // Standard JPEG.
             array(

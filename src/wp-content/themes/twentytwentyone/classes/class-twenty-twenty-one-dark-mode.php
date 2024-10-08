@@ -10,14 +10,16 @@
 /**
  * This class is in charge of Dark Mode.
  */
-class Twenty_Twenty_One_Dark_Mode {
+class Twenty_Twenty_One_Dark_Mode
+{
 
     /**
      * Instantiates the object.
      *
      * @since Twenty Twenty-One 1.0
      */
-    public function __construct() {
+    public function __construct()
+    {
 
         // Enqueue assets for the block-editor.
         add_action('enqueue_block_assets', array($this, 'editor_custom_color_variables'));
@@ -51,7 +53,8 @@ class Twenty_Twenty_One_Dark_Mode {
      *
      * @return void
      */
-    public function editor_custom_color_variables() {
+    public function editor_custom_color_variables()
+    {
         if (! $this->switch_should_render()) {
             return;
         }
@@ -88,7 +91,8 @@ class Twenty_Twenty_One_Dark_Mode {
      *
      * @return void
      */
-    public function enqueue_scripts() {
+    public function enqueue_scripts()
+    {
         if (! $this->switch_should_render()) {
             return;
         }
@@ -106,7 +110,8 @@ class Twenty_Twenty_One_Dark_Mode {
      *
      * @return void
      */
-    public function customize_controls_enqueue_scripts() {
+    public function customize_controls_enqueue_scripts()
+    {
         if (! $this->switch_should_render()) {
             return;
         }
@@ -127,7 +132,8 @@ class Twenty_Twenty_One_Dark_Mode {
      * @param WP_Customize_Manager $wp_customize Theme Customizer object.
      * @return void
      */
-    public function customizer_controls($wp_customize) {
+    public function customizer_controls($wp_customize)
+    {
 
         $colors_section = $wp_customize->get_section('colors');
         if (is_object($colors_section)) {
@@ -216,7 +222,8 @@ class Twenty_Twenty_One_Dark_Mode {
      * @param string $classes The classes for <html> element.
      * @return string
      */
-    public function html_classes($classes) {
+    public function html_classes($classes)
+    {
         if (! $this->switch_should_render()) {
             return $classes;
         }
@@ -240,7 +247,8 @@ class Twenty_Twenty_One_Dark_Mode {
      * @param string $classes The admin body-classes.
      * @return string
      */
-    public function admin_body_classes($classes) {
+    public function admin_body_classes($classes)
+    {
         if (! $this->switch_should_render()) {
             return $classes;
         }
@@ -271,7 +279,8 @@ class Twenty_Twenty_One_Dark_Mode {
      *
      * @return bool
      */
-    public function switch_should_render() {
+    public function switch_should_render()
+    {
         global $is_IE;
         return (
             get_theme_mod('respect_user_color_preference', false) &&
@@ -287,7 +296,8 @@ class Twenty_Twenty_One_Dark_Mode {
      *
      * @return void
      */
-    public function the_switch() {
+    public function the_switch()
+    {
         if (! $this->switch_should_render()) {
             return;
         }
@@ -305,7 +315,8 @@ class Twenty_Twenty_One_Dark_Mode {
      * @param array $attrs The attributes to add to our <button> element.
      * @return void
      */
-    public function the_html($attrs = array()) {
+    public function the_html($attrs = array())
+    {
         $attrs = wp_parse_args(
             $attrs,
             array(
@@ -362,7 +373,8 @@ class Twenty_Twenty_One_Dark_Mode {
      *
      * @return void
      */
-    public function the_script() {
+    public function the_script()
+    {
         echo '<script>';
         include get_template_directory() . '/assets/js/dark-mode-toggler.js'; // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude
         echo '</script>';
@@ -375,7 +387,8 @@ class Twenty_Twenty_One_Dark_Mode {
      *
      * @return void
      */
-    public function add_privacy_policy_content() {
+    public function add_privacy_policy_content()
+    {
         if (! function_exists('wp_add_privacy_policy_content')) {
             return;
         }

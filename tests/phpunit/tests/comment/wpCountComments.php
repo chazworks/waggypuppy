@@ -5,9 +5,11 @@
  *
  * @covers ::wp_count_comments
  */
-class Tests_Comment_wpCountComments extends WP_UnitTestCase {
+class Tests_Comment_wpCountComments extends WP_UnitTestCase
+{
 
-    public function test_wp_count_comments() {
+    public function test_wp_count_comments()
+    {
         $count = wp_count_comments();
 
         $this->assertSame(0, $count->approved);
@@ -19,7 +21,8 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase {
         $this->assertSame(0, $count->all);
     }
 
-    public function test_wp_count_comments_approved() {
+    public function test_wp_count_comments_approved()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 1,
@@ -37,7 +40,8 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase {
         $this->assertSame(1, $count->all);
     }
 
-    public function test_wp_count_comments_awaiting() {
+    public function test_wp_count_comments_awaiting()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 0,
@@ -55,7 +59,8 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase {
         $this->assertSame(1, $count->all);
     }
 
-    public function test_wp_count_comments_spam() {
+    public function test_wp_count_comments_spam()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 'spam',
@@ -73,7 +78,8 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase {
         $this->assertSame(0, $count->all);
     }
 
-    public function test_wp_count_comments_trash() {
+    public function test_wp_count_comments_trash()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 'trash',
@@ -91,7 +97,8 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase {
         $this->assertSame(0, $count->all);
     }
 
-    public function test_wp_count_comments_post_trashed() {
+    public function test_wp_count_comments_post_trashed()
+    {
         self::factory()->comment->create(
             array(
                 'comment_approved' => 'post-trashed',
@@ -109,7 +116,8 @@ class Tests_Comment_wpCountComments extends WP_UnitTestCase {
         $this->assertSame(0, $count->all);
     }
 
-    public function test_wp_count_comments_cache() {
+    public function test_wp_count_comments_cache()
+    {
         $post_id    = self::factory()->post->create(
             array(
                 'post_status' => 'publish',

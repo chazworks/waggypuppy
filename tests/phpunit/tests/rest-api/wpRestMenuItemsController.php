@@ -10,7 +10,8 @@
  *
  * @coversDefaultClass WP_REST_Menu_Items_Controller
  */
-class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Controller_Testcase {
+class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Controller_Testcase
+{
     /**
      * @var int
      */
@@ -44,7 +45,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$admin_id      = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -60,7 +62,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
     /**
      *
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
         self::delete_user(self::$subscriber_id);
     }
@@ -68,7 +71,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
     /**
      *
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->tag_id = self::factory()->tag->create();
@@ -91,7 +95,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::register_routes
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
 
         $this->assertArrayHasKey('/wp/v2/menu-items', $routes);
@@ -104,7 +109,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_context_param
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menu-items');
         $response = rest_get_server()->dispatch($request);
@@ -125,7 +131,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_collection_params
      */
-    public function test_registered_query_params() {
+    public function test_registered_query_params()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/menu-items');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -151,7 +158,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
     /**
      * @ticket 40878
      */
-    public function test_registered_get_item_params() {
+    public function test_registered_get_item_params()
+    {
         $request  = new WP_REST_Request('OPTIONS', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -163,7 +171,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_items
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/menu-items');
         $response = rest_get_server()->dispatch($request);
@@ -175,7 +184,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_item
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));
         $response = rest_get_server()->dispatch($request);
@@ -187,7 +197,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_item
      */
-    public function test_get_item_edit() {
+    public function test_get_item_edit()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));
         $request->set_param('context', 'edit');
@@ -201,7 +212,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @covers ::get_item
      * @covers ::prepare_links
      */
-    public function test_get_item_term_links() {
+    public function test_get_item_term_links()
+    {
         wp_set_current_user(self::$admin_id);
 
         $menu_item_id = wp_update_nav_menu_item(
@@ -227,7 +239,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @covers ::get_item
      * @covers ::prepare_links
      */
-    public function test_get_item_term_posts() {
+    public function test_get_item_term_posts()
+    {
         wp_set_current_user(self::$admin_id);
 
         $post_id = self::factory()->post->create();
@@ -259,7 +272,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_item
      */
-    public function test_get_item_escapes_title() {
+    public function test_get_item_escapes_title()
+    {
         wp_set_current_user(self::$admin_id);
 
         $menu_item_id = wp_update_nav_menu_item(
@@ -310,7 +324,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -326,7 +341,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_invalid() {
+    public function test_create_item_invalid_invalid()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -346,7 +362,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_term() {
+    public function test_create_item_invalid_term()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -366,7 +383,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_change_position() {
+    public function test_create_item_change_position()
+    {
         wp_set_current_user(self::$admin_id);
         $new_menu_id = wp_create_nav_menu(rand_str());
         $expected    = array();
@@ -395,7 +413,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_menu_order_must_be_set() {
+    public function test_menu_order_must_be_set()
+    {
         wp_set_current_user(self::$admin_id);
         $new_menu_id = wp_create_nav_menu(rand_str());
 
@@ -428,7 +447,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_position_2() {
+    public function test_create_item_invalid_position_2()
+    {
         wp_set_current_user(self::$admin_id);
         $new_menu_id = wp_create_nav_menu(rand_str());
         $request     = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -448,7 +468,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_position_3() {
+    public function test_create_item_invalid_position_3()
+    {
         wp_set_current_user(self::$admin_id);
         $new_menu_id = wp_create_nav_menu(rand_str());
         $request     = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -468,7 +489,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_parent() {
+    public function test_create_item_invalid_parent()
+    {
         wp_set_current_user(self::$admin_id);
         wp_create_nav_menu(rand_str());
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -487,7 +509,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_menu() {
+    public function test_create_item_invalid_menu()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
@@ -505,7 +528,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_post() {
+    public function test_create_item_invalid_post()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -525,7 +549,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_post_type() {
+    public function test_create_item_invalid_post_type()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -545,7 +570,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_custom_link() {
+    public function test_create_item_invalid_custom_link()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -565,7 +591,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_missing_custom_link_url() {
+    public function test_create_item_missing_custom_link_url()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -585,7 +612,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_invalid_custom_link_url() {
+    public function test_create_item_invalid_custom_link_url()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -607,7 +635,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::update_item
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));
@@ -637,7 +666,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::update_item
      */
-    public function test_update_item_clean_xfn() {
+    public function test_update_item_clean_xfn()
+    {
         wp_set_current_user(self::$admin_id);
 
         $bad_data  = array('test1":|":', 'test2+|+', 'test3±', 'test4😀');
@@ -671,7 +701,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::update_item
      */
-    public function test_update_item_invalid() {
+    public function test_update_item_invalid()
+    {
         wp_set_current_user(self::$admin_id);
         $post_id = self::factory()->post->create();
 
@@ -687,7 +718,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::delete_item
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('DELETE', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));
         $request->set_param('force', true);
@@ -700,7 +732,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::delete_item
      */
-    public function test_delete_item_no_force() {
+    public function test_delete_item_no_force()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('DELETE', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));
         $request->set_param('force', false);
@@ -713,7 +746,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::delete_item
      */
-    public function test_delete_item_invalid() {
+    public function test_delete_item_invalid()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('DELETE', '/wp/v2/menu-items/9999');
         $request->set_param('force', true);
@@ -725,7 +759,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::prepare_item_for_response
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/menu-items/' . $this->menu_item_id);
         $response = rest_get_server()->dispatch($request);
@@ -737,7 +772,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_item_schema
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/menu-items');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -766,7 +802,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_items_permissions_check
      */
-    public function test_get_items_no_permission() {
+    public function test_get_items_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/menu-items');
         $response = rest_get_server()->dispatch($request);
@@ -777,7 +814,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_item_permissions_check
      */
-    public function test_get_item_no_permission() {
+    public function test_get_item_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/menu-items/' . $this->menu_item_id);
         $response = rest_get_server()->dispatch($request);
@@ -788,7 +826,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_items_permissions_check
      */
-    public function test_get_items_wrong_permission() {
+    public function test_get_items_wrong_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/menu-items');
         $response = rest_get_server()->dispatch($request);
@@ -799,7 +838,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::get_item_permissions_check
      */
-    public function test_get_item_wrong_permission() {
+    public function test_get_item_wrong_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/menu-items/' . $this->menu_item_id);
         $response = rest_get_server()->dispatch($request);
@@ -810,7 +850,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @param WP_REST_Response $response Response Class.
      * @param string           $context Defaults to View.
      */
-    protected function check_get_menu_items_response($response, $context = 'view') {
+    protected function check_get_menu_items_response($response, $context = 'view')
+    {
         $this->assertNotWPError($response);
         $response = rest_ensure_response($response);
         $this->assertSame(200, $response->get_status());
@@ -852,7 +893,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @param string  $context Context of REST Request.
      * @param array   $links Array links.
      */
-    protected function check_menu_item_data($post, $data, $context, $links) {
+    protected function check_menu_item_data($post, $data, $context, $links)
+    {
         $post_type_obj = get_post_type_object(self::POST_TYPE);
 
         // Standard fields.
@@ -940,7 +982,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @param WP_REST_Response $response Response Class.
      * @param string           $context Defaults to View.
      */
-    protected function check_get_menu_item_response($response, $context = 'view') {
+    protected function check_get_menu_item_response($response, $context = 'view')
+    {
         $this->assertNotWPError($response);
         $response = rest_ensure_response($response);
         $this->assertSame(200, $response->get_status());
@@ -954,7 +997,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
     /**
      * @param WP_REST_Response $response Response Class.
      */
-    protected function check_create_menu_item_response($response) {
+    protected function check_create_menu_item_response($response)
+    {
         $this->assertNotWPError($response);
         $response = rest_ensure_response($response);
 
@@ -971,7 +1015,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
     /**
      * @param WP_REST_Response $response Response Class.
      */
-    protected function check_update_menu_item_response($response) {
+    protected function check_update_menu_item_response($response)
+    {
         $this->assertNotWPError($response);
         $response = rest_ensure_response($response);
 
@@ -990,7 +1035,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      *
      * @return mixed
      */
-    protected function set_menu_item_data($args = array()) {
+    protected function set_menu_item_data($args = array())
+    {
         $defaults = array(
             'object_id'   => 0,
             'parent'      => 0,
@@ -1015,7 +1061,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::create_item
      */
-    public function test_create_item_properly_handles_slashed_data() {
+    public function test_create_item_properly_handles_slashed_data()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/menu-items');
@@ -1037,7 +1084,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
      * @ticket 40878
      * @covers ::update_item
      */
-    public function test_update_item_properly_handles_slashed_data() {
+    public function test_update_item_properly_handles_slashed_data()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/menu-items/%d', $this->menu_item_id));

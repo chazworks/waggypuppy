@@ -3,12 +3,14 @@
 /**
  * @group image
  */
-abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
+abstract class WP_Image_UnitTestCase extends WP_UnitTestCase
+{
 
     /**
      * Set the image editor engine according to the unit test's specification
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         if (! call_user_func(array($this->editor_engine, 'test'))) {
@@ -23,7 +25,8 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
      *
      * @return string
      */
-    public function setEngine($editors) {
+    public function setEngine($editors)
+    {
         return array($this->editor_engine);
     }
 
@@ -34,7 +37,8 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
      * @param  array $point      array(x,y)
      * @param  int $alpha
      */
-    protected function assertImageAlphaAtPointGD($image_path, $point, $alpha) {
+    protected function assertImageAlphaAtPointGD($image_path, $point, $alpha)
+    {
         $im  = imagecreatefrompng($image_path);
         $rgb = imagecolorat($im, $point[0], $point[1]);
 
@@ -50,7 +54,8 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
      * @param array $point      array(x,y)
      * @param int $expected
      */
-    protected function assertImageAlphaAtPointImagick($image_path, $point, $expected) {
+    protected function assertImageAlphaAtPointImagick($image_path, $point, $expected)
+    {
         $im    = new Imagick($image_path);
         $pixel = $im->getImagePixelColor($point[0], $point[1]);
         $color = $pixel->getColorValue(imagick::COLOR_ALPHA);
@@ -64,7 +69,8 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase {
      * @param int    $width    Width to verify.
      * @param int    $height   Height to verify.
      */
-    protected function assertImageDimensions($filename, $width, $height) {
+    protected function assertImageDimensions($filename, $width, $height)
+    {
         $detected_width  = 0;
         $detected_height = 0;
         $image_size      = getimagesize($filename);

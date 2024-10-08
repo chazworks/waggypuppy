@@ -16,12 +16,14 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_wp_compression_test
  */
-class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase
+{
 
     /**
      * Test as a logged out user
      */
-    public function test_logged_out() {
+    public function test_logged_out()
+    {
         $this->logout();
 
         // Set up a default request.
@@ -36,7 +38,8 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase {
     /**
      * Fetch the test text
      */
-    public function test_text() {
+    public function test_text()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -60,7 +63,8 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase {
      *
      * @requires function gzdeflate
      */
-    public function test_gzdeflate() {
+    public function test_gzdeflate()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -86,7 +90,8 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase {
      *
      * @requires function gzencode
      */
-    public function test_gzencode() {
+    public function test_gzencode()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -110,7 +115,8 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase {
     /**
      * Fetch the test text (unknown encoding)
      */
-    public function test_unknown_encoding() {
+    public function test_unknown_encoding()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -129,7 +135,8 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase {
     /**
      * Set the 'can_compress_scripts' site option to true
      */
-    public function test_set_yes() {
+    public function test_set_yes()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -167,7 +174,8 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase {
     /**
      * Set the 'can_compress_scripts' site option to false
      */
-    public function test_set_no() {
+    public function test_set_no()
+    {
 
         // Become an administrator.
         $this->_setRole('administrator');
@@ -208,7 +216,8 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase {
      * @param string $encoded_data
      * @return string
      */
-    protected function _gzdecode($encoded_data) {
+    protected function _gzdecode($encoded_data)
+    {
 
         // Save the encoded data to a temp file.
         $file = wp_tempnam('gzdecode');

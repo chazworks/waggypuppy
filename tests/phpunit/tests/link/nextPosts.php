@@ -9,14 +9,16 @@
  *
  * @covers ::next_posts
  */
-class Tests_Link_NextPosts extends WP_UnitTestCase {
+class Tests_Link_NextPosts extends WP_UnitTestCase
+{
 
     /**
      * Creates posts before any tests run.
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         global $wp_query, $paged;
 
         $factory->post->create_many(3);
@@ -35,7 +37,8 @@ class Tests_Link_NextPosts extends WP_UnitTestCase {
      *
      * @ticket 59154
      */
-    public function test_should_return_empty_string_when_no_next_posts_page_link() {
+    public function test_should_return_empty_string_when_no_next_posts_page_link()
+    {
         $this->assertSame('', next_posts(1, false));
     }
 }

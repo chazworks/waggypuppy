@@ -4,7 +4,8 @@
  * @group rewrite
  * @covers ::wp_resolve_numeric_slug_conflicts
  */
-class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase {
+class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase
+{
 
     /**
      * Fixed date post ID.
@@ -13,7 +14,8 @@ class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase {
      */
     public static $post_with_date;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_with_date = $factory->post->create(
             array(
                 'post_date' => '2020-01-05 12:00:00',
@@ -29,7 +31,8 @@ class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase {
      * @param string $permalink_structure Permalink structure.
      * @param array  $query_vars          Query string parameters.
      */
-    public function test_should_not_throw_warning_for_malformed_date_queries($permalink_structure, $query_vars) {
+    public function test_should_not_throw_warning_for_malformed_date_queries($permalink_structure, $query_vars)
+    {
         $this->set_permalink_structure($permalink_structure);
 
         /*
@@ -44,7 +47,8 @@ class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase {
      *
      * @return array Test data.
      */
-    public function data_should_not_throw_warning_for_malformed_date_queries() {
+    public function data_should_not_throw_warning_for_malformed_date_queries()
+    {
         return array(
             '/%postname%/ with missing year'         => array(
                 'permalink_structure' => '/%postname%/',

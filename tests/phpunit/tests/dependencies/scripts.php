@@ -9,7 +9,8 @@
  * @covers ::wp_add_inline_script
  * @covers ::wp_set_script_translations
  */
-class Tests_Dependencies_Scripts extends WP_UnitTestCase {
+class Tests_Dependencies_Scripts extends WP_UnitTestCase
+{
 
     /**
      * @var WP_Scripts
@@ -30,7 +31,8 @@ class Tests_Dependencies_Scripts extends WP_UnitTestCase {
      */
     protected $default_scripts_dir = '/directory/';
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->old_wp_scripts = isset($GLOBALS['wp_scripts']) ? $GLOBALS['wp_scripts'] : null;
         $this->old_wp_styles  = isset($GLOBALS['wp_styles']) ? $GLOBALS['wp_styles'] : null;
@@ -54,7 +56,8 @@ JS;
         $this->wp_scripts_print_translations_output .= "\n";
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_scripts'] = $this->old_wp_scripts;
         $GLOBALS['wp_styles']  = $this->old_wp_styles;
         add_action('wp_default_scripts', 'wp_default_scripts');
@@ -66,7 +69,8 @@ JS;
      *
      * @ticket 11315
      */
-    public function test_wp_enqueue_script() {
+    public function test_wp_enqueue_script()
+    {
         global $wp_version;
 
         wp_enqueue_script('no-deps-no-version', 'example.com', array());
@@ -90,7 +94,8 @@ JS;
      *
      * @return array[] Delayed strategies.
      */
-    public function data_provider_delayed_strategies() {
+    public function data_provider_delayed_strategies()
+    {
         return array(
             'defer' => array('defer'),
             'async' => array('async'),
@@ -114,7 +119,8 @@ JS;
      *
      * @param string $strategy Strategy.
      */
-    public function test_after_inline_script_with_delayed_main_script($strategy) {
+    public function test_after_inline_script_with_delayed_main_script($strategy)
+    {
         wp_enqueue_script('ms-isa-1', 'http://example.org/ms-isa-1.js', array(), null, compact('strategy'));
         wp_add_inline_script('ms-isa-1', 'console.log("after one");', 'after');
         $output    = get_echo('wp_print_scripts');
@@ -141,7 +147,8 @@ JS;
      * @covers ::wp_add_inline_script
      * @covers ::wp_enqueue_script
      */
-    public function test_after_inline_script_with_blocking_main_script() {
+    public function test_after_inline_script_with_blocking_main_script()
+    {
         wp_enqueue_script('ms-insa-3', 'http://example.org/ms-insa-3.js', array(), null);
         wp_add_inline_script('ms-insa-3', 'console.log("after one");', 'after');
         $output = get_echo('wp_print_scripts');
@@ -172,7 +179,8 @@ JS;
      *
      * @param string $strategy
      */
-    public function test_before_inline_scripts_with_delayed_main_script($strategy) {
+    public function test_before_inline_scripts_with_delayed_main_script($strategy)
+    {
         wp_enqueue_script('ds-i1-1', 'http://example.org/ds-i1-1.js', array(), null, compact('strategy'));
         wp_add_inline_script('ds-i1-1', 'console.log("before first");', 'before');
         wp_enqueue_script('ds-i1-2', 'http://example.org/ds-i1-2.js', array(), null, compact('strategy'));
@@ -212,7 +220,8 @@ JS;
      * @covers WP_Scripts::filter_eligible_strategies
      * @covers ::wp_enqueue_script
      */
-    public function test_loading_strategy_with_valid_async_registration() {
+    public function test_loading_strategy_with_valid_async_registration()
+    {
         // No dependents, No dependencies then async.
         wp_enqueue_script('main-script-a1', '/main-script-a1.js', array(), null, array('strategy' => 'async'));
         $output   = get_echo('wp_print_scripts');
@@ -234,7 +243,8 @@ JS;
      *
      * @param string $strategy Strategy.
      */
-    public function test_delayed_dependent_with_blocking_dependency($strategy) {
+    public function test_delayed_dependent_with_blocking_dependency($strategy)
+    {
         wp_enqueue_script('dependency-script-a2', '/dependency-script-a2.js', array(), null);
         wp_enqueue_script('main-script-a2', '/main-script-a2.js', array('dependency-script-a2'), null, compact('strategy'));
         $output    = get_echo('wp_print_scripts');
@@ -256,7 +266,8 @@ JS;
      * @dataProvider data_provider_delayed_strategies
      * @param string $strategy Strategy.
      */
-    public function test_blocking_dependent_with_delayed_dependency($strategy) {
+    public function test_blocking_dependent_with_delayed_dependency($strategy)
+    {
         wp_enqueue_script('main-script-a3', '/main-script-a3.js', array(), null, compact('strategy'));
         wp_enqueue_script('dependent-script-a3', '/dependent-script-a3.js', array('main-script-a3'), null);
         $output   = get_echo('wp_print_scripts');
@@ -280,7 +291,8 @@ JS;
      * @dataProvider data_provider_delayed_strategies
      * @param string $strategy Strategy.
      */
-    public function test_delayed_dependent_with_blocking_dependency_not_enqueued($strategy) {
+    public function test_delayed_dependent_with_blocking_dependency_not_enqueued($strategy)
+    {
         $this->add_html5_script_theme_support();
         wp_enqueue_script('main-script-a4', '/main-script-a4.js', array(), null, compact('strategy'));
         // This dependent is registered but not enqueued, so it should not factor into the eligible loading strategy.
@@ -295,7 +307,8 @@ JS;
      *
      * @return array
      */
-    public function get_data_to_filter_eligible_strategies() {
+    public function get_data_to_filter_eligible_strategies()
+    {
         return array(
             'no_dependents'                       => array(
                 'set_up'   => static function () {
@@ -432,7 +445,8 @@ JS;
      * @param bool     $async_only Async only.
      * @param bool     $expected   Expected return value.
      */
-    public function test_filter_eligible_strategies($set_up, $expected) {
+    public function test_filter_eligible_strategies($set_up, $expected)
+    {
         $handle = $set_up();
 
         $wp_scripts_reflection      = new ReflectionClass(WP_Scripts::class);
@@ -449,7 +463,8 @@ JS;
      * @param string[] $deps      Dependencies for the script.
      * @param bool     $in_footer Whether to print the script in the footer.
      */
-    protected function register_test_script($handle, $strategy, $deps = array(), $in_footer = false) {
+    protected function register_test_script($handle, $strategy, $deps = array(), $in_footer = false)
+    {
         wp_register_script(
             $handle,
             add_query_arg(
@@ -474,7 +489,8 @@ JS;
      * @param string[] $deps      Dependencies for the script.
      * @param bool     $in_footer Whether to print the script in the footer.
      */
-    protected function enqueue_test_script($handle, $strategy, $deps = array(), $in_footer = false) {
+    protected function enqueue_test_script($handle, $strategy, $deps = array(), $in_footer = false)
+    {
         $this->register_test_script($handle, $strategy, $deps, $in_footer);
         wp_enqueue_script($handle);
     }
@@ -485,7 +501,8 @@ JS;
      * @param string $handle   Dependency handle to enqueue.
      * @param string $position Position.
      */
-    protected function add_test_inline_script($handle, $position) {
+    protected function add_test_inline_script($handle, $position)
+    {
         wp_add_inline_script($handle, sprintf('scriptEventLog.push( %s )', wp_json_encode("{$handle}: {$position} inline")), $position);
     }
 
@@ -494,7 +511,8 @@ JS;
      *
      * @return array[]
      */
-    public function data_provider_to_test_various_strategy_dependency_chains() {
+    public function data_provider_to_test_various_strategy_dependency_chains()
+    {
         $wp_tests_domain = WP_TESTS_DOMAIN;
 
         return array(
@@ -957,7 +975,8 @@ HTML
      * @param callable $set_up          Set up.
      * @param string   $expected_markup Expected markup.
      */
-    public function test_various_strategy_dependency_chains($set_up, $expected_markup) {
+    public function test_various_strategy_dependency_chains($set_up, $expected_markup)
+    {
         $set_up();
         $actual_markup = get_echo('wp_print_scripts');
         $this->assertEqualMarkup(trim($expected_markup), trim($actual_markup), "Actual markup:\n{$actual_markup}");
@@ -972,7 +991,8 @@ HTML
      * @covers WP_Scripts::get_eligible_loading_strategy
      * @covers ::wp_enqueue_script
      */
-    public function test_loading_strategy_with_defer_having_no_dependents_nor_dependencies() {
+    public function test_loading_strategy_with_defer_having_no_dependents_nor_dependencies()
+    {
         $this->add_html5_script_theme_support();
         wp_enqueue_script('main-script-d1', 'http://example.com/main-script-d1.js', array(), null, array('strategy' => 'defer'));
         $output   = get_echo('wp_print_scripts');
@@ -989,7 +1009,8 @@ HTML
      * @covers WP_Scripts::get_eligible_loading_strategy
      * @covers ::wp_enqueue_script
      */
-    public function test_loading_strategy_with_defer_dependent_and_varied_dependencies() {
+    public function test_loading_strategy_with_defer_dependent_and_varied_dependencies()
+    {
         $this->add_html5_script_theme_support();
         wp_enqueue_script('dependency-script-d2-1', 'http://example.com/dependency-script-d2-1.js', array(), null, array('strategy' => 'defer'));
         wp_enqueue_script('dependency-script-d2-2', 'http://example.com/dependency-script-d2-2.js', array(), null);
@@ -1009,7 +1030,8 @@ HTML
      * @covers WP_Scripts::get_eligible_loading_strategy
      * @covers ::wp_enqueue_script
      */
-    public function test_loading_strategy_with_all_defer_dependencies() {
+    public function test_loading_strategy_with_all_defer_dependencies()
+    {
         $this->add_html5_script_theme_support();
         wp_enqueue_script('main-script-d3', 'http://example.com/main-script-d3.js', array(), null, array('strategy' => 'defer'));
         wp_enqueue_script('dependent-script-d3-1', 'http://example.com/dependent-script-d3-1.js', array('main-script-d3'), null, array('strategy' => 'defer'));
@@ -1029,7 +1051,8 @@ HTML
      * @covers WP_Scripts::get_eligible_loading_strategy
      * @covers ::wp_enqueue_script
      */
-    public function test_defer_with_async_dependent() {
+    public function test_defer_with_async_dependent()
+    {
         // case with one async dependent.
         wp_enqueue_script('main-script-d4', '/main-script-d4.js', array(), null, array('strategy' => 'defer'));
         wp_enqueue_script('dependent-script-d4-1', '/dependent-script-d4-1.js', array('main-script-d4'), null, array('strategy' => 'defer'));
@@ -1054,7 +1077,8 @@ HTML
      * @covers WP_Scripts::filter_eligible_strategies
      * @covers ::wp_enqueue_script
      */
-    public function test_loading_strategy_with_invalid_defer_registration() {
+    public function test_loading_strategy_with_invalid_defer_registration()
+    {
         // Main script is defer and all dependent are not defer. Then main script will have blocking(or no) strategy.
         wp_enqueue_script('main-script-d4', '/main-script-d4.js', array(), null, array('strategy' => 'defer'));
         wp_enqueue_script('dependent-script-d4-1', '/dependent-script-d4-1.js', array('main-script-d4'), null, array('strategy' => 'defer'));
@@ -1075,7 +1099,8 @@ HTML
      * @covers WP_Scripts::filter_eligible_strategies
      * @covers ::wp_enqueue_script
      */
-    public function test_loading_strategy_with_valid_blocking_registration() {
+    public function test_loading_strategy_with_valid_blocking_registration()
+    {
         wp_enqueue_script('main-script-b1', '/main-script-b1.js', array(), null);
         $output   = get_echo('wp_print_scripts');
         $expected = "<script type='text/javascript' src='/main-script-b1.js' id='main-script-b1-js'></script>\n";
@@ -1099,7 +1124,8 @@ HTML
      * @covers ::wp_enqueue_script
      * @covers ::wp_register_script
      */
-    public function test_scripts_targeting_head() {
+    public function test_scripts_targeting_head()
+    {
         wp_register_script('header-old', '/header-old.js', array(), null, false);
         wp_register_script('header-new', '/header-new.js', array('header-old'), null, array('in_footer' => false));
         wp_enqueue_script('enqueue-header-old', '/enqueue-header-old.js', array('header-new'), null, false);
@@ -1126,7 +1152,8 @@ HTML
      * @covers ::wp_enqueue_script
      * @covers ::wp_register_script
      */
-    public function test_scripts_targeting_footer() {
+    public function test_scripts_targeting_footer()
+    {
         wp_register_script('footer-old', '/footer-old.js', array(), null, true);
         wp_register_script('footer-new', '/footer-new.js', array('footer-old'), null, array('in_footer' => true));
         wp_enqueue_script('enqueue-footer-old', '/enqueue-footer-old.js', array('footer-new'), null, true);
@@ -1149,7 +1176,8 @@ HTML
      *
      * @return array[]
      */
-    public function get_data_for_test_setting_in_footer_and_strategy() {
+    public function get_data_for_test_setting_in_footer_and_strategy()
+    {
         return array(
             // Passing in_footer and strategy via args array.
             'async_footer_in_args_array'    => array(
@@ -1236,7 +1264,8 @@ HTML
      * @param int|false    $expected_group    Expected group.
      * @param string|false $expected_strategy Expected strategy.
      */
-    public function test_setting_in_footer_and_strategy($set_up, $expected_group, $expected_strategy) {
+    public function test_setting_in_footer_and_strategy($set_up, $expected_group, $expected_strategy)
+    {
         $handle = 'foo';
         $set_up($handle);
         $this->assertSame($expected_group, wp_scripts()->get_data($handle, 'group'));
@@ -1256,7 +1285,8 @@ HTML
      *
      * @expectedIncorrectUsage WP_Scripts::add_data
      */
-    public function test_script_strategy_doing_it_wrong_via_register() {
+    public function test_script_strategy_doing_it_wrong_via_register()
+    {
         wp_register_script('invalid-strategy', '/defaults.js', array(), null, array('strategy' => 'random-strategy'));
         wp_enqueue_script('invalid-strategy');
 
@@ -1280,7 +1310,8 @@ HTML
      *
      * @expectedIncorrectUsage WP_Scripts::add_data
      */
-    public function test_script_strategy_doing_it_wrong_via_add_data() {
+    public function test_script_strategy_doing_it_wrong_via_add_data()
+    {
         wp_register_script('invalid-strategy', '/defaults.js', array(), null);
         wp_script_add_data('invalid-strategy', 'strategy', 'random-strategy');
         wp_enqueue_script('invalid-strategy');
@@ -1303,7 +1334,8 @@ HTML
      *
      * @expectedIncorrectUsage WP_Scripts::add_data
      */
-    public function test_script_strategy_doing_it_wrong_via_enqueue() {
+    public function test_script_strategy_doing_it_wrong_via_enqueue()
+    {
         wp_enqueue_script('invalid-strategy', '/defaults.js', array(), null, array('strategy' => 'random-strategy'));
 
         $this->assertEqualMarkup(
@@ -1321,7 +1353,8 @@ HTML
      * @covers ::wp_enqueue_script
      * @covers ::wp_register_script
      */
-    public function test_concatenate_with_defer_strategy() {
+    public function test_concatenate_with_defer_strategy()
+    {
         global $wp_scripts, $concatenate_scripts, $wp_version;
 
         $old_value           = $concatenate_scripts;
@@ -1356,7 +1389,8 @@ HTML
      * @covers ::wp_enqueue_script
      * @covers ::wp_register_script
      */
-    public function test_concatenate_with_async_strategy() {
+    public function test_concatenate_with_async_strategy()
+    {
         global $wp_scripts, $concatenate_scripts, $wp_version;
 
         $old_value           = $concatenate_scripts;
@@ -1392,7 +1426,8 @@ HTML
      * @covers ::wp_enqueue_script
      * @covers ::wp_register_script
      */
-    public function test_concatenate_with_blocking_script_before_and_after_script_with_defer_strategy() {
+    public function test_concatenate_with_blocking_script_before_and_after_script_with_defer_strategy()
+    {
         global $wp_scripts, $concatenate_scripts, $wp_version;
 
         $old_value           = $concatenate_scripts;
@@ -1424,7 +1459,8 @@ HTML
     /**
      * @ticket 42804
      */
-    public function test_wp_enqueue_script_with_html5_support_does_not_contain_type_attribute() {
+    public function test_wp_enqueue_script_with_html5_support_does_not_contain_type_attribute()
+    {
         global $wp_version;
 
         $GLOBALS['wp_scripts']                  = new WP_Scripts();
@@ -1444,7 +1480,8 @@ HTML
      *
      * @global WP_Scripts $wp_scripts
      */
-    public function test_protocols() {
+    public function test_protocols()
+    {
         // Init.
         global $wp_scripts, $wp_version;
         $base_url_backup      = $wp_scripts->base_url;
@@ -1485,7 +1522,8 @@ HTML
     /**
      * Test script concatenation.
      */
-    public function test_script_concatenation() {
+    public function test_script_concatenation()
+    {
         global $wp_scripts, $wp_version;
 
         $wp_scripts->do_concat    = true;
@@ -1508,7 +1546,8 @@ HTML
      *
      * @ticket 16024
      */
-    public function test_wp_script_add_data_with_data_key() {
+    public function test_wp_script_add_data_with_data_key()
+    {
         // Enqueue and add data.
         wp_enqueue_script('test-only-data', 'example.com', array(), null);
         wp_script_add_data('test-only-data', 'data', 'testing');
@@ -1527,7 +1566,8 @@ HTML
      *
      * @ticket 16024
      */
-    public function test_wp_script_add_data_with_conditional_key() {
+    public function test_wp_script_add_data_with_conditional_key()
+    {
         // Enqueue and add conditional comments.
         wp_enqueue_script('test-only-conditional', 'example.com', array(), null);
         wp_script_add_data('test-only-conditional', 'conditional', 'gt IE 7');
@@ -1545,7 +1585,8 @@ HTML
      *
      * @ticket 16024
      */
-    public function test_wp_script_add_data_with_data_and_conditional_keys() {
+    public function test_wp_script_add_data_with_data_and_conditional_keys()
+    {
         // Enqueue and add data plus conditional comments for both.
         wp_enqueue_script('test-conditional-with-data', 'example.com', array(), null);
         wp_script_add_data('test-conditional-with-data', 'data', 'testing');
@@ -1566,7 +1607,8 @@ HTML
      *
      * @ticket 16024
      */
-    public function test_wp_script_add_data_with_invalid_key() {
+    public function test_wp_script_add_data_with_invalid_key()
+    {
         // Enqueue and add an invalid key.
         wp_enqueue_script('test-invalid', 'example.com', array(), null);
         wp_script_add_data('test-invalid', 'invalid', 'testing');
@@ -1584,7 +1626,8 @@ HTML
      *
      * @ticket 31126
      */
-    public function test_wp_register_script() {
+    public function test_wp_register_script()
+    {
         $this->assertTrue(wp_register_script('duplicate-handler', 'http://example.com'));
         $this->assertFalse(wp_register_script('duplicate-handler', 'http://example.com'));
     }
@@ -1592,7 +1635,8 @@ HTML
     /**
      * @ticket 35229
      */
-    public function test_wp_register_script_with_handle_without_source() {
+    public function test_wp_register_script_with_handle_without_source()
+    {
         $expected  = "<script type='text/javascript' src='http://example.com?ver=1' id='handle-one-js'></script>\n";
         $expected .= "<script type='text/javascript' src='http://example.com?ver=2' id='handle-two-js'></script>\n";
 
@@ -1608,7 +1652,8 @@ HTML
     /**
      * @ticket 35643
      */
-    public function test_wp_enqueue_script_footer_alias() {
+    public function test_wp_enqueue_script_footer_alias()
+    {
         wp_register_script('foo', false, array('bar', 'baz'), '1.0', true);
         wp_register_script('bar', home_url('bar.js'), array(), '1.0', true);
         wp_register_script('baz', home_url('baz.js'), array(), '1.0', true);
@@ -1632,7 +1677,8 @@ HTML
      * @covers WP_Dependencies::enqueue
      * @covers WP_Dependencies::do_items
      */
-    public function test_group_mismatch_in_deps() {
+    public function test_group_mismatch_in_deps()
+    {
         $scripts = new WP_Scripts();
         $scripts->add('one', 'one', array(), 'v1', 1);
         $scripts->add('two', 'two', array('one'));
@@ -1676,7 +1722,8 @@ HTML
     /**
      * @ticket 35873
      */
-    public function test_wp_register_script_with_dependencies_in_head_and_footer() {
+    public function test_wp_register_script_with_dependencies_in_head_and_footer()
+    {
         wp_register_script('parent', '/parent.js', array('child-head'), null, true);            // In footer.
         wp_register_script('child-head', '/child-head.js', array('child-footer'), null, false); // In head.
         wp_register_script('child-footer', '/child-footer.js', array(), null, true);              // In footer.
@@ -1697,7 +1744,8 @@ HTML
     /**
      * @ticket 35956
      */
-    public function test_wp_register_script_with_dependencies_in_head_and_footer_in_reversed_order() {
+    public function test_wp_register_script_with_dependencies_in_head_and_footer_in_reversed_order()
+    {
         wp_register_script('child-head', '/child-head.js', array(), null, false);                      // In head.
         wp_register_script('child-footer', '/child-footer.js', array(), null, true);                   // In footer.
         wp_register_script('parent', '/parent.js', array('child-head', 'child-footer'), null, true); // In footer.
@@ -1718,7 +1766,8 @@ HTML
     /**
      * @ticket 35956
      */
-    public function test_wp_register_script_with_dependencies_in_head_and_footer_in_reversed_order_and_two_parent_scripts() {
+    public function test_wp_register_script_with_dependencies_in_head_and_footer_in_reversed_order_and_two_parent_scripts()
+    {
         wp_register_script('grandchild-head', '/grandchild-head.js', array(), null, false);             // In head.
         wp_register_script('child-head', '/child-head.js', array(), null, false);                       // In head.
         wp_register_script('child-footer', '/child-footer.js', array('grandchild-head'), null, true); // In footer.
@@ -1749,7 +1798,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_returns_bool() {
+    public function test_wp_add_inline_script_returns_bool()
+    {
         $this->assertFalse(wp_add_inline_script('test-example', 'console.log("before");', 'before'));
         wp_enqueue_script('test-example', 'example.com', array(), null);
         $this->assertTrue(wp_add_inline_script('test-example', 'console.log("before");', 'before'));
@@ -1758,7 +1808,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_unknown_handle() {
+    public function test_wp_add_inline_script_unknown_handle()
+    {
         $this->assertFalse(wp_add_inline_script('test-invalid', 'console.log("before");', 'before'));
         $this->assertSame('', get_echo('wp_print_scripts'));
     }
@@ -1766,7 +1817,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_before() {
+    public function test_wp_add_inline_script_before()
+    {
         wp_enqueue_script('test-example', 'example.com', array(), null);
         wp_add_inline_script('test-example', 'console.log("before");', 'before');
 
@@ -1779,7 +1831,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_after() {
+    public function test_wp_add_inline_script_after()
+    {
         wp_enqueue_script('test-example', 'example.com', array(), null);
         wp_add_inline_script('test-example', 'console.log("after");');
 
@@ -1792,7 +1845,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_before_and_after() {
+    public function test_wp_add_inline_script_before_and_after()
+    {
         wp_enqueue_script('test-example', 'example.com', array(), null);
         wp_add_inline_script('test-example', 'console.log("before");', 'before');
         wp_add_inline_script('test-example', 'console.log("after");');
@@ -1807,7 +1861,8 @@ HTML
     /**
      * @ticket 44551
      */
-    public function test_wp_add_inline_script_before_for_handle_without_source() {
+    public function test_wp_add_inline_script_before_for_handle_without_source()
+    {
         wp_register_script('test-example', '');
         wp_enqueue_script('test-example');
         wp_add_inline_script('test-example', 'console.log("before");', 'before');
@@ -1820,7 +1875,8 @@ HTML
     /**
      * @ticket 44551
      */
-    public function test_wp_add_inline_script_after_for_handle_without_source() {
+    public function test_wp_add_inline_script_after_for_handle_without_source()
+    {
         wp_register_script('test-example', '');
         wp_enqueue_script('test-example');
         wp_add_inline_script('test-example', 'console.log("after");');
@@ -1833,7 +1889,8 @@ HTML
     /**
      * @ticket 44551
      */
-    public function test_wp_add_inline_script_before_and_after_for_handle_without_source() {
+    public function test_wp_add_inline_script_before_and_after_for_handle_without_source()
+    {
         wp_register_script('test-example', '');
         wp_enqueue_script('test-example');
         wp_add_inline_script('test-example', 'console.log("before");', 'before');
@@ -1848,7 +1905,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_multiple() {
+    public function test_wp_add_inline_script_multiple()
+    {
         wp_enqueue_script('test-example', 'example.com', array(), null);
         wp_add_inline_script('test-example', 'console.log("before");', 'before');
         wp_add_inline_script('test-example', 'console.log("before");', 'before');
@@ -1865,7 +1923,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_localized_data_is_added_first() {
+    public function test_wp_add_inline_script_localized_data_is_added_first()
+    {
         wp_enqueue_script('test-example', 'example.com', array(), null);
         wp_localize_script('test-example', 'testExample', array('foo' => 'bar'));
         wp_add_inline_script('test-example', 'console.log("before");', 'before');
@@ -1882,7 +1941,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_before_with_concat() {
+    public function test_wp_add_inline_script_before_with_concat()
+    {
         global $wp_scripts, $wp_version;
 
         $wp_scripts->do_concat    = true;
@@ -1907,7 +1967,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_before_with_concat2() {
+    public function test_wp_add_inline_script_before_with_concat2()
+    {
         global $wp_scripts, $wp_version;
 
         $wp_scripts->do_concat    = true;
@@ -1930,7 +1991,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_after_with_concat() {
+    public function test_wp_add_inline_script_after_with_concat()
+    {
         global $wp_scripts, $wp_version;
 
         $wp_scripts->do_concat    = true;
@@ -1957,7 +2019,8 @@ HTML
     /**
      * @ticket 14853
      */
-    public function test_wp_add_inline_script_after_and_before_with_concat_and_conditional() {
+    public function test_wp_add_inline_script_after_and_before_with_concat_and_conditional()
+    {
         global $wp_scripts;
 
         $wp_scripts->do_concat    = true;
@@ -1989,7 +2052,8 @@ HTML
     /**
      * @ticket 36392
      */
-    public function test_wp_add_inline_script_after_with_concat_and_core_dependency() {
+    public function test_wp_add_inline_script_after_with_concat_and_core_dependency()
+    {
         global $wp_scripts, $wp_version;
 
         wp_default_scripts($wp_scripts);
@@ -2013,7 +2077,8 @@ HTML
     /**
      * @ticket 36392
      */
-    public function test_wp_add_inline_script_after_with_concat_and_conditional_and_core_dependency() {
+    public function test_wp_add_inline_script_after_with_concat_and_conditional_and_core_dependency()
+    {
         global $wp_scripts, $wp_version;
 
         wp_default_scripts($wp_scripts);
@@ -2040,7 +2105,8 @@ HTML
     /**
      * @ticket 36392
      */
-    public function test_wp_add_inline_script_before_with_concat_and_core_dependency() {
+    public function test_wp_add_inline_script_before_with_concat_and_core_dependency()
+    {
         global $wp_scripts, $wp_version;
 
         wp_default_scripts($wp_scripts);
@@ -2065,7 +2131,8 @@ HTML
     /**
      * @ticket 36392
      */
-    public function test_wp_add_inline_script_before_after_concat_with_core_dependency() {
+    public function test_wp_add_inline_script_before_after_concat_with_core_dependency()
+    {
         global $wp_scripts, $wp_version;
 
         wp_default_scripts($wp_scripts);
@@ -2115,7 +2182,8 @@ HTML
     /**
      * @ticket 36392
      */
-    public function test_wp_add_inline_script_customize_dependency() {
+    public function test_wp_add_inline_script_customize_dependency()
+    {
         global $wp_scripts;
 
         wp_default_scripts($wp_scripts);
@@ -2148,7 +2216,8 @@ HTML
     /**
      * @ticket 36392
      */
-    public function test_wp_add_inline_script_after_for_core_scripts_with_concat_is_limited_and_falls_back_to_no_concat() {
+    public function test_wp_add_inline_script_after_for_core_scripts_with_concat_is_limited_and_falls_back_to_no_concat()
+    {
         global $wp_scripts, $wp_version;
 
         $wp_scripts->do_concat    = true;
@@ -2172,7 +2241,8 @@ HTML
     /**
      * @ticket 36392
      */
-    public function test_wp_add_inline_script_before_third_core_script_prints_two_concat_scripts() {
+    public function test_wp_add_inline_script_before_third_core_script_prints_two_concat_scripts()
+    {
         global $wp_scripts, $wp_version;
 
         $wp_scripts->do_concat    = true;
@@ -2197,7 +2267,8 @@ HTML
      *
      * @return array[]
      */
-    public function data_provider_to_test_get_inline_script() {
+    public function data_provider_to_test_get_inline_script()
+    {
         return array(
             'before-blocking' => array(
                 'position'       => 'before',
@@ -2257,7 +2328,8 @@ HTML
      * @param string   $expected_data  Expected data.
      * @param string   $expected_tag   Expected tag.
      */
-    public function test_get_inline_script($position, $inline_scripts, $delayed, $expected_data, $expected_tag) {
+    public function test_get_inline_script($position, $inline_scripts, $delayed, $expected_data, $expected_tag)
+    {
         global $wp_scripts;
 
         $deps = array();
@@ -2300,7 +2372,8 @@ HTML
     /**
      * @ticket 45103
      */
-    public function test_wp_set_script_translations() {
+    public function test_wp_set_script_translations()
+    {
         wp_register_script('wp-i18n', '/wp-includes/js/dist/wp-i18n.js', array(), null);
         wp_enqueue_script('test-example', '/wp-includes/js/script.js', array(), null);
         wp_set_script_translations('test-example', 'default', DIR_TESTDATA . '/languages');
@@ -2327,7 +2400,8 @@ HTML
     /**
      * @ticket 45103
      */
-    public function test_wp_set_script_translations_for_plugin() {
+    public function test_wp_set_script_translations_for_plugin()
+    {
         wp_register_script('wp-i18n', '/wp-includes/js/dist/wp-i18n.js', array(), null);
         wp_enqueue_script('plugin-example', '/wp-content/plugins/my-plugin/js/script.js', array(), null);
         wp_set_script_translations('plugin-example', 'internationalized-plugin', DIR_TESTDATA . '/languages/plugins');
@@ -2354,7 +2428,8 @@ HTML
     /**
      * @ticket 45103
      */
-    public function test_wp_set_script_translations_for_theme() {
+    public function test_wp_set_script_translations_for_theme()
+    {
         wp_register_script('wp-i18n', '/wp-includes/js/dist/wp-i18n.js', array(), null);
         wp_enqueue_script('theme-example', '/wp-content/themes/my-theme/js/script.js', array(), null);
         wp_set_script_translations('theme-example', 'internationalized-theme', DIR_TESTDATA . '/languages/themes');
@@ -2381,7 +2456,8 @@ HTML
     /**
      * @ticket 45103
      */
-    public function test_wp_set_script_translations_with_handle_file() {
+    public function test_wp_set_script_translations_with_handle_file()
+    {
         wp_register_script('wp-i18n', '/wp-includes/js/dist/wp-i18n.js', array(), null);
         wp_enqueue_script('script-handle', '/wp-admin/js/script.js', array(), null);
         wp_set_script_translations('script-handle', 'admin', DIR_TESTDATA . '/languages/');
@@ -2408,7 +2484,8 @@ HTML
     /**
      * @ticket 45103
      */
-    public function test_wp_set_script_translations_i18n_dependency() {
+    public function test_wp_set_script_translations_i18n_dependency()
+    {
         global $wp_scripts;
 
         wp_register_script('wp-i18n', '/wp-includes/js/dist/wp-i18n.js', array(), null);
@@ -2424,7 +2501,8 @@ HTML
      * @ticket 45103
      * @ticket 55250
      */
-    public function test_wp_set_script_translations_when_translation_file_does_not_exist() {
+    public function test_wp_set_script_translations_when_translation_file_does_not_exist()
+    {
         wp_register_script('wp-i18n', '/wp-includes/js/dist/wp-i18n.js', array(), null);
         wp_enqueue_script('test-example', '/wp-admin/js/script.js', array(), null);
         wp_set_script_translations('test-example', 'admin', DIR_TESTDATA . '/languages/');
@@ -2438,7 +2516,8 @@ HTML
     /**
      * @ticket 45103
      */
-    public function test_wp_set_script_translations_after_register() {
+    public function test_wp_set_script_translations_after_register()
+    {
         wp_register_script('wp-i18n', '/wp-includes/js/dist/wp-i18n.js', array(), null);
         wp_register_script('test-example', '/wp-includes/js/script.js', array(), null);
         wp_set_script_translations('test-example', 'default', DIR_TESTDATA . '/languages');
@@ -2467,7 +2546,8 @@ HTML
     /**
      * @ticket 45103
      */
-    public function test_wp_set_script_translations_dependency() {
+    public function test_wp_set_script_translations_dependency()
+    {
         wp_register_script('wp-i18n', '/wp-includes/js/dist/wp-i18n.js', array(), null);
         wp_register_script('test-dependency', '/wp-includes/js/script.js', array(), null);
         wp_set_script_translations('test-dependency', 'default', DIR_TESTDATA . '/languages');
@@ -2501,7 +2581,8 @@ HTML
      *
      * @covers ::wp_enqueue_code_editor
      */
-    public function test_wp_enqueue_code_editor_when_php_file_will_be_passed() {
+    public function test_wp_enqueue_code_editor_when_php_file_will_be_passed()
+    {
         $real_file              = WP_PLUGIN_DIR . '/hello.php';
         $wp_enqueue_code_editor = wp_enqueue_code_editor(array('file' => $real_file));
         $this->assertNonEmptyMultidimensionalArray($wp_enqueue_code_editor);
@@ -2589,7 +2670,8 @@ HTML
      *
      * @covers ::wp_enqueue_code_editor
      */
-    public function test_wp_enqueue_code_editor_when_generated_array_by_compact_will_be_passed() {
+    public function test_wp_enqueue_code_editor_when_generated_array_by_compact_will_be_passed()
+    {
         $file                   = '';
         $wp_enqueue_code_editor = wp_enqueue_code_editor(compact('file'));
         $this->assertNonEmptyMultidimensionalArray($wp_enqueue_code_editor);
@@ -2673,7 +2755,8 @@ HTML
      *
      * @covers ::wp_enqueue_code_editor
      */
-    public function test_wp_enqueue_code_editor_when_generated_array_by_array_merge_will_be_passed() {
+    public function test_wp_enqueue_code_editor_when_generated_array_by_array_merge_will_be_passed()
+    {
         $wp_enqueue_code_editor = wp_enqueue_code_editor(
             array_merge(
                 array(
@@ -2771,7 +2854,8 @@ HTML
      *
      * @covers ::wp_enqueue_code_editor
      */
-    public function test_wp_enqueue_code_editor_when_simple_array_will_be_passed() {
+    public function test_wp_enqueue_code_editor_when_simple_array_will_be_passed()
+    {
         $wp_enqueue_code_editor = wp_enqueue_code_editor(
             array(
                 'type'       => 'text/css',
@@ -2869,7 +2953,8 @@ HTML
      * @param mixed  $l10n_data Localization data passed to wp_localize_script().
      * @param string $expected  Expected transformation of localization data.
      */
-    public function test_wp_localize_script_data_formats($l10n_data, $expected) {
+    public function test_wp_localize_script_data_formats($l10n_data, $expected)
+    {
         if (! is_array($l10n_data)) {
             $this->setExpectedIncorrectUsage('WP_Scripts::localize');
         }
@@ -2893,7 +2978,8 @@ HTML
      *     @type string $expected  Expected transformation of localization data.
      * }
      */
-    public function data_wp_localize_script_data_formats() {
+    public function data_wp_localize_script_data_formats()
+    {
         return array(
             // Officially supported formats.
             array(array('array value, no key'), '["array value, no key"]'),
@@ -2919,7 +3005,8 @@ HTML
      *
      * @covers ::wp_set_script_translations
      */
-    public function test_wp_external_wp_i18n_print_order() {
+    public function test_wp_external_wp_i18n_print_order()
+    {
         global $wp_scripts, $wp_version;
 
         $wp_scripts->do_concat    = true;
@@ -2953,7 +3040,8 @@ HTML
      *
      * @ticket 58648
      */
-    public function test_printing_tinymce_scripts() {
+    public function test_printing_tinymce_scripts()
+    {
         global $wp_scripts;
 
         wp_register_tinymce_scripts($wp_scripts, true);
@@ -2972,7 +3060,8 @@ HTML
      *
      * @dataProvider data_provider_delayed_strategies
      */
-    public function test_printing_non_enqueued_scripts($strategy) {
+    public function test_printing_non_enqueued_scripts($strategy)
+    {
         wp_register_script('test-script', 'test-script.js', array(), false, array('strategy' => $strategy));
 
         $actual = get_echo('wp_print_scripts', array(array('test-script')));
@@ -2986,7 +3075,8 @@ HTML
      * @param string $markup Markup.
      * @return DOMDocument Document containing the normalized markup fragment.
      */
-    protected function parse_markup_fragment($markup) {
+    protected function parse_markup_fragment($markup)
+    {
         $dom = new DOMDocument();
         $dom->loadHTML(
             "<!DOCTYPE html><html><head><meta charset=utf8></head><body>{$markup}</body></html>"
@@ -3021,7 +3111,8 @@ HTML
      * @param string $actual   Actual markup.
      * @param string $message  Message.
      */
-    protected function assertEqualMarkup($expected, $actual, $message = '') {
+    protected function assertEqualMarkup($expected, $actual, $message = '')
+    {
         $expected_dom = $this->parse_markup_fragment($expected);
         $actual_dom   = $this->parse_markup_fragment($actual);
         foreach (array($expected_dom, $actual_dom) as $dom) {
@@ -3064,7 +3155,8 @@ HTML
     /**
      * Adds html5 script theme support.
      */
-    protected function add_html5_script_theme_support() {
+    protected function add_html5_script_theme_support()
+    {
         add_theme_support('html5', array('script'));
     }
 
@@ -3082,7 +3174,8 @@ HTML
      * @param string[] $expected_in_footer Handles expected to be in the footer.
      * @param array    $expected_groups    Expected groups.
      */
-    public function test_wp_scripts_move_to_footer($set_up, $expected_header, $expected_footer, $expected_in_footer, $expected_groups) {
+    public function test_wp_scripts_move_to_footer($set_up, $expected_header, $expected_footer, $expected_in_footer, $expected_groups)
+    {
         $set_up();
 
         // Get the header output.
@@ -3115,7 +3208,8 @@ HTML
      *
      * @global WP_Scripts $wp_scripts WP_Scripts instance.
      */
-    public function test_wp_get_script_polyfill() {
+    public function test_wp_get_script_polyfill()
+    {
         global $wp_scripts;
         $script_name = 'tmp-polyfill-foo';
         $test_script = 'HTMLScriptElement.supports && HTMLScriptElement.supports("foo")';
@@ -3141,7 +3235,8 @@ HTML
      *
      * @return array[]
      */
-    public function data_provider_script_move_to_footer() {
+    public function data_provider_script_move_to_footer()
+    {
         return array(
             'footer-blocking-dependent-of-defer-head-script' => array(
                 'set_up'             => static function () {
@@ -3403,7 +3498,8 @@ HTML
      * @param string $script Script name as defined in package.json.
      * @param string $handle Optional. Handle to check for. Defaults to the script name.
      */
-    public function test_vendor_script_versions_registered_manually($script, $handle = null) {
+    public function test_vendor_script_versions_registered_manually($script, $handle = null)
+    {
         global $wp_scripts;
         wp_default_packages_vendor($wp_scripts);
         wp_default_scripts($wp_scripts);
@@ -3425,7 +3521,8 @@ HTML
      *
      * @return array[]
      */
-    public function data_vendor_script_versions_registered_manually() {
+    public function data_vendor_script_versions_registered_manually()
+    {
         return array(
             'backbone'                         => array('backbone'),
             'clipboard'                        => array('clipboard'),
@@ -3461,7 +3558,8 @@ HTML
      *
      * @ticket 61855
      */
-    public function test_vendor_script_data_provider_includes_all_packages() {
+    public function test_vendor_script_data_provider_includes_all_packages()
+    {
         $package_json_dependencies  = array_keys($this->_scripts_from_package_json());
         $data_provider_dependencies = $this->data_vendor_script_versions_registered_manually();
 
@@ -3505,7 +3603,8 @@ HTML
     /**
      * Helper to return dependencies from package.json.
      */
-    private function _scripts_from_package_json() {
+    private function _scripts_from_package_json()
+    {
         $package = file_get_contents(ABSPATH . '../package.json');
         $data    = json_decode($package, true);
 

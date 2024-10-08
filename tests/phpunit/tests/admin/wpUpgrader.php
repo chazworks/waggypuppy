@@ -5,7 +5,8 @@
  * @group admin
  * @group upgrade
  */
-class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
+class Tests_Admin_WpUpgrader extends WP_UnitTestCase
+{
 
     /**
      * An instance of the WP_Upgrader class being tested.
@@ -36,7 +37,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
     /**
      * Loads the class to be tested.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -46,7 +48,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
     /**
      * Sets up the class instance and mocks needed for each test.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         self::$upgrader_skin_mock = $this->getMockBuilder('WP_Upgrader_Skin')->getMock();
@@ -65,7 +68,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
     /**
      * Cleans up after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         if (null !== self::$wp_filesystem_backup) {
             $GLOBALS['wp_filesystem'] = self::$wp_filesystem_backup;
         } else {
@@ -83,7 +87,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::__construct
      */
-    public function test_constructor_should_create_skin_when_one_is_not_provided() {
+    public function test_constructor_should_create_skin_when_one_is_not_provided()
+    {
         $instance = new WP_Upgrader();
 
         $this->assertInstanceOf(WP_Upgrader_Skin::class, $instance->skin);
@@ -96,7 +101,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::init
      */
-    public function test_init_should_call_set_upgrader() {
+    public function test_init_should_call_set_upgrader()
+    {
         self::$upgrader_skin_mock->expects($this->once())->method('set_upgrader')->with(self::$instance);
         self::$instance->init();
     }
@@ -113,7 +119,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @param string $key The key to check.
      */
-    public function test_init_should_initialize_strings($key) {
+    public function test_init_should_initialize_strings($key)
+    {
         $this->assertEmpty(self::$instance->strings, '"$strings" has already been initialized');
 
         self::$instance->init();
@@ -126,7 +133,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_init_should_initialize_strings() {
+    public function data_init_should_initialize_strings()
+    {
         return self::text_array_to_dataprovider(
             array(
                 'bad_request',
@@ -168,7 +176,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      * @param array  $nested_files Array of files as returned by WP_Filesystem_Base::dirlist().
      * @param string $path         Optional. Relative path to prepend to child nodes. Default empty string.
      */
-    public function test_flatten_dirlist_should_flatten_the_provided_directory_list($expected, $nested_files, $path = '') {
+    public function test_flatten_dirlist_should_flatten_the_provided_directory_list($expected, $nested_files, $path = '')
+    {
         $flatten_dirlist = new ReflectionMethod(self::$instance, 'flatten_dirlist');
         $flatten_dirlist->setAccessible(true);
         $actual = $flatten_dirlist->invoke(self::$instance, $nested_files, $path);
@@ -182,7 +191,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_flatten_dirlist() {
+    public function data_should_flatten_dirlist()
+    {
         return array(
             'empty array, default path'       => array(
                 'expected'     => array(),
@@ -568,7 +578,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::clear_destination
      */
-    public function test_clear_destination_should_return_early_when_the_destination_does_not_exist() {
+    public function test_clear_destination_should_return_early_when_the_destination_does_not_exist()
+    {
         self::$wp_filesystem_mock->expects($this->never())->method('is_writable');
         self::$wp_filesystem_mock->expects($this->never())->method('chmod');
         self::$wp_filesystem_mock->expects($this->never())->method('delete');
@@ -592,7 +603,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::clear_destination
      */
-    public function test_clear_destination_should_clear_the_destination_directory() {
+    public function test_clear_destination_should_clear_the_destination_directory()
+    {
         $destination = DIR_TESTDATA . '/upgrade/';
 
         self::$wp_filesystem_mock
@@ -628,7 +640,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function test_clear_destination_should_return_wp_error_if_files_are_not_writable() {
+    public function test_clear_destination_should_return_wp_error_if_files_are_not_writable()
+    {
         define('FS_CHMOD_FILE', 0644);
         define('FS_CHMOD_DIR', 0755);
 
@@ -699,7 +712,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @param mixed $path The path to test.
      */
-    public function test_install_package_should_return_wp_error_with_invalid_source($path) {
+    public function test_install_package_should_return_wp_error_with_invalid_source($path)
+    {
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock->expects($this->never())->method('feedback');
@@ -741,7 +755,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @param mixed $path The path to test.
      */
-    public function test_install_package_should_return_wp_error_with_invalid_destination($path) {
+    public function test_install_package_should_return_wp_error_with_invalid_destination($path)
+    {
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock->expects($this->never())->method('feedback');
@@ -776,7 +791,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_install_package_invalid_paths() {
+    public function data_install_package_invalid_paths()
+    {
         return array(
             'empty string'                   => array('path' => ''),
 
@@ -819,7 +835,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::install_package
      */
-    public function test_install_package_should_return_wp_error_when_pre_install_filter_returns_wp_error() {
+    public function test_install_package_should_return_wp_error_when_pre_install_filter_returns_wp_error()
+    {
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
@@ -861,7 +878,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::install_package
      */
-    public function test_install_package_should_add_trailing_slash_to_source_and_subdirectory() {
+    public function test_install_package_should_add_trailing_slash_to_source_and_subdirectory()
+    {
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
@@ -915,7 +933,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::install_package
      */
-    public function test_install_package_should_return_wp_error_when_no_source_files_exist() {
+    public function test_install_package_should_return_wp_error_when_no_source_files_exist()
+    {
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
@@ -956,7 +975,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::install_package
      */
-    public function test_install_package_should_add_trailing_slash_to_the_source_directory_of_single_file() {
+    public function test_install_package_should_add_trailing_slash_to_the_source_directory_of_single_file()
+    {
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
@@ -1006,7 +1026,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function test_install_package_should_clear_destination_when_clear_destination_is_true() {
+    public function test_install_package_should_clear_destination_when_clear_destination_is_true()
+    {
         define('FS_CHMOD_FILE', 0644);
 
         self::$instance->generic_strings();
@@ -1105,7 +1126,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      * @param string $protected_directory The path to a protected directory.
      * @param string $expected            The expected safe remote destination.
      */
-    public function test_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory($protected_directory, $expected) {
+    public function test_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory($protected_directory, $expected)
+    {
         define('FS_CHMOD_FILE', 0644);
 
         self::$instance->generic_strings();
@@ -1167,7 +1189,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory() {
+    public function data_install_package_should_make_remote_destination_safe_when_set_to_a_protected_directory()
+    {
         return array(
             'ABSPATH'               => array(
                 'protected_directory' => ABSPATH,
@@ -1196,7 +1219,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::install_package
      */
-    public function test_install_package_should_abort_if_the_destination_directory_exists() {
+    public function test_install_package_should_abort_if_the_destination_directory_exists()
+    {
         self::$instance->generic_strings();
 
         self::$upgrader_skin_mock
@@ -1272,7 +1296,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function test_install_package_should_return_wp_error_if_destination_cannot_be_created() {
+    public function test_install_package_should_return_wp_error_if_destination_cannot_be_created()
+    {
         define('FS_CHMOD_DIR', 0755);
 
         self::$instance->generic_strings();
@@ -1346,7 +1371,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::run
      */
-    public function test_run_should_return_false_when_requesting_filesystem_credentials_fails() {
+    public function test_run_should_return_false_when_requesting_filesystem_credentials_fails()
+    {
         self::$upgrader_skin_mock
                 ->expects($this->once())
                 ->method('request_filesystem_credentials')
@@ -1366,7 +1392,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::maintenance_mode
      */
-    public function test_maintenance_mode_should_disable_maintenance_mode_if_maintenance_file_exists() {
+    public function test_maintenance_mode_should_disable_maintenance_mode_if_maintenance_file_exists()
+    {
         self::$wp_filesystem_mock
                 ->expects($this->once())
                 ->method('abspath')
@@ -1399,7 +1426,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::maintenance_mode
      */
-    public function test_maintenance_mode_should_not_disable_maintenance_mode_if_no_maintenance_file_exists() {
+    public function test_maintenance_mode_should_not_disable_maintenance_mode_if_no_maintenance_file_exists()
+    {
         self::$upgrader_skin_mock->expects($this->never())->method('feedback');
         self::$wp_filesystem_mock->expects($this->never())->method('delete');
 
@@ -1435,7 +1463,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function test_maintenance_mode_should_create_maintenance_file_with_boolean() {
+    public function test_maintenance_mode_should_create_maintenance_file_with_boolean()
+    {
         define('FS_CHMOD_FILE', 0644);
 
         self::$wp_filesystem_mock
@@ -1472,7 +1501,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::release_lock
      */
-    public function test_release_lock_should_remove_lock_option() {
+    public function test_release_lock_should_remove_lock_option()
+    {
         global $wpdb;
 
         $this->assertSame(
@@ -1501,7 +1531,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::download_package
      */
-    public function test_download_package_should_exit_early_when_the_upgrader_pre_download_filter_returns_non_false() {
+    public function test_download_package_should_exit_early_when_the_upgrader_pre_download_filter_returns_non_false()
+    {
         self::$upgrader_skin_mock->expects($this->never())->method('feedback');
 
         add_filter(
@@ -1524,7 +1555,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::download_package
      */
-    public function test_download_package_should_apply_upgrader_pre_download_filter_with_arguments() {
+    public function test_download_package_should_apply_upgrader_pre_download_filter_with_arguments()
+    {
         self::$upgrader_skin_mock->expects($this->never())->method('feedback');
 
         add_filter(
@@ -1571,7 +1603,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::download_package
      */
-    public function test_download_package_should_return_an_existing_file() {
+    public function test_download_package_should_return_an_existing_file()
+    {
         $result = self::$instance->download_package(__FILE__);
 
         $this->assertSame(__FILE__, $result);
@@ -1585,7 +1618,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::download_package
      */
-    public function test_download_package_should_return_a_wp_error_object_for_an_empty_package() {
+    public function test_download_package_should_return_a_wp_error_object_for_an_empty_package()
+    {
         self::$instance->init();
 
         $result = self::$instance->download_package('');
@@ -1610,7 +1644,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::download_package
      */
-    public function test_download_package_should_return_a_file_with_the_package_name() {
+    public function test_download_package_should_return_a_file_with_the_package_name()
+    {
         add_filter(
             'pre_http_request',
             static function () {
@@ -1631,7 +1666,8 @@ class Tests_Admin_WpUpgrader extends WP_UnitTestCase {
      *
      * @covers WP_Upgrader::download_package
      */
-    public function test_download_package_should_return_a_wp_error_object() {
+    public function test_download_package_should_return_a_wp_error_object()
+    {
         self::$instance->generic_strings();
 
         add_filter(

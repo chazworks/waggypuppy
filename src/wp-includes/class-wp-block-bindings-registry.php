@@ -14,7 +14,8 @@
  *
  * @since 6.5.0
  */
-final class WP_Block_Bindings_Registry {
+final class WP_Block_Bindings_Registry
+{
 
     /**
      * Holds the registered block bindings sources, keyed by source identifier.
@@ -94,7 +95,8 @@ final class WP_Block_Bindings_Registry {
      * }
      * @return WP_Block_Bindings_Source|false Source when the registration was successful, or `false` on failure.
      */
-    public function register(string $source_name, array $source_properties) {
+    public function register(string $source_name, array $source_properties)
+    {
         if (! is_string($source_name)) {
             _doing_it_wrong(
                 __METHOD__,
@@ -200,7 +202,8 @@ final class WP_Block_Bindings_Registry {
      * @param string $source_name Block bindings source name including namespace.
      * @return WP_Block_Bindings_Source|false The unregistered block bindings source on success and `false` otherwise.
      */
-    public function unregister(string $source_name) {
+    public function unregister(string $source_name)
+    {
         if (! $this->is_registered($source_name)) {
             _doing_it_wrong(
                 __METHOD__,
@@ -224,7 +227,8 @@ final class WP_Block_Bindings_Registry {
      *
      * @return WP_Block_Bindings_Source[] The array of registered sources.
      */
-    public function get_all_registered() {
+    public function get_all_registered()
+    {
         return $this->sources;
     }
 
@@ -236,7 +240,8 @@ final class WP_Block_Bindings_Registry {
      * @param string $source_name The name of the source.
      * @return WP_Block_Bindings_Source|null The registered block bindings source, or `null` if it is not registered.
      */
-    public function get_registered(string $source_name) {
+    public function get_registered(string $source_name)
+    {
         if (! $this->is_registered($source_name)) {
             return null;
         }
@@ -252,7 +257,8 @@ final class WP_Block_Bindings_Registry {
      * @param string $source_name The name of the source.
      * @return bool `true` if the block bindings source is registered, `false` otherwise.
      */
-    public function is_registered($source_name) {
+    public function is_registered($source_name)
+    {
         return isset($this->sources[ $source_name ]);
     }
 
@@ -261,7 +267,8 @@ final class WP_Block_Bindings_Registry {
      *
      * @since 6.5.0
      */
-    public function __wakeup() {
+    public function __wakeup()
+    {
         if (! $this->sources) {
             return;
         }
@@ -284,7 +291,8 @@ final class WP_Block_Bindings_Registry {
      *
      * @return WP_Block_Bindings_Registry The main instance.
      */
-    public static function get_instance() {
+    public static function get_instance()
+    {
         if (null === self::$instance) {
             self::$instance = new self();
         }

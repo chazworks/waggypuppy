@@ -8,12 +8,14 @@
  *
  * @group blocks
  */
-class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
+class Tests_Blocks_RenderBlock extends WP_UnitTestCase
+{
 
     /**
      * Sets up each test method.
      */
-    public function set_up() {
+    public function set_up()
+    {
         global $post;
 
         parent::set_up();
@@ -30,7 +32,8 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
     /**
      * Tear down each test method.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Removes test block types registered by test cases.
         $block_types = WP_Block_Type_Registry::get_instance()->get_all_registered();
         foreach ($block_types as $block_type) {
@@ -52,7 +55,8 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
      * @covers ::register_block_type
      * @covers ::render_block
      */
-    public function test_provides_block_context() {
+    public function test_provides_block_context()
+    {
         $provided_context = array();
 
         register_block_type(
@@ -124,7 +128,8 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
      * @covers ::register_block_type
      * @covers ::render_block
      */
-    public function test_provides_default_context() {
+    public function test_provides_default_context()
+    {
         global $post;
 
         $provided_context = array();
@@ -162,7 +167,8 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase {
      * @covers ::register_block_type
      * @covers ::render_block
      */
-    public function test_default_context_is_filterable() {
+    public function test_default_context_is_filterable()
+    {
         $provided_context = array();
 
         register_block_type(

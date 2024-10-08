@@ -5,13 +5,15 @@
  *
  * @covers ::wp_render_elements_support_styles
  */
-class Tests_Block_Supports_WpRenderElementsSupportStyles extends WP_UnitTestCase {
+class Tests_Block_Supports_WpRenderElementsSupportStyles extends WP_UnitTestCase
+{
     /**
      * @var string|null
      */
     private $test_block_name;
 
-    public function tear_down() {
+    public function tear_down()
+    {
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
         unregister_block_type($this->test_block_name);
         $this->test_block_name = null;
@@ -32,7 +34,8 @@ class Tests_Block_Supports_WpRenderElementsSupportStyles extends WP_UnitTestCase
      * @param mixed  $elements_styles The elements styles within the block attributes.
      * @param string $expected_styles Expected styles enqueued by the style engine.
      */
-    public function test_elements_block_support_styles($color_settings, $elements_styles, $expected_styles) {
+    public function test_elements_block_support_styles($color_settings, $elements_styles, $expected_styles)
+    {
         $this->test_block_name = 'test/element-block-supports';
 
         register_block_type(
@@ -74,7 +77,8 @@ class Tests_Block_Supports_WpRenderElementsSupportStyles extends WP_UnitTestCase
      *
      * @return array
      */
-    public function data_elements_block_support_styles() {
+    public function data_elements_block_support_styles()
+    {
         $color_styles    = array(
             'text'       => 'var:preset|color|vivid-red',
             'background' => '#fff',

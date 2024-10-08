@@ -8,7 +8,8 @@
  *
  * @covers ::move_dir
  */
-class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
+class Tests_Filesystem_MoveDir extends WP_UnitTestCase
+{
 
     /**
      * The test directory.
@@ -63,7 +64,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
      * Sets up the filesystem and directory structure properties
      * before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -81,7 +83,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
     /**
      * Sets up the directory structure before each test.
      */
-    public function set_up() {
+    public function set_up()
+    {
         global $wp_filesystem;
 
         parent::set_up();
@@ -103,7 +106,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
     /**
      * Removes the test directory structure after each test.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         global $wp_filesystem;
 
         // Delete the root directory and its contents.
@@ -124,7 +128,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
      * @param bool   $overwrite Whether to overwrite the destination directory.
      * @param string $expected  The expected WP_Error code.
      */
-    public function test_should_return_wp_error($from, $to, $overwrite, $expected) {
+    public function test_should_return_wp_error($from, $to, $overwrite, $expected)
+    {
         global $wp_filesystem;
 
         $from   = self::$test_dir . $from;
@@ -162,7 +167,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_return_wp_error() {
+    public function data_should_return_wp_error()
+    {
         return array(
             '$overwrite is false and $to exists' => array(
                 'from'      => 'existing_from',
@@ -214,7 +220,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
      * @param string $to        The destination directory path.
      * @param bool   $overwrite Whether to overwrite the destination directory.
      */
-    public function test_should_move_directory($from, $to, $overwrite) {
+    public function test_should_move_directory($from, $to, $overwrite)
+    {
         global $wp_filesystem;
 
         $from   = self::$test_dir . $from;
@@ -262,7 +269,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_should_move_directory() {
+    public function data_should_move_directory()
+    {
         return array(
             '$overwrite is false and $to does not exist' => array(
                 'from'      => 'existing_from',
@@ -283,7 +291,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase {
      *
      * @ticket 57375
      */
-    public function test_should_return_wp_error_when_overwriting_is_enabled_the_destination_exists_but_cannot_be_deleted() {
+    public function test_should_return_wp_error_when_overwriting_is_enabled_the_destination_exists_but_cannot_be_deleted()
+    {
         global $wp_filesystem;
         $wpfilesystem_backup = $wp_filesystem;
 

@@ -7,7 +7,8 @@
  *
  * @group restapi
  */
-class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Testcase {
+class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * Administrator user id.
@@ -25,7 +26,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @param WP_UnitTest_Factory $factory WordPress unit test factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_id = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -37,14 +39,16 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
         }
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
     }
 
     /**
      * @ticket 50321
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
 
         $this->assertArrayHasKey('/wp/v2/block-directory/search', $routes);
@@ -53,7 +57,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * @ticket 50321
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
         $response = rest_get_server()->dispatch($request);
@@ -65,7 +70,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * @ticket 50321
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_set_current_user(self::$admin_id);
         $this->mock_remote_request(
             array(
@@ -84,7 +90,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * @ticket 50321
      */
-    public function test_get_items_wdotorg_unavailable() {
+    public function test_get_items_wdotorg_unavailable()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
@@ -100,7 +107,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * @ticket 50321
      */
-    public function test_get_items_logged_out() {
+    public function test_get_items_logged_out()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/block-directory/search');
         $request->set_query_params(array('term' => 'foo'));
         $response = rest_do_request($request);
@@ -110,7 +118,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * @ticket 50321
      */
-    public function test_get_items_no_results() {
+    public function test_get_items_no_results()
+    {
         wp_set_current_user(self::$admin_id);
         $this->mock_remote_request(
             array(
@@ -131,35 +140,40 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * @doesNotPerformAssertions
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         // Controller does not implement get_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
     /**
      * @ticket 50321
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         wp_set_current_user(self::$admin_id);
 
         $controller = new WP_REST_Block_Directory_Controller();
@@ -192,7 +206,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * @ticket 50321
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         wp_set_current_user(self::$admin_id);
 
         $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-directory/search');
@@ -225,7 +240,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
     /**
      * @ticket 53621
      */
-    public function test_get_items_response_conforms_to_schema() {
+    public function test_get_items_response_conforms_to_schema()
+    {
         wp_set_current_user(self::$admin_id);
         $plugin = $this->get_mock_plugin();
 
@@ -269,7 +285,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @param string $blocked_host The host to block connections to.
      */
-    private function prevent_requests_to_host($blocked_host = 'api.wordpress.org') {
+    private function prevent_requests_to_host($blocked_host = 'api.wordpress.org')
+    {
         add_filter(
             'pre_http_request',
             static function ($response, $parsed_args, $url) use ($blocked_host) {
@@ -292,7 +309,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @return array
      */
-    private function get_mock_plugin() {
+    private function get_mock_plugin()
+    {
         return array(
             'name'                     => 'Guidepost',
             'slug'                     => 'guidepost',
@@ -356,7 +374,8 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @param array $expected Expected response, which is merged with the default response.
      */
-    private function mock_remote_request(array $expected) {
+    private function mock_remote_request(array $expected)
+    {
         add_filter(
             'pre_http_request',
             static function () use ($expected) {

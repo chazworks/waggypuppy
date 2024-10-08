@@ -20,7 +20,8 @@
  * @since 3.1.0
  */
 #[AllowDynamicProperties]
-class WP_Tax_Query {
+class WP_Tax_Query
+{
 
     /**
      * Array of taxonomy queries.
@@ -112,7 +113,8 @@ class WP_Tax_Query {
      *     }
      * }
      */
-    public function __construct($tax_query) {
+    public function __construct($tax_query)
+    {
         if (isset($tax_query['relation'])) {
             $this->relation = $this->sanitize_relation($tax_query['relation']);
         } else {
@@ -133,7 +135,8 @@ class WP_Tax_Query {
      * @param array $queries Array of queries clauses.
      * @return array Sanitized array of query clauses.
      */
-    public function sanitize_query($queries) {
+    public function sanitize_query($queries)
+    {
         $cleaned_query = array();
 
         $defaults = array(
@@ -204,7 +207,8 @@ class WP_Tax_Query {
      * @param string $relation Raw relation key from the query argument.
      * @return string Sanitized relation. Either 'AND' or 'OR'.
      */
-    public function sanitize_relation($relation) {
+    public function sanitize_relation($relation)
+    {
         if ('OR' === strtoupper($relation)) {
             return 'OR';
         } else {
@@ -226,7 +230,8 @@ class WP_Tax_Query {
      * @param array $query Tax query arguments.
      * @return bool Whether the query clause is a first-order clause.
      */
-    protected static function is_first_order_clause($query) {
+    protected static function is_first_order_clause($query)
+    {
         return is_array($query) && (empty($query) || array_key_exists('terms', $query) || array_key_exists('taxonomy', $query) || array_key_exists('include_children', $query) || array_key_exists('field', $query) || array_key_exists('operator', $query));
     }
 
@@ -244,7 +249,8 @@ class WP_Tax_Query {
      *     @type string $where SQL fragment to append to the main WHERE clause.
      * }
      */
-    public function get_sql($primary_table, $primary_id_column) {
+    public function get_sql($primary_table, $primary_id_column)
+    {
         $this->primary_table     = $primary_table;
         $this->primary_id_column = $primary_id_column;
 
@@ -266,7 +272,8 @@ class WP_Tax_Query {
      *     @type string $where SQL fragment to append to the main WHERE clause.
      * }
      */
-    protected function get_sql_clauses() {
+    protected function get_sql_clauses()
+    {
         /*
          * $queries are passed by reference to get_sql_for_query() for recursion.
          * To keep $this->queries unaltered, pass a copy.
@@ -299,7 +306,8 @@ class WP_Tax_Query {
      *     @type string $where SQL fragment to append to the main WHERE clause.
      * }
      */
-    protected function get_sql_for_query(&$query, $depth = 0) {
+    protected function get_sql_for_query(&$query, $depth = 0)
+    {
         $sql_chunks = array(
             'join'  => array(),
             'where' => array(),
@@ -381,7 +389,8 @@ class WP_Tax_Query {
      *     @type string[] $where Array of SQL fragments to append to the main WHERE clause.
      * }
      */
-    public function get_sql_for_clause(&$clause, $parent_query) {
+    public function get_sql_for_clause(&$clause, $parent_query)
+    {
         global $wpdb;
 
         $sql = array(
@@ -502,7 +511,8 @@ class WP_Tax_Query {
      * @param array $parent_query Parent query of $clause.
      * @return string|false Table alias if found, otherwise false.
      */
-    protected function find_compatible_table_alias($clause, $parent_query) {
+    protected function find_compatible_table_alias($clause, $parent_query)
+    {
         $alias = false;
 
         // Confidence check. Only IN queries use the JOIN syntax.
@@ -543,7 +553,8 @@ class WP_Tax_Query {
      *
      * @param array $query The single query. Passed by reference.
      */
-    private function clean_query(&$query) {
+    private function clean_query(&$query)
+    {
         if (empty($query['taxonomy'])) {
             if ('term_taxonomy_id' !== $query['field']) {
                 $query = new WP_Error('invalid_taxonomy', __('Invalid taxonomy.'));
@@ -593,7 +604,8 @@ class WP_Tax_Query {
      * @param string $resulting_field The resulting field. Accepts 'slug', 'name', 'term_taxonomy_id',
      *                                or 'term_id'. Default 'term_id'.
      */
-    public function transform_query(&$query, $resulting_field) {
+    public function transform_query(&$query, $resulting_field)
+    {
         if (empty($query['terms'])) {
             return;
         }

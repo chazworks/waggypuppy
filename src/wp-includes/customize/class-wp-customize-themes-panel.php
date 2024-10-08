@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Panel
  */
-class WP_Customize_Themes_Panel extends WP_Customize_Panel {
+class WP_Customize_Themes_Panel extends WP_Customize_Panel
+{
 
     /**
      * Panel type.
@@ -33,7 +34,8 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel {
      *
      * @since 4.9.0
      */
-    protected function render_template() {
+    protected function render_template()
+    {
         ?>
         <li id="accordion-section-{{ data.id }}" class="accordion-section control-panel-themes">
             <h3 class="accordion-section-title">
@@ -64,7 +66,8 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel {
      *
      * @see WP_Customize_Panel::print_template()
      */
-    protected function content_template() {
+    protected function content_template()
+    {
         ?>
         <li class="panel-meta customize-info accordion-section <# if ( ! data.description ) { #> cannot-expand<# } #>">
             <button class="customize-panel-back" tabindex="-1" type="button"><span class="screen-reader-text">

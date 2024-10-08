@@ -4,7 +4,8 @@
  * @group taxonomy
  * @covers ::get_tag_link
  */
-class Tests_Term_GetTagLink extends WP_UnitTestCase {
+class Tests_Term_GetTagLink extends WP_UnitTestCase
+{
     /**
      * Tag ID.
      *
@@ -24,7 +25,8 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$tag_id = $factory->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -44,13 +46,15 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
     /**
      * Set up the test fixture.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         // Required as taxonomies are reset between tests.
         register_taxonomy('wptests_tax', 'post');
     }
 
-    public function test_success() {
+    public function test_success()
+    {
         $tag_id = self::$tag_id;
 
         $found    = get_tag_link($tag_id);
@@ -62,7 +66,8 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
     /**
      * @ticket 42771
      */
-    public function test_should_return_link_for_term_from_another_taxonomy_on_primed_cache() {
+    public function test_should_return_link_for_term_from_another_taxonomy_on_primed_cache()
+    {
         $term_id = self::$term_id;
 
         $term = get_term($term_id);
@@ -76,7 +81,8 @@ class Tests_Term_GetTagLink extends WP_UnitTestCase {
     /**
      * @ticket 42771
      */
-    public function test_should_return_link_for_term_from_another_taxonomy_on_empty_cache() {
+    public function test_should_return_link_for_term_from_another_taxonomy_on_empty_cache()
+    {
         $term_id = self::$term_id;
 
         clean_term_cache($term_id);

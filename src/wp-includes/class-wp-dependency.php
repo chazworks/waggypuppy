@@ -17,7 +17,8 @@
  * @since 2.6.0
  */
 #[AllowDynamicProperties]
-class _WP_Dependency {
+class _WP_Dependency
+{
     /**
      * The handle name.
      *
@@ -95,7 +96,8 @@ class _WP_Dependency {
      *
      * @param mixed ...$args Dependency information.
      */
-    public function __construct(...$args) {
+    public function __construct(...$args)
+    {
         list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = $args;
         if (! is_array($this->deps)) {
             $this->deps = array();
@@ -111,7 +113,8 @@ class _WP_Dependency {
      * @param mixed  $data The data value to add.
      * @return bool False if not scalar, true otherwise.
      */
-    public function add_data($name, $data) {
+    public function add_data($name, $data)
+    {
         if (! is_scalar($name)) {
             return false;
         }
@@ -128,7 +131,8 @@ class _WP_Dependency {
      * @param string $path   Optional. The full file path to the directory containing translation files.
      * @return bool False if $domain is not a string, true otherwise.
      */
-    public function set_translations($domain, $path = '') {
+    public function set_translations($domain, $path = '')
+    {
         if (! is_string($domain)) {
             return false;
         }

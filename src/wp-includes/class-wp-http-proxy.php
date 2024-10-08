@@ -40,7 +40,8 @@
  * @since 2.8.0
  */
 #[AllowDynamicProperties]
-class WP_HTTP_Proxy {
+class WP_HTTP_Proxy
+{
 
     /**
      * Whether proxy connection should be used.
@@ -54,7 +55,8 @@ class WP_HTTP_Proxy {
      *
      * @return bool
      */
-    public function is_enabled() {
+    public function is_enabled()
+    {
         return defined('WP_PROXY_HOST') && defined('WP_PROXY_PORT');
     }
 
@@ -70,7 +72,8 @@ class WP_HTTP_Proxy {
      *
      * @return bool
      */
-    public function use_authentication() {
+    public function use_authentication()
+    {
         return defined('WP_PROXY_USERNAME') && defined('WP_PROXY_PASSWORD');
     }
 
@@ -81,7 +84,8 @@ class WP_HTTP_Proxy {
      *
      * @return string
      */
-    public function host() {
+    public function host()
+    {
         if (defined('WP_PROXY_HOST')) {
             return WP_PROXY_HOST;
         }
@@ -96,7 +100,8 @@ class WP_HTTP_Proxy {
      *
      * @return string
      */
-    public function port() {
+    public function port()
+    {
         if (defined('WP_PROXY_PORT')) {
             return WP_PROXY_PORT;
         }
@@ -111,7 +116,8 @@ class WP_HTTP_Proxy {
      *
      * @return string
      */
-    public function username() {
+    public function username()
+    {
         if (defined('WP_PROXY_USERNAME')) {
             return WP_PROXY_USERNAME;
         }
@@ -126,7 +132,8 @@ class WP_HTTP_Proxy {
      *
      * @return string
      */
-    public function password() {
+    public function password()
+    {
         if (defined('WP_PROXY_PASSWORD')) {
             return WP_PROXY_PASSWORD;
         }
@@ -141,7 +148,8 @@ class WP_HTTP_Proxy {
      *
      * @return string
      */
-    public function authentication() {
+    public function authentication()
+    {
         return $this->username() . ':' . $this->password();
     }
 
@@ -152,7 +160,8 @@ class WP_HTTP_Proxy {
      *
      * @return string
      */
-    public function authentication_header() {
+    public function authentication_header()
+    {
         return 'Proxy-Authorization: Basic ' . base64_encode($this->authentication());
     }
 
@@ -168,7 +177,8 @@ class WP_HTTP_Proxy {
      * @param string $uri URL of the request.
      * @return bool Whether to send the request through the proxy.
      */
-    public function send_through_proxy($uri) {
+    public function send_through_proxy($uri)
+    {
         $check = parse_url($uri);
 
         // Malformed URL, can not process, but this could mean ssl, so let through anyway.

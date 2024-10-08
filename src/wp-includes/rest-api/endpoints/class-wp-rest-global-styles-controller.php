@@ -10,7 +10,8 @@
 /**
  * Base Global Styles REST API Controller.
  */
-class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
+class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
+{
     /**
      * Whether the controller supports batching.
      *
@@ -26,7 +27,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      *
      * @param string $post_type Post type.
      */
-    public function __construct($post_type = 'wp_global_styles') {
+    public function __construct($post_type = 'wp_global_styles')
+    {
         parent::__construct($post_type);
     }
 
@@ -35,7 +37,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      *
      * @since 5.9.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base . '/themes/(?P<stylesheet>[\/\s%\w\.\(\)\[\]\@_\-]+)/variations',
@@ -124,7 +127,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param string $id_or_stylesheet Global styles ID or stylesheet.
      * @return string Sanitized global styles ID or stylesheet.
      */
-    public function _sanitize_global_styles_callback($id_or_stylesheet) {
+    public function _sanitize_global_styles_callback($id_or_stylesheet)
+    {
         return urldecode($id_or_stylesheet);
     }
 
@@ -136,7 +140,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param int $id Supplied ID.
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
      */
-    protected function get_post($id) {
+    protected function get_post($id)
+    {
         $error = new WP_Error(
             'rest_global_styles_not_found',
             __('No global styles config exist with that id.'),
@@ -164,7 +169,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         $post = $this->get_post($request['id']);
         if (is_wp_error($post)) {
             return $post;
@@ -197,7 +203,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_Post $post Post object.
      * @return bool Whether the post can be read.
      */
-    public function check_read_permission($post) {
+    public function check_read_permission($post)
+    {
         return current_user_can('read_post', $post->ID);
     }
 
@@ -209,7 +216,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has write access for the item, WP_Error object otherwise.
      */
-    public function update_item_permissions_check($request) {
+    public function update_item_permissions_check($request)
+    {
         $post = $this->get_post($request['id']);
         if (is_wp_error($post)) {
             return $post;
@@ -236,7 +244,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return stdClass|WP_Error Prepared item on success. WP_Error on when the custom CSS is not valid.
      */
-    protected function prepare_item_for_database($request) {
+    protected function prepare_item_for_database($request)
+    {
         $changes     = new stdClass();
         $changes->ID = $request['id'];
 
@@ -301,7 +310,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
      */
-    public function prepare_item_for_response($post, $request) {
+    public function prepare_item_for_response($post, $request)
+    {
         $raw_config                       = json_decode($post->post_content, true);
         $is_global_styles_user_theme_json = isset($raw_config['isGlobalStylesUserThemeJSON']) && true === $raw_config['isGlobalStylesUserThemeJSON'];
         $config                           = array();
@@ -383,7 +393,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param integer $id ID.
      * @return array Links for the given post.
      */
-    protected function prepare_links($id) {
+    protected function prepare_links($id)
+    {
         $base = sprintf('%s/%s', $this->namespace, $this->rest_base);
 
         $links = array(
@@ -419,7 +430,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Request object.
      * @return array List of link relations.
      */
-    protected function get_available_actions($post, $request) {
+    protected function get_available_actions($post, $request)
+    {
         $rels = array();
 
         $post_type = get_post_type_object($post->post_type);
@@ -441,7 +453,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         return array();
     }
 
@@ -452,7 +465,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -514,7 +528,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_theme_item_permissions_check($request) {
+    public function get_theme_item_permissions_check($request)
+    {
         /*
          * Verify if the current user has edit_posts capability.
          * This capability is required to view global styles.
@@ -554,7 +569,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request The request instance.
      * @return WP_REST_Response|WP_Error
      */
-    public function get_theme_item($request) {
+    public function get_theme_item($request)
+    {
         if (get_stylesheet() !== $request['stylesheet']) {
             // This endpoint only supports the active theme for now.
             return new WP_Error(
@@ -608,7 +624,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_theme_items_permissions_check($request) {
+    public function get_theme_items_permissions_check($request)
+    {
         return $this->get_theme_item_permissions_check($request);
     }
 
@@ -623,7 +640,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      *
      * @return WP_REST_Response|WP_Error
      */
-    public function get_theme_items($request) {
+    public function get_theme_items($request)
+    {
         if (get_stylesheet() !== $request['stylesheet']) {
             // This endpoint only supports the active theme for now.
             return new WP_Error(
@@ -668,7 +686,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller {
      * @param string $css CSS to validate.
      * @return true|WP_Error True if the input was validated, otherwise WP_Error.
      */
-    protected function validate_custom_css($css) {
+    protected function validate_custom_css($css)
+    {
         if (preg_match('#</?\w+#', $css)) {
             return new WP_Error(
                 'rest_custom_css_illegal_markup',

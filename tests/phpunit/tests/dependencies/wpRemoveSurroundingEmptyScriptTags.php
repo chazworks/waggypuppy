@@ -8,14 +8,16 @@
  * @ticket 58664
  * @covers ::wp_remove_surrounding_empty_script_tags
  */
-class Tests_Functions_wpRemoveSurroundingEmptyScriptTags extends WP_UnitTestCase {
+class Tests_Functions_wpRemoveSurroundingEmptyScriptTags extends WP_UnitTestCase
+{
 
     /**
      * Data provider for test.
      *
      * @return array
      */
-    public function get_data_to_test_wp_remove_surrounding_empty_script_tags() {
+    public function get_data_to_test_wp_remove_surrounding_empty_script_tags()
+    {
         $error_js = 'console.error("Function wp_remove_surrounding_empty_script_tags() used incorrectly in PHP. Expected string to start with script tag (without attributes) and end with script tag, with optional whitespace.")';
         return array(
             'basic_case'            => array(
@@ -65,7 +67,8 @@ class Tests_Functions_wpRemoveSurroundingEmptyScriptTags extends WP_UnitTestCase
      * @param string $expected              Expected.
      * @param bool   $expect_doing_it_wrong Whether input is _doing_it_wrong().
      */
-    public function test_wp_remove_surrounding_empty_script_tags($input, $expected, $expect_doing_it_wrong) {
+    public function test_wp_remove_surrounding_empty_script_tags($input, $expected, $expect_doing_it_wrong)
+    {
         if ($expect_doing_it_wrong) {
             $this->setExpectedIncorrectUsage('wp_remove_surrounding_empty_script_tags');
         }

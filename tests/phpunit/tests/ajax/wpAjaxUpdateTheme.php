@@ -11,11 +11,13 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_update_theme
  */
-class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
+{
     private $orig_theme_dir;
     private $theme_root;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->theme_root     = DIR_TESTDATA . '/themedir1';
@@ -32,7 +34,8 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
         unset($GLOBALS['wp_themes']);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
         remove_filter('theme_root', array($this, 'filter_theme_root'));
         remove_filter('stylesheet_root', array($this, 'filter_theme_root'));
@@ -46,11 +49,13 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
     /**
      * Replace the normal theme root dir with our pre-made test dir.
      */
-    public function filter_theme_root() {
+    public function filter_theme_root()
+    {
         return $this->theme_root;
     }
 
-    public function test_missing_slug() {
+    public function test_missing_slug()
+    {
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
 
         // Make the request.
@@ -75,7 +80,8 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
         $this->assertSameSets($expected, $response);
     }
 
-    public function test_missing_capability() {
+    public function test_missing_capability()
+    {
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
         $_POST['slug']        = 'foo';
 
@@ -106,7 +112,8 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
     /**
      * @group ms-excluded
      */
-    public function test_update_theme() {
+    public function test_update_theme()
+    {
         $this->_setRole('administrator');
 
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
@@ -146,7 +153,8 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase {
     /**
      * @group ms-excluded
      */
-    public function test_uppercase_theme_slug() {
+    public function test_uppercase_theme_slug()
+    {
         $this->_setRole('administrator');
 
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');

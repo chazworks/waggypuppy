@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::mtime
  */
-class Tests_Filesystem_WpFilesystemDirect_Mtime extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Mtime extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::mtime()` determines
@@ -26,7 +27,8 @@ class Tests_Filesystem_WpFilesystemDirect_Mtime extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_determine_file_modified_time($path) {
+    public function test_should_determine_file_modified_time($path)
+    {
         $result    = self::$filesystem->mtime(self::$file_structure['test_dir']['path'] . $path);
         $has_mtime = false !== $result;
 
@@ -51,7 +53,8 @@ class Tests_Filesystem_WpFilesystemDirect_Mtime extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_not_determine_file_modified_time($path) {
+    public function test_should_not_determine_file_modified_time($path)
+    {
         $result    = self::$filesystem->mtime(self::$file_structure['test_dir']['path'] . $path);
         $has_mtime = false !== $result;
 

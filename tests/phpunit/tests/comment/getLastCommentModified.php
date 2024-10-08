@@ -6,12 +6,15 @@
  *
  * @covers ::get_lastcommentmodified
  */
-class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
-    public function test_no_comments() {
+class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase
+{
+    public function test_no_comments()
+    {
         $this->assertFalse(get_lastcommentmodified());
     }
 
-    public function test_default_timezone() {
+    public function test_default_timezone()
+    {
         self::factory()->comment->create_and_get(
             array(
                 'comment_status'   => 1,
@@ -23,7 +26,8 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
         $this->assertSame(strtotime('2000-01-01 10:00:00'), strtotime(get_lastcommentmodified()));
     }
 
-    public function test_server_timezone() {
+    public function test_server_timezone()
+    {
         self::factory()->comment->create_and_get(
             array(
                 'comment_status'   => 1,
@@ -35,7 +39,8 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
         $this->assertSame(strtotime('2000-01-01 10:00:00'), strtotime(get_lastcommentmodified()));
     }
 
-    public function test_blog_timezone() {
+    public function test_blog_timezone()
+    {
         self::factory()->comment->create_and_get(
             array(
                 'comment_status'   => 1,
@@ -47,7 +52,8 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
         $this->assertSame('2000-01-01 11:00:00', get_lastcommentmodified('blog'));
     }
 
-    public function test_gmt_timezone() {
+    public function test_gmt_timezone()
+    {
         self::factory()->comment->create_and_get(
             array(
                 'comment_status'   => 1,
@@ -59,7 +65,8 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
         $this->assertSame(strtotime('2000-01-01 10:00:00'), strtotime(get_lastcommentmodified('GMT')));
     }
 
-    public function test_unknown_timezone() {
+    public function test_unknown_timezone()
+    {
         self::factory()->comment->create_and_get(
             array(
                 'comment_status'   => 1,
@@ -71,7 +78,8 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
         $this->assertFalse(get_lastcommentmodified('foo'));
     }
 
-    public function test_data_is_cached() {
+    public function test_data_is_cached()
+    {
         self::factory()->comment->create_and_get(
             array(
                 'comment_status'   => 1,
@@ -84,7 +92,8 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
         $this->assertSame(strtotime('2015-04-01 10:00:00'), strtotime(wp_cache_get('lastcommentmodified:server', 'timeinfo')));
     }
 
-    public function test_cache_is_cleared() {
+    public function test_cache_is_cleared()
+    {
         self::factory()->comment->create_and_get(
             array(
                 'comment_status'   => 1,
@@ -110,7 +119,8 @@ class Tests_Comment_GetLastCommentModified extends WP_UnitTestCase {
         $this->assertSame(strtotime('2000-01-02 10:00:00'), strtotime(wp_cache_get('lastcommentmodified:server', 'timeinfo')));
     }
 
-    public function test_cache_is_cleared_when_comment_is_trashed() {
+    public function test_cache_is_cleared_when_comment_is_trashed()
+    {
         $comment_1 = self::factory()->comment->create_and_get(
             array(
                 'comment_status'   => 1,

@@ -8,7 +8,8 @@
  *
  * @group blocks
  */
-class Tests_Blocks_wpBlock extends WP_UnitTestCase {
+class Tests_Blocks_wpBlock extends WP_UnitTestCase
+{
 
     /**
      * Fake block type registry.
@@ -20,7 +21,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * Set up each test method.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         $this->registry = new WP_Block_Type_Registry();
@@ -29,20 +31,23 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * Tear down each test method.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         $this->registry = null;
 
         parent::tear_down();
     }
 
-    public function filter_render_block($content, $parsed_block) {
+    public function filter_render_block($content, $parsed_block)
+    {
         return 'Original: "' . $content . '", from block "' . $parsed_block['blockName'] . '"';
     }
 
     /**
      * @ticket 49927
      */
-    public function test_constructor_assigns_properties_from_parsed_block() {
+    public function test_constructor_assigns_properties_from_parsed_block()
+    {
         $this->registry->register('core/example', array());
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
@@ -61,7 +66,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
      * @ticket 49927
      * @ticket 59797
      */
-    public function test_constructor_assigns_block_type_from_registry() {
+    public function test_constructor_assigns_block_type_from_registry()
+    {
         $block_type_settings = array(
             'attributes' => array(
                 'defaulted' => array(
@@ -93,7 +99,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_lazily_assigns_attributes_with_defaults() {
+    public function test_lazily_assigns_attributes_with_defaults()
+    {
         $this->registry->register(
             'core/example',
             array(
@@ -127,7 +134,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_lazily_assigns_attributes_with_only_defaults() {
+    public function test_lazily_assigns_attributes_with_only_defaults()
+    {
         $this->registry->register(
             'core/example',
             array(
@@ -155,7 +163,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_constructor_assigns_context_from_block_type() {
+    public function test_constructor_assigns_context_from_block_type()
+    {
         $this->registry->register(
             'core/example',
             array(
@@ -176,7 +185,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_constructor_maps_inner_blocks() {
+    public function test_constructor_maps_inner_blocks()
+    {
         $this->registry->register('core/example', array());
 
         $parsed_blocks = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
@@ -192,7 +202,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_constructor_prepares_context_for_inner_blocks() {
+    public function test_constructor_prepares_context_for_inner_blocks()
+    {
         $this->registry->register(
             'core/outer',
             array(
@@ -228,7 +239,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_constructor_assigns_merged_context() {
+    public function test_constructor_assigns_merged_context()
+    {
         $this->registry->register(
             'core/example',
             array(
@@ -272,7 +284,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_render_static_block_type_returns_own_content() {
+    public function test_render_static_block_type_returns_own_content()
+    {
         $this->registry->register('core/static', array());
         $this->registry->register(
             'core/dynamic',
@@ -294,7 +307,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_render_passes_block_for_render_callback() {
+    public function test_render_passes_block_for_render_callback()
+    {
         $this->registry->register(
             'core/greeting',
             array(
@@ -315,7 +329,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_render_applies_render_block_filter() {
+    public function test_render_applies_render_block_filter()
+    {
         $this->registry->register('core/example', array());
 
         add_filter('render_block', array($this, 'filter_render_block'), 10, 2);
@@ -335,7 +350,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 46187
      */
-    public function test_render_applies_dynamic_render_block_filter() {
+    public function test_render_applies_dynamic_render_block_filter()
+    {
         $this->registry->register('core/example', array());
 
         add_filter('render_block_core/example', array($this, 'filter_render_block'), 10, 2);
@@ -355,7 +371,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_passes_attributes_to_render_callback() {
+    public function test_passes_attributes_to_render_callback()
+    {
         $this->registry->register(
             'core/greeting',
             array(
@@ -389,7 +406,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 49927
      */
-    public function test_passes_content_to_render_callback() {
+    public function test_passes_content_to_render_callback()
+    {
         $this->registry->register(
             'core/outer',
             array(
@@ -418,7 +436,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_build_query_vars_from_query_block() {
+    public function test_build_query_vars_from_query_block()
+    {
         $this->registry->register(
             'core/example',
             array('uses_context' => array('query'))
@@ -466,7 +485,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 62014
      */
-    public function test_build_query_vars_from_query_block_standard_post_formats() {
+    public function test_build_query_vars_from_query_block_standard_post_formats()
+    {
         $this->registry->register(
             'core/example',
             array('uses_context' => array('query'))
@@ -505,7 +525,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 62014
      */
-    public function test_build_query_vars_from_query_block_post_format() {
+    public function test_build_query_vars_from_query_block_post_format()
+    {
         $this->registry->register(
             'core/example',
             array('uses_context' => array('query'))
@@ -544,7 +565,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 62014
      */
-    public function test_build_query_vars_from_query_block_post_formats_with_category() {
+    public function test_build_query_vars_from_query_block_post_formats_with_category()
+    {
         $this->registry->register(
             'core/example',
             array('uses_context' => array('query'))
@@ -594,7 +616,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_build_query_vars_from_query_block_no_context() {
+    public function test_build_query_vars_from_query_block_no_context()
+    {
         $this->registry->register('core/example', array());
 
         $parsed_blocks    = parse_blocks('<!-- wp:example {"ok":true} -->a<!-- wp:example /-->b<!-- /wp:example -->');
@@ -617,7 +640,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_build_query_vars_from_query_block_first_page() {
+    public function test_build_query_vars_from_query_block_first_page()
+    {
         $this->registry->register(
             'core/example',
             array('uses_context' => array('query'))
@@ -651,7 +675,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_build_query_vars_from_query_block_page_no_offset() {
+    public function test_build_query_vars_from_query_block_page_no_offset()
+    {
         $this->registry->register(
             'core/example',
             array('uses_context' => array('query'))
@@ -684,7 +709,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_build_query_vars_from_query_block_page_with_offset() {
+    public function test_build_query_vars_from_query_block_page_with_offset()
+    {
         $this->registry->register(
             'core/example',
             array('uses_context' => array('query'))
@@ -717,7 +743,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 56467
      */
-    public function test_query_loop_block_query_vars_filter() {
+    public function test_query_loop_block_query_vars_filter()
+    {
         $this->registry->register(
             'core/example',
             array('uses_context' => array('query'))
@@ -759,7 +786,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_block_has_support() {
+    public function test_block_has_support()
+    {
         $this->registry->register(
             'core/example',
             array(
@@ -789,7 +817,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_block_has_support_no_supports() {
+    public function test_block_has_support_no_supports()
+    {
         $this->registry->register('core/example', array());
         $block_type  = $this->registry->get_registered('core/example');
         $has_support = block_has_support($block_type, array('color'));
@@ -799,7 +828,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 52991
      */
-    public function test_block_has_support_provided_defaults() {
+    public function test_block_has_support_provided_defaults()
+    {
         $this->registry->register(
             'core/example',
             array(
@@ -826,7 +856,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
      * @param string $support    Support string to check.
      * @param bool   $expected   Expected result.
      */
-    public function test_block_has_support_string($block_data, $support, $expected, $message) {
+    public function test_block_has_support_string($block_data, $support, $expected, $message)
+    {
         $this->registry->register('core/example', $block_data);
         $block_type  = $this->registry->get_registered('core/example');
         $has_support = block_has_support($block_type, $support);
@@ -836,7 +867,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * Data provider for test_block_has_support_string
      */
-    public function data_block_has_support_string() {
+    public function data_block_has_support_string()
+    {
         return array(
             array(
                 array(),
@@ -895,7 +927,8 @@ class Tests_Blocks_wpBlock extends WP_UnitTestCase {
     /**
      * @ticket 51612
      */
-    public function test_block_filters_for_inner_blocks() {
+    public function test_block_filters_for_inner_blocks()
+    {
         $pre_render_callback           = new MockAction();
         $render_block_data_callback    = new MockAction();
         $render_block_context_callback = new MockAction();

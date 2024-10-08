@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Return the avatar.
  */
-function render_block_core_avatar($attributes, $content, $block) {
+function render_block_core_avatar($attributes, $content, $block)
+{
     $size               = isset($attributes['size']) ? $attributes['size'] : 96;
     $wrapper_attributes = get_block_wrapper_attributes();
     $border_attributes  = get_block_core_avatar_border_attributes($attributes);
@@ -106,7 +107,8 @@ function render_block_core_avatar($attributes, $content, $block) {
  * @param array $attributes The block attributes.
  * @return array The border-related classnames and styles for the block.
  */
-function get_block_core_avatar_border_attributes($attributes) {
+function get_block_core_avatar_border_attributes($attributes)
+{
     $border_styles = array();
     $sides         = array('top', 'right', 'bottom', 'left');
 
@@ -156,7 +158,8 @@ function get_block_core_avatar_border_attributes($attributes) {
  *
  * @since 6.0.0
  */
-function register_block_core_avatar() {
+function register_block_core_avatar()
+{
     register_block_type_from_metadata(
         __DIR__ . '/avatar',
         array(

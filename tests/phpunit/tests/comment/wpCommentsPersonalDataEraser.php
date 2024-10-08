@@ -6,11 +6,13 @@
  *
  * @covers ::wp_comments_personal_data_eraser
  */
-class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
+class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase
+{
 
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = $factory->post->create();
     }
 
@@ -19,7 +21,8 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
      *
      * @ticket 43442
      */
-    public function test_wp_comments_personal_data_eraser() {
+    public function test_wp_comments_personal_data_eraser()
+    {
 
         $user_id = self::factory()->user->create();
 
@@ -74,7 +77,8 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
      *
      * @ticket 43442
      */
-    public function test_wp_comments_personal_data_eraser_empty_first_page_output() {
+    public function test_wp_comments_personal_data_eraser_empty_first_page_output()
+    {
 
         $actual   = wp_comments_personal_data_eraser('nocommentsfound@local.host');
         $expected = array(
@@ -92,7 +96,8 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
      *
      * @ticket 43442
      */
-    public function test_wp_comments_personal_data_eraser_non_empty_first_page_output() {
+    public function test_wp_comments_personal_data_eraser_non_empty_first_page_output()
+    {
 
         $args = array(
             'comment_post_ID'      => self::$post_id,
@@ -122,7 +127,8 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
      *
      * @ticket 43442
      */
-    public function test_wp_comments_personal_data_eraser_empty_second_page_output() {
+    public function test_wp_comments_personal_data_eraser_empty_second_page_output()
+    {
 
         $args = array(
             'comment_post_ID'      => self::$post_id,
@@ -152,7 +158,8 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
      *
      * @ticket 43442
      */
-    public function test_wp_anonymize_comment_filter_to_prevent_comment_anonymization() {
+    public function test_wp_anonymize_comment_filter_to_prevent_comment_anonymization()
+    {
 
         $args       = array(
             'comment_post_ID'      => self::$post_id,
@@ -187,7 +194,8 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
      *
      * @ticket 43442
      */
-    public function test_wp_anonymize_comment_filter_to_prevent_comment_anonymization_with_custom_message() {
+    public function test_wp_anonymize_comment_filter_to_prevent_comment_anonymization_with_custom_message()
+    {
 
         $args       = array(
             'comment_post_ID'      => self::$post_id,
@@ -226,7 +234,8 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
      * @param  array       $anonymized_comment Anonymized comment data.
      * @return string
      */
-    public function wp_anonymize_comment_custom_message($anonymize, $comment, $anonymized_comment) {
+    public function wp_anonymize_comment_custom_message($anonymize, $comment, $anonymized_comment)
+    {
         return sprintf('Some custom message for comment %d.', $comment->comment_ID);
     }
 
@@ -235,7 +244,8 @@ class Tests_Comment_wpCommentsPersonalDataEraser extends WP_UnitTestCase {
      *
      * @ticket 57700
      */
-    public function test_wp_comments_personal_data_eraser_orders_comments_by_id() {
+    public function test_wp_comments_personal_data_eraser_orders_comments_by_id()
+    {
 
         $args = array(
             'comment_post_ID'      => self::$post_id,

@@ -10,9 +10,11 @@
  * @method WP_Network|WP_Error create_and_get( $args = array(), $generation_definitions = null )
  * @method (int|WP_Error)[]    create_many( $count, $args = array(), $generation_definitions = null )
  */
-class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
+class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing
+{
 
-    public function __construct($factory = null) {
+    public function __construct($factory = null)
+    {
         parent::__construct($factory);
         $this->default_generation_definitions = array(
             'domain'            => WP_TESTS_DOMAIN,
@@ -33,7 +35,8 @@ class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The network ID on success, WP_Error object on failure.
      */
-    public function create_object($args) {
+    public function create_object($args)
+    {
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
         if (! isset($args['user'])) {
@@ -66,7 +69,8 @@ class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
      * @param int   $network_id ID of the network to update.
      * @param array $fields  The fields to update.
      */
-    public function update_object($network_id, $fields) {}
+    public function update_object($network_id, $fields)
+    {}
 
     /**
      * Retrieves a network by a given ID.
@@ -77,7 +81,8 @@ class WP_UnitTest_Factory_For_Network extends WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_Network|null The network object on success, null on failure.
      */
-    public function get_object_by_id($network_id) {
+    public function get_object_by_id($network_id)
+    {
         return get_network($network_id);
     }
 }

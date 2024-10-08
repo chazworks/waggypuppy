@@ -19,7 +19,8 @@
  *
  * @see WP_HTML_Tag_Processor
  */
-class WP_HTML_Text_Replacement {
+class WP_HTML_Text_Replacement
+{
     /**
      * Byte offset into document where replacement span begins.
      *
@@ -56,7 +57,8 @@ class WP_HTML_Text_Replacement {
      * @param int    $length Byte length of span in document being replaced.
      * @param string $text   Span of text to insert in document to replace existing content from start to end.
      */
-    public function __construct(int $start, int $length, string $text) {
+    public function __construct(int $start, int $length, string $text)
+    {
         $this->start  = $start;
         $this->length = $length;
         $this->text   = $text;

@@ -15,14 +15,16 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_URL_Details_Controller extends WP_REST_Controller {
+class WP_REST_URL_Details_Controller extends WP_REST_Controller
+{
 
     /**
      * Constructs the controller.
      *
      * @since 5.9.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp-block-editor/v1';
         $this->rest_base = 'url-details';
     }
@@ -32,7 +34,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      *
      * @since 5.9.0
      */
-    public function register_routes() {
+    public function register_routes()
+    {
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
@@ -64,7 +67,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -131,7 +135,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error The parsed details as a response object. WP_Error if there are errors.
      */
-    public function parse_url_details($request) {
+    public function parse_url_details($request)
+    {
         $url = untrailingslashit($request['url']);
 
         if (empty($url)) {
@@ -194,7 +199,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      *
      * @return true|WP_Error True if the request has permission, else WP_Error.
      */
-    public function permissions_check() {
+    public function permissions_check()
+    {
         if (current_user_can('edit_posts')) {
             return true;
         }
@@ -221,7 +227,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @return string|WP_Error The HTTP response from the remote URL on success.
      *                         WP_Error if no response or no content.
      */
-    private function get_remote_url($url) {
+    private function get_remote_url($url)
+    {
 
         /*
          * Provide a modified UA string to workaround web properties which block WordPress "Pingbacks".
@@ -283,7 +290,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $html The HTML from the remote website at URL.
      * @return string The title tag contents on success. Empty string if not found.
      */
-    private function get_title($html) {
+    private function get_title($html)
+    {
         $pattern = '#<title[^>]*>(.*?)<\s*/\s*title>#is';
         preg_match($pattern, $html, $match_title);
 
@@ -305,7 +313,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $url  The target website URL.
      * @return string The icon URI on success. Empty string if not found.
      */
-    private function get_icon($html, $url) {
+    private function get_icon($html, $url)
+    {
         // Grab the icon's link element.
         $pattern = '#<link\s[^>]*rel=(?:[\"\']??)\s*(?:icon|shortcut icon|icon shortcut)\s*(?:[\"\']??)[^>]*\/?>#isU';
         preg_match($pattern, $html, $element);
@@ -355,7 +364,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * }
      * @return string The meta description contents on success. Empty string if not found.
      */
-    private function get_description($meta_elements) {
+    private function get_description($meta_elements)
+    {
         // Bail out if there are no meta elements.
         if (empty($meta_elements[0])) {
             return '';
@@ -392,7 +402,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $url The target website URL.
      * @return string The OG image on success. Empty string if not found.
      */
-    private function get_image($meta_elements, $url) {
+    private function get_image($meta_elements, $url)
+    {
         $image = $this->get_metadata_from_meta_element(
             $meta_elements,
             'property',
@@ -424,7 +435,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $metadata The metadata content to prepare.
      * @return string The prepared metadata.
      */
-    private function prepare_metadata_for_output($metadata) {
+    private function prepare_metadata_for_output($metadata)
+    {
         $metadata = html_entity_decode($metadata, ENT_QUOTES, get_bloginfo('charset'));
         $metadata = wp_strip_all_tags($metadata);
         return $metadata;
@@ -438,7 +450,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $url The URL for which to build a cache key.
      * @return string The cache key.
      */
-    private function build_cache_key_for_url($url) {
+    private function build_cache_key_for_url($url)
+    {
         return 'g_url_details_response_' . md5($url);
     }
 
@@ -450,7 +463,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $key The cache key.
      * @return mixed The value from the cache.
      */
-    private function get_cache($key) {
+    private function get_cache($key)
+    {
         return get_site_transient($key);
     }
 
@@ -463,7 +477,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $data The data to be stored at the given cache key.
      * @return bool True when transient set. False if not set.
      */
-    private function set_cache($key, $data = '') {
+    private function set_cache($key, $data = '')
+    {
         $ttl = HOUR_IN_SECONDS;
 
         /**
@@ -489,7 +504,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $html The string of HTML to parse.
      * @return string The `<head>..</head>` section on success. Given `$html` if not found.
      */
-    private function get_document_head($html) {
+    private function get_document_head($html)
+    {
         $head_html = $html;
 
         // Find the opening `<head>` tag.
@@ -532,7 +548,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      *     @type string[] $2 Content attribute's value for each meta element.
      * }
      */
-    private function get_meta_with_content_elements($html) {
+    private function get_meta_with_content_elements($html)
+    {
         /*
          * Parse all meta elements with a content attribute.
          *
@@ -615,7 +632,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
      * @param string $attr_value The attribute's value that identifies the element with the target metadata.
      * @return string The metadata on success. Empty string if not found.
      */
-    private function get_metadata_from_meta_element($meta_elements, $attr, $attr_value) {
+    private function get_metadata_from_meta_element($meta_elements, $attr, $attr_value)
+    {
         // Bail out if there are no meta elements.
         if (empty($meta_elements[0])) {
             return '';

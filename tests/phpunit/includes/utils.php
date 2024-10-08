@@ -9,7 +9,8 @@
  * @param int $length Optional. The required length. Default 32.
  * @return string The string.
  */
-function rand_str($length = 32) {
+function rand_str($length = 32)
+{
     return substr(md5(uniqid(rand())), 0, $length);
 }
 
@@ -19,7 +20,8 @@ function rand_str($length = 32) {
  * @param int $length The required length.
  * @return string The string.
  */
-function rand_long_str($length) {
+function rand_long_str($length)
+{
     $chars  = 'abcdefghijklmnopqrstuvwxyz';
     $string = '';
 
@@ -37,7 +39,8 @@ function rand_long_str($length) {
  * @param string $txt The text.
  * @return string Text with line-leading and line-trailing whitespace stripped.
  */
-function strip_ws($txt) {
+function strip_ws($txt)
+{
     $lines  = explode("\n", $txt);
     $result = array();
     foreach ($lines as $line) {
@@ -59,7 +62,8 @@ function strip_ws($txt) {
  *
  * @since UT (3.7.0)
  */
-class MockAction {
+class MockAction
+{
     public $events;
     public $debug;
 
@@ -68,7 +72,8 @@ class MockAction {
      *
      * @since UT (3.7.0)
      */
-    public function __construct($debug = 0) {
+    public function __construct($debug = 0)
+    {
         $this->reset();
         $this->debug = $debug;
     }
@@ -76,14 +81,16 @@ class MockAction {
     /**
      * @since UT (3.7.0)
      */
-    public function reset() {
+    public function reset()
+    {
         $this->events = array();
     }
 
     /**
      * @since UT (3.7.0)
      */
-    public function current_filter() {
+    public function current_filter()
+    {
         global $wp_actions;
 
         if (is_callable('current_filter')) {
@@ -96,7 +103,8 @@ class MockAction {
     /**
      * @since UT (3.7.0)
      */
-    public function action($arg) {
+    public function action($arg)
+    {
         $current_filter = $this->current_filter();
 
         if ($this->debug) {
@@ -116,7 +124,8 @@ class MockAction {
     /**
      * @since UT (3.7.0)
      */
-    public function action2($arg) {
+    public function action2($arg)
+    {
         $current_filter = $this->current_filter();
 
         if ($this->debug) {
@@ -136,7 +145,8 @@ class MockAction {
     /**
      * @since UT (3.7.0)
      */
-    public function filter($arg) {
+    public function filter($arg)
+    {
         $current_filter = $this->current_filter();
 
         if ($this->debug) {
@@ -156,7 +166,8 @@ class MockAction {
     /**
      * @since UT (3.7.0)
      */
-    public function filter2($arg) {
+    public function filter2($arg)
+    {
         $current_filter = $this->current_filter();
 
         if ($this->debug) {
@@ -176,7 +187,8 @@ class MockAction {
     /**
      * @since UT (3.7.0)
      */
-    public function filter_append($arg) {
+    public function filter_append($arg)
+    {
         $current_filter = $this->current_filter();
 
         if ($this->debug) {
@@ -198,7 +210,8 @@ class MockAction {
      *
      * @since UT (3.7.0)
      */
-    public function filterall($hook_name, ...$args) {
+    public function filterall($hook_name, ...$args)
+    {
         $current_filter = $this->current_filter();
 
         if ($this->debug) {
@@ -218,7 +231,8 @@ class MockAction {
      *
      * @since UT (3.7.0)
      */
-    public function get_events() {
+    public function get_events()
+    {
         return $this->events;
     }
 
@@ -227,7 +241,8 @@ class MockAction {
      *
      * @since UT (3.7.0)
      */
-    public function get_call_count($hook_name = '') {
+    public function get_call_count($hook_name = '')
+    {
         if ($hook_name) {
             $count = 0;
 
@@ -248,7 +263,8 @@ class MockAction {
      *
      * @since 6.1.0
      */
-    public function get_hook_names() {
+    public function get_hook_names()
+    {
         $out = array();
 
         foreach ($this->events as $e) {
@@ -264,7 +280,8 @@ class MockAction {
      * @since UT (3.7.0)
      * @since 6.1.0 Turned into an alias for ::get_hook_names().
      */
-    public function get_tags() {
+    public function get_tags()
+    {
         return $this->get_hook_names();
     }
 
@@ -273,7 +290,8 @@ class MockAction {
      *
      * @since UT (3.7.0)
      */
-    public function get_args() {
+    public function get_args()
+    {
         $out = array();
 
         foreach ($this->events as $e) {
@@ -286,14 +304,16 @@ class MockAction {
 
 // Convert valid XML to an array tree structure.
 // Kinda lame, but it works with a default PHP 4 installation.
-class TestXMLParser {
+class TestXMLParser
+{
     public $xml;
     public $data = array();
 
     /**
      * PHP5 constructor.
      */
-    public function __construct($in) {
+    public function __construct($in)
+    {
         $this->xml = xml_parser_create();
         xml_parser_set_option($this->xml, XML_OPTION_CASE_FOLDING, 0);
         xml_set_element_handler($this->xml, array($this, 'start_handler'), array($this, 'end_handler'));
@@ -301,7 +321,8 @@ class TestXMLParser {
         $this->parse($in);
     }
 
-    public function parse($in) {
+    public function parse($in)
+    {
         $parse = xml_parse($this->xml, $in, true);
         if (! $parse) {
             throw new Exception(
@@ -316,14 +337,16 @@ class TestXMLParser {
         return true;
     }
 
-    public function start_handler($parser, $name, $attributes) {
+    public function start_handler($parser, $name, $attributes)
+    {
         $data['name'] = $name;
         if ($attributes) {
             $data['attributes'] = $attributes; }
         $this->data[] = $data;
     }
 
-    public function data_handler($parser, $data) {
+    public function data_handler($parser, $data)
+    {
         $index = count($this->data) - 1;
 
         if (! isset($this->data[ $index ]['content'])) {
@@ -332,7 +355,8 @@ class TestXMLParser {
         $this->data[ $index ]['content'] .= $data;
     }
 
-    public function end_handler($parser, $name) {
+    public function end_handler($parser, $name)
+    {
         if (count($this->data) > 1) {
             $data                            = array_pop($this->data);
             $index                           = count($this->data) - 1;
@@ -349,7 +373,8 @@ class TestXMLParser {
  * @param string $in The XML string.
  * @return array XML as an array.
  */
-function xml_to_array($in) {
+function xml_to_array($in)
+{
     $p = new TestXMLParser($in);
     return $p->data;
 }
@@ -366,7 +391,8 @@ function xml_to_array($in) {
  * @param string ...$elements Names of XML nodes to create a "path" to find within the XML.
  * @return array Array of matching XML node information.
  */
-function xml_find($tree, ...$elements) {
+function xml_find($tree, ...$elements)
+{
     $n   = count($elements);
     $out = array();
 
@@ -391,7 +417,8 @@ function xml_find($tree, ...$elements) {
     return $out;
 }
 
-function xml_join_atts($atts) {
+function xml_join_atts($atts)
+{
     $a = array();
     foreach ($atts as $k => $v) {
         $a[] = $k . '="' . $v . '"';
@@ -399,7 +426,8 @@ function xml_join_atts($atts) {
     return implode(' ', $a);
 }
 
-function xml_array_dumbdown(&$data) {
+function xml_array_dumbdown(&$data)
+{
     $out = array();
 
     foreach (array_keys($data) as $i) {
@@ -418,25 +446,29 @@ function xml_array_dumbdown(&$data) {
     return $out;
 }
 
-function dmp(...$args) {
+function dmp(...$args)
+{
     foreach ($args as $thing) {
         echo (is_scalar($thing) ? (string) $thing : var_export($thing, true)), "\n";
     }
 }
 
-function dmp_filter($a) {
+function dmp_filter($a)
+{
     dmp($a);
     return $a;
 }
 
-function get_echo($callback, $args = array()) {
+function get_echo($callback, $args = array())
+{
     ob_start();
     call_user_func_array($callback, $args);
     return ob_get_clean();
 }
 
 // Recursively generate some quick assertEquals() tests based on an array.
-function gen_tests_array($name, $expected_data) {
+function gen_tests_array($name, $expected_data)
+{
     $out = array();
 
     foreach ($expected_data as $k => $v) {
@@ -461,12 +493,15 @@ function gen_tests_array($name, $expected_data) {
 /**
  * Use to create objects by yourself.
  */
-class MockClass extends stdClass {}
+class MockClass extends stdClass
+{
+}
 
 /**
  * Drops all tables from the WordPress database.
  */
-function drop_tables() {
+function drop_tables()
+{
     global $wpdb;
     $tables = $wpdb->get_col('SHOW TABLES;');
     foreach ($tables as $table) {
@@ -475,7 +510,8 @@ function drop_tables() {
     }
 }
 
-function print_backtrace() {
+function print_backtrace()
+{
     $bt = debug_backtrace();
     echo "Backtrace:\n";
     $i = 0;
@@ -493,18 +529,21 @@ function print_backtrace() {
 }
 
 // Mask out any input fields matching the given name.
-function mask_input_value($in, $name = '_wpnonce') {
+function mask_input_value($in, $name = '_wpnonce')
+{
     return preg_replace('@<input([^>]*) name="' . preg_quote($name) . '"([^>]*) value="[^>]*" />@', '<input$1 name="' . preg_quote($name) . '"$2 value="***" />', $in);
 }
 
 /**
  * Removes the post type and its taxonomy associations.
  */
-function _unregister_post_type($cpt_name) {
+function _unregister_post_type($cpt_name)
+{
     unregister_post_type($cpt_name);
 }
 
-function _unregister_taxonomy($taxonomy_name) {
+function _unregister_taxonomy($taxonomy_name)
+{
     unregister_taxonomy($taxonomy_name);
 }
 
@@ -515,11 +554,13 @@ function _unregister_taxonomy($taxonomy_name) {
  *
  * @param string $status
  */
-function _unregister_post_status($status) {
+function _unregister_post_status($status)
+{
     unset($GLOBALS['wp_post_statuses'][ $status ]);
 }
 
-function _cleanup_query_vars() {
+function _cleanup_query_vars()
+{
     // Clean out globals to stop them polluting wp and wp_query.
     foreach ($GLOBALS['wp']->public_query_vars as $v) {
         unset($GLOBALS[ $v ]);
@@ -542,7 +583,8 @@ function _cleanup_query_vars() {
     }
 }
 
-function _clean_term_filters() {
+function _clean_term_filters()
+{
     remove_filter('get_terms', array('Featured_Content', 'hide_featured_term'), 10, 2);
     remove_filter('get_the_terms', array('Featured_Content', 'hide_the_featured_term'), 10, 3);
 }
@@ -550,8 +592,10 @@ function _clean_term_filters() {
 /**
  * Special class for exposing protected wpdb methods we need to access
  */
-class WpdbExposedMethodsForTesting extends wpdb {
-    public function __construct() {
+class WpdbExposedMethodsForTesting extends wpdb
+{
+    public function __construct()
+    {
         global $wpdb;
         $this->dbh         = $wpdb->dbh;
         $this->is_mysql    = $wpdb->is_mysql;
@@ -565,7 +609,8 @@ class WpdbExposedMethodsForTesting extends wpdb {
         $this->dbhost     = $wpdb->dbhost;
     }
 
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         return call_user_func_array(array($this, $name), $arguments);
     }
 }
@@ -575,7 +620,8 @@ class WpdbExposedMethodsForTesting extends wpdb {
  *
  * @return int The backtrack count.
  */
-function benchmark_pcre_backtracking($pattern, $subject, $strategy) {
+function benchmark_pcre_backtracking($pattern, $subject, $strategy)
+{
     $saved_config = ini_get('pcre.backtrack_limit');
 
     // Attempt to prevent PHP crashes. Adjust lower when needed.
@@ -624,7 +670,8 @@ function benchmark_pcre_backtracking($pattern, $subject, $strategy) {
     return $i;
 }
 
-function test_rest_expand_compact_links($links) {
+function test_rest_expand_compact_links($links)
+{
     if (empty($links['curies'])) {
         return $links;
     }

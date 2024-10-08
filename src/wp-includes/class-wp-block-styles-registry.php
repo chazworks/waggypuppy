@@ -13,7 +13,8 @@
  * @since 5.3.0
  */
 #[AllowDynamicProperties]
-final class WP_Block_Styles_Registry {
+final class WP_Block_Styles_Registry
+{
     /**
      * Registered block styles, as `$block_name => $block_style_name => $block_style_properties` multidimensional arrays.
      *
@@ -61,7 +62,8 @@ final class WP_Block_Styles_Registry {
      * }
      * @return bool True if the block style was registered with success and false otherwise.
      */
-    public function register($block_name, $style_properties) {
+    public function register($block_name, $style_properties)
+    {
 
         if (! is_string($block_name) && ! is_array($block_name)) {
             _doing_it_wrong(
@@ -112,7 +114,8 @@ final class WP_Block_Styles_Registry {
      * @param string $block_style_name Block style name.
      * @return bool True if the block style was unregistered with success and false otherwise.
      */
-    public function unregister($block_name, $block_style_name) {
+    public function unregister($block_name, $block_style_name)
+    {
         if (! $this->is_registered($block_name, $block_style_name)) {
             _doing_it_wrong(
                 __METHOD__,
@@ -137,7 +140,8 @@ final class WP_Block_Styles_Registry {
      * @param string $block_style_name Block style name.
      * @return array Registered block style properties.
      */
-    public function get_registered($block_name, $block_style_name) {
+    public function get_registered($block_name, $block_style_name)
+    {
         if (! $this->is_registered($block_name, $block_style_name)) {
             return null;
         }
@@ -152,7 +156,8 @@ final class WP_Block_Styles_Registry {
      *
      * @return array[] Array of arrays containing the registered block styles properties grouped by block type.
      */
-    public function get_all_registered() {
+    public function get_all_registered()
+    {
         return $this->registered_block_styles;
     }
 
@@ -164,7 +169,8 @@ final class WP_Block_Styles_Registry {
      * @param string $block_name Block type name including namespace.
      * @return array[] Array whose keys are block style names and whose values are block style properties.
      */
-    public function get_registered_styles_for_block($block_name) {
+    public function get_registered_styles_for_block($block_name)
+    {
         if (isset($this->registered_block_styles[ $block_name ])) {
             return $this->registered_block_styles[ $block_name ];
         }
@@ -180,7 +186,8 @@ final class WP_Block_Styles_Registry {
      * @param string $block_style_name Block style name.
      * @return bool True if the block style is registered, false otherwise.
      */
-    public function is_registered($block_name, $block_style_name) {
+    public function is_registered($block_name, $block_style_name)
+    {
         return isset($this->registered_block_styles[ $block_name ][ $block_style_name ]);
     }
 
@@ -193,7 +200,8 @@ final class WP_Block_Styles_Registry {
      *
      * @return WP_Block_Styles_Registry The main instance.
      */
-    public static function get_instance() {
+    public static function get_instance()
+    {
         if (null === self::$instance) {
             self::$instance = new self();
         }

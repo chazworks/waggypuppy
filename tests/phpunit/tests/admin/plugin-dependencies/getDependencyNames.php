@@ -16,14 +16,16 @@ require_once __DIR__ . '/base.php';
  * @covers WP_Plugin_Dependencies::get_dependencies
  * @covers WP_Plugin_Dependencies::get_dependency_filepaths
  */
-class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDependencies_UnitTestCase {
+class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDependencies_UnitTestCase
+{
 
     /**
      * Mocks an API response.
      *
      * @param string $type The type of response. Accepts 'success' or 'failure'.
      */
-    private function mock_api_response($type) {
+    private function mock_api_response($type)
+    {
         add_filter(
             'plugins_api',
             function ($bypass, $action, $args) use ($type) {
@@ -52,7 +54,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
      *
      * @global string $pagenow The filename of the current screen.
      */
-    public function test_should_get_dependency_names() {
+    public function test_should_get_dependency_names()
+    {
         global $pagenow;
 
         // Backup $pagenow.
@@ -111,7 +114,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
      *
      * @global string $pagenow The filename of the current screen.
      */
-    public function test_should_use_dependency_name_from_file() {
+    public function test_should_use_dependency_name_from_file()
+    {
         global $pagenow;
 
         // Backup $pagenow.
@@ -171,7 +175,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
      *
      * @global string $pagenow The filename of the current screen.
      */
-    public function test_should_use_dependency_slugs() {
+    public function test_should_use_dependency_slugs()
+    {
         global $pagenow;
 
         // Backup $pagenow.
@@ -213,7 +218,8 @@ class Tests_Admin_WPPluginDependencies_GetDependencyNames extends WP_PluginDepen
      *
      * @global string $pagenow The filename of the current screen.
      */
-    public function test_should_set_dependency_data_when_not_already_available() {
+    public function test_should_set_dependency_data_when_not_already_available()
+    {
         global $pagenow;
 
         // Backup $pagenow.

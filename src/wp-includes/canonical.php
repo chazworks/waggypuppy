@@ -39,7 +39,8 @@
  * @param bool   $do_redirect   Optional. Redirect to the new URL.
  * @return string|void The string of the URL, if redirect needed.
  */
-function redirect_canonical($requested_url = null, $do_redirect = true) {
+function redirect_canonical($requested_url = null, $do_redirect = true)
+{
     global $wp_rewrite, $is_IIS, $wp_query, $wpdb, $wp;
 
     if (isset($_SERVER['REQUEST_METHOD']) && ! in_array(strtoupper($_SERVER['REQUEST_METHOD']), array('GET', 'HEAD'), true)) {
@@ -778,7 +779,8 @@ function redirect_canonical($requested_url = null, $do_redirect = true) {
              * @param array $matches Hex-encoded octet matches for the requested URL.
              * @return string Lowercased version of the first match.
              */
-            function lowercase_octets($matches) {
+            function lowercase_octets($matches)
+            {
                 return strtolower($matches[0]);
             }
         }
@@ -852,7 +854,8 @@ function redirect_canonical($requested_url = null, $do_redirect = true) {
  * @param string $url
  * @return string The altered query string
  */
-function _remove_qs_args_if_not_in_url($query_string, array $args_to_check, $url) {
+function _remove_qs_args_if_not_in_url($query_string, array $args_to_check, $url)
+{
     $parsed_url = parse_url($url);
 
     if (! empty($parsed_url['query'])) {
@@ -878,7 +881,8 @@ function _remove_qs_args_if_not_in_url($query_string, array $args_to_check, $url
  * @param string $url The URL to strip.
  * @return string The altered URL.
  */
-function strip_fragment_from_url($url) {
+function strip_fragment_from_url($url)
+{
     $parsed_url = wp_parse_url($url);
 
     if (! empty($parsed_url['host'])) {
@@ -915,7 +919,8 @@ function strip_fragment_from_url($url) {
  *
  * @return string|false The correct URL if one is found. False on failure.
  */
-function redirect_guess_404_permalink() {
+function redirect_guess_404_permalink()
+{
     global $wpdb;
 
     /**
@@ -1027,7 +1032,8 @@ function redirect_guess_404_permalink() {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  */
-function wp_redirect_admin_locations() {
+function wp_redirect_admin_locations()
+{
     global $wp_rewrite;
 
     if (! (is_404() && $wp_rewrite->using_permalinks())) {

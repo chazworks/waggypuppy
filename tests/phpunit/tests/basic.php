@@ -5,12 +5,14 @@
  *
  * @group basic
  */
-class Tests_Basic extends WP_UnitTestCase {
+class Tests_Basic extends WP_UnitTestCase
+{
 
     /**
      * @coversNothing
      */
-    public function test_license() {
+    public function test_license()
+    {
         // This test is designed to only run on trunk.
         $this->skipOnAutomatedBranches();
 
@@ -25,7 +27,8 @@ class Tests_Basic extends WP_UnitTestCase {
     /**
      * @coversNothing
      */
-    public function test_security_md() {
+    public function test_security_md()
+    {
         // This test is designed to only run on trunk.
         $this->skipOnAutomatedBranches();
 
@@ -41,7 +44,8 @@ class Tests_Basic extends WP_UnitTestCase {
     /**
      * @coversNothing
      */
-    public function test_package_json() {
+    public function test_package_json()
+    {
         $package_json    = file_get_contents(dirname(ABSPATH) . '/package.json');
         $package_json    = json_decode($package_json, true);
         list( $version ) = explode('-', $GLOBALS['wp_version']);
@@ -61,7 +65,8 @@ class Tests_Basic extends WP_UnitTestCase {
      *
      * @coversNothing
      */
-    public function test_package_json_node_engine($package_json) {
+    public function test_package_json_node_engine($package_json)
+    {
         $this->assertArrayHasKey('engines', $package_json);
         $this->assertArrayHasKey('node', $package_json['engines']);
     }

@@ -10,9 +10,11 @@
  * @method WP_User|WP_Error create_and_get( $args = array(), $generation_definitions = null )
  * @method (int|WP_Error)[] create_many( $count, $args = array(), $generation_definitions = null )
  */
-class WP_UnitTest_Factory_For_User extends WP_UnitTest_Factory_For_Thing {
+class WP_UnitTest_Factory_For_User extends WP_UnitTest_Factory_For_Thing
+{
 
-    public function __construct($factory = null) {
+    public function __construct($factory = null)
+    {
         parent::__construct($factory);
         $this->default_generation_definitions = array(
             'user_login' => new WP_UnitTest_Generator_Sequence('User %s'),
@@ -30,7 +32,8 @@ class WP_UnitTest_Factory_For_User extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The user ID on success, WP_Error object on failure.
      */
-    public function create_object($args) {
+    public function create_object($args)
+    {
         return wp_insert_user($args);
     }
 
@@ -44,7 +47,8 @@ class WP_UnitTest_Factory_For_User extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The user ID on success, WP_Error object on failure.
      */
-    public function update_object($user_id, $fields) {
+    public function update_object($user_id, $fields)
+    {
         $fields['ID'] = $user_id;
         return wp_update_user($fields);
     }
@@ -58,7 +62,8 @@ class WP_UnitTest_Factory_For_User extends WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_User The user object.
      */
-    public function get_object_by_id($user_id) {
+    public function get_object_by_id($user_id)
+    {
         return new WP_User($user_id);
     }
 }

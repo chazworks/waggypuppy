@@ -12,7 +12,8 @@
  * @since 3.5.0
  */
 #[AllowDynamicProperties]
-abstract class WP_Image_Editor {
+abstract class WP_Image_Editor
+{
     protected $file              = null;
     protected $size              = null;
     protected $mime_type         = null;
@@ -28,7 +29,8 @@ abstract class WP_Image_Editor {
      *
      * @param string $file Path to the file to load.
      */
-    public function __construct($file) {
+    public function __construct($file)
+    {
         $this->file = $file;
     }
 
@@ -43,7 +45,8 @@ abstract class WP_Image_Editor {
      * @param array $args
      * @return bool
      */
-    public static function test($args = array()) {
+    public static function test($args = array())
+    {
         return false;
     }
 
@@ -58,7 +61,8 @@ abstract class WP_Image_Editor {
      * @param string $mime_type
      * @return bool
      */
-    public static function supports_mime_type($mime_type) {
+    public static function supports_mime_type($mime_type)
+    {
         return false;
     }
 
@@ -200,7 +204,8 @@ abstract class WP_Image_Editor {
      *     @type int $height The image height.
      * }
      */
-    public function get_size() {
+    public function get_size()
+    {
         return $this->size;
     }
 
@@ -213,7 +218,8 @@ abstract class WP_Image_Editor {
      * @param int $height
      * @return true
      */
-    protected function update_size($width = null, $height = null) {
+    protected function update_size($width = null, $height = null)
+    {
         $this->size = array(
             'width'  => (int) $width,
             'height' => (int) $height,
@@ -228,7 +234,8 @@ abstract class WP_Image_Editor {
      *
      * @return int Compression Quality. Range: [1,100]
      */
-    public function get_quality() {
+    public function get_quality()
+    {
         if (! $this->quality) {
             $this->set_quality();
         }
@@ -244,7 +251,8 @@ abstract class WP_Image_Editor {
      * @param int $quality Compression Quality. Range: [1,100]
      * @return true|WP_Error True if set successfully; WP_Error on failure.
      */
-    public function set_quality($quality = null) {
+    public function set_quality($quality = null)
+    {
         // Use the output mime type if present. If not, fall back to the input/initial mime type.
         $mime_type = ! empty($this->output_mime_type) ? $this->output_mime_type : $this->mime_type;
         // Get the default quality setting for the mime type.
@@ -312,7 +320,8 @@ abstract class WP_Image_Editor {
      * @param string $mime_type
      * @return int The default quality setting for the mime type.
      */
-    protected function get_default_quality($mime_type) {
+    protected function get_default_quality($mime_type)
+    {
         switch ($mime_type) {
             case 'image/webp':
                 $quality = 86;
@@ -339,7 +348,8 @@ abstract class WP_Image_Editor {
      * @param string $mime_type
      * @return array { filename|null, extension, mime-type }
      */
-    protected function get_output_format($filename = null, $mime_type = null) {
+    protected function get_output_format($filename = null, $mime_type = null)
+    {
         $new_ext = null;
 
         // By default, assume specified type takes priority.
@@ -429,7 +439,8 @@ abstract class WP_Image_Editor {
      * @param string $extension
      * @return string filename
      */
-    public function generate_filename($suffix = null, $dest_path = null, $extension = null) {
+    public function generate_filename($suffix = null, $dest_path = null, $extension = null)
+    {
         // $suffix will be appended to the destination filename, just before the extension.
         if (! $suffix) {
             $suffix = $this->get_suffix();
@@ -462,7 +473,8 @@ abstract class WP_Image_Editor {
      *
      * @return string|false suffix
      */
-    public function get_suffix() {
+    public function get_suffix()
+    {
         if (! $this->get_size()) {
             return false;
         }
@@ -478,7 +490,8 @@ abstract class WP_Image_Editor {
      * @return bool|WP_Error True if the image was rotated. False if not rotated (no EXIF data or the image doesn't need to be rotated).
      *                       WP_Error if error while rotating.
      */
-    public function maybe_exif_rotate() {
+    public function maybe_exif_rotate()
+    {
         $orientation = null;
 
         if (is_callable('exif_read_data') && 'image/jpeg' === $this->mime_type) {
@@ -560,7 +573,8 @@ abstract class WP_Image_Editor {
      * @param array    $arguments
      * @return bool
      */
-    protected function make_image($filename, $callback, $arguments) {
+    protected function make_image($filename, $callback, $arguments)
+    {
         $stream = wp_is_stream($filename);
         if ($stream) {
             ob_start();
@@ -601,7 +615,8 @@ abstract class WP_Image_Editor {
      * @param string $extension
      * @return string|false
      */
-    protected static function get_mime_type($extension = null) {
+    protected static function get_mime_type($extension = null)
+    {
         if (! $extension) {
             return false;
         }
@@ -627,7 +642,8 @@ abstract class WP_Image_Editor {
      * @param string $mime_type
      * @return string|false
      */
-    protected static function get_extension($mime_type = null) {
+    protected static function get_extension($mime_type = null)
+    {
         if (empty($mime_type)) {
             return false;
         }

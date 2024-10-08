@@ -12,7 +12,8 @@
  * @since 2.5.0
  */
 #[AllowDynamicProperties]
-class WP_Filesystem_Base {
+class WP_Filesystem_Base
+{
 
     /**
      * Whether to display debug data for the connection.
@@ -54,7 +55,8 @@ class WP_Filesystem_Base {
      *
      * @return string The location of the remote path.
      */
-    public function abspath() {
+    public function abspath()
+    {
         $folder = $this->find_folder(ABSPATH);
 
         /*
@@ -75,7 +77,8 @@ class WP_Filesystem_Base {
      *
      * @return string The location of the remote path.
      */
-    public function wp_content_dir() {
+    public function wp_content_dir()
+    {
         return $this->find_folder(WP_CONTENT_DIR);
     }
 
@@ -86,7 +89,8 @@ class WP_Filesystem_Base {
      *
      * @return string The location of the remote path.
      */
-    public function wp_plugins_dir() {
+    public function wp_plugins_dir()
+    {
         return $this->find_folder(WP_PLUGIN_DIR);
     }
 
@@ -99,7 +103,8 @@ class WP_Filesystem_Base {
      *                            Default false.
      * @return string The location of the remote path.
      */
-    public function wp_themes_dir($theme = false) {
+    public function wp_themes_dir($theme = false)
+    {
         $theme_root = get_theme_root($theme);
 
         // Account for relative theme roots.
@@ -117,7 +122,8 @@ class WP_Filesystem_Base {
      *
      * @return string The location of the remote path.
      */
-    public function wp_lang_dir() {
+    public function wp_lang_dir()
+    {
         return $this->find_folder(WP_LANG_DIR);
     }
 
@@ -136,7 +142,8 @@ class WP_Filesystem_Base {
      * @param bool   $verbose Optional. True to display debug information. Default false.
      * @return string The location of the remote path.
      */
-    public function find_base_dir($base = '.', $verbose = false) {
+    public function find_base_dir($base = '.', $verbose = false)
+    {
         _deprecated_function(__FUNCTION__, '2.7.0', 'WP_Filesystem_Base::abspath() or WP_Filesystem_Base::wp_*_dir()');
         $this->verbose = $verbose;
         return $this->abspath();
@@ -157,7 +164,8 @@ class WP_Filesystem_Base {
      * @param bool   $verbose Optional. True to display debug information. Default false.
      * @return string The location of the remote path.
      */
-    public function get_base_dir($base = '.', $verbose = false) {
+    public function get_base_dir($base = '.', $verbose = false)
+    {
         _deprecated_function(__FUNCTION__, '2.7.0', 'WP_Filesystem_Base::abspath() or WP_Filesystem_Base::wp_*_dir()');
         $this->verbose = $verbose;
         return $this->abspath();
@@ -174,7 +182,8 @@ class WP_Filesystem_Base {
      * @param string $folder the folder to locate.
      * @return string|false The location of the remote path, false on failure.
      */
-    public function find_folder($folder) {
+    public function find_folder($folder)
+    {
         if (isset($this->cache[ $folder ])) {
             return $this->cache[ $folder ];
         }
@@ -256,7 +265,8 @@ class WP_Filesystem_Base {
      * @param bool   $loop   If the function has recursed. Internal use only.
      * @return string|false The location of the remote path, false to cease looping.
      */
-    public function search_for_folder($folder, $base = '.', $loop = false) {
+    public function search_for_folder($folder, $base = '.', $loop = false)
+    {
         if (empty($base) || '.' === $base) {
             $base = trailingslashit($this->cwd());
         }
@@ -347,7 +357,8 @@ class WP_Filesystem_Base {
      * @param string $file String filename.
      * @return string The *nix-style representation of permissions.
      */
-    public function gethchmod($file) {
+    public function gethchmod($file)
+    {
         $perms = intval($this->getchmod($file), 8);
 
         if (($perms & 0xC000) === 0xC000) { // Socket.
@@ -400,7 +411,8 @@ class WP_Filesystem_Base {
      * @param string $file Path to the file.
      * @return string Mode of the file (the last 3 digits).
      */
-    public function getchmod($file) {
+    public function getchmod($file)
+    {
         return '777';
     }
 
@@ -417,7 +429,8 @@ class WP_Filesystem_Base {
      * @param string $mode string The *nix-style file permissions.
      * @return string Octal representation of permissions.
      */
-    public function getnumchmodfromh($mode) {
+    public function getnumchmodfromh($mode)
+    {
         $realmode = '';
         $legal    = array('', 'w', 'r', 'x', '-');
         $attarray = preg_split('//', $mode);
@@ -455,7 +468,8 @@ class WP_Filesystem_Base {
      * @param string $text String to test against.
      * @return bool True if string is binary, false otherwise.
      */
-    public function is_binary($text) {
+    public function is_binary($text)
+    {
         return (bool) preg_match('|[^\x20-\x7E]|', $text); // chr(32)..chr(127)
     }
 
@@ -472,7 +486,8 @@ class WP_Filesystem_Base {
      *                              Default false.
      * @return bool True on success, false on failure.
      */
-    public function chown($file, $owner, $recursive = false) {
+    public function chown($file, $owner, $recursive = false)
+    {
         return false;
     }
 
@@ -484,7 +499,8 @@ class WP_Filesystem_Base {
      *
      * @return bool True on success, false on failure (always true for WP_Filesystem_Direct).
      */
-    public function connect() {
+    public function connect()
+    {
         return true;
     }
 
@@ -497,7 +513,8 @@ class WP_Filesystem_Base {
      * @param string $file Name of the file to read.
      * @return string|false Read data on success, false on failure.
      */
-    public function get_contents($file) {
+    public function get_contents($file)
+    {
         return false;
     }
 
@@ -510,7 +527,8 @@ class WP_Filesystem_Base {
      * @param string $file Path to the file.
      * @return array|false File contents in an array on success, false on failure.
      */
-    public function get_contents_array($file) {
+    public function get_contents_array($file)
+    {
         return false;
     }
 
@@ -526,7 +544,8 @@ class WP_Filesystem_Base {
      *                            Default false.
      * @return bool True on success, false on failure.
      */
-    public function put_contents($file, $contents, $mode = false) {
+    public function put_contents($file, $contents, $mode = false)
+    {
         return false;
     }
 
@@ -538,7 +557,8 @@ class WP_Filesystem_Base {
      *
      * @return string|false The current working directory on success, false on failure.
      */
-    public function cwd() {
+    public function cwd()
+    {
         return false;
     }
 
@@ -551,7 +571,8 @@ class WP_Filesystem_Base {
      * @param string $dir The new current directory.
      * @return bool True on success, false on failure.
      */
-    public function chdir($dir) {
+    public function chdir($dir)
+    {
         return false;
     }
 
@@ -567,7 +588,8 @@ class WP_Filesystem_Base {
      *                              Default false.
      * @return bool True on success, false on failure.
      */
-    public function chgrp($file, $group, $recursive = false) {
+    public function chgrp($file, $group, $recursive = false)
+    {
         return false;
     }
 
@@ -584,7 +606,8 @@ class WP_Filesystem_Base {
      *                             Default false.
      * @return bool True on success, false on failure.
      */
-    public function chmod($file, $mode = false, $recursive = false) {
+    public function chmod($file, $mode = false, $recursive = false)
+    {
         return false;
     }
 
@@ -597,7 +620,8 @@ class WP_Filesystem_Base {
      * @param string $file Path to the file.
      * @return string|false Username of the owner on success, false on failure.
      */
-    public function owner($file) {
+    public function owner($file)
+    {
         return false;
     }
 
@@ -610,7 +634,8 @@ class WP_Filesystem_Base {
      * @param string $file Path to the file.
      * @return string|false The group on success, false on failure.
      */
-    public function group($file) {
+    public function group($file)
+    {
         return false;
     }
 
@@ -628,7 +653,8 @@ class WP_Filesystem_Base {
      *                               0755 for dirs. Default false.
      * @return bool True on success, false on failure.
      */
-    public function copy($source, $destination, $overwrite = false, $mode = false) {
+    public function copy($source, $destination, $overwrite = false, $mode = false)
+    {
         return false;
     }
 
@@ -644,7 +670,8 @@ class WP_Filesystem_Base {
      *                            Default false.
      * @return bool True on success, false on failure.
      */
-    public function move($source, $destination, $overwrite = false) {
+    public function move($source, $destination, $overwrite = false)
+    {
         return false;
     }
 
@@ -661,7 +688,8 @@ class WP_Filesystem_Base {
      *                                Default false.
      * @return bool True on success, false on failure.
      */
-    public function delete($file, $recursive = false, $type = false) {
+    public function delete($file, $recursive = false, $type = false)
+    {
         return false;
     }
 
@@ -674,7 +702,8 @@ class WP_Filesystem_Base {
      * @param string $path Path to file or directory.
      * @return bool Whether $path exists or not.
      */
-    public function exists($path) {
+    public function exists($path)
+    {
         return false;
     }
 
@@ -687,7 +716,8 @@ class WP_Filesystem_Base {
      * @param string $file File path.
      * @return bool Whether $file is a file.
      */
-    public function is_file($file) {
+    public function is_file($file)
+    {
         return false;
     }
 
@@ -700,7 +730,8 @@ class WP_Filesystem_Base {
      * @param string $path Directory path.
      * @return bool Whether $path is a directory.
      */
-    public function is_dir($path) {
+    public function is_dir($path)
+    {
         return false;
     }
 
@@ -713,7 +744,8 @@ class WP_Filesystem_Base {
      * @param string $file Path to file.
      * @return bool Whether $file is readable.
      */
-    public function is_readable($file) {
+    public function is_readable($file)
+    {
         return false;
     }
 
@@ -726,7 +758,8 @@ class WP_Filesystem_Base {
      * @param string $path Path to file or directory.
      * @return bool Whether $path is writable.
      */
-    public function is_writable($path) {
+    public function is_writable($path)
+    {
         return false;
     }
 
@@ -739,7 +772,8 @@ class WP_Filesystem_Base {
      * @param string $file Path to file.
      * @return int|false Unix timestamp representing last access time, false on failure.
      */
-    public function atime($file) {
+    public function atime($file)
+    {
         return false;
     }
 
@@ -752,7 +786,8 @@ class WP_Filesystem_Base {
      * @param string $file Path to file.
      * @return int|false Unix timestamp representing modification time, false on failure.
      */
-    public function mtime($file) {
+    public function mtime($file)
+    {
         return false;
     }
 
@@ -765,7 +800,8 @@ class WP_Filesystem_Base {
      * @param string $file Path to file.
      * @return int|false Size of the file in bytes on success, false on failure.
      */
-    public function size($file) {
+    public function size($file)
+    {
         return false;
     }
 
@@ -784,7 +820,8 @@ class WP_Filesystem_Base {
      *                      Default 0.
      * @return bool True on success, false on failure.
      */
-    public function touch($file, $time = 0, $atime = 0) {
+    public function touch($file, $time = 0, $atime = 0)
+    {
         return false;
     }
 
@@ -803,7 +840,8 @@ class WP_Filesystem_Base {
      *                                Default false.
      * @return bool True on success, false on failure.
      */
-    public function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
+    public function mkdir($path, $chmod = false, $chown = false, $chgrp = false)
+    {
         return false;
     }
 
@@ -818,7 +856,8 @@ class WP_Filesystem_Base {
      *                          Default false.
      * @return bool True on success, false on failure.
      */
-    public function rmdir($path, $recursive = false) {
+    public function rmdir($path, $recursive = false)
+    {
         return false;
     }
 
@@ -858,7 +897,8 @@ class WP_Filesystem_Base {
      *     }
      * }
      */
-    public function dirlist($path, $include_hidden = true, $recursive = false) {
+    public function dirlist($path, $include_hidden = true, $recursive = false)
+    {
         return false;
     }
 }

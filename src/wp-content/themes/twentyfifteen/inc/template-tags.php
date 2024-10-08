@@ -15,7 +15,8 @@ if (! function_exists('twentyfifteen_comment_nav')) :
      *
      * @since Twenty Fifteen 1.0
      */
-    function twentyfifteen_comment_nav() {
+    function twentyfifteen_comment_nav()
+    {
         // Are there comments to navigate through?
         if (get_comment_pages_count() > 1 && get_option('page_comments')) :
             ?>
@@ -51,7 +52,8 @@ if (! function_exists('twentyfifteen_entry_meta')) :
      *
      * @since Twenty Fifteen 1.0
      */
-    function twentyfifteen_entry_meta() {
+    function twentyfifteen_entry_meta()
+    {
         if (is_sticky() && is_home() && ! is_paged()) {
             printf('<span class="sticky-post">%s</span>', __('Featured', 'twentyfifteen'));
         }
@@ -156,7 +158,8 @@ endif;
  *
  * @return bool True of there is more than one category, false otherwise.
  */
-function twentyfifteen_categorized_blog() {
+function twentyfifteen_categorized_blog()
+{
     $all_the_cool_cats = get_transient('twentyfifteen_categories');
     if (false === $all_the_cool_cats) {
         // Create an array of all the categories that are attached to posts.
@@ -190,7 +193,8 @@ function twentyfifteen_categorized_blog() {
  *
  * @since Twenty Fifteen 1.0
  */
-function twentyfifteen_category_transient_flusher() {
+function twentyfifteen_category_transient_flusher()
+{
     // Like, beat it. Dig?
     delete_transient('twentyfifteen_categories');
 }
@@ -206,7 +210,8 @@ if (! function_exists('twentyfifteen_post_thumbnail')) :
      *
      * @since Twenty Fifteen 1.0
      */
-    function twentyfifteen_post_thumbnail() {
+    function twentyfifteen_post_thumbnail()
+    {
         if (post_password_required() || is_attachment() || ! has_post_thumbnail()) {
             return;
         }
@@ -243,7 +248,8 @@ if (! function_exists('twentyfifteen_get_link_url')) :
      *
      * @return string The Link format URL.
      */
-    function twentyfifteen_get_link_url() {
+    function twentyfifteen_get_link_url()
+    {
         $has_url = get_url_in_content(get_the_content());
 
         return $has_url ? $has_url : apply_filters('the_permalink', get_permalink());
@@ -259,7 +265,8 @@ if (! function_exists('twentyfifteen_excerpt_more') && ! is_admin()) :
      * @param string $more Default Read More excerpt link.
      * @return string 'Continue reading' link prepended with an ellipsis.
      */
-    function twentyfifteen_excerpt_more($more) {
+    function twentyfifteen_excerpt_more($more)
+    {
         $link = sprintf(
             '<a href="%1$s" class="more-link">%2$s</a>',
             esc_url(get_permalink(get_the_ID())),
@@ -279,7 +286,8 @@ if (! function_exists('twentyfifteen_the_custom_logo')) :
      *
      * @since Twenty Fifteen 1.5
      */
-    function twentyfifteen_the_custom_logo() {
+    function twentyfifteen_the_custom_logo()
+    {
         if (function_exists('the_custom_logo')) {
             the_custom_logo();
         }
@@ -294,7 +302,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Fifteen 2.5
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Triggered after the opening <body> tag.
          *

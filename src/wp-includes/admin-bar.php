@@ -20,7 +20,8 @@
  *
  * @return bool Whether the admin bar was successfully initialized.
  */
-function _wp_admin_bar_init() {
+function _wp_admin_bar_init()
+{
     global $wp_admin_bar;
 
     if (! is_admin_bar_showing()) {
@@ -70,7 +71,8 @@ function _wp_admin_bar_init() {
  *
  * @global WP_Admin_Bar $wp_admin_bar
  */
-function wp_admin_bar_render() {
+function wp_admin_bar_render()
+{
     global $wp_admin_bar;
     static $rendered = false;
 
@@ -122,7 +124,8 @@ function wp_admin_bar_render() {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_wp_menu($wp_admin_bar) {
+function wp_admin_bar_wp_menu($wp_admin_bar)
+{
     if (current_user_can('read')) {
         $about_url      = self_admin_url('about.php');
         $contribute_url = self_admin_url('contribute.php');
@@ -237,7 +240,8 @@ function wp_admin_bar_wp_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_sidebar_toggle($wp_admin_bar) {
+function wp_admin_bar_sidebar_toggle($wp_admin_bar)
+{
     if (is_admin()) {
         $wp_admin_bar->add_node(
             array(
@@ -259,7 +263,8 @@ function wp_admin_bar_sidebar_toggle($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_my_account_item($wp_admin_bar) {
+function wp_admin_bar_my_account_item($wp_admin_bar)
+{
     $user_id      = get_current_user_id();
     $current_user = wp_get_current_user();
 
@@ -303,7 +308,8 @@ function wp_admin_bar_my_account_item($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_my_account_menu($wp_admin_bar) {
+function wp_admin_bar_my_account_menu($wp_admin_bar)
+{
     $user_id      = get_current_user_id();
     $current_user = wp_get_current_user();
 
@@ -363,7 +369,8 @@ function wp_admin_bar_my_account_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_site_menu($wp_admin_bar) {
+function wp_admin_bar_site_menu($wp_admin_bar)
+{
     // Don't show for logged out users.
     if (! is_user_logged_in()) {
         return;
@@ -463,7 +470,8 @@ function wp_admin_bar_site_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_edit_site_menu($wp_admin_bar) {
+function wp_admin_bar_edit_site_menu($wp_admin_bar)
+{
     global $_wp_current_template_id;
 
     // Don't show if a block theme is not activated.
@@ -501,7 +509,8 @@ function wp_admin_bar_edit_site_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_customize_menu($wp_admin_bar) {
+function wp_admin_bar_customize_menu($wp_admin_bar)
+{
     global $wp_customize;
 
     // Don't show if a block theme is activated and no plugins use the customizer.
@@ -551,7 +560,8 @@ function wp_admin_bar_customize_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_my_sites_menu($wp_admin_bar) {
+function wp_admin_bar_my_sites_menu($wp_admin_bar)
+{
     // Don't show for logged out users or single site mode.
     if (! is_user_logged_in() || ! is_multisite()) {
         return;
@@ -774,7 +784,8 @@ function wp_admin_bar_my_sites_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_shortlink_menu($wp_admin_bar) {
+function wp_admin_bar_shortlink_menu($wp_admin_bar)
+{
     $short = wp_get_shortlink(0, 'query');
     $id    = 'get-shortlink';
 
@@ -808,7 +819,8 @@ function wp_admin_bar_shortlink_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_edit_menu($wp_admin_bar) {
+function wp_admin_bar_edit_menu($wp_admin_bar)
+{
     global $tag, $wp_the_query, $user_id, $post_id;
 
     if (is_admin()) {
@@ -946,7 +958,8 @@ function wp_admin_bar_edit_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_new_content_menu($wp_admin_bar) {
+function wp_admin_bar_new_content_menu($wp_admin_bar)
+{
     $actions = array();
 
     $cpts = (array) get_post_types(array('show_in_admin_bar' => true), 'objects');
@@ -1036,7 +1049,8 @@ function wp_admin_bar_new_content_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_comments_menu($wp_admin_bar) {
+function wp_admin_bar_comments_menu($wp_admin_bar)
+{
     if (! current_user_can('edit_posts')) {
         return;
     }
@@ -1069,7 +1083,8 @@ function wp_admin_bar_comments_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_appearance_menu($wp_admin_bar) {
+function wp_admin_bar_appearance_menu($wp_admin_bar)
+{
     $wp_admin_bar->add_group(
         array(
             'parent' => 'site-name',
@@ -1150,7 +1165,8 @@ function wp_admin_bar_appearance_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_updates_menu($wp_admin_bar) {
+function wp_admin_bar_updates_menu($wp_admin_bar)
+{
 
     $update_data = wp_get_update_data();
 
@@ -1184,7 +1200,8 @@ function wp_admin_bar_updates_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_search_menu($wp_admin_bar) {
+function wp_admin_bar_search_menu($wp_admin_bar)
+{
     if (is_admin()) {
         return;
     }
@@ -1218,7 +1235,8 @@ function wp_admin_bar_search_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_recovery_mode_menu($wp_admin_bar) {
+function wp_admin_bar_recovery_mode_menu($wp_admin_bar)
+{
     if (! wp_is_recovery_mode()) {
         return;
     }
@@ -1244,7 +1262,8 @@ function wp_admin_bar_recovery_mode_menu($wp_admin_bar) {
  *
  * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
  */
-function wp_admin_bar_add_secondary_groups($wp_admin_bar) {
+function wp_admin_bar_add_secondary_groups($wp_admin_bar)
+{
     $wp_admin_bar->add_group(
         array(
             'id'   => 'top-secondary',
@@ -1270,7 +1289,8 @@ function wp_admin_bar_add_secondary_groups($wp_admin_bar) {
  *
  * @since 6.4.0
  */
-function wp_enqueue_admin_bar_header_styles() {
+function wp_enqueue_admin_bar_header_styles()
+{
     // Back-compat for plugins that disable functionality by unhooking this action.
     $action = is_admin() ? 'admin_head' : 'wp_head';
     if (! has_action($action, 'wp_admin_bar_header')) {
@@ -1286,7 +1306,8 @@ function wp_enqueue_admin_bar_header_styles() {
  *
  * @since 6.4.0
  */
-function wp_enqueue_admin_bar_bump_styles() {
+function wp_enqueue_admin_bar_bump_styles()
+{
     if (current_theme_supports('admin-bar')) {
         $admin_bar_args  = get_theme_support('admin-bar');
         $header_callback = $admin_bar_args[0]['callback'];
@@ -1325,7 +1346,8 @@ function wp_enqueue_admin_bar_bump_styles() {
  *
  * @param bool $show Whether to allow the admin bar to show.
  */
-function show_admin_bar($show) {
+function show_admin_bar($show)
+{
     global $show_admin_bar;
     $show_admin_bar = (bool) $show;
 }
@@ -1344,7 +1366,8 @@ function show_admin_bar($show) {
  *
  * @return bool Whether the admin bar should be showing.
  */
-function is_admin_bar_showing() {
+function is_admin_bar_showing()
+{
     global $show_admin_bar, $pagenow;
 
     // For all these types of requests, we never want an admin bar.
@@ -1395,7 +1418,8 @@ function is_admin_bar_showing() {
  * @param int    $user    Optional. ID of the user to check, defaults to 0 for current user.
  * @return bool Whether the admin bar should be showing for this user.
  */
-function _get_admin_bar_pref($context = 'front', $user = 0) {
+function _get_admin_bar_pref($context = 'front', $user = 0)
+{
     $pref = get_user_option("show_admin_bar_{$context}", $user);
     if (false === $pref) {
         return true;

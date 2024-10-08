@@ -11,7 +11,8 @@
  * @group restapi-blocks
  * @group restapi
  */
-class REST_Blocks_Controller_Test extends WP_UnitTestCase {
+class REST_Blocks_Controller_Test extends WP_UnitTestCase
+{
 
     /**
      * Our fake block's post ID.
@@ -38,7 +39,8 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = wp_insert_post(
             array(
                 'post_type'    => 'wp_block',
@@ -60,7 +62,8 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase {
      *
      * @since 5.0.0
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         wp_delete_post(self::$post_id);
 
         foreach (self::$user_ids as $user_id) {
@@ -73,7 +76,8 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase {
      *
      * @since 5.0.0
      */
-    public function data_capabilities() {
+    public function data_capabilities()
+    {
         return array(
             array('create', 'editor', 201),
             array('create', 'author', 201),
@@ -108,7 +112,8 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase {
      * @param string $role            User role to test.
      * @param int    $expected_status Expected HTTP response status.
      */
-    public function test_capabilities($action, $role, $expected_status) {
+    public function test_capabilities($action, $role, $expected_status)
+    {
         if ($role) {
             $user_id = self::$user_ids[ $role ];
             wp_set_current_user($user_id);
@@ -199,7 +204,8 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase {
      * is no set schema, and that the rendered content of a block is not included
      * in the response.
      */
-    public function test_content() {
+    public function test_content()
+    {
         wp_set_current_user(self::$user_ids['author']);
 
         $request  = new WP_REST_Request('GET', '/wp/v2/blocks/' . self::$post_id);
@@ -227,7 +233,8 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase {
      *
      * @ticket 58677
      */
-    public function test_wp_patterns_sync_status_post_meta() {
+    public function test_wp_patterns_sync_status_post_meta()
+    {
         register_post_meta(
             'wp_block',
             'wp_pattern_sync_status',

@@ -14,14 +14,16 @@
  *
  * @see WP_Widget
  */
-class WP_Widget_Archives extends WP_Widget {
+class WP_Widget_Archives extends WP_Widget
+{
 
     /**
      * Sets up a new Archives widget instance.
      *
      * @since 2.8.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $widget_ops = array(
             'classname'                   => 'widget_archive',
             'description'                 => __('A monthly archive of your site&#8217;s Posts.'),
@@ -40,7 +42,8 @@ class WP_Widget_Archives extends WP_Widget {
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Archives widget instance.
      */
-    public function widget($args, $instance) {
+    public function widget($args, $instance)
+    {
         $default_title = __('Archives');
         $title         = ! empty($instance['title']) ? $instance['title'] : $default_title;
 
@@ -180,7 +183,8 @@ class WP_Widget_Archives extends WP_Widget {
      * @param array $old_instance Old settings for this instance.
      * @return array Updated settings to save.
      */
-    public function update($new_instance, $old_instance) {
+    public function update($new_instance, $old_instance)
+    {
         $instance             = $old_instance;
         $new_instance         = wp_parse_args(
             (array) $new_instance,
@@ -204,7 +208,8 @@ class WP_Widget_Archives extends WP_Widget {
      *
      * @param array $instance Current settings.
      */
-    public function form($instance) {
+    public function form($instance)
+    {
         $instance = wp_parse_args(
             (array) $instance,
             array(

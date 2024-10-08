@@ -6,7 +6,8 @@
  *
  * @ticket 53490
  */
-class Tests_Functions_XMLRPC extends WP_UnitTestCase {
+class Tests_Functions_XMLRPC extends WP_UnitTestCase
+{
 
     private $test_content = '
 			<title>title</title>
@@ -19,7 +20,8 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
      *
      * @covers ::xmlrpc_getposttitle
      */
-    public function test_xmlrpc_getposttitle() {
+    public function test_xmlrpc_getposttitle()
+    {
         $this->assertSame('title', xmlrpc_getposttitle($this->test_content));
     }
 
@@ -28,7 +30,8 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
      *
      * @covers ::xmlrpc_getposttitle
      */
-    public function test_xmlrpc_getposttitle_default() {
+    public function test_xmlrpc_getposttitle_default()
+    {
         global $post_default_title;
 
         $post_default_title = 'post_default_title';
@@ -42,7 +45,8 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
      *
      * @covers ::xmlrpc_getpostcategory
      */
-    public function test_xmlrpc_getpostcategory() {
+    public function test_xmlrpc_getpostcategory()
+    {
         $this->assertSame(array('category', 'category1'), xmlrpc_getpostcategory($this->test_content));
     }
 
@@ -51,7 +55,8 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
      *
      * @covers ::xmlrpc_getpostcategory
      */
-    public function test_xmlrpc_getpostcategory_default() {
+    public function test_xmlrpc_getpostcategory_default()
+    {
         global $post_default_category;
 
         $post_default_category = 'post_default_category';
@@ -64,7 +69,8 @@ class Tests_Functions_XMLRPC extends WP_UnitTestCase {
      *
      * @covers ::xmlrpc_removepostdata
      */
-    public function test_xmlrpc_removepostdata() {
+    public function test_xmlrpc_removepostdata()
+    {
         $this->assertSame('<content>content</content>', xmlrpc_removepostdata($this->test_content));
     }
 }

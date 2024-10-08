@@ -5,12 +5,14 @@
  *
  * @group external-http
  */
-class Tests_Readme extends WP_UnitTestCase {
+class Tests_Readme extends WP_UnitTestCase
+{
 
     /**
      * @coversNothing
      */
-    public function test_readme_php_version() {
+    public function test_readme_php_version()
+    {
         $this->markTestSkipped(
             'Temporarily disabled. Test should be re-enabled once WordPress is fully compatible with PHP 8.0+.'
         );
@@ -32,7 +34,8 @@ class Tests_Readme extends WP_UnitTestCase {
     /**
      * @coversNothing
      */
-    public function test_readme_mysql_version() {
+    public function test_readme_mysql_version()
+    {
         // This test is designed to only run on trunk.
         $this->skipOnAutomatedBranches();
 
@@ -63,7 +66,8 @@ class Tests_Readme extends WP_UnitTestCase {
     /**
      * @coversNothing
      */
-    public function test_readme_mariadb_version() {
+    public function test_readme_mariadb_version()
+    {
         // This test is designed to only run on trunk.
         $this->skipOnAutomatedBranches();
 
@@ -90,7 +94,8 @@ class Tests_Readme extends WP_UnitTestCase {
      * @param string $url The URL to retrieve the response from.
      * @return string The response body.
      */
-    public function get_response_body($url) {
+    public function get_response_body($url)
+    {
         $response = wp_remote_get($url);
 
         $this->skipTestOnTimeout($response);

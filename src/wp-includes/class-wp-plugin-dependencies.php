@@ -13,7 +13,8 @@
  * It is designed to add plugin dependencies as designated in the
  * `Requires Plugins` header to a new view in the plugins install page.
  */
-class WP_Plugin_Dependencies {
+class WP_Plugin_Dependencies
+{
 
     /**
      * Holds 'get_plugins()'.
@@ -118,7 +119,8 @@ class WP_Plugin_Dependencies {
      *
      * @since 6.5.0
      */
-    public static function initialize() {
+    public static function initialize()
+    {
         if (false === self::$initialized) {
             self::read_dependencies_from_plugin_headers();
             self::get_dependency_api_data();
@@ -134,7 +136,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The plugin's filepath, relative to the plugins directory.
      * @return bool Whether the plugin has plugins that depend on it.
      */
-    public static function has_dependents($plugin_file) {
+    public static function has_dependents($plugin_file)
+    {
         return in_array(self::convert_to_slug($plugin_file), (array) self::$dependency_slugs, true);
     }
 
@@ -146,7 +149,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The plugin's filepath, relative to the plugins directory.
      * @return bool Whether a plugin has plugin dependencies.
      */
-    public static function has_dependencies($plugin_file) {
+    public static function has_dependencies($plugin_file)
+    {
         return isset(self::$dependencies[ $plugin_file ]);
     }
 
@@ -158,7 +162,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The plugin's filepath, relative to the plugins directory.
      * @return bool Whether the plugin has active dependents.
      */
-    public static function has_active_dependents($plugin_file) {
+    public static function has_active_dependents($plugin_file)
+    {
         require_once ABSPATH . '/wp-admin/includes/plugin.php';
 
         $dependents = self::get_dependents(self::convert_to_slug($plugin_file));
@@ -179,7 +184,8 @@ class WP_Plugin_Dependencies {
      * @param string $slug The dependency's slug.
      * @return array An array of dependent plugin filepaths, relative to the plugins directory.
      */
-    public static function get_dependents($slug) {
+    public static function get_dependents($slug)
+    {
         $dependents = array();
 
         foreach ((array) self::$dependencies as $dependent => $dependencies) {
@@ -199,7 +205,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The dependent plugin's filepath, relative to the plugins directory.
      * @return array An array of dependency plugin slugs.
      */
-    public static function get_dependencies($plugin_file) {
+    public static function get_dependencies($plugin_file)
+    {
         if (isset(self::$dependencies[ $plugin_file ])) {
             return self::$dependencies[ $plugin_file ];
         }
@@ -216,7 +223,8 @@ class WP_Plugin_Dependencies {
      * @return string|false The dependent plugin's filepath, relative to the plugins directory,
      *                      or false if the plugin has no dependencies.
      */
-    public static function get_dependent_filepath($slug) {
+    public static function get_dependent_filepath($slug)
+    {
         $filepath = array_search($slug, self::$dependent_slugs, true);
 
         return $filepath ? $filepath : false;
@@ -230,7 +238,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The plugin's filepath, relative to the plugins directory.
      * @return bool Whether the plugin has unmet dependencies.
      */
-    public static function has_unmet_dependencies($plugin_file) {
+    public static function has_unmet_dependencies($plugin_file)
+    {
         if (! isset(self::$dependencies[ $plugin_file ])) {
             return false;
         }
@@ -256,7 +265,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The plugin's filepath, relative to the plugins directory.
      * @return bool Whether the plugin has a circular dependency.
      */
-    public static function has_circular_dependency($plugin_file) {
+    public static function has_circular_dependency($plugin_file)
+    {
         if (! is_array(self::$circular_dependencies_slugs)) {
             self::get_circular_dependencies();
         }
@@ -280,7 +290,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The plugin's filepath, relative to the plugins directory.
      * @return array An array of dependent names.
      */
-    public static function get_dependent_names($plugin_file) {
+    public static function get_dependent_names($plugin_file)
+    {
         $dependent_names = array();
         $plugins         = self::get_plugins();
         $slug            = self::convert_to_slug($plugin_file);
@@ -301,7 +312,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The dependent plugin's filepath, relative to the plugins directory.
      * @return array An array of dependency names.
      */
-    public static function get_dependency_names($plugin_file) {
+    public static function get_dependency_names($plugin_file)
+    {
         $dependency_api_data = self::get_dependency_api_data();
         $dependencies        = self::get_dependencies($plugin_file);
         $plugins             = self::get_plugins();
@@ -334,7 +346,8 @@ class WP_Plugin_Dependencies {
      * @param string $slug The dependency's slug.
      * @return string|false If installed, the dependency's filepath relative to the plugins directory, otherwise false.
      */
-    public static function get_dependency_filepath($slug) {
+    public static function get_dependency_filepath($slug)
+    {
         $dependency_filepaths = self::get_dependency_filepaths();
 
         if (! isset($dependency_filepaths[ $slug ])) {
@@ -352,7 +365,8 @@ class WP_Plugin_Dependencies {
      * @param string $slug The dependency's slug.
      * @return array|false The dependency's API data on success, otherwise false.
      */
-    public static function get_dependency_data($slug) {
+    public static function get_dependency_data($slug)
+    {
         $dependency_api_data = self::get_dependency_api_data();
 
         if (isset($dependency_api_data[ $slug ])) {
@@ -367,7 +381,8 @@ class WP_Plugin_Dependencies {
      *
      * @since 6.5.0
      */
-    public static function display_admin_notice_for_unmet_dependencies() {
+    public static function display_admin_notice_for_unmet_dependencies()
+    {
         if (in_array(false, self::get_dependency_filepaths(), true)) {
             $error_message = __('Some required plugins are missing or inactive.');
 
@@ -403,7 +418,8 @@ class WP_Plugin_Dependencies {
      *
      * @since 6.5.0
      */
-    public static function display_admin_notice_for_circular_dependencies() {
+    public static function display_admin_notice_for_circular_dependencies()
+    {
         $circular_dependencies = self::get_circular_dependencies();
         if (! empty($circular_dependencies) && count($circular_dependencies) > 1) {
             $circular_dependencies = array_unique($circular_dependencies, SORT_REGULAR);
@@ -443,7 +459,8 @@ class WP_Plugin_Dependencies {
      *
      * @since 6.5.0
      */
-    public static function check_plugin_dependencies_during_ajax() {
+    public static function check_plugin_dependencies_during_ajax()
+    {
         check_ajax_referer('updates');
 
         if (empty($_POST['slug'])) {
@@ -539,7 +556,8 @@ class WP_Plugin_Dependencies {
      *
      * @return array An array of plugin data.
      */
-    protected static function get_plugins() {
+    protected static function get_plugins()
+    {
         if (is_array(self::$plugins)) {
             return self::$plugins;
         }
@@ -555,7 +573,8 @@ class WP_Plugin_Dependencies {
      *
      * @since 6.5.0
      */
-    protected static function read_dependencies_from_plugin_headers() {
+    protected static function read_dependencies_from_plugin_headers()
+    {
         self::$dependencies     = array();
         self::$dependency_slugs = array();
         self::$dependent_slugs  = array();
@@ -583,7 +602,8 @@ class WP_Plugin_Dependencies {
      * @param string $slugs A comma-separated string of plugin dependency slugs.
      * @return array An array of sanitized plugin dependency slugs.
      */
-    protected static function sanitize_dependency_slugs($slugs) {
+    protected static function sanitize_dependency_slugs($slugs)
+    {
         $sanitized_slugs = array();
         $slugs           = explode(',', $slugs);
 
@@ -621,7 +641,8 @@ class WP_Plugin_Dependencies {
      *
      * @return array An array of install dependencies filepaths, relative to the plugins directory.
      */
-    protected static function get_dependency_filepaths() {
+    protected static function get_dependency_filepaths()
+    {
         if (is_array(self::$dependency_filepaths)) {
             return self::$dependency_filepaths;
         }
@@ -654,7 +675,8 @@ class WP_Plugin_Dependencies {
      *
      * @return array|void An array of dependency API data, or void on early exit.
      */
-    protected static function get_dependency_api_data() {
+    protected static function get_dependency_api_data()
+    {
         global $pagenow;
 
         if (! is_admin() || ('plugins.php' !== $pagenow && 'plugin-install.php' !== $pagenow)) {
@@ -738,7 +760,8 @@ class WP_Plugin_Dependencies {
      *
      * @return array An array of plugin directory names.
      */
-    protected static function get_plugin_dirnames() {
+    protected static function get_plugin_dirnames()
+    {
         if (is_array(self::$plugin_dirnames)) {
             return self::$plugin_dirnames;
         }
@@ -761,7 +784,8 @@ class WP_Plugin_Dependencies {
      *
      * @return array[] An array of circular dependency pairings.
      */
-    protected static function get_circular_dependencies() {
+    protected static function get_circular_dependencies()
+    {
         if (is_array(self::$circular_dependencies_pairs)) {
             return self::$circular_dependencies_pairs;
         }
@@ -799,7 +823,8 @@ class WP_Plugin_Dependencies {
      * @param array $dependencies Array of plugins dependencies.
      * @return array A circular dependency pairing, or an empty array if none exists.
      */
-    protected static function check_for_circular_dependencies($dependents, $dependencies) {
+    protected static function check_for_circular_dependencies($dependents, $dependencies)
+    {
         $circular_dependencies_pairs = array();
 
         // Check for a self-dependency.
@@ -869,7 +894,8 @@ class WP_Plugin_Dependencies {
      * @param string $plugin_file The plugin's filepath, relative to the plugins directory.
      * @return string The plugin's slug.
      */
-    protected static function convert_to_slug($plugin_file) {
+    protected static function convert_to_slug($plugin_file)
+    {
         if ('hello.php' === $plugin_file) {
             return 'hello-dolly';
         }

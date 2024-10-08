@@ -16,7 +16,8 @@
  *
  * @see WP_Customize_Setting
  */
-final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
+final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
+{
 
     /**
      * The setting type.
@@ -62,7 +63,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      *                                      Can be a theme mod or option name.
      * @param array                $args    Setting arguments.
      */
-    public function __construct($manager, $id, $args = array()) {
+    public function __construct($manager, $id, $args = array())
+    {
         parent::__construct($manager, $id, $args);
         if ('custom_css' !== $this->id_data['base']) {
             throw new Exception('Expected custom_css id_base.');
@@ -80,7 +82,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      *
      * @return bool False when preview short-circuits due no change needing to be previewed.
      */
-    public function preview() {
+    public function preview()
+    {
         if ($this->is_previewed) {
             return false;
         }
@@ -102,7 +105,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      * @param string $stylesheet Current stylesheet.
      * @return string CSS.
      */
-    public function filter_previewed_wp_get_custom_css($css, $stylesheet) {
+    public function filter_previewed_wp_get_custom_css($css, $stylesheet)
+    {
         if ($stylesheet === $this->stylesheet) {
             $customized_value = $this->post_value(null);
             if (! is_null($customized_value)) {
@@ -121,7 +125,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      *
      * @return string
      */
-    public function value() {
+    public function value()
+    {
         if ($this->is_previewed) {
             $post_value = $this->post_value(null);
             if (null !== $post_value) {
@@ -157,7 +162,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      * @param string $value CSS to validate.
      * @return true|WP_Error True if the input was validated, otherwise WP_Error.
      */
-    public function validate($value) {
+    public function validate($value)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $css = $value;
 
@@ -182,7 +188,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
      * @param string $value CSS to update.
      * @return int|false The post ID or false if the value could not be saved.
      */
-    public function update($value) {
+    public function update($value)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $css = $value;
 

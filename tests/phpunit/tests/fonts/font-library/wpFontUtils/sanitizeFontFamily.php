@@ -10,7 +10,8 @@
  *
  * @covers WP_Font_Utils::sanitize_font_family
  */
-class Tests_Fonts_WpFontUtils_SanitizeFontFamily extends WP_UnitTestCase {
+class Tests_Fonts_WpFontUtils_SanitizeFontFamily extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_should_sanitize_font_family
@@ -18,7 +19,8 @@ class Tests_Fonts_WpFontUtils_SanitizeFontFamily extends WP_UnitTestCase {
      * @param string $font_family Font family to test.
      * @param string $expected    Expected family.
      */
-    public function test_should_sanitize_font_family($font_family, $expected) {
+    public function test_should_sanitize_font_family($font_family, $expected)
+    {
         $this->assertSame(
             $expected,
             WP_Font_Utils::sanitize_font_family(
@@ -32,7 +34,8 @@ class Tests_Fonts_WpFontUtils_SanitizeFontFamily extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_sanitize_font_family() {
+    public function data_should_sanitize_font_family()
+    {
         return array(
             'data_families_with_spaces_and_numbers' => array(
                 'font_family' => 'Arial, Rock 3D , Open Sans,serif',

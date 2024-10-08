@@ -17,7 +17,8 @@
  *
  * @see WP_HTML_Processor
  */
-class WP_HTML_Stack_Event {
+class WP_HTML_Stack_Event
+{
     /**
      * Refers to popping an element off of the stack of open elements.
      *
@@ -74,7 +75,8 @@ class WP_HTML_Stack_Event {
      * @param string        $operation  One of self::PUSH or self::POP.
      * @param string        $provenance "virtual" or "real".
      */
-    public function __construct(WP_HTML_Token $token, string $operation, string $provenance) {
+    public function __construct(WP_HTML_Token $token, string $operation, string $provenance)
+    {
         $this->token      = $token;
         $this->operation  = $operation;
         $this->provenance = $provenance;

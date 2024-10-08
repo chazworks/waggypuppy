@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class WP_Customize_Theme_Control extends WP_Customize_Control {
+class WP_Customize_Theme_Control extends WP_Customize_Control
+{
 
     /**
      * Customize control type.
@@ -39,7 +40,8 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
      *
      * @see WP_Customize_Control::to_json()
      */
-    public function to_json() {
+    public function to_json()
+    {
         parent::to_json();
         $this->json['theme'] = $this->theme;
     }
@@ -49,14 +51,16 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
      *
      * @since 4.2.0
      */
-    public function render_content() {}
+    public function render_content()
+    {}
 
     /**
      * Render a JS template for theme display.
      *
      * @since 4.2.0
      */
-    public function content_template() {
+    public function content_template()
+    {
         /* translators: %s: Theme name. */
         $details_label = sprintf(__('Details for theme: %s'), '{{ data.theme.name }}');
         /* translators: %s: Theme name. */

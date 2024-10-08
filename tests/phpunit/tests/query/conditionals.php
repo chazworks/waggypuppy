@@ -9,12 +9,14 @@
  * @group query
  * @group rewrite
  */
-class Tests_Query_Conditionals extends WP_UnitTestCase {
+class Tests_Query_Conditionals extends WP_UnitTestCase
+{
 
     protected $page_ids;
     protected $post_ids;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         update_option('comments_per_page', 5);
@@ -25,12 +27,14 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         create_initial_taxonomies();
     }
 
-    public function test_home() {
+    public function test_home()
+    {
         $this->go_to('/');
         $this->assertQueryTrue('is_home', 'is_front_page');
     }
 
-    public function test_page_on_front() {
+    public function test_page_on_front()
+    {
         $page_on_front  = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -56,18 +60,21 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         delete_option('page_for_posts');
     }
 
-    public function test_404() {
+    public function test_404()
+    {
         $this->go_to('/notapage');
         $this->assertQueryTrue('is_404');
     }
 
-    public function test_permalink() {
+    public function test_permalink()
+    {
         $post_id = self::factory()->post->create(array('post_title' => 'hello-world'));
         $this->go_to(get_permalink($post_id));
         $this->assertQueryTrue('is_single', 'is_singular');
     }
 
-    public function test_post_comments_feed() {
+    public function test_post_comments_feed()
+    {
         $post_id = self::factory()->post->create(array('post_title' => 'hello-world'));
         self::factory()->comment->create_post_comments($post_id, 2);
         $this->go_to(get_post_comments_feed_link($post_id));
@@ -75,20 +82,23 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
 
-    public function test_post_comments_feed_with_no_comments() {
+    public function test_post_comments_feed_with_no_comments()
+    {
         $post_id = self::factory()->post->create(array('post_title' => 'hello-world'));
         $this->go_to(get_post_comments_feed_link($post_id));
         $this->assertQueryTrue('is_feed', 'is_single', 'is_singular', 'is_comment_feed');
     }
 
-    public function test_attachment_comments_feed() {
+    public function test_attachment_comments_feed()
+    {
         $attachment_id = self::factory()->post->create(array('post_type' => 'attachment'));
         self::factory()->comment->create_post_comments($attachment_id, 2);
         $this->go_to(get_post_comments_feed_link($attachment_id));
         $this->assertQueryTrue('is_feed', 'is_attachment', 'is_single', 'is_singular', 'is_comment_feed');
     }
 
-    public function test_page() {
+    public function test_page()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -99,7 +109,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         $this->assertQueryTrue('is_page', 'is_singular');
     }
 
-    public function test_parent_page() {
+    public function test_parent_page()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -111,7 +122,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         $this->assertQueryTrue('is_page', 'is_singular');
     }
 
-    public function test_child_page_1() {
+    public function test_child_page_1()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -130,7 +142,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         $this->assertQueryTrue('is_page', 'is_singular');
     }
 
-    public function test_child_page_2() {
+    public function test_child_page_2()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -157,7 +170,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '(about)/trackback/?$' => 'index.php?pagename=$matches[1]&tb=1'
-    public function test_page_trackback() {
+    public function test_page_trackback()
+    {
         $page_ids   = array();
         $page_id    = self::factory()->post->create(
             array(
@@ -195,7 +209,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '(about)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?pagename=$matches[1]&feed=$matches[2]'
-    public function test_page_feed() {
+    public function test_page_feed()
+    {
         $page_ids   = array();
         $page_id    = self::factory()->post->create(
             array(
@@ -233,7 +248,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         }
     }
 
-    public function test_page_feed_with_no_comments() {
+    public function test_page_feed_with_no_comments()
+    {
         $page_ids   = array();
         $page_id    = self::factory()->post->create(
             array(
@@ -271,7 +287,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '(about)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?pagename=$matches[1]&feed=$matches[2]'
-    public function test_page_feed_atom() {
+    public function test_page_feed_atom()
+    {
         $page_ids   = array();
         $page_id    = self::factory()->post->create(
             array(
@@ -311,7 +328,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '(about)/page/?([0-9]{1,})/?$' => 'index.php?pagename=$matches[1]&paged=$matches[2]'
-    public function test_page_page_2() {
+    public function test_page_page_2()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'    => 'page',
@@ -330,7 +348,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '(about)/page/?([0-9]{1,})/?$' => 'index.php?pagename=$matches[1]&paged=$matches[2]'
-    public function test_page_page_2_no_slash() {
+    public function test_page_page_2_no_slash()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'    => 'page',
@@ -349,7 +368,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '(about)(/[0-9]+)?/?$' => 'index.php?pagename=$matches[1]&page=$matches[2]'
-    public function test_pagination_of_posts_page() {
+    public function test_pagination_of_posts_page()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'    => 'page',
@@ -380,7 +400,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // 'feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?&feed=$matches[1]',
     // '(feed|rdf|rss|rss2|atom)/?$' => 'index.php?&feed=$matches[1]',
-    public function test_main_feed_2() {
+    public function test_main_feed_2()
+    {
         self::factory()->post->create(); // @test_404
         $feeds = array('feed', 'rdf', 'rss', 'rss2', 'atom');
 
@@ -397,7 +418,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         }
     }
 
-    public function test_main_feed() {
+    public function test_main_feed()
+    {
         self::factory()->post->create(); // @test_404
         $types = array('rss2', 'rss', 'atom');
         foreach ($types as $type) {
@@ -407,7 +429,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'page/?([0-9]{1,})/?$' => 'index.php?&paged=$matches[1]',
-    public function test_paged() {
+    public function test_paged()
+    {
         update_option('posts_per_page', 2);
         self::factory()->post->create_many(5);
         for ($i = 2; $i <= 3; $i++) {
@@ -418,7 +441,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // 'comments/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?&feed=$matches[1]&withcomments=1',
     // 'comments/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?&feed=$matches[1]&withcomments=1',
-    public function test_main_comments_feed() {
+    public function test_main_comments_feed()
+    {
         $post_id = self::factory()->post->create(array('post_title' => 'hello-world'));
         self::factory()->comment->create_post_comments($post_id, 2);
 
@@ -443,7 +467,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // 'search/(.+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?s=$matches[1]&feed=$matches[2]',
     // 'search/(.+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?s=$matches[1]&feed=$matches[2]',
-    public function test_search_feed() {
+    public function test_search_feed()
+    {
         // Check the long form.
         $types = array('feed', 'rdf', 'rss', 'rss2', 'atom');
         foreach ($types as $type) {
@@ -460,7 +485,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'search/(.+)/page/?([0-9]{1,})/?$' => 'index.php?s=$matches[1]&paged=$matches[2]',
-    public function test_search_paged() {
+    public function test_search_paged()
+    {
         update_option('posts_per_page', 2);
         self::factory()->post->create_many(3, array('post_title' => 'test'));
         $this->go_to('/search/test/page/2/');
@@ -468,7 +494,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'search/(.+)/?$' => 'index.php?s=$matches[1]',
-    public function test_search() {
+    public function test_search()
+    {
         $this->go_to('/search/test/');
         $this->assertQueryTrue('is_search');
     }
@@ -476,14 +503,16 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 13961
      */
-    public function test_search_encoded_chars() {
+    public function test_search_encoded_chars()
+    {
         $this->go_to('/search/F%C3%BCnf%2Bbar/');
         $this->assertSame(get_query_var('s'), 'Fünf+bar');
     }
 
     // 'category/(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
     // 'category/(.+?)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
-    public function test_category_feed() {
+    public function test_category_feed()
+    {
         self::factory()->term->create(
             array(
                 'name'     => 'cat-a',
@@ -507,7 +536,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'category/(.+?)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
-    public function test_category_paged() {
+    public function test_category_paged()
+    {
         update_option('posts_per_page', 2);
         self::factory()->post->create_many(3);
         $this->go_to('/category/uncategorized/page/2/');
@@ -515,7 +545,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'category/(.+?)/?$' => 'index.php?category_name=$matches[1]',
-    public function test_category() {
+    public function test_category()
+    {
         self::factory()->term->create(
             array(
                 'name'     => 'cat-a',
@@ -528,7 +559,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // 'tag/(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?tag=$matches[1]&feed=$matches[2]',
     // 'tag/(.+?)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?tag=$matches[1]&feed=$matches[2]',
-    public function test_tag_feed() {
+    public function test_tag_feed()
+    {
         self::factory()->term->create(
             array(
                 'name'     => 'tag-a',
@@ -551,7 +583,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'tag/(.+?)/page/?([0-9]{1,})/?$' => 'index.php?tag=$matches[1]&paged=$matches[2]',
-    public function test_tag_paged() {
+    public function test_tag_paged()
+    {
         update_option('posts_per_page', 2);
         $post_ids = self::factory()->post->create_many(3);
         foreach ($post_ids as $post_id) {
@@ -562,7 +595,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'tag/(.+?)/?$' => 'index.php?tag=$matches[1]',
-    public function test_tag() {
+    public function test_tag()
+    {
         $term_id = self::factory()->term->create(
             array(
                 'name'     => 'Tag Named A',
@@ -587,7 +621,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // 'author/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?author_name=$matches[1]&feed=$matches[2]',
     // 'author/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?author_name=$matches[1]&feed=$matches[2]',
-    public function test_author_feed() {
+    public function test_author_feed()
+    {
         self::factory()->user->create(array('user_login' => 'user-a'));
         // Check the long form.
         $types = array('feed', 'rdf', 'rss', 'rss2', 'atom');
@@ -605,7 +640,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'author/([^/]+)/page/?([0-9]{1,})/?$' => 'index.php?author_name=$matches[1]&paged=$matches[2]',
-    public function test_author_paged() {
+    public function test_author_paged()
+    {
         update_option('posts_per_page', 2);
         $user_id = self::factory()->user->create(array('user_login' => 'user-a'));
         self::factory()->post->create_many(3, array('post_author' => $user_id));
@@ -614,14 +650,16 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // 'author/([^/]+)/?$' => 'index.php?author_name=$matches[1]',
-    public function test_author() {
+    public function test_author()
+    {
         $user_id = self::factory()->user->create(array('user_login' => 'user-a'));
         self::factory()->post->create(array('post_author' => $user_id));
         $this->go_to('/author/user-a/');
         $this->assertQueryTrue('is_archive', 'is_author');
     }
 
-    public function test_author_with_no_posts() {
+    public function test_author_with_no_posts()
+    {
         $user_id = self::factory()->user->create(array('user_login' => 'user-a'));
         $this->go_to('/author/user-a/');
         $this->assertQueryTrue('is_archive', 'is_author');
@@ -629,7 +667,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]',
     // '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]',
-    public function test_ymd_feed() {
+    public function test_ymd_feed()
+    {
         self::factory()->post->create(array('post_date' => '2007-09-04 00:00:00'));
         // Check the long form.
         $types = array('feed', 'rdf', 'rss', 'rss2', 'atom');
@@ -647,7 +686,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/page/?([0-9]{1,})/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&paged=$matches[4]',
-    public function test_ymd_paged() {
+    public function test_ymd_paged()
+    {
         update_option('posts_per_page', 2);
         self::factory()->post->create_many(3, array('post_date' => '2007-09-04 00:00:00'));
         $this->go_to('/2007/09/04/page/2/');
@@ -655,7 +695,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]',
-    public function test_ymd() {
+    public function test_ymd()
+    {
         self::factory()->post->create(array('post_date' => '2007-09-04 00:00:00'));
         $this->go_to('/2007/09/04/');
         $this->assertQueryTrue('is_archive', 'is_day', 'is_date');
@@ -663,7 +704,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // '([0-9]{4})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]',
     // '([0-9]{4})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]',
-    public function test_ym_feed() {
+    public function test_ym_feed()
+    {
         self::factory()->post->create(array('post_date' => '2007-09-04 00:00:00'));
         // Check the long form.
         $types = array('feed', 'rdf', 'rss', 'rss2', 'atom');
@@ -681,7 +723,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,})/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&paged=$matches[3]',
-    public function test_ym_paged() {
+    public function test_ym_paged()
+    {
         update_option('posts_per_page', 2);
         self::factory()->post->create_many(3, array('post_date' => '2007-09-04 00:00:00'));
         $this->go_to('/2007/09/page/2/');
@@ -689,7 +732,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '([0-9]{4})/([0-9]{1,2})/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]',
-    public function test_ym() {
+    public function test_ym()
+    {
         self::factory()->post->create(array('post_date' => '2007-09-04 00:00:00'));
         $this->go_to('/2007/09/');
         $this->assertQueryTrue('is_archive', 'is_date', 'is_month');
@@ -697,7 +741,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // '([0-9]{4})/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?year=$matches[1]&feed=$matches[2]',
     // '([0-9]{4})/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?year=$matches[1]&feed=$matches[2]',
-    public function test_y_feed() {
+    public function test_y_feed()
+    {
         self::factory()->post->create(array('post_date' => '2007-09-04 00:00:00'));
         // Check the long form.
         $types = array('feed', 'rdf', 'rss', 'rss2', 'atom');
@@ -715,7 +760,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '([0-9]{4})/page/?([0-9]{1,})/?$' => 'index.php?year=$matches[1]&paged=$matches[2]',
-    public function test_y_paged() {
+    public function test_y_paged()
+    {
         update_option('posts_per_page', 2);
         self::factory()->post->create_many(3, array('post_date' => '2007-09-04 00:00:00'));
         $this->go_to('/2007/page/2/');
@@ -723,14 +769,16 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '([0-9]{4})/?$' => 'index.php?year=$matches[1]',
-    public function test_y() {
+    public function test_y()
+    {
         self::factory()->post->create(array('post_date' => '2007-09-04 00:00:00'));
         $this->go_to('/2007/');
         $this->assertQueryTrue('is_archive', 'is_date', 'is_year');
     }
 
     // '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/trackback/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&tb=1',
-    public function test_post_trackback() {
+    public function test_post_trackback()
+    {
         $post_id   = self::factory()->post->create();
         $permalink = get_permalink($post_id);
         $this->go_to("{$permalink}trackback/");
@@ -739,7 +787,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
 
     // '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&feed=$matches[5]',
     // '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/(feed|rdf|rss|rss2|atom)/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&feed=$matches[5]',
-    public function test_post_comment_feed() {
+    public function test_post_comment_feed()
+    {
         $post_id   = self::factory()->post->create();
         $permalink = get_permalink($post_id);
         // Check the long form.
@@ -758,7 +807,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)(/[0-9]+)?/?$' => 'index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&page=$matches[5]',
-    public function test_post_paged_short() {
+    public function test_post_paged_short()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_date'    => '2007-09-04 00:00:00',
@@ -772,7 +822,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     }
 
     // '[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/?$' => 'index.php?attachment=$matches[1]',
-    public function test_post_attachment() {
+    public function test_post_attachment()
+    {
         $post_id   = self::factory()->post->create(array('post_type' => 'attachment'));
         $permalink = get_attachment_link($post_id);
         $this->go_to($permalink);
@@ -790,7 +841,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @expectedIncorrectUsage WP_Date_Query
      */
-    public function test_bad_dates() {
+    public function test_bad_dates()
+    {
         $this->go_to('/2013/13/13/');
         $this->assertQueryTrue('is_404');
 
@@ -798,7 +850,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         $this->assertQueryTrue('is_404');
     }
 
-    public function test_post_type_archive_with_tax_query() {
+    public function test_post_type_archive_with_tax_query()
+    {
         delete_option('rewrite_rules');
 
         $cpt_name = 'ptawtq';
@@ -829,7 +882,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         remove_action('pre_get_posts', array($this, 'pre_get_posts_with_tax_query'));
     }
 
-    public function pre_get_posts_with_tax_query(&$query) {
+    public function pre_get_posts_with_tax_query(&$query)
+    {
         $term = get_term_by('slug', 'tag-slug', 'post_tag');
         $query->set(
             'tax_query',
@@ -843,7 +897,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         );
     }
 
-    public function test_post_type_array() {
+    public function test_post_type_array()
+    {
         delete_option('rewrite_rules');
 
         $cpt_name = 'thearray';
@@ -871,11 +926,13 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         remove_action('pre_get_posts', array($this, 'pre_get_posts_with_type_array'));
     }
 
-    public function pre_get_posts_with_type_array(&$query) {
+    public function pre_get_posts_with_type_array(&$query)
+    {
         $query->set('post_type', array('post', 'thearray'));
     }
 
-    public function test_is_single() {
+    public function test_is_single()
+    {
         $post_id = self::factory()->post->create();
         $this->go_to("/?p=$post_id");
 
@@ -895,7 +952,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 16802
      */
-    public function test_is_single_with_parent() {
+    public function test_is_single_with_parent()
+    {
         // Use custom hierarchical post type.
         $post_type = 'test_hierarchical';
 
@@ -949,7 +1007,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 24674
      */
-    public function test_is_single_with_slug_that_begins_with_a_number_that_clashes_with_another_post_id() {
+    public function test_is_single_with_slug_that_begins_with_a_number_that_clashes_with_another_post_id()
+    {
         $p1 = self::factory()->post->create();
 
         $p2_name = $p1 . '-post';
@@ -972,7 +1031,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 24612
      */
-    public function test_is_single_with_slug_that_clashes_with_attachment() {
+    public function test_is_single_with_slug_that_clashes_with_attachment()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         $attachment_id = self::factory()->post->create(
@@ -1002,7 +1062,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 38225
      */
-    public function test_is_single_with_attachment() {
+    public function test_is_single_with_attachment()
+    {
         $post_id = self::factory()->post->create();
 
         $attachment_id = self::factory()->attachment->create_object(
@@ -1022,7 +1083,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         $this->assertTrue($q->is_attachment);
     }
 
-    public function test_is_page() {
+    public function test_is_page()
+    {
         $post_id = self::factory()->post->create(array('post_type' => 'page'));
         $this->go_to("/?page_id=$post_id");
 
@@ -1042,7 +1104,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 16802
      */
-    public function test_is_page_with_parent() {
+    public function test_is_page_with_parent()
+    {
         $parent_id = self::factory()->post->create(
             array(
                 'post_type' => 'page',
@@ -1076,7 +1139,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         $this->assertFalse(is_page('foo'));
     }
 
-    public function test_is_attachment() {
+    public function test_is_attachment()
+    {
         $post_id = self::factory()->post->create(array('post_type' => 'attachment'));
         $this->go_to("/?attachment_id=$post_id");
 
@@ -1097,7 +1161,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 24674
      */
-    public function test_is_attachment_with_slug_that_begins_with_a_number_that_clashes_with_a_page_ID() {
+    public function test_is_attachment_with_slug_that_begins_with_a_number_that_clashes_with_a_page_ID()
+    {
         $p1 = self::factory()->post->create(array('post_type' => 'attachment'));
 
         $p2_name = $p1 . '-attachment';
@@ -1121,7 +1186,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 24674
      */
-    public function test_is_author_with_nicename_that_begins_with_a_number_that_clashes_with_another_author_id() {
+    public function test_is_author_with_nicename_that_begins_with_a_number_that_clashes_with_another_author_id()
+    {
         $u1 = self::factory()->user->create();
 
         $u2_name = $u1 . '_user';
@@ -1144,7 +1210,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 24674
      */
-    public function test_is_category_with_slug_that_begins_with_a_number_that_clashes_with_another_category_id() {
+    public function test_is_category_with_slug_that_begins_with_a_number_that_clashes_with_another_category_id()
+    {
         $c1 = self::factory()->category->create();
 
         $c2_name = $c1 . '-category';
@@ -1167,7 +1234,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 24674
      */
-    public function test_is_tag_with_slug_that_begins_with_a_number_that_clashes_with_another_tag_id() {
+    public function test_is_tag_with_slug_that_begins_with_a_number_that_clashes_with_another_tag_id()
+    {
         $t1 = self::factory()->tag->create();
 
         $t2_name = $t1 . '-tag';
@@ -1190,7 +1258,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 24674
      */
-    public function test_is_page_with_page_id_zero_and_random_page_slug() {
+    public function test_is_page_with_page_id_zero_and_random_page_slug()
+    {
         $post_id = self::factory()->post->create(array('post_type' => 'page'));
         $this->go_to("/?page_id=$post_id");
 
@@ -1212,7 +1281,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 24674
      */
-    public function test_is_page_with_page_slug_that_begins_with_a_number_that_clashes_with_a_page_ID() {
+    public function test_is_page_with_page_slug_that_begins_with_a_number_that_clashes_with_a_page_ID()
+    {
         $p1 = self::factory()->post->create(array('post_type' => 'page'));
 
         $p2_name = $p1 . '-page';
@@ -1233,7 +1303,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
         $this->assertFalse($q->is_page($p2));
     }
 
-    public function test_is_page_template() {
+    public function test_is_page_template()
+    {
         $post_id = self::factory()->post->create(array('post_type' => 'page'));
         update_post_meta($post_id, '_wp_page_template', 'example.php');
         $this->go_to("/?page_id=$post_id");
@@ -1243,7 +1314,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 31271
      */
-    public function test_is_page_template_default() {
+    public function test_is_page_template_default()
+    {
         $post_id = self::factory()->post->create(array('post_type' => 'page'));
         $this->go_to("/?page_id=$post_id");
         $this->assertTrue(is_page_template('default'));
@@ -1253,7 +1325,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 31271
      */
-    public function test_is_page_template_array() {
+    public function test_is_page_template_array()
+    {
         $post_id = self::factory()->post->create(array('post_type' => 'page'));
         update_post_meta($post_id, '_wp_page_template', 'example.php');
         $this->go_to("/?page_id=$post_id");
@@ -1264,7 +1337,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 18375
      */
-    public function test_is_page_template_other_post_type() {
+    public function test_is_page_template_other_post_type()
+    {
         $post_id = self::factory()->post->create(array('post_type' => 'post'));
         update_post_meta($post_id, '_wp_page_template', 'example.php');
         $this->go_to(get_post_permalink($post_id));
@@ -1275,7 +1349,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 39211
      */
-    public function test_is_page_template_not_singular() {
+    public function test_is_page_template_not_singular()
+    {
         global $wpdb;
 
         // We need a non-post that shares an ID with a post assigned a template.
@@ -1301,7 +1376,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_attachment_should_not_match_numeric_id_to_post_title_beginning_with_id() {
+    public function test_is_attachment_should_not_match_numeric_id_to_post_title_beginning_with_id()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type'  => 'attachment',
@@ -1326,7 +1402,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_attachment_should_not_match_numeric_id_to_post_name_beginning_with_id() {
+    public function test_is_attachment_should_not_match_numeric_id_to_post_name_beginning_with_id()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type'  => 'attachment',
@@ -1351,7 +1428,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_author_should_not_match_numeric_id_to_nickname_beginning_with_id() {
+    public function test_is_author_should_not_match_numeric_id_to_nickname_beginning_with_id()
+    {
         $u1 = self::factory()->user->create(
             array(
                 'nickname'      => 'Foo',
@@ -1374,7 +1452,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_author_should_not_match_numeric_id_to_user_nicename_beginning_with_id() {
+    public function test_is_author_should_not_match_numeric_id_to_user_nicename_beginning_with_id()
+    {
         $u1 = self::factory()->user->create(
             array(
                 'nickname'      => 'Foo',
@@ -1397,7 +1476,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_category_should_not_match_numeric_id_to_name_beginning_with_id() {
+    public function test_is_category_should_not_match_numeric_id_to_name_beginning_with_id()
+    {
         $t1 = self::factory()->term->create(
             array(
                 'taxonomy' => 'category',
@@ -1422,7 +1502,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_category_should_not_match_numeric_id_to_slug_beginning_with_id() {
+    public function test_is_category_should_not_match_numeric_id_to_slug_beginning_with_id()
+    {
         $t1 = self::factory()->term->create(
             array(
                 'taxonomy' => 'category',
@@ -1447,7 +1528,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_tag_should_not_match_numeric_id_to_name_beginning_with_id() {
+    public function test_is_tag_should_not_match_numeric_id_to_name_beginning_with_id()
+    {
         $t1 = self::factory()->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -1472,7 +1554,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_tag_should_not_match_numeric_id_to_slug_beginning_with_id() {
+    public function test_is_tag_should_not_match_numeric_id_to_slug_beginning_with_id()
+    {
         $t1 = self::factory()->term->create(
             array(
                 'taxonomy' => 'post_tag',
@@ -1497,7 +1580,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_page_should_not_match_numeric_id_to_post_title_beginning_with_id() {
+    public function test_is_page_should_not_match_numeric_id_to_post_title_beginning_with_id()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -1522,7 +1606,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_page_should_not_match_numeric_id_to_post_name_beginning_with_id() {
+    public function test_is_page_should_not_match_numeric_id_to_post_name_beginning_with_id()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -1547,7 +1632,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_single_should_not_match_numeric_id_to_post_title_beginning_with_id() {
+    public function test_is_single_should_not_match_numeric_id_to_post_title_beginning_with_id()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type'  => 'post',
@@ -1572,7 +1658,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * @ticket 35902
      */
-    public function test_is_single_should_not_match_numeric_id_to_post_name_beginning_with_id() {
+    public function test_is_single_should_not_match_numeric_id_to_post_name_beginning_with_id()
+    {
         $p1 = self::factory()->post->create(
             array(
                 'post_type'  => 'post',
@@ -1598,7 +1685,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
      * @ticket 44005
      * @group privacy
      */
-    public function test_is_privacy_policy() {
+    public function test_is_privacy_policy()
+    {
         $page_id = self::factory()->post->create(
             array(
                 'post_type'  => 'page',
@@ -1620,7 +1708,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
      *
      * @param string $function_name The name of the function to test.
      */
-    public function test_conditional_tags_trigger_doing_it_wrong_and_return_false_if_wp_query_is_not_set($function_name) {
+    public function test_conditional_tags_trigger_doing_it_wrong_and_return_false_if_wp_query_is_not_set($function_name)
+    {
         unset($GLOBALS['wp_query']);
 
         if ('is_comments_popup' === $function_name) {
@@ -1637,7 +1726,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
     /**
      * Data provider.
      */
-    public function data_conditional_tags_trigger_doing_it_wrong_and_return_false_if_wp_query_is_not_set() {
+    public function data_conditional_tags_trigger_doing_it_wrong_and_return_false_if_wp_query_is_not_set()
+    {
         // Get the list of `is_*()` conditional tags.
         $functions = array_filter(
             get_class_methods('WP_Query'),
@@ -1665,7 +1755,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
      * @param string     $function_name The name of the function to test.
      * @param false|null $expected      Expected return value.
      */
-    public function test_loop_functions_do_not_trigger_a_fatal_error_if_wp_query_is_not_set($function_name, $expected) {
+    public function test_loop_functions_do_not_trigger_a_fatal_error_if_wp_query_is_not_set($function_name, $expected)
+    {
         unset($GLOBALS['wp_query']);
 
         $this->assertSame($expected, call_user_func($function_name));
@@ -1679,7 +1770,8 @@ class Tests_Query_Conditionals extends WP_UnitTestCase {
      *     @type false|null $expected      Expected return value.
      * }
      */
-    public function data_loop_functions_do_not_trigger_a_fatal_error_if_wp_query_is_not_set() {
+    public function data_loop_functions_do_not_trigger_a_fatal_error_if_wp_query_is_not_set()
+    {
         return array(
             array('have_posts', false),
             array('in_the_loop', false),

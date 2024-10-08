@@ -11,14 +11,16 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_send_attachment_to_editor
  */
-class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase
+{
 
     /**
      * @ticket 36578
      *
      * @covers ::get_image_send_to_editor
      */
-    public function test_wp_ajax_send_attachment_to_editor_should_return_an_image() {
+    public function test_wp_ajax_send_attachment_to_editor_should_return_an_image()
+    {
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -61,7 +63,8 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase {
      * @ticket 36578
      * @group ms-excluded
      */
-    public function test_wp_ajax_send_attachment_to_editor_should_return_a_link() {
+    public function test_wp_ajax_send_attachment_to_editor_should_return_a_link()
+    {
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -102,7 +105,8 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase {
         $this->assertSame($expected, $response['data']);
     }
 
-    public function test_wp_ajax_set_attachment_thumbnail_success() {
+    public function test_wp_ajax_set_attachment_thumbnail_success()
+    {
         // Become an administrator.
         $post    = $_POST;
         $user_id = self::factory()->user->create(
@@ -148,7 +152,8 @@ class Tests_Ajax_wpAjaxSendAttachmentToEditor extends WP_Ajax_UnitTestCase {
         $this->assertTrue($response['success']);
     }
 
-    public function test_wp_ajax_set_attachment_thumbnail_missing_nonce() {
+    public function test_wp_ajax_set_attachment_thumbnail_missing_nonce()
+    {
         // Become an administrator.
         $post    = $_POST;
         $user_id = self::factory()->user->create(

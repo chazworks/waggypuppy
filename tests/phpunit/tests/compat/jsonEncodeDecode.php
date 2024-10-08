@@ -5,9 +5,11 @@
  *
  * @covers Services_JSON
  */
-class Tests_Compat_jsonEncodeDecode extends WP_UnitTestCase {
+class Tests_Compat_jsonEncodeDecode extends WP_UnitTestCase
+{
 
-    public function test_json_encode_decode() {
+    public function test_json_encode_decode()
+    {
         $this->setExpectedDeprecated('class-json.php');
         $this->setExpectedDeprecated('Services_JSON::__construct');
         $this->setExpectedDeprecated('Services_JSON::encodeUnsafe');

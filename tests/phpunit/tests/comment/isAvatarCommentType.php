@@ -10,7 +10,8 @@
  *
  * @covers ::is_avatar_comment_type
  */
-class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase {
+class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase
+{
     /**
      * Test the `is_avatar_comment_type()` function.
      *
@@ -18,7 +19,8 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase {
      *
      * @dataProvider data_is_avatar_comment_type
      */
-    public function test_function($comment_type, $expected) {
+    public function test_function($comment_type, $expected)
+    {
         $this->assertSame($expected, is_avatar_comment_type($comment_type));
     }
 
@@ -34,7 +36,8 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase {
      *     }
      * }
      */
-    public function data_is_avatar_comment_type() {
+    public function data_is_avatar_comment_type()
+    {
         return array(
             array(null, false),
             array('', false),
@@ -48,7 +51,8 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase {
      *
      * @since 5.1.0
      */
-    public function test_function_should_be_filterable() {
+    public function test_function_should_be_filterable()
+    {
         $this->assertFalse(is_avatar_comment_type('review'));
 
         add_filter('get_avatar_comment_types', array($this, '_filter_avatar_comment_types'));
@@ -68,7 +72,8 @@ class Tests_Comment_IsAvatarCommentType extends WP_UnitTestCase {
      * @param  array $types An array of content types.
      * @return array An array of content types.
      */
-    public function _filter_avatar_comment_types($types) {
+    public function _filter_avatar_comment_types($types)
+    {
         $types[] = 'review';
         return $types;
     }

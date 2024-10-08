@@ -9,7 +9,8 @@
  * @group user
  * @covers ::wp_send_user_request
  */
-class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
+class Tests_User_wpSendUserRequest extends WP_UnitTestCase
+{
 
     /**
      * Test administrator user.
@@ -36,7 +37,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Test fixture factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_user = $factory->user->create_and_get(
             array(
                 'user_email' => 'admin@local.dev',
@@ -57,7 +59,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @since 4.9.9
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         set_current_screen('dashboard');
@@ -69,7 +72,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @since 4.9.9
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         reset_phpmailer_instance();
 
         unset($GLOBALS['locale']);
@@ -83,7 +87,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43985
      */
-    public function test_should_error_when_invalid_request_id() {
+    public function test_should_error_when_invalid_request_id()
+    {
         $result = wp_send_user_request(null);
 
         $this->assertWPError($result);
@@ -95,7 +100,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43985
      */
-    public function test_should_send_user_request_export_email_when_requester_registered_user() {
+    public function test_should_send_user_request_export_email_when_requester_registered_user()
+    {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'export_personal_data');
 
         $result = wp_send_user_request($request_id);
@@ -113,7 +119,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43985
      */
-    public function test_should_send_user_request_erase_email_when_requester_registered_user() {
+    public function test_should_send_user_request_erase_email_when_requester_registered_user()
+    {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'remove_personal_data');
 
         $result = wp_send_user_request($request_id);
@@ -131,7 +138,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43985
      */
-    public function test_should_send_user_request_export_email_when_user_not_registered() {
+    public function test_should_send_user_request_export_email_when_user_not_registered()
+    {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'export_personal_data');
 
         $result = wp_send_user_request($request_id);
@@ -149,7 +157,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43985
      */
-    public function test_should_send_user_request_erase_email_when_user_not_registered() {
+    public function test_should_send_user_request_erase_email_when_user_not_registered()
+    {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'remove_personal_data');
 
         $result = wp_send_user_request($request_id);
@@ -167,7 +176,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43985
      */
-    public function test_email_subject_should_be_filterable() {
+    public function test_email_subject_should_be_filterable()
+    {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'remove_personal_data');
 
         add_filter('user_request_action_email_subject', array($this, 'modify_email_subject'));
@@ -186,7 +196,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @param string $subject The email subject.
      * @return string Filtered email subject.
      */
-    public function modify_email_subject($subject) {
+    public function modify_email_subject($subject)
+    {
         return 'Custom Email Subject';
     }
 
@@ -195,7 +206,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43985
      */
-    public function test_email_content_should_be_filterable() {
+    public function test_email_content_should_be_filterable()
+    {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'remove_personal_data');
 
         add_filter('user_request_action_email_content', array($this, 'modify_email_content'), 10, 2);
@@ -214,7 +226,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @param string $email_text Confirmation email text.
      * @return string Filtered email text.
      */
-    public function modify_email_content($email_text) {
+    public function modify_email_content($email_text)
+    {
         return 'Custom Email Content.';
     }
 
@@ -225,7 +238,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44501
      */
-    public function test_email_headers_should_be_filterable() {
+    public function test_email_headers_should_be_filterable()
+    {
         $request_id = wp_create_user_request(self::$test_user->user_email, 'remove_personal_data');
 
         add_filter('user_request_action_email_headers', array($this, 'modify_email_headers'));
@@ -244,7 +258,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @param string|array $headers The email headers.
      * @return array The new email headers.
      */
-    public function modify_email_headers($headers) {
+    public function modify_email_headers($headers)
+    {
         $headers = array(
             'From: Tester <tester@example.com>',
         );
@@ -257,7 +272,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43985
      */
-    public function test_return_wp_error_when_sending_fails() {
+    public function test_return_wp_error_when_sending_fails()
+    {
         $request_id = wp_create_user_request('erase.request.from.unregistered.user@example.com', 'remove_personal_data');
 
         add_filter('wp_mail_from', '__return_empty_string'); // Cause `wp_mail()` to return false.
@@ -273,7 +289,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @ticket 43985
      * @group l10n
      */
-    public function test_should_send_user_request_email_in_user_locale() {
+    public function test_should_send_user_request_email_in_user_locale()
+    {
         update_user_meta(self::$test_user->ID, 'locale', 'es_ES');
 
         wp_set_current_user(self::$admin_user->ID);
@@ -292,7 +309,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @ticket 43985
      * @group l10n
      */
-    public function test_should_send_user_request_email_in_user_locale_when_site_is_not_en_us() {
+    public function test_should_send_user_request_email_in_user_locale_when_site_is_not_en_us()
+    {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
 
@@ -314,7 +332,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @ticket 43985
      * @group l10n
      */
-    public function test_should_send_user_request_email_in_user_locale_when_admin_and_site_have_different_locales() {
+    public function test_should_send_user_request_email_in_user_locale_when_admin_and_site_have_different_locales()
+    {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
 
@@ -336,7 +355,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @ticket 43985
      * @group l10n
      */
-    public function test_should_send_user_request_email_in_user_locale_when_both_have_different_locales_than_site() {
+    public function test_should_send_user_request_email_in_user_locale_when_both_have_different_locales_than_site()
+    {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
 
@@ -360,7 +380,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @ticket 43985
      * @group l10n
      */
-    public function test_should_send_user_request_email_in_site_locale() {
+    public function test_should_send_user_request_email_in_site_locale()
+    {
         update_user_meta(self::$admin_user->ID, 'locale', 'es_ES');
         wp_set_current_user(self::$admin_user->ID);
 
@@ -379,7 +400,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase {
      * @ticket 43985
      * @group l10n
      */
-    public function test_should_send_user_request_email_in_site_locale_when_not_en_us_and_admin_has_different_locale() {
+    public function test_should_send_user_request_email_in_site_locale_when_not_en_us_and_admin_has_different_locale()
+    {
         update_option('WPLANG', 'es_ES');
         switch_to_locale('es_ES');
 

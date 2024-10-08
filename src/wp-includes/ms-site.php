@@ -41,7 +41,8 @@
  * }
  * @return int|WP_Error The new site's ID on success, or error object on failure.
  */
-function wp_insert_site(array $data) {
+function wp_insert_site(array $data)
+{
     global $wpdb;
 
     $now = current_time('mysql', true);
@@ -156,7 +157,8 @@ function wp_insert_site(array $data) {
  * @param array $data    Site data to update. See {@see wp_insert_site()} for the list of supported keys.
  * @return int|WP_Error The updated site's ID on success, or error object on failure.
  */
-function wp_update_site($site_id, array $data) {
+function wp_update_site($site_id, array $data)
+{
     global $wpdb;
 
     if (empty($site_id)) {
@@ -209,7 +211,8 @@ function wp_update_site($site_id, array $data) {
  * @param int $site_id ID of the site that should be deleted.
  * @return WP_Site|WP_Error The deleted site object on success, or error object on failure.
  */
-function wp_delete_site($site_id) {
+function wp_delete_site($site_id)
+{
     global $wpdb;
 
     if (empty($site_id)) {
@@ -307,7 +310,8 @@ function wp_delete_site($site_id) {
  * @param WP_Site|int|null $site Optional. Site to retrieve. Default is the current site.
  * @return WP_Site|null The site object or null if not found.
  */
-function get_site($site = null) {
+function get_site($site = null)
+{
     if (empty($site)) {
         $site = get_current_blog_id();
     }
@@ -350,7 +354,8 @@ function get_site($site = null) {
  * @param array $ids               ID list.
  * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */
-function _prime_site_caches($ids, $update_meta_cache = true) {
+function _prime_site_caches($ids, $update_meta_cache = true)
+{
     global $wpdb;
 
     $non_cached_ids = _get_non_cached_ids($ids, 'sites');
@@ -372,7 +377,8 @@ function _prime_site_caches($ids, $update_meta_cache = true) {
  *
  * @param array $site_ids List of site IDs.
  */
-function wp_lazyload_site_meta(array $site_ids) {
+function wp_lazyload_site_meta(array $site_ids)
+{
     if (empty($site_ids)) {
         return;
     }
@@ -389,7 +395,8 @@ function wp_lazyload_site_meta(array $site_ids) {
  * @param array $sites             Array of site objects.
  * @param bool  $update_meta_cache Whether to update site meta cache. Default true.
  */
-function update_site_cache($sites, $update_meta_cache = true) {
+function update_site_cache($sites, $update_meta_cache = true)
+{
     if (! $sites) {
         return;
     }
@@ -421,7 +428,8 @@ function update_site_cache($sites, $update_meta_cache = true) {
  * @param array $site_ids List of site IDs.
  * @return array|false An array of metadata on success, false if there is nothing to update.
  */
-function update_sitemeta_cache($site_ids) {
+function update_sitemeta_cache($site_ids)
+{
     // Ensure this filter is hooked in even if the function is called early.
     if (! has_filter('update_blog_metadata_cache', 'wp_check_site_meta_support_prefilter')) {
         add_filter('update_blog_metadata_cache', 'wp_check_site_meta_support_prefilter');
@@ -442,7 +450,8 @@ function update_sitemeta_cache($site_ids) {
  * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
  *                             or the number of sites when 'count' is passed as a query var.
  */
-function get_sites($args = array()) {
+function get_sites($args = array())
+{
     $query = new WP_Site_Query();
 
     return $query->query($args);
@@ -461,7 +470,8 @@ function get_sites($args = array()) {
  * @return array|WP_Error Site data ready for a database transaction, or WP_Error in case a validation
  *                        error occurred.
  */
-function wp_prepare_site_data($data, $defaults, $old_site = null) {
+function wp_prepare_site_data($data, $defaults, $old_site = null)
+{
 
     // Maintain backward-compatibility with `$site_id` as network ID.
     if (isset($data['site_id'])) {
@@ -521,7 +531,8 @@ function wp_prepare_site_data($data, $defaults, $old_site = null) {
  *                    See {@see wp_insert_site()} for the possibly included data.
  * @return array Normalized site data.
  */
-function wp_normalize_site_data($data) {
+function wp_normalize_site_data($data)
+{
     // Sanitize domain if passed.
     if (array_key_exists('domain', $data)) {
         $data['domain'] = preg_replace('/[^a-z0-9\-.:]+/i', '', $data['domain']);
@@ -572,7 +583,8 @@ function wp_normalize_site_data($data) {
  * @param WP_Site|null $old_site The old site object if the data belongs to a site being updated,
  *                               or null if it is a new site being inserted.
  */
-function wp_validate_site_data($errors, $data, $old_site = null) {
+function wp_validate_site_data($errors, $data, $old_site = null)
+{
     // A domain must always be present.
     if (empty($data['domain'])) {
         $errors->add('site_empty_domain', __('Site domain must not be empty.'));
@@ -650,7 +662,8 @@ function wp_validate_site_data($errors, $data, $old_site = null) {
  * }
  * @return true|WP_Error True on success, or error object on failure.
  */
-function wp_initialize_site($site_id, array $args = array()) {
+function wp_initialize_site($site_id, array $args = array())
+{
     global $wpdb, $wp_roles;
 
     if (empty($site_id)) {
@@ -781,7 +794,8 @@ function wp_initialize_site($site_id, array $args = array()) {
  * @param int|WP_Site $site_id Site ID or object.
  * @return true|WP_Error True on success, or error object on failure.
  */
-function wp_uninitialize_site($site_id) {
+function wp_uninitialize_site($site_id)
+{
     global $wpdb;
 
     if (empty($site_id)) {
@@ -903,7 +917,8 @@ function wp_uninitialize_site($site_id) {
  * @param int|WP_Site $site_id Site ID or object.
  * @return bool True if the site is initialized, false otherwise.
  */
-function wp_is_site_initialized($site_id) {
+function wp_is_site_initialized($site_id)
+{
     global $wpdb;
 
     if (is_object($site_id)) {
@@ -956,7 +971,8 @@ function wp_is_site_initialized($site_id) {
  *
  * @param WP_Site|int $blog The site object or ID to be cleared from cache.
  */
-function clean_blog_cache($blog) {
+function clean_blog_cache($blog)
+{
     global $_wp_suspend_cache_invalidation;
 
     if (! empty($_wp_suspend_cache_invalidation)) {
@@ -1031,7 +1047,8 @@ function clean_blog_cache($blog) {
  *                           Default false.
  * @return int|false Meta ID on success, false on failure.
  */
-function add_site_meta($site_id, $meta_key, $meta_value, $unique = false) {
+function add_site_meta($site_id, $meta_key, $meta_value, $unique = false)
+{
     return add_metadata('blog', $site_id, $meta_key, $meta_value, $unique);
 }
 
@@ -1051,7 +1068,8 @@ function add_site_meta($site_id, $meta_key, $meta_value, $unique = false) {
  *                           Must be serializable if non-scalar. Default empty.
  * @return bool True on success, false on failure.
  */
-function delete_site_meta($site_id, $meta_key, $meta_value = '') {
+function delete_site_meta($site_id, $meta_key, $meta_value = '')
+{
     return delete_metadata('blog', $site_id, $meta_key, $meta_value);
 }
 
@@ -1072,7 +1090,8 @@ function delete_site_meta($site_id, $meta_key, $meta_value = '') {
  *               An empty array if a valid but non-existing site ID is passed and `$single` is false.
  *               An empty string if a valid but non-existing site ID is passed and `$single` is true.
  */
-function get_site_meta($site_id, $key = '', $single = false) {
+function get_site_meta($site_id, $key = '', $single = false)
+{
     return get_metadata('blog', $site_id, $key, $single);
 }
 
@@ -1096,7 +1115,8 @@ function get_site_meta($site_id, $key = '', $single = false) {
  *                  false on failure or if the value passed to the function
  *                  is the same as the one that is already in the database.
  */
-function update_site_meta($site_id, $meta_key, $meta_value, $prev_value = '') {
+function update_site_meta($site_id, $meta_key, $meta_value, $prev_value = '')
+{
     return update_metadata('blog', $site_id, $meta_key, $meta_value, $prev_value);
 }
 
@@ -1108,7 +1128,8 @@ function update_site_meta($site_id, $meta_key, $meta_value, $prev_value = '') {
  * @param string $meta_key Metadata key to search for when deleting.
  * @return bool Whether the site meta key was deleted from the database.
  */
-function delete_site_meta_by_key($meta_key) {
+function delete_site_meta_by_key($meta_key)
+{
     return delete_metadata('blog', null, $meta_key, '', true);
 }
 
@@ -1121,7 +1142,8 @@ function delete_site_meta_by_key($meta_key) {
  * @param WP_Site|null $old_site Optional. If $new_site has been updated, this must be the previous
  *                               state of that site. Default null.
  */
-function wp_maybe_update_network_site_counts_on_update($new_site, $old_site = null) {
+function wp_maybe_update_network_site_counts_on_update($new_site, $old_site = null)
+{
     if (null === $old_site) {
         wp_maybe_update_network_site_counts($new_site->network_id);
         return;
@@ -1142,7 +1164,8 @@ function wp_maybe_update_network_site_counts_on_update($new_site, $old_site = nu
  * @param WP_Site|null $old_site Optional. If $new_site has been updated, this must be the previous
  *                               state of that site. Default null.
  */
-function wp_maybe_transition_site_statuses_on_update($new_site, $old_site = null) {
+function wp_maybe_transition_site_statuses_on_update($new_site, $old_site = null)
+{
     $site_id = $new_site->id;
 
     // Use the default values for a site if no previous state is given.
@@ -1269,7 +1292,8 @@ function wp_maybe_transition_site_statuses_on_update($new_site, $old_site = null
  * @param WP_Site $new_site The site object after the update.
  * @param WP_Site $old_site The site object prior to the update.
  */
-function wp_maybe_clean_new_site_cache_on_update($new_site, $old_site) {
+function wp_maybe_clean_new_site_cache_on_update($new_site, $old_site)
+{
     if ($old_site->domain !== $new_site->domain || $old_site->path !== $new_site->path) {
         clean_blog_cache($new_site);
     }
@@ -1284,7 +1308,8 @@ function wp_maybe_clean_new_site_cache_on_update($new_site, $old_site) {
  * @param string $is_public Whether the site is public. A numeric string,
  *                          for compatibility reasons. Accepts '1' or '0'.
  */
-function wp_update_blog_public_option_on_site_update($site_id, $is_public) {
+function wp_update_blog_public_option_on_site_update($site_id, $is_public)
+{
 
     // Bail if the site's database tables do not exist (yet).
     if (! wp_is_site_initialized($site_id)) {
@@ -1299,7 +1324,8 @@ function wp_update_blog_public_option_on_site_update($site_id, $is_public) {
  *
  * @since 5.1.0
  */
-function wp_cache_set_sites_last_changed() {
+function wp_cache_set_sites_last_changed()
+{
     wp_cache_set_last_changed('sites');
 }
 
@@ -1313,7 +1339,8 @@ function wp_cache_set_sites_last_changed() {
  * @param mixed $check Skip-value for whether to proceed site meta function execution.
  * @return mixed Original value of $check, or false if site meta is not supported.
  */
-function wp_check_site_meta_support_prefilter($check) {
+function wp_check_site_meta_support_prefilter($check)
+{
     if (! is_site_meta_supported()) {
         /* translators: %s: Database table name. */
         _doing_it_wrong(__FUNCTION__, sprintf(__('The %s table is not installed. Please run the network database upgrade.'), $GLOBALS['wpdb']->blogmeta), '5.1.0');

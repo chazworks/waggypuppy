@@ -8,12 +8,14 @@
  * @coversDefaultClass WP_Duotone
  */
 
-class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
+class Tests_Block_Supports_Duotone extends WP_UnitTestCase
+{
     /**
      * Cleans up CSS added to block-supports from duotone styles. We need to do this
      * in order to avoid impacting other tests.
      */
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         WP_Style_Engine_CSS_Rules_Store::remove_all_stores();
     }
 
@@ -24,7 +26,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      *
      * @covers ::render_duotone_support
      */
-    public function test_render_duotone_support_preset() {
+    public function test_render_duotone_support_preset()
+    {
         $block         = array(
             'blockName' => 'core/image',
             'attrs'     => array('style' => array('color' => array('duotone' => 'var:preset|duotone|blue-orange'))),
@@ -42,7 +45,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      *
      * @covers ::render_duotone_support
      */
-    public function test_render_duotone_support_css() {
+    public function test_render_duotone_support_css()
+    {
         $block         = array(
             'blockName' => 'core/image',
             'attrs'     => array('style' => array('color' => array('duotone' => 'unset'))),
@@ -58,7 +62,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      *
      * @covers ::render_duotone_support
      */
-    public function test_render_duotone_support_custom() {
+    public function test_render_duotone_support_custom()
+    {
         $block         = array(
             'blockName' => 'core/image',
             'attrs'     => array('style' => array('color' => array('duotone' => array('#FFFFFF', '#000000')))),
@@ -75,7 +80,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      * @dataProvider data_get_slug_from_attribute
      * @covers ::get_slug_from_attribute
      */
-    public function test_get_slug_from_attribute($data_attr, $expected) {
+    public function test_get_slug_from_attribute($data_attr, $expected)
+    {
 
         $reflection = new ReflectionMethod('WP_Duotone', 'get_slug_from_attribute');
         $reflection->setAccessible(true);
@@ -88,7 +94,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public function data_get_slug_from_attribute() {
+    public function data_get_slug_from_attribute()
+    {
         return array(
             'pipe-slug'                       => array('var:preset|duotone|blue-orange', 'blue-orange'),
             'css-var'                         => array('var(--wp--preset--duotone--blue-orange)', 'blue-orange'),
@@ -111,7 +118,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      *
      * @covers ::render_duotone_support
      */
-    public function test_css_declarations_are_generated_even_with_empty_block_content() {
+    public function test_css_declarations_are_generated_even_with_empty_block_content()
+    {
         $block    = array(
             'blockName' => 'core/image',
             'attrs'     => array('style' => array('color' => array('duotone' => 'var:preset|duotone|blue-orange'))),
@@ -145,7 +153,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
     /**
      * @dataProvider data_is_preset
      */
-    public function test_is_preset($data_attr, $expected) {
+    public function test_is_preset($data_attr, $expected)
+    {
         $reflection = new ReflectionMethod('WP_Duotone', 'is_preset');
         $reflection->setAccessible(true);
 
@@ -157,7 +166,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public function data_is_preset() {
+    public function data_is_preset()
+    {
         return array(
             'pipe-slug'                       => array('var:preset|duotone|blue-orange', true),
             'css-var'                         => array('var(--wp--preset--duotone--blue-orange)', true),
@@ -171,7 +181,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      * @dataProvider data_colord_parse_hue
      * @ticket 59496
      */
-    public function test_colord_parse_hue($value, $unit, $expected) {
+    public function test_colord_parse_hue($value, $unit, $expected)
+    {
         $reflection = new ReflectionMethod('WP_Duotone', 'colord_parse_hue');
         $reflection->setAccessible(true);
 
@@ -183,7 +194,8 @@ class Tests_Block_Supports_Duotone extends WP_UnitTestCase {
      *
      * @return array[].
      */
-    public function data_colord_parse_hue() {
+    public function data_colord_parse_hue()
+    {
         return array(
             'deg-angle-unit'                => array(120, 'deg', 120.0),
             'grad-angle-unit'               => array(120, 'grad', 108.0),

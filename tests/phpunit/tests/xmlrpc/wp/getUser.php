@@ -4,10 +4,12 @@
  * @group xmlrpc
  * @group user
  */
-class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
+class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase
+{
     protected $administrator_id;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         // Create a super admin.
@@ -17,19 +19,22 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
         }
     }
 
-    public function test_invalid_username_password() {
+    public function test_invalid_username_password()
+    {
         $result = $this->myxmlrpcserver->wp_getUser(array(1, 'username', 'password', 1));
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
     }
 
-    public function test_invalid_user() {
+    public function test_invalid_user()
+    {
         $result = $this->myxmlrpcserver->wp_getUser(array(1, 'administrator', 'administrator', 34902348908234));
         $this->assertIXRError($result);
         $this->assertSame(404, $result->code);
     }
 
-    public function test_incapable_user() {
+    public function test_incapable_user()
+    {
         $this->make_user_by_role('subscriber');
         $editor_id = $this->make_user_by_role('editor');
 
@@ -38,7 +43,8 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
         $this->assertSame(401, $result->code);
     }
 
-    public function test_subscriber_self() {
+    public function test_subscriber_self()
+    {
         $subscriber_id = $this->make_user_by_role('subscriber');
 
         $result = $this->myxmlrpcserver->wp_getUser(array(1, 'subscriber', 'subscriber', $subscriber_id));
@@ -46,7 +52,8 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
         $this->assertEquals($subscriber_id, $result['user_id']);
     }
 
-    public function test_valid_user() {
+    public function test_valid_user()
+    {
         $registered_date = strtotime('-1 day');
         $user_data       = array(
             'user_login'      => 'getusertestuser',
@@ -101,7 +108,8 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
         self::delete_user($user_id);
     }
 
-    public function test_no_fields() {
+    public function test_no_fields()
+    {
         $editor_id = $this->make_user_by_role('editor');
 
         $result = $this->myxmlrpcserver->wp_getUser(array(1, 'administrator', 'administrator', $editor_id, array()));
@@ -112,7 +120,8 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
         $this->assertSame($expected_fields, array_keys($result));
     }
 
-    public function test_basic_fields() {
+    public function test_basic_fields()
+    {
         $editor_id = $this->make_user_by_role('editor');
 
         $result = $this->myxmlrpcserver->wp_getUser(array(1, 'administrator', 'administrator', $editor_id, array('basic')));
@@ -126,7 +135,8 @@ class Tests_XMLRPC_wp_getUser extends WP_XMLRPC_UnitTestCase {
         $this->assertSameSets($expected_fields, $keys);
     }
 
-    public function test_arbitrary_fields() {
+    public function test_arbitrary_fields()
+    {
         $editor_id = $this->make_user_by_role('editor');
 
         $fields = array('email', 'bio', 'user_contacts');

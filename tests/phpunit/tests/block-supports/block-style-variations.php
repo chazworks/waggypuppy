@@ -8,7 +8,8 @@
  *
  * @group block-supports
  */
-class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
+class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase
+{
     /**
      * Theme root directory.
      *
@@ -23,7 +24,8 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
      */
     private $orig_theme_dir;
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
 
@@ -41,7 +43,8 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
         unset($GLOBALS['wp_themes']);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         $GLOBALS['wp_theme_directories'] = $this->orig_theme_dir;
         wp_clean_themes_cache();
         unset($GLOBALS['wp_themes']);
@@ -51,7 +54,8 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
         parent::tear_down();
     }
 
-    public function filter_set_theme_root() {
+    public function filter_set_theme_root()
+    {
         return $this->theme_root;
     }
 
@@ -64,7 +68,8 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
      * @ticket 61440
      * @ticket 61451
      */
-    public function test_add_registered_block_styles_to_theme_data() {
+    public function test_add_registered_block_styles_to_theme_data()
+    {
         switch_theme('block-theme');
 
         $variation_styles_data = array(
@@ -165,7 +170,8 @@ class WP_Block_Supports_Block_Style_Variations_Test extends WP_UnitTestCase {
      *
      * @ticket 61589
      */
-    public function test_block_style_variation_ref_values() {
+    public function test_block_style_variation_ref_values()
+    {
         switch_theme('block-theme');
 
         $variation_data = array(

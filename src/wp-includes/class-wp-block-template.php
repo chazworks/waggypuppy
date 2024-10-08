@@ -12,7 +12,8 @@
  * @since 5.8.0
  */
 #[AllowDynamicProperties]
-class WP_Block_Template {
+class WP_Block_Template
+{
 
     /**
      * Type: wp_template.

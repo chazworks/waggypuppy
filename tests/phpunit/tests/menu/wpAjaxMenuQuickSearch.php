@@ -3,14 +3,16 @@
 /**
  * @group menu
  */
-class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
+class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase
+{
 
     /**
      * Test search returns results for pages.
      *
      * @ticket 27042
      */
-    public function test_search_returns_results_for_pages() {
+    public function test_search_returns_results_for_pages()
+    {
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
         self::factory()->post->create_many(
@@ -45,7 +47,8 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
      *
      * @ticket 33742
      */
-    public function test_search_returns_results_for_published_posts() {
+    public function test_search_returns_results_for_published_posts()
+    {
         require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
 
         // This will make sure that WP_Query sets is_admin to true.
@@ -101,7 +104,8 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase {
      *
      * @ticket 45298
      */
-    public function test_search_should_return_unassigned_term_items() {
+    public function test_search_should_return_unassigned_term_items()
+    {
         register_taxonomy('wptests_tax', 'post');
 
         self::factory()->term->create(

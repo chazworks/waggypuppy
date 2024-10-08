@@ -15,7 +15,8 @@
  * @since 4.8.0
  */
 #[AllowDynamicProperties]
-class WP_Community_Events {
+class WP_Community_Events
+{
     /**
      * ID for a WordPress user account.
      *
@@ -51,7 +52,8 @@ class WP_Community_Events {
      *     @type string $country     The ISO 3166-1 alpha-2 country code. e.g.: BR
      * }
      */
-    public function __construct($user_id, $user_location = false) {
+    public function __construct($user_id, $user_location = false)
+    {
         $this->user_id       = absint($user_id);
         $this->user_location = $user_location;
     }
@@ -88,7 +90,8 @@ class WP_Community_Events {
      * @return array|WP_Error A WP_Error on failure; an array with location and events on
      *                        success.
      */
-    public function get_events($location_search = '', $timezone = '') {
+    public function get_events($location_search = '', $timezone = '')
+    {
         $cached_events = $this->get_cached_events();
 
         if (! $location_search && $cached_events) {
@@ -182,7 +185,8 @@ class WP_Community_Events {
      * @param string $timezone Optional. Timezone string. Default empty string.
      * @return array The request args.
      */
-    protected function get_request_args($search = '', $timezone = '') {
+    protected function get_request_args($search = '', $timezone = '')
+    {
         $args = array(
             'number' => 5, // Get more than three in case some get trimmed out.
             'ip'     => self::get_unsafe_client_ip(),
@@ -238,7 +242,8 @@ class WP_Community_Events {
      * @return string|false The anonymized address on success; the given address
      *                      or false on failure.
      */
-    public static function get_unsafe_client_ip() {
+    public static function get_unsafe_client_ip()
+    {
         $client_ip = false;
 
         // In order of preference, with the best ones for this purpose first.
@@ -288,7 +293,8 @@ class WP_Community_Events {
      * @param array $b The second pair, with indexes 'latitude' and 'longitude'.
      * @return bool True if they match, false if they don't.
      */
-    protected function coordinates_match($a, $b) {
+    protected function coordinates_match($a, $b)
+    {
         if (! isset($a['latitude'], $a['longitude'], $b['latitude'], $b['longitude'])) {
             return false;
         }
@@ -309,7 +315,8 @@ class WP_Community_Events {
      * @param array $location Should contain 'latitude' and 'longitude' indexes.
      * @return string|false Transient key on success, false on failure.
      */
-    protected function get_events_transient_key($location) {
+    protected function get_events_transient_key($location)
+    {
         $key = false;
 
         if (isset($location['ip'])) {
@@ -330,7 +337,8 @@ class WP_Community_Events {
      * @param int|false $expiration Optional. Amount of time to cache the events. Defaults to false.
      * @return bool true if events were cached; false if not.
      */
-    protected function cache_events($events, $expiration = false) {
+    protected function cache_events($events, $expiration = false)
+    {
         $set              = false;
         $transient_key    = $this->get_events_transient_key($events['location']);
         $cache_expiration = $expiration ? absint($expiration) : HOUR_IN_SECONDS * 12;
@@ -352,7 +360,8 @@ class WP_Community_Events {
      * @return array|false An array containing `location` and `events` items
      *                     on success, false on failure.
      */
-    public function get_cached_events() {
+    public function get_cached_events()
+    {
         $transient_key = $this->get_events_transient_key($this->user_location);
         if (! $transient_key) {
             return false;
@@ -380,7 +389,8 @@ class WP_Community_Events {
      * @param array $response_body The response which contains the events.
      * @return array The response with dates and times formatted.
      */
-    protected function format_event_data_time($response_body) {
+    protected function format_event_data_time($response_body)
+    {
         _deprecated_function(
             __METHOD__,
             '5.5.2',
@@ -463,7 +473,8 @@ class WP_Community_Events {
      * @param array $events The events that will be prepared.
      * @return array The response body with events trimmed.
      */
-    protected function trim_events(array $events) {
+    protected function trim_events(array $events)
+    {
         $future_events = array();
 
         foreach ($events as $event) {
@@ -511,7 +522,8 @@ class WP_Community_Events {
      * @param array  $details Details that provide more context for the
      *                        log entry.
      */
-    protected function maybe_log_events_response($message, $details) {
+    protected function maybe_log_events_response($message, $details)
+    {
         _deprecated_function(__METHOD__, '4.9.0');
 
         if (! WP_DEBUG_LOG) {

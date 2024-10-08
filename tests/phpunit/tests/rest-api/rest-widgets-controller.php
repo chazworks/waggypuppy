@@ -12,7 +12,8 @@
  * @group restapi
  * @group widgets
  */
-class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
+{
     /**
      * @var int
      */
@@ -58,7 +59,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$superadmin_id = $factory->user->create(
             array(
                 'role'       => 'administrator',
@@ -90,7 +92,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
         );
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         global $wp_widget_factory;
 
         parent::set_up();
@@ -139,7 +142,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
         );
     }
 
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global
             $wp_widget_factory,
             $wp_registered_sidebars,
@@ -160,11 +164,13 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
         parent::clean_up_global_scope();
     }
 
-    private function setup_widget($id_base, $number, $settings) {
+    private function setup_widget($id_base, $number, $settings)
+    {
         $this->setup_widgets($id_base, array($number => $settings));
     }
 
-    private function setup_widgets($id_base, $settings) {
+    private function setup_widgets($id_base, $settings)
+    {
         global $wp_widget_factory;
 
         $option_name = "widget_$id_base";
@@ -177,7 +183,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
         }
     }
 
-    private function setup_sidebar($id, $attrs = array(), $widgets = array()) {
+    private function setup_sidebar($id, $attrs = array(), $widgets = array())
+    {
         global $wp_registered_sidebars;
         update_option(
             'sidebars_widgets',
@@ -203,7 +210,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/widgets', $routes);
         $this->assertArrayHasKey('/wp/v2/widgets/(?P<id>[\w\-]+)', $routes);
@@ -212,14 +220,16 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @doesNotPerformAssertions
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Controller does not use get_context_param().
     }
 
     /**
      * @ticket 41683
      */
-    public function test_get_items_no_widgets() {
+    public function test_get_items_no_widgets()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
         $data     = $response->get_data();
@@ -230,7 +240,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_get_items_no_permission() {
+    public function test_get_items_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
@@ -240,7 +251,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 53915
      */
-    public function test_get_items_no_permission_show_in_rest() {
+    public function test_get_items_no_permission_show_in_rest()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -283,7 +295,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 53915
      */
-    public function test_get_items_without_show_in_rest_are_removed_from_the_list() {
+    public function test_get_items_without_show_in_rest_are_removed_from_the_list()
+    {
         wp_set_current_user(self::$author_id);
         $this->setup_widget(
             'text',
@@ -334,7 +347,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_get_items_wrong_permission_author() {
+    public function test_get_items_wrong_permission_author()
+    {
         wp_set_current_user(self::$author_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/widgets');
         $response = rest_get_server()->dispatch($request);
@@ -344,7 +358,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         add_filter('pre_http_request', array($this, 'mocked_rss_response'));
         global $wp_widget_factory;
 
@@ -406,7 +421,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
         $wp_widget_factory->widgets['WP_Widget_RSS']->widget_options['show_instance_in_rest'] = true;
     }
 
-    public function mocked_rss_response() {
+    public function mocked_rss_response()
+    {
         $single_value_headers = array(
             'Content-Type' => 'application/rss+xml; charset=UTF-8',
             'link'         => '<https://wordpress.org/news/wp-json/>; rel="https://api.w.org/"',
@@ -429,7 +445,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @ticket 41683
      */
-    public function test_get_items_edit_context() {
+    public function test_get_items_edit_context()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -497,7 +514,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -530,7 +548,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_get_item_no_permission() {
+    public function test_get_item_no_permission()
+    {
         wp_set_current_user(0);
 
         $this->setup_widget(
@@ -556,7 +575,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_get_item_wrong_permission_author() {
+    public function test_get_item_wrong_permission_author()
+    {
         wp_set_current_user(self::$author_id);
         $this->setup_widget(
             'text',
@@ -580,7 +600,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 53915
      */
-    public function test_get_item_no_permission_show_in_rest() {
+    public function test_get_item_no_permission_show_in_rest()
+    {
         wp_set_current_user(0);
 
         $this->setup_widget(
@@ -616,7 +637,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -664,7 +686,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item_malformed_instance() {
+    public function test_create_item_malformed_instance()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -696,7 +719,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item_bad_instance() {
+    public function test_create_item_bad_instance()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -719,7 +743,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item_using_raw_instance() {
+    public function test_create_item_using_raw_instance()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -754,7 +779,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item_raw_instance_not_supported() {
+    public function test_create_item_raw_instance_not_supported()
+    {
         global $wp_widget_factory;
 
         $wp_widget_factory->widgets['WP_Widget_Text']->widget_options['show_instance_in_rest'] = false;
@@ -787,7 +813,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item_using_form_data() {
+    public function test_create_item_using_form_data()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -820,7 +847,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item_multiple_in_a_row() {
+    public function test_create_item_multiple_in_a_row()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -882,7 +910,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item_second_instance() {
+    public function test_create_item_second_instance()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -926,7 +955,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -973,7 +1003,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_update_item_reassign_sidebar() {
+    public function test_update_item_reassign_sidebar()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -1017,7 +1048,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_update_item_shouldnt_require_id_base() {
+    public function test_update_item_shouldnt_require_id_base()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -1062,7 +1094,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @group multisite
      */
-    public function test_store_html_as_admin() {
+    public function test_store_html_as_admin()
+    {
         if (is_multisite()) {
             $this->assertSame(
                 '<div class="textwidget">alert(1)</div>',
@@ -1079,7 +1112,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @group multisite
      */
-    public function test_store_html_as_superadmin() {
+    public function test_store_html_as_superadmin()
+    {
         wp_set_current_user(self::$superadmin_id);
         if (is_multisite()) {
             $this->assertSame(
@@ -1094,7 +1128,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
         }
     }
 
-    protected function update_text_widget_with_raw_html($html) {
+    protected function update_text_widget_with_raw_html($html)
+    {
         $this->setup_widget(
             'text',
             1,
@@ -1131,7 +1166,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_update_item_legacy_widget() {
+    public function test_update_item_legacy_widget()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -1167,7 +1203,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_create_item_legacy_widget() {
+    public function test_create_item_legacy_widget()
+    {
         $this->setup_sidebar(
             'sidebar-1',
             array(
@@ -1204,7 +1241,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_update_item_no_permission() {
+    public function test_update_item_no_permission()
+    {
         wp_set_current_user(0);
 
         $request = new WP_REST_Request('PUT', '/wp/v2/sidebars/sidebar-1');
@@ -1220,7 +1258,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_update_item_wrong_permission_author() {
+    public function test_update_item_wrong_permission_author()
+    {
         wp_set_current_user(self::$author_id);
 
         $request = new WP_REST_Request('PUT', '/wp/v2/sidebars/sidebar-1');
@@ -1236,7 +1275,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * Tests if the endpoint correctly handles "slashable" characters such as " or '.
      */
-    public function test_update_item_slashing() {
+    public function test_update_item_slashing()
+    {
         $this->setup_widget('text', 1, array('text' => 'Custom text test'));
         $this->setup_sidebar('sidebar-1', array('name' => 'Test sidebar'), array('text-1', 'rss-1'));
 
@@ -1274,7 +1314,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -1330,7 +1371,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_delete_item_force() {
+    public function test_delete_item_force()
+    {
         $this->setup_widget(
             'text',
             1,
@@ -1398,7 +1440,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_delete_item_logged_out() {
+    public function test_delete_item_logged_out()
+    {
         wp_set_current_user(0);
 
         $this->setup_widget(
@@ -1425,7 +1468,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 41683
      */
-    public function test_delete_item_author() {
+    public function test_delete_item_author()
+    {
         wp_set_current_user(self::$author_id);
 
         $this->setup_widget(
@@ -1452,7 +1496,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
     /**
      * @ticket 53557
      */
-    public function test_delete_item_multiple() {
+    public function test_delete_item_multiple()
+    {
         $this->setup_widgets(
             'text',
             array(
@@ -1509,14 +1554,16 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
     /**
      * @ticket 41683
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         wp_set_current_user(self::$admin_id);
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/widgets');
         $response   = rest_get_server()->dispatch($request);
@@ -1542,7 +1589,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase {
      *
      * @return array
      */
-    protected function remove_links($data) {
+    protected function remove_links($data)
+    {
         if (! is_array($data)) {
             return $data;
         }

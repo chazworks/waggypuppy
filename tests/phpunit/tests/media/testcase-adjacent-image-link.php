@@ -1,6 +1,7 @@
 <?php
 
-abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase {
+abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
+{
     /**
      * Array of 5 attachments for use in the tests.
      *
@@ -22,7 +23,8 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Instance of the factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         $parent_id = $factory->post->create();
 
         for ($index = 1; $index <= 5; $index++) {
@@ -51,7 +53,8 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase {
      *     @var array  $args     All of the arguments to pass to the function being tested.
      * }
      */
-    protected function setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, array $args = array()) {
+    protected function setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, array $args = array())
+    {
         // This prep code allows the data provider to specify the different arguments needed for the test scenario.
         $args = array_merge($this->default_args, $args);
         $args = array_values($args);

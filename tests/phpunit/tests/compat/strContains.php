@@ -5,14 +5,16 @@
  *
  * @covers ::str_contains
  */
-class Tests_Compat_strContains extends WP_UnitTestCase {
+class Tests_Compat_strContains extends WP_UnitTestCase
+{
 
     /**
      * Test that str_contains() is always available (either from PHP or WP).
      *
      * @ticket 49652
      */
-    public function test_is_str_contains_availability() {
+    public function test_is_str_contains_availability()
+    {
         $this->assertTrue(function_exists('str_contains'));
     }
 
@@ -25,7 +27,8 @@ class Tests_Compat_strContains extends WP_UnitTestCase {
      * @param string $haystack The string to search in.
      * @param string $needle   The substring to search for in `$haystack`.
      */
-    public function test_str_contains($expected, $haystack, $needle) {
+    public function test_str_contains($expected, $haystack, $needle)
+    {
         $this->assertSame($expected, str_contains($haystack, $needle));
     }
 
@@ -34,7 +37,8 @@ class Tests_Compat_strContains extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_str_contains() {
+    public function data_str_contains()
+    {
         return array(
             'empty needle'              => array(
                 'expected' => true,

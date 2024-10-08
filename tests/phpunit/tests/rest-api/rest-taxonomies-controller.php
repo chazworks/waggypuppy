@@ -7,11 +7,13 @@
  *
  * @group restapi
  */
-class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcase
+{
 
     protected static $contributor_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$contributor_id = $factory->user->create(
             array(
                 'role' => 'contributor',
@@ -19,18 +21,21 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$contributor_id);
     }
 
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
 
         $this->assertArrayHasKey('/wp/v2/taxonomies', $routes);
         $this->assertArrayHasKey('/wp/v2/taxonomies/(?P<taxonomy>[\w-]+)', $routes);
     }
 
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/taxonomies');
         $response = rest_get_server()->dispatch($request);
@@ -45,7 +50,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSameSets(array('view', 'edit', 'embed'), $data['endpoints'][0]['args']['context']['enum']);
     }
 
-    public function test_get_items() {
+    public function test_get_items()
+    {
         $request    = new WP_REST_Request('GET', '/wp/v2/taxonomies');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -60,7 +66,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSame('tags', $data['post_tag']['rest_base']);
     }
 
-    public function test_get_items_context_edit() {
+    public function test_get_items_context_edit()
+    {
         wp_set_current_user(self::$contributor_id);
         $request = new WP_REST_Request('GET', '/wp/v2/taxonomies');
         $request->set_param('context', 'edit');
@@ -79,7 +86,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSame('tags', $data['post_tag']['rest_base']);
     }
 
-    public function test_get_items_invalid_permission_for_context() {
+    public function test_get_items_invalid_permission_for_context()
+    {
         wp_set_current_user(0);
         $request = new WP_REST_Request('GET', '/wp/v2/taxonomies');
         $request->set_param('context', 'edit');
@@ -87,14 +95,16 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertErrorResponse('rest_cannot_view', $response, 401);
     }
 
-    public function test_get_taxonomies_for_type() {
+    public function test_get_taxonomies_for_type()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/taxonomies');
         $request->set_param('type', 'post');
         $response = rest_get_server()->dispatch($request);
         $this->check_taxonomies_for_type_response('post', $response);
     }
 
-    public function test_get_taxonomies_for_invalid_type() {
+    public function test_get_taxonomies_for_invalid_type()
+    {
         $request = new WP_REST_Request('GET', '/wp/v2/taxonomies');
         $request->set_param('type', 'wingding');
         $response = rest_get_server()->dispatch($request);
@@ -103,13 +113,15 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertSame('{}', json_encode($data));
     }
 
-    public function test_get_item() {
+    public function test_get_item()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/taxonomies/category');
         $response = rest_get_server()->dispatch($request);
         $this->check_taxonomy_object_response('view', $response);
     }
 
-    public function test_get_item_edit_context() {
+    public function test_get_item_edit_context()
+    {
         $editor_id = self::factory()->user->create(array('role' => 'editor'));
         wp_set_current_user($editor_id);
         $request = new WP_REST_Request('GET', '/wp/v2/taxonomies/category');
@@ -118,7 +130,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->check_taxonomy_object_response('edit', $response);
     }
 
-    public function test_get_item_invalid_permission_for_context() {
+    public function test_get_item_invalid_permission_for_context()
+    {
         wp_set_current_user(0);
         $request = new WP_REST_Request('GET', '/wp/v2/taxonomies/category');
         $request->set_param('context', 'edit');
@@ -126,13 +139,15 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertErrorResponse('rest_forbidden_context', $response, 401);
     }
 
-    public function test_get_invalid_taxonomy() {
+    public function test_get_invalid_taxonomy()
+    {
         $request  = new WP_REST_Request('GET', '/wp/v2/taxonomies/invalid');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_taxonomy_invalid', $response, 404);
     }
 
-    public function test_get_non_public_taxonomy_not_authenticated() {
+    public function test_get_non_public_taxonomy_not_authenticated()
+    {
         register_taxonomy('api-private', 'post', array('public' => false));
 
         $request  = new WP_REST_Request('GET', '/wp/v2/taxonomies/api-private');
@@ -140,7 +155,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertErrorResponse('rest_forbidden', $response, 401);
     }
 
-    public function test_get_non_public_taxonomy_no_permission() {
+    public function test_get_non_public_taxonomy_no_permission()
+    {
         wp_set_current_user(self::$contributor_id);
         register_taxonomy('api-private', 'post', array('public' => false));
 
@@ -149,28 +165,32 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertErrorResponse('rest_forbidden', $response, 403);
     }
 
-    public function test_create_item() {
+    public function test_create_item()
+    {
         /** Taxonomies can't be created */
         $request  = new WP_REST_Request('POST', '/wp/v2/taxonomies');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_update_item() {
+    public function test_update_item()
+    {
         /** Taxonomies can't be updated */
         $request  = new WP_REST_Request('POST', '/wp/v2/taxonomies/category');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         /** Taxonomies can't be deleted */
         $request  = new WP_REST_Request('DELETE', '/wp/v2/taxonomies/category');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
 
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $tax      = get_taxonomy('category');
         $endpoint = new WP_REST_Taxonomies_Controller();
         $request  = new WP_REST_Request();
@@ -179,7 +199,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->check_taxonomy_object('edit', $tax, $response->get_data(), $response->get_links());
     }
 
-    public function test_prepare_item_limit_fields() {
+    public function test_prepare_item_limit_fields()
+    {
         $tax      = get_taxonomy('category');
         $request  = new WP_REST_Request();
         $endpoint = new WP_REST_Taxonomies_Controller();
@@ -198,7 +219,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
     /**
      * @ticket 42209
      */
-    public function test_object_types_is_an_array_if_object_type_is_unregistered() {
+    public function test_object_types_is_an_array_if_object_type_is_unregistered()
+    {
         register_taxonomy_for_object_type('category', 'page');
         register_taxonomy_for_object_type('category', 'attachment');
         unregister_taxonomy_for_object_type('category', 'page');
@@ -214,7 +236,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         $this->assertCount(2, $types);
     }
 
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/taxonomies');
         $response   = rest_get_server()->dispatch($request);
         $data       = $response->get_data();
@@ -236,18 +259,21 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
     /**
      * Utility function for use in get_public_taxonomies
      */
-    private function is_public($taxonomy) {
+    private function is_public($taxonomy)
+    {
         return ! empty($taxonomy->show_in_rest);
     }
     /**
      * Utility function to filter down to only public taxonomies
      */
-    private function get_public_taxonomies($taxonomies) {
+    private function get_public_taxonomies($taxonomies)
+    {
         // Pass through array_values to re-index after filtering.
         return array_values(array_filter($taxonomies, array($this, 'is_public')));
     }
 
-    protected function check_taxonomy_object($context, $tax_obj, $data, $links) {
+    protected function check_taxonomy_object($context, $tax_obj, $data, $links)
+    {
         $this->assertSame($tax_obj->label, $data['name']);
         $this->assertSame($tax_obj->name, $data['slug']);
         $this->assertSame($tax_obj->description, $data['description']);
@@ -275,14 +301,16 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
         }
     }
 
-    protected function check_taxonomy_object_response($context, $response) {
+    protected function check_taxonomy_object_response($context, $response)
+    {
         $this->assertSame(200, $response->get_status());
         $data     = $response->get_data();
         $category = get_taxonomy('category');
         $this->check_taxonomy_object($context, $category, $data, $response->get_links());
     }
 
-    protected function check_taxonomies_for_type_response($type, $response) {
+    protected function check_taxonomies_for_type_response($type, $response)
+    {
         $this->assertSame(200, $response->get_status());
         $data       = $response->get_data();
         $taxonomies = $this->get_public_taxonomies(get_object_taxonomies($type, 'objects'));
@@ -292,7 +320,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
     /**
      * @ticket 49116
      */
-    public function test_get_for_taxonomy_reuses_same_instance() {
+    public function test_get_for_taxonomy_reuses_same_instance()
+    {
         $this->assertSame(
             get_taxonomy('category')->get_rest_controller(),
             get_taxonomy('category')->get_rest_controller()
@@ -302,7 +331,8 @@ class WP_Test_REST_Taxonomies_Controller extends WP_Test_REST_Controller_Testcas
     /**
      * @ticket 49116
      */
-    public function test_get_for_taxonomy_returns_terms_controller_if_custom_class_not_specified() {
+    public function test_get_for_taxonomy_returns_terms_controller_if_custom_class_not_specified()
+    {
         register_taxonomy(
             'test',
             'post',

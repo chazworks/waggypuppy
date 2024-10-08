@@ -5,14 +5,16 @@
  *
  * @covers ::str_starts_with
  */
-class Tests_Compat_StrStartsWith extends WP_UnitTestCase {
+class Tests_Compat_StrStartsWith extends WP_UnitTestCase
+{
 
     /**
      * Test that str_starts_with() is always available (either from PHP or WP).
      *
      * @ticket 54377
      */
-    public function test_str_starts_with_availability() {
+    public function test_str_starts_with_availability()
+    {
         $this->assertTrue(function_exists('str_starts_with'));
     }
 
@@ -25,7 +27,8 @@ class Tests_Compat_StrStartsWith extends WP_UnitTestCase {
      * @param string $haystack The string to search in.
      * @param string $needle   The substring to search for at the start of `$haystack`.
      */
-    public function test_str_starts_with($expected, $haystack, $needle) {
+    public function test_str_starts_with($expected, $haystack, $needle)
+    {
         $this->assertSame($expected, str_starts_with($haystack, $needle));
     }
 
@@ -34,7 +37,8 @@ class Tests_Compat_StrStartsWith extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_str_starts_with() {
+    public function data_str_starts_with()
+    {
         return array(
             'empty needle'              => array(
                 'expected' => true,

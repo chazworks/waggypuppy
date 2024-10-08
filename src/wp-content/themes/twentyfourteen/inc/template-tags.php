@@ -16,7 +16,8 @@ if (! function_exists('twentyfourteen_paging_nav')) :
      * @global WP_Query   $wp_query   WordPress Query object.
      * @global WP_Rewrite $wp_rewrite WordPress Rewrite object.
      */
-    function twentyfourteen_paging_nav() {
+    function twentyfourteen_paging_nav()
+    {
         global $wp_query, $wp_rewrite;
 
         // Don't print empty markup if there's only one page.
@@ -78,7 +79,8 @@ if (! function_exists('twentyfourteen_post_nav')) :
      *
      * @since Twenty Fourteen 1.0
      */
-    function twentyfourteen_post_nav() {
+    function twentyfourteen_post_nav()
+    {
         // Don't print empty markup if there's nowhere to navigate.
         $previous = (is_attachment()) ? get_post(get_post()->post_parent) : get_adjacent_post(false, '', true);
         $next     = get_adjacent_post(false, '', false);
@@ -116,7 +118,8 @@ if (! function_exists('twentyfourteen_posted_on')) :
      *
      * @since Twenty Fourteen 1.0
      */
-    function twentyfourteen_posted_on() {
+    function twentyfourteen_posted_on()
+    {
         if (is_sticky() && is_home() && ! is_paged()) {
             echo '<span class="featured-post">' . __('Sticky', 'twentyfourteen') . '</span>';
         }
@@ -140,7 +143,8 @@ endif;
  *
  * @return bool true if blog has more than 1 category
  */
-function twentyfourteen_categorized_blog() {
+function twentyfourteen_categorized_blog()
+{
     $all_the_cool_cats = get_transient('twentyfourteen_category_count');
     if (false === $all_the_cool_cats) {
         // Create an array of all the categories that are attached to posts.
@@ -170,7 +174,8 @@ function twentyfourteen_categorized_blog() {
  *
  * @since Twenty Fourteen 1.0
  */
-function twentyfourteen_category_transient_flusher() {
+function twentyfourteen_category_transient_flusher()
+{
     // Like, beat it. Dig?
     delete_transient('twentyfourteen_category_count');
 }
@@ -187,7 +192,8 @@ if (! function_exists('twentyfourteen_post_thumbnail')) :
      * @since Twenty Fourteen 1.0
      * @since Twenty Fourteen 1.4 Was made 'pluggable', or overridable.
      */
-    function twentyfourteen_post_thumbnail() {
+    function twentyfourteen_post_thumbnail()
+    {
         if (post_password_required() || is_attachment() || ! has_post_thumbnail()) {
             return;
         }
@@ -232,7 +238,8 @@ if (! function_exists('twentyfourteen_excerpt_more') && ! is_admin()) :
      * @param string $more Default Read More excerpt link.
      * @return string Filtered Read More excerpt link.
      */
-    function twentyfourteen_excerpt_more($more) {
+    function twentyfourteen_excerpt_more($more)
+    {
         $link = sprintf(
             '<a href="%1$s" class="more-link">%2$s</a>',
             esc_url(get_permalink(get_the_ID())),
@@ -252,7 +259,8 @@ if (! function_exists('wp_body_open')) :
      *
      * @since Twenty Fourteen 2.7
      */
-    function wp_body_open() {
+    function wp_body_open()
+    {
         /**
          * Triggered after the opening <body> tag.
          *

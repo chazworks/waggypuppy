@@ -10,12 +10,14 @@
  * @method WP_Term|WP_Error|null create_and_get( $args = array(), $generation_definitions = null )
  * @method (int|WP_Error)[]      create_many( $count, $args = array(), $generation_definitions = null )
  */
-class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing {
+class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing
+{
 
     private $taxonomy;
     const DEFAULT_TAXONOMY = 'post_tag';
 
-    public function __construct($factory = null, $taxonomy = null) {
+    public function __construct($factory = null, $taxonomy = null)
+    {
         parent::__construct($factory);
         $this->taxonomy                       = $taxonomy ? $taxonomy : self::DEFAULT_TAXONOMY;
         $this->default_generation_definitions = array(
@@ -34,7 +36,8 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The term ID on success, WP_Error object on failure.
      */
-    public function create_object($args) {
+    public function create_object($args)
+    {
         $args         = array_merge(array('taxonomy' => $this->taxonomy), $args);
         $term_id_pair = wp_insert_term($args['name'], $args['taxonomy'], $args);
 
@@ -56,7 +59,8 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing {
      *
      * @return int|WP_Error The term ID on success, WP_Error object on failure.
      */
-    public function update_object($term, $fields) {
+    public function update_object($term, $fields)
+    {
         $fields = array_merge(array('taxonomy' => $this->taxonomy), $fields);
 
         if (is_object($term)) {
@@ -88,7 +92,8 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing {
      *
      * @return array|false|WP_Error Array of term taxonomy IDs of affected terms. WP_Error or false on failure.
      */
-    public function add_post_terms($post_id, $terms, $taxonomy, $append = true) {
+    public function add_post_terms($post_id, $terms, $taxonomy, $append = true)
+    {
         return wp_set_post_terms($post_id, $terms, $taxonomy, $append);
     }
 
@@ -102,7 +107,8 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_Term|WP_Error|null WP_Term on success. WP_Error if taxonomy does not exist. Null for miscellaneous failure.
      */
-    public function create_and_get($args = array(), $generation_definitions = null) {
+    public function create_and_get($args = array(), $generation_definitions = null)
+    {
         $term_id = $this->create($args, $generation_definitions);
 
         if (is_wp_error($term_id)) {
@@ -123,7 +129,8 @@ class WP_UnitTest_Factory_For_Term extends WP_UnitTest_Factory_For_Thing {
      *
      * @return WP_Term|WP_Error|null WP_Term on success. WP_Error if taxonomy does not exist. Null for miscellaneous failure.
      */
-    public function get_object_by_id($term_id) {
+    public function get_object_by_id($term_id)
+    {
         return get_term($term_id, $this->taxonomy);
     }
 }

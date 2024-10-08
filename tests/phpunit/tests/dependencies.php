@@ -3,8 +3,10 @@
  * @group dependencies
  * @group scripts
  */
-class Tests_Dependencies extends WP_UnitTestCase {
-    public function test_add() {
+class Tests_Dependencies extends WP_UnitTestCase
+{
+    public function test_add()
+    {
         $dep = new WP_Dependencies();
 
         $this->assertTrue($dep->add('one', ''));
@@ -17,7 +19,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
         $this->assertFalse($dep->add('one', ''));
     }
 
-    public function test_remove() {
+    public function test_remove()
+    {
         $dep = new WP_Dependencies();
 
         $this->assertTrue($dep->add('one', ''));
@@ -29,7 +32,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
         $this->assertInstanceOf('_WP_Dependency', $dep->query('two'));
     }
 
-    public function test_enqueue() {
+    public function test_enqueue()
+    {
         $dep = new WP_Dependencies();
 
         $this->assertTrue($dep->add('one', ''));
@@ -45,7 +49,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
         $this->assertTrue($dep->query('two', 'queue'));
     }
 
-    public function test_dequeue() {
+    public function test_dequeue()
+    {
         $dep = new WP_Dependencies();
 
         $this->assertTrue($dep->add('one', ''));
@@ -65,7 +70,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
         $this->assertFalse($dep->query('two', 'queue'));
     }
 
-    public function test_enqueue_args() {
+    public function test_enqueue_args()
+    {
         $dep = new WP_Dependencies();
 
         $this->assertTrue($dep->add('one', ''));
@@ -83,7 +89,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
         $this->assertSame('arg', $dep->args['two']);
     }
 
-    public function test_dequeue_args() {
+    public function test_dequeue_args()
+    {
         $dep = new WP_Dependencies();
 
         $this->assertTrue($dep->add('one', ''));
@@ -110,7 +117,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
     /**
      * @ticket 21741
      */
-    public function test_query_and_registered_enqueued() {
+    public function test_query_and_registered_enqueued()
+    {
         $dep = new WP_Dependencies();
 
         $this->assertTrue($dep->add('one', ''));
@@ -135,7 +143,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
         $this->assertFalse($dep->query('one'));
     }
 
-    public function test_enqueue_before_register() {
+    public function test_enqueue_before_register()
+    {
         $dep = new WP_Dependencies();
 
         $this->assertArrayNotHasKey('one', $dep->registered);
@@ -154,7 +163,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_provider_get_etag() {
+    public function data_provider_get_etag()
+    {
         return array(
             'should accept one dependency'              => array(
                 'load'               => array(
@@ -185,7 +195,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
      * @param string $hash_source_string Hash source string.
      * @param string $expected           Expected etag.
      */
-    public function test_get_etag_scripts($load, $hash_source_string, $expected) {
+    public function test_get_etag_scripts($load, $hash_source_string, $expected)
+    {
         global $wp_version;
         // Modify global to avoid tests needing to change with each new version of WordPress.
         $original_wp_version = $wp_version;
@@ -219,7 +230,8 @@ class Tests_Dependencies extends WP_UnitTestCase {
      * @param string $hash_source_string Hash source string.
      * @param string $expected           Expected etag.
      */
-    public function test_get_etag_styles($load, $hash_source_string, $expected) {
+    public function test_get_etag_styles($load, $hash_source_string, $expected)
+    {
         global $wp_version;
         // Modify global to avoid tests needing to change with each new version of WordPress.
         $original_wp_version = $wp_version;

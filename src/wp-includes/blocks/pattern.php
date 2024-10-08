@@ -10,7 +10,8 @@
  *
  * @since 5.9.0
  */
-function register_block_core_pattern() {
+function register_block_core_pattern()
+{
     register_block_type_from_metadata(
         __DIR__ . '/pattern',
         array(
@@ -30,7 +31,8 @@ function register_block_core_pattern() {
  *
  * @return string Returns the output of the pattern.
  */
-function render_block_core_pattern($attributes) {
+function render_block_core_pattern($attributes)
+{
     static $seen_refs = array();
 
     if (empty($attributes['slug'])) {

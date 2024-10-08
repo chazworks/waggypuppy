@@ -10,7 +10,8 @@
  *
  * @param int $post_id Post ID.
  */
-function wp_set_unique_slug_on_create_template_part($post_id) {
+function wp_set_unique_slug_on_create_template_part($post_id)
+{
     $post = get_post($post_id);
     if ('auto-draft' !== $post->post_status) {
         return;
@@ -44,7 +45,8 @@ function wp_set_unique_slug_on_create_template_part($post_id) {
  * @param string $post_type     Post type.
  * @return string The original, desired slug.
  */
-function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id, $post_status, $post_type) {
+function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id, $post_status, $post_type)
+{
     if ('wp_template' !== $post_type && 'wp_template_part' !== $post_type) {
         return $override_slug;
     }
@@ -106,7 +108,8 @@ function wp_filter_wp_template_unique_post_slug($override_slug, $slug, $post_id,
  *
  * @global string $_wp_current_template_content
  */
-function wp_enqueue_block_template_skip_link() {
+function wp_enqueue_block_template_skip_link()
+{
     global $_wp_current_template_content;
 
     // Back-compat for plugins that disable functionality by unhooking this action.
@@ -224,7 +227,8 @@ function wp_enqueue_block_template_skip_link() {
  * @access private
  * @since 5.8.0
  */
-function wp_enable_block_templates() {
+function wp_enable_block_templates()
+{
     if (wp_is_block_theme() || wp_theme_has_theme_json()) {
         add_theme_support('block-templates');
     }

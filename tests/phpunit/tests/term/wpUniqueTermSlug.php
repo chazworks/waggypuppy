@@ -3,14 +3,17 @@
 /**
  * @group taxonomy
  */
-class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
-    public function set_up() {
+class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase
+{
+    public function set_up()
+    {
         parent::set_up();
         register_taxonomy('wptests_tax1', 'post', array('hierarchical' => false));
         register_taxonomy('wptests_tax2', 'post', array('hierarchical' => true));
     }
 
-    public function test_unique_slug_should_be_unchanged() {
+    public function test_unique_slug_should_be_unchanged()
+    {
         $term = self::factory()->term->create_and_get(
             array(
                 'taxonomy' => 'wptests_tax1',
@@ -23,7 +26,8 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
         $this->assertSame('bar', $actual);
     }
 
-    public function test_nonunique_slug_in_different_taxonomy_should_be_unchanged() {
+    public function test_nonunique_slug_in_different_taxonomy_should_be_unchanged()
+    {
         $term1 = self::factory()->term->create(
             array(
                 'taxonomy' => 'wptests_tax2',
@@ -45,7 +49,8 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
         $this->assertSame('bar', $actual);
     }
 
-    public function test_nonunique_slug_in_same_nonhierarchical_taxonomy_should_be_changed() {
+    public function test_nonunique_slug_in_same_nonhierarchical_taxonomy_should_be_changed()
+    {
         $term1 = self::factory()->term->create(
             array(
                 'taxonomy' => 'wptests_tax1',
@@ -67,7 +72,8 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
         $this->assertSame('bar-2', $actual);
     }
 
-    public function test_nonunique_slug_in_same_hierarchical_taxonomy_with_same_parent_should_be_suffixed_with_parent_slug() {
+    public function test_nonunique_slug_in_same_hierarchical_taxonomy_with_same_parent_should_be_suffixed_with_parent_slug()
+    {
         $parent = self::factory()->term->create(
             array(
                 'taxonomy' => 'wptests_tax2',
@@ -98,7 +104,8 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
         $this->assertSame('bar-parent-term', $actual);
     }
 
-    public function test_nonunique_slug_in_same_hierarchical_taxonomy_at_different_level_of_hierarchy_should_be_suffixed_with_number() {
+    public function test_nonunique_slug_in_same_hierarchical_taxonomy_at_different_level_of_hierarchy_should_be_suffixed_with_number()
+    {
         $parent = self::factory()->term->create(
             array(
                 'taxonomy' => 'wptests_tax2',
@@ -131,7 +138,8 @@ class Tests_Term_WpUniqueTermSlug extends WP_UnitTestCase {
     /**
      * @ticket 46431
      */
-    public function test_duplicate_parent_suffixed_slug_should_get_numeric_suffix() {
+    public function test_duplicate_parent_suffixed_slug_should_get_numeric_suffix()
+    {
         $t1 = self::factory()->term->create(
             array(
                 'taxonomy' => 'wptests_tax2',

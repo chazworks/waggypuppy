@@ -6,7 +6,8 @@
  *
  * @coversDefaultClass WP_User_Query
  */
-class Tests_User_Query_Cache extends WP_UnitTestCase {
+class Tests_User_Query_Cache extends WP_UnitTestCase
+{
     /**
      * @var int[]
      */
@@ -37,7 +38,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      */
     protected $user_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$author_ids = $factory->user->create_many(
             4,
             array(
@@ -77,7 +79,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_query_cache_different_count() {
+    public function test_query_cache_different_count()
+    {
         $args = array(
             'count_total' => true,
         );
@@ -106,7 +109,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_query_cache_results() {
+    public function test_query_cache_results()
+    {
         $args = array(
             'cache_results' => true,
         );
@@ -133,7 +137,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @covers ::query
      * @expectedDeprecated WP_User_Query
      */
-    public function test_query_cache_who() {
+    public function test_query_cache_who()
+    {
         $args = array(
             'who'    => 'authors',
             'fields' => array('ID'),
@@ -160,7 +165,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @dataProvider data_query_cache
      * @param array $args Optional. See WP_User_Query::prepare_query()
      */
-    public function test_query_cache(array $args) {
+    public function test_query_cache(array $args)
+    {
         $query1       = new WP_User_Query($args);
         $users1       = $query1->get_results();
         $users_total1 = $query1->get_total();
@@ -181,7 +187,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_query_cache() {
+    public function data_query_cache()
+    {
         $data = array(
             'id'                    => array(
                 'args' => array('fields' => array('id')),
@@ -314,7 +321,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_query_cache_remove_user_role() {
+    public function test_query_cache_remove_user_role()
+    {
         $user_id = self::factory()->user->create(array('role' => 'author'));
 
         $q1 = new WP_User_Query(
@@ -344,7 +352,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_query_cache_set_user_role() {
+    public function test_query_cache_set_user_role()
+    {
         $user_id = self::factory()->user->create(array('role' => 'author'));
 
         $q1 = new WP_User_Query(
@@ -374,7 +383,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_query_cache_delete_user() {
+    public function test_query_cache_delete_user()
+    {
         $user_id = self::factory()->user->create();
 
         $q1 = new WP_User_Query(
@@ -404,7 +414,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_query_cache_do_not_cache() {
+    public function test_query_cache_do_not_cache()
+    {
         $user_id = self::factory()->user->create();
 
         $args = array(
@@ -441,7 +452,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_query_cache_update_user() {
+    public function test_query_cache_update_user()
+    {
         $user_id = end(self::$admin_ids);
 
         wp_update_user(
@@ -479,7 +491,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_query_cache_create_user() {
+    public function test_query_cache_create_user()
+    {
         $user_id = end(self::$admin_ids);
 
         $args = array('blog_id' => get_current_blog_id());
@@ -502,7 +515,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_has_published_posts_delete_post() {
+    public function test_has_published_posts_delete_post()
+    {
         register_post_type('wptests_pt_public', array('public' => true));
 
         $post_id = self::factory()->post->create(
@@ -540,7 +554,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_has_published_posts_delete_post_order() {
+    public function test_has_published_posts_delete_post_order()
+    {
         register_post_type('wptests_pt_public', array('public' => true));
 
         $user_id = self::factory()->user->create();
@@ -579,7 +594,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @ticket 40613
      * @covers ::query
      */
-    public function test_meta_query_cache_invalidation() {
+    public function test_meta_query_cache_invalidation()
+    {
         add_user_meta(self::$author_ids[0], 'foo', 'bar');
         add_user_meta(self::$author_ids[1], 'foo', 'bar');
 
@@ -623,7 +639,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @group ms-required
      * @covers ::query
      */
-    public function test_get_single_capability_multisite_blog_id() {
+    public function test_get_single_capability_multisite_blog_id()
+    {
         $blog_id = self::factory()->blog->create();
 
         add_user_to_blog($blog_id, self::$author_ids[0], 'subscriber');
@@ -663,7 +680,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @group ms-required
      * @covers ::query
      */
-    public function test_query_should_respect_blog_id() {
+    public function test_query_should_respect_blog_id()
+    {
         $blogs = self::factory()->blog->create_many(2);
 
         add_user_to_blog($blogs[0], self::$author_ids[0], 'author');
@@ -700,7 +718,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      * @group ms-required
      * @covers ::query
      */
-    public function test_has_published_posts_should_respect_blog_id() {
+    public function test_has_published_posts_should_respect_blog_id()
+    {
         $blogs = self::factory()->blog->create_many(2);
 
         add_user_to_blog($blogs[0], self::$author_ids[0], 'author');
@@ -762,7 +781,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      *
      * @covers ::generate_cache_key
      */
-    public function test_generate_cache_key_placeholder() {
+    public function test_generate_cache_key_placeholder()
+    {
         global $wpdb;
         $query1 = new WP_User_Query(array('capability' => 'edit_posts'));
 
@@ -788,7 +808,8 @@ class Tests_User_Query_Cache extends WP_UnitTestCase {
      *
      * @expectedDeprecated WP_User_Query
      */
-    public function test_generate_cache_key_with_orderby_post_count_and_deprecated_who_parameter() {
+    public function test_generate_cache_key_with_orderby_post_count_and_deprecated_who_parameter()
+    {
         $query = new WP_User_Query(
             array(
                 'fields'  => 'ID',

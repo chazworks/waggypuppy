@@ -11,7 +11,8 @@
  *
  * @group widgets
  */
-class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
+class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase
+{
 
     /**
      * Clean up global scope.
@@ -19,7 +20,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      * @global WP_Scripts $wp_scripts
      * @global WP_Styles $wp_styles
      */
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_scripts, $wp_styles;
         parent::clean_up_global_scope();
         $wp_scripts = null;
@@ -31,7 +33,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Image::get_instance_schema
      */
-    public function test_get_instance_schema() {
+    public function test_get_instance_schema()
+    {
         $widget = new WP_Widget_Media_Image();
         $schema = $widget->get_instance_schema();
 
@@ -64,7 +67,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      *
      * @ticket 45029
      */
-    public function test_get_instance_schema_filtering() {
+    public function test_get_instance_schema_filtering()
+    {
         $widget = new WP_Widget_Media_Image();
         $schema = $widget->get_instance_schema();
 
@@ -83,7 +87,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      * @param WP_Widget_Media_Image $widget Widget.
      * @return array
      */
-    public function filter_instance_schema($schema, $widget) {
+    public function filter_instance_schema($schema, $widget)
+    {
         // Override the default size value ('medium').
         $schema['size']['default'] = 'large';
         return $schema;
@@ -94,7 +99,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Image::__construct
      */
-    public function test_constructor() {
+    public function test_constructor()
+    {
         $widget = new WP_Widget_Media_Image();
 
         $this->assertArrayHasKey('mime_type', $widget->widget_options);
@@ -123,7 +129,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Image::update
      */
-    public function test_update() {
+    public function test_update()
+    {
         $widget   = new WP_Widget_Media_Image();
         $instance = array();
 
@@ -410,7 +417,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      * @covers WP_Widget_Media_Image::render_media
      * @requires function imagejpeg
      */
-    public function test_render_media() {
+    public function test_render_media()
+    {
         $widget = new WP_Widget_Media_Image();
 
         $test_image = get_temp_dir() . 'canola.jpg';
@@ -609,7 +617,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Image::enqueue_admin_scripts
      */
-    public function test_enqueue_admin_scripts() {
+    public function test_enqueue_admin_scripts()
+    {
         set_current_screen('widgets.php');
         $widget = new WP_Widget_Media_Image();
         $widget->enqueue_admin_scripts();
@@ -622,7 +631,8 @@ class Tests_Widgets_wpWidgetMediaImage extends WP_UnitTestCase {
      *
      * @covers WP_Widget_Media_Image::render_control_template_scripts
      */
-    public function test_render_control_template_scripts() {
+    public function test_render_control_template_scripts()
+    {
         $widget = new WP_Widget_Media_Image();
 
         ob_start();

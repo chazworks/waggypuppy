@@ -8,7 +8,8 @@
  * @group user
  * @covers ::retrieve_password
  */
-class Tests_User_RetrievePassword extends WP_UnitTestCase {
+class Tests_User_RetrievePassword extends WP_UnitTestCase
+{
     /**
      * Test user.
      *
@@ -23,7 +24,8 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase {
      *
      * @since 6.0.0
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         // Create the user.
@@ -40,7 +42,8 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase {
      *
      * @ticket 54690
      */
-    public function test_retrieve_password_reset_notification_email() {
+    public function test_retrieve_password_reset_notification_email()
+    {
         $this->assertNotWPError(retrieve_password($this->user->user_login), 'Sending password reset notification email failed.');
     }
 
@@ -49,7 +52,8 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase {
      *
      * @ticket 54690
      */
-    public function test_retrieve_password_should_return_wp_error_on_failed_email() {
+    public function test_retrieve_password_should_return_wp_error_on_failed_email()
+    {
         add_filter(
             'retrieve_password_notification_email',
             static function () {
@@ -63,7 +67,8 @@ class Tests_User_RetrievePassword extends WP_UnitTestCase {
     /**
      * @ticket 53634
      */
-    public function test_retrieve_password_should_fetch_user_by_login_if_not_found_by_email() {
+    public function test_retrieve_password_should_fetch_user_by_login_if_not_found_by_email()
+    {
         self::factory()->user->create(
             array(
                 'user_login' => 'foo@example.com',

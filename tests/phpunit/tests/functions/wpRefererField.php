@@ -9,12 +9,14 @@
  *
  * @covers ::wp_referer_field
  */
-class Tests_Functions_wpRefererField extends WP_UnitTestCase {
+class Tests_Functions_wpRefererField extends WP_UnitTestCase
+{
 
     /**
      * @ticket 55578
      */
-    public function test_wp_referer_field() {
+    public function test_wp_referer_field()
+    {
         $_SERVER['REQUEST_URI'] = '/test/';
 
         wp_referer_field();
@@ -24,7 +26,8 @@ class Tests_Functions_wpRefererField extends WP_UnitTestCase {
     /**
      * @ticket 55578
      */
-    public function test_wp_referer_field_return() {
+    public function test_wp_referer_field_return()
+    {
         $_SERVER['REQUEST_URI'] = '/test/';
 
         $this->assertSame('<input type="hidden" name="_wp_http_referer" value="/test/" />', wp_referer_field(false));
@@ -39,7 +42,8 @@ class Tests_Functions_wpRefererField extends WP_UnitTestCase {
      *
      * @param mixed $display Whether to echo or return the referer field.
      */
-    public function test_wp_referer_field_should_respect_display_arg($display) {
+    public function test_wp_referer_field_should_respect_display_arg($display)
+    {
         $actual = $display ? get_echo('wp_referer_field') : wp_referer_field(false);
 
         $this->assertSame('<input type="hidden" name="_wp_http_referer" value="" />', $actual);
@@ -50,7 +54,8 @@ class Tests_Functions_wpRefererField extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_referer_field_should_respect_display_arg() {
+    public function data_wp_referer_field_should_respect_display_arg()
+    {
         return array(
             'true'         => array(true),
             '(int) 1'      => array(1),
@@ -65,7 +70,8 @@ class Tests_Functions_wpRefererField extends WP_UnitTestCase {
     /**
      * @ticket 54106
      */
-    public function test_wp_referer_field_with_referer() {
+    public function test_wp_referer_field_with_referer()
+    {
         $old_request_uri        = $_SERVER['REQUEST_URI'];
         $_SERVER['REQUEST_URI'] = 'edit.php?_wp_http_referer=edit.php';
 

@@ -16,7 +16,8 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_dim_comment
  */
-class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase
+{
 
     /**
      * List of comments.
@@ -28,7 +29,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
     /**
      * Sets up the test fixture.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         $post_id         = self::factory()->post->create();
         $this->_comments = self::factory()->comment->create_post_comments($post_id, 15);
@@ -38,7 +40,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
     /**
      * Clears the POST actions in between requests.
      */
-    protected function _clear_post_action() {
+    protected function _clear_post_action()
+    {
         unset($_POST['id']);
         unset($_POST['new']);
         $this->_last_response = '';
@@ -55,7 +58,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
      *
      * @param WP_Comment $comment Comment object.
      */
-    public function _test_as_admin($comment) {
+    public function _test_as_admin($comment)
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -116,7 +120,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
      *
      * @param WP_Comment $comment Comment object.
      */
-    public function _test_as_subscriber($comment) {
+    public function _test_as_subscriber($comment)
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -145,7 +150,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
      *
      * @param WP_Comment $comment Comment object.
      */
-    public function _test_with_bad_nonce($comment) {
+    public function _test_with_bad_nonce($comment)
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -172,7 +178,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
      *
      * Expects test to fail.
      */
-    public function test_with_bad_id() {
+    public function test_with_bad_id()
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -210,7 +217,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
     /**
      * Dims a comment as an administrator (expects success).
      */
-    public function test_ajax_comment_dim_actions_as_administrator() {
+    public function test_ajax_comment_dim_actions_as_administrator()
+    {
         $comment = array_pop($this->_comments);
         $this->_test_as_admin($comment);
         $this->_test_as_admin($comment);
@@ -219,7 +227,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
     /**
      * Dims a comment as a subscriber (expects permission denied).
      */
-    public function test_ajax_comment_dim_actions_as_subscriber() {
+    public function test_ajax_comment_dim_actions_as_subscriber()
+    {
         $comment = array_pop($this->_comments);
         $this->_test_as_subscriber($comment);
     }
@@ -227,7 +236,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
     /**
      * Dims a comment with no ID.
      */
-    public function test_ajax_dim_comment_no_id() {
+    public function test_ajax_dim_comment_no_id()
+    {
         $comment = array_pop($this->_comments);
         $this->_test_as_admin($comment);
     }
@@ -235,7 +245,8 @@ class Tests_Ajax_wpAjaxDimComment extends WP_Ajax_UnitTestCase {
     /**
      * Dims a comment with a bad nonce.
      */
-    public function test_ajax_dim_comment_bad_nonce() {
+    public function test_ajax_dim_comment_bad_nonce()
+    {
         $comment = array_pop($this->_comments);
         $this->_test_with_bad_nonce($comment);
     }

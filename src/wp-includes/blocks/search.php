@@ -16,7 +16,8 @@
  *
  * @return string The search block markup.
  */
-function render_block_core_search($attributes) {
+function render_block_core_search($attributes)
+{
     // Older versions of the Search block defaulted the label and buttonText
     // attributes to `__( 'Search' )` meaning that many posts contain `<!--
     // wp:search /-->`. Support these by defaulting an undefined label and
@@ -199,7 +200,8 @@ function render_block_core_search($attributes) {
  *
  * @since 5.2.0
  */
-function register_block_core_search() {
+function register_block_core_search()
+{
     register_block_type_from_metadata(
         __DIR__ . '/search',
         array(
@@ -218,7 +220,8 @@ add_action('init', 'register_block_core_search');
  *
  * @return string The classnames used in the block.
  */
-function classnames_for_block_core_search($attributes) {
+function classnames_for_block_core_search($attributes)
+{
     $classnames = array();
 
     if (! empty($attributes['buttonPosition'])) {
@@ -267,7 +270,8 @@ function classnames_for_block_core_search($attributes) {
  * @param array  $button_styles  Current collection of button styles.
  * @param array  $input_styles   Current collection of input styles.
  */
-function apply_block_core_search_border_style($attributes, $property, $side, &$wrapper_styles, &$button_styles, &$input_styles) {
+function apply_block_core_search_border_style($attributes, $property, $side, &$wrapper_styles, &$button_styles, &$input_styles)
+{
     $is_button_inside = isset($attributes['buttonPosition']) && 'button-inside' === $attributes['buttonPosition'];
 
     $path = array('style', 'border', $property);
@@ -313,7 +317,8 @@ function apply_block_core_search_border_style($attributes, $property, $side, &$w
  * @param array  $button_styles  Current collection of button styles.
  * @param array  $input_styles   Current collection of input styles.
  */
-function apply_block_core_search_border_styles($attributes, $property, &$wrapper_styles, &$button_styles, &$input_styles) {
+function apply_block_core_search_border_styles($attributes, $property, &$wrapper_styles, &$button_styles, &$input_styles)
+{
     apply_block_core_search_border_style($attributes, $property, null, $wrapper_styles, $button_styles, $input_styles);
     apply_block_core_search_border_style($attributes, $property, 'top', $wrapper_styles, $button_styles, $input_styles);
     apply_block_core_search_border_style($attributes, $property, 'right', $wrapper_styles, $button_styles, $input_styles);
@@ -334,7 +339,8 @@ function apply_block_core_search_border_styles($attributes, $property, &$wrapper
  *
  * @return array Style HTML attribute.
  */
-function styles_for_block_core_search($attributes) {
+function styles_for_block_core_search($attributes)
+{
     $wrapper_styles   = array();
     $button_styles    = array();
     $input_styles     = array();
@@ -464,7 +470,8 @@ function styles_for_block_core_search($attributes) {
  *
  * @return string The typography color classnames to be applied to the block elements.
  */
-function get_typography_classes_for_block_core_search($attributes) {
+function get_typography_classes_for_block_core_search($attributes)
+{
     $typography_classes    = array();
     $has_named_font_family = ! empty($attributes['fontFamily']);
     $has_named_font_size   = ! empty($attributes['fontSize']);
@@ -490,7 +497,8 @@ function get_typography_classes_for_block_core_search($attributes) {
  *
  * @return string A string of typography CSS declarations.
  */
-function get_typography_styles_for_block_core_search($attributes) {
+function get_typography_styles_for_block_core_search($attributes)
+{
     $typography_styles = array();
 
     // Add typography styles.
@@ -542,7 +550,8 @@ function get_typography_styles_for_block_core_search($attributes) {
  *
  * @return string The border color classnames to be applied to the block elements.
  */
-function get_border_color_classes_for_block_core_search($attributes) {
+function get_border_color_classes_for_block_core_search($attributes)
+{
     $border_color_classes    = array();
     $has_custom_border_color = ! empty($attributes['style']['border']['color']);
     $has_named_border_color  = ! empty($attributes['borderColor']);
@@ -567,7 +576,8 @@ function get_border_color_classes_for_block_core_search($attributes) {
  *
  * @return string The color classnames to be applied to the block elements.
  */
-function get_color_classes_for_block_core_search($attributes) {
+function get_color_classes_for_block_core_search($attributes)
+{
     $classnames = array();
 
     // Text color.

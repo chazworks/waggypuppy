@@ -21,7 +21,8 @@ if (! function_exists('twentytwenty_generate_css')) {
      * @param string $suffix   The CSS suffix.
      * @param bool   $display  Print the styles.
      */
-    function twentytwenty_generate_css($selector, $style, $value, $prefix = '', $suffix = '', $display = true) {
+    function twentytwenty_generate_css($selector, $style, $value, $prefix = '', $suffix = '', $display = true)
+    {
 
         $return = '';
 
@@ -55,7 +56,8 @@ if (! function_exists('twentytwenty_get_customizer_css')) {
      *
      * @param string $type Whether to return CSS for the "front-end", "block-editor", or "classic-editor".
      */
-    function twentytwenty_get_customizer_css($type = 'front-end') {
+    function twentytwenty_get_customizer_css($type = 'front-end')
+    {
 
         // Get variables.
         $body              = sanitize_hex_color(twentytwenty_get_color_for_area('content', 'text'));

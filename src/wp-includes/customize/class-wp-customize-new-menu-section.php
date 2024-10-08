@@ -18,7 +18,8 @@ _deprecated_file(basename(__FILE__), '4.9.0');
  *
  * @see WP_Customize_Section
  */
-class WP_Customize_New_Menu_Section extends WP_Customize_Section {
+class WP_Customize_New_Menu_Section extends WP_Customize_Section
+{
 
     /**
      * Control type.
@@ -40,7 +41,8 @@ class WP_Customize_New_Menu_Section extends WP_Customize_Section {
      * @param string               $id      A specific ID of the section.
      * @param array                $args    Section arguments.
      */
-    public function __construct(WP_Customize_Manager $manager, $id, array $args = array()) {
+    public function __construct(WP_Customize_Manager $manager, $id, array $args = array())
+    {
         _deprecated_function(__METHOD__, '4.9.0');
         parent::__construct($manager, $id, $args);
     }
@@ -51,7 +53,8 @@ class WP_Customize_New_Menu_Section extends WP_Customize_Section {
      * @since 4.3.0
      * @deprecated 4.9.0
      */
-    protected function render() {
+    protected function render()
+    {
         _deprecated_function(__METHOD__, '4.9.0');
         ?>
         <li id="accordion-section-<?php echo esc_attr($this->id); ?>" class="accordion-section-new-menu">

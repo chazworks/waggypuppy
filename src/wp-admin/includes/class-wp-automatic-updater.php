@@ -14,7 +14,8 @@
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader.php.
  */
 #[AllowDynamicProperties]
-class WP_Automatic_Updater {
+class WP_Automatic_Updater
+{
 
     /**
      * Tracks update results during processing.
@@ -30,7 +31,8 @@ class WP_Automatic_Updater {
      *
      * @return bool True if the automatic updater is disabled, false otherwise.
      */
-    public function is_disabled() {
+    public function is_disabled()
+    {
         // Background updates are disabled if you don't want file changes.
         if (! wp_is_file_mod_allowed('automatic_updater')) {
             return true;
@@ -70,7 +72,8 @@ class WP_Automatic_Updater {
      * @param string $dir The directory to check.
      * @return bool True if access to the directory is allowed, false otherwise.
      */
-    public function is_allowed_dir($dir) {
+    public function is_allowed_dir($dir)
+    {
         if (is_string($dir)) {
             $dir = trim($dir);
         }
@@ -124,7 +127,8 @@ class WP_Automatic_Updater {
      * @return bool True if a VCS checkout was discovered at `$context` or ABSPATH,
      *              or anywhere higher. False otherwise.
      */
-    public function is_vcs_checkout($context) {
+    public function is_vcs_checkout($context)
+    {
         $context_dirs = array(untrailingslashit($context));
         if (ABSPATH !== $context) {
             $context_dirs[] = untrailingslashit(ABSPATH);
@@ -192,7 +196,8 @@ class WP_Automatic_Updater {
      *                        access and status should be checked.
      * @return bool True if the item should be updated, false otherwise.
      */
-    public function should_update($type, $item, $context) {
+    public function should_update($type, $item, $context)
+    {
         // Used to see if WP_Filesystem is set up to allow unattended updates.
         $skin = new Automatic_Upgrader_Skin();
 
@@ -309,7 +314,8 @@ class WP_Automatic_Updater {
      * @return bool True if the site administrator is notified of a core update,
      *              false otherwise.
      */
-    protected function send_core_update_notification_email($item) {
+    protected function send_core_update_notification_email($item)
+    {
         $notified = get_site_option('auto_core_update_notified');
 
         // Don't notify if we've already notified the same email address of the same version.
@@ -359,7 +365,8 @@ class WP_Automatic_Updater {
      * @param object $item The update offer.
      * @return null|WP_Error
      */
-    public function update($type, $item) {
+    public function update($type, $item)
+    {
         $skin = new Automatic_Upgrader_Skin();
 
         switch ($type) {
@@ -639,7 +646,8 @@ class WP_Automatic_Updater {
      *
      * @since 3.7.0
      */
-    public function run() {
+    public function run()
+    {
         if ($this->is_disabled()) {
             return;
         }
@@ -794,7 +802,8 @@ class WP_Automatic_Updater {
      *
      * @param object $update_result The result of the core update. Includes the update offer and result.
      */
-    protected function after_core_update($update_result) {
+    protected function after_core_update($update_result)
+    {
         $wp_version = wp_get_wp_version();
 
         $core_update = $update_result->item;
@@ -895,7 +904,8 @@ class WP_Automatic_Updater {
      * @param object $core_update The update offer that was attempted.
      * @param mixed  $result      Optional. The result for the core update. Can be WP_Error.
      */
-    protected function send_email($type, $core_update, $result = null) {
+    protected function send_email($type, $core_update, $result = null)
+    {
         update_site_option(
             'auto_core_update_notified',
             array(
@@ -1149,7 +1159,8 @@ class WP_Automatic_Updater {
      *
      * @param array $update_results The results of update tasks.
      */
-    protected function after_plugin_theme_update($update_results) {
+    protected function after_plugin_theme_update($update_results)
+    {
         $successful_updates = array();
         $failed_updates     = array();
 
@@ -1221,7 +1232,8 @@ class WP_Automatic_Updater {
      * @param array  $successful_updates A list of updates that succeeded.
      * @param array  $failed_updates     A list of updates that failed.
      */
-    protected function send_plugin_theme_email($type, $successful_updates, $failed_updates) {
+    protected function send_plugin_theme_email($type, $successful_updates, $failed_updates)
+    {
         // No updates were attempted.
         if (empty($successful_updates) && empty($failed_updates)) {
             return;
@@ -1533,7 +1545,8 @@ class WP_Automatic_Updater {
      *
      * @since 3.7.0
      */
-    protected function send_debug_email() {
+    protected function send_debug_email()
+    {
         $update_count = 0;
         foreach ($this->update_results as $type => $updates) {
             $update_count += count($updates);
@@ -1724,7 +1737,8 @@ This debugging email is sent when you are using a development version of waggypu
      *
      * @return bool Whether a fatal error was detected.
      */
-    protected function has_fatal_error() {
+    protected function has_fatal_error()
+    {
         global $upgrading;
 
         $maintenance_file = ABSPATH . '.maintenance';

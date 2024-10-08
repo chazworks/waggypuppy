@@ -9,9 +9,11 @@
  *
  * @covers ::wp_read_image_metadata
  */
-class Tests_Image_Meta extends WP_UnitTestCase {
+class Tests_Image_Meta extends WP_UnitTestCase
+{
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         require_once DIR_TESTROOT . '/includes/class-wp-test-stream.php';
         stream_wrapper_register('testimagemeta', 'WP_Test_Stream');
 
@@ -24,11 +26,13 @@ class Tests_Image_Meta extends WP_UnitTestCase {
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         stream_wrapper_unregister('testimagemeta');
     }
 
-    public function test_exif_d70() {
+    public function test_exif_d70()
+    {
         // Exif from a Nikon D70.
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/2004-07-22-DSC_0008.jpg');
 
@@ -44,7 +48,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
         $this->assertSame('', $out['title'], 'Title value not the same');
     }
 
-    public function test_exif_d70_mf() {
+    public function test_exif_d70_mf()
+    {
         // Exif from a Nikon D70 - manual focus lens, so some data is unavailable.
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/2007-06-17DSC_4173.JPG');
 
@@ -61,7 +66,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
         // $this->assertSame( array( 'Flowers' ), $out['keywords'] );
     }
 
-    public function test_exif_d70_iptc() {
+    public function test_exif_d70_iptc()
+    {
         // Exif from a Nikon D70 with IPTC data added later.
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/2004-07-22-DSC_0007.jpg');
 
@@ -77,7 +83,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
         $this->assertSame('IPTC Headline', $out['title'], 'Title value not the same');
     }
 
-    public function test_exif_fuji() {
+    public function test_exif_fuji()
+    {
         // Exif from a Fuji FinePix S5600 (thanks Mark).
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/a2-small.jpg');
 
@@ -96,7 +103,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
     /**
      * @ticket 6571
      */
-    public function test_exif_error() {
+    public function test_exif_error()
+    {
         // https://core.trac.wordpress.org/ticket/6571
         // This triggers a warning message when reading the Exif block.
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/waffles.jpg');
@@ -113,7 +121,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
         $this->assertSame('', $out['title'], 'Title value not the same');
     }
 
-    public function test_exif_no_data() {
+    public function test_exif_no_data()
+    {
         // No Exif data in this image (from burningwell.org).
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/canola.jpg');
 
@@ -132,7 +141,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
     /**
      * @ticket 9417
      */
-    public function test_utf8_iptc_tags() {
+    public function test_utf8_iptc_tags()
+    {
         // Trilingual UTF-8 text in the ITPC caption-abstract field.
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/test-image-iptc.jpg');
 
@@ -142,7 +152,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
     /**
      * wp_read_image_metadata() should return false if the image file doesn't exist.
      */
-    public function test_missing_image_file() {
+    public function test_missing_image_file()
+    {
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/404_image.png');
         $this->assertFalse($out);
     }
@@ -151,7 +162,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
     /**
      * @ticket 33772
      */
-    public function test_exif_keywords() {
+    public function test_exif_keywords()
+    {
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/33772.jpg');
 
         $this->assertSame('8', $out['aperture'], 'Aperture value not the same');
@@ -177,13 +189,15 @@ class Tests_Image_Meta extends WP_UnitTestCase {
      * @param string Stream's URI.
      * @param array  Expected metadata.
      */
-    public function test_stream($file, $expected) {
+    public function test_stream($file, $expected)
+    {
         $actual = wp_read_image_metadata($file);
 
         $this->assertSame($expected, $actual);
     }
 
-    public function data_stream() {
+    public function data_stream()
+    {
         return array(
             'Orientation only metadata'                => array(
                 'file'     => 'testimagemeta://wp_read_image_metadata/image1.jpg',
@@ -242,7 +256,8 @@ class Tests_Image_Meta extends WP_UnitTestCase {
     /**
      * @ticket 54385
      */
-    public function test_exif_unexpected_data() {
+    public function test_exif_unexpected_data()
+    {
         // Unexpected Exif data: FNumber is "0/0", aperture should be 0.
         $out = wp_read_image_metadata(DIR_TESTDATA . '/images/sugarloaf-mountain.jpg');
 

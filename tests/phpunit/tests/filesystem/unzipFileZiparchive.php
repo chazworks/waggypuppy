@@ -8,7 +8,8 @@
  *
  * @covers ::_unzip_file_ziparchive
  */
-class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase {
+class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase
+{
 
     /**
      * The test data directory.
@@ -21,7 +22,8 @@ class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase {
      * Sets up the filesystem and test data directory property
      * before any tests run.
      */
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -35,7 +37,8 @@ class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase {
      *
      * @ticket 37719
      */
-    public function test_should_apply_pre_unzip_file_filters() {
+    public function test_should_apply_pre_unzip_file_filters()
+    {
         if (! class_exists('ZipArchive')) {
             $this->markTestSkipped('This test requires the ZipArchive class.');
         }
@@ -61,7 +64,8 @@ class Tests_Filesystem_UnzipFileZiparchive extends WP_UnitTestCase {
      *
      * @ticket 37719
      */
-    public function test_should_apply_unzip_file_filters() {
+    public function test_should_apply_unzip_file_filters()
+    {
         if (! class_exists('ZipArchive')) {
             $this->markTestSkipped('This test requires the ZipArchive class.');
         }

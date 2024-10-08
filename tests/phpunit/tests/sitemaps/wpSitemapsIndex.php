@@ -3,9 +3,11 @@
 /**
  * @group sitemaps
  */
-class Tests_Sitemaps_wpSitemapsIndex extends WP_UnitTestCase {
+class Tests_Sitemaps_wpSitemapsIndex extends WP_UnitTestCase
+{
 
-    public function test_get_sitemap_list() {
+    public function test_get_sitemap_list()
+    {
         $registry = new WP_Sitemaps_Registry();
 
         /*
@@ -26,7 +28,8 @@ class Tests_Sitemaps_wpSitemapsIndex extends WP_UnitTestCase {
      *
      * @ticket 50666
      */
-    public function test_get_sitemap_list_limit() {
+    public function test_get_sitemap_list_limit()
+    {
         $registry = new WP_Sitemaps_Registry();
 
         // add 3 providers, which combined produce more than the maximum 50000 sitemaps in the index.
@@ -44,7 +47,8 @@ class Tests_Sitemaps_wpSitemapsIndex extends WP_UnitTestCase {
         $this->assertCount(50000, $sitemap_index->get_sitemap_list());
     }
 
-    public function test_get_sitemap_list_no_entries() {
+    public function test_get_sitemap_list_no_entries()
+    {
         $registry = new WP_Sitemaps_Registry();
 
         $registry->add_provider('foo', new WP_Sitemaps_Empty_Test_Provider('foo'));
@@ -53,14 +57,16 @@ class Tests_Sitemaps_wpSitemapsIndex extends WP_UnitTestCase {
         $this->assertCount(0, $sitemap_index->get_sitemap_list());
     }
 
-    public function test_get_index_url() {
+    public function test_get_index_url()
+    {
         $sitemap_index = new WP_Sitemaps_Index(new WP_Sitemaps_Registry());
         $index_url     = $sitemap_index->get_index_url();
 
         $this->assertStringEndsWith('/?sitemap=index', $index_url);
     }
 
-    public function test_get_index_url_pretty_permalinks() {
+    public function test_get_index_url_pretty_permalinks()
+    {
         // Set permalinks for testing.
         $this->set_permalink_structure('/%year%/%postname%/');
 

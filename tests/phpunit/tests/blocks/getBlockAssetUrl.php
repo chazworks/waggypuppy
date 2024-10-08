@@ -10,7 +10,8 @@
  * @group blocks
  * @covers ::get_block_asset_url
  */
-class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
+class Tests_Get_Block_Asset_Url extends WP_UnitTestCase
+{
     /**
      * Original theme directory.
      *
@@ -18,7 +19,8 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
      */
     private $orig_theme_dir;
 
-    public function set_up() {
+    public function set_up()
+    {
         global $wp_theme_directories;
 
         parent::set_up();
@@ -31,7 +33,8 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
         unset($GLOBALS['wp_themes']);
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         global $wp_theme_directories;
 
         $wp_theme_directories = $this->orig_theme_dir;
@@ -45,7 +48,8 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
     /**
      * @ticket 58525
      */
-    public function test_core_block() {
+    public function test_core_block()
+    {
         $path = ABSPATH . WPINC . '/blocks/file/view.min.js';
         $url  = get_block_asset_url($path);
 
@@ -56,7 +60,8 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
     /**
      * @ticket 58525
      */
-    public function test_parent_theme() {
+    public function test_parent_theme()
+    {
         switch_theme('block-theme');
 
         $path = wp_normalize_path(realpath(DIR_TESTDATA . '/themedir1/block-theme/blocks/example-block/view.js'));
@@ -68,7 +73,8 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
     /**
      * @ticket 58525
      */
-    public function test_child_theme() {
+    public function test_child_theme()
+    {
         switch_theme('block-theme-child');
 
         $path = wp_normalize_path(realpath(DIR_TESTDATA . '/themedir1/block-theme-child/blocks/example-block/view.js'));
@@ -80,7 +86,8 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
     /**
      * @ticket 58525
      */
-    public function test_plugin() {
+    public function test_plugin()
+    {
         $path = WP_PLUGIN_DIR . '/test-plugin/blocks/example-block/view.js';
         $url  = get_block_asset_url($path);
 
@@ -92,7 +99,8 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
     /**
      * @ticket 58525
      */
-    public function test_muplugin() {
+    public function test_muplugin()
+    {
         $path = WPMU_PLUGIN_DIR . '/test-plugin/example-block/view.js';
         $url  = get_block_asset_url($path);
 
@@ -104,7 +112,8 @@ class Tests_Get_Block_Asset_Url extends WP_UnitTestCase {
     /**
      * @ticket 58525
      */
-    public function test_empty() {
+    public function test_empty()
+    {
         $url = get_block_asset_url('');
 
         $this->assertFalse($url);

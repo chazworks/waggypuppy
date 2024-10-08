@@ -19,7 +19,8 @@
  *
  * @return WP_Interactivity_API The main WP_Interactivity_API instance.
  */
-function wp_interactivity(): WP_Interactivity_API {
+function wp_interactivity(): WP_Interactivity_API
+{
     global $wp_interactivity;
     if (! ($wp_interactivity instanceof WP_Interactivity_API)) {
         $wp_interactivity = new WP_Interactivity_API();
@@ -36,7 +37,8 @@ function wp_interactivity(): WP_Interactivity_API {
  * @param string $html The HTML content to process.
  * @return string The processed HTML content. It returns the original content when the HTML contains unbalanced tags.
  */
-function wp_interactivity_process_directives(string $html): string {
+function wp_interactivity_process_directives(string $html): string
+{
     return wp_interactivity()->process_directives($html);
 }
 
@@ -59,7 +61,8 @@ function wp_interactivity_process_directives(string $html): string {
  * @return array The state for the specified store namespace. This will be the updated state if a $state argument was
  *               provided.
  */
-function wp_interactivity_state(?string $store_namespace = null, array $state = array()): array {
+function wp_interactivity_state(?string $store_namespace = null, array $state = array()): array
+{
     return wp_interactivity()->state($store_namespace, $state);
 }
 
@@ -78,7 +81,8 @@ function wp_interactivity_state(?string $store_namespace = null, array $state = 
  * @return array The configuration for the specified store namespace. This will be the updated configuration if a
  *               $config argument was provided.
  */
-function wp_interactivity_config(string $store_namespace, array $config = array()): array {
+function wp_interactivity_config(string $store_namespace, array $config = array()): array
+{
     return wp_interactivity()->config($store_namespace, $config);
 }
 
@@ -101,7 +105,8 @@ function wp_interactivity_config(string $store_namespace, array $config = array(
  * @return string A complete `data-wp-context` directive with a JSON encoded value representing the context array and
  *                the store namespace if specified.
  */
-function wp_interactivity_data_wp_context(array $context, string $store_namespace = ''): string {
+function wp_interactivity_data_wp_context(array $context, string $store_namespace = ''): string
+{
     return 'data-wp-context=\'' .
         ($store_namespace ? $store_namespace . '::' : '') .
         (empty($context) ? '{}' : wp_json_encode($context, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP)) .
@@ -122,7 +127,8 @@ function wp_interactivity_data_wp_context(array $context, string $store_namespac
  * @param string $store_namespace Optional. The unique store namespace identifier.
  * @return array The context for the specified store namespace.
  */
-function wp_interactivity_get_context(?string $store_namespace = null): array {
+function wp_interactivity_get_context(?string $store_namespace = null): array
+{
     return wp_interactivity()->get_context($store_namespace);
 }
 
@@ -135,6 +141,7 @@ function wp_interactivity_get_context(?string $store_namespace = null): array {
  *
  * @return array{attributes: array<string, string|bool>}|null Current element.
  */
-function wp_interactivity_get_element(): ?array {
+function wp_interactivity_get_element(): ?array
+{
     return wp_interactivity()->get_element();
 }

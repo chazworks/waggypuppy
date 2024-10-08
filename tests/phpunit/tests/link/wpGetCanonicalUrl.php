@@ -5,10 +5,12 @@
  * @group canonical
  * @covers ::wp_get_canonical_url
  */
-class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase {
+class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase
+{
     public static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = $factory->post->create(
             array(
                 'post_content' => 'Page 1 <!--nextpage--> Page 2 <!--nextpage--> Page 3',
@@ -20,14 +22,16 @@ class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase {
     /**
      * Test for a non existing post.
      */
-    public function test_non_existing_post() {
+    public function test_non_existing_post()
+    {
         $this->assertFalse(wp_get_canonical_url(-1));
     }
 
     /**
      * Test for a post that is not published.
      */
-    public function test_post_status() {
+    public function test_post_status()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_status' => 'draft',
@@ -40,14 +44,16 @@ class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase {
     /**
      * Test for a page that is not the queried object.
      */
-    public function test_non_current_page() {
+    public function test_non_current_page()
+    {
         $this->assertSame(get_permalink(self::$post_id), wp_get_canonical_url(self::$post_id));
     }
 
     /**
      * Test non permalink structure page usage.
      */
-    public function test_paged_with_plain_permalink_structure() {
+    public function test_paged_with_plain_permalink_structure()
+    {
         $link = add_query_arg(
             array(
                 'page' => 2,
@@ -71,7 +77,8 @@ class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase {
     /**
      * Test permalink structure page usage.
      */
-    public function test_paged_with_custom_permalink_structure() {
+    public function test_paged_with_custom_permalink_structure()
+    {
         $this->set_permalink_structure('/%postname%/');
         $page = 2;
 
@@ -93,7 +100,8 @@ class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase {
     /**
      *  Test non permalink structure comment page usage.
      */
-    public function test_comments_paged_with_plain_permalink_structure() {
+    public function test_comments_paged_with_plain_permalink_structure()
+    {
         $cpage = 2;
 
         $link = add_query_arg(
@@ -119,7 +127,8 @@ class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase {
     /**
      * Test permalink structure comment page usage.
      */
-    public function test_comments_paged_with_pretty_permalink_structure() {
+    public function test_comments_paged_with_pretty_permalink_structure()
+    {
         global $wp_rewrite;
 
         $this->set_permalink_structure('/%postname%/');
@@ -143,7 +152,8 @@ class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase {
     /**
      * Test calling of filter.
      */
-    public function test_get_canonical_url_filter() {
+    public function test_get_canonical_url_filter()
+    {
         add_filter('get_canonical_url', array($this, 'canonical_url_filter'));
         $canonical_url = wp_get_canonical_url(self::$post_id);
         remove_filter('get_canonical_url', array($this, 'canonical_url_filter'));
@@ -156,7 +166,8 @@ class Tests_Link_wpGetCanonicalUrl extends WP_UnitTestCase {
      *
      * @return string
      */
-    public function canonical_url_filter() {
+    public function canonical_url_filter()
+    {
         return 'http://canonical.example.org/';
     }
 }

@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post comments form for the current post.
  */
-function render_block_core_post_comments_form($attributes, $content, $block) {
+function render_block_core_post_comments_form($attributes, $content, $block)
+{
     if (! isset($block->context['postId'])) {
         return '';
     }
@@ -59,7 +60,8 @@ function render_block_core_post_comments_form($attributes, $content, $block) {
  *
  * @since 6.0.0
  */
-function register_block_core_post_comments_form() {
+function register_block_core_post_comments_form()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-comments-form',
         array(
@@ -78,7 +80,8 @@ add_action('init', 'register_block_core_post_comments_form');
  *
  * @return array Returns the modified fields.
  */
-function post_comments_form_block_form_defaults($fields) {
+function post_comments_form_block_form_defaults($fields)
+{
     if (wp_is_block_theme()) {
         $fields['submit_button'] = '<input name="%1$s" type="submit" id="%2$s" class="wp-block-button__link ' . wp_theme_get_element_class_name('button') . '" value="%4$s" />';
         $fields['submit_field']  = '<p class="form-submit wp-block-button">%1$s %2$s</p>';

@@ -4,14 +4,16 @@
  * @group file
  * @group admin
  */
-class Tests_Admin_IncludesFile extends WP_UnitTestCase {
+class Tests_Admin_IncludesFile extends WP_UnitTestCase
+{
 
     /**
      * @ticket 20449
      *
      * @covers ::get_home_path
      */
-    public function test_get_home_path() {
+    public function test_get_home_path()
+    {
         $home    = get_option('home');
         $siteurl = get_option('siteurl');
         $sfn     = $_SERVER['SCRIPT_FILENAME'];
@@ -39,7 +41,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @covers ::download_url
      */
-    public function test_download_url_non_200_response_code() {
+    public function test_download_url_non_200_response_code()
+    {
         add_filter('pre_http_request', array($this, '_fake_download_url_non_200_response_code'), 10, 3);
 
         $error = download_url('test_download_url_non_200');
@@ -68,7 +71,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
         remove_filter('pre_http_request', array($this, '_fake_download_url_non_200_response_code'));
     }
 
-    public function _fake_download_url_non_200_response_code($response, $parsed_args, $url) {
+    public function _fake_download_url_non_200_response_code($response, $parsed_args, $url)
+    {
         file_put_contents($parsed_args['filename'], 'This is an unexpected error message from your favorite server.');
         return array(
             'response' => array(
@@ -78,7 +82,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
         );
     }
 
-    public function __return_5() {
+    public function __return_5()
+    {
         return 5;
     }
 
@@ -90,7 +95,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @param $filter A callback containing a fake Content-Disposition header.
      */
-    public function test_download_url_should_respect_filename_from_content_disposition_header($filter) {
+    public function test_download_url_should_respect_filename_from_content_disposition_header($filter)
+    {
         add_filter('pre_http_request', array($this, $filter), 10, 3);
 
         $filename = download_url('url_with_content_disposition_header');
@@ -106,7 +112,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_download_url_should_respect_filename_from_content_disposition_header() {
+    public function data_download_url_should_respect_filename_from_content_disposition_header()
+    {
         return array(
             'valid parameters' => array('filter_content_disposition_header_with_filename'),
             'path traversal'   => array('filter_content_disposition_header_with_filename_with_path_traversal'),
@@ -122,7 +129,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @param $filter A callback containing a fake Content-Disposition header.
      */
-    public function test_save_to_temp_directory_when_getting_filename_from_content_disposition_header($filter) {
+    public function test_save_to_temp_directory_when_getting_filename_from_content_disposition_header($filter)
+    {
         add_filter('pre_http_request', array($this, $filter), 10, 3);
 
         $filename = download_url('url_with_content_disposition_header');
@@ -137,7 +145,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_save_to_temp_directory_when_getting_filename_from_content_disposition_header() {
+    public function data_save_to_temp_directory_when_getting_filename_from_content_disposition_header()
+    {
         return array(
             'valid parameters' => array('filter_content_disposition_header_with_filename'),
         );
@@ -150,7 +159,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function filter_content_disposition_header_with_filename($response, $parsed_args, $url) {
+    public function filter_content_disposition_header_with_filename($response, $parsed_args, $url)
+    {
         return array(
             'response' => array(
                 'code' => 200,
@@ -168,7 +178,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function filter_content_disposition_header_with_filename_with_path_traversal($response, $parsed_args, $url) {
+    public function filter_content_disposition_header_with_filename_with_path_traversal($response, $parsed_args, $url)
+    {
         return array(
             'response' => array(
                 'code' => 200,
@@ -186,7 +197,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function filter_content_disposition_header_with_filename_without_quotes($response, $parsed_args, $url) {
+    public function filter_content_disposition_header_with_filename_without_quotes($response, $parsed_args, $url)
+    {
         return array(
             'response' => array(
                 'code' => 200,
@@ -205,7 +217,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @param $filter A callback containing a fake Content-Disposition header.
      */
-    public function test_download_url_should_reject_filename_from_invalid_content_disposition_header($filter) {
+    public function test_download_url_should_reject_filename_from_invalid_content_disposition_header($filter)
+    {
         add_filter('pre_http_request', array($this, $filter), 10, 3);
 
         $filename = download_url('url_with_content_disposition_header');
@@ -220,7 +233,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_download_url_should_reject_filename_from_invalid_content_disposition_header() {
+    public function data_download_url_should_reject_filename_from_invalid_content_disposition_header()
+    {
         return array(
             'no context'        => array('filter_content_disposition_header_with_filename_without_context'),
             'inline context'    => array('filter_content_disposition_header_with_filename_with_inline_context'),
@@ -235,7 +249,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function filter_content_disposition_header_with_filename_without_context($response, $parsed_args, $url) {
+    public function filter_content_disposition_header_with_filename_without_context($response, $parsed_args, $url)
+    {
         return array(
             'response' => array(
                 'code' => 200,
@@ -253,7 +268,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function filter_content_disposition_header_with_filename_with_inline_context($response, $parsed_args, $url) {
+    public function filter_content_disposition_header_with_filename_with_inline_context($response, $parsed_args, $url)
+    {
         return array(
             'response' => array(
                 'code' => 200,
@@ -271,7 +287,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function filter_content_disposition_header_with_filename_with_form_data_context($response, $parsed_args, $url) {
+    public function filter_content_disposition_header_with_filename_with_form_data_context($response, $parsed_args, $url)
+    {
         return array(
             'response' => array(
                 'code' => 200,
@@ -290,7 +307,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @param mixed $url Input URL.
      */
-    public function test_download_url_empty_url($url) {
+    public function test_download_url_empty_url($url)
+    {
         $error = download_url($url);
         $this->assertWPError($error);
         $this->assertSame('http_no_url', $error->get_error_code());
@@ -302,7 +320,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_download_url_empty_url() {
+    public function data_download_url_empty_url()
+    {
         return array(
             'null'         => array(null),
             'false'        => array(false),
@@ -319,7 +338,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      * @ticket 53635
      * @covers ::download_url
      */
-    public function test_download_url_no_warning_for_url_without_path() {
+    public function test_download_url_no_warning_for_url_without_path()
+    {
         // Hook a mocked HTTP request response.
         add_filter('pre_http_request', array($this, 'mock_http_request'), 10, 3);
 
@@ -337,7 +357,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      * @ticket 53635
      * @covers ::download_url
      */
-    public function test_download_url_no_warning_for_url_without_path_with_signature_verification() {
+    public function test_download_url_no_warning_for_url_without_path_with_signature_verification()
+    {
         // Hook a mocked HTTP request response.
         add_filter('pre_http_request', array($this, 'mock_http_request'), 10, 3);
 
@@ -370,7 +391,8 @@ class Tests_Admin_IncludesFile extends WP_UnitTestCase {
      * @param string               $url         The request URL.
      * @return false|array|WP_Error Response data.
      */
-    public function mock_http_request($response, $parsed_args, $url) {
+    public function mock_http_request($response, $parsed_args, $url)
+    {
         if ('https://example.com' === $url) {
             return array(
                 'response' => array(

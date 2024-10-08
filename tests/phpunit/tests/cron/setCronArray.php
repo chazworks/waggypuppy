@@ -6,15 +6,18 @@
  * @group cron
  * @covers ::_set_cron_array
  */
-class Tests_Cron_setCronArray extends WP_UnitTestCase {
+class Tests_Cron_setCronArray extends WP_UnitTestCase
+{
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         // Make sure the schedule is clear.
         _set_cron_array(array());
     }
 
-    public function tear_down() {
+    public function tear_down()
+    {
         // Make sure the schedule is clear.
         _set_cron_array(array());
         parent::tear_down();
@@ -36,7 +39,8 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      * @param mixed $input    Cron "array".
      * @param array $expected Expected array entry count of the cron option after update.
      */
-    public function test_set_cron_array_input_validation($input, $expected) {
+    public function test_set_cron_array_input_validation($input, $expected)
+    {
         delete_option('cron');
         $this->assertTrue(_set_cron_array($input));
 
@@ -51,7 +55,8 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_set_cron_array_input_validation() {
+    public function data_set_cron_array_input_validation()
+    {
         return array(
             'null'        => array(
                 'input'    => null,
@@ -92,7 +97,8 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      * @param array $input    Cron array.
      * @param mixed $wp_error Value to use for $wp_error.
      */
-    public function test_set_cron_array_returns_false_when_not_updated($input, $wp_error) {
+    public function test_set_cron_array_returns_false_when_not_updated($input, $wp_error)
+    {
         $this->assertFalse(_set_cron_array($input));
     }
 
@@ -101,7 +107,8 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_set_cron_array_returns_false_when_not_updated() {
+    public function data_set_cron_array_returns_false_when_not_updated()
+    {
         return array(
             'empty array' => array(
                 'input'    => array(),
@@ -124,7 +131,8 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      * @param array $input    Cron array.
      * @param mixed $wp_error Value to use for $wp_error.
      */
-    public function test_set_cron_array_returns_WP_Error_when_not_updated($input, $wp_error) {
+    public function test_set_cron_array_returns_WP_Error_when_not_updated($input, $wp_error)
+    {
         $result = _set_cron_array($input, $wp_error);
         $this->assertWPError($result, 'Return value is not an instance of WP_Error.');
         $this->assertSame('could_not_set', $result->get_error_code(), 'WP_Error error code does not match expected code.');
@@ -135,7 +143,8 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_set_cron_array_returns_WP_Error_when_not_updated() {
+    public function data_set_cron_array_returns_WP_Error_when_not_updated()
+    {
         return array(
             'empty array' => array(
                 'input'    => array(),
@@ -153,7 +162,8 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase {
     /**
      * Tests that `_set_cron_array()` returns true when the cron option was updated and `$wp_error` is truthy.
      */
-    public function test_set_cron_array_does_not_return_WP_Error_when_updated() {
+    public function test_set_cron_array_does_not_return_WP_Error_when_updated()
+    {
         $result = _set_cron_array(
             array(
                 'version' => 2,

@@ -8,13 +8,15 @@
  */
 
 #[AllowDynamicProperties]
-class WP_Debug_Data {
+class WP_Debug_Data
+{
     /**
      * Calls all core functions to check for updates.
      *
      * @since 5.2.0
      */
-    public static function check_for_updates() {
+    public static function check_for_updates()
+    {
         wp_version_check();
         wp_update_plugins();
         wp_update_themes();
@@ -34,7 +36,8 @@ class WP_Debug_Data {
      *
      * @return array The debug data for the site.
      */
-    public static function debug_data() {
+    public static function debug_data()
+    {
         global $_wp_theme_features;
 
         // Save few function calls.
@@ -554,7 +557,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_core(): array {
+    private static function get_wp_core(): array
+    {
         // Save few function calls.
         $permalink_structure    = get_option('permalink_structure');
         $is_ssl                 = is_ssl();
@@ -717,7 +721,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_dropins(): array {
+    private static function get_wp_dropins(): array
+    {
         // Get a list of all drop-in replacements.
         $dropins = get_dropins();
 
@@ -752,7 +757,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_server(): array {
+    private static function get_wp_server(): array
+    {
         // Populate the server debug fields.
         if (function_exists('php_uname')) {
             $server_architecture = sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m'));
@@ -945,7 +951,8 @@ class WP_Debug_Data {
      * @throws ImagickException
      * @return array
      */
-    private static function get_wp_media(): array {
+    private static function get_wp_media(): array
+    {
         // Spare few function calls.
         $not_available = __('Not available');
 
@@ -1139,7 +1146,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_mu_plugins(): array {
+    private static function get_wp_mu_plugins(): array
+    {
         // List must use plugins if there are any.
         $mu_plugins = get_mu_plugins();
         $fields     = array();
@@ -1190,7 +1198,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_plugins_active(): array {
+    private static function get_wp_plugins_active(): array
+    {
         return array(
             'label'      => __('Active Plugins'),
             'show_count' => true,
@@ -1205,7 +1214,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_plugins_inactive(): array {
+    private static function get_wp_plugins_inactive(): array
+    {
         return array(
             'label'      => __('Inactive Plugins'),
             'show_count' => true,
@@ -1220,7 +1230,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_plugins_raw_data(): array {
+    private static function get_wp_plugins_raw_data(): array
+    {
         // List all available plugins.
         $plugins        = get_plugins();
         $plugin_updates = get_plugin_updates();
@@ -1341,7 +1352,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_constants(): array {
+    private static function get_wp_constants(): array
+    {
         // Check if WP_DEBUG_LOG is set.
         $wp_debug_log_value = __('Disabled');
         if (is_string(WP_DEBUG_LOG)) {
@@ -1505,7 +1517,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_database(): array {
+    private static function get_wp_database(): array
+    {
         global $wpdb;
 
         // Populate the database debug fields.
@@ -1587,7 +1600,8 @@ class WP_Debug_Data {
      *
      * @return array
      */
-    private static function get_wp_filesystem(): array {
+    private static function get_wp_filesystem(): array
+    {
         $upload_dir                     = wp_upload_dir();
         $is_writable_abspath            = wp_is_writable(ABSPATH);
         $is_writable_wp_content_dir     = wp_is_writable(WP_CONTENT_DIR);
@@ -1657,7 +1671,8 @@ class WP_Debug_Data {
      * @param string $mysql_var Name of the MySQL system variable.
      * @return string|null The variable value on success. Null if the variable does not exist.
      */
-    public static function get_mysql_var($mysql_var) {
+    public static function get_mysql_var($mysql_var)
+    {
         global $wpdb;
 
         $result = $wpdb->get_row(
@@ -1681,7 +1696,8 @@ class WP_Debug_Data {
      * @param string $data_type  The data type to return, either 'info' or 'debug'.
      * @return string The formatted data.
      */
-    public static function format($info_array, $data_type) {
+    public static function format($info_array, $data_type)
+    {
         $return = "`\n";
 
         foreach ($info_array as $section => $details) {
@@ -1750,7 +1766,8 @@ class WP_Debug_Data {
      *
      * @return int The size of the database, in bytes.
      */
-    public static function get_database_size() {
+    public static function get_database_size()
+    {
         global $wpdb;
         $size = 0;
         $rows = $wpdb->get_results('SHOW TABLE STATUS', ARRAY_A);
@@ -1772,7 +1789,8 @@ class WP_Debug_Data {
      *
      * @return array The sizes of the directories, also the database size and total installation size.
      */
-    public static function get_sizes() {
+    public static function get_sizes()
+    {
         $size_db    = self::get_database_size();
         $upload_dir = wp_get_upload_dir();
 

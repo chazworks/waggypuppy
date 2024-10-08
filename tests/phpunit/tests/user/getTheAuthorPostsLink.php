@@ -6,11 +6,13 @@
  *
  * @covers ::get_the_author_posts_link
  */
-class Tests_User_GetTheAuthorPostsLink extends WP_UnitTestCase {
+class Tests_User_GetTheAuthorPostsLink extends WP_UnitTestCase
+{
     protected static $author_id = 0;
     protected static $post_id   = 0;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$author_id = $factory->user->create(
             array(
                 'role'         => 'author',
@@ -32,7 +34,8 @@ class Tests_User_GetTheAuthorPostsLink extends WP_UnitTestCase {
         );
     }
 
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         setup_postdata(get_post(self::$post_id));
@@ -41,7 +44,8 @@ class Tests_User_GetTheAuthorPostsLink extends WP_UnitTestCase {
     /**
      * @ticket 30355
      */
-    public function test_get_the_author_posts_link_no_permalinks() {
+    public function test_get_the_author_posts_link_no_permalinks()
+    {
         $author = get_userdata(self::$author_id);
 
         $GLOBALS['authordata'] = $author->data;
@@ -60,7 +64,8 @@ class Tests_User_GetTheAuthorPostsLink extends WP_UnitTestCase {
     /**
      * @ticket 30355
      */
-    public function test_get_the_author_posts_link_with_permalinks() {
+    public function test_get_the_author_posts_link_with_permalinks()
+    {
         $this->set_permalink_structure('/%postname%/');
 
         $author = get_userdata(self::$author_id);
@@ -83,7 +88,8 @@ class Tests_User_GetTheAuthorPostsLink extends WP_UnitTestCase {
     /**
      * @ticket 58157
      */
-    public function test_get_the_author_posts_link_should_return_empty_string_if_authordata_is_not_set() {
+    public function test_get_the_author_posts_link_should_return_empty_string_if_authordata_is_not_set()
+    {
         unset($GLOBALS['authordata']);
 
         $this->assertSame('', get_the_author_posts_link());

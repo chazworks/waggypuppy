@@ -13,7 +13,8 @@
  * @since 2.0.0
  */
 #[AllowDynamicProperties]
-class WP_Role {
+class WP_Role
+{
     /**
      * Role name.
      *
@@ -43,7 +44,8 @@ class WP_Role {
      * @param bool[] $capabilities Array of key/value pairs where keys represent a capability name and boolean values
      *                             represent whether the role has that capability.
      */
-    public function __construct($role, $capabilities) {
+    public function __construct($role, $capabilities)
+    {
         $this->name         = $role;
         $this->capabilities = $capabilities;
     }
@@ -56,7 +58,8 @@ class WP_Role {
      * @param string $cap   Capability name.
      * @param bool   $grant Whether role has capability privilege.
      */
-    public function add_cap($cap, $grant = true) {
+    public function add_cap($cap, $grant = true)
+    {
         $this->capabilities[ $cap ] = $grant;
         wp_roles()->add_cap($this->name, $cap, $grant);
     }
@@ -68,7 +71,8 @@ class WP_Role {
      *
      * @param string $cap Capability name.
      */
-    public function remove_cap($cap) {
+    public function remove_cap($cap)
+    {
         unset($this->capabilities[ $cap ]);
         wp_roles()->remove_cap($this->name, $cap);
     }
@@ -81,7 +85,8 @@ class WP_Role {
      * @param string $cap Capability name.
      * @return bool Whether the role has the given capability.
      */
-    public function has_cap($cap) {
+    public function has_cap($cap)
+    {
         /**
          * Filters which capabilities a role has.
          *

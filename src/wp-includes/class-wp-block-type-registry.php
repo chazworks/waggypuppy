@@ -13,7 +13,8 @@
  * @since 5.0.0
  */
 #[AllowDynamicProperties]
-final class WP_Block_Type_Registry {
+final class WP_Block_Type_Registry
+{
     /**
      * Registered block types, as `$name => $instance` pairs.
      *
@@ -45,7 +46,8 @@ final class WP_Block_Type_Registry {
      *                                   on accepted arguments. Default empty array.
      * @return WP_Block_Type|false The registered block type on success, or false on failure.
      */
-    public function register($name, $args = array()) {
+    public function register($name, $args = array())
+    {
         $block_type = null;
         if ($name instanceof WP_Block_Type) {
             $block_type = $name;
@@ -108,7 +110,8 @@ final class WP_Block_Type_Registry {
      *                                   a complete WP_Block_Type instance.
      * @return WP_Block_Type|false The unregistered block type on success, or false on failure.
      */
-    public function unregister($name) {
+    public function unregister($name)
+    {
         if ($name instanceof WP_Block_Type) {
             $name = $name->name;
         }
@@ -137,7 +140,8 @@ final class WP_Block_Type_Registry {
      * @param string $name Block type name including namespace.
      * @return WP_Block_Type|null The registered block type, or null if it is not registered.
      */
-    public function get_registered($name) {
+    public function get_registered($name)
+    {
         if (! $this->is_registered($name)) {
             return null;
         }
@@ -152,7 +156,8 @@ final class WP_Block_Type_Registry {
      *
      * @return WP_Block_Type[] Associative array of `$block_type_name => $block_type` pairs.
      */
-    public function get_all_registered() {
+    public function get_all_registered()
+    {
         return $this->registered_block_types;
     }
 
@@ -164,11 +169,13 @@ final class WP_Block_Type_Registry {
      * @param string $name Block type name including namespace.
      * @return bool True if the block type is registered, false otherwise.
      */
-    public function is_registered($name) {
+    public function is_registered($name)
+    {
         return isset($this->registered_block_types[ $name ]);
     }
 
-    public function __wakeup() {
+    public function __wakeup()
+    {
         if (! $this->registered_block_types) {
             return;
         }
@@ -191,7 +198,8 @@ final class WP_Block_Type_Registry {
      *
      * @return WP_Block_Type_Registry The main instance.
      */
-    public static function get_instance() {
+    public static function get_instance()
+    {
         if (null === self::$instance) {
             self::$instance = new self();
         }

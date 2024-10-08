@@ -12,7 +12,8 @@
  * @group restapi
  * @group widgets
  */
-class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testcase {
+class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * Admin user ID.
@@ -39,7 +40,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$admin_id      = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -52,12 +54,14 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
         );
     }
 
-    public static function wpTearDownAfterClass() {
+    public static function wpTearDownAfterClass()
+    {
         self::delete_user(self::$admin_id);
         self::delete_user(self::$subscriber_id);
     }
 
-    private function setup_widget($id_base, $number, $settings) {
+    private function setup_widget($id_base, $number, $settings)
+    {
         global $wp_widget_factory;
 
         $option_name = "widget_$id_base";
@@ -76,7 +80,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/widget-types', $routes);
         $this->assertCount(1, $routes['/wp/v2/widget-types']);
@@ -89,7 +94,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/widget-types');
         $response = rest_get_server()->dispatch($request);
@@ -107,7 +113,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         wp_widgets_init();
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/widget-types');
@@ -124,7 +131,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 53303
      */
-    public function test_get_items_ordering() {
+    public function test_get_items_ordering()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/widget-types');
         $response = rest_get_server()->dispatch($request);
@@ -140,7 +148,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 53305
      */
-    public function test_get_items_removes_duplicates() {
+    public function test_get_items_removes_duplicates()
+    {
         wp_set_current_user(self::$admin_id);
         $this->setup_widget(
             'text',
@@ -171,7 +180,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         $widget_name = 'calendar';
         wp_set_current_user(self::$admin_id);
         $request     = new WP_REST_Request('GET', '/wp/v2/widget-types/' . $widget_name);
@@ -184,7 +194,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_widget_legacy() {
+    public function test_get_widget_legacy()
+    {
         $widget_id = 'legacy';
         wp_register_sidebar_widget(
             $widget_id,
@@ -202,7 +213,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_widget_invalid_name() {
+    public function test_get_widget_invalid_name()
+    {
         $widget_type = 'fake';
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/widget-types/' . $widget_type);
@@ -214,7 +226,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 53407
      */
-    public function test_get_widgets_decodes_html_entities() {
+    public function test_get_widgets_decodes_html_entities()
+    {
         wp_set_current_user(self::$admin_id);
         $widget_id = 'archives';
         wp_register_sidebar_widget(
@@ -235,7 +248,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         wp_set_current_user(self::$admin_id);
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/widget-types');
         $response   = rest_get_server()->dispatch($request);
@@ -253,7 +267,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_items_wrong_permission() {
+    public function test_get_items_wrong_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/widget-types');
         $response = rest_get_server()->dispatch($request);
@@ -263,7 +278,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_item_wrong_permission() {
+    public function test_get_item_wrong_permission()
+    {
         wp_set_current_user(self::$subscriber_id);
         $request  = new WP_REST_Request('GET', '/wp/v2/widget-types/calendar');
         $response = rest_get_server()->dispatch($request);
@@ -273,7 +289,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_items_no_permission() {
+    public function test_get_items_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/widget-types');
         $response = rest_get_server()->dispatch($request);
@@ -283,7 +300,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_get_item_no_permission() {
+    public function test_get_item_no_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/widget-types/calendar');
         $response = rest_get_server()->dispatch($request);
@@ -293,7 +311,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         $endpoint    = new WP_REST_Widget_Types_Controller();
         $widget_type = $endpoint->get_widget('calendar');
         $request     = new WP_REST_Request();
@@ -311,7 +330,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
      * @param array $data Data to compare against.
      * @param array $links Links to compare again.
      */
-    protected function check_widget_type_object($widget_type, $data, $links) {
+    protected function check_widget_type_object($widget_type, $data, $links)
+    {
         // Test data.
         $extra_fields = array(
             'name',
@@ -336,7 +356,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_encode_form_data_with_no_input() {
+    public function test_encode_form_data_with_no_input()
+    {
         wp_set_current_user(self::$admin_id);
         $request  = new WP_REST_Request('POST', '/wp/v2/widget-types/search/encode');
         $response = rest_get_server()->dispatch($request);
@@ -371,7 +392,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_encode_form_data_with_number() {
+    public function test_encode_form_data_with_number()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/widget-types/search/encode');
         $request->set_param('number', 8);
@@ -407,7 +429,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_encode_form_data_with_instance() {
+    public function test_encode_form_data_with_instance()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/widget-types/search/encode');
         $request->set_param(
@@ -449,7 +472,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_encode_form_data_with_form_data() {
+    public function test_encode_form_data_with_form_data()
+    {
         wp_set_current_user(self::$admin_id);
         $request = new WP_REST_Request('POST', '/wp/v2/widget-types/search/encode');
         $request->set_param('form_data', 'widget-search[-1][title]=Updated+title');
@@ -485,7 +509,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
     /**
      * @ticket 41683
      */
-    public function test_encode_form_data_no_raw() {
+    public function test_encode_form_data_no_raw()
+    {
         global $wp_widget_factory;
         wp_set_current_user(self::$admin_id);
         $wp_widget_factory->widgets['WP_Widget_Search']->widget_options['show_instance_in_rest'] = false;
@@ -531,7 +556,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
      *
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
@@ -540,7 +566,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
      *
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
@@ -549,7 +576,8 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
      *
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 }

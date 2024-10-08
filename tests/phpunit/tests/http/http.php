@@ -4,7 +4,8 @@
  *
  * @group http
  */
-class Tests_HTTP_HTTP extends WP_UnitTestCase {
+class Tests_HTTP_HTTP extends WP_UnitTestCase
+{
 
     const FULL_TEST_URL = 'http://username:password@host.name:9090/path?arg1=value1&arg2=value2#anchor';
 
@@ -16,12 +17,14 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers WP_Http::make_absolute_url
      */
-    public function test_make_absolute_url($relative_url, $absolute_url, $expected) {
+    public function test_make_absolute_url($relative_url, $absolute_url, $expected)
+    {
         $actual = WP_Http::make_absolute_url($relative_url, $absolute_url);
         $this->assertSame($expected, $actual);
     }
 
-    public function data_make_absolute_url() {
+    public function data_make_absolute_url()
+    {
         // 0: The Location header, 1: The current URL, 3: The expected URL.
         return array(
             // Absolute URL provided.
@@ -84,12 +87,14 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::wp_parse_url
      */
-    public function test_wp_parse_url($url, $expected) {
+    public function test_wp_parse_url($url, $expected)
+    {
         $actual = wp_parse_url($url);
         $this->assertSame($expected, $actual);
     }
 
-    public function data_wp_parse_url() {
+    public function data_wp_parse_url()
+    {
         // 0: The URL, 1: The expected resulting structure.
         return array(
             array(
@@ -197,7 +202,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::wp_parse_url
      */
-    public function test_wp_parse_url_with_default_component() {
+    public function test_wp_parse_url_with_default_component()
+    {
         $actual = wp_parse_url(self::FULL_TEST_URL, -1);
         $this->assertSame(
             array(
@@ -221,12 +227,14 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::wp_parse_url
      */
-    public function test_wp_parse_url_with_component($url, $component, $expected) {
+    public function test_wp_parse_url_with_component($url, $component, $expected)
+    {
         $actual = wp_parse_url($url, $component);
         $this->assertSame($expected, $actual);
     }
 
-    public function data_wp_parse_url_with_component() {
+    public function data_wp_parse_url_with_component()
+    {
         // 0: The URL, 1: The requested component, 2: The expected resulting structure.
         return array(
             array(self::FULL_TEST_URL, PHP_URL_SCHEME, 'http'),
@@ -282,7 +290,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::get_status_header_desc
      */
-    public function test_http_response_code_constants() {
+    public function test_http_response_code_constants()
+    {
         global $wp_header_to_desc;
 
         $ref       = new ReflectionClass('WP_Http');
@@ -299,7 +308,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers WP_Http::normalize_cookies
      */
-    public function test_normalize_cookies_scalar_values() {
+    public function test_normalize_cookies_scalar_values()
+    {
         $http = _wp_http_get_object();
 
         $cookies = array(
@@ -337,13 +347,15 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      * @covers ::wp_parse_url
      * @covers ::_get_component_from_parsed_url_array
      */
-    public function test_get_component_from_parsed_url_array($url, $component, $expected) {
+    public function test_get_component_from_parsed_url_array($url, $component, $expected)
+    {
         $parts  = wp_parse_url($url);
         $actual = _get_component_from_parsed_url_array($parts, $component);
         $this->assertSame($expected, $actual);
     }
 
-    public function data_get_component_from_parsed_url_array() {
+    public function data_get_component_from_parsed_url_array()
+    {
         // 0: A URL, 1: PHP URL constant, 2: The expected result.
         return array(
             array(
@@ -378,12 +390,14 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::_wp_translate_php_url_constant_to_key
      */
-    public function test_wp_translate_php_url_constant_to_key($input, $expected) {
+    public function test_wp_translate_php_url_constant_to_key($input, $expected)
+    {
         $actual = _wp_translate_php_url_constant_to_key($input);
         $this->assertSame($expected, $actual);
     }
 
-    public function data_wp_translate_php_url_constant_to_key() {
+    public function data_wp_translate_php_url_constant_to_key()
+    {
         // 0: PHP URL constant, 1: The expected result.
         return array(
             array(PHP_URL_SCHEME, 'scheme'),
@@ -416,7 +430,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      * @param bool         $external_host  Whether or not the host is external.
      *                                     Default false.
      */
-    public function test_wp_http_validate_url_should_validate($url, $cb_safe_ports = false, $external_host = false) {
+    public function test_wp_http_validate_url_should_validate($url, $cb_safe_ports = false, $external_host = false)
+    {
         if ($external_host) {
             add_filter('http_request_host_is_external', '__return_true');
         }
@@ -433,7 +448,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_http_validate_url_should_validate() {
+    public function data_wp_http_validate_url_should_validate()
+    {
         return array(
             'no port specified'                 => array(
                 'url' => 'http://example.com/caniload.php',
@@ -461,7 +477,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers ::wp_http_validate_url
      */
-    public function test_wp_http_validate_url_should_validate_with_an_unsafe_port_when_the_host_and_port_match_the_home_url() {
+    public function test_wp_http_validate_url_should_validate_with_an_unsafe_port_when_the_host_and_port_match_the_home_url()
+    {
         $original_home    = get_option('home');
         $home_parsed      = parse_url($original_home);
         $home_scheme_host = implode('://', array_slice($home_parsed, 0, 2));
@@ -490,7 +507,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      * @param bool         $external_host  Whether or not the host is external.
      *                                     Default false.
      */
-    public function test_wp_http_validate_url_should_not_validate($url, $cb_safe_ports = false, $external_host = false) {
+    public function test_wp_http_validate_url_should_not_validate($url, $cb_safe_ports = false, $external_host = false)
+    {
         if ($external_host) {
             add_filter('http_request_host_is_external', '__return_true');
         }
@@ -507,7 +525,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_wp_http_validate_url_should_not_validate() {
+    public function data_wp_http_validate_url_should_not_validate()
+    {
         return array(
             'url as false'                                 => array(
                 'url' => false,
@@ -569,11 +588,13 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
         );
     }
 
-    public function callback_custom_safe_ports($ports) {
+    public function callback_custom_safe_ports($ports)
+    {
         return array(81, 444, 8081);
     }
 
-    public function callback_remove_safe_ports($ports) {
+    public function callback_remove_safe_ports($ports)
+    {
         return array();
     }
 
@@ -588,7 +609,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers WP_Http::handle_redirects
      */
-    public function test_multiple_location_headers() {
+    public function test_multiple_location_headers()
+    {
         $pre_http_request_filter_has_run = false;
         // Filter the response made by WP_Http::handle_redirects().
         add_filter(
@@ -668,7 +690,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers WP_Http::normalize_cookies
      */
-    public function test_normalize_cookies_casts_integer_keys_to_string() {
+    public function test_normalize_cookies_casts_integer_keys_to_string()
+    {
         $http = _wp_http_get_object();
 
         $cookies = array(
@@ -696,7 +719,8 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase {
      *
      * @covers WP_Http::normalize_cookies
      */
-    public function test_normalize_cookies_casts_cookie_name_integer_to_string() {
+    public function test_normalize_cookies_casts_cookie_name_integer_to_string()
+    {
         $http = _wp_http_get_object();
 
         $cookies = array(

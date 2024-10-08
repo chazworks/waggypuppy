@@ -14,7 +14,8 @@
  *
  * @see WP_Customize_Control
  */
-class Twenty_Twenty_One_Customize_Notice_Control extends WP_Customize_Control {
+class Twenty_Twenty_One_Customize_Notice_Control extends WP_Customize_Control
+{
     /**
      * The control type.
      *
@@ -33,7 +34,8 @@ class Twenty_Twenty_One_Customize_Notice_Control extends WP_Customize_Control {
      *
      * @return void
      */
-    public function render_content() {
+    public function render_content()
+    {
         ?>
         <div class="notice notice-warning">
             <p><?php esc_html_e('To access the Dark Mode settings, select a light background color.', 'twentytwentyone'); ?></p>

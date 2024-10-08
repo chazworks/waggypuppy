@@ -15,7 +15,8 @@
  * @param WP_Block $block      Block instance.
  * @return string Returns the filtered post terms for the current post wrapped inside "a" tags.
  */
-function render_block_core_post_terms($attributes, $content, $block) {
+function render_block_core_post_terms($attributes, $content, $block)
+{
     if (! isset($block->context['postId']) || ! isset($attributes['term'])) {
         return '';
     }
@@ -67,7 +68,8 @@ function render_block_core_post_terms($attributes, $content, $block) {
  *
  * @return array The available variations for the block.
  */
-function block_core_post_terms_build_variations() {
+function block_core_post_terms_build_variations()
+{
     $taxonomies = get_taxonomies(
         array(
             'publicly_queryable' => true,
@@ -117,7 +119,8 @@ function block_core_post_terms_build_variations() {
  *
  * @since 5.8.0
  */
-function register_block_core_post_terms() {
+function register_block_core_post_terms()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-terms',
         array(

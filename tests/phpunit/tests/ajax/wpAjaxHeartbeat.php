@@ -16,7 +16,8 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_heartbeat
  */
-class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase
+{
 
     /**
      * Post
@@ -30,7 +31,8 @@ class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase {
     protected static $post;
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$admin_id  = $factory->user->create(array('role' => 'administrator'));
         self::$editor_id = $factory->user->create(array('role' => 'editor'));
 
@@ -44,7 +46,8 @@ class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase {
     /**
      * Tests autosaving a post.
      */
-    public function test_autosave_post() {
+    public function test_autosave_post()
+    {
         // The original post_author.
         wp_set_current_user(self::$admin_id);
 
@@ -85,7 +88,8 @@ class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase {
     /**
      * Tests autosaving a locked post.
      */
-    public function test_autosave_locked_post() {
+    public function test_autosave_locked_post()
+    {
         // Lock the post to another user.
         wp_set_current_user(self::$editor_id);
         wp_set_post_lock(self::$post_id);
@@ -136,7 +140,8 @@ class Tests_Ajax_wpAjaxHeartbeat extends WP_Ajax_UnitTestCase {
     /**
      * Tests with an invalid nonce.
      */
-    public function test_with_invalid_nonce() {
+    public function test_with_invalid_nonce()
+    {
 
         wp_set_current_user(self::$admin_id);
 

@@ -10,13 +10,16 @@
  *
  * @covers WP_Font_Library::get_font_collections
  */
-class Tests_Fonts_WpFontLibrary_GetFontCollections extends WP_Font_Library_UnitTestCase {
-    public function test_should_get_an_empty_list() {
+class Tests_Fonts_WpFontLibrary_GetFontCollections extends WP_Font_Library_UnitTestCase
+{
+    public function test_should_get_an_empty_list()
+    {
         $font_collections = WP_Font_Library::get_instance()->get_font_collections();
         $this->assertEmpty($font_collections, 'Should return an empty array.');
     }
 
-    public function test_should_get_mock_font_collection() {
+    public function test_should_get_mock_font_collection()
+    {
         $my_font_collection_config = array(
             'name'          => 'My Font Collection',
             'description'   => 'Demo about how to a font collection to your WordPress Font Library.',

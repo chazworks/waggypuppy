@@ -11,7 +11,9 @@
  *
  * This class is used to mock a class that has an `__invoke` method.
  */
-class Mock_Invokable {
+class Mock_Invokable
+{
 
-    public function __invoke() {}
+    public function __invoke()
+    {}
 }

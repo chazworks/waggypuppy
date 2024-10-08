@@ -7,7 +7,8 @@
  *
  * @covers ::wp_fuzzy_number_match
  */
-class Tests_Functions_wpFuzzyNumberMatch extends WP_UnitTestCase {
+class Tests_Functions_wpFuzzyNumberMatch extends WP_UnitTestCase
+{
 
     /**
      * @dataProvider data_wp_fuzzy_number_match
@@ -19,7 +20,8 @@ class Tests_Functions_wpFuzzyNumberMatch extends WP_UnitTestCase {
      * @param int|float $precision The allowed variation.
      * @param bool      $result    Whether the numbers match within the specified precision.
      */
-    public function test_wp_fuzzy_number_match($expected, $actual, $precision, $result) {
+    public function test_wp_fuzzy_number_match($expected, $actual, $precision, $result)
+    {
         $this->assertSame($result, wp_fuzzy_number_match($expected, $actual, $precision));
     }
 
@@ -33,7 +35,8 @@ class Tests_Functions_wpFuzzyNumberMatch extends WP_UnitTestCase {
      *     @type bool      $result    Whether the numbers match within the specified precision.
      * }
      */
-    public function data_wp_fuzzy_number_match() {
+    public function data_wp_fuzzy_number_match()
+    {
         return array(
             'expected 1 int, actual 1 int'                => array(
                 'expected'  => 1,

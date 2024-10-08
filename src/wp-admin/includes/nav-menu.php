@@ -20,7 +20,8 @@ require_once ABSPATH . 'wp-admin/includes/class-walker-nav-menu-checklist.php';
  *
  * @param array $request The unsanitized request values.
  */
-function _wp_ajax_menu_quick_search($request = array()) {
+function _wp_ajax_menu_quick_search($request = array())
+{
     $args            = array();
     $type            = isset($request['type']) ? $request['type'] : '';
     $object_type     = isset($request['object_type']) ? $request['object_type'] : '';
@@ -166,7 +167,8 @@ function _wp_ajax_menu_quick_search($request = array()) {
  *
  * @since 3.0.0
  */
-function wp_nav_menu_setup() {
+function wp_nav_menu_setup()
+{
     // Register meta boxes.
     wp_nav_menu_post_type_meta_boxes();
     add_meta_box(
@@ -206,7 +208,8 @@ function wp_nav_menu_setup() {
  *
  * @global array $wp_meta_boxes Global meta box state.
  */
-function wp_initial_nav_menu_meta_boxes() {
+function wp_initial_nav_menu_meta_boxes()
+{
     global $wp_meta_boxes;
 
     if (get_user_option('metaboxhidden_nav-menus') !== false || ! is_array($wp_meta_boxes)) {
@@ -237,7 +240,8 @@ function wp_initial_nav_menu_meta_boxes() {
  *
  * @since 3.0.0
  */
-function wp_nav_menu_post_type_meta_boxes() {
+function wp_nav_menu_post_type_meta_boxes()
+{
     $post_types = get_post_types(array('show_in_nav_menus' => true), 'object');
 
     if (! $post_types) {
@@ -281,7 +285,8 @@ function wp_nav_menu_post_type_meta_boxes() {
  *
  * @since 3.0.0
  */
-function wp_nav_menu_taxonomy_meta_boxes() {
+function wp_nav_menu_taxonomy_meta_boxes()
+{
     $taxonomies = get_taxonomies(array('show_in_nav_menus' => true), 'object');
 
     if (! $taxonomies) {
@@ -319,7 +324,8 @@ function wp_nav_menu_taxonomy_meta_boxes() {
  * @param bool       $display              Whether to display or just return the string.
  * @return string|false Disabled attribute if at least one menu exists, false if not.
  */
-function wp_nav_menu_disabled_check($nav_menu_selected_id, $display = true) {
+function wp_nav_menu_disabled_check($nav_menu_selected_id, $display = true)
+{
     global $one_theme_location_no_menus;
 
     if ($one_theme_location_no_menus) {
@@ -337,7 +343,8 @@ function wp_nav_menu_disabled_check($nav_menu_selected_id, $display = true) {
  * @global int        $_nav_menu_placeholder
  * @global int|string $nav_menu_selected_id
  */
-function wp_nav_menu_item_link_meta_box() {
+function wp_nav_menu_item_link_meta_box()
+{
     global $_nav_menu_placeholder, $nav_menu_selected_id;
 
     $_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1;
@@ -393,7 +400,8 @@ function wp_nav_menu_item_link_meta_box() {
  *     @type WP_Post_Type $args     Extra meta box arguments (the post type object for this meta box).
  * }
  */
-function wp_nav_menu_item_post_type_meta_box($data_object, $box) {
+function wp_nav_menu_item_post_type_meta_box($data_object, $box)
+{
     global $_nav_menu_placeholder, $nav_menu_selected_id;
 
     $post_type_name = $box['args']->name;
@@ -841,7 +849,8 @@ function wp_nav_menu_item_post_type_meta_box($data_object, $box) {
  *     @type object   $args     Extra meta box arguments (the taxonomy object for this meta box).
  * }
  */
-function wp_nav_menu_item_taxonomy_meta_box($data_object, $box) {
+function wp_nav_menu_item_taxonomy_meta_box($data_object, $box)
+{
     global $nav_menu_selected_id;
 
     $taxonomy_name = $box['args']->name;
@@ -1128,7 +1137,8 @@ function wp_nav_menu_item_taxonomy_meta_box($data_object, $box) {
  * @param array[] $menu_data The unsanitized POSTed menu item data.
  * @return int[] The database IDs of the items saved
  */
-function wp_save_nav_menu_items($menu_id = 0, $menu_data = array()) {
+function wp_save_nav_menu_items($menu_id = 0, $menu_data = array())
+{
     $menu_id     = (int) $menu_id;
     $items_saved = array();
 
@@ -1198,7 +1208,8 @@ function wp_save_nav_menu_items($menu_id = 0, $menu_data = array()) {
  * @param object $data_object The post type or taxonomy meta-object.
  * @return object The post type or taxonomy object.
  */
-function _wp_nav_menu_meta_box_object($data_object = null) {
+function _wp_nav_menu_meta_box_object($data_object = null)
+{
     if (isset($data_object->name)) {
 
         if ('page' === $data_object->name) {
@@ -1239,7 +1250,8 @@ function _wp_nav_menu_meta_box_object($data_object = null) {
  * @param int $menu_id Optional. The ID of the menu to format. Default 0.
  * @return string|WP_Error The menu formatted to edit or error object on failure.
  */
-function wp_get_nav_menu_to_edit($menu_id = 0) {
+function wp_get_nav_menu_to_edit($menu_id = 0)
+{
     $menu = wp_get_nav_menu_object($menu_id);
 
     // If the menu exists, get its items.
@@ -1328,7 +1340,8 @@ function wp_get_nav_menu_to_edit($menu_id = 0) {
  *
  * @return string[] Array of column titles keyed by their column name.
  */
-function wp_nav_menu_manage_columns() {
+function wp_nav_menu_manage_columns()
+{
     return array(
         '_title'          => __('Show advanced menu properties'),
         'cb'              => '<input type="checkbox" />',
@@ -1348,7 +1361,8 @@ function wp_nav_menu_manage_columns() {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  */
-function _wp_delete_orphaned_draft_menu_items() {
+function _wp_delete_orphaned_draft_menu_items()
+{
     global $wpdb;
 
     $delete_timestamp = time() - (DAY_IN_SECONDS * EMPTY_TRASH_DAYS);
@@ -1378,7 +1392,8 @@ function _wp_delete_orphaned_draft_menu_items() {
  * @param string     $nav_menu_selected_title Title of the currently-selected menu.
  * @return string[] The menu updated messages.
  */
-function wp_nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title) {
+function wp_nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected_title)
+{
     $unsorted_menu_items = wp_get_nav_menu_items(
         $nav_menu_selected_id,
         array(
@@ -1513,7 +1528,8 @@ function wp_nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected
  * @since 4.5.3
  * @access private
  */
-function _wp_expand_nav_menu_post_data() {
+function _wp_expand_nav_menu_post_data()
+{
     if (! isset($_POST['nav-menu-data'])) {
         return;
     }

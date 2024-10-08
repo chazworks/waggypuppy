@@ -3,7 +3,8 @@
 /**
  * @group admin
  */
-class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
+class Tests_Admin_wpMediaListTable extends WP_UnitTestCase
+{
     /**
      * A list table for testing.
      *
@@ -67,7 +68,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      */
     protected static $attachment;
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         require_once ABSPATH . 'wp-admin/includes/class-wp-media-list-table.php';
@@ -102,7 +104,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
     /**
      * Restores reflections to their original values.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         self::set_is_trash(self::$is_trash_original);
         self::set_detached(self::$detached_original);
 
@@ -124,7 +127,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      * @covers WP_Media_List_Table::prepare_items
      * @group cron
      */
-    public function test_prepare_items_without_cron_option_does_not_throw_warning() {
+    public function test_prepare_items_without_cron_option_does_not_throw_warning()
+    {
         global $wp_query;
 
         // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
@@ -165,7 +169,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      * @param bool|null $detached Whether the attachment filter is currently 'detached',
      *                            or `null` to leave as-is.
      */
-    public function test_get_row_actions_should_include_action($action, $role, $trash, $detached) {
+    public function test_get_row_actions_should_include_action($action, $role, $trash, $detached)
+    {
         if ('admin' === $role) {
             wp_set_current_user(self::$admin);
         } elseif ('subscriber' === $role) {
@@ -194,7 +199,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_row_actions_should_include_action() {
+    public function data_get_row_actions_should_include_action()
+    {
         return array(
             '"edit" while not on "trash"'  => array(
                 'action'   => 'edit',
@@ -246,7 +252,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      * @param bool|null $detached Whether the attachment filter is currently 'detached',
      *                            or `null` to leave as-is.
      */
-    public function test_get_row_actions_should_not_include_action($action, $role, $trash, $detached) {
+    public function test_get_row_actions_should_not_include_action($action, $role, $trash, $detached)
+    {
         if ('admin' === $role) {
             wp_set_current_user(self::$admin);
         } elseif ('subscriber' === $role) {
@@ -275,7 +282,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_get_row_actions_should_not_include_action() {
+    public function data_get_row_actions_should_not_include_action()
+    {
         return array(
             '"edit" while on "trash"'               => array(
                 'action'   => 'edit',
@@ -348,7 +356,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @covers WP_Media_List_Table::_get_row_actions
      */
-    public function test_get_row_actions_should_not_include_view_without_a_permalink() {
+    public function test_get_row_actions_should_not_include_view_without_a_permalink()
+    {
         self::set_is_trash(false);
 
         // Ensure the permalink is `false`.
@@ -370,7 +379,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @covers WP_Media_List_Table::_get_row_actions
      */
-    public function test_get_row_actions_should_include_copy() {
+    public function test_get_row_actions_should_include_copy()
+    {
         self::set_is_trash(false);
 
         $_get_row_actions = new ReflectionMethod(self::$list_table, '_get_row_actions');
@@ -390,7 +400,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @covers WP_Media_List_Table::_get_row_actions
      */
-    public function test_get_row_actions_should_not_include_copy_without_an_attachment_url() {
+    public function test_get_row_actions_should_not_include_copy_without_an_attachment_url()
+    {
         self::set_is_trash(false);
 
         // Ensure the attachment URL is `false`.
@@ -412,7 +423,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @covers WP_Media_List_Table::_get_row_actions
      */
-    public function test_get_row_actions_should_include_download() {
+    public function test_get_row_actions_should_include_download()
+    {
         $_get_row_actions = new ReflectionMethod(self::$list_table, '_get_row_actions');
         $_get_row_actions->setAccessible(true);
         $actions = $_get_row_actions->invoke(self::$list_table, self::$attachment, 'att_title');
@@ -430,7 +442,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @covers WP_Media_List_Table::_get_row_actions
      */
-    public function test_get_row_actions_should_not_include_download_without_an_attachment_url() {
+    public function test_get_row_actions_should_not_include_download_without_an_attachment_url()
+    {
         // Ensure the attachment URL is `false`.
         add_filter('wp_get_attachment_url', '__return_false', 10, 0);
 
@@ -450,7 +463,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @param bool $is_trash Whether the attachment filter is currently 'trash'.
      */
-    private static function set_is_trash($is_trash) {
+    private static function set_is_trash($is_trash)
+    {
         self::$is_trash->setAccessible(true);
         self::$is_trash->setValue(self::$list_table, $is_trash);
         self::$is_trash->setAccessible(false);
@@ -463,7 +477,8 @@ class Tests_Admin_wpMediaListTable extends WP_UnitTestCase {
      *
      * @param bool $detached Whether the attachment filter is currently 'detached'.
      */
-    private static function set_detached($detached) {
+    private static function set_detached($detached)
+    {
         self::$detached->setAccessible(true);
         self::$detached->setValue(self::$list_table, $detached);
         self::$detached->setAccessible(false);

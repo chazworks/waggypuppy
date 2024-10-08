@@ -17,7 +17,8 @@
  *
  * @return string The block content with the data-id attribute added.
  */
-function render_block_core_image($attributes, $content, $block) {
+function render_block_core_image($attributes, $content, $block)
+{
     if (false === stripos($content, '<img')) {
         return '';
     }
@@ -101,7 +102,8 @@ function render_block_core_image($attributes, $content, $block) {
  *
  * @return array Filtered block data.
  */
-function block_core_image_get_lightbox_settings($block) {
+function block_core_image_get_lightbox_settings($block)
+{
     // Gets the lightbox setting from the block attributes.
     if (isset($block['attrs']['lightbox'])) {
         $lightbox_settings = $block['attrs']['lightbox'];
@@ -134,7 +136,8 @@ function block_core_image_get_lightbox_settings($block) {
  *
  * @return string Filtered block content.
  */
-function block_core_image_render_lightbox($block_content, $block) {
+function block_core_image_render_lightbox($block_content, $block)
+{
     /*
      * If there's no IMG tag in the block then return the given block content
      * as-is. There's nothing that this code can knowingly modify to add the
@@ -253,7 +256,8 @@ function block_core_image_render_lightbox($block_content, $block) {
 /**
  * @since 6.5.0
  */
-function block_core_image_print_lightbox_overlay() {
+function block_core_image_print_lightbox_overlay()
+{
     $close_button_label = esc_attr__('Close');
 
     // If the current theme does NOT have a `theme.json`, or the colors are not
@@ -315,7 +319,8 @@ HTML;
  *
  * @since 5.9.0
  */
-function register_block_core_image() {
+function register_block_core_image()
+{
     register_block_type_from_metadata(
         __DIR__ . '/image',
         array(

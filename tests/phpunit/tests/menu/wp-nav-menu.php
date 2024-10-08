@@ -5,7 +5,8 @@
  *
  * @covers ::wp_nav_menu
  */
-class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
+class Tests_Menu_wpNavMenu extends WP_UnitTestCase
+{
 
     private static $menu_id        = 0;
     private static $lvl0_menu_item = 0;
@@ -13,7 +14,8 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
     private static $lvl2_menu_item = 0;
     private static $lvl3_menu_item = 0;
 
-    public static function set_up_before_class() {
+    public static function set_up_before_class()
+    {
         parent::set_up_before_class();
 
         // Create nav menu.
@@ -77,7 +79,8 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
         remove_filter('nav_menu_item_id', '_nav_menu_item_id_use_once');
     }
 
-    public static function tear_down_after_class() {
+    public static function tear_down_after_class()
+    {
         wp_delete_nav_menu(self::$menu_id);
 
         /*
@@ -96,7 +99,8 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
      * @ticket 28620
      * @ticket 56946
      */
-    public function test_wp_nav_menu_should_have_has_children_class_without_custom_depth() {
+    public function test_wp_nav_menu_should_have_has_children_class_without_custom_depth()
+    {
 
         // Render the menu with all its hierarchy.
         $menu_html = wp_nav_menu(
@@ -150,7 +154,8 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
      * @ticket 28620
      * @ticket 56946
      */
-    public function test_wp_nav_menu_should_not_have_has_children_class_with_custom_depth() {
+    public function test_wp_nav_menu_should_not_have_has_children_class_with_custom_depth()
+    {
 
         // Render the menu limited to 1 level of hierarchy (Lvl0 + Lvl1).
         $menu_html = wp_nav_menu(
@@ -203,7 +208,8 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase {
      *
      * @ticket 57122
      */
-    public function test_parent_with_higher_id_should_not_error() {
+    public function test_parent_with_higher_id_should_not_error()
+    {
         // Create a new level zero menu item.
         $new_lvl0_menu_item = wp_update_nav_menu_item(
             self::$menu_id,

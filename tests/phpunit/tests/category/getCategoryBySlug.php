@@ -5,12 +5,14 @@
  *
  * @covers ::get_category_by_slug
  */
-class Tests_Category_GetCategoryBySlug extends WP_UnitTestCase {
+class Tests_Category_GetCategoryBySlug extends WP_UnitTestCase
+{
 
     /**
      * Validate get_category_by_slug function
      */
-    public function test_get_category_by_slug() {
+    public function test_get_category_by_slug()
+    {
 
         // Create test categories.
         $testcat  = self::factory()->category->create_and_get(

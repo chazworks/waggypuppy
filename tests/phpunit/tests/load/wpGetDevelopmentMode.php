@@ -11,14 +11,16 @@
  * @covers ::wp_get_development_mode
  * @covers ::wp_is_development_mode
  */
-class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
+class Test_WP_Get_Development_Mode extends WP_UnitTestCase
+{
 
     /**
      * Tests that `wp_get_development_mode()` returns the value of the `WP_DEVELOPMENT_MODE` constant.
      *
      * @ticket 57487
      */
-    public function test_wp_get_development_mode_constant() {
+    public function test_wp_get_development_mode_constant()
+    {
         $this->assertSame(WP_DEVELOPMENT_MODE, wp_get_development_mode());
     }
 
@@ -27,7 +29,8 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
      *
      * @ticket 57487
      */
-    public function test_wp_get_development_mode_test_overrides() {
+    public function test_wp_get_development_mode_test_overrides()
+    {
         global $_wp_tests_development_mode;
 
         $_wp_tests_development_mode = 'plugin';
@@ -39,7 +42,8 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
      *
      * @ticket 57487
      */
-    public function test_wp_get_development_mode_filter_invalid_value() {
+    public function test_wp_get_development_mode_filter_invalid_value()
+    {
         global $_wp_tests_development_mode;
 
         $_wp_tests_development_mode = 'invalid';
@@ -52,7 +56,8 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
      * @ticket 57487
      * @dataProvider data_wp_is_development_mode
      */
-    public function test_wp_is_development_mode($current, $given, $expected) {
+    public function test_wp_is_development_mode($current, $given, $expected)
+    {
         global $_wp_tests_development_mode;
 
         $_wp_tests_development_mode = $current;
@@ -69,7 +74,8 @@ class Test_WP_Get_Development_Mode extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_wp_is_development_mode() {
+    public function data_wp_is_development_mode()
+    {
         return array(
             'core mode, testing for core'              => array(
                 'core',

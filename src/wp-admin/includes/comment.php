@@ -23,7 +23,8 @@
  * @param string $timezone       Timezone. Accepts 'blog' or 'gmt'. Default 'blog'.
  * @return string|null Comment post ID on success.
  */
-function comment_exists($comment_author, $comment_date, $timezone = 'blog') {
+function comment_exists($comment_author, $comment_date, $timezone = 'blog')
+{
     global $wpdb;
 
     $date_field = 'comment_date';
@@ -50,7 +51,8 @@ function comment_exists($comment_author, $comment_date, $timezone = 'blog') {
  * @return int|WP_Error The value 1 if the comment was updated, 0 if not updated.
  *                      A WP_Error object on failure.
  */
-function edit_comment() {
+function edit_comment()
+{
     if (! current_user_can('edit_comment', (int) $_POST['comment_ID'])) {
         wp_die(__('Sorry, you are not allowed to edit comments on this post.'));
     }
@@ -107,7 +109,8 @@ function edit_comment() {
  * @param int $id ID of comment to retrieve.
  * @return WP_Comment|false Comment if found. False on failure.
  */
-function get_comment_to_edit($id) {
+function get_comment_to_edit($id)
+{
     $comment = get_comment($id);
     if (! $comment) {
         return false;
@@ -144,7 +147,8 @@ function get_comment_to_edit($id) {
  * @param int|int[] $post_id Either a single Post ID or an array of Post IDs
  * @return int|int[] Either a single Posts pending comments as an int or an array of ints keyed on the Post IDs
  */
-function get_pending_comments_num($post_id) {
+function get_pending_comments_num($post_id)
+{
     global $wpdb;
 
     $single = false;
@@ -191,7 +195,8 @@ function get_pending_comments_num($post_id) {
  * @param string $name User name.
  * @return string Avatar with the user name.
  */
-function floated_admin_avatar($name) {
+function floated_admin_avatar($name)
+{
     $avatar = get_avatar(get_comment(), 32, 'mystery');
     return "$avatar $name";
 }
@@ -201,7 +206,8 @@ function floated_admin_avatar($name) {
  *
  * @since 2.7.0
  */
-function enqueue_comment_hotkeys_js() {
+function enqueue_comment_hotkeys_js()
+{
     if ('true' === get_user_option('comment_shortcuts')) {
         wp_enqueue_script('jquery-table-hotkeys');
     }
@@ -212,7 +218,8 @@ function enqueue_comment_hotkeys_js() {
  *
  * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
  */
-function comment_footer_die($msg) {
+function comment_footer_die($msg)
+{
     echo "<div class='wrap'><p>$msg</p></div>";
     require_once ABSPATH . 'wp-admin/admin-footer.php';
     die;

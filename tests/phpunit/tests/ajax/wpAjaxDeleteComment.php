@@ -16,7 +16,8 @@ require_once ABSPATH . 'wp-admin/includes/ajax-actions.php';
  *
  * @covers ::wp_ajax_delete_comment
  */
-class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
+class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
+{
 
     /**
      * List of comments.
@@ -32,7 +33,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
      */
     protected static $post_id;
 
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$post_id = $factory->post->create();
 
         $comment_ids    = $factory->comment->create_post_comments(self::$post_id, 8);
@@ -42,7 +44,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
     /**
      * Clears the POST actions in between requests.
      */
-    protected function _clear_post_action() {
+    protected function _clear_post_action()
+    {
         unset($_POST['trash']);
         unset($_POST['untrash']);
         unset($_POST['spam']);
@@ -65,7 +68,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
      * @param WP_Comment $comment Comment object.
      * @param string     $action  Action: 'trash', 'untrash', etc.
      */
-    public function _test_as_admin($comment, $action) {
+    public function _test_as_admin($comment, $action)
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -124,7 +128,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
      * @param WP_Comment $comment Comment object.
      * @param string     $action  Action: 'trash', 'untrash', etc.
      */
-    public function _test_as_subscriber($comment, $action) {
+    public function _test_as_subscriber($comment, $action)
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -156,7 +161,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
      * @param WP_Comment $comment Comment object.
      * @param string     $action  Action: 'trash', 'untrash', etc.
      */
-    public function _test_with_bad_nonce($comment, $action) {
+    public function _test_with_bad_nonce($comment, $action)
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -187,7 +193,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
      * @param WP_Comment $comment Comment object.
      * @param string     $action  Action: 'trash', 'untrash', etc.
      */
-    public function _test_with_bad_id($comment, $action) {
+    public function _test_with_bad_id($comment, $action)
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -224,7 +231,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
      * @param WP_Comment $comment Comment object.
      * @param string     $action  Action: 'trash', 'untrash', etc.
      */
-    public function _test_double_action($comment, $action) {
+    public function _test_double_action($comment, $action)
+    {
 
         // Reset request.
         $this->_clear_post_action();
@@ -271,7 +279,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
      *
      * @covers ::_wp_ajax_delete_comment_response
      */
-    public function test_ajax_comment_trash_actions_as_administrator() {
+    public function test_ajax_comment_trash_actions_as_administrator()
+    {
         // Test trash/untrash.
         $this->_test_as_admin(self::$comments[0], 'trash');
         $this->_test_as_admin(self::$comments[0], 'untrash');
@@ -287,7 +296,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
     /**
      * Deletes a comment as a subscriber (expects permission denied).
      */
-    public function test_ajax_comment_trash_actions_as_subscriber() {
+    public function test_ajax_comment_trash_actions_as_subscriber()
+    {
         // Test trash/untrash.
         $this->_test_as_subscriber(self::$comments[0], 'trash');
         $this->_test_as_subscriber(self::$comments[0], 'untrash');
@@ -305,7 +315,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
      *
      * @covers ::_wp_ajax_delete_comment_response
      */
-    public function test_ajax_trash_comment_no_id() {
+    public function test_ajax_trash_comment_no_id()
+    {
         // Test trash/untrash.
         $this->_test_as_admin(self::$comments[0], 'trash');
         $this->_test_as_admin(self::$comments[0], 'untrash');
@@ -321,7 +332,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
     /**
      * Deletes a comment with a bad nonce.
      */
-    public function test_ajax_trash_comment_bad_nonce() {
+    public function test_ajax_trash_comment_bad_nonce()
+    {
         // Test trash/untrash.
         $this->_test_with_bad_nonce(self::$comments[0], 'trash');
         $this->_test_with_bad_nonce(self::$comments[0], 'untrash');
@@ -337,7 +349,8 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase {
     /**
      * Tests trashing an already trashed comment, etc.
      */
-    public function test_ajax_trash_double_action() {
+    public function test_ajax_trash_double_action()
+    {
         // Test trash/untrash.
         $this->_test_double_action(self::$comments[0], 'trash');
         $this->_test_double_action(self::$comments[0], 'untrash');

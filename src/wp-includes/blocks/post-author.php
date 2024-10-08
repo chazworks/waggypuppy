@@ -15,7 +15,8 @@
  * @param  WP_Block $block      Block instance.
  * @return string Returns the rendered author block.
  */
-function render_block_core_post_author($attributes, $content, $block) {
+function render_block_core_post_author($attributes, $content, $block)
+{
     if (! isset($block->context['postId'])) {
         $author_id = get_query_var('author');
     } else {
@@ -66,7 +67,8 @@ function render_block_core_post_author($attributes, $content, $block) {
  *
  * @since 5.9.0
  */
-function register_block_core_post_author() {
+function register_block_core_post_author()
+{
     register_block_type_from_metadata(
         __DIR__ . '/post-author',
         array(

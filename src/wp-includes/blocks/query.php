@@ -16,7 +16,8 @@
  *
  * @return string Returns the modified output of the query block.
  */
-function render_block_core_query($attributes, $content, $block) {
+function render_block_core_query($attributes, $content, $block)
+{
     $is_interactive = isset($attributes['enhancedPagination'])
         && true === $attributes['enhancedPagination']
         && isset($attributes['queryId']);
@@ -60,7 +61,8 @@ function render_block_core_query($attributes, $content, $block) {
  *
  * @since 5.8.0
  */
-function register_block_core_query() {
+function register_block_core_query()
+{
     register_block_type_from_metadata(
         __DIR__ . '/query',
         array(
@@ -81,7 +83,8 @@ add_action('init', 'register_block_core_query');
  * @param array $parsed_block The block being rendered.
  * @return string Returns the parsed block, unmodified.
  */
-function block_core_query_disable_enhanced_pagination($parsed_block) {
+function block_core_query_disable_enhanced_pagination($parsed_block)
+{
     static $enhanced_query_stack   = array();
     static $dirty_enhanced_queries = array();
     static $render_query_callback  = null;

@@ -14,7 +14,8 @@
  *
  * @see WP_List_Table
  */
-class WP_Media_List_Table extends WP_List_Table {
+class WP_Media_List_Table extends WP_List_Table
+{
     /**
      * Holds the number of pending comments for each post.
      *
@@ -36,7 +37,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @param array $args An associative array of arguments.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         $this->detached = (isset($_REQUEST['attachment-filter']) && 'detached' === $_REQUEST['attachment-filter']);
 
         $this->modes = array(
@@ -55,7 +57,8 @@ class WP_Media_List_Table extends WP_List_Table {
     /**
      * @return bool
      */
-    public function ajax_user_can() {
+    public function ajax_user_can()
+    {
         return current_user_can('upload_files');
     }
 
@@ -65,7 +68,8 @@ class WP_Media_List_Table extends WP_List_Table {
      * @global array    $post_mime_types
      * @global array    $avail_post_mime_types
      */
-    public function prepare_items() {
+    public function prepare_items()
+    {
         global $mode, $wp_query, $post_mime_types, $avail_post_mime_types;
 
         $mode = empty($_REQUEST['mode']) ? 'list' : $_REQUEST['mode'];
@@ -121,7 +125,8 @@ class WP_Media_List_Table extends WP_List_Table {
      * @global array $avail_post_mime_types
      * @return array
      */
-    protected function get_views() {
+    protected function get_views()
+    {
         global $post_mime_types, $avail_post_mime_types;
 
         $type_links = array();
@@ -176,7 +181,8 @@ class WP_Media_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_bulk_actions() {
+    protected function get_bulk_actions()
+    {
         $actions = array();
 
         if (MEDIA_TRASH) {
@@ -200,7 +206,8 @@ class WP_Media_List_Table extends WP_List_Table {
     /**
      * @param string $which
      */
-    protected function extra_tablenav($which) {
+    protected function extra_tablenav($which)
+    {
         if ('bar' !== $which) {
             return;
         }
@@ -229,7 +236,8 @@ class WP_Media_List_Table extends WP_List_Table {
     /**
      * @return string
      */
-    public function current_action() {
+    public function current_action()
+    {
         if (isset($_REQUEST['found_post_id']) && isset($_REQUEST['media'])) {
             return 'attach';
         }
@@ -248,13 +256,15 @@ class WP_Media_List_Table extends WP_List_Table {
     /**
      * @return bool
      */
-    public function has_items() {
+    public function has_items()
+    {
         return have_posts();
     }
 
     /**
      */
-    public function no_items() {
+    public function no_items()
+    {
         if ($this->is_trash) {
             _e('No media files found in Trash.');
         } else {
@@ -267,7 +277,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @global string $mode List table view mode.
      */
-    public function views() {
+    public function views()
+    {
         global $mode;
 
         $views = $this->get_views();
@@ -330,7 +341,8 @@ class WP_Media_List_Table extends WP_List_Table {
     /**
      * @return string[] Array of column titles keyed by their column name.
      */
-    public function get_columns() {
+    public function get_columns()
+    {
         $posts_columns       = array();
         $posts_columns['cb'] = '<input type="checkbox" />';
         /* translators: Column name. */
@@ -395,7 +407,8 @@ class WP_Media_List_Table extends WP_List_Table {
     /**
      * @return array
      */
-    protected function get_sortable_columns() {
+    protected function get_sortable_columns()
+    {
         return array(
             'title'    => array('title', false, _x('File', 'column name'), __('Table ordered by File Name.')),
             'author'   => array('author', false, __('Author'), __('Table ordered by Author.')),
@@ -413,7 +426,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @param WP_Post $item The current WP_Post object.
      */
-    public function column_cb($item) {
+    public function column_cb($item)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $post = $item;
 
@@ -439,7 +453,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @param WP_Post $post The current WP_Post object.
      */
-    public function column_title($post) {
+    public function column_title($post)
+    {
         list( $mime ) = explode('/', $post->post_mime_type);
 
         $attachment_id = $post->ID;
@@ -506,7 +521,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @param WP_Post $post The current WP_Post object.
      */
-    public function column_author($post) {
+    public function column_author($post)
+    {
         printf(
             '<a href="%s">%s</a>',
             esc_url(add_query_arg(array('author' => get_the_author_meta('ID')), 'upload.php')),
@@ -522,7 +538,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @param WP_Post $post The current WP_Post object.
      */
-    public function column_desc($post) {
+    public function column_desc($post)
+    {
         _deprecated_function(__METHOD__, '6.2.0');
 
         echo has_excerpt() ? $post->post_excerpt : '';
@@ -535,7 +552,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @param WP_Post $post The current WP_Post object.
      */
-    public function column_date($post) {
+    public function column_date($post)
+    {
         if ('0000-00-00 00:00:00' === $post->post_date) {
             $h_time = __('Unpublished');
         } else {
@@ -569,7 +587,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @param WP_Post $post The current WP_Post object.
      */
-    public function column_parent($post) {
+    public function column_parent($post)
+    {
         $user_can_edit = current_user_can('edit_post', $post->ID);
 
         if ($post->post_parent > 0) {
@@ -631,7 +650,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @param WP_Post $post The current WP_Post object.
      */
-    public function column_comments($post) {
+    public function column_comments($post)
+    {
         echo '<div class="post-com-count-wrapper">';
 
         if (isset($this->comment_pending_count[ $post->ID ])) {
@@ -654,7 +674,8 @@ class WP_Media_List_Table extends WP_List_Table {
      * @param WP_Post $item        The current WP_Post object.
      * @param string  $column_name Current column name.
      */
-    public function column_default($item, $column_name) {
+    public function column_default($item, $column_name)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $post = $item;
 
@@ -715,7 +736,8 @@ class WP_Media_List_Table extends WP_List_Table {
      * @global WP_Post  $post     Global post object.
      * @global WP_Query $wp_query WordPress Query object.
      */
-    public function display_rows() {
+    public function display_rows()
+    {
         global $post, $wp_query;
 
         $post_ids = wp_list_pluck($wp_query->posts, 'ID');
@@ -750,7 +772,8 @@ class WP_Media_List_Table extends WP_List_Table {
      *
      * @return string Name of the default primary column, in this case, 'title'.
      */
-    protected function get_default_primary_column_name() {
+    protected function get_default_primary_column_name()
+    {
         return 'title';
     }
 
@@ -759,7 +782,8 @@ class WP_Media_List_Table extends WP_List_Table {
      * @param string  $att_title
      * @return array
      */
-    private function _get_row_actions($post, $att_title) {
+    private function _get_row_actions($post, $att_title)
+    {
         $actions = array();
 
         if (! $this->is_trash && current_user_can('edit_post', $post->ID)) {
@@ -879,7 +903,8 @@ class WP_Media_List_Table extends WP_List_Table {
      * @return string Row actions output for media attachments, or an empty string
      *                if the current column is not the primary column.
      */
-    protected function handle_row_actions($item, $column_name, $primary) {
+    protected function handle_row_actions($item, $column_name, $primary)
+    {
         if ($primary !== $column_name) {
             return '';
         }

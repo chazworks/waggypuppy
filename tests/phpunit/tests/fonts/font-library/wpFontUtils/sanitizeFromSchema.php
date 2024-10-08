@@ -10,7 +10,8 @@
  *
  * @covers WP_Font_Utils::sanitize_from_schema
  */
-class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
+class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase
+{
     /**
      * @dataProvider data_sanitize_from_schema
      *
@@ -18,13 +19,15 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
      * @param array $schema   Schema to use for sanitization.
      * @param array $expected Expected result.
      */
-    public function test_sanitize_from_schema($data, $schema, $expected) {
+    public function test_sanitize_from_schema($data, $schema, $expected)
+    {
         $result = WP_Font_Utils::sanitize_from_schema($data, $schema);
 
         $this->assertSame($result, $expected);
     }
 
-    public function data_sanitize_from_schema() {
+    public function data_sanitize_from_schema()
+    {
         return array(
             'One level associative array'  => array(
                 'data'     => array(
@@ -283,7 +286,8 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
         );
     }
 
-    public function test_sanitize_from_schema_with_invalid_data() {
+    public function test_sanitize_from_schema_with_invalid_data()
+    {
         $data   = 'invalid data';
         $schema = array(
             'key1' => 'sanitize_text_field',
@@ -296,7 +300,8 @@ class Tests_Fonts_WpFontUtils_SanitizeFromSchema extends WP_UnitTestCase {
     }
 
 
-    public function test_sanitize_from_schema_with_invalid_schema() {
+    public function test_sanitize_from_schema_with_invalid_schema()
+    {
         $data   = array(
             'key1' => 'value1',
             'key2' => 'value2',

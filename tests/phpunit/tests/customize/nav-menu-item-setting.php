@@ -4,7 +4,8 @@
  *
  * @group customize
  */
-class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
+class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
+{
 
     /**
      * Instance of WP_Customize_Manager which is reset for each test.
@@ -18,7 +19,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_UnitTestCase_Base::set_up()
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         wp_set_current_user(self::factory()->user->create(array('role' => 'administrator')));
@@ -31,7 +33,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
     /**
      * Delete the $wp_customize global when cleaning up scope.
      */
-    public function clean_up_global_scope() {
+    public function clean_up_global_scope()
+    {
         global $wp_customize;
         $wp_customize = null;
         parent::clean_up_global_scope();
@@ -43,7 +46,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      * @param object $menu_item Menu item.
      * @return object
      */
-    public function filter_type_label($menu_item) {
+    public function filter_type_label($menu_item)
+    {
         if ('custom_type' === $menu_item->type) {
             $menu_item->type_label = 'Custom Label';
         }
@@ -54,7 +58,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
     /**
      * Test constants and statics.
      */
-    public function test_constants() {
+    public function test_constants()
+    {
         do_action('customize_register', $this->wp_customize);
         $this->assertTrue(post_type_exists(WP_Customize_Nav_Menu_Item_Setting::POST_TYPE));
     }
@@ -64,7 +69,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::__construct()
      */
-    public function test_construct() {
+    public function test_construct()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $setting = new WP_Customize_Nav_Menu_Item_Setting($this->wp_customize, 'nav_menu_item[123]');
@@ -108,7 +114,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
     /**
      * Test empty constructor.
      */
-    public function test_construct_empty_menus() {
+    public function test_construct_empty_menus()
+    {
         do_action('customize_register', $this->wp_customize);
         $_wp_customize = $this->wp_customize;
         unset($_wp_customize->nav_menus);
@@ -128,7 +135,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::__construct()
      */
-    public function test_construct_placeholder() {
+    public function test_construct_placeholder()
+    {
         do_action('customize_register', $this->wp_customize);
         $default = array(
             'title'            => 'Lorem',
@@ -146,7 +154,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::value()
      */
-    public function test_value_type_post_type() {
+    public function test_value_type_post_type()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $post_id = self::factory()->post->create(array('post_title' => 'Hello World'));
@@ -197,7 +206,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::value()
      */
-    public function test_value_type_post_type_without_label() {
+    public function test_value_type_post_type_without_label()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $original_title = 'Hello World';
@@ -229,7 +239,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::value()
      */
-    public function test_value_type_taxonomy() {
+    public function test_value_type_taxonomy()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $tax_id = self::factory()->category->create(array('name' => 'Salutations'));
@@ -268,7 +279,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::value()
      */
-    public function test_custom_type_label() {
+    public function test_custom_type_label()
+    {
         do_action('customize_register', $this->wp_customize);
         add_filter('wp_setup_nav_menu_item', array($this, 'filter_type_label'));
 
@@ -300,7 +312,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::value()
      */
-    public function test_value_nav_menu_term_id_returns_zero() {
+    public function test_value_nav_menu_term_id_returns_zero()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $menu_id    = -123;
@@ -345,7 +358,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::preview()
      */
-    public function test_preview_updated() {
+    public function test_preview_updated()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $first_post_id  = self::factory()->post->create(array('post_title' => 'Hello World'));
@@ -400,7 +414,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::preview()
      */
-    public function test_preview_inserted() {
+    public function test_preview_inserted()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $menu_id  = wp_create_nav_menu('Primary');
@@ -459,7 +474,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::preview()
      */
-    public function test_preview_deleted() {
+    public function test_preview_deleted()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $menu_id  = wp_create_nav_menu('Primary');
@@ -499,7 +515,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::sanitize()
      */
-    public function test_sanitize() {
+    public function test_sanitize()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $menu_id = wp_create_nav_menu('Primary');
@@ -637,7 +654,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::update()
      */
-    public function test_save_updated() {
+    public function test_save_updated()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $first_post_id  = self::factory()->post->create(array('post_title' => 'Hello World'));
@@ -706,7 +724,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::update()
      */
-    public function test_save_inserted() {
+    public function test_save_inserted()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $menu_id  = wp_create_nav_menu('Primary');
@@ -779,7 +798,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::update()
      */
-    public function test_save_deleted() {
+    public function test_save_deleted()
+    {
         do_action('customize_register', $this->wp_customize);
 
         $menu_id  = wp_create_nav_menu('Primary');
@@ -831,7 +851,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
     /**
      * @ticket 33665
      */
-    public function test_invalid_nav_menu_item() {
+    public function test_invalid_nav_menu_item()
+    {
         $menu_id = wp_create_nav_menu('Primary');
         register_post_type(
             'poem',
@@ -888,7 +909,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      *
      * @see WP_Customize_Nav_Menu_Item_Setting::value_as_wp_post_nav_menu_item()
      */
-    public function test_value_as_wp_post_nav_menu_item() {
+    public function test_value_as_wp_post_nav_menu_item()
+    {
         $post_id = self::factory()->post->create();
 
         $setting    = new WP_Customize_Nav_Menu_Item_Setting(
@@ -949,7 +971,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      * @ticket 38945
      * @covers WP_Customize_Nav_Menu_Item_Setting::value_as_wp_post_nav_menu_item
      */
-    public function test_value_as_wp_post_nav_menu_item_term_urls() {
+    public function test_value_as_wp_post_nav_menu_item_term_urls()
+    {
         $term_id = self::factory()->term->create(array('taxonomy' => 'category'));
         register_post_type(
             'press_release',
@@ -1022,7 +1045,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      * @ticket 38945
      * @covers WP_Customize_Nav_Menu_Item_Setting::get_original_title
      */
-    public function test_get_original_title() {
+    public function test_get_original_title()
+    {
         $menu_id = wp_create_nav_menu('Menu');
         register_post_type(
             'press_release',
@@ -1217,7 +1241,8 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase {
      * @ticket 38015
      * @see WP_Customize_Nav_Menu_Item_Setting::value_as_wp_post_nav_menu_item()
      */
-    public function test_value_as_wp_post_nav_menu_item_with_empty_title() {
+    public function test_value_as_wp_post_nav_menu_item_with_empty_title()
+    {
         $original_title = 'The Original Title';
         $post_id        = self::factory()->post->create(array('post_title' => $original_title));
 

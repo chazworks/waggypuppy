@@ -14,7 +14,8 @@ require_once __DIR__ . '/base.php';
  *
  * @covers WP_Filesystem_Direct::chgrp
  */
-class Tests_Filesystem_WpFilesystemDirect_Chgrp extends WP_Filesystem_Direct_UnitTestCase {
+class Tests_Filesystem_WpFilesystemDirect_Chgrp extends WP_Filesystem_Direct_UnitTestCase
+{
 
     /**
      * Tests that `WP_Filesystem_Direct::chgrp()`
@@ -26,7 +27,8 @@ class Tests_Filesystem_WpFilesystemDirect_Chgrp extends WP_Filesystem_Direct_Uni
      *
      * @param string $path The path.
      */
-    public function test_should_fail_to_change_file_group($path) {
+    public function test_should_fail_to_change_file_group($path)
+    {
         $this->assertFalse(self::$filesystem->chgrp(self::$file_structure['test_dir']['path'] . $path, 0));
     }
 }

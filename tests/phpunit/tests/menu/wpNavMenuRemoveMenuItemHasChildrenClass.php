@@ -3,14 +3,16 @@
 /**
  * @group menu
  */
-class Tests_Menu_WpNavMenuRemoveMenuItemHasChildrenClass extends WP_UnitTestCase {
+class Tests_Menu_WpNavMenuRemoveMenuItemHasChildrenClass extends WP_UnitTestCase
+{
 
     /**
      * Ensure calling filter in legacy ways does not throw an error.
      *
      * @ticket 56926
      */
-    public function test_legacy_filter_should_not_throw_an_error() {
+    public function test_legacy_filter_should_not_throw_an_error()
+    {
         $classes = array('menu-item-has-children', 'menu-item', 'menu-item-123');
 
         $menu_item = (object) array(
@@ -37,7 +39,8 @@ class Tests_Menu_WpNavMenuRemoveMenuItemHasChildrenClass extends WP_UnitTestCase
      * @dataProvider data_menu_item_has_children_class_should_be_removed_or_retained_as_expected
      * @ticket 56926
      */
-    public function test_menu_item_has_children_class_should_be_removed_or_retained_as_expected($args, $depth, $should_be_retained) {
+    public function test_menu_item_has_children_class_should_be_removed_or_retained_as_expected($args, $depth, $should_be_retained)
+    {
         $classes = array('menu-item-has-children', 'menu-item', 'menu-item-123');
 
         $menu_item = (object) array(
@@ -58,7 +61,8 @@ class Tests_Menu_WpNavMenuRemoveMenuItemHasChildrenClass extends WP_UnitTestCase
      *
      * @return array
      */
-    public function data_menu_item_has_children_class_should_be_removed_or_retained_as_expected() {
+    public function data_menu_item_has_children_class_should_be_removed_or_retained_as_expected()
+    {
         return array(
             'Depth not set'                          => array(
                 'args'               => (object) array('depth' => 1),

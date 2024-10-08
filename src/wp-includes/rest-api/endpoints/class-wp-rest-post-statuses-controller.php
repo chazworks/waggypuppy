@@ -14,14 +14,16 @@
  *
  * @see WP_REST_Controller
  */
-class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
+class WP_REST_Post_Statuses_Controller extends WP_REST_Controller
+{
 
     /**
      * Constructor.
      *
      * @since 4.7.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->namespace = 'wp/v2';
         $this->rest_base = 'statuses';
     }
@@ -33,7 +35,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      *
      * @see register_rest_route()
      */
-    public function register_routes() {
+    public function register_routes()
+    {
 
         register_rest_route(
             $this->namespace,
@@ -80,7 +83,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
-    public function get_items_permissions_check($request) {
+    public function get_items_permissions_check($request)
+    {
         if ('edit' === $request['context']) {
             $types = get_post_types(array('show_in_rest' => true), 'objects');
 
@@ -108,7 +112,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_items($request) {
+    public function get_items($request)
+    {
         $data              = array();
         $statuses          = get_post_stati(array('internal' => false), 'object');
         $statuses['trash'] = get_post_status_object('trash');
@@ -135,7 +140,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
-    public function get_item_permissions_check($request) {
+    public function get_item_permissions_check($request)
+    {
         $status = get_post_status_object($request['status']);
 
         if (empty($status)) {
@@ -167,7 +173,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      * @param object $status Post status.
      * @return bool True if the post status is visible, otherwise false.
      */
-    protected function check_read_permission($status) {
+    protected function check_read_permission($status)
+    {
         if (true === $status->public) {
             return true;
         }
@@ -193,7 +200,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
-    public function get_item($request) {
+    public function get_item($request)
+    {
         $obj = get_post_status_object($request['status']);
 
         if (empty($obj)) {
@@ -219,7 +227,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response Post status data.
      */
-    public function prepare_item_for_response($item, $request) {
+    public function prepare_item_for_response($item, $request)
+    {
         // Restores the more descriptive, specific name for use within this method.
         $status = $item;
 
@@ -292,7 +301,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      *
      * @return array Item schema data.
      */
-    public function get_item_schema() {
+    public function get_item_schema()
+    {
         if ($this->schema) {
             return $this->add_additional_fields_schema($this->schema);
         }
@@ -365,7 +375,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
      *
      * @return array Collection parameters.
      */
-    public function get_collection_params() {
+    public function get_collection_params()
+    {
         return array(
             'context' => $this->get_context_param(array('default' => 'view')),
         );

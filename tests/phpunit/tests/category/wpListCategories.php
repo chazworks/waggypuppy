@@ -6,8 +6,10 @@
  *
  * @covers ::wp_list_categories
  */
-class Tests_Category_WpListCategories extends WP_UnitTestCase {
-    public function test_class() {
+class Tests_Category_WpListCategories extends WP_UnitTestCase
+{
+    public function test_class()
+    {
         $c = self::factory()->category->create();
 
         $found = wp_list_categories(
@@ -20,7 +22,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
         $this->assertStringContainsString('class="cat-item cat-item-' . $c . '"', $found);
     }
 
-    public function test_class_containing_current_cat() {
+    public function test_class_containing_current_cat()
+    {
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create();
 
@@ -36,7 +39,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
         $this->assertMatchesRegularExpression('/class="[^"]*cat-item-' . $c2 . '[^"]*current-cat[^"]*"/', $found);
     }
 
-    public function test_class_containing_current_cat_parent() {
+    public function test_class_containing_current_cat_parent()
+    {
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
             array(
@@ -59,7 +63,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 33565
      */
-    public function test_current_category_should_accept_an_array_of_ids() {
+    public function test_current_category_should_accept_an_array_of_ids()
+    {
         $cats = self::factory()->category->create_many(3);
 
         $found = wp_list_categories(
@@ -78,7 +83,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 16792
      */
-    public function test_should_not_create_element_when_cat_name_is_filtered_to_empty_string() {
+    public function test_should_not_create_element_when_cat_name_is_filtered_to_empty_string()
+    {
         $c1 = self::factory()->category->create(
             array(
                 'name' => 'Test Cat 1',
@@ -106,7 +112,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
         $this->assertStringNotContainsString('Test Cat 1', $found);
     }
 
-    public function list_cats_callback($cat) {
+    public function list_cats_callback($cat)
+    {
         if ('Test Cat 1' === $cat) {
             return '';
         }
@@ -117,7 +124,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 44872
      */
-    public function test_should_create_element_when_cat_name_is_zero() {
+    public function test_should_create_element_when_cat_name_is_zero()
+    {
         $c = self::factory()->category->create(
             array(
                 'name' => '0',
@@ -135,7 +143,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
         $this->assertStringContainsString('0', $found);
     }
 
-    public function test_show_option_all_link_should_go_to_home_page_when_show_on_front_is_false() {
+    public function test_show_option_all_link_should_go_to_home_page_when_show_on_front_is_false()
+    {
         $cats = self::factory()->category->create_many(2);
 
         $found = wp_list_categories(
@@ -150,7 +159,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
         $this->assertStringContainsString("<li class='cat-item-all'><a href='" . home_url('/') . "'>All</a></li>", $found);
     }
 
-    public function test_show_option_all_link_should_respect_page_for_posts() {
+    public function test_show_option_all_link_should_respect_page_for_posts()
+    {
         $cats = self::factory()->category->create_many(2);
         $p    = self::factory()->post->create(array('post_type' => 'page'));
 
@@ -172,7 +182,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 21881
      */
-    public function test_show_option_all_link_should_link_to_post_type_archive_when_taxonomy_does_not_apply_to_posts() {
+    public function test_show_option_all_link_should_link_to_post_type_archive_when_taxonomy_does_not_apply_to_posts()
+    {
         register_post_type('wptests_pt', array('has_archive' => true));
         register_post_type('wptests_pt2', array('has_archive' => true));
         register_taxonomy('wptests_tax', array('foo', 'wptests_pt', 'wptests_pt2'));
@@ -201,7 +212,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 21881
      */
-    public function test_show_option_all_link_should_not_link_to_post_type_archive_if_has_archive_is_false() {
+    public function test_show_option_all_link_should_not_link_to_post_type_archive_if_has_archive_is_false()
+    {
         register_post_type('wptests_pt', array('has_archive' => false));
         register_post_type('wptests_pt2', array('has_archive' => true));
         register_taxonomy('wptests_tax', array('foo', 'wptests_pt', 'wptests_pt2'));
@@ -227,7 +239,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
         $this->assertStringContainsString("<li class='cat-item-all'><a href='" . $pt_archive . "'>All</a></li>", $found);
     }
 
-    public function test_show_option_all_link_should_link_to_post_archive_if_available() {
+    public function test_show_option_all_link_should_link_to_post_archive_if_available()
+    {
         register_post_type('wptests_pt', array('has_archive' => true));
         register_post_type('wptests_pt2', array('has_archive' => true));
         register_taxonomy('wptests_tax', array('foo', 'wptests_pt', 'post', 'wptests_pt2'));
@@ -253,7 +266,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
         $this->assertStringContainsString("<li class='cat-item-all'><a href='" . $url . "'>All</a></li>", $found);
     }
 
-    public function test_show_option_all_link_should_link_to_post_archive_if_no_associated_post_types_have_archives() {
+    public function test_show_option_all_link_should_link_to_post_archive_if_no_associated_post_types_have_archives()
+    {
         register_post_type('wptests_pt', array('has_archive' => false));
         register_post_type('wptests_pt2', array('has_archive' => false));
         register_taxonomy('wptests_tax', array('foo', 'wptests_pt', 'wptests_pt2'));
@@ -282,7 +296,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 33460
      */
-    public function test_title_li_should_be_shown_by_default_for_empty_lists() {
+    public function test_title_li_should_be_shown_by_default_for_empty_lists()
+    {
         $found = wp_list_categories(
             array(
                 'echo' => false,
@@ -295,7 +310,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 33460
      */
-    public function test_hide_title_if_empty_should_be_respected_for_empty_lists_when_true() {
+    public function test_hide_title_if_empty_should_be_respected_for_empty_lists_when_true()
+    {
         $found = wp_list_categories(
             array(
                 'echo'                => false,
@@ -309,7 +325,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 33460
      */
-    public function test_hide_title_if_empty_should_be_respected_for_empty_lists_when_false() {
+    public function test_hide_title_if_empty_should_be_respected_for_empty_lists_when_false()
+    {
         $found = wp_list_categories(
             array(
                 'echo'                => false,
@@ -323,7 +340,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 33460
      */
-    public function test_hide_title_if_empty_should_be_ignored_when_category_list_is_not_empty() {
+    public function test_hide_title_if_empty_should_be_ignored_when_category_list_is_not_empty()
+    {
         $cat = self::factory()->category->create();
 
         $found = wp_list_categories(
@@ -340,7 +358,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 38839
      */
-    public function test_hide_title_if_empty_should_not_output_stray_closing_tags() {
+    public function test_hide_title_if_empty_should_not_output_stray_closing_tags()
+    {
         $cat = self::factory()->category->create();
 
         $found = wp_list_categories(
@@ -358,7 +377,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 12981
      */
-    public function test_exclude_tree_should_be_respected() {
+    public function test_exclude_tree_should_be_respected()
+    {
         $c      = self::factory()->category->create();
         $parent = self::factory()->category->create(
             array(
@@ -390,7 +410,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 12981
      */
-    public function test_exclude_tree_should_be_merged_with_exclude() {
+    public function test_exclude_tree_should_be_merged_with_exclude()
+    {
         $c       = self::factory()->category->create();
         $parent  = self::factory()->category->create(
             array(
@@ -444,7 +465,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 35156
      */
-    public function test_comma_separated_exclude_tree_should_be_merged_with_exclude() {
+    public function test_comma_separated_exclude_tree_should_be_merged_with_exclude()
+    {
         $c       = self::factory()->category->create();
         $parent  = self::factory()->category->create(
             array(
@@ -530,7 +552,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 35156
      */
-    public function test_array_exclude_tree_should_be_merged_with_exclude() {
+    public function test_array_exclude_tree_should_be_merged_with_exclude()
+    {
         $c       = self::factory()->category->create();
         $parent  = self::factory()->category->create(
             array(
@@ -616,7 +639,8 @@ class Tests_Category_WpListCategories extends WP_UnitTestCase {
     /**
      * @ticket 10676
      */
-    public function test_class_containing_current_cat_ancestor() {
+    public function test_class_containing_current_cat_ancestor()
+    {
         $parent     = self::factory()->category->create(
             array(
                 'name' => 'Parent',

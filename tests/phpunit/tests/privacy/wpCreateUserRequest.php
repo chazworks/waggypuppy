@@ -9,7 +9,8 @@
  * @group privacy
  * @covers ::wp_create_user_request
  */
-class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
+class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase
+{
     /**
      * Request ID.
      *
@@ -53,7 +54,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @param WP_UnitTest_Factory $factory Factory.
      */
-    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory) {
+    public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
+    {
         self::$registered_user_email     = 'export@local.test';
         self::$non_registered_user_email = 'non-registered-user@local.test';
 
@@ -79,7 +81,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_invalid_email() {
+    public function test_invalid_email()
+    {
         $actual = wp_create_user_request('not-a-valid-email', 'export_personal_data');
 
         $this->assertWPError($actual);
@@ -91,7 +94,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 46536
      */
-    public function test_missing_action() {
+    public function test_missing_action()
+    {
         $actual = wp_create_user_request(self::$registered_user_email, false);
 
         $this->assertWPError($actual);
@@ -104,7 +108,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      * @ticket 44707
      * @ticket 46536
      */
-    public function test_invalid_action() {
+    public function test_invalid_action()
+    {
         $actual = wp_create_user_request(self::$registered_user_email, 'invalid_action_name');
 
         $this->assertWPError($actual);
@@ -116,7 +121,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_failure_due_to_incomplete_registered_user() {
+    public function test_failure_due_to_incomplete_registered_user()
+    {
         // Second request (duplicated).
         $actual = wp_create_user_request(self::$registered_user_email, 'export_personal_data');
 
@@ -129,7 +135,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_failure_due_to_incomplete_unregistered_user() {
+    public function test_failure_due_to_incomplete_unregistered_user()
+    {
         // Update first request.
         wp_update_post(
             array(
@@ -151,7 +158,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_sanitized_email() {
+    public function test_sanitized_email()
+    {
         $actual = wp_create_user_request('some(email<withinvalid\characters@local.test', 'export_personal_data');
 
         $this->assertNotWPError($actual);
@@ -167,7 +175,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_sanitized_action_name() {
+    public function test_sanitized_action_name()
+    {
         $actual = wp_create_user_request(self::$non_registered_user_email, 'export[_person*al_\data');
 
         $this->assertNotWPError($actual);
@@ -183,7 +192,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_create_request_registered_user() {
+    public function test_create_request_registered_user()
+    {
         wp_delete_post(self::$request_id, true);
 
         $test_data = array(
@@ -210,7 +220,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_create_request_unregistered_user() {
+    public function test_create_request_unregistered_user()
+    {
         wp_delete_post(self::$request_id, true);
 
         $test_data = array(
@@ -238,7 +249,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_completed_request_does_not_block_new_request() {
+    public function test_completed_request_does_not_block_new_request()
+    {
         // Update first request.
         wp_update_post(
             array(
@@ -265,7 +277,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_completed_request_does_not_block_new_request_for_unregistered_user() {
+    public function test_completed_request_does_not_block_new_request_for_unregistered_user()
+    {
         wp_update_post(
             array(
                 'ID'          => self::$request_id,
@@ -293,7 +306,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 44707
      */
-    public function test_wp_error_returned_from_wp_insert_post() {
+    public function test_wp_error_returned_from_wp_insert_post()
+    {
         wp_delete_post(self::$request_id, true);
 
         add_filter('wp_insert_post_empty_content', '__return_true');
@@ -308,7 +322,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43890
      */
-    public function test_wp_create_user_request_default_pending_status() {
+    public function test_wp_create_user_request_default_pending_status()
+    {
         $actual = wp_create_user_request(self::$non_registered_user_email, 'export_personal_data');
         $post   = get_post($actual);
 
@@ -320,7 +335,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43890
      */
-    public function test_wp_create_user_request_pending_status() {
+    public function test_wp_create_user_request_pending_status()
+    {
         $actual = wp_create_user_request(self::$non_registered_user_email, 'export_personal_data', array(), 'pending');
         $post   = get_post($actual);
 
@@ -332,7 +348,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43890
      */
-    public function test_wp_create_user_request_confirmed_status() {
+    public function test_wp_create_user_request_confirmed_status()
+    {
         $actual = wp_create_user_request(self::$non_registered_user_email, 'export_personal_data', array(), 'confirmed');
         $post   = get_post($actual);
 
@@ -344,7 +361,8 @@ class Tests_Privacy_wpCreateUserRequest extends WP_UnitTestCase {
      *
      * @ticket 43890
      */
-    public function test_wp_create_user_request_wp_error_status() {
+    public function test_wp_create_user_request_wp_error_status()
+    {
         $actual = wp_create_user_request(self::$non_registered_user_email, 'export_personal_data', array(), 'wrong-status');
 
         $this->assertWPError($actual);

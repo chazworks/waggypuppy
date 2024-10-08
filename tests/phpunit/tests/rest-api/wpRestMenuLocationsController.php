@@ -10,7 +10,8 @@
  *
  * @coversDefaultClass WP_REST_Menu_Locations_Controller
  */
-class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_Testcase {
+class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_Testcase
+{
 
     /**
      * @var int
@@ -22,7 +23,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      *
      * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
-    public static function wpSetUpBeforeClass($factory) {
+    public static function wpSetUpBeforeClass($factory)
+    {
         self::$admin_id = $factory->user->create(
             array(
                 'role' => 'administrator',
@@ -33,7 +35,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
 
         // Unregister all nav menu locations.
@@ -47,7 +50,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      *
      * @param array $locations Location slugs.
      */
-    public function register_nav_menu_locations($locations) {
+    public function register_nav_menu_locations($locations)
+    {
         foreach ($locations as $location) {
             register_nav_menu($location, ucfirst($location));
         }
@@ -57,7 +61,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      * @ticket 40878
      * @covers ::register_routes
      */
-    public function test_register_routes() {
+    public function test_register_routes()
+    {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey('/wp/v2/menu-locations', $routes);
         $this->assertCount(1, $routes['/wp/v2/menu-locations']);
@@ -69,7 +74,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      * @ticket 40878
      * @covers ::get_context_param
      */
-    public function test_context_param() {
+    public function test_context_param()
+    {
         // Collection.
         $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menu-locations');
         $response = rest_get_server()->dispatch($request);
@@ -89,7 +95,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      * @ticket 40878
      * @covers ::get_items
      */
-    public function test_get_items() {
+    public function test_get_items()
+    {
         $menus = array('primary', 'secondary');
         $this->register_nav_menu_locations(array('primary', 'secondary'));
         wp_set_current_user(self::$admin_id);
@@ -109,7 +116,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      * @ticket 40878
      * @covers ::get_item
      */
-    public function test_get_item() {
+    public function test_get_item()
+    {
         $menu = 'primary';
         $this->register_nav_menu_locations(array($menu));
 
@@ -124,7 +132,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      * @ticket 40878
      * @covers ::get_item
      */
-    public function test_get_item_invalid() {
+    public function test_get_item_invalid()
+    {
         $menu = 'primary';
         $this->register_nav_menu_locations(array($menu));
 
@@ -140,7 +149,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      *
      * @doesNotPerformAssertions
      */
-    public function test_create_item() {
+    public function test_create_item()
+    {
         // Controller does not implement create_item().
     }
 
@@ -149,7 +159,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      *
      * @doesNotPerformAssertions
      */
-    public function test_update_item() {
+    public function test_update_item()
+    {
         // Controller does not implement update_item().
     }
 
@@ -158,7 +169,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      *
      * @doesNotPerformAssertions
      */
-    public function test_delete_item() {
+    public function test_delete_item()
+    {
         // Controller does not implement delete_item().
     }
 
@@ -167,7 +179,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      *
      * @doesNotPerformAssertions
      */
-    public function test_prepare_item() {
+    public function test_prepare_item()
+    {
         // Controller does not implement prepare_item().
     }
 
@@ -175,7 +188,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      * @ticket 40878
      * @covers ::get_item_schema
      */
-    public function test_get_item_schema() {
+    public function test_get_item_schema()
+    {
         wp_set_current_user(self::$admin_id);
         $request    = new WP_REST_Request('OPTIONS', '/wp/v2/menu-locations');
         $response   = rest_get_server()->dispatch($request);
@@ -193,7 +207,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      * @covers ::get_items
      * @covers ::get_items_permissions_check
      */
-    public function test_get_items_menu_location_context_without_permission() {
+    public function test_get_items_menu_location_context_without_permission()
+    {
         wp_set_current_user(0);
         $request  = new WP_REST_Request('GET', '/wp/v2/menu-locations');
         $response = rest_get_server()->dispatch($request);
@@ -206,7 +221,8 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
      * @covers ::get_item
      * @covers ::get_item_permissions_check
      */
-    public function test_get_item_menu_location_context_without_permission() {
+    public function test_get_item_menu_location_context_without_permission()
+    {
         $menu = 'primary';
         $this->register_nav_menu_locations(array($menu));
 

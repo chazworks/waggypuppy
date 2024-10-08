@@ -11,7 +11,8 @@
  *
  * @coversDefaultClass WP_Script_Modules
  */
-class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
+class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
+{
 
     /**
      * Instance of WP_Script_Modules.
@@ -23,7 +24,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
     /**
      * Set up.
      */
-    public function set_up() {
+    public function set_up()
+    {
         parent::set_up();
         // Set up the WP_Script_Modules instance.
         $this->script_modules = new WP_Script_Modules();
@@ -34,7 +36,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      *
      * @return array Enqueued script module URLs, keyed by script module identifier.
      */
-    public function get_enqueued_script_modules() {
+    public function get_enqueued_script_modules()
+    {
         $script_modules_markup   = get_echo(array($this->script_modules, 'print_enqueued_script_modules'));
         $p                       = new WP_HTML_Tag_Processor($script_modules_markup);
         $enqueued_script_modules = array();
@@ -54,7 +57,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      *
      * @return array Import map entry URLs, keyed by script module identifier.
      */
-    public function get_import_map() {
+    public function get_import_map()
+    {
         $import_map_markup = get_echo(array($this->script_modules, 'print_import_map'));
         preg_match('/<script type="importmap" id="wp-importmap">.*?(\{.*\}).*?<\/script>/s', $import_map_markup, $import_map_string);
         return json_decode($import_map_string[1], true)['imports'];
@@ -65,7 +69,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      *
      * @return array Preloaded script module URLs, keyed by script module identifier.
      */
-    public function get_preloaded_script_modules() {
+    public function get_preloaded_script_modules()
+    {
         $preloaded_markup         = get_echo(array($this->script_modules, 'print_script_module_preloads'));
         $p                        = new WP_HTML_Tag_Processor($preloaded_markup);
         $preloaded_script_modules = array();
@@ -89,7 +94,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_enqueued_script_modules()
      */
-    public function test_wp_enqueue_script_module() {
+    public function test_wp_enqueue_script_module()
+    {
         $this->script_modules->register('foo', '/foo.js');
         $this->script_modules->register('bar', '/bar.js');
         $this->script_modules->enqueue('foo');
@@ -112,7 +118,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
     * @covers ::dequeue()
     * @covers ::print_enqueued_script_modules()
     */
-    public function test_wp_dequeue_script_module() {
+    public function test_wp_dequeue_script_module()
+    {
         $this->script_modules->register('foo', '/foo.js');
         $this->script_modules->register('bar', '/bar.js');
         $this->script_modules->enqueue('foo');
@@ -139,7 +146,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::deregister()
      * @covers ::get_enqueued_script_modules()
      */
-    public function test_wp_deregister_script_module() {
+    public function test_wp_deregister_script_module()
+    {
         $this->script_modules->register('foo', '/foo.js');
         $this->script_modules->register('bar', '/bar.js');
         $this->script_modules->enqueue('foo');
@@ -163,7 +171,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::deregister()
      * @covers ::get_enqueued_script_modules()
      */
-    public function test_wp_deregister_unexistent_script_module() {
+    public function test_wp_deregister_unexistent_script_module()
+    {
         $this->script_modules->deregister('unexistent');
         $enqueued_script_modules = $this->get_enqueued_script_modules();
 
@@ -183,7 +192,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::deregister()
      * @covers ::enqueue()
      */
-    public function test_wp_deregister_already_deregistered_script_module() {
+    public function test_wp_deregister_already_deregistered_script_module()
+    {
         $this->script_modules->register('foo', '/foo.js');
         $this->script_modules->enqueue('foo');
         $this->script_modules->deregister('foo'); // Dequeued.
@@ -209,7 +219,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
     * @covers ::enqueue()
     * @covers ::print_enqueued_script_modules()
     */
-    public function test_wp_enqueue_script_module_works_before_register() {
+    public function test_wp_enqueue_script_module_works_before_register()
+    {
         $this->script_modules->enqueue('foo');
         $this->script_modules->register('foo', '/foo.js');
         $this->script_modules->enqueue('bar'); // Not registered.
@@ -232,7 +243,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::dequeue()
      * @covers ::print_enqueued_script_modules()
      */
-    public function test_wp_dequeue_script_module_works_before_register() {
+    public function test_wp_dequeue_script_module_works_before_register()
+    {
         $this->script_modules->enqueue('foo');
         $this->script_modules->enqueue('bar');
         $this->script_modules->dequeue('foo');
@@ -256,7 +268,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_import_map()
      */
-    public function test_wp_import_map_dependencies() {
+    public function test_wp_import_map_dependencies()
+    {
         $this->script_modules->register('foo', '/foo.js', array('dep'));
         $this->script_modules->register('dep', '/dep.js');
         $this->script_modules->register('no-dep', '/no-dep.js');
@@ -279,7 +292,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_import_map()
      */
-    public function test_wp_import_map_no_duplicate_dependencies() {
+    public function test_wp_import_map_no_duplicate_dependencies()
+    {
         $this->script_modules->register('foo', '/foo.js', array('dep'));
         $this->script_modules->register('bar', '/bar.js', array('dep'));
         $this->script_modules->register('dep', '/dep.js');
@@ -302,7 +316,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_import_map()
      */
-    public function test_wp_import_map_recursive_dependencies() {
+    public function test_wp_import_map_recursive_dependencies()
+    {
         $this->script_modules->register(
             'foo',
             '/foo.js',
@@ -353,7 +368,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_import_map()
      */
-    public function test_wp_import_map_doesnt_print_if_no_dependencies() {
+    public function test_wp_import_map_doesnt_print_if_no_dependencies()
+    {
         $this->script_modules->register('foo', '/foo.js'); // No deps.
         $this->script_modules->enqueue('foo');
 
@@ -372,7 +388,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_script_module_preloads()
      */
-    public function test_wp_enqueue_preloaded_static_dependencies() {
+    public function test_wp_enqueue_preloaded_static_dependencies()
+    {
         $this->script_modules->register(
             'foo',
             '/foo.js',
@@ -423,7 +440,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_script_module_preloads()
      */
-    public function test_wp_dont_preload_static_dependencies_of_dynamic_dependencies() {
+    public function test_wp_dont_preload_static_dependencies_of_dynamic_dependencies()
+    {
         $this->script_modules->register(
             'foo',
             '/foo.js',
@@ -459,7 +477,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_script_module_preloads()
      */
-    public function test_wp_preloaded_dependencies_filter_enqueued_script_modules() {
+    public function test_wp_preloaded_dependencies_filter_enqueued_script_modules()
+    {
         $this->script_modules->register(
             'foo',
             '/foo.js',
@@ -490,7 +509,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_import_map()
      */
-    public function test_wp_enqueued_script_modules_with_dependants_add_import_map() {
+    public function test_wp_enqueued_script_modules_with_dependants_add_import_map()
+    {
         $this->script_modules->register(
             'foo',
             '/foo.js',
@@ -519,7 +539,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      *
      * @covers ::get_src()
      */
-    public function test_get_src() {
+    public function test_get_src()
+    {
         $get_src = new ReflectionMethod($this->script_modules, 'get_src');
         $get_src->setAccessible(true);
 
@@ -593,7 +614,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::print_script_module_preloads()
      * @covers ::get_version_query_string()
      */
-    public function test_version_is_propagated_correctly() {
+    public function test_version_is_propagated_correctly()
+    {
         $this->script_modules->register(
             'foo',
             '/foo.js',
@@ -624,7 +646,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_enqueued_script_modules()
      */
-    public function test_wp_enqueue_script_module_doesnt_register_without_a_valid_src() {
+    public function test_wp_enqueue_script_module_doesnt_register_without_a_valid_src()
+    {
         $this->script_modules->enqueue('foo');
 
         $enqueued_script_modules = $this->get_enqueued_script_modules();
@@ -642,7 +665,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_enqueued_script_modules()
      */
-    public function test_wp_enqueue_script_module_registers_with_valid_src() {
+    public function test_wp_enqueue_script_module_registers_with_valid_src()
+    {
         $this->script_modules->enqueue('foo', '/foo.js');
 
         $enqueued_script_modules = $this->get_enqueued_script_modules();
@@ -660,7 +684,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::enqueue()
      * @covers ::print_enqueued_script_modules()
      */
-    public function test_wp_enqueue_script_module_registers_with_valid_src_the_second_time() {
+    public function test_wp_enqueue_script_module_registers_with_valid_src_the_second_time()
+    {
         $this->script_modules->enqueue('foo'); // Not valid src.
 
         $enqueued_script_modules = $this->get_enqueued_script_modules();
@@ -687,7 +712,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
      * @covers ::print_enqueued_script_modules()
      * @covers ::print_import_map()
      */
-    public function test_wp_enqueue_script_module_registers_all_params() {
+    public function test_wp_enqueue_script_module_registers_all_params()
+    {
         $this->script_modules->enqueue('foo', '/foo.js', array('dep'), '1.0');
         $this->script_modules->register('dep', '/dep.js');
 
@@ -703,7 +729,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase {
     /**
      * @ticket 61510
      */
-    public function test_print_script_module_data_prints_enqueued_module_data() {
+    public function test_print_script_module_data_prints_enqueued_module_data()
+    {
         $this->script_modules->enqueue('@test/module', '/example.js');
         add_action(
             'script_module_data_@test/module',
@@ -727,7 +754,8 @@ HTML;
     /**
      * @ticket 61510
      */
-    public function test_print_script_module_data_prints_dependency_module_data() {
+    public function test_print_script_module_data_prints_dependency_module_data()
+    {
         $this->script_modules->register('@test/dependency', '/dependency.js');
         $this->script_modules->enqueue('@test/module', '/example.js', array('@test/dependency'));
         add_action(
@@ -752,7 +780,8 @@ HTML;
     /**
      * @ticket 61510
      */
-    public function test_print_script_module_data_does_not_print_nondependency_module_data() {
+    public function test_print_script_module_data_does_not_print_nondependency_module_data()
+    {
         $this->script_modules->register('@test/other', '/dependency.js');
         $this->script_modules->enqueue('@test/module', '/example.js');
         add_action(
@@ -771,7 +800,8 @@ HTML;
     /**
      * @ticket 61510
      */
-    public function test_print_script_module_data_does_not_print_empty_data() {
+    public function test_print_script_module_data_does_not_print_empty_data()
+    {
         $this->script_modules->enqueue('@test/module', '/example.js');
         add_action(
             'script_module_data_@test/module',
@@ -793,7 +823,8 @@ HTML;
      * @param string $expected Expected output string.
      * @param string $charset  Blog charset option.
      */
-    public function test_print_script_module_data_encoding($input, $expected, $charset) {
+    public function test_print_script_module_data_encoding($input, $expected, $charset)
+    {
         add_filter(
             'pre_option_blog_charset',
             function () use ($charset) {
@@ -827,7 +858,8 @@ HTML;
      *
      * @return array
      */
-    public static function data_special_chars_script_encoding(): array {
+    public static function data_special_chars_script_encoding(): array
+    {
         return array(
             // UTF-8
             'Solidus'                                => array('/', '/', 'UTF-8'),
@@ -879,7 +911,8 @@ HTML;
      * @dataProvider data_invalid_script_module_data
      * @param mixed $data Data to return in filter.
      */
-    public function test_print_script_module_data_does_not_print_invalid_data($data) {
+    public function test_print_script_module_data_does_not_print_invalid_data($data)
+    {
         $this->script_modules->enqueue('@test/module', '/example.js');
         add_action(
             'script_module_data_@test/module',
@@ -898,7 +931,8 @@ HTML;
      *
      * @return array
      */
-    public static function data_invalid_script_module_data(): array {
+    public static function data_invalid_script_module_data(): array
+    {
         return array(
             'null'     => array(null),
             'stdClass' => array(new stdClass()),

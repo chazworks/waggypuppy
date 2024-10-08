@@ -14,14 +14,16 @@
  *
  * @coversDefaultClass WP_Style_Engine_CSS_Rule
  */
-class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase {
+class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase
+{
     /**
      * Tests that declarations are set on instantiation.
      *
      * @ticket 56467
      * @covers ::__construct
      */
-    public function test_should_instantiate_with_selector_and_rules() {
+    public function test_should_instantiate_with_selector_and_rules()
+    {
         $selector           = '.law-and-order';
         $input_declarations = array(
             'margin-top' => '10px',
@@ -45,7 +47,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase {
      * @covers ::set_rules_group
      * @covers ::get_rules_group
      */
-    public function test_should_set_rules_group() {
+    public function test_should_set_rules_group()
+    {
         $rule = new WP_Style_Engine_CSS_Rule('.heres-johnny', array(), '@layer state');
 
         $this->assertSame('@layer state', $rule->get_rules_group(), 'Return value of get_rules_group() does not match value passed to constructor.');
@@ -63,7 +66,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase {
      * @covers ::add_declarations
      * @covers ::get_css
      */
-    public function test_should_dedupe_properties_in_rules() {
+    public function test_should_dedupe_properties_in_rules()
+    {
         $selector                    = '.taggart';
         $first_declaration           = array(
             'font-size' => '2rem',
@@ -87,7 +91,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase {
      * @covers ::add_declarations
      * @covers ::get_css
      */
-    public function test_should_add_declarations_to_existing_rules() {
+    public function test_should_add_declarations_to_existing_rules()
+    {
         // Declarations using a WP_Style_Engine_CSS_Declarations object.
         $some_css_declarations = new WP_Style_Engine_CSS_Declarations(array('margin-top' => '10px'));
         // Declarations using a property => value array.
@@ -107,7 +112,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase {
      *
      * @covers ::set_selector
      */
-    public function test_should_set_selector() {
+    public function test_should_set_selector()
+    {
         $selector = '.taggart';
         $css_rule = new WP_Style_Engine_CSS_Rule($selector);
 
@@ -125,7 +131,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase {
      *
      * @covers ::get_css
      */
-    public function test_should_generate_css_rule_string() {
+    public function test_should_generate_css_rule_string()
+    {
         $selector           = '.chips';
         $input_declarations = array(
             'margin-top' => '10px',
@@ -145,7 +152,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase {
      *
      * @covers ::get_css
      */
-    public function test_should_return_empty_string_with_no_declarations() {
+    public function test_should_return_empty_string_with_no_declarations()
+    {
         $selector           = '.holmes';
         $input_declarations = array();
         $css_declarations   = new WP_Style_Engine_CSS_Declarations($input_declarations);
@@ -161,7 +169,8 @@ class Tests_Style_Engine_wpStyleEngineCSSRule extends WP_UnitTestCase {
      *
      * @covers ::get_css
      */
-    public function test_should_prettify_css_rule_output() {
+    public function test_should_prettify_css_rule_output()
+    {
         $selector           = '.baptiste';
         $input_declarations = array(
             'margin-left' => '0',

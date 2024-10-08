@@ -40,7 +40,8 @@
  *     }
  * }
  */
-function wp_print_font_faces($fonts = array()) {
+function wp_print_font_faces($fonts = array())
+{
 
     if (empty($fonts)) {
         $fonts = WP_Font_Face_Resolver::get_fonts_from_theme_json();
@@ -77,7 +78,8 @@ function wp_print_font_faces($fonts = array()) {
  * @return WP_Font_Collection|WP_Error A font collection if it was registered
  *                                     successfully, or WP_Error object on failure.
  */
-function wp_register_font_collection(string $slug, array $args) {
+function wp_register_font_collection(string $slug, array $args)
+{
     return WP_Font_Library::get_instance()->register_font_collection($slug, $args);
 }
 
@@ -89,7 +91,8 @@ function wp_register_font_collection(string $slug, array $args) {
  * @param string $slug Font collection slug.
  * @return bool True if the font collection was unregistered successfully, else false.
  */
-function wp_unregister_font_collection(string $slug) {
+function wp_unregister_font_collection(string $slug)
+{
     return WP_Font_Library::get_instance()->unregister_font_collection($slug);
 }
 
@@ -106,7 +109,8 @@ function wp_unregister_font_collection(string $slug) {
  *
  * @return array See wp_font_dir() for description.
  */
-function wp_get_font_dir() {
+function wp_get_font_dir()
+{
     return wp_font_dir(false);
 }
 
@@ -127,7 +131,8 @@ function wp_get_font_dir() {
  *     @type string|false $error   False or error message.
  * }
  */
-function wp_font_dir($create_dir = true) {
+function wp_font_dir($create_dir = true)
+{
     /*
      * Allow extenders to manipulate the font directory consistently.
      *
@@ -153,7 +158,8 @@ function wp_font_dir($create_dir = true) {
  * @param string $font_dir The font directory.
  * @return string The modified font directory.
  */
-function _wp_filter_font_directory($font_dir) {
+function _wp_filter_font_directory($font_dir)
+{
     if (doing_filter('font_dir')) {
         // Avoid an infinite loop.
         return $font_dir;
@@ -198,7 +204,8 @@ function _wp_filter_font_directory($font_dir) {
  * @param int     $post_id Post ID.
  * @param WP_Post $post    Post object.
  */
-function _wp_after_delete_font_family($post_id, $post) {
+function _wp_after_delete_font_family($post_id, $post)
+{
     if ('wp_font_family' !== $post->post_type) {
         return;
     }
@@ -224,7 +231,8 @@ function _wp_after_delete_font_family($post_id, $post) {
  * @param int     $post_id Post ID.
  * @param WP_Post $post    Post object.
  */
-function _wp_before_delete_font_face($post_id, $post) {
+function _wp_before_delete_font_face($post_id, $post)
+{
     if ('wp_font_face' !== $post->post_type) {
         return;
     }
@@ -243,7 +251,8 @@ function _wp_before_delete_font_face($post_id, $post) {
  * @access private
  * @since 6.5.0
  */
-function _wp_register_default_font_collections() {
+function _wp_register_default_font_collections()
+{
     wp_register_font_collection(
         'google-fonts',
         array(

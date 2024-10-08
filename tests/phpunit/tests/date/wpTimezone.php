@@ -7,12 +7,14 @@
  * @covers ::wp_timezone_string
  * @covers ::wp_timezone
  */
-class Tests_Date_wpTimezone extends WP_UnitTestCase {
+class Tests_Date_wpTimezone extends WP_UnitTestCase
+{
 
     /**
      * Cleans up.
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         // Reset changed options to their default value.
         update_option('gmt_offset', 0);
         update_option('timezone_string', '');
@@ -28,7 +30,8 @@ class Tests_Date_wpTimezone extends WP_UnitTestCase {
      * @param float  $gmt_offset Numeric offset from UTC.
      * @param string $tz_name    Expected timezone name.
      */
-    public function test_should_convert_gmt_offset($gmt_offset, $tz_name) {
+    public function test_should_convert_gmt_offset($gmt_offset, $tz_name)
+    {
         delete_option('timezone_string');
         update_option('gmt_offset', $gmt_offset);
 
@@ -44,7 +47,8 @@ class Tests_Date_wpTimezone extends WP_UnitTestCase {
      *
      * @return array
      */
-    public function data_should_convert_gmt_offset() {
+    public function data_should_convert_gmt_offset()
+    {
         return array(
             array(-12, '-12:00'),
             array(-11.5, '-11:30'),
@@ -110,7 +114,8 @@ class Tests_Date_wpTimezone extends WP_UnitTestCase {
     /**
      * @ticket 24730
      */
-    public function test_should_return_timezone_string() {
+    public function test_should_return_timezone_string()
+    {
         update_option('timezone_string', 'Europe/Helsinki');
 
         $this->assertSame('Europe/Helsinki', wp_timezone_string());
@@ -125,7 +130,8 @@ class Tests_Date_wpTimezone extends WP_UnitTestCase {
      *
      * @ticket 56468
      */
-    public function test_should_return_deprecated_timezone_string() {
+    public function test_should_return_deprecated_timezone_string()
+    {
         $tz_string = 'America/Buenos_Aires'; // This timezone was deprecated pre-PHP 5.6.
         update_option('timezone_string', $tz_string);
 

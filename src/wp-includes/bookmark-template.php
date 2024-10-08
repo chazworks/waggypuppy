@@ -48,7 +48,8 @@
  * }
  * @return string Formatted output in HTML
  */
-function _walk_bookmarks($bookmarks, $args = '') {
+function _walk_bookmarks($bookmarks, $args = '')
+{
     $defaults = array(
         'show_updated'     => 0,
         'show_description' => 0,
@@ -216,7 +217,8 @@ function _walk_bookmarks($bookmarks, $args = '') {
  * }
  * @return void|string Void if 'echo' argument is true, HTML list of bookmarks if 'echo' is false.
  */
-function wp_list_bookmarks($args = '') {
+function wp_list_bookmarks($args = '')
+{
     $defaults = array(
         'orderby'          => 'name',
         'order'            => 'ASC',

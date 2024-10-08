@@ -17,7 +17,8 @@
  * @since 2.9.0
  */
 #[AllowDynamicProperties]
-class WP_oEmbed {
+class WP_oEmbed
+{
 
     /**
      * A list of oEmbed providers.
@@ -48,7 +49,8 @@ class WP_oEmbed {
      *
      * @since 2.9.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $host      = urlencode(home_url());
         $providers = array(
             '#https?://((m|www)\.)?youtube\.com/watch.*#i' => array('https://www.youtube.com/oembed', true),
@@ -236,7 +238,8 @@ class WP_oEmbed {
      * @param array  $arguments Arguments to pass when calling.
      * @return mixed|false Return value of the callback, false otherwise.
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if (in_array($name, $this->compat_methods, true)) {
             return $this->$name(...$arguments);
         }
@@ -261,7 +264,8 @@ class WP_oEmbed {
      * }
      * @return string|false The oEmbed provider URL on success, false on failure.
      */
-    public function get_provider($url, $args = '') {
+    public function get_provider($url, $args = '')
+    {
         $args = wp_parse_args($args);
 
         $provider = false;
@@ -310,7 +314,8 @@ class WP_oEmbed {
      * @param bool   $regex    Optional. Whether the $format parameter is in a regex format.
      *                         Default false.
      */
-    public static function _add_provider_early($format, $provider, $regex = false) {
+    public static function _add_provider_early($format, $provider, $regex = false)
+    {
         if (empty(self::$early_providers['add'])) {
             self::$early_providers['add'] = array();
         }
@@ -333,7 +338,8 @@ class WP_oEmbed {
      * @param string $format The format of URL that this provider can handle. You can use
      *                       asterisks as wildcards.
      */
-    public static function _remove_provider_early($format) {
+    public static function _remove_provider_early($format)
+    {
         if (empty(self::$early_providers['remove'])) {
             self::$early_providers['remove'] = array();
         }
@@ -353,7 +359,8 @@ class WP_oEmbed {
      *                           See wp_oembed_get() for accepted arguments. Default empty.
      * @return object|false The result in the form of an object on success, false on failure.
      */
-    public function get_data($url, $args = '') {
+    public function get_data($url, $args = '')
+    {
         $args = wp_parse_args($args);
 
         $provider = $this->get_provider($url, $args);
@@ -385,7 +392,8 @@ class WP_oEmbed {
      * @return string|false The UNSANITIZED (and potentially unsafe) HTML that should be used to embed
      *                      on success, false on failure.
      */
-    public function get_html($url, $args = '') {
+    public function get_html($url, $args = '')
+    {
         /**
          * Filters the oEmbed result before any HTTP requests are made.
          *
@@ -436,7 +444,8 @@ class WP_oEmbed {
      * @param string $url The URL that should be inspected for discovery `<link>` tags.
      * @return string|false The oEmbed provider URL on success, false on failure.
      */
-    public function discover($url) {
+    public function discover($url)
+    {
         $providers = array();
         $args      = array(
             'limit_response_size' => 153600, // 150 KB
@@ -529,7 +538,8 @@ class WP_oEmbed {
      *                               See wp_oembed_get() for accepted arguments. Default empty.
      * @return object|false The result in the form of an object on success, false on failure.
      */
-    public function fetch($provider, $url, $args = '') {
+    public function fetch($provider, $url, $args = '')
+    {
         $args = wp_parse_args($args, wp_embed_defaults($url));
 
         $provider = add_query_arg('maxwidth', (int) $args['width'], $provider);
@@ -571,7 +581,8 @@ class WP_oEmbed {
      * @param string $format                 Format to use.
      * @return object|false|WP_Error The result in the form of an object on success, false on failure.
      */
-    private function _fetch_with_format($provider_url_with_args, $format) {
+    private function _fetch_with_format($provider_url_with_args, $format)
+    {
         $provider_url_with_args = add_query_arg('format', $format, $provider_url_with_args);
 
         /** This filter is documented in wp-includes/class-wp-oembed.php */
@@ -601,7 +612,8 @@ class WP_oEmbed {
      * @param string $response_body
      * @return object|false
      */
-    private function _parse_json($response_body) {
+    private function _parse_json($response_body)
+    {
         $data = json_decode(trim($response_body));
 
         return ($data && is_object($data)) ? $data : false;
@@ -615,7 +627,8 @@ class WP_oEmbed {
      * @param string $response_body
      * @return object|false
      */
-    private function _parse_xml($response_body) {
+    private function _parse_xml($response_body)
+    {
         if (! function_exists('libxml_disable_entity_loader')) {
             return false;
         }
@@ -650,7 +663,8 @@ class WP_oEmbed {
      * @param string $response_body
      * @return stdClass|false
      */
-    private function _parse_xml_body($response_body) {
+    private function _parse_xml_body($response_body)
+    {
         if (! function_exists('simplexml_import_dom') || ! class_exists('DOMDocument', false)) {
             return false;
         }
@@ -693,7 +707,8 @@ class WP_oEmbed {
      * @param string $url  The URL to the content that is desired to be embedded.
      * @return string|false The HTML needed to embed on success, false on failure.
      */
-    public function data2html($data, $url) {
+    public function data2html($data, $url)
+    {
         if (! is_object($data) || empty($data->type)) {
             return false;
         }
@@ -755,7 +770,8 @@ class WP_oEmbed {
      * @param string $url The original URL passed to oEmbed.
      * @return string Possibly modified $html
      */
-    public function _strip_newlines($html, $data, $url) {
+    public function _strip_newlines($html, $data, $url)
+    {
         if (! str_contains($html, "\n")) {
             return $html;
         }

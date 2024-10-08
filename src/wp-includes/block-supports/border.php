@@ -16,7 +16,8 @@
  *
  * @param WP_Block_Type $block_type Block Type.
  */
-function wp_register_border_support($block_type) {
+function wp_register_border_support($block_type)
+{
     // Setup attributes and styles within that if needed.
     if (! $block_type->attributes) {
         $block_type->attributes = array();
@@ -47,7 +48,8 @@ function wp_register_border_support($block_type) {
  * @param array         $block_attributes Block attributes.
  * @return array Border CSS classes and inline styles.
  */
-function wp_apply_border_support($block_type, $block_attributes) {
+function wp_apply_border_support($block_type, $block_attributes)
+{
     if (wp_should_skip_block_supports_serialization($block_type, 'border')) {
         return array();
     }
@@ -146,7 +148,8 @@ function wp_apply_border_support($block_type, $block_attributes) {
  * @param mixed         $default_value Fallback value for feature support, defaults to false.
  * @return bool Whether the feature is supported.
  */
-function wp_has_border_feature_support($block_type, $feature, $default_value = false) {
+function wp_has_border_feature_support($block_type, $feature, $default_value = false)
+{
     // Check if all border support features have been opted into via `"__experimentalBorder": true`.
     if ($block_type instanceof WP_Block_Type) {
         $block_type_supports_border = isset($block_type->supports['__experimentalBorder'])

@@ -3,7 +3,8 @@
  * @group menu
  * @group walker
  */
-class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
+class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase
+{
 
     /**
      * @var \Walker_Nav_Menu The instance of the walker.
@@ -20,7 +21,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
     /**
      * Setup.
      */
-    public function set_up() {
+    public function set_up()
+    {
         global $_wp_nav_menu_max_depth;
 
         parent::set_up();
@@ -35,7 +37,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
     /**
      * Tear down
      */
-    public function tear_down() {
+    public function tear_down()
+    {
         global $_wp_nav_menu_max_depth;
 
         $_wp_nav_menu_max_depth = $this->orig_wp_nav_menu_max_depth;
@@ -47,7 +50,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @dataProvider data_start_el_with_empty_attributes
      */
-    public function test_start_el_with_empty_attributes($value, $expected) {
+    public function test_start_el_with_empty_attributes($value, $expected)
+    {
         $output     = '';
         $post_id    = self::factory()->post->create();
         $post_title = get_the_title($post_id);
@@ -85,7 +89,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
         $this->assertSame("<li id=\"menu-item-{$post_id}\" class=\"menu-item-{$post_id}\"><a{$expected}>{$post_title}</a>", $output);
     }
 
-    public function data_start_el_with_empty_attributes() {
+    public function data_start_el_with_empty_attributes()
+    {
         return array(
             array(
                 '',
@@ -135,7 +140,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      * @param string $xfn      Optional. The XFN value. Default empty string.
      * @param string $target   Optional. The target value. Default empty string.
      */
-    public function test_walker_nav_menu_start_el_should_add_rel_privacy_policy_to_privacy_policy_url($expected, $xfn = '', $target = '') {
+    public function test_walker_nav_menu_start_el_should_add_rel_privacy_policy_to_privacy_policy_url($expected, $xfn = '', $target = '')
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -177,7 +183,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_walker_nav_menu_start_el_should_add_rel_privacy_policy_to_privacy_policy_url() {
+    public function data_walker_nav_menu_start_el_should_add_rel_privacy_policy_to_privacy_policy_url()
+    {
         return array(
             'no xfn value'                          => array(
                 'expected' => 'rel="privacy-policy"',
@@ -207,7 +214,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @covers Walker_Nav_Menu::start_el
      */
-    public function test_walker_nav_menu_start_el_should_not_add_rel_privacy_policy_when_no_privacy_policy_exists() {
+    public function test_walker_nav_menu_start_el_should_not_add_rel_privacy_policy_when_no_privacy_policy_exists()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -250,7 +258,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @covers Walker_Nav_Menu::start_el
      */
-    public function test_walker_nav_menu_start_el_should_not_add_rel_privacy_policy_when_no_url_is_passed() {
+    public function test_walker_nav_menu_start_el_should_not_add_rel_privacy_policy_when_no_url_is_passed()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -295,7 +304,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @covers Walker_Nav_Menu::start_el
      */
-    public function test_walker_nav_menu_start_el_should_add_rel_privacy_policy_when_id_does_not_match_but_url_does() {
+    public function test_walker_nav_menu_start_el_should_add_rel_privacy_policy_when_id_does_not_match_but_url_does()
+    {
         $post_id = self::factory()->post->create(
             array(
                 'post_type'   => 'page',
@@ -342,7 +352,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @covers Walker_Nav_Menu::start_lvl
      */
-    public function test_start_lvl_should_apply_nav_menu_submenu_attributes_filters() {
+    public function test_start_lvl_should_apply_nav_menu_submenu_attributes_filters()
+    {
         $output = '';
         $args   = (object) array(
             'before'      => '',
@@ -366,7 +377,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @covers Walker_Nav_Menu::start_el
      */
-    public function test_start_el_should_apply_nav_menu_item_attributes_filters() {
+    public function test_start_el_should_apply_nav_menu_item_attributes_filters()
+    {
         $output  = '';
         $post_id = self::factory()->post->create();
         $item    = (object) array(
@@ -404,7 +416,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      * @param array  $atts     An array of HTML attribute key/value pairs.
      * @param string $expected The expected built attributes.
      */
-    public function test_build_atts_should_build_attributes($atts, $expected) {
+    public function test_build_atts_should_build_attributes($atts, $expected)
+    {
         $build_atts_reflection = new ReflectionMethod($this->walker, 'build_atts');
 
         $build_atts_reflection->setAccessible(true);
@@ -419,7 +432,8 @@ class Tests_Menu_Walker_Nav_Menu extends WP_UnitTestCase {
      *
      * @return array[]
      */
-    public function data_build_atts_should_build_attributes() {
+    public function data_build_atts_should_build_attributes()
+    {
         return array(
             'an empty attributes array'                   => array(
                 'atts'     => array(),

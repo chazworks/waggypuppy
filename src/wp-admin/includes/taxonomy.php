@@ -21,7 +21,8 @@
  * @param int        $category_parent Optional. ID of parent category.
  * @return string|null Returns the category ID as a numeric string if the pairing exists, null if not.
  */
-function category_exists($cat_name, $category_parent = null) {
+function category_exists($cat_name, $category_parent = null)
+{
     $id = term_exists($cat_name, 'category', $category_parent);
     if (is_array($id)) {
         $id = $id['term_id'];
@@ -37,7 +38,8 @@ function category_exists($cat_name, $category_parent = null) {
  * @param int $id
  * @return object
  */
-function get_category_to_edit($id) {
+function get_category_to_edit($id)
+{
     $category = get_term($id, 'category', OBJECT, 'edit');
     _make_cat_compat($category);
     return $category;
@@ -52,7 +54,8 @@ function get_category_to_edit($id) {
  * @param int        $category_parent Optional. ID of parent category.
  * @return int|WP_Error
  */
-function wp_create_category($cat_name, $category_parent = 0) {
+function wp_create_category($cat_name, $category_parent = 0)
+{
     $id = category_exists($cat_name, $category_parent);
     if ($id) {
         return $id;
@@ -75,7 +78,8 @@ function wp_create_category($cat_name, $category_parent = 0) {
  * @param int      $post_id    Optional. The post ID. Default empty.
  * @return int[] Array of IDs of categories assigned to the given post.
  */
-function wp_create_categories($categories, $post_id = '') {
+function wp_create_categories($categories, $post_id = '')
+{
     $cat_ids = array();
     foreach ($categories as $category) {
         $id = category_exists($category);
@@ -118,7 +122,8 @@ function wp_create_categories($categories, $post_id = '') {
  * @return int|WP_Error The ID number of the new or updated Category on success. Zero or a WP_Error on failure,
  *                      depending on param `$wp_error`.
  */
-function wp_insert_category($catarr, $wp_error = false) {
+function wp_insert_category($catarr, $wp_error = false)
+{
     $cat_defaults = array(
         'cat_ID'               => 0,
         'taxonomy'             => 'category',
@@ -185,7 +190,8 @@ function wp_insert_category($catarr, $wp_error = false) {
  * @param array $catarr The 'cat_ID' value is required. All other keys are optional.
  * @return int|false The ID number of the new or updated Category on success. Zero or FALSE on failure.
  */
-function wp_update_category($catarr) {
+function wp_update_category($catarr)
+{
     $cat_id = (int) $catarr['cat_ID'];
 
     if (isset($catarr['category_parent']) && ($cat_id === (int) $catarr['category_parent'])) {
@@ -219,7 +225,8 @@ function wp_update_category($catarr) {
  *               Returns an array of the term ID and the term taxonomy ID if the pairing exists.
  *               Returns 0 if term ID 0 is passed to the function.
  */
-function tag_exists($tag_name) {
+function tag_exists($tag_name)
+{
     return term_exists($tag_name, 'post_tag');
 }
 
@@ -231,7 +238,8 @@ function tag_exists($tag_name) {
  * @param int|string $tag_name
  * @return array|WP_Error
  */
-function wp_create_tag($tag_name) {
+function wp_create_tag($tag_name)
+{
     return wp_create_term($tag_name, 'post_tag');
 }
 
@@ -244,7 +252,8 @@ function wp_create_tag($tag_name) {
  * @param string $taxonomy Optional. The taxonomy for which to retrieve terms. Default 'post_tag'.
  * @return string|false|WP_Error
  */
-function get_tags_to_edit($post_id, $taxonomy = 'post_tag') {
+function get_tags_to_edit($post_id, $taxonomy = 'post_tag')
+{
     return get_terms_to_edit($post_id, $taxonomy);
 }
 
@@ -257,7 +266,8 @@ function get_tags_to_edit($post_id, $taxonomy = 'post_tag') {
  * @param string $taxonomy Optional. The taxonomy for which to retrieve terms. Default 'post_tag'.
  * @return string|false|WP_Error
  */
-function get_terms_to_edit($post_id, $taxonomy = 'post_tag') {
+function get_terms_to_edit($post_id, $taxonomy = 'post_tag')
+{
     $post_id = (int) $post_id;
     if (! $post_id) {
         return false;
@@ -306,7 +316,8 @@ function get_terms_to_edit($post_id, $taxonomy = 'post_tag') {
  * @param string $taxonomy Optional. The taxonomy within which to create the term. Default 'post_tag'.
  * @return array|WP_Error
  */
-function wp_create_term($tag_name, $taxonomy = 'post_tag') {
+function wp_create_term($tag_name, $taxonomy = 'post_tag')
+{
     $id = term_exists($tag_name, $taxonomy);
     if ($id) {
         return $id;
