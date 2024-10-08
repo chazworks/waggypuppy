@@ -1,48 +1,20 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards">
-	<description>Apply WordPress Coding Standards to all Core files</description>
+<ruleset name="waggypuppy Coding Standards">
+    <!-- https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-Ruleset -->
+	<description>Apply waggypuppy Coding Standards to all Core files</description>
 
-	<!--
-	#############################################################################
-	COMMAND LINE ARGUMENTS
-	https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-Ruleset
-	#############################################################################
-	-->
-
-	<!-- Only scan PHP files. -->
 	<arg name="extensions" value="php"/>
-
-	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
 	<arg name="cache" value=".cache/phpcs.json"/>
 
-	<!-- Set the memory limit to 512M.
-		 For most standard PHP configurations, this means the memory limit will temporarily be raised.
-		 Ref: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#specifying-phpini-settings
-	-->
 	<ini name="memory_limit" value="512M"/>
-
-	<!-- Strip the filepaths down to the relevant bit. -->
 	<arg name="basepath" value="./"/>
-
-	<!-- Check up to 20 files simultaneously. -->
 	<arg name="parallel" value="20"/>
-
-	<!-- Show sniff codes in all reports. -->
 	<arg value="ps"/>
-
-	<!--
-	#############################################################################
-	FILE SELECTION
-	Set which files will be subject to the scans executed using this ruleset.
-	#############################################################################
-	-->
 
 	<file>.</file>
 
-	<!-- Exclude the build folder in the current directory. -->
 	<exclude-pattern type="relative">^build/*</exclude-pattern>
 
-	<!-- Directories and third party library exclusions. -->
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 	<exclude-pattern>/vendor/*</exclude-pattern>
 
@@ -97,35 +69,267 @@
 	<exclude-pattern>/src/wp-content/php-error\.php</exclude-pattern>
 	<exclude-pattern>/src/wp-content/sunrise\.php</exclude-pattern>
 
-	<!-- Must-Use plugins. -->
 	<exclude-pattern>/src/wp-content/mu-plugins/*</exclude-pattern>
-
-	<!-- Plugins. -->
 	<exclude-pattern>/src/wp-content/plugins/*</exclude-pattern>
-
-	<!-- Themes except the twenty* themes. -->
 	<exclude-pattern>/src/wp-content/themes/(?!twenty)*</exclude-pattern>
-
-	<!-- Translation files. -->
 	<exclude-pattern>/src/wp-content/languages/*</exclude-pattern>
 
+    <!-- ================================================================ -->
+    <!-- Now inlined below in very compact form -->
+    <!-- <rule ref="WordPress-Core"/>-->
 
-	<!--
-	#############################################################################
-	SET UP THE RULESET
-	#############################################################################
-	-->
+    <arg name="tab-width" value="4"/>
+    <rule ref="PHPCSUtils"/> <!-- sanity check, gives a nice error message if the core ruleset is missing -->
+    <rule ref="Squiz.PHP.EmbeddedPhp"/>
+    <rule ref="Squiz.PHP.EmbeddedPhp.SpacingBefore"><severity>0</severity></rule>
+    <rule ref="Squiz.PHP.EmbeddedPhp.Indent"><severity>0</severity></rule>
+    <rule ref="Squiz.PHP.EmbeddedPhp.OpenTagIndent"><severity>0</severity></rule>
+    <rule ref="Squiz.PHP.EmbeddedPhp.SpacingAfter"><severity>0</severity></rule>
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+    <rule ref="Generic.PHP.DisallowAlternativePHPTags"/>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage.NotRequired"/>
+    <rule ref="PEAR.Files.IncludingFile.BracketsNotRequired"/>
+    <rule ref="Generic.WhiteSpace.LanguageConstructSpacing"/>
+    <rule ref="PEAR.Files.IncludingFile.UseRequire"><type>warning</type></rule>
+    <rule ref="PEAR.Files.IncludingFile.UseRequireOnce"><type>warning</type></rule>
+    <rule ref="WordPress.NamingConventions.ValidFunctionName"/>
+    <rule ref="WordPress.NamingConventions.ValidHookName"/>
+    <rule ref="WordPress.NamingConventions.ValidVariableName"/>
+    <rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames"/>
+    <rule ref="PEAR.NamingConventions.ValidClassName"/>
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+    <rule ref="WordPress.Files.FileName"/>
+    <rule ref="Universal.WhiteSpace.CommaSpacing"/>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfterCommaBeforeTrailingComment"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.SpaceBeforeInFunctionDeclaration"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfterInFunctionDeclaration"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.NoSpaceAfterInFunctionDeclaration"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.SpaceBeforeInClosureUse"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfterInClosureUse"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.NoSpaceAfterInClosureUse"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.SpaceBeforeInFunctionCall"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.TooMuchSpaceAfterInFunctionCall"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.CommaSpacing.NoSpaceAfterInFunctionCall"><severity>0</severity></rule>
+    <rule ref="WordPress.WhiteSpace.OperatorSpacing"/>
 
-	<rule ref="WordPress-Core"/>
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
 
+    <rule ref="WordPress.WhiteSpace.ControlStructureSpacing"/>
 
-	<!--
-	#############################################################################
-	SNIFF-SPECIFIC CONFIGURATION
-	#############################################################################
-	-->
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie">
+        <properties>
+            <property name="checkClosures" value="false"/>
+        </properties>
+    </rule>
 
+    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie.ContentAfterBrace"><severity>0</severity></rule>
+
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration"/>
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"><severity>0</severity></rule>
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceSpacing"><severity>0</severity></rule>
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent"><severity>0</severity></rule>
+
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+        <properties>
+            <property name="equalsSpacing" value="1"/>
+            <property name="requiredSpacesAfterOpen" value="1"/>
+            <property name="requiredSpacesBeforeClose" value="1"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterVariadic">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="PEAR.Functions.FunctionCallSignature">
+        <properties>
+            <property name="requiredSpacesAfterOpen" value="1"/>
+            <property name="requiredSpacesBeforeClose" value="1"/>
+            <property name="allowMultipleArguments" value="false"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+    <rule ref="Squiz.WhiteSpace.CastSpacing"/>
+    <rule ref="WordPress.WhiteSpace.CastStructureSpacing"/>
+    <rule ref="WordPress.PHP.TypeCasts"/>
+    <rule ref="PSR12.Keywords.ShortFormTypeKeywords"/>
+    <rule ref="Generic.PHP.LowerCaseType"/>
+    <rule ref="WordPress.Arrays.ArrayKeySpacingRestrictions"/>
+
+    <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.IncrementDecrementSpacing"/>
+
+    <rule ref="WordPress.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="exact" value="false"/>
+            <property name="indent" value="4"/>
+            <property name="tabIndent" value="true"/>
+            <property name="ignoreIndentationTokens" type="array">
+                <element value="T_HEREDOC"/>
+                <element value="T_NOWDOC"/>
+                <element value="T_INLINE_HTML"/>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="WordPress.Arrays.ArrayIndentation"/>
+
+    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+    <rule ref="Universal.WhiteSpace.PrecisionAlignment"/>
+    <rule ref="WordPress.Arrays.ArrayDeclarationSpacing"/>
+
+    <rule ref="NormalizedArrays.Arrays.ArrayBraceSpacing">
+        <properties>
+            <property name="spacesWhenEmpty" value="0"/>
+            <property name="spacesSingleLine" value="1"/>
+            <property name="spacesMultiLine" value="newline"/>
+        </properties>
+    </rule>
+
+    <rule ref="NormalizedArrays.Arrays.CommaAfterLast"/>
+
+    <rule ref="PSR2.ControlStructures.SwitchDeclaration"/>
+    <rule ref="PSR2.ControlStructures.SwitchDeclaration.NotLower"><severity>0</severity></rule>
+    <rule ref="PSR2.ControlStructures.SwitchDeclaration.BreakNotNewLine"><severity>0</severity></rule>
+    <rule ref="PSR2.ControlStructures.SwitchDeclaration.BodyOnNextLine"><severity>0</severity></rule>
+    <rule ref="Universal.WhiteSpace.DisallowInlineTabs"/>
+
+    <rule ref="Generic.Formatting.MultipleStatementAlignment">
+        <properties>
+            <property name="maxPadding" value="40"/>
+        </properties>
+    </rule>
+
+    <rule ref="WordPress.Arrays.MultipleStatementAlignment">
+        <properties>
+            <property name="maxColumn" value="60"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+    <rule ref="PSR2.Files.ClosingTag"/>
+    <rule ref="PSR2.Methods.FunctionClosingBrace"/>
+    <rule ref="Squiz.ControlStructures.ControlSignature"/>
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+    <rule ref="Universal.Arrays.DisallowShortArraySyntax"/>
+    <rule ref="PSR12.Functions.NullableTypeDeclaration"/>
+    <rule ref="PSR12.Functions.ReturnTypeDeclaration"/>
+    <rule ref="Universal.Operators.TypeSeparatorSpacing"/>
+    <rule ref="Universal.Constants.UppercaseMagicConstants"/>
+    <rule ref="Universal.Constants.LowercaseClassResolutionKeyword"/>
+    <rule ref="Generic.WhiteSpace.SpreadOperatorSpacingAfter"/>
+    <rule ref="Universal.Namespaces.OneDeclarationPerFile"/>
+    <rule ref="Universal.Namespaces.DisallowCurlyBraceSyntax"/>
+    <rule ref="Universal.Namespaces.DisallowDeclarationWithoutName"/>
+    <rule ref="PSR12.Files.FileHeader.IncorrectOrder"/>
+    <rule ref="PSR12.Files.FileHeader.IncorrectGrouping"/>
+    <rule ref="Universal.UseStatements.NoUselessAliases"/>
+    <rule ref="Universal.UseStatements.KeywordSpacing"/>
+    <rule ref="Universal.UseStatements.KeywordSpacing.SpaceAfterUse"><severity>0</severity></rule>
+    <rule ref="Universal.UseStatements.NoLeadingBackslash"/>
+    <rule ref="Universal.UseStatements.LowercaseFunctionConst"/>
+    <rule ref="Universal.UseStatements.DisallowMixedGroupUse"/>
+    <rule ref="Generic.Files.OneObjectStructurePerFile"/>
+    <rule ref="PSR12.Traits.UseDeclaration"/>
+    <rule ref="PSR12.Traits.UseDeclaration.UseAfterBrace"><severity>0</severity></rule>
+    <rule ref="PSR12.Traits.UseDeclaration.SpaceAfterUse"><severity>0</severity></rule>
+    <rule ref="PSR12.Traits.UseDeclaration.SpaceBeforeComma"><severity>0</severity></rule>
+    <rule ref="PSR12.Traits.UseDeclaration.SpaceAfterComma"><severity>0</severity></rule>
+    <rule ref="PSR2.Classes.PropertyDeclaration"/>
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore"><severity>0</severity></rule>
+    <rule ref="Squiz.Scope.MethodScope"/>
+    <rule ref="Universal.Classes.ModifierKeywordOrder"/>
+    <rule ref="Universal.Constants.ModifierKeywordOrder"/>
+    <rule ref="PSR2.Methods.MethodDeclaration"/>
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore"><severity>0</severity></rule>
+    <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+    <rule ref="PSR12.Classes.ClassInstantiation"/>
+    <rule ref="Universal.Classes.RequireAnonClassParentheses"/>
+
+    <rule ref="Universal.WhiteSpace.AnonClassKeywordSpacing">
+        <properties>
+            <property name="spacing" value="0"/>
+        </properties>
+    </rule>
+
+    <rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+    <rule ref="WordPress.PHP.YodaConditions"/>
+    <rule ref="Universal.Operators.DisallowShortTernary"/>
+    <rule ref="WordPress.PHP.NoSilencedErrors"/>
+    <rule ref="Universal.Operators.DisallowStandalonePostIncrementDecrement"><type>warning</type></rule>
+    <rule ref="WordPress.DB.RestrictedFunctions"/>
+    <rule ref="WordPress.DB.RestrictedClasses"/>
+    <rule ref="WordPress.DB.PreparedSQL"/>
+    <rule ref="WordPress.DB.PreparedSQLPlaceholders"/>
+    <rule ref="Squiz.PHP.DisallowMultipleAssignments"/>
+    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+    <rule phpcs-only="true" ref="Universal.Operators.StrictComparisons"><type>warning</type></rule>
+    <rule ref="WordPress.PHP.StrictInArray"/>
+    <rule ref="Generic.CodeAnalysis.AssignmentInCondition"/>
+    <rule ref="WordPress.CodeAnalysis.AssignmentInTernaryCondition"/>
+
+    <rule ref="Generic.PHP.DiscourageGoto">
+        <type>error</type>
+        <message>The "goto" language construct should not be used.</message>
+    </rule>
+
+    <rule ref="Squiz.PHP.Eval.Discouraged">
+        <type>error</type>
+        <message>eval() is a security risk so not allowed.</message>
+    </rule>
+
+    <rule ref="WordPress.PHP.RestrictedPHPFunctions"/>
+    <rule ref="WordPress.PHP.POSIXFunctions"/>
+    <rule ref="WordPress.PHP.DontExtract"/>
+    <rule ref="Generic.PHP.BacktickOperator"/>
+    <rule ref="Generic.Files.ByteOrderMark"/>
+    <rule ref="Universal.PHP.LowercasePHPTag"/>
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+    <rule ref="PSR2.Files.EndFileNewline"/>
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+    <rule ref="Generic.CodeAnalysis.EmptyPHPStatement"/>
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+    <rule ref="Generic.PHP.LowerCaseKeyword"/>
+    <rule ref="Generic.Classes.OpeningBraceSameLine"/>
+    <rule ref="PSR2.Classes.ClassDeclaration"/>
+    <rule ref="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"><severity>0</severity></rule>
+    <rule ref="PSR2.Classes.ClassDeclaration.OpenBraceWrongLine"><severity>0</severity></rule>
+    <rule ref="Squiz.Classes.SelfMemberReference"/>
+    <rule ref="Squiz.Classes.SelfMemberReference.NotUsed"><severity>0</severity></rule>
+    <rule ref="Generic.VersionControl.GitMergeConflict"/>
+    <rule ref="WordPress.WP.I18n"/>
+    <rule ref="WordPress.WP.CapitalPDangit"/>
+    <rule ref="WordPress.DateTime.RestrictedFunctions"/>
+    <rule ref="WordPress.DateTime.CurrentTimeTimestamp"/>
+    <rule ref="WordPress.WP.ClassNameCase"/>
+    <rule ref="Modernize.FunctionCalls.Dirname"/>
+
+    <!-- ================================================================ -->
 	<!-- These rules are being set as warnings instead of errors, so we can error check the entire codebase. -->
+
 	<rule ref="Generic.Files.OneObjectStructurePerFile.MultipleFound">
 		<type>warning</type>
 		<!-- Exclude the unit tests as no warnings are allowed there. Note: these issues should be fixed and the exclude removed! -->
@@ -225,27 +429,9 @@
 	</rule>
 
 
-	<!--
-	#############################################################################
-	SELECTIVE EXCLUSIONS
-	Exclude specific files for specific sniffs and/or exclude sub-groups in sniffs.
-
-	These exclusions are listed ordered by alphabetic sniff name.
-	#############################################################################
-	-->
-
 	<!-- Assignments in while conditions are a valid method of looping over iterables. -->
 	<rule ref="Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition">
 		<exclude-pattern>*</exclude-pattern>
-	</rule>
-
-	<!-- Exclude checking of line endings when reporting errors, but fix them when running phpcbf.
-		 Git and SVN manage these pretty well cross-platform as "native".
-		 Allow configuration files. -->
-	<rule ref="Generic.Files.LineEndings">
-		<exclude-pattern>/wp-config\.php</exclude-pattern>
-		<exclude-pattern>/wp-config-sample\.php</exclude-pattern>
-		<exclude phpcs-only="true" name="Generic.Files.LineEndings"/>
 	</rule>
 
 	<rule ref="Generic.Functions.FunctionCallArgumentSpacing">
