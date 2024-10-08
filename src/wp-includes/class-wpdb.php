@@ -1228,7 +1228,7 @@ class wpdb {
 
 				$message .= "</ul>\n";
 
-				$message .= __( 'If you do not know how to set up a database you should <strong>contact your host</strong>.</p>');
+				$message .= __( 'If you do not know how to set up a database you should <strong>contact your host</strong>.</p>' );
 
 				$this->bail( $message, 'db_select_fail' );
 			}

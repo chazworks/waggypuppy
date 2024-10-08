@@ -38,8 +38,8 @@ class WP_Debug_Data {
 		global $_wp_theme_features;
 
 		// Save few function calls.
-		$upload_dir             = wp_upload_dir();
-		$is_multisite           = is_multisite();
+		$upload_dir   = wp_upload_dir();
+		$is_multisite = is_multisite();
 
 		/*
 		 * Set up the array that holds all debug information.

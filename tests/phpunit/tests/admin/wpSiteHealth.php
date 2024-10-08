@@ -39,15 +39,15 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
 	 */
 	public function test_mysql_recommended_version_matches_readme_html() {
 		$this->markTestSkipped( 'no readme defined' );
-//		$reflection          = new ReflectionClass( $this->instance );
-//		$reflection_property = $reflection->getProperty( 'mysql_recommended_version' );
-//		$reflection_property->setAccessible( true );
-//
-//		$readme = file_get_contents( ABSPATH . 'readme.html' );
-//
-//		preg_match( '#Recommendations.*MySQL</a> version <strong>([0-9.]*)#s', $readme, $matches );
-//
-//		$this->assertSame( $matches[1], $reflection_property->getValue( $this->instance ) );
+		//      $reflection          = new ReflectionClass( $this->instance );
+		//      $reflection_property = $reflection->getProperty( 'mysql_recommended_version' );
+		//      $reflection_property->setAccessible( true );
+		//
+		//      $readme = file_get_contents( ABSPATH . 'readme.html' );
+		//
+		//      preg_match( '#Recommendations.*MySQL</a> version <strong>([0-9.]*)#s', $readme, $matches );
+		//
+		//      $this->assertSame( $matches[1], $reflection_property->getValue( $this->instance ) );
 	}
 
 	/**
@@ -57,15 +57,15 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase {
 	public function test_mariadb_recommended_version_matches_readme_html() {
 		$this->markTestSkipped( 'no readme defined' );
 
-//		$reflection          = new ReflectionClass( $this->instance );
-//		$reflection_property = $reflection->getProperty( 'mariadb_recommended_version' );
-//		$reflection_property->setAccessible( true );
-//
-//		$readme = file_get_contents( ABSPATH . 'readme.html' );
-//
-//		preg_match( '#Recommendations.*MariaDB</a> version <strong>([0-9.]*)#s', $readme, $matches );
-//
-//		$this->assertSame( $matches[1], $reflection_property->getValue( $this->instance ) );
+		//      $reflection          = new ReflectionClass( $this->instance );
+		//      $reflection_property = $reflection->getProperty( 'mariadb_recommended_version' );
+		//      $reflection_property->setAccessible( true );
+		//
+		//      $readme = file_get_contents( ABSPATH . 'readme.html' );
+		//
+		//      preg_match( '#Recommendations.*MariaDB</a> version <strong>([0-9.]*)#s', $readme, $matches );
+		//
+		//      $this->assertSame( $matches[1], $reflection_property->getValue( $this->instance ) );
 	}
 
 	/**

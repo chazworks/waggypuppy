@@ -1614,12 +1614,12 @@ class WP_Automatic_Updater {
 		if ( $failures ) {
 			$body[] = trim(
 				__(
-					"BETA TESTING?
+					'BETA TESTING?
 =============
 
 This debugging email is sent when you are using a development version of waggypuppy.
 
-"
+'
 				)
 			);
 			$body[] = '';
