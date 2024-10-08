@@ -10,6 +10,7 @@
 	<arg name="basepath" value="./"/>
 	<arg name="parallel" value="20"/>
 	<arg value="ps"/>
+    <arg name="tab-width" value="4"/>
 
 	<file>.</file>
 
@@ -75,18 +76,18 @@
 	<exclude-pattern>/src/wp-content/languages/*</exclude-pattern>
 
     <!-- ================================================================ -->
-    <!-- Now inlined below in very compact form -->
-    <!-- <rule ref="WordPress-Core"/>-->
 
-    <arg name="tab-width" value="4"/>
     <rule ref="PHPCSUtils"/> <!-- sanity check, gives a nice error message if the core ruleset is missing -->
+
+    <rule ref="Generic.PHP.DisallowAlternativePHPTags"/>
+    <rule ref="PSR2.Files.ClosingTag"/>
     <rule ref="Squiz.PHP.EmbeddedPhp"/>
-    <rule ref="Squiz.PHP.EmbeddedPhp.SpacingBefore"><severity>0</severity></rule>
     <rule ref="Squiz.PHP.EmbeddedPhp.Indent"><severity>0</severity></rule>
     <rule ref="Squiz.PHP.EmbeddedPhp.OpenTagIndent"><severity>0</severity></rule>
+    <rule ref="Squiz.PHP.EmbeddedPhp.ShortOpenEchoNoSemicolon"><severity>0</severity></rule>
     <rule ref="Squiz.PHP.EmbeddedPhp.SpacingAfter"><severity>0</severity></rule>
-    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
-    <rule ref="Generic.PHP.DisallowAlternativePHPTags"/>
+    <rule ref="Squiz.PHP.EmbeddedPhp.SpacingBefore"><severity>0</severity></rule>
+
     <rule ref="Squiz.Strings.DoubleQuoteUsage.NotRequired"/>
     <rule ref="PEAR.Files.IncludingFile.BracketsNotRequired"/>
     <rule ref="Generic.WhiteSpace.LanguageConstructSpacing"/>
@@ -120,18 +121,7 @@
 
     <rule ref="PSR2.ControlStructures.ControlStructureSpacing" />
 
-    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie">
-        <properties>
-            <property name="checkClosures" value="false"/>
-        </properties>
-    </rule>
-
-    <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie.ContentAfterBrace"><severity>0</severity></rule>
-
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration"/>
-    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"><severity>0</severity></rule>
-    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceSpacing"><severity>0</severity></rule>
-    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceIndent"><severity>0</severity></rule>
 
     <rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
         <properties>
@@ -216,7 +206,6 @@
     </rule>
 
     <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
-    <rule ref="PSR2.Files.ClosingTag"/>
     <rule ref="PSR2.Methods.FunctionClosingBrace"/>
     <rule ref="Squiz.ControlStructures.ControlSignature"/>
     <rule ref="Generic.ControlStructures.InlineControlStructure"/>
@@ -304,10 +293,7 @@
     <rule ref="Generic.CodeAnalysis.EmptyPHPStatement"/>
     <rule ref="Generic.PHP.LowerCaseConstant"/>
     <rule ref="Generic.PHP.LowerCaseKeyword"/>
-    <rule ref="Generic.Classes.OpeningBraceSameLine"/>
     <rule ref="PSR2.Classes.ClassDeclaration"/>
-    <rule ref="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"><severity>0</severity></rule>
-    <rule ref="PSR2.Classes.ClassDeclaration.OpenBraceWrongLine"><severity>0</severity></rule>
     <rule ref="Squiz.Classes.SelfMemberReference"/>
     <rule ref="Squiz.Classes.SelfMemberReference.NotUsed"><severity>0</severity></rule>
     <rule ref="Generic.VersionControl.GitMergeConflict"/>
@@ -317,6 +303,8 @@
     <rule ref="WordPress.DateTime.CurrentTimeTimestamp"/>
     <rule ref="WordPress.WP.ClassNameCase"/>
     <rule ref="Modernize.FunctionCalls.Dirname"/>
+
+
 
     <!-- ================================================================ -->
 	<!-- These rules are being set as warnings instead of errors, so we can error check the entire codebase. -->
