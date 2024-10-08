@@ -18,7 +18,8 @@
  *
  * @see WP_Upgrader
  */
-class Plugin_Upgrader extends WP_Upgrader {
+class Plugin_Upgrader extends WP_Upgrader
+{
 
     /**
      * Plugin upgrade result.
@@ -53,7 +54,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      *
      * @since 2.8.0
      */
-    public function upgrade_strings() {
+    public function upgrade_strings()
+    {
         $this->strings['up_to_date'] = __('The plugin is at the latest version.');
         $this->strings['no_package'] = __('Update package not available.');
         /* translators: %s: Package URL. */
@@ -71,7 +73,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      *
      * @since 2.8.0
      */
-    public function install_strings() {
+    public function install_strings()
+    {
         $this->strings['no_package'] = __('Installation package not available.');
         /* translators: %s: Package URL. */
         $this->strings['downloading_package'] = sprintf(__('Downloading installation package from %s&#8230;'), '<span class="code pre">%s</span>');
@@ -115,7 +118,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      * }
      * @return bool|WP_Error True if the installation was successful, false or a WP_Error otherwise.
      */
-    public function install($package, $args = array()) {
+    public function install($package, $args = array())
+    {
         $defaults    = array(
             'clear_update_cache' => true,
             'overwrite_package'  => false, // Do not overwrite files.
@@ -187,7 +191,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      * }
      * @return bool|WP_Error True if the upgrade was successful, false or a WP_Error object otherwise.
      */
-    public function upgrade($plugin, $args = array()) {
+    public function upgrade($plugin, $args = array())
+    {
         $defaults    = array(
             'clear_update_cache' => true,
         );
@@ -282,7 +287,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      * }
      * @return array|false An array of results indexed by plugin file, or false if unable to connect to the filesystem.
      */
-    public function bulk_upgrade($plugins, $args = array()) {
+    public function bulk_upgrade($plugins, $args = array())
+    {
         $wp_version = wp_get_wp_version();
 
         $defaults    = array(
@@ -459,7 +465,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      * @param string $source The path to the downloaded package source.
      * @return string|WP_Error The source as passed, or a WP_Error object on failure.
      */
-    public function check_package($source) {
+    public function check_package($source)
+    {
         global $wp_filesystem;
 
         $wp_version            = wp_get_wp_version();
@@ -527,7 +534,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      *
      * @return string|false The full path to the main plugin file, or false.
      */
-    public function plugin_info() {
+    public function plugin_info()
+    {
         if (! is_array($this->result)) {
             return false;
         }
@@ -559,7 +567,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      * @param array         $plugin   Plugin package arguments.
      * @return bool|WP_Error The original `$response` parameter or WP_Error.
      */
-    public function deactivate_plugin_before_upgrade($response, $plugin) {
+    public function deactivate_plugin_before_upgrade($response, $plugin)
+    {
 
         if (is_wp_error($response)) { // Bypass.
             return $response;
@@ -594,7 +603,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      * @param array         $plugin   Plugin package arguments.
      * @return bool|WP_Error The original `$response` parameter or WP_Error.
      */
-    public function active_before($response, $plugin) {
+    public function active_before($response, $plugin)
+    {
         if (is_wp_error($response)) {
             return $response;
         }
@@ -630,7 +640,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      * @param array         $plugin   Plugin package arguments.
      * @return bool|WP_Error The original `$response` parameter or WP_Error.
      */
-    public function active_after($response, $plugin) {
+    public function active_after($response, $plugin)
+    {
         if (is_wp_error($response)) {
             return $response;
         }
@@ -672,7 +683,8 @@ class Plugin_Upgrader extends WP_Upgrader {
      * @param array         $plugin             Extra arguments passed to hooked filters.
      * @return bool|WP_Error
      */
-    public function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin) {
+    public function delete_old_plugin($removed, $local_destination, $remote_destination, $plugin)
+    {
         global $wp_filesystem;
 
         if (is_wp_error($removed)) {
