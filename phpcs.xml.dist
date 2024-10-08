@@ -209,7 +209,7 @@
     <rule ref="PSR2.Methods.FunctionClosingBrace"/>
     <rule ref="Squiz.ControlStructures.ControlSignature"/>
     <rule ref="Generic.ControlStructures.InlineControlStructure"/>
-    <rule ref="Universal.Arrays.DisallowShortArraySyntax"/>
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
     <rule ref="PSR12.Functions.NullableTypeDeclaration"/>
     <rule ref="PSR12.Functions.ReturnTypeDeclaration"/>
     <rule ref="Universal.Operators.TypeSeparatorSpacing"/>
