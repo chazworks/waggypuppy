@@ -38,7 +38,7 @@ if (false === $installed_themes) {
 foreach ($installed_themes as $theme_slug => $theme_data) {
     // Ignore child themes.
     if (str_contains($theme_slug, '/')) {
-        unset($installed_themes[ $theme_slug ]);
+        unset($installed_themes[$theme_slug]);
     }
 }
 

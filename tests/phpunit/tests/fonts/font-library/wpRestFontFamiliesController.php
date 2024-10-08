@@ -760,7 +760,7 @@ class Tests_REST_WpRestFontFamiliesController extends WP_Test_REST_Controller_Te
         $key   = key($settings);
         $value = current($settings);
         $this->assertArrayHasKey($key, $data['font_family_settings'], 'The expected key should exist in the font_family_settings data.');
-        $this->assertSame($value, $data['font_family_settings'][ $key ], 'The font_family_settings data should match.');
+        $this->assertSame($value, $data['font_family_settings'][$key], 'The font_family_settings data should match.');
     }
 
     /**
@@ -1096,7 +1096,7 @@ class Tests_REST_WpRestFontFamiliesController extends WP_Test_REST_Controller_Te
         // Check font_face links, if present.
         $this->assertArrayHasKey('font_faces', $links);
         foreach ($links['font_faces'] as $index => $link) {
-            $expected = rest_url('wp/v2/font-families/' . $post->ID . '/font-faces/' . $font_face_ids[ $index ]);
+            $expected = rest_url('wp/v2/font-families/' . $post->ID . '/font-faces/' . $font_face_ids[$index]);
             $this->assertSame($expected, $link['href'], 'The links for a font faces URL from the response data should match the REST endpoint.');
 
             $embeddable = isset($link['attributes']['embeddable'])

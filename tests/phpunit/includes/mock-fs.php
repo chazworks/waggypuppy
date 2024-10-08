@@ -51,7 +51,7 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
             '/' => $this->fs,
         ];
         $this->cache  = []; // Used by find_folder() and friends.
-        $this->cwd    = isset($this->fs_map[ $home_dir ]) ? $this->fs_map[ $home_dir ] : '/';
+        $this->cwd    = isset($this->fs_map[$home_dir]) ? $this->fs_map[$home_dir] : '/';
         $this->setfs($paths);
     }
 
@@ -73,7 +73,7 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
             }
 
             // Directories.
-            if ('/' === $path[ strlen($path) - 1 ]) {
+            if ('/' === $path[strlen($path) - 1]) {
                 $this->mkdir($path);
             } else { // Files (with dummy content for now).
                 $this->put_contents($path, 'This is a test file');
@@ -86,7 +86,7 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
      */
     private function locate_node($path)
     {
-        return isset($this->fs_map[ $path ]) ? $this->fs_map[ $path ] : false;
+        return isset($this->fs_map[$path]) ? $this->fs_map[$path] : false;
     }
 
     /**
@@ -116,8 +116,8 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
 
         $node = new MockFS_Directory_Node($path);
 
-        $parent_node->children[ $node->name ] = $node;
-        $this->fs_map[ $path ]                = $node;
+        $parent_node->children[$node->name] = $node;
+        $this->fs_map[$path]                = $node;
 
         return true;
     }
@@ -131,8 +131,8 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
         $parent   = $this->locate_parent_node($path);
         $new_file = new MockFS_File_Node($path, $contents);
 
-        $parent->children[ $new_file->name ] = $new_file;
-        $this->fs_map[ $path ]               = $new_file;
+        $parent->children[$new_file->name] = $new_file;
+        $this->fs_map[$path]               = $new_file;
     }
 
     public function get_contents($file)
@@ -140,7 +140,7 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
         if (! $this->is_file($file)) {
             return false;
         }
-        return $this->fs_map[ $file ]->contents;
+        return $this->fs_map[$file]->contents;
     }
 
     public function cwd()
@@ -150,29 +150,29 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
 
     public function chdir($path)
     {
-        if (! isset($this->fs_map[ $path ])) {
+        if (! isset($this->fs_map[$path])) {
             return false;
         }
 
-        $this->cwd = $this->fs_map[ $path ];
+        $this->cwd = $this->fs_map[$path];
         return true;
     }
 
     public function exists($path)
     {
-        return isset($this->fs_map[ $path ]) || isset($this->fs_map[ trailingslashit($path) ]);
+        return isset($this->fs_map[$path]) || isset($this->fs_map[trailingslashit($path)]);
     }
 
     public function is_file($file)
     {
-        return isset($this->fs_map[ $file ]) && $this->fs_map[ $file ]->is_file();
+        return isset($this->fs_map[$file]) && $this->fs_map[$file]->is_file();
     }
 
     public function is_dir($path)
     {
         $path = trailingslashit($path);
 
-        return isset($this->fs_map[ $path ]) && $this->fs_map[ $path ]->is_dir();
+        return isset($this->fs_map[$path]) && $this->fs_map[$path]->is_dir();
     }
 
     public function dirlist($path = '.', $include_hidden = true, $recursive = false)
@@ -193,7 +193,7 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
         }
 
         $ret = [];
-        foreach ($this->fs_map[ $path ]->children as $entry) {
+        foreach ($this->fs_map[$path]->children as $entry) {
             if ('.' === $entry->name || '..' === $entry->name) {
                 continue;
             }
@@ -218,7 +218,7 @@ class WP_Filesystem_MockFS extends WP_Filesystem_Base
                 }
             }
 
-            $ret[ $entry->name ] = $struc;
+            $ret[$entry->name] = $struc;
         }
         return $ret;
     }

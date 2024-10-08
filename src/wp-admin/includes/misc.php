@@ -154,7 +154,7 @@ Any changes to the directives between these markers will be overwritten.'
     $instructions = explode("\n", $instructions);
 
     foreach ($instructions as $line => $text) {
-        $instructions[ $line ] = '# ' . $text;
+        $instructions[$line] = '# ' . $text;
     }
 
     /**
@@ -380,7 +380,7 @@ function wp_make_theme_file_tree($allowed_files)
         $last_dir = &$tree_list;
 
         foreach ($list as $dir) {
-            $last_dir =& $last_dir[ $dir ];
+            $last_dir =& $last_dir[$dir];
         }
 
         $last_dir = $file_name;
@@ -487,7 +487,7 @@ function wp_make_plugin_file_tree($plugin_editable_files)
         $last_dir = &$tree_list;
 
         foreach ($list as $dir) {
-            $last_dir =& $last_dir[ $dir ];
+            $last_dir =& $last_dir[$dir];
         }
 
         $last_dir = $plugin_file;
@@ -601,14 +601,14 @@ function update_home_siteurl($old_value, $value)
 function wp_reset_vars($vars)
 {
     foreach ($vars as $var) {
-        if (empty($_POST[ $var ])) {
-            if (empty($_GET[ $var ])) {
-                $GLOBALS[ $var ] = '';
+        if (empty($_POST[$var])) {
+            if (empty($_GET[$var])) {
+                $GLOBALS[$var] = '';
             } else {
-                $GLOBALS[ $var ] = $_GET[ $var ];
+                $GLOBALS[$var] = $_GET[$var];
             }
         } else {
-            $GLOBALS[ $var ] = $_POST[ $var ];
+            $GLOBALS[$var] = $_POST[$var];
         }
     }
 }
@@ -657,20 +657,20 @@ function wp_doc_link_parse($content)
     $ignore_functions = [];
 
     for ($t = 0; $t < $count - 2; $t++) {
-        if (! is_array($tokens[ $t ])) {
+        if (! is_array($tokens[$t])) {
             continue;
         }
 
-        if (T_STRING === $tokens[ $t ][0] && ('(' === $tokens[ $t + 1 ] || '(' === $tokens[ $t + 2 ])) {
+        if (T_STRING === $tokens[$t][0] && ('(' === $tokens[$t + 1] || '(' === $tokens[$t + 2])) {
             // If it's a function or class defined locally, there's not going to be any docs available.
-            if ((isset($tokens[ $t - 2 ][1]) && in_array($tokens[ $t - 2 ][1], ['function', 'class'], true))
-                || (isset($tokens[ $t - 2 ][0]) && T_OBJECT_OPERATOR === $tokens[ $t - 1 ][0])
+            if ((isset($tokens[$t - 2][1]) && in_array($tokens[$t - 2][1], ['function', 'class'], true))
+                || (isset($tokens[$t - 2][0]) && T_OBJECT_OPERATOR === $tokens[$t - 1][0])
             ) {
-                $ignore_functions[] = $tokens[ $t ][1];
+                $ignore_functions[] = $tokens[$t][1];
             }
 
             // Add this to our stack of unique references.
-            $functions[] = $tokens[ $t ][1];
+            $functions[] = $tokens[$t][1];
         }
     }
 
@@ -1038,7 +1038,7 @@ function admin_color_scheme_picker($user_id)
 
     $current_color = get_user_option('admin_color', $user_id);
 
-    if (empty($current_color) || ! isset($_wp_admin_css_colors[ $current_color ])) {
+    if (empty($current_color) || ! isset($_wp_admin_css_colors[$current_color])) {
         $current_color = 'fresh';
     }
     ?>
@@ -1088,12 +1088,12 @@ function wp_color_scheme_settings()
     $color_scheme = get_user_option('admin_color');
 
     // It's possible to have a color scheme set that is no longer registered.
-    if (empty($_wp_admin_css_colors[ $color_scheme ])) {
+    if (empty($_wp_admin_css_colors[$color_scheme])) {
         $color_scheme = 'fresh';
     }
 
-    if (! empty($_wp_admin_css_colors[ $color_scheme ]->icon_colors)) {
-        $icon_colors = $_wp_admin_css_colors[ $color_scheme ]->icon_colors;
+    if (! empty($_wp_admin_css_colors[$color_scheme]->icon_colors)) {
+        $icon_colors = $_wp_admin_css_colors[$color_scheme]->icon_colors;
     } elseif (! empty($_wp_admin_css_colors['fresh']->icon_colors)) {
         $icon_colors = $_wp_admin_css_colors['fresh']->icon_colors;
     } else {
@@ -1185,7 +1185,7 @@ function wp_check_locked_posts($response, $data, $screen_id)
                         $send['avatar_src_2x'] = get_avatar_url($user->ID, ['size' => 36]);
                     }
 
-                    $checked[ $key ] = $send;
+                    $checked[$key] = $send;
                 }
             }
         }

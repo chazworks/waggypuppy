@@ -65,12 +65,12 @@ class WP_Themes_List_Table extends WP_List_Table
         if ($this->search_terms || $this->features) {
             foreach ($themes as $key => $theme) {
                 if (! $this->search_theme($theme)) {
-                    unset($themes[ $key ]);
+                    unset($themes[$key]);
                 }
             }
         }
 
-        unset($themes[ get_option('stylesheet') ]);
+        unset($themes[get_option('stylesheet')]);
         WP_Theme::sort_by_name($themes);
 
         $per_page = 36;

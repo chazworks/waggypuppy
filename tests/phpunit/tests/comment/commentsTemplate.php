@@ -1007,14 +1007,14 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
         $comment_ids = [];
 
         for ($num = 1; $num <= 6; $num++) {
-            $comment_ids[ $num ] = self::factory()->comment->create(
+            $comment_ids[$num] = self::factory()->comment->create(
                 [
                     'comment_post_ID'  => $p,
                     'comment_content'  => "{$num}",
                     'comment_date_gmt' => gmdate('Y-m-d H:i:s', $now - 100 * $num),
                 ]
             );
-            add_comment_meta($comment_ids[ $num ], 'featured', $num > 3 ? '1' : '0');
+            add_comment_meta($comment_ids[$num], 'featured', $num > 3 ? '1' : '0');
         }
 
         update_option('comment_order', 'asc');
@@ -1047,7 +1047,7 @@ class Tests_Comment_CommentsTemplate extends WP_UnitTestCase
 
         $expected_ids = [];
         foreach ($expected['ids'] as $index) {
-            $expected_ids[] = $comment_ids[ $index ];
+            $expected_ids[] = $comment_ids[$index];
         }
 
         $this->assertSame($expected_ids, array_map('intval', $matches[1]));

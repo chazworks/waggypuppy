@@ -319,7 +319,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base
     {
         $dir = $this->dirlist($file);
 
-        return $dir[ $file ]['owner'];
+        return $dir[$file]['owner'];
     }
 
     /**
@@ -334,7 +334,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base
     {
         $dir = $this->dirlist($file);
 
-        return $dir[ $file ]['permsn'];
+        return $dir[$file]['permsn'];
     }
 
     /**
@@ -349,7 +349,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base
     {
         $dir = $this->dirlist($file);
 
-        return $dir[ $file ]['group'];
+        return $dir[$file]['group'];
     }
 
     /**
@@ -726,7 +726,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base
             // Add the octal representation of the file permissions.
             $struc['permsn'] = $this->getnumchmodfromh($struc['perms']);
 
-            $ret[ $struc['name'] ] = $struc;
+            $ret[$struc['name']] = $struc;
         }
 
         reset_mbstring_encoding();

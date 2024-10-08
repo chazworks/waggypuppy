@@ -54,7 +54,7 @@ class Tests_Rewrite extends WP_UnitTestCase
 
         $rewrite_rules = $wp_rewrite->rewrite_rules();
 
-        $this->assertSame($redirect, $rewrite_rules[ $pattern ]);
+        $this->assertSame($redirect, $rewrite_rules[$pattern]);
     }
 
     /**
@@ -79,7 +79,7 @@ class Tests_Rewrite extends WP_UnitTestCase
 
         $rewrite_rules = $wp_rewrite->rewrite_rules();
 
-        $this->assertSame($redirect, $rewrite_rules[ $pattern ]);
+        $this->assertSame($redirect, $rewrite_rules[$pattern]);
     }
 
     /**
@@ -98,7 +98,7 @@ class Tests_Rewrite extends WP_UnitTestCase
 
         $extra_rules_top = $wp_rewrite->extra_rules_top;
 
-        $this->assertStringContainsString($redirect, $extra_rules_top[ $pattern ]);
+        $this->assertStringContainsString($redirect, $extra_rules_top[$pattern]);
     }
 
     public function test_url_to_postid()

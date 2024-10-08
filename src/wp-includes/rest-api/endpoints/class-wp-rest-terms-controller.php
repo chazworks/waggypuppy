@@ -267,8 +267,8 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
          * set the parameter's value on the query $prepared_args.
          */
         foreach ($parameter_mappings as $api_param => $wp_param) {
-            if (isset($registered[ $api_param ], $request[ $api_param ])) {
-                $prepared_args[ $wp_param ] = $request[ $api_param ];
+            if (isset($registered[$api_param], $request[$api_param])) {
+                $prepared_args[$wp_param] = $request[$api_param];
             }
         }
 
@@ -277,8 +277,8 @@ class WP_REST_Terms_Controller extends WP_REST_Controller
                 'include_slugs' => 'slug__in',
             ];
 
-            if (isset($orderby_mappings[ $request['orderby'] ])) {
-                $prepared_args['orderby'] = $orderby_mappings[ $request['orderby'] ];
+            if (isset($orderby_mappings[$request['orderby']])) {
+                $prepared_args['orderby'] = $orderby_mappings[$request['orderby']];
             }
         }
 

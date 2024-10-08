@@ -171,7 +171,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
         // Take into account the role the user has selected.
         $status = isset($_REQUEST['status']) ? wp_unslash(trim($_REQUEST['status'])) : '';
         if (in_array($status, ['public', 'archived', 'mature', 'spam', 'deleted'], true)) {
-            $args[ $status ] = 1;
+            $args[$status] = 1;
         }
 
         /**
@@ -272,15 +272,15 @@ class WP_MS_Sites_List_Table extends WP_List_Table
         $url              = 'sites.php';
 
         foreach ($statuses as $status => $label_count) {
-            if ((int) $counts[ $status ] > 0) {
+            if ((int) $counts[$status] > 0) {
                 $label = sprintf(
-                    translate_nooped_plural($label_count, $counts[ $status ]),
-                    number_format_i18n($counts[ $status ])
+                    translate_nooped_plural($label_count, $counts[$status]),
+                    number_format_i18n($counts[$status])
                 );
 
                 $full_url = 'all' === $status ? $url : add_query_arg('status', $status, $url);
 
-                $view_links[ $status ] = [
+                $view_links[$status] = [
                     'url'     => esc_url($full_url),
                     'label'   => $label,
                     'current' => $requested_status === $status || ('' === $requested_status && 'all' === $status),
@@ -642,7 +642,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
             reset($this->status_list);
 
             foreach ($this->status_list as $status => $col) {
-                if ('1' === $blog[ $status ]) {
+                if ('1' === $blog[$status]) {
                     $class = " class='{$col[0]}'";
                 }
             }
@@ -678,7 +678,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table
         $site_status = isset($_REQUEST['status']) ? wp_unslash(trim($_REQUEST['status'])) : '';
         foreach ($this->status_list as $status => $col) {
             if ('1' === $_site->{$status} && $site_status !== $status) {
-                $site_states[ $col[0] ] = $col[1];
+                $site_states[$col[0]] = $col[1];
             }
         }
 

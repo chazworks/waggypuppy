@@ -317,7 +317,7 @@ final class WP_Comment
      */
     public function add_child(WP_Comment $child)
     {
-        $this->children[ $child->comment_ID ] = $child;
+        $this->children[$child->comment_ID] = $child;
     }
 
     /**
@@ -330,8 +330,8 @@ final class WP_Comment
      */
     public function get_child($child_id)
     {
-        if (isset($this->children[ $child_id ])) {
-            return $this->children[ $child_id ];
+        if (isset($this->children[$child_id])) {
+            return $this->children[$child_id];
         }
 
         return false;

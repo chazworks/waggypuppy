@@ -547,7 +547,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor
             $meta = $this->make_subsize($size_data);
 
             if (! is_wp_error($meta)) {
-                $metadata[ $size ] = $meta;
+                $metadata[$size] = $meta;
             }
         }
 

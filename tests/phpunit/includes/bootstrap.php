@@ -301,7 +301,7 @@ if (isset($GLOBALS['wp_tests_options'])) {
     function wp_tests_options($value)
     {
         $key = substr(current_filter(), strlen('pre_option_'));
-        return $GLOBALS['wp_tests_options'][ $key ];
+        return $GLOBALS['wp_tests_options'][$key];
     }
 
     foreach (array_keys($GLOBALS['wp_tests_options']) as $key) {
@@ -368,7 +368,7 @@ class WP_PHPUnit_Util_Getopt
             switch ($option) {
                 case '--exclude-group':
                     foreach ($skipped_groups as $group_name => $skipped) {
-                        $skipped_groups[ $group_name ] = false;
+                        $skipped_groups[$group_name] = false;
                     }
                     continue 2;
                 case '--group':
@@ -381,7 +381,7 @@ class WP_PHPUnit_Util_Getopt
 
                     foreach ($skipped_groups as $group_name => $skipped) {
                         if (in_array($group_name, $groups, true)) {
-                            $skipped_groups[ $group_name ] = false;
+                            $skipped_groups[$group_name] = false;
                         }
                     }
                     continue 2;

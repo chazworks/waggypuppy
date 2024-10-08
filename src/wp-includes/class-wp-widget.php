@@ -381,8 +381,8 @@ class WP_Widget
         $this->_set($widget_args['number']);
         $instances = $this->get_settings();
 
-        if (isset($instances[ $this->number ])) {
-            $instance = $instances[ $this->number ];
+        if (isset($instances[$this->number])) {
+            $instance = $instances[$this->number];
 
             /**
              * Filters the settings for a particular widget instance.
@@ -442,16 +442,16 @@ class WP_Widget
                 return;
             }
 
-            if (isset($wp_registered_widgets[ $del_id ]['params'][0]['number'])) {
-                $number = $wp_registered_widgets[ $del_id ]['params'][0]['number'];
+            if (isset($wp_registered_widgets[$del_id]['params'][0]['number'])) {
+                $number = $wp_registered_widgets[$del_id]['params'][0]['number'];
 
                 if ($this->id_base . '-' . $number === $del_id) {
-                    unset($all_instances[ $number ]);
+                    unset($all_instances[$number]);
                 }
             }
         } else {
-            if (isset($_POST[ 'widget-' . $this->id_base ]) && is_array($_POST[ 'widget-' . $this->id_base ])) {
-                $settings = $_POST[ 'widget-' . $this->id_base ];
+            if (isset($_POST['widget-' . $this->id_base]) && is_array($_POST['widget-' . $this->id_base])) {
+                $settings = $_POST['widget-' . $this->id_base];
             } elseif (isset($_POST['id_base']) && $_POST['id_base'] === $this->id_base) {
                 $num      = $_POST['multi_number'] ? (int) $_POST['multi_number'] : (int) $_POST['widget_number'];
                 $settings = [$num => []];
@@ -463,7 +463,7 @@ class WP_Widget
                 $new_instance = stripslashes_deep($new_instance);
                 $this->_set($number);
 
-                $old_instance = isset($all_instances[ $number ]) ? $all_instances[ $number ] : [];
+                $old_instance = isset($all_instances[$number]) ? $all_instances[$number] : [];
 
                 $was_cache_addition_suspended = wp_suspend_cache_addition();
                 if ($this->is_preview() && ! $was_cache_addition_suspended) {
@@ -492,7 +492,7 @@ class WP_Widget
                 $instance = apply_filters('widget_update_callback', $instance, $new_instance, $old_instance, $this);
 
                 if (false !== $instance) {
-                    $all_instances[ $number ] = $instance;
+                    $all_instances[$number] = $instance;
                 }
 
                 break; // Run only once.
@@ -531,7 +531,7 @@ class WP_Widget
             $instance = [];
         } else {
             $this->_set($widget_args['number']);
-            $instance = $all_instances[ $widget_args['number'] ];
+            $instance = $all_instances[$widget_args['number']];
         }
 
         /**

@@ -2289,9 +2289,9 @@ function get_calendar($initial = true, $display = true)
     $key   = md5($m . $monthnum . $year);
     $cache = wp_cache_get('get_calendar', 'calendar');
 
-    if ($cache && is_array($cache) && isset($cache[ $key ])) {
+    if ($cache && is_array($cache) && isset($cache[$key])) {
         /** This filter is documented in wp-includes/general-template.php */
-        $output = apply_filters('get_calendar', $cache[ $key ]);
+        $output = apply_filters('get_calendar', $cache[$key]);
 
         if ($display) {
             echo $output;
@@ -2309,7 +2309,7 @@ function get_calendar($initial = true, $display = true)
     if (! $posts) {
         $gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
         if (! $gotsome) {
-            $cache[ $key ] = '';
+            $cache[$key] = '';
             wp_cache_set('get_calendar', $cache, 'calendar');
             return;
         }
@@ -2487,7 +2487,7 @@ function get_calendar($initial = true, $display = true)
     $calendar_output .= '
 	</nav>';
 
-    $cache[ $key ] = $calendar_output;
+    $cache[$key] = $calendar_output;
     wp_cache_set('get_calendar', $cache, 'calendar');
 
     if ($display) {
@@ -3602,7 +3602,7 @@ function wp_resource_hints()
                 continue;
             }
 
-            if (isset($unique_urls[ $url ])) {
+            if (isset($unique_urls[$url])) {
                 continue;
             }
 
@@ -3624,7 +3624,7 @@ function wp_resource_hints()
             $atts['rel']  = $relation_type;
             $atts['href'] = $url;
 
-            $unique_urls[ $url ] = $atts;
+            $unique_urls[$url] = $atts;
         }
 
         foreach ($unique_urls as $atts) {
@@ -3713,18 +3713,18 @@ function wp_preload_resources()
         $attributes = $resource;
         if (isset($resource['href'])) {
             $href = $resource['href'];
-            if (isset($unique_resources[ $href ])) {
+            if (isset($unique_resources[$href])) {
                 continue;
             }
-            $unique_resources[ $href ] = $attributes;
+            $unique_resources[$href] = $attributes;
             // Media can use imagesrcset and not href.
         } elseif (('image' === $resource['as']) &&
             (isset($resource['imagesrcset']) || isset($resource['imagesizes']))
         ) {
-            if (isset($unique_resources[ $resource['imagesrcset'] ])) {
+            if (isset($unique_resources[$resource['imagesrcset']])) {
                 continue;
             }
-            $unique_resources[ $resource['imagesrcset'] ] = $attributes;
+            $unique_resources[$resource['imagesrcset']] = $attributes;
         } else {
             continue;
         }
@@ -3790,12 +3790,12 @@ function wp_dependencies_unique_hosts()
     foreach ([$wp_scripts, $wp_styles] as $dependencies) {
         if ($dependencies instanceof WP_Dependencies && ! empty($dependencies->queue)) {
             foreach ($dependencies->queue as $handle) {
-                if (! isset($dependencies->registered[ $handle ])) {
+                if (! isset($dependencies->registered[$handle])) {
                     continue;
                 }
 
                 /* @var _WP_Dependency $dependency */
-                $dependency = $dependencies->registered[ $handle ];
+                $dependency = $dependencies->registered[$handle];
                 $parsed     = wp_parse_url($dependency->src);
 
                 if (! empty($parsed['host'])
@@ -4354,8 +4354,8 @@ function wp_get_code_editor_settings($args)
 
     // Let settings supplied via args override any defaults.
     foreach (wp_array_slice_assoc($args, ['codemirror', 'csslint', 'jshint', 'htmlhint']) as $key => $value) {
-        $settings[ $key ] = array_merge(
-            $settings[ $key ],
+        $settings[$key] = array_merge(
+            $settings[$key],
             $value
         );
     }
@@ -4629,7 +4629,7 @@ function paginate_links($args = '')
 
         // Remove the format argument from the array of query arguments, to avoid overwriting custom format.
         foreach ($format_args as $format_arg => $format_arg_value) {
-            unset($url_query_args[ $format_arg ]);
+            unset($url_query_args[$format_arg]);
         }
 
         $args['add_args'] = array_merge($args['add_args'], urlencode_deep($url_query_args));
@@ -4790,7 +4790,7 @@ function wp_admin_css_color($key, $name, $url, $colors = [], $icons = [])
         $_wp_admin_css_colors = [];
     }
 
-    $_wp_admin_css_colors[ $key ] = (object) [
+    $_wp_admin_css_colors[$key] = (object) [
         'name'        => $name,
         'url'         => $url,
         'colors'      => $colors,

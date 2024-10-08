@@ -122,8 +122,8 @@ $messages[4] = __('Media file moved to the Trash.') . sprintf(
 );
 $messages[5] = __('Media file restored from the Trash.');
 
-if (! empty($_GET['message']) && isset($messages[ $_GET['message'] ])) {
-    $message = $messages[ $_GET['message'] ];
+if (! empty($_GET['message']) && isset($messages[$_GET['message']])) {
+    $message = $messages[$_GET['message']];
 
     $_SERVER['REQUEST_URI'] = remove_query_arg(['message'], $_SERVER['REQUEST_URI']);
 }
@@ -159,7 +159,7 @@ if ('grid' === $mode) {
     $ignore = ['mode', 'post_type', 'post_status', 'posts_per_page'];
     foreach ($vars as $key => $value) {
         if (! $value || in_array($key, $ignore, true)) {
-            unset($vars[ $key ]);
+            unset($vars[$key]);
         }
     }
 

@@ -29,7 +29,7 @@ function render_block_core_block($attributes)
         return '';
     }
 
-    if (isset($seen_refs[ $attributes['ref'] ])) {
+    if (isset($seen_refs[$attributes['ref']])) {
         // WP_DEBUG_DISPLAY must only be honored when WP_DEBUG. This precedent
         // is set in `wp_debug_mode()`.
         $is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
@@ -44,7 +44,7 @@ function render_block_core_block($attributes)
         return '';
     }
 
-    $seen_refs[ $attributes['ref'] ] = true;
+    $seen_refs[$attributes['ref']] = true;
 
     // Handle embeds for reusable blocks.
     global $wp_embed;
@@ -89,7 +89,7 @@ function render_block_core_block($attributes)
     }
 
     $content = do_blocks($content);
-    unset($seen_refs[ $attributes['ref'] ]);
+    unset($seen_refs[$attributes['ref']]);
 
     if ($has_pattern_overrides) {
         remove_filter('render_block_context', $filter_block_context, 1);

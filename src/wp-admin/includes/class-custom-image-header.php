@@ -295,14 +295,14 @@ class Custom_Image_Header
         $stylesheet_directory_uri = get_stylesheet_directory_uri();
 
         foreach (array_keys($this->default_headers) as $header) {
-            $this->default_headers[ $header ]['url'] = sprintf(
-                $this->default_headers[ $header ]['url'],
+            $this->default_headers[$header]['url'] = sprintf(
+                $this->default_headers[$header]['url'],
                 $template_directory_uri,
                 $stylesheet_directory_uri
             );
 
-            $this->default_headers[ $header ]['thumbnail_url'] = sprintf(
-                $this->default_headers[ $header ]['thumbnail_url'],
+            $this->default_headers[$header]['thumbnail_url'] = sprintf(
+                $this->default_headers[$header]['thumbnail_url'],
                 $template_directory_uri,
                 $stylesheet_directory_uri
             );
@@ -1227,12 +1227,12 @@ endif;
 
         $uploaded = get_uploaded_header_images();
 
-        if ($uploaded && isset($uploaded[ $choice ])) {
-            $header_image_data = $uploaded[ $choice ];
+        if ($uploaded && isset($uploaded[$choice])) {
+            $header_image_data = $uploaded[$choice];
         } else {
             $this->process_default_headers();
-            if (isset($this->default_headers[ $choice ])) {
-                $header_image_data = $this->default_headers[ $choice ];
+            if (isset($this->default_headers[$choice])) {
+                $header_image_data = $this->default_headers[$choice];
             } else {
                 return;
             }
@@ -1617,8 +1617,8 @@ endif;
 
         foreach ($header_images as &$header_image) {
             $header_meta               = get_post_meta($header_image['attachment_id']);
-            $header_image['timestamp'] = isset($header_meta[ $timestamp_key ]) ? $header_meta[ $timestamp_key ] : '';
-            $header_image['alt_text']  = isset($header_meta[ $alt_text_key ]) ? $header_meta[ $alt_text_key ] : '';
+            $header_image['timestamp'] = isset($header_meta[$timestamp_key]) ? $header_meta[$timestamp_key] : '';
+            $header_image['alt_text']  = isset($header_meta[$alt_text_key]) ? $header_meta[$alt_text_key] : '';
         }
 
         return $header_images;

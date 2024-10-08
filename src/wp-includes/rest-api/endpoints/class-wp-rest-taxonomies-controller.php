@@ -135,9 +135,9 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller
                 continue;
             }
 
-            $tax               = $this->prepare_item_for_response($value, $request);
-            $tax               = $this->prepare_response_for_collection($tax);
-            $data[ $tax_type ] = $tax;
+            $tax             = $this->prepare_item_for_response($value, $request);
+            $tax             = $this->prepare_response_for_collection($tax);
+            $data[$tax_type] = $tax;
         }
 
         if (empty($data)) {

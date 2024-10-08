@@ -83,7 +83,7 @@ class WP_Block_Supports
      */
     public function register($block_support_name, $block_support_config)
     {
-        $this->block_supports[ $block_support_name ] = array_merge(
+        $this->block_supports[$block_support_name] = array_merge(
             $block_support_config,
             ['name' => $block_support_name]
         );
@@ -126,10 +126,10 @@ class WP_Block_Supports
 
             if (! empty($new_attributes)) {
                 foreach ($new_attributes as $attribute_name => $attribute_value) {
-                    if (empty($output[ $attribute_name ])) {
-                        $output[ $attribute_name ] = $attribute_value;
+                    if (empty($output[$attribute_name])) {
+                        $output[$attribute_name] = $attribute_value;
                     } else {
-                        $output[ $attribute_name ] .= " $attribute_value";
+                        $output[$attribute_name] .= " $attribute_value";
                     }
                 }
             }
@@ -191,26 +191,26 @@ function get_block_wrapper_attributes($extra_attributes = [])
     $attributes_to_merge = ['style', 'class', 'id'];
     $attributes          = [];
     foreach ($attributes_to_merge as $attribute_name) {
-        if (empty($new_attributes[ $attribute_name ]) && empty($extra_attributes[ $attribute_name ])) {
+        if (empty($new_attributes[$attribute_name]) && empty($extra_attributes[$attribute_name])) {
             continue;
         }
 
-        if (empty($new_attributes[ $attribute_name ])) {
-            $attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ];
+        if (empty($new_attributes[$attribute_name])) {
+            $attributes[$attribute_name] = $extra_attributes[$attribute_name];
             continue;
         }
 
-        if (empty($extra_attributes[ $attribute_name ])) {
-            $attributes[ $attribute_name ] = $new_attributes[ $attribute_name ];
+        if (empty($extra_attributes[$attribute_name])) {
+            $attributes[$attribute_name] = $new_attributes[$attribute_name];
             continue;
         }
 
-        $attributes[ $attribute_name ] = $extra_attributes[ $attribute_name ] . ' ' . $new_attributes[ $attribute_name ];
+        $attributes[$attribute_name] = $extra_attributes[$attribute_name] . ' ' . $new_attributes[$attribute_name];
     }
 
     foreach ($extra_attributes as $attribute_name => $value) {
         if (! in_array($attribute_name, $attributes_to_merge, true)) {
-            $attributes[ $attribute_name ] = $value;
+            $attributes[$attribute_name] = $value;
         }
     }
 

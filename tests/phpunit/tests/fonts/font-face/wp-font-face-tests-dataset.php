@@ -311,8 +311,8 @@ CSS
             ];
         }
 
-        if (isset($data[ $key ])) {
-            return $data[ $key ];
+        if (isset($data[$key])) {
+            return $data[$key];
         }
 
         return $data;
@@ -401,8 +401,8 @@ CSS
             ];
         }
 
-        if (isset($data[ $key ])) {
-            return $data[ $key ];
+        if (isset($data[$key])) {
+            return $data[$key];
         }
 
         return $data;

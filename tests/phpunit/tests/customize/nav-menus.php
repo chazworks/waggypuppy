@@ -1178,7 +1178,7 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         foreach ($original_args as $key => $value) {
             $this->assertArrayHasKey($key, $context);
-            $this->assertSame($value, $context[ $key ]);
+            $this->assertSame($value, $context[$key]);
         }
 
         $this->assertTrue($context['can_partial_refresh']);

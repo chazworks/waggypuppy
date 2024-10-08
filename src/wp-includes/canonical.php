@@ -386,7 +386,7 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
                         } else {
                             // Some query vars are set via $_GET. Unset those from $_GET that exist via the rewrite.
                             foreach ($qv_remove as $_qv) {
-                                if (isset($rewrite_vars[ $_qv ])) {
+                                if (isset($rewrite_vars[$_qv])) {
                                     $redirect['query'] = remove_query_arg($_qv, $redirect['query']);
                                 }
                             }
@@ -481,8 +481,8 @@ function redirect_canonical($requested_url = null, $do_redirect = true)
                     'wp-rss2.php'         => 'rss2',
                 ];
 
-                if (isset($old_feed_files[ basename($redirect['path']) ])) {
-                    $redirect_url = get_feed_link($old_feed_files[ basename($redirect['path']) ]);
+                if (isset($old_feed_files[basename($redirect['path'])])) {
+                    $redirect_url = get_feed_link($old_feed_files[basename($redirect['path'])]);
 
                     wp_redirect($redirect_url, 301);
                     die();
@@ -862,7 +862,7 @@ function _remove_qs_args_if_not_in_url($query_string, array $args_to_check, $url
         parse_str($parsed_url['query'], $parsed_query);
 
         foreach ($args_to_check as $qv) {
-            if (! isset($parsed_query[ $qv ])) {
+            if (! isset($parsed_query[$qv])) {
                 $query_string = remove_query_arg($qv, $query_string);
             }
         }

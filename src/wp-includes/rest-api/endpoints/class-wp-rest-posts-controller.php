@@ -201,7 +201,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
             return $required;
         }
 
-        if (! empty($this->password_check_passed[ $post->ID ])) {
+        if (! empty($this->password_check_passed[$post->ID])) {
             // Password previously checked and approved.
             return false;
         }
@@ -271,8 +271,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
          * set the parameter's value on the query $args.
          */
         foreach ($parameter_mappings as $api_param => $wp_param) {
-            if (isset($registered[ $api_param ], $request[ $api_param ])) {
-                $args[ $wp_param ] = $request[ $api_param ];
+            if (isset($registered[$api_param], $request[$api_param])) {
+                $args[$wp_param] = $request[$api_param];
             }
         }
 
@@ -372,7 +372,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
                     'operator' => 'NOT EXISTS',
                 ];
                 // Remove the `standard` format, since it cannot be queried.
-                unset($formats[ array_search('standard', $formats, true) ]);
+                unset($formats[array_search('standard', $formats, true)]);
             }
 
             // Add any remaining formats to the formats query.
@@ -1206,7 +1206,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
              *
              * @param string $value The query_var value.
              */
-            $query_args[ $key ] = apply_filters("rest_query_var-{$key}", $value); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+            $query_args[$key] = apply_filters("rest_query_var-{$key}", $value); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
         }
 
         if ('post' !== $this->post_type || ! isset($query_args['ignore_sticky_posts'])) {
@@ -1222,8 +1222,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
                 'include_slugs' => 'post_name__in',
             ];
 
-            if (isset($orderby_mappings[ $request['orderby'] ])) {
-                $query_args['orderby'] = $orderby_mappings[ $request['orderby'] ];
+            if (isset($orderby_mappings[$request['orderby']])) {
+                $query_args['orderby'] = $orderby_mappings[$request['orderby']];
             }
         }
 
@@ -1502,7 +1502,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
             }
         }
 
-        $args = $request->get_attributes()['args'][ $param ];
+        $args = $request->get_attributes()['args'][$param];
 
         return rest_validate_value_from_schema($status, $args, $param);
     }
@@ -1613,7 +1613,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
         // If this is a create request, get_post() will return null and wp theme will fallback to the passed post type.
         $allowed_templates = wp_get_theme()->get_page_templates($post, $this->post_type);
 
-        if (isset($allowed_templates[ $template ])) {
+        if (isset($allowed_templates[$template])) {
             return true;
         }
 
@@ -1660,11 +1660,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
         foreach ($taxonomies as $taxonomy) {
             $base = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
 
-            if (! isset($request[ $base ])) {
+            if (! isset($request[$base])) {
                 continue;
             }
 
-            $result = wp_set_object_terms($post_id, $request[ $base ], $taxonomy->name);
+            $result = wp_set_object_terms($post_id, $request[$base], $taxonomy->name);
 
             if (is_wp_error($result)) {
                 return $result;
@@ -1686,11 +1686,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
         foreach ($taxonomies as $taxonomy) {
             $base = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
 
-            if (! isset($request[ $base ])) {
+            if (! isset($request[$base])) {
                 continue;
             }
 
-            foreach ((array) $request[ $base ] as $term_id) {
+            foreach ((array) $request[$base] as $term_id) {
                 // Invalid terms will be rejected later.
                 if (! get_term($term_id, $taxonomy->name)) {
                     continue;
@@ -1943,7 +1943,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
         $has_password_filter = false;
 
         if ($this->can_access_password_content($post, $request)) {
-            $this->password_check_passed[ $post->ID ] = true;
+            $this->password_check_passed[$post->ID] = true;
             // Allow access to the post, permissions already checked before.
             add_filter('post_password_required', [$this, 'check_password_required'], 10, 2);
 
@@ -2063,8 +2063,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
             $base = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
 
             if (rest_is_field_included($base, $fields)) {
-                $terms         = get_the_terms($post, $taxonomy->name);
-                $data[ $base ] = $terms ? array_values(wp_list_pluck($terms, 'term_id')) : [];
+                $terms       = get_the_terms($post, $taxonomy->name);
+                $data[$base] = $terms ? array_values(wp_list_pluck($terms, 'term_id')) : [];
             }
         }
 
@@ -2517,9 +2517,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
         ];
 
         foreach ($post_type_attributes as $attribute) {
-            if (isset($fixed_schemas[ $this->post_type ]) && ! in_array($attribute, $fixed_schemas[ $this->post_type ], true)) {
+            if (isset($fixed_schemas[$this->post_type]) && ! in_array($attribute, $fixed_schemas[$this->post_type], true)) {
                 continue;
-            } elseif (! isset($fixed_schemas[ $this->post_type ]) && ! post_type_supports($this->post_type, $attribute)) {
+            } elseif (! isset($fixed_schemas[$this->post_type]) && ! post_type_supports($this->post_type, $attribute)) {
                 continue;
             }
 
@@ -2713,7 +2713,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
                 );
             }
 
-            $schema['properties'][ $base ] = [
+            $schema['properties'][$base] = [
                 /* translators: %s: Taxonomy name. */
                 'description' => sprintf(__('The terms assigned to the post in the %s taxonomy.'), $taxonomy->name),
                 'type'        => 'array',
@@ -3177,8 +3177,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
         foreach ($taxonomies as $taxonomy) {
             $base = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
 
-            $tax_include = $request[ $base ];
-            $tax_exclude = $request[ $base . '_exclude' ];
+            $tax_include = $request[$base];
+            $tax_exclude = $request[$base . '_exclude'];
 
             if ($tax_include) {
                 $terms            = [];
@@ -3317,15 +3317,15 @@ class WP_REST_Posts_Controller extends WP_REST_Controller
             $base         = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
             $base_exclude = $base . '_exclude';
 
-            $query_params[ $base ]                = $include_schema;
-            $query_params[ $base ]['description'] = sprintf($query_params[ $base ]['description'], $base);
+            $query_params[$base]                = $include_schema;
+            $query_params[$base]['description'] = sprintf($query_params[$base]['description'], $base);
 
-            $query_params[ $base_exclude ]                = $exclude_schema;
-            $query_params[ $base_exclude ]['description'] = sprintf($query_params[ $base_exclude ]['description'], $base);
+            $query_params[$base_exclude]                = $exclude_schema;
+            $query_params[$base_exclude]['description'] = sprintf($query_params[$base_exclude]['description'], $base);
 
             if (! $taxonomy->hierarchical) {
-                unset($query_params[ $base ]['oneOf'][1]['properties']['include_children']);
-                unset($query_params[ $base_exclude ]['oneOf'][1]['properties']['include_children']);
+                unset($query_params[$base]['oneOf'][1]['properties']['include_children']);
+                unset($query_params[$base_exclude]['oneOf'][1]['properties']['include_children']);
             }
         }
 

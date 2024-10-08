@@ -74,7 +74,7 @@ function generate_block_asset_handle($block_name, $field_name, $index = 0)
         'viewStyle'        => 'view-style',
     ];
     $asset_handle   = str_replace('/', '-', $block_name) .
-        '-' . $field_mappings[ $field_name ];
+        '-' . $field_mappings[$field_name];
     if ($index > 0) {
         $asset_handle .= '-' . ($index + 1);
     }
@@ -108,22 +108,22 @@ function get_block_asset_url($path)
     static $template_paths_norm = [];
 
     $template = get_template();
-    if (! isset($template_paths_norm[ $template ])) {
-        $template_paths_norm[ $template ] = wp_normalize_path(realpath(get_template_directory()));
+    if (! isset($template_paths_norm[$template])) {
+        $template_paths_norm[$template] = wp_normalize_path(realpath(get_template_directory()));
     }
 
-    if (str_starts_with($path, trailingslashit($template_paths_norm[ $template ]))) {
-        return get_theme_file_uri(str_replace($template_paths_norm[ $template ], '', $path));
+    if (str_starts_with($path, trailingslashit($template_paths_norm[$template]))) {
+        return get_theme_file_uri(str_replace($template_paths_norm[$template], '', $path));
     }
 
     if (is_child_theme()) {
         $stylesheet = get_stylesheet();
-        if (! isset($template_paths_norm[ $stylesheet ])) {
-            $template_paths_norm[ $stylesheet ] = wp_normalize_path(realpath(get_stylesheet_directory()));
+        if (! isset($template_paths_norm[$stylesheet])) {
+            $template_paths_norm[$stylesheet] = wp_normalize_path(realpath(get_stylesheet_directory()));
         }
 
-        if (str_starts_with($path, trailingslashit($template_paths_norm[ $stylesheet ]))) {
-            return get_theme_file_uri(str_replace($template_paths_norm[ $stylesheet ], '', $path));
+        if (str_starts_with($path, trailingslashit($template_paths_norm[$stylesheet]))) {
+            return get_theme_file_uri(str_replace($template_paths_norm[$stylesheet], '', $path));
         }
     }
 
@@ -147,16 +147,16 @@ function get_block_asset_url($path)
  */
 function register_block_script_module_id($metadata, $field_name, $index = 0)
 {
-    if (empty($metadata[ $field_name ])) {
+    if (empty($metadata[$field_name])) {
         return false;
     }
 
-    $module_id = $metadata[ $field_name ];
+    $module_id = $metadata[$field_name];
     if (is_array($module_id)) {
-        if (empty($module_id[ $index ])) {
+        if (empty($module_id[$index])) {
             return false;
         }
-        $module_id = $module_id[ $index ];
+        $module_id = $module_id[$index];
     }
 
     $module_path = remove_block_asset_path_prefix($module_id);
@@ -208,16 +208,16 @@ function register_block_script_module_id($metadata, $field_name, $index = 0)
  */
 function register_block_script_handle($metadata, $field_name, $index = 0)
 {
-    if (empty($metadata[ $field_name ])) {
+    if (empty($metadata[$field_name])) {
         return false;
     }
 
-    $script_handle_or_path = $metadata[ $field_name ];
+    $script_handle_or_path = $metadata[$field_name];
     if (is_array($script_handle_or_path)) {
-        if (empty($script_handle_or_path[ $index ])) {
+        if (empty($script_handle_or_path[$index])) {
             return false;
         }
-        $script_handle_or_path = $script_handle_or_path[ $index ];
+        $script_handle_or_path = $script_handle_or_path[$index];
     }
 
     $script_path = remove_block_asset_path_prefix($script_handle_or_path);
@@ -285,16 +285,16 @@ function register_block_script_handle($metadata, $field_name, $index = 0)
  */
 function register_block_style_handle($metadata, $field_name, $index = 0)
 {
-    if (empty($metadata[ $field_name ])) {
+    if (empty($metadata[$field_name])) {
         return false;
     }
 
-    $style_handle = $metadata[ $field_name ];
+    $style_handle = $metadata[$field_name];
     if (is_array($style_handle)) {
-        if (empty($style_handle[ $index ])) {
+        if (empty($style_handle[$index])) {
             return false;
         }
-        $style_handle = $style_handle[ $index ];
+        $style_handle = $style_handle[$index];
     }
 
     $style_handle_name = generate_block_asset_handle($metadata['name'], $field_name, $index);
@@ -500,10 +500,10 @@ function register_block_type_from_metadata($file_or_folder, $args = [])
     $i18n_schema       = get_block_metadata_i18n_schema();
 
     foreach ($property_mappings as $key => $mapped_key) {
-        if (isset($metadata[ $key ])) {
-            $settings[ $mapped_key ] = $metadata[ $key ];
+        if (isset($metadata[$key])) {
+            $settings[$mapped_key] = $metadata[$key];
             if ($metadata_file_exists && $textdomain && isset($i18n_schema->$key)) {
-                $settings[ $mapped_key ] = translate_settings_using_i18n_schema($i18n_schema->$key, $settings[ $key ], $textdomain);
+                $settings[$mapped_key] = translate_settings_using_i18n_schema($i18n_schema->$key, $settings[$key], $textdomain);
             }
         }
     }
@@ -571,11 +571,11 @@ function register_block_type_from_metadata($file_or_folder, $args = [])
         'viewScript'   => 'view_script_handles',
     ];
     foreach ($script_fields as $metadata_field_name => $settings_field_name) {
-        if (! empty($settings[ $metadata_field_name ])) {
-            $metadata[ $metadata_field_name ] = $settings[ $metadata_field_name ];
+        if (! empty($settings[$metadata_field_name])) {
+            $metadata[$metadata_field_name] = $settings[$metadata_field_name];
         }
-        if (! empty($metadata[ $metadata_field_name ])) {
-            $scripts           = $metadata[ $metadata_field_name ];
+        if (! empty($metadata[$metadata_field_name])) {
+            $scripts           = $metadata[$metadata_field_name];
             $processed_scripts = [];
             if (is_array($scripts)) {
                 for ($index = 0; $index < count($scripts); $index++) {
@@ -597,7 +597,7 @@ function register_block_type_from_metadata($file_or_folder, $args = [])
                     $processed_scripts[] = $result;
                 }
             }
-            $settings[ $settings_field_name ] = $processed_scripts;
+            $settings[$settings_field_name] = $processed_scripts;
         }
     }
 
@@ -605,11 +605,11 @@ function register_block_type_from_metadata($file_or_folder, $args = [])
         'viewScriptModule' => 'view_script_module_ids',
     ];
     foreach ($module_fields as $metadata_field_name => $settings_field_name) {
-        if (! empty($settings[ $metadata_field_name ])) {
-            $metadata[ $metadata_field_name ] = $settings[ $metadata_field_name ];
+        if (! empty($settings[$metadata_field_name])) {
+            $metadata[$metadata_field_name] = $settings[$metadata_field_name];
         }
-        if (! empty($metadata[ $metadata_field_name ])) {
-            $modules           = $metadata[ $metadata_field_name ];
+        if (! empty($metadata[$metadata_field_name])) {
+            $modules           = $metadata[$metadata_field_name];
             $processed_modules = [];
             if (is_array($modules)) {
                 for ($index = 0; $index < count($modules); $index++) {
@@ -631,7 +631,7 @@ function register_block_type_from_metadata($file_or_folder, $args = [])
                     $processed_modules[] = $result;
                 }
             }
-            $settings[ $settings_field_name ] = $processed_modules;
+            $settings[$settings_field_name] = $processed_modules;
         }
     }
 
@@ -641,11 +641,11 @@ function register_block_type_from_metadata($file_or_folder, $args = [])
         'viewStyle'   => 'view_style_handles',
     ];
     foreach ($style_fields as $metadata_field_name => $settings_field_name) {
-        if (! empty($settings[ $metadata_field_name ])) {
-            $metadata[ $metadata_field_name ] = $settings[ $metadata_field_name ];
+        if (! empty($settings[$metadata_field_name])) {
+            $metadata[$metadata_field_name] = $settings[$metadata_field_name];
         }
-        if (! empty($metadata[ $metadata_field_name ])) {
-            $styles           = $metadata[ $metadata_field_name ];
+        if (! empty($metadata[$metadata_field_name])) {
+            $styles           = $metadata[$metadata_field_name];
             $processed_styles = [];
             if (is_array($styles)) {
                 for ($index = 0; $index < count($styles); $index++) {
@@ -667,7 +667,7 @@ function register_block_type_from_metadata($file_or_folder, $args = [])
                     $processed_styles[] = $result;
                 }
             }
-            $settings[ $settings_field_name ] = $processed_styles;
+            $settings[$settings_field_name] = $processed_styles;
         }
     }
 
@@ -696,11 +696,11 @@ function register_block_type_from_metadata($file_or_folder, $args = [])
                 continue;
             }
 
-            if (! isset($position_mappings[ $position ])) {
+            if (! isset($position_mappings[$position])) {
                 continue;
             }
 
-            $settings['block_hooks'][ $anchor_block_name ] = $position_mappings[ $position ];
+            $settings['block_hooks'][$anchor_block_name] = $position_mappings[$position];
         }
     }
 
@@ -886,13 +886,13 @@ function get_hooked_blocks()
             continue;
         }
         foreach ($block_type->block_hooks as $anchor_block_type => $relative_position) {
-            if (! isset($hooked_blocks[ $anchor_block_type ])) {
-                $hooked_blocks[ $anchor_block_type ] = [];
+            if (! isset($hooked_blocks[$anchor_block_type])) {
+                $hooked_blocks[$anchor_block_type] = [];
             }
-            if (! isset($hooked_blocks[ $anchor_block_type ][ $relative_position ])) {
-                $hooked_blocks[ $anchor_block_type ][ $relative_position ] = [];
+            if (! isset($hooked_blocks[$anchor_block_type][$relative_position])) {
+                $hooked_blocks[$anchor_block_type][$relative_position] = [];
             }
-            $hooked_blocks[ $anchor_block_type ][ $relative_position ][] = $block_type->name;
+            $hooked_blocks[$anchor_block_type][$relative_position][] = $block_type->name;
         }
     }
 
@@ -915,8 +915,8 @@ function get_hooked_blocks()
 function insert_hooked_blocks(&$parsed_anchor_block, $relative_position, $hooked_blocks, $context)
 {
     $anchor_block_type  = $parsed_anchor_block['blockName'];
-    $hooked_block_types = isset($hooked_blocks[ $anchor_block_type ][ $relative_position ])
-        ? $hooked_blocks[ $anchor_block_type ][ $relative_position ]
+    $hooked_block_types = isset($hooked_blocks[$anchor_block_type][$relative_position])
+        ? $hooked_blocks[$anchor_block_type][$relative_position]
         : [];
 
     /**
@@ -1006,8 +1006,8 @@ function insert_hooked_blocks(&$parsed_anchor_block, $relative_position, $hooked
 function set_ignored_hooked_blocks_metadata(&$parsed_anchor_block, $relative_position, $hooked_blocks, $context)
 {
     $anchor_block_type  = $parsed_anchor_block['blockName'];
-    $hooked_block_types = isset($hooked_blocks[ $anchor_block_type ][ $relative_position ])
-        ? $hooked_blocks[ $anchor_block_type ][ $relative_position ]
+    $hooked_block_types = isset($hooked_blocks[$anchor_block_type][$relative_position])
+        ? $hooked_blocks[$anchor_block_type][$relative_position]
         : [];
 
     /** This filter is documented in wp-includes/blocks.php */
@@ -1031,7 +1031,7 @@ function set_ignored_hooked_blocks_metadata(&$parsed_anchor_block, $relative_pos
         $parsed_hooked_block = apply_filters("hooked_block_{$hooked_block_type}", $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context);
 
         if (null === $parsed_hooked_block) {
-            unset($hooked_block_types[ $index ]);
+            unset($hooked_block_types[$index]);
         }
     }
 
@@ -1087,21 +1087,21 @@ function apply_block_hooks_to_content($content, $context, $callback = 'insert_ho
                 $hooked_block_type_definition =
                     WP_Block_Type_Registry::get_instance()->get_registered($hooked_block_type);
 
-                $block_allows_multiple_instances[ $hooked_block_type ] =
+                $block_allows_multiple_instances[$hooked_block_type] =
                     block_has_support($hooked_block_type_definition, 'multiple', true);
 
-                if (! $block_allows_multiple_instances[ $hooked_block_type ] &&
+                if (! $block_allows_multiple_instances[$hooked_block_type] &&
                     has_block($hooked_block_type, $content)
                 ) {
-                    unset($hooked_blocks[ $anchor_block_type ][ $relative_position ][ $index ]);
+                    unset($hooked_blocks[$anchor_block_type][$relative_position][$index]);
                 }
             }
-            if (empty($hooked_blocks[ $anchor_block_type ][ $relative_position ])) {
-                unset($hooked_blocks[ $anchor_block_type ][ $relative_position ]);
+            if (empty($hooked_blocks[$anchor_block_type][$relative_position])) {
+                unset($hooked_blocks[$anchor_block_type][$relative_position]);
             }
         }
-        if (empty($hooked_blocks[ $anchor_block_type ])) {
-            unset($hooked_blocks[ $anchor_block_type ]);
+        if (empty($hooked_blocks[$anchor_block_type])) {
+            unset($hooked_blocks[$anchor_block_type]);
         }
     }
 
@@ -1112,15 +1112,15 @@ function apply_block_hooks_to_content($content, $context, $callback = 'insert_ho
     $suppress_single_instance_blocks = static function ($hooked_block_types) use (&$block_allows_multiple_instances, $content) {
         static $single_instance_blocks_present_in_content = [];
         foreach ($hooked_block_types as $index => $hooked_block_type) {
-            if (! isset($block_allows_multiple_instances[ $hooked_block_type ])) {
+            if (! isset($block_allows_multiple_instances[$hooked_block_type])) {
                 $hooked_block_type_definition =
                     WP_Block_Type_Registry::get_instance()->get_registered($hooked_block_type);
 
-                $block_allows_multiple_instances[ $hooked_block_type ] =
+                $block_allows_multiple_instances[$hooked_block_type] =
                     block_has_support($hooked_block_type_definition, 'multiple', true);
             }
 
-            if ($block_allows_multiple_instances[ $hooked_block_type ]) {
+            if ($block_allows_multiple_instances[$hooked_block_type]) {
                 continue;
             }
 
@@ -1128,7 +1128,7 @@ function apply_block_hooks_to_content($content, $context, $callback = 'insert_ho
             if (in_array($hooked_block_type, $single_instance_blocks_present_in_content, true) ||
                 has_block($hooked_block_type, $content)
             ) {
-                unset($hooked_block_types[ $index ]);
+                unset($hooked_block_types[$index]);
             } else {
                 // We can insert the block once, but need to remember not to insert it again.
                 $single_instance_blocks_present_in_content[] = $hooked_block_type;
@@ -1548,7 +1548,7 @@ function serialize_block($block)
 
     $index = 0;
     foreach ($block['innerContent'] as $chunk) {
-        $block_content .= is_string($chunk) ? $chunk : serialize_block($block['innerBlocks'][ $index++ ]);
+        $block_content .= is_string($chunk) ? $chunk : serialize_block($block['innerBlocks'][$index++]);
     }
 
     if (! is_array($block['attrs'])) {
@@ -1633,12 +1633,12 @@ function traverse_and_serialize_block($block, $pre_callback = null, $post_callba
         if (is_string($chunk)) {
             $block_content .= $chunk;
         } else {
-            $inner_block = $block['innerBlocks'][ $block_index ];
+            $inner_block = $block['innerBlocks'][$block_index];
 
             if (is_callable($pre_callback)) {
                 $prev = 0 === $block_index
                     ? null
-                    : $block['innerBlocks'][ $block_index - 1 ];
+                    : $block['innerBlocks'][$block_index - 1];
 
                 $block_content .= call_user_func_array(
                     $pre_callback,
@@ -1649,7 +1649,7 @@ function traverse_and_serialize_block($block, $pre_callback = null, $post_callba
             if (is_callable($post_callback)) {
                 $next = count($block['innerBlocks']) - 1 === $block_index
                     ? null
-                    : $block['innerBlocks'][ $block_index + 1 ];
+                    : $block['innerBlocks'][$block_index + 1];
 
                 $post_markup = call_user_func_array(
                     $post_callback,
@@ -1691,8 +1691,8 @@ function resolve_pattern_blocks($blocks)
     static $seen_refs = [];
     $i                = 0;
     while ($i < count($blocks)) {
-        if ('core/pattern' === $blocks[ $i ]['blockName']) {
-            $attrs = $blocks[ $i ]['attrs'];
+        if ('core/pattern' === $blocks[$i]['blockName']) {
+            $attrs = $blocks[$i]['attrs'];
 
             if (empty($attrs['slug'])) {
                 ++$i;
@@ -1701,7 +1701,7 @@ function resolve_pattern_blocks($blocks)
 
             $slug = $attrs['slug'];
 
-            if (isset($seen_refs[ $slug ])) {
+            if (isset($seen_refs[$slug])) {
                 // Skip recursive patterns.
                 array_splice($blocks, $i, 1);
                 continue;
@@ -1717,12 +1717,12 @@ function resolve_pattern_blocks($blocks)
             }
 
             $blocks_to_insert   = parse_blocks($pattern['content']);
-            $seen_refs[ $slug ] = true;
+            $seen_refs[$slug]   = true;
             $prev_inner_content = $inner_content;
             $inner_content      = null;
             $blocks_to_insert   = resolve_pattern_blocks($blocks_to_insert);
             $inner_content      = $prev_inner_content;
-            unset($seen_refs[ $slug ]);
+            unset($seen_refs[$slug]);
             array_splice($blocks, $i, 1, $blocks_to_insert);
 
             // If we have inner content, we need to insert nulls in the
@@ -1730,7 +1730,7 @@ function resolve_pattern_blocks($blocks)
             // blocks.
             if ($inner_content) {
                 $null_indices  = array_keys($inner_content, null, true);
-                $content_index = $null_indices[ $i ];
+                $content_index = $null_indices[$i];
                 $nulls         = array_fill(0, count($blocks_to_insert), null);
                 array_splice($inner_content, $content_index, 1, $nulls);
             }
@@ -1738,14 +1738,14 @@ function resolve_pattern_blocks($blocks)
             // Skip inserted blocks.
             $i += count($blocks_to_insert);
         } else {
-            if (! empty($blocks[ $i ]['innerBlocks'])) {
-                $prev_inner_content           = $inner_content;
-                $inner_content                = $blocks[ $i ]['innerContent'];
-                $blocks[ $i ]['innerBlocks']  = resolve_pattern_blocks(
-                    $blocks[ $i ]['innerBlocks']
+            if (! empty($blocks[$i]['innerBlocks'])) {
+                $prev_inner_content         = $inner_content;
+                $inner_content              = $blocks[$i]['innerContent'];
+                $blocks[$i]['innerBlocks']  = resolve_pattern_blocks(
+                    $blocks[$i]['innerBlocks']
                 );
-                $blocks[ $i ]['innerContent'] = $inner_content;
-                $inner_content                = $prev_inner_content;
+                $blocks[$i]['innerContent'] = $inner_content;
+                $inner_content              = $prev_inner_content;
             }
             ++$i;
         }
@@ -1800,7 +1800,7 @@ function traverse_and_serialize_blocks($blocks, $pre_callback = null, $post_call
         if ($pre_callback_is_callable) {
             $prev = 0 === $index
                 ? null
-                : $blocks[ $index - 1 ];
+                : $blocks[$index - 1];
 
             $result .= call_user_func_array(
                 $pre_callback,
@@ -1811,7 +1811,7 @@ function traverse_and_serialize_blocks($blocks, $pre_callback = null, $post_call
         if ($post_callback_is_callable) {
             $next = count($blocks) - 1 === $index
                 ? null
-                : $blocks[ $index + 1 ];
+                : $blocks[$index + 1];
 
             $post_markup = call_user_func_array(
                 $post_callback,
@@ -1891,7 +1891,7 @@ function filter_block_kses($block, $allowed_html, $allowed_protocols = [])
 
     if (is_array($block['innerBlocks'])) {
         foreach ($block['innerBlocks'] as $i => $inner_block) {
-            $block['innerBlocks'][ $i ] = filter_block_kses($inner_block, $allowed_html, $allowed_protocols);
+            $block['innerBlocks'][$i] = filter_block_kses($inner_block, $allowed_html, $allowed_protocols);
         }
     }
 
@@ -1925,10 +1925,10 @@ function filter_block_kses_value($value, $allowed_html, $allowed_protocols = [],
                 $filtered_value = filter_block_core_template_part_attributes($filtered_value, $filtered_key, $allowed_html);
             }
             if ($filtered_key !== $key) {
-                unset($value[ $key ]);
+                unset($value[$key]);
             }
 
-            $value[ $filtered_key ] = $filtered_value;
+            $value[$filtered_key] = $filtered_value;
         }
     } elseif (is_string($value)) {
         return wp_kses($value, $allowed_html, $allowed_protocols);
@@ -1957,7 +1957,7 @@ function filter_block_core_template_part_attributes($attribute_value, $attribute
     if (! is_array($allowed_html)) {
         $allowed_html = wp_kses_allowed_html($allowed_html);
     }
-    return isset($allowed_html[ $attribute_value ]) ? $attribute_value : '';
+    return isset($allowed_html[$attribute_value]) ? $attribute_value : '';
 }
 
 /**
@@ -2383,8 +2383,8 @@ function block_has_support($block_type, $feature, $default_value = false)
 
         if (is_array($feature)) {
             $block_support = _wp_array_get($block_type->supports, $feature, $default_value);
-        } elseif (isset($block_type->supports[ $feature ])) {
-            $block_support = $block_type->supports[ $feature ];
+        } elseif (isset($block_type->supports[$feature])) {
+            $block_support = $block_type->supports[$feature];
         }
     }
 
@@ -2419,7 +2419,7 @@ function wp_migrate_old_typography_shape($metadata)
     ];
 
     foreach ($typography_keys as $typography_key) {
-        $support_for_key = isset($metadata['supports'][ $typography_key ]) ? $metadata['supports'][ $typography_key ] : null;
+        $support_for_key = isset($metadata['supports'][$typography_key]) ? $metadata['supports'][$typography_key] : null;
 
         if (null !== $support_for_key) {
             _doing_it_wrong(
@@ -2437,7 +2437,7 @@ function wp_migrate_old_typography_shape($metadata)
             );
 
             _wp_array_set($metadata['supports'], ['typography', $typography_key], $support_for_key);
-            unset($metadata['supports'][ $typography_key ]);
+            unset($metadata['supports'][$typography_key]);
         }
     }
 
@@ -2573,7 +2573,7 @@ function build_query_vars_from_query_block($block, $page)
                     'operator' => 'NOT EXISTS',
                 ];
                 // Remove the `standard` format, since it cannot be queried.
-                unset($formats[ array_search('standard', $formats, true) ]);
+                unset($formats[array_search('standard', $formats, true)]);
             }
             // Add any remaining formats to the formats query.
             if (! empty($formats)) {
@@ -2686,10 +2686,10 @@ function get_query_pagination_arrow($block, $is_next)
             'previous' => '«',
         ],
     ];
-    if (! empty($block->context['paginationArrow']) && array_key_exists($block->context['paginationArrow'], $arrow_map) && ! empty($arrow_map[ $block->context['paginationArrow'] ])) {
+    if (! empty($block->context['paginationArrow']) && array_key_exists($block->context['paginationArrow'], $arrow_map) && ! empty($arrow_map[$block->context['paginationArrow']])) {
         $pagination_type = $is_next ? 'next' : 'previous';
         $arrow_attribute = $block->context['paginationArrow'];
-        $arrow           = $arrow_map[ $block->context['paginationArrow'] ][ $pagination_type ];
+        $arrow           = $arrow_map[$block->context['paginationArrow']][$pagination_type];
         $arrow_classes   = "wp-block-query-pagination-$pagination_type-arrow is-arrow-$arrow_attribute";
         return "<span class='$arrow_classes' aria-hidden='true'>$arrow</span>";
     }
@@ -2788,9 +2788,9 @@ function get_comments_pagination_arrow($block, $pagination_type = 'next')
             'previous' => '«',
         ],
     ];
-    if (! empty($block->context['comments/paginationArrow']) && ! empty($arrow_map[ $block->context['comments/paginationArrow'] ][ $pagination_type ])) {
+    if (! empty($block->context['comments/paginationArrow']) && ! empty($arrow_map[$block->context['comments/paginationArrow']][$pagination_type])) {
         $arrow_attribute = $block->context['comments/paginationArrow'];
-        $arrow           = $arrow_map[ $block->context['comments/paginationArrow'] ][ $pagination_type ];
+        $arrow           = $arrow_map[$block->context['comments/paginationArrow']][$pagination_type];
         $arrow_classes   = "wp-block-comments-pagination-$pagination_type-arrow is-arrow-$arrow_attribute";
         return "<span class='$arrow_classes' aria-hidden='true'>$arrow</span>";
     }

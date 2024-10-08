@@ -25,7 +25,7 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
                 $actual_status = 'publish';
             }
 
-            self::$parent_post_ids[ $post_status ] = $factory->post->create(
+            self::$parent_post_ids[$post_status] = $factory->post->create(
                 [
                     'post_status' => $actual_status,
                     'post_name'   => "$post_status-post",
@@ -61,7 +61,7 @@ class Tests_Post_IsPostPubliclyViewable extends WP_UnitTestCase
             [
                 'post_type'   => $post_type,
                 'post_status' => $post_status,
-                'post_parent' => $parent_key ? self::$parent_post_ids[ $parent_key ] : 0,
+                'post_parent' => $parent_key ? self::$parent_post_ids[$parent_key] : 0,
                 'post_date'   => $date,
             ]
         );

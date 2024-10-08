@@ -187,7 +187,7 @@ function get_core_checksums($version, $locale)
 function dismiss_core_update($update)
 {
     $dismissed = get_site_option('dismissed_update_core');
-    $dismissed[ $update->current . '|' . $update->locale ] = true;
+    $dismissed[$update->current . '|' . $update->locale] = true;
 
     return update_site_option('dismissed_update_core', $dismissed);
 }
@@ -206,11 +206,11 @@ function undismiss_core_update($version, $locale)
     $dismissed = get_site_option('dismissed_update_core');
     $key       = $version . '|' . $locale;
 
-    if (! isset($dismissed[ $key ])) {
+    if (! isset($dismissed[$key])) {
         return false;
     }
 
-    unset($dismissed[ $key ]);
+    unset($dismissed[$key]);
 
     return update_site_option('dismissed_update_core', $dismissed);
 }
@@ -420,9 +420,9 @@ function get_plugin_updates()
     $current         = get_site_transient('update_plugins');
 
     foreach ((array) $all_plugins as $plugin_file => $plugin_data) {
-        if (isset($current->response[ $plugin_file ])) {
-            $upgrade_plugins[ $plugin_file ]         = (object) $plugin_data;
-            $upgrade_plugins[ $plugin_file ]->update = $current->response[ $plugin_file ];
+        if (isset($current->response[$plugin_file])) {
+            $upgrade_plugins[$plugin_file]         = (object) $plugin_data;
+            $upgrade_plugins[$plugin_file]->update = $current->response[$plugin_file];
         }
     }
 
@@ -464,11 +464,11 @@ function wp_plugin_update_row($file, $plugin_data)
 {
     $current = get_site_transient('update_plugins');
 
-    if (! isset($current->response[ $file ])) {
+    if (! isset($current->response[$file])) {
         return false;
     }
 
-    $response = $current->response[ $file ];
+    $response = $current->response[$file];
 
     $plugins_allowedtags = [
         'a'       => [
@@ -650,8 +650,8 @@ function get_theme_updates()
     $update_themes = [];
 
     foreach ($current->response as $stylesheet => $data) {
-        $update_themes[ $stylesheet ]         = wp_get_theme($stylesheet);
-        $update_themes[ $stylesheet ]->update = $data;
+        $update_themes[$stylesheet]         = wp_get_theme($stylesheet);
+        $update_themes[$stylesheet]->update = $data;
     }
 
     return $update_themes;
@@ -692,11 +692,11 @@ function wp_theme_update_row($theme_key, $theme)
 {
     $current = get_site_transient('update_themes');
 
-    if (! isset($current->response[ $theme_key ])) {
+    if (! isset($current->response[$theme_key])) {
         return false;
     }
 
-    $response = $current->response[ $theme_key ];
+    $response = $current->response[$theme_key];
 
     $details_url = add_query_arg(
         [
@@ -704,7 +704,7 @@ function wp_theme_update_row($theme_key, $theme)
             'width'     => 1024,
             'height'    => 800,
         ],
-        $current->response[ $theme_key ]['url']
+        $current->response[$theme_key]['url']
     );
 
     /** @var WP_MS_Themes_List_Table $wp_list_table */

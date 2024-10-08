@@ -212,14 +212,14 @@ class WP_Meta_Query
                     unset($query['value']);
                 }
 
-                $clean_queries[ $key ] = $query;
+                $clean_queries[$key] = $query;
 
                 // Otherwise, it's a nested query, so we recurse.
             } else {
                 $cleaned_query = $this->sanitize_query($query);
 
                 if (! empty($cleaned_query)) {
-                    $clean_queries[ $key ] = $cleaned_query;
+                    $clean_queries[$key] = $cleaned_query;
                 }
             }
         }
@@ -284,8 +284,8 @@ class WP_Meta_Query
          */
         $primary_meta_query = [];
         foreach (['key', 'compare', 'type', 'compare_key', 'type_key'] as $key) {
-            if (! empty($qv[ "meta_$key" ])) {
-                $primary_meta_query[ $key ] = $qv[ "meta_$key" ];
+            if (! empty($qv["meta_$key"])) {
+                $primary_meta_query[$key] = $qv["meta_$key"];
             }
         }
 
@@ -641,13 +641,13 @@ class WP_Meta_Query
         // Ensure unique clause keys, so none are overwritten.
         $iterator        = 1;
         $clause_key_base = $clause_key;
-        while (isset($this->clauses[ $clause_key ])) {
+        while (isset($this->clauses[$clause_key])) {
             $clause_key = $clause_key_base . '-' . $iterator;
             ++$iterator;
         }
 
         // Store the clause in our flat array.
-        $this->clauses[ $clause_key ] =& $clause;
+        $this->clauses[$clause_key] =& $clause;
 
         // Next, build the WHERE clause.
 

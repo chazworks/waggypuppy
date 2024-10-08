@@ -490,7 +490,7 @@ class WP_User_Query
 
             foreach ($capabilities as $cap) {
                 if (in_array($cap, $role_caps, true)) {
-                    $caps_with_roles[ $cap ][] = $role;
+                    $caps_with_roles[$cap][] = $role;
                     break;
                 }
             }
@@ -530,8 +530,8 @@ class WP_User_Query
                     'compare' => 'LIKE',
                 ];
 
-                if (! empty($caps_with_roles[ $cap ])) {
-                    foreach ($caps_with_roles[ $cap ] as $role) {
+                if (! empty($caps_with_roles[$cap])) {
+                    foreach ($caps_with_roles[$cap] as $role) {
                         $clause[] = [
                             'key'     => $wpdb->get_blog_prefix($blog_id) . 'capabilities',
                             'value'   => '"' . $role . '"',
@@ -893,7 +893,7 @@ class WP_User_Query
             $r = [];
             foreach ($this->results as $userid) {
                 if ('all_with_meta' === $qv['fields']) {
-                    $r[ $userid ] = new WP_User($userid, '', $qv['blog_id']);
+                    $r[$userid] = new WP_User($userid, '', $qv['blog_id']);
                 } else {
                     $r[] = new WP_User($userid, '', $qv['blog_id']);
                 }
@@ -913,8 +913,8 @@ class WP_User_Query
      */
     public function get($query_var)
     {
-        if (isset($this->query_vars[ $query_var ])) {
-            return $this->query_vars[ $query_var ];
+        if (isset($this->query_vars[$query_var])) {
+            return $this->query_vars[$query_var];
         }
 
         return null;
@@ -930,7 +930,7 @@ class WP_User_Query
      */
     public function set($query_var, $value)
     {
-        $this->query_vars[ $query_var ] = $value;
+        $this->query_vars[$query_var] = $value;
     }
 
     /**
@@ -1041,8 +1041,8 @@ class WP_User_Query
             $sanitized_login__in = array_map('esc_sql', $this->query_vars['login__in']);
             $login__in           = implode("','", $sanitized_login__in);
             $_orderby            = "FIELD( user_login, '$login__in' )";
-        } elseif (isset($meta_query_clauses[ $orderby ])) {
-            $meta_clause = $meta_query_clauses[ $orderby ];
+        } elseif (isset($meta_query_clauses[$orderby])) {
+            $meta_clause = $meta_query_clauses[$orderby];
             $_orderby    = sprintf('CAST(%s.meta_value AS %s)', esc_sql($meta_clause['alias']), esc_sql($meta_clause['cast']));
         }
 

@@ -293,7 +293,7 @@ class Tests_XMLRPC_wp_newComment extends WP_XMLRPC_UnitTestCase
             1,
             $username,
             $username,
-            self::$posts[ $post_key ]->ID,
+            self::$posts[$post_key]->ID,
             [
                 'author'       => 'WordPress',
                 'author_email' => 'noreply@wordpress.org',

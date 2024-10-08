@@ -204,12 +204,12 @@ class Tests_Post extends WP_UnitTestCase
         $initial_counts = wp_count_posts();
 
         $key   = array_rand($post_ids);
-        $_post = get_post($post_ids[ $key ], ARRAY_A);
+        $_post = get_post($post_ids[$key], ARRAY_A);
 
         $_post['post_status'] = 'draft';
         wp_insert_post($_post);
 
-        $post = get_post($post_ids[ $key ]);
+        $post = get_post($post_ids[$key]);
         $this->assertSame('draft', $post->post_status);
         $this->assertNotEquals('publish', $post->post_status);
 
@@ -226,9 +226,9 @@ class Tests_Post extends WP_UnitTestCase
 
         $key = array_rand($post_ids);
 
-        wp_trash_post($post_ids[ $key ]);
+        wp_trash_post($post_ids[$key]);
 
-        $post = get_post($post_ids[ $key ]);
+        $post = get_post($post_ids[$key]);
         $this->assertSame('trash', $post->post_status);
         $this->assertNotEquals('publish', $post->post_status);
 

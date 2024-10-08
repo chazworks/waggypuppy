@@ -757,7 +757,7 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
 
         foreach ($extra_fields as $extra_field) {
             if (isset($block_type->$extra_field)) {
-                $this->assertSame($data[ $extra_field ], $block_type->$extra_field);
+                $this->assertSame($data[$extra_field], $block_type->$extra_field);
             }
         }
 

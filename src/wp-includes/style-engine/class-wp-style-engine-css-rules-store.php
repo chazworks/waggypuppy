@@ -57,12 +57,12 @@ class WP_Style_Engine_CSS_Rules_Store
         if (! is_string($store_name) || empty($store_name)) {
             return;
         }
-        if (! isset(static::$stores[ $store_name ])) {
-            static::$stores[ $store_name ] = new static();
+        if (! isset(static::$stores[$store_name])) {
+            static::$stores[$store_name] = new static();
             // Set the store name.
-            static::$stores[ $store_name ]->set_name($store_name);
+            static::$stores[$store_name]->set_name($store_name);
         }
-        return static::$stores[ $store_name ];
+        return static::$stores[$store_name];
     }
 
     /**
@@ -147,18 +147,18 @@ class WP_Style_Engine_CSS_Rules_Store
         }
 
         if (! empty($rules_group)) {
-            if (empty($this->rules[ "$rules_group $selector" ])) {
-                $this->rules[ "$rules_group $selector" ] = new WP_Style_Engine_CSS_Rule($selector, [], $rules_group);
+            if (empty($this->rules["$rules_group $selector"])) {
+                $this->rules["$rules_group $selector"] = new WP_Style_Engine_CSS_Rule($selector, [], $rules_group);
             }
-            return $this->rules[ "$rules_group $selector" ];
+            return $this->rules["$rules_group $selector"];
         }
 
         // Create the rule if it doesn't exist.
-        if (empty($this->rules[ $selector ])) {
-            $this->rules[ $selector ] = new WP_Style_Engine_CSS_Rule($selector);
+        if (empty($this->rules[$selector])) {
+            $this->rules[$selector] = new WP_Style_Engine_CSS_Rule($selector);
         }
 
-        return $this->rules[ $selector ];
+        return $this->rules[$selector];
     }
 
     /**
@@ -170,6 +170,6 @@ class WP_Style_Engine_CSS_Rules_Store
      */
     public function remove_rule($selector)
     {
-        unset($this->rules[ $selector ]);
+        unset($this->rules[$selector]);
     }
 }

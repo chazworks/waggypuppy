@@ -1604,12 +1604,12 @@ class wp_xmlrpc_server extends IXR_Server
                         return new IXR_Error(401, __('Sorry, one of the given taxonomies is not supported by the post type.'));
                     }
 
-                    if (! current_user_can($post_type_taxonomies[ $taxonomy ]->cap->assign_terms)) {
+                    if (! current_user_can($post_type_taxonomies[$taxonomy]->cap->assign_terms)) {
                         return new IXR_Error(401, __('Sorry, you are not allowed to assign a term to one of the given taxonomies.'));
                     }
 
-                    $term_ids           = $post_data['terms'][ $taxonomy ];
-                    $terms[ $taxonomy ] = [];
+                    $term_ids         = $post_data['terms'][$taxonomy];
+                    $terms[$taxonomy] = [];
                     foreach ($term_ids as $term_id) {
                         $term = get_term_by('id', $term_id, $taxonomy);
 
@@ -1617,7 +1617,7 @@ class wp_xmlrpc_server extends IXR_Server
                             return new IXR_Error(403, __('Invalid term ID.'));
                         }
 
-                        $terms[ $taxonomy ][] = (int) $term_id;
+                        $terms[$taxonomy][] = (int) $term_id;
                     }
                 }
             }
@@ -1631,7 +1631,7 @@ class wp_xmlrpc_server extends IXR_Server
                         return new IXR_Error(401, __('Sorry, one of the given taxonomies is not supported by the post type.'));
                     }
 
-                    if (! current_user_can($post_type_taxonomies[ $taxonomy ]->cap->assign_terms)) {
+                    if (! current_user_can($post_type_taxonomies[$taxonomy]->cap->assign_terms)) {
                         return new IXR_Error(401, __('Sorry, you are not allowed to assign a term to one of the given taxonomies.'));
                     }
 
@@ -1658,7 +1658,7 @@ class wp_xmlrpc_server extends IXR_Server
                         $ambiguous_terms = array_keys($ambiguous_tax_term_counts);
                     }
 
-                    $term_names = $post_data['terms_names'][ $taxonomy ];
+                    $term_names = $post_data['terms_names'][$taxonomy];
                     foreach ($term_names as $term_name) {
                         if (in_array($term_name, $ambiguous_terms, true)) {
                             return new IXR_Error(401, __('Ambiguous term name used in a hierarchical taxonomy. Please use term ID instead.'));
@@ -1668,7 +1668,7 @@ class wp_xmlrpc_server extends IXR_Server
 
                         if (! $term) {
                             // Term doesn't exist, so check that the user is allowed to create new terms.
-                            if (! current_user_can($post_type_taxonomies[ $taxonomy ]->cap->edit_terms)) {
+                            if (! current_user_can($post_type_taxonomies[$taxonomy]->cap->edit_terms)) {
                                 return new IXR_Error(401, __('Sorry, you are not allowed to add a term to one of the given taxonomies.'));
                             }
 
@@ -1678,9 +1678,9 @@ class wp_xmlrpc_server extends IXR_Server
                                 return new IXR_Error(500, $term_info->get_error_message());
                             }
 
-                            $terms[ $taxonomy ][] = (int) $term_info['term_id'];
+                            $terms[$taxonomy][] = (int) $term_info['term_id'];
                         } else {
-                            $terms[ $taxonomy ][] = (int) $term->term_id;
+                            $terms[$taxonomy][] = (int) $term->term_id;
                         }
                     }
                 }
@@ -3327,12 +3327,12 @@ class wp_xmlrpc_server extends IXR_Server
         // The date needs to be formatted properly.
         $num_pages = count($page_list);
         for ($i = 0; $i < $num_pages; $i++) {
-            $page_list[ $i ]->dateCreated      = $this->_convert_date($page_list[ $i ]->post_date);
-            $page_list[ $i ]->date_created_gmt = $this->_convert_date_gmt($page_list[ $i ]->post_date_gmt, $page_list[ $i ]->post_date);
+            $page_list[$i]->dateCreated      = $this->_convert_date($page_list[$i]->post_date);
+            $page_list[$i]->date_created_gmt = $this->_convert_date_gmt($page_list[$i]->post_date_gmt, $page_list[$i]->post_date);
 
-            unset($page_list[ $i ]->post_date_gmt);
-            unset($page_list[ $i ]->post_date);
-            unset($page_list[ $i ]->post_status);
+            unset($page_list[$i]->post_date_gmt);
+            unset($page_list[$i]->post_date);
+            unset($page_list[$i]->post_status);
         }
 
         return $page_list;
@@ -4340,15 +4340,15 @@ class wp_xmlrpc_server extends IXR_Server
         $can_manage = current_user_can('manage_options');
         foreach ($options as $option) {
             if (array_key_exists($option, $this->blog_options)) {
-                $data[ $option ] = $this->blog_options[ $option ];
+                $data[$option] = $this->blog_options[$option];
                 // Is the value static or dynamic?
-                if (isset($data[ $option ]['option'])) {
-                    $data[ $option ]['value'] = get_option($data[ $option ]['option']);
-                    unset($data[ $option ]['option']);
+                if (isset($data[$option]['option'])) {
+                    $data[$option]['value'] = get_option($data[$option]['option']);
+                    unset($data[$option]['option']);
                 }
 
                 if (! $can_manage) {
-                    $data[ $option ]['readonly'] = true;
+                    $data[$option]['readonly'] = true;
                 }
             }
         }
@@ -4395,11 +4395,11 @@ class wp_xmlrpc_server extends IXR_Server
                 continue;
             }
 
-            if (true == $this->blog_options[ $o_name ]['readonly']) {
+            if (true == $this->blog_options[$o_name]['readonly']) {
                 continue;
             }
 
-            update_option($this->blog_options[ $o_name ]['option'], wp_unslash($o_value));
+            update_option($this->blog_options[$o_name]['option'], wp_unslash($o_value));
         }
 
         // Now return the updated values.
@@ -4712,7 +4712,7 @@ class wp_xmlrpc_server extends IXR_Server
                 continue;
             }
 
-            $struct[ $post_type->name ] = $this->_prepare_post_type($post_type, $fields);
+            $struct[$post_type->name] = $this->_prepare_post_type($post_type, $fields);
         }
 
         return $struct;
@@ -5563,13 +5563,13 @@ class wp_xmlrpc_server extends IXR_Server
 
         $post_status = $publish ? 'publish' : 'draft';
 
-        if (isset($content_struct[ "{$post_type}_status" ])) {
-            switch ($content_struct[ "{$post_type}_status" ]) {
+        if (isset($content_struct["{$post_type}_status"])) {
+            switch ($content_struct["{$post_type}_status"]) {
                 case 'draft':
                 case 'pending':
                 case 'private':
                 case 'publish':
-                    $post_status = $content_struct[ "{$post_type}_status" ];
+                    $post_status = $content_struct["{$post_type}_status"];
                     break;
                 default:
                     // Deliberably left empty.
@@ -6009,13 +6009,13 @@ class wp_xmlrpc_server extends IXR_Server
         $post_more = isset($content_struct['mt_text_more']) ? $content_struct['mt_text_more'] : '';
 
         $post_status = $publish ? 'publish' : 'draft';
-        if (isset($content_struct[ "{$post_type}_status" ])) {
-            switch ($content_struct[ "{$post_type}_status" ]) {
+        if (isset($content_struct["{$post_type}_status"])) {
+            switch ($content_struct["{$post_type}_status"]) {
                 case 'draft':
                 case 'pending':
                 case 'private':
                 case 'publish':
-                    $post_status = $content_struct[ "{$post_type}_status" ];
+                    $post_status = $content_struct["{$post_type}_status"];
                     break;
                 default:
                     $post_status = $publish ? 'publish' : 'draft';

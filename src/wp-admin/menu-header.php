@@ -84,9 +84,9 @@ function _wp_menu_output($menu, $submenu, $submenu_as_parent = true)
         }
 
         $submenu_items = [];
-        if (! empty($submenu[ $item[2] ])) {
+        if (! empty($submenu[$item[2]])) {
             $class[]       = 'wp-has-submenu';
-            $submenu_items = $submenu[ $item[2] ];
+            $submenu_items = $submenu[$item[2]];
         }
 
         if (($parent_file && $item[2] === $parent_file) || (empty($typenow) && $self === $item[2])) {

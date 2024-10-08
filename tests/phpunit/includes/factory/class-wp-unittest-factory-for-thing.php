@@ -175,14 +175,14 @@ abstract class WP_UnitTest_Factory_For_Thing
         $incr = zeroise($gen->get_incr(), 7);
 
         foreach (array_keys($generation_definitions) as $field_name) {
-            if (! isset($args[ $field_name ])) {
-                $generator = $generation_definitions[ $field_name ];
+            if (! isset($args[$field_name])) {
+                $generator = $generation_definitions[$field_name];
                 if (is_scalar($generator)) {
-                    $args[ $field_name ] = $generator;
+                    $args[$field_name] = $generator;
                 } elseif (is_object($generator) && method_exists($generator, 'call')) {
-                    $callbacks[ $field_name ] = $generator;
+                    $callbacks[$field_name] = $generator;
                 } elseif (is_object($generator)) {
-                    $args[ $field_name ] = sprintf($generator->get_template_string(), $incr);
+                    $args[$field_name] = sprintf($generator->get_template_string(), $incr);
                 } else {
                     return new WP_Error(
                         'invalid_argument',
@@ -211,7 +211,7 @@ abstract class WP_UnitTest_Factory_For_Thing
         $updated_fields = [];
 
         foreach ($callbacks as $field_name => $generator) {
-            $updated_fields[ $field_name ] = $generator->call($object_id);
+            $updated_fields[$field_name] = $generator->call($object_id);
         }
 
         return $updated_fields;

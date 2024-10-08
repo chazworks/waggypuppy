@@ -106,13 +106,13 @@ class WP_Theme_JSON_Resolver
     {
         if ($file_path) {
             if (array_key_exists($file_path, static::$theme_json_file_cache)) {
-                return static::$theme_json_file_cache[ $file_path ];
+                return static::$theme_json_file_cache[$file_path];
             }
 
             $decoded_file = wp_json_file_decode($file_path, ['associative' => true]);
             if (is_array($decoded_file)) {
-                static::$theme_json_file_cache[ $file_path ] = $decoded_file;
-                return static::$theme_json_file_cache[ $file_path ];
+                static::$theme_json_file_cache[$file_path] = $decoded_file;
+                return static::$theme_json_file_cache[$file_path];
             }
         }
 
@@ -205,7 +205,7 @@ class WP_Theme_JSON_Resolver
     protected static function has_same_registered_blocks($origin)
     {
         // Bail out if the origin is invalid.
-        if (! isset(static::$blocks_cache[ $origin ])) {
+        if (! isset(static::$blocks_cache[$origin])) {
             return false;
         }
 
@@ -213,13 +213,13 @@ class WP_Theme_JSON_Resolver
         $blocks   = $registry->get_all_registered();
 
         // Is there metadata for all currently registered blocks?
-        $block_diff = array_diff_key($blocks, static::$blocks_cache[ $origin ]);
+        $block_diff = array_diff_key($blocks, static::$blocks_cache[$origin]);
         if (empty($block_diff)) {
             return true;
         }
 
         foreach ($blocks as $block_name => $block_type) {
-            static::$blocks_cache[ $origin ][ $block_name ] = true;
+            static::$blocks_cache[$origin][$block_name] = true;
         }
 
         return false;
@@ -408,17 +408,17 @@ class WP_Theme_JSON_Resolver
         $config = ['version' => WP_Theme_JSON::LATEST_SCHEMA];
         foreach ($blocks as $block_name => $block_type) {
             if (isset($block_type->supports['__experimentalStyle'])) {
-                $config['styles']['blocks'][ $block_name ] = static::remove_json_comments($block_type->supports['__experimentalStyle']);
+                $config['styles']['blocks'][$block_name] = static::remove_json_comments($block_type->supports['__experimentalStyle']);
             }
 
             if (isset($block_type->supports['spacing']['blockGap']['__experimentalDefault']) &&
-                ! isset($config['styles']['blocks'][ $block_name ]['spacing']['blockGap'])
+                ! isset($config['styles']['blocks'][$block_name]['spacing']['blockGap'])
             ) {
                 /*
                  * Ensure an empty placeholder value exists for the block, if it provides a default blockGap value.
                  * The real blockGap value to be used will be determined when the styles are rendered for output.
                  */
-                $config['styles']['blocks'][ $block_name ]['spacing']['blockGap'] = null;
+                $config['styles']['blocks'][$block_name]['spacing']['blockGap'] = null;
             }
         }
 
@@ -458,7 +458,7 @@ class WP_Theme_JSON_Resolver
         unset($input_array['//']);
         foreach ($input_array as $k => $v) {
             if (is_array($v)) {
-                $input_array[ $k ] = static::remove_json_comments($v);
+                $input_array[$k] = static::remove_json_comments($v);
             }
         }
 
@@ -838,7 +838,7 @@ class WP_Theme_JSON_Resolver
             foreach ($variation_files_parent as $parent_path => $parent) {
                 foreach ($variation_files as $child_path => $child) {
                     if (basename($parent_path) === basename($child_path)) {
-                        unset($variation_files_parent[ $parent_path ]);
+                        unset($variation_files_parent[$parent_path]);
                     }
                 }
             }
@@ -988,13 +988,13 @@ class WP_Theme_JSON_Resolver
 
             foreach ($variation['blockTypes'] as $block_type) {
                 // First, override partial styles with any top-level styles.
-                $top_level_data = $data['styles']['variations'][ $variation_name ] ?? [];
+                $top_level_data = $data['styles']['variations'][$variation_name] ?? [];
                 if (! empty($top_level_data)) {
                     $variation['styles'] = array_replace_recursive($variation['styles'], $top_level_data);
                 }
 
                 // Then, override styles so far with any block-level styles.
-                $block_level_data = $data['styles']['blocks'][ $block_type ]['variations'][ $variation_name ] ?? [];
+                $block_level_data = $data['styles']['blocks'][$block_type]['variations'][$variation_name] ?? [];
                 if (! empty($block_level_data)) {
                     $variation['styles'] = array_replace_recursive($variation['styles'], $block_level_data);
                 }
@@ -1027,13 +1027,13 @@ class WP_Theme_JSON_Resolver
                 }
 
                 // First, override registry styles with any top-level styles.
-                $top_level_data = $data['styles']['variations'][ $variation_name ] ?? [];
+                $top_level_data = $data['styles']['variations'][$variation_name] ?? [];
                 if (! empty($top_level_data)) {
                     $variation['style_data'] = array_replace_recursive($variation['style_data'], $top_level_data);
                 }
 
                 // Then, override styles so far with any block-level styles.
-                $block_level_data = $data['styles']['blocks'][ $block_type ]['variations'][ $variation_name ] ?? [];
+                $block_level_data = $data['styles']['blocks'][$block_type]['variations'][$variation_name] ?? [];
                 if (! empty($block_level_data)) {
                     $variation['style_data'] = array_replace_recursive($variation['style_data'], $block_level_data);
                 }

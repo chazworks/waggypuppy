@@ -72,7 +72,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider
         // Bail early if the queried post type is not supported.
         $supported_types = $this->get_object_subtypes();
 
-        if (! isset($supported_types[ $post_type ])) {
+        if (! isset($supported_types[$post_type])) {
             return [];
         }
 

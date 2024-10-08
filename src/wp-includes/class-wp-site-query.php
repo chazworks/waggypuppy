@@ -860,8 +860,8 @@ class WP_Site_Query
                 $parsed = "{$primary_meta_query['alias']}.meta_value+0";
                 break;
             default:
-                if (isset($meta_clauses[ $orderby ])) {
-                    $meta_clause = $meta_clauses[ $orderby ];
+                if (isset($meta_clauses[$orderby])) {
+                    $meta_clause = $meta_clauses[$orderby];
                     $parsed      = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
                 }
         }

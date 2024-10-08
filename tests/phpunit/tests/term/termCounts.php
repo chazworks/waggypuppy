@@ -50,7 +50,7 @@ class Tests_Term_termCount extends WP_UnitTestCase
     {
         $statuses = ['publish', 'auto-draft', 'draft', 'private'];
         foreach ($statuses as $status) {
-            self::$post_ids[ $status ] = $factory->post->create(['post_status' => $status]);
+            self::$post_ids[$status] = $factory->post->create(['post_status' => $status]);
         }
 
         // Extra published post.
@@ -136,7 +136,7 @@ class Tests_Term_termCount extends WP_UnitTestCase
      */
     public function test_term_counts_incremented_on_publish($original_post_status, $change)
     {
-        $post_id    = self::$post_ids[ $original_post_status ];
+        $post_id    = self::$post_ids[$original_post_status];
         $term_count = get_term(get_option('default_category'))->count;
 
         wp_publish_post($post_id);
@@ -179,7 +179,7 @@ class Tests_Term_termCount extends WP_UnitTestCase
      */
     public function test_term_count_transitions_update_term_counts($original_post_status, $new_post_status, $change)
     {
-        $post_id    = self::$post_ids[ $original_post_status ];
+        $post_id    = self::$post_ids[$original_post_status];
         $term_count = get_term(get_option('default_category'))->count;
 
         wp_update_post(
@@ -360,7 +360,7 @@ class Tests_Term_termCount extends WP_UnitTestCase
      */
     public function test_term_counts_incremented_on_publish_with_attachments($original_post_status, $change)
     {
-        $post_id = self::$post_ids[ $original_post_status ];
+        $post_id = self::$post_ids[$original_post_status];
         wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             [
@@ -412,7 +412,7 @@ class Tests_Term_termCount extends WP_UnitTestCase
      */
     public function test_term_count_transitions_update_term_counts_with_attachments($original_post_status, $new_post_status, $change)
     {
-        $post_id = self::$post_ids[ $original_post_status ];
+        $post_id = self::$post_ids[$original_post_status];
         wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             [
@@ -489,7 +489,7 @@ class Tests_Term_termCount extends WP_UnitTestCase
      */
     public function test_term_counts_incremented_on_publish_with_untermed_attachments($original_post_status, $change)
     {
-        $post_id = self::$post_ids[ $original_post_status ];
+        $post_id = self::$post_ids[$original_post_status];
         wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             [
@@ -540,7 +540,7 @@ class Tests_Term_termCount extends WP_UnitTestCase
      */
     public function test_term_count_transitions_update_term_counts_with_untermed_attachments($original_post_status, $new_post_status, $change)
     {
-        $post_id = self::$post_ids[ $original_post_status ];
+        $post_id = self::$post_ids[$original_post_status];
         wp_add_object_terms($post_id, self::$attachment_term, 'wp_test_tax_counts');
         $attachment_id = self::factory()->attachment->create_object(
             [

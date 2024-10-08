@@ -78,7 +78,7 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable
     #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
-        return isset($this->blocks[ $offset ]);
+        return isset($this->blocks[$offset]);
     }
 
     /**
@@ -94,12 +94,12 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable
     #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        $block = $this->blocks[ $offset ];
+        $block = $this->blocks[$offset];
 
         if (isset($block) && is_array($block)) {
             $block = new WP_Block($block, $this->available_context, $this->registry);
 
-            $this->blocks[ $offset ] = $block;
+            $this->blocks[$offset] = $block;
         }
 
         return $block;
@@ -121,7 +121,7 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable
         if (is_null($offset)) {
             $this->blocks[] = $value;
         } else {
-            $this->blocks[ $offset ] = $value;
+            $this->blocks[$offset] = $value;
         }
     }
 
@@ -137,7 +137,7 @@ class WP_Block_List implements Iterator, ArrayAccess, Countable
     #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
-        unset($this->blocks[ $offset ]);
+        unset($this->blocks[$offset]);
     }
 
     /**

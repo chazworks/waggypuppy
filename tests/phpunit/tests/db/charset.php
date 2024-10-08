@@ -625,7 +625,7 @@ class Tests_DB_Charset extends WP_UnitTestCase
                 unset($datum['charset'], $datum['ascii']);
             }
 
-            $vars[ $var_name ] = [$data, $expected, $var_name];
+            $vars[$var_name] = [$data, $expected, $var_name];
         }
 
         return array_values($vars);

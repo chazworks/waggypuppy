@@ -310,7 +310,7 @@ if (isset($plugin_page)) {
         exit;
     }
 
-    if (! isset($wp_importers[ $importer ]) || ! is_callable($wp_importers[ $importer ][2])) {
+    if (! isset($wp_importers[$importer]) || ! is_callable($wp_importers[$importer][2])) {
         wp_redirect(admin_url('import.php?invalid=' . $importer));
         exit;
     }
@@ -361,7 +361,7 @@ if (isset($plugin_page)) {
         kses_init_filters();  // Always filter imported data with kses on multisite.
     }
 
-    call_user_func($wp_importers[ $importer ][2]);
+    call_user_func($wp_importers[$importer][2]);
 
     require_once ABSPATH . 'wp-admin/admin-footer.php';
 

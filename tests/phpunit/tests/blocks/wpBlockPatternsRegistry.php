@@ -601,8 +601,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase
         $registered_patterns = $this->get_registered_patterns_variable_value();
 
         $this->assertTrue(
-            isset($registered_patterns[ $pattern_name ]['filePath']) &&
-            ! isset($registered_patterns[ $pattern_name ]['content']),
+            isset($registered_patterns[$pattern_name]['filePath']) &&
+            ! isset($registered_patterns[$pattern_name]['content']),
             'Pattern was not lazy loaded.'
         );
 
@@ -626,7 +626,7 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase
         $registered_patterns = $this->get_registered_patterns_variable_value();
 
         $this->assertTrue(
-            ! empty($registered_patterns[ $pattern_name ]['content']),
+            ! empty($registered_patterns[$pattern_name]['content']),
             'Content not updated.'
         );
     }
@@ -656,8 +656,8 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase
         $registered_patterns = $this->get_registered_patterns_variable_value();
 
         $this->assertTrue(
-            isset($registered_patterns[ $pattern_name ]['filePath']) &&
-            ! isset($registered_patterns[ $pattern_name ]['content']),
+            isset($registered_patterns[$pattern_name]['filePath']) &&
+            ! isset($registered_patterns[$pattern_name]['content']),
             'Pattern was not lazy loaded.'
         );
 
@@ -672,7 +672,7 @@ class Tests_Blocks_wpBlockPatternsRegistry extends WP_UnitTestCase
         $registered_patterns = $this->get_registered_patterns_variable_value();
 
         $this->assertTrue(
-            ! empty($registered_patterns[ $pattern_name ]['content']),
+            ! empty($registered_patterns[$pattern_name]['content']),
             'Content not updated.'
         );
     }

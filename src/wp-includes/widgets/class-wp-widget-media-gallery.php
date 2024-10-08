@@ -147,7 +147,7 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media
 
         $exported_schema = [];
         foreach ($this->get_instance_schema() as $field => $field_schema) {
-            $exported_schema[ $field ] = wp_array_slice_assoc($field_schema, ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update', 'items']);
+            $exported_schema[$field] = wp_array_slice_assoc($field_schema, ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update', 'items']);
         }
         wp_add_inline_script(
             $handle,

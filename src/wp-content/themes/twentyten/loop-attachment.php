@@ -108,9 +108,9 @@ if (have_posts()) {
             // If there is more than 1 image attachment in a gallery...
             if (count($attachments) > 1) {
                 ++$k;
-                if (isset($attachments[ $k ])) {
+                if (isset($attachments[$k])) {
                     // ...get the URL of the next image attachment.
-                    $next_attachment_url = get_attachment_link($attachments[ $k ]->ID);
+                    $next_attachment_url = get_attachment_link($attachments[$k]->ID);
                 } else {
                     // ...or get the URL of the first image attachment.
                     $next_attachment_url = get_attachment_link($attachments[0]->ID);

@@ -79,7 +79,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller
                 continue;
             }
 
-            $this->search_handlers[ $search_handler->get_type() ] = $search_handler;
+            $this->search_handlers[$search_handler->get_type()] = $search_handler;
         }
     }
 
@@ -137,7 +137,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller
 
         $result = $handler->search_items($request);
 
-        if (! isset($result[ WP_REST_Search_Handler::RESULT_IDS ]) || ! is_array($result[ WP_REST_Search_Handler::RESULT_IDS ]) || ! isset($result[ WP_REST_Search_Handler::RESULT_TOTAL ])) {
+        if (! isset($result[WP_REST_Search_Handler::RESULT_IDS]) || ! is_array($result[WP_REST_Search_Handler::RESULT_IDS]) || ! isset($result[WP_REST_Search_Handler::RESULT_TOTAL])) {
             return new WP_Error(
                 'rest_search_handler_error',
                 __('Internal search handler error.'),
@@ -145,7 +145,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller
             );
         }
 
-        $ids = $result[ WP_REST_Search_Handler::RESULT_IDS ];
+        $ids = $result[WP_REST_Search_Handler::RESULT_IDS];
 
         $results = [];
 
@@ -154,7 +154,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller
             $results[] = $this->prepare_response_for_collection($data);
         }
 
-        $total     = (int) $result[ WP_REST_Search_Handler::RESULT_TOTAL ];
+        $total     = (int) $result[WP_REST_Search_Handler::RESULT_TOTAL];
         $page      = (int) $request['page'];
         $per_page  = (int) $request['per_page'];
         $max_pages = (int) ceil($total / $per_page);
@@ -322,14 +322,14 @@ class WP_REST_Search_Controller extends WP_REST_Controller
 
         $query_params['context']['default'] = 'view';
 
-        $query_params[ self::PROP_TYPE ] = [
+        $query_params[self::PROP_TYPE] = [
             'default'     => $types[0],
             'description' => __('Limit results to items of an object type.'),
             'type'        => 'string',
             'enum'        => $types,
         ];
 
-        $query_params[ self::PROP_SUBTYPE ] = [
+        $query_params[self::PROP_SUBTYPE] = [
             'default'           => self::TYPE_ANY,
             'description'       => __('Limit results to items of one or more object subtypes.'),
             'type'              => 'array',
@@ -405,7 +405,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller
     {
         $type = $request->get_param(self::PROP_TYPE);
 
-        if (! $type || ! is_string($type) || ! isset($this->search_handlers[ $type ])) {
+        if (! $type || ! is_string($type) || ! isset($this->search_handlers[$type])) {
             return new WP_Error(
                 'rest_search_invalid_type',
                 __('Invalid type parameter.'),
@@ -413,6 +413,6 @@ class WP_REST_Search_Controller extends WP_REST_Controller
             );
         }
 
-        return $this->search_handlers[ $type ];
+        return $this->search_handlers[$type];
     }
 }

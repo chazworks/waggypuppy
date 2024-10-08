@@ -319,12 +319,12 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller
                         // Since the schema only allows strings or null (but no arrays), we return the first array item.
                         $field = ! empty($field) ? array_shift($field) : '';
                     }
-                } elseif (array_key_exists('default', $schema['properties'][ $extra_field ])) {
-                    $field = $schema['properties'][ $extra_field ]['default'];
+                } elseif (array_key_exists('default', $schema['properties'][$extra_field])) {
+                    $field = $schema['properties'][$extra_field]['default'];
                 } else {
                     $field = '';
                 }
-                $data[ $extra_field ] = rest_sanitize_value_from_schema($field, $schema['properties'][ $extra_field ]);
+                $data[$extra_field] = rest_sanitize_value_from_schema($field, $schema['properties'][$extra_field]);
             }
         }
 

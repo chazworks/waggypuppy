@@ -214,7 +214,7 @@ final class WP_oEmbed_Controller
                 $enqueued_scripts = [];
 
                 foreach ($wp_scripts->queue as $script) {
-                    $enqueued_scripts[] = $wp_scripts->registered[ $script ]->src;
+                    $enqueued_scripts[] = $wp_scripts->registered[$script]->src;
                 }
 
                 return (object) [

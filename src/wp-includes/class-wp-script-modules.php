@@ -75,7 +75,7 @@ class WP_Script_Modules
      */
     public function register(string $id, string $src, array $deps = [], $version = false)
     {
-        if (! isset($this->registered[ $id ])) {
+        if (! isset($this->registered[$id])) {
             $dependencies = [];
             foreach ($deps as $dependency) {
                 if (is_array($dependency)) {
@@ -97,10 +97,10 @@ class WP_Script_Modules
                 }
             }
 
-            $this->registered[ $id ] = [
+            $this->registered[$id] = [
                 'src'          => $src,
                 'version'      => $version,
-                'enqueue'      => isset($this->enqueued_before_registered[ $id ]),
+                'enqueue'      => isset($this->enqueued_before_registered[$id]),
                 'dependencies' => $dependencies,
             ];
         }
@@ -141,13 +141,13 @@ class WP_Script_Modules
      */
     public function enqueue(string $id, string $src = '', array $deps = [], $version = false)
     {
-        if (isset($this->registered[ $id ])) {
-            $this->registered[ $id ]['enqueue'] = true;
+        if (isset($this->registered[$id])) {
+            $this->registered[$id]['enqueue'] = true;
         } elseif ($src) {
             $this->register($id, $src, $deps, $version);
-            $this->registered[ $id ]['enqueue'] = true;
+            $this->registered[$id]['enqueue'] = true;
         } else {
-            $this->enqueued_before_registered[ $id ] = true;
+            $this->enqueued_before_registered[$id] = true;
         }
     }
 
@@ -160,10 +160,10 @@ class WP_Script_Modules
      */
     public function dequeue(string $id)
     {
-        if (isset($this->registered[ $id ])) {
-            $this->registered[ $id ]['enqueue'] = false;
+        if (isset($this->registered[$id])) {
+            $this->registered[$id]['enqueue'] = false;
         }
-        unset($this->enqueued_before_registered[ $id ]);
+        unset($this->enqueued_before_registered[$id]);
     }
 
     /**
@@ -175,8 +175,8 @@ class WP_Script_Modules
      */
     public function deregister(string $id)
     {
-        unset($this->registered[ $id ]);
-        unset($this->enqueued_before_registered[ $id ]);
+        unset($this->registered[$id]);
+        unset($this->enqueued_before_registered[$id]);
     }
 
     /**
@@ -278,7 +278,7 @@ class WP_Script_Modules
     {
         $imports = [];
         foreach ($this->get_dependencies(array_keys($this->get_marked_for_enqueue())) as $id => $script_module) {
-            $imports[ $id ] = $this->get_src($id);
+            $imports[$id] = $this->get_src($id);
         }
         return ['imports' => $imports];
     }
@@ -295,7 +295,7 @@ class WP_Script_Modules
         $enqueued = [];
         foreach ($this->registered as $id => $script_module) {
             if (true === $script_module['enqueue']) {
-                $enqueued[ $id ] = $script_module;
+                $enqueued[$id] = $script_module;
             }
         }
         return $enqueued;
@@ -322,12 +322,12 @@ class WP_Script_Modules
             $ids,
             function ($dependency_script_modules, $id) use ($import_types) {
                 $dependencies = [];
-                foreach ($this->registered[ $id ]['dependencies'] as $dependency) {
+                foreach ($this->registered[$id]['dependencies'] as $dependency) {
                     if (in_array($dependency['import'], $import_types, true) &&
-                    isset($this->registered[ $dependency['id'] ]) &&
-                    ! isset($dependency_script_modules[ $dependency['id'] ])
+                    isset($this->registered[$dependency['id']]) &&
+                    ! isset($dependency_script_modules[$dependency['id']])
                     ) {
-                        $dependencies[ $dependency['id'] ] = $this->registered[ $dependency['id'] ];
+                        $dependencies[$dependency['id']] = $this->registered[$dependency['id']];
                     }
                 }
                 return array_merge($dependency_script_modules, $dependencies, $this->get_dependencies(array_keys($dependencies), $import_types));
@@ -350,11 +350,11 @@ class WP_Script_Modules
      */
     private function get_src(string $id): string
     {
-        if (! isset($this->registered[ $id ])) {
+        if (! isset($this->registered[$id])) {
             return '';
         }
 
-        $script_module = $this->registered[ $id ];
+        $script_module = $this->registered[$id];
         $src           = $script_module['src'];
 
         if (false === $script_module['version']) {
@@ -396,13 +396,13 @@ class WP_Script_Modules
             if ('@wordpress/a11y' === $id) {
                 $this->a11y_available = true;
             }
-            $modules[ $id ] = true;
+            $modules[$id] = true;
         }
         foreach (array_keys($this->get_import_map()['imports']) as $id) {
             if ('@wordpress/a11y' === $id) {
                 $this->a11y_available = true;
             }
-            $modules[ $id ] = true;
+            $modules[$id] = true;
         }
 
         foreach (array_keys($modules) as $module_id) {

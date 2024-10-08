@@ -220,8 +220,8 @@ function wp_initial_nav_menu_meta_boxes()
     $hidden_meta_boxes  = [];
 
     foreach (array_keys($wp_meta_boxes['nav-menus']) as $context) {
-        foreach (array_keys($wp_meta_boxes['nav-menus'][ $context ]) as $priority) {
-            foreach ($wp_meta_boxes['nav-menus'][ $context ][ $priority ] as $box) {
+        foreach (array_keys($wp_meta_boxes['nav-menus'][$context]) as $priority) {
+            foreach ($wp_meta_boxes['nav-menus'][$context][$priority] as $box) {
                 if (in_array($box['id'], $initial_meta_boxes, true)) {
                     unset($box['id']);
                 } else {
@@ -410,7 +410,7 @@ function wp_nav_menu_item_post_type_meta_box($data_object, $box)
 
     // Paginate browsing for large numbers of post objects.
     $per_page = 50;
-    $pagenum  = isset($_REQUEST[ $tab_name ]) && isset($_REQUEST['paged']) ? absint($_REQUEST['paged']) : 1;
+    $pagenum  = isset($_REQUEST[$tab_name]) && isset($_REQUEST['paged']) ? absint($_REQUEST['paged']) : 1;
     $offset   = 0 < $pagenum ? $per_page * ($pagenum - 1) : 0;
 
     $args = [
@@ -554,11 +554,11 @@ function wp_nav_menu_item_post_type_meta_box($data_object, $box)
 
     $current_tab = 'most-recent';
 
-    if (isset($_REQUEST[ $tab_name ]) && in_array($_REQUEST[ $tab_name ], ['all', 'search'], true)) {
-        $current_tab = $_REQUEST[ $tab_name ];
+    if (isset($_REQUEST[$tab_name]) && in_array($_REQUEST[$tab_name], ['all', 'search'], true)) {
+        $current_tab = $_REQUEST[$tab_name];
     }
 
-    if (! empty($_REQUEST[ "quick-search-posttype-{$post_type_name}" ])) {
+    if (! empty($_REQUEST["quick-search-posttype-{$post_type_name}"])) {
         $current_tab = 'search';
     }
 
@@ -670,8 +670,8 @@ function wp_nav_menu_item_post_type_meta_box($data_object, $box)
             role="region" aria-label="<?php echo esc_attr($post_type->labels->search_items); ?>" tabindex="0"
         >
             <?php
-            if (isset($_REQUEST[ "quick-search-posttype-{$post_type_name}" ])) {
-                $searched       = esc_attr($_REQUEST[ "quick-search-posttype-{$post_type_name}" ]);
+            if (isset($_REQUEST["quick-search-posttype-{$post_type_name}"])) {
+                $searched       = esc_attr($_REQUEST["quick-search-posttype-{$post_type_name}"]);
                 $search_results = get_posts(
                     [
                         's'         => $searched,
@@ -859,7 +859,7 @@ function wp_nav_menu_item_taxonomy_meta_box($data_object, $box)
 
     // Paginate browsing for large numbers of objects.
     $per_page = 50;
-    $pagenum  = isset($_REQUEST[ $tab_name ]) && isset($_REQUEST['paged']) ? absint($_REQUEST['paged']) : 1;
+    $pagenum  = isset($_REQUEST[$tab_name]) && isset($_REQUEST['paged']) ? absint($_REQUEST['paged']) : 1;
     $offset   = 0 < $pagenum ? $per_page * ($pagenum - 1) : 0;
 
     $args = [
@@ -927,11 +927,11 @@ function wp_nav_menu_item_taxonomy_meta_box($data_object, $box)
 
     $current_tab = 'most-used';
 
-    if (isset($_REQUEST[ $tab_name ]) && in_array($_REQUEST[ $tab_name ], ['all', 'most-used', 'search'], true)) {
-        $current_tab = $_REQUEST[ $tab_name ];
+    if (isset($_REQUEST[$tab_name]) && in_array($_REQUEST[$tab_name], ['all', 'most-used', 'search'], true)) {
+        $current_tab = $_REQUEST[$tab_name];
     }
 
-    if (! empty($_REQUEST[ "quick-search-taxonomy-{$taxonomy_name}" ])) {
+    if (! empty($_REQUEST["quick-search-taxonomy-{$taxonomy_name}"])) {
         $current_tab = 'search';
     }
 
@@ -1045,8 +1045,8 @@ function wp_nav_menu_item_taxonomy_meta_box($data_object, $box)
             class="tabs-panel <?php echo ('search' === $current_tab ? 'tabs-panel-active' : 'tabs-panel-inactive'); ?>"
             role="region" aria-label="<?php echo esc_attr($taxonomy->labels->search_items); ?>" tabindex="0">
             <?php
-            if (isset($_REQUEST[ "quick-search-taxonomy-{$taxonomy_name}" ])) {
-                $searched       = esc_attr($_REQUEST[ "quick-search-taxonomy-{$taxonomy_name}" ]);
+            if (isset($_REQUEST["quick-search-taxonomy-{$taxonomy_name}"])) {
+                $searched       = esc_attr($_REQUEST["quick-search-taxonomy-{$taxonomy_name}"]);
                 $search_results = get_terms(
                     [
                         'taxonomy'     => $taxonomy_name,
@@ -1409,7 +1409,7 @@ function wp_nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected
 
     // Index menu items by DB ID.
     foreach ($unsorted_menu_items as $_item) {
-        $menu_items[ $_item->db_id ] = $_item;
+        $menu_items[$_item->db_id] = $_item;
     }
 
     $post_fields = [
@@ -1435,18 +1435,18 @@ function wp_nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected
         foreach ((array) $_POST['menu-item-db-id'] as $_key => $k) {
 
             // Menu item title can't be blank.
-            if (! isset($_POST['menu-item-title'][ $_key ]) || '' === $_POST['menu-item-title'][ $_key ]) {
+            if (! isset($_POST['menu-item-title'][$_key]) || '' === $_POST['menu-item-title'][$_key]) {
                 continue;
             }
 
             $args = [];
             foreach ($post_fields as $field) {
-                $args[ $field ] = isset($_POST[ $field ][ $_key ]) ? $_POST[ $field ][ $_key ] : '';
+                $args[$field] = isset($_POST[$field][$_key]) ? $_POST[$field][$_key] : '';
             }
 
             $menu_item_db_id = wp_update_nav_menu_item(
                 $nav_menu_selected_id,
-                ((int) $_POST['menu-item-db-id'][ $_key ] !== $_key ? 0 : $_key),
+                ((int) $_POST['menu-item-db-id'][$_key] !== $_key ? 0 : $_key),
                 $args
             );
 
@@ -1459,7 +1459,7 @@ function wp_nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected
                     ]
                 );
             } else {
-                unset($menu_items[ $menu_item_db_id ]);
+                unset($menu_items[$menu_item_db_id]);
             }
         }
     }
@@ -1488,7 +1488,7 @@ function wp_nav_menu_update_menu_items($nav_menu_selected_id, $nav_menu_selected
     } else {
         $key = array_search($nav_menu_selected_id, $nav_menu_option['auto_add'], true);
         if (false !== $key) {
-            unset($nav_menu_option['auto_add'][ $key ]);
+            unset($nav_menu_option['auto_add'][$key]);
         }
     }
 
@@ -1555,9 +1555,9 @@ function _wp_expand_nav_menu_post_data()
             // Build the new array value from leaf to trunk.
             for ($i = count($array_bits) - 1; $i >= 0; $i--) {
                 if (count($array_bits) - 1 === $i) {
-                    $new_post_data[ $array_bits[ $i ] ] = wp_slash($post_input_data->value);
+                    $new_post_data[$array_bits[$i]] = wp_slash($post_input_data->value);
                 } else {
-                    $new_post_data = [$array_bits[ $i ] => $new_post_data];
+                    $new_post_data = [$array_bits[$i] => $new_post_data];
                 }
             }
 

@@ -1358,14 +1358,14 @@ function upgrade_230()
             $count    = (int) $category->category_count;
             $taxonomy = 'category';
             $wpdb->query($wpdb->prepare("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ( %d, %s, %s, %d, %d)", $term_id, $taxonomy, $description, $parent, $count));
-            $tt_ids[ $term_id ][ $taxonomy ] = (int) $wpdb->insert_id;
+            $tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
         }
 
         if (! empty($category->link_count)) {
             $count    = (int) $category->link_count;
             $taxonomy = 'link_category';
             $wpdb->query($wpdb->prepare("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ( %d, %s, %s, %d, %d)", $term_id, $taxonomy, $description, $parent, $count));
-            $tt_ids[ $term_id ][ $taxonomy ] = (int) $wpdb->insert_id;
+            $tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
         }
 
         if (! empty($category->tag_count)) {
@@ -1373,14 +1373,14 @@ function upgrade_230()
             $count     = (int) $category->tag_count;
             $taxonomy  = 'post_tag';
             $wpdb->insert($wpdb->term_taxonomy, compact('term_id', 'taxonomy', 'description', 'parent', 'count'));
-            $tt_ids[ $term_id ][ $taxonomy ] = (int) $wpdb->insert_id;
+            $tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
         }
 
         if (empty($count)) {
             $count    = 0;
             $taxonomy = 'category';
             $wpdb->insert($wpdb->term_taxonomy, compact('term_id', 'taxonomy', 'description', 'parent', 'count'));
-            $tt_ids[ $term_id ][ $taxonomy ] = (int) $wpdb->insert_id;
+            $tt_ids[$term_id][$taxonomy] = (int) $wpdb->insert_id;
         }
     }
 
@@ -1397,7 +1397,7 @@ function upgrade_230()
         if (! empty($post->rel_type) && 'tag' === $post->rel_type) {
             $taxonomy = 'tag';
         }
-        $tt_id = $tt_ids[ $term_id ][ $taxonomy ];
+        $tt_id = $tt_ids[$term_id][$taxonomy];
         if (empty($tt_id)) {
             continue;
         }
@@ -1440,8 +1440,8 @@ function upgrade_230()
                 $term_id = (int) $wpdb->insert_id;
             }
 
-            $link_cat_id_map[ $cat_id ] = $term_id;
-            $default_link_cat           = $term_id;
+            $link_cat_id_map[$cat_id] = $term_id;
+            $default_link_cat         = $term_id;
 
             $wpdb->insert(
                 $wpdb->term_taxonomy,
@@ -1453,7 +1453,7 @@ function upgrade_230()
                     'count'       => 0,
                 ]
             );
-            $tt_ids[ $term_id ] = (int) $wpdb->insert_id;
+            $tt_ids[$term_id] = (int) $wpdb->insert_id;
         }
 
         // Associate links to categories.
@@ -1463,11 +1463,11 @@ function upgrade_230()
                 if (0 === (int) $link->link_category) {
                     continue;
                 }
-                if (! isset($link_cat_id_map[ $link->link_category ])) {
+                if (! isset($link_cat_id_map[$link->link_category])) {
                     continue;
                 }
-                $term_id = $link_cat_id_map[ $link->link_category ];
-                $tt_id   = $tt_ids[ $term_id ];
+                $term_id = $link_cat_id_map[$link->link_category];
+                $tt_id   = $tt_ids[$term_id];
                 if (empty($tt_id)) {
                     continue;
                 }
@@ -1490,7 +1490,7 @@ function upgrade_230()
             $link_id  = (int) $link->link_id;
             $term_id  = (int) $link->category_id;
             $taxonomy = 'link_category';
-            $tt_id    = $tt_ids[ $term_id ][ $taxonomy ];
+            $tt_id    = $tt_ids[$term_id][$taxonomy];
             if (empty($tt_id)) {
                 continue;
             }
@@ -1790,14 +1790,14 @@ function upgrade_330()
                 if (is_array($sidebar)) {
                     foreach ((array) $sidebar as $i => $name) {
                         $id = strtolower($name);
-                        if (isset($wp_registered_widgets[ $id ])) {
-                            $_sidebars_widgets[ $index ][ $i ] = $id;
+                        if (isset($wp_registered_widgets[$id])) {
+                            $_sidebars_widgets[$index][$i] = $id;
                             continue;
                         }
 
                         $id = sanitize_title($name);
-                        if (isset($wp_registered_widgets[ $id ])) {
-                            $_sidebars_widgets[ $index ][ $i ] = $id;
+                        if (isset($wp_registered_widgets[$id])) {
+                            $_sidebars_widgets[$index][$i] = $id;
                             continue;
                         }
 
@@ -1805,12 +1805,12 @@ function upgrade_330()
 
                         foreach ($wp_registered_widgets as $widget_id => $widget) {
                             if (strtolower($widget['name']) === strtolower($name)) {
-                                $_sidebars_widgets[ $index ][ $i ] = $widget['id'];
+                                $_sidebars_widgets[$index][$i] = $widget['id'];
 
                                 $found = true;
                                 break;
                             } elseif (sanitize_title($widget['name']) === sanitize_title($name)) {
-                                $_sidebars_widgets[ $index ][ $i ] = $widget['id'];
+                                $_sidebars_widgets[$index][$i] = $widget['id'];
 
                                 $found = true;
                                 break;
@@ -1821,7 +1821,7 @@ function upgrade_330()
                             continue;
                         }
 
-                        unset($_sidebars_widgets[ $index ][ $i ]);
+                        unset($_sidebars_widgets[$index][$i]);
                     }
                 }
             }
@@ -2178,7 +2178,7 @@ function upgrade_460()
         if (! empty($uninstall_plugins)) {
             foreach ($uninstall_plugins as $basename => $callback) {
                 if (is_array($callback) && is_object($callback[0])) {
-                    unset($uninstall_plugins[ $basename ]);
+                    unset($uninstall_plugins[$basename]);
                 }
             }
 
@@ -2547,8 +2547,8 @@ function upgrade_network()
             $converted = [];
             $themes    = wp_get_themes();
             foreach ($themes as $stylesheet => $theme_data) {
-                if (isset($allowed_themes[ $theme_data->get('Name') ])) {
-                    $converted[ $stylesheet ] = true;
+                if (isset($allowed_themes[$theme_data->get('Name')])) {
+                    $converted[$stylesheet] = true;
                 }
             }
             update_site_option('allowedthemes', $converted);
@@ -2938,8 +2938,8 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
     // Create a tablename index for an array ($cqueries) of recognized query types.
     foreach ($queries as $qry) {
         if (preg_match('|CREATE TABLE ([^ ]*)|', $qry, $matches)) {
-            $cqueries[ trim($matches[1], '`') ] = $qry;
-            $for_update[ $matches[1] ]          = 'Created table ' . $matches[1];
+            $cqueries[trim($matches[1], '`')] = $qry;
+            $for_update[$matches[1]]          = 'Created table ' . $matches[1];
             continue;
         }
 
@@ -2992,7 +2992,7 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
     foreach ($cqueries as $table => $qry) {
         // Upgrade global tables only for the main site. Don't upgrade at all if conditions are not optimal.
         if (in_array($table, $global_tables, true) && ! wp_should_upgrade_global_tables()) {
-            unset($cqueries[ $table ], $for_update[ $table ]);
+            unset($cqueries[$table], $for_update[$table]);
             continue;
         }
 
@@ -3113,7 +3113,7 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
                         $index_column = '`' . $index_column_matches['column_name'] . '`';
 
                         // We don't need to add the subpart to $index_columns_without_subparts
-                        $index_columns_without_subparts[ $id ] = $index_column;
+                        $index_columns_without_subparts[$id] = $index_column;
 
                         // Append the optional sup part with the number of indexed characters.
                         if (isset($index_column_matches['sub_part'])) {
@@ -3133,7 +3133,7 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
 
             // If it's a valid field, add it to the field array.
             if ($validfield) {
-                $cfields[ $fieldname_lowercased ] = $fld;
+                $cfields[$fieldname_lowercased] = $fld;
             }
         }
 
@@ -3159,7 +3159,7 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
             if (array_key_exists($tablefield_field_lowercased, $cfields)) {
 
                 // Get the field type from the query.
-                preg_match('|`?' . $tablefield->Field . '`? ([^ ]*( unsigned)?)|i', $cfields[ $tablefield_field_lowercased ], $matches);
+                preg_match('|`?' . $tablefield->Field . '`? ([^ ]*( unsigned)?)|i', $cfields[$tablefield_field_lowercased], $matches);
                 $fieldtype            = $matches[1];
                 $fieldtype_lowercased = strtolower($fieldtype);
 
@@ -3208,25 +3208,25 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
 
                     if ($do_change) {
                         // Add a query to change the column type.
-                        $cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN `{$tablefield->Field}` " . $cfields[ $tablefield_field_lowercased ];
+                        $cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN `{$tablefield->Field}` " . $cfields[$tablefield_field_lowercased];
 
-                        $for_update[ $table . '.' . $tablefield->Field ] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
+                        $for_update[$table . '.' . $tablefield->Field] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
                     }
                 }
 
                 // Get the default value from the array.
-                if (preg_match("| DEFAULT '(.*?)'|i", $cfields[ $tablefield_field_lowercased ], $matches)) {
+                if (preg_match("| DEFAULT '(.*?)'|i", $cfields[$tablefield_field_lowercased], $matches)) {
                     $default_value = $matches[1];
                     if ($tablefield->Default !== $default_value) {
                         // Add a query to change the column's default value
                         $cqueries[] = "ALTER TABLE {$table} ALTER COLUMN `{$tablefield->Field}` SET DEFAULT '{$default_value}'";
 
-                        $for_update[ $table . '.' . $tablefield->Field ] = "Changed default value of {$table}.{$tablefield->Field} from {$tablefield->Default} to {$default_value}";
+                        $for_update[$table . '.' . $tablefield->Field] = "Changed default value of {$table}.{$tablefield->Field} from {$tablefield->Default} to {$default_value}";
                     }
                 }
 
                 // Remove the field from the array (so it's not added).
-                unset($cfields[ $tablefield_field_lowercased ]);
+                unset($cfields[$tablefield_field_lowercased]);
             } else {
                 // This field exists in the table, but not in the creation queries?
             }
@@ -3237,7 +3237,7 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
             // Push a query line into $cqueries that adds the field to that table.
             $cqueries[] = "ALTER TABLE {$table} ADD COLUMN $fielddef";
 
-            $for_update[ $table . '.' . $fieldname ] = 'Added column ' . $table . '.' . $fieldname;
+            $for_update[$table . '.' . $fieldname] = 'Added column ' . $table . '.' . $fieldname;
         }
 
         // Index stuff goes here. Fetch the table index structure from the database.
@@ -3252,12 +3252,12 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
                 $keyname = strtolower($tableindex->Key_name);
 
                 // Add the index to the index data array.
-                $index_ary[ $keyname ]['columns'][]  = [
+                $index_ary[$keyname]['columns'][]  = [
                     'fieldname' => $tableindex->Column_name,
                     'subpart'   => $tableindex->Sub_part,
                 ];
-                $index_ary[ $keyname ]['unique']     = ('0' === $tableindex->Non_unique) ? true : false;
-                $index_ary[ $keyname ]['index_type'] = $tableindex->Index_type;
+                $index_ary[$keyname]['unique']     = ('0' === $tableindex->Non_unique) ? true : false;
+                $index_ary[$keyname]['index_type'] = $tableindex->Index_type;
             }
 
             // For each actual index in the index array.
@@ -3303,8 +3303,8 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
                 $aindex = array_search($index_string, $indices_without_subparts, true);
                 if (false !== $aindex) {
                     // If the index already exists (even with different subparts), we don't need to create it.
-                    unset($indices_without_subparts[ $aindex ]);
-                    unset($indices[ $aindex ]);
+                    unset($indices_without_subparts[$aindex]);
+                    unset($indices[$aindex]);
                 }
             }
         }
@@ -3318,7 +3318,7 @@ function dbDelta($queries = '', $execute = true)  // phpcs:ignore WordPress.Nami
         }
 
         // Remove the original table creation query from processing.
-        unset($cqueries[ $table ], $for_update[ $table ]);
+        unset($cqueries[$table], $for_update[$table]);
     }
 
     $allqueries = array_merge($cqueries, $iqueries);

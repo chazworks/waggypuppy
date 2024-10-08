@@ -28,7 +28,7 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
         $parent_id = $factory->post->create();
 
         for ($index = 1; $index <= 5; $index++) {
-            self::$attachments[ $index ] = $factory->attachment->create_object(
+            self::$attachments[$index] = $factory->attachment->create_object(
                 "image{$index}.jpg",
                 $parent_id,
                 [
@@ -60,12 +60,12 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
         $args = array_values($args);
 
         // Replace the attachment ID placeholder.
-        if (isset(self::$attachments[ $expected_attachment_index ])) {
-            $expected = str_replace('%%ID%%', self::$attachments[ $expected_attachment_index ], $expected);
+        if (isset(self::$attachments[$expected_attachment_index])) {
+            $expected = str_replace('%%ID%%', self::$attachments[$expected_attachment_index], $expected);
         }
 
         // Go to the current attachment to set the state for the tests.
-        $this->go_to(get_permalink(self::$attachments[ $current_attachment_index ]));
+        $this->go_to(get_permalink(self::$attachments[$current_attachment_index]));
 
         // Return the changed parameters.
         return [$expected, $args];

@@ -83,7 +83,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
             $update = apply_filters('async_update_translation', $update, $language_update);
 
             if (! $update) {
-                unset($language_updates[ $key ]);
+                unset($language_updates[$key]);
             }
         }
 

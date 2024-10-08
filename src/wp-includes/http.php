@@ -261,8 +261,8 @@ function wp_remote_retrieve_header($response, $header)
         return '';
     }
 
-    if (isset($response['headers'][ $header ])) {
-        return $response['headers'][ $header ];
+    if (isset($response['headers'][$header])) {
+        return $response['headers'][$header];
     }
 
     return '';
@@ -706,11 +706,11 @@ function ms_allowed_http_request_hosts($is_external, $host)
     if (get_network()->domain === $host) {
         return true;
     }
-    if (isset($queried[ $host ])) {
-        return $queried[ $host ];
+    if (isset($queried[$host])) {
+        return $queried[$host];
     }
-    $queried[ $host ] = (bool) $wpdb->get_var($wpdb->prepare("SELECT domain FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $host));
-    return $queried[ $host ];
+    $queried[$host] = (bool) $wpdb->get_var($wpdb->prepare("SELECT domain FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $host));
+    return $queried[$host];
 }
 
 /**
@@ -757,7 +757,7 @@ function wp_parse_url($url, $component = -1)
 
     // Remove the placeholder values.
     foreach ($to_unset as $key) {
-        unset($parts[ $key ]);
+        unset($parts[$key]);
     }
 
     return _get_component_from_parsed_url_array($parts, $component);
@@ -789,8 +789,8 @@ function _get_component_from_parsed_url_array($url_parts, $component = -1)
     }
 
     $key = _wp_translate_php_url_constant_to_key($component);
-    if (false !== $key && is_array($url_parts) && isset($url_parts[ $key ])) {
-        return $url_parts[ $key ];
+    if (false !== $key && is_array($url_parts) && isset($url_parts[$key])) {
+        return $url_parts[$key];
     } else {
         return null;
     }
@@ -822,8 +822,8 @@ function _wp_translate_php_url_constant_to_key($constant)
         PHP_URL_FRAGMENT => 'fragment',
     ];
 
-    if (isset($translation[ $constant ])) {
-        return $translation[ $constant ];
+    if (isset($translation[$constant])) {
+        return $translation[$constant];
     } else {
         return false;
     }

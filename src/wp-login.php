@@ -950,8 +950,8 @@ switch ($action) {
             exit;
         }
 
-        if (isset($_COOKIE[ $rp_cookie ]) && 0 < strpos($_COOKIE[ $rp_cookie ], ':')) {
-            list( $rp_login, $rp_key ) = explode(':', wp_unslash($_COOKIE[ $rp_cookie ]), 2);
+        if (isset($_COOKIE[$rp_cookie]) && 0 < strpos($_COOKIE[$rp_cookie], ':')) {
+            list( $rp_login, $rp_key ) = explode(':', wp_unslash($_COOKIE[$rp_cookie]), 2);
 
             $user = check_password_reset_key($rp_key, $rp_login);
 
@@ -1324,7 +1324,7 @@ switch ($action) {
 
         $user = wp_signon([], $secure_cookie);
 
-        if (empty($_COOKIE[ LOGGED_IN_COOKIE ])) {
+        if (empty($_COOKIE[LOGGED_IN_COOKIE])) {
             if (headers_sent()) {
                 $user = new WP_Error(
                     'test_cookie',
@@ -1335,7 +1335,7 @@ switch ($action) {
                         __('https://wordpress.org/support/forums/')
                     )
                 );
-            } elseif (isset($_POST['testcookie']) && empty($_COOKIE[ TEST_COOKIE ])) {
+            } elseif (isset($_POST['testcookie']) && empty($_COOKIE[TEST_COOKIE])) {
                 // If cookies are disabled, the user can't log in even with a valid username and password.
                 $user = new WP_Error(
                     'test_cookie',

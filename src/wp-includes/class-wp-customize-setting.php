@@ -180,8 +180,8 @@ class WP_Customize_Setting
     {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
-            if (isset($args[ $key ])) {
-                $this->$key = $args[ $key ];
+            if (isset($args[$key])) {
+                $this->$key = $args[$key];
             }
         }
 
@@ -214,7 +214,7 @@ class WP_Customize_Setting
 
             // Allow option settings to indicate whether they should be autoloaded.
             if ('option' === $this->type && isset($args['autoload'])) {
-                self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['autoload'] = $args['autoload'];
+                self::$aggregated_multidimensionals[$this->type][$this->id_data['base']]['autoload'] = $args['autoload'];
             }
         }
     }
@@ -247,11 +247,11 @@ class WP_Customize_Setting
     protected function aggregate_multidimensional()
     {
         $id_base = $this->id_data['base'];
-        if (! isset(self::$aggregated_multidimensionals[ $this->type ])) {
-            self::$aggregated_multidimensionals[ $this->type ] = [];
+        if (! isset(self::$aggregated_multidimensionals[$this->type])) {
+            self::$aggregated_multidimensionals[$this->type] = [];
         }
-        if (! isset(self::$aggregated_multidimensionals[ $this->type ][ $id_base ])) {
-            self::$aggregated_multidimensionals[ $this->type ][ $id_base ] = [
+        if (! isset(self::$aggregated_multidimensionals[$this->type][$id_base])) {
+            self::$aggregated_multidimensionals[$this->type][$id_base] = [
                 'previewed_instances'       => [], // Calling preview() will add the $setting to the array.
                 'preview_applied_instances' => [], // Flags for which settings have had their values applied.
                 'root_value'                => $this->get_root_value([]), // Root value for initial state, manipulated by preview and update calls.
@@ -350,7 +350,7 @@ class WP_Customize_Setting
         // Since no post value was defined, check if we have an initial value set.
         if (! $needs_preview) {
             if ($this->is_multidimensional_aggregated) {
-                $root  = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
+                $root  = self::$aggregated_multidimensionals[$this->type][$id_base]['root_value'];
                 $value = $this->multidimensional_get($root, $this->id_data['keys'], $undefined);
             } else {
                 $default       = $this->default;
@@ -374,23 +374,23 @@ class WP_Customize_Setting
                 if (! $is_multidimensional) {
                     add_filter("theme_mod_{$id_base}", [$this, '_preview_filter']);
                 } else {
-                    if (empty(self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'])) {
+                    if (empty(self::$aggregated_multidimensionals[$this->type][$id_base]['previewed_instances'])) {
                         // Only add this filter once for this ID base.
                         add_filter("theme_mod_{$id_base}", $multidimensional_filter);
                     }
-                    self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'][ $this->id ] = $this;
+                    self::$aggregated_multidimensionals[$this->type][$id_base]['previewed_instances'][$this->id] = $this;
                 }
                 break;
             case 'option':
                 if (! $is_multidimensional) {
                     add_filter("pre_option_{$id_base}", [$this, '_preview_filter']);
                 } else {
-                    if (empty(self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'])) {
+                    if (empty(self::$aggregated_multidimensionals[$this->type][$id_base]['previewed_instances'])) {
                         // Only add these filters once for this ID base.
                         add_filter("option_{$id_base}", $multidimensional_filter);
                         add_filter("default_option_{$id_base}", $multidimensional_filter);
                     }
-                    self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'][ $this->id ] = $this;
+                    self::$aggregated_multidimensionals[$this->type][$id_base]['previewed_instances'][$this->id] = $this;
                 }
                 break;
             default:
@@ -438,7 +438,7 @@ class WP_Customize_Setting
      */
     final public function _clear_aggregated_multidimensional_preview_applied_flag()
     {
-        unset(self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['preview_applied_instances'][ $this->id ]);
+        unset(self::$aggregated_multidimensionals[$this->type][$this->id_data['base']]['preview_applied_instances'][$this->id]);
     }
 
     /**
@@ -495,27 +495,27 @@ class WP_Customize_Setting
         $id_base = $this->id_data['base'];
 
         // If no settings have been previewed yet (which should not be the case, since $this is), just pass through the original value.
-        if (empty(self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'])) {
+        if (empty(self::$aggregated_multidimensionals[$this->type][$id_base]['previewed_instances'])) {
             return $original;
         }
 
-        foreach (self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'] as $previewed_setting) {
+        foreach (self::$aggregated_multidimensionals[$this->type][$id_base]['previewed_instances'] as $previewed_setting) {
             // Skip applying previewed value for any settings that have already been applied.
-            if (! empty(self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['preview_applied_instances'][ $previewed_setting->id ])) {
+            if (! empty(self::$aggregated_multidimensionals[$this->type][$id_base]['preview_applied_instances'][$previewed_setting->id])) {
                 continue;
             }
 
             // Do the replacements of the posted/default sub value into the root value.
             $value = $previewed_setting->post_value($previewed_setting->default);
-            $root  = self::$aggregated_multidimensionals[ $previewed_setting->type ][ $id_base ]['root_value'];
+            $root  = self::$aggregated_multidimensionals[$previewed_setting->type][$id_base]['root_value'];
             $root  = $previewed_setting->multidimensional_replace($root, $previewed_setting->id_data['keys'], $value);
-            self::$aggregated_multidimensionals[ $previewed_setting->type ][ $id_base ]['root_value'] = $root;
+            self::$aggregated_multidimensionals[$previewed_setting->type][$id_base]['root_value'] = $root;
 
             // Mark this setting having been applied so that it will be skipped when the filter is called again.
-            self::$aggregated_multidimensionals[ $previewed_setting->type ][ $id_base ]['preview_applied_instances'][ $previewed_setting->id ] = true;
+            self::$aggregated_multidimensionals[$previewed_setting->type][$id_base]['preview_applied_instances'][$previewed_setting->id] = true;
         }
 
-        return self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
+        return self::$aggregated_multidimensionals[$this->type][$id_base]['root_value'];
     }
 
     /**
@@ -669,8 +669,8 @@ class WP_Customize_Setting
         $id_base = $this->id_data['base'];
         if ('option' === $this->type) {
             $autoload = true;
-            if (isset(self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['autoload'])) {
-                $autoload = self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['autoload'];
+            if (isset(self::$aggregated_multidimensionals[$this->type][$this->id_data['base']]['autoload'])) {
+                $autoload = self::$aggregated_multidimensionals[$this->type][$this->id_data['base']]['autoload'];
             }
             return update_option($id_base, $value, $autoload);
         } elseif ('theme_mod' === $this->type) {
@@ -701,9 +701,9 @@ class WP_Customize_Setting
             if (! $this->is_multidimensional_aggregated) {
                 return $this->set_root_value($value);
             } else {
-                $root = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
+                $root = self::$aggregated_multidimensionals[$this->type][$id_base]['root_value'];
                 $root = $this->multidimensional_replace($root, $this->id_data['keys'], $value);
-                self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'] = $root;
+                self::$aggregated_multidimensionals[$this->type][$id_base]['root_value'] = $root;
                 return $this->set_root_value($root);
             }
         } else {
@@ -787,7 +787,7 @@ class WP_Customize_Setting
              */
             $value = apply_filters("customize_value_{$id_base}", $value, $this);
         } elseif ($this->is_multidimensional_aggregated) {
-            $root_value = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
+            $root_value = self::$aggregated_multidimensionals[$this->type][$id_base]['root_value'];
             $value      = $this->multidimensional_get($root_value, $this->id_data['keys'], $this->default);
 
             // Ensure that the post value is used if the setting is previewed, since preview filters aren't applying on cached $root_value.
@@ -890,15 +890,15 @@ class WP_Customize_Setting
         $node = &$root;
 
         foreach ($keys as $key) {
-            if ($create && ! isset($node[ $key ])) {
-                $node[ $key ] = [];
+            if ($create && ! isset($node[$key])) {
+                $node[$key] = [];
             }
 
-            if (! is_array($node) || ! isset($node[ $key ])) {
+            if (! is_array($node) || ! isset($node[$key])) {
                 return;
             }
 
-            $node = &$node[ $key ];
+            $node = &$node[$key];
         }
 
         if ($create) {
@@ -906,12 +906,12 @@ class WP_Customize_Setting
                 // Account for an array overriding a string or object value.
                 $node = [];
             }
-            if (! isset($node[ $last ])) {
-                $node[ $last ] = [];
+            if (! isset($node[$last])) {
+                $node[$last] = [];
             }
         }
 
-        if (! isset($node[ $last ])) {
+        if (! isset($node[$last])) {
             return;
         }
 
@@ -943,7 +943,7 @@ class WP_Customize_Setting
         $result = $this->multidimensional($root, $keys, true);
 
         if (isset($result)) {
-            $result['node'][ $result['key'] ] = $value;
+            $result['node'][$result['key']] = $value;
         }
 
         return $root;
@@ -966,7 +966,7 @@ class WP_Customize_Setting
         }
 
         $result = $this->multidimensional($root, $keys);
-        return isset($result) ? $result['node'][ $result['key'] ] : $default_value;
+        return isset($result) ? $result['node'][$result['key']] : $default_value;
     }
 
     /**

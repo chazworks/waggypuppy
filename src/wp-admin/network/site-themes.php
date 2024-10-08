@@ -72,7 +72,7 @@ if ($action) {
             if (! $allowed_themes) {
                 $allowed_themes = [$theme => true];
             } else {
-                $allowed_themes[ $theme ] = true;
+                $allowed_themes[$theme] = true;
             }
             break;
         case 'disable':
@@ -83,7 +83,7 @@ if ($action) {
             if (! $allowed_themes) {
                 $allowed_themes = [];
             } else {
-                unset($allowed_themes[ $theme ]);
+                unset($allowed_themes[$theme]);
             }
             break;
         case 'enable-selected':
@@ -93,7 +93,7 @@ if ($action) {
                 $action = 'enabled';
                 $n      = count($themes);
                 foreach ((array) $themes as $theme) {
-                    $allowed_themes[ $theme ] = true;
+                    $allowed_themes[$theme] = true;
                 }
             } else {
                 $action = 'error';
@@ -107,7 +107,7 @@ if ($action) {
                 $action = 'disabled';
                 $n      = count($themes);
                 foreach ((array) $themes as $theme) {
-                    unset($allowed_themes[ $theme ]);
+                    unset($allowed_themes[$theme]);
                 }
             } else {
                 $action = 'error';

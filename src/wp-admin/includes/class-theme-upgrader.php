@@ -310,7 +310,7 @@ class Theme_Upgrader extends WP_Upgrader
 
         // Is an update available?
         $current = get_site_transient('update_themes');
-        if (! isset($current->response[ $theme ])) {
+        if (! isset($current->response[$theme])) {
             $this->skin->before();
             $this->skin->set_result(false);
             $this->skin->error('up_to_date');
@@ -318,7 +318,7 @@ class Theme_Upgrader extends WP_Upgrader
             return false;
         }
 
-        $r = $current->response[ $theme ];
+        $r = $current->response[$theme];
 
         add_filter('upgrader_pre_install', [$this, 'current_before'], 10, 2);
         add_filter('upgrader_post_install', [$this, 'current_after'], 10, 2);
@@ -364,8 +364,8 @@ class Theme_Upgrader extends WP_Upgrader
          */
         $past_failure_emails = get_option('auto_plugin_theme_update_emails', []);
 
-        if (isset($past_failure_emails[ $theme ])) {
-            unset($past_failure_emails[ $theme ]);
+        if (isset($past_failure_emails[$theme])) {
+            unset($past_failure_emails[$theme]);
             update_option('auto_plugin_theme_update_emails', $past_failure_emails);
         }
 
@@ -439,17 +439,17 @@ class Theme_Upgrader extends WP_Upgrader
 
             $this->skin->theme_info = $this->theme_info($theme);
 
-            if (! isset($current->response[ $theme ])) {
+            if (! isset($current->response[$theme])) {
                 $this->skin->set_result(true);
                 $this->skin->before();
                 $this->skin->feedback('up_to_date');
                 $this->skin->after();
-                $results[ $theme ] = true;
+                $results[$theme] = true;
                 continue;
             }
 
             // Get the URL to the zip file.
-            $r = $current->response[ $theme ];
+            $r = $current->response[$theme];
 
             if (isset($r['requires']) && ! is_wp_version_compatible($r['requires'])) {
                 $result = new WP_Error(
@@ -501,7 +501,7 @@ class Theme_Upgrader extends WP_Upgrader
                 remove_filter('upgrader_source_selection', [$this, 'check_package']);
             }
 
-            $results[ $theme ] = $result;
+            $results[$theme] = $result;
 
             // Prevent credentials auth screen from displaying multiple times.
             if (false === $result) {
@@ -543,11 +543,11 @@ class Theme_Upgrader extends WP_Upgrader
 
         foreach ($results as $theme => $result) {
             // Maintain last failure notification when themes failed to update manually.
-            if (! $result || is_wp_error($result) || ! isset($past_failure_emails[ $theme ])) {
+            if (! $result || is_wp_error($result) || ! isset($past_failure_emails[$theme])) {
                 continue;
             }
 
-            unset($past_failure_emails[ $theme ]);
+            unset($past_failure_emails[$theme]);
         }
 
         update_option('auto_plugin_theme_update_emails', $past_failure_emails);

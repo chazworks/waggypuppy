@@ -39,7 +39,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
             '"initialized" was not set to true during initialization.'
         );
 
-        $default_value = self::$static_properties[ $property_name ];
+        $default_value = self::$static_properties[$property_name];
 
         $this->assertNotSame(
             $default_value,
@@ -48,7 +48,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
         );
 
         // Reset it to its default.
-        $this->set_property_value($property_name, self::$static_properties[ $property_name ]);
+        $this->set_property_value($property_name, self::$static_properties[$property_name]);
 
         self::$instance->initialize();
 
@@ -296,7 +296,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
                 $slug = str_replace('.php', '', explode('/', $plugin_file)[0]);
             }
 
-            $expected_slugs[ $plugin_file ] = $slug;
+            $expected_slugs[$plugin_file] = $slug;
 
             // While here, ensure the plugins are all dependents.
             $headers['RequiresPlugins'] = 'dependency';

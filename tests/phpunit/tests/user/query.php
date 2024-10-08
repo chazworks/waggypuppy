@@ -1382,7 +1382,7 @@ class Tests_User_Query extends WP_UnitTestCase
     public function filter_pre_get_users_args($q)
     {
         foreach ($q->query_vars as $k => $v) {
-            unset($q->query_vars[ $k ]);
+            unset($q->query_vars[$k]);
         }
     }
 

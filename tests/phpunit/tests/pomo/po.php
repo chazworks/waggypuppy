@@ -293,7 +293,7 @@ msgstr[2] "бабаяга"',
         );
 
         $simple_entry = new Translation_Entry(['singular' => 'moon']);
-        $this->assertEquals($simple_entry, $po->entries[ $simple_entry->key() ]);
+        $this->assertEquals($simple_entry, $po->entries[$simple_entry->key()]);
 
         $all_types_entry = new Translation_Entry(
             [
@@ -303,7 +303,7 @@ msgstr[2] "бабаяга"',
                 'translations' => ['ztrut0', 'ztrut1', 'ztrut2'],
             ]
         );
-        $this->assertEquals($all_types_entry, $po->entries[ $all_types_entry->key() ]);
+        $this->assertEquals($all_types_entry, $po->entries[$all_types_entry->key()]);
 
         $multiple_line_entry = new Translation_Entry(
             [
@@ -311,7 +311,7 @@ msgstr[2] "бабаяга"',
                 'translations' => ["baba\ndyadogugu"],
             ]
         );
-        $this->assertEquals($multiple_line_entry, $po->entries[ $multiple_line_entry->key() ]);
+        $this->assertEquals($multiple_line_entry, $po->entries[$multiple_line_entry->key()]);
 
         $multiple_line_all_types_entry = new Translation_Entry(
             [
@@ -321,7 +321,7 @@ msgstr[2] "бабаяга"',
                 'translations' => ['translation0', 'translation1', 'translation2'],
             ]
         );
-        $this->assertEquals($multiple_line_all_types_entry, $po->entries[ $multiple_line_all_types_entry->key() ]);
+        $this->assertEquals($multiple_line_all_types_entry, $po->entries[$multiple_line_all_types_entry->key()]);
 
         $comments_entry = new Translation_Entry(
             [
@@ -332,10 +332,10 @@ msgstr[2] "бабаяга"',
                 'flags'               => ['fuzzy'],
             ]
         );
-        $this->assertEquals($comments_entry, $po->entries[ $comments_entry->key() ]);
+        $this->assertEquals($comments_entry, $po->entries[$comments_entry->key()]);
 
         $end_quote_entry = new Translation_Entry(['singular' => 'a"']);
-        $this->assertEquals($end_quote_entry, $po->entries[ $end_quote_entry->key() ]);
+        $this->assertEquals($end_quote_entry, $po->entries[$end_quote_entry->key()]);
     }
 
     public function test_import_from_entry_file_should_give_false()

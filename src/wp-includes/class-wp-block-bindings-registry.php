@@ -189,7 +189,7 @@ final class WP_Block_Bindings_Registry
             $source_properties
         );
 
-        $this->sources[ $source_name ] = $source;
+        $this->sources[$source_name] = $source;
 
         return $source;
     }
@@ -214,8 +214,8 @@ final class WP_Block_Bindings_Registry
             return false;
         }
 
-        $unregistered_source = $this->sources[ $source_name ];
-        unset($this->sources[ $source_name ]);
+        $unregistered_source = $this->sources[$source_name];
+        unset($this->sources[$source_name]);
 
         return $unregistered_source;
     }
@@ -246,7 +246,7 @@ final class WP_Block_Bindings_Registry
             return null;
         }
 
-        return $this->sources[ $source_name ];
+        return $this->sources[$source_name];
     }
 
     /**
@@ -259,7 +259,7 @@ final class WP_Block_Bindings_Registry
      */
     public function is_registered($source_name)
     {
-        return isset($this->sources[ $source_name ]);
+        return isset($this->sources[$source_name]);
     }
 
     /**

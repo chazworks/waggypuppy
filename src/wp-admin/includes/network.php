@@ -554,7 +554,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
         ];
         foreach ($keys_salts as $c => $v) {
             if (defined($c)) {
-                unset($keys_salts[ $c ]);
+                unset($keys_salts[$c]);
             }
         }
 

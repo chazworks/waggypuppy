@@ -330,27 +330,27 @@ class Tests_URL extends WP_UnitTestCase
         $forced_admin = force_ssl_admin();
         $i            = 0;
         foreach ($links as $link) {
-            $this->assertSame($https_links[ $i ], set_url_scheme($link, 'https'));
-            $this->assertSame($http_links[ $i ], set_url_scheme($link, 'http'));
-            $this->assertSame($relative_links[ $i ], set_url_scheme($link, 'relative'));
+            $this->assertSame($https_links[$i], set_url_scheme($link, 'https'));
+            $this->assertSame($http_links[$i], set_url_scheme($link, 'http'));
+            $this->assertSame($relative_links[$i], set_url_scheme($link, 'relative'));
 
             $_SERVER['HTTPS'] = 'on';
-            $this->assertSame($https_links[ $i ], set_url_scheme($link));
+            $this->assertSame($https_links[$i], set_url_scheme($link));
 
             $_SERVER['HTTPS'] = 'off';
-            $this->assertSame($http_links[ $i ], set_url_scheme($link));
+            $this->assertSame($http_links[$i], set_url_scheme($link));
 
             force_ssl_admin(true);
-            $this->assertSame($https_links[ $i ], set_url_scheme($link, 'admin'));
-            $this->assertSame($https_links[ $i ], set_url_scheme($link, 'login_post'));
-            $this->assertSame($https_links[ $i ], set_url_scheme($link, 'login'));
-            $this->assertSame($https_links[ $i ], set_url_scheme($link, 'rpc'));
+            $this->assertSame($https_links[$i], set_url_scheme($link, 'admin'));
+            $this->assertSame($https_links[$i], set_url_scheme($link, 'login_post'));
+            $this->assertSame($https_links[$i], set_url_scheme($link, 'login'));
+            $this->assertSame($https_links[$i], set_url_scheme($link, 'rpc'));
 
             force_ssl_admin(false);
-            $this->assertSame($http_links[ $i ], set_url_scheme($link, 'admin'));
-            $this->assertSame($http_links[ $i ], set_url_scheme($link, 'login_post'));
-            $this->assertSame($http_links[ $i ], set_url_scheme($link, 'login'));
-            $this->assertSame($http_links[ $i ], set_url_scheme($link, 'rpc'));
+            $this->assertSame($http_links[$i], set_url_scheme($link, 'admin'));
+            $this->assertSame($http_links[$i], set_url_scheme($link, 'login_post'));
+            $this->assertSame($http_links[$i], set_url_scheme($link, 'login'));
+            $this->assertSame($http_links[$i], set_url_scheme($link, 'rpc'));
 
             ++$i;
         }

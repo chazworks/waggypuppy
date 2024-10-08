@@ -61,7 +61,7 @@ final class WP_Recovery_Mode_Key_Service
 
         $records = $this->get_keys();
 
-        $records[ $token ] = [
+        $records[$token] = [
             'hashed_key' => $hashed,
             'created_at' => time(),
         ];
@@ -101,11 +101,11 @@ final class WP_Recovery_Mode_Key_Service
 
         $records = $this->get_keys();
 
-        if (! isset($records[ $token ])) {
+        if (! isset($records[$token])) {
             return new WP_Error('token_not_found', __('Recovery Mode not initialized.'));
         }
 
-        $record = $records[ $token ];
+        $record = $records[$token];
 
         $this->remove_key($token);
 
@@ -143,7 +143,7 @@ final class WP_Recovery_Mode_Key_Service
 
         foreach ($records as $key => $record) {
             if (! isset($record['created_at']) || time() > $record['created_at'] + $ttl) {
-                unset($records[ $key ]);
+                unset($records[$key]);
             }
         }
 
@@ -162,11 +162,11 @@ final class WP_Recovery_Mode_Key_Service
 
         $records = $this->get_keys();
 
-        if (! isset($records[ $token ])) {
+        if (! isset($records[$token])) {
             return;
         }
 
-        unset($records[ $token ]);
+        unset($records[$token]);
 
         $this->update_keys($records);
     }

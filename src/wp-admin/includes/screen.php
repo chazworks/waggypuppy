@@ -22,7 +22,7 @@ function get_column_headers($screen)
         $screen = convert_to_screen($screen);
     }
 
-    if (! isset($column_headers[ $screen->id ])) {
+    if (! isset($column_headers[$screen->id])) {
         /**
          * Filters the column headers for a list table on a specific screen.
          *
@@ -35,10 +35,10 @@ function get_column_headers($screen)
          *
          * @param string[] $columns The column header labels keyed by column ID.
          */
-        $column_headers[ $screen->id ] = apply_filters("manage_{$screen->id}_columns", []);
+        $column_headers[$screen->id] = apply_filters("manage_{$screen->id}_columns", []);
     }
 
-    return $column_headers[ $screen->id ];
+    return $column_headers[$screen->id];
 }
 
 /**
@@ -103,19 +103,19 @@ function meta_box_prefs($screen)
         $screen = convert_to_screen($screen);
     }
 
-    if (empty($wp_meta_boxes[ $screen->id ])) {
+    if (empty($wp_meta_boxes[$screen->id])) {
         return;
     }
 
     $hidden = get_hidden_meta_boxes($screen);
 
-    foreach (array_keys($wp_meta_boxes[ $screen->id ]) as $context) {
+    foreach (array_keys($wp_meta_boxes[$screen->id]) as $context) {
         foreach (['high', 'core', 'default', 'low'] as $priority) {
-            if (! isset($wp_meta_boxes[ $screen->id ][ $context ][ $priority ])) {
+            if (! isset($wp_meta_boxes[$screen->id][$context][$priority])) {
                 continue;
             }
 
-            foreach ($wp_meta_boxes[ $screen->id ][ $context ][ $priority ] as $box) {
+            foreach ($wp_meta_boxes[$screen->id][$context][$priority] as $box) {
                 if (false === $box || ! $box['title']) {
                     continue;
                 }

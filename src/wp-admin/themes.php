@@ -376,9 +376,9 @@ if (is_array($submenu) && isset($submenu['themes.php'])) {
             $class = ' current';
         }
 
-        if (! empty($submenu[ $item[2] ])) {
-            $submenu[ $item[2] ] = array_values($submenu[ $item[2] ]); // Re-index.
-            $menu_hook           = get_plugin_page_hook($submenu[ $item[2] ][0][2], $item[2]);
+        if (! empty($submenu[$item[2]])) {
+            $submenu[$item[2]] = array_values($submenu[$item[2]]); // Re-index.
+            $menu_hook         = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 
             if (file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || ! empty($menu_hook)) {
                 $current_theme_actions[] = "<a class='button$class' href='admin.php?page={$submenu[$item[2]][0][2]}'>{$item[0]}</a>";

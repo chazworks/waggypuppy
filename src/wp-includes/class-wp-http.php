@@ -478,15 +478,15 @@ class WP_Http
 
         foreach ($cookies as $name => $value) {
             if ($value instanceof WP_Http_Cookie) {
-                $attributes                 = array_filter(
+                $attributes               = array_filter(
                     $value->get_attributes(),
                     static function ($attr) {
                         return null !== $attr;
                     }
                 );
-                $cookie_jar[ $value->name ] = new WpOrg\Requests\Cookie((string) $value->name, $value->value, $attributes, ['host-only' => $value->host_only]);
+                $cookie_jar[$value->name] = new WpOrg\Requests\Cookie((string) $value->name, $value->value, $attributes, ['host-only' => $value->host_only]);
             } elseif (is_scalar($value)) {
-                $cookie_jar[ $name ] = new WpOrg\Requests\Cookie((string) $name, (string) $value);
+                $cookie_jar[$name] = new WpOrg\Requests\Cookie((string) $name, (string) $value);
             }
         }
 
@@ -605,11 +605,11 @@ class WP_Http
         }
 
         // Transport claims to support request, instantiate it and give it a whirl.
-        if (empty($transports[ $class ])) {
-            $transports[ $class ] = new $class();
+        if (empty($transports[$class])) {
+            $transports[$class] = new $class();
         }
 
-        $response = $transports[ $class ]->request($url, $args);
+        $response = $transports[$class]->request($url, $args);
 
         /** This action is documented in wp-includes/class-wp-http.php */
         do_action('http_api_debug', $response, 'response', $class, $args, $url);
@@ -750,7 +750,7 @@ class WP_Http
          * In this case, determine the final HTTP header and parse from there.
          */
         for ($i = count($headers) - 1; $i >= 0; $i--) {
-            if (! empty($headers[ $i ]) && ! str_contains($headers[ $i ], ':')) {
+            if (! empty($headers[$i]) && ! str_contains($headers[$i], ':')) {
                 $headers = array_splice($headers, $i);
                 break;
             }
@@ -775,13 +775,13 @@ class WP_Http
             $key   = strtolower($key);
             $value = trim($value);
 
-            if (isset($newheaders[ $key ])) {
-                if (! is_array($newheaders[ $key ])) {
-                    $newheaders[ $key ] = [$newheaders[ $key ]];
+            if (isset($newheaders[$key])) {
+                if (! is_array($newheaders[$key])) {
+                    $newheaders[$key] = [$newheaders[$key]];
                 }
-                $newheaders[ $key ][] = $value;
+                $newheaders[$key][] = $value;
             } else {
-                $newheaders[ $key ] = $value;
+                $newheaders[$key] = $value;
             }
             if ('set-cookie' === $key) {
                 $cookies[] = new WP_Http_Cookie($value, $url);
@@ -815,7 +815,7 @@ class WP_Http
             // Upgrade any name => value cookie pairs to WP_HTTP_Cookie instances.
             foreach ($r['cookies'] as $name => $value) {
                 if (! is_object($value)) {
-                    $r['cookies'][ $name ] = new WP_Http_Cookie(
+                    $r['cookies'][$name] = new WP_Http_Cookie(
                         [
                             'name'  => $name,
                             'value' => $value,

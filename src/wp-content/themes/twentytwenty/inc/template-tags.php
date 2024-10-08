@@ -70,7 +70,7 @@ function twentytwenty_site_logo($args = [], $display = true)
 
     $wrap = $args['condition'] ? 'home_wrap' : 'single_wrap';
 
-    $html = sprintf($args[ $wrap ], $classname, $contents);
+    $html = sprintf($args[$wrap], $classname, $contents);
 
     /**
      * Filters the arguments for `twentytwenty_site_logo()`.

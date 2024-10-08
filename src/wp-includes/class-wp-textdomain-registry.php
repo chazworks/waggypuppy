@@ -94,7 +94,7 @@ class WP_Textdomain_Registry
      */
     public function get($domain, $locale)
     {
-        $path = $this->all[ $domain ][ $locale ] ?? $this->get_path_from_lang_dir($domain, $locale);
+        $path = $this->all[$domain][$locale] ?? $this->get_path_from_lang_dir($domain, $locale);
 
         /**
          * Filters the determined languages directory path for a specific domain and locale.
@@ -123,8 +123,8 @@ class WP_Textdomain_Registry
     public function has($domain)
     {
         return (
-            isset($this->current[ $domain ]) ||
-            empty($this->all[ $domain ]) ||
+            isset($this->current[$domain]) ||
+            empty($this->all[$domain]) ||
             in_array($domain, $this->domains_with_translations, true)
         );
     }
@@ -143,8 +143,8 @@ class WP_Textdomain_Registry
      */
     public function set($domain, $locale, $path)
     {
-        $this->all[ $domain ][ $locale ] = $path ? rtrim($path, '/') . '/' : false;
-        $this->current[ $domain ]        = $this->all[ $domain ][ $locale ];
+        $this->all[$domain][$locale] = $path ? rtrim($path, '/') . '/' : false;
+        $this->current[$domain]      = $this->all[$domain][$locale];
     }
 
     /**
@@ -159,7 +159,7 @@ class WP_Textdomain_Registry
      */
     public function set_custom_path($domain, $path)
     {
-        $this->custom_paths[ $domain ] = rtrim($path, '/');
+        $this->custom_paths[$domain] = rtrim($path, '/');
     }
 
     /**
@@ -287,8 +287,8 @@ class WP_Textdomain_Registry
             WP_LANG_DIR . '/themes',
         ];
 
-        if (isset($this->custom_paths[ $domain ])) {
-            $locations[] = $this->custom_paths[ $domain ];
+        if (isset($this->custom_paths[$domain])) {
+            $locations[] = $this->custom_paths[$domain];
         }
 
         return $locations;
@@ -344,8 +344,8 @@ class WP_Textdomain_Registry
          * If no path is found for the given locale and a custom path has been set
          * using load_plugin_textdomain/load_theme_textdomain, use that one.
          */
-        if ('en_US' !== $locale && isset($this->custom_paths[ $domain ])) {
-            $fallback_location = rtrim($this->custom_paths[ $domain ], '/') . '/';
+        if ('en_US' !== $locale && isset($this->custom_paths[$domain])) {
+            $fallback_location = rtrim($this->custom_paths[$domain], '/') . '/';
             $this->set($domain, $locale, $fallback_location);
             return $fallback_location;
         }

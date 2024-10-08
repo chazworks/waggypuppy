@@ -709,8 +709,8 @@ class Tests_Term_WpUpdateTerm extends WP_UnitTestCase
         $this->assertFalse(wp_cache_get('get', 'wptests_tax'));
 
         $cached_children = get_option('wptests_tax_children');
-        $this->assertNotEmpty($cached_children[ $t2 ]);
-        $this->assertContains($found['term_id'], $cached_children[ $t2 ]);
+        $this->assertNotEmpty($cached_children[$t2]);
+        $this->assertContains($found['term_id'], $cached_children[$t2]);
     }
 
     /**

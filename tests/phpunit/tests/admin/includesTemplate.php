@@ -118,13 +118,13 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         add_meta_box('testbox1', 'Test Metabox', '__return_false', $current_screen = 'post');
 
         // Confirm it's there.
-        $this->assertArrayHasKey('testbox1', $wp_meta_boxes[ $current_screen ]['advanced']['default']);
+        $this->assertArrayHasKey('testbox1', $wp_meta_boxes[$current_screen]['advanced']['default']);
 
         // Remove the meta box.
         remove_meta_box('testbox1', $current_screen, 'advanced');
 
         // Check that it was removed properly (the meta box should be set to false once that it has been removed).
-        $this->assertFalse($wp_meta_boxes[ $current_screen ]['advanced']['default']['testbox1']);
+        $this->assertFalse($wp_meta_boxes[$current_screen]['advanced']['default']['testbox1']);
     }
 
     /**
@@ -184,7 +184,7 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         add_meta_box('testbox1', null, null, $current_screen, 'advanced', 'sorted');
 
         // Check that the meta box was not re-added.
-        $this->assertFalse($wp_meta_boxes[ $current_screen ]['advanced']['default']['testbox1']);
+        $this->assertFalse($wp_meta_boxes[$current_screen]['advanced']['default']['testbox1']);
     }
 
     /**

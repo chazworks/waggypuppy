@@ -289,7 +289,7 @@ abstract class WP_Widget_Media extends WP_Widget
             if (! array_key_exists($field, $new_instance)) {
                 continue;
             }
-            $value = $new_instance[ $field ];
+            $value = $new_instance[$field];
 
             /*
              * Workaround for rest_validate_value_from_schema() due to the fact that
@@ -317,7 +317,7 @@ abstract class WP_Widget_Media extends WP_Widget
             if (is_wp_error($value)) {
                 continue;
             }
-            $old_instance[ $field ] = $value;
+            $old_instance[$field] = $value;
         }
 
         return $old_instance;

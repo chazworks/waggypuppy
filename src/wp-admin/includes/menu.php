@@ -64,13 +64,13 @@ foreach ($menu as $menu_page) {
 
     $hook_name = sanitize_title($hook_name);
 
-    if (isset($compat[ $hook_name ])) {
-        $hook_name = $compat[ $hook_name ];
+    if (isset($compat[$hook_name])) {
+        $hook_name = $compat[$hook_name];
     } elseif (! $hook_name) {
         continue;
     }
 
-    $admin_page_hooks[ $menu_page[2] ] = $hook_name;
+    $admin_page_hooks[$menu_page[2]] = $hook_name;
 }
 unset($menu_page, $compat);
 
@@ -80,14 +80,14 @@ $_wp_menu_nopriv    = [];
 foreach ($submenu as $parent => $sub) {
     foreach ($sub as $index => $data) {
         if (! current_user_can($data[1])) {
-            unset($submenu[ $parent ][ $index ]);
-            $_wp_submenu_nopriv[ $parent ][ $data[2] ] = true;
+            unset($submenu[$parent][$index]);
+            $_wp_submenu_nopriv[$parent][$data[2]] = true;
         }
     }
     unset($index, $data);
 
-    if (empty($submenu[ $parent ])) {
-        unset($submenu[ $parent ]);
+    if (empty($submenu[$parent])) {
+        unset($submenu[$parent]);
     }
 }
 unset($sub, $parent);
@@ -98,11 +98,11 @@ unset($sub, $parent);
  * will have the next submenu in line be assigned as the new menu parent.
  */
 foreach ($menu as $id => $data) {
-    if (empty($submenu[ $data[2] ])) {
+    if (empty($submenu[$data[2]])) {
         continue;
     }
 
-    $subs       = $submenu[ $data[2] ];
+    $subs       = $submenu[$data[2]];
     $first_sub  = reset($subs);
     $old_parent = $data[2];
     $new_parent = $first_sub[2];
@@ -112,18 +112,18 @@ foreach ($menu as $id => $data) {
      * make the first submenu the new parent.
      */
     if ($new_parent !== $old_parent) {
-        $_wp_real_parent_file[ $old_parent ] = $new_parent;
+        $_wp_real_parent_file[$old_parent] = $new_parent;
 
-        $menu[ $id ][2] = $new_parent;
+        $menu[$id][2] = $new_parent;
 
-        foreach ($submenu[ $old_parent ] as $index => $data) {
-            $submenu[ $new_parent ][ $index ] = $submenu[ $old_parent ][ $index ];
-            unset($submenu[ $old_parent ][ $index ]);
+        foreach ($submenu[$old_parent] as $index => $data) {
+            $submenu[$new_parent][$index] = $submenu[$old_parent][$index];
+            unset($submenu[$old_parent][$index]);
         }
-        unset($submenu[ $old_parent ], $index);
+        unset($submenu[$old_parent], $index);
 
-        if (isset($_wp_submenu_nopriv[ $old_parent ])) {
-            $_wp_submenu_nopriv[ $new_parent ] = $_wp_submenu_nopriv[ $old_parent ];
+        if (isset($_wp_submenu_nopriv[$old_parent])) {
+            $_wp_submenu_nopriv[$new_parent] = $_wp_submenu_nopriv[$old_parent];
         }
     }
 }
@@ -167,27 +167,27 @@ if (is_network_admin()) {
  */
 foreach ($menu as $id => $data) {
     if (! current_user_can($data[1])) {
-        $_wp_menu_nopriv[ $data[2] ] = true;
+        $_wp_menu_nopriv[$data[2]] = true;
     }
 
     /*
      * If there is only one submenu and it is has same destination as the parent,
      * remove the submenu.
      */
-    if (! empty($submenu[ $data[2] ]) && 1 === count($submenu[ $data[2] ])) {
-        $subs      = $submenu[ $data[2] ];
+    if (! empty($submenu[$data[2]]) && 1 === count($submenu[$data[2]])) {
+        $subs      = $submenu[$data[2]];
         $first_sub = reset($subs);
 
         if ($data[2] === $first_sub[2]) {
-            unset($submenu[ $data[2] ]);
+            unset($submenu[$data[2]]);
         }
     }
 
     // If submenu is empty...
-    if (empty($submenu[ $data[2] ])) {
+    if (empty($submenu[$data[2]])) {
         // And user doesn't have privs, remove menu.
-        if (isset($_wp_menu_nopriv[ $data[2] ])) {
-            unset($menu[ $id ]);
+        if (isset($_wp_menu_nopriv[$data[2]])) {
+            unset($menu[$id]);
         }
     }
 }
@@ -240,23 +240,23 @@ function add_menu_classes($menu)
 
         if (str_starts_with($top[2], 'separator') && false !== $last_order) { // If separator.
             $first_item = true;
-            $classes    = $menu[ $last_order ][4];
+            $classes    = $menu[$last_order][4];
 
-            $menu[ $last_order ][4] = add_cssclass('menu-top-last', $classes);
+            $menu[$last_order][4] = add_cssclass('menu-top-last', $classes);
             continue;
         }
 
         if ($first_item) {
             $first_item = false;
-            $classes    = $menu[ $order ][4];
+            $classes    = $menu[$order][4];
 
-            $menu[ $order ][4] = add_cssclass('menu-top-first', $classes);
+            $menu[$order][4] = add_cssclass('menu-top-first', $classes);
         }
 
         if ($i === $items_count) { // Last item.
-            $classes = $menu[ $order ][4];
+            $classes = $menu[$order][4];
 
-            $menu[ $order ][4] = add_cssclass('menu-top-last', $classes);
+            $menu[$order][4] = add_cssclass('menu-top-last', $classes);
         }
 
         $last_order = $order;
@@ -325,17 +325,17 @@ if (apply_filters('custom_menu_order', false)) {
         $a = $a[2];
         $b = $b[2];
 
-        if (isset($menu_order[ $a ]) && ! isset($menu_order[ $b ])) {
+        if (isset($menu_order[$a]) && ! isset($menu_order[$b])) {
             return -1;
-        } elseif (! isset($menu_order[ $a ]) && isset($menu_order[ $b ])) {
+        } elseif (! isset($menu_order[$a]) && isset($menu_order[$b])) {
             return 1;
-        } elseif (isset($menu_order[ $a ]) && isset($menu_order[ $b ])) {
-            if ($menu_order[ $a ] === $menu_order[ $b ]) {
+        } elseif (isset($menu_order[$a]) && isset($menu_order[$b])) {
+            if ($menu_order[$a] === $menu_order[$b]) {
                 return 0;
             }
-            return ($menu_order[ $a ] < $menu_order[ $b ]) ? -1 : 1;
+            return ($menu_order[$a] < $menu_order[$b]) ? -1 : 1;
         } else {
-            return ($default_menu_order[ $a ] <= $default_menu_order[ $b ]) ? -1 : 1;
+            return ($default_menu_order[$a] <= $default_menu_order[$b]) ? -1 : 1;
         }
     }
 
@@ -354,7 +354,7 @@ foreach ($menu as $id => $data) {
 
         // The previous item was a separator, so unset this one.
         if (true === $prev_menu_was_separator) {
-            unset($menu[ $id ]);
+            unset($menu[$id]);
         }
 
         // This item is a separator, so truthy the toggler and move on.
@@ -366,8 +366,8 @@ unset($id, $data, $prev_menu_was_separator);
 // Remove the last menu item if it is a separator.
 $last_menu_key = array_keys($menu);
 $last_menu_key = array_pop($last_menu_key);
-if (! empty($menu) && 'wp-menu-separator' === $menu[ $last_menu_key ][4]) {
-    unset($menu[ $last_menu_key ]);
+if (! empty($menu) && 'wp-menu-separator' === $menu[$last_menu_key][4]) {
+    unset($menu[$last_menu_key]);
 }
 unset($last_menu_key);
 

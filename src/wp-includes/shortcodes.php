@@ -87,7 +87,7 @@ function add_shortcode($tag, $callback)
         return;
     }
 
-    $shortcode_tags[ $tag ] = $callback;
+    $shortcode_tags[$tag] = $callback;
 }
 
 /**
@@ -103,7 +103,7 @@ function remove_shortcode($tag)
 {
     global $shortcode_tags;
 
-    unset($shortcode_tags[ $tag ]);
+    unset($shortcode_tags[$tag]);
 }
 
 /**
@@ -411,7 +411,7 @@ function do_shortcode_tag($m)
     $tag  = $m[2];
     $attr = shortcode_parse_atts($m[3]);
 
-    if (! is_callable($shortcode_tags[ $tag ])) {
+    if (! is_callable($shortcode_tags[$tag])) {
         _doing_it_wrong(
             __FUNCTION__,
             /* translators: %s: Shortcode tag. */
@@ -442,7 +442,7 @@ function do_shortcode_tag($m)
 
     $content = isset($m[5]) ? $m[5] : null;
 
-    $output = $m[1] . call_user_func($shortcode_tags[ $tag ], $attr, $content, $tag) . $m[6];
+    $output = $m[1] . call_user_func($shortcode_tags[$tag], $attr, $content, $tag) . $m[6];
 
     /**
      * Filters the output created by a shortcode callback.
@@ -632,11 +632,11 @@ function shortcode_parse_atts($text)
     if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
         foreach ($match as $m) {
             if (! empty($m[1])) {
-                $atts[ strtolower($m[1]) ] = stripcslashes($m[2]);
+                $atts[strtolower($m[1])] = stripcslashes($m[2]);
             } elseif (! empty($m[3])) {
-                $atts[ strtolower($m[3]) ] = stripcslashes($m[4]);
+                $atts[strtolower($m[3])] = stripcslashes($m[4]);
             } elseif (! empty($m[5])) {
-                $atts[ strtolower($m[5]) ] = stripcslashes($m[6]);
+                $atts[strtolower($m[5])] = stripcslashes($m[6]);
             } elseif (isset($m[7]) && strlen($m[7])) {
                 $atts[] = stripcslashes($m[7]);
             } elseif (isset($m[8]) && strlen($m[8])) {
@@ -682,9 +682,9 @@ function shortcode_atts($pairs, $atts, $shortcode = '')
     $out  = [];
     foreach ($pairs as $name => $default) {
         if (array_key_exists($name, $atts)) {
-            $out[ $name ] = $atts[ $name ];
+            $out[$name] = $atts[$name];
         } else {
-            $out[ $name ] = $default;
+            $out[$name] = $default;
         }
     }
 

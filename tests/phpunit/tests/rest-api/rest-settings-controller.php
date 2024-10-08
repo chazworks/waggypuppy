@@ -57,7 +57,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $registered_settings = get_registered_settings();
 
         foreach ($settings_to_unregister as $setting) {
-            if (isset($registered_settings[ $setting ])) {
+            if (isset($registered_settings[$setting])) {
                 unregister_setting('somegroup', $setting);
             }
         }

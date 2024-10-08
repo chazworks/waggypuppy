@@ -767,7 +767,7 @@ function load_textdomain($domain, $mofile, $locale = null)
     $loaded = apply_filters('pre_load_textdomain', null, $domain, $mofile, $locale);
     if (null !== $loaded) {
         if (true === $loaded) {
-            unset($l10n_unloaded[ $domain ]);
+            unset($l10n_unloaded[$domain]);
         }
 
         return $loaded;
@@ -787,7 +787,7 @@ function load_textdomain($domain, $mofile, $locale = null)
     $plugin_override = apply_filters('override_load_textdomain', false, $domain, $mofile, $locale);
 
     if (true === (bool) $plugin_override) {
-        unset($l10n_unloaded[ $domain ]);
+        unset($l10n_unloaded[$domain]);
 
         return true;
     }
@@ -863,14 +863,14 @@ function load_textdomain($domain, $mofile, $locale = null)
         $success = $i18n_controller->load_file($file, $domain, $locale);
 
         if ($success) {
-            if (isset($l10n[ $domain ]) && $l10n[ $domain ] instanceof MO) {
-                $i18n_controller->load_file($l10n[ $domain ]->get_filename(), $domain, $locale);
+            if (isset($l10n[$domain]) && $l10n[$domain] instanceof MO) {
+                $i18n_controller->load_file($l10n[$domain]->get_filename(), $domain, $locale);
             }
 
             // Unset NOOP_Translations reference in get_translations_for_domain().
-            unset($l10n[ $domain ]);
+            unset($l10n[$domain]);
 
-            $l10n[ $domain ] = new WP_Translations($i18n_controller, $domain);
+            $l10n[$domain] = new WP_Translations($i18n_controller, $domain);
 
             $wp_textdomain_registry->set($domain, $locale, dirname($file));
 
@@ -914,7 +914,7 @@ function unload_textdomain($domain, $reloadable = false)
 
     if ($plugin_override) {
         if (! $reloadable) {
-            $l10n_unloaded[ $domain ] = true;
+            $l10n_unloaded[$domain] = true;
         }
 
         return true;
@@ -936,17 +936,17 @@ function unload_textdomain($domain, $reloadable = false)
         WP_Translation_Controller::get_instance()->unload_textdomain($domain);
     }
 
-    if (isset($l10n[ $domain ])) {
-        if ($l10n[ $domain ] instanceof NOOP_Translations) {
-            unset($l10n[ $domain ]);
+    if (isset($l10n[$domain])) {
+        if ($l10n[$domain] instanceof NOOP_Translations) {
+            unset($l10n[$domain]);
 
             return false;
         }
 
-        unset($l10n[ $domain ]);
+        unset($l10n[$domain]);
 
         if (! $reloadable) {
-            $l10n_unloaded[ $domain ] = true;
+            $l10n_unloaded[$domain] = true;
         }
 
         return true;
@@ -1145,7 +1145,7 @@ function load_script_textdomain($handle, $domain = 'default', $path = '')
 {
     $wp_scripts = wp_scripts();
 
-    if (! isset($wp_scripts->registered[ $handle ])) {
+    if (! isset($wp_scripts->registered[$handle])) {
         return false;
     }
 
@@ -1164,7 +1164,7 @@ function load_script_textdomain($handle, $domain = 'default', $path = '')
         }
     }
 
-    $src = $wp_scripts->registered[ $handle ]->src;
+    $src = $wp_scripts->registered[$handle]->src;
 
     if (! preg_match('|^(https?:)?//|', $src) && ! ($wp_scripts->content_url && str_starts_with($src, $wp_scripts->content_url))) {
         $src = $wp_scripts->base_url . $src;
@@ -1353,7 +1353,7 @@ function _load_textdomain_just_in_time($domain)
     $l10n_unloaded = (array) $l10n_unloaded;
 
     // Short-circuit if domain is 'default' which is reserved for core.
-    if ('default' === $domain || isset($l10n_unloaded[ $domain ])) {
+    if ('default' === $domain || isset($l10n_unloaded[$domain])) {
         return false;
     }
 
@@ -1407,8 +1407,8 @@ function _load_textdomain_just_in_time($domain)
 function get_translations_for_domain($domain)
 {
     global $l10n;
-    if (isset($l10n[ $domain ]) || (_load_textdomain_just_in_time($domain) && isset($l10n[ $domain ]))) {
-        return $l10n[ $domain ];
+    if (isset($l10n[$domain]) || (_load_textdomain_just_in_time($domain) && isset($l10n[$domain]))) {
+        return $l10n[$domain];
     }
 
     static $noop_translations = null;
@@ -1416,7 +1416,7 @@ function get_translations_for_domain($domain)
         $noop_translations = new NOOP_Translations();
     }
 
-    $l10n[ $domain ] = &$noop_translations;
+    $l10n[$domain] = &$noop_translations;
 
     return $noop_translations;
 }
@@ -1434,7 +1434,7 @@ function get_translations_for_domain($domain)
 function is_textdomain_loaded($domain)
 {
     global $l10n;
-    return isset($l10n[ $domain ]) && ! $l10n[ $domain ] instanceof NOOP_Translations;
+    return isset($l10n[$domain]) && ! $l10n[$domain] instanceof NOOP_Translations;
 }
 
 /**
@@ -1561,7 +1561,7 @@ function wp_get_installed_translations($type)
                 continue;
             }
 
-            $language_data[ $textdomain ][ $language ] = wp_get_pomo_file_data($pofile);
+            $language_data[$textdomain][$language] = wp_get_pomo_file_data($pofile);
         } else {
             $pofile = substr_replace($file, '.po', - strlen('.l10n.php'));
 
@@ -1570,7 +1570,7 @@ function wp_get_installed_translations($type)
                 continue;
             }
 
-            $language_data[ $textdomain ][ $language ] = wp_get_l10n_php_file_data($file);
+            $language_data[$textdomain][$language] = wp_get_l10n_php_file_data($file);
         }
     }
     return $language_data;
@@ -1597,7 +1597,7 @@ function wp_get_pomo_file_data($po_file)
     );
     foreach ($headers as $header => $value) {
         // Remove possible contextual '\n' and closing double quote.
-        $headers[ $header ] = preg_replace('~(\\\n)?"$~', '', $value);
+        $headers[$header] = preg_replace('~(\\\n)?"$~', '', $value);
     }
     return $headers;
 }
@@ -1630,8 +1630,8 @@ function wp_get_l10n_php_file_data($php_file)
     ];
 
     foreach ($headers as $po_header => $php_header) {
-        if (isset($data[ $php_header ])) {
-            $result[ $po_header ] = $data[ $php_header ];
+        if (isset($data[$php_header])) {
+            $result[$po_header] = $data[$php_header];
         }
     }
 
@@ -1711,8 +1711,8 @@ function wp_dropdown_languages($args = [])
      */
     $languages = [];
     foreach ($parsed_args['languages'] as $locale) {
-        if (isset($translations[ $locale ])) {
-            $translation = $translations[ $locale ];
+        if (isset($translations[$locale])) {
+            $translation = $translations[$locale];
             $languages[] = [
                 'language'    => $translation['language'],
                 'native_name' => $translation['native_name'],
@@ -1720,7 +1720,7 @@ function wp_dropdown_languages($args = [])
             ];
 
             // Remove installed language from available translations.
-            unset($translations[ $locale ]);
+            unset($translations[$locale]);
         } else {
             $languages[] = [
                 'language'    => $locale,
@@ -1957,11 +1957,11 @@ function translate_settings_using_i18n_schema($i18n_schema, $settings, $textdoma
         $translated_settings = [];
         foreach ($settings as $key => $value) {
             if (isset($i18n_schema->$key)) {
-                $translated_settings[ $key ] = translate_settings_using_i18n_schema($i18n_schema->$key, $value, $textdomain);
+                $translated_settings[$key] = translate_settings_using_i18n_schema($i18n_schema->$key, $value, $textdomain);
             } elseif (isset($i18n_schema->$group_key)) {
-                $translated_settings[ $key ] = translate_settings_using_i18n_schema($i18n_schema->$group_key, $value, $textdomain);
+                $translated_settings[$key] = translate_settings_using_i18n_schema($i18n_schema->$group_key, $value, $textdomain);
             } else {
-                $translated_settings[ $key ] = $value;
+                $translated_settings[$key] = $value;
             }
         }
         return $translated_settings;

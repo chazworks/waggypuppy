@@ -502,7 +502,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         // Remove term 1 from selected categories.
         $categories = array_unique(array_merge($terms1, $terms2, $terms3));
         $remove_key = array_search($term1, $categories, true);
-        unset($categories[ $remove_key ]);
+        unset($categories[$remove_key]);
 
         $request = [
             '_status'                     => -1,
@@ -1138,7 +1138,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
                 'keywords'    => [],
                 'variations'  => [],
             ],
-            $blocks[ $name ]
+            $blocks[$name]
         );
     }
 

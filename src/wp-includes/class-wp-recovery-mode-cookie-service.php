@@ -24,7 +24,7 @@ final class WP_Recovery_Mode_Cookie_Service
      */
     public function is_cookie_set()
     {
-        return ! empty($_COOKIE[ RECOVERY_MODE_COOKIE ]);
+        return ! empty($_COOKIE[RECOVERY_MODE_COOKIE]);
     }
 
     /**
@@ -81,11 +81,11 @@ final class WP_Recovery_Mode_Cookie_Service
     {
 
         if (! $cookie) {
-            if (empty($_COOKIE[ RECOVERY_MODE_COOKIE ])) {
+            if (empty($_COOKIE[RECOVERY_MODE_COOKIE])) {
                 return new WP_Error('no_cookie', __('No cookie present.'));
             }
 
-            $cookie = $_COOKIE[ RECOVERY_MODE_COOKIE ];
+            $cookie = $_COOKIE[RECOVERY_MODE_COOKIE];
         }
 
         $parts = $this->parse_cookie($cookie);
@@ -131,11 +131,11 @@ final class WP_Recovery_Mode_Cookie_Service
     public function get_session_id_from_cookie($cookie = '')
     {
         if (! $cookie) {
-            if (empty($_COOKIE[ RECOVERY_MODE_COOKIE ])) {
+            if (empty($_COOKIE[RECOVERY_MODE_COOKIE])) {
                 return new WP_Error('no_cookie', __('No cookie present.'));
             }
 
-            $cookie = $_COOKIE[ RECOVERY_MODE_COOKIE ];
+            $cookie = $_COOKIE[RECOVERY_MODE_COOKIE];
         }
 
         $parts = $this->parse_cookie($cookie);

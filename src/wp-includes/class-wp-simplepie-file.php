@@ -93,9 +93,9 @@ class WP_SimplePie_File extends SimplePie\File
                     }
 
                     if ('content-type' === $name) {
-                        $this->headers[ $name ] = array_pop($value);
+                        $this->headers[$name] = array_pop($value);
                     } else {
-                        $this->headers[ $name ] = implode(', ', $value);
+                        $this->headers[$name] = implode(', ', $value);
                     }
                 }
 

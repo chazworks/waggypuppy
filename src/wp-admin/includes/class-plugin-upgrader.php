@@ -202,7 +202,7 @@ class Plugin_Upgrader extends WP_Upgrader
         $this->upgrade_strings();
 
         $current = get_site_transient('update_plugins');
-        if (! isset($current->response[ $plugin ])) {
+        if (! isset($current->response[$plugin])) {
             $this->skin->before();
             $this->skin->set_result(false);
             $this->skin->error('up_to_date');
@@ -211,7 +211,7 @@ class Plugin_Upgrader extends WP_Upgrader
         }
 
         // Get the URL to the zip file.
-        $r = $current->response[ $plugin ];
+        $r = $current->response[$plugin];
 
         add_filter('upgrader_pre_install', [$this, 'deactivate_plugin_before_upgrade'], 10, 2);
         add_filter('upgrader_pre_install', [$this, 'active_before'], 10, 2);
@@ -265,8 +265,8 @@ class Plugin_Upgrader extends WP_Upgrader
          */
         $past_failure_emails = get_option('auto_plugin_theme_update_emails', []);
 
-        if (isset($past_failure_emails[ $plugin ])) {
-            unset($past_failure_emails[ $plugin ]);
+        if (isset($past_failure_emails[$plugin])) {
+            unset($past_failure_emails[$plugin]);
             update_option('auto_plugin_theme_update_emails', $past_failure_emails);
         }
 
@@ -323,7 +323,7 @@ class Plugin_Upgrader extends WP_Upgrader
          */
         $maintenance = (is_multisite() && ! empty($plugins));
         foreach ($plugins as $plugin) {
-            $maintenance = $maintenance || (is_plugin_active($plugin) && isset($current->response[ $plugin ]));
+            $maintenance = $maintenance || (is_plugin_active($plugin) && isset($current->response[$plugin]));
         }
         if ($maintenance) {
             $this->maintenance_mode(true);
@@ -337,17 +337,17 @@ class Plugin_Upgrader extends WP_Upgrader
             ++$this->update_current;
             $this->skin->plugin_info = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin, false, true);
 
-            if (! isset($current->response[ $plugin ])) {
+            if (! isset($current->response[$plugin])) {
                 $this->skin->set_result('up_to_date');
                 $this->skin->before();
                 $this->skin->feedback('up_to_date');
                 $this->skin->after();
-                $results[ $plugin ] = true;
+                $results[$plugin] = true;
                 continue;
             }
 
             // Get the URL to the zip file.
-            $r = $current->response[ $plugin ];
+            $r = $current->response[$plugin];
 
             $this->skin->plugin_active = is_plugin_active($plugin);
 
@@ -401,7 +401,7 @@ class Plugin_Upgrader extends WP_Upgrader
                 remove_filter('upgrader_source_selection', [$this, 'check_package']);
             }
 
-            $results[ $plugin ] = $result;
+            $results[$plugin] = $result;
 
             // Prevent credentials auth screen from displaying multiple times.
             if (false === $result) {
@@ -441,11 +441,11 @@ class Plugin_Upgrader extends WP_Upgrader
 
         foreach ($results as $plugin => $result) {
             // Maintain last failure notification when plugins failed to update manually.
-            if (! $result || is_wp_error($result) || ! isset($past_failure_emails[ $plugin ])) {
+            if (! $result || is_wp_error($result) || ! isset($past_failure_emails[$plugin])) {
                 continue;
             }
 
-            unset($past_failure_emails[ $plugin ]);
+            unset($past_failure_emails[$plugin]);
         }
 
         update_option('auto_plugin_theme_update_emails', $past_failure_emails);

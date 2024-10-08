@@ -217,14 +217,14 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         $post_type        = 'cpt';
         $post_type_object = new WP_Post_Type($post_type, ['taxonomies' => ['post_tag']]);
 
-        $wp_post_types[ $post_type ] = $post_type_object;
+        $wp_post_types[$post_type] = $post_type_object;
 
         $post_type_object->register_taxonomies();
         $taxonomies = get_object_taxonomies($post_type);
         $post_type_object->unregister_taxonomies();
         $taxonomies_after = get_object_taxonomies($post_type);
 
-        unset($wp_post_types[ $post_type ]);
+        unset($wp_post_types[$post_type]);
 
         $this->assertSameSets(['post_tag'], $taxonomies);
         $this->assertSameSets([], $taxonomies_after);

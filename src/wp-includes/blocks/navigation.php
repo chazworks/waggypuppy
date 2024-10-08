@@ -368,10 +368,10 @@ class WP_Navigation_Block_Renderer
 
                 // This is used to count the number of times a navigation name has been seen,
                 // so that we can ensure every navigation has a unique id.
-                if (isset(static::$seen_menu_names[ $navigation_name ])) {
-                    ++static::$seen_menu_names[ $navigation_name ];
+                if (isset(static::$seen_menu_names[$navigation_name])) {
+                    ++static::$seen_menu_names[$navigation_name];
                 } else {
-                    static::$seen_menu_names[ $navigation_name ] = 1;
+                    static::$seen_menu_names[$navigation_name] = 1;
                 }
             }
         }
@@ -398,9 +398,9 @@ class WP_Navigation_Block_Renderer
 
         $layout_class = '';
         if (isset($attributes['layout']['justifyContent']) &&
-            isset($layout_justification[ $attributes['layout']['justifyContent'] ])
+            isset($layout_justification[$attributes['layout']['justifyContent']])
         ) {
-            $layout_class .= $layout_justification[ $attributes['layout']['justifyContent'] ];
+            $layout_class .= $layout_justification[$attributes['layout']['justifyContent']];
         }
         if (isset($attributes['layout']['orientation']) && 'vertical' === $attributes['layout']['orientation']) {
             $layout_class .= ' is-vertical';
@@ -674,8 +674,8 @@ class WP_Navigation_Block_Renderer
 
         // If the menu name has been used previously then append an ID
         // to the name to ensure uniqueness across a given post.
-        if (isset(static::$seen_menu_names[ $nav_menu_name ]) && static::$seen_menu_names[ $nav_menu_name ] > 1) {
-            $count         = static::$seen_menu_names[ $nav_menu_name ];
+        if (isset(static::$seen_menu_names[$nav_menu_name]) && static::$seen_menu_names[$nav_menu_name] > 1) {
+            $count         = static::$seen_menu_names[$nav_menu_name];
             $nav_menu_name = $nav_menu_name . ' ' . ($count);
         }
 
@@ -750,13 +750,13 @@ if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN) {
         // Find the location in the list of locations, returning early if the
         // location can't be found.
         $locations = get_nav_menu_locations();
-        if (! isset($locations[ $location ])) {
+        if (! isset($locations[$location])) {
             return;
         }
 
         // Get the menu from the location, returning early if there is no
         // menu or there was an error.
-        $menu = wp_get_nav_menu_object($locations[ $location ]);
+        $menu = wp_get_nav_menu_object($locations[$location]);
         if (! $menu || is_wp_error($menu)) {
             return;
         }
@@ -782,13 +782,13 @@ if (defined('IS_GUTENBERG_PLUGIN') && IS_GUTENBERG_PLUGIN) {
     {
         $sorted_menu_items = [];
         foreach ((array) $menu_items as $menu_item) {
-            $sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
+            $sorted_menu_items[$menu_item->menu_order] = $menu_item;
         }
         unset($menu_items, $menu_item);
 
         $menu_items_by_parent_id = [];
         foreach ($sorted_menu_items as $menu_item) {
-            $menu_items_by_parent_id[ $menu_item->menu_item_parent ][] = $menu_item;
+            $menu_items_by_parent_id[$menu_item->menu_item_parent][] = $menu_item;
         }
 
         return $menu_items_by_parent_id;
@@ -1219,9 +1219,9 @@ function block_core_navigation_typographic_presets_backcompatibility($parsed_blo
             'textTransform'  => 'var:preset|text-transform|',
         ];
         foreach ($attribute_to_prefix_map as $style_attribute => $prefix) {
-            if (! empty($parsed_block['attrs']['style']['typography'][ $style_attribute ])) {
+            if (! empty($parsed_block['attrs']['style']['typography'][$style_attribute])) {
                 $prefix_len      = strlen($prefix);
-                $attribute_value = &$parsed_block['attrs']['style']['typography'][ $style_attribute ];
+                $attribute_value = &$parsed_block['attrs']['style']['typography'][$style_attribute];
                 if (0 === strncmp($attribute_value, $prefix, $prefix_len)) {
                     $attribute_value = substr($attribute_value, $prefix_len);
                 }
@@ -1271,7 +1271,7 @@ function block_core_navigation_parse_blocks_from_menu_items($menu_items, $menu_i
         $kind             = null !== $menu_item->type ? str_replace('_', '-', $menu_item->type) : 'custom';
 
         $block = [
-            'blockName' => isset($menu_items_by_parent_id[ $menu_item->ID ]) ? 'core/navigation-submenu' : 'core/navigation-link',
+            'blockName' => isset($menu_items_by_parent_id[$menu_item->ID]) ? 'core/navigation-submenu' : 'core/navigation-link',
             'attrs'     => [
                 'className'     => $class_name,
                 'description'   => $menu_item->description,
@@ -1286,8 +1286,8 @@ function block_core_navigation_parse_blocks_from_menu_items($menu_items, $menu_i
             ],
         ];
 
-        $block['innerBlocks']  = isset($menu_items_by_parent_id[ $menu_item->ID ])
-            ? block_core_navigation_parse_blocks_from_menu_items($menu_items_by_parent_id[ $menu_item->ID ], $menu_items_by_parent_id)
+        $block['innerBlocks']  = isset($menu_items_by_parent_id[$menu_item->ID])
+            ? block_core_navigation_parse_blocks_from_menu_items($menu_items_by_parent_id[$menu_item->ID], $menu_items_by_parent_id)
             : [];
         $block['innerContent'] = array_map('serialize_block', $block['innerBlocks']);
 
@@ -1367,7 +1367,7 @@ function block_core_navigation_get_classic_menu_fallback_blocks($classic_nav_men
 
     $sorted_menu_items = [];
     foreach ((array) $menu_items as $menu_item) {
-        $sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
+        $sorted_menu_items[$menu_item->menu_order] = $menu_item;
     }
 
     unset($menu_items, $menu_item);
@@ -1376,7 +1376,7 @@ function block_core_navigation_get_classic_menu_fallback_blocks($classic_nav_men
 
     $menu_items_by_parent_id = [];
     foreach ($sorted_menu_items as $menu_item) {
-        $menu_items_by_parent_id[ $menu_item->menu_item_parent ][] = $menu_item;
+        $menu_items_by_parent_id[$menu_item->menu_item_parent][] = $menu_item;
     }
 
     $inner_blocks = block_core_navigation_parse_blocks_from_menu_items(

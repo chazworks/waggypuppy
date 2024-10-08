@@ -106,7 +106,7 @@ abstract class WP_REST_Meta_Fields
                 }
             }
 
-            $response[ $name ] = $value;
+            $response[$name] = $value;
         }
 
         return $response;
@@ -155,7 +155,7 @@ abstract class WP_REST_Meta_Fields
                 continue;
             }
 
-            $value = $meta[ $name ];
+            $value = $meta[$name];
 
             /*
              * A null value means reset the field, which is essentially deleting it
@@ -164,7 +164,7 @@ abstract class WP_REST_Meta_Fields
              * Non-single meta can also be removed by passing an empty array.
              */
             if (is_null($value) || ([] === $value && ! $args['single'])) {
-                $args = $this->get_registered_fields()[ $meta_key ];
+                $args = $this->get_registered_fields()[$meta_key];
 
                 if ($args['single']) {
                     $current = get_metadata($this->get_meta_type(), $object_id, $meta_key, true);
@@ -330,8 +330,8 @@ abstract class WP_REST_Meta_Fields
 
             $remove_key = $remove_keys[0];
 
-            unset($to_remove[ $remove_key ]);
-            unset($to_add[ $add_key ]);
+            unset($to_remove[$remove_key]);
+            unset($to_add[$add_key]);
         }
 
         /*
@@ -438,7 +438,7 @@ abstract class WP_REST_Meta_Fields
      */
     protected function is_meta_value_same_as_stored_value($meta_key, $subtype, $stored_value, $user_value)
     {
-        $args      = $this->get_registered_fields()[ $meta_key ];
+        $args      = $this->get_registered_fields()[$meta_key];
         $sanitized = sanitize_meta($meta_key, $user_value, $this->get_meta_type(), $subtype);
 
         if (in_array($args['type'], ['string', 'number', 'integer', 'boolean'], true)) {
@@ -517,7 +517,7 @@ abstract class WP_REST_Meta_Fields
                 ];
             }
 
-            $registered[ $name ] = $rest_args;
+            $registered[$name] = $rest_args;
         }
 
         return $registered;
@@ -546,7 +546,7 @@ abstract class WP_REST_Meta_Fields
         ];
 
         foreach ($fields as $args) {
-            $schema['properties'][ $args['name'] ] = $args['schema'];
+            $schema['properties'][$args['name']] = $args['schema'];
         }
 
         return $schema;

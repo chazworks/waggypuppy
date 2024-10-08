@@ -40,8 +40,8 @@ function wp_list_widgets()
             '_display'    => 'template',
         ];
 
-        if (isset($wp_registered_widget_controls[ $widget['id'] ]['id_base']) && isset($widget['params'][0]['number'])) {
-            $id_base            = $wp_registered_widget_controls[ $widget['id'] ]['id_base'];
+        if (isset($wp_registered_widget_controls[$widget['id']]['id_base']) && isset($widget['params'][0]['number'])) {
+            $id_base            = $wp_registered_widget_controls[$widget['id']]['id_base'];
             $args['_temp_id']   = "$id_base-__i__";
             $args['_multi_num'] = next_widget_id_number($id_base);
             $args['_add']       = 'multi';
@@ -149,9 +149,9 @@ function wp_list_widget_controls_dynamic_sidebar($params)
     $params[0]['before_title']  = '%BEG_OF_TITLE%'; // Deprecated.
     $params[0]['after_title']   = '%END_OF_TITLE%'; // Deprecated.
 
-    if (is_callable($wp_registered_widgets[ $widget_id ]['callback'])) {
-        $wp_registered_widgets[ $widget_id ]['_callback'] = $wp_registered_widgets[ $widget_id ]['callback'];
-        $wp_registered_widgets[ $widget_id ]['callback']  = 'wp_widget_control';
+    if (is_callable($wp_registered_widgets[$widget_id]['callback'])) {
+        $wp_registered_widgets[$widget_id]['_callback'] = $wp_registered_widgets[$widget_id]['callback'];
+        $wp_registered_widgets[$widget_id]['callback']  = 'wp_widget_control';
     }
 
     return $params;
@@ -198,9 +198,9 @@ function wp_widget_control($sidebar_args)
 
     $widget_id  = $sidebar_args['widget_id'];
     $sidebar_id = isset($sidebar_args['id']) ? $sidebar_args['id'] : false;
-    $key        = $sidebar_id ? array_search($widget_id, $sidebars_widgets[ $sidebar_id ], true) : '-1'; // Position of widget in sidebar.
-    $control    = isset($wp_registered_widget_controls[ $widget_id ]) ? $wp_registered_widget_controls[ $widget_id ] : [];
-    $widget     = $wp_registered_widgets[ $widget_id ];
+    $key        = $sidebar_id ? array_search($widget_id, $sidebars_widgets[$sidebar_id], true) : '-1'; // Position of widget in sidebar.
+    $control    = isset($wp_registered_widget_controls[$widget_id]) ? $wp_registered_widget_controls[$widget_id] : [];
+    $widget     = $wp_registered_widgets[$widget_id];
 
     $id_format     = $widget['id'];
     $widget_number = isset($control['params'][0]['number']) ? $control['params'][0]['number'] : '';
@@ -240,8 +240,8 @@ function wp_widget_control($sidebar_args)
         }
     }
 
-    $wp_registered_widgets[ $widget_id ]['callback'] = $wp_registered_widgets[ $widget_id ]['_callback'];
-    unset($wp_registered_widgets[ $widget_id ]['_callback']);
+    $wp_registered_widgets[$widget_id]['callback'] = $wp_registered_widgets[$widget_id]['_callback'];
+    unset($wp_registered_widgets[$widget_id]['_callback']);
 
     $widget_title = esc_html(strip_tags($sidebar_args['widget_name']));
     $has_form     = 'noform';

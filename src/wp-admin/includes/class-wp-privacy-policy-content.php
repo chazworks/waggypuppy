@@ -93,11 +93,11 @@ final class WP_Privacy_Policy_Content
         // Remove the extra values added to the meta.
         foreach ($old as $key => $data) {
             if (! is_array($data) || ! empty($data['removed'])) {
-                unset($old[ $key ]);
+                unset($old[$key]);
                 continue;
             }
 
-            $old[ $key ] = [
+            $old[$key] = [
                 'plugin_name' => $data['plugin_name'],
                 'policy_text' => $data['policy_text'],
             ];
@@ -264,7 +264,7 @@ final class WP_Privacy_Policy_Content
                 }
 
                 if ($found) {
-                    unset($new[ $new_key ], $old[ $old_key ]);
+                    unset($new[$new_key], $old[$old_key]);
                     continue 2;
                 }
             }
@@ -672,11 +672,11 @@ final class WP_Privacy_Policy_Content
         if ($blocks) {
             foreach ($strings as $key => $string) {
                 if (str_starts_with($string, '<p>')) {
-                    $strings[ $key ] = "<!-- wp:paragraph -->\n" . $string . "\n<!-- /wp:paragraph -->\n";
+                    $strings[$key] = "<!-- wp:paragraph -->\n" . $string . "\n<!-- /wp:paragraph -->\n";
                 }
 
                 if (str_starts_with($string, '<h2 ')) {
-                    $strings[ $key ] = "<!-- wp:heading -->\n" . $string . "\n<!-- /wp:heading -->\n";
+                    $strings[$key] = "<!-- wp:heading -->\n" . $string . "\n<!-- /wp:heading -->\n";
                 }
             }
         }

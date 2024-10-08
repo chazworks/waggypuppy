@@ -701,7 +701,7 @@ if (! CUSTOM_TAGS) {
     $missing_kses_globals  = [];
 
     foreach ($required_kses_globals as $global_name) {
-        if (! isset($GLOBALS[ $global_name ]) || ! is_array($GLOBALS[ $global_name ])) {
+        if (! isset($GLOBALS[$global_name]) || ! is_array($GLOBALS[$global_name])) {
             $missing_kses_globals[] = '<code>$' . $global_name . '</code>';
         }
     }
@@ -1189,7 +1189,7 @@ function wp_kses_split2($content, $allowed_html, $allowed_protocols)
     }
 
     // They are using a not allowed HTML element.
-    if (! isset($allowed_html[ strtolower($elem) ])) {
+    if (! isset($allowed_html[strtolower($elem)])) {
         return '';
     }
 
@@ -1244,7 +1244,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols)
 
     // Are any attributes allowed at all for this element?
     $element_low = strtolower($element);
-    if (empty($allowed_html[ $element_low ]) || true === $allowed_html[ $element_low ]) {
+    if (empty($allowed_html[$element_low]) || true === $allowed_html[$element_low]) {
         return "<$element$xhtml_slash>";
     }
 
@@ -1253,7 +1253,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols)
 
     // Check if there are attributes that are required.
     $required_attrs = array_filter(
-        $allowed_html[ $element_low ],
+        $allowed_html[$element_low],
         static function ($required_attr_limits) {
             return isset($required_attr_limits['required']) && true === $required_attr_limits['required'];
         }
@@ -1273,14 +1273,14 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols)
     $attr2 = '';
     foreach ($attrarr as $arreach) {
         // Check if this attribute is required.
-        $required = isset($required_attrs[ strtolower($arreach['name']) ]);
+        $required = isset($required_attrs[strtolower($arreach['name'])]);
 
         if (wp_kses_attr_check($arreach['name'], $arreach['value'], $arreach['whole'], $arreach['vless'], $element, $allowed_html)) {
             $attr2 .= ' ' . $arreach['whole'];
 
             // If this was a required attribute, we can mark it as found.
             if ($required) {
-                unset($required_attrs[ strtolower($arreach['name']) ]);
+                unset($required_attrs[strtolower($arreach['name'])]);
             }
         } elseif ($required) {
             // This attribute was required, but didn't pass the check. The entire tag is not allowed.
@@ -1318,16 +1318,16 @@ function wp_kses_attr_check(&$name, &$value, &$whole, $vless, $element, $allowed
     $name_low    = strtolower($name);
     $element_low = strtolower($element);
 
-    if (! isset($allowed_html[ $element_low ])) {
+    if (! isset($allowed_html[$element_low])) {
         $name  = '';
         $value = '';
         $whole = '';
         return false;
     }
 
-    $allowed_attr = $allowed_html[ $element_low ];
+    $allowed_attr = $allowed_html[$element_low];
 
-    if (! isset($allowed_attr[ $name_low ]) || '' === $allowed_attr[ $name_low ]) {
+    if (! isset($allowed_attr[$name_low]) || '' === $allowed_attr[$name_low]) {
         /*
          * Allow `data-*` attributes.
          *
@@ -1344,7 +1344,7 @@ function wp_kses_attr_check(&$name, &$value, &$whole, $vless, $element, $allowed
              * Add the whole attribute name to the allowed attributes and set any restrictions
              * for the `data-*` attribute values for the current element.
              */
-            $allowed_attr[ $match[0] ] = $allowed_attr['data-*'];
+            $allowed_attr[$match[0]] = $allowed_attr['data-*'];
         } else {
             $name  = '';
             $value = '';
@@ -1367,9 +1367,9 @@ function wp_kses_attr_check(&$name, &$value, &$whole, $vless, $element, $allowed
         $value = $new_value;
     }
 
-    if (is_array($allowed_attr[ $name_low ])) {
+    if (is_array($allowed_attr[$name_low])) {
         // There are some checks.
-        foreach ($allowed_attr[ $name_low ] as $currkey => $currval) {
+        foreach ($allowed_attr[$name_low] as $currkey => $currval) {
             if (! wp_kses_check_attr_val($value, $vless, $currkey, $currval)) {
                 $name  = '';
                 $value = '';
@@ -1435,7 +1435,7 @@ function wp_kses_hair($attr, $allowed_protocols)
                     $mode    = 0;
 
                     if (false === array_key_exists($attrname, $attrarr)) {
-                        $attrarr[ $attrname ] = [
+                        $attrarr[$attrname] = [
                             'name'  => $attrname,
                             'value' => '',
                             'whole' => $attrname,
@@ -1457,7 +1457,7 @@ function wp_kses_hair($attr, $allowed_protocols)
                     }
 
                     if (false === array_key_exists($attrname, $attrarr)) {
-                        $attrarr[ $attrname ] = [
+                        $attrarr[$attrname] = [
                             'name'  => $attrname,
                             'value' => $thisval,
                             'whole' => "$attrname=\"$thisval\"",
@@ -1479,7 +1479,7 @@ function wp_kses_hair($attr, $allowed_protocols)
                     }
 
                     if (false === array_key_exists($attrname, $attrarr)) {
-                        $attrarr[ $attrname ] = [
+                        $attrarr[$attrname] = [
                             'name'  => $attrname,
                             'value' => $thisval,
                             'whole' => "$attrname='$thisval'",
@@ -1501,7 +1501,7 @@ function wp_kses_hair($attr, $allowed_protocols)
                     }
 
                     if (false === array_key_exists($attrname, $attrarr)) {
-                        $attrarr[ $attrname ] = [
+                        $attrarr[$attrname] = [
                             'name'  => $attrname,
                             'value' => $thisval,
                             'whole' => "$attrname=\"$thisval\"",
@@ -1529,7 +1529,7 @@ function wp_kses_hair($attr, $allowed_protocols)
          * Special case, for when the attribute list ends with a valueless
          * attribute like "selected".
          */
-        $attrarr[ $attrname ] = [
+        $attrarr[$attrname] = [
             'name'  => $attrname,
             'value' => '',
             'whole' => $attrname,
@@ -1855,12 +1855,12 @@ function wp_kses_array_lc($inarray)
     $outarray = [];
 
     foreach ((array) $inarray as $inkey => $inval) {
-        $outkey              = strtolower($inkey);
-        $outarray[ $outkey ] = [];
+        $outkey            = strtolower($inkey);
+        $outarray[$outkey] = [];
 
         foreach ((array) $inval as $inkey2 => $inval2) {
-            $outkey2                         = strtolower($inkey2);
-            $outarray[ $outkey ][ $outkey2 ] = $inval2;
+            $outkey2                     = strtolower($inkey2);
+            $outarray[$outkey][$outkey2] = $inval2;
         }
     }
 

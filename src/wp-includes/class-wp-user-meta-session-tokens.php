@@ -63,8 +63,8 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens
     {
         $sessions = $this->get_sessions();
 
-        if (isset($sessions[ $verifier ])) {
-            return $sessions[ $verifier ];
+        if (isset($sessions[$verifier])) {
+            return $sessions[$verifier];
         }
 
         return null;
@@ -83,9 +83,9 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens
         $sessions = $this->get_sessions();
 
         if ($session) {
-            $sessions[ $verifier ] = $session;
+            $sessions[$verifier] = $session;
         } else {
-            unset($sessions[ $verifier ]);
+            unset($sessions[$verifier]);
         }
 
         $this->update_sessions($sessions);

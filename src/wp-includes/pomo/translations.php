@@ -55,7 +55,7 @@ if (! class_exists('Translations', false)) :
             if (false === $key) {
                 return false;
             }
-            $this->entries[ $key ] = &$entry;
+            $this->entries[$key] = &$entry;
             return true;
         }
 
@@ -76,10 +76,10 @@ if (! class_exists('Translations', false)) :
             if (false === $key) {
                 return false;
             }
-            if (isset($this->entries[ $key ])) {
-                $this->entries[ $key ]->merge_with($entry);
+            if (isset($this->entries[$key])) {
+                $this->entries[$key]->merge_with($entry);
             } else {
-                $this->entries[ $key ] = &$entry;
+                $this->entries[$key] = &$entry;
             }
             return true;
         }
@@ -98,7 +98,7 @@ if (! class_exists('Translations', false)) :
          */
         public function set_header($header, $value)
         {
-            $this->headers[ $header ] = $value;
+            $this->headers[$header] = $value;
         }
 
         /**
@@ -125,7 +125,7 @@ if (! class_exists('Translations', false)) :
          */
         public function get_header($header)
         {
-            return isset($this->headers[ $header ]) ? $this->headers[ $header ] : false;
+            return isset($this->headers[$header]) ? $this->headers[$header] : false;
         }
 
         /**
@@ -139,7 +139,7 @@ if (! class_exists('Translations', false)) :
         public function translate_entry(&$entry)
         {
             $key = $entry->key();
-            return isset($this->entries[ $key ]) ? $this->entries[ $key ] : false;
+            return isset($this->entries[$key]) ? $this->entries[$key] : false;
         }
 
         /**
@@ -219,8 +219,8 @@ if (! class_exists('Translations', false)) :
             $total_plural_forms = $this->get_plural_forms_count();
             if ($translated && 0 <= $index && $index < $total_plural_forms &&
                 is_array($translated->translations) &&
-                isset($translated->translations[ $index ])) {
-                return $translated->translations[ $index ];
+                isset($translated->translations[$index])) {
+                return $translated->translations[$index];
             } else {
                 return 1 === (int) $count ? $singular : $plural;
             }
@@ -236,7 +236,7 @@ if (! class_exists('Translations', false)) :
         public function merge_with(&$other)
         {
             foreach ($other->entries as $entry) {
-                $this->entries[ $entry->key() ] = $entry;
+                $this->entries[$entry->key()] = $entry;
             }
         }
 
@@ -250,10 +250,10 @@ if (! class_exists('Translations', false)) :
         public function merge_originals_with(&$other)
         {
             foreach ($other->entries as $entry) {
-                if (! isset($this->entries[ $entry->key() ])) {
-                    $this->entries[ $entry->key() ] = $entry;
+                if (! isset($this->entries[$entry->key()])) {
+                    $this->entries[$entry->key()] = $entry;
                 } else {
-                    $this->entries[ $entry->key() ]->merge_with($entry);
+                    $this->entries[$entry->key()]->merge_with($entry);
                 }
             }
         }
@@ -364,7 +364,7 @@ if (! class_exists('Translations', false)) :
             $res         = '';
             $depth       = 0;
             for ($i = 0; $i < strlen($expression); ++$i) {
-                $char = $expression[ $i ];
+                $char = $expression[$i];
                 switch ($char) {
                     case '?':
                         $res .= ' ? (';
@@ -403,7 +403,7 @@ if (! class_exists('Translations', false)) :
                 if (! isset($parts[1])) {
                     continue;
                 }
-                $headers[ trim($parts[0]) ] = trim($parts[1]);
+                $headers[trim($parts[0])] = trim($parts[1]);
             }
             return $headers;
         }

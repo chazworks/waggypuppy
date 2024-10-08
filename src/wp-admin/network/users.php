@@ -167,7 +167,7 @@ if (isset($_GET['action'])) {
                             continue;
                         }
 
-                        if (! empty($_POST['delete']) && 'reassign' === $_POST['delete'][ $blogid ][ $id ]) {
+                        if (! empty($_POST['delete']) && 'reassign' === $_POST['delete'][$blogid][$id]) {
                             remove_user_from_blog($id, $blogid, (int) $user_id);
                         } else {
                             remove_user_from_blog($id, $blogid);

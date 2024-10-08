@@ -938,15 +938,15 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
 
         $taxonomies = wp_list_filter(get_object_taxonomies(self::POST_TYPE, 'objects'), ['show_in_rest' => true]);
         foreach ($taxonomies as $taxonomy) {
-            $this->assertTrue(isset($data[ $taxonomy->rest_base ]));
+            $this->assertTrue(isset($data[$taxonomy->rest_base]));
             $terms = wp_get_object_terms($post->ID, $taxonomy->name, ['fields' => 'ids']);
             sort($terms);
             if ('nav_menu' === $taxonomy->name) {
                 $term_id = $terms ? array_shift($terms) : 0;
-                $this->assertSame($term_id, $data[ $taxonomy->rest_base ]);
+                $this->assertSame($term_id, $data[$taxonomy->rest_base]);
             } else {
-                sort($data[ $taxonomy->rest_base ]);
-                $this->assertSame($terms, $data[ $taxonomy->rest_base ]);
+                sort($data[$taxonomy->rest_base]);
+                $this->assertSame($terms, $data[$taxonomy->rest_base]);
             }
         }
 
@@ -959,8 +959,8 @@ class Tests_REST_WpRestMenuItemsController extends WP_Test_REST_Post_Type_Contro
 
             $num = 0;
             foreach ($taxonomies as $taxonomy) {
-                $this->assertSame($taxonomy->name, $links['https://api.w.org/term'][ $num ]['attributes']['taxonomy']);
-                $this->assertSame(add_query_arg('post', $data['id'], rest_url('wp/v2/' . $taxonomy->rest_base)), $links['https://api.w.org/term'][ $num ]['href']);
+                $this->assertSame($taxonomy->name, $links['https://api.w.org/term'][$num]['attributes']['taxonomy']);
+                $this->assertSame(add_query_arg('post', $data['id'], rest_url('wp/v2/' . $taxonomy->rest_base)), $links['https://api.w.org/term'][$num]['href']);
                 ++$num;
             }
 

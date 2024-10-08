@@ -404,9 +404,9 @@ function update_site_cache($sites, $update_meta_cache = true)
     $site_data         = [];
     $blog_details_data = [];
     foreach ($sites as $site) {
-        $site_ids[]                                    = $site->blog_id;
-        $site_data[ $site->blog_id ]                   = $site;
-        $blog_details_data[ $site->blog_id . 'short' ] = $site;
+        $site_ids[]                                  = $site->blog_id;
+        $site_data[$site->blog_id]                   = $site;
+        $blog_details_data[$site->blog_id . 'short'] = $site;
 
     }
     wp_cache_add_multiple($site_data, 'sites');
@@ -552,7 +552,7 @@ function wp_normalize_site_data($data)
     $status_fields = ['public', 'archived', 'mature', 'spam', 'deleted'];
     foreach ($status_fields as $status_field) {
         if (array_key_exists($status_field, $data)) {
-            $data[ $status_field ] = (int) $data[ $status_field ];
+            $data[$status_field] = (int) $data[$status_field];
         }
     }
 
@@ -563,8 +563,8 @@ function wp_normalize_site_data($data)
             continue;
         }
 
-        if (empty($data[ $date_field ]) || '0000-00-00 00:00:00' === $data[ $date_field ]) {
-            unset($data[ $date_field ]);
+        if (empty($data[$date_field]) || '0000-00-00 00:00:00' === $data[$date_field]) {
+            unset($data[$date_field]);
         }
     }
 
@@ -603,17 +603,17 @@ function wp_validate_site_data($errors, $data, $old_site = null)
     // Both registration and last updated dates must always be present and valid.
     $date_fields = ['registered', 'last_updated'];
     foreach ($date_fields as $date_field) {
-        if (empty($data[ $date_field ])) {
+        if (empty($data[$date_field])) {
             $errors->add('site_empty_' . $date_field, __('Both registration and last updated dates must be provided.'));
             break;
         }
 
         // Allow '0000-00-00 00:00:00', although it be stripped out at this point.
-        if ('0000-00-00 00:00:00' !== $data[ $date_field ]) {
-            $month      = substr($data[ $date_field ], 5, 2);
-            $day        = substr($data[ $date_field ], 8, 2);
-            $year       = substr($data[ $date_field ], 0, 4);
-            $valid_date = wp_checkdate($month, $day, $year, $data[ $date_field ]);
+        if ('0000-00-00 00:00:00' !== $data[$date_field]) {
+            $month      = substr($data[$date_field], 5, 2);
+            $day        = substr($data[$date_field], 8, 2);
+            $year       = substr($data[$date_field], 0, 4);
+            $valid_date = wp_checkdate($month, $day, $year, $data[$date_field]);
             if (! $valid_date) {
                 $errors->add('site_invalid_' . $date_field, __('Both registration and last updated dates must be valid dates.'));
                 break;
@@ -865,7 +865,7 @@ function wp_uninitialize_site($site_id)
 
     while ($index < count($stack)) {
         // Get indexed directory from stack.
-        $dir = $stack[ $index ];
+        $dir = $stack[$index];
 
 		// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
         $dh = @opendir($dir);

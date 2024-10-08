@@ -295,8 +295,8 @@ class WP_User
             return true;
         }
 
-        if (isset(self::$back_compat_keys[ $key ])) {
-            $key = self::$back_compat_keys[ $key ];
+        if (isset(self::$back_compat_keys[$key])) {
+            $key = self::$back_compat_keys[$key];
         }
 
         return metadata_exists('user', $this->ID, $key);
@@ -328,8 +328,8 @@ class WP_User
         if (isset($this->data->$key)) {
             $value = $this->data->$key;
         } else {
-            if (isset(self::$back_compat_keys[ $key ])) {
-                $key = self::$back_compat_keys[ $key ];
+            if (isset(self::$back_compat_keys[$key])) {
+                $key = self::$back_compat_keys[$key];
             }
             $value = get_user_meta($this->ID, $key, true);
         }
@@ -396,8 +396,8 @@ class WP_User
             unset($this->data->$key);
         }
 
-        if (isset(self::$back_compat_keys[ $key ])) {
-            unset(self::$back_compat_keys[ $key ]);
+        if (isset(self::$back_compat_keys[$key])) {
+            unset(self::$back_compat_keys[$key]);
         }
     }
 
@@ -567,7 +567,7 @@ class WP_User
             return;
         }
 
-        $this->caps[ $role ] = true;
+        $this->caps[$role] = true;
         update_user_meta($this->ID, $this->cap_key, $this->caps);
         $this->get_role_caps();
         $this->update_user_level_from_caps();
@@ -596,7 +596,7 @@ class WP_User
             return;
         }
 
-        unset($this->caps[ $role ]);
+        unset($this->caps[$role]);
         update_user_meta($this->ID, $this->cap_key, $this->caps);
         $this->get_role_caps();
         $this->update_user_level_from_caps();
@@ -630,14 +630,14 @@ class WP_User
         }
 
         foreach ((array) $this->roles as $oldrole) {
-            unset($this->caps[ $oldrole ]);
+            unset($this->caps[$oldrole]);
         }
 
         $old_roles = $this->roles;
 
         if (! empty($role)) {
-            $this->caps[ $role ] = true;
-            $this->roles         = [$role => true];
+            $this->caps[$role] = true;
+            $this->roles       = [$role => true];
         } else {
             $this->roles = [];
         }
@@ -729,7 +729,7 @@ class WP_User
      */
     public function add_cap($cap, $grant = true)
     {
-        $this->caps[ $cap ] = $grant;
+        $this->caps[$cap] = $grant;
         update_user_meta($this->ID, $this->cap_key, $this->caps);
         $this->get_role_caps();
         $this->update_user_level_from_caps();
@@ -744,10 +744,10 @@ class WP_User
      */
     public function remove_cap($cap)
     {
-        if (! isset($this->caps[ $cap ])) {
+        if (! isset($this->caps[$cap])) {
             return;
         }
-        unset($this->caps[ $cap ]);
+        unset($this->caps[$cap]);
         update_user_meta($this->ID, $this->cap_key, $this->caps);
         $this->get_role_caps();
         $this->update_user_level_from_caps();
@@ -844,7 +844,7 @@ class WP_User
 
         // Must have ALL requested caps.
         foreach ((array) $caps as $cap) {
-            if (empty($capabilities[ $cap ])) {
+            if (empty($capabilities[$cap])) {
                 return false;
             }
         }

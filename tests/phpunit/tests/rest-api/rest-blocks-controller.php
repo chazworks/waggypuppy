@@ -115,7 +115,7 @@ class REST_Blocks_Controller_Test extends WP_UnitTestCase
     public function test_capabilities($action, $role, $expected_status)
     {
         if ($role) {
-            $user_id = self::$user_ids[ $role ];
+            $user_id = self::$user_ids[$role];
             wp_set_current_user($user_id);
         } else {
             wp_set_current_user(0);

@@ -35,7 +35,7 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
                 ]
             );
 
-            self::$top[ $i ]  = $p;
+            self::$top[$i]    = $p;
             self::$post_ids[] = $p->ID;
         }
 
@@ -51,15 +51,15 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
                     ]
                 );
 
-                self::$children[ $top ][ $i ] = $p;
-                self::$post_ids[]             = $p->ID;
+                self::$children[$top][$i] = $p;
+                self::$post_ids[]         = $p->ID;
             }
         }
 
         // Create grand-child pages for the third and fourth top-level pages.
         $num_grandchildren = 3;
         foreach (range(3, 4) as $top) {
-            foreach (self::$children[ $top ] as $child => $child_page) {
+            foreach (self::$children[$top] as $child => $child_page) {
                 foreach (range(1, $num_grandchildren) as $i) {
                     $p = $factory->post->create_and_get(
                         [
@@ -69,8 +69,8 @@ class Tests_Admin_wpPostsListTable extends WP_UnitTestCase
                         ]
                     );
 
-                    self::$grandchildren[ $top ][ $child ][ $i ] = $p;
-                    self::$post_ids[]                            = $p->ID;
+                    self::$grandchildren[$top][$child][$i] = $p;
+                    self::$post_ids[]                      = $p->ID;
                 }
             }
         }

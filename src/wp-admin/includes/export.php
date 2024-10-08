@@ -216,8 +216,8 @@ function export_wp($args = [])
 
         // Put categories in order with no child going before its parent.
         while ($cat = array_shift($categories)) {
-            if (! $cat->parent || isset($cats[ $cat->parent ])) {
-                $cats[ $cat->term_id ] = $cat;
+            if (! $cat->parent || isset($cats[$cat->parent])) {
+                $cats[$cat->term_id] = $cat;
             } else {
                 $categories[] = $cat;
             }
@@ -225,8 +225,8 @@ function export_wp($args = [])
 
         // Put terms in order with no child going before its parent.
         while ($t = array_shift($custom_terms)) {
-            if (! $t->parent || isset($terms[ $t->parent ])) {
-                $terms[ $t->term_id ] = $t;
+            if (! $t->parent || isset($terms[$t->parent])) {
+                $terms[$t->term_id] = $t;
             } else {
                 $custom_terms[] = $t;
             }
@@ -547,7 +547,7 @@ function export_wp($args = [])
     <wp:category>
         <wp:term_id><?php echo (int) $c->term_id; ?></wp:term_id>
         <wp:category_nicename><?php echo wxr_cdata($c->slug); ?></wp:category_nicename>
-        <wp:category_parent><?php echo wxr_cdata($c->parent ? $cats[ $c->parent ]->slug : ''); ?></wp:category_parent>
+        <wp:category_parent><?php echo wxr_cdata($c->parent ? $cats[$c->parent]->slug : ''); ?></wp:category_parent>
         <?php
         wxr_cat_name($c);
         wxr_category_description($c);
@@ -571,7 +571,7 @@ function export_wp($args = [])
         <wp:term_id><?php echo (int) $t->term_id; ?></wp:term_id>
         <wp:term_taxonomy><?php echo wxr_cdata($t->taxonomy); ?></wp:term_taxonomy>
         <wp:term_slug><?php echo wxr_cdata($t->slug); ?></wp:term_slug>
-        <wp:term_parent><?php echo wxr_cdata($t->parent ? $terms[ $t->parent ]->slug : ''); ?></wp:term_parent>
+        <wp:term_parent><?php echo wxr_cdata($t->parent ? $terms[$t->parent]->slug : ''); ?></wp:term_parent>
         <?php
         wxr_term_name($t);
         wxr_term_description($t);

@@ -1006,7 +1006,7 @@ function get_children($args = '', $output = OBJECT)
     update_post_cache($children);
 
     foreach ($children as $key => $child) {
-        $kids[ $child->ID ] = $children[ $key ];
+        $kids[$child->ID] = $children[$key];
     }
 
     if (OBJECT === $output) {
@@ -1014,13 +1014,13 @@ function get_children($args = '', $output = OBJECT)
     } elseif (ARRAY_A === $output) {
         $weeuns = [];
         foreach ((array) $kids as $kid) {
-            $weeuns[ $kid->ID ] = get_object_vars($kids[ $kid->ID ]);
+            $weeuns[$kid->ID] = get_object_vars($kids[$kid->ID]);
         }
         return $weeuns;
     } elseif (ARRAY_N === $output) {
         $babes = [];
         foreach ((array) $kids as $kid) {
-            $babes[ $kid->ID ] = array_values(get_object_vars($kids[ $kid->ID ]));
+            $babes[$kid->ID] = array_values(get_object_vars($kids[$kid->ID]));
         }
         return $babes;
     } else {
@@ -1480,7 +1480,7 @@ function register_post_status($post_status, $args = [])
         $args->label_count = _n_noop($args->label, $args->label);
     }
 
-    $wp_post_statuses[ $post_status ] = $args;
+    $wp_post_statuses[$post_status] = $args;
 
     return $args;
 }
@@ -1501,11 +1501,11 @@ function get_post_status_object($post_status)
 {
     global $wp_post_statuses;
 
-    if (empty($wp_post_statuses[ $post_status ])) {
+    if (empty($wp_post_statuses[$post_status])) {
         return null;
     }
 
-    return $wp_post_statuses[ $post_status ];
+    return $wp_post_statuses[$post_status];
 }
 
 /**
@@ -1610,11 +1610,11 @@ function get_post_type_object($post_type)
 {
     global $wp_post_types;
 
-    if (! is_scalar($post_type) || empty($wp_post_types[ $post_type ])) {
+    if (! is_scalar($post_type) || empty($wp_post_types[$post_type])) {
         return null;
     }
 
-    return $wp_post_types[ $post_type ];
+    return $wp_post_types[$post_type];
 }
 
 /**
@@ -1827,7 +1827,7 @@ function register_post_type($post_type, $args = [])
     $post_type_object->add_rewrite_rules();
     $post_type_object->register_meta_boxes();
 
-    $wp_post_types[ $post_type ] = $post_type_object;
+    $wp_post_types[$post_type] = $post_type_object;
 
     $post_type_object->add_hooks();
     $post_type_object->register_taxonomies();
@@ -1896,7 +1896,7 @@ function unregister_post_type($post_type)
     $post_type_object->remove_hooks();
     $post_type_object->unregister_taxonomies();
 
-    unset($wp_post_types[ $post_type ]);
+    unset($wp_post_types[$post_type]);
 
     /**
      * Fires after a post type was unregistered.
@@ -2032,7 +2032,7 @@ function _post_type_meta_capabilities($capabilities = null)
 
     foreach ($capabilities as $core => $custom) {
         if (in_array($core, ['read_post', 'delete_post', 'edit_post'], true)) {
-            $post_type_meta_caps[ $custom ] = $core;
+            $post_type_meta_caps[$custom] = $core;
         }
     }
 }
@@ -2202,7 +2202,7 @@ function _get_custom_object_labels($data_object, $nohier_vs_hier_defaults)
 
     $defaults = [];
     foreach ($nohier_vs_hier_defaults as $key => $value) {
-        $defaults[ $key ] = $data_object->hierarchical ? $value[1] : $value[0];
+        $defaults[$key] = $data_object->hierarchical ? $value[1] : $value[0];
     }
 
     $labels              = array_merge($defaults, $data_object->labels);
@@ -2273,9 +2273,9 @@ function add_post_type_support($post_type, $feature, ...$args)
     $features = (array) $feature;
     foreach ($features as $feature) {
         if ($args) {
-            $_wp_post_type_features[ $post_type ][ $feature ] = $args;
+            $_wp_post_type_features[$post_type][$feature] = $args;
         } else {
-            $_wp_post_type_features[ $post_type ][ $feature ] = true;
+            $_wp_post_type_features[$post_type][$feature] = true;
         }
     }
 }
@@ -2294,7 +2294,7 @@ function remove_post_type_support($post_type, $feature)
 {
     global $_wp_post_type_features;
 
-    unset($_wp_post_type_features[ $post_type ][ $feature ]);
+    unset($_wp_post_type_features[$post_type][$feature]);
 }
 
 /**
@@ -2311,8 +2311,8 @@ function get_all_post_type_supports($post_type)
 {
     global $_wp_post_type_features;
 
-    if (isset($_wp_post_type_features[ $post_type ])) {
-        return $_wp_post_type_features[ $post_type ];
+    if (isset($_wp_post_type_features[$post_type])) {
+        return $_wp_post_type_features[$post_type];
     }
 
     return [];
@@ -2333,7 +2333,7 @@ function post_type_supports($post_type, $feature)
 {
     global $_wp_post_type_features;
 
-    return (isset($_wp_post_type_features[ $post_type ][ $feature ]));
+    return (isset($_wp_post_type_features[$post_type][$feature]));
 }
 
 /**
@@ -2803,7 +2803,7 @@ function get_post_custom_values($key = '', $post_id = 0)
 
     $custom = get_post_custom($post_id);
 
-    return isset($custom[ $key ]) ? $custom[ $key ] : null;
+    return isset($custom[$key]) ? $custom[$key] : null;
 }
 
 /**
@@ -2889,7 +2889,7 @@ function sanitize_post($post, $context = 'display')
             $post['ID'] = 0;
         }
         foreach (array_keys($post) as $field) {
-            $post[ $field ] = sanitize_post_field($field, $post[ $field ], $post['ID'], $context);
+            $post[$field] = sanitize_post_field($field, $post[$field], $post['ID'], $context);
         }
         $post['filter'] = $context;
     }
@@ -3395,7 +3395,7 @@ function wp_count_posts($type = 'post', $perm = '')
     $counts  = array_fill_keys(get_post_stati(), 0);
 
     foreach ($results as $row) {
-        $counts[ $row['post_status'] ] = $row['num_posts'];
+        $counts[$row['post_status']] = $row['num_posts'];
     }
 
     $counts = (object) $counts;
@@ -3447,7 +3447,7 @@ function wp_count_attachments($mime_type = '')
 
         $counts = [];
         foreach ((array) $count as $row) {
-            $counts[ $row['post_mime_type'] ] = $row['num_posts'];
+            $counts[$row['post_mime_type']] = $row['num_posts'];
         }
         $counts['trash'] = $wpdb->get_var("SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status = 'trash' $and");
 
@@ -3541,13 +3541,13 @@ function get_post_mime_types()
             continue;
         }
 
-        if (! isset($ext_types[ $group ])) {
-            unset($post_mime_types[ $group ]);
+        if (! isset($ext_types[$group])) {
+            unset($post_mime_types[$group]);
             continue;
         }
 
         $group_mime_types = [];
-        foreach ($ext_types[ $group ] as $extension) {
+        foreach ($ext_types[$group] as $extension) {
             foreach ($mime_types as $exts => $mime) {
                 if (preg_match('!^(' . $exts . ')$!i', $extension)) {
                     $group_mime_types[] = $mime;
@@ -3557,8 +3557,8 @@ function get_post_mime_types()
         }
         $group_mime_types = implode(',', array_unique($group_mime_types));
 
-        $post_mime_types[ $group_mime_types ] = $labels;
-        unset($post_mime_types[ $group ]);
+        $post_mime_types[$group_mime_types] = $labels;
+        unset($post_mime_types[$group]);
     }
 
     /**
@@ -3603,11 +3603,11 @@ function wp_match_mime_types($wildcard_mime_types, $real_mime_types)
         foreach ($mimes as $mime) {
             $regex = str_replace('__wildcard__', $wild, preg_quote(str_replace('*', '__wildcard__', $mime)));
 
-            $patternses[][ $type ] = "^$regex$";
+            $patternses[][$type] = "^$regex$";
 
             if (! str_contains($mime, '/')) {
-                $patternses[][ $type ] = "^$regex/";
-                $patternses[][ $type ] = $regex;
+                $patternses[][$type] = "^$regex/";
+                $patternses[][$type] = $regex;
             }
         }
     }
@@ -3617,9 +3617,9 @@ function wp_match_mime_types($wildcard_mime_types, $real_mime_types)
         foreach ($patterns as $type => $pattern) {
             foreach ((array) $real_mime_types as $real) {
                 if (preg_match("#$pattern#", $real)
-                    && (empty($matches[ $type ]) || false === array_search($real, $matches[ $type ], true))
+                    && (empty($matches[$type]) || false === array_search($real, $matches[$type], true))
                 ) {
-                    $matches[ $type ][] = $real;
+                    $matches[$type][] = $real;
                 }
             }
         }
@@ -4155,7 +4155,7 @@ function wp_trash_post_comments($post = null)
     // Cache current status for each comment.
     $statuses = [];
     foreach ($comments as $comment) {
-        $statuses[ $comment->comment_ID ] = $comment->comment_approved;
+        $statuses[$comment->comment_ID] = $comment->comment_approved;
     }
     add_post_meta($post_id, '_wp_trash_meta_comments_status', $statuses);
 
@@ -4217,7 +4217,7 @@ function wp_untrash_post_comments($post = null)
     // Restore each comment to its original status.
     $group_by_status = [];
     foreach ($statuses as $comment_id => $comment_status) {
-        $group_by_status[ $comment_status ][] = $comment_id;
+        $group_by_status[$comment_status][] = $comment_id;
     }
 
     foreach ($group_by_status as $status => $comments) {
@@ -4368,7 +4368,7 @@ function wp_get_recent_posts($args = [], $output = ARRAY_A)
     // Backward compatibility. Prior to 3.1 expected posts to be returned in array.
     if (ARRAY_A === $output) {
         foreach ($results as $key => $result) {
-            $results[ $key ] = get_object_vars($result);
+            $results[$key] = get_object_vars($result);
         }
         return $results ? $results : [];
     }
@@ -4787,11 +4787,11 @@ function wp_insert_post($postarr, $wp_error = false, $fire_after_hooks = true)
     $emoji_fields = ['post_title', 'post_content', 'post_excerpt'];
 
     foreach ($emoji_fields as $emoji_field) {
-        if (isset($data[ $emoji_field ])) {
+        if (isset($data[$emoji_field])) {
             $charset = $wpdb->get_col_charset($wpdb->posts, $emoji_field);
 
             if ('utf8' === $charset) {
-                $data[ $emoji_field ] = wp_encode_emoji($data[ $emoji_field ]);
+                $data[$emoji_field] = wp_encode_emoji($data[$emoji_field]);
             }
         }
     }
@@ -4907,20 +4907,20 @@ function wp_insert_post($postarr, $wp_error = false, $fire_after_hooks = true)
             if (! empty($tax_object->default_term)) {
 
                 // Filter out empty terms.
-                if (isset($postarr['tax_input'][ $taxonomy ]) && is_array($postarr['tax_input'][ $taxonomy ])) {
-                    $postarr['tax_input'][ $taxonomy ] = array_filter($postarr['tax_input'][ $taxonomy ]);
+                if (isset($postarr['tax_input'][$taxonomy]) && is_array($postarr['tax_input'][$taxonomy])) {
+                    $postarr['tax_input'][$taxonomy] = array_filter($postarr['tax_input'][$taxonomy]);
                 }
 
                 // Passed custom taxonomy list overwrites the existing list if not empty.
                 $terms = wp_get_object_terms($post_id, $taxonomy, ['fields' => 'ids']);
-                if (! empty($terms) && empty($postarr['tax_input'][ $taxonomy ])) {
-                    $postarr['tax_input'][ $taxonomy ] = $terms;
+                if (! empty($terms) && empty($postarr['tax_input'][$taxonomy])) {
+                    $postarr['tax_input'][$taxonomy] = $terms;
                 }
 
-                if (empty($postarr['tax_input'][ $taxonomy ])) {
+                if (empty($postarr['tax_input'][$taxonomy])) {
                     $default_term_id = get_option('default_term_' . $taxonomy);
                     if (! empty($default_term_id)) {
-                        $postarr['tax_input'][ $taxonomy ] = [(int) $default_term_id];
+                        $postarr['tax_input'][$taxonomy] = [(int) $default_term_id];
                     }
                 }
             }
@@ -5002,7 +5002,7 @@ function wp_insert_post($postarr, $wp_error = false, $fire_after_hooks = true)
         $post->page_template = $postarr['page_template'];
         $page_templates      = wp_get_theme()->get_page_templates($post);
 
-        if ('default' !== $postarr['page_template'] && ! isset($page_templates[ $postarr['page_template'] ])) {
+        if ('default' !== $postarr['page_template'] && ! isset($page_templates[$postarr['page_template']])) {
             if ($wp_error) {
                 return new WP_Error('invalid_page_template', __('Invalid page template.'));
             }
@@ -5520,8 +5520,8 @@ function wp_unique_post_slug($slug, $post_id, $post_status, $post_type, $post_pa
                 * - An integer between 1 and 31 that follows 'monthnum' conflicts with 'day'.
                 */
                 if (0 === $postname_index ||
-                    ($postname_index && '%year%' === $permastructs[ $postname_index - 1 ] && 13 > $slug_num) ||
-                    ($postname_index && '%monthnum%' === $permastructs[ $postname_index - 1 ] && 32 > $slug_num)
+                    ($postname_index && '%year%' === $permastructs[$postname_index - 1] && 13 > $slug_num) ||
+                    ($postname_index && '%monthnum%' === $permastructs[$postname_index - 1] && 32 > $slug_num)
                 ) {
                     $conflicts_with_date_archive = true;
                 }
@@ -6154,16 +6154,16 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page')
              * Loop through the given path parts from right to left,
              * ensuring each matches the post ancestry.
              */
-            while (0 != $p->post_parent && isset($pages[ $p->post_parent ])) {
+            while (0 != $p->post_parent && isset($pages[$p->post_parent])) {
                 ++$count;
-                $parent = $pages[ $p->post_parent ];
-                if (! isset($revparts[ $count ]) || $parent->post_name != $revparts[ $count ]) {
+                $parent = $pages[$p->post_parent];
+                if (! isset($revparts[$count]) || $parent->post_name != $revparts[$count]) {
                     break;
                 }
                 $p = $parent;
             }
 
-            if (0 == $p->post_parent && count($revparts) === $count + 1 && $p->post_name == $revparts[ $count ]) {
+            if (0 == $p->post_parent && count($revparts) === $count + 1 && $p->post_name == $revparts[$count]) {
                 $foundid = $page->ID;
                 if ($page->post_type == $post_type) {
                     break;
@@ -6198,21 +6198,21 @@ function get_page_children($page_id, $pages)
     // Build a hash of ID -> children.
     $children = [];
     foreach ((array) $pages as $page) {
-        $children[ (int) $page->post_parent ][] = $page;
+        $children[(int) $page->post_parent][] = $page;
     }
 
     $page_list = [];
 
     // Start the search by looking at immediate children.
-    if (isset($children[ $page_id ])) {
+    if (isset($children[$page_id])) {
         // Always start at the end of the stack in order to preserve original `$pages` order.
-        $to_look = array_reverse($children[ $page_id ]);
+        $to_look = array_reverse($children[$page_id]);
 
         while ($to_look) {
             $p           = array_pop($to_look);
             $page_list[] = $p;
-            if (isset($children[ $p->ID ])) {
-                foreach (array_reverse($children[ $p->ID ]) as $child) {
+            if (isset($children[$p->ID])) {
+                foreach (array_reverse($children[$p->ID]) as $child) {
                     // Append to the `$to_look` stack to descend the tree.
                     $to_look[] = $child;
                 }
@@ -6243,8 +6243,8 @@ function get_page_hierarchy(&$pages, $page_id = 0)
 
     $children = [];
     foreach ((array) $pages as $p) {
-        $parent_id                = (int) $p->post_parent;
-        $children[ $parent_id ][] = $p;
+        $parent_id              = (int) $p->post_parent;
+        $children[$parent_id][] = $p;
     }
 
     $result = [];
@@ -6269,9 +6269,9 @@ function get_page_hierarchy(&$pages, $page_id = 0)
  */
 function _page_traverse_name($page_id, &$children, &$result)
 {
-    if (isset($children[ $page_id ])) {
-        foreach ((array) $children[ $page_id ] as $child) {
-            $result[ $child->ID ] = $child->post_name;
+    if (isset($children[$page_id])) {
+        foreach ((array) $children[$page_id] as $child) {
+            $result[$child->ID] = $child->post_name;
             _page_traverse_name($child->ID, $children, $result);
         }
     }
@@ -6523,8 +6523,8 @@ function get_pages($args = [])
 
         $num_pages = count($pages);
         for ($i = 0; $i < $num_pages; $i++) {
-            if (in_array($pages[ $i ]->ID, $exclude, true)) {
-                unset($pages[ $i ]);
+            if (in_array($pages[$i]->ID, $exclude, true)) {
+                unset($pages[$i]);
             }
         }
     }
@@ -7224,13 +7224,13 @@ function wp_mime_type_icon($mime = 0, $preferred_ext = '.png')
                         $ext = strtolower(substr($file, -4));
                         if (! in_array($ext, ['.svg', '.png', '.gif', '.jpg'], true)) {
                             if (is_dir("$dir/$file")) {
-                                $dirs[ "$dir/$file" ] = "$uri/$file";
+                                $dirs["$dir/$file"] = "$uri/$file";
                             }
                             continue;
                         }
-                        $all_icons[ "$dir/$file" ] = "$uri/$file";
+                        $all_icons["$dir/$file"] = "$uri/$file";
                         if ($ext === $preferred_ext) {
-                            $icon_files[ "$dir/$file" ] = "$uri/$file";
+                            $icon_files["$dir/$file"] = "$uri/$file";
                         }
                     }
                     closedir($dh);
@@ -7246,7 +7246,7 @@ function wp_mime_type_icon($mime = 0, $preferred_ext = '.png')
         $types = [];
         // Icon wp_basename - extension = MIME wildcard.
         foreach ($icon_files as $file => $uri) {
-            $types[ preg_replace('/^([^.]*).*$/', '$1', wp_basename($file)) ] =& $icon_files[ $file ];
+            $types[preg_replace('/^([^.]*).*$/', '$1', wp_basename($file))] =& $icon_files[$file];
         }
 
         if (! empty($mime)) {
@@ -7260,11 +7260,11 @@ function wp_mime_type_icon($mime = 0, $preferred_ext = '.png')
 
         foreach ($matches as $match => $wilds) {
             foreach ($wilds as $wild) {
-                if (! isset($types[ $wild ])) {
+                if (! isset($types[$wild])) {
                     continue;
                 }
 
-                $icon = $types[ $wild ];
+                $icon = $types[$wild];
                 if (! is_numeric($mime)) {
                     wp_cache_add("mime_type_icon_$mime", $icon);
                 }
@@ -7662,7 +7662,7 @@ function update_post_cache(&$posts)
         if (empty($post->filter) || 'raw' !== $post->filter) {
             $post = sanitize_post($post, 'raw');
         }
-        $data[ $post->ID ] = $post;
+        $data[$post->ID] = $post;
     }
     wp_cache_add_multiple($data, 'posts');
 }
@@ -8060,7 +8060,7 @@ function wp_check_post_hierarchy_for_loops($post_parent, $post_id)
     }
 
     // Setting $post_parent to the given value causes a loop.
-    if (isset($loop[ $post_id ])) {
+    if (isset($loop[$post_id])) {
         return 0;
     }
 
@@ -8155,12 +8155,12 @@ function wp_queue_posts_for_term_meta_lazyload($posts)
             continue;
         }
 
-        if (! isset($post_type_taxonomies[ $post->post_type ])) {
-            $post_type_taxonomies[ $post->post_type ] = get_object_taxonomies($post->post_type);
+        if (! isset($post_type_taxonomies[$post->post_type])) {
+            $post_type_taxonomies[$post->post_type] = get_object_taxonomies($post->post_type);
         }
 
-        foreach ($post_type_taxonomies[ $post->post_type ] as $taxonomy) {
-            $prime_post_terms[ $taxonomy ][] = $post->ID;
+        foreach ($post_type_taxonomies[$post->post_type] as $taxonomy) {
+            $prime_post_terms[$taxonomy][] = $post->ID;
         }
     }
 
@@ -8273,14 +8273,14 @@ function _prime_post_parent_id_caches(array $ids)
 
     $cache_keys = [];
     foreach ($ids as $id) {
-        $cache_keys[ $id ] = 'post_parent:' . (string) $id;
+        $cache_keys[$id] = 'post_parent:' . (string) $id;
     }
 
     $cached_data = wp_cache_get_multiple(array_values($cache_keys), 'posts');
 
     $non_cached_ids = [];
     foreach ($cache_keys as $id => $cache_key) {
-        if (false === $cached_data[ $cache_key ]) {
+        if (false === $cached_data[$cache_key]) {
             $non_cached_ids[] = $id;
         }
     }
@@ -8291,7 +8291,7 @@ function _prime_post_parent_id_caches(array $ids)
         if ($fresh_posts) {
             $post_parent_data = [];
             foreach ($fresh_posts as $fresh_post) {
-                $post_parent_data[ 'post_parent:' . (string) $fresh_post->ID ] = (int) $fresh_post->post_parent;
+                $post_parent_data['post_parent:' . (string) $fresh_post->ID] = (int) $fresh_post->post_parent;
             }
 
             wp_cache_add_multiple($post_parent_data, 'posts');

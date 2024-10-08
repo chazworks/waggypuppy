@@ -60,11 +60,11 @@ function edit_user($user_id = 0)
 
         // If the new role isn't editable by the logged-in user die with error.
         $editable_roles = get_editable_roles();
-        if (! empty($new_role) && empty($editable_roles[ $new_role ])) {
+        if (! empty($new_role) && empty($editable_roles[$new_role])) {
             wp_die(__('Sorry, you are not allowed to give users that role.'), 403);
         }
 
-        $potential_role = isset($wp_roles->role_objects[ $new_role ]) ? $wp_roles->role_objects[ $new_role ] : false;
+        $potential_role = isset($wp_roles->role_objects[$new_role]) ? $wp_roles->role_objects[$new_role] : false;
 
         /*
          * Don't let anyone with 'promote_users' edit their own role to something without it.
@@ -108,8 +108,8 @@ function edit_user($user_id = 0)
     }
 
     foreach (wp_get_user_contact_methods($user) as $method => $name) {
-        if (isset($_POST[ $method ])) {
-            $user->$method = sanitize_text_field($_POST[ $method ]);
+        if (isset($_POST[$method])) {
+            $user->$method = sanitize_text_field($_POST[$method]);
         }
     }
 
@@ -619,7 +619,7 @@ function use_ssl_preference($user)
 function admin_created_user_email($text)
 {
     $roles = get_editable_roles();
-    $role  = $roles[ $_REQUEST['role'] ];
+    $role  = $roles[$_REQUEST['role']];
 
     if ('' !== get_bloginfo('name')) {
         $site_title = wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);

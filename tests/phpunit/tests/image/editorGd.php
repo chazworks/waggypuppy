@@ -405,8 +405,8 @@ class Tests_Image_Editor_GD extends WP_Image_UnitTestCase
             // Now, verify real dimensions are as expected.
             $this->assertImageDimensions(
                 $image_path,
-                $expected_array[ $key ]['width'],
-                $expected_array[ $key ]['height']
+                $expected_array[$key]['width'],
+                $expected_array[$key]['height']
             );
         }
     }

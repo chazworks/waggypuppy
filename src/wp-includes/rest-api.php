@@ -195,7 +195,7 @@ function register_rest_field($object_type, $attribute, $args = [])
     $object_types = (array) $object_type;
 
     foreach ($object_types as $object_type) {
-        $wp_rest_additional_fields[ $object_type ][ $attribute ] = $args;
+        $wp_rest_additional_fields[$object_type][$attribute] = $args;
     }
 }
 
@@ -832,7 +832,7 @@ function rest_handle_options_request($response, $handler, $request)
         $args = [];
         foreach ($matches as $param => $value) {
             if (! is_int($param)) {
-                $args[ $param ] = $value;
+                $args[$param] = $value;
             }
         }
 
@@ -876,16 +876,16 @@ function rest_send_allow_header($response, $server, $request)
     $allowed_methods = [];
 
     // Get the allowed methods across the routes.
-    foreach ($routes[ $matched_route ] as $_handler) {
+    foreach ($routes[$matched_route] as $_handler) {
         foreach ($_handler['methods'] as $handler_method => $value) {
 
             if (! empty($_handler['permission_callback'])) {
 
                 $permission = call_user_func($_handler['permission_callback'], $request);
 
-                $allowed_methods[ $handler_method ] = true === $permission;
+                $allowed_methods[$handler_method] = true === $permission;
             } else {
-                $allowed_methods[ $handler_method ] = true;
+                $allowed_methods[$handler_method] = true;
             }
         }
     }
@@ -914,8 +914,8 @@ function _rest_array_intersect_key_recursive($array1, $array2)
 {
     $array1 = array_intersect_key($array1, $array2);
     foreach ($array1 as $key => $value) {
-        if (is_array($value) && is_array($array2[ $key ])) {
-            $array1[ $key ] = _rest_array_intersect_key_recursive($value, $array2[ $key ]);
+        if (is_array($value) && is_array($array2[$key])) {
+            $array1[$key] = _rest_array_intersect_key_recursive($value, $array2[$key]);
         }
     }
     return $array1;
@@ -955,15 +955,15 @@ function rest_filter_response_fields($response, $server, $request)
         $ref   = &$fields_as_keyed;
         while (count($parts) > 1) {
             $next = array_shift($parts);
-            if (isset($ref[ $next ]) && true === $ref[ $next ]) {
+            if (isset($ref[$next]) && true === $ref[$next]) {
                 // Skip any sub-properties if their parent prop is already marked for inclusion.
                 break 2;
             }
-            $ref[ $next ] = isset($ref[ $next ]) ? $ref[ $next ] : [];
-            $ref          = &$ref[ $next ];
+            $ref[$next] = isset($ref[$next]) ? $ref[$next] : [];
+            $ref        = &$ref[$next];
         }
-        $last         = array_shift($parts);
-        $ref[ $last ] = true;
+        $last       = array_shift($parts);
+        $ref[$last] = true;
     }
 
     if (wp_is_numeric_array($data)) {
@@ -1306,7 +1306,7 @@ function rest_get_avatar_urls($id_or_email)
 
     $urls = [];
     foreach ($avatar_sizes as $size) {
-        $urls[ $size ] = get_avatar_url($id_or_email, ['size' => $size]);
+        $urls[$size] = get_avatar_url($id_or_email, ['size' => $size]);
     }
 
     return $urls;
@@ -1454,10 +1454,10 @@ function rest_authorization_required_code()
 function rest_validate_request_arg($value, $request, $param)
 {
     $attributes = $request->get_attributes();
-    if (! isset($attributes['args'][ $param ]) || ! is_array($attributes['args'][ $param ])) {
+    if (! isset($attributes['args'][$param]) || ! is_array($attributes['args'][$param])) {
         return true;
     }
-    $args = $attributes['args'][ $param ];
+    $args = $attributes['args'][$param];
 
     return rest_validate_value_from_schema($value, $args, $param);
 }
@@ -1475,10 +1475,10 @@ function rest_validate_request_arg($value, $request, $param)
 function rest_sanitize_request_arg($value, $request, $param)
 {
     $attributes = $request->get_attributes();
-    if (! isset($attributes['args'][ $param ]) || ! is_array($attributes['args'][ $param ])) {
+    if (! isset($attributes['args'][$param]) || ! is_array($attributes['args'][$param])) {
         return $value;
     }
-    $args = $attributes['args'][ $param ];
+    $args = $attributes['args'][$param];
 
     return rest_sanitize_value_from_schema($value, $args, $param);
 }
@@ -1722,7 +1722,7 @@ function rest_get_best_type_for_value($value, $types)
     }
 
     foreach ($types as $type) {
-        if (isset($checks[ $type ]) && $checks[ $type ]($value)) {
+        if (isset($checks[$type]) && $checks[$type]($value)) {
             return $type;
         }
     }
@@ -1787,8 +1787,8 @@ function rest_validate_array_contains_unique_items($input_array)
         $stabilized = rest_stabilize_value($item);
         $key        = serialize($stabilized);
 
-        if (! isset($seen[ $key ])) {
-            $seen[ $key ] = true;
+        if (! isset($seen[$key])) {
+            $seen[$key] = true;
 
             continue;
         }
@@ -1824,7 +1824,7 @@ function rest_stabilize_value($value)
     ksort($value);
 
     foreach ($value as $k => $v) {
-        $value[ $k ] = rest_stabilize_value($v);
+        $value[$k] = rest_stabilize_value($v);
     }
 
     return $value;
@@ -2103,7 +2103,7 @@ function rest_are_values_equal($value1, $value2)
         }
 
         foreach ($value1 as $index => $value) {
-            if (! array_key_exists($index, $value2) || ! rest_are_values_equal($value, $value2[ $index ])) {
+            if (! array_key_exists($index, $value2) || ! rest_are_values_equal($value, $value2[$index])) {
                 return false;
             }
         }
@@ -2445,8 +2445,8 @@ function rest_validate_object_value_from_schema($value, $args, $param)
     }
 
     foreach ($value as $property => $v) {
-        if (isset($args['properties'][ $property ])) {
-            $is_valid = rest_validate_value_from_schema($v, $args['properties'][ $property ], $param . '[' . $property . ']');
+        if (isset($args['properties'][$property])) {
+            $is_valid = rest_validate_value_from_schema($v, $args['properties'][$property], $param . '[' . $property . ']');
             if (is_wp_error($is_valid)) {
                 return $is_valid;
             }
@@ -2882,7 +2882,7 @@ function rest_sanitize_value_from_schema($value, $args, $param = '')
 
         if (! empty($args['items'])) {
             foreach ($value as $index => $v) {
-                $value[ $index ] = rest_sanitize_value_from_schema($v, $args['items'], $param . '[' . $index . ']');
+                $value[$index] = rest_sanitize_value_from_schema($v, $args['items'], $param . '[' . $index . ']');
             }
         }
 
@@ -2898,22 +2898,22 @@ function rest_sanitize_value_from_schema($value, $args, $param = '')
         $value = rest_sanitize_object($value);
 
         foreach ($value as $property => $v) {
-            if (isset($args['properties'][ $property ])) {
-                $value[ $property ] = rest_sanitize_value_from_schema($v, $args['properties'][ $property ], $param . '[' . $property . ']');
+            if (isset($args['properties'][$property])) {
+                $value[$property] = rest_sanitize_value_from_schema($v, $args['properties'][$property], $param . '[' . $property . ']');
                 continue;
             }
 
             $pattern_property_schema = rest_find_matching_pattern_property_schema($property, $args);
             if (null !== $pattern_property_schema) {
-                $value[ $property ] = rest_sanitize_value_from_schema($v, $pattern_property_schema, $param . '[' . $property . ']');
+                $value[$property] = rest_sanitize_value_from_schema($v, $pattern_property_schema, $param . '[' . $property . ']');
                 continue;
             }
 
             if (isset($args['additionalProperties'])) {
                 if (false === $args['additionalProperties']) {
-                    unset($value[ $property ]);
+                    unset($value[$property]);
                 } elseif (is_array($args['additionalProperties'])) {
-                    $value[ $property ] = rest_sanitize_value_from_schema($v, $args['additionalProperties'], $param . '[' . $property . ']');
+                    $value[$property] = rest_sanitize_value_from_schema($v, $args['additionalProperties'], $param . '[' . $property . ']');
                 }
             }
         }
@@ -3035,12 +3035,12 @@ function rest_preload_api_request($memo, $path)
         $data     = (array) $server->response_to_data($response, $embed);
 
         if ('OPTIONS' === $method) {
-            $memo[ $method ][ $path ] = [
+            $memo[$method][$path] = [
                 'body'    => $data,
                 'headers' => $response->headers,
             ];
         } else {
-            $memo[ $path ] = [
+            $memo[$path] = [
                 'body'    => $data,
                 'headers' => $response->headers,
             ];
@@ -3140,8 +3140,8 @@ function rest_filter_response_by_context($response_data, $schema, $context)
         if ($is_array_type) {
             $check = isset($schema['items']) ? $schema['items'] : [];
         } elseif ($is_object_type) {
-            if (isset($schema['properties'][ $key ])) {
-                $check = $schema['properties'][ $key ];
+            if (isset($schema['properties'][$key])) {
+                $check = $schema['properties'][$key];
             } else {
                 $pattern_property_schema = rest_find_matching_pattern_property_schema($key, $schema);
                 if (null !== $pattern_property_schema) {
@@ -3166,7 +3166,7 @@ function rest_filter_response_by_context($response_data, $schema, $context)
             if (is_object($response_data)) {
                 unset($response_data->$key);
             } else {
-                unset($response_data[ $key ]);
+                unset($response_data[$key]);
             }
         } elseif (is_array($value) || is_object($value)) {
             $new_value = rest_filter_response_by_context($value, $check, $context);
@@ -3174,7 +3174,7 @@ function rest_filter_response_by_context($response_data, $schema, $context)
             if (is_object($response_data)) {
                 $response_data->$key = $new_value;
             } else {
-                $response_data[ $key ] = $new_value;
+                $response_data[$key] = $new_value;
             }
         }
     }
@@ -3198,13 +3198,13 @@ function rest_default_additional_properties_to_false($schema)
     if (in_array('object', $type, true)) {
         if (isset($schema['properties'])) {
             foreach ($schema['properties'] as $key => $child_schema) {
-                $schema['properties'][ $key ] = rest_default_additional_properties_to_false($child_schema);
+                $schema['properties'][$key] = rest_default_additional_properties_to_false($child_schema);
             }
         }
 
         if (isset($schema['patternProperties'])) {
             foreach ($schema['patternProperties'] as $key => $child_schema) {
-                $schema['patternProperties'][ $key ] = rest_default_additional_properties_to_false($child_schema);
+                $schema['patternProperties'][$key] = rest_default_additional_properties_to_false($child_schema);
             }
         }
 
@@ -3416,22 +3416,22 @@ function rest_get_endpoint_args_for_schema($schema, $method = WP_REST_Server::CR
             continue;
         }
 
-        $endpoint_args[ $field_id ] = [
+        $endpoint_args[$field_id] = [
             'validate_callback' => 'rest_validate_request_arg',
             'sanitize_callback' => 'rest_sanitize_request_arg',
         ];
 
         if (WP_REST_Server::CREATABLE === $method && isset($params['default'])) {
-            $endpoint_args[ $field_id ]['default'] = $params['default'];
+            $endpoint_args[$field_id]['default'] = $params['default'];
         }
 
         if (WP_REST_Server::CREATABLE === $method && ! empty($params['required'])) {
-            $endpoint_args[ $field_id ]['required'] = true;
+            $endpoint_args[$field_id]['required'] = true;
         }
 
         foreach ($valid_schema_properties as $schema_prop) {
-            if (isset($params[ $schema_prop ])) {
-                $endpoint_args[ $field_id ][ $schema_prop ] = $params[ $schema_prop ];
+            if (isset($params[$schema_prop])) {
+                $endpoint_args[$field_id][$schema_prop] = $params[$schema_prop];
             }
         }
 
@@ -3449,7 +3449,7 @@ function rest_get_endpoint_args_for_schema($schema, $method = WP_REST_Server::CR
                 );
             }
 
-            $endpoint_args[ $field_id ] = array_merge($endpoint_args[ $field_id ], $params['arg_options']);
+            $endpoint_args[$field_id] = array_merge($endpoint_args[$field_id], $params['arg_options']);
         }
     }
 

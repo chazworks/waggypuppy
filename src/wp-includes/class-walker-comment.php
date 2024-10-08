@@ -147,12 +147,12 @@ class Walker_Comment extends Walker
          * and display them at this level. This is to prevent them being orphaned to the end
          * of the list.
          */
-        if ($max_depth <= $depth + 1 && isset($children_elements[ $id ])) {
-            foreach ($children_elements[ $id ] as $child) {
+        if ($max_depth <= $depth + 1 && isset($children_elements[$id])) {
+            foreach ($children_elements[$id] as $child) {
                 $this->display_element($child, $children_elements, $max_depth, $depth, $args, $output);
             }
 
-            unset($children_elements[ $id ]);
+            unset($children_elements[$id]);
         }
     }
 

@@ -145,7 +145,7 @@ class WP_Comments_List_Table extends WP_List_Table
         ];
 
         $args = [
-            'status'                    => isset($status_map[ $comment_status ]) ? $status_map[ $comment_status ] : $comment_status,
+            'status'                    => isset($status_map[$comment_status]) ? $status_map[$comment_status] : $comment_status,
             'search'                    => $search,
             'user_id'                   => $user_id,
             'offset'                    => $start,
@@ -331,7 +331,7 @@ class WP_Comments_List_Table extends WP_List_Table
                 $link = add_query_arg( 's', esc_attr( wp_unslash( $_REQUEST['s'] ) ), $link );
             */
 
-            $status_links[ $status ] = [
+            $status_links[$status] = [
                 'url'     => esc_url($link),
                 'label'   => sprintf(
                     translate_nooped_plural($label, $num_comments->$status),
@@ -1091,12 +1091,12 @@ class WP_Comments_List_Table extends WP_List_Table
             return;
         }
 
-        if (isset($this->pending_count[ $post->ID ])) {
-            $pending_comments = $this->pending_count[ $post->ID ];
+        if (isset($this->pending_count[$post->ID])) {
+            $pending_comments = $this->pending_count[$post->ID];
         } else {
-            $_pending_count_temp              = get_pending_comments_num([$post->ID]);
-            $pending_comments                 = $_pending_count_temp[ $post->ID ];
-            $this->pending_count[ $post->ID ] = $pending_comments;
+            $_pending_count_temp            = get_pending_comments_num([$post->ID]);
+            $pending_comments               = $_pending_count_temp[$post->ID];
+            $this->pending_count[$post->ID] = $pending_comments;
         }
 
         if (current_user_can('edit_post', $post->ID)) {

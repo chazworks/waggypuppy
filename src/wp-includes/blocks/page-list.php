@@ -244,8 +244,8 @@ function block_core_page_list_nest_pages($current_level, $children)
         return;
     }
     foreach ((array) $current_level as $key => $current) {
-        if (isset($children[ $key ])) {
-            $current_level[ $key ]['children'] = block_core_page_list_nest_pages($children[ $key ], $children);
+        if (isset($children[$key])) {
+            $current_level[$key]['children'] = block_core_page_list_nest_pages($children[$key], $children);
         }
     }
     return $current_level;
@@ -296,14 +296,14 @@ function render_block_core_page_list($attributes, $content, $block)
         }
 
         if ($page->post_parent) {
-            $pages_with_children[ $page->post_parent ][ $page->ID ] = [
+            $pages_with_children[$page->post_parent][$page->ID] = [
                 'page_id'   => $page->ID,
                 'title'     => $page->post_title,
                 'link'      => get_permalink($page),
                 'is_active' => $is_active,
             ];
         } else {
-            $top_level_pages[ $page->ID ] = [
+            $top_level_pages[$page->ID] = [
                 'page_id'   => $page->ID,
                 'title'     => $page->post_title,
                 'link'      => get_permalink($page),
@@ -331,7 +331,7 @@ function render_block_core_page_list($attributes, $content, $block)
         }
 
         $nested_pages = block_core_page_list_nest_pages(
-            $pages_with_children[ $parent_page_id ],
+            $pages_with_children[$parent_page_id],
             $pages_with_children
         );
     }

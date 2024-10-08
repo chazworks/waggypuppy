@@ -373,13 +373,13 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
         }
 
         foreach (['object_id', 'menu_item_parent', 'nav_menu_term_id'] as $key) {
-            if (! is_int($this->value[ $key ])) {
-                $this->value[ $key ] = (int) $this->value[ $key ];
+            if (! is_int($this->value[$key])) {
+                $this->value[$key] = (int) $this->value[$key];
             }
         }
         foreach (['classes', 'xfn'] as $key) {
-            if (is_array($this->value[ $key ])) {
-                $this->value[ $key ] = implode(' ', $this->value[ $key ]);
+            if (is_array($this->value[$key])) {
+                $this->value[$key] = implode(' ', $this->value[$key]);
             }
         }
 
@@ -426,7 +426,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             'to_ping',
         ];
         foreach ($irrelevant_properties as $property) {
-            unset($this->value[ $property ]);
+            unset($this->value[$property]);
         }
     }
 
@@ -579,7 +579,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
             $i     = 1;
 
             foreach ($items as $k => $item) {
-                $items[ $k ]->{$args['output_key']} = $i++;
+                $items[$k]->{$args['output_key']} = $i++;
             }
         }
 
@@ -708,19 +708,19 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting
 
         foreach (['object_id', 'menu_item_parent', 'nav_menu_term_id'] as $key) {
             // Note we need to allow negative-integer IDs for previewed objects not inserted yet.
-            $menu_item_value[ $key ] = (int) $menu_item_value[ $key ];
+            $menu_item_value[$key] = (int) $menu_item_value[$key];
         }
 
         foreach (['type', 'object', 'target'] as $key) {
-            $menu_item_value[ $key ] = sanitize_key($menu_item_value[ $key ]);
+            $menu_item_value[$key] = sanitize_key($menu_item_value[$key]);
         }
 
         foreach (['xfn', 'classes'] as $key) {
-            $value = $menu_item_value[ $key ];
+            $value = $menu_item_value[$key];
             if (! is_array($value)) {
                 $value = explode(' ', $value);
             }
-            $menu_item_value[ $key ] = implode(' ', array_map('sanitize_html_class', $value));
+            $menu_item_value[$key] = implode(' ', array_map('sanitize_html_class', $value));
         }
 
         $menu_item_value['original_title'] = sanitize_text_field($menu_item_value['original_title']);

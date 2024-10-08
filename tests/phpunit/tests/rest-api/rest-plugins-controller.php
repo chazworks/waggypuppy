@@ -991,7 +991,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $this->create_test_plugin();
 
-        $item          = get_plugins()[ self::PLUGIN_FILE ];
+        $item          = get_plugins()[self::PLUGIN_FILE];
         $item['_file'] = self::PLUGIN_FILE;
 
         $endpoint = new WP_REST_Plugins_Controller();
@@ -1012,7 +1012,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->create_test_plugin();
         activate_plugin(self::PLUGIN_FILE, '', true);
 
-        $item          = get_plugins()[ self::PLUGIN_FILE ];
+        $item          = get_plugins()[self::PLUGIN_FILE];
         $item['_file'] = self::PLUGIN_FILE;
 
         $endpoint = new WP_REST_Plugins_Controller();
@@ -1029,7 +1029,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $this->create_test_plugin(true);
 
-        $item          = get_plugins()[ self::PLUGIN_FILE ];
+        $item          = get_plugins()[self::PLUGIN_FILE];
         $item['_file'] = self::PLUGIN_FILE;
 
         $endpoint = new WP_REST_Plugins_Controller();

@@ -1293,7 +1293,7 @@ class Tests_Comment extends WP_UnitTestCase
         $this->assertEqualSets([$c2, $c4], array_values(wp_list_pluck($children, 'comment_ID')));
 
         // Direct descendants of $c2.
-        $this->assertEqualSets([$c3], array_values(wp_list_pluck($children[ $c2 ]->get_children(), 'comment_ID')));
+        $this->assertEqualSets([$c3], array_values(wp_list_pluck($children[$c2]->get_children(), 'comment_ID')));
     }
 
     /**
@@ -1626,7 +1626,7 @@ class Tests_Comment extends WP_UnitTestCase
         $lengths = wp_get_comment_fields_max_lengths();
 
         foreach ($lengths as $field => $length) {
-            $this->assertSame($expected[ $field ], $length);
+            $this->assertSame($expected[$field], $length);
         }
     }
 

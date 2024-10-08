@@ -418,7 +418,7 @@ function get_comment_count($post_id = 0)
     ];
     $comment_count = [];
     foreach ($mapping as $key => $value) {
-        $comment_count[ $key ] = get_comments(array_merge($args, ['status' => $value]));
+        $comment_count[$key] = get_comments(array_merge($args, ['status' => $value]));
     }
 
     $comment_count['all']            = $comment_count['approved'] + $comment_count['awaiting_moderation'];
@@ -595,7 +595,7 @@ function wp_set_comment_cookies($comment, $user, $cookies_consent = true)
  */
 function sanitize_comment_cookies()
 {
-    if (isset($_COOKIE[ 'comment_author_' . COOKIEHASH ])) {
+    if (isset($_COOKIE['comment_author_' . COOKIEHASH])) {
         /**
          * Filters the comment author's name cookie before it is set.
          *
@@ -606,14 +606,14 @@ function sanitize_comment_cookies()
          *
          * @param string $author_cookie The comment author name cookie.
          */
-        $comment_author = apply_filters('pre_comment_author_name', $_COOKIE[ 'comment_author_' . COOKIEHASH ]);
+        $comment_author = apply_filters('pre_comment_author_name', $_COOKIE['comment_author_' . COOKIEHASH]);
         $comment_author = wp_unslash($comment_author);
         $comment_author = esc_attr($comment_author);
 
-        $_COOKIE[ 'comment_author_' . COOKIEHASH ] = $comment_author;
+        $_COOKIE['comment_author_' . COOKIEHASH] = $comment_author;
     }
 
-    if (isset($_COOKIE[ 'comment_author_email_' . COOKIEHASH ])) {
+    if (isset($_COOKIE['comment_author_email_' . COOKIEHASH])) {
         /**
          * Filters the comment author's email cookie before it is set.
          *
@@ -624,14 +624,14 @@ function sanitize_comment_cookies()
          *
          * @param string $author_email_cookie The comment author email cookie.
          */
-        $comment_author_email = apply_filters('pre_comment_author_email', $_COOKIE[ 'comment_author_email_' . COOKIEHASH ]);
+        $comment_author_email = apply_filters('pre_comment_author_email', $_COOKIE['comment_author_email_' . COOKIEHASH]);
         $comment_author_email = wp_unslash($comment_author_email);
         $comment_author_email = esc_attr($comment_author_email);
 
-        $_COOKIE[ 'comment_author_email_' . COOKIEHASH ] = $comment_author_email;
+        $_COOKIE['comment_author_email_' . COOKIEHASH] = $comment_author_email;
     }
 
-    if (isset($_COOKIE[ 'comment_author_url_' . COOKIEHASH ])) {
+    if (isset($_COOKIE['comment_author_url_' . COOKIEHASH])) {
         /**
          * Filters the comment author's URL cookie before it is set.
          *
@@ -642,10 +642,10 @@ function sanitize_comment_cookies()
          *
          * @param string $author_url_cookie The comment author URL cookie.
          */
-        $comment_author_url = apply_filters('pre_comment_author_url', $_COOKIE[ 'comment_author_url_' . COOKIEHASH ]);
+        $comment_author_url = apply_filters('pre_comment_author_url', $_COOKIE['comment_author_url_' . COOKIEHASH]);
         $comment_author_url = wp_unslash($comment_author_url);
 
-        $_COOKIE[ 'comment_author_url_' . COOKIEHASH ] = $comment_author_url;
+        $_COOKIE['comment_author_url_' . COOKIEHASH] = $comment_author_url;
     }
 }
 
@@ -980,16 +980,16 @@ function separate_comments(&$comments)
     $count = count($comments);
 
     for ($i = 0; $i < $count; $i++) {
-        $type = $comments[ $i ]->comment_type;
+        $type = $comments[$i]->comment_type;
 
         if (empty($type)) {
             $type = 'comment';
         }
 
-        $comments_by_type[ $type ][] = &$comments[ $i ];
+        $comments_by_type[$type][] = &$comments[$i];
 
         if ('trackback' === $type || 'pingback' === $type) {
-            $comments_by_type['pings'][] = &$comments[ $i ];
+            $comments_by_type['pings'][] = &$comments[$i];
         }
     }
 
@@ -1268,7 +1268,7 @@ function wp_get_comment_fields_max_lengths()
             }
 
             if ($max_length > 0) {
-                $lengths[ $column ] = $max_length;
+                $lengths[$column] = $max_length;
             }
         }
     }
@@ -1811,11 +1811,11 @@ function wp_transition_comment_status($new_status, $old_status, $comment)
         1         => 'approved',
         'approve' => 'approved',   // wp_set_comment_status() uses "approve".
     ];
-    if (isset($comment_statuses[ $new_status ])) {
-        $new_status = $comment_statuses[ $new_status ];
+    if (isset($comment_statuses[$new_status])) {
+        $new_status = $comment_statuses[$new_status];
     }
-    if (isset($comment_statuses[ $old_status ])) {
-        $old_status = $comment_statuses[ $old_status ];
+    if (isset($comment_statuses[$old_status])) {
+        $old_status = $comment_statuses[$old_status];
     }
 
     // Call the hooks.
@@ -1925,18 +1925,18 @@ function wp_get_current_commenter()
     // Cookies should already be sanitized.
 
     $comment_author = '';
-    if (isset($_COOKIE[ 'comment_author_' . COOKIEHASH ])) {
-        $comment_author = $_COOKIE[ 'comment_author_' . COOKIEHASH ];
+    if (isset($_COOKIE['comment_author_' . COOKIEHASH])) {
+        $comment_author = $_COOKIE['comment_author_' . COOKIEHASH];
     }
 
     $comment_author_email = '';
-    if (isset($_COOKIE[ 'comment_author_email_' . COOKIEHASH ])) {
-        $comment_author_email = $_COOKIE[ 'comment_author_email_' . COOKIEHASH ];
+    if (isset($_COOKIE['comment_author_email_' . COOKIEHASH])) {
+        $comment_author_email = $_COOKIE['comment_author_email_' . COOKIEHASH];
     }
 
     $comment_author_url = '';
-    if (isset($_COOKIE[ 'comment_author_url_' . COOKIEHASH ])) {
-        $comment_author_url = $_COOKIE[ 'comment_author_url_' . COOKIEHASH ];
+    if (isset($_COOKIE['comment_author_url_' . COOKIEHASH])) {
+        $comment_author_url = $_COOKIE['comment_author_url_' . COOKIEHASH];
     }
 
     /**
@@ -2330,8 +2330,8 @@ function wp_new_comment($commentdata, $wp_error = false)
         $fields = ['comment_author', 'comment_author_email', 'comment_author_url', 'comment_content'];
 
         foreach ($fields as $field) {
-            if (isset($commentdata[ $field ])) {
-                $commentdata[ $field ] = $wpdb->strip_invalid_text_for_column($wpdb->comments, $field, $commentdata[ $field ]);
+            if (isset($commentdata[$field])) {
+                $commentdata[$field] = $wpdb->strip_invalid_text_for_column($wpdb->comments, $field, $commentdata[$field]);
             }
         }
 
@@ -2738,7 +2738,7 @@ function wp_update_comment_count($post_id, $do_deferred = false)
         $_deferred = array_unique($_deferred);
         foreach ($_deferred as $i => $_post_id) {
             wp_update_comment_count_now($_post_id);
-            unset($_deferred[ $i ]);
+            unset($_deferred[$i]);
             /** @todo Move this outside of the foreach and reset $_deferred to an array instead */
         }
     }
@@ -3370,7 +3370,7 @@ function update_comment_cache($comments, $update_meta_cache = true)
 {
     $data = [];
     foreach ((array) $comments as $comment) {
-        $data[ $comment->comment_ID ] = $comment;
+        $data[$comment->comment_ID] = $comment;
     }
     wp_cache_add_multiple($data, 'comment');
 

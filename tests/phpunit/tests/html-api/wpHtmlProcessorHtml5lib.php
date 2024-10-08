@@ -234,7 +234,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
                     if ($attribute_names) {
                         $sorted_attributes = [];
                         foreach ($attribute_names as $attribute_name) {
-                            $sorted_attributes[ $attribute_name ] = $processor->get_qualified_attribute_name($attribute_name);
+                            $sorted_attributes[$attribute_name] = $processor->get_qualified_attribute_name($attribute_name);
                         }
 
                         /*

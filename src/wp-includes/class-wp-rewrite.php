@@ -454,12 +454,12 @@ class WP_Rewrite
             $attachments = $wpdb->get_results($wpdb->prepare("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $id));
             if (! empty($attachments)) {
                 foreach ($attachments as $attachment) {
-                    $attach_uri                          = get_page_uri($attachment->ID);
-                    $page_attachment_uris[ $attach_uri ] = $attachment->ID;
+                    $attach_uri                        = get_page_uri($attachment->ID);
+                    $page_attachment_uris[$attach_uri] = $attachment->ID;
                 }
             }
 
-            $page_uris[ $uri ] = $id;
+            $page_uris[$uri] = $id;
         }
 
         return [$page_uris, $page_attachment_uris];
@@ -658,8 +658,8 @@ class WP_Rewrite
             return false;
         }
 
-        if (isset($this->extra_permastructs[ $name ])) {
-            return $this->extra_permastructs[ $name ]['struct'];
+        if (isset($this->extra_permastructs[$name])) {
+            return $this->extra_permastructs[$name]['struct'];
         }
 
         return false;
@@ -820,8 +820,8 @@ class WP_Rewrite
     {
         $position = array_search($tag, $this->rewritecode, true);
         if (false !== $position && null !== $position) {
-            $this->rewritereplace[ $position ] = $regex;
-            $this->queryreplace[ $position ]   = $query;
+            $this->rewritereplace[$position] = $regex;
+            $this->queryreplace[$position]   = $query;
         } else {
             $this->rewritecode[]    = $tag;
             $this->rewritereplace[] = $regex;
@@ -845,9 +845,9 @@ class WP_Rewrite
     {
         $position = array_search($tag, $this->rewritecode, true);
         if (false !== $position && null !== $position) {
-            unset($this->rewritecode[ $position ]);
-            unset($this->rewritereplace[ $position ]);
-            unset($this->queryreplace[ $position ]);
+            unset($this->rewritecode[$position]);
+            unset($this->rewritereplace[$position]);
+            unset($this->queryreplace[$position]);
         }
     }
 
@@ -921,8 +921,8 @@ class WP_Rewrite
                 $epmatch = $endpoint[1] . '(/(.*))?/?$';
 
                 // This will be appended on to the rest of the query for each dir.
-                $epquery                     = '&' . $endpoint[2] . '=';
-                $ep_query_append[ $epmatch ] = [$endpoint[0], $epquery];
+                $epquery                   = '&' . $endpoint[2] . '=';
+                $ep_query_append[$epmatch] = [$endpoint[0], $epquery];
             }
         }
 
@@ -946,13 +946,13 @@ class WP_Rewrite
         $queries = [];
         for ($i = 0; $i < $num_tokens; ++$i) {
             if (0 < $i) {
-                $queries[ $i ] = $queries[ $i - 1 ] . '&';
+                $queries[$i] = $queries[$i - 1] . '&';
             } else {
-                $queries[ $i ] = '';
+                $queries[$i] = '';
             }
 
-            $query_token    = str_replace($this->rewritecode, $this->queryreplace, $tokens[0][ $i ]) . $this->preg_index($i + 1);
-            $queries[ $i ] .= $query_token;
+            $query_token  = str_replace($this->rewritecode, $this->queryreplace, $tokens[0][$i]) . $this->preg_index($i + 1);
+            $queries[$i] .= $query_token;
         }
 
         // Get the structure, minus any cruft (stuff that isn't tags) at the front.
@@ -978,7 +978,7 @@ class WP_Rewrite
         $struct       = $front;
         for ($j = 0; $j < $num_dirs; ++$j) {
             // Get the struct for this dir, and trim slashes off the front.
-            $struct .= $dirs[ $j ] . '/'; // Accumulate. see comment near explode('/', $structure) above.
+            $struct .= $dirs[$j] . '/'; // Accumulate. see comment near explode('/', $structure) above.
             $struct  = ltrim($struct, '/');
 
             // Replace tags with regexes.
@@ -988,10 +988,10 @@ class WP_Rewrite
             $num_toks = preg_match_all('/%.+?%/', $struct, $toks);
 
             // Get the 'tagname=$matches[i]'.
-            $query = (! empty($num_toks) && isset($queries[ $num_toks - 1 ])) ? $queries[ $num_toks - 1 ] : '';
+            $query = (! empty($num_toks) && isset($queries[$num_toks - 1])) ? $queries[$num_toks - 1] : '';
 
             // Set up $ep_mask_specific which is used to match more specific URL types.
-            switch ($dirs[ $j ]) {
+            switch ($dirs[$j]) {
                 case '%year%':
                     $ep_mask_specific = EP_YEAR;
                     break;
@@ -1066,7 +1066,7 @@ class WP_Rewrite
                 foreach ((array) $ep_query_append as $regex => $ep) {
                     // Add the endpoints on if the mask fits.
                     if ($ep[0] & $ep_mask || $ep[0] & $ep_mask_specific) {
-                        $rewrite[ $match . $regex ] = $index . '?' . $query . $ep[1] . $this->preg_index($num_toks + 2);
+                        $rewrite[$match . $regex] = $index . '?' . $query . $ep[1] . $this->preg_index($num_toks + 2);
                     }
                 }
             }
@@ -1177,8 +1177,8 @@ class WP_Rewrite
                     if (! empty($endpoints)) {
                         foreach ((array) $ep_query_append as $regex => $ep) {
                             if ($ep[0] & EP_ATTACHMENT) {
-                                $rewrite[ $sub1 . $regex ] = $subquery . $ep[1] . $this->preg_index(3);
-                                $rewrite[ $sub2 . $regex ] = $subquery . $ep[1] . $this->preg_index(3);
+                                $rewrite[$sub1 . $regex] = $subquery . $ep[1] . $this->preg_index(3);
+                                $rewrite[$sub2 . $regex] = $subquery . $ep[1] . $this->preg_index(3);
                             }
                         }
                     }
@@ -1739,7 +1739,7 @@ class WP_Rewrite
      */
     public function add_external_rule($regex, $query)
     {
-        $this->non_wp_rules[ $regex ] = $query;
+        $this->non_wp_rules[$regex] = $query;
     }
 
     /**
@@ -1874,7 +1874,7 @@ class WP_Rewrite
 
         $args['struct'] = $struct;
 
-        $this->extra_permastructs[ $name ] = $args;
+        $this->extra_permastructs[$name] = $args;
     }
 
     /**
@@ -1886,7 +1886,7 @@ class WP_Rewrite
      */
     public function remove_permastruct($name)
     {
-        unset($this->extra_permastructs[ $name ]);
+        unset($this->extra_permastructs[$name]);
     }
 
     /**

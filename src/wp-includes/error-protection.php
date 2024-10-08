@@ -54,12 +54,12 @@ function wp_get_extension_error_description($error)
 
     foreach ($constants as $constant => $value) {
         if (str_starts_with($constant, 'E_')) {
-            $core_errors[ $value ] = $constant;
+            $core_errors[$value] = $constant;
         }
     }
 
-    if (isset($core_errors[ $error['type'] ])) {
-        $error['type'] = $core_errors[ $error['type'] ];
+    if (isset($core_errors[$error['type']])) {
+        $error['type'] = $core_errors[$error['type']];
     }
 
     /* translators: 1: Error type, 2: Error line number, 3: Error file name, 4: Error message. */

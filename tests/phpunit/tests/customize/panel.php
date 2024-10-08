@@ -129,7 +129,7 @@ class Tests_WP_Customize_Panel extends WP_UnitTestCase
         $data  = $panel->json();
         $this->assertSame('foo', $data['id']);
         foreach (['title', 'description', 'priority', 'type'] as $key) {
-            $this->assertSame($args[ $key ], $data[ $key ]);
+            $this->assertSame($args[$key], $data[$key]);
         }
         $this->assertEmpty($data['content']);
         $this->assertTrue($data['active']);

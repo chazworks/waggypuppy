@@ -125,8 +125,8 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller
                 continue;
             }
 
-            $status             = $this->prepare_item_for_response($obj, $request);
-            $data[ $obj->name ] = $this->prepare_response_for_collection($status);
+            $status           = $this->prepare_item_for_response($obj, $request);
+            $data[$obj->name] = $this->prepare_response_for_collection($status);
         }
 
         return rest_ensure_response($data);

@@ -107,13 +107,13 @@ function wp_apply_border_support($block_type, $block_attributes)
     // Generates styles for individual border sides.
     if ($has_border_color_support || $has_border_width_support) {
         foreach (['top', 'right', 'bottom', 'left'] as $side) {
-            $border                       = isset($block_attributes['style']['border'][ $side ]) ? $block_attributes['style']['border'][ $side ] : null;
-            $border_side_values           = [
+            $border                     = isset($block_attributes['style']['border'][$side]) ? $block_attributes['style']['border'][$side] : null;
+            $border_side_values         = [
                 'width' => isset($border['width']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'width') ? $border['width'] : null,
                 'color' => isset($border['color']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'color') ? $border['color'] : null,
                 'style' => isset($border['style']) && ! wp_should_skip_block_supports_serialization($block_type, '__experimentalBorder', 'style') ? $border['style'] : null,
             ];
-            $border_block_styles[ $side ] = $border_side_values;
+            $border_block_styles[$side] = $border_side_values;
         }
     }
 

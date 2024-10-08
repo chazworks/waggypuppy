@@ -69,7 +69,7 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase
 
         $hook->remove_filter($hook_name, $callback_one, $priority);
 
-        $this->assertCount(1, $hook->callbacks[ $priority ]);
+        $this->assertCount(1, $hook->callbacks[$priority]);
         $this->check_priority_exists($hook, $priority, 'Has priority of 2');
     }
 
@@ -88,7 +88,7 @@ class Tests_Hooks_RemoveFilter extends WP_UnitTestCase
         $hook->remove_filter($hook_name, $callback_one, $priority);
         $this->check_priority_non_existent($hook, $priority);
         $this->assertArrayNotHasKey($priority, $hook->callbacks);
-        $this->assertCount(1, $hook->callbacks[ $priority + 1 ]);
+        $this->assertCount(1, $hook->callbacks[$priority + 1]);
         $this->check_priority_exists($hook, $priority + 1, 'Should priority of 3');
     }
 

@@ -133,7 +133,7 @@ function register_core_block_style_handles()
         $register_style($name, 'theme', "wp-block-{$name}-theme");
 
         foreach ($style_fields as $style_field => $filename) {
-            $style_handle = $schema[ $style_field ];
+            $style_handle = $schema[$style_field];
             if (is_array($style_handle)) {
                 continue;
             }

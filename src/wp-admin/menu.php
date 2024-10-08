@@ -72,7 +72,7 @@ foreach (get_taxonomies_for_attachments('objects') as $tax) {
         continue;
     }
 
-    $submenu['upload.php'][ $i++ ] = [esc_attr($tax->labels->menu_name), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name . '&amp;post_type=attachment'];
+    $submenu['upload.php'][$i++] = [esc_attr($tax->labels->menu_name), $tax->cap->manage_terms, 'edit-tags.php?taxonomy=' . $tax->name . '&amp;post_type=attachment'];
 }
     unset($tax, $i);
 
@@ -163,13 +163,13 @@ foreach (array_merge($builtin, $types) as $ptype) {
      * by a hard-coded value below, increment the position.
      */
     $core_menu_positions = [59, 60, 65, 70, 75, 80, 85, 99];
-    while (isset($menu[ $ptype_menu_position ]) || in_array($ptype_menu_position, $core_menu_positions, true)) {
+    while (isset($menu[$ptype_menu_position]) || in_array($ptype_menu_position, $core_menu_positions, true)) {
         ++$ptype_menu_position;
     }
 
-    $menu[ $ptype_menu_position ] = [esc_attr($ptype_obj->labels->menu_name), $ptype_obj->cap->edit_posts, $ptype_file, '', $menu_class, $ptype_menu_id, $menu_icon];
-    $submenu[ $ptype_file ][5]    = [$ptype_obj->labels->all_items, $ptype_obj->cap->edit_posts, $ptype_file];
-    $submenu[ $ptype_file ][10]   = [$ptype_obj->labels->add_new_item, $ptype_obj->cap->create_posts, $post_new_file];
+    $menu[$ptype_menu_position] = [esc_attr($ptype_obj->labels->menu_name), $ptype_obj->cap->edit_posts, $ptype_file, '', $menu_class, $ptype_menu_id, $menu_icon];
+    $submenu[$ptype_file][5]    = [$ptype_obj->labels->all_items, $ptype_obj->cap->edit_posts, $ptype_file];
+    $submenu[$ptype_file][10]   = [$ptype_obj->labels->add_new_item, $ptype_obj->cap->create_posts, $post_new_file];
 
     $i = 15;
     foreach (get_taxonomies([], 'objects') as $tax) {
@@ -177,7 +177,7 @@ foreach (array_merge($builtin, $types) as $ptype) {
             continue;
         }
 
-        $submenu[ $ptype_file ][ $i++ ] = [esc_attr($tax->labels->menu_name), $tax->cap->manage_terms, sprintf($edit_tags_file, $tax->name)];
+        $submenu[$ptype_file][$i++] = [esc_attr($tax->labels->menu_name), $tax->cap->manage_terms, sprintf($edit_tags_file, $tax->name)];
     }
 }
 unset($ptype, $ptype_obj, $ptype_for_id, $ptype_menu_position, $menu_icon, $i, $tax, $post_new_file);

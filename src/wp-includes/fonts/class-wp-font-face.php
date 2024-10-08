@@ -216,7 +216,7 @@ class WP_Font_Face
         // Remove invalid properties.
         foreach ($font_face as $property => $value) {
             if (! in_array($property, $this->valid_font_face_properties, true)) {
-                unset($font_face[ $property ]);
+                unset($font_face[$property]);
             }
         }
 
@@ -307,8 +307,8 @@ class WP_Font_Face
                 ];
                 continue;
             }
-            $format         = pathinfo($url, PATHINFO_EXTENSION);
-            $src[ $format ] = $url;
+            $format       = pathinfo($url, PATHINFO_EXTENSION);
+            $src[$format] = $url;
         }
 
         // Add woff2.

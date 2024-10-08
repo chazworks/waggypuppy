@@ -841,7 +841,7 @@ function wp_privacy_process_personal_data_export_page($response, $exporter_index
         }
 
         if (! array_key_exists($group_id, $groups)) {
-            $groups[ $group_id ] = [
+            $groups[$group_id] = [
                 'group_label'       => $group_label,
                 'group_description' => $group_description,
                 'items'             => [],
@@ -849,13 +849,13 @@ function wp_privacy_process_personal_data_export_page($response, $exporter_index
         }
 
         $item_id = $export_datum['item_id'];
-        if (! array_key_exists($item_id, $groups[ $group_id ]['items'])) {
-            $groups[ $group_id ]['items'][ $item_id ] = [];
+        if (! array_key_exists($item_id, $groups[$group_id]['items'])) {
+            $groups[$group_id]['items'][$item_id] = [];
         }
 
-        $old_item_data                            = $groups[ $group_id ]['items'][ $item_id ];
-        $merged_item_data                         = array_merge($export_datum['data'], $old_item_data);
-        $groups[ $group_id ]['items'][ $item_id ] = $merged_item_data;
+        $old_item_data                        = $groups[$group_id]['items'][$item_id];
+        $merged_item_data                     = array_merge($export_datum['data'], $old_item_data);
+        $groups[$group_id]['items'][$item_id] = $merged_item_data;
     }
 
     // Then save the grouped data into the request.

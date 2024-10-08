@@ -45,8 +45,8 @@ function _get_list_table($class_name, $args = [])
         'WP_Privacy_Data_Removal_Requests_List_Table' => 'privacy-data-removal-requests',
     ];
 
-    if (isset($core_classes[ $class_name ])) {
-        foreach ((array) $core_classes[ $class_name ] as $required) {
+    if (isset($core_classes[$class_name])) {
+        foreach ((array) $core_classes[$class_name] as $required) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php';
         }
 

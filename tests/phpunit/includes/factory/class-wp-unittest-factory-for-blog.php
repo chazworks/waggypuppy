@@ -49,9 +49,9 @@ class WP_UnitTest_Factory_For_Blog extends WP_UnitTest_Factory_For_Thing
             foreach ($args['meta'] as $key => $value) {
                 // Promote allowed keys to top-level arguments, add others to the options array.
                 if (in_array($key, $allowed_data_fields, true)) {
-                    $args[ $key ] = $value;
+                    $args[$key] = $value;
                 } else {
-                    $args['options'][ $key ] = $value;
+                    $args['options'][$key] = $value;
                 }
             }
 

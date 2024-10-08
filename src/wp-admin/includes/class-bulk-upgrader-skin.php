@@ -82,8 +82,8 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin
      */
     public function feedback($feedback, ...$args)
     {
-        if (isset($this->upgrader->strings[ $feedback ])) {
-            $feedback = $this->upgrader->strings[ $feedback ];
+        if (isset($this->upgrader->strings[$feedback])) {
+            $feedback = $this->upgrader->strings[$feedback];
         }
 
         if (str_contains($feedback, '%')) {
@@ -133,8 +133,8 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin
      */
     public function error($errors)
     {
-        if (is_string($errors) && isset($this->upgrader->strings[ $errors ])) {
-            $this->error = $this->upgrader->strings[ $errors ];
+        if (is_string($errors) && isset($this->upgrader->strings[$errors])) {
+            $this->error = $this->upgrader->strings[$errors];
         }
 
         if (is_wp_error($errors)) {

@@ -23,9 +23,9 @@ function render_block_core_widget_group($attributes, $content, $block)
 {
     global $wp_registered_sidebars, $_sidebar_being_rendered;
 
-    if (isset($wp_registered_sidebars[ $_sidebar_being_rendered ])) {
-        $before_title = $wp_registered_sidebars[ $_sidebar_being_rendered ]['before_title'];
-        $after_title  = $wp_registered_sidebars[ $_sidebar_being_rendered ]['after_title'];
+    if (isset($wp_registered_sidebars[$_sidebar_being_rendered])) {
+        $before_title = $wp_registered_sidebars[$_sidebar_being_rendered]['before_title'];
+        $after_title  = $wp_registered_sidebars[$_sidebar_being_rendered]['after_title'];
     } else {
         $before_title = '<h2 class="widget-title">';
         $after_title  = '</h2>';

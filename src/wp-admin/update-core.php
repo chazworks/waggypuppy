@@ -524,8 +524,8 @@ function list_plugin_updates()
         $icon            = '<span class="dashicons dashicons-admin-plugins"></span>';
         $preferred_icons = ['svg', '2x', '1x', 'default'];
         foreach ($preferred_icons as $preferred_icon) {
-            if (! empty($plugin_data->update->icons[ $preferred_icon ])) {
-                $icon = '<img src="' . esc_url($plugin_data->update->icons[ $preferred_icon ]) . '" alt="" />';
+            if (! empty($plugin_data->update->icons[$preferred_icon])) {
+                $icon = '<img src="' . esc_url($plugin_data->update->icons[$preferred_icon]) . '" alt="" />';
                 break;
             }
         }

@@ -74,7 +74,7 @@ class Tests_Widgets_wpWidgetMediaGallery extends WP_UnitTestCase
                 ]
             );
             wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $test_image));
-            $attachments[ $filename ] = $attachment_id;
+            $attachments[$filename] = $attachment_id;
         }
 
         $instance            = wp_list_pluck($widget->get_instance_schema(), 'default');

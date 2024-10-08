@@ -321,11 +321,11 @@ function _hash_hmac($algo, $data, $key, $binary = false)
         'sha1' => 'H40',
     ];
 
-    if (! isset($packs[ $algo ])) {
+    if (! isset($packs[$algo])) {
         return false;
     }
 
-    $pack = $packs[ $algo ];
+    $pack = $packs[$algo];
 
     if (strlen($key) > 64) {
         $key = pack($pack, $algo($key));
@@ -378,7 +378,7 @@ if (! function_exists('hash_equals')) :
 
         // Do not attempt to "optimize" this.
         for ($i = 0; $i < $known_string_length; $i++) {
-            $result |= ord($known_string[ $i ]) ^ ord($user_string[ $i ]);
+            $result |= ord($known_string[$i]) ^ ord($user_string[$i]);
         }
 
         return 0 === $result;

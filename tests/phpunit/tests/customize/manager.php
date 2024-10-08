@@ -703,8 +703,8 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $this->assertSameSets($expected_setting_ids, array_keys($changeset_values));
 
         foreach (['widget_text[2]', 'widget_meta[2]'] as $setting_id) {
-            $this->assertIsArray($changeset_values[ $setting_id ]);
-            $instance_data = $wp_customize->widgets->sanitize_widget_instance($changeset_values[ $setting_id ]);
+            $this->assertIsArray($changeset_values[$setting_id]);
+            $instance_data = $wp_customize->widgets->sanitize_widget_instance($changeset_values[$setting_id]);
             $this->assertIsArray($instance_data);
             $this->assertArrayHasKey('title', $instance_data);
         }
@@ -730,7 +730,7 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
             if (empty($post_name)) {
                 $post_name = get_post_meta($post->ID, '_customize_draft_post_name', true);
             }
-            $posts_by_name[ $post_name ] = $post->ID;
+            $posts_by_name[$post_name] = $post->ID;
         }
         $this->assertSame(['waffles', 'canola', 'home', 'about', 'blog', 'custom', 'unknown-cpt'], array_keys($posts_by_name));
         $this->assertSame('Custom', get_post($posts_by_name['custom'])->post_title);
@@ -1207,7 +1207,7 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         ];
         $action_counts    = [];
         foreach (array_keys($expected_actions) as $action_name) {
-            $action_counts[ $action_name ] = did_action($action_name);
+            $action_counts[$action_name] = did_action($action_name);
         }
 
         $manager      = new WP_Customize_Manager(['changeset_uuid' => $uuid]);
@@ -1247,7 +1247,7 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $this->assertIsNumeric(get_post_meta($post_id, '_wp_trash_meta_time', true));
 
         foreach (array_keys($expected_actions) as $action_name) {
-            $this->assertSame($expected_actions[ $action_name ] + $action_counts[ $action_name ], did_action($action_name), "Action: $action_name");
+            $this->assertSame($expected_actions[$action_name] + $action_counts[$action_name], did_action($action_name), "Action: $action_name");
         }
 
         // Test revisions.
@@ -1561,7 +1561,7 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $data    = json_decode(get_post($post_id)->post_content, true);
         $this->assertSame(self::$admin_user_id, $data['blogname']['user_id']);
         $this->assertSame(self::$admin_user_id, $data['scratchpad']['user_id']);
-        $this->assertSame(self::$admin_user_id, $data[ $this->manager->get_stylesheet() . '::background_color' ]['user_id']);
+        $this->assertSame(self::$admin_user_id, $data[$this->manager->get_stylesheet() . '::background_color']['user_id']);
 
         // Attempt to save just one setting under a different user.
         wp_set_current_user($other_admin_user_id);
@@ -1589,8 +1589,8 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $this->assertSame($other_admin_user_id, $data['blogname']['user_id']);
         $this->assertSame('Admin 1 Scratch', $data['scratchpad']['value']);
         $this->assertSame(self::$admin_user_id, $data['scratchpad']['user_id']);
-        $this->assertSame('#FFFFFF', $data[ $this->manager->get_stylesheet() . '::background_color' ]['value']);
-        $this->assertSame($other_admin_user_id, $data[ $this->manager->get_stylesheet() . '::background_color' ]['user_id']);
+        $this->assertSame('#FFFFFF', $data[$this->manager->get_stylesheet() . '::background_color']['value']);
+        $this->assertSame($other_admin_user_id, $data[$this->manager->get_stylesheet() . '::background_color']['user_id']);
 
         // Attempt to save now as under-privileged user.
         $wp_customize = $this->create_test_manager($uuid);
@@ -1616,7 +1616,7 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $data = json_decode(get_post($post_id)->post_content, true);
         $this->assertSame($other_admin_user_id, $data['blogname']['user_id'], 'Expected setting to be untouched.');
         $this->assertSame(self::$subscriber_user_id, $data['scratchpad']['user_id']);
-        $this->assertSame($other_admin_user_id, $data[ $this->manager->get_stylesheet() . '::background_color' ]['user_id']);
+        $this->assertSame($other_admin_user_id, $data[$this->manager->get_stylesheet() . '::background_color']['user_id']);
 
         // Manually update the changeset so that the user_id context is not included.
         $data                             = json_decode(get_post($post_id)->post_content, true);
@@ -1634,8 +1634,8 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         wp_set_current_user(0);
         $save_counts = [];
         foreach (array_keys($data) as $setting_id) {
-            $setting_id                 = preg_replace('/^.+::/', '', $setting_id);
-            $save_counts[ $setting_id ] = did_action(sprintf('customize_save_%s', $setting_id));
+            $setting_id               = preg_replace('/^.+::/', '', $setting_id);
+            $save_counts[$setting_id] = did_action(sprintf('customize_save_%s', $setting_id));
         }
         $this->filtered_setting_current_user_ids = [];
         foreach ($wp_customize->settings() as $setting) {
@@ -1649,7 +1649,7 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         );
         foreach (array_keys($data) as $setting_id) {
             $setting_id = preg_replace('/^.+::/', '', $setting_id);
-            $this->assertSame($save_counts[ $setting_id ] + 1, did_action(sprintf('customize_save_%s', $setting_id)), $setting_id);
+            $this->assertSame($save_counts[$setting_id] + 1, did_action(sprintf('customize_save_%s', $setting_id)), $setting_id);
         }
         $this->assertSameSets(['blogname', 'blogdescription', 'background_color', 'scratchpad'], array_keys($this->filtered_setting_current_user_ids));
         $this->assertSame($other_admin_user_id, $this->filtered_setting_current_user_ids['blogname']);
@@ -2277,7 +2277,7 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
      */
     public function filter_customize_setting_to_log_current_user($value, $setting)
     {
-        $this->filtered_setting_current_user_ids[ $setting->id ] = get_current_user_id();
+        $this->filtered_setting_current_user_ids[$setting->id] = get_current_user_id();
         return $value;
     }
 
@@ -2398,15 +2398,15 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
     {
         wp_set_current_user(self::$admin_user_id);
 
-        $preview_theme                          = $this->get_inactive_core_theme();
-        $stashed_theme_mods                     = [
+        $preview_theme                        = $this->get_inactive_core_theme();
+        $stashed_theme_mods                   = [
             $preview_theme => [
                 'background_color' => [
                     'value' => '#000000',
                 ],
             ],
         ];
-        $stashed_theme_mods[ get_stylesheet() ] = [
+        $stashed_theme_mods[get_stylesheet()] = [
             'background_color' => [
                 'value' => '#FFFFFF',
             ],
@@ -2688,8 +2688,8 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $invalid_settings = $this->manager->validate_setting_values($this->manager->unsanitized_post_values());
         $this->assertCount(1, $invalid_settings);
         $this->assertArrayHasKey($setting->id, $invalid_settings);
-        $this->assertInstanceOf('WP_Error', $invalid_settings[ $setting->id ]);
-        $error = $invalid_settings[ $setting->id ];
+        $this->assertInstanceOf('WP_Error', $invalid_settings[$setting->id]);
+        $error = $invalid_settings[$setting->id];
         $this->assertSame('invalid_value_in_sanitize', $error->get_error_code());
         $this->assertSame(['source' => 'filter_customize_sanitize_foo'], $error->get_error_data());
 
@@ -2697,16 +2697,16 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $invalid_settings = $this->manager->validate_setting_values($this->manager->unsanitized_post_values());
         $this->assertCount(1, $invalid_settings);
         $this->assertArrayHasKey($setting->id, $invalid_settings);
-        $this->assertInstanceOf('WP_Error', $invalid_settings[ $setting->id ]);
-        $this->assertNull($invalid_settings[ $setting->id ]->get_error_data());
+        $this->assertInstanceOf('WP_Error', $invalid_settings[$setting->id]);
+        $this->assertNull($invalid_settings[$setting->id]->get_error_data());
 
         $post_value = '<script>evil</script>';
         $this->manager->set_post_value('foo', $post_value);
         $invalid_settings = $this->manager->validate_setting_values($this->manager->unsanitized_post_values());
         $this->assertCount(1, $invalid_settings);
         $this->assertArrayHasKey($setting->id, $invalid_settings);
-        $this->assertInstanceOf('WP_Error', $invalid_settings[ $setting->id ]);
-        $error = $invalid_settings[ $setting->id ];
+        $this->assertInstanceOf('WP_Error', $invalid_settings[$setting->id]);
+        $error = $invalid_settings[$setting->id];
         $this->assertSame('invalid_value_in_validate', $error->get_error_code());
         $this->assertSame(['source' => 'filter_customize_validate_foo'], $error->get_error_data());
     }
@@ -2724,16 +2724,16 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
 
         $this->assertInstanceOf('WP_Error', $setting->validate(''));
         $setting_validities = $this->manager->validate_setting_values([$setting->id => '']);
-        $this->assertInstanceOf('WP_Error', $setting_validities[ $setting->id ]);
+        $this->assertInstanceOf('WP_Error', $setting_validities[$setting->id]);
 
         $this->assertTrue($setting->validate('ok'));
         $setting_validities = $this->manager->validate_setting_values([$setting->id => 'ok']);
-        $this->assertTrue($setting_validities[ $setting->id ]);
+        $this->assertTrue($setting_validities[$setting->id]);
 
         add_filter("customize_validate_{$setting->id}", [$this, 'late_validate_length'], 10, 3);
         $this->assertTrue($setting->validate('bad'));
         $setting_validities = $this->manager->validate_setting_values([$setting->id => 'bad']);
-        $validity           = $setting_validities[ $setting->id ];
+        $validity           = $setting_validities[$setting->id];
         $this->assertInstanceOf('WP_Error', $validity);
         $this->assertSame('minlength', $validity->get_error_code());
     }
@@ -2830,10 +2830,10 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $this->assertIsArray($validity);
         foreach ($error->errors as $code => $messages) {
             $this->assertArrayHasKey($code, $validity);
-            $this->assertIsArray($validity[ $code ]);
-            $this->assertSame(implode(' ', $messages), $validity[ $code ]['message']);
-            $this->assertArrayHasKey('data', $validity[ $code ]);
-            $this->assertSame($validity[ $code ]['data'], $error->get_error_data($code));
+            $this->assertIsArray($validity[$code]);
+            $this->assertSame(implode(' ', $messages), $validity[$code]['message']);
+            $this->assertArrayHasKey('data', $validity[$code]);
+            $this->assertSame($validity[$code]['data'], $error->get_error_data($code));
         }
         $this->assertArrayHasKey('number', $validity['bad_number']['data']);
         $this->assertSame(123, $validity['bad_number']['data']['number']);
@@ -2868,7 +2868,7 @@ class Tests_WP_Customize_Manager extends WP_UnitTestCase
         $unsanitized = $this->manager->unsanitized_post_values();
         $this->assertArrayHasKey($setting->id, $unsanitized);
 
-        $this->assertSame('123abc', $unsanitized[ $setting->id ]);
+        $this->assertSame('123abc', $unsanitized[$setting->id]);
         $this->assertSame(123, $setting->post_value());
     }
 

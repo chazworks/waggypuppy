@@ -284,8 +284,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller
             ];
 
             foreach ($parameter_mappings as $api_param => $wp_param) {
-                if (isset($registered[ $api_param ], $request[ $api_param ])) {
-                    $args[ $wp_param ] = $request[ $api_param ];
+                if (isset($registered[$api_param], $request[$api_param])) {
+                    $args[$wp_param] = $request[$api_param];
                 }
             }
 
@@ -546,7 +546,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller
 
         foreach ($prepared_args as $key => $value) {
             /** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
-            $query_args[ $key ] = apply_filters("rest_query_var-{$key}", $value); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+            $query_args[$key] = apply_filters("rest_query_var-{$key}", $value); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
         }
 
         // Map to proper WP_Query orderby param.
@@ -558,8 +558,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller
                 'include_slugs' => 'post_name__in',
             ];
 
-            if (isset($orderby_mappings[ $request['orderby'] ])) {
-                $query_args['orderby'] = $orderby_mappings[ $request['orderby'] ];
+            if (isset($orderby_mappings[$request['orderby']])) {
+                $query_args['orderby'] = $orderby_mappings[$request['orderby']];
             }
         }
 

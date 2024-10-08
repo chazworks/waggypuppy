@@ -1430,7 +1430,7 @@ class Tests_Functions extends WP_UnitTestCase
         if (is_array($expected)) {
             foreach ($expected as $k => $v) {
                 $this->assertArrayHasKey($k, $result);
-                $this->assertSame($expected[ $k ], $result[ $k ]);
+                $this->assertSame($expected[$k], $result[$k]);
             }
         } else {
             $this->assertSame($expected, $result);

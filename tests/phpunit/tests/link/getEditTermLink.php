@@ -16,7 +16,7 @@ class Tests_Link_GetEditTermLink extends WP_UnitTestCase
 
         $taxonomies = ['category', 'post_tag', 'wptests_tax'];
         foreach ($taxonomies as $taxonomy) {
-            self::$terms[ $taxonomy ] = $factory->term->create_and_get(['taxonomy' => $taxonomy]);
+            self::$terms[$taxonomy] = $factory->term->create_and_get(['taxonomy' => $taxonomy]);
         }
 
         self::$user_ids['admin']      = $factory->user->create(['role' => 'administrator']);
@@ -51,7 +51,7 @@ class Tests_Link_GetEditTermLink extends WP_UnitTestCase
      */
     private function get_term($taxonomy, $use_id)
     {
-        $term = self::$terms[ $taxonomy ];
+        $term = self::$terms[$taxonomy];
         if ($use_id) {
             $term = $term->term_id;
         }

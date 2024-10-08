@@ -399,16 +399,16 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         $schema = $this->get_item_schema();
 
         foreach ($mapping as $original => $api_request) {
-            if (isset($request[ $api_request ])) {
-                $prepared_nav_item[ $original ] = $request[ $api_request ];
+            if (isset($request[$api_request])) {
+                $prepared_nav_item[$original] = $request[$api_request];
             }
         }
 
         $taxonomy = get_taxonomy('nav_menu');
         $base     = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
         // If menus submitted, cast to int.
-        if (! empty($request[ $base ])) {
-            $prepared_nav_item['menu-id'] = absint($request[ $base ]);
+        if (! empty($request[$base])) {
+            $prepared_nav_item['menu-id'] = absint($request[$base]);
         }
 
         // Nav menu title.
@@ -468,7 +468,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
 
         // The xfn and classes properties are arrays, but passed to wp_update_nav_menu_item as a string.
         foreach (['menu-item-xfn', 'menu-item-classes'] as $key) {
-            $prepared_nav_item[ $key ] = implode(' ', $prepared_nav_item[ $key ]);
+            $prepared_nav_item[$key] = implode(' ', $prepared_nav_item[$key]);
         }
 
         // Only draft / publish are valid post status for menu items.
@@ -608,9 +608,9 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
                 }
                 $term_ids = $terms ? array_values(wp_list_pluck($terms, 'term_id')) : [];
                 if ('nav_menu' === $taxonomy->name) {
-                    $data[ $base ] = $term_ids ? array_shift($term_ids) : 0;
+                    $data[$base] = $term_ids ? array_shift($term_ids) : 0;
                 } else {
-                    $data[ $base ] = $term_ids;
+                    $data[$base] = $term_ids;
                 }
             }
         }
@@ -908,8 +908,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
         $taxonomies = wp_list_filter(get_object_taxonomies($this->post_type, 'objects'), ['show_in_rest' => true]);
 
         foreach ($taxonomies as $taxonomy) {
-            $base                          = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
-            $schema['properties'][ $base ] = [
+            $base                        = ! empty($taxonomy->rest_base) ? $taxonomy->rest_base : $taxonomy->name;
+            $schema['properties'][$base] = [
                 /* translators: %s: taxonomy name */
                 'description' => sprintf(__('The terms assigned to the object in the %s taxonomy.'), $taxonomy->name),
                 'type'        => 'array',
@@ -920,8 +920,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
             ];
 
             if ('nav_menu' === $taxonomy->name) {
-                $schema['properties'][ $base ]['type'] = 'integer';
-                unset($schema['properties'][ $base ]['items']);
+                $schema['properties'][$base]['type'] = 'integer';
+                unset($schema['properties'][$base]['items']);
             }
         }
 
@@ -1009,8 +1009,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller
                 'menu_order'    => 'menu_order',
             ];
 
-            if (isset($orderby_mappings[ $request['orderby'] ])) {
-                $query_args['orderby'] = $orderby_mappings[ $request['orderby'] ];
+            if (isset($orderby_mappings[$request['orderby']])) {
+                $query_args['orderby'] = $orderby_mappings[$request['orderby']];
             }
         }
 

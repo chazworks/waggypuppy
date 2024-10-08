@@ -111,7 +111,7 @@ final class WP_Customize_Selective_Refresh
             $partial = new $class($this, $id, $args);
         }
 
-        $this->partials[ $partial->id ] = $partial;
+        $this->partials[$partial->id] = $partial;
         return $partial;
     }
 
@@ -125,8 +125,8 @@ final class WP_Customize_Selective_Refresh
      */
     public function get_partial($id)
     {
-        if (isset($this->partials[ $id ])) {
-            return $this->partials[ $id ];
+        if (isset($this->partials[$id])) {
+            return $this->partials[$id];
         } else {
             return null;
         }
@@ -141,7 +141,7 @@ final class WP_Customize_Selective_Refresh
      */
     public function remove_partial($id)
     {
-        unset($this->partials[ $id ]);
+        unset($this->partials[$id]);
     }
 
     /**
@@ -177,7 +177,7 @@ final class WP_Customize_Selective_Refresh
 
         foreach ($this->partials() as $partial) {
             if ($partial->check_capabilities()) {
-                $partials[ $partial->id ] = $partial->json();
+                $partials[$partial->id] = $partial->json();
             }
         }
 
@@ -280,7 +280,7 @@ final class WP_Customize_Selective_Refresh
      */
     public function is_render_partials_request()
     {
-        return ! empty($_POST[ self::RENDER_QUERY_VAR ]);
+        return ! empty($_POST[self::RENDER_QUERY_VAR]);
     }
 
     /**
@@ -370,19 +370,19 @@ final class WP_Customize_Selective_Refresh
             $partial = $this->get_partial($partial_id);
 
             if (! $partial || ! $partial->check_capabilities()) {
-                $contents[ $partial_id ] = null;
+                $contents[$partial_id] = null;
                 continue;
             }
 
-            $contents[ $partial_id ] = [];
+            $contents[$partial_id] = [];
 
             // @todo The array should include not only the contents, but also whether the container is included?
             if (empty($container_contexts)) {
                 // Since there are no container contexts, render just once.
-                $contents[ $partial_id ][] = $partial->render(null);
+                $contents[$partial_id][] = $partial->render(null);
             } else {
                 foreach ($container_contexts as $container_context) {
-                    $contents[ $partial_id ][] = $partial->render($container_context);
+                    $contents[$partial_id][] = $partial->render($container_context);
                 }
             }
         }

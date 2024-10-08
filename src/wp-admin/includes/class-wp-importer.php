@@ -41,7 +41,7 @@ class WP_Importer
             if (! empty($results)) {
                 foreach ($results as $r) {
                     // Set permalinks into array.
-                    $hashtable[ $r->meta_value ] = (int) $r->post_id;
+                    $hashtable[$r->meta_value] = (int) $r->post_id;
                 }
             }
         } while (count($results) === $limit);
@@ -111,7 +111,7 @@ class WP_Importer
 
                     // Check if this comment came from this blog.
                     if ((int) $blog_id === (int) $comment_agent_blog_id) {
-                        $hashtable[ $source_comment_id ] = (int) $r->comment_ID;
+                        $hashtable[$source_comment_id] = (int) $r->comment_ID;
                     }
                 }
             }
@@ -301,37 +301,37 @@ function get_cli_args($param, $required = false)
     $il = count($args);
 
     for ($i = 1, $il; $i < $il; $i++) {
-        if ((bool) preg_match('/^--(.+)/', $args[ $i ], $match)) {
+        if ((bool) preg_match('/^--(.+)/', $args[$i], $match)) {
             $parts = explode('=', $match[1]);
             $key   = preg_replace('/[^a-z0-9]+/', '', $parts[0]);
 
             if (isset($parts[1])) {
-                $out[ $key ] = $parts[1];
+                $out[$key] = $parts[1];
             } else {
-                $out[ $key ] = true;
+                $out[$key] = true;
             }
 
             $last_arg = $key;
-        } elseif ((bool) preg_match('/^-([a-zA-Z0-9]+)/', $args[ $i ], $match)) {
+        } elseif ((bool) preg_match('/^-([a-zA-Z0-9]+)/', $args[$i], $match)) {
             for ($j = 0, $jl = strlen($match[1]); $j < $jl; $j++) {
-                $key         = $match[1][ $j ];
-                $out[ $key ] = true;
+                $key       = $match[1][$j];
+                $out[$key] = true;
             }
 
             $last_arg = $key;
         } elseif (null !== $last_arg) {
-            $out[ $last_arg ] = $args[ $i ];
+            $out[$last_arg] = $args[$i];
         }
     }
 
     // Check array for specified param.
-    if (isset($out[ $param ])) {
+    if (isset($out[$param])) {
         // Set return value.
-        $return = $out[ $param ];
+        $return = $out[$param];
     }
 
     // Check for missing required param.
-    if (! isset($out[ $param ]) && $required) {
+    if (! isset($out[$param]) && $required) {
         // Display message and exit.
         echo "\"$param\" parameter is required but was not specified\n";
         exit;

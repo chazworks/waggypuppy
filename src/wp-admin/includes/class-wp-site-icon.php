@@ -166,13 +166,13 @@ class WP_Site_Icon
         // Ensure that we only resize the image into sizes that allow cropping.
         foreach ($sizes as $name => $size_array) {
             if (isset($size_array['crop'])) {
-                $only_crop_sizes[ $name ] = $size_array;
+                $only_crop_sizes[$name] = $size_array;
             }
         }
 
         foreach ($this->site_icon_sizes as $size) {
             if ($size < $this->min_size) {
-                $only_crop_sizes[ 'site_icon-' . $size ] = [
+                $only_crop_sizes['site_icon-' . $size] = [
                     'width ' => $size,
                     'height' => $size,
                     'crop'   => true,

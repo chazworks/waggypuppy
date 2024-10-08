@@ -82,10 +82,10 @@ function get_file_description($file)
     global $wp_file_descriptions, $allowed_files;
 
     $dirname   = pathinfo($file, PATHINFO_DIRNAME);
-    $file_path = $allowed_files[ $file ];
+    $file_path = $allowed_files[$file];
 
-    if (isset($wp_file_descriptions[ basename($file) ]) && '.' === $dirname) {
-        return $wp_file_descriptions[ basename($file) ];
+    if (isset($wp_file_descriptions[basename($file)]) && '.' === $dirname) {
+        return $wp_file_descriptions[basename($file)];
     } elseif (file_exists($file_path) && is_file($file_path)) {
         $template_data = implode('', file($file_path));
 
@@ -933,7 +933,7 @@ function _wp_handle_upload(&$file, $overrides, $time, $action)
 
     // A successful upload will pass this test. It makes no sense to override this one.
     if (isset($file['error']) && $file['error'] > 0) {
-        return call_user_func_array($upload_error_handler, [&$file, $upload_error_strings[ $file['error'] ]]);
+        return call_user_func_array($upload_error_handler, [&$file, $upload_error_strings[$file['error']]]);
     }
 
     // A properly uploaded file will pass this test. There should be no reason to override this one.
@@ -1624,7 +1624,7 @@ function unzip_file($file, $to)
     if (! $wp_filesystem->is_dir($to)) { // Only do parents if no children exist.
         $path = preg_split('![/\\\]!', untrailingslashit($to));
         for ($i = count($path); $i >= 0; $i--) {
-            if (empty($path[ $i ])) {
+            if (empty($path[$i])) {
                 continue;
             }
 
@@ -2449,11 +2449,11 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
      */
     foreach ($ftp_constants as $key => $constant) {
         if (defined($constant)) {
-            $credentials[ $key ] = constant($constant);
-        } elseif (! empty($submitted_form[ $key ])) {
-            $credentials[ $key ] = $submitted_form[ $key ];
-        } elseif (! isset($credentials[ $key ])) {
-            $credentials[ $key ] = '';
+            $credentials[$key] = constant($constant);
+        } elseif (! empty($submitted_form[$key])) {
+            $credentials[$key] = $submitted_form[$key];
+        } elseif (! isset($credentials[$key])) {
+            $credentials[$key] = '';
         }
     }
 
@@ -2650,8 +2650,8 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
     }
 
     foreach ((array) $extra_fields as $field) {
-        if (isset($submitted_form[ $field ])) {
-            echo '<input type="hidden" name="' . esc_attr($field) . '" value="' . esc_attr($submitted_form[ $field ]) . '" />';
+        if (isset($submitted_form[$field])) {
+            echo '<input type="hidden" name="' . esc_attr($field) . '" value="' . esc_attr($submitted_form[$field]) . '" />';
         }
     }
 

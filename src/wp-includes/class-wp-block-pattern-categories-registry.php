@@ -66,13 +66,13 @@ final class WP_Block_Pattern_Categories_Registry
             $category_properties
         );
 
-        $this->registered_categories[ $category_name ] = $category;
+        $this->registered_categories[$category_name] = $category;
 
         // If the category is registered inside an action other than `init`, store it
         // also to a dedicated array. Used to detect deprecated registrations inside
         // `admin_init` or `current_screen`.
         if (current_action() && 'init' !== current_action()) {
-            $this->registered_categories_outside_init[ $category_name ] = $category;
+            $this->registered_categories_outside_init[$category_name] = $category;
         }
 
         return true;
@@ -98,8 +98,8 @@ final class WP_Block_Pattern_Categories_Registry
             return false;
         }
 
-        unset($this->registered_categories[ $category_name ]);
-        unset($this->registered_categories_outside_init[ $category_name ]);
+        unset($this->registered_categories[$category_name]);
+        unset($this->registered_categories_outside_init[$category_name]);
 
         return true;
     }
@@ -118,7 +118,7 @@ final class WP_Block_Pattern_Categories_Registry
             return null;
         }
 
-        return $this->registered_categories[ $category_name ];
+        return $this->registered_categories[$category_name];
     }
 
     /**
@@ -148,7 +148,7 @@ final class WP_Block_Pattern_Categories_Registry
      */
     public function is_registered($category_name)
     {
-        return isset($this->registered_categories[ $category_name ]);
+        return isset($this->registered_categories[$category_name]);
     }
 
     /**

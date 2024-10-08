@@ -474,6 +474,6 @@ class Tests_Meta extends WP_UnitTestCase
 
     public function updated_meta($meta_id)
     {
-        $this->updated_mids[ current_action() ][] = $meta_id;
+        $this->updated_mids[current_action()][] = $meta_id;
     }
 }

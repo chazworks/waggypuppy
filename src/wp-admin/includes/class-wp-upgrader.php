@@ -421,7 +421,7 @@ class WP_Upgrader
         $files = [];
 
         foreach ($nested_files as $name => $details) {
-            $files[ $path . $name ] = $details;
+            $files[$path . $name] = $details;
 
             // Append children recursively.
             if (! empty($details['files'])) {

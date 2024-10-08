@@ -63,7 +63,7 @@ function tests_add_filter($hook_name, $callback, $priority = 10, $accepted_args 
     } else {
         $idx = _test_filter_build_unique_id($hook_name, $callback, $priority);
 
-        $wp_filter[ $hook_name ][ $priority ][ $idx ] = [
+        $wp_filter[$hook_name][$priority][$idx] = [
             'function'      => $callback,
             'accepted_args' => $accepted_args,
         ];

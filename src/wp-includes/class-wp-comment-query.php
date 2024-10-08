@@ -792,24 +792,24 @@ class WP_Comment_Query
 
                     case 'comment':
                     case 'comments':
-                        $comment_types[ $operator ][] = "''";
-                        $comment_types[ $operator ][] = "'comment'";
+                        $comment_types[$operator][] = "''";
+                        $comment_types[$operator][] = "'comment'";
                         break;
 
                     case 'pings':
-                        $comment_types[ $operator ][] = "'pingback'";
-                        $comment_types[ $operator ][] = "'trackback'";
+                        $comment_types[$operator][] = "'pingback'";
+                        $comment_types[$operator][] = "'trackback'";
                         break;
 
                     default:
-                        $comment_types[ $operator ][] = $wpdb->prepare('%s', $type);
+                        $comment_types[$operator][] = $wpdb->prepare('%s', $type);
                         break;
                 }
             }
 
-            if (! empty($comment_types[ $operator ])) {
-                $types_sql = implode(', ', $comment_types[ $operator ]);
-                $this->sql_clauses['where'][ 'comment_type__' . strtolower(str_replace(' ', '_', $operator)) ] = "comment_type $operator ($types_sql)";
+            if (! empty($comment_types[$operator])) {
+                $types_sql = implode(', ', $comment_types[$operator]);
+                $this->sql_clauses['where']['comment_type__' . strtolower(str_replace(' ', '_', $operator))] = "comment_type $operator ($types_sql)";
             }
         }
 
@@ -851,15 +851,15 @@ class WP_Comment_Query
                 $esses = array_fill(0, count((array) $field_value), '%s');
 
 				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
-                $this->sql_clauses['where'][ $field_name ] = $wpdb->prepare(" {$wpdb->posts}.{$field_name} IN (" . implode(',', $esses) . ')', $field_value);
+                $this->sql_clauses['where'][$field_name] = $wpdb->prepare(" {$wpdb->posts}.{$field_name} IN (" . implode(',', $esses) . ')', $field_value);
             }
         }
 
         // 'post_status' and 'post_type' are handled separately, due to the specialized behavior of 'any'.
         foreach (['post_status', 'post_type'] as $field_name) {
             $q_values = [];
-            if (! empty($this->query_vars[ $field_name ])) {
-                $q_values = $this->query_vars[ $field_name ];
+            if (! empty($this->query_vars[$field_name])) {
+                $q_values = $this->query_vars[$field_name];
                 if (! is_array($q_values)) {
                     $q_values = explode(',', $q_values);
                 }
@@ -874,7 +874,7 @@ class WP_Comment_Query
                 $esses = array_fill(0, count($q_values), '%s');
 
 				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
-                $this->sql_clauses['where'][ $field_name ] = $wpdb->prepare(" {$wpdb->posts}.{$field_name} IN (" . implode(',', $esses) . ')', $q_values);
+                $this->sql_clauses['where'][$field_name] = $wpdb->prepare(" {$wpdb->posts}.{$field_name} IN (" . implode(',', $esses) . ')', $q_values);
             }
         }
 
@@ -1051,15 +1051,15 @@ class WP_Comment_Query
             // Parent-child relationships may be cached. Only query for those that are not.
             $child_ids           = [];
             $uncached_parent_ids = [];
-            $_parent_ids         = $levels[ $level ];
+            $_parent_ids         = $levels[$level];
             if ($_parent_ids) {
                 $cache_keys = [];
                 foreach ($_parent_ids as $parent_id) {
-                    $cache_keys[ $parent_id ] = "get_comment_child_ids:$parent_id:$key:$last_changed";
+                    $cache_keys[$parent_id] = "get_comment_child_ids:$parent_id:$key:$last_changed";
                 }
                 $cache_data = wp_cache_get_multiple(array_values($cache_keys), 'comment-queries');
                 foreach ($_parent_ids as $parent_id) {
-                    $parent_child_ids = $cache_data[ $cache_keys[ $parent_id ] ];
+                    $parent_child_ids = $cache_data[$cache_keys[$parent_id]];
                     if (false !== $parent_child_ids) {
                         $child_ids = array_merge($child_ids, $parent_child_ids);
                     } else {
@@ -1072,7 +1072,7 @@ class WP_Comment_Query
                 // Fetch this level of comments.
                 $parent_query_args = $this->query_vars;
                 foreach ($exclude_keys as $exclude_key) {
-                    $parent_query_args[ $exclude_key ] = '';
+                    $parent_query_args[$exclude_key] = '';
                 }
                 $parent_query_args['parent__in']    = $uncached_parent_ids;
                 $parent_query_args['no_found_rows'] = true;
@@ -1085,26 +1085,26 @@ class WP_Comment_Query
                 // Cache parent-child relationships.
                 $parent_map = array_fill_keys($uncached_parent_ids, []);
                 foreach ($level_comments as $level_comment) {
-                    $parent_map[ $level_comment->comment_parent ][] = $level_comment->comment_ID;
-                    $child_ids[]                                    = $level_comment->comment_ID;
+                    $parent_map[$level_comment->comment_parent][] = $level_comment->comment_ID;
+                    $child_ids[]                                  = $level_comment->comment_ID;
                 }
 
                 $data = [];
                 foreach ($parent_map as $parent_id => $children) {
-                    $cache_key          = "get_comment_child_ids:$parent_id:$key:$last_changed";
-                    $data[ $cache_key ] = $children;
+                    $cache_key        = "get_comment_child_ids:$parent_id:$key:$last_changed";
+                    $data[$cache_key] = $children;
                 }
                 wp_cache_set_multiple($data, 'comment-queries');
             }
 
             ++$level;
-            $levels[ $level ] = $child_ids;
+            $levels[$level] = $child_ids;
         } while ($child_ids);
 
         // Prime comment caches for non-top-level comments.
         $descendant_ids = [];
         for ($i = 1, $c = count($levels); $i < $c; $i++) {
-            $descendant_ids = array_merge($descendant_ids, $levels[ $i ]);
+            $descendant_ids = array_merge($descendant_ids, $levels[$i]);
         }
 
         _prime_comment_caches($descendant_ids, $this->query_vars['update_comment_meta_cache']);
@@ -1123,15 +1123,15 @@ class WP_Comment_Query
                 $_c = get_comment($c->comment_ID);
 
                 // If the comment isn't in the reference array, it goes in the top level of the thread.
-                if (! isset($ref[ $c->comment_parent ])) {
-                    $threaded_comments[ $_c->comment_ID ] = $_c;
-                    $ref[ $_c->comment_ID ]               = $threaded_comments[ $_c->comment_ID ];
+                if (! isset($ref[$c->comment_parent])) {
+                    $threaded_comments[$_c->comment_ID] = $_c;
+                    $ref[$_c->comment_ID]               = $threaded_comments[$_c->comment_ID];
 
                     // Otherwise, set it as a child of its parent.
                 } else {
 
-                    $ref[ $_c->comment_parent ]->add_child($_c);
-                    $ref[ $_c->comment_ID ] = $ref[ $_c->comment_parent ]->get_child($_c->comment_ID);
+                    $ref[$_c->comment_parent]->add_child($_c);
+                    $ref[$_c->comment_ID] = $ref[$_c->comment_parent]->get_child($_c->comment_ID);
                 }
             }
 
@@ -1226,8 +1226,8 @@ class WP_Comment_Query
             $parsed      = "FIELD( {$wpdb->comments}.comment_ID, $comment__in )";
         } elseif (in_array($orderby, $allowed_keys, true)) {
 
-            if (isset($meta_query_clauses[ $orderby ])) {
-                $meta_clause = $meta_query_clauses[ $orderby ];
+            if (isset($meta_query_clauses[$orderby])) {
+                $meta_clause = $meta_query_clauses[$orderby];
                 $parsed      = sprintf('CAST(%s.meta_value AS %s)', esc_sql($meta_clause['alias']), esc_sql($meta_clause['cast']));
             } else {
                 $parsed = "$wpdb->comments.$orderby";

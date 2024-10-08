@@ -311,13 +311,13 @@ function media_handle_upload($file_id, $post_id, $post_data = [], $overrides = [
         }
     }
 
-    $file = wp_handle_upload($_FILES[ $file_id ], $overrides, $time);
+    $file = wp_handle_upload($_FILES[$file_id], $overrides, $time);
 
     if (isset($file['error'])) {
         return new WP_Error('upload_error', $file['error']);
     }
 
-    $name = $_FILES[ $file_id ]['name'];
+    $name = $_FILES[$file_id]['name'];
     $ext  = pathinfo($name, PATHINFO_EXTENSION);
     $name = wp_basename($name, ".$ext");
 
@@ -815,7 +815,7 @@ function media_upload_form_handler()
             }
 
             if (isset($post['errors'])) {
-                $errors[ $attachment_id ] = $post['errors'];
+                $errors[$attachment_id] = $post['errors'];
                 unset($post['errors']);
             }
 
@@ -824,8 +824,8 @@ function media_upload_form_handler()
             }
 
             foreach (get_attachment_taxonomies($post) as $t) {
-                if (isset($attachment[ $t ])) {
-                    wp_set_object_terms($attachment_id, array_map('trim', preg_split('/,+/', $attachment[ $t ])), $t, false);
+                if (isset($attachment[$t])) {
+                    wp_set_object_terms($attachment_id, array_map('trim', preg_split('/,+/', $attachment[$t])), $t, false);
                 }
             }
         }
@@ -843,7 +843,7 @@ function media_upload_form_handler()
     }
 
     if (isset($send_id)) {
-        $attachment = wp_unslash($_POST['attachments'][ $send_id ]);
+        $attachment = wp_unslash($_POST['attachments'][$send_id]);
         $html       = isset($attachment['post_title']) ? $attachment['post_title'] : '';
 
         if (! empty($attachment['url'])) {
@@ -1484,7 +1484,7 @@ function get_attachment_fields_to_edit($post, $errors = null)
 
         $t['value'] = implode(', ', $values);
 
-        $form_fields[ $taxonomy ] = $t;
+        $form_fields[$taxonomy] = $t;
     }
 
     /*
@@ -1573,7 +1573,7 @@ function get_media_items($post_id, $errors)
     } else {
         if (is_array($GLOBALS['wp_the_query']->posts)) {
             foreach ($GLOBALS['wp_the_query']->posts as $attachment) {
-                $attachments[ $attachment->ID ] = $attachment;
+                $attachments[$attachment->ID] = $attachment;
             }
         }
     }
@@ -1584,7 +1584,7 @@ function get_media_items($post_id, $errors)
             continue;
         }
 
-        $item = get_media_item($id, ['errors' => isset($errors[ $id ]) ? $errors[ $id ] : null]);
+        $item = get_media_item($id, ['errors' => isset($errors[$id]) ? $errors[$id] : null]);
 
         if ($item) {
             $output .= "\n<div id='media-item-$id' class='media-item child-of-$attachment->post_parent preloaded'><div class='progress hidden'><div class='bar'></div></div><div id='media-upload-error-$id' class='hidden'></div><div class='filename hidden'></div>$item\n</div>";
@@ -1819,7 +1819,7 @@ function get_media_item($attachment_id, $args = null)
         $name  = "attachments[$attachment_id][$id]";
 
         if ('hidden' === $field['input']) {
-            $hidden_fields[ $name ] = $field['value'];
+            $hidden_fields[$name] = $field['value'];
             continue;
         }
 
@@ -1830,8 +1830,8 @@ function get_media_item($attachment_id, $args = null)
 
         $item .= "\t\t<tr class='$class'>\n\t\t\t<th scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}{$required}</span><br class='clear' /></label></th>\n\t\t\t<td class='field'>";
 
-        if (! empty($field[ $field['input'] ])) {
-            $item .= $field[ $field['input'] ];
+        if (! empty($field[$field['input']])) {
+            $item .= $field[$field['input']];
         } elseif ('textarea' === $field['input']) {
             if ('post_content' === $id && user_can_richedit()) {
                 // Sanitize_post() skips the post_content when user_can_richedit.
@@ -1859,7 +1859,7 @@ function get_media_item($attachment_id, $args = null)
         if (! empty($field['extra_rows'])) {
             foreach ($field['extra_rows'] as $class => $rows) {
                 foreach ((array) $rows as $html) {
-                    $extra_rows[ $class ][] = $html;
+                    $extra_rows[$class][] = $html;
                 }
             }
         }
@@ -1947,7 +1947,7 @@ function get_compat_media_markup($attachment_id, $args = null)
             $t['value']    = implode(', ', $values);
             $t['taxonomy'] = true;
 
-            $form_fields[ $taxonomy ] = $t;
+            $form_fields[$taxonomy] = $t;
         }
     }
 
@@ -2010,7 +2010,7 @@ function get_compat_media_markup($attachment_id, $args = null)
         }
 
         if ('hidden' === $field['input']) {
-            $hidden_fields[ $name ] = $field['value'];
+            $hidden_fields[$name] = $field['value'];
             continue;
         }
 
@@ -2024,8 +2024,8 @@ function get_compat_media_markup($attachment_id, $args = null)
         $item .= "\t\t\t<th scope='row' class='label'><label for='$id_attr'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label>";
         $item .= "</th>\n\t\t\t<td class='field'>";
 
-        if (! empty($field[ $field['input'] ])) {
-            $item .= $field[ $field['input'] ];
+        if (! empty($field[$field['input']])) {
+            $item .= $field[$field['input']];
         } elseif ('textarea' === $field['input']) {
             if ('post_content' === $id && user_can_richedit()) {
                 // sanitize_post() skips the post_content when user_can_richedit.
@@ -2053,7 +2053,7 @@ function get_compat_media_markup($attachment_id, $args = null)
         if (! empty($field['extra_rows'])) {
             foreach ($field['extra_rows'] as $class => $rows) {
                 foreach ((array) $rows as $html) {
-                    $extra_rows[ $class ][] = $html;
+                    $extra_rows[$class][] = $html;
                 }
             }
         }
@@ -2797,15 +2797,15 @@ function media_upload_library_form($errors)
         $matches    = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
         foreach ($matches as $_type => $reals) {
             foreach ($reals as $real) {
-                if (isset($num_posts[ $_type ])) {
-                    $num_posts[ $_type ] += $_num_posts[ $real ];
+                if (isset($num_posts[$_type])) {
+                    $num_posts[$_type] += $_num_posts[$real];
                 } else {
-                    $num_posts[ $_type ] = $_num_posts[ $real ];
+                    $num_posts[$_type] = $_num_posts[$real];
                 }
             }
         }
         // If available type specified by media button clicked, filter by that type.
-        if (empty($_GET['post_mime_type']) && ! empty($num_posts[ $type ])) {
+        if (empty($_GET['post_mime_type']) && ! empty($num_posts[$type])) {
             $_GET['post_mime_type']                        = $type;
             list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
         }
@@ -2841,7 +2841,7 @@ function media_upload_library_form($errors)
                         'paged'          => false,
                     ]
                 )
-            ) . '"' . $class . '>' . sprintf(translate_nooped_plural($label[2], $num_posts[ $mime_type ]), '<span id="' . $mime_type . '-counter">' . number_format_i18n($num_posts[ $mime_type ]) . '</span>') . '</a>';
+            ) . '"' . $class . '>' . sprintf(translate_nooped_plural($label[2], $num_posts[$mime_type]), '<span id="' . $mime_type . '-counter">' . number_format_i18n($num_posts[$mime_type]) . '</span>') . '</a>';
         }
         /**
          * Filters the media upload mime type list items.
@@ -3475,7 +3475,7 @@ function attachment_submitbox_metadata()
         $fields = apply_filters('media_submitbox_misc_sections', $fields, $post);
 
         foreach ($fields as $key => $label) {
-            if (empty($meta[ $key ])) {
+            if (empty($meta[$key])) {
                 continue;
             }
 
@@ -3496,7 +3496,7 @@ function attachment_submitbox_metadata()
                         echo human_readable_duration($meta['length_formatted']);
                         break;
                     default:
-                        echo esc_html($meta[ $key ]);
+                        echo esc_html($meta[$key]);
                         break;
                 }
 
@@ -3526,13 +3526,13 @@ function attachment_submitbox_metadata()
         $audio_fields = apply_filters('audio_submitbox_misc_sections', $fields, $post);
 
         foreach ($audio_fields as $key => $label) {
-            if (empty($meta['audio'][ $key ])) {
+            if (empty($meta['audio'][$key])) {
                 continue;
             }
 
             ?>
             <div class="misc-pub-section misc-pub-audio misc-pub-<?php echo sanitize_html_class($key); ?>">
-                <?php echo $label; ?> <strong><?php echo esc_html($meta['audio'][ $key ]); ?></strong>
+                <?php echo $label; ?> <strong><?php echo esc_html($meta['audio'][$key]); ?></strong>
             </div>
             <?php
         }
@@ -3569,13 +3569,13 @@ function attachment_submitbox_metadata()
 function wp_add_id3_tag_data(&$metadata, $data)
 {
     foreach (['id3v2', 'id3v1'] as $version) {
-        if (! empty($data[ $version ]['comments'])) {
-            foreach ($data[ $version ]['comments'] as $key => $list) {
+        if (! empty($data[$version]['comments'])) {
+            foreach ($data[$version]['comments'] as $key => $list) {
                 if ('length' !== $key && ! empty($list)) {
-                    $metadata[ $key ] = wp_kses_post(reset($list));
+                    $metadata[$key] = wp_kses_post(reset($list));
                     // Fix bug in byte stream analysis.
-                    if ('terms_of_use' === $key && str_starts_with($metadata[ $key ], 'yright notice.')) {
-                        $metadata[ $key ] = 'Cop' . $metadata[ $key ];
+                    if ('terms_of_use' === $key && str_starts_with($metadata[$key], 'yright notice.')) {
+                        $metadata[$key] = 'Cop' . $metadata[$key];
                     }
                 }
             }

@@ -131,7 +131,7 @@ function wp_ajax_ajax_tag_search()
 
     if (str_contains($search, ',')) {
         $search = explode(',', $search);
-        $search = $search[ count($search) - 1 ];
+        $search = $search[count($search) - 1];
     }
 
     $search = trim($search);
@@ -608,8 +608,8 @@ function _wp_ajax_add_hierarchical_term()
         wp_die(-1);
     }
 
-    $names  = explode(',', $_POST[ 'new' . $taxonomy->name ]);
-    $parent = isset($_POST[ 'new' . $taxonomy->name . '_parent' ]) ? (int) $_POST[ 'new' . $taxonomy->name . '_parent' ] : 0;
+    $names  = explode(',', $_POST['new' . $taxonomy->name]);
+    $parent = isset($_POST['new' . $taxonomy->name . '_parent']) ? (int) $_POST['new' . $taxonomy->name . '_parent'] : 0;
 
     if (0 > $parent) {
         $parent = 0;
@@ -618,7 +618,7 @@ function _wp_ajax_add_hierarchical_term()
     if ('category' === $taxonomy->name) {
         $post_category = isset($_POST['post_category']) ? (array) $_POST['post_category'] : [];
     } else {
-        $post_category = (isset($_POST['tax_input']) && isset($_POST['tax_input'][ $taxonomy->name ])) ? (array) $_POST['tax_input'][ $taxonomy->name ] : [];
+        $post_category = (isset($_POST['tax_input']) && isset($_POST['tax_input'][$taxonomy->name])) ? (array) $_POST['tax_input'][$taxonomy->name] : [];
     }
 
     $checked_categories = array_map('absint', (array) $post_category);
@@ -1166,8 +1166,8 @@ function wp_ajax_add_tag()
     require ABSPATH . 'wp-admin/includes/edit-tag-messages.php';
 
     $message = '';
-    if (isset($messages[ $taxonomy_object->name ][1])) {
-        $message = $messages[ $taxonomy_object->name ][1];
+    if (isset($messages[$taxonomy_object->name][1])) {
+        $message = $messages[$taxonomy_object->name][1];
     } elseif (isset($messages['_item'][1])) {
         $message = $messages['_item'][1];
     }
@@ -1235,8 +1235,8 @@ function wp_ajax_get_tagcloud()
     }
 
     foreach ($tags as $key => $tag) {
-        $tags[ $key ]->link = '#';
-        $tags[ $key ]->id   = $tag->term_id;
+        $tags[$key]->link = '#';
+        $tags[$key]->id   = $tag->term_id;
     }
 
     // We need raw tag names here, so don't filter the output.
@@ -1710,8 +1710,8 @@ function wp_ajax_add_meta()
         );
     } else { // Update?
         $mid   = (int) key($_POST['meta']);
-        $key   = wp_unslash($_POST['meta'][ $mid ]['key']);
-        $value = wp_unslash($_POST['meta'][ $mid ]['value']);
+        $key   = wp_unslash($_POST['meta'][$mid]['key']);
+        $value = wp_unslash($_POST['meta'][$mid]['value']);
 
         if ('' === trim($key)) {
             wp_die(__('Please provide a custom field name.'));
@@ -1918,8 +1918,8 @@ function wp_ajax_menu_get_metabox()
         $items    = (array) get_taxonomies(['show_ui' => true], 'object');
     }
 
-    if (! empty($_POST['item-object']) && isset($items[ $_POST['item-object'] ])) {
-        $menus_meta_box_object = $items[ $_POST['item-object'] ];
+    if (! empty($_POST['item-object']) && isset($items[$_POST['item-object']])) {
+        $menus_meta_box_object = $items[$_POST['item-object']];
 
         /** This filter is documented in wp-admin/includes/nav-menu.php */
         $item = apply_filters('nav_menu_meta_box_object', $menus_meta_box_object);
@@ -2171,7 +2171,7 @@ function wp_ajax_inline_save()
             $tax_object = get_taxonomy($taxonomy);
             /** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
             if (! apply_filters('quick_edit_show_taxonomy', $tax_object->show_in_quick_edit, $taxonomy, $post['post_type'])) {
-                unset($data['tax_input'][ $taxonomy ]);
+                unset($data['tax_input'][$taxonomy]);
             }
         }
     }
@@ -2329,7 +2329,7 @@ function wp_ajax_find_posts()
         }
 
         $html .= '<tr class="' . trim('found-posts ' . $alt) . '"><td class="found-radio"><input type="radio" id="found-' . $post->ID . '" name="found_post_id" value="' . esc_attr($post->ID) . '"></td>';
-        $html .= '<td><label for="found-' . $post->ID . '">' . esc_html($title) . '</label></td><td class="no-break">' . esc_html($post_types[ $post->post_type ]->labels->singular_name) . '</td><td class="no-break">' . esc_html($time) . '</td><td class="no-break">' . esc_html($stat) . ' </td></tr>' . "\n\n";
+        $html .= '<td><label for="found-' . $post->ID . '">' . esc_html($title) . '</label></td><td class="no-break">' . esc_html($post_types[$post->post_type]->labels->singular_name) . '</td><td class="no-break">' . esc_html($time) . '</td><td class="no-break">' . esc_html($stat) . ' </td></tr>' . "\n\n";
     }
 
     $html .= '</tbody></table>';
@@ -2367,10 +2367,10 @@ function wp_ajax_widgets_order()
                         continue;
                     }
 
-                    $sb[ $k ] = substr($v, strpos($v, '_') + 1);
+                    $sb[$k] = substr($v, strpos($v, '_') + 1);
                 }
             }
-            $sidebars[ $key ] = $sb;
+            $sidebars[$key] = $sb;
         }
 
         wp_set_sidebars_widgets($sidebars);
@@ -2422,16 +2422,16 @@ function wp_ajax_save_widget()
     $widget_id    = wp_unslash($_POST['widget-id']);
     $sidebar_id   = $_POST['sidebar'];
     $multi_number = ! empty($_POST['multi_number']) ? (int) $_POST['multi_number'] : 0;
-    $settings     = isset($_POST[ 'widget-' . $id_base ]) && is_array($_POST[ 'widget-' . $id_base ]) ? $_POST[ 'widget-' . $id_base ] : false;
+    $settings     = isset($_POST['widget-' . $id_base]) && is_array($_POST['widget-' . $id_base]) ? $_POST['widget-' . $id_base] : false;
     $error        = '<p>' . __('An error has occurred. Please reload the page and try again.') . '</p>';
 
     $sidebars = wp_get_sidebars_widgets();
-    $sidebar  = isset($sidebars[ $sidebar_id ]) ? $sidebars[ $sidebar_id ] : [];
+    $sidebar  = isset($sidebars[$sidebar_id]) ? $sidebars[$sidebar_id] : [];
 
     // Delete.
     if (isset($_POST['delete_widget']) && $_POST['delete_widget']) {
 
-        if (! isset($wp_registered_widgets[ $widget_id ])) {
+        if (! isset($wp_registered_widgets[$widget_id])) {
             wp_die($error);
         }
 
@@ -2451,9 +2451,9 @@ function wp_ajax_save_widget()
             wp_die($error);
         }
 
-        $_POST[ 'widget-' . $id_base ] = [$multi_number => reset($settings)];
-        $widget_id                     = $id_base . '-' . $multi_number;
-        $sidebar[]                     = $widget_id;
+        $_POST['widget-' . $id_base] = [$multi_number => reset($settings)];
+        $widget_id                   = $id_base . '-' . $multi_number;
+        $sidebar[]                   = $widget_id;
     }
     $_POST['widget-id'] = $sidebar;
 
@@ -2472,7 +2472,7 @@ function wp_ajax_save_widget()
     }
 
     if (isset($_POST['delete_widget']) && $_POST['delete_widget']) {
-        $sidebars[ $sidebar_id ] = $sidebar;
+        $sidebars[$sidebar_id] = $sidebar;
         wp_set_sidebars_widgets($sidebars);
         echo "deleted:$widget_id";
         wp_die();
@@ -2482,7 +2482,7 @@ function wp_ajax_save_widget()
         wp_die();
     }
 
-    $form = $wp_registered_widget_controls[ $widget_id ];
+    $form = $wp_registered_widget_controls[$widget_id];
     if ($form) {
         call_user_func_array($form['callback'], $form['params']);
     }
@@ -2531,9 +2531,9 @@ function wp_ajax_delete_inactive_widgets()
         $multi_number = array_pop($pieces);
         $id_base      = implode('-', $pieces);
         $widget       = get_option('widget_' . $id_base);
-        unset($widget[ $multi_number ]);
+        unset($widget[$multi_number]);
         update_option('widget_' . $id_base, $widget);
-        unset($sidebars_widgets['wp_inactive_widgets'][ $key ]);
+        unset($sidebars_widgets['wp_inactive_widgets'][$key]);
     }
 
     wp_set_sidebars_widgets($sidebars_widgets);
@@ -3095,7 +3095,7 @@ function wp_ajax_query_attachments()
     ];
 
     foreach (get_taxonomies_for_attachments('objects') as $t) {
-        if ($t->query_var && isset($query[ $t->query_var ])) {
+        if ($t->query_var && isset($query[$t->query_var])) {
             $keys[] = $t->query_var;
         }
     }
@@ -3225,9 +3225,9 @@ function wp_ajax_save_attachment()
         }
 
         foreach (wp_get_attachment_id3_keys((object) $post, 'edit') as $key => $label) {
-            if (isset($changes[ $key ])) {
-                $changed         = true;
-                $id3data[ $key ] = sanitize_text_field(wp_unslash($changes[ $key ]));
+            if (isset($changes[$key])) {
+                $changed       = true;
+                $id3data[$key] = sanitize_text_field(wp_unslash($changes[$key]));
             }
         }
 
@@ -3261,11 +3261,11 @@ function wp_ajax_save_attachment_compat()
         wp_send_json_error();
     }
 
-    if (empty($_REQUEST['attachments']) || empty($_REQUEST['attachments'][ $id ])) {
+    if (empty($_REQUEST['attachments']) || empty($_REQUEST['attachments'][$id])) {
         wp_send_json_error();
     }
 
-    $attachment_data = $_REQUEST['attachments'][ $id ];
+    $attachment_data = $_REQUEST['attachments'][$id];
 
     check_ajax_referer('update-post_' . $id, 'nonce');
 
@@ -3290,8 +3290,8 @@ function wp_ajax_save_attachment_compat()
     wp_update_post($post);
 
     foreach (get_attachment_taxonomies($post) as $taxonomy) {
-        if (isset($attachment_data[ $taxonomy ])) {
-            wp_set_object_terms($id, array_map('trim', preg_split('/,+/', $attachment_data[ $taxonomy ])), $taxonomy, false);
+        if (isset($attachment_data[$taxonomy])) {
+            wp_set_object_terms($id, array_map('trim', preg_split('/,+/', $attachment_data[$taxonomy])), $taxonomy, false);
         }
     }
 
@@ -3652,7 +3652,7 @@ function wp_ajax_save_user_color_scheme()
 
     $color_scheme = sanitize_key($_POST['color_scheme']);
 
-    if (! isset($_wp_admin_css_colors[ $color_scheme ])) {
+    if (! isset($_wp_admin_css_colors[$color_scheme])) {
         wp_send_json_error();
     }
 
@@ -3725,7 +3725,7 @@ function wp_ajax_query_themes()
     foreach ($installed_themes as $theme_slug => $theme_data) {
         // Ignore child themes.
         if (str_contains($theme_slug, '/')) {
-            unset($installed_themes[ $theme_slug ]);
+            unset($installed_themes[$theme_slug]);
         }
     }
 
@@ -4405,10 +4405,10 @@ function wp_ajax_update_theme()
     } elseif ($skin->get_errors()->has_errors()) {
         $status['errorMessage'] = $skin->get_error_messages();
         wp_send_json_error($status);
-    } elseif (is_array($result) && ! empty($result[ $stylesheet ])) {
+    } elseif (is_array($result) && ! empty($result[$stylesheet])) {
 
         // Theme is already at the latest version.
-        if (true === $result[ $stylesheet ]) {
+        if (true === $result[$stylesheet]) {
             $status['errorMessage'] = $upgrader->strings['up_to_date'];
             wp_send_json_error($status);
         }
@@ -4739,7 +4739,7 @@ function wp_ajax_update_plugin()
     } elseif ($skin->get_errors()->has_errors()) {
         $status['errorMessage'] = $skin->get_error_messages();
         wp_send_json_error($status);
-    } elseif (is_array($result) && ! empty($result[ $plugin ])) {
+    } elseif (is_array($result) && ! empty($result[$plugin])) {
 
         /*
          * Plugin is already at the latest version.
@@ -4750,12 +4750,12 @@ function wp_ajax_update_plugin()
          * Preferably something can be done to ensure `update_plugins` isn't empty.
          * For now, surface some sort of error here.
          */
-        if (true === $result[ $plugin ]) {
+        if (true === $result[$plugin]) {
             $status['errorMessage'] = $upgrader->strings['up_to_date'];
             wp_send_json_error($status);
         }
 
-        $plugin_data = get_plugins('/' . $result[ $plugin ]['destination_name']);
+        $plugin_data = get_plugins('/' . $result[$plugin]['destination_name']);
         $plugin_data = reset($plugin_data);
 
         if ($plugin_data['Version']) {
@@ -5090,8 +5090,8 @@ function wp_ajax_wp_privacy_export_personal_data()
         }
 
         $exporter_keys = array_keys($exporters);
-        $exporter_key  = $exporter_keys[ $exporter_index - 1 ];
-        $exporter      = $exporters[ $exporter_key ];
+        $exporter_key  = $exporter_keys[$exporter_index - 1];
+        $exporter      = $exporters[$exporter_key];
 
         if (! is_array($exporter)) {
             wp_send_json_error(
@@ -5279,8 +5279,8 @@ function wp_ajax_wp_privacy_erase_personal_data()
         }
 
         $eraser_keys = array_keys($erasers);
-        $eraser_key  = $eraser_keys[ $eraser_index - 1 ];
-        $eraser      = $erasers[ $eraser_key ];
+        $eraser_key  = $eraser_keys[$eraser_index - 1];
+        $eraser      = $erasers[$eraser_key];
 
         if (! is_array($eraser)) {
             /* translators: %d: Eraser array index. */
@@ -5605,7 +5605,7 @@ function wp_ajax_health_check_get_sizes()
             $data['raw'] = (int) $value['raw'];
         }
 
-        $all_sizes[ $name ] = $data;
+        $all_sizes[$name] = $data;
     }
 
     if (isset($all_sizes['total_size']['debug']) && 'not available' === $all_sizes['total_size']['debug']) {

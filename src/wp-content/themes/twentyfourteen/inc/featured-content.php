@@ -320,7 +320,7 @@ class Featured_Content
         $settings = self::get_setting();
         foreach ($terms as $order => $term) {
             if (($settings['tag-id'] === $term->term_id || $settings['tag-name'] === $term->name) && 'post_tag' === $term->taxonomy) {
-                unset($terms[ $order ]);
+                unset($terms[$order]);
             }
         }
 
@@ -363,7 +363,7 @@ class Featured_Content
         $settings = self::get_setting();
         foreach ($terms as $order => $term) {
             if (($settings['tag-id'] === $term->term_id || $settings['tag-name'] === $term->name) && 'post_tag' === $term->taxonomy) {
-                unset($terms[ $term->term_id ]);
+                unset($terms[$term->term_id]);
             }
         }
 
@@ -483,7 +483,7 @@ class Featured_Content
         $options = array_intersect_key($options, $defaults);
 
         if ('all' !== $key) {
-            return isset($options[ $key ]) ? $options[ $key ] : false;
+            return isset($options[$key]) ? $options[$key] : false;
         }
 
         return $options;

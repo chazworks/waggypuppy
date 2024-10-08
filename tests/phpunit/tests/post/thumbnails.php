@@ -611,8 +611,8 @@ class Tests_Post_Thumbnail_Template extends WP_UnitTestCase
 
     public function filter_post_thumbnail_size($size, $post_id)
     {
-        if (is_array($this->current_size_filter_data) && isset($this->current_size_filter_data[ $post_id ])) {
-            return $this->current_size_filter_data[ $post_id ];
+        if (is_array($this->current_size_filter_data) && isset($this->current_size_filter_data[$post_id])) {
+            return $this->current_size_filter_data[$post_id];
         }
 
         if (is_string($this->current_size_filter_data)) {

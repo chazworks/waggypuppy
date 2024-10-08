@@ -276,8 +276,8 @@ class Tests_Widgets extends WP_UnitTestCase
         );
 
         $this->assertArrayHasKey($sidebar_id, $wp_registered_sidebars);
-        $this->assertStringContainsString('<div id="%1$s" class="before-sidebar %2$s">', $wp_registered_sidebars[ $sidebar_id ]['before_sidebar']);
-        $this->assertStringContainsString('</div> <!-- .before-sidebar -->', $wp_registered_sidebars[ $sidebar_id ]['after_sidebar']);
+        $this->assertStringContainsString('<div id="%1$s" class="before-sidebar %2$s">', $wp_registered_sidebars[$sidebar_id]['before_sidebar']);
+        $this->assertStringContainsString('</div> <!-- .before-sidebar -->', $wp_registered_sidebars[$sidebar_id]['after_sidebar']);
     }
 
     /**
@@ -296,8 +296,8 @@ class Tests_Widgets extends WP_UnitTestCase
         );
 
         $this->assertArrayHasKey($sidebar_id, $wp_registered_sidebars);
-        $this->assertEmpty($wp_registered_sidebars[ $sidebar_id ]['before_sidebar']);
-        $this->assertEmpty($wp_registered_sidebars[ $sidebar_id ]['after_sidebar']);
+        $this->assertEmpty($wp_registered_sidebars[$sidebar_id]['before_sidebar']);
+        $this->assertEmpty($wp_registered_sidebars[$sidebar_id]['after_sidebar']);
     }
 
     /**
@@ -706,7 +706,7 @@ class Tests_Widgets extends WP_UnitTestCase
         $this->assertArrayHasKey(2, $settings);
 
         foreach ($option_value as $widget_number => $instance) {
-            $this->assertSame($settings[ $widget_number ], $option_value[ $widget_number ]);
+            $this->assertSame($settings[$widget_number], $option_value[$widget_number]);
         }
 
         // After widgets_init(), get_settings() should create the widget option.
@@ -849,7 +849,7 @@ class Tests_Widgets extends WP_UnitTestCase
         wp_widgets_init();
         require_once ABSPATH . 'wp-admin/includes/widgets.php';
         $widget_id    = 'search-2';
-        $widget       = $wp_registered_widgets[ $widget_id ];
+        $widget       = $wp_registered_widgets[$widget_id];
         $params       = [
             'widget_id'   => $widget['id'],
             'widget_name' => $widget['name'],

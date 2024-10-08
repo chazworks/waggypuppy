@@ -78,8 +78,8 @@ if ($_POST) {
         'add_new_users'               => 0,
     ];
     foreach ($checked_options as $option_name => $option_unchecked_value) {
-        if (! isset($_POST[ $option_name ])) {
-            $_POST[ $option_name ] = $option_unchecked_value;
+        if (! isset($_POST[$option_name])) {
+            $_POST[$option_name] = $option_unchecked_value;
         }
     }
 
@@ -117,10 +117,10 @@ if ($_POST) {
     }
 
     foreach ($options as $option_name) {
-        if (! isset($_POST[ $option_name ])) {
+        if (! isset($_POST[$option_name])) {
             continue;
         }
-        $value = wp_unslash($_POST[ $option_name ]);
+        $value = wp_unslash($_POST[$option_name]);
         update_site_option($option_name, $value);
     }
 
@@ -520,7 +520,7 @@ if (isset($_GET['updated'])) {
                         '</legend>';
 
                         foreach ((array) $menu_items as $key => $val) {
-                            echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . (isset($menu_perms[ $key ]) ? checked($menu_perms[ $key ], '1', false) : '') . ' /> ' . esc_html($val) . '</label><br/>';
+                            echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . (isset($menu_perms[$key]) ? checked($menu_perms[$key], '1', false) : '') . ' /> ' . esc_html($val) . '</label><br/>';
                         }
 
                         echo '</fieldset>';

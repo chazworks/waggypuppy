@@ -174,7 +174,7 @@ if (! class_exists('PO', false)) :
                         }
                     } else {
                         $previous_is_backslash = false;
-                        $unpoified            .= isset($escapes[ $char ]) ? $escapes[ $char ] : $char;
+                        $unpoified            .= isset($escapes[$char]) ? $escapes[$char] : $char;
                     }
                 }
             }
@@ -428,9 +428,9 @@ if (! class_exists('PO', false)) :
                     if ('msgid_plural' !== $context && 'msgstr_plural' !== $context) {
                         return false;
                     }
-                    $context                      = 'msgstr_plural';
-                    $msgstr_index                 = $m[1];
-                    $entry->translations[ $m[1] ] = PO::unpoify($m[2]);
+                    $context                    = 'msgstr_plural';
+                    $msgstr_index               = $m[1];
+                    $entry->translations[$m[1]] = PO::unpoify($m[2]);
                 } elseif (preg_match('/^".*"$/', $line)) {
                     $unpoified = PO::unpoify($line);
                     switch ($context) {
@@ -447,7 +447,7 @@ if (! class_exists('PO', false)) :
                             $entry->translations[0] .= $unpoified;
                             break;
                         case 'msgstr_plural':
-                            $entry->translations[ $msgstr_index ] .= $unpoified;
+                            $entry->translations[$msgstr_index] .= $unpoified;
                             break;
                         default:
                             return false;

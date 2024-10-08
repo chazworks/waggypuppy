@@ -377,10 +377,10 @@ abstract class WP_Image_Editor
 
         $output_format = wp_get_image_editor_output_format($filename, $mime_type);
 
-        if (isset($output_format[ $mime_type ])
-            && $this->supports_mime_type($output_format[ $mime_type ])
+        if (isset($output_format[$mime_type])
+            && $this->supports_mime_type($output_format[$mime_type])
         ) {
-            $mime_type = $output_format[ $mime_type ];
+            $mime_type = $output_format[$mime_type];
             $new_ext   = $this->get_extension($mime_type);
         }
 
@@ -626,7 +626,7 @@ abstract class WP_Image_Editor
 
         foreach ($extensions as $_extension) {
             if (preg_match("/{$extension}/i", $_extension)) {
-                return $mime_types[ $_extension ];
+                return $mime_types[$_extension];
             }
         }
 

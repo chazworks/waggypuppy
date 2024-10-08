@@ -186,8 +186,8 @@ class WP_REST_Global_Styles_Revisions_Controller extends WP_REST_Revisions_Contr
             ];
 
             foreach ($parameter_mappings as $api_param => $wp_param) {
-                if (isset($registered[ $api_param ], $request[ $api_param ])) {
-                    $query_args[ $wp_param ] = $request[ $api_param ];
+                if (isset($registered[$api_param], $request[$api_param])) {
+                    $query_args[$wp_param] = $request[$api_param];
                 }
             }
 

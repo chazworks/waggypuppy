@@ -241,7 +241,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($expected[$key], balanceTags($inputs[$key], true));
         }
     }
 
@@ -257,7 +257,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($expected[$key], balanceTags($inputs[$key], true));
         }
     }
 
@@ -271,7 +271,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($inputs[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($inputs[$key], balanceTags($inputs[$key], true));
         }
     }
 
@@ -292,7 +292,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($expected[$key], balanceTags($inputs[$key], true));
         }
     }
 
@@ -323,7 +323,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($inputs[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($inputs[$key], balanceTags($inputs[$key], true));
         }
     }
 
@@ -348,7 +348,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($expected[$key], balanceTags($inputs[$key], true));
         }
     }
 
@@ -364,7 +364,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($expected[$key], balanceTags($inputs[$key], true));
         }
     }
 
@@ -386,7 +386,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($expected[$key], balanceTags($inputs[$key], true));
         }
     }
 
@@ -406,7 +406,7 @@ class Tests_Formatting_BalanceTags extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], balanceTags($inputs[ $key ], true));
+            $this->assertSame($expected[$key], balanceTags($inputs[$key], true));
         }
     }
 

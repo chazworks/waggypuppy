@@ -727,7 +727,7 @@ HTML
 
                     // The eligible loading strategy for this will be forced to be blocking when rendered since $src = false.
                     wp_register_script($handle1, false, [], null);
-                    wp_scripts()->registered[ $handle1 ]->extra['strategy'] = 'defer'; // Bypass wp_script_add_data() which should no-op with _doing_it_wrong() because of $src=false.
+                    wp_scripts()->registered[$handle1]->extra['strategy'] = 'defer'; // Bypass wp_script_add_data() which should no-op with _doing_it_wrong() because of $src=false.
                     $this->add_test_inline_script($handle1, 'before');
                     $this->add_test_inline_script($handle1, 'after');
 
@@ -895,8 +895,8 @@ HTML
                     $wp_scripts = wp_scripts();
                     wp_default_scripts($wp_scripts);
                     foreach ($wp_scripts->registered['jquery']->deps as $jquery_dep) {
-                        $wp_scripts->registered[ $jquery_dep ]->add_data('strategy', 'defer');
-                        $wp_scripts->registered[ $jquery_dep ]->ver = null; // Just to avoid markup changes in the test when jQuery is upgraded.
+                        $wp_scripts->registered[$jquery_dep]->add_data('strategy', 'defer');
+                        $wp_scripts->registered[$jquery_dep]->ver = null; // Just to avoid markup changes in the test when jQuery is upgraded.
                     }
                     wp_enqueue_script('theme-functions', 'https://example.com/theme-functions.js', ['jquery'], null, ['strategy' => 'defer']);
                 },
@@ -3513,7 +3513,7 @@ HTML
 
         $this->assertNotFalse($script_query, "The script '{$handle}' should be registered.");
         $this->assertArrayHasKey($script, $package_json, "The dependency '{$script}' should be included in package.json.");
-        $this->assertSame($package_json[ $script ], $wp_scripts->query($handle, 'registered')->ver, "The script '{$handle}' should be registered with version {$package_json[ $script ]}.");
+        $this->assertSame($package_json[$script], $wp_scripts->query($handle, 'registered')->ver, "The script '{$handle}' should be registered with version {$package_json[ $script ]}.");
     }
 
     /**

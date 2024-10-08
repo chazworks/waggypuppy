@@ -61,7 +61,7 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
         $this->assertSame($sizes, $image_sizes);
 
         // Remove custom size.
-        unset($this->wp_site_icon->site_icon_sizes[ array_search(321, $this->wp_site_icon->site_icon_sizes, true) ]);
+        unset($this->wp_site_icon->site_icon_sizes[array_search(321, $this->wp_site_icon->site_icon_sizes, true)]);
         // Remove the filter we added.
         remove_filter('site_icon_image_sizes', [$this, 'custom_test_sizes']);
     }
@@ -72,7 +72,7 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
 
         $sizes = [];
         foreach ($this->wp_site_icon->site_icon_sizes as $size) {
-            $sizes[ 'site_icon-' . $size ] = [
+            $sizes['site_icon-' . $size] = [
                 'width ' => $size,
                 'height' => $size,
                 'crop'   => true,
@@ -89,7 +89,7 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
 
         $sizes = [];
         foreach ($this->wp_site_icon->site_icon_sizes as $size) {
-            $sizes[ 'site_icon-' . $size ] = [
+            $sizes['site_icon-' . $size] = [
                 'width ' => $size,
                 'height' => $size,
                 'crop'   => true,
@@ -103,7 +103,7 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
         $this->assertSame($sizes, $image_sizes);
 
         // Remove custom size.
-        unset($this->wp_site_icon->site_icon_sizes[ array_search(321, $this->wp_site_icon->site_icon_sizes, true) ]);
+        unset($this->wp_site_icon->site_icon_sizes[array_search(321, $this->wp_site_icon->site_icon_sizes, true)]);
     }
 
     public function test_insert_cropped_attachment()

@@ -109,8 +109,8 @@ function delete_theme($stylesheet, $redirect = '')
     $theme_translations = wp_get_installed_translations('themes');
 
     // Remove language files, silently.
-    if (! empty($theme_translations[ $stylesheet ])) {
-        $translations = $theme_translations[ $stylesheet ];
+    if (! empty($theme_translations[$stylesheet])) {
+        $translations = $theme_translations[$stylesheet];
 
         foreach ($translations as $translation => $data) {
             $wp_filesystem->delete(WP_LANG_DIR . '/themes/' . $stylesheet . '-' . $translation . '.po');
@@ -214,8 +214,8 @@ function get_theme_update_available($theme)
 
     $html = '';
 
-    if (isset($themes_update->response[ $stylesheet ])) {
-        $update      = $themes_update->response[ $stylesheet ];
+    if (isset($themes_update->response[$stylesheet])) {
+        $update      = $themes_update->response[$stylesheet];
         $theme_name  = $theme->display('Name');
         $details_url = add_query_arg(
             [
@@ -399,17 +399,17 @@ function get_theme_feature_list($api = true)
 
     // Loop over the wp.org canonical list and apply translations.
     foreach ((array) $feature_list as $feature_category => $feature_items) {
-        if (isset($category_translations[ $feature_category ])) {
-            $feature_category = $category_translations[ $feature_category ];
+        if (isset($category_translations[$feature_category])) {
+            $feature_category = $category_translations[$feature_category];
         }
 
-        $wporg_features[ $feature_category ] = [];
+        $wporg_features[$feature_category] = [];
 
         foreach ($feature_items as $feature) {
-            if (isset($features[ $feature_category ][ $feature ])) {
-                $wporg_features[ $feature_category ][ $feature ] = $features[ $feature_category ][ $feature ];
+            if (isset($features[$feature_category][$feature])) {
+                $wporg_features[$feature_category][$feature] = $features[$feature_category][$feature];
             } else {
-                $wporg_features[ $feature_category ][ $feature ] = $feature;
+                $wporg_features[$feature_category][$feature] = $feature;
             }
         }
     }
@@ -621,7 +621,7 @@ function themes_api($action, $args = [])
             // Back-compat for info/1.2 API, upgrade the theme objects in query_themes to objects.
             if ('query_themes' === $action) {
                 foreach ($res->themes as $i => $theme) {
-                    $res->themes[ $i ] = (object) $theme;
+                    $res->themes[$i] = (object) $theme;
                 }
             }
 
@@ -678,12 +678,12 @@ function wp_prepare_themes_for_js($themes = null)
     }
 
     // Make sure the active theme is listed first.
-    $prepared_themes[ $current_theme ] = [];
+    $prepared_themes[$current_theme] = [];
 
     if (null === $themes) {
         $themes = wp_get_themes(['allowed' => true]);
-        if (! isset($themes[ $current_theme ])) {
-            $themes[ $current_theme ] = wp_get_theme();
+        if (! isset($themes[$current_theme])) {
+            $themes[$current_theme] = wp_get_theme();
         }
     }
 
@@ -711,9 +711,9 @@ function wp_prepare_themes_for_js($themes = null)
 
         $parent = false;
         if ($theme->parent()) {
-            $parent           = $theme->parent();
-            $parents[ $slug ] = $parent->get_stylesheet();
-            $parent           = $parent->display('Name');
+            $parent         = $theme->parent();
+            $parents[$slug] = $parent->get_stylesheet();
+            $parent         = $parent->display('Name');
         }
 
         $customize_action = null;
@@ -740,18 +740,18 @@ function wp_prepare_themes_for_js($themes = null)
             $customize_action = esc_url($customize_action);
         }
 
-        $update_requires_wp  = isset($updates[ $slug ]['requires']) ? $updates[ $slug ]['requires'] : null;
-        $update_requires_php = isset($updates[ $slug ]['requires_php']) ? $updates[ $slug ]['requires_php'] : null;
+        $update_requires_wp  = isset($updates[$slug]['requires']) ? $updates[$slug]['requires'] : null;
+        $update_requires_php = isset($updates[$slug]['requires_php']) ? $updates[$slug]['requires_php'] : null;
 
         $auto_update        = in_array($slug, $auto_updates, true);
         $auto_update_action = $auto_update ? 'disable-auto-update' : 'enable-auto-update';
 
-        if (isset($updates[ $slug ])) {
+        if (isset($updates[$slug])) {
             $auto_update_supported      = true;
-            $auto_update_filter_payload = (object) $updates[ $slug ];
-        } elseif (isset($no_updates[ $slug ])) {
+            $auto_update_filter_payload = (object) $updates[$slug];
+        } elseif (isset($no_updates[$slug])) {
             $auto_update_supported      = true;
-            $auto_update_filter_payload = (object) $no_updates[ $slug ];
+            $auto_update_filter_payload = (object) $no_updates[$slug];
         } else {
             $auto_update_supported = false;
             /*
@@ -770,7 +770,7 @@ function wp_prepare_themes_for_js($themes = null)
 
         $auto_update_forced = wp_is_auto_update_forced_for_item('theme', null, $auto_update_filter_payload);
 
-        $prepared_themes[ $slug ] = [
+        $prepared_themes[$slug] = [
             'id'             => $slug,
             'name'           => $theme->display('Name'),
             'screenshot'     => [$theme->get_screenshot()], // @todo Multiple screenshots.
@@ -787,8 +787,8 @@ function wp_prepare_themes_for_js($themes = null)
             ],
             'parent'         => $parent,
             'active'         => $slug === $current_theme,
-            'hasUpdate'      => isset($updates[ $slug ]),
-            'hasPackage'     => isset($updates[ $slug ]) && ! empty($updates[ $slug ]['package']),
+            'hasUpdate'      => isset($updates[$slug]),
+            'hasPackage'     => isset($updates[$slug]) && ! empty($updates[$slug]['package']),
             'update'         => get_theme_update_available($theme),
             'autoupdate'     => [
                 'enabled'   => $auto_update || $auto_update_forced,
@@ -809,7 +809,7 @@ function wp_prepare_themes_for_js($themes = null)
 
     // Remove 'delete' action if theme has an active child.
     if (! empty($parents) && array_key_exists($current_theme, $parents)) {
-        unset($prepared_themes[ $parents[ $current_theme ] ]['actions']['delete']);
+        unset($prepared_themes[$parents[$current_theme]]['actions']['delete']);
     }
 
     /**
@@ -1158,7 +1158,7 @@ function wp_get_theme_error($theme)
         return false;
     }
 
-    return $GLOBALS['_paused_themes'][ $theme ];
+    return $GLOBALS['_paused_themes'][$theme];
 }
 
 /**

@@ -589,7 +589,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting
                 $this->manager->set_post_value($nav_menu_widget_setting->id, $updated_widget_instance);
                 $nav_menu_widget_setting->save();
 
-                $this->_widget_nav_menu_updates[ $nav_menu_widget_setting->id ] = $updated_widget_instance;
+                $this->_widget_nav_menu_updates[$nav_menu_widget_setting->id] = $updated_widget_instance;
             }
         }
     }

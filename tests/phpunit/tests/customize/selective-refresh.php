@@ -257,7 +257,7 @@ class Test_WP_Customize_Selective_Refresh extends WP_UnitTestCase
     public function test_is_render_partials_request()
     {
         $this->assertFalse($this->selective_refresh->is_render_partials_request());
-        $_POST[ WP_Customize_Selective_Refresh::RENDER_QUERY_VAR ] = '1';
+        $_POST[WP_Customize_Selective_Refresh::RENDER_QUERY_VAR] = '1';
         $this->assertTrue($this->selective_refresh->is_render_partials_request());
     }
 

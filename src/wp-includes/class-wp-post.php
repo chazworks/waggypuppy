@@ -386,7 +386,7 @@ final class WP_Post
 
         foreach (['ancestors', 'page_template', 'post_category', 'tags_input'] as $key) {
             if ($this->__isset($key)) {
-                $post[ $key ] = $this->__get($key);
+                $post[$key] = $this->__get($key);
             }
         }
 

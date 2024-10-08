@@ -94,13 +94,13 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control
         parent::to_json();
         $exported_properties = ['widget_id', 'widget_id_base', 'sidebar_id', 'width', 'height', 'is_wide'];
         foreach ($exported_properties as $key) {
-            $this->json[ $key ] = $this->$key;
+            $this->json[$key] = $this->$key;
         }
 
         // Get the widget_control and widget_content.
         require_once ABSPATH . 'wp-admin/includes/widgets.php';
 
-        $widget = $wp_registered_widgets[ $this->widget_id ];
+        $widget = $wp_registered_widgets[$this->widget_id];
         if (! isset($widget['params'][0])) {
             $widget['params'][0] = [];
         }

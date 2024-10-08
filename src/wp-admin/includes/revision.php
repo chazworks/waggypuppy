@@ -191,7 +191,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
     if (! wp_revisions_enabled($post)) {
         foreach ($revisions as $revision_id => $revision) {
             if (! wp_is_post_autosave($revision)) {
-                unset($revisions[ $revision_id ]);
+                unset($revisions[$revision_id]);
             }
         }
         $revisions = [$post->ID => $post] + $revisions;
@@ -224,8 +224,8 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
             );
         }
 
-        if (! isset($authors[ $revision->post_author ])) {
-            $authors[ $revision->post_author ] = [
+        if (! isset($authors[$revision->post_author])) {
+            $authors[$revision->post_author] = [
                 'id'     => (int) $revision->post_author,
                 'avatar' => $show_avatars ? get_avatar($revision->post_author, 32) : '',
                 'name'   => get_the_author_meta('display_name', $revision->post_author),
@@ -237,8 +237,8 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
         if ($current && ! empty($current_id)) {
             // If multiple revisions have the same post_modified_gmt, highest ID is current.
             if ($current_id < $revision->ID) {
-                $revisions[ $current_id ]['current'] = false;
-                $current_id                          = $revision->ID;
+                $revisions[$current_id]['current'] = false;
+                $current_id                        = $revision->ID;
             } else {
                 $current = false;
             }
@@ -249,7 +249,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
         $revisions_data = [
             'id'         => $revision->ID,
             'title'      => get_the_title($post->ID),
-            'author'     => $authors[ $revision->post_author ],
+            'author'     => $authors[$revision->post_author],
             'date'       => date_i18n(__('M j, Y @ H:i'), $modified),
             'dateShort'  => date_i18n(_x('j M @ H:i', 'revision date short format'), $modified),
             /* translators: %s: Human-readable time difference. */
@@ -281,7 +281,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
          * @param WP_Post $revision       The revision's WP_Post object.
          * @param WP_Post $post           The revision's parent WP_Post object.
          */
-        $revisions[ $revision->ID ] = apply_filters('wp_prepare_revision_for_js', $revisions_data, $revision, $post);
+        $revisions[$revision->ID] = apply_filters('wp_prepare_revision_for_js', $revisions_data, $revision, $post);
     }
 
     /*
@@ -289,10 +289,10 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
      * when we have an autosave and the user has clicked 'View the Autosave'.
      */
     if (1 === count($revisions)) {
-        $revisions[ $post->ID ] = [
+        $revisions[$post->ID] = [
             'id'         => $post->ID,
             'title'      => get_the_title($post->ID),
-            'author'     => $authors[ $revision->post_author ],
+            'author'     => $authors[$revision->post_author],
             'date'       => date_i18n(__('M j, Y @ H:i'), strtotime($post->post_modified)),
             'dateShort'  => date_i18n(_x('j M @ H:i', 'revision date short format'), strtotime($post->post_modified)),
             /* translators: %s: Human-readable time difference. */
@@ -301,7 +301,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
             'current'    => true,
             'restoreUrl' => false,
         ];
-        $current_id             = $post->ID;
+        $current_id           = $post->ID;
     }
 
     /*
@@ -310,7 +310,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
      * revision as "current".
      */
     if (empty($current_id)) {
-        if ($revisions[ $revision->ID ]['autosave']) {
+        if ($revisions[$revision->ID]['autosave']) {
             $revision = end($revisions);
             while ($revision['autosave']) {
                 $revision = prev($revisions);
@@ -319,7 +319,7 @@ function wp_prepare_revisions_for_js($post, $selected_revision_id, $from = null)
         } else {
             $current_id = $revision->ID;
         }
-        $revisions[ $current_id ]['current'] = true;
+        $revisions[$current_id]['current'] = true;
     }
 
     // Now, grab the initial diff.

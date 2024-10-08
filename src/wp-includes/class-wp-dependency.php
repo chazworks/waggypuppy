@@ -118,7 +118,7 @@ class _WP_Dependency
         if (! is_scalar($name)) {
             return false;
         }
-        $this->extra[ $name ] = $data;
+        $this->extra[$name] = $data;
         return true;
     }
 

@@ -132,7 +132,7 @@ function wp_default_packages_vendor($scripts)
         }
 
         $path    = "/wp-includes/js/dist/vendor/$handle$suffix.js";
-        $version = $vendor_scripts_versions[ $handle ];
+        $version = $vendor_scripts_versions[$handle];
 
         $scripts->add($handle, $path, $dependencies, $version, 1);
     }
@@ -187,8 +187,8 @@ function wp_get_script_polyfill($scripts, $tests)
             continue;
         }
 
-        $src = $scripts->registered[ $handle ]->src;
-        $ver = $scripts->registered[ $handle ]->ver;
+        $src = $scripts->registered[$handle]->src;
+        $ver = $scripts->registered[$handle]->ver;
 
         if (! preg_match('|^(https?:)?//|', $src) && ! ($scripts->content_url && str_starts_with($src, $scripts->content_url))) {
             $src = $scripts->base_url . $src;
@@ -633,8 +633,8 @@ function wp_tinymce_inline_scripts()
             $init_obj .= $key . ':' . $val . ',';
             continue;
         } elseif (! empty($value) && is_string($value) && (
-            ('{' === $value[0] && '}' === $value[ strlen($value) - 1 ]) ||
-            ('[' === $value[0] && ']' === $value[ strlen($value) - 1 ]) ||
+            ('{' === $value[0] && '}' === $value[strlen($value) - 1]) ||
+            ('[' === $value[0] && ']' === $value[strlen($value) - 1]) ||
             preg_match('/^\(?function ?\(/', $value))) {
             $init_obj .= $key . ':' . $value . ',';
             continue;
@@ -1886,7 +1886,7 @@ function wp_prototype_before_jquery($js_array)
         return $js_array;
     }
 
-    unset($js_array[ $prototype ]);
+    unset($js_array[$prototype]);
 
     array_splice($js_array, $jquery, 0, 'prototype');
 
@@ -2073,11 +2073,11 @@ function wp_style_loader_src($src, $handle)
     if ('colors' === $handle) {
         $color = get_user_option('admin_color');
 
-        if (empty($color) || ! isset($_wp_admin_css_colors[ $color ])) {
+        if (empty($color) || ! isset($_wp_admin_css_colors[$color])) {
             $color = 'fresh';
         }
 
-        $color = $_wp_admin_css_colors[ $color ];
+        $color = $_wp_admin_css_colors[$color];
         $url   = $color->url;
 
         if (! $url) {
@@ -2721,7 +2721,7 @@ function enqueue_block_styles_assets()
                 if (wp_should_load_separate_core_block_assets()) {
                     $block_stylesheet_handle = generate_block_asset_handle($block_name, 'style');
 
-                    if (isset($wp_styles->registered[ $block_stylesheet_handle ])) {
+                    if (isset($wp_styles->registered[$block_stylesheet_handle])) {
                         $handle = $block_stylesheet_handle;
                     }
                 }
@@ -3006,10 +3006,10 @@ function wp_maybe_inline_styles()
 
     // Build an array of styles that have a path defined.
     foreach ($wp_styles->queue as $handle) {
-        if (! isset($wp_styles->registered[ $handle ])) {
+        if (! isset($wp_styles->registered[$handle])) {
             continue;
         }
-        $src  = $wp_styles->registered[ $handle ]->src;
+        $src  = $wp_styles->registered[$handle]->src;
         $path = $wp_styles->get_data($handle, 'path');
         if ($path && $src) {
             $size = wp_filesize($path);
@@ -3060,11 +3060,11 @@ function wp_maybe_inline_styles()
             $style['css'] = _wp_normalize_relative_css_links($style['css'], $style['src']);
 
             // Set `src` to `false` and add styles inline.
-            $wp_styles->registered[ $style['handle'] ]->src = false;
-            if (empty($wp_styles->registered[ $style['handle'] ]->extra['after'])) {
-                $wp_styles->registered[ $style['handle'] ]->extra['after'] = [];
+            $wp_styles->registered[$style['handle']]->src = false;
+            if (empty($wp_styles->registered[$style['handle']]->extra['after'])) {
+                $wp_styles->registered[$style['handle']]->extra['after'] = [];
             }
-            array_unshift($wp_styles->registered[ $style['handle'] ]->extra['after'], $style['css']);
+            array_unshift($wp_styles->registered[$style['handle']]->extra['after'], $style['css']);
 
             // Add the styles size to the $total_inline_size var.
             $total_inline_size += (int) $style['size'];

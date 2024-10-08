@@ -208,11 +208,11 @@ class WP_REST_Request implements ArrayAccess
     {
         $key = $this->canonicalize_header_name($key);
 
-        if (! isset($this->headers[ $key ])) {
+        if (! isset($this->headers[$key])) {
             return null;
         }
 
-        return implode(',', $this->headers[ $key ]);
+        return implode(',', $this->headers[$key]);
     }
 
     /**
@@ -227,11 +227,11 @@ class WP_REST_Request implements ArrayAccess
     {
         $key = $this->canonicalize_header_name($key);
 
-        if (! isset($this->headers[ $key ])) {
+        if (! isset($this->headers[$key])) {
             return null;
         }
 
-        return $this->headers[ $key ];
+        return $this->headers[$key];
     }
 
     /**
@@ -247,7 +247,7 @@ class WP_REST_Request implements ArrayAccess
         $key   = $this->canonicalize_header_name($key);
         $value = (array) $value;
 
-        $this->headers[ $key ] = $value;
+        $this->headers[$key] = $value;
     }
 
     /**
@@ -263,11 +263,11 @@ class WP_REST_Request implements ArrayAccess
         $key   = $this->canonicalize_header_name($key);
         $value = (array) $value;
 
-        if (! isset($this->headers[ $key ])) {
-            $this->headers[ $key ] = [];
+        if (! isset($this->headers[$key])) {
+            $this->headers[$key] = [];
         }
 
-        $this->headers[ $key ] = array_merge($this->headers[ $key ], $value);
+        $this->headers[$key] = array_merge($this->headers[$key], $value);
     }
 
     /**
@@ -280,7 +280,7 @@ class WP_REST_Request implements ArrayAccess
     public function remove_header($key)
     {
         $key = $this->canonicalize_header_name($key);
-        unset($this->headers[ $key ]);
+        unset($this->headers[$key]);
     }
 
     /**
@@ -414,8 +414,8 @@ class WP_REST_Request implements ArrayAccess
 
         foreach ($order as $type) {
             // Determine if we have the parameter for this type.
-            if (isset($this->params[ $type ][ $key ])) {
-                return $this->params[ $type ][ $key ];
+            if (isset($this->params[$type][$key])) {
+                return $this->params[$type][$key];
             }
         }
 
@@ -438,7 +438,7 @@ class WP_REST_Request implements ArrayAccess
         $order = $this->get_parameter_order();
 
         foreach ($order as $type) {
-            if (is_array($this->params[ $type ]) && array_key_exists($key, $this->params[ $type ])) {
+            if (is_array($this->params[$type]) && array_key_exists($key, $this->params[$type])) {
                 return true;
             }
         }
@@ -464,14 +464,14 @@ class WP_REST_Request implements ArrayAccess
         $found_key = false;
 
         foreach ($order as $type) {
-            if ('defaults' !== $type && is_array($this->params[ $type ]) && array_key_exists($key, $this->params[ $type ])) {
-                $this->params[ $type ][ $key ] = $value;
-                $found_key                     = true;
+            if ('defaults' !== $type && is_array($this->params[$type]) && array_key_exists($key, $this->params[$type])) {
+                $this->params[$type][$key] = $value;
+                $found_key                 = true;
             }
         }
 
         if (! $found_key) {
-            $this->params[ $order[0] ][ $key ] = $value;
+            $this->params[$order[0]][$key] = $value;
         }
     }
 
@@ -496,8 +496,8 @@ class WP_REST_Request implements ArrayAccess
              * array_merge() / the "+" operator will mess up
              * numeric keys, so instead do a manual foreach.
              */
-            foreach ((array) $this->params[ $type ] as $key => $value) {
-                $params[ $key ] = $value;
+            foreach ((array) $this->params[$type] as $key => $value) {
+                $params[$key] = $value;
             }
         }
 
@@ -848,16 +848,16 @@ class WP_REST_Request implements ArrayAccess
         $invalid_details = [];
 
         foreach ($order as $type) {
-            if (empty($this->params[ $type ])) {
+            if (empty($this->params[$type])) {
                 continue;
             }
 
-            foreach ($this->params[ $type ] as $key => $value) {
-                if (! isset($attributes['args'][ $key ])) {
+            foreach ($this->params[$type] as $key => $value) {
+                if (! isset($attributes['args'][$key])) {
                     continue;
                 }
 
-                $param_args = $attributes['args'][ $key ];
+                $param_args = $attributes['args'][$key];
 
                 // If the arg has a type but no sanitize_callback attribute, default to rest_parse_request_arg.
                 if (! array_key_exists('sanitize_callback', $param_args) && ! empty($param_args['type'])) {
@@ -872,10 +872,10 @@ class WP_REST_Request implements ArrayAccess
                 $sanitized_value = call_user_func($param_args['sanitize_callback'], $value, $this, $key);
 
                 if (is_wp_error($sanitized_value)) {
-                    $invalid_params[ $key ]  = implode(' ', $sanitized_value->get_error_messages());
-                    $invalid_details[ $key ] = rest_convert_error_to_response($sanitized_value)->get_data();
+                    $invalid_params[$key]  = implode(' ', $sanitized_value->get_error_messages());
+                    $invalid_details[$key] = rest_convert_error_to_response($sanitized_value)->get_data();
                 } else {
-                    $this->params[ $type ][ $key ] = $sanitized_value;
+                    $this->params[$type][$key] = $sanitized_value;
                 }
             }
         }
@@ -953,12 +953,12 @@ class WP_REST_Request implements ArrayAccess
                 $valid_check = call_user_func($arg['validate_callback'], $param, $this, $key);
 
                 if (false === $valid_check) {
-                    $invalid_params[ $key ] = __('Invalid parameter.');
+                    $invalid_params[$key] = __('Invalid parameter.');
                 }
 
                 if (is_wp_error($valid_check)) {
-                    $invalid_params[ $key ]  = implode(' ', $valid_check->get_error_messages());
-                    $invalid_details[ $key ] = rest_convert_error_to_response($valid_check)->get_data();
+                    $invalid_params[$key]  = implode(' ', $valid_check->get_error_messages());
+                    $invalid_details[$key] = rest_convert_error_to_response($valid_check)->get_data();
                 }
             }
         }
@@ -1006,7 +1006,7 @@ class WP_REST_Request implements ArrayAccess
         $order = $this->get_parameter_order();
 
         foreach ($order as $type) {
-            if (isset($this->params[ $type ][ $offset ])) {
+            if (isset($this->params[$type][$offset])) {
                 return true;
             }
         }
@@ -1056,7 +1056,7 @@ class WP_REST_Request implements ArrayAccess
 
         // Remove the offset from every group.
         foreach ($order as $type) {
-            unset($this->params[ $type ][ $offset ]);
+            unset($this->params[$type][$offset]);
         }
     }
 

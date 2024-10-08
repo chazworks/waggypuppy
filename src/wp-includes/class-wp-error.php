@@ -123,8 +123,8 @@ class WP_Error
             return $all_messages;
         }
 
-        if (isset($this->errors[ $code ])) {
-            return $this->errors[ $code ];
+        if (isset($this->errors[$code])) {
+            return $this->errors[$code];
         } else {
             return [];
         }
@@ -168,8 +168,8 @@ class WP_Error
             $code = $this->get_error_code();
         }
 
-        if (isset($this->error_data[ $code ])) {
-            return $this->error_data[ $code ];
+        if (isset($this->error_data[$code])) {
+            return $this->error_data[$code];
         }
     }
 
@@ -199,7 +199,7 @@ class WP_Error
      */
     public function add($code, $message, $data = '')
     {
-        $this->errors[ $code ][] = $message;
+        $this->errors[$code][] = $message;
 
         if (! empty($data)) {
             $this->add_data($data, $code);
@@ -233,11 +233,11 @@ class WP_Error
             $code = $this->get_error_code();
         }
 
-        if (isset($this->error_data[ $code ])) {
-            $this->additional_data[ $code ][] = $this->error_data[ $code ];
+        if (isset($this->error_data[$code])) {
+            $this->additional_data[$code][] = $this->error_data[$code];
         }
 
-        $this->error_data[ $code ] = $data;
+        $this->error_data[$code] = $data;
     }
 
     /**
@@ -256,12 +256,12 @@ class WP_Error
 
         $data = [];
 
-        if (isset($this->additional_data[ $code ])) {
-            $data = $this->additional_data[ $code ];
+        if (isset($this->additional_data[$code])) {
+            $data = $this->additional_data[$code];
         }
 
-        if (isset($this->error_data[ $code ])) {
-            $data[] = $this->error_data[ $code ];
+        if (isset($this->error_data[$code])) {
+            $data[] = $this->error_data[$code];
         }
 
         return $data;
@@ -279,9 +279,9 @@ class WP_Error
      */
     public function remove($code)
     {
-        unset($this->errors[ $code ]);
-        unset($this->error_data[ $code ]);
-        unset($this->additional_data[ $code ]);
+        unset($this->errors[$code]);
+        unset($this->error_data[$code]);
+        unset($this->additional_data[$code]);
     }
 
     /**

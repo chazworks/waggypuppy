@@ -127,8 +127,8 @@ function wp_nav_menu($args = [])
 
     // Get the nav menu based on the theme_location.
     $locations = get_nav_menu_locations();
-    if (! $menu && $args->theme_location && $locations && isset($locations[ $args->theme_location ])) {
-        $menu = wp_get_nav_menu_object($locations[ $args->theme_location ]);
+    if (! $menu && $args->theme_location && $locations && isset($locations[$args->theme_location])) {
+        $menu = wp_get_nav_menu_object($locations[$args->theme_location]);
     }
 
     // Get the first menu that has items if we still can't find a menu.
@@ -207,16 +207,16 @@ function wp_nav_menu($args = [])
             $menu_item->menu_item_parent = 0;
         }
 
-        $sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
+        $sorted_menu_items[$menu_item->menu_order] = $menu_item;
         if ($menu_item->menu_item_parent) {
-            $menu_items_with_children[ $menu_item->menu_item_parent ] = true;
+            $menu_items_with_children[$menu_item->menu_item_parent] = true;
         }
     }
 
     // Add the menu-item-has-children class where applicable.
     if ($menu_items_with_children) {
         foreach ($sorted_menu_items as &$menu_item) {
-            if (isset($menu_items_with_children[ $menu_item->ID ])) {
+            if (isset($menu_items_with_children[$menu_item->ID])) {
                 $menu_item->classes[] = 'menu-item-has-children';
             }
         }
@@ -345,16 +345,16 @@ function _wp_menu_item_classes_by_context(&$menu_items)
                     $term_to_ancestor        = [];
                     foreach ((array) $term_hierarchy as $ancestor => $descendents) {
                         foreach ((array) $descendents as $desc) {
-                            $term_to_ancestor[ $desc ] = $ancestor;
+                            $term_to_ancestor[$desc] = $ancestor;
                         }
                     }
 
                     foreach ($terms as $desc) {
                         do {
-                            $possible_taxonomy_ancestors[ $taxonomy ][] = $desc;
-                            if (isset($term_to_ancestor[ $desc ])) {
-                                $_desc = $term_to_ancestor[ $desc ];
-                                unset($term_to_ancestor[ $desc ]);
+                            $possible_taxonomy_ancestors[$taxonomy][] = $desc;
+                            if (isset($term_to_ancestor[$desc])) {
+                                $_desc = $term_to_ancestor[$desc];
+                                unset($term_to_ancestor[$desc]);
                                 $desc = $_desc;
                             } else {
                                 $desc = 0;
@@ -369,15 +369,15 @@ function _wp_menu_item_classes_by_context(&$menu_items)
         $term_to_ancestor = [];
         foreach ((array) $term_hierarchy as $ancestor => $descendents) {
             foreach ((array) $descendents as $desc) {
-                $term_to_ancestor[ $desc ] = $ancestor;
+                $term_to_ancestor[$desc] = $ancestor;
             }
         }
         $desc = $queried_object->term_id;
         do {
-            $possible_taxonomy_ancestors[ $queried_object->taxonomy ][] = $desc;
-            if (isset($term_to_ancestor[ $desc ])) {
-                $_desc = $term_to_ancestor[ $desc ];
-                unset($term_to_ancestor[ $desc ]);
+            $possible_taxonomy_ancestors[$queried_object->taxonomy][] = $desc;
+            if (isset($term_to_ancestor[$desc])) {
+                $_desc = $term_to_ancestor[$desc];
+                unset($term_to_ancestor[$desc]);
                 $desc = $_desc;
             } else {
                 $desc = 0;
@@ -393,7 +393,7 @@ function _wp_menu_item_classes_by_context(&$menu_items)
 
     foreach ((array) $menu_items as $key => $menu_item) {
 
-        $menu_items[ $key ]->current = false;
+        $menu_items[$key]->current = false;
 
         $classes   = (array) $menu_item->classes;
         $classes[] = 'menu-item';
@@ -429,9 +429,9 @@ function _wp_menu_item_classes_by_context(&$menu_items)
                     && $queried_object->taxonomy === $menu_item->object)
             )
         ) {
-            $classes[]                   = 'current-menu-item';
-            $menu_items[ $key ]->current = true;
-            $ancestor_id                 = (int) $menu_item->db_id;
+            $classes[]                 = 'current-menu-item';
+            $menu_items[$key]->current = true;
+            $ancestor_id               = (int) $menu_item->db_id;
 
             while (($ancestor_id = (int) get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
                 && ! in_array($ancestor_id, $active_ancestor_item_ids, true)
@@ -454,9 +454,9 @@ function _wp_menu_item_classes_by_context(&$menu_items)
         } elseif ('post_type_archive' === $menu_item->type
             && is_post_type_archive([$menu_item->object])
         ) {
-            $classes[]                   = 'current-menu-item';
-            $menu_items[ $key ]->current = true;
-            $ancestor_id                 = (int) $menu_item->db_id;
+            $classes[]                 = 'current-menu-item';
+            $menu_items[$key]->current = true;
+            $ancestor_id               = (int) $menu_item->db_id;
 
             while (($ancestor_id = (int) get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
                 && ! in_array($ancestor_id, $active_ancestor_item_ids, true)
@@ -490,9 +490,9 @@ function _wp_menu_item_classes_by_context(&$menu_items)
             ];
 
             if ($raw_item_url && in_array($item_url, $matches, true)) {
-                $classes[]                   = 'current-menu-item';
-                $menu_items[ $key ]->current = true;
-                $ancestor_id                 = (int) $menu_item->db_id;
+                $classes[]                 = 'current-menu-item';
+                $menu_items[$key]->current = true;
+                $ancestor_id               = (int) $menu_item->db_id;
 
                 while (($ancestor_id = (int) get_post_meta($ancestor_id, '_menu_item_menu_item_parent', true))
                     && ! in_array($ancestor_id, $active_ancestor_item_ids, true)
@@ -525,7 +525,7 @@ function _wp_menu_item_classes_by_context(&$menu_items)
             $classes[] = 'current_page_parent';
         }
 
-        $menu_items[ $key ]->classes = array_unique($classes);
+        $menu_items[$key]->classes = array_unique($classes);
     }
     $active_ancestor_item_ids = array_filter(array_unique($active_ancestor_item_ids));
     $active_parent_item_ids   = array_filter(array_unique($active_parent_item_ids));
@@ -533,9 +533,9 @@ function _wp_menu_item_classes_by_context(&$menu_items)
 
     // Set parent's class.
     foreach ((array) $menu_items as $key => $parent_item) {
-        $classes                                   = (array) $parent_item->classes;
-        $menu_items[ $key ]->current_item_ancestor = false;
-        $menu_items[ $key ]->current_item_parent   = false;
+        $classes                                 = (array) $parent_item->classes;
+        $menu_items[$key]->current_item_ancestor = false;
+        $menu_items[$key]->current_item_parent   = false;
 
         if (isset($parent_item->type)
             && (
@@ -551,8 +551,8 @@ function _wp_menu_item_classes_by_context(&$menu_items)
                 // Ancestral term.
                 (
                     'taxonomy' === $parent_item->type
-                    && isset($possible_taxonomy_ancestors[ $parent_item->object ])
-                    && in_array((int) $parent_item->object_id, $possible_taxonomy_ancestors[ $parent_item->object ], true)
+                    && isset($possible_taxonomy_ancestors[$parent_item->object])
+                    && in_array((int) $parent_item->object_id, $possible_taxonomy_ancestors[$parent_item->object], true)
                     && (
                         ! isset($queried_object->term_id) ||
                         (int) $parent_item->object_id !== $queried_object->term_id
@@ -570,12 +570,12 @@ function _wp_menu_item_classes_by_context(&$menu_items)
         if (in_array((int) $parent_item->db_id, $active_ancestor_item_ids, true)) {
             $classes[] = 'current-menu-ancestor';
 
-            $menu_items[ $key ]->current_item_ancestor = true;
+            $menu_items[$key]->current_item_ancestor = true;
         }
         if (in_array((int) $parent_item->db_id, $active_parent_item_ids, true)) {
             $classes[] = 'current-menu-parent';
 
-            $menu_items[ $key ]->current_item_parent = true;
+            $menu_items[$key]->current_item_parent = true;
         }
         if (in_array((int) $parent_item->object_id, $active_parent_object_ids, true)) {
             $classes[] = 'current-' . $active_object . '-parent';
@@ -591,7 +591,7 @@ function _wp_menu_item_classes_by_context(&$menu_items)
             }
         }
 
-        $menu_items[ $key ]->classes = array_unique($classes);
+        $menu_items[$key]->classes = array_unique($classes);
     }
 }
 

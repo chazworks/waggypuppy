@@ -1280,8 +1280,8 @@ if (is_multisite()) :
 
             $new_site = get_site($site_id);
             foreach ($new_site->to_array() as $key => $value) {
-                if (isset($expected_data[ $key ])) {
-                    $this->assertEquals($expected_data[ $key ], $value);
+                if (isset($expected_data[$key])) {
+                    $this->assertEquals($expected_data[$key], $value);
                 } elseif ('last_updated' === $key) {
                     $this->assertLessThanOrEqual($value, $old_site->last_updated);
                 } else {
@@ -1975,7 +1975,7 @@ if (is_multisite()) :
 
         public function action_site_status_hook($site_id)
         {
-            $this->site_status_hooks[ current_action() ] = $site_id;
+            $this->site_status_hooks[current_action()] = $site_id;
         }
 
         /**
@@ -1990,12 +1990,12 @@ if (is_multisite()) :
 
             $options = [];
             foreach ($expected_options as $option => $value) {
-                $options[ $option ] = get_option($option);
+                $options[$option] = get_option($option);
             }
 
             $meta = [];
             foreach ($expected_meta as $meta_key => $value) {
-                $meta[ $meta_key ] = get_site_meta(self::$uninitialized_site_id, $meta_key, true);
+                $meta[$meta_key] = get_site_meta(self::$uninitialized_site_id, $meta_key, true);
             }
 
             restore_current_blog();

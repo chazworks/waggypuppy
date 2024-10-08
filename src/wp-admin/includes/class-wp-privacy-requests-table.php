@@ -133,7 +133,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
         $counts  = array_fill_keys(get_post_stati(), 0);
 
         foreach ($results as $row) {
-            $counts[ $row['post_status'] ] = $row['num_posts'];
+            $counts[$row['post_status']] = $row['num_posts'];
         }
 
         $counts = (object) $counts;
@@ -196,7 +196,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
 
             $status_link = add_query_arg('filter-status', $status, $admin_url);
 
-            $views[ $status ] = [
+            $views[$status] = [
                 'url'     => esc_url($status_link),
                 'label'   => $status_label,
                 'current' => $status === $current_status,
@@ -386,8 +386,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
             'requested' => 'post_date',
         ];
 
-        if (isset($_REQUEST['orderby']) && isset($orderby_mapping[ $_REQUEST['orderby'] ])) {
-            $args['orderby'] = $orderby_mapping[ $_REQUEST['orderby'] ];
+        if (isset($_REQUEST['orderby']) && isset($orderby_mapping[$_REQUEST['orderby']])) {
+            $args['orderby'] = $orderby_mapping[$_REQUEST['orderby']];
         }
 
         if (isset($_REQUEST['order']) && in_array(strtoupper($_REQUEST['order']), ['ASC', 'DESC'], true)) {

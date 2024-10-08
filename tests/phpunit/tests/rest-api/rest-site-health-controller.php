@@ -118,7 +118,7 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
         $endpoint = '/wp-site-health/v1/tests/page-cache';
         $this->assertArrayHasKey($endpoint, $routes);
 
-        $route = $routes[ $endpoint ];
+        $route = $routes[$endpoint];
         $this->assertCount(1, $route);
 
         $route = current($route);

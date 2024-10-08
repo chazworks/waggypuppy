@@ -15,8 +15,8 @@ class Tests_Query_Stickies extends WP_UnitTestCase
         // Set post times to get a reliable order.
         $now = time();
         for ($i = 0; $i <= 22; $i++) {
-            $post_date         = gmdate('Y-m-d H:i:s', $now - (10 * $i));
-            self::$posts[ $i ] = $factory->post->create(
+            $post_date       = gmdate('Y-m-d H:i:s', $now - (10 * $i));
+            self::$posts[$i] = $factory->post->create(
                 [
                     'post_date' => $post_date,
                 ]

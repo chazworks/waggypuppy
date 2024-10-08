@@ -650,16 +650,16 @@ function mu_dropdown_languages($lang_files = [], $current = '')
         $code_lang = basename($val, '.mo');
 
         if ('en_US' === $code_lang) { // American English.
-            $flag          = true;
-            $ae            = __('American English');
-            $output[ $ae ] = '<option value="' . esc_attr($code_lang) . '"' . selected($current, $code_lang, false) . '> ' . $ae . '</option>';
+            $flag        = true;
+            $ae          = __('American English');
+            $output[$ae] = '<option value="' . esc_attr($code_lang) . '"' . selected($current, $code_lang, false) . '> ' . $ae . '</option>';
         } elseif ('en_GB' === $code_lang) { // British English.
-            $flag          = true;
-            $be            = __('British English');
-            $output[ $be ] = '<option value="' . esc_attr($code_lang) . '"' . selected($current, $code_lang, false) . '> ' . $be . '</option>';
+            $flag        = true;
+            $be          = __('British English');
+            $output[$be] = '<option value="' . esc_attr($code_lang) . '"' . selected($current, $code_lang, false) . '> ' . $be . '</option>';
         } else {
-            $translated            = format_code_lang($code_lang);
-            $output[ $translated ] = '<option value="' . esc_attr($code_lang) . '"' . selected($current, $code_lang, false) . '> ' . esc_html($translated) . '</option>';
+            $translated          = format_code_lang($code_lang);
+            $output[$translated] = '<option value="' . esc_attr($code_lang) . '"' . selected($current, $code_lang, false) . '> ' . esc_html($translated) . '</option>';
         }
     }
 
@@ -1147,7 +1147,7 @@ function network_edit_site_nav($args = [])
         $url = add_query_arg(['id' => $parsed_args['blog_id']], network_admin_url($link['url']));
 
         // Add link to nav links.
-        $screen_links[ $link_id ] = '<a href="' . esc_url($url) . '" id="' . esc_attr($link_id) . '" class="' . $esc_classes . '"' . $aria_current . '>' . esc_html($link['label']) . '</a>';
+        $screen_links[$link_id] = '<a href="' . esc_url($url) . '" id="' . esc_attr($link_id) . '" class="' . $esc_classes . '"' . $aria_current . '>' . esc_html($link['label']) . '</a>';
     }
 
     // All done!

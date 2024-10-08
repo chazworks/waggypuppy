@@ -728,8 +728,8 @@ function twentytwenty_get_color_for_area($area = 'content', $context = 'text')
     );
 
     // If we have a value return it.
-    if (isset($settings[ $area ]) && isset($settings[ $area ][ $context ])) {
-        return $settings[ $area ][ $context ];
+    if (isset($settings[$area]) && isset($settings[$area][$context])) {
+        return $settings[$area][$context];
     }
 
     // Return false if the option doesn't exist.

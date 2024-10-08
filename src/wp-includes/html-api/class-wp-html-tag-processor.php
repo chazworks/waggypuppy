@@ -1349,7 +1349,7 @@ class WP_HTML_Tag_Processor
             return false;
         }
 
-        $this->bookmarks[ $name ] = new WP_HTML_Span($this->token_starts_at, $this->token_length);
+        $this->bookmarks[$name] = new WP_HTML_Span($this->token_starts_at, $this->token_length);
 
         return true;
     }
@@ -1370,7 +1370,7 @@ class WP_HTML_Tag_Processor
             return false;
         }
 
-        unset($this->bookmarks[ $name ]);
+        unset($this->bookmarks[$name]);
 
         return true;
     }
@@ -1433,8 +1433,8 @@ class WP_HTML_Tag_Processor
              * normalization could not be part of a tag name.
              */
             for ($i = 0; $i < $tag_length; $i++) {
-                $tag_char  = $tag_name[ $i ];
-                $html_char = $html[ $at + $i ];
+                $tag_char  = $tag_name[$i];
+                $html_char = $html[$at + $i];
 
                 if ($html_char !== $tag_char && strtoupper($html_char) !== $tag_char) {
                     $at += $i;
@@ -1455,7 +1455,7 @@ class WP_HTML_Tag_Processor
              * "</textarearug" should not match for "</textarea" even
              * though "textarea" is found within the text.
              */
-            $c = $html[ $at ];
+            $c = $html[$at];
             if (' ' !== $c && "\t" !== $c && "\r" !== $c && "\n" !== $c && '/' !== $c && '>' !== $c) {
                 continue;
             }
@@ -1469,7 +1469,7 @@ class WP_HTML_Tag_Processor
                 return false;
             }
 
-            if ('>' === $html[ $at ]) {
+            if ('>' === $html[$at]) {
                 $this->bytes_already_parsed = $at + 1;
                 return true;
             }
@@ -1478,7 +1478,7 @@ class WP_HTML_Tag_Processor
                 return false;
             }
 
-            if ('/' === $html[ $at ] && '>' === $html[ $at + 1 ]) {
+            if ('/' === $html[$at] && '>' === $html[$at + 1]) {
                 $this->bytes_already_parsed = $at + 2;
                 return true;
             }
@@ -1510,9 +1510,9 @@ class WP_HTML_Tag_Processor
              * even if that's the current state.
              */
             if ($at + 2 < $doc_length &&
-                '-' === $html[ $at ] &&
-                '-' === $html[ $at + 1 ] &&
-                '>' === $html[ $at + 2 ]
+                '-' === $html[$at] &&
+                '-' === $html[$at + 1] &&
+                '>' === $html[$at + 2]
             ) {
                 $at   += 3;
                 $state = 'unescaped';
@@ -1527,7 +1527,7 @@ class WP_HTML_Tag_Processor
              * Everything of interest past here starts with "<".
              * Check this character and advance position regardless.
              */
-            if ('<' !== $html[ $at++ ]) {
+            if ('<' !== $html[$at++]) {
                 continue;
             }
 
@@ -1544,16 +1544,16 @@ class WP_HTML_Tag_Processor
              * parsing after updating the state.
              */
             if ($at + 2 < $doc_length &&
-                '!' === $html[ $at ] &&
-                '-' === $html[ $at + 1 ] &&
-                '-' === $html[ $at + 2 ]
+                '!' === $html[$at] &&
+                '-' === $html[$at + 1] &&
+                '-' === $html[$at + 2]
             ) {
                 $at   += 3;
                 $state = 'unescaped' === $state ? 'escaped' : $state;
                 continue;
             }
 
-            if ('/' === $html[ $at ]) {
+            if ('/' === $html[$at]) {
                 $closer_potentially_starts_at = $at - 1;
                 $is_closing                   = true;
                 ++$at;
@@ -1568,12 +1568,12 @@ class WP_HTML_Tag_Processor
              */
             if (! (
                 $at + 6 < $doc_length &&
-                ('s' === $html[ $at ] || 'S' === $html[ $at ]) &&
-                ('c' === $html[ $at + 1 ] || 'C' === $html[ $at + 1 ]) &&
-                ('r' === $html[ $at + 2 ] || 'R' === $html[ $at + 2 ]) &&
-                ('i' === $html[ $at + 3 ] || 'I' === $html[ $at + 3 ]) &&
-                ('p' === $html[ $at + 4 ] || 'P' === $html[ $at + 4 ]) &&
-                ('t' === $html[ $at + 5 ] || 'T' === $html[ $at + 5 ])
+                ('s' === $html[$at] || 'S' === $html[$at]) &&
+                ('c' === $html[$at + 1] || 'C' === $html[$at + 1]) &&
+                ('r' === $html[$at + 2] || 'R' === $html[$at + 2]) &&
+                ('i' === $html[$at + 3] || 'I' === $html[$at + 3]) &&
+                ('p' === $html[$at + 4] || 'P' === $html[$at + 4]) &&
+                ('t' === $html[$at + 5] || 'T' === $html[$at + 5])
             )) {
                 ++$at;
                 continue;
@@ -1589,7 +1589,7 @@ class WP_HTML_Tag_Processor
                 continue;
             }
             $at += 6;
-            $c   = $html[ $at ];
+            $c   = $html[$at];
             if (' ' !== $c && "\t" !== $c && "\r" !== $c && "\n" !== $c && '/' !== $c && '>' !== $c) {
                 ++$at;
                 continue;
@@ -1622,7 +1622,7 @@ class WP_HTML_Tag_Processor
                     return false;
                 }
 
-                if ('>' === $html[ $this->bytes_already_parsed ]) {
+                if ('>' === $html[$this->bytes_already_parsed]) {
                     ++$this->bytes_already_parsed;
                     return true;
                 }
@@ -1691,7 +1691,7 @@ class WP_HTML_Tag_Processor
 
             $this->token_starts_at = $at;
 
-            if ($at + 1 < $doc_length && '/' === $this->html[ $at + 1 ]) {
+            if ($at + 1 < $doc_length && '/' === $this->html[$at + 1]) {
                 $this->is_closing_tag = true;
                 ++$at;
             } else {
@@ -1736,7 +1736,7 @@ class WP_HTML_Tag_Processor
              * `<!` transitions to markup declaration open state
              * https://html.spec.whatwg.org/multipage/parsing.html#markup-declaration-open-state
              */
-            if (! $this->is_closing_tag && '!' === $html[ $at + 1 ]) {
+            if (! $this->is_closing_tag && '!' === $html[$at + 1]) {
                 /*
                  * `<!--` transitions to a comment state – apply further comment rules.
                  * https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
@@ -1752,7 +1752,7 @@ class WP_HTML_Tag_Processor
 
                     // Abruptly-closed empty comments are a sequence of dashes followed by `>`.
                     $span_of_dashes = strspn($html, '-', $closer_at);
-                    if ('>' === $html[ $closer_at + $span_of_dashes ]) {
+                    if ('>' === $html[$closer_at + $span_of_dashes]) {
                         /*
                          * @todo When implementing `set_modifiable_text()` ensure that updates to this token
                          *       don't break the syntax for short comments, e.g. `<!--->`. Unlike other comment
@@ -1791,7 +1791,7 @@ class WP_HTML_Tag_Processor
                             return false;
                         }
 
-                        if ($closer_at + 2 < $doc_length && '>' === $html[ $closer_at + 2 ]) {
+                        if ($closer_at + 2 < $doc_length && '>' === $html[$closer_at + 2]) {
                             $this->parser_state         = self::STATE_COMMENT;
                             $this->comment_type         = self::COMMENT_AS_HTML_COMMENT;
                             $this->token_length         = $closer_at + 3 - $this->token_starts_at;
@@ -1802,8 +1802,8 @@ class WP_HTML_Tag_Processor
                         }
 
                         if ($closer_at + 3 < $doc_length &&
-                            '!' === $html[ $closer_at + 2 ] &&
-                            '>' === $html[ $closer_at + 3 ]
+                            '!' === $html[$closer_at + 2] &&
+                            '>' === $html[$closer_at + 3]
                         ) {
                             $this->parser_state         = self::STATE_COMMENT;
                             $this->comment_type         = self::COMMENT_AS_HTML_COMMENT;
@@ -1822,13 +1822,13 @@ class WP_HTML_Tag_Processor
                  * https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
                  */
                 if ($doc_length > $at + 8 &&
-                    ('D' === $html[ $at + 2 ] || 'd' === $html[ $at + 2 ]) &&
-                    ('O' === $html[ $at + 3 ] || 'o' === $html[ $at + 3 ]) &&
-                    ('C' === $html[ $at + 4 ] || 'c' === $html[ $at + 4 ]) &&
-                    ('T' === $html[ $at + 5 ] || 't' === $html[ $at + 5 ]) &&
-                    ('Y' === $html[ $at + 6 ] || 'y' === $html[ $at + 6 ]) &&
-                    ('P' === $html[ $at + 7 ] || 'p' === $html[ $at + 7 ]) &&
-                    ('E' === $html[ $at + 8 ] || 'e' === $html[ $at + 8 ])
+                    ('D' === $html[$at + 2] || 'd' === $html[$at + 2]) &&
+                    ('O' === $html[$at + 3] || 'o' === $html[$at + 3]) &&
+                    ('C' === $html[$at + 4] || 'c' === $html[$at + 4]) &&
+                    ('T' === $html[$at + 5] || 't' === $html[$at + 5]) &&
+                    ('Y' === $html[$at + 6] || 'y' === $html[$at + 6]) &&
+                    ('P' === $html[$at + 7] || 'p' === $html[$at + 7]) &&
+                    ('E' === $html[$at + 8] || 'e' === $html[$at + 8])
                 ) {
                     $closer_at = strpos($html, '>', $at + 9);
                     if (false === $closer_at) {
@@ -1847,13 +1847,13 @@ class WP_HTML_Tag_Processor
 
                 if ('html' !== $this->parsing_namespace &&
                     strlen($html) > $at + 8 &&
-                    '[' === $html[ $at + 2 ] &&
-                    'C' === $html[ $at + 3 ] &&
-                    'D' === $html[ $at + 4 ] &&
-                    'A' === $html[ $at + 5 ] &&
-                    'T' === $html[ $at + 6 ] &&
-                    'A' === $html[ $at + 7 ] &&
-                    '[' === $html[ $at + 8 ]
+                    '[' === $html[$at + 2] &&
+                    'C' === $html[$at + 3] &&
+                    'D' === $html[$at + 4] &&
+                    'A' === $html[$at + 5] &&
+                    'T' === $html[$at + 6] &&
+                    'A' === $html[$at + 7] &&
+                    '[' === $html[$at + 8]
                 ) {
                     $closer_at = strpos($html, ']]>', $at + 9);
                     if (false === $closer_at) {
@@ -1905,15 +1905,15 @@ class WP_HTML_Tag_Processor
                  *       and require the proper closing `]]>` in those cases.
                  */
                 if ($this->token_length >= 10 &&
-                    '[' === $html[ $this->token_starts_at + 2 ] &&
-                    'C' === $html[ $this->token_starts_at + 3 ] &&
-                    'D' === $html[ $this->token_starts_at + 4 ] &&
-                    'A' === $html[ $this->token_starts_at + 5 ] &&
-                    'T' === $html[ $this->token_starts_at + 6 ] &&
-                    'A' === $html[ $this->token_starts_at + 7 ] &&
-                    '[' === $html[ $this->token_starts_at + 8 ] &&
-                    ']' === $html[ $closer_at - 1 ] &&
-                    ']' === $html[ $closer_at - 2 ]
+                    '[' === $html[$this->token_starts_at + 2] &&
+                    'C' === $html[$this->token_starts_at + 3] &&
+                    'D' === $html[$this->token_starts_at + 4] &&
+                    'A' === $html[$this->token_starts_at + 5] &&
+                    'T' === $html[$this->token_starts_at + 6] &&
+                    'A' === $html[$this->token_starts_at + 7] &&
+                    '[' === $html[$this->token_starts_at + 8] &&
+                    ']' === $html[$closer_at - 1] &&
+                    ']' === $html[$closer_at - 2]
                 ) {
                     $this->parser_state    = self::STATE_COMMENT;
                     $this->comment_type    = self::COMMENT_AS_CDATA_LOOKALIKE;
@@ -1933,7 +1933,7 @@ class WP_HTML_Tag_Processor
              *
              * See https://html.spec.whatwg.org/#parse-error-missing-end-tag-name
              */
-            if ('>' === $html[ $at + 1 ]) {
+            if ('>' === $html[$at + 1]) {
                 // `<>` is interpreted as plaintext.
                 if (! $this->is_closing_tag) {
                     ++$at;
@@ -1950,7 +1950,7 @@ class WP_HTML_Tag_Processor
              * `<?` transitions to a bogus comment state – skip to the nearest >
              * See https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
              */
-            if (! $this->is_closing_tag && '?' === $html[ $at + 1 ]) {
+            if (! $this->is_closing_tag && '?' === $html[$at + 1]) {
                 $closer_at = strpos($html, '>', $at + 2);
                 if (false === $closer_at) {
                     $this->parser_state = self::STATE_INCOMPLETE_INPUT;
@@ -1992,7 +1992,7 @@ class WP_HTML_Tag_Processor
                  *
                  * @see https://www.w3.org/TR/2006/REC-xml11-20060816/#NT-PITarget
                  */
-                if ($this->token_length >= 5 && '?' === $html[ $closer_at - 1 ]) {
+                if ($this->token_length >= 5 && '?' === $html[$closer_at - 1]) {
                     $comment_text     = substr($html, $this->token_starts_at + 2, $this->token_length - 4);
                     $pi_target_length = strspn($comment_text, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:_');
 
@@ -2083,7 +2083,7 @@ class WP_HTML_Tag_Processor
          *
          * @see https://html.spec.whatwg.org/multipage/parsing.html#before-attribute-name-state
          */
-        $name_length = '=' === $this->html[ $this->bytes_already_parsed ]
+        $name_length = '=' === $this->html[$this->bytes_already_parsed]
             ? 1 + strcspn($this->html, "=/> \t\f\r\n", $this->bytes_already_parsed + 1)
             : strcspn($this->html, "=/> \t\f\r\n", $this->bytes_already_parsed);
 
@@ -2108,7 +2108,7 @@ class WP_HTML_Tag_Processor
             return false;
         }
 
-        $has_value = '=' === $this->html[ $this->bytes_already_parsed ];
+        $has_value = '=' === $this->html[$this->bytes_already_parsed];
         if ($has_value) {
             ++$this->bytes_already_parsed;
             $this->skip_whitespace();
@@ -2118,10 +2118,10 @@ class WP_HTML_Tag_Processor
                 return false;
             }
 
-            switch ($this->html[ $this->bytes_already_parsed ]) {
+            switch ($this->html[$this->bytes_already_parsed]) {
                 case "'":
                 case '"':
-                    $quote                      = $this->html[ $this->bytes_already_parsed ];
+                    $quote                      = $this->html[$this->bytes_already_parsed];
                     $value_start                = $this->bytes_already_parsed + 1;
                     $end_quote_at               = strpos($this->html, $quote, $value_start);
                     $end_quote_at               = false === $end_quote_at ? $doc_length : $end_quote_at;
@@ -2163,8 +2163,8 @@ class WP_HTML_Tag_Processor
         $comparable_name = strtolower($attribute_name);
 
         // If an attribute is listed many times, only use the first declaration and ignore the rest.
-        if (! isset($this->attributes[ $comparable_name ])) {
-            $this->attributes[ $comparable_name ] = new WP_HTML_Attribute_Token(
+        if (! isset($this->attributes[$comparable_name])) {
+            $this->attributes[$comparable_name] = new WP_HTML_Attribute_Token(
                 $attribute_name,
                 $value_start,
                 $value_length,
@@ -2187,10 +2187,10 @@ class WP_HTML_Tag_Processor
         $duplicate_span = new WP_HTML_Span($attribute_start, $attribute_end - $attribute_start);
         if (null === $this->duplicate_attributes) {
             $this->duplicate_attributes = [$comparable_name => [$duplicate_span]];
-        } elseif (! isset($this->duplicate_attributes[ $comparable_name ])) {
-            $this->duplicate_attributes[ $comparable_name ] = [$duplicate_span];
+        } elseif (! isset($this->duplicate_attributes[$comparable_name])) {
+            $this->duplicate_attributes[$comparable_name] = [$duplicate_span];
         } else {
-            $this->duplicate_attributes[ $comparable_name ][] = $duplicate_span;
+            $this->duplicate_attributes[$comparable_name][] = $duplicate_span;
         }
 
         return true;
@@ -2249,7 +2249,7 @@ class WP_HTML_Tag_Processor
             }
 
             $this->lexical_updates[] = $update;
-            unset($this->lexical_updates[ $name ]);
+            unset($this->lexical_updates[$name]);
         }
 
         $this->token_starts_at          = null;
@@ -2574,7 +2574,7 @@ class WP_HTML_Tag_Processor
         $this->get_updated_html();
 
         // Point this tag processor before the sought tag opener and consume it.
-        $this->bytes_already_parsed = $this->bookmarks[ $bookmark_name ]->start;
+        $this->bytes_already_parsed = $this->bookmarks[$bookmark_name]->start;
         $this->parser_state         = self::STATE_READY;
         return $this->next_token();
     }
@@ -2627,11 +2627,11 @@ class WP_HTML_Tag_Processor
             return false;
         }
 
-        if (! isset($this->lexical_updates[ $comparable_name ])) {
+        if (! isset($this->lexical_updates[$comparable_name])) {
             return false;
         }
 
-        $enqueued_text = $this->lexical_updates[ $comparable_name ]->text;
+        $enqueued_text = $this->lexical_updates[$comparable_name]->text;
 
         // Removed attributes erase the entire span.
         if ('' === $enqueued_text) {
@@ -2722,11 +2722,11 @@ class WP_HTML_Tag_Processor
             return $enqueued_value;
         }
 
-        if (! isset($this->attributes[ $comparable ])) {
+        if (! isset($this->attributes[$comparable])) {
             return null;
         }
 
-        $attribute = $this->attributes[ $comparable ];
+        $attribute = $this->attributes[$comparable];
 
         /*
          * This flag distinguishes an attribute with no value
@@ -3260,7 +3260,7 @@ class WP_HTML_Tag_Processor
          *     <figure />
          *             ^ this appears one character before the end of the closing ">".
          */
-        return '/' === $this->html[ $this->token_starts_at + $this->token_length - 2 ];
+        return '/' === $this->html[$this->token_starts_at + $this->token_length - 2];
     }
 
     /**
@@ -3454,7 +3454,7 @@ class WP_HTML_Tag_Processor
              * the comment text but `!` is not.
              */
             case self::COMMENT_AS_INVALID_HTML:
-                $preceding_character = $this->html[ $this->text_starts_at - 1 ];
+                $preceding_character = $this->html[$this->text_starts_at - 1];
                 $comment_start       = '?' === $preceding_character ? '?' : '';
                 return "{$comment_start}{$this->get_modifiable_text()}";
         }
@@ -3525,7 +3525,7 @@ class WP_HTML_Tag_Processor
             $skipped = strspn($this->html, " \t\f\r\n", $at, $end - $at);
             $at     += $skipped;
 
-            if ($at < $end && '&' === $this->html[ $at ]) {
+            if ($at < $end && '&' === $this->html[$at]) {
                 $matched_byte_length = null;
                 $replacement         = WP_HTML_Decoder::read_character_reference('data', $this->html, $at, $matched_byte_length);
                 if (isset($replacement) && 1 === strspn($replacement, " \t\f\r\n")) {
@@ -3914,7 +3914,7 @@ class WP_HTML_Tag_Processor
          */
         $comparable_name = strtolower($name);
 
-        if (isset($this->attributes[ $comparable_name ])) {
+        if (isset($this->attributes[$comparable_name])) {
             /*
              * Update an existing attribute.
              *
@@ -3927,8 +3927,8 @@ class WP_HTML_Tag_Processor
              *
              *     Result: <div id="new"/>
              */
-            $existing_attribute                        = $this->attributes[ $comparable_name ];
-            $this->lexical_updates[ $comparable_name ] = new WP_HTML_Text_Replacement(
+            $existing_attribute                      = $this->attributes[$comparable_name];
+            $this->lexical_updates[$comparable_name] = new WP_HTML_Text_Replacement(
                 $existing_attribute->start,
                 $existing_attribute->length,
                 $updated_attribute
@@ -3946,7 +3946,7 @@ class WP_HTML_Tag_Processor
              *
              *     Result: <div id="new"/>
              */
-            $this->lexical_updates[ $comparable_name ] = new WP_HTML_Text_Replacement(
+            $this->lexical_updates[$comparable_name] = new WP_HTML_Text_Replacement(
                 $this->tag_name_starts_at + $this->tag_name_length,
                 0,
                 ' ' . $updated_attribute
@@ -4006,9 +4006,9 @@ class WP_HTML_Tag_Processor
          * after calling `set_attribute()` for the same attribute
          * and when that attribute wasn't originally present.
          */
-        if (! isset($this->attributes[ $name ])) {
-            if (isset($this->lexical_updates[ $name ])) {
-                unset($this->lexical_updates[ $name ]);
+        if (! isset($this->attributes[$name])) {
+            if (isset($this->lexical_updates[$name])) {
+                unset($this->lexical_updates[$name]);
             }
             return false;
         }
@@ -4024,14 +4024,14 @@ class WP_HTML_Tag_Processor
          *
          *    Result: <div />
          */
-        $this->lexical_updates[ $name ] = new WP_HTML_Text_Replacement(
-            $this->attributes[ $name ]->start,
-            $this->attributes[ $name ]->length,
+        $this->lexical_updates[$name] = new WP_HTML_Text_Replacement(
+            $this->attributes[$name]->start,
+            $this->attributes[$name]->length,
             ''
         );
 
         // Removes any duplicated attributes if they were also present.
-        foreach ($this->duplicate_attributes[ $name ] ?? [] as $attribute_token) {
+        foreach ($this->duplicate_attributes[$name] ?? [] as $attribute_token) {
             $this->lexical_updates[] = new WP_HTML_Text_Replacement(
                 $attribute_token->start,
                 $attribute_token->length,
@@ -4059,7 +4059,7 @@ class WP_HTML_Tag_Processor
         }
 
         if (self::QUIRKS_MODE !== $this->compat_mode) {
-            $this->classname_updates[ $class_name ] = self::ADD_CLASS;
+            $this->classname_updates[$class_name] = self::ADD_CLASS;
             return true;
         }
 
@@ -4074,12 +4074,12 @@ class WP_HTML_Tag_Processor
             if (strlen($updated_name) === $class_name_length &&
                 0 === substr_compare($updated_name, $class_name, 0, $class_name_length, true)
             ) {
-                $this->classname_updates[ $updated_name ] = self::ADD_CLASS;
+                $this->classname_updates[$updated_name] = self::ADD_CLASS;
                 return true;
             }
         }
 
-        $this->classname_updates[ $class_name ] = self::ADD_CLASS;
+        $this->classname_updates[$class_name] = self::ADD_CLASS;
         return true;
     }
 
@@ -4100,7 +4100,7 @@ class WP_HTML_Tag_Processor
         }
 
         if (self::QUIRKS_MODE !== $this->compat_mode) {
-            $this->classname_updates[ $class_name ] = self::REMOVE_CLASS;
+            $this->classname_updates[$class_name] = self::REMOVE_CLASS;
             return true;
         }
 
@@ -4115,12 +4115,12 @@ class WP_HTML_Tag_Processor
             if (strlen($updated_name) === $class_name_length &&
                 0 === substr_compare($updated_name, $class_name, 0, $class_name_length, true)
             ) {
-                $this->classname_updates[ $updated_name ] = self::REMOVE_CLASS;
+                $this->classname_updates[$updated_name] = self::REMOVE_CLASS;
                 return true;
             }
         }
 
-        $this->classname_updates[ $class_name ] = self::REMOVE_CLASS;
+        $this->classname_updates[$class_name] = self::REMOVE_CLASS;
         return true;
     }
 

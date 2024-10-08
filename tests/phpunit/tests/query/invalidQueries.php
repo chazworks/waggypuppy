@@ -44,7 +44,7 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
         self::$author_id = $factory->user->create();
 
         foreach (['publish', 'private'] as $status) {
-            self::$page_ids[ $status ] = $factory->post->create(
+            self::$page_ids[$status] = $factory->post->create(
                 [
                     'post_type'   => 'page',
                     'post_status' => $status,
@@ -52,7 +52,7 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
                 ]
             );
 
-            self::$post_ids[ $status ] = $factory->post->create(
+            self::$post_ids[$status] = $factory->post->create(
                 [
                     'post_status' => $status,
                     'post_author' => self::$author_id,

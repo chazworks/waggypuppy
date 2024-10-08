@@ -175,9 +175,9 @@ function wp_terms_checklist($post_id = 0, $args = [])
         $keys               = array_keys($categories);
 
         foreach ($keys as $k) {
-            if (in_array($categories[ $k ]->term_id, $args['selected_cats'], true)) {
-                $checked_categories[] = $categories[ $k ];
-                unset($categories[ $k ]);
+            if (in_array($categories[$k]->term_id, $args['selected_cats'], true)) {
+                $checked_categories[] = $categories[$k];
+                unset($categories[$k]);
             }
         }
 
@@ -927,8 +927,8 @@ function page_template_dropdown($default_template = '', $post_type = 'page')
     ksort($templates);
 
     foreach (array_keys($templates) as $template) {
-        $selected = selected($default_template, $templates[ $template ], false);
-        echo "\n\t<option value='" . esc_attr($templates[ $template ]) . "' $selected>" . esc_html($template) . '</option>';
+        $selected = selected($default_template, $templates[$template], false);
+        echo "\n\t<option value='" . esc_attr($templates[$template]) . "' $selected>" . esc_html($template) . '</option>';
     }
 }
 
@@ -1113,22 +1113,22 @@ function add_meta_box($id, $title, $callback, $screen = null, $context = 'advanc
     if (! isset($wp_meta_boxes)) {
         $wp_meta_boxes = [];
     }
-    if (! isset($wp_meta_boxes[ $page ])) {
-        $wp_meta_boxes[ $page ] = [];
+    if (! isset($wp_meta_boxes[$page])) {
+        $wp_meta_boxes[$page] = [];
     }
-    if (! isset($wp_meta_boxes[ $page ][ $context ])) {
-        $wp_meta_boxes[ $page ][ $context ] = [];
+    if (! isset($wp_meta_boxes[$page][$context])) {
+        $wp_meta_boxes[$page][$context] = [];
     }
 
-    foreach (array_keys($wp_meta_boxes[ $page ]) as $a_context) {
+    foreach (array_keys($wp_meta_boxes[$page]) as $a_context) {
         foreach (['high', 'core', 'default', 'low'] as $a_priority) {
-            if (! isset($wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ])) {
+            if (! isset($wp_meta_boxes[$page][$a_context][$a_priority][$id])) {
                 continue;
             }
 
             // If a core box was previously removed, don't add.
             if (('core' === $priority || 'sorted' === $priority)
-                && false === $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]
+                && false === $wp_meta_boxes[$page][$a_context][$a_priority][$id]
             ) {
                 return;
             }
@@ -1140,8 +1140,8 @@ function add_meta_box($id, $title, $callback, $screen = null, $context = 'advanc
                  * to maintain sort order.
                  */
                 if ('default' === $a_priority) {
-                    $wp_meta_boxes[ $page ][ $a_context ]['core'][ $id ] = $wp_meta_boxes[ $page ][ $a_context ]['default'][ $id ];
-                    unset($wp_meta_boxes[ $page ][ $a_context ]['default'][ $id ]);
+                    $wp_meta_boxes[$page][$a_context]['core'][$id] = $wp_meta_boxes[$page][$a_context]['default'][$id];
+                    unset($wp_meta_boxes[$page][$a_context]['default'][$id]);
                 }
                 return;
             }
@@ -1154,14 +1154,14 @@ function add_meta_box($id, $title, $callback, $screen = null, $context = 'advanc
                  * or callback. Grab them from the previously added context/priority.
                  */
             } elseif ('sorted' === $priority) {
-                $title         = $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]['title'];
-                $callback      = $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]['callback'];
-                $callback_args = $wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]['args'];
+                $title         = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['title'];
+                $callback      = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['callback'];
+                $callback_args = $wp_meta_boxes[$page][$a_context][$a_priority][$id]['args'];
             }
 
             // An ID can be in only one priority and one context.
             if ($priority !== $a_priority || $context !== $a_context) {
-                unset($wp_meta_boxes[ $page ][ $a_context ][ $a_priority ][ $id ]);
+                unset($wp_meta_boxes[$page][$a_context][$a_priority][$id]);
             }
         }
     }
@@ -1170,11 +1170,11 @@ function add_meta_box($id, $title, $callback, $screen = null, $context = 'advanc
         $priority = 'low';
     }
 
-    if (! isset($wp_meta_boxes[ $page ][ $context ][ $priority ])) {
-        $wp_meta_boxes[ $page ][ $context ][ $priority ] = [];
+    if (! isset($wp_meta_boxes[$page][$context][$priority])) {
+        $wp_meta_boxes[$page][$context][$priority] = [];
     }
 
-    $wp_meta_boxes[ $page ][ $context ][ $priority ][ $id ] = [
+    $wp_meta_boxes[$page][$context][$priority][$id] = [
         'id'       => $id,
         'title'    => $title,
         'callback' => $callback,
@@ -1354,10 +1354,10 @@ function do_meta_boxes($screen, $context, $data_object)
 
     $i = 0;
 
-    if (isset($wp_meta_boxes[ $page ][ $context ])) {
+    if (isset($wp_meta_boxes[$page][$context])) {
         foreach (['high', 'sorted', 'core', 'default', 'low'] as $priority) {
-            if (isset($wp_meta_boxes[ $page ][ $context ][ $priority ])) {
-                foreach ((array) $wp_meta_boxes[ $page ][ $context ][ $priority ] as $box) {
+            if (isset($wp_meta_boxes[$page][$context][$priority])) {
+                foreach ((array) $wp_meta_boxes[$page][$context][$priority] as $box) {
                     if (false === $box || ! $box['title']) {
                         continue;
                     }
@@ -1526,15 +1526,15 @@ function remove_meta_box($id, $screen, $context)
     if (! isset($wp_meta_boxes)) {
         $wp_meta_boxes = [];
     }
-    if (! isset($wp_meta_boxes[ $page ])) {
-        $wp_meta_boxes[ $page ] = [];
+    if (! isset($wp_meta_boxes[$page])) {
+        $wp_meta_boxes[$page] = [];
     }
-    if (! isset($wp_meta_boxes[ $page ][ $context ])) {
-        $wp_meta_boxes[ $page ][ $context ] = [];
+    if (! isset($wp_meta_boxes[$page][$context])) {
+        $wp_meta_boxes[$page][$context] = [];
     }
 
     foreach (['high', 'core', 'default', 'low'] as $priority) {
-        $wp_meta_boxes[ $page ][ $context ][ $priority ][ $id ] = false;
+        $wp_meta_boxes[$page][$context][$priority][$id] = false;
     }
 }
 
@@ -1576,10 +1576,10 @@ function do_accordion_sections($screen, $context, $data_object)
     $i          = 0;
     $first_open = false;
 
-    if (isset($wp_meta_boxes[ $page ][ $context ])) {
+    if (isset($wp_meta_boxes[$page][$context])) {
         foreach (['high', 'core', 'default', 'low'] as $priority) {
-            if (isset($wp_meta_boxes[ $page ][ $context ][ $priority ])) {
-                foreach ($wp_meta_boxes[ $page ][ $context ][ $priority ] as $box) {
+            if (isset($wp_meta_boxes[$page][$context][$priority])) {
+                foreach ($wp_meta_boxes[$page][$context][$priority] as $box) {
                     if (false === $box || ! $box['title']) {
                         continue;
                     }
@@ -1693,7 +1693,7 @@ function add_settings_section($id, $title, $callback, $page, $args = [])
         $page = 'reading';
     }
 
-    $wp_settings_sections[ $page ][ $id ] = $section;
+    $wp_settings_sections[$page][$id] = $section;
 }
 
 /**
@@ -1761,7 +1761,7 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
         $page = 'reading';
     }
 
-    $wp_settings_fields[ $page ][ $section ][ $id ] = [
+    $wp_settings_fields[$page][$section][$id] = [
         'id'       => $id,
         'title'    => $title,
         'callback' => $callback,
@@ -1786,11 +1786,11 @@ function do_settings_sections($page)
 {
     global $wp_settings_sections, $wp_settings_fields;
 
-    if (! isset($wp_settings_sections[ $page ])) {
+    if (! isset($wp_settings_sections[$page])) {
         return;
     }
 
-    foreach ((array) $wp_settings_sections[ $page ] as $section) {
+    foreach ((array) $wp_settings_sections[$page] as $section) {
         if ('' !== $section['before_section']) {
             if ('' !== $section['section_class']) {
                 echo wp_kses_post(sprintf($section['before_section'], esc_attr($section['section_class'])));
@@ -1807,7 +1807,7 @@ function do_settings_sections($page)
             call_user_func($section['callback'], $section);
         }
 
-        if (! isset($wp_settings_fields) || ! isset($wp_settings_fields[ $page ]) || ! isset($wp_settings_fields[ $page ][ $section['id'] ])) {
+        if (! isset($wp_settings_fields) || ! isset($wp_settings_fields[$page]) || ! isset($wp_settings_fields[$page][$section['id']])) {
             continue;
         }
         echo '<table class="form-table" role="presentation">';
@@ -1838,11 +1838,11 @@ function do_settings_fields($page, $section)
 {
     global $wp_settings_fields;
 
-    if (! isset($wp_settings_fields[ $page ][ $section ])) {
+    if (! isset($wp_settings_fields[$page][$section])) {
         return;
     }
 
-    foreach ((array) $wp_settings_fields[ $page ][ $section ] as $field) {
+    foreach ((array) $wp_settings_fields[$page][$section] as $field) {
         $class = '';
 
         if (! empty($field['args']['class'])) {
@@ -1967,7 +1967,7 @@ function get_settings_errors($setting = '', $sanitize = false)
 
         foreach ((array) $wp_settings_errors as $key => $details) {
             if ($setting === $details['setting']) {
-                $setting_errors[] = $wp_settings_errors[ $key ];
+                $setting_errors[] = $wp_settings_errors[$key];
             }
         }
 

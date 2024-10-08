@@ -35,7 +35,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
 
         foreach ($default_headers as $name => $value) {
             $this->assertArrayHasKey($name, $data);
-            $this->assertSame($value, $data[ $name ]);
+            $this->assertSame($value, $data[$name]);
         }
     }
 
@@ -105,7 +105,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         self::delete_user($admin_user);
 
         // Verify the menu was inserted at the expected position.
-        $this->assertSame('custom-position', $submenu[ $parent ][ $expected_position ][2]);
+        $this->assertSame('custom-position', $submenu[$parent][$expected_position][2]);
     }
 
     /**
@@ -207,7 +207,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
             // Call the helper function, passing the desired position.
             call_user_func_array($helper_function['callback'], [$test, $test, 'manage_options', 'custom-position', '', $position]);
 
-            $actual_positions[ $test ] = $submenu[ $helper_function['menu_root'] ][ $expected_position ][2];
+            $actual_positions[$test] = $submenu[$helper_function['menu_root']][$expected_position][2];
         }
 
         // Clean up the temporary user.
@@ -644,13 +644,13 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
     {
         $plugin = $this->_create_plugin();
 
-        $uninstallable_plugins               = (array) get_option('uninstall_plugins');
-        $uninstallable_plugins[ $plugin[0] ] = true;
+        $uninstallable_plugins             = (array) get_option('uninstall_plugins');
+        $uninstallable_plugins[$plugin[0]] = true;
         update_option('uninstall_plugins', $uninstallable_plugins);
 
         $is_uninstallable = is_uninstallable_plugin($plugin[0]);
 
-        unset($uninstallable_plugins[ $plugin[0] ]);
+        unset($uninstallable_plugins[$plugin[0]]);
         update_option('uninstall_plugins', $uninstallable_plugins);
 
         unlink($plugin[1]);

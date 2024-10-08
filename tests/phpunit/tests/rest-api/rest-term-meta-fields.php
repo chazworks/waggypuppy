@@ -1204,7 +1204,7 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
             }
 
             $this->assertArrayHasKey($meta_key, $data['meta']);
-            $this->assertSame($expected_value, $data['meta'][ $meta_key ]);
+            $this->assertSame($expected_value, $data['meta'][$meta_key]);
         } else {
             $this->assertArrayNotHasKey($meta_key, $data['meta']);
         }
@@ -1271,7 +1271,7 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
             $this->assertSame($expected_value, get_term_meta($term_id, $meta_key, $single));
             $this->assertArrayHasKey($meta_key, $data['meta']);
-            $this->assertSame($expected_value, $data['meta'][ $meta_key ]);
+            $this->assertSame($expected_value, $data['meta'][$meta_key]);
         } else {
             $this->assertEmpty(get_term_meta($term_id, $meta_key, $single));
             $this->assertArrayNotHasKey($meta_key, $data['meta']);
@@ -1290,7 +1290,7 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
                 $can_write = false;
             }
 
-            $data[ $index ][] = $can_write;
+            $data[$index][] = $can_write;
         }
 
         return $data;
@@ -1324,7 +1324,7 @@ class WP_Test_REST_Term_Meta_Fields extends WP_Test_REST_TestCase
 
         $meta = (array) $data['meta'];
         $this->assertArrayHasKey($meta_key, $meta);
-        $this->assertSame('Goodbye', $meta[ $meta_key ]);
+        $this->assertSame('Goodbye', $meta[$meta_key]);
     }
 
     /**

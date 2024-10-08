@@ -506,12 +506,12 @@ function wp_list_authors($args = '')
         );
 
         foreach ((array) $post_counts_query as $row) {
-            $post_counts[ $row->post_author ] = $row->count;
+            $post_counts[$row->post_author] = $row->count;
         }
     }
 
     foreach ($authors as $author_id) {
-        $posts = isset($post_counts[ $author_id ]) ? $post_counts[ $author_id ] : 0;
+        $posts = isset($post_counts[$author_id]) ? $post_counts[$author_id] : 0;
 
         if (! $posts && $parsed_args['hide_empty']) {
             continue;

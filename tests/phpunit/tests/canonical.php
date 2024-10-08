@@ -66,7 +66,7 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
                 $test_url = sprintf($test_url, self::$author_id);
             }
             if (false !== strpos($test_url, '?cat=%d')) {
-                $test_url = sprintf($test_url, self::$terms[ $expected['url'] ]);
+                $test_url = sprintf($test_url, self::$terms[$expected['url']]);
             }
         }
 

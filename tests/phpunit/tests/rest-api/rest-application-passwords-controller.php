@@ -665,7 +665,7 @@ class WP_Test_REST_Application_Passwords_Controller extends WP_Test_REST_Control
         wp_set_current_user(self::$admin);
         list( , $item ) = WP_Application_Passwords::create_new_application_password(self::$admin, ['name' => 'App']);
 
-        $uuid     = $item ['uuid'];
+        $uuid     = $item['uuid'];
         $request  = new WP_REST_Request('DELETE', sprintf('/wp/v2/users/%d/application-passwords/%s', self::$admin, $uuid));
         $response = rest_do_request($request);
         $this->assertSame(200, $response->get_status());

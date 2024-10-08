@@ -184,7 +184,7 @@ class WP_Object_Cache
      */
     protected function _exists($key, $group)
     {
-        return isset($this->cache[ $group ]) && (isset($this->cache[ $group ][ $key ]) || array_key_exists($key, $this->cache[ $group ]));
+        return isset($this->cache[$group]) && (isset($this->cache[$group][$key]) || array_key_exists($key, $this->cache[$group]));
     }
 
     /**
@@ -218,7 +218,7 @@ class WP_Object_Cache
         }
 
         $id = $key;
-        if ($this->multisite && ! isset($this->global_groups[ $group ])) {
+        if ($this->multisite && ! isset($this->global_groups[$group])) {
             $id = $this->blog_prefix . $key;
         }
 
@@ -246,7 +246,7 @@ class WP_Object_Cache
         $values = [];
 
         foreach ($data as $key => $value) {
-            $values[ $key ] = $this->add($key, $value, $group, $expire);
+            $values[$key] = $this->add($key, $value, $group, $expire);
         }
 
         return $values;
@@ -277,7 +277,7 @@ class WP_Object_Cache
         }
 
         $id = $key;
-        if ($this->multisite && ! isset($this->global_groups[ $group ])) {
+        if ($this->multisite && ! isset($this->global_groups[$group])) {
             $id = $this->blog_prefix . $key;
         }
 
@@ -319,7 +319,7 @@ class WP_Object_Cache
             $group = 'default';
         }
 
-        if ($this->multisite && ! isset($this->global_groups[ $group ])) {
+        if ($this->multisite && ! isset($this->global_groups[$group])) {
             $key = $this->blog_prefix . $key;
         }
 
@@ -327,7 +327,7 @@ class WP_Object_Cache
             $data = clone $data;
         }
 
-        $this->cache[ $group ][ $key ] = $data;
+        $this->cache[$group][$key] = $data;
         return true;
     }
 
@@ -347,7 +347,7 @@ class WP_Object_Cache
         $values = [];
 
         foreach ($data as $key => $value) {
-            $values[ $key ] = $this->set($key, $value, $group, $expire);
+            $values[$key] = $this->set($key, $value, $group, $expire);
         }
 
         return $values;
@@ -382,17 +382,17 @@ class WP_Object_Cache
             $group = 'default';
         }
 
-        if ($this->multisite && ! isset($this->global_groups[ $group ])) {
+        if ($this->multisite && ! isset($this->global_groups[$group])) {
             $key = $this->blog_prefix . $key;
         }
 
         if ($this->_exists($key, $group)) {
             $found             = true;
             $this->cache_hits += 1;
-            if (is_object($this->cache[ $group ][ $key ])) {
-                return clone $this->cache[ $group ][ $key ];
+            if (is_object($this->cache[$group][$key])) {
+                return clone $this->cache[$group][$key];
             } else {
-                return $this->cache[ $group ][ $key ];
+                return $this->cache[$group][$key];
             }
         }
 
@@ -418,7 +418,7 @@ class WP_Object_Cache
         $values = [];
 
         foreach ($keys as $key) {
-            $values[ $key ] = $this->get($key, $group, $force);
+            $values[$key] = $this->get($key, $group, $force);
         }
 
         return $values;
@@ -446,7 +446,7 @@ class WP_Object_Cache
             $group = 'default';
         }
 
-        if ($this->multisite && ! isset($this->global_groups[ $group ])) {
+        if ($this->multisite && ! isset($this->global_groups[$group])) {
             $key = $this->blog_prefix . $key;
         }
 
@@ -454,7 +454,7 @@ class WP_Object_Cache
             return false;
         }
 
-        unset($this->cache[ $group ][ $key ]);
+        unset($this->cache[$group][$key]);
         return true;
     }
 
@@ -473,7 +473,7 @@ class WP_Object_Cache
         $values = [];
 
         foreach ($keys as $key) {
-            $values[ $key ] = $this->delete($key, $group);
+            $values[$key] = $this->delete($key, $group);
         }
 
         return $values;
@@ -500,7 +500,7 @@ class WP_Object_Cache
             $group = 'default';
         }
 
-        if ($this->multisite && ! isset($this->global_groups[ $group ])) {
+        if ($this->multisite && ! isset($this->global_groups[$group])) {
             $key = $this->blog_prefix . $key;
         }
 
@@ -508,19 +508,19 @@ class WP_Object_Cache
             return false;
         }
 
-        if (! is_numeric($this->cache[ $group ][ $key ])) {
-            $this->cache[ $group ][ $key ] = 0;
+        if (! is_numeric($this->cache[$group][$key])) {
+            $this->cache[$group][$key] = 0;
         }
 
         $offset = (int) $offset;
 
-        $this->cache[ $group ][ $key ] += $offset;
+        $this->cache[$group][$key] += $offset;
 
-        if ($this->cache[ $group ][ $key ] < 0) {
-            $this->cache[ $group ][ $key ] = 0;
+        if ($this->cache[$group][$key] < 0) {
+            $this->cache[$group][$key] = 0;
         }
 
-        return $this->cache[ $group ][ $key ];
+        return $this->cache[$group][$key];
     }
 
     /**
@@ -544,7 +544,7 @@ class WP_Object_Cache
             $group = 'default';
         }
 
-        if ($this->multisite && ! isset($this->global_groups[ $group ])) {
+        if ($this->multisite && ! isset($this->global_groups[$group])) {
             $key = $this->blog_prefix . $key;
         }
 
@@ -552,19 +552,19 @@ class WP_Object_Cache
             return false;
         }
 
-        if (! is_numeric($this->cache[ $group ][ $key ])) {
-            $this->cache[ $group ][ $key ] = 0;
+        if (! is_numeric($this->cache[$group][$key])) {
+            $this->cache[$group][$key] = 0;
         }
 
         $offset = (int) $offset;
 
-        $this->cache[ $group ][ $key ] -= $offset;
+        $this->cache[$group][$key] -= $offset;
 
-        if ($this->cache[ $group ][ $key ] < 0) {
-            $this->cache[ $group ][ $key ] = 0;
+        if ($this->cache[$group][$key] < 0) {
+            $this->cache[$group][$key] = 0;
         }
 
-        return $this->cache[ $group ][ $key ];
+        return $this->cache[$group][$key];
     }
 
     /**
@@ -591,7 +591,7 @@ class WP_Object_Cache
      */
     public function flush_group($group)
     {
-        unset($this->cache[ $group ]);
+        unset($this->cache[$group]);
 
         return true;
     }
@@ -640,8 +640,8 @@ class WP_Object_Cache
 
         // Clear out non-global caches since the blog ID has changed.
         foreach (array_keys($this->cache) as $group) {
-            if (! isset($this->global_groups[ $group ])) {
-                unset($this->cache[ $group ]);
+            if (! isset($this->global_groups[$group])) {
+                unset($this->cache[$group]);
             }
         }
     }

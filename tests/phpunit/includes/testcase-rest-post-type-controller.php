@@ -164,8 +164,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
             $this->assertArrayHasKey($taxonomy->rest_base, $data);
             $terms = wp_get_object_terms($post->ID, $taxonomy->name, ['fields' => 'ids']);
             sort($terms);
-            sort($data[ $taxonomy->rest_base ]);
-            $this->assertSame($terms, $data[ $taxonomy->rest_base ]);
+            sort($data[$taxonomy->rest_base]);
+            $this->assertSame($terms, $data[$taxonomy->rest_base]);
         }
 
         // Test links.
@@ -203,8 +203,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
 
             $num = 0;
             foreach ($taxonomies as $key => $taxonomy) {
-                $this->assertSame($taxonomy->name, $links['https://api.w.org/term'][ $num ]['attributes']['taxonomy']);
-                $this->assertSame(add_query_arg('post', $data['id'], rest_url('wp/v2/' . $taxonomy->rest_base)), $links['https://api.w.org/term'][ $num ]['href']);
+                $this->assertSame($taxonomy->name, $links['https://api.w.org/term'][$num]['attributes']['taxonomy']);
+                $this->assertSame(add_query_arg('post', $data['id'], rest_url('wp/v2/' . $taxonomy->rest_base)), $links['https://api.w.org/term'][$num]['href']);
                 ++$num;
             }
         }

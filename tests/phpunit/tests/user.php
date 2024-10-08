@@ -173,7 +173,7 @@ class Tests_User extends WP_UnitTestCase
         // So we'll just check to make sure our values are included somewhere.
         foreach ($vals as $k => $v) {
             $this->assertArrayHasKey($k, $out);
-            $this->assertSame($v, $out[ $k ][0]);
+            $this->assertSame($v, $out[$k][0]);
         }
         // Delete one key and check again.
         $keys          = array_keys($vals);
@@ -186,7 +186,7 @@ class Tests_User extends WP_UnitTestCase
                 $this->assertArrayNotHasKey($k, $out);
             } else {
                 $this->assertArrayHasKey($k, $out);
-                $this->assertSame($v, $out[ $k ][0]);
+                $this->assertSame($v, $out[$k][0]);
             }
         }
     }
@@ -586,21 +586,21 @@ class Tests_User extends WP_UnitTestCase
 
         wp_set_current_user(self::$author_id);
         $counts = count_many_users_posts([self::$author_id, $user_id_b], 'post', false);
-        $this->assertSame('1', $counts[ self::$author_id ]);
-        $this->assertSame('1', $counts[ $user_id_b ]);
+        $this->assertSame('1', $counts[self::$author_id]);
+        $this->assertSame('1', $counts[$user_id_b]);
 
         $counts = count_many_users_posts([self::$author_id, $user_id_b], 'post', true);
-        $this->assertSame('1', $counts[ self::$author_id ]);
-        $this->assertSame('1', $counts[ $user_id_b ]);
+        $this->assertSame('1', $counts[self::$author_id]);
+        $this->assertSame('1', $counts[$user_id_b]);
 
         wp_set_current_user($user_id_b);
         $counts = count_many_users_posts([self::$author_id, $user_id_b], 'post', false);
-        $this->assertSame('1', $counts[ self::$author_id ]);
-        $this->assertSame('2', $counts[ $user_id_b ]);
+        $this->assertSame('1', $counts[self::$author_id]);
+        $this->assertSame('2', $counts[$user_id_b]);
 
         $counts = count_many_users_posts([self::$author_id, $user_id_b], 'post', true);
-        $this->assertSame('1', $counts[ self::$author_id ]);
-        $this->assertSame('1', $counts[ $user_id_b ]);
+        $this->assertSame('1', $counts[self::$author_id]);
+        $this->assertSame('1', $counts[$user_id_b]);
     }
 
     /**

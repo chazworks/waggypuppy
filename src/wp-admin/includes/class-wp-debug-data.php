@@ -189,7 +189,7 @@ class WP_Debug_Data
         }
 
         if (array_key_exists($active_theme->stylesheet, $theme_updates)) {
-            $theme_update_new_version = $theme_updates[ $active_theme->stylesheet ]->update['new_version'];
+            $theme_update_new_version = $theme_updates[$active_theme->stylesheet]->update['new_version'];
 
             /* translators: %s: Latest theme version number. */
             $active_theme_version       .= ' ' . sprintf(__('(Latest version: %s)'), $theme_update_new_version);
@@ -255,10 +255,10 @@ class WP_Debug_Data
         ];
 
         if ($auto_updates_enabled) {
-            if (isset($transient->response[ $active_theme->stylesheet ])) {
-                $item = $transient->response[ $active_theme->stylesheet ];
-            } elseif (isset($transient->no_update[ $active_theme->stylesheet ])) {
-                $item = $transient->no_update[ $active_theme->stylesheet ];
+            if (isset($transient->response[$active_theme->stylesheet])) {
+                $item = $transient->response[$active_theme->stylesheet];
+            } elseif (isset($transient->no_update[$active_theme->stylesheet])) {
+                $item = $transient->no_update[$active_theme->stylesheet];
             } else {
                 $item = [
                     'theme'        => $active_theme->stylesheet,
@@ -301,7 +301,7 @@ class WP_Debug_Data
             $parent_theme_version_debug = $parent_theme_version;
 
             if (array_key_exists($parent_theme->stylesheet, $theme_updates)) {
-                $parent_theme_update_new_version = $theme_updates[ $parent_theme->stylesheet ]->update['new_version'];
+                $parent_theme_update_new_version = $theme_updates[$parent_theme->stylesheet]->update['new_version'];
 
                 /* translators: %s: Latest theme version number. */
                 $parent_theme_version       .= ' ' . sprintf(__('(Latest version: %s)'), $parent_theme_update_new_version);
@@ -341,10 +341,10 @@ class WP_Debug_Data
             ];
 
             if ($auto_updates_enabled) {
-                if (isset($transient->response[ $parent_theme->stylesheet ])) {
-                    $item = $transient->response[ $parent_theme->stylesheet ];
-                } elseif (isset($transient->no_update[ $parent_theme->stylesheet ])) {
-                    $item = $transient->no_update[ $parent_theme->stylesheet ];
+                if (isset($transient->response[$parent_theme->stylesheet])) {
+                    $item = $transient->response[$parent_theme->stylesheet];
+                } elseif (isset($transient->no_update[$parent_theme->stylesheet])) {
+                    $item = $transient->no_update[$parent_theme->stylesheet];
                 } else {
                     $item = [
                         'theme'        => $parent_theme->stylesheet,
@@ -424,15 +424,15 @@ class WP_Debug_Data
 
             if (array_key_exists($theme_slug, $theme_updates)) {
                 /* translators: %s: Latest theme version number. */
-                $theme_version_string       .= ' ' . sprintf(__('(Latest version: %s)'), $theme_updates[ $theme_slug ]->update['new_version']);
-                $theme_version_string_debug .= sprintf(' (latest version: %s)', $theme_updates[ $theme_slug ]->update['new_version']);
+                $theme_version_string       .= ' ' . sprintf(__('(Latest version: %s)'), $theme_updates[$theme_slug]->update['new_version']);
+                $theme_version_string_debug .= sprintf(' (latest version: %s)', $theme_updates[$theme_slug]->update['new_version']);
             }
 
             if ($auto_updates_enabled) {
-                if (isset($transient->response[ $theme_slug ])) {
-                    $item = $transient->response[ $theme_slug ];
-                } elseif (isset($transient->no_update[ $theme_slug ])) {
-                    $item = $transient->no_update[ $theme_slug ];
+                if (isset($transient->response[$theme_slug])) {
+                    $item = $transient->response[$theme_slug];
+                } elseif (isset($transient->no_update[$theme_slug])) {
+                    $item = $transient->no_update[$theme_slug];
                 } else {
                     $item = [
                         'theme'        => $theme_slug,
@@ -473,7 +473,7 @@ class WP_Debug_Data
                 $theme_version_string_debug .= ', ' . $auto_updates_string;
             }
 
-            $info['wp-themes-inactive']['fields'][ sanitize_text_field($theme->name) ] = [
+            $info['wp-themes-inactive']['fields'][sanitize_text_field($theme->name)] = [
                 'label' => sprintf(
                     /* translators: 1: Theme name. 2: Theme slug. */
                     __('%1$s (%2$s)'),
@@ -731,9 +731,9 @@ class WP_Debug_Data
 
         $fields = [];
         foreach ($dropins as $dropin_key => $dropin) {
-            $fields[ sanitize_text_field($dropin_key) ] = [
+            $fields[sanitize_text_field($dropin_key)] = [
                 'label' => $dropin_key,
-                'value' => $dropin_descriptions[ $dropin_key ][0],
+                'value' => $dropin_descriptions[$dropin_key][0],
                 'debug' => 'true',
             ];
         }
@@ -1099,7 +1099,7 @@ class WP_Debug_Data
 
         foreach ($gd_supported_formats as $format_key => $format) {
             $index = $format_key . ' Support';
-            if (isset($gd[ $index ]) && $gd[ $index ]) {
+            if (isset($gd[$index]) && $gd[$index]) {
                 array_push($gd_image_formats, $format);
             }
         }
@@ -1177,7 +1177,7 @@ class WP_Debug_Data
                 }
             }
 
-            $fields[ sanitize_text_field($plugin['Name']) ] = [
+            $fields[sanitize_text_field($plugin['Name'])] = [
                 'label' => $plugin['Name'],
                 'value' => $plugin_version_string,
                 'debug' => $plugin_version_string_debug,
@@ -1278,15 +1278,15 @@ class WP_Debug_Data
 
             if (array_key_exists($plugin_path, $plugin_updates)) {
                 /* translators: %s: Latest plugin version number. */
-                $plugin_version_string       .= ' ' . sprintf(__('(Latest version: %s)'), $plugin_updates[ $plugin_path ]->update->new_version);
-                $plugin_version_string_debug .= sprintf(' (latest version: %s)', $plugin_updates[ $plugin_path ]->update->new_version);
+                $plugin_version_string       .= ' ' . sprintf(__('(Latest version: %s)'), $plugin_updates[$plugin_path]->update->new_version);
+                $plugin_version_string_debug .= sprintf(' (latest version: %s)', $plugin_updates[$plugin_path]->update->new_version);
             }
 
             if ($auto_updates_enabled) {
-                if (isset($transient->response[ $plugin_path ])) {
-                    $item = $transient->response[ $plugin_path ];
-                } elseif (isset($transient->no_update[ $plugin_path ])) {
-                    $item = $transient->no_update[ $plugin_path ];
+                if (isset($transient->response[$plugin_path])) {
+                    $item = $transient->response[$plugin_path];
+                } elseif (isset($transient->no_update[$plugin_path])) {
+                    $item = $transient->no_update[$plugin_path];
                 } else {
                     $item = [
                         'id'            => $plugin_path,
@@ -1335,7 +1335,7 @@ class WP_Debug_Data
                 $plugin_version_string_debug .= ', ' . $auto_updates_string;
             }
 
-            $fields[ $plugin_part ][ sanitize_text_field($plugin['Name']) ] = [
+            $fields[$plugin_part][sanitize_text_field($plugin['Name'])] = [
                 'label' => $plugin['Name'],
                 'value' => $plugin_version_string,
                 'debug' => $plugin_version_string_debug,
@@ -1848,7 +1848,7 @@ class WP_Debug_Data
 
             // If the directory does not exist, skip checking it, as it will skew the other results.
             if (! is_dir($path)) {
-                $all_sizes[ $name ] = [
+                $all_sizes[$name] = [
                     'path'  => $path,
                     'raw'   => 0,
                     'size'  => __('The directory does not exist.'),
@@ -1890,7 +1890,7 @@ class WP_Debug_Data
                 $results['debug'] = $results['size'] . " ({$dir_size} bytes)";
             }
 
-            $all_sizes[ $name ] = $results;
+            $all_sizes[$name] = $results;
         }
 
         if ($size_db > 0) {

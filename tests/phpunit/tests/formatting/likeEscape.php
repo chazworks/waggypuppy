@@ -28,7 +28,7 @@ class Tests_Formatting_LikeEscape extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], like_escape($input));
+            $this->assertSame($expected[$key], like_escape($input));
         }
     }
 }

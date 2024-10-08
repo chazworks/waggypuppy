@@ -28,7 +28,7 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase
         $expected = [];
         foreach ($options as $option => $value) {
             add_option($option, $value, '', false);
-            $expected[ $option ] = true;
+            $expected[$option] = true;
         }
 
         $num_queries = get_num_queries();
@@ -60,7 +60,7 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase
         $expected = [];
         foreach ($options as $option => $value) {
             add_option($option, $value, '', true);
-            $expected[ $option ] = true;
+            $expected[$option] = true;
         }
 
         $num_queries = get_num_queries();
@@ -89,7 +89,7 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase
         $expected = [];
         foreach ($options as $option => $value) {
             add_option($option, $value, '', true);
-            $expected[ $option ] = false;
+            $expected[$option] = false;
         }
 
         $num_queries = get_num_queries();
@@ -114,7 +114,7 @@ class Tests_Option_WpSetOptionsAutoload extends WP_UnitTestCase
 
         $expected = [];
         foreach ($options as $option) {
-            $expected[ $option ] = false;
+            $expected[$option] = false;
         }
 
         $this->assertSame($expected, wp_set_options_autoload($options, true), 'Function did unexpectedly succeed');

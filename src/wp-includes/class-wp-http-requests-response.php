@@ -72,9 +72,9 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response
 
         foreach ($this->response->headers->getAll() as $key => $value) {
             if (count($value) === 1) {
-                $converted[ $key ] = $value[0];
+                $converted[$key] = $value[0];
             } else {
-                $converted[ $key ] = $value;
+                $converted[$key] = $value;
             }
         }
 
@@ -106,10 +106,10 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response
     public function header($key, $value, $replace = true)
     {
         if ($replace) {
-            unset($this->response->headers[ $key ]);
+            unset($this->response->headers[$key]);
         }
 
-        $this->response->headers[ $key ] = $value;
+        $this->response->headers[$key] = $value;
     }
 
     /**

@@ -54,7 +54,7 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
      */
     public function search_items(WP_REST_Request $request)
     {
-        $taxonomies = $request[ WP_REST_Search_Controller::PROP_SUBTYPE ];
+        $taxonomies = $request[WP_REST_Search_Controller::PROP_SUBTYPE];
         if (in_array(WP_REST_Search_Controller::TYPE_ANY, $taxonomies, true)) {
             $taxonomies = $this->subtypes;
         }
@@ -135,16 +135,16 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
         $data = [];
 
         if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_ID ] = (int) $id;
+            $data[WP_REST_Search_Controller::PROP_ID] = (int) $id;
         }
         if (in_array(WP_REST_Search_Controller::PROP_TITLE, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_TITLE ] = $term->name;
+            $data[WP_REST_Search_Controller::PROP_TITLE] = $term->name;
         }
         if (in_array(WP_REST_Search_Controller::PROP_URL, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_URL ] = get_term_link($id);
+            $data[WP_REST_Search_Controller::PROP_URL] = get_term_link($id);
         }
         if (in_array(WP_REST_Search_Controller::PROP_TYPE, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_TYPE ] = $term->taxonomy;
+            $data[WP_REST_Search_Controller::PROP_TYPE] = $term->taxonomy;
         }
 
         return $data;

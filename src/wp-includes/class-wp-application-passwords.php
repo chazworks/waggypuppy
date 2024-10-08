@@ -185,8 +185,8 @@ class WP_Application_Passwords
 
         foreach ($passwords as $i => $password) {
             if (! isset($password['uuid'])) {
-                $passwords[ $i ]['uuid'] = wp_generate_uuid4();
-                $save                    = true;
+                $passwords[$i]['uuid'] = wp_generate_uuid4();
+                $save                  = true;
             }
         }
 
@@ -380,7 +380,7 @@ class WP_Application_Passwords
 
         foreach ($passwords as $key => $item) {
             if ($item['uuid'] === $uuid) {
-                unset($passwords[ $key ]);
+                unset($passwords[$key]);
                 $saved = static::set_user_application_passwords($user_id, $passwords);
 
                 if (! $saved) {

@@ -1155,8 +1155,8 @@ function update_core($from, $to)
 
         $checksums = get_core_checksums($wp_version, isset($wp_local_package) ? $wp_local_package : 'en_US');
 
-        if (is_array($checksums) && isset($checksums[ $wp_version ])) {
-            $checksums = $checksums[ $wp_version ]; // Compat code for 3.7-beta2.
+        if (is_array($checksums) && isset($checksums[$wp_version])) {
+            $checksums = $checksums[$wp_version]; // Compat code for 3.7-beta2.
         }
 
         if (is_array($checksums)) {
@@ -1187,7 +1187,7 @@ function update_core($from, $to)
                 if (md5_file(ABSPATH . $file) === $checksum) {
                     $skip[] = $file;
                 } else {
-                    $check_is_writable[ $file ] = ABSPATH . $file;
+                    $check_is_writable[$file] = ABSPATH . $file;
                 }
             }
         }
@@ -1205,7 +1205,7 @@ function update_core($from, $to)
                 $wp_filesystem->chmod($file_not_writable, FS_CHMOD_FILE);
 
                 if ($wp_filesystem->is_writable($file_not_writable)) {
-                    unset($files_not_writable[ $relative_file_not_writable ]);
+                    unset($files_not_writable[$relative_file_not_writable]);
                 }
             }
 
@@ -1401,7 +1401,7 @@ function update_core($from, $to)
         foreach ((array) $_new_bundled_files as $file => $introduced_version) {
             // If a $development_build or if $introduced version is greater than what the site was previously running.
             if ($development_build || version_compare($introduced_version, $old_wp_version, '>')) {
-                $directory = ('/' === $file[ strlen($file) - 1 ]);
+                $directory = ('/' === $file[strlen($file) - 1]);
 
                 list( $type, $filename ) = explode('/', $file, 2);
 

@@ -124,7 +124,7 @@ class Tests_REST_WpRestBlockPatternCategoriesController extends WP_Test_REST_Con
 
         $this->assertCount(count($expected_names), $data);
         foreach ($data as $idx => $item) {
-            $this->assertSame($expected_names[ $idx ], $item['name']);
+            $this->assertSame($expected_names[$idx], $item['name']);
             $this->assertSame($expected_fields, array_keys($item));
         }
     }

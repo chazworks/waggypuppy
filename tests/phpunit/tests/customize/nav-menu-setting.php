@@ -236,7 +236,7 @@ class Test_WP_Customize_Nav_Menu_Setting extends WP_UnitTestCase
         $menus_ids = wp_list_pluck($menus, 'term_id');
         $i         = array_search($menu_id, $menus_ids, true);
         $this->assertIsInt($i, 'Update-previewed menu does not appear in wp_get_nav_menus()');
-        $filtered_menu = $menus[ $i ];
+        $filtered_menu = $menus[$i];
         $this->assertSame('Name 2 \\o/', $filtered_menu->name);
     }
 
@@ -282,7 +282,7 @@ class Test_WP_Customize_Nav_Menu_Setting extends WP_UnitTestCase
         $menus_ids = wp_list_pluck($menus, 'term_id');
         $i         = array_search($menu_id, $menus_ids, true);
         $this->assertIsInt($i, 'Insert-previewed menu was not injected into wp_get_nav_menus()');
-        $filtered_menu = $menus[ $i ];
+        $filtered_menu = $menus[$i];
         $this->assertSame('New Menu Name 1 \\o/', $filtered_menu->name);
     }
 
@@ -397,7 +397,7 @@ class Test_WP_Customize_Nav_Menu_Setting extends WP_UnitTestCase
 
         $menu_object = wp_get_nav_menu_object($menu_id);
         foreach (['name', 'description', 'parent'] as $key) {
-            $this->assertSame($new_value[ $key ], $menu_object->$key);
+            $this->assertSame($new_value[$key], $menu_object->$key);
         }
         $this->assertSameSets(
             wp_array_slice_assoc($new_value, ['name', 'description', 'parent']),

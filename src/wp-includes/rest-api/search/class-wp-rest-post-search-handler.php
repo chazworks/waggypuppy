@@ -58,7 +58,7 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler
     {
 
         // Get the post types to search for the current request.
-        $post_types = $request[ WP_REST_Search_Controller::PROP_SUBTYPE ];
+        $post_types = $request[WP_REST_Search_Controller::PROP_SUBTYPE];
         if (in_array(WP_REST_Search_Controller::TYPE_ANY, $post_types, true)) {
             $post_types = $this->subtypes;
         }
@@ -130,31 +130,31 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler
         $data = [];
 
         if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_ID ] = (int) $post->ID;
+            $data[WP_REST_Search_Controller::PROP_ID] = (int) $post->ID;
         }
 
         if (in_array(WP_REST_Search_Controller::PROP_TITLE, $fields, true)) {
             if (post_type_supports($post->post_type, 'title')) {
                 add_filter('protected_title_format', [$this, 'protected_title_format']);
                 add_filter('private_title_format', [$this, 'protected_title_format']);
-                $data[ WP_REST_Search_Controller::PROP_TITLE ] = get_the_title($post->ID);
+                $data[WP_REST_Search_Controller::PROP_TITLE] = get_the_title($post->ID);
                 remove_filter('protected_title_format', [$this, 'protected_title_format']);
                 remove_filter('private_title_format', [$this, 'protected_title_format']);
             } else {
-                $data[ WP_REST_Search_Controller::PROP_TITLE ] = '';
+                $data[WP_REST_Search_Controller::PROP_TITLE] = '';
             }
         }
 
         if (in_array(WP_REST_Search_Controller::PROP_URL, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_URL ] = get_permalink($post->ID);
+            $data[WP_REST_Search_Controller::PROP_URL] = get_permalink($post->ID);
         }
 
         if (in_array(WP_REST_Search_Controller::PROP_TYPE, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_TYPE ] = $this->type;
+            $data[WP_REST_Search_Controller::PROP_TYPE] = $this->type;
         }
 
         if (in_array(WP_REST_Search_Controller::PROP_SUBTYPE, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_SUBTYPE ] = $post->post_type;
+            $data[WP_REST_Search_Controller::PROP_SUBTYPE] = $post->post_type;
         }
 
         return $data;

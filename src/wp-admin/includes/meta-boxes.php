@@ -825,8 +825,8 @@ function post_custom_meta_box($post)
     <?php
     $metadata = has_meta($post->ID);
     foreach ($metadata as $key => $value) {
-        if (is_protected_meta($metadata[ $key ]['meta_key'], 'post') || ! current_user_can('edit_post_meta', $post->ID, $metadata[ $key ]['meta_key'])) {
-            unset($metadata[ $key ]);
+        if (is_protected_meta($metadata[$key]['meta_key'], 'post') || ! current_user_can('edit_post_meta', $post->ID, $metadata[$key]['meta_key'])) {
+            unset($metadata[$key]);
         }
     }
     list_meta($metadata);
@@ -1558,8 +1558,8 @@ function attachment_id3_data_meta_box($post)
 
     foreach (wp_get_attachment_id3_keys($post, 'edit') as $key => $label) :
         $value = '';
-        if (! empty($meta[ $key ])) {
-            $value = $meta[ $key ];
+        if (! empty($meta[$key])) {
+            $value = $meta[$key];
         }
         ?>
     <p>

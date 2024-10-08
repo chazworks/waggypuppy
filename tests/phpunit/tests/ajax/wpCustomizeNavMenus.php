@@ -420,7 +420,7 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
 
         foreach ($expected_keys as $key) {
             $this->assertArrayHasKey($key, $test_item);
-            $this->assertNotEmpty($test_item[ $key ]);
+            $this->assertNotEmpty($test_item[$key]);
         }
 
         // Special test for the home page.
@@ -431,7 +431,7 @@ class Tests_Ajax_wpCustomizeNavMenus extends WP_Ajax_UnitTestCase
                 if ('object_id' !== $key) {
                     $this->assertArrayHasKey($key, $home);
                     if ('object' !== $key) {
-                        $this->assertNotEmpty($home[ $key ]);
+                        $this->assertNotEmpty($home[$key]);
                     }
                 }
             }

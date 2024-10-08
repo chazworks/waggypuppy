@@ -46,7 +46,7 @@ class WP_Admin_Bar
                 $this->user->domain         = empty($this->user->active_blog) ? user_admin_url() : trailingslashit(get_home_url($this->user->active_blog->blog_id));
                 $this->user->account_domain = $this->user->domain;
             } else {
-                $this->user->active_blog    = $this->user->blogs[ get_current_blog_id() ];
+                $this->user->active_blog    = $this->user->blogs[get_current_blog_id()];
                 $this->user->domain         = trailingslashit(home_url());
                 $this->user->account_domain = $this->user->domain;
             }
@@ -174,8 +174,8 @@ class WP_Admin_Bar
             'my-blogs'               => ['my-sites', '3.3'],
         ];
 
-        if (isset($back_compat_parents[ $args['parent'] ])) {
-            list( $new_parent, $version ) = $back_compat_parents[ $args['parent'] ];
+        if (isset($back_compat_parents[$args['parent']])) {
+            list( $new_parent, $version ) = $back_compat_parents[$args['parent']];
             _deprecated_argument(__METHOD__, $version, sprintf('Use <code>%s</code> as the parent for the <code>%s</code> admin bar node instead of <code>%s</code>.', $new_parent, $args['id'], $args['parent']));
             $args['parent'] = $new_parent;
         }
@@ -190,7 +190,7 @@ class WP_Admin_Bar
      */
     final protected function _set_node($args)
     {
-        $this->nodes[ $args['id'] ] = (object) $args;
+        $this->nodes[$args['id']] = (object) $args;
     }
 
     /**
@@ -225,8 +225,8 @@ class WP_Admin_Bar
             $id = 'root';
         }
 
-        if (isset($this->nodes[ $id ])) {
-            return $this->nodes[ $id ];
+        if (isset($this->nodes[$id])) {
+            return $this->nodes[$id];
         }
     }
 
@@ -304,7 +304,7 @@ class WP_Admin_Bar
      */
     final protected function _unset_node($id)
     {
-        unset($this->nodes[ $id ]);
+        unset($this->nodes[$id]);
     }
 
     /**
@@ -605,14 +605,14 @@ class WP_Admin_Bar
         }
 
         foreach ($attributes as $attribute) {
-            if (empty($node->meta[ $attribute ])) {
+            if (empty($node->meta[$attribute])) {
                 continue;
             }
 
             if ('onclick' === $attribute) {
-                echo " $attribute='" . esc_js($node->meta[ $attribute ]) . "'";
+                echo " $attribute='" . esc_js($node->meta[$attribute]) . "'";
             } else {
-                echo " $attribute='" . esc_attr($node->meta[ $attribute ]) . "'";
+                echo " $attribute='" . esc_attr($node->meta[$attribute]) . "'";
             }
         }
 

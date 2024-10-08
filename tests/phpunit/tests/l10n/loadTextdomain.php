@@ -230,11 +230,11 @@ class Tests_L10n_LoadTextdomain extends WP_UnitTestCase
             return false;
         }
 
-        if (isset($l10n[ $domain ])) {
-            $mo->merge_with($l10n[ $domain ]);
+        if (isset($l10n[$domain])) {
+            $mo->merge_with($l10n[$domain]);
         }
 
-        $l10n[ $domain ] = &$mo;
+        $l10n[$domain] = &$mo;
 
         return true;
     }

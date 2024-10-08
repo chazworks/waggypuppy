@@ -41,7 +41,7 @@ class Tests_Image_Functions extends WP_UnitTestCase
         foreach ($classes as $key => $class) {
             if (! call_user_func([$class, 'test'])) {
                 // If the image editor isn't available, skip it.
-                unset($classes[ $key ]);
+                unset($classes[$key]);
             }
         }
 
@@ -350,7 +350,7 @@ class Tests_Image_Functions extends WP_UnitTestCase
 
         foreach ($classes as $class) {
             foreach ($mime_types as $mime_type) {
-                $data[ $class . '; ' . $mime_type ] = [
+                $data[$class . '; ' . $mime_type] = [
                     'class_name' => $class,
                     'mime_type'  => $mime_type,
                 ];
@@ -577,7 +577,7 @@ class Tests_Image_Functions extends WP_UnitTestCase
 
         foreach ($classes as $class) {
             foreach ($mime_types as $ext => $mime_type) {
-                $data[ $class . '; Extension: ' . $ext . '; Mime type: ' . $mime_type ] = [
+                $data[$class . '; Extension: ' . $ext . '; Mime type: ' . $mime_type] = [
                     'class_name' => $class,
                     'extension'  => $ext,
                     'mime_type'  => $mime_type,

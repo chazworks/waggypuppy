@@ -213,8 +213,8 @@ class WP_Customize_Control
     {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
-            if (isset($args[ $key ])) {
-                $this->$key = $args[ $key ];
+            if (isset($args[$key])) {
+                $this->$key = $args[$key];
             }
         }
 
@@ -234,7 +234,7 @@ class WP_Customize_Control
         $settings = [];
         if (is_array($this->settings)) {
             foreach ($this->settings as $key => $setting) {
-                $settings[ $key ] = $this->manager->get_setting($setting);
+                $settings[$key] = $this->manager->get_setting($setting);
             }
         } elseif (is_string($this->settings)) {
             $this->setting       = $this->manager->get_setting($this->settings);
@@ -302,8 +302,8 @@ class WP_Customize_Control
      */
     final public function value($setting_key = 'default')
     {
-        if (isset($this->settings[ $setting_key ])) {
-            return $this->settings[ $setting_key ]->value();
+        if (isset($this->settings[$setting_key])) {
+            return $this->settings[$setting_key]->value();
         }
     }
 
@@ -316,7 +316,7 @@ class WP_Customize_Control
     {
         $this->json['settings'] = [];
         foreach ($this->settings as $key => $setting) {
-            $this->json['settings'][ $key ] = $setting->id;
+            $this->json['settings'][$key] = $setting->id;
         }
 
         $this->json['type']           = $this->type;
@@ -455,8 +455,8 @@ class WP_Customize_Control
      */
     public function get_link($setting_key = 'default')
     {
-        if (isset($this->settings[ $setting_key ]) && $this->settings[ $setting_key ] instanceof WP_Customize_Setting) {
-            return 'data-customize-setting-link="' . esc_attr($this->settings[ $setting_key ]->id) . '"';
+        if (isset($this->settings[$setting_key]) && $this->settings[$setting_key] instanceof WP_Customize_Setting) {
+            return 'data-customize-setting-link="' . esc_attr($this->settings[$setting_key]->id) . '"';
         } else {
             return 'data-customize-setting-key-link="' . esc_attr($setting_key) . '"';
         }

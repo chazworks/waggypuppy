@@ -37,7 +37,7 @@ class Tests_Dependencies_jQuery extends WP_UnitTestCase
             $o = $scripts->query($dep, 'registered');
             $this->assertInstanceOf('_WP_Dependency', $object);
             $this->assertArrayHasKey($dep, $jquery_scripts);
-            $this->assertSame($jquery_scripts[ $dep ], $o->src);
+            $this->assertSame($jquery_scripts[$dep], $o->src);
         }
     }
 

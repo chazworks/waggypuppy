@@ -88,11 +88,11 @@ final class WP_Block_Templates_Registry
             $template->description = isset($args['description']) ? $args['description'] : '';
             $template->status      = 'publish';
             $template->origin      = 'plugin';
-            $template->is_custom   = ! isset($default_template_types[ $template_name ]);
+            $template->is_custom   = ! isset($default_template_types[$template_name]);
             $template->post_types  = isset($args['post_types']) ? $args['post_types'] : [];
         }
 
-        $this->registered_templates[ $template_name ] = $template;
+        $this->registered_templates[$template_name] = $template;
 
         return $template;
     }
@@ -123,7 +123,7 @@ final class WP_Block_Templates_Registry
             return null;
         }
 
-        return $this->registered_templates[ $template_name ];
+        return $this->registered_templates[$template_name];
     }
 
     /**
@@ -199,7 +199,7 @@ final class WP_Block_Templates_Registry
                 continue;
             }
 
-            $matching_templates[ $template_name ] = $template;
+            $matching_templates[$template_name] = $template;
         }
 
         return $matching_templates;
@@ -215,7 +215,7 @@ final class WP_Block_Templates_Registry
      */
     public function is_registered($template_name)
     {
-        return isset($this->registered_templates[ $template_name ]);
+        return isset($this->registered_templates[$template_name]);
     }
 
     /**
@@ -239,8 +239,8 @@ final class WP_Block_Templates_Registry
             return new WP_Error('template_not_registered', __('Template "%s" is not registered.'));
         }
 
-        $unregistered_template = $this->registered_templates[ $template_name ];
-        unset($this->registered_templates[ $template_name ]);
+        $unregistered_template = $this->registered_templates[$template_name];
+        unset($this->registered_templates[$template_name]);
 
         return $unregistered_template;
     }

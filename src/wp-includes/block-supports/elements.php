@@ -188,7 +188,7 @@ function wp_render_elements_support_styles($parsed_block)
             continue;
         }
 
-        $element_style_object = isset($element_block_styles[ $element_type ]) ? $element_block_styles[ $element_type ] : null;
+        $element_style_object = isset($element_block_styles[$element_type]) ? $element_block_styles[$element_type] : null;
 
         // Process primary element type styles.
         if ($element_style_object) {
@@ -214,8 +214,8 @@ function wp_render_elements_support_styles($parsed_block)
         // Process related elements e.g. h1-h6 for headings.
         if (isset($element_config['elements'])) {
             foreach ($element_config['elements'] as $element) {
-                $element_style_object = isset($element_block_styles[ $element ])
-                    ? $element_block_styles[ $element ]
+                $element_style_object = isset($element_block_styles[$element])
+                    ? $element_block_styles[$element]
                     : null;
 
                 if ($element_style_object) {

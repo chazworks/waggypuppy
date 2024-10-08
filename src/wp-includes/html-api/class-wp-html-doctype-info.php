@@ -434,7 +434,7 @@ class WP_HTML_Doctype_Info
 
         $at = 9;
         // Is there one and only one `>`?
-        if ('>' !== $doctype_html[ $end ] || (strcspn($doctype_html, '>', $at) + $at) < $end) {
+        if ('>' !== $doctype_html[$end] || (strcspn($doctype_html, '>', $at) + $at) < $end) {
             return null;
         }
 
@@ -544,7 +544,7 @@ class WP_HTML_Doctype_Info
          * @see https://html.spec.whatwg.org/#doctype-public-identifier-(double-quoted)-state
          * @see https://html.spec.whatwg.org/#doctype-public-identifier-(single-quoted)-state
          */
-        $closer_quote = $doctype_html[ $at ];
+        $closer_quote = $doctype_html[$at];
 
         /*
          * > This is a missing-quote-before-doctype-public-identifier parse error. Set the
@@ -560,7 +560,7 @@ class WP_HTML_Doctype_Info
         $doctype_public_id = str_replace("\0", "\u{FFFD}", substr($doctype_html, $at, $identifier_length));
 
         $at += $identifier_length;
-        if ($at >= $end || $closer_quote !== $doctype_html[ $at ]) {
+        if ($at >= $end || $closer_quote !== $doctype_html[$at]) {
             return new self($doctype_name, $doctype_public_id, $doctype_system_id, true);
         }
 
@@ -587,7 +587,7 @@ class WP_HTML_Doctype_Info
          * @see https://html.spec.whatwg.org/#doctype-system-identifier-(double-quoted)-state
          * @see https://html.spec.whatwg.org/#doctype-system-identifier-(single-quoted)-state
          */
-        $closer_quote = $doctype_html[ $at ];
+        $closer_quote = $doctype_html[$at];
 
         /*
          * > This is a missing-quote-before-doctype-system-identifier parse error. Set the
@@ -603,7 +603,7 @@ class WP_HTML_Doctype_Info
         $doctype_system_id = str_replace("\0", "\u{FFFD}", substr($doctype_html, $at, $identifier_length));
 
         $at += $identifier_length;
-        if ($at >= $end || $closer_quote !== $doctype_html[ $at ]) {
+        if ($at >= $end || $closer_quote !== $doctype_html[$at]) {
             return new self($doctype_name, $doctype_public_id, $doctype_system_id, true);
         }
 

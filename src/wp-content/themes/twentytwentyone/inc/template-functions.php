@@ -315,7 +315,7 @@ function twenty_twenty_one_get_non_latin_css($type = 'front-end')
     );
 
     // Return if the selected language has no fallback fonts.
-    if (empty($font_family[ $locale ])) {
+    if (empty($font_family[$locale])) {
         return '';
     }
 
@@ -336,7 +336,7 @@ function twenty_twenty_one_get_non_latin_css($type = 'front-end')
     );
 
     // Return if the specified type doesn't exist.
-    if (empty($elements[ $type ])) {
+    if (empty($elements[$type])) {
         return '';
     }
 
@@ -347,9 +347,9 @@ function twenty_twenty_one_get_non_latin_css($type = 'front-end')
 
     // Return the specified styles.
     return twenty_twenty_one_generate_css( // @phpstan-ignore-line.
-        implode(',', $elements[ $type ]),
+        implode(',', $elements[$type]),
         'font-family',
-        implode(',', $font_family[ $locale ]),
+        implode(',', $font_family[$locale]),
         null,
         null,
         false

@@ -92,10 +92,10 @@ class WP_HTTP_Response
      */
     public function header($key, $value, $replace = true)
     {
-        if ($replace || ! isset($this->headers[ $key ])) {
-            $this->headers[ $key ] = $value;
+        if ($replace || ! isset($this->headers[$key])) {
+            $this->headers[$key] = $value;
         } else {
-            $this->headers[ $key ] .= ', ' . $value;
+            $this->headers[$key] .= ', ' . $value;
         }
     }
 

@@ -194,8 +194,8 @@ function get_default_block_editor_settings()
     $all_sizes        = wp_get_registered_image_subsizes();
     foreach ($available_image_sizes as $size) {
         $key = $size['slug'];
-        if (isset($all_sizes[ $key ])) {
-            $image_dimensions[ $key ] = $all_sizes[ $key ];
+        if (isset($all_sizes[$key])) {
+            $image_dimensions[$key] = $all_sizes[$key];
         }
     }
 
@@ -233,7 +233,7 @@ function get_default_block_editor_settings()
 
     $theme_settings = get_classic_theme_supports_block_editor_settings();
     foreach ($theme_settings as $key => $value) {
-        $editor_settings[ $key ] = $value;
+        $editor_settings[$key] = $value;
     }
 
     return $editor_settings;
@@ -664,12 +664,12 @@ function get_block_editor_settings(array $custom_settings, $block_editor_context
         $editor_settings['blockBindingsSources'] = [];
         foreach ($registered_block_bindings_sources as $source_name => $source_properties) {
             // Add source with the label to editor settings.
-            $editor_settings['blockBindingsSources'][ $source_name ] = [
+            $editor_settings['blockBindingsSources'][$source_name] = [
                 'label' => $source_properties->label,
             ];
             // Add `usesContext` property if exists.
             if (! empty($source_properties->uses_context)) {
-                $editor_settings['blockBindingsSources'][ $source_name ]['usesContext'] = $source_properties->uses_context;
+                $editor_settings['blockBindingsSources'][$source_name]['usesContext'] = $source_properties->uses_context;
             }
         }
     }

@@ -37,7 +37,7 @@ class WP_Sitemaps_Registry
      */
     public function add_provider($name, WP_Sitemaps_Provider $provider)
     {
-        if (isset($this->providers[ $name ])) {
+        if (isset($this->providers[$name])) {
             return false;
         }
 
@@ -54,7 +54,7 @@ class WP_Sitemaps_Registry
             return false;
         }
 
-        $this->providers[ $name ] = $provider;
+        $this->providers[$name] = $provider;
 
         return true;
     }
@@ -69,11 +69,11 @@ class WP_Sitemaps_Registry
      */
     public function get_provider($name)
     {
-        if (! is_string($name) || ! isset($this->providers[ $name ])) {
+        if (! is_string($name) || ! isset($this->providers[$name])) {
             return null;
         }
 
-        return $this->providers[ $name ];
+        return $this->providers[$name];
     }
 
     /**

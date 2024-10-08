@@ -240,7 +240,7 @@ function wp_version_check($extra_stats = [], $force_check = false)
             } elseif ('download' === $offer_key) {
                 $offer['download'] = esc_url($value);
             } else {
-                $offer[ $offer_key ] = esc_html($value);
+                $offer[$offer_key] = esc_html($value);
             }
         }
         $offer = (object) array_intersect_key(
@@ -368,16 +368,16 @@ function wp_update_plugins($extra_stats = [])
         $plugin_changed = false;
 
         foreach ($plugins as $file => $p) {
-            $updates->checked[ $file ] = $p['Version'];
+            $updates->checked[$file] = $p['Version'];
 
-            if (! isset($current->checked[ $file ]) || (string) $current->checked[ $file ] !== (string) $p['Version']) {
+            if (! isset($current->checked[$file]) || (string) $current->checked[$file] !== (string) $p['Version']) {
                 $plugin_changed = true;
             }
         }
 
         if (isset($current->response) && is_array($current->response)) {
             foreach ($current->response as $plugin_file => $update_details) {
-                if (! isset($plugins[ $plugin_file ])) {
+                if (! isset($plugins[$plugin_file])) {
                     $plugin_changed = true;
                     break;
                 }
@@ -468,7 +468,7 @@ function wp_update_plugins($extra_stats = [])
 
     // Support updates for any plugins using the `Update URI` header field.
     foreach ($plugins as $plugin_file => $plugin_data) {
-        if (! $plugin_data['UpdateURI'] || isset($updates->response[ $plugin_file ])) {
+        if (! $plugin_data['UpdateURI'] || isset($updates->response[$plugin_file])) {
             continue;
         }
 
@@ -547,12 +547,12 @@ function wp_update_plugins($extra_stats = [])
             }
         }
 
-        unset($updates->no_update[ $plugin_file ], $updates->response[ $plugin_file ]);
+        unset($updates->no_update[$plugin_file], $updates->response[$plugin_file]);
 
         if (version_compare($update->new_version, $plugin_data['Version'], '>')) {
-            $updates->response[ $plugin_file ] = $update;
+            $updates->response[$plugin_file] = $update;
         } else {
-            $updates->no_update[ $plugin_file ] = $update;
+            $updates->no_update[$plugin_file] = $update;
         }
     }
 
@@ -609,9 +609,9 @@ function wp_update_themes($extra_stats = [])
     $request['active'] = get_option('stylesheet');
 
     foreach ($installed_themes as $theme) {
-        $checked[ $theme->get_stylesheet() ] = $theme->get('Version');
+        $checked[$theme->get_stylesheet()] = $theme->get('Version');
 
-        $themes[ $theme->get_stylesheet() ] = [
+        $themes[$theme->get_stylesheet()] = [
             'Name'       => $theme->get('Name'),
             'Title'      => $theme->get('Name'),
             'Version'    => $theme->get('Version'),
@@ -651,14 +651,14 @@ function wp_update_themes($extra_stats = [])
         $theme_changed = false;
 
         foreach ($checked as $slug => $v) {
-            if (! isset($last_update->checked[ $slug ]) || (string) $last_update->checked[ $slug ] !== (string) $v) {
+            if (! isset($last_update->checked[$slug]) || (string) $last_update->checked[$slug] !== (string) $v) {
                 $theme_changed = true;
             }
         }
 
         if (isset($last_update->response) && is_array($last_update->response)) {
             foreach ($last_update->response as $slug => $update_details) {
-                if (! isset($checked[ $slug ])) {
+                if (! isset($checked[$slug])) {
                     $theme_changed = true;
                     break;
                 }
@@ -752,7 +752,7 @@ function wp_update_themes($extra_stats = [])
 
     // Support updates for any themes using the `Update URI` header field.
     foreach ($themes as $theme_stylesheet => $theme_data) {
-        if (! $theme_data['UpdateURI'] || isset($new_update->response[ $theme_stylesheet ])) {
+        if (! $theme_data['UpdateURI'] || isset($new_update->response[$theme_stylesheet])) {
             continue;
         }
 
@@ -827,12 +827,12 @@ function wp_update_themes($extra_stats = [])
             }
         }
 
-        unset($new_update->no_update[ $theme_stylesheet ], $new_update->response[ $theme_stylesheet ]);
+        unset($new_update->no_update[$theme_stylesheet], $new_update->response[$theme_stylesheet]);
 
         if (version_compare($update->new_version, $theme_data['Version'], '>')) {
-            $new_update->response[ $theme_stylesheet ] = (array) $update;
+            $new_update->response[$theme_stylesheet] = (array) $update;
         } else {
-            $new_update->no_update[ $theme_stylesheet ] = (array) $update;
+            $new_update->no_update[$theme_stylesheet] = (array) $update;
         }
     }
 

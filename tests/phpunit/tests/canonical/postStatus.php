@@ -39,7 +39,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                 $post_date = date_format(date_create('+1 year'), 'Y-m-d H:i:s');
             }
 
-            self::$posts[ $post_status ] = $factory->post->create_and_get(
+            self::$posts[$post_status] = $factory->post->create_and_get(
                 [
                     'post_type'    => 'post',
                     'post_title'   => "$post_status post",
@@ -52,7 +52,7 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
             );
 
             // Add fake attachment to the post (file upload not needed).
-            self::$posts[ "$post_status-attachment" ] = $factory->post->create_and_get(
+            self::$posts["$post_status-attachment"] = $factory->post->create_and_get(
                 [
                     'post_type'    => 'attachment',
                     'post_title'   => "$post_status inherited attachment",
@@ -60,13 +60,13 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
                     'post_status'  => 'inherit',
                     'post_content' => "Prevent canonical redirect exposing post via attachments.\n\n<!--nextpage-->Page 2",
                     'post_author'  => self::$users['content_author'],
-                    'post_parent'  => self::$posts[ $post_status ]->ID,
+                    'post_parent'  => self::$posts[$post_status]->ID,
                     'post_date'    => $post_date,
                 ]
             );
 
             // Set up a page with same.
-            self::$posts[ "$post_status-page" ] = $factory->post->create_and_get(
+            self::$posts["$post_status-page"] = $factory->post->create_and_get(
                 [
                     'post_type'    => 'page',
                     'post_title'   => "$post_status page",
@@ -235,9 +235,9 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
             update_option('wp_attachment_pages_enabled', 0);
         }
 
-        wp_set_current_user(self::$users[ $user_role ]);
+        wp_set_current_user(self::$users[$user_role]);
         $this->set_permalink_structure('');
-        $post = self::$posts[ $post_key ];
+        $post = self::$posts[$post_key];
         clean_post_cache($post->ID);
 
         /*
@@ -863,9 +863,9 @@ class Tests_Canonical_PostStatus extends WP_Canonical_UnitTestCase
             update_option('wp_attachment_pages_enabled', 0);
         }
 
-        wp_set_current_user(self::$users[ $user_role ]);
+        wp_set_current_user(self::$users[$user_role]);
         $this->set_permalink_structure('/%postname%/');
-        $post = self::$posts[ $post_key ];
+        $post = self::$posts[$post_key];
         clean_post_cache($post->ID);
 
         /*

@@ -127,7 +127,7 @@ class Walker_Page extends Walker
 
         $css_class = ['page_item', 'page-item-' . $page->ID];
 
-        if (isset($args['pages_with_children'][ $page->ID ])) {
+        if (isset($args['pages_with_children'][$page->ID])) {
             $css_class[] = 'page_item_has_children';
         }
 

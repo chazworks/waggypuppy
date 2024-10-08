@@ -264,8 +264,8 @@ abstract class WP_HTTP_UnitTestCase extends WP_UnitTestCase
                 continue;
             }
             $parts = explode(':', $value, 2);
-            unset($headers[ $key ]);
-            $headers[ $parts[0] ] = $parts[1];
+            unset($headers[$key]);
+            $headers[$parts[0]] = $parts[1];
         }
 
         $this->assertArrayHasKey('test1', $headers);

@@ -171,7 +171,7 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $this->make_ajax_call('customize_save');
         $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame('cannot_create_changeset_post', $this->_last_response_parsed['data']);
-        $this->overridden_caps[ $post_type_obj->cap->create_posts ] = true;
+        $this->overridden_caps[$post_type_obj->cap->create_posts] = true;
         $this->make_ajax_call('customize_save');
         $this->assertTrue($this->_last_response_parsed['success']);
         $post_type_obj->cap->create_posts = 'customize'; // Restore.
@@ -195,7 +195,7 @@ class Tests_Ajax_wpCustomizeManager extends WP_Ajax_UnitTestCase
         $this->make_ajax_call('customize_save');
         $this->assertFalse($this->_last_response_parsed['success']);
         $this->assertSame('cannot_edit_changeset_post', $this->_last_response_parsed['data']);
-        $this->overridden_caps[ $post_type_obj->cap->edit_post ] = true;
+        $this->overridden_caps[$post_type_obj->cap->edit_post] = true;
         $this->make_ajax_call('customize_save');
         $this->assertTrue($this->_last_response_parsed['success']);
         $post_type_obj->cap->edit_post = 'customize'; // Restore.

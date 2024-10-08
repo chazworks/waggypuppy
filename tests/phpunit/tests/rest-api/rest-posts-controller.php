@@ -151,7 +151,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         global $wpdb;
         $expected_clause = str_replace('{posts}', $wpdb->posts, $pattern);
         $this->assertCount(1, $this->posts_clauses);
-        $this->assertSame($expected_clause, $wpdb->remove_placeholder_escape($this->posts_clauses[0][ $clause ]));
+        $this->assertSame($expected_clause, $wpdb->remove_placeholder_escape($this->posts_clauses[0][$clause]));
     }
 
     public function assertPostsOrderedBy($pattern)
@@ -252,7 +252,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertCount(15, $response[0]['_embedded']['wp:term'][0], 'Should should be 15 terms and not the default 10');
         $i = 0;
         foreach ($response[0]['_embedded']['wp:term'][0] as $term) {
-            $this->assertSame(self::$terms[ $i ], $term['id'], 'Check term id existing in response');
+            $this->assertSame(self::$terms[$i], $term['id'], 'Check term id existing in response');
             ++$i;
         }
     }
@@ -1714,15 +1714,15 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $attachment_ids = [];
         $post_ids       = [];
         for ($i = 0; $i < 3; $i++) {
-            $post_ids[ $i ]       = self::factory()->post->create(['post_status' => 'publish']);
-            $attachment_ids[ $i ] = self::factory()->attachment->create_object(
+            $post_ids[$i]       = self::factory()->post->create(['post_status' => 'publish']);
+            $attachment_ids[$i] = self::factory()->attachment->create_object(
                 $file,
-                $post_ids[ $i ],
+                $post_ids[$i],
                 [
                     'post_mime_type' => 'image/jpeg',
                 ]
             );
-            set_post_thumbnail($post_ids[ $i ], $attachment_ids[ $i ]);
+            set_post_thumbnail($post_ids[$i], $attachment_ids[$i]);
         }
 
         // Attachment creation warms thumbnail IDs. Needs clean up for test.
@@ -2681,7 +2681,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $cases = [];
         foreach ($cases_short as $description => $case) {
             foreach ($case['statuses'] as $status) {
-                $cases[ $description . ', status=' . $status ] = [
+                $cases[$description . ', status=' . $status] = [
                     $status,
                     $case['params'],
                     $case['results'],

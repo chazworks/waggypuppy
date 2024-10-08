@@ -78,7 +78,7 @@ function wp_render_position_support($block_content, $block)
         $sides             = ['top', 'right', 'bottom', 'left'];
 
         foreach ($sides as $side) {
-            $side_value = isset($style_attribute['position'][ $side ]) ? $style_attribute['position'][ $side ] : null;
+            $side_value = isset($style_attribute['position'][$side]) ? $style_attribute['position'][$side] : null;
             if (null !== $side_value) {
                 /*
                  * For fixed or sticky top positions,

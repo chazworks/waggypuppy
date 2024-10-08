@@ -100,18 +100,18 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
              * @param string $name   Setting name (as shown in REST API responses).
              * @param array  $args   Arguments passed to register_setting() for this setting.
              */
-            $response[ $name ] = apply_filters('rest_pre_get_setting', null, $name, $args);
+            $response[$name] = apply_filters('rest_pre_get_setting', null, $name, $args);
 
-            if (is_null($response[ $name ])) {
+            if (is_null($response[$name])) {
                 // Default to a null value as "null" in the response means "not set".
-                $response[ $name ] = get_option($args['option_name'], $args['schema']['default']);
+                $response[$name] = get_option($args['option_name'], $args['schema']['default']);
             }
 
             /*
              * Because get_option() is lossy, we have to
              * cast values to the type they are registered with.
              */
-            $response[ $name ] = $this->prepare_value($response[ $name ], $args['schema']);
+            $response[$name] = $this->prepare_value($response[$name], $args['schema']);
         }
 
         return $response;
@@ -173,7 +173,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
              * @param mixed  $value  Updated setting value.
              * @param array  $args   Arguments passed to register_setting() for this setting.
              */
-            $updated = apply_filters('rest_pre_update_setting', false, $name, $request[ $name ], $args);
+            $updated = apply_filters('rest_pre_update_setting', false, $name, $request[$name], $args);
 
             if ($updated) {
                 continue;
@@ -184,7 +184,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
              * deleting the option from the database, and relying on the
              * default value.
              */
-            if (is_null($request[ $name ])) {
+            if (is_null($request[$name])) {
                 /*
                  * A null value is returned in the response for any option
                  * that has a non-scalar value.
@@ -207,7 +207,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
 
                 delete_option($args['option_name']);
             } else {
-                update_option($args['option_name'], $request[ $name ]);
+                update_option($args['option_name'], $request[$name]);
             }
         }
 
@@ -268,7 +268,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
 
             $rest_args['schema'] = rest_default_additional_properties_to_false($rest_args['schema']);
 
-            $rest_options[ $rest_args['name'] ] = $rest_args;
+            $rest_options[$rest_args['name']] = $rest_args;
         }
 
         return $rest_options;
@@ -297,8 +297,8 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
         ];
 
         foreach ($options as $option_name => $option) {
-            $schema['properties'][ $option_name ]                = $option['schema'];
-            $schema['properties'][ $option_name ]['arg_options'] = [
+            $schema['properties'][$option_name]                = $option['schema'];
+            $schema['properties'][$option_name]['arg_options'] = [
                 'sanitize_callback' => [$this, 'sanitize_callback'],
             ];
         }

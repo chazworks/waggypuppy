@@ -37,7 +37,7 @@ class Tests_Blocks_RenderReusableCommentTemplate extends WP_UnitTestCase
             'thread_comments_depth',
         ];
         foreach ($options as $option) {
-            static::$original_options[ $option ] = get_option($option);
+            static::$original_options[$option] = get_option($option);
         }
     }
 

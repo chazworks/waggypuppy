@@ -112,7 +112,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase
         ]
             as $tag_name
         ) {
-            $group[ $tag_name ] = [$tag_name];
+            $group[$tag_name] = [$tag_name];
         }
 
         return $group;
@@ -351,7 +351,7 @@ class Tests_HtmlApi_WpHtmlProcessorSemanticRules extends WP_UnitTestCase
         // Create all unique pairs of H1 - H6 elements.
         foreach ($headings as $first_tag) {
             foreach ($headings as $second_tag) {
-                $combinations[ "{$first_tag} then {$second_tag}" ] = [$first_tag, $second_tag];
+                $combinations["{$first_tag} then {$second_tag}"] = [$first_tag, $second_tag];
             }
         }
 

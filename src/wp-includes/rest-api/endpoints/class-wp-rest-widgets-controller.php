@@ -425,8 +425,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             /** This action is documented in wp-admin/widgets-form.php */
             do_action('delete_widget', $widget_id, $sidebar_id, $id_base);
 
-            $callback = $wp_registered_widget_updates[ $id_base ]['callback'];
-            $params   = $wp_registered_widget_updates[ $id_base ]['params'];
+            $callback = $wp_registered_widget_updates[$id_base]['callback'];
+            $params   = $wp_registered_widget_updates[$id_base]['params'];
 
             if (is_callable($callback)) {
                 ob_start();
@@ -562,7 +562,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             );
         }
 
-        if (! isset($wp_registered_widget_updates[ $id_base ])) {
+        if (! isset($wp_registered_widget_updates[$id_base])) {
             return new WP_Error(
                 'rest_invalid_widget',
                 __('The provided widget type (id_base) cannot be updated.'),
@@ -622,13 +622,13 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         $original_request = $_REQUEST;
 
         foreach ($form_data as $key => $value) {
-            $slashed_value    = wp_slash($value);
-            $_POST[ $key ]    = $slashed_value;
-            $_REQUEST[ $key ] = $slashed_value;
+            $slashed_value  = wp_slash($value);
+            $_POST[$key]    = $slashed_value;
+            $_REQUEST[$key] = $slashed_value;
         }
 
-        $callback = $wp_registered_widget_updates[ $id_base ]['callback'];
-        $params   = $wp_registered_widget_updates[ $id_base ]['params'];
+        $callback = $wp_registered_widget_updates[$id_base]['callback'];
+        $params   = $wp_registered_widget_updates[$id_base]['params'];
 
         if (is_callable($callback)) {
             ob_start();
@@ -686,7 +686,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
         $widget_id  = $item['widget_id'];
         $sidebar_id = $item['sidebar_id'];
 
-        if (! isset($wp_registered_widgets[ $widget_id ])) {
+        if (! isset($wp_registered_widgets[$widget_id])) {
             return new WP_Error(
                 'rest_invalid_widget',
                 __('The requested widget is invalid.'),
@@ -694,7 +694,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             );
         }
 
-        $widget    = $wp_registered_widgets[ $widget_id ];
+        $widget    = $wp_registered_widgets[$widget_id];
         $parsed_id = wp_parse_widget_id($widget_id);
         $fields    = $this->get_fields_for_response($request);
 
@@ -724,7 +724,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller
             $widget_object = $wp_widget_factory->get_widget_object($parsed_id['id_base']);
             if ($widget_object && isset($parsed_id['number'])) {
                 $all_instances                   = $widget_object->get_settings();
-                $instance                        = $all_instances[ $parsed_id['number'] ];
+                $instance                        = $all_instances[$parsed_id['number']];
                 $serialized_instance             = serialize($instance);
                 $prepared['instance']['encoded'] = base64_encode($serialized_instance);
                 $prepared['instance']['hash']    = wp_hash($serialized_instance);

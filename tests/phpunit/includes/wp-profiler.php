@@ -41,7 +41,7 @@ class WPProfiler
         // Reset the wpdb queries log, storing it on the profile stack if necessary.
         global $wpdb;
         if ($this->stack) {
-            $this->stack[ count($this->stack) - 1 ]['queries'] = $wpdb->queries;
+            $this->stack[count($this->stack) - 1]['queries'] = $wpdb->queries;
         }
         $wpdb->queries = [];
 
@@ -73,22 +73,22 @@ class WPProfiler
         $cache_dirty_count = $this->_dirty_objects_count($wp_object_cache->dirty_objects);
         $cache_dirty_delta = $this->array_sub($cache_dirty_count, $item['cache_dirty_objects']);
 
-        if (isset($this->profile[ $name ])) {
-            $this->profile[ $name ]['time'] += $time;
-            ++$this->profile[ $name ]['calls'];
-            $this->profile[ $name ]['cache_cold_hits']    += ($wp_object_cache->cold_cache_hits - $item['cache_cold_hits']);
-            $this->profile[ $name ]['cache_warm_hits']    += ($wp_object_cache->warm_cache_hits - $item['cache_warm_hits']);
-            $this->profile[ $name ]['cache_misses']       += ($wp_object_cache->cache_misses - $item['cache_misses']);
-            $this->profile[ $name ]['cache_dirty_objects'] = array_add($this->profile[ $name ]['cache_dirty_objects'], $cache_dirty_delta);
-            $this->profile[ $name ]['actions']             = array_add($this->profile[ $name ]['actions'], $item['actions']);
-            $this->profile[ $name ]['filters']             = array_add($this->profile[ $name ]['filters'], $item['filters']);
-            $this->profile[ $name ]['queries']             = array_add($this->profile[ $name ]['queries'], $item['queries']);
+        if (isset($this->profile[$name])) {
+            $this->profile[$name]['time'] += $time;
+            ++$this->profile[$name]['calls'];
+            $this->profile[$name]['cache_cold_hits']    += ($wp_object_cache->cold_cache_hits - $item['cache_cold_hits']);
+            $this->profile[$name]['cache_warm_hits']    += ($wp_object_cache->warm_cache_hits - $item['cache_warm_hits']);
+            $this->profile[$name]['cache_misses']       += ($wp_object_cache->cache_misses - $item['cache_misses']);
+            $this->profile[$name]['cache_dirty_objects'] = array_add($this->profile[$name]['cache_dirty_objects'], $cache_dirty_delta);
+            $this->profile[$name]['actions']             = array_add($this->profile[$name]['actions'], $item['actions']);
+            $this->profile[$name]['filters']             = array_add($this->profile[$name]['filters'], $item['filters']);
+            $this->profile[$name]['queries']             = array_add($this->profile[$name]['queries'], $item['queries']);
             #$this->_query_summary($item['queries'], $this->profile[$name]['queries']);
 
         } else {
             $queries = [];
             $this->_query_summary($item['queries'], $queries);
-            $this->profile[ $name ] = [
+            $this->profile[$name] = [
                 'time'                        => $time,
                 'calls'                       => 1,
                 'cache_cold_hits'             => ($wp_object_cache->cold_cache_hits - $item['cache_cold_hits']),
@@ -118,9 +118,9 @@ class WPProfiler
         if ($this->stack) {
             global $wp_actions;
             if (end($wp_actions) === $tag) {
-                ++$this->stack[ count($this->stack) - 1 ]['actions'][ $tag ];
+                ++$this->stack[count($this->stack) - 1]['actions'][$tag];
             } else {
-                ++$this->stack[ count($this->stack) - 1 ]['filters'][ $tag ];
+                ++$this->stack[count($this->stack) - 1]['filters'][$tag];
             }
         }
         return $arg;
@@ -129,14 +129,14 @@ class WPProfiler
     public function log_action($tag)
     {
         if ($this->stack) {
-            ++$this->stack[ count($this->stack) - 1 ]['actions'][ $tag ];
+            ++$this->stack[count($this->stack) - 1]['actions'][$tag];
         }
     }
 
     public function _current_action()
     {
         global $wp_actions;
-        return $wp_actions[ count($wp_actions) - 1 ];
+        return $wp_actions[count($wp_actions) - 1];
     }
 
     public function results()
@@ -151,7 +151,7 @@ class WPProfiler
             $sql = preg_replace('/(WHERE \w+ =) \d+/', '$1 x', $sql);
             $sql = preg_replace('/(WHERE \w+ =) \'\[-\w]+\'/', '$1 \'xxx\'', $sql);
 
-            ++$out[ $sql ];
+            ++$out[$sql];
         }
         asort($out);
         return;
@@ -165,7 +165,7 @@ class WPProfiler
             if (empty($q[2])) {
                 ++$out['unknown'];
             } else {
-                ++$out[ $q[2] ];
+                ++$out[$q[2]];
             }
         }
         return $out;
@@ -175,7 +175,7 @@ class WPProfiler
     {
         $out = [];
         foreach (array_keys($dirty_objects) as $group) {
-            $out[ $group ] = count($dirty_objects[ $group ]);
+            $out[$group] = count($dirty_objects[$group]);
         }
         return $out;
     }
@@ -185,9 +185,9 @@ class WPProfiler
         $out = $a;
         foreach (array_keys($b) as $key) {
             if (array_key_exists($key, $out)) {
-                $out[ $key ] += $b[ $key ];
+                $out[$key] += $b[$key];
             } else {
-                $out[ $key ] = $b[ $key ];
+                $out[$key] = $b[$key];
             }
         }
         return $out;
@@ -198,7 +198,7 @@ class WPProfiler
         $out = $a;
         foreach (array_keys($b) as $key) {
             if (array_key_exists($key, $b)) {
-                $out[ $key ] -= $b[ $key ];
+                $out[$key] -= $b[$key];
             }
         }
         return $out;

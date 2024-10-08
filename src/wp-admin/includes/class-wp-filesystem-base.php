@@ -184,8 +184,8 @@ class WP_Filesystem_Base
      */
     public function find_folder($folder)
     {
-        if (isset($this->cache[ $folder ])) {
-            return $this->cache[ $folder ];
+        if (isset($this->cache[$folder])) {
+            return $this->cache[$folder];
         }
 
         if (stripos($this->method, 'ftp') !== false) {
@@ -218,7 +218,7 @@ class WP_Filesystem_Base
                     $potential_folder = trailingslashit($potential_folder);
 
                     if ($this->is_dir($potential_folder)) {
-                        $this->cache[ $folder ] = $potential_folder;
+                        $this->cache[$folder] = $potential_folder;
 
                         return $potential_folder;
                     }
@@ -233,13 +233,13 @@ class WP_Filesystem_Base
         $folder = preg_replace('|^([a-z]{1}):|i', '', $folder); // Strip out Windows drive letter if it's there.
         $folder = str_replace('\\', '/', $folder); // Windows path sanitization.
 
-        if (isset($this->cache[ $folder ])) {
-            return $this->cache[ $folder ];
+        if (isset($this->cache[$folder])) {
+            return $this->cache[$folder];
         }
 
         if ($this->exists($folder)) { // Folder exists at that absolute path.
-            $folder                 = trailingslashit($folder);
-            $this->cache[ $folder ] = $folder;
+            $folder               = trailingslashit($folder);
+            $this->cache[$folder] = $folder;
 
             return $folder;
         }
@@ -247,7 +247,7 @@ class WP_Filesystem_Base
         $return = $this->search_for_folder($folder);
 
         if ($return) {
-            $this->cache[ $folder ] = $return;
+            $this->cache[$folder] = $return;
         }
 
         return $return;
@@ -281,7 +281,7 @@ class WP_Filesystem_Base
         $folder_parts     = explode('/', $folder);
         $folder_part_keys = array_keys($folder_parts);
         $last_index       = array_pop($folder_part_keys);
-        $last_path        = $folder_parts[ $last_index ];
+        $last_path        = $folder_parts[$last_index];
 
         $files = $this->dirlist($base);
 
@@ -297,7 +297,7 @@ class WP_Filesystem_Base
              * folder level, and see if that matches, and so on. If it reaches the end, and still
              * can't find it, it'll return false for the entire function.
              */
-            if (isset($files[ $key ])) {
+            if (isset($files[$key])) {
 
                 // Let's try that folder:
                 $newdir = trailingslashit(path_join($base, $key));
@@ -321,7 +321,7 @@ class WP_Filesystem_Base
          * Only check this as a last resort, to prevent locating the incorrect install.
          * All above procedures will fail quickly if this is the right branch to take.
          */
-        if (isset($files[ $last_path ])) {
+        if (isset($files[$last_path])) {
             if ($this->verbose) {
                 /* translators: %s: Directory name. */
                 printf("\n" . __('Found %s') . "<br />\n", $base . $last_path);
@@ -436,10 +436,10 @@ class WP_Filesystem_Base
         $attarray = preg_split('//', $mode);
 
         for ($i = 0, $c = count($attarray); $i < $c; $i++) {
-            $key = array_search($attarray[ $i ], $legal, true);
+            $key = array_search($attarray[$i], $legal, true);
 
             if ($key) {
-                $realmode .= $legal[ $key ];
+                $realmode .= $legal[$key];
             }
         }
 

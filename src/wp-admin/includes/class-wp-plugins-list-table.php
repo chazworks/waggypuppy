@@ -158,9 +158,9 @@ class WP_Plugins_List_Table extends WP_List_Table
             if (current_user_can('update_plugins')) {
                 $current = get_site_transient('update_plugins');
                 foreach ((array) $plugins['all'] as $plugin_file => $plugin_data) {
-                    if (isset($current->response[ $plugin_file ])) {
-                        $plugins['all'][ $plugin_file ]['update'] = true;
-                        $plugins['upgrade'][ $plugin_file ]       = $plugins['all'][ $plugin_file ];
+                    if (isset($current->response[$plugin_file])) {
+                        $plugins['all'][$plugin_file]['update'] = true;
+                        $plugins['upgrade'][$plugin_file]       = $plugins['all'][$plugin_file];
                     }
                 }
             }
@@ -192,7 +192,7 @@ class WP_Plugins_List_Table extends WP_List_Table
 
         foreach ($recently_activated as $key => $time) {
             if ($time + WEEK_IN_SECONDS < time()) {
-                unset($recently_activated[ $key ]);
+                unset($recently_activated[$key]);
             }
         }
 
@@ -206,10 +206,10 @@ class WP_Plugins_List_Table extends WP_List_Table
 
         foreach ((array) $plugins['all'] as $plugin_file => $plugin_data) {
             // Extra info if known. array_merge() ensures $plugin_data has precedence if keys collide.
-            if (isset($plugin_info->response[ $plugin_file ])) {
-                $plugin_data = array_merge((array) $plugin_info->response[ $plugin_file ], ['update-supported' => true], $plugin_data);
-            } elseif (isset($plugin_info->no_update[ $plugin_file ])) {
-                $plugin_data = array_merge((array) $plugin_info->no_update[ $plugin_file ], ['update-supported' => true], $plugin_data);
+            if (isset($plugin_info->response[$plugin_file])) {
+                $plugin_data = array_merge((array) $plugin_info->response[$plugin_file], ['update-supported' => true], $plugin_data);
+            } elseif (isset($plugin_info->no_update[$plugin_file])) {
+                $plugin_data = array_merge((array) $plugin_info->no_update[$plugin_file], ['update-supported' => true], $plugin_data);
             } elseif (empty($plugin_data['update-supported'])) {
                 $plugin_data['update-supported'] = false;
             }
@@ -242,28 +242,28 @@ class WP_Plugins_List_Table extends WP_List_Table
                 $plugin_data['auto-update-forced'] = $auto_update_forced;
             }
 
-            $plugins['all'][ $plugin_file ] = $plugin_data;
+            $plugins['all'][$plugin_file] = $plugin_data;
             // Make sure that $plugins['upgrade'] also receives the extra info since it is used on ?plugin_status=upgrade.
-            if (isset($plugins['upgrade'][ $plugin_file ])) {
-                $plugins['upgrade'][ $plugin_file ] = $plugin_data;
+            if (isset($plugins['upgrade'][$plugin_file])) {
+                $plugins['upgrade'][$plugin_file] = $plugin_data;
             }
 
             // Filter into individual sections.
             if (is_multisite() && ! $screen->in_admin('network') && is_network_only_plugin($plugin_file) && ! is_plugin_active($plugin_file)) {
                 if ($show_network_active) {
                     // On the non-network screen, show inactive network-only plugins if allowed.
-                    $plugins['inactive'][ $plugin_file ] = $plugin_data;
+                    $plugins['inactive'][$plugin_file] = $plugin_data;
                 } else {
                     // On the non-network screen, filter out network-only plugins as long as they're not individually active.
-                    unset($plugins['all'][ $plugin_file ]);
+                    unset($plugins['all'][$plugin_file]);
                 }
             } elseif (! $screen->in_admin('network') && is_plugin_active_for_network($plugin_file)) {
                 if ($show_network_active) {
                     // On the non-network screen, show network-active plugins if allowed.
-                    $plugins['active'][ $plugin_file ] = $plugin_data;
+                    $plugins['active'][$plugin_file] = $plugin_data;
                 } else {
                     // On the non-network screen, filter out network-active plugins.
-                    unset($plugins['all'][ $plugin_file ]);
+                    unset($plugins['all'][$plugin_file]);
                 }
             } elseif ((! $screen->in_admin('network') && is_plugin_active($plugin_file))
                 || ($screen->in_admin('network') && is_plugin_active_for_network($plugin_file))) {
@@ -271,18 +271,18 @@ class WP_Plugins_List_Table extends WP_List_Table
                  * On the non-network screen, populate the active list with plugins that are individually activated.
                  * On the network admin screen, populate the active list with plugins that are network-activated.
                  */
-                $plugins['active'][ $plugin_file ] = $plugin_data;
+                $plugins['active'][$plugin_file] = $plugin_data;
 
                 if (! $screen->in_admin('network') && is_plugin_paused($plugin_file)) {
-                    $plugins['paused'][ $plugin_file ] = $plugin_data;
+                    $plugins['paused'][$plugin_file] = $plugin_data;
                 }
             } else {
-                if (isset($recently_activated[ $plugin_file ])) {
+                if (isset($recently_activated[$plugin_file])) {
                     // Populate the recently activated list with plugins that have been recently activated.
-                    $plugins['recently_activated'][ $plugin_file ] = $plugin_data;
+                    $plugins['recently_activated'][$plugin_file] = $plugin_data;
                 }
                 // Populate the inactive list with plugins that aren't activated.
-                $plugins['inactive'][ $plugin_file ] = $plugin_data;
+                $plugins['inactive'][$plugin_file] = $plugin_data;
             }
 
             if ($this->show_autoupdates) {
@@ -292,9 +292,9 @@ class WP_Plugins_List_Table extends WP_List_Table
                 }
 
                 if ($enabled) {
-                    $plugins['auto-update-enabled'][ $plugin_file ] = $plugin_data;
+                    $plugins['auto-update-enabled'][$plugin_file] = $plugin_data;
                 } else {
-                    $plugins['auto-update-disabled'][ $plugin_file ] = $plugin_data;
+                    $plugins['auto-update-disabled'][$plugin_file] = $plugin_data;
                 }
             }
         }
@@ -315,24 +315,24 @@ class WP_Plugins_List_Table extends WP_List_Table
 
         $totals = [];
         foreach ($plugins as $type => $list) {
-            $totals[ $type ] = count($list);
+            $totals[$type] = count($list);
         }
 
-        if (empty($plugins[ $status ]) && ! in_array($status, ['all', 'search'], true)) {
+        if (empty($plugins[$status]) && ! in_array($status, ['all', 'search'], true)) {
             $status = 'all';
         }
 
         $this->items = [];
-        foreach ($plugins[ $status ] as $plugin_file => $plugin_data) {
+        foreach ($plugins[$status] as $plugin_file => $plugin_data) {
             // Translate, don't apply markup, sanitize HTML.
-            $this->items[ $plugin_file ] = _get_plugin_data_markup_translate($plugin_file, $plugin_data, false, true);
+            $this->items[$plugin_file] = _get_plugin_data_markup_translate($plugin_file, $plugin_data, false, true);
         }
 
-        $total_this_page = $totals[ $status ];
+        $total_this_page = $totals[$status];
 
         $js_plugins = [];
         foreach ($plugins as $key => $list) {
-            $js_plugins[ $key ] = array_keys($list);
+            $js_plugins[$key] = array_keys($list);
         }
 
         wp_localize_script(
@@ -400,8 +400,8 @@ class WP_Plugins_List_Table extends WP_List_Table
     {
         global $orderby, $order;
 
-        $a = $plugin_a[ $orderby ];
-        $b = $plugin_b[ $orderby ];
+        $a = $plugin_a[$orderby];
+        $b = $plugin_b[$orderby];
 
         if ($a === $b) {
             return 0;
@@ -599,7 +599,7 @@ class WP_Plugins_List_Table extends WP_List_Table
             }
 
             if ('search' !== $type) {
-                $status_links[ $type ] = [
+                $status_links[$type] = [
                     'url'     => add_query_arg('plugin_status', $type, 'plugins.php'),
                     'label'   => sprintf($text, number_format_i18n($count)),
                     'current' => $type === $status,
@@ -792,19 +792,19 @@ class WP_Plugins_List_Table extends WP_List_Table
                 $plugin_name .= '<br />' . $plugin_data['Name'];
             }
 
-            if (true === ($dropins[ $plugin_file ][1])) { // Doesn't require a constant.
+            if (true === ($dropins[$plugin_file][1])) { // Doesn't require a constant.
                 $is_active   = true;
-                $description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
-            } elseif (defined($dropins[ $plugin_file ][1]) && constant($dropins[ $plugin_file ][1])) { // Constant is true.
+                $description = '<p><strong>' . $dropins[$plugin_file][0] . '</strong></p>';
+            } elseif (defined($dropins[$plugin_file][1]) && constant($dropins[$plugin_file][1])) { // Constant is true.
                 $is_active   = true;
-                $description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
+                $description = '<p><strong>' . $dropins[$plugin_file][0] . '</strong></p>';
             } else {
                 $is_active   = false;
-                $description = '<p><strong>' . $dropins[ $plugin_file ][0] . ' <span class="error-message">' . __('Inactive:') . '</span></strong> ' .
+                $description = '<p><strong>' . $dropins[$plugin_file][0] . ' <span class="error-message">' . __('Inactive:') . '</span></strong> ' .
                     sprintf(
                         /* translators: 1: Drop-in constant name, 2: wp-config.php */
                         __('Requires %1$s in %2$s file.'),
-                        "<code>define('" . $dropins[ $plugin_file ][1] . "', true);</code>",
+                        "<code>define('" . $dropins[$plugin_file][1] . "', true);</code>",
                         '<code>wp-config.php</code>'
                     ) . '</p>';
             }

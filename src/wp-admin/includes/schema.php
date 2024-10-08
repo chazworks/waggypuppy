@@ -1199,18 +1199,18 @@ function populate_network_meta($network_id, array $meta = [])
     $allowed_themes = [$stylesheet => true];
 
     if ($template !== $stylesheet) {
-        $allowed_themes[ $template ] = true;
+        $allowed_themes[$template] = true;
     }
 
     if (WP_DEFAULT_THEME !== $stylesheet && WP_DEFAULT_THEME !== $template) {
-        $allowed_themes[ WP_DEFAULT_THEME ] = true;
+        $allowed_themes[WP_DEFAULT_THEME] = true;
     }
 
     // If WP_DEFAULT_THEME doesn't exist, also include the latest core default theme.
     if (! wp_get_theme(WP_DEFAULT_THEME)->exists()) {
         $core_default = WP_Theme::get_core_default_theme();
         if ($core_default) {
-            $allowed_themes[ $core_default->get_stylesheet() ] = true;
+            $allowed_themes[$core_default->get_stylesheet()] = true;
         }
     }
 

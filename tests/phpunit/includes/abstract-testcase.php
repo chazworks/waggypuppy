@@ -165,7 +165,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         // Reset globals related to the post loop and `setup_postdata()`.
         $post_globals = ['post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages'];
         foreach ($post_globals as $global) {
-            $GLOBALS[ $global ] = null;
+            $GLOBALS[$global] = null;
         }
 
         /*
@@ -182,13 +182,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
          */
         $current_screen_globals = ['current_screen', 'taxnow', 'typenow'];
         foreach ($current_screen_globals as $global) {
-            $GLOBALS[ $global ] = null;
+            $GLOBALS[$global] = null;
         }
 
         // Reset comment globals.
         $comment_globals = ['comment_alt', 'comment_depth', 'comment_thread_alt'];
         foreach ($comment_globals as $global) {
-            $GLOBALS[ $global ] = null;
+            $GLOBALS[$global] = null;
         }
 
         /*
@@ -369,13 +369,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         self::$hooks_saved['wp_filter'] = [];
 
         foreach ($GLOBALS['wp_filter'] as $hook_name => $hook_object) {
-            self::$hooks_saved['wp_filter'][ $hook_name ] = clone $hook_object;
+            self::$hooks_saved['wp_filter'][$hook_name] = clone $hook_object;
         }
 
         $globals = ['wp_actions', 'wp_filters', 'wp_current_filter'];
 
         foreach ($globals as $key) {
-            self::$hooks_saved[ $key ] = $GLOBALS[ $key ];
+            self::$hooks_saved[$key] = $GLOBALS[$key];
         }
     }
 
@@ -394,15 +394,15 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
             $GLOBALS['wp_filter'] = [];
 
             foreach (self::$hooks_saved['wp_filter'] as $hook_name => $hook_object) {
-                $GLOBALS['wp_filter'][ $hook_name ] = clone $hook_object;
+                $GLOBALS['wp_filter'][$hook_name] = clone $hook_object;
             }
         }
 
         $globals = ['wp_actions', 'wp_filters', 'wp_current_filter'];
 
         foreach ($globals as $key) {
-            if (isset(self::$hooks_saved[ $key ])) {
-                $GLOBALS[ $key ] = self::$hooks_saved[ $key ];
+            if (isset(self::$hooks_saved[$key])) {
+                $GLOBALS[$key] = self::$hooks_saved[$key];
             }
         }
     }
@@ -583,17 +583,17 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         }
 
         foreach (['class', 'method'] as $depth) {
-            if (! empty($annotations[ $depth ]['expectedDeprecated'])) {
+            if (! empty($annotations[$depth]['expectedDeprecated'])) {
                 $this->expected_deprecated = array_merge(
                     $this->expected_deprecated,
-                    $annotations[ $depth ]['expectedDeprecated']
+                    $annotations[$depth]['expectedDeprecated']
                 );
             }
 
-            if (! empty($annotations[ $depth ]['expectedIncorrectUsage'])) {
+            if (! empty($annotations[$depth]['expectedIncorrectUsage'])) {
                 $this->expected_doing_it_wrong = array_merge(
                     $this->expected_doing_it_wrong,
-                    $annotations[ $depth ]['expectedIncorrectUsage']
+                    $annotations[$depth]['expectedIncorrectUsage']
                 );
             }
         }
@@ -642,7 +642,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         foreach ($unexpected_deprecated as $unexpected) {
             $errors[] = "Unexpected deprecation notice for $unexpected.";
-            $errors[] = $this->caught_deprecated[ $unexpected ];
+            $errors[] = $this->caught_deprecated[$unexpected];
         }
 
         $not_caught_doing_it_wrong = array_diff(
@@ -661,7 +661,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
 
         foreach ($unexpected_doing_it_wrong as $unexpected) {
             $errors[] = "Unexpected incorrect usage notice for $unexpected.";
-            $errors[] = $this->caught_doing_it_wrong[ $unexpected ];
+            $errors[] = $this->caught_doing_it_wrong[$unexpected];
         }
 
         // Perform an assertion, but only if there are expected or unexpected deprecated calls or wrongdoings.
@@ -750,7 +750,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      */
     public function deprecated_function_run($function_name, $replacement, $version, $message = '')
     {
-        if (! isset($this->caught_deprecated[ $function_name ])) {
+        if (! isset($this->caught_deprecated[$function_name])) {
             switch (current_action()) {
                 case 'deprecated_function_run':
                     if ($replacement) {
@@ -838,7 +838,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                     break;
             }
 
-            $this->caught_deprecated[ $function_name ] = $message;
+            $this->caught_deprecated[$function_name] = $message;
         }
     }
 
@@ -854,12 +854,12 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      */
     public function doing_it_wrong_run($function_name, $message, $version)
     {
-        if (! isset($this->caught_doing_it_wrong[ $function_name ])) {
+        if (! isset($this->caught_doing_it_wrong[$function_name])) {
             if ($version) {
                 $message .= ' ' . sprintf('(This message was added in version %s.)', $version);
             }
 
-            $this->caught_doing_it_wrong[ $function_name ] = $message;
+            $this->caught_doing_it_wrong[$function_name] = $message;
         }
     }
 
@@ -1270,13 +1270,13 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
                 );
             }
 
-            if (isset($data[ $value ])) {
+            if (isset($data[$value])) {
                 throw new Exception(
                     "Attempting to add a duplicate data set for value $value to the data provider. Fix the input data."
                 );
             }
 
-            $data[ $value ] = [$value];
+            $data[$value] = [$value];
         }
 
         return $data;
@@ -1305,8 +1305,8 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         $_GET  = [];
         $_POST = [];
         foreach (['query_string', 'id', 'postdata', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'pagenow', 'current_screen'] as $v) {
-            if (isset($GLOBALS[ $v ])) {
-                unset($GLOBALS[ $v ]);
+            if (isset($GLOBALS[$v])) {
+                unset($GLOBALS[$v]);
             }
         }
         $parts = parse_url($url);
@@ -1451,7 +1451,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
         $dirs    = ['TMP', 'TMPDIR', 'TEMP'];
 
         foreach ($dirs as $dir) {
-            if (isset($_ENV[ $dir ]) && ! empty($_ENV[ $dir ])) {
+            if (isset($_ENV[$dir]) && ! empty($_ENV[$dir])) {
                 $tmp_dir = $dir;
                 break;
             }

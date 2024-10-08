@@ -180,7 +180,7 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase
      */
     public function filter_eraser_callback_value($erasers)
     {
-        $erasers[ self::$eraser_key ]['callback'] = $this->new_callback_value;
+        $erasers[self::$eraser_key]['callback'] = $this->new_callback_value;
 
         return $erasers;
     }
@@ -210,9 +210,9 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase
     public function filter_unset_eraser_index($erasers)
     {
         if (false === $this->key_to_unset) {
-            $erasers[ self::$eraser_key ] = false;
+            $erasers[self::$eraser_key] = false;
         } elseif (! empty($this->key_to_unset)) {
-            unset($erasers[ self::$eraser_key ][ $this->key_to_unset ]);
+            unset($erasers[self::$eraser_key][$this->key_to_unset]);
         }
 
         return $erasers;
@@ -246,7 +246,7 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase
         $response = $this->callback_personal_data_eraser($email_address, $page);
 
         if (! empty($this->key_to_unset)) {
-            unset($response[ $this->key_to_unset ]);
+            unset($response[$this->key_to_unset]);
         }
 
         return $response;
@@ -802,7 +802,7 @@ class Tests_Ajax_wpAjaxWpPrivacyErasePersonalData extends WP_Ajax_UnitTestCase
      */
     public function register_custom_personal_data_eraser($erasers)
     {
-        $erasers[ self::$eraser_key ] = [
+        $erasers[self::$eraser_key] = [
             'eraser_friendly_name' => self::$eraser_friendly_name,
             'callback'             => [$this, 'callback_personal_data_eraser'],
         ];

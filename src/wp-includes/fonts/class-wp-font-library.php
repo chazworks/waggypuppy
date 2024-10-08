@@ -61,7 +61,7 @@ class WP_Font_Library
             );
             return new WP_Error('font_collection_registration_error', $error_message);
         }
-        $this->collections[ $new_collection->slug ] = $new_collection;
+        $this->collections[$new_collection->slug] = $new_collection;
         return $new_collection;
     }
 
@@ -84,7 +84,7 @@ class WP_Font_Library
             );
             return false;
         }
-        unset($this->collections[ $slug ]);
+        unset($this->collections[$slug]);
         return true;
     }
 
@@ -124,7 +124,7 @@ class WP_Font_Library
     public function get_font_collection(string $slug)
     {
         if ($this->is_collection_registered($slug)) {
-            return $this->collections[ $slug ];
+            return $this->collections[$slug];
         }
         return null;
     }

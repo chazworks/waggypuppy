@@ -1182,7 +1182,7 @@ class Tests_REST_WpRestFontFacesController extends WP_Test_REST_Controller_Testc
             $font_path = wp_tempnam('OpenSans-Regular.' . $format);
             copy($font_file, $font_path);
 
-            $files[ 'file-' . count($files) ] = [
+            $files['file-' . count($files)] = [
                 'name'      => 'OpenSans-Regular.' . $format,
                 'full_path' => 'OpenSans-Regular.' . $format,
                 'type'      => 'font/' . $format,

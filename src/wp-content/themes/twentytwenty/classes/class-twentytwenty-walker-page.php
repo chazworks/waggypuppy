@@ -51,7 +51,7 @@ if (! class_exists('TwentyTwenty_Walker_Page')) {
 
             $css_class = ['page_item', 'page-item-' . $page->ID];
 
-            if (isset($args['pages_with_children'][ $page->ID ])) {
+            if (isset($args['pages_with_children'][$page->ID])) {
                 $css_class[] = 'page_item_has_children';
             }
 
@@ -106,7 +106,7 @@ if (! class_exists('TwentyTwenty_Walker_Page')) {
                 $args['list_item_after']  = '';
 
                 // Add a toggle to items with children.
-                if (isset($args['pages_with_children'][ $page->ID ])) {
+                if (isset($args['pages_with_children'][$page->ID])) {
 
                     $toggle_target_string = '.menu-modal .page-item-' . $page->ID . ' > ul';
                     $toggle_duration      = twentytwenty_toggle_duration();
@@ -125,7 +125,7 @@ if (! class_exists('TwentyTwenty_Walker_Page')) {
 
             // Add icons to menu items with children.
             if (isset($args['show_sub_menu_icons']) && true === $args['show_sub_menu_icons']) {
-                if (isset($args['pages_with_children'][ $page->ID ])) {
+                if (isset($args['pages_with_children'][$page->ID])) {
                     $args['list_item_after'] = '<span class="icon"></span>';
                 }
             }

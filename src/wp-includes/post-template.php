@@ -336,7 +336,7 @@ function get_the_content($more_link_text = null, $strip_teaser = false, $post = 
     }
 
     $page_no = $elements['page'];
-    $content = $elements['pages'][ $page_no - 1 ];
+    $content = $elements['pages'][$page_no - 1];
     if (preg_match('/<!--more(.*?)?-->/', $content, $matches)) {
         if (has_block('more', $content)) {
             // Remove the core/more block delimiters. They will be left over after $content is split up.
@@ -894,7 +894,7 @@ function post_password_required($post = null)
         return apply_filters('post_password_required', false, $post);
     }
 
-    if (! isset($_COOKIE[ 'wp-postpass_' . COOKIEHASH ])) {
+    if (! isset($_COOKIE['wp-postpass_' . COOKIEHASH])) {
         /** This filter is documented in wp-includes/post-template.php */
         return apply_filters('post_password_required', true, $post);
     }
@@ -902,7 +902,7 @@ function post_password_required($post = null)
     require_once ABSPATH . WPINC . '/class-phpass.php';
     $hasher = new PasswordHash(8, true);
 
-    $hash = wp_unslash($_COOKIE[ 'wp-postpass_' . COOKIEHASH ]);
+    $hash = wp_unslash($_COOKIE['wp-postpass_' . COOKIEHASH]);
     if (! str_starts_with($hash, '$P$B')) {
         $required = true;
     } else {
@@ -1119,12 +1119,12 @@ function post_custom($key = '')
 {
     $custom = get_post_custom();
 
-    if (! isset($custom[ $key ])) {
+    if (! isset($custom[$key])) {
         return false;
-    } elseif (1 === count($custom[ $key ])) {
-        return $custom[ $key ][0];
+    } elseif (1 === count($custom[$key])) {
+        return $custom[$key][0];
     } else {
-        return $custom[ $key ];
+        return $custom[$key];
     }
 }
 
@@ -1589,7 +1589,7 @@ function walk_page_tree($pages, $depth, $current_page, $args)
 
     foreach ((array) $pages as $page) {
         if ($page->post_parent) {
-            $args['pages_with_children'][ $page->post_parent ] = true;
+            $args['pages_with_children'][$page->post_parent] = true;
         }
     }
 

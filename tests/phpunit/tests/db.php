@@ -149,7 +149,7 @@ class Tests_DB extends WP_UnitTestCase
         ];
 
         foreach ($inputs as $key => $input) {
-            $this->assertSame($expected[ $key ], $wpdb->esc_like($input));
+            $this->assertSame($expected[$key], $wpdb->esc_like($input));
         }
     }
 
@@ -364,7 +364,7 @@ class Tests_DB extends WP_UnitTestCase
             return $modes;
         }
 
-        unset($modes[ $pos ]);
+        unset($modes[$pos]);
         return $modes;
     }
 
@@ -895,11 +895,11 @@ class Tests_DB extends WP_UnitTestCase
         $querycount = count($queries);
         for ($ii = 0; $ii < $querycount; $ii++) {
             foreach ($more_tables as $name => $expected_name) {
-                $new_query = str_replace($table, $name, $queries[ $ii ]);
+                $new_query = str_replace($table, $name, $queries[$ii]);
                 $queries[] = [$new_query, $expected_name];
             }
 
-            $queries[ $ii ] = [$queries[ $ii ], $table];
+            $queries[$ii] = [$queries[$ii], $table];
         }
         return $queries;
     }
@@ -1062,7 +1062,7 @@ class Tests_DB extends WP_UnitTestCase
         $vars = get_defined_vars();
         // Push the variable name onto the end for assertSame() $message.
         foreach ($vars as $var_name => $var) {
-            $vars[ $var_name ][] = $var_name;
+            $vars[$var_name][] = $var_name;
         }
         return array_values($vars);
     }

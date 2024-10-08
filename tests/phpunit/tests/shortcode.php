@@ -35,7 +35,7 @@ class Tests_Shortcode extends WP_UnitTestCase
     {
         global $shortcode_tags;
         foreach ($this->shortcodes as $shortcode) {
-            unset($shortcode_tags[ $shortcode ]);
+            unset($shortcode_tags[$shortcode]);
         }
         parent::tear_down();
     }

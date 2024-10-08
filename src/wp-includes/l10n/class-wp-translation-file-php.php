@@ -31,7 +31,7 @@ class WP_Translation_File_PHP extends WP_Translation_File
 
         if (isset($result['messages']) && is_array($result['messages'])) {
             foreach ($result['messages'] as $original => $translation) {
-                $this->entries[ (string) $original ] = $translation;
+                $this->entries[(string) $original] = $translation;
             }
             unset($result['messages']);
         }

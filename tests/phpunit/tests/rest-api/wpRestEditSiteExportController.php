@@ -65,7 +65,7 @@ class Tests_REST_WpRestEditSiteExportController extends WP_Test_REST_Controller_
     {
         $routes = rest_get_server()->get_routes();
         $this->assertArrayHasKey(static::REQUEST_ROUTE, $routes);
-        $this->assertCount(1, $routes[ static::REQUEST_ROUTE ]);
+        $this->assertCount(1, $routes[static::REQUEST_ROUTE]);
     }
 
     /**

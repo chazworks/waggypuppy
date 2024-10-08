@@ -28,7 +28,7 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
                 $actual_status = 'publish';
             }
 
-            self::$post_ids[ $post_status ] = $factory->post->create(
+            self::$post_ids[$post_status] = $factory->post->create(
                 [
                     'post_status' => $actual_status,
                     'post_date'   => $date,
@@ -37,7 +37,7 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
             );
 
             // Attachments without parent or media.
-            self::$post_ids[ "$post_status-attachment-no-parent" ] = $factory->attachment->create_object(
+            self::$post_ids["$post_status-attachment-no-parent"] = $factory->attachment->create_object(
                 [
                     'post_status' => $actual_status,
                     'post_name'   => "$post_status-attachment-no-parent",
@@ -46,9 +46,9 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
             );
 
             // Attachments without media.
-            self::$post_ids[ "$post_status-attachment" ] = $factory->attachment->create_object(
+            self::$post_ids["$post_status-attachment"] = $factory->attachment->create_object(
                 [
-                    'post_parent' => self::$post_ids[ $post_status ],
+                    'post_parent' => self::$post_ids[$post_status],
                     'post_status' => 'inherit',
                     'post_name'   => "$post_status-attachment",
                     'post_date'   => $date,
@@ -86,7 +86,7 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
      */
     public function test_get_post_status_resolves($post_key, $expected)
     {
-        $this->assertSame($expected, get_post_status(self::$post_ids[ $post_key ]));
+        $this->assertSame($expected, get_post_status(self::$post_ids[$post_key]));
     }
 
     /**
@@ -143,12 +143,12 @@ class Tests_Post_GetPostStatus extends WP_UnitTestCase
      */
     public function test_get_post_status_after_trashing($post_to_test, $post_to_trash, $expected)
     {
-        wp_trash_post(self::$post_ids[ $post_to_trash ]);
-        $this->assertSame($expected, get_post_status(self::$post_ids[ $post_to_test ]));
+        wp_trash_post(self::$post_ids[$post_to_trash]);
+        $this->assertSame($expected, get_post_status(self::$post_ids[$post_to_test]));
 
         // Now delete the post, expect publish.
-        wp_delete_post(self::$post_ids[ $post_to_trash ], true);
-        $this->assertSame('publish', get_post_status(self::$post_ids[ $post_to_test ]));
+        wp_delete_post(self::$post_ids[$post_to_trash], true);
+        $this->assertSame('publish', get_post_status(self::$post_ids[$post_to_test]));
     }
 
     /**

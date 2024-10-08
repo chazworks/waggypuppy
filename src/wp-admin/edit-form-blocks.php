@@ -284,7 +284,7 @@ require_once ABSPATH . 'wp-admin/includes/meta-boxes.php';
 register_and_do_post_meta_boxes($post);
 
 // Check if the Custom Fields meta box has been removed at some point.
-$core_meta_boxes = $wp_meta_boxes[ $current_screen->id ]['normal']['core'];
+$core_meta_boxes = $wp_meta_boxes[$current_screen->id]['normal']['core'];
 if (! isset($core_meta_boxes['postcustom']) || ! $core_meta_boxes['postcustom']) {
     unset($editor_settings['enableCustomFields']);
 }

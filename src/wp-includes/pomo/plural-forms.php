@@ -131,7 +131,7 @@ if (! class_exists('Plural_Forms', false)) :
                     case ')':
                         $found = false;
                         while (! empty($stack)) {
-                            $o2 = $stack[ count($stack) - 1 ];
+                            $o2 = $stack[count($stack) - 1];
                             if ('(' !== $o2) {
                                 $output[] = ['op', array_pop($stack)];
                                 continue;
@@ -166,14 +166,14 @@ if (! class_exists('Plural_Forms', false)) :
                         }
 
                         while (! empty($stack)) {
-                            $o2 = $stack[ count($stack) - 1 ];
+                            $o2 = $stack[count($stack) - 1];
 
                             // Ternary is right-associative in C.
                             if ('?:' === $operator || '?' === $operator) {
-                                if (self::$op_precedence[ $operator ] >= self::$op_precedence[ $o2 ]) {
+                                if (self::$op_precedence[$operator] >= self::$op_precedence[$o2]) {
                                     break;
                                 }
-                            } elseif (self::$op_precedence[ $operator ] > self::$op_precedence[ $o2 ]) {
+                            } elseif (self::$op_precedence[$operator] > self::$op_precedence[$o2]) {
                                 break;
                             }
 
@@ -189,7 +189,7 @@ if (! class_exists('Plural_Forms', false)) :
                         $found = false;
                         $s_pos = count($stack) - 1;
                         while ($s_pos >= 0) {
-                            $o2 = $stack[ $s_pos ];
+                            $o2 = $stack[$s_pos];
                             if ('?' !== $o2) {
                                 $output[] = ['op', array_pop($stack)];
                                 --$s_pos;
@@ -197,8 +197,8 @@ if (! class_exists('Plural_Forms', false)) :
                             }
 
                             // Replace.
-                            $stack[ $s_pos ] = '?:';
-                            $found           = true;
+                            $stack[$s_pos] = '?:';
+                            $found         = true;
                             break;
                         }
 
@@ -245,11 +245,11 @@ if (! class_exists('Plural_Forms', false)) :
          */
         public function get($num)
         {
-            if (isset($this->cache[ $num ])) {
-                return $this->cache[ $num ];
+            if (isset($this->cache[$num])) {
+                return $this->cache[$num];
             }
-            $this->cache[ $num ] = $this->execute($num);
-            return $this->cache[ $num ];
+            $this->cache[$num] = $this->execute($num);
+            return $this->cache[$num];
         }
 
         /**
@@ -268,7 +268,7 @@ if (! class_exists('Plural_Forms', false)) :
             $i     = 0;
             $total = count($this->tokens);
             while ($i < $total) {
-                $next = $this->tokens[ $i ];
+                $next = $this->tokens[$i];
                 ++$i;
                 if ('var' === $next[0]) {
                     $stack[] = $n;

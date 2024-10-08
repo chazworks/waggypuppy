@@ -288,7 +288,7 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase
         if (! is_array($notoptions)) {
             $notoptions = [];
         }
-        $notoptions[ $option_name ] = true;
+        $notoptions[$option_name] = true;
         wp_cache_set($cache_key, $notoptions, $cache_group);
         $this->assertArrayHasKey($option_name, wp_cache_get($cache_key, $cache_group), 'The "foobar" option should be in the notoptions cache.');
 
@@ -314,7 +314,7 @@ class Tests_Option_NetworkOption extends WP_UnitTestCase
         if (! is_array($notoptions)) {
             $notoptions = [];
         }
-        $notoptions[ $option_name ] = true;
+        $notoptions[$option_name] = true;
         wp_cache_set($cache_key, $notoptions, $cache_group);
         $this->assertArrayHasKey($option_name, wp_cache_get($cache_key, $cache_group), 'The "foobar" option should be in the notoptions cache.');
 

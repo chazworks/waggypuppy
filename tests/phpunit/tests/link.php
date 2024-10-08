@@ -185,7 +185,7 @@ class Tests_Link extends WP_UnitTestCase
 
         foreach ($wp_post_types as $id => $pt) {
             if ('not_a_post_type' === $pt->name) {
-                unset($wp_post_types[ $id ]);
+                unset($wp_post_types[$id]);
                 break;
             }
         }

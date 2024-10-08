@@ -56,7 +56,7 @@ function _wp_post_revision_fields($post = [], $deprecated = false)
 
     // WP uses these internally either in versioning or elsewhere - they cannot be versioned.
     foreach (['ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count', 'post_author'] as $protect) {
-        unset($fields[ $protect ]);
+        unset($fields[$protect]);
     }
 
     return $fields;
@@ -84,7 +84,7 @@ function _wp_post_revision_data($post = [], $autosave = false)
     $revision_data = [];
 
     foreach (array_intersect(array_keys($post), array_keys($fields)) as $field) {
-        $revision_data[ $field ] = $post[ $field ];
+        $revision_data[$field] = $post[$field];
     }
 
     $revision_data['post_parent']   = $post['ID'];
@@ -254,12 +254,12 @@ function wp_save_post_revision($post_id)
 
     $revisions = array_slice($revisions, 0, $delete);
 
-    for ($i = 0; isset($revisions[ $i ]); $i++) {
-        if (str_contains($revisions[ $i ]->post_name, 'autosave')) {
+    for ($i = 0; isset($revisions[$i]); $i++) {
+        if (str_contains($revisions[$i]->post_name, 'autosave')) {
             continue;
         }
 
-        wp_delete_post_revision($revisions[ $i ]->ID);
+        wp_delete_post_revision($revisions[$i]->ID);
     }
 
     return $return;
@@ -491,7 +491,7 @@ function wp_restore_post_revision($revision, $fields = null)
 
     $update = [];
     foreach (array_intersect(array_keys($revision), $fields) as $field) {
-        $update[ $field ] = $revision[ $field ];
+        $update[$field] = $revision[$field];
     }
 
     if (! $update) {
@@ -589,7 +589,7 @@ function wp_post_revision_meta_keys($post_type)
 
     foreach ($registered_meta as $name => $args) {
         if ($args['revisions_enabled']) {
-            $wp_revisioned_meta_keys[ $name ] = true;
+            $wp_revisioned_meta_keys[$name] = true;
         }
     }
 

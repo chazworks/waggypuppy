@@ -69,7 +69,7 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider
         $supported_types = $this->get_object_subtypes();
 
         // Bail early if the queried taxonomy is not supported.
-        if (! isset($supported_types[ $taxonomy ])) {
+        if (! isset($supported_types[$taxonomy])) {
             return [];
         }
 

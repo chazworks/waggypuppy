@@ -129,8 +129,8 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
         $token   = $service->generate_recovery_mode_token();
         $key     = $service->generate_and_store_recovery_mode_key($token);
 
-        $records                         = get_option('recovery_keys');
-        $records[ $token ]['created_at'] = time() - HOUR_IN_SECONDS - 30;
+        $records                       = get_option('recovery_keys');
+        $records[$token]['created_at'] = time() - HOUR_IN_SECONDS - 30;
         update_option('recovery_keys', $records);
 
         $error = $service->validate_recovery_mode_key($token, $key, HOUR_IN_SECONDS);
@@ -212,7 +212,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
 
         $records = get_option('recovery_keys');
 
-        $records[ $token ]['created_at'] = time() - HOUR_IN_SECONDS - 30;
+        $records[$token]['created_at'] = time() - HOUR_IN_SECONDS - 30;
 
         update_option('recovery_keys', $records);
 

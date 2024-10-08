@@ -155,7 +155,7 @@ class WP_Styles extends WP_Dependencies
             return false;
         }
 
-        $obj = $this->registered[ $handle ];
+        $obj = $this->registered[$handle];
 
         if (null === $obj->ver) {
             $ver = '';
@@ -163,8 +163,8 @@ class WP_Styles extends WP_Dependencies
             $ver = $obj->ver ? $obj->ver : $this->default_version;
         }
 
-        if (isset($this->args[ $handle ])) {
-            $ver = $ver ? $ver . '&amp;' . $this->args[ $handle ] : $this->args[ $handle ];
+        if (isset($this->args[$handle])) {
+            $ver = $ver ? $ver . '&amp;' . $this->args[$handle] : $this->args[$handle];
         }
 
         $src                   = $obj->src;

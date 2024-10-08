@@ -344,7 +344,7 @@ function build_variation_for_navigation_link($entity, $kind)
     if (array_key_exists($entity->name, $variation_overrides)) {
         $variation = array_merge(
             $variation,
-            $variation_overrides[ $entity->name ]
+            $variation_overrides[$entity->name]
         );
     }
 

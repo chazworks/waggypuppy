@@ -119,14 +119,14 @@ class Tests_Admin_WpListTable extends WP_UnitTestCase
         $datasets = [];
 
         foreach ($list_primary_columns as $list_class => $primary_column) {
-            $datasets[ $list_class . ' - three columns' ] = [
+            $datasets[$list_class . ' - three columns'] = [
                 'list_class'          => $list_class,
                 'headers'             => ['First', 'Second', 'Third'],
                 'expected'            => ['First', 'Second', 'Third', $primary_column],
                 'expected_hook_count' => 1,
             ];
 
-            $datasets[ $list_class . ' - four columns' ] = [
+            $datasets[$list_class . ' - four columns'] = [
                 'list_class'          => $list_class,
                 'headers'             => ['First', 'Second', 'Third', 'Fourth'],
                 'expected'            => ['First', 'Second', 'Third', 'Fourth'],

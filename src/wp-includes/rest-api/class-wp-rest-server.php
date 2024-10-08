@@ -607,7 +607,7 @@ class WP_REST_Server
             // Determine if this is a numeric array.
             if (wp_is_numeric_array($data)) {
                 foreach ($data as $key => $item) {
-                    $data[ $key ] = $this->embed_links($item, $embed);
+                    $data[$key] = $this->embed_links($item, $embed);
                 }
             } else {
                 $data = $this->embed_links($data, $embed);
@@ -640,14 +640,14 @@ class WP_REST_Server
         // Convert links to part of the data.
         $data = [];
         foreach ($links as $rel => $items) {
-            $data[ $rel ] = [];
+            $data[$rel] = [];
 
             foreach ($items as $item) {
                 $attributes         = $item['attributes'];
                 $attributes['href'] = $item['href'];
 
                 if ('self' !== $rel) {
-                    $data[ $rel ][] = $attributes;
+                    $data[$rel][] = $attributes;
                     continue;
                 }
 
@@ -656,7 +656,7 @@ class WP_REST_Server
                     $attributes['targetHints'] = $target_hints;
                 }
 
-                $data[ $rel ][] = $attributes;
+                $data[$rel][] = $attributes;
             }
         }
 
@@ -709,7 +709,7 @@ class WP_REST_Server
         foreach ($headers as $name => $value) {
             $name = WP_REST_Request::canonicalize_header_name($name);
 
-            $target_hints[ $name ] = array_map('trim', explode(',', $value));
+            $target_hints[$name] = array_map('trim', explode(',', $value));
         }
 
         return $target_hints;
@@ -750,10 +750,10 @@ class WP_REST_Server
                 $rel_regex = str_replace('\{rel\}', '(.+)', preg_quote($curie['href'], '!'));
                 preg_match('!' . $rel_regex . '!', $rel, $matches);
                 if ($matches) {
-                    $new_rel                       = $curie['name'] . ':' . $matches[1];
-                    $used_curies[ $curie['name'] ] = $curie;
-                    $links[ $new_rel ]             = $items;
-                    unset($links[ $rel ]);
+                    $new_rel                     = $curie['name'] . ':' . $matches[1];
+                    $used_curies[$curie['name']] = $curie;
+                    $links[$new_rel]             = $items;
+                    unset($links[$rel]);
                     break;
                 }
             }
@@ -834,17 +834,17 @@ class WP_REST_Server
                     /** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
                     $response = apply_filters('rest_post_dispatch', rest_ensure_response($response), $this, $request);
 
-                    $this->embed_cache[ $item['href'] ] = $this->response_to_data($response, false);
+                    $this->embed_cache[$item['href']] = $this->response_to_data($response, false);
                 }
 
-                $embeds[] = $this->embed_cache[ $item['href'] ];
+                $embeds[] = $this->embed_cache[$item['href']];
             }
 
             // Determine if any real links were found.
             $has_links = count(array_filter($embeds));
 
             if ($has_links) {
-                $embedded[ $rel ] = $embeds;
+                $embedded[$rel] = $embeds;
             }
         }
 
@@ -910,8 +910,8 @@ class WP_REST_Server
      */
     public function register_route($route_namespace, $route, $route_args, $override = false)
     {
-        if (! isset($this->namespaces[ $route_namespace ])) {
-            $this->namespaces[ $route_namespace ] = [];
+        if (! isset($this->namespaces[$route_namespace])) {
+            $this->namespaces[$route_namespace] = [];
 
             $this->register_route(
                 $route_namespace,
@@ -934,14 +934,14 @@ class WP_REST_Server
         }
 
         // Associative to avoid double-registration.
-        $this->namespaces[ $route_namespace ][ $route ] = true;
+        $this->namespaces[$route_namespace][$route] = true;
 
         $route_args['namespace'] = $route_namespace;
 
-        if ($override || empty($this->endpoints[ $route ])) {
-            $this->endpoints[ $route ] = $route_args;
+        if ($override || empty($this->endpoints[$route])) {
+            $this->endpoints[$route] = $route_args;
         } else {
-            $this->endpoints[ $route ] = array_merge($this->endpoints[ $route ], $route_args);
+            $this->endpoints[$route] = array_merge($this->endpoints[$route], $route_args);
         }
     }
 
@@ -1003,16 +1003,16 @@ class WP_REST_Server
                 $handlers = [$handlers];
             }
 
-            if (! isset($this->route_options[ $route ])) {
-                $this->route_options[ $route ] = [];
+            if (! isset($this->route_options[$route])) {
+                $this->route_options[$route] = [];
             }
 
             foreach ($handlers as $key => &$handler) {
 
                 if (! is_numeric($key)) {
                     // Route option, move it to the options.
-                    $this->route_options[ $route ][ $key ] = $handler;
-                    unset($handlers[ $key ]);
+                    $this->route_options[$route][$key] = $handler;
+                    unset($handlers[$key]);
                     continue;
                 }
 
@@ -1030,8 +1030,8 @@ class WP_REST_Server
                 $handler['methods'] = [];
 
                 foreach ($methods as $method) {
-                    $method                        = strtoupper(trim($method));
-                    $handler['methods'][ $method ] = true;
+                    $method                      = strtoupper(trim($method));
+                    $handler['methods'][$method] = true;
                 }
             }
         }
@@ -1061,11 +1061,11 @@ class WP_REST_Server
      */
     public function get_route_options($route)
     {
-        if (! isset($this->route_options[ $route ])) {
+        if (! isset($this->route_options[$route])) {
             return null;
         }
 
-        return $this->route_options[ $route ];
+        return $this->route_options[$route];
     }
 
     /**
@@ -1198,7 +1198,7 @@ class WP_REST_Server
 
             foreach ($matches as $param => $value) {
                 if (! is_int($param)) {
-                    $args[ $param ] = $value;
+                    $args[$param] = $value;
                 }
             }
 
@@ -1210,7 +1210,7 @@ class WP_REST_Server
                 if ('HEAD' === $method && empty($handler['methods']['HEAD'])) {
                     $checked_method = 'GET';
                 }
-                if (empty($handler['methods'][ $checked_method ])) {
+                if (empty($handler['methods'][$checked_method])) {
                     continue;
                 }
 
@@ -1225,7 +1225,7 @@ class WP_REST_Server
 
                 foreach ($handler['args'] as $arg => $options) {
                     if (isset($options['default'])) {
-                        $defaults[ $arg ] = $options['default'];
+                        $defaults[$arg] = $options['default'];
                     }
                 }
 
@@ -1520,7 +1520,7 @@ class WP_REST_Server
      */
     protected function add_image_to_index(WP_REST_Response $response, $image_id, $type)
     {
-        $response->data[ $type ] = (int) $image_id;
+        $response->data[$type] = (int) $image_id;
         if ($image_id) {
             $response->add_link(
                 'https://api.w.org/featuredmedia',
@@ -1546,7 +1546,7 @@ class WP_REST_Server
     {
         $namespace = $request['namespace'];
 
-        if (! isset($this->namespaces[ $namespace ])) {
+        if (! isset($this->namespaces[$namespace])) {
             return new WP_Error(
                 'rest_invalid_namespace',
                 __('The specified namespace could not be found.'),
@@ -1554,7 +1554,7 @@ class WP_REST_Server
             );
         }
 
-        $routes    = $this->namespaces[ $namespace ];
+        $routes    = $this->namespaces[$namespace];
         $endpoints = array_intersect_key($this->get_routes(), $routes);
 
         $data     = [
@@ -1607,7 +1607,7 @@ class WP_REST_Server
              *
              * @param array $data Publicly-visible data for the route.
              */
-            $available[ $route ] = apply_filters('rest_endpoints_description', $data);
+            $available[$route] = apply_filters('rest_endpoints_description', $data);
         }
 
         /**
@@ -1645,8 +1645,8 @@ class WP_REST_Server
 
         $allow_batch = false;
 
-        if (isset($this->route_options[ $route ])) {
-            $options = $this->route_options[ $route ];
+        if (isset($this->route_options[$route])) {
+            $options = $this->route_options[$route];
 
             if (isset($options['namespace'])) {
                 $data['namespace'] = $options['namespace'];
@@ -1692,7 +1692,7 @@ class WP_REST_Server
                     $arg_data             = array_intersect_key($opts, $allowed_schema_keywords);
                     $arg_data['required'] = ! empty($opts['required']);
 
-                    $endpoint_data['args'][ $key ] = $arg_data;
+                    $endpoint_data['args'][$key] = $arg_data;
                 }
             }
 
@@ -1861,11 +1861,11 @@ class WP_REST_Server
             $result = apply_filters('rest_pre_dispatch', null, $this, $clean_request);
 
             if (empty($result)) {
-                $match = $matches[ $i ];
+                $match = $matches[$i];
                 $error = null;
 
-                if (is_wp_error($validation[ $i ])) {
-                    $error = $validation[ $i ];
+                if (is_wp_error($validation[$i])) {
+                    $error = $validation[$i];
                 }
 
                 if (is_wp_error($match)) {
@@ -1997,15 +1997,15 @@ class WP_REST_Server
 
         foreach ($server as $key => $value) {
             if (str_starts_with($key, 'HTTP_')) {
-                $headers[ substr($key, 5) ] = $value;
+                $headers[substr($key, 5)] = $value;
             } elseif ('REDIRECT_HTTP_AUTHORIZATION' === $key && empty($server['HTTP_AUTHORIZATION'])) {
                 /*
                  * In some server configurations, the authorization header is passed in this alternate location.
                  * Since it would not be passed in in both places we do not check for both headers and resolve.
                  */
                 $headers['AUTHORIZATION'] = $value;
-            } elseif (isset($additional[ $key ])) {
-                $headers[ $key ] = $value;
+            } elseif (isset($additional[$key])) {
+                $headers[$key] = $value;
             }
         }
 

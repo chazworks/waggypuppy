@@ -80,7 +80,7 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         // Set up a default request.
         $_POST['id']          = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce('delete-comment_' . $comment->comment_ID);
-        $_POST[ $action ]     = '1';
+        $_POST[$action]       = '1';
         $_POST['_total']      = count(self::$comments);
         $_POST['_per_page']   = '100';
         $_POST['_page']       = '1';
@@ -140,7 +140,7 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         // Set up the $_POST request.
         $_POST['id']          = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce('delete-comment_' . $comment->comment_ID);
-        $_POST[ $action ]     = '1';
+        $_POST[$action]       = '1';
         $_POST['_total']      = count(self::$comments);
         $_POST['_per_page']   = '100';
         $_POST['_page']       = '1';
@@ -173,7 +173,7 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         // Set up the $_POST request.
         $_POST['id']          = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce(uniqid());
-        $_POST[ $action ]     = '1';
+        $_POST[$action]       = '1';
         $_POST['_total']      = count(self::$comments);
         $_POST['_per_page']   = '100';
         $_POST['_page']       = '1';
@@ -205,7 +205,7 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         // Set up the $_POST request.
         $_POST['id']          = 12346789;
         $_POST['_ajax_nonce'] = wp_create_nonce('delete-comment_12346789');
-        $_POST[ $action ]     = '1';
+        $_POST[$action]       = '1';
         $_POST['_total']      = count(self::$comments);
         $_POST['_per_page']   = '100';
         $_POST['_page']       = '1';
@@ -243,7 +243,7 @@ class Tests_Ajax_wpAjaxDeleteComment extends WP_Ajax_UnitTestCase
         // Set up the $_POST request.
         $_POST['id']          = $comment->comment_ID;
         $_POST['_ajax_nonce'] = wp_create_nonce('delete-comment_' . $comment->comment_ID);
-        $_POST[ $action ]     = '1';
+        $_POST[$action]       = '1';
         $_POST['_total']      = count(self::$comments);
         $_POST['_per_page']   = '100';
         $_POST['_page']       = '1';

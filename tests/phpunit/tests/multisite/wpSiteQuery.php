@@ -996,7 +996,7 @@ if (is_multisite()) :
             $found = $q->query($query);
 
             foreach ($expected as $index => $domain_path) {
-                $expected[ $index ] = self::$site_ids[ $domain_path ];
+                $expected[$index] = self::$site_ids[$domain_path];
             }
 
             if ($strict) {

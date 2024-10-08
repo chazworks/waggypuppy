@@ -70,11 +70,11 @@ if ($action) {
 
             if (! is_network_admin()) {
                 $recent = (array) get_option('recently_activated');
-                unset($recent[ $plugin ]);
+                unset($recent[$plugin]);
                 update_option('recently_activated', $recent, false);
             } else {
                 $recent = (array) get_site_option('recently_activated');
-                unset($recent[ $plugin ]);
+                unset($recent[$plugin]);
                 update_site_option('recently_activated', $recent);
             }
 
@@ -102,18 +102,18 @@ if ($action) {
                 foreach ($plugins as $i => $plugin) {
                     // Only activate plugins which are not already network activated.
                     if (is_plugin_active_for_network($plugin)) {
-                        unset($plugins[ $i ]);
+                        unset($plugins[$i]);
                     }
                 }
             } else {
                 foreach ($plugins as $i => $plugin) {
                     // Only activate plugins which are not already active and are not network-only when on Multisite.
                     if (is_plugin_active($plugin) || (is_multisite() && is_network_only_plugin($plugin))) {
-                        unset($plugins[ $i ]);
+                        unset($plugins[$i]);
                     }
                     // Only activate plugins which the user can activate.
                     if (! current_user_can('activate_plugin', $plugin)) {
-                        unset($plugins[ $i ]);
+                        unset($plugins[$i]);
                     }
                 }
             }
@@ -132,7 +132,7 @@ if ($action) {
             }
 
             foreach ($plugins as $plugin) {
-                unset($recent[ $plugin ]);
+                unset($recent[$plugin]);
             }
 
             if (! is_network_admin()) {
@@ -241,7 +241,7 @@ if ($action) {
                 foreach ($plugins as $i => $plugin) {
                     // Only deactivate plugins which the user can deactivate.
                     if (! current_user_can('deactivate_plugin', $plugin)) {
-                        unset($plugins[ $i ]);
+                        unset($plugins[$i]);
                     }
                 }
             }
@@ -254,7 +254,7 @@ if ($action) {
 
             $deactivated = [];
             foreach ($plugins as $plugin) {
-                $deactivated[ $plugin ] = time();
+                $deactivated[$plugin] = time();
             }
 
             if (! is_network_admin()) {
@@ -315,9 +315,9 @@ if ($action) {
                     if ('.' === $plugin_slug) {
                         $data = get_plugin_data(WP_PLUGIN_DIR . '/' . $plugin);
                         if ($data) {
-                            $plugin_info[ $plugin ]                     = $data;
-                            $plugin_info[ $plugin ]['is_uninstallable'] = is_uninstallable_plugin($plugin);
-                            if (! $plugin_info[ $plugin ]['Network']) {
+                            $plugin_info[$plugin]                     = $data;
+                            $plugin_info[$plugin]['is_uninstallable'] = is_uninstallable_plugin($plugin);
+                            if (! $plugin_info[$plugin]['Network']) {
                                 $have_non_network_plugins = true;
                             }
                         }
@@ -326,9 +326,9 @@ if ($action) {
                         $folder_plugins = get_plugins('/' . $plugin_slug);
                         if ($folder_plugins) {
                             foreach ($folder_plugins as $plugin_file => $data) {
-                                $plugin_info[ $plugin_file ]                     = _get_plugin_data_markup_translate($plugin_file, $data);
-                                $plugin_info[ $plugin_file ]['is_uninstallable'] = is_uninstallable_plugin($plugin);
-                                if (! $plugin_info[ $plugin_file ]['Network']) {
+                                $plugin_info[$plugin_file]                     = _get_plugin_data_markup_translate($plugin_file, $data);
+                                $plugin_info[$plugin_file]['is_uninstallable'] = is_uninstallable_plugin($plugin);
+                                if (! $plugin_info[$plugin_file]['Network']) {
                                     $have_non_network_plugins = true;
                                 }
                             }

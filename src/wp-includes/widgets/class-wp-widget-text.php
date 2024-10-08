@@ -175,7 +175,7 @@ class WP_Widget_Text extends WP_Widget
             $tag_name = strtolower($element->nodeName);
 
             // If the element is not safe, then the instance is legacy.
-            if (! isset($safe_elements_attributes[ $tag_name ])) {
+            if (! isset($safe_elements_attributes[$tag_name])) {
                 return true;
             }
 
@@ -189,7 +189,7 @@ class WP_Widget_Text extends WP_Widget
                 /** @var DOMAttr $attribute */
                 $attribute_name = strtolower($attribute->nodeName);
 
-                if (! isset($safe_elements_attributes[ $tag_name ][ $attribute_name ])) {
+                if (! isset($safe_elements_attributes[$tag_name][$attribute_name])) {
                     return true;
                 }
             }

@@ -44,7 +44,7 @@ function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_js
             if (array_key_exists('ref', $value)) {
                 // Clean up any invalid ref value.
                 if (empty($value['ref']) || ! is_string($value['ref'])) {
-                    unset($variation_data[ $key ]);
+                    unset($variation_data[$key]);
                 }
 
                 $value_path = explode('.', $value['ref'] ?? '');
@@ -52,7 +52,7 @@ function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_js
 
                 // Only update the current value if the referenced path matched a value.
                 if (null === $ref_value) {
-                    unset($variation_data[ $key ]);
+                    unset($variation_data[$key]);
                 } else {
                     $value = $ref_value;
                 }
@@ -95,7 +95,7 @@ function wp_render_block_style_variation_support_styles($parsed_block)
     // Only the first block style variation with data is supported.
     $variation_data = [];
     foreach ($variations as $variation) {
-        $variation_data = $theme_json['styles']['blocks'][ $parsed_block['blockName'] ]['variations'][ $variation ] ?? [];
+        $variation_data = $theme_json['styles']['blocks'][$parsed_block['blockName']]['variations'][$variation] ?? [];
 
         if (! empty($variation_data)) {
             break;

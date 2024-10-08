@@ -272,8 +272,8 @@ function _filter_block_template_part_area($type)
 function _get_block_templates_paths($base_directory)
 {
     static $template_path_list = [];
-    if (isset($template_path_list[ $base_directory ])) {
-        return $template_path_list[ $base_directory ];
+    if (isset($template_path_list[$base_directory])) {
+        return $template_path_list[$base_directory];
     }
     $path_list = [];
     if (is_dir($base_directory)) {
@@ -283,7 +283,7 @@ function _get_block_templates_paths($base_directory)
             $path_list[] = $path;
         }
     }
-    $template_path_list[ $base_directory ] = $path_list;
+    $template_path_list[$base_directory] = $path_list;
     return $path_list;
 }
 
@@ -320,7 +320,7 @@ function _get_block_template_file($template_type, $slug)
     ];
     foreach ($themes as $theme_slug => $theme_dir) {
         $template_base_paths = get_block_theme_folders($theme_slug);
-        $file_path           = $theme_dir . '/' . $template_base_paths[ $template_type ] . '/' . $slug . '.html';
+        $file_path           = $theme_dir . '/' . $template_base_paths[$template_type] . '/' . $slug . '.html';
         if (file_exists($file_path)) {
             $new_template_item = [
                 'slug'  => $slug,
@@ -387,14 +387,14 @@ function _get_block_templates_files($template_type, $query = [])
     ];
     // Add the parent theme if it's not the same as the current theme.
     if ($stylesheet !== $template) {
-        $themes[ $template ] = get_template_directory();
+        $themes[$template] = get_template_directory();
     }
     $template_files = [];
     foreach ($themes as $theme_slug => $theme_dir) {
         $template_base_paths  = get_block_theme_folders($theme_slug);
-        $theme_template_files = _get_block_templates_paths($theme_dir . '/' . $template_base_paths[ $template_type ]);
+        $theme_template_files = _get_block_templates_paths($theme_dir . '/' . $template_base_paths[$template_type]);
         foreach ($theme_template_files as $template_file) {
-            $template_base_path = $template_base_paths[ $template_type ];
+            $template_base_path = $template_base_paths[$template_type];
             $template_slug      = substr(
                 $template_file,
                 // Starting position of slug.
@@ -417,7 +417,7 @@ function _get_block_templates_files($template_type, $query = [])
              * The child theme items (stylesheet) are processed before the parent theme's (template).
              * If a child theme defines a template, prevent the parent template from being added to the list as well.
              */
-            if (isset($template_files[ $template_slug ])) {
+            if (isset($template_files[$template_slug])) {
                 continue;
             }
 
@@ -431,23 +431,23 @@ function _get_block_templates_files($template_type, $query = [])
             if ('wp_template_part' === $template_type) {
                 $candidate = _add_block_template_part_area_info($new_template_item);
                 if (! isset($area) || (isset($area) && $area === $candidate['area'])) {
-                    $template_files[ $template_slug ] = $candidate;
+                    $template_files[$template_slug] = $candidate;
                 }
             }
 
             if ('wp_template' === $template_type) {
                 $candidate = _add_block_template_info($new_template_item);
-                $is_custom = ! isset($default_template_types[ $candidate['slug'] ]);
+                $is_custom = ! isset($default_template_types[$candidate['slug']]);
 
                 if (! $post_type ||
                     ($post_type && isset($candidate['postTypes']) && in_array($post_type, $candidate['postTypes'], true))
                 ) {
-                    $template_files[ $template_slug ] = $candidate;
+                    $template_files[$template_slug] = $candidate;
                 }
 
                 // The custom templates with no associated post types are available for all post types.
                 if ($post_type && ! isset($candidate['postTypes']) && $is_custom) {
-                    $template_files[ $template_slug ] = $candidate;
+                    $template_files[$template_slug] = $candidate;
                 }
             }
         }
@@ -472,9 +472,9 @@ function _add_block_template_info($template_item)
     }
 
     $theme_data = wp_get_theme_data_custom_templates();
-    if (isset($theme_data[ $template_item['slug'] ])) {
-        $template_item['title']     = $theme_data[ $template_item['slug'] ]['title'];
-        $template_item['postTypes'] = $theme_data[ $template_item['slug'] ]['postTypes'];
+    if (isset($theme_data[$template_item['slug']])) {
+        $template_item['title']     = $theme_data[$template_item['slug']]['title'];
+        $template_item['postTypes'] = $theme_data[$template_item['slug']]['postTypes'];
     }
 
     return $template_item;
@@ -495,9 +495,9 @@ function _add_block_template_part_area_info($template_info)
         $theme_data = wp_get_theme_data_template_parts();
     }
 
-    if (isset($theme_data[ $template_info['slug'] ]['area'])) {
-        $template_info['title'] = $theme_data[ $template_info['slug'] ]['title'];
-        $template_info['area']  = _filter_block_template_part_area($theme_data[ $template_info['slug'] ]['area']);
+    if (isset($theme_data[$template_info['slug']]['area'])) {
+        $template_info['title'] = $theme_data[$template_info['slug']]['title'];
+        $template_info['area']  = _filter_block_template_part_area($theme_data[$template_info['slug']]['area']);
     } else {
         $template_info['area'] = WP_TEMPLATE_PART_AREA_UNCATEGORIZED;
     }
@@ -611,9 +611,9 @@ function _build_block_template_result_from_file($template_file, $template_type)
         }
     }
 
-    if ('wp_template' === $template_type && isset($default_template_types[ $template_file['slug'] ])) {
-        $template->description = $default_template_types[ $template_file['slug'] ]['description'];
-        $template->title       = $default_template_types[ $template_file['slug'] ]['title'];
+    if ('wp_template' === $template_type && isset($default_template_types[$template_file['slug']])) {
+        $template->description = $default_template_types[$template_file['slug']]['description'];
+        $template->title       = $default_template_types[$template_file['slug']]['title'];
         $template->is_custom   = false;
     }
 
@@ -859,7 +859,7 @@ function _build_block_template_object_from_post_object($post, $terms = [], $meta
         $template->post_types = $template_file['postTypes'];
     }
 
-    if ('wp_template' === $post->post_type && isset($default_template_types[ $template->slug ])) {
+    if ('wp_template' === $post->post_type && isset($default_template_types[$template->slug])) {
         $template->is_custom = false;
     }
 

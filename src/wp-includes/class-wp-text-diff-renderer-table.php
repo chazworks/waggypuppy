@@ -312,7 +312,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
         // Compute word diffs for each matched pair using the inline diff.
         foreach ($orig_matches as $o => $f) {
             if (is_numeric($o) && is_numeric($f)) {
-                $text_diff = new Text_Diff('auto', [[$orig[ $o ]], [$final[ $f ]]]);
+                $text_diff = new Text_Diff('auto', [[$orig[$o]], [$final[$f]]]);
                 $renderer  = new $this->inline_diff_renderer();
                 $diff      = $renderer->render($text_diff);
 
@@ -332,37 +332,37 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
                 }
 
                 // Un-inline the diffs by removing <del> or <ins>.
-                $orig_diffs[ $o ]  = preg_replace('|<ins>.*?</ins>|', '', $diff);
-                $final_diffs[ $f ] = preg_replace('|<del>.*?</del>|', '', $diff);
+                $orig_diffs[$o]  = preg_replace('|<ins>.*?</ins>|', '', $diff);
+                $final_diffs[$f] = preg_replace('|<del>.*?</del>|', '', $diff);
             }
         }
 
         foreach (array_keys($orig_rows) as $row) {
             // Both columns have blanks. Ignore them.
-            if ($orig_rows[ $row ] < 0 && $final_rows[ $row ] < 0) {
+            if ($orig_rows[$row] < 0 && $final_rows[$row] < 0) {
                 continue;
             }
 
             // If we have a word based diff, use it. Otherwise, use the normal line.
-            if (isset($orig_diffs[ $orig_rows[ $row ] ])) {
-                $orig_line = $orig_diffs[ $orig_rows[ $row ] ];
-            } elseif (isset($orig[ $orig_rows[ $row ] ])) {
-                $orig_line = htmlspecialchars($orig[ $orig_rows[ $row ] ]);
+            if (isset($orig_diffs[$orig_rows[$row]])) {
+                $orig_line = $orig_diffs[$orig_rows[$row]];
+            } elseif (isset($orig[$orig_rows[$row]])) {
+                $orig_line = htmlspecialchars($orig[$orig_rows[$row]]);
             } else {
                 $orig_line = '';
             }
 
-            if (isset($final_diffs[ $final_rows[ $row ] ])) {
-                $final_line = $final_diffs[ $final_rows[ $row ] ];
-            } elseif (isset($final[ $final_rows[ $row ] ])) {
-                $final_line = htmlspecialchars($final[ $final_rows[ $row ] ]);
+            if (isset($final_diffs[$final_rows[$row]])) {
+                $final_line = $final_diffs[$final_rows[$row]];
+            } elseif (isset($final[$final_rows[$row]])) {
+                $final_line = htmlspecialchars($final[$final_rows[$row]]);
             } else {
                 $final_line = '';
             }
 
-            if ($orig_rows[ $row ] < 0) { // Orig is blank. This is really an added row.
+            if ($orig_rows[$row] < 0) { // Orig is blank. This is really an added row.
                 $r .= $this->_added([$final_line], false);
-            } elseif ($final_rows[ $row ] < 0) { // Final is blank. This is really a deleted row.
+            } elseif ($final_rows[$row] < 0) { // Final is blank. This is really a deleted row.
                 $r .= $this->_deleted([$orig_line], false);
             } else { // A true changed row.
                 if ($this->_show_split_view) {
@@ -411,7 +411,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
         $matches = [];
         foreach (array_keys($orig) as $o) {
             foreach (array_keys($final) as $f) {
-                $matches[ "$o,$f" ] = $this->compute_string_distance($orig[ $o ], $final[ $f ]);
+                $matches["$o,$f"] = $this->compute_string_distance($orig[$o], $final[$f]);
             }
         }
         asort($matches); // Order by string distance.
@@ -425,23 +425,23 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
             $f           = (int) $f;
 
             // Already have better matches for these guys.
-            if (isset($orig_matches[ $o ]) && isset($final_matches[ $f ])) {
+            if (isset($orig_matches[$o]) && isset($final_matches[$f])) {
                 continue;
             }
 
             // First match for these guys. Must be best match.
-            if (! isset($orig_matches[ $o ]) && ! isset($final_matches[ $f ])) {
-                $orig_matches[ $o ]  = $f;
-                $final_matches[ $f ] = $o;
+            if (! isset($orig_matches[$o]) && ! isset($final_matches[$f])) {
+                $orig_matches[$o]  = $f;
+                $final_matches[$f] = $o;
                 continue;
             }
 
             // Best match of this final is already taken? Must mean this final is a new row.
-            if (isset($orig_matches[ $o ])) {
-                $final_matches[ $f ] = 'x';
-            } elseif (isset($final_matches[ $f ])) {
+            if (isset($orig_matches[$o])) {
+                $final_matches[$f] = 'x';
+            } elseif (isset($final_matches[$f])) {
                 // Best match of this orig is already taken? Must mean this orig is a deleted row.
-                $orig_matches[ $o ] = 'x';
+                $orig_matches[$o] = 'x';
             }
         }
 
@@ -459,7 +459,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
          * We may end up with some extraneous blank rows, but we'll just ignore them later.
          */
         foreach ($orig_rows_copy as $orig_row) {
-            $final_pos = array_search($orig_matches[ $orig_row ], $final_rows, true);
+            $final_pos = array_search($orig_matches[$orig_row], $final_rows, true);
             $orig_pos  = (int) array_search($orig_row, $orig_rows, true);
 
             if (false === $final_pos) { // This orig is paired with a blank final.
@@ -505,23 +505,23 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
         $count_key2 = md5($string2);
 
         // Cache vectors containing character frequency for all chars in each string.
-        if (! isset($this->count_cache[ $count_key1 ])) {
-            $this->count_cache[ $count_key1 ] = count_chars($string1);
+        if (! isset($this->count_cache[$count_key1])) {
+            $this->count_cache[$count_key1] = count_chars($string1);
         }
-        if (! isset($this->count_cache[ $count_key2 ])) {
-            $this->count_cache[ $count_key2 ] = count_chars($string2);
+        if (! isset($this->count_cache[$count_key2])) {
+            $this->count_cache[$count_key2] = count_chars($string2);
         }
 
-        $chars1 = $this->count_cache[ $count_key1 ];
-        $chars2 = $this->count_cache[ $count_key2 ];
+        $chars1 = $this->count_cache[$count_key1];
+        $chars2 = $this->count_cache[$count_key2];
 
         $difference_key = md5(implode(',', $chars1) . ':' . implode(',', $chars2));
-        if (! isset($this->difference_cache[ $difference_key ])) {
+        if (! isset($this->difference_cache[$difference_key])) {
             // L1-norm of difference vector.
-            $this->difference_cache[ $difference_key ] = array_sum(array_map([$this, 'difference'], $chars1, $chars2));
+            $this->difference_cache[$difference_key] = array_sum(array_map([$this, 'difference'], $chars1, $chars2));
         }
 
-        $difference = $this->difference_cache[ $difference_key ];
+        $difference = $this->difference_cache[$difference_key];
 
         // $string1 has zero length? Odd. Give huge penalty by not dividing.
         if (! $string1) {

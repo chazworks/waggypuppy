@@ -4299,13 +4299,13 @@ class Tests_Comment_Query extends WP_UnitTestCase
         $this->assertEqualSets([$c1, $c5], array_values(wp_list_pluck($q->comments, 'comment_ID')));
 
         // Direct descendants of $c1.
-        $this->assertEqualSets([$c2, $c4], array_values(wp_list_pluck($q->comments[ $c1 ]->get_children($args), 'comment_ID')));
+        $this->assertEqualSets([$c2, $c4], array_values(wp_list_pluck($q->comments[$c1]->get_children($args), 'comment_ID')));
 
         // Direct descendants of $c2.
-        $this->assertEqualSets([$c3], array_values(wp_list_pluck($q->comments[ $c1 ]->get_child($c2)->get_children($args), 'comment_ID')));
+        $this->assertEqualSets([$c3], array_values(wp_list_pluck($q->comments[$c1]->get_child($c2)->get_children($args), 'comment_ID')));
 
         // Direct descendants of $c5.
-        $this->assertEqualSets([$c6], array_values(wp_list_pluck($q->comments[ $c5 ]->get_children($args), 'comment_ID')));
+        $this->assertEqualSets([$c6], array_values(wp_list_pluck($q->comments[$c5]->get_children($args), 'comment_ID')));
     }
 
     /**
@@ -4381,10 +4381,10 @@ class Tests_Comment_Query extends WP_UnitTestCase
         $this->assertEqualSets([$c1, $c5], array_values(wp_list_pluck($q->comments, 'comment_ID')));
 
         // Direct descendants of $c1.
-        $this->assertEqualSets([$c2, $c4], array_values(wp_list_pluck($q->comments[ $c1 ]->get_children($args), 'comment_ID')));
+        $this->assertEqualSets([$c2, $c4], array_values(wp_list_pluck($q->comments[$c1]->get_children($args), 'comment_ID')));
 
         // Direct descendants of $c2.
-        $this->assertEqualSets([], array_values(wp_list_pluck($q->comments[ $c1 ]->get_child($c2)->get_children($args), 'comment_ID')));
+        $this->assertEqualSets([], array_values(wp_list_pluck($q->comments[$c1]->get_child($c2)->get_children($args), 'comment_ID')));
     }
 
     /**
@@ -4690,11 +4690,11 @@ class Tests_Comment_Query extends WP_UnitTestCase
             ]
         );
 
-        $found_1    = $found[ $c1 ];
+        $found_1    = $found[$c1];
         $children_1 = $found_1->get_children();
         $this->assertSameSets([$c2], array_keys($children_1));
 
-        $found_3    = $found[ $c3 ];
+        $found_3    = $found[$c3];
         $children_3 = $found_3->get_children();
         $this->assertSameSets([$c4, $c5], array_keys($children_3));
     }

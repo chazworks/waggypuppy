@@ -176,7 +176,7 @@ EXPECTED;
         // The first two links should link to page 1.
         foreach ($expected_attributes as $link_idx => $attributes) {
 
-            $document->loadHTML($links[ $link_idx ]);
+            $document->loadHTML($links[$link_idx]);
             $tag = $document->getElementsByTagName('a')->item(0);
 
             $this->assertNotNull($tag);
@@ -255,7 +255,7 @@ EXPECTED;
         ];
 
         foreach ($data as $index => $expected_href) {
-            $document->loadHTML($links[ $index ]);
+            $document->loadHTML($links[$index]);
             $tag = $document->getElementsByTagName('a')->item(0);
             $this->assertNotNull($tag);
 
@@ -296,7 +296,7 @@ EXPECTED;
         ];
 
         foreach ($data as $index => $expected_href) {
-            $document->loadHTML($links[ $index ]);
+            $document->loadHTML($links[$index]);
             $tag = $document->getElementsByTagName('a')->item(0);
             $this->assertNotNull($tag);
 

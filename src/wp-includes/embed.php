@@ -152,8 +152,8 @@ function _wp_oembed_get_object()
 function wp_oembed_add_provider($format, $provider, $regex = false)
 {
     if (did_action('plugins_loaded')) {
-        $oembed                       = _wp_oembed_get_object();
-        $oembed->providers[ $format ] = [$provider, $regex];
+        $oembed                     = _wp_oembed_get_object();
+        $oembed->providers[$format] = [$provider, $regex];
     } else {
         WP_oEmbed::_add_provider_early($format, $provider, $regex);
     }
@@ -174,8 +174,8 @@ function wp_oembed_remove_provider($format)
     if (did_action('plugins_loaded')) {
         $oembed = _wp_oembed_get_object();
 
-        if (isset($oembed->providers[ $format ])) {
-            unset($oembed->providers[ $format ]);
+        if (isset($oembed->providers[$format])) {
+            unset($oembed->providers[$format]);
             return true;
         }
     } else {
@@ -882,9 +882,9 @@ function wp_filter_oembed_iframe_title_attribute($result, $data, $url)
             if ($lower_attr === $attr) {
                 continue;
             }
-            if (! isset($attrs[ $lower_attr ])) {
-                $attrs[ $lower_attr ] = $item;
-                unset($attrs[ $attr ]);
+            if (! isset($attrs[$lower_attr])) {
+                $attrs[$lower_attr] = $item;
+                unset($attrs[$attr]);
             }
         }
     }

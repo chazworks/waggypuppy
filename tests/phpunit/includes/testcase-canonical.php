@@ -214,7 +214,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
 
         self::$terms['/category/parent/'] = $cat1;
 
-        self::$term_ids[ $cat1 ] = 'category';
+        self::$term_ids[$cat1] = 'category';
 
         $cat2 = $factory->term->create(
             [
@@ -226,7 +226,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
 
         self::$terms['/category/parent/child-1/'] = $cat2;
 
-        self::$term_ids[ $cat2 ] = 'category';
+        self::$term_ids[$cat2] = 'category';
 
         $cat3 = $factory->term->create(
             [
@@ -238,7 +238,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
 
         self::$terms['/category/parent/child-1/child-2/'] = $cat3;
 
-        self::$term_ids[ $cat3 ] = 'category';
+        self::$term_ids[$cat3] = 'category';
 
         $cat4 = $factory->term->create(
             [
@@ -247,7 +247,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
             ]
         );
 
-        self::$term_ids[ $cat4 ] = 'category';
+        self::$term_ids[$cat4] = 'category';
 
         $cat5 = $factory->term->create(
             [
@@ -256,7 +256,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
             ]
         );
 
-        self::$term_ids[ $cat5 ] = 'category';
+        self::$term_ids[$cat5] = 'category';
 
         $tag1 = $factory->term->create(
             [
@@ -264,7 +264,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
             ]
         );
 
-        self::$term_ids[ $tag1 ] = 'post_tag';
+        self::$term_ids[$tag1] = 'post_tag';
     }
 
     /**

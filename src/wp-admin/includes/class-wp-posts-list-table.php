@@ -188,7 +188,7 @@ class WP_Posts_List_Table extends WP_List_Table
             $post_counts = (array) wp_count_posts($post_type, 'readable');
 
             if (isset($_REQUEST['post_status']) && in_array($_REQUEST['post_status'], $avail_post_stati, true)) {
-                $total_items = $post_counts[ $_REQUEST['post_status'] ];
+                $total_items = $post_counts[$_REQUEST['post_status']];
             } elseif (isset($_REQUEST['show_sticky']) && $_REQUEST['show_sticky']) {
                 $total_items = $this->sticky_posts_count;
             } elseif (isset($_GET['author']) && get_current_user_id() === (int) $_GET['author']) {
@@ -198,7 +198,7 @@ class WP_Posts_List_Table extends WP_List_Table
 
                 // Subtract post types that are not included in the admin all list.
                 foreach (get_post_stati(['show_in_admin_all_list' => false]) as $state) {
-                    $total_items -= $post_counts[ $state ];
+                    $total_items -= $post_counts[$state];
                 }
             }
         }
@@ -394,7 +394,7 @@ class WP_Posts_List_Table extends WP_List_Table
                 number_format_i18n($num_posts->$status_name)
             );
 
-            $status_links[ $status_name ] = [
+            $status_links[$status_name] = [
                 'url'     => esc_url(add_query_arg($status_args, 'edit.php')),
                 'label'   => $status_label,
                 'current' => isset($_REQUEST['post_status']) && $status_name === $_REQUEST['post_status'],
@@ -715,7 +715,7 @@ class WP_Posts_List_Table extends WP_List_Table
                 $column_key = 'taxonomy-' . $taxonomy;
             }
 
-            $posts_columns[ $column_key ] = get_taxonomy($taxonomy)->labels->name;
+            $posts_columns[$column_key] = get_taxonomy($taxonomy)->labels->name;
         }
 
         $post_status = ! empty($_REQUEST['post_status']) ? $_REQUEST['post_status'] : 'all';
@@ -901,7 +901,7 @@ class WP_Posts_List_Table extends WP_List_Table
                 }
 
                 if ($page->post_parent > 0) {
-                    $children_pages[ $page->post_parent ][] = $page;
+                    $children_pages[$page->post_parent][] = $page;
                 } else {
                     $top_level_pages[] = $page;
                 }
@@ -921,7 +921,7 @@ class WP_Posts_List_Table extends WP_List_Table
             }
 
             if ($count >= $start) {
-                $to_display[ $page->ID ] = $level;
+                $to_display[$page->ID] = $level;
             }
 
             ++$count;
@@ -940,7 +940,7 @@ class WP_Posts_List_Table extends WP_List_Table
                     }
 
                     if ($count >= $start) {
-                        $to_display[ $op->ID ] = 0;
+                        $to_display[$op->ID] = 0;
                     }
 
                     ++$count;
@@ -980,14 +980,14 @@ class WP_Posts_List_Table extends WP_List_Table
      */
     private function _page_rows(&$children_pages, &$count, $parent_page, $level, $pagenum, $per_page, &$to_display)
     {
-        if (! isset($children_pages[ $parent_page ])) {
+        if (! isset($children_pages[$parent_page])) {
             return;
         }
 
         $start = ($pagenum - 1) * $per_page;
         $end   = $start + $per_page;
 
-        foreach ($children_pages[ $parent_page ] as $page) {
+        foreach ($children_pages[$parent_page] as $page) {
             if ($count >= $end) {
                 break;
             }
@@ -1018,13 +1018,13 @@ class WP_Posts_List_Table extends WP_List_Table
                 $num_parents = count($my_parents);
 
                 while ($my_parent = array_pop($my_parents)) {
-                    $to_display[ $my_parent->ID ] = $level - $num_parents;
+                    $to_display[$my_parent->ID] = $level - $num_parents;
                     --$num_parents;
                 }
             }
 
             if ($count >= $start) {
-                $to_display[ $page->ID ] = $level;
+                $to_display[$page->ID] = $level;
             }
 
             ++$count;
@@ -1032,7 +1032,7 @@ class WP_Posts_List_Table extends WP_List_Table
             $this->_page_rows($children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page, $to_display);
         }
 
-        unset($children_pages[ $parent_page ]); // Required in order to keep track of orphans.
+        unset($children_pages[$parent_page]); // Required in order to keep track of orphans.
     }
 
     /**
@@ -1292,7 +1292,7 @@ class WP_Posts_List_Table extends WP_List_Table
         ?>
         <div class="post-com-count-wrapper">
         <?php
-            $pending_comments = isset($this->comment_pending_count[ $post->ID ]) ? $this->comment_pending_count[ $post->ID ] : 0;
+            $pending_comments = isset($this->comment_pending_count[$post->ID]) ? $this->comment_pending_count[$post->ID] : 0;
 
             $this->comments_bubble($post->ID, $pending_comments);
         ?>
@@ -1355,7 +1355,7 @@ class WP_Posts_List_Table extends WP_List_Table
                     }
 
                     if ($taxonomy_object->query_var) {
-                        $posts_in_term_qv[ $taxonomy_object->query_var ] = $t->slug;
+                        $posts_in_term_qv[$taxonomy_object->query_var] = $t->slug;
                     } else {
                         $posts_in_term_qv['taxonomy'] = $taxonomy;
                         $posts_in_term_qv['term']     = $t->slug;
@@ -2081,7 +2081,7 @@ class WP_Posts_List_Table extends WP_List_Table
             list( $columns ) = $this->get_column_info();
 
             foreach ($columns as $column_name => $column_display_name) {
-                if (isset($core_columns[ $column_name ])) {
+                if (isset($core_columns[$column_name])) {
                     continue;
                 }
 

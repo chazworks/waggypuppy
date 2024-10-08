@@ -271,7 +271,7 @@ function wp_date($format, $timestamp = null, $timezone = null)
         $weekday       = $wp_locale->get_weekday($datetime->format('w'));
 
         for ($i = 0; $i < $format_length; $i++) {
-            switch ($format[ $i ]) {
+            switch ($format[$i]) {
                 case 'D':
                     $new_format .= addcslashes($wp_locale->get_weekday_abbrev($weekday), '\\A..Za..z');
                     break;
@@ -291,15 +291,15 @@ function wp_date($format, $timestamp = null, $timezone = null)
                     $new_format .= addcslashes($wp_locale->get_meridiem($datetime->format('A')), '\\A..Za..z');
                     break;
                 case '\\':
-                    $new_format .= $format[ $i ];
+                    $new_format .= $format[$i];
 
                     // If character follows a slash, we add it without translating.
                     if ($i < $format_length) {
-                        $new_format .= $format[ ++$i ];
+                        $new_format .= $format[++$i];
                     }
                     break;
                 default:
-                    $new_format .= $format[ $i ];
+                    $new_format .= $format[$i];
                     break;
             }
         }
@@ -369,11 +369,11 @@ function wp_maybe_decline_date($date, $format = '')
 
         if ($decline) {
             foreach ($months as $key => $month) {
-                $months[ $key ] = '# ' . preg_quote($month, '#') . '\b#u';
+                $months[$key] = '# ' . preg_quote($month, '#') . '\b#u';
             }
 
             foreach ($months_genitive as $key => $month) {
-                $months_genitive[ $key ] = ' ' . $month;
+                $months_genitive[$key] = ' ' . $month;
             }
 
             $date = preg_replace($months, $months_genitive, $date);
@@ -392,11 +392,11 @@ function wp_maybe_decline_date($date, $format = '')
 
         if ($decline) {
             foreach ($months as $key => $month) {
-                $months[ $key ] = '#\b' . preg_quote($month, '#') . ' (\d{1,2})(st|nd|rd|th)?([-–]\d{1,2})?(st|nd|rd|th)?\b#u';
+                $months[$key] = '#\b' . preg_quote($month, '#') . ' (\d{1,2})(st|nd|rd|th)?([-–]\d{1,2})?(st|nd|rd|th)?\b#u';
             }
 
             foreach ($months_genitive as $key => $month) {
-                $months_genitive[ $key ] = '$1$3 ' . $month;
+                $months_genitive[$key] = '$1$3 ' . $month;
             }
 
             $date = preg_replace($months, $months_genitive, $date);
@@ -1202,15 +1202,15 @@ function add_query_arg(...$args)
     $qs = urlencode_deep($qs); // This re-URL-encodes things that were already in the query string.
     if (is_array($args[0])) {
         foreach ($args[0] as $k => $v) {
-            $qs[ $k ] = $v;
+            $qs[$k] = $v;
         }
     } else {
-        $qs[ $args[0] ] = $args[1];
+        $qs[$args[0]] = $args[1];
     }
 
     foreach ($qs as $k => $v) {
         if (false === $v) {
-            unset($qs[ $k ]);
+            unset($qs[$k]);
         }
     }
 
@@ -1310,9 +1310,9 @@ function add_magic_quotes($input_array)
 {
     foreach ((array) $input_array as $k => $v) {
         if (is_array($v)) {
-            $input_array[ $k ] = add_magic_quotes($v);
+            $input_array[$k] = add_magic_quotes($v);
         } elseif (is_string($v)) {
-            $input_array[ $k ] = addslashes($v);
+            $input_array[$k] = addslashes($v);
         }
     }
 
@@ -1461,8 +1461,8 @@ function get_status_header_desc($code)
         ];
     }
 
-    if (isset($wp_header_to_desc[ $code ])) {
-        return $wp_header_to_desc[ $code ];
+    if (isset($wp_header_to_desc[$code])) {
+        return $wp_header_to_desc[$code];
     } else {
         return '';
     }
@@ -2340,7 +2340,7 @@ function wp_is_writable($path)
  */
 function win_is_writable($path)
 {
-    if ('/' === $path[ strlen($path) - 1 ]) {
+    if ('/' === $path[strlen($path) - 1]) {
         // If it looks like a directory, check a random file within the directory.
         return win_is_writable($path . uniqid(mt_rand()) . '.tmp');
     } elseif (is_dir($path)) {
@@ -2425,8 +2425,8 @@ function wp_upload_dir($time = null, $create_dir = true, $refresh_cache = false)
 
     $key = sprintf('%d-%s', get_current_blog_id(), (string) $time);
 
-    if ($refresh_cache || empty($cache[ $key ])) {
-        $cache[ $key ] = _wp_upload_dir($time);
+    if ($refresh_cache || empty($cache[$key])) {
+        $cache[$key] = _wp_upload_dir($time);
     }
 
     /**
@@ -2445,13 +2445,13 @@ function wp_upload_dir($time = null, $create_dir = true, $refresh_cache = false)
      *     @type string|false $error   False or error message.
      * }
      */
-    $uploads = apply_filters('upload_dir', $cache[ $key ]);
+    $uploads = apply_filters('upload_dir', $cache[$key]);
 
     if ($create_dir) {
         $path = $uploads['path'];
 
         if (array_key_exists($path, $tested_paths)) {
-            $uploads['error'] = $tested_paths[ $path ];
+            $uploads['error'] = $tested_paths[$path];
         } else {
             if (! wp_mkdir_p($path)) {
                 if (str_starts_with($uploads['basedir'], ABSPATH)) {
@@ -2467,7 +2467,7 @@ function wp_upload_dir($time = null, $create_dir = true, $refresh_cache = false)
                 );
             }
 
-            $tested_paths[ $path ] = $uploads['error'];
+            $tested_paths[$path] = $uploads['error'];
         }
     }
 
@@ -2772,9 +2772,9 @@ function wp_unique_filename($dir, $filename, $unique_filename_callback = null)
             $output_formats = wp_get_image_editor_output_format($_dir . $filename, $mime_type);
             $alt_types      = [];
 
-            if (! empty($output_formats[ $mime_type ])) {
+            if (! empty($output_formats[$mime_type])) {
                 // The image will be converted to this format/mime type.
-                $alt_mime_type = $output_formats[ $mime_type ];
+                $alt_mime_type = $output_formats[$mime_type];
 
                 // Other types of images whose names may conflict if their sub-sizes are regenerated.
                 $alt_types   = array_keys(array_intersect($output_formats, [$mime_type, $alt_mime_type]));
@@ -2796,7 +2796,7 @@ function wp_unique_filename($dir, $filename, $unique_filename_callback = null)
                 $alt_ext      = ".{$alt_ext}";
                 $alt_filename = preg_replace('|' . preg_quote($lc_ext) . '$|', $alt_ext, $filename);
 
-                $alt_filenames[ $alt_ext ] = $alt_filename;
+                $alt_filenames[$alt_ext] = $alt_filename;
             }
 
             if (! empty($alt_filenames)) {
@@ -2804,7 +2804,7 @@ function wp_unique_filename($dir, $filename, $unique_filename_callback = null)
                  * Add the original filename. It needs to be checked again
                  * together with the alternate filenames when $number is incremented.
                  */
-                $alt_filenames[ $lc_ext ] = $filename;
+                $alt_filenames[$lc_ext] = $filename;
 
                 // Ensure no infinite loop.
                 $i = 0;
@@ -2813,7 +2813,7 @@ function wp_unique_filename($dir, $filename, $unique_filename_callback = null)
                     $new_number = (int) $number + 1;
 
                     foreach ($alt_filenames as $alt_ext => $alt_filename) {
-                        $alt_filenames[ $alt_ext ] = str_replace(
+                        $alt_filenames[$alt_ext] = str_replace(
                             ["-{$number}{$alt_ext}", "{$number}{$alt_ext}"],
                             "-{$new_number}{$alt_ext}",
                             $alt_filename
@@ -3194,10 +3194,10 @@ function wp_check_filetype_and_ext($file, $filename, $mimes = null)
             );
 
             // Replace whatever is after the last period in the filename with the correct extension.
-            if (! empty($mime_to_ext[ $real_mime ])) {
+            if (! empty($mime_to_ext[$real_mime])) {
                 $filename_parts = explode('.', $filename);
                 array_pop($filename_parts);
-                $filename_parts[] = $mime_to_ext[ $real_mime ];
+                $filename_parts[] = $mime_to_ext[$real_mime];
                 $new_filename     = implode('.', $filename_parts);
 
                 if ($new_filename !== $filename) {
@@ -4474,11 +4474,11 @@ function _wp_json_sanity_check($value, $depth)
 
             // Check the element type, so that we're only recursing if we really have to.
             if (is_array($el) || is_object($el)) {
-                $output[ $clean_id ] = _wp_json_sanity_check($el, $depth - 1);
+                $output[$clean_id] = _wp_json_sanity_check($el, $depth - 1);
             } elseif (is_string($el)) {
-                $output[ $clean_id ] = _wp_json_convert_string($el);
+                $output[$clean_id] = _wp_json_convert_string($el);
             } else {
-                $output[ $clean_id ] = $el;
+                $output[$clean_id] = $el;
             }
         }
     } elseif (is_object($value)) {
@@ -5086,8 +5086,8 @@ function wp_array_slice_assoc($input_array, $keys)
     $slice = [];
 
     foreach ($keys as $key) {
-        if (isset($input_array[ $key ])) {
-            $slice[ $key ] = $input_array[ $key ];
+        if (isset($input_array[$key])) {
+            $slice[$key] = $input_array[$key];
         }
     }
 
@@ -5164,8 +5164,8 @@ function _wp_array_get($input_array, $path, $default_value = null)
              * We check with `isset()` first, as it is a lot faster
              * than `array_key_exists()`.
              */
-            if (isset($input_array[ $path_element ])) {
-                $input_array = $input_array[ $path_element ];
+            if (isset($input_array[$path_element])) {
+                $input_array = $input_array[$path_element];
                 continue;
             }
 
@@ -5174,7 +5174,7 @@ function _wp_array_get($input_array, $path, $default_value = null)
              * which also checks for `null` values.
              */
             if (array_key_exists($path_element, $input_array)) {
-                $input_array = $input_array[ $path_element ];
+                $input_array = $input_array[$path_element];
                 continue;
             }
         }
@@ -5241,16 +5241,16 @@ function _wp_array_set(&$input_array, $path, $value = null)
     }
 
     for ($i = 0; $i < $path_length - 1; ++$i) {
-        $path_element = $path[ $i ];
+        $path_element = $path[$i];
         if (! array_key_exists($path_element, $input_array) ||
-            ! is_array($input_array[ $path_element ])
+            ! is_array($input_array[$path_element])
         ) {
-            $input_array[ $path_element ] = [];
+            $input_array[$path_element] = [];
         }
-        $input_array = &$input_array[ $path_element ];
+        $input_array = &$input_array[$path_element];
     }
 
-    $input_array[ $path[ $i ] ] = $value;
+    $input_array[$path[$i]] = $value;
 }
 
 /**
@@ -6804,7 +6804,7 @@ function wp_timezone_choice($selected_zone, $locale = null)
             // It's inside a continent group.
 
             // Continent optgroup.
-            if (! isset($zonen[ $key - 1 ]) || $zonen[ $key - 1 ]['continent'] !== $zone['continent']) {
+            if (! isset($zonen[$key - 1]) || $zonen[$key - 1]['continent'] !== $zone['continent']) {
                 $label       = $zone['t_continent'];
                 $structure[] = '<optgroup label="' . esc_attr($label) . '">';
             }
@@ -6829,7 +6829,7 @@ function wp_timezone_choice($selected_zone, $locale = null)
         $structure[] = '<option ' . $selected . 'value="' . esc_attr($value) . '">' . esc_html($display) . '</option>';
 
         // Close continent optgroup.
-        if (! empty($zone['city']) && (! isset($zonen[ $key + 1 ]) || (isset($zonen[ $key + 1 ]) && $zonen[ $key + 1 ]['continent'] !== $zone['continent']))) {
+        if (! empty($zone['city']) && (! isset($zonen[$key + 1]) || (isset($zonen[$key + 1]) && $zonen[$key + 1]['continent'] !== $zone['continent']))) {
             $structure[] = '</optgroup>';
         }
     }
@@ -7046,9 +7046,9 @@ function get_file_data($file, $default_headers, $context = '')
 
     foreach ($all_headers as $field => $regex) {
         if (preg_match('/^(?:[ \t]*<\?php)?[ \t\/*#@]*' . preg_quote($regex, '/') . ':(.*)$/mi', $file_data, $match) && $match[1]) {
-            $all_headers[ $field ] = _cleanup_header_comment($match[1]);
+            $all_headers[$field] = _cleanup_header_comment($match[1]);
         } else {
-            $all_headers[ $field ] = '';
+            $all_headers[$field] = '';
         }
     }
 
@@ -7240,14 +7240,14 @@ function wp_find_hierarchy_loop_tortoise_hare($callback, $start, $override = [],
     // Set evanescent_hare to one past hare. Increment hare two steps.
     while ($tortoise
     &&
-        ($evanescent_hare = isset($override[ $hare ]) ? $override[ $hare ] : call_user_func_array($callback, array_merge([$hare], $callback_args)))
+        ($evanescent_hare = isset($override[$hare]) ? $override[$hare] : call_user_func_array($callback, array_merge([$hare], $callback_args)))
     &&
-        ($hare = isset($override[ $evanescent_hare ]) ? $override[ $evanescent_hare ] : call_user_func_array($callback, array_merge([$evanescent_hare], $callback_args)))
+        ($hare = isset($override[$evanescent_hare]) ? $override[$evanescent_hare] : call_user_func_array($callback, array_merge([$evanescent_hare], $callback_args)))
     ) {
         if ($_return_loop) {
-            $return[ $tortoise ]        = true;
-            $return[ $evanescent_hare ] = true;
-            $return[ $hare ]            = true;
+            $return[$tortoise]        = true;
+            $return[$evanescent_hare] = true;
+            $return[$hare]            = true;
         }
 
         // Tortoise got lapped - must be a loop.
@@ -7256,7 +7256,7 @@ function wp_find_hierarchy_loop_tortoise_hare($callback, $start, $override = [],
         }
 
         // Increment tortoise by one step.
-        $tortoise = isset($override[ $tortoise ]) ? $override[ $tortoise ] : call_user_func_array($callback, array_merge([$tortoise], $callback_args));
+        $tortoise = isset($override[$tortoise]) ? $override[$tortoise] : call_user_func_array($callback, array_merge([$tortoise], $callback_args));
     }
 
     return false;
@@ -8151,11 +8151,11 @@ function wp_unique_prefixed_id($prefix = '')
         $prefix = '';
     }
 
-    if (! isset($id_counters[ $prefix ])) {
-        $id_counters[ $prefix ] = 0;
+    if (! isset($id_counters[$prefix])) {
+        $id_counters[$prefix] = 0;
     }
 
-    $id = ++$id_counters[ $prefix ];
+    $id = ++$id_counters[$prefix];
 
     return $prefix . (string) $id;
 }
@@ -8867,8 +8867,8 @@ function recurse_dirsize($directory, $exclude = null, $max_execution_time = null
         $save_cache      = true;
     }
 
-    if (isset($directory_cache[ $directory ]) && is_int($directory_cache[ $directory ])) {
-        return $directory_cache[ $directory ];
+    if (isset($directory_cache[$directory]) && is_int($directory_cache[$directory])) {
+        return $directory_cache[$directory];
     }
 
     if (! file_exists($directory) || ! is_dir($directory) || ! is_readable($directory)) {
@@ -8947,7 +8947,7 @@ function recurse_dirsize($directory, $exclude = null, $max_execution_time = null
         $directory_cache = [];
     }
 
-    $directory_cache[ $directory ] = $size;
+    $directory_cache[$directory] = $size;
 
     // Only write the transient on the top level call and not on recursive calls.
     if ($save_cache) {
@@ -8993,14 +8993,14 @@ function clean_dirsize_cache($path)
     if (! str_contains($path, '/') &&
         ! str_contains($path, '\\')
     ) {
-        unset($directory_cache[ $path ]);
+        unset($directory_cache[$path]);
         set_transient('dirsize_cache', $directory_cache, $expiration);
         return;
     }
 
     $last_path = null;
     $path      = untrailingslashit($path);
-    unset($directory_cache[ $path ]);
+    unset($directory_cache[$path]);
 
     while ($last_path !== $path &&
         DIRECTORY_SEPARATOR !== $path &&
@@ -9009,7 +9009,7 @@ function clean_dirsize_cache($path)
     ) {
         $last_path = $path;
         $path      = dirname($path);
-        unset($directory_cache[ $path ]);
+        unset($directory_cache[$path]);
     }
 
     set_transient('dirsize_cache', $directory_cache, $expiration);

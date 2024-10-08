@@ -296,7 +296,7 @@ class Tests_Theme_wpThemeJsonResolver extends WP_UnitTestCase
         $resolver             = WP_Block_Type_Registry::get_instance();
         $blocks               = $resolver->get_all_registered();
         foreach (array_keys($blocks) as $block_name) {
-            $expected_block_names[ $block_name ] = true;
+            $expected_block_names[$block_name] = true;
         }
 
         return $expected_block_names;
@@ -321,13 +321,13 @@ class Tests_Theme_wpThemeJsonResolver extends WP_UnitTestCase
         $expected_cache = $this->get_registered_block_names();
 
         // Set up the blocks cache for the origin.
-        $blocks_cache            = static::$property_blocks_cache->getValue();
-        $blocks_cache[ $origin ] = $cache;
+        $blocks_cache          = static::$property_blocks_cache->getValue();
+        $blocks_cache[$origin] = $cache;
         static::$property_blocks_cache->setValue(null, $blocks_cache);
 
         $this->assertFalse($has_same_registered_blocks->invoke(null, $origin), 'WP_Theme_JSON_Resolver::has_same_registered_blocks() should return false when same blocks are not cached');
         $blocks_cache = static::$property_blocks_cache->getValue();
-        $this->assertSameSets($expected_cache, $blocks_cache[ $origin ], 'WP_Theme_JSON_Resolver::$blocks_cache should contain all expected block names for the given origin');
+        $this->assertSameSets($expected_cache, $blocks_cache[$origin], 'WP_Theme_JSON_Resolver::$blocks_cache should contain all expected block names for the given origin');
     }
 
     /**
@@ -397,12 +397,12 @@ class Tests_Theme_wpThemeJsonResolver extends WP_UnitTestCase
         $expected_cache = $this->get_registered_block_names();
 
         // Set up the cache with all registered blocks.
-        $blocks_cache            = static::$property_blocks_cache->getValue();
-        $blocks_cache[ $origin ] = $this->get_registered_block_names();
+        $blocks_cache          = static::$property_blocks_cache->getValue();
+        $blocks_cache[$origin] = $this->get_registered_block_names();
         static::$property_blocks_cache->setValue(null, $blocks_cache);
 
         $this->assertTrue($has_same_registered_blocks->invoke(null, $origin), 'WP_Theme_JSON_Resolver::has_same_registered_blocks() should return true when using the cache');
-        $this->assertSameSets($expected_cache, $blocks_cache[ $origin ], 'WP_Theme_JSON_Resolver::$blocks_cache should contain all expected block names for the given origin');
+        $this->assertSameSets($expected_cache, $blocks_cache[$origin], 'WP_Theme_JSON_Resolver::$blocks_cache should contain all expected block names for the given origin');
     }
 
     /**

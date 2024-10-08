@@ -158,8 +158,8 @@ function get_bookmarks($args = '')
     $cache = wp_cache_get('get_bookmarks', 'bookmark');
 
     if ('rand' !== $parsed_args['orderby'] && $cache) {
-        if (is_array($cache) && isset($cache[ $key ])) {
-            $bookmarks = $cache[ $key ];
+        if (is_array($cache) && isset($cache[$key])) {
+            $bookmarks = $cache[$key];
             /**
              * Filters the returned list of bookmarks.
              *
@@ -226,7 +226,7 @@ function get_bookmarks($args = '')
         if ($parsed_args['category']) {
             $parsed_args['category'] = $parsed_args['category']->term_id;
         } else {
-            $cache[ $key ] = [];
+            $cache[$key] = [];
             wp_cache_set('get_bookmarks', $cache, 'bookmark');
             /** This filter is documented in wp-includes/bookmark.php */
             return apply_filters('get_bookmarks', [], $parsed_args);
@@ -317,7 +317,7 @@ function get_bookmarks($args = '')
     $results = $wpdb->get_results($query);
 
     if ('rand()' !== $orderby) {
-        $cache[ $key ] = $results;
+        $cache[$key] = $results;
         wp_cache_set('get_bookmarks', $cache, 'bookmark');
     }
 
@@ -367,8 +367,8 @@ function sanitize_bookmark($bookmark, $context = 'display')
                 $bookmark->$field = sanitize_bookmark_field($field, $bookmark->$field, $link_id, $context);
             }
         } else {
-            if (isset($bookmark[ $field ])) {
-                $bookmark[ $field ] = sanitize_bookmark_field($field, $bookmark[ $field ], $link_id, $context);
+            if (isset($bookmark[$field])) {
+                $bookmark[$field] = sanitize_bookmark_field($field, $bookmark[$field], $link_id, $context);
             }
         }
     }

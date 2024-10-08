@@ -363,14 +363,14 @@ function wp_theme_has_theme_json()
 
     $stylesheet = get_stylesheet();
 
-    if (isset($theme_has_support[ $stylesheet ]) &&
+    if (isset($theme_has_support[$stylesheet]) &&
         /*
          * Ignore static cache when the development mode is set to 'theme', to avoid interfering with
          * the theme developer's workflow.
          */
         ! wp_is_development_mode('theme')
     ) {
-        return $theme_has_support[ $stylesheet ];
+        return $theme_has_support[$stylesheet];
     }
 
     $stylesheet_directory = get_stylesheet_directory();
@@ -386,9 +386,9 @@ function wp_theme_has_theme_json()
     /** This filter is documented in wp-includes/link-template.php */
     $path = apply_filters('theme_file_path', $path, 'theme.json');
 
-    $theme_has_support[ $stylesheet ] = file_exists($path);
+    $theme_has_support[$stylesheet] = file_exists($path);
 
-    return $theme_has_support[ $stylesheet ];
+    return $theme_has_support[$stylesheet];
 }
 
 /**

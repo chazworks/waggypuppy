@@ -20,8 +20,9 @@ if (! is_multisite()) {
 
 $valid_error_codes = ['already_active', 'blog_taken'];
 
-list( $activate_path ) = explode('?', wp_unslash($_SERVER['REQUEST_URI']));
-$activate_cookie       = 'wp-activate-' . COOKIEHASH;
+[$activate_path] = explode('?', wp_unslash($_SERVER['REQUEST_URI']));
+
+$activate_cookie = 'wp-activate-' . COOKIEHASH;
 
 $key    = '';
 $result = null;
@@ -46,8 +47,8 @@ if ($key) {
     }
 }
 
-if (null === $result && isset($_COOKIE[ $activate_cookie ])) {
-    $key    = $_COOKIE[ $activate_cookie ];
+if (null === $result && isset($_COOKIE[$activate_cookie])) {
+    $key    = $_COOKIE[$activate_cookie];
     $result = wpmu_activate_signup($key);
     setcookie($activate_cookie, ' ', time() - YEAR_IN_SECONDS, $activate_path, COOKIE_DOMAIN, is_ssl(), true);
 }

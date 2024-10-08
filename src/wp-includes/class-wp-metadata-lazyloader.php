@@ -81,20 +81,20 @@ class WP_Metadata_Lazyloader
      */
     public function queue_objects($object_type, $object_ids)
     {
-        if (! isset($this->settings[ $object_type ])) {
+        if (! isset($this->settings[$object_type])) {
             return new WP_Error('invalid_object_type', __('Invalid object type.'));
         }
 
-        $type_settings = $this->settings[ $object_type ];
+        $type_settings = $this->settings[$object_type];
 
-        if (! isset($this->pending_objects[ $object_type ])) {
-            $this->pending_objects[ $object_type ] = [];
+        if (! isset($this->pending_objects[$object_type])) {
+            $this->pending_objects[$object_type] = [];
         }
 
         foreach ($object_ids as $object_id) {
             // Keyed by ID for faster lookup.
-            if (! isset($this->pending_objects[ $object_type ][ $object_id ])) {
-                $this->pending_objects[ $object_type ][ $object_id ] = 1;
+            if (! isset($this->pending_objects[$object_type][$object_id])) {
+                $this->pending_objects[$object_type][$object_id] = 1;
             }
         }
 
@@ -122,13 +122,13 @@ class WP_Metadata_Lazyloader
      */
     public function reset_queue($object_type)
     {
-        if (! isset($this->settings[ $object_type ])) {
+        if (! isset($this->settings[$object_type])) {
             return new WP_Error('invalid_object_type', __('Invalid object type.'));
         }
 
-        $type_settings = $this->settings[ $object_type ];
+        $type_settings = $this->settings[$object_type];
 
-        $this->pending_objects[ $object_type ] = [];
+        $this->pending_objects[$object_type] = [];
         remove_filter($type_settings['filter'], $type_settings['callback']);
     }
 
@@ -188,11 +188,11 @@ class WP_Metadata_Lazyloader
      */
     public function lazyload_meta_callback($check, $object_id, $meta_key, $single, $meta_type)
     {
-        if (empty($this->pending_objects[ $meta_type ])) {
+        if (empty($this->pending_objects[$meta_type])) {
             return $check;
         }
 
-        $object_ids = array_keys($this->pending_objects[ $meta_type ]);
+        $object_ids = array_keys($this->pending_objects[$meta_type]);
         if ($object_id && ! in_array($object_id, $object_ids, true)) {
             $object_ids[] = $object_id;
         }

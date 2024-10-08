@@ -426,7 +426,7 @@ class Tests_Pluggable_wpMail extends WP_UnitTestCase
 
         foreach ($headers as $header => $value) {
             $target_headers = preg_grep("/^$header:/", $sent_headers);
-            $this->assertSame($expected[ $header ], array_pop($target_headers));
+            $this->assertSame($expected[$header], array_pop($target_headers));
         }
     }
 

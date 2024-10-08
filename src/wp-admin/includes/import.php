@@ -59,7 +59,7 @@ function register_importer($id, $name, $description, $callback)
     if (is_wp_error($callback)) {
         return $callback;
     }
-    $wp_importers[ $id ] = [$name, $description, $callback];
+    $wp_importers[$id] = [$name, $description, $callback];
 }
 
 /**

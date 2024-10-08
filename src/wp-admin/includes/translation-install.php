@@ -183,7 +183,7 @@ function wp_get_available_translations()
     $translations = [];
     // Key the array with the language code.
     foreach ($api['translations'] as $translation) {
-        $translations[ $translation['language'] ] = $translation;
+        $translations[$translation['language']] = $translation;
     }
 
     if (! defined('WP_INSTALLING')) {
@@ -213,9 +213,9 @@ function wp_install_language_form($languages)
     echo '<option value="" lang="en" selected="selected" data-continue="Continue" data-installed="1">English (United States)</option>';
     echo "\n";
 
-    if (! empty($wp_local_package) && isset($languages[ $wp_local_package ])) {
-        if (isset($languages[ $wp_local_package ])) {
-            $language = $languages[ $wp_local_package ];
+    if (! empty($wp_local_package) && isset($languages[$wp_local_package])) {
+        if (isset($languages[$wp_local_package])) {
+            $language = $languages[$wp_local_package];
             printf(
                 '<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
                 esc_attr($language['language']),
@@ -225,7 +225,7 @@ function wp_install_language_form($languages)
                 esc_html($language['native_name'])
             );
 
-            unset($languages[ $wp_local_package ]);
+            unset($languages[$wp_local_package]);
         }
     }
 

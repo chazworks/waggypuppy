@@ -115,7 +115,7 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
             $term   = "term_{$i}";
             $result = wp_insert_term($term, self::$taxonomy);
             $this->assertIsArray($result);
-            $term_id[ $term ] = $result['term_id'];
+            $term_id[$term] = $result['term_id'];
         }
 
         foreach ($ids as $id) {
@@ -153,8 +153,8 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
             $this->assertCount(3, $tt);
             // Remember which term has which term_id.
             for ($i = 0; $i < 3; $i++) {
-                $term                    = get_term_by('name', $terms[ $i ], self::$taxonomy);
-                $term_id[ $terms[ $i ] ] = (int) $term->term_id;
+                $term                = get_term_by('name', $terms[$i], self::$taxonomy);
+                $term_id[$terms[$i]] = (int) $term->term_id;
             }
         }
 
@@ -269,7 +269,7 @@ class Tests_Term_WpSetObjectTerms extends WP_UnitTestCase
             $term   = "term_{$i}";
             $result = wp_insert_term($term, self::$taxonomy);
             $this->assertIsArray($result);
-            $terms_1[ $i ] = $result['term_id'];
+            $terms_1[$i] = $result['term_id'];
         }
 
         // Second set: one of the original terms, plus one new term.

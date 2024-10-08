@@ -345,7 +345,7 @@ class WP_Test_REST_Widget_Types_Controller extends WP_Test_REST_Controller_Testc
 
         foreach ($extra_fields as $extra_field) {
             if (isset($widget_type->$extra_field)) {
-                $this->assertSame($data[ $extra_field ], $widget_type->$extra_field, 'Field ' . $extra_field);
+                $this->assertSame($data[$extra_field], $widget_type->$extra_field, 'Field ' . $extra_field);
             }
         }
 

@@ -631,7 +631,7 @@ class WP_Automatic_Updater
             $upgrader->maintenance_mode(false);
         }
 
-        $this->update_results[ $type ][] = (object) [
+        $this->update_results[$type][] = (object) [
             'item'     => $item,
             'result'   => $upgrade_result,
             'name'     => $item_name,
@@ -730,7 +730,7 @@ class WP_Automatic_Updater
         $theme_stats = [];
         if (isset($this->update_results['theme'])) {
             foreach ($this->update_results['theme'] as $upgrade) {
-                $theme_stats[ $upgrade->item->theme ] = (true === $upgrade->result);
+                $theme_stats[$upgrade->item->theme] = (true === $upgrade->result);
             }
         }
         wp_update_themes($theme_stats); // Check for theme updates.
@@ -738,7 +738,7 @@ class WP_Automatic_Updater
         $plugin_stats = [];
         if (isset($this->update_results['plugin'])) {
             foreach ($this->update_results['plugin'] as $upgrade) {
-                $plugin_stats[ $upgrade->item->plugin ] = (true === $upgrade->result);
+                $plugin_stats[$upgrade->item->plugin] = (true === $upgrade->result);
             }
         }
         wp_update_plugins($plugin_stats); // Check for plugin updates.
@@ -1250,13 +1250,13 @@ class WP_Automatic_Updater
         if ('fail' === $type) {
             foreach ($failed_updates as $update_type => $failures) {
                 foreach ($failures as $failed_update) {
-                    if (! isset($past_failure_emails[ $failed_update->item->{$update_type} ])) {
+                    if (! isset($past_failure_emails[$failed_update->item->{$update_type}])) {
                         $unique_failures = true;
                         continue;
                     }
 
                     // Check that the failure represents a new failure based on the new_version.
-                    if (version_compare($past_failure_emails[ $failed_update->item->{$update_type} ], $failed_update->item->new_version, '<')) {
+                    if (version_compare($past_failure_emails[$failed_update->item->{$update_type}], $failed_update->item->new_version, '<')) {
                         $unique_failures = true;
                     }
                 }
@@ -1371,7 +1371,7 @@ class WP_Automatic_Updater
 
                     $body[] = $body_message;
 
-                    $past_failure_emails[ $item->item->plugin ] = $item->item->new_version;
+                    $past_failure_emails[$item->item->plugin] = $item->item->new_version;
                 }
 
                 $body[] = "\n";
@@ -1399,7 +1399,7 @@ class WP_Automatic_Updater
                         );
                     }
 
-                    $past_failure_emails[ $item->item->theme ] = $item->item->new_version;
+                    $past_failure_emails[$item->item->theme] = $item->item->new_version;
                 }
 
                 $body[] = "\n";
@@ -1442,7 +1442,7 @@ class WP_Automatic_Updater
                     }
                     $body[] = $body_message;
 
-                    unset($past_failure_emails[ $item->item->plugin ]);
+                    unset($past_failure_emails[$item->item->plugin]);
                 }
 
                 $body[] = "\n";
@@ -1470,7 +1470,7 @@ class WP_Automatic_Updater
                         );
                     }
 
-                    unset($past_failure_emails[ $item->item->theme ]);
+                    unset($past_failure_emails[$item->item->theme]);
                 }
 
                 $body[] = "\n";
@@ -1576,11 +1576,11 @@ class WP_Automatic_Updater
 
         // Plugins, Themes, Translations.
         foreach (['plugin', 'theme', 'translation'] as $type) {
-            if (! isset($this->update_results[ $type ])) {
+            if (! isset($this->update_results[$type])) {
                 continue;
             }
 
-            $success_items = wp_list_filter($this->update_results[ $type ], ['result' => true]);
+            $success_items = wp_list_filter($this->update_results[$type], ['result' => true]);
 
             if ($success_items) {
                 $messages = [
@@ -1589,14 +1589,14 @@ class WP_Automatic_Updater
                     'translation' => __('The following translations were successfully updated:'),
                 ];
 
-                $body[] = $messages[ $type ];
+                $body[] = $messages[$type];
                 foreach (wp_list_pluck($success_items, 'name') as $name) {
                     /* translators: %s: Name of plugin / theme / translation. */
                     $body[] = ' * ' . sprintf(__('SUCCESS: %s'), $name);
                 }
             }
 
-            if ($success_items !== $this->update_results[ $type ]) {
+            if ($success_items !== $this->update_results[$type]) {
                 // Failed updates.
                 $messages = [
                     'plugin'      => __('The following plugins failed to update:'),
@@ -1604,9 +1604,9 @@ class WP_Automatic_Updater
                     'translation' => __('The following translations failed to update:'),
                 ];
 
-                $body[] = $messages[ $type ];
+                $body[] = $messages[$type];
 
-                foreach ($this->update_results[ $type ] as $item) {
+                foreach ($this->update_results[$type] as $item) {
                     if (! $item->result || is_wp_error($item->result)) {
                         /* translators: %s: Name of plugin / theme / translation. */
                         $body[] = ' * ' . sprintf(__('FAILED: %s'), $item->name);
@@ -1653,11 +1653,11 @@ This debugging email is sent when you are using a development version of waggypu
         $body[] = '';
 
         foreach (['core', 'plugin', 'theme', 'translation'] as $type) {
-            if (! isset($this->update_results[ $type ])) {
+            if (! isset($this->update_results[$type])) {
                 continue;
             }
 
-            foreach ($this->update_results[ $type ] as $update) {
+            foreach ($this->update_results[$type] as $update) {
                 $body[] = $update->name;
                 $body[] = str_repeat('-', strlen($update->name));
 

@@ -87,13 +87,13 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
 
         $media_types = $this->get_media_types();
 
-        if (! empty($request['media_type']) && isset($media_types[ $request['media_type'] ])) {
-            $query_args['post_mime_type'] = $media_types[ $request['media_type'] ];
+        if (! empty($request['media_type']) && isset($media_types[$request['media_type']])) {
+            $query_args['post_mime_type'] = $media_types[$request['media_type']];
         }
 
         if (! empty($request['mime_type'])) {
             $parts = explode('/', $request['mime_type']);
-            if (isset($media_types[ $parts[0] ]) && in_array($request['mime_type'], $media_types[ $parts[0] ], true)) {
+            if (isset($media_types[$parts[0]]) && in_array($request['mime_type'], $media_types[$parts[0]], true)) {
                 $query_args['post_mime_type'] = $request['mime_type'];
             }
         }
@@ -736,8 +736,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
         if (isset($image_meta['image_meta']) && isset($new_image_meta['image_meta']) && is_array($new_image_meta['image_meta'])) {
             // Merge but skip empty values.
             foreach ((array) $image_meta['image_meta'] as $key => $value) {
-                if (empty($new_image_meta['image_meta'][ $key ]) && ! empty($value)) {
-                    $new_image_meta['image_meta'][ $key ] = $value;
+                if (empty($new_image_meta['image_meta'][$key]) && ! empty($value)) {
+                    $new_image_meta['image_meta'][$key] = $value;
                 }
             }
         }
@@ -1234,7 +1234,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
 
                 list( $key, $value ) = explode('=', $part, 2);
 
-                $attributes[ trim($key) ] = trim($value);
+                $attributes[trim($key)] = trim($value);
             }
 
             if (empty($attributes['filename'])) {
@@ -1365,11 +1365,11 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
         foreach (get_allowed_mime_types() as $mime_type) {
             $parts = explode('/', $mime_type);
 
-            if (! isset($media_types[ $parts[0] ])) {
-                $media_types[ $parts[0] ] = [];
+            if (! isset($media_types[$parts[0]])) {
+                $media_types[$parts[0]] = [];
             }
 
-            $media_types[ $parts[0] ][] = $mime_type;
+            $media_types[$parts[0]][] = $mime_type;
         }
 
         return $media_types;

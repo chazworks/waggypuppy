@@ -81,9 +81,9 @@ if (isset($_REQUEST['action']) && 'update-site' === $_REQUEST['action']) {
 
     foreach ($blog_data_checkboxes as $c) {
         if (! in_array((int) $existing_details->$c, [0, 1], true)) {
-            $blog_data[ $c ] = $existing_details->$c;
+            $blog_data[$c] = $existing_details->$c;
         } else {
-            $blog_data[ $c ] = isset($_POST['blog'][ $c ]) ? 1 : 0;
+            $blog_data[$c] = isset($_POST['blog'][$c]) ? 1 : 0;
         }
     }
 

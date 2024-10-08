@@ -433,7 +433,7 @@ if (! class_exists('TwentyTwenty_Customize')) {
             // Loop values.
             foreach ($value as $area => $values) {
                 foreach ($values as $context => $color_val) {
-                    $value[ $area ][ $context ] = sanitize_hex_color($color_val);
+                    $value[$area][$context] = sanitize_hex_color($color_val);
                 }
             }
 

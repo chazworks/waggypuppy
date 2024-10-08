@@ -458,13 +458,13 @@ class Tests_Cron extends WP_UnitTestCase
         // Check cron option is unchanged.
         $this->assertSame($expected, _get_cron_array());
 
-        $expected_preflight[ $ts2 ][ $hook ][ md5(serialize([])) ] = [
+        $expected_preflight[$ts2][$hook][md5(serialize([]))] = [
             'schedule' => 'hourly',
             'interval' => HOUR_IN_SECONDS,
             'args'     => [],
         ];
 
-        $expected_preflight[ $ts1 ][ $hook ][ md5(serialize($args)) ] = [
+        $expected_preflight[$ts1][$hook][md5(serialize($args))] = [
             'schedule' => false,
             'interval' => 0,
             'args'     => $args,
@@ -480,7 +480,7 @@ class Tests_Cron extends WP_UnitTestCase
     {
         $key = md5(serialize($event->args));
 
-        $this->preflight_cron_array[ $event->timestamp ][ $event->hook ][ $key ] = [
+        $this->preflight_cron_array[$event->timestamp][$event->hook][$key] = [
             'schedule' => $event->schedule,
             'interval' => isset($event->interval) ? $event->interval : 0,
             'args'     => $event->args,

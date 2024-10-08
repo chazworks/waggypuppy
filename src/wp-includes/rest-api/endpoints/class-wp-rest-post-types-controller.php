@@ -122,8 +122,8 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller
                 continue;
             }
 
-            $post_type           = $this->prepare_item_for_response($type, $request);
-            $data[ $type->name ] = $this->prepare_response_for_collection($post_type);
+            $post_type         = $this->prepare_item_for_response($type, $request);
+            $data[$type->name] = $this->prepare_response_for_collection($post_type);
         }
 
         return rest_ensure_response($data);

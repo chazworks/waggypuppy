@@ -921,8 +921,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
                  */
                 $plugins         = get_plugins();
                 $plugin_basename = plugin_basename(sanitize_text_field($template_object->theme . '.php'));
-                if (isset($plugins[ $plugin_basename ]) && isset($plugins[ $plugin_basename ]['Name'])) {
-                    return $plugins[ $plugin_basename ]['Name'];
+                if (isset($plugins[$plugin_basename]) && isset($plugins[$plugin_basename]['Name'])) {
+                    return $plugins[$plugin_basename]['Name'];
                 }
                 return isset($template_object->plugin) ?
                     $template_object->plugin :

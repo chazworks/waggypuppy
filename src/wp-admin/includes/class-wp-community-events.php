@@ -264,7 +264,7 @@ class WP_Community_Events
                  * addresses. The first one is the original client. It can't be
                  * trusted for authenticity, but we don't need to for this purpose.
                  */
-                $address_chain = explode(',', $_SERVER[ $header ]);
+                $address_chain = explode(',', $_SERVER[$header]);
                 $client_ip     = trim($address_chain[0]);
 
                 break;
@@ -447,8 +447,8 @@ class WP_Community_Events
                     }
                 }
 
-                $response_body['events'][ $key ]['formatted_date'] = $formatted_date;
-                $response_body['events'][ $key ]['formatted_time'] = $formatted_time;
+                $response_body['events'][$key]['formatted_date'] = $formatted_date;
+                $response_body['events'][$key]['formatted_time'] = $formatted_time;
             }
         }
 

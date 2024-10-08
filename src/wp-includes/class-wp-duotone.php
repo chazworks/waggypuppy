@@ -213,7 +213,7 @@ class WP_Duotone
             'rad'  => 360 / (M_PI * 2),
         ];
 
-        $factor = isset($angle_units[ $unit ]) ? $angle_units[ $unit ] : 1;
+        $factor = isset($angle_units[$unit]) ? $angle_units[$unit] : 1;
 
         return (float) $value * $factor;
     }
@@ -332,8 +332,8 @@ class WP_Duotone
          * of the array, so we add them manually to make things easier later.
          */
         for ($i = 1; $i <= 8; $i++) {
-            if (! isset($match[ $i ])) {
-                $match[ $i ] = '';
+            if (! isset($match[$i])) {
+                $match[$i] = '';
             }
         }
 
@@ -403,9 +403,9 @@ class WP_Duotone
         $module = $hh % 6;
 
         return [
-            'r' => [$v, $c, $b, $b, $d, $v][ $module ] * 255,
-            'g' => [$d, $v, $v, $c, $b, $b][ $module ] * 255,
-            'b' => [$b, $b, $d, $v, $v, $c][ $module ] * 255,
+            'r' => [$v, $c, $b, $b, $d, $v][$module] * 255,
+            'g' => [$d, $v, $v, $c, $b, $b][$module] * 255,
+            'b' => [$b, $b, $d, $v, $v, $c][$module] * 255,
             'a' => $a,
         ];
     }
@@ -501,8 +501,8 @@ class WP_Duotone
          * of the array, so we add them manually to make things easier later.
          */
         for ($i = 1; $i <= 6; $i++) {
-            if (! isset($match[ $i ])) {
-                $match[ $i ] = '';
+            if (! isset($match[$i])) {
+                $match[$i] = '';
             }
         }
 
@@ -905,7 +905,7 @@ class WP_Duotone
      */
     private static function enqueue_custom_filter($filter_id, $duotone_selector, $filter_value, $filter_data)
     {
-        self::$used_svg_filter_data[ $filter_id ] = $filter_data;
+        self::$used_svg_filter_data[$filter_id] = $filter_data;
         self::enqueue_block_css($filter_id, $duotone_selector, $filter_value);
     }
 
@@ -935,8 +935,8 @@ class WP_Duotone
             _doing_it_wrong(__METHOD__, $error_message, '6.3.0');
             return;
         }
-        self::$used_global_styles_presets[ $filter_id ] = $global_styles_presets[ $filter_id ];
-        self::enqueue_custom_filter($filter_id, $duotone_selector, $filter_value, $global_styles_presets[ $filter_id ]);
+        self::$used_global_styles_presets[$filter_id] = $global_styles_presets[$filter_id];
+        self::enqueue_custom_filter($filter_id, $duotone_selector, $filter_value, $global_styles_presets[$filter_id]);
     }
 
     /**
@@ -1040,7 +1040,7 @@ class WP_Duotone
             foreach ($presets as $preset) {
                 $filter_id = self::get_filter_id(_wp_to_kebab_case($preset['slug']));
 
-                self::$global_styles_presets[ $filter_id ] = $preset;
+                self::$global_styles_presets[$filter_id] = $preset;
             }
         }
 
@@ -1086,7 +1086,7 @@ class WP_Duotone
             $slug = self::get_slug_from_attribute($duotone_attr);
 
             if ($slug && $slug !== $duotone_attr) {
-                self::$global_styles_block_names[ $block_node['name'] ] = $slug;
+                self::$global_styles_block_names[$block_node['name']] = $slug;
             }
         }
         return self::$global_styles_block_names;
@@ -1170,7 +1170,7 @@ class WP_Duotone
                 self::enqueue_custom_filter($filter_id, $duotone_selector, $filter_value, $filter_data);
             }
         } elseif ($has_global_styles_duotone) {
-            $slug         = $global_styles_block_names[ $block['blockName'] ]; // e.g. 'blue-orange'.
+            $slug         = $global_styles_block_names[$block['blockName']]; // e.g. 'blue-orange'.
             $filter_id    = self::get_filter_id($slug); // e.g. 'wp-duotone-filter-blue-orange'.
             $filter_value = self::get_css_var($slug); // e.g. 'var(--wp--preset--duotone--blue-orange)'.
 

@@ -114,16 +114,16 @@ final class WP_Translation_Controller
             return false;
         }
 
-        if (isset($this->loaded_files[ $translation_file ][ $locale ][ $textdomain ]) &&
-            false !== $this->loaded_files[ $translation_file ][ $locale ][ $textdomain ]
+        if (isset($this->loaded_files[$translation_file][$locale][$textdomain]) &&
+            false !== $this->loaded_files[$translation_file][$locale][$textdomain]
         ) {
-            return null === $this->loaded_files[ $translation_file ][ $locale ][ $textdomain ]->error();
+            return null === $this->loaded_files[$translation_file][$locale][$textdomain]->error();
         }
 
-        if (isset($this->loaded_files[ $translation_file ][ $locale ]) &&
-            [] !== $this->loaded_files[ $translation_file ][ $locale ]
+        if (isset($this->loaded_files[$translation_file][$locale]) &&
+            [] !== $this->loaded_files[$translation_file][$locale]
         ) {
-            $moe = reset($this->loaded_files[ $translation_file ][ $locale ]);
+            $moe = reset($this->loaded_files[$translation_file][$locale]);
         } else {
             $moe = WP_Translation_File::create($translation_file);
             if (false === $moe || null !== $moe->error()) {
@@ -131,17 +131,17 @@ final class WP_Translation_Controller
             }
         }
 
-        $this->loaded_files[ $translation_file ][ $locale ][ $textdomain ] = $moe;
+        $this->loaded_files[$translation_file][$locale][$textdomain] = $moe;
 
         if (! $moe instanceof WP_Translation_File) {
             return false;
         }
 
-        if (! isset($this->loaded_translations[ $locale ][ $textdomain ])) {
-            $this->loaded_translations[ $locale ][ $textdomain ] = [];
+        if (! isset($this->loaded_translations[$locale][$textdomain])) {
+            $this->loaded_translations[$locale][$textdomain] = [];
         }
 
-        $this->loaded_translations[ $locale ][ $textdomain ][] = $moe;
+        $this->loaded_translations[$locale][$textdomain][] = $moe;
 
         return true;
     }
@@ -163,11 +163,11 @@ final class WP_Translation_Controller
         }
 
         if (null !== $locale) {
-            if (isset($this->loaded_translations[ $locale ][ $textdomain ])) {
-                foreach ($this->loaded_translations[ $locale ][ $textdomain ] as $i => $moe) {
+            if (isset($this->loaded_translations[$locale][$textdomain])) {
+                foreach ($this->loaded_translations[$locale][$textdomain] as $i => $moe) {
                     if ($file === $moe || $file === $moe->get_file()) {
-                        unset($this->loaded_translations[ $locale ][ $textdomain ][ $i ]);
-                        unset($this->loaded_files[ $moe->get_file() ][ $locale ][ $textdomain ]);
+                        unset($this->loaded_translations[$locale][$textdomain][$i]);
+                        unset($this->loaded_files[$moe->get_file()][$locale][$textdomain]);
                         return true;
                     }
                 }
@@ -177,14 +177,14 @@ final class WP_Translation_Controller
         }
 
         foreach ($this->loaded_translations as $l => $domains) {
-            if (! isset($domains[ $textdomain ])) {
+            if (! isset($domains[$textdomain])) {
                 continue;
             }
 
-            foreach ($domains[ $textdomain ] as $i => $moe) {
+            foreach ($domains[$textdomain] as $i => $moe) {
                 if ($file === $moe || $file === $moe->get_file()) {
-                    unset($this->loaded_translations[ $l ][ $textdomain ][ $i ]);
-                    unset($this->loaded_files[ $moe->get_file() ][ $l ][ $textdomain ]);
+                    unset($this->loaded_translations[$l][$textdomain][$i]);
+                    unset($this->loaded_files[$moe->get_file()][$l][$textdomain]);
                     return true;
                 }
             }
@@ -207,30 +207,30 @@ final class WP_Translation_Controller
         $unloaded = false;
 
         if (null !== $locale) {
-            if (isset($this->loaded_translations[ $locale ][ $textdomain ])) {
+            if (isset($this->loaded_translations[$locale][$textdomain])) {
                 $unloaded = true;
-                foreach ($this->loaded_translations[ $locale ][ $textdomain ] as $moe) {
-                    unset($this->loaded_files[ $moe->get_file() ][ $locale ][ $textdomain ]);
+                foreach ($this->loaded_translations[$locale][$textdomain] as $moe) {
+                    unset($this->loaded_files[$moe->get_file()][$locale][$textdomain]);
                 }
             }
 
-            unset($this->loaded_translations[ $locale ][ $textdomain ]);
+            unset($this->loaded_translations[$locale][$textdomain]);
 
             return $unloaded;
         }
 
         foreach ($this->loaded_translations as $l => $domains) {
-            if (! isset($domains[ $textdomain ])) {
+            if (! isset($domains[$textdomain])) {
                 continue;
             }
 
             $unloaded = true;
 
-            foreach ($domains[ $textdomain ] as $moe) {
-                unset($this->loaded_files[ $moe->get_file() ][ $l ][ $textdomain ]);
+            foreach ($domains[$textdomain] as $moe) {
+                unset($this->loaded_files[$moe->get_file()][$l][$textdomain]);
             }
 
-            unset($this->loaded_translations[ $l ][ $textdomain ]);
+            unset($this->loaded_translations[$l][$textdomain]);
         }
 
         return $unloaded;
@@ -251,8 +251,8 @@ final class WP_Translation_Controller
             $locale = $this->current_locale;
         }
 
-        return isset($this->loaded_translations[ $locale ][ $textdomain ]) &&
-            [] !== $this->loaded_translations[ $locale ][ $textdomain ];
+        return isset($this->loaded_translations[$locale][$textdomain]) &&
+            [] !== $this->loaded_translations[$locale][$textdomain];
     }
 
     /**
@@ -324,7 +324,7 @@ final class WP_Translation_Controller
         $num    = $source->get_plural_form($number);
 
         // See \Translations::translate_plural().
-        return $translation['entries'][ $num ] ?? $translation['entries'][0];
+        return $translation['entries'][$num] ?? $translation['entries'][0];
     }
 
     /**
@@ -345,7 +345,7 @@ final class WP_Translation_Controller
 
         foreach ($this->get_files($textdomain) as $moe) {
             foreach ($moe->headers() as $header => $value) {
-                $headers[ $this->normalize_header($header) ] = $value;
+                $headers[$this->normalize_header($header)] = $value;
             }
         }
 
@@ -445,7 +445,7 @@ final class WP_Translation_Controller
             $locale = $this->current_locale;
         }
 
-        return $this->loaded_translations[ $locale ][ $textdomain ] ?? [];
+        return $this->loaded_translations[$locale][$textdomain] ?? [];
     }
 
     /**

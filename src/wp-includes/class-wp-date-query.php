@@ -201,20 +201,20 @@ class WP_Date_Query
         // Numeric keys should always have array values.
         foreach ($queries as $qkey => $qvalue) {
             if (is_numeric($qkey) && ! is_array($qvalue)) {
-                unset($queries[ $qkey ]);
+                unset($queries[$qkey]);
             }
         }
 
         // Each query should have a value for each default key. Inherit from the parent when possible.
         foreach ($defaults as $dkey => $dvalue) {
-            if (isset($queries[ $dkey ])) {
+            if (isset($queries[$dkey])) {
                 continue;
             }
 
-            if (isset($parent_query[ $dkey ])) {
-                $queries[ $dkey ] = $parent_query[ $dkey ];
+            if (isset($parent_query[$dkey])) {
+                $queries[$dkey] = $parent_query[$dkey];
             } else {
-                $queries[ $dkey ] = $dvalue;
+                $queries[$dkey] = $dvalue;
             }
         }
 
@@ -229,7 +229,7 @@ class WP_Date_Query
         foreach ($queries as $key => $q) {
             if (! is_array($q) || in_array($key, $this->time_keys, true)) {
                 // This is a first-order query. Trust the values and sanitize when building SQL.
-                $cleaned_query[ $key ] = $q;
+                $cleaned_query[$key] = $q;
             } else {
                 // Any array without a time key is another query, so we recurse.
                 $cleaned_query[] = $this->sanitize_query($q, $queries);
@@ -401,7 +401,7 @@ class WP_Date_Query
             }
 
             // Throw a notice for each failing value.
-            foreach ((array) $date_query[ $key ] as $_value) {
+            foreach ((array) $date_query[$key] as $_value) {
                 $is_between = $_value >= $check['min'] && $_value <= $check['max'];
 
                 if (! is_numeric($_value) || ! $is_between) {
@@ -769,8 +769,8 @@ class WP_Date_Query
         // Check of the possible date units and add them to the query.
         foreach ($date_units as $sql_part => $query_parts) {
             foreach ($query_parts as $query_part) {
-                if (isset($query[ $query_part ])) {
-                    $value = $this->build_value($compare, $query[ $query_part ]);
+                if (isset($query[$query_part])) {
+                    $value = $this->build_value($compare, $query[$query_part]);
                     if ($value) {
                         switch ($sql_part) {
                             case '_wp_mysql_week':
@@ -792,8 +792,8 @@ class WP_Date_Query
         if (isset($query['hour']) || isset($query['minute']) || isset($query['second'])) {
             // Avoid notices.
             foreach (['hour', 'minute', 'second'] as $unit) {
-                if (! isset($query[ $unit ])) {
-                    $query[ $unit ] = null;
+                if (! isset($query[$unit])) {
+                    $query[$unit] = null;
                 }
             }
 

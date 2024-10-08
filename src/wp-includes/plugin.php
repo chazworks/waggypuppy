@@ -122,11 +122,11 @@ function add_filter($hook_name, $callback, $priority = 10, $accepted_args = 1)
 {
     global $wp_filter;
 
-    if (! isset($wp_filter[ $hook_name ])) {
-        $wp_filter[ $hook_name ] = new WP_Hook();
+    if (! isset($wp_filter[$hook_name])) {
+        $wp_filter[$hook_name] = new WP_Hook();
     }
 
-    $wp_filter[ $hook_name ]->add_filter($hook_name, $callback, $priority, $accepted_args);
+    $wp_filter[$hook_name]->add_filter($hook_name, $callback, $priority, $accepted_args);
 
     return true;
 }
@@ -175,10 +175,10 @@ function apply_filters($hook_name, $value, ...$args)
 {
     global $wp_filter, $wp_filters, $wp_current_filter;
 
-    if (! isset($wp_filters[ $hook_name ])) {
-        $wp_filters[ $hook_name ] = 1;
+    if (! isset($wp_filters[$hook_name])) {
+        $wp_filters[$hook_name] = 1;
     } else {
-        ++$wp_filters[ $hook_name ];
+        ++$wp_filters[$hook_name];
     }
 
     // Do 'all' actions first.
@@ -189,7 +189,7 @@ function apply_filters($hook_name, $value, ...$args)
         _wp_call_all_hook($all_args);
     }
 
-    if (! isset($wp_filter[ $hook_name ])) {
+    if (! isset($wp_filter[$hook_name])) {
         if (isset($wp_filter['all'])) {
             array_pop($wp_current_filter);
         }
@@ -204,7 +204,7 @@ function apply_filters($hook_name, $value, ...$args)
     // Pass the value to WP_Hook.
     array_unshift($args, $value);
 
-    $filtered = $wp_filter[ $hook_name ]->apply_filters($value, $args);
+    $filtered = $wp_filter[$hook_name]->apply_filters($value, $args);
 
     array_pop($wp_current_filter);
 
@@ -231,10 +231,10 @@ function apply_filters_ref_array($hook_name, $args)
 {
     global $wp_filter, $wp_filters, $wp_current_filter;
 
-    if (! isset($wp_filters[ $hook_name ])) {
-        $wp_filters[ $hook_name ] = 1;
+    if (! isset($wp_filters[$hook_name])) {
+        $wp_filters[$hook_name] = 1;
     } else {
-        ++$wp_filters[ $hook_name ];
+        ++$wp_filters[$hook_name];
     }
 
     // Do 'all' actions first.
@@ -244,7 +244,7 @@ function apply_filters_ref_array($hook_name, $args)
         _wp_call_all_hook($all_args);
     }
 
-    if (! isset($wp_filter[ $hook_name ])) {
+    if (! isset($wp_filter[$hook_name])) {
         if (isset($wp_filter['all'])) {
             array_pop($wp_current_filter);
         }
@@ -256,7 +256,7 @@ function apply_filters_ref_array($hook_name, $args)
         $wp_current_filter[] = $hook_name;
     }
 
-    $filtered = $wp_filter[ $hook_name ]->apply_filters($args[0], $args);
+    $filtered = $wp_filter[$hook_name]->apply_filters($args[0], $args);
 
     array_pop($wp_current_filter);
 
@@ -285,11 +285,11 @@ function has_filter($hook_name, $callback = false)
 {
     global $wp_filter;
 
-    if (! isset($wp_filter[ $hook_name ])) {
+    if (! isset($wp_filter[$hook_name])) {
         return false;
     }
 
-    return $wp_filter[ $hook_name ]->has_filter($hook_name, $callback);
+    return $wp_filter[$hook_name]->has_filter($hook_name, $callback);
 }
 
 /**
@@ -320,11 +320,11 @@ function remove_filter($hook_name, $callback, $priority = 10)
 
     $r = false;
 
-    if (isset($wp_filter[ $hook_name ])) {
-        $r = $wp_filter[ $hook_name ]->remove_filter($hook_name, $callback, $priority);
+    if (isset($wp_filter[$hook_name])) {
+        $r = $wp_filter[$hook_name]->remove_filter($hook_name, $callback, $priority);
 
-        if (! $wp_filter[ $hook_name ]->callbacks) {
-            unset($wp_filter[ $hook_name ]);
+        if (! $wp_filter[$hook_name]->callbacks) {
+            unset($wp_filter[$hook_name]);
         }
     }
 
@@ -347,11 +347,11 @@ function remove_all_filters($hook_name, $priority = false)
 {
     global $wp_filter;
 
-    if (isset($wp_filter[ $hook_name ])) {
-        $wp_filter[ $hook_name ]->remove_all_filters($priority);
+    if (isset($wp_filter[$hook_name])) {
+        $wp_filter[$hook_name]->remove_all_filters($priority);
 
-        if (! $wp_filter[ $hook_name ]->has_filters()) {
-            unset($wp_filter[ $hook_name ]);
+        if (! $wp_filter[$hook_name]->has_filters()) {
+            unset($wp_filter[$hook_name]);
         }
     }
 
@@ -420,11 +420,11 @@ function did_filter($hook_name)
 {
     global $wp_filters;
 
-    if (! isset($wp_filters[ $hook_name ])) {
+    if (! isset($wp_filters[$hook_name])) {
         return 0;
     }
 
-    return $wp_filters[ $hook_name ];
+    return $wp_filters[$hook_name];
 }
 
 /**
@@ -493,10 +493,10 @@ function do_action($hook_name, ...$arg)
 {
     global $wp_filter, $wp_actions, $wp_current_filter;
 
-    if (! isset($wp_actions[ $hook_name ])) {
-        $wp_actions[ $hook_name ] = 1;
+    if (! isset($wp_actions[$hook_name])) {
+        $wp_actions[$hook_name] = 1;
     } else {
-        ++$wp_actions[ $hook_name ];
+        ++$wp_actions[$hook_name];
     }
 
     // Do 'all' actions first.
@@ -506,7 +506,7 @@ function do_action($hook_name, ...$arg)
         _wp_call_all_hook($all_args);
     }
 
-    if (! isset($wp_filter[ $hook_name ])) {
+    if (! isset($wp_filter[$hook_name])) {
         if (isset($wp_filter['all'])) {
             array_pop($wp_current_filter);
         }
@@ -525,7 +525,7 @@ function do_action($hook_name, ...$arg)
         $arg[0] = $arg[0][0];
     }
 
-    $wp_filter[ $hook_name ]->do_action($arg);
+    $wp_filter[$hook_name]->do_action($arg);
 
     array_pop($wp_current_filter);
 }
@@ -549,10 +549,10 @@ function do_action_ref_array($hook_name, $args)
 {
     global $wp_filter, $wp_actions, $wp_current_filter;
 
-    if (! isset($wp_actions[ $hook_name ])) {
-        $wp_actions[ $hook_name ] = 1;
+    if (! isset($wp_actions[$hook_name])) {
+        $wp_actions[$hook_name] = 1;
     } else {
-        ++$wp_actions[ $hook_name ];
+        ++$wp_actions[$hook_name];
     }
 
     // Do 'all' actions first.
@@ -562,7 +562,7 @@ function do_action_ref_array($hook_name, $args)
         _wp_call_all_hook($all_args);
     }
 
-    if (! isset($wp_filter[ $hook_name ])) {
+    if (! isset($wp_filter[$hook_name])) {
         if (isset($wp_filter['all'])) {
             array_pop($wp_current_filter);
         }
@@ -574,7 +574,7 @@ function do_action_ref_array($hook_name, $args)
         $wp_current_filter[] = $hook_name;
     }
 
-    $wp_filter[ $hook_name ]->do_action($args);
+    $wp_filter[$hook_name]->do_action($args);
 
     array_pop($wp_current_filter);
 }
@@ -693,11 +693,11 @@ function did_action($hook_name)
 {
     global $wp_actions;
 
-    if (! isset($wp_actions[ $hook_name ])) {
+    if (! isset($wp_actions[$hook_name])) {
         return 0;
     }
 
-    return $wp_actions[ $hook_name ];
+    return $wp_actions[$hook_name];
 }
 
 /**
@@ -840,7 +840,7 @@ function wp_register_plugin_realpath($file)
     }
 
     if ($plugin_path !== $plugin_realpath) {
-        $wp_plugin_paths[ $plugin_path ] = $plugin_realpath;
+        $wp_plugin_paths[$plugin_path] = $plugin_realpath;
     }
 
     return true;
@@ -961,8 +961,8 @@ function register_uninstall_hook($file, $callback)
     $uninstallable_plugins = (array) get_option('uninstall_plugins');
     $plugin_basename       = plugin_basename($file);
 
-    if (! isset($uninstallable_plugins[ $plugin_basename ]) || $uninstallable_plugins[ $plugin_basename ] !== $callback) {
-        $uninstallable_plugins[ $plugin_basename ] = $callback;
+    if (! isset($uninstallable_plugins[$plugin_basename]) || $uninstallable_plugins[$plugin_basename] !== $callback) {
+        $uninstallable_plugins[$plugin_basename] = $callback;
         update_option('uninstall_plugins', $uninstallable_plugins);
     }
 }

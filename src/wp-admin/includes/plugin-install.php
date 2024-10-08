@@ -282,15 +282,15 @@ function install_dashboard()
         // Set up the tags in a way which can be interpreted by wp_generate_tag_cloud().
         $tags = [];
         foreach ((array) $api_tags as $tag) {
-            $url                  = self_admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name']));
-            $data                 = [
+            $url                = self_admin_url('plugin-install.php?tab=search&type=tag&s=' . urlencode($tag['name']));
+            $data               = [
                 'link'  => esc_url($url),
                 'name'  => $tag['name'],
                 'slug'  => $tag['slug'],
                 'id'    => sanitize_title_with_dashes($tag['name']),
                 'count' => $tag['count'],
             ];
-            $tags[ $tag['name'] ] = (object) $data;
+            $tags[$tag['name']] = (object) $data;
         }
         echo wp_generate_tag_cloud(
             $tags,
@@ -492,11 +492,11 @@ function install_plugin_install_status($api, $loop = false)
                 $key = reset($key);
 
                 $update_file = $api->slug . '/' . $key;
-                if (version_compare($api->version, $installed_plugin[ $key ]['Version'], '=')) {
+                if (version_compare($api->version, $installed_plugin[$key]['Version'], '=')) {
                     $status = 'latest_installed';
-                } elseif (version_compare($api->version, $installed_plugin[ $key ]['Version'], '<')) {
+                } elseif (version_compare($api->version, $installed_plugin[$key]['Version'], '<')) {
                     $status  = 'newer_installed';
-                    $version = $installed_plugin[ $key ]['Version'];
+                    $version = $installed_plugin[$key]['Version'];
                 } else {
                     // If the above update check failed, then that probably means that the update checker has out-of-date information, force a refresh.
                     if (! $loop) {
@@ -592,7 +592,7 @@ function install_plugin_information()
 
     // Sanitize HTML.
     foreach ((array) $api->sections as $section_name => $content) {
-        $api->sections[ $section_name ] = wp_kses($content, $plugins_allowedtags);
+        $api->sections[$section_name] = wp_kses($content, $plugins_allowedtags);
     }
 
     foreach (['version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug'] as $key) {
@@ -605,7 +605,7 @@ function install_plugin_information()
 
     // Default to the Description tab, Do not translate, API returns English.
     $section = isset($_REQUEST['section']) ? wp_unslash($_REQUEST['section']) : 'description';
-    if (empty($section) || ! isset($api->sections[ $section ])) {
+    if (empty($section) || ! isset($api->sections[$section])) {
         $section_titles = array_keys((array) $api->sections);
         $section        = reset($section_titles);
     }
@@ -641,8 +641,8 @@ function install_plugin_information()
             continue;
         }
 
-        if (isset($plugins_section_titles[ $section_name ])) {
-            $title = $plugins_section_titles[ $section_name ];
+        if (isset($plugins_section_titles[$section_name])) {
+            $title = $plugins_section_titles[$section_name];
         } else {
             $title = ucwords(str_replace('_', ' ', $section_name));
         }

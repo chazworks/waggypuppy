@@ -159,7 +159,7 @@ class Tests_HtmlApi_WpHtmlProcessorBreadcrumbs extends WP_UnitTestCase
                 ? "</{$tag_name}>"
                 : '';
 
-            $data[ $tag_name ] = ["<{$tag_name}>{$closer}", $tag_name];
+            $data[$tag_name] = ["<{$tag_name}>{$closer}", $tag_name];
         }
 
         $data['IMAGE (treated as an IMG)'] = ['<image>', 'IMG'];

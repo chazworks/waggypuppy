@@ -250,7 +250,7 @@ class WP_Scripts extends WP_Dependencies
     private function are_all_dependents_in_footer($handle)
     {
         foreach ($this->get_dependents($handle) as $dep) {
-            if (isset($this->groups[ $dep ]) && 0 === $this->groups[ $dep ]) {
+            if (isset($this->groups[$dep]) && 0 === $this->groups[$dep]) {
                 return false;
             }
         }
@@ -276,7 +276,7 @@ class WP_Scripts extends WP_Dependencies
             return false;
         }
 
-        if (0 === $group && $this->groups[ $handle ] > 0) {
+        if (0 === $group && $this->groups[$handle] > 0) {
             $this->in_footer[] = $handle;
             return false;
         }
@@ -285,7 +285,7 @@ class WP_Scripts extends WP_Dependencies
             $this->in_footer = array_diff($this->in_footer, (array) $handle);
         }
 
-        $obj = $this->registered[ $handle ];
+        $obj = $this->registered[$handle];
 
         if (null === $obj->ver) {
             $ver = '';
@@ -293,8 +293,8 @@ class WP_Scripts extends WP_Dependencies
             $ver = $obj->ver ? $obj->ver : $this->default_version;
         }
 
-        if (isset($this->args[ $handle ])) {
-            $ver = $ver ? $ver . '&amp;' . $this->args[ $handle ] : $this->args[ $handle ];
+        if (isset($this->args[$handle])) {
+            $ver = $ver ? $ver . '&amp;' . $this->args[$handle] : $this->args[$handle];
         }
 
         $src                   = $obj->src;
@@ -317,7 +317,7 @@ class WP_Scripts extends WP_Dependencies
          * 5. All dependent scripts are in the footer.
          */
         if (0 === $group &&
-            0 === $this->groups[ $handle ] &&
+            0 === $this->groups[$handle] &&
             $intended_strategy &&
             ! $this->is_delayed_strategy($strategy) &&
             $this->are_all_dependents_in_footer($handle)
@@ -426,7 +426,7 @@ class WP_Scripts extends WP_Dependencies
             'id'  => "{$handle}-js",
         ];
         if ($strategy) {
-            $attr[ $strategy ] = true;
+            $attr[$strategy] = true;
         }
         if ($intended_strategy) {
             $attr['data-wp-strategy'] = $intended_strategy;
@@ -603,7 +603,7 @@ class WP_Scripts extends WP_Dependencies
                     continue;
                 }
 
-                $l10n[ $key ] = html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
+                $l10n[$key] = html_entity_decode((string) $value, ENT_QUOTES, 'UTF-8');
             }
         }
 
@@ -637,7 +637,7 @@ class WP_Scripts extends WP_Dependencies
      */
     public function set_group($handle, $recursion, $group = false)
     {
-        if (isset($this->registered[ $handle ]->args) && 1 === $this->registered[ $handle ]->args) {
+        if (isset($this->registered[$handle]->args) && 1 === $this->registered[$handle]->args) {
             $calculated_group = 1;
         } else {
             $calculated_group = (int) $this->get_data($handle, 'group');
@@ -663,12 +663,12 @@ class WP_Scripts extends WP_Dependencies
      */
     public function set_translations($handle, $domain = 'default', $path = '')
     {
-        if (! isset($this->registered[ $handle ])) {
+        if (! isset($this->registered[$handle])) {
             return false;
         }
 
         /** @var \_WP_Dependency $obj */
-        $obj = $this->registered[ $handle ];
+        $obj = $this->registered[$handle];
 
         if (! in_array('wp-i18n', $obj->deps, true)) {
             $obj->deps[] = 'wp-i18n';
@@ -690,15 +690,15 @@ class WP_Scripts extends WP_Dependencies
      */
     public function print_translations($handle, $display = true)
     {
-        if (! isset($this->registered[ $handle ]) || empty($this->registered[ $handle ]->textdomain)) {
+        if (! isset($this->registered[$handle]) || empty($this->registered[$handle]->textdomain)) {
             return false;
         }
 
-        $domain = $this->registered[ $handle ]->textdomain;
+        $domain = $this->registered[$handle]->textdomain;
         $path   = '';
 
-        if (isset($this->registered[ $handle ]->translations_path)) {
-            $path = $this->registered[ $handle ]->translations_path;
+        if (isset($this->registered[$handle]->translations_path)) {
+            $path = $this->registered[$handle]->translations_path;
         }
 
         $json_translations = load_script_textdomain($handle, $domain, $path);
@@ -820,7 +820,7 @@ JS;
      */
     public function add_data($handle, $key, $value)
     {
-        if (! isset($this->registered[ $handle ])) {
+        if (! isset($this->registered[$handle])) {
             return false;
         }
 
@@ -837,7 +837,7 @@ JS;
                     '6.3.0'
                 );
                 return false;
-            } elseif (! $this->registered[ $handle ]->src && $this->is_delayed_strategy($value)) {
+            } elseif (! $this->registered[$handle]->src && $this->is_delayed_strategy($value)) {
                 _doing_it_wrong(
                     __METHOD__,
                     sprintf(
@@ -865,8 +865,8 @@ JS;
     private function get_dependents($handle)
     {
         // Check if dependents map for the handle in question is present. If so, use it.
-        if (isset($this->dependents_map[ $handle ])) {
-            return $this->dependents_map[ $handle ];
+        if (isset($this->dependents_map[$handle])) {
+            return $this->dependents_map[$handle];
         }
 
         $dependents = [];
@@ -879,7 +879,7 @@ JS;
         }
 
         // Add the handles dependents to the map to ease future lookups.
-        $this->dependents_map[ $handle ] = $dependents;
+        $this->dependents_map[$handle] = $dependents;
 
         return $dependents;
     }
@@ -952,15 +952,15 @@ JS;
         }
 
         // If this handle was already checked, return early.
-        if (isset($checked[ $handle ])) {
+        if (isset($checked[$handle])) {
             return $eligible_strategies;
         }
 
         // Mark this handle as checked.
-        $checked[ $handle ] = true;
+        $checked[$handle] = true;
 
         // If this handle isn't registered, don't filter anything and return.
-        if (! isset($this->registered[ $handle ])) {
+        if (! isset($this->registered[$handle])) {
             return $eligible_strategies;
         }
 
@@ -969,7 +969,7 @@ JS;
             return $eligible_strategies;
         }
 
-        $is_alias          = (bool) ! $this->registered[ $handle ]->src;
+        $is_alias          = (bool) ! $this->registered[$handle]->src;
         $intended_strategy = $this->get_data($handle, 'strategy');
 
         // For non-alias handles, an empty intended strategy filters all strategies.

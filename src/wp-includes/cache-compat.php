@@ -31,7 +31,7 @@ if (! function_exists('wp_cache_add_multiple')) :
         $values = [];
 
         foreach ($data as $key => $value) {
-            $values[ $key ] = wp_cache_add($key, $value, $group, $expire);
+            $values[$key] = wp_cache_add($key, $value, $group, $expire);
         }
 
         return $values;
@@ -63,7 +63,7 @@ if (! function_exists('wp_cache_set_multiple')) :
         $values = [];
 
         foreach ($data as $key => $value) {
-            $values[ $key ] = wp_cache_set($key, $value, $group, $expire);
+            $values[$key] = wp_cache_set($key, $value, $group, $expire);
         }
 
         return $values;
@@ -93,7 +93,7 @@ if (! function_exists('wp_cache_get_multiple')) :
         $values = [];
 
         foreach ($keys as $key) {
-            $values[ $key ] = wp_cache_get($key, $group, $force);
+            $values[$key] = wp_cache_get($key, $group, $force);
         }
 
         return $values;
@@ -121,7 +121,7 @@ if (! function_exists('wp_cache_delete_multiple')) :
         $values = [];
 
         foreach ($keys as $key) {
-            $values[ $key ] = wp_cache_delete($key, $group);
+            $values[$key] = wp_cache_delete($key, $group);
         }
 
         return $values;

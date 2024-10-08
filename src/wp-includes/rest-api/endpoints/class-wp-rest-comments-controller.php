@@ -162,14 +162,14 @@ class WP_REST_Comments_Controller extends WP_REST_Controller
 
             foreach ($protected_params as $param) {
                 if ('status' === $param) {
-                    if ('approve' !== $request[ $param ]) {
+                    if ('approve' !== $request[$param]) {
                         $forbidden_params[] = $param;
                     }
                 } elseif ('type' === $param) {
-                    if ('comment' !== $request[ $param ]) {
+                    if ('comment' !== $request[$param]) {
                         $forbidden_params[] = $param;
                     }
-                } elseif (! empty($request[ $param ])) {
+                } elseif (! empty($request[$param])) {
                     $forbidden_params[] = $param;
                 }
             }
@@ -231,15 +231,15 @@ class WP_REST_Comments_Controller extends WP_REST_Controller
          * set the parameter's value on the query $prepared_args.
          */
         foreach ($parameter_mappings as $api_param => $wp_param) {
-            if (isset($registered[ $api_param ], $request[ $api_param ])) {
-                $prepared_args[ $wp_param ] = $request[ $api_param ];
+            if (isset($registered[$api_param], $request[$api_param])) {
+                $prepared_args[$wp_param] = $request[$api_param];
             }
         }
 
         // Ensure certain parameter values default to empty strings.
         foreach (['author_email', 'search'] as $param) {
-            if (! isset($prepared_args[ $param ])) {
-                $prepared_args[ $param ] = '';
+            if (! isset($prepared_args[$param])) {
+                $prepared_args[$param] = '';
             }
         }
 
@@ -1534,7 +1534,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller
             $avatar_sizes = rest_get_avatar_sizes();
 
             foreach ($avatar_sizes as $size) {
-                $avatar_properties[ $size ] = [
+                $avatar_properties[$size] = [
                     /* translators: %d: Avatar image size in pixels. */
                     'description' => sprintf(__('Avatar URL with image size of %d pixels.'), $size),
                     'type'        => 'string',

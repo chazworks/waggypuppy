@@ -84,7 +84,7 @@ class Tests_Option_GetOptions extends WP_UnitTestCase
         // Check that options are present in the notoptions cache.
         $new_notoptions = wp_cache_get('notoptions', 'options');
         foreach ($options_to_prime as $option) {
-            $this->assertTrue(isset($new_notoptions[ $option ]), "$option was not added to the notoptions cache.");
+            $this->assertTrue(isset($new_notoptions[$option]), "$option was not added to the notoptions cache.");
         }
 
         // Check that the nonexistent option is in the result array.

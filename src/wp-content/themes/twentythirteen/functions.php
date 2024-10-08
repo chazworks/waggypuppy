@@ -685,7 +685,7 @@ if (! function_exists('twentythirteen_the_attached_image')) :
         if (count($attachment_ids) > 1) {
             foreach ($attachment_ids as $idx => $attachment_id) {
                 if ($attachment_id === $post->ID) {
-                    $next_id = $attachment_ids[ ($idx + 1) % count($attachment_ids) ];
+                    $next_id = $attachment_ids[($idx + 1) % count($attachment_ids)];
                     break;
                 }
             }

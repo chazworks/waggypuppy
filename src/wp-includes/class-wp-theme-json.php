@@ -682,7 +682,7 @@ class WP_Theme_JSON
     {
         $schema_in_root_and_per_origin = $schema;
         foreach (static::VALID_ORIGINS as $origin) {
-            $schema_in_root_and_per_origin[ $origin ] = $schema;
+            $schema_in_root_and_per_origin[$origin] = $schema;
         }
         return $schema_in_root_and_per_origin;
     }
@@ -699,8 +699,8 @@ class WP_Theme_JSON
     {
         $class_name = '';
 
-        if (isset(static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[ $element ])) {
-            $class_name = static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[ $element ];
+        if (isset(static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[$element])) {
+            $class_name = static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[$element];
         }
 
         return $class_name;
@@ -864,8 +864,8 @@ class WP_Theme_JSON
 
         foreach ($valid_variations as $block_type => $registered_variations) {
             foreach ($registered_variations as $variation_name) {
-                $block_level_data = $new_theme_json['styles']['blocks'][ $block_type ]['variations'][ $variation_name ] ?? [];
-                $top_level_data   = $variations[ $variation_name ] ?? [];
+                $block_level_data = $new_theme_json['styles']['blocks'][$block_type]['variations'][$variation_name] ?? [];
+                $top_level_data   = $variations[$variation_name] ?? [];
                 $merged_data      = array_replace_recursive($top_level_data, $block_level_data);
                 if (! empty($merged_data)) {
                     _wp_array_set($new_theme_json, ['styles', 'blocks', $block_type, 'variations', $variation_name], $merged_data);
@@ -963,10 +963,10 @@ class WP_Theme_JSON
         $styles_non_top_level = static::VALID_STYLES;
         foreach (array_keys($styles_non_top_level) as $section) {
             // array_key_exists() needs to be used instead of isset() because the value can be null.
-            if (array_key_exists($section, $styles_non_top_level) && is_array($styles_non_top_level[ $section ])) {
-                foreach (array_keys($styles_non_top_level[ $section ]) as $prop) {
-                    if ('top' === $styles_non_top_level[ $section ][ $prop ]) {
-                        unset($styles_non_top_level[ $section ][ $prop ]);
+            if (array_key_exists($section, $styles_non_top_level) && is_array($styles_non_top_level[$section])) {
+                foreach (array_keys($styles_non_top_level[$section]) as $prop) {
+                    if ('top' === $styles_non_top_level[$section][$prop]) {
+                        unset($styles_non_top_level[$section][$prop]);
                     }
                 }
             }
@@ -984,11 +984,11 @@ class WP_Theme_JSON
          * - block level elements: `$schema['styles']['blocks']['core/button']['elements']['link'][':hover']`.
          */
         foreach ($valid_element_names as $element) {
-            $schema_styles_elements[ $element ] = $styles_non_top_level;
+            $schema_styles_elements[$element] = $styles_non_top_level;
 
-            if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ])) {
-                foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ] as $pseudo_selector) {
-                    $schema_styles_elements[ $element ][ $pseudo_selector ] = $styles_non_top_level;
+            if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[$element])) {
+                foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[$element] as $pseudo_selector) {
+                    $schema_styles_elements[$element][$pseudo_selector] = $styles_non_top_level;
                 }
             }
         }
@@ -1007,9 +1007,9 @@ class WP_Theme_JSON
          * inner `blocks`, the overall schema will be generated in multiple passes.
          */
         foreach ($valid_block_names as $block) {
-            $schema_settings_blocks[ $block ]           = static::VALID_SETTINGS;
-            $schema_styles_blocks[ $block ]             = $styles_non_top_level;
-            $schema_styles_blocks[ $block ]['elements'] = $schema_styles_elements;
+            $schema_settings_blocks[$block]           = static::VALID_SETTINGS;
+            $schema_styles_blocks[$block]             = $styles_non_top_level;
+            $schema_styles_blocks[$block]['elements'] = $schema_styles_elements;
         }
 
         $block_style_variation_styles             = static::VALID_STYLES;
@@ -1019,13 +1019,13 @@ class WP_Theme_JSON
         foreach ($valid_block_names as $block) {
             // Build the schema for each block style variation.
             $style_variation_names = [];
-            if (! empty($input['styles']['blocks'][ $block ]['variations']) &&
-                is_array($input['styles']['blocks'][ $block ]['variations']) &&
-                isset($valid_variations[ $block ])
+            if (! empty($input['styles']['blocks'][$block]['variations']) &&
+                is_array($input['styles']['blocks'][$block]['variations']) &&
+                isset($valid_variations[$block])
             ) {
                 $style_variation_names = array_intersect(
-                    array_keys($input['styles']['blocks'][ $block ]['variations']),
-                    $valid_variations[ $block ]
+                    array_keys($input['styles']['blocks'][$block]['variations']),
+                    $valid_variations[$block]
                 );
             }
 
@@ -1034,7 +1034,7 @@ class WP_Theme_JSON
                 $schema_styles_variations = array_fill_keys($style_variation_names, $block_style_variation_styles);
             }
 
-            $schema_styles_blocks[ $block ]['variations'] = $schema_styles_variations;
+            $schema_styles_blocks[$block]['variations'] = $schema_styles_variations;
         }
 
         $schema['styles']                                 = static::VALID_STYLES;
@@ -1046,21 +1046,21 @@ class WP_Theme_JSON
 
         // Remove anything that's not present in the schema.
         foreach (['styles', 'settings'] as $subtree) {
-            if (! isset($input[ $subtree ])) {
+            if (! isset($input[$subtree])) {
                 continue;
             }
 
-            if (! is_array($input[ $subtree ])) {
-                unset($output[ $subtree ]);
+            if (! is_array($input[$subtree])) {
+                unset($output[$subtree]);
                 continue;
             }
 
-            $result = static::remove_keys_not_in_schema($input[ $subtree ], $schema[ $subtree ]);
+            $result = static::remove_keys_not_in_schema($input[$subtree], $schema[$subtree]);
 
             if (empty($result)) {
-                unset($output[ $subtree ]);
+                unset($output[$subtree]);
             } else {
-                $output[ $subtree ] = static::resolve_custom_css_format($result);
+                $output[$subtree] = static::resolve_custom_css_format($result);
             }
         }
 
@@ -1168,16 +1168,16 @@ class WP_Theme_JSON
              */
             $registered_styles = $style_registry->get_all_registered();
             foreach (static::$blocks_metadata as $block_name => $block_metadata) {
-                if (! empty($registered_styles[ $block_name ])) {
+                if (! empty($registered_styles[$block_name])) {
                     $style_selectors = $block_metadata['styleVariations'] ?? [];
 
-                    foreach ($registered_styles[ $block_name ] as $block_style) {
-                        if (! isset($style_selectors[ $block_style['name'] ])) {
-                            $style_selectors[ $block_style['name'] ] = static::get_block_style_variation_selector($block_style['name'], $block_metadata['selector']);
+                    foreach ($registered_styles[$block_name] as $block_style) {
+                        if (! isset($style_selectors[$block_style['name']])) {
+                            $style_selectors[$block_style['name']] = static::get_block_style_variation_selector($block_style['name'], $block_metadata['selector']);
                         }
                     }
 
-                    static::$blocks_metadata[ $block_name ]['styleVariations'] = $style_selectors;
+                    static::$blocks_metadata[$block_name]['styleVariations'] = $style_selectors;
                 }
             }
             return static::$blocks_metadata;
@@ -1186,12 +1186,12 @@ class WP_Theme_JSON
         foreach ($blocks as $block_name => $block_type) {
             $root_selector = wp_get_block_css_selector($block_type);
 
-            static::$blocks_metadata[ $block_name ]['selector']  = $root_selector;
-            static::$blocks_metadata[ $block_name ]['selectors'] = static::get_block_selectors($block_type, $root_selector);
+            static::$blocks_metadata[$block_name]['selector']  = $root_selector;
+            static::$blocks_metadata[$block_name]['selectors'] = static::get_block_selectors($block_type, $root_selector);
 
             $elements = static::get_block_element_selectors($root_selector);
             if (! empty($elements)) {
-                static::$blocks_metadata[ $block_name ]['elements'] = $elements;
+                static::$blocks_metadata[$block_name]['elements'] = $elements;
             }
 
             // The block may or may not have a duotone selector.
@@ -1210,25 +1210,25 @@ class WP_Theme_JSON
             }
 
             if (null !== $duotone_selector) {
-                static::$blocks_metadata[ $block_name ]['duotone'] = $duotone_selector;
+                static::$blocks_metadata[$block_name]['duotone'] = $duotone_selector;
             }
 
             // If the block has style variations, append their selectors to the block metadata.
             $style_selectors = [];
             if (! empty($block_type->styles)) {
                 foreach ($block_type->styles as $style) {
-                    $style_selectors[ $style['name'] ] = static::get_block_style_variation_selector($style['name'], static::$blocks_metadata[ $block_name ]['selector']);
+                    $style_selectors[$style['name']] = static::get_block_style_variation_selector($style['name'], static::$blocks_metadata[$block_name]['selector']);
                 }
             }
 
             // Block style variations can be registered through the WP_Block_Styles_Registry as well as block.json.
             $registered_styles = $style_registry->get_registered_styles_for_block($block_name);
             foreach ($registered_styles as $style) {
-                $style_selectors[ $style['name'] ] = static::get_block_style_variation_selector($style['name'], static::$blocks_metadata[ $block_name ]['selector']);
+                $style_selectors[$style['name']] = static::get_block_style_variation_selector($style['name'], static::$blocks_metadata[$block_name]['selector']);
             }
 
             if (! empty($style_selectors)) {
-                static::$blocks_metadata[ $block_name ]['styleVariations'] = $style_selectors;
+                static::$blocks_metadata[$block_name]['styleVariations'] = $style_selectors;
             }
         }
 
@@ -1255,29 +1255,29 @@ class WP_Theme_JSON
         foreach ($tree as $key => $value) {
             // Remove keys not in the schema or with null/empty values.
             if (! array_key_exists($key, $schema)) {
-                unset($tree[ $key ]);
+                unset($tree[$key]);
                 continue;
             }
 
-            if (is_array($schema[ $key ])) {
+            if (is_array($schema[$key])) {
                 if (! is_array($value)) {
-                    unset($tree[ $key ]);
+                    unset($tree[$key]);
                 } elseif (wp_is_numeric_array($value)) {
                     // If indexed, process each item in the array.
                     foreach ($value as $item_key => $item_value) {
-                        if (isset($schema[ $key ][0]) && is_array($schema[ $key ][0])) {
-                            $tree[ $key ][ $item_key ] = self::remove_keys_not_in_schema($item_value, $schema[ $key ][0]);
+                        if (isset($schema[$key][0]) && is_array($schema[$key][0])) {
+                            $tree[$key][$item_key] = self::remove_keys_not_in_schema($item_value, $schema[$key][0]);
                         } else {
                             // If the schema does not define a further structure, keep the value as is.
-                            $tree[ $key ][ $item_key ] = $item_value;
+                            $tree[$key][$item_key] = $item_value;
                         }
                     }
                 } else {
                     // If associative, process as a single object.
-                    $tree[ $key ] = self::remove_keys_not_in_schema($value, $schema[ $key ]);
+                    $tree[$key] = self::remove_keys_not_in_schema($value, $schema[$key]);
 
-                    if (empty($tree[ $key ])) {
-                        unset($tree[ $key ]);
+                    if (empty($tree[$key])) {
+                        unset($tree[$key]);
                     }
                 }
             }
@@ -1378,10 +1378,10 @@ class WP_Theme_JSON
 
         if (! empty($options['root_selector'])) {
             if (false !== $root_settings_key) {
-                $setting_nodes[ $root_settings_key ]['selector'] = $options['root_selector'];
+                $setting_nodes[$root_settings_key]['selector'] = $options['root_selector'];
             }
             if (false !== $root_style_key) {
-                $style_nodes[ $root_style_key ]['selector'] = $options['root_selector'];
+                $style_nodes[$root_style_key]['selector'] = $options['root_selector'];
             }
         }
 
@@ -1393,7 +1393,7 @@ class WP_Theme_JSON
 
         if (in_array('styles', $types, true)) {
             if (false !== $root_style_key && empty($options['skip_root_layout_styles'])) {
-                $stylesheet .= $this->get_root_layout_rules($style_nodes[ $root_style_key ]['selector'], $style_nodes[ $root_style_key ]);
+                $stylesheet .= $this->get_root_layout_rules($style_nodes[$root_style_key]['selector'], $style_nodes[$root_style_key]);
             }
             $stylesheet .= $this->get_block_classes($style_nodes);
         } elseif (in_array('base-layout-styles', $types, true)) {
@@ -1523,11 +1523,11 @@ class WP_Theme_JSON
         // Add the global styles block CSS.
         if (isset($this->theme_json['styles']['blocks'])) {
             foreach ($this->theme_json['styles']['blocks'] as $name => $node) {
-                $custom_block_css = isset($this->theme_json['styles']['blocks'][ $name ]['css'])
-                    ? $this->theme_json['styles']['blocks'][ $name ]['css']
+                $custom_block_css = isset($this->theme_json['styles']['blocks'][$name]['css'])
+                    ? $this->theme_json['styles']['blocks'][$name]['css']
                     : null;
                 if ($custom_block_css) {
-                    $selector    = static::$blocks_metadata[ $name ]['selector'];
+                    $selector    = static::$blocks_metadata[$name]['selector'];
                     $stylesheet .= $this->process_blocks_custom_css($custom_block_css, $selector);
                 }
             }
@@ -1552,7 +1552,7 @@ class WP_Theme_JSON
 
         foreach ($this->theme_json['customTemplates'] as $item) {
             if (isset($item['name'])) {
-                $custom_templates[ $item['name'] ] = [
+                $custom_templates[$item['name']] = [
                     'title'     => isset($item['title']) ? $item['title'] : '',
                     'postTypes' => isset($item['postTypes']) ? $item['postTypes'] : ['page'],
                 ];
@@ -1577,7 +1577,7 @@ class WP_Theme_JSON
 
         foreach ($this->theme_json['templateParts'] as $item) {
             if (isset($item['name'])) {
-                $template_parts[ $item['name'] ] = [
+                $template_parts[$item['name']] = [
                     'title' => isset($item['title']) ? $item['title'] : '',
                     'area'  => isset($item['area']) ? $item['area'] : '',
                 ];
@@ -2057,11 +2057,11 @@ class WP_Theme_JSON
 
         foreach ($node['selectors'] as $feature => $selector) {
             if (is_string($selector)) {
-                $node['selectors'][ $feature ] = static::scope_selector($scope, $selector);
+                $node['selectors'][$feature] = static::scope_selector($scope, $selector);
             }
             if (is_array($selector)) {
                 foreach ($selector as $subfeature => $subfeature_selector) {
-                    $node['selectors'][ $feature ][ $subfeature ] = static::scope_selector($scope, $subfeature_selector);
+                    $node['selectors'][$feature][$subfeature] = static::scope_selector($scope, $subfeature_selector);
                 }
             }
         }
@@ -2112,16 +2112,16 @@ class WP_Theme_JSON
 
         $result = [];
         foreach ($origins as $origin) {
-            if (! isset($preset_per_origin[ $origin ])) {
+            if (! isset($preset_per_origin[$origin])) {
                 continue;
             }
-            foreach ($preset_per_origin[ $origin ] as $preset) {
+            foreach ($preset_per_origin[$origin] as $preset) {
                 $slug = _wp_to_kebab_case($preset['slug']);
 
                 $value = '';
-                if (isset($preset_metadata['value_key'], $preset[ $preset_metadata['value_key'] ])) {
+                if (isset($preset_metadata['value_key'], $preset[$preset_metadata['value_key']])) {
                     $value_key = $preset_metadata['value_key'];
-                    $value     = $preset[ $value_key ];
+                    $value     = $preset[$value_key];
                 } elseif (isset($preset_metadata['value_func']) &&
                     is_callable($preset_metadata['value_func'])
                 ) {
@@ -2132,7 +2132,7 @@ class WP_Theme_JSON
                     continue;
                 }
 
-                $result[ $slug ] = $value;
+                $result[$slug] = $value;
             }
         }
         return $result;
@@ -2158,14 +2158,14 @@ class WP_Theme_JSON
 
         $result = [];
         foreach ($origins as $origin) {
-            if (! isset($preset_per_origin[ $origin ])) {
+            if (! isset($preset_per_origin[$origin])) {
                 continue;
             }
-            foreach ($preset_per_origin[ $origin ] as $preset) {
+            foreach ($preset_per_origin[$origin] as $preset) {
                 $slug = _wp_to_kebab_case($preset['slug']);
 
                 // Use the array as a set so we don't get duplicates.
-                $result[ $slug ] = $slug;
+                $result[$slug] = $slug;
             }
         }
         return $result;
@@ -2302,10 +2302,10 @@ class WP_Theme_JSON
                 $new_prefix        = $new_key . $token;
                 $flattened_subtree = static::flatten_tree($value, $new_prefix, $token);
                 foreach ($flattened_subtree as $subtree_key => $subtree_value) {
-                    $result[ $subtree_key ] = $subtree_value;
+                    $result[$subtree_key] = $subtree_value;
                 }
             } else {
-                $result[ $new_key ] = $value;
+                $result[$new_key] = $value;
             }
         }
         return $result;
@@ -2372,8 +2372,8 @@ class WP_Theme_JSON
              */
             if (is_array($value_path)) {
                 $path_string = implode('.', $value_path);
-                if (isset(static::PROTECTED_PROPERTIES[ $path_string ]) &&
-                    _wp_array_get($settings, static::PROTECTED_PROPERTIES[ $path_string ], null) === null
+                if (isset(static::PROTECTED_PROPERTIES[$path_string]) &&
+                    _wp_array_get($settings, static::PROTECTED_PROPERTIES[$path_string], null) === null
                 ) {
                     continue;
                 }
@@ -2389,7 +2389,7 @@ class WP_Theme_JSON
                 $background_styles = wp_style_engine_get_styles(
                     ['background' => ['backgroundImage' => $value]]
                 );
-                $value             = $background_styles['declarations'][ $css_property ];
+                $value             = $background_styles['declarations'][$css_property];
             }
             if (empty($value) && static::ROOT_BLOCK_SELECTOR !== $selector && ! empty($styles['background']['backgroundImage']['id'])) {
                 if ('background-size' === $css_property) {
@@ -2559,8 +2559,8 @@ class WP_Theme_JSON
 
         foreach ($theme_json['settings']['blocks'] as $name => $node) {
             $selector = null;
-            if (isset($selectors[ $name ]['selector'])) {
-                $selector = $selectors[ $name ]['selector'];
+            if (isset($selectors[$name]['selector'])) {
+                $selector = $selectors[$name]['selector'];
             }
 
             $nodes[] = [
@@ -2615,22 +2615,22 @@ class WP_Theme_JSON
 
         if (isset($theme_json['styles']['elements'])) {
             foreach (self::ELEMENTS as $element => $selector) {
-                if (! isset($theme_json['styles']['elements'][ $element ])) {
+                if (! isset($theme_json['styles']['elements'][$element])) {
                     continue;
                 }
                 $nodes[] = [
                     'path'     => ['styles', 'elements', $element],
-                    'selector' => static::ELEMENTS[ $element ],
+                    'selector' => static::ELEMENTS[$element],
                 ];
 
                 // Handle any pseudo selectors for the element.
-                if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ])) {
-                    foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ] as $pseudo_selector) {
+                if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[$element])) {
+                    foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[$element] as $pseudo_selector) {
 
-                        if (isset($theme_json['styles']['elements'][ $element ][ $pseudo_selector ])) {
+                        if (isset($theme_json['styles']['elements'][$element][$pseudo_selector])) {
                             $nodes[] = [
                                 'path'     => ['styles', 'elements', $element],
-                                'selector' => static::append_to_selector(static::ELEMENTS[ $element ], $pseudo_selector),
+                                'selector' => static::append_to_selector(static::ELEMENTS[$element], $pseudo_selector),
                             ];
                         }
                     }
@@ -2742,18 +2742,18 @@ class WP_Theme_JSON
 
         foreach ($theme_json['styles']['blocks'] as $name => $node) {
             $selector = null;
-            if (isset($selectors[ $name ]['selector'])) {
-                $selector = $selectors[ $name ]['selector'];
+            if (isset($selectors[$name]['selector'])) {
+                $selector = $selectors[$name]['selector'];
             }
 
             $duotone_selector = null;
-            if (isset($selectors[ $name ]['duotone'])) {
-                $duotone_selector = $selectors[ $name ]['duotone'];
+            if (isset($selectors[$name]['duotone'])) {
+                $duotone_selector = $selectors[$name]['duotone'];
             }
 
             $feature_selectors = null;
-            if (isset($selectors[ $name ]['selectors'])) {
-                $feature_selectors = $selectors[ $name ]['selectors'];
+            if (isset($selectors[$name]['selectors'])) {
+                $feature_selectors = $selectors[$name]['selectors'];
             }
 
             $variation_selectors = [];
@@ -2762,7 +2762,7 @@ class WP_Theme_JSON
                 foreach ($node['variations'] as $variation => $node) {
                     $variation_selectors[] = [
                         'path'     => ['styles', 'blocks', $name, 'variations', $variation],
-                        'selector' => $selectors[ $name ]['styleVariations'][ $variation ],
+                        'selector' => $selectors[$name]['styleVariations'][$variation],
                     ];
                 }
             }
@@ -2778,20 +2778,20 @@ class WP_Theme_JSON
                 'css'        => $selector,
             ];
 
-            if (isset($theme_json['styles']['blocks'][ $name ]['elements'])) {
-                foreach ($theme_json['styles']['blocks'][ $name ]['elements'] as $element => $node) {
+            if (isset($theme_json['styles']['blocks'][$name]['elements'])) {
+                foreach ($theme_json['styles']['blocks'][$name]['elements'] as $element => $node) {
                     $nodes[] = [
                         'path'     => ['styles', 'blocks', $name, 'elements', $element],
-                        'selector' => $selectors[ $name ]['elements'][ $element ],
+                        'selector' => $selectors[$name]['elements'][$element],
                     ];
 
                     // Handle any pseudo selectors for the element.
-                    if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ])) {
-                        foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ] as $pseudo_selector) {
-                            if (isset($theme_json['styles']['blocks'][ $name ]['elements'][ $element ][ $pseudo_selector ])) {
+                    if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[$element])) {
+                        foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[$element] as $pseudo_selector) {
+                            if (isset($theme_json['styles']['blocks'][$name]['elements'][$element][$pseudo_selector])) {
                                 $nodes[] = [
                                     'path'     => ['styles', 'blocks', $name, 'elements', $element],
-                                    'selector' => static::append_to_selector($selectors[ $name ]['elements'][ $element ], $pseudo_selector),
+                                    'selector' => static::append_to_selector($selectors[$name]['elements'][$element], $pseudo_selector),
                                 ];
                             }
                         }
@@ -2851,14 +2851,14 @@ class WP_Theme_JSON
                     $combined_selectors = implode(',', $updated_selectors);
 
                     // Add the new declarations to the overall results under the modified selector.
-                    $style_variation_declarations[ $combined_selectors ] = $new_declarations;
+                    $style_variation_declarations[$combined_selectors] = $new_declarations;
                 }
 
                 // Compute declarations for remaining styles not covered by feature level selectors.
-                $style_variation_declarations[ $style_variation['selector'] ] = static::compute_style_properties($style_variation_node, $settings, null, $this->theme_json);
+                $style_variation_declarations[$style_variation['selector']] = static::compute_style_properties($style_variation_node, $settings, null, $this->theme_json);
                 // Store custom CSS for the style variation.
                 if (isset($style_variation_node['css'])) {
-                    $style_variation_custom_css[ $style_variation['selector'] ] = $this->process_blocks_custom_css($style_variation_node['css'], $style_variation['selector']);
+                    $style_variation_custom_css[$style_variation['selector']] = $this->process_blocks_custom_css($style_variation_node['css'], $style_variation['selector']);
                 }
             }
         }
@@ -2870,12 +2870,12 @@ class WP_Theme_JSON
          */
         $is_processing_element = in_array('elements', $block_metadata['path'], true);
 
-        $current_element = $is_processing_element ? $block_metadata['path'][ count($block_metadata['path']) - 1 ] : null;
+        $current_element = $is_processing_element ? $block_metadata['path'][count($block_metadata['path']) - 1] : null;
 
         $element_pseudo_allowed = [];
 
-        if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ])) {
-            $element_pseudo_allowed = static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ];
+        if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[$current_element])) {
+            $element_pseudo_allowed = static::VALID_ELEMENT_PSEUDO_SELECTORS[$current_element];
         }
 
         /*
@@ -2898,11 +2898,11 @@ class WP_Theme_JSON
          * element then compute the style properties for it.
          * Otherwise just compute the styles for the default selector as normal.
          */
-        if ($pseudo_selector && isset($node[ $pseudo_selector ]) &&
-            isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ])
-            && in_array($pseudo_selector, static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ], true)
+        if ($pseudo_selector && isset($node[$pseudo_selector]) &&
+            isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[$current_element])
+            && in_array($pseudo_selector, static::VALID_ELEMENT_PSEUDO_SELECTORS[$current_element], true)
         ) {
-            $declarations = static::compute_style_properties($node[ $pseudo_selector ], $settings, null, $this->theme_json, $selector, $use_root_padding);
+            $declarations = static::compute_style_properties($node[$pseudo_selector], $settings, null, $this->theme_json, $selector, $use_root_padding);
         } else {
             $declarations = static::compute_style_properties($node, $settings, null, $this->theme_json, $selector, $use_root_padding);
         }
@@ -2933,7 +2933,7 @@ class WP_Theme_JSON
                 if ('unset' !== $declaration['value']) {
                     $declarations_duotone[] = $declaration;
                 }
-                unset($declarations[ $index ]);
+                unset($declarations[$index]);
             }
 
             if ($is_root_selector && ('background-image' === $declaration['name'] || 'background' === $declaration['name'])) {
@@ -2977,10 +2977,10 @@ class WP_Theme_JSON
          */
         $element_only_selector = $is_root_selector || (
             $current_element &&
-            isset(static::ELEMENTS[ $current_element ]) &&
+            isset(static::ELEMENTS[$current_element]) &&
             // buttons, captions etc. still need `:root :where()` as they are class based selectors.
-            ! isset(static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[ $current_element ]) &&
-            static::ELEMENTS[ $current_element ] === $selector
+            ! isset(static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[$current_element]) &&
+            static::ELEMENTS[$current_element] === $selector
         );
 
         // 2. Generate and append the rules that use the general selector.
@@ -3007,8 +3007,8 @@ class WP_Theme_JSON
         // 6. Generate and append the style variation rulesets.
         foreach ($style_variation_declarations as $style_variation_selector => $individual_style_variation_declarations) {
             $block_rules .= static::to_ruleset(":root :where($style_variation_selector)", $individual_style_variation_declarations);
-            if (isset($style_variation_custom_css[ $style_variation_selector ])) {
-                $block_rules .= $style_variation_custom_css[ $style_variation_selector ];
+            if (isset($style_variation_custom_css[$style_variation_selector])) {
+                $block_rules .= $style_variation_custom_css[$style_variation_selector];
             }
         }
 
@@ -3241,7 +3241,7 @@ class WP_Theme_JSON
                             if (! isset($item['name'])) {
                                 $name = static::get_name_from_defaults($item['slug'], $base_path);
                                 if (null !== $name) {
-                                    $content[ $key ]['name'] = $name;
+                                    $content[$key]['name'] = $name;
                                 }
                             }
                         }
@@ -3305,10 +3305,10 @@ class WP_Theme_JSON
             $duotone_presets = $node['color']['duotone'];
 
             foreach ($origins as $origin) {
-                if (! isset($duotone_presets[ $origin ])) {
+                if (! isset($duotone_presets[$origin])) {
                     continue;
                 }
-                foreach ($duotone_presets[ $origin ] as $duotone_preset) {
+                foreach ($duotone_presets[$origin] as $duotone_preset) {
                     $filters .= wp_get_duotone_filter_svg($duotone_preset);
                 }
             }
@@ -3511,16 +3511,16 @@ class WP_Theme_JSON
              * Get a reference to element name from path.
              * $metadata['path'] = array( 'styles', 'elements', 'link' );
              */
-            $current_element = $metadata['path'][ count($metadata['path']) - 1 ];
+            $current_element = $metadata['path'][count($metadata['path']) - 1];
 
             /*
              * $output is stripped of pseudo selectors. Re-add and process them
              * or insecure styles here.
              */
-            if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ])) {
-                foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ] as $pseudo_selector) {
-                    if (isset($input[ $pseudo_selector ])) {
-                        $output[ $pseudo_selector ] = static::remove_insecure_styles($input[ $pseudo_selector ]);
+            if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[$current_element])) {
+                foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[$current_element] as $pseudo_selector) {
+                    if (isset($input[$pseudo_selector])) {
+                        $output[$pseudo_selector] = static::remove_insecure_styles($input[$pseudo_selector]);
                     }
                 }
             }
@@ -3541,14 +3541,14 @@ class WP_Theme_JSON
                     // Process a variation's elements and element pseudo selector styles.
                     if (isset($variation_input['elements'])) {
                         foreach ($valid_element_names as $element_name) {
-                            $element_input = $variation_input['elements'][ $element_name ] ?? null;
+                            $element_input = $variation_input['elements'][$element_name] ?? null;
                             if ($element_input) {
                                 $element_output = static::remove_insecure_styles($element_input);
 
-                                if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element_name ])) {
-                                    foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element_name ] as $pseudo_selector) {
-                                        if (isset($element_input[ $pseudo_selector ])) {
-                                            $element_output[ $pseudo_selector ] = static::remove_insecure_styles($element_input[ $pseudo_selector ]);
+                                if (isset(static::VALID_ELEMENT_PSEUDO_SELECTORS[$element_name])) {
+                                    foreach (static::VALID_ELEMENT_PSEUDO_SELECTORS[$element_name] as $pseudo_selector) {
+                                        if (isset($element_input[$pseudo_selector])) {
+                                            $element_output[$pseudo_selector] = static::remove_insecure_styles($element_input[$pseudo_selector]);
                                         }
                                     }
                                 }
@@ -3622,8 +3622,8 @@ class WP_Theme_JSON
                         sanitize_html_class($preset['slug']) === $preset['slug']
                     ) {
                         $value = null;
-                        if (isset($preset_metadata['value_key'], $preset[ $preset_metadata['value_key'] ])) {
-                            $value = $preset[ $preset_metadata['value_key'] ];
+                        if (isset($preset_metadata['value_key'], $preset[$preset_metadata['value_key']])) {
+                            $value = $preset[$preset_metadata['value_key']];
                         } elseif (isset($preset_metadata['value_func']) &&
                             is_callable($preset_metadata['value_func'])
                         ) {
@@ -3672,7 +3672,7 @@ class WP_Theme_JSON
 
         foreach ($declarations as $declaration) {
             if (static::is_safe_css_declaration($declaration['name'], $declaration['value'])) {
-                $path = static::PROPERTIES_METADATA[ $declaration['name'] ];
+                $path = static::PROPERTIES_METADATA[$declaration['name']];
 
                 /*
                  * Check the value isn't an array before adding so as to not
@@ -3794,7 +3794,7 @@ class WP_Theme_JSON
             // Back-compatibility for presets without units.
             foreach ($font_sizes as $key => $font_size) {
                 if (is_numeric($font_size['size'])) {
-                    $font_sizes[ $key ]['size'] = $font_size['size'] . 'px';
+                    $font_sizes[$key]['size'] = $font_size['size'] . 'px';
                 }
             }
             $theme_settings['settings']['typography']['fontSizes'] = $font_sizes;
@@ -3884,14 +3884,14 @@ class WP_Theme_JSON
                     foreach ($preset['theme'] as $item) {
                         $slug = $item['slug'];
                         unset($item['slug']);
-                        $items[ $slug ] = $item;
+                        $items[$slug] = $item;
                     }
                 }
                 if (isset($preset['custom'])) {
                     foreach ($preset['custom'] as $item) {
                         $slug = $item['slug'];
                         unset($item['slug']);
-                        $items[ $slug ] = $item;
+                        $items[$slug] = $item;
                     }
                 }
                 $flattened_preset = [];
@@ -3953,9 +3953,9 @@ class WP_Theme_JSON
                         ('settings' === $node['path'][0])
                     ) {
                         // Top-level settings.
-                        unset($output['settings'][ $opt_in_path[0] ][ $opt_in_path[1] ]);
-                        if (empty($output['settings'][ $opt_in_path[0] ])) {
-                            unset($output['settings'][ $opt_in_path[0] ]);
+                        unset($output['settings'][$opt_in_path[0]][$opt_in_path[1]]);
+                        if (empty($output['settings'][$opt_in_path[0]])) {
+                            unset($output['settings'][$opt_in_path[0]]);
                         }
                     } elseif ((3 === count($node['path'])) &&
                         ('settings' === $node['path'][0]) &&
@@ -3963,9 +3963,9 @@ class WP_Theme_JSON
                     ) {
                         // Block-level settings.
                         $block_name = $node['path'][2];
-                        unset($output['settings']['blocks'][ $block_name ][ $opt_in_path[0] ][ $opt_in_path[1] ]);
-                        if (empty($output['settings']['blocks'][ $block_name ][ $opt_in_path[0] ])) {
-                            unset($output['settings']['blocks'][ $block_name ][ $opt_in_path[0] ]);
+                        unset($output['settings']['blocks'][$block_name][$opt_in_path[0]][$opt_in_path[1]]);
+                        if (empty($output['settings']['blocks'][$block_name][$opt_in_path[0]])) {
+                            unset($output['settings']['blocks'][$block_name][$opt_in_path[0]]);
                         }
                     }
                 }
@@ -4030,7 +4030,7 @@ class WP_Theme_JSON
         // If there are 7 or fewer steps in the scale revert to numbers for labels instead of t-shirt sizes.
         if ($spacing_scale['steps'] <= 7) {
             for ($spacing_sizes_count = 0; $spacing_sizes_count < count($spacing_sizes); $spacing_sizes_count++) {
-                $spacing_sizes[ $spacing_sizes_count ]['name'] = (string) ($spacing_sizes_count + 1);
+                $spacing_sizes[$spacing_sizes_count]['name'] = (string) ($spacing_sizes_count + 1);
             }
         }
 
@@ -4054,10 +4054,10 @@ class WP_Theme_JSON
         }
         $merged = [];
         foreach ($base as $item) {
-            $merged[ $item['slug'] ] = $item;
+            $merged[$item['slug']] = $item;
         }
         foreach ($incoming as $item) {
-            $merged[ $item['slug'] ] = $item;
+            $merged[$item['slug']] = $item;
         }
         ksort($merged, SORT_NUMERIC);
         return array_values($merged);
@@ -4244,9 +4244,9 @@ class WP_Theme_JSON
 
         foreach ($tree as $key => $data) {
             if (is_string($data) && str_starts_with($data, $prefix)) {
-                $tree[ $key ] = self::convert_custom_properties($data);
+                $tree[$key] = self::convert_custom_properties($data);
             } elseif (is_array($data)) {
-                $tree[ $key ] = self::resolve_custom_css_format($data);
+                $tree[$key] = self::resolve_custom_css_format($data);
             }
         }
 
@@ -4273,7 +4273,7 @@ class WP_Theme_JSON
         foreach (static::BLOCK_SUPPORT_FEATURE_LEVEL_SELECTORS as $key => $feature) {
             $feature_selector = wp_get_block_css_selector($block_type, $key);
             if (null !== $feature_selector) {
-                $selectors[ $feature ] = ['root' => $feature_selector];
+                $selectors[$feature] = ['root' => $feature_selector];
             }
         }
 
@@ -4306,7 +4306,7 @@ class WP_Theme_JSON
                 }
                 $element_selector[] = static::prepend_to_selector($el_selector, $selector . ' ');
             }
-            $element_selectors[ $el_name ] = implode(',', $element_selector);
+            $element_selectors[$el_name] = implode(',', $element_selector);
         }
 
         return $element_selectors;
@@ -4342,13 +4342,13 @@ class WP_Theme_JSON
              * Skip if this is the block's root selector or the block doesn't
              * have any styles for the feature.
              */
-            if ('root' === $feature || empty($node[ $feature ])) {
+            if ('root' === $feature || empty($node[$feature])) {
                 continue;
             }
 
             if (is_array($feature_selectors)) {
                 foreach ($feature_selectors as $subfeature => $subfeature_selector) {
-                    if ('root' === $subfeature || empty($node[ $feature ][ $subfeature ])) {
+                    if ('root' === $subfeature || empty($node[$feature][$subfeature])) {
                         continue;
                     }
 
@@ -4358,7 +4358,7 @@ class WP_Theme_JSON
                      */
                     $subfeature_node = [
                         $feature => [
-                            $subfeature => $node[ $feature ][ $subfeature ],
+                            $subfeature => $node[$feature][$subfeature],
                         ],
                     ];
 
@@ -4366,12 +4366,12 @@ class WP_Theme_JSON
                     $new_declarations = static::compute_style_properties($subfeature_node, $settings, null, $this->theme_json);
 
                     // Merge subfeature declarations into feature declarations.
-                    if (isset($declarations[ $subfeature_selector ])) {
+                    if (isset($declarations[$subfeature_selector])) {
                         foreach ($new_declarations as $new_declaration) {
-                            $declarations[ $subfeature_selector ][] = $new_declaration;
+                            $declarations[$subfeature_selector][] = $new_declaration;
                         }
                     } else {
-                        $declarations[ $subfeature_selector ] = $new_declarations;
+                        $declarations[$subfeature_selector] = $new_declarations;
                     }
 
                     /*
@@ -4379,7 +4379,7 @@ class WP_Theme_JSON
                      * styles will be included under its own selector not the
                      * block's.
                      */
-                    unset($node[ $feature ][ $subfeature ]);
+                    unset($node[$feature][$subfeature]);
                 }
             }
 
@@ -4396,7 +4396,7 @@ class WP_Theme_JSON
                  * Create temporary node containing only the feature data
                  * to leverage existing `compute_style_properties` function.
                  */
-                $feature_node = [$feature => $node[ $feature ]];
+                $feature_node = [$feature => $node[$feature]];
 
                 // Generate the style declarations.
                 $new_declarations = static::compute_style_properties($feature_node, $settings, null, $this->theme_json);
@@ -4406,19 +4406,19 @@ class WP_Theme_JSON
                  * the feature selector. This may occur when multiple block
                  * support features use the same custom selector.
                  */
-                if (isset($declarations[ $feature_selector ])) {
+                if (isset($declarations[$feature_selector])) {
                     foreach ($new_declarations as $new_declaration) {
-                        $declarations[ $feature_selector ][] = $new_declaration;
+                        $declarations[$feature_selector][] = $new_declaration;
                     }
                 } else {
-                    $declarations[ $feature_selector ] = $new_declarations;
+                    $declarations[$feature_selector] = $new_declarations;
                 }
 
                 /*
                  * Remove the feature from the block's node now its styles
                  * will be included under its own selector not the block's.
                  */
-                unset($node[ $feature ]);
+                unset($node[$feature]);
             }
         }
 
@@ -4443,7 +4443,7 @@ class WP_Theme_JSON
             }
 
             if (is_array($style)) {
-                $styles[ $key ] = self::convert_variables_to_value($style, $values);
+                $styles[$key] = self::convert_variables_to_value($style, $values);
                 continue;
             }
 
@@ -4453,24 +4453,24 @@ class WP_Theme_JSON
                 $has_matches = preg_match_all('/var\(([^),]+)?,?\s?(\S+)?\)/', $style, $var_parts);
 
                 if ($has_matches) {
-                    $resolved_style = $styles[ $key ];
+                    $resolved_style = $styles[$key];
                     foreach ($var_parts[1] as $index => $var_part) {
                         $key_in_values   = 'var(' . $var_part . ')';
-                        $rule_to_replace = $var_parts[0][ $index ]; // the css rule to replace e.g. var(--wp--preset--color--vivid-green-cyan).
-                        $fallback        = $var_parts[2][ $index ]; // the fallback value.
+                        $rule_to_replace = $var_parts[0][$index]; // the css rule to replace e.g. var(--wp--preset--color--vivid-green-cyan).
+                        $fallback        = $var_parts[2][$index]; // the fallback value.
                         $resolved_style  = str_replace(
                             [
                                 $rule_to_replace,
                                 $fallback,
                             ],
                             [
-                                isset($values[ $key_in_values ]) ? $values[ $key_in_values ] : $rule_to_replace,
-                                isset($values[ $fallback ]) ? $values[ $fallback ] : $fallback,
+                                isset($values[$key_in_values]) ? $values[$key_in_values] : $rule_to_replace,
+                                isset($values[$fallback]) ? $values[$fallback] : $fallback,
                             ],
                             $resolved_style
                         );
                     }
-                    $styles[ $key ] = $resolved_style;
+                    $styles[$key] = $resolved_style;
                 }
             }
         }
@@ -4495,8 +4495,8 @@ class WP_Theme_JSON
         $vars        = array_reduce(
             array_merge($preset_vars, $theme_vars),
             function ($carry, $item) {
-                $name                    = $item['name'];
-                $carry[ "var({$name})" ] = $item['value'];
+                $name                  = $item['name'];
+                $carry["var({$name})"] = $item['value'];
                 return $carry;
             },
             []
@@ -4555,7 +4555,7 @@ class WP_Theme_JSON
             if (! isset($block_meta['styleVariations'])) {
                 continue;
             }
-            $valid_variations[ $block_name ] = array_keys($block_meta['styleVariations']);
+            $valid_variations[$block_name] = array_keys($block_meta['styleVariations']);
         }
 
         return $valid_variations;

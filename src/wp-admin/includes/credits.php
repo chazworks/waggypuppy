@@ -125,7 +125,7 @@ function wp_credits_section_title($group_data = [])
  */
 function wp_credits_section_list($credits = [], $slug = '')
 {
-    $group_data   = isset($credits['groups'][ $slug ]) ? $credits['groups'][ $slug ] : [];
+    $group_data   = isset($credits['groups'][$slug]) ? $credits['groups'][$slug] : [];
     $credits_data = $credits['data'];
     if (! count($group_data)) {
         return;

@@ -318,8 +318,8 @@ When seeking help with this issue, you may be asked for some of the following in
         $plugins = get_plugins();
 
         // Assume plugin main file name first since it is a common convention.
-        if (isset($plugins[ "{$extension['slug']}/{$extension['slug']}.php" ])) {
-            return $plugins[ "{$extension['slug']}/{$extension['slug']}.php" ];
+        if (isset($plugins["{$extension['slug']}/{$extension['slug']}.php"])) {
+            return $plugins["{$extension['slug']}/{$extension['slug']}.php"];
         } else {
             foreach ($plugins as $file => $plugin_data) {
                 if (str_starts_with($file, "{$extension['slug']}/") || $file === $extension['slug']) {

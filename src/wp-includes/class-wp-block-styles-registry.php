@@ -96,10 +96,10 @@ final class WP_Block_Styles_Registry
         $block_names      = is_string($block_name) ? [$block_name] : $block_name;
 
         foreach ($block_names as $name) {
-            if (! isset($this->registered_block_styles[ $name ])) {
-                $this->registered_block_styles[ $name ] = [];
+            if (! isset($this->registered_block_styles[$name])) {
+                $this->registered_block_styles[$name] = [];
             }
-            $this->registered_block_styles[ $name ][ $block_style_name ] = $style_properties;
+            $this->registered_block_styles[$name][$block_style_name] = $style_properties;
         }
 
         return true;
@@ -126,7 +126,7 @@ final class WP_Block_Styles_Registry
             return false;
         }
 
-        unset($this->registered_block_styles[ $block_name ][ $block_style_name ]);
+        unset($this->registered_block_styles[$block_name][$block_style_name]);
 
         return true;
     }
@@ -146,7 +146,7 @@ final class WP_Block_Styles_Registry
             return null;
         }
 
-        return $this->registered_block_styles[ $block_name ][ $block_style_name ];
+        return $this->registered_block_styles[$block_name][$block_style_name];
     }
 
     /**
@@ -171,8 +171,8 @@ final class WP_Block_Styles_Registry
      */
     public function get_registered_styles_for_block($block_name)
     {
-        if (isset($this->registered_block_styles[ $block_name ])) {
-            return $this->registered_block_styles[ $block_name ];
+        if (isset($this->registered_block_styles[$block_name])) {
+            return $this->registered_block_styles[$block_name];
         }
         return [];
     }
@@ -188,7 +188,7 @@ final class WP_Block_Styles_Registry
      */
     public function is_registered($block_name, $block_style_name)
     {
-        return isset($this->registered_block_styles[ $block_name ][ $block_style_name ]);
+        return isset($this->registered_block_styles[$block_name][$block_style_name]);
     }
 
     /**

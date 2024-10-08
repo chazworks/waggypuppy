@@ -84,8 +84,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin
             $string = $feedback;
         }
 
-        if (! empty($this->upgrader->strings[ $string ])) {
-            $string = $this->upgrader->strings[ $string ];
+        if (! empty($this->upgrader->strings[$string])) {
+            $string = $this->upgrader->strings[$string];
         }
 
         if (str_contains($string, '%')) {

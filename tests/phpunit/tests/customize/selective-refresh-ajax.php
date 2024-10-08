@@ -69,7 +69,7 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase
      */
     public function test_handle_render_partials_request_for_unauthenticated_user()
     {
-        $_POST[ WP_Customize_Selective_Refresh::RENDER_QUERY_VAR ] = '1';
+        $_POST[WP_Customize_Selective_Refresh::RENDER_QUERY_VAR] = '1';
 
         // Check current_user_cannot_customize.
         ob_start();
@@ -127,8 +127,8 @@ class Test_WP_Customize_Selective_Refresh_Ajax extends WP_UnitTestCase
     private function setup_valid_render_partials_request_environment()
     {
         wp_set_current_user(self::factory()->user->create(['role' => 'administrator']));
-        $_REQUEST['nonce'] = wp_create_nonce('preview-customize_' . $this->wp_customize->theme()->get_stylesheet());
-        $_POST[ WP_Customize_Selective_Refresh::RENDER_QUERY_VAR ] = '1';
+        $_REQUEST['nonce']                                       = wp_create_nonce('preview-customize_' . $this->wp_customize->theme()->get_stylesheet());
+        $_POST[WP_Customize_Selective_Refresh::RENDER_QUERY_VAR] = '1';
         $this->do_customize_boot_actions();
     }
 

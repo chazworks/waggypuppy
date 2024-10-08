@@ -162,7 +162,7 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
         // Ignore themes in the default /themes directory.
         foreach ($themes as $theme_name => $theme) {
             if ($theme->get_theme_root() !== self::THEME_ROOT) {
-                unset($themes[ $theme_name ]);
+                unset($themes[$theme_name]);
             }
         }
 

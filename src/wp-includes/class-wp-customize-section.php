@@ -175,8 +175,8 @@ class WP_Customize_Section
     {
         $keys = array_keys(get_object_vars($this));
         foreach ($keys as $key) {
-            if (isset($args[ $key ])) {
-                $this->$key = $args[ $key ];
+            if (isset($args[$key])) {
+                $this->$key = $args[$key];
             }
         }
 

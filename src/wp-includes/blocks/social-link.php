@@ -103,8 +103,8 @@ add_action('init', 'register_block_core_social_link');
 function block_core_social_link_get_icon($service)
 {
     $services = block_core_social_link_services();
-    if (isset($services[ $service ]) && isset($services[ $service ]['icon'])) {
-        return $services[ $service ]['icon'];
+    if (isset($services[$service]) && isset($services[$service]['icon'])) {
+        return $services[$service]['icon'];
     }
 
     return $services['share']['icon'];
@@ -122,8 +122,8 @@ function block_core_social_link_get_icon($service)
 function block_core_social_link_get_name($service)
 {
     $services = block_core_social_link_services();
-    if (isset($services[ $service ]) && isset($services[ $service ]['name'])) {
-        return $services[ $service ]['name'];
+    if (isset($services[$service]) && isset($services[$service]['name'])) {
+        return $services[$service]['name'];
     }
 
     return $services['share']['name'];
@@ -338,12 +338,12 @@ function block_core_social_link_services($service = '', $field = '')
 
     if (! empty($service)
         && ! empty($field)
-        && isset($services_data[ $service ])
+        && isset($services_data[$service])
         && ('icon' === $field || 'name' === $field)
     ) {
-        return $services_data[ $service ][ $field ];
-    } elseif (! empty($service) && isset($services_data[ $service ])) {
-        return $services_data[ $service ];
+        return $services_data[$service][$field];
+    } elseif (! empty($service) && isset($services_data[$service])) {
+        return $services_data[$service];
     }
 
     return $services_data;

@@ -71,7 +71,7 @@ class WP_HTTP_IXR_Client extends IXR_Client
 
         // Merge Custom headers ala #8145.
         foreach ($this->headers as $header => $value) {
-            $args['headers'][ $header ] = $value;
+            $args['headers'][$header] = $value;
         }
 
         /**

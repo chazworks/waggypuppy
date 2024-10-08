@@ -325,7 +325,7 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 $data['raw'] = (int) $value['raw'];
             }
 
-            $all_sizes[ $name ] = $data;
+            $all_sizes[$name] = $data;
         }
 
         if (isset($all_sizes['total_size']['debug']) && 'not available' === $all_sizes['total_size']['debug']) {

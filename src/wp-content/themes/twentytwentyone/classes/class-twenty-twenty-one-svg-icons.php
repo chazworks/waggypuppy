@@ -191,7 +191,7 @@ class Twenty_Twenty_One_SVG_Icons
         if (array_key_exists($icon, $arr)) {
             $repl = sprintf('<svg class="svg-icon" width="%d" height="%d" aria-hidden="true" role="img" focusable="false" ', $size, $size);
 
-            $svg = preg_replace('/^<svg /', $repl, trim($arr[ $icon ])); // Add extra attributes to SVG code.
+            $svg = preg_replace('/^<svg /', $repl, trim($arr[$icon])); // Add extra attributes to SVG code.
         }
 
         // @phpstan-ignore-next-line.
@@ -238,10 +238,10 @@ class Twenty_Twenty_One_SVG_Icons
             $social_icons = apply_filters('twenty_twenty_one_svg_icons_social', self::$social_icons);
 
             foreach (array_keys($social_icons) as $icon) {
-                $domains            = array_key_exists($icon, $map) ? $map[ $icon ] : [sprintf('%s.com', $icon)];
-                $domains            = array_map('trim', $domains); // Remove leading/trailing spaces, to prevent regex from failing to match.
-                $domains            = array_map('preg_quote', $domains);
-                $regex_map[ $icon ] = sprintf('/(%s)/i', implode('|', $domains));
+                $domains          = array_key_exists($icon, $map) ? $map[$icon] : [sprintf('%s.com', $icon)];
+                $domains          = array_map('trim', $domains); // Remove leading/trailing spaces, to prevent regex from failing to match.
+                $domains          = array_map('preg_quote', $domains);
+                $regex_map[$icon] = sprintf('/(%s)/i', implode('|', $domains));
             }
         }
         foreach ($regex_map as $icon => $regex) {

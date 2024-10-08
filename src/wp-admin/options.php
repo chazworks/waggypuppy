@@ -245,7 +245,7 @@ if ('update' === $action) { // We are saving settings sent from a settings page.
         check_admin_referer($option_page . '-options');
     }
 
-    if (! isset($allowed_options[ $option_page ])) {
+    if (! isset($allowed_options[$option_page])) {
         wp_die(
             sprintf(
                 /* translators: %s: The options page name. */
@@ -261,7 +261,7 @@ if ('update' === $action) { // We are saving settings sent from a settings page.
         }
         $options = isset($_POST['page_options']) ? explode(',', wp_unslash($_POST['page_options'])) : null;
     } else {
-        $options = $allowed_options[ $option_page ];
+        $options = $allowed_options[$option_page];
     }
 
     if ('general' === $option_page) {
@@ -334,8 +334,8 @@ if ('update' === $action) { // We are saving settings sent from a settings page.
 
             $option = trim($option);
             $value  = null;
-            if (isset($_POST[ $option ])) {
-                $value = $_POST[ $option ];
+            if (isset($_POST[$option])) {
+                $value = $_POST[$option];
                 if (! is_array($value)) {
                     $value = trim($value);
                 }

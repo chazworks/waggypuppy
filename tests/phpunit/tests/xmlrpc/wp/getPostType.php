@@ -127,7 +127,7 @@ class Tests_XMLRPC_wp_getPostType extends WP_XMLRPC_UnitTestCase
         // Check expected values.
         $this->assertSame($this->cpt_name, $result['name']);
         foreach ($this->cpt_args as $key => $value) {
-            $this->assertSame($value, $result[ $key ]);
+            $this->assertSame($value, $result[$key]);
         }
     }
 }

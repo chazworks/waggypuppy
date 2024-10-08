@@ -51,7 +51,7 @@ class WP_Style_Engine_Processor
             return $this;
         }
 
-        $this->stores[ $store->get_name() ] = $store;
+        $this->stores[$store->get_name()] = $store;
 
         return $this;
     }
@@ -83,20 +83,20 @@ class WP_Style_Engine_Processor
              * Otherwise, create a new entry for the rules_group.
              */
             if (! empty($rules_group)) {
-                if (isset($this->css_rules[ "$rules_group $selector" ])) {
-                    $this->css_rules[ "$rules_group $selector" ]->add_declarations($rule->get_declarations());
+                if (isset($this->css_rules["$rules_group $selector"])) {
+                    $this->css_rules["$rules_group $selector"]->add_declarations($rule->get_declarations());
                     continue;
                 }
-                $this->css_rules[ "$rules_group $selector" ] = $rule;
+                $this->css_rules["$rules_group $selector"] = $rule;
                 continue;
             }
 
             // If the selector already exists, add the declarations to it.
-            if (isset($this->css_rules[ $selector ])) {
-                $this->css_rules[ $selector ]->add_declarations($rule->get_declarations());
+            if (isset($this->css_rules[$selector])) {
+                $this->css_rules[$selector]->add_declarations($rule->get_declarations());
                 continue;
             }
-            $this->css_rules[ $rule->get_selector() ] = $rule;
+            $this->css_rules[$rule->get_selector()] = $rule;
         }
 
         return $this;
@@ -158,7 +158,7 @@ class WP_Style_Engine_Processor
         foreach ($this->css_rules as $rule) {
             $declarations = $rule->get_declarations()->get_declarations();
             ksort($declarations);
-            $selectors_json[ $rule->get_selector() ] = wp_json_encode($declarations);
+            $selectors_json[$rule->get_selector()] = wp_json_encode($declarations);
         }
 
         // Combine selectors that have the same styles.
@@ -170,17 +170,17 @@ class WP_Style_Engine_Processor
                 continue;
             }
 
-            $declarations = $this->css_rules[ $selector ]->get_declarations();
+            $declarations = $this->css_rules[$selector]->get_declarations();
 
             foreach ($duplicates as $key) {
                 // Unset the duplicates from the $selectors_json array to avoid looping through them as well.
-                unset($selectors_json[ $key ]);
+                unset($selectors_json[$key]);
                 // Remove the rules from the rules collection.
-                unset($this->css_rules[ $key ]);
+                unset($this->css_rules[$key]);
             }
             // Create a new rule with the combined selectors.
-            $duplicate_selectors                     = implode(',', $duplicates);
-            $this->css_rules[ $duplicate_selectors ] = new WP_Style_Engine_CSS_Rule($duplicate_selectors, $declarations);
+            $duplicate_selectors                   = implode(',', $duplicates);
+            $this->css_rules[$duplicate_selectors] = new WP_Style_Engine_CSS_Rule($duplicate_selectors, $declarations);
         }
     }
 }

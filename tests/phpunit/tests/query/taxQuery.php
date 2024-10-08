@@ -1331,12 +1331,12 @@ class Tests_Query_TaxQuery extends WP_UnitTestCase
 
         // Need term_taxonomy_ids in addition to term_ids, so no factory.
         for ($i = 0; $i < 5; $i++) {
-            $cats[ $i ] = wp_insert_term('category-' . $i, 'category');
-            $tags[ $i ] = wp_insert_term('tag-' . $i, 'post_tag');
+            $cats[$i] = wp_insert_term('category-' . $i, 'category');
+            $tags[$i] = wp_insert_term('tag-' . $i, 'post_tag');
 
             // Post 0 gets all terms.
-            wp_set_object_terms($posts[0], [$cats[ $i ]['term_id']], 'category', true);
-            wp_set_object_terms($posts[0], [$tags[ $i ]['term_id']], 'post_tag', true);
+            wp_set_object_terms($posts[0], [$cats[$i]['term_id']], 'category', true);
+            wp_set_object_terms($posts[0], [$tags[$i]['term_id']], 'post_tag', true);
         }
 
         wp_set_object_terms($posts[1], [$cats[0]['term_id'], $cats[2]['term_id'], $cats[4]['term_id']], 'category');

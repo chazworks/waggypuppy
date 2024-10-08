@@ -60,7 +60,7 @@ function get_categories($args = '')
     } else {
         $categories = (array) $categories;
         foreach (array_keys($categories) as $k) {
-            _make_cat_compat($categories[ $k ]);
+            _make_cat_compat($categories[$k]);
         }
     }
 

@@ -126,7 +126,7 @@ function render_block_core_template_part($attributes)
         return '';
     }
 
-    if (isset($seen_ids[ $template_part_id ])) {
+    if (isset($seen_ids[$template_part_id])) {
         return $is_debug ?
             // translators: Visible only in the front end, this warning takes the place of a faulty block.
             __('[block rendering halted]') :
@@ -149,11 +149,11 @@ function render_block_core_template_part($attributes)
     }
 
     // Run through the actions that are typically taken on the_content.
-    $content                       = shortcode_unautop($content);
-    $content                       = do_shortcode($content);
-    $seen_ids[ $template_part_id ] = true;
-    $content                       = do_blocks($content);
-    unset($seen_ids[ $template_part_id ]);
+    $content                     = shortcode_unautop($content);
+    $content                     = do_shortcode($content);
+    $seen_ids[$template_part_id] = true;
+    $content                     = do_blocks($content);
+    unset($seen_ids[$template_part_id]);
     $content = wptexturize($content);
     $content = convert_smilies($content);
     $content = wp_filter_content_tags($content, "template_part_{$area}");
@@ -261,7 +261,7 @@ function build_template_part_block_instance_variations()
                 'area'  => $template_part->area,
             ],
             'scope'       => ['inserter'],
-            'icon'        => isset($icon_by_area[ $template_part->area ]) ? $icon_by_area[ $template_part->area ] : null,
+            'icon'        => isset($icon_by_area[$template_part->area]) ? $icon_by_area[$template_part->area] : null,
             'example'     => [
                 'attributes' => [
                     'slug'  => $template_part->slug,

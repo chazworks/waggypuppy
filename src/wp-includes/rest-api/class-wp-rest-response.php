@@ -58,8 +58,8 @@ class WP_REST_Response extends WP_HTTP_Response
      */
     public function add_link($rel, $href, $attributes = [])
     {
-        if (empty($this->links[ $rel ])) {
-            $this->links[ $rel ] = [];
+        if (empty($this->links[$rel])) {
+            $this->links[$rel] = [];
         }
 
         if (isset($attributes['href'])) {
@@ -67,7 +67,7 @@ class WP_REST_Response extends WP_HTTP_Response
             unset($attributes['href']);
         }
 
-        $this->links[ $rel ][] = [
+        $this->links[$rel][] = [
             'href'       => $href,
             'attributes' => $attributes,
         ];
@@ -84,18 +84,18 @@ class WP_REST_Response extends WP_HTTP_Response
      */
     public function remove_link($rel, $href = null)
     {
-        if (! isset($this->links[ $rel ])) {
+        if (! isset($this->links[$rel])) {
             return;
         }
 
         if ($href) {
-            $this->links[ $rel ] = wp_list_filter($this->links[ $rel ], ['href' => $href], 'NOT');
+            $this->links[$rel] = wp_list_filter($this->links[$rel], ['href' => $href], 'NOT');
         } else {
-            $this->links[ $rel ] = [];
+            $this->links[$rel] = [];
         }
 
-        if (! $this->links[ $rel ]) {
-            unset($this->links[ $rel ]);
+        if (! $this->links[$rel]) {
+            unset($this->links[$rel]);
         }
     }
 

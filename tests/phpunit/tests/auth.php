@@ -58,8 +58,8 @@ class Tests_Auth extends WP_UnitTestCase
         unset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'], $GLOBALS['wp_rest_application_password_status'], $GLOBALS['wp_rest_application_password_uuid']);
 
         // Cleanup manual auth cookie test.
-        unset($_COOKIE[ AUTH_COOKIE ]);
-        unset($_COOKIE[ SECURE_AUTH_COOKIE ]);
+        unset($_COOKIE[AUTH_COOKIE]);
+        unset($_COOKIE[SECURE_AUTH_COOKIE]);
 
         parent::tear_down();
     }
@@ -635,8 +635,8 @@ class Tests_Auth extends WP_UnitTestCase
      */
     public function test_wp_authenticate_cookie_with_invalid_cookie()
     {
-        $_COOKIE[ AUTH_COOKIE ]        = 'invalid_cookie';
-        $_COOKIE[ SECURE_AUTH_COOKIE ] = 'secure_invalid_cookie';
+        $_COOKIE[AUTH_COOKIE]        = 'invalid_cookie';
+        $_COOKIE[SECURE_AUTH_COOKIE] = 'secure_invalid_cookie';
 
         $result = wp_authenticate_cookie(null, null, null);
         $this->assertInstanceOf('WP_Error', $result);

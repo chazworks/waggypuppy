@@ -227,9 +227,9 @@ class WP_Theme_JSON_Schema
         $tmp_settings = &$settings;
         $last_key     = array_pop($path);
         foreach ($path as $key) {
-            $tmp_settings = &$tmp_settings[ $key ];
+            $tmp_settings = &$tmp_settings[$key];
         }
 
-        unset($tmp_settings[ $last_key ]);
+        unset($tmp_settings[$last_key]);
     }
 }

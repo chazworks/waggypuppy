@@ -980,11 +980,11 @@ function wp_count_sites($network_id = null)
     $statuses = ['public', 'archived', 'mature', 'spam', 'deleted'];
 
     foreach ($statuses as $status) {
-        $_args            = $args;
-        $_args[ $status ] = 1;
+        $_args          = $args;
+        $_args[$status] = 1;
 
-        $q                 = new WP_Site_Query($_args);
-        $counts[ $status ] = $q->found_sites;
+        $q               = new WP_Site_Query($_args);
+        $counts[$status] = $q->found_sites;
     }
 
     return $counts;

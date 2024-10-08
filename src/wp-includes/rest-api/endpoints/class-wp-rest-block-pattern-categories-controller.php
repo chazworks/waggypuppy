@@ -111,8 +111,8 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller
         $keys   = ['name', 'label', 'description'];
         $data   = [];
         foreach ($keys as $key) {
-            if (isset($item[ $key ]) && rest_is_field_included($key, $fields)) {
-                $data[ $key ] = $item[ $key ];
+            if (isset($item[$key]) && rest_is_field_included($key, $fields)) {
+                $data[$key] = $item[$key];
             }
         }
 

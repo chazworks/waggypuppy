@@ -61,9 +61,9 @@ class WP_Widget_Factory
     public function register($widget)
     {
         if ($widget instanceof WP_Widget) {
-            $this->widgets[ spl_object_hash($widget) ] = $widget;
+            $this->widgets[spl_object_hash($widget)] = $widget;
         } else {
-            $this->widgets[ $widget ] = new $widget();
+            $this->widgets[$widget] = new $widget();
         }
     }
 
@@ -79,9 +79,9 @@ class WP_Widget_Factory
     public function unregister($widget)
     {
         if ($widget instanceof WP_Widget) {
-            unset($this->widgets[ spl_object_hash($widget) ]);
+            unset($this->widgets[spl_object_hash($widget)]);
         } else {
-            unset($this->widgets[ $widget ]);
+            unset($this->widgets[$widget]);
         }
     }
 
@@ -101,12 +101,12 @@ class WP_Widget_Factory
 
         foreach ($keys as $key) {
             // Don't register new widget if old widget with the same id is already registered.
-            if (in_array($this->widgets[ $key ]->id_base, $registered, true)) {
-                unset($this->widgets[ $key ]);
+            if (in_array($this->widgets[$key]->id_base, $registered, true)) {
+                unset($this->widgets[$key]);
                 continue;
             }
 
-            $this->widgets[ $key ]->_register();
+            $this->widgets[$key]->_register();
         }
     }
 
@@ -125,7 +125,7 @@ class WP_Widget_Factory
             return null;
         }
 
-        return $this->widgets[ $key ];
+        return $this->widgets[$key];
     }
 
     /**

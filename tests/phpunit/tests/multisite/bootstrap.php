@@ -129,7 +129,7 @@ if (is_multisite()) :
         public function test_get_network_by_path($expected_key, $domain, $path, $message)
         {
             $network = get_network_by_path($domain, $path);
-            $this->assertSame(self::$network_ids[ $expected_key ], $network->id, $message);
+            $this->assertSame(self::$network_ids[$expected_key], $network->id, $message);
         }
 
         public function data_get_network_by_path()
@@ -167,7 +167,7 @@ if (is_multisite()) :
 
             remove_filter('network_by_path_segments_count', '__return_zero');
 
-            $this->assertSame(self::$network_ids[ $expected_key ], $network->id, $message);
+            $this->assertSame(self::$network_ids[$expected_key], $network->id, $message);
         }
 
         public function data_get_network_by_path_with_zero_path_segments()
@@ -217,7 +217,7 @@ if (is_multisite()) :
             $site = get_site_by_path($domain, $path, $segments);
 
             if ($expected_key) {
-                $this->assertEquals(self::$site_ids[ $expected_key ], $site->blog_id);
+                $this->assertEquals(self::$site_ids[$expected_key], $site->blog_id);
             } else {
                 $this->assertFalse($site);
             }
@@ -271,8 +271,8 @@ if (is_multisite()) :
             global $current_blog;
 
             $expected = [
-                'network_id' => self::$network_ids[ $network_key ],
-                'site_id'    => self::$site_ids[ $site_key ],
+                'network_id' => self::$network_ids[$network_key],
+                'site_id'    => self::$site_ids[$site_key],
             ];
 
             ms_load_current_site_and_network($domain, $path);

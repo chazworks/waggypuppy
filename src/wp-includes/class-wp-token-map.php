@@ -313,11 +313,11 @@ class WP_Token_Map
             } else {
                 $group = substr($word, 0, $key_length);
 
-                if (! isset($groups[ $group ])) {
-                    $groups[ $group ] = [];
+                if (! isset($groups[$group])) {
+                    $groups[$group] = [];
                 }
 
-                $groups[ $group ][] = [substr($word, $key_length), $mapping];
+                $groups[$group][] = [substr($word, $key_length), $mapping];
             }
         }
 
@@ -328,7 +328,7 @@ class WP_Token_Map
         usort($shorts, 'WP_Token_Map::longest_first_then_alphabetical');
         foreach ($groups as $group_key => $group) {
             usort(
-                $groups[ $group_key ],
+                $groups[$group_key],
                 static function (array $a, array $b): int {
                     return self::longest_first_then_alphabetical($a[0], $b[0]);
                 }
@@ -339,7 +339,7 @@ class WP_Token_Map
 
         foreach ($shorts as $word) {
             $map->small_words     .= str_pad($word, $key_length + 1, "\x00", STR_PAD_RIGHT);
-            $map->small_mappings[] = $mappings[ $word ];
+            $map->small_mappings[] = $mappings[$word];
         }
 
         $group_keys = array_keys($groups);
@@ -350,7 +350,7 @@ class WP_Token_Map
 
             $group_string = '';
 
-            foreach ($groups[ $group ] as $group_word) {
+            foreach ($groups[$group] as $group_word) {
                 list( $word, $mapping ) = $group_word;
 
                 $word_length    = pack('C', strlen($word));
@@ -464,17 +464,17 @@ class WP_Token_Map
         if (false === $group_at) {
             return false;
         }
-        $group        = $this->large_words[ $group_at / ($this->key_length + 1) ];
+        $group        = $this->large_words[$group_at / ($this->key_length + 1)];
         $group_length = strlen($group);
         $slug         = substr($word, $this->key_length);
         $length       = strlen($slug);
         $at           = 0;
 
         while ($at < $group_length) {
-            $token_length   = unpack('C', $group[ $at++ ])[1];
+            $token_length   = unpack('C', $group[$at++])[1];
             $token_at       = $at;
             $at            += $token_length;
-            $mapping_length = unpack('C', $group[ $at++ ])[1];
+            $mapping_length = unpack('C', $group[$at++])[1];
             $mapping_at     = $at;
 
             if ($token_length === $length && 0 === substr_compare($group, $slug, $token_at, $token_length, $ignore_case)) {
@@ -547,14 +547,14 @@ class WP_Token_Map
                     : null;
             }
 
-            $group        = $this->large_words[ $group_at / ($this->key_length + 1) ];
+            $group        = $this->large_words[$group_at / ($this->key_length + 1)];
             $group_length = strlen($group);
             $at           = 0;
             while ($at < $group_length) {
-                $token_length   = unpack('C', $group[ $at++ ])[1];
+                $token_length   = unpack('C', $group[$at++])[1];
                 $token          = substr($group, $at, $token_length);
                 $at            += $token_length;
-                $mapping_length = unpack('C', $group[ $at++ ])[1];
+                $mapping_length = unpack('C', $group[$at++])[1];
                 $mapping_at     = $at;
 
                 if (0 === substr_compare($text, $token, $offset + $this->key_length, $token_length, $ignore_case)) {
@@ -596,21 +596,21 @@ class WP_Token_Map
 
         $at = 0;
         while ($at < $small_length) {
-            if ($starting_char !== $this->small_words[ $at ] &&
-                (! $ignore_case || strtoupper($this->small_words[ $at ]) !== $starting_char)
+            if ($starting_char !== $this->small_words[$at] &&
+                (! $ignore_case || strtoupper($this->small_words[$at]) !== $starting_char)
             ) {
                 $at += $this->key_length + 1;
                 continue;
             }
 
             for ($adjust = 1; $adjust < $this->key_length; $adjust++) {
-                if ("\x00" === $this->small_words[ $at + $adjust ]) {
+                if ("\x00" === $this->small_words[$at + $adjust]) {
                     $matched_token_byte_length = $adjust;
-                    return $this->small_mappings[ $at / ($this->key_length + 1) ];
+                    return $this->small_mappings[$at / ($this->key_length + 1)];
                 }
 
-                if ($search_text[ $adjust ] !== $this->small_words[ $at + $adjust ] &&
-                    (! $ignore_case || strtoupper($this->small_words[ $at + $adjust ] !== $search_text[ $adjust ]))
+                if ($search_text[$adjust] !== $this->small_words[$at + $adjust] &&
+                    (! $ignore_case || strtoupper($this->small_words[$at + $adjust] !== $search_text[$adjust]))
                 ) {
                     $at += $this->key_length + 1;
                     continue 2;
@@ -618,7 +618,7 @@ class WP_Token_Map
             }
 
             $matched_token_byte_length = $adjust;
-            return $this->small_mappings[ $at / ($this->key_length + 1) ];
+            return $this->small_mappings[$at / ($this->key_length + 1)];
         }
 
         return null;
@@ -646,9 +646,9 @@ class WP_Token_Map
         $small_mapping = 0;
         $small_length  = strlen($this->small_words);
         while ($at < $small_length) {
-            $key            = rtrim(substr($this->small_words, $at, $this->key_length + 1), "\x00");
-            $value          = $this->small_mappings[ $small_mapping++ ];
-            $tokens[ $key ] = $value;
+            $key          = rtrim(substr($this->small_words, $at, $this->key_length + 1), "\x00");
+            $value        = $this->small_mappings[$small_mapping++];
+            $tokens[$key] = $value;
 
             $at += $this->key_length + 1;
         }
@@ -658,15 +658,15 @@ class WP_Token_Map
             $group_length = strlen($group);
             $at           = 0;
             while ($at < $group_length) {
-                $length = unpack('C', $group[ $at++ ])[1];
+                $length = unpack('C', $group[$at++])[1];
                 $key    = $prefix . substr($group, $at, $length);
 
                 $at    += $length;
-                $length = unpack('C', $group[ $at++ ])[1];
+                $length = unpack('C', $group[$at++])[1];
                 $value  = substr($group, $at, $length);
 
-                $tokens[ $key ] = $value;
-                $at            += $length;
+                $tokens[$key] = $value;
+                $at          += $length;
             }
         }
 
@@ -724,16 +724,16 @@ class WP_Token_Map
             if ('' === $prefix) {
                 break;
             }
-            $group        = $this->large_words[ $index ];
+            $group        = $this->large_words[$index];
             $group_length = strlen($group);
             $comment_line = "{$i3}//";
             $data_line    = "{$i3}\"";
             $at           = 0;
             while ($at < $group_length) {
-                $token_length   = unpack('C', $group[ $at++ ])[1];
+                $token_length   = unpack('C', $group[$at++])[1];
                 $token          = substr($group, $at, $token_length);
                 $at            += $token_length;
-                $mapping_length = unpack('C', $group[ $at++ ])[1];
+                $mapping_length = unpack('C', $group[$at++])[1];
                 $mapping        = substr($group, $at, $mapping_length);
                 $at            += $mapping_length;
 

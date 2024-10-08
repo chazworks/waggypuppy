@@ -41,7 +41,7 @@ $current_tab = (isset($_GET['tab']) ? $_GET['tab'] : '');
 $title = sprintf(
     // translators: %s: The currently displayed tab.
     __('Site Health - %s'),
-    (isset($tabs[ $current_tab ]) ? esc_html($tabs[ $current_tab ]) : esc_html(reset($tabs)))
+    (isset($tabs[$current_tab]) ? esc_html($tabs[$current_tab]) : esc_html(reset($tabs)))
 );
 
 if (! current_user_can('view_site_health_checks')) {

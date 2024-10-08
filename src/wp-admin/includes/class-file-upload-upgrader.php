@@ -55,7 +55,7 @@ class File_Upload_Upgrader
     public function __construct($form, $urlholder)
     {
 
-        if (empty($_FILES[ $form ]['name']) && empty($_GET[ $urlholder ])) {
+        if (empty($_FILES[$form]['name']) && empty($_GET[$urlholder])) {
             wp_die(__('Please select a file'));
         }
 
@@ -65,7 +65,7 @@ class File_Upload_Upgrader
                 'test_form' => false,
                 'test_type' => false,
             ];
-            $file      = wp_handle_upload($_FILES[ $form ], $overrides);
+            $file      = wp_handle_upload($_FILES[$form], $overrides);
 
             if (isset($file['error'])) {
                 wp_die($file['error']);
@@ -95,7 +95,7 @@ class File_Upload_Upgrader
                 }
             }
 
-            $this->filename = $_FILES[ $form ]['name'];
+            $this->filename = $_FILES[$form]['name'];
             $this->package  = $file['file'];
 
             // Construct the attachment array.
@@ -114,9 +114,9 @@ class File_Upload_Upgrader
             // Schedule a cleanup for 2 hours from now in case of failed installation.
             wp_schedule_single_event(time() + 2 * HOUR_IN_SECONDS, 'upgrader_scheduled_cleanup', [$this->id]);
 
-        } elseif (is_numeric($_GET[ $urlholder ])) {
+        } elseif (is_numeric($_GET[$urlholder])) {
             // Numeric Package = previously uploaded file, see above.
-            $this->id   = (int) $_GET[ $urlholder ];
+            $this->id   = (int) $_GET[$urlholder];
             $attachment = get_post($this->id);
             if (empty($attachment)) {
                 wp_die(__('Please select a file'));
@@ -131,7 +131,7 @@ class File_Upload_Upgrader
                 wp_die($uploads['error']);
             }
 
-            $this->filename = sanitize_file_name($_GET[ $urlholder ]);
+            $this->filename = sanitize_file_name($_GET[$urlholder]);
             $this->package  = $uploads['basedir'] . '/' . $this->filename;
 
             if (! str_starts_with(realpath($this->package), realpath($uploads['basedir']))) {

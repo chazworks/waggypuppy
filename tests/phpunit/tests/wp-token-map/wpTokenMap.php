@@ -68,7 +68,7 @@ class Tests_WpTokenMap extends WP_UnitTestCase
 
                     $html5_character_references = [];
                     foreach ($dataset as $name => $value) {
-                        $html5_character_references[ $name ] = $value['characters'];
+                        $html5_character_references[$name] = $value['characters'];
                     }
                 }
 

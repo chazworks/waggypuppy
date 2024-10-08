@@ -264,7 +264,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
             $old_value = $current_theme_data->display($field, false);
             $old_value = $old_value ? (string) $old_value : '-';
 
-            $new_value = ! empty($new_theme_data[ $field ]) ? (string) $new_theme_data[ $field ] : '-';
+            $new_value = ! empty($new_theme_data[$field]) ? (string) $new_theme_data[$field] : '-';
 
             if ($old_value === $new_value && '-' === $new_value && 'Template' === $field) {
                 continue;

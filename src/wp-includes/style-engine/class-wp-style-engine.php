@@ -444,7 +444,7 @@ final class WP_Style_Engine
 
         // Collect CSS and classnames.
         foreach (static::BLOCK_STYLE_DEFINITIONS_METADATA as $definition_group_key => $definition_group_style) {
-            if (empty($block_styles[ $definition_group_key ])) {
+            if (empty($block_styles[$definition_group_key])) {
                 continue;
             }
             foreach ($definition_group_style as $style_definition) {
@@ -538,7 +538,7 @@ final class WP_Style_Engine
             if (! $should_skip_css_vars && ! empty($style_definition['css_vars'])) {
                 $css_var = static::get_css_var_value($style_value, $style_definition['css_vars']);
                 if (static::is_valid_style_value($css_var)) {
-                    $css_declarations[ $style_property_keys['default'] ] = $css_var;
+                    $css_declarations[$style_property_keys['default']] = $css_var;
                 }
             }
             return $css_declarations;
@@ -563,14 +563,14 @@ final class WP_Style_Engine
                 $individual_property = sprintf($style_property_keys['individual'], _wp_to_kebab_case($key));
 
                 if ($individual_property && static::is_valid_style_value($value)) {
-                    $css_declarations[ $individual_property ] = $value;
+                    $css_declarations[$individual_property] = $value;
                 }
             }
 
             return $css_declarations;
         }
 
-        $css_declarations[ $style_property_keys['default'] ] = $style_value;
+        $css_declarations[$style_property_keys['default']] = $style_value;
         return $css_declarations;
     }
 
@@ -643,7 +643,7 @@ final class WP_Style_Engine
 
                 $individual_css_property = sprintf($style_definition['property_keys']['individual'], $individual_property_key);
 
-                $css_declarations[ $individual_css_property ] = $value;
+                $css_declarations[$individual_css_property] = $value;
             }
         }
         return $css_declarations;
@@ -679,7 +679,7 @@ final class WP_Style_Engine
             }
 
             if (null !== $value) {
-                $css_declarations[ $style_definition['property_keys']['default'] ] = $value;
+                $css_declarations[$style_definition['property_keys']['default']] = $value;
             }
         }
 

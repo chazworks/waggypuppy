@@ -720,14 +720,14 @@ class Tests_Term_getTerms extends WP_UnitTestCase
         $parent = 0;
         $t      = [];
         foreach (range(1, 7) as $depth) {
-            $t[ $depth ] = self::factory()->term->create(
+            $t[$depth] = self::factory()->term->create(
                 [
                     'name'     => 'term' . $depth,
                     'taxonomy' => $tax,
                     'parent'   => $parent,
                 ]
             );
-            $parent      = $t[ $depth ];
+            $parent    = $t[$depth];
         }
         $post_id = self::factory()->post->create();
         wp_set_post_terms($post_id, $t[7], $tax);

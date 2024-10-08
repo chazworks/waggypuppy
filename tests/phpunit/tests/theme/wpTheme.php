@@ -260,7 +260,7 @@ class Tests_Theme_wpTheme extends WP_UnitTestCase
         WP_Theme::network_disable_theme($disable_theme);
         $new_allowed_themes = get_site_option('allowedthemes');
         update_site_option('allowedthemes', $current_allowed_themes); // Reset previous value.
-        unset($allowed_themes[ $disable_theme ]); // Remove deleted theme from initial set.
+        unset($allowed_themes[$disable_theme]); // Remove deleted theme from initial set.
 
         $this->assertSameSetsWithIndex($allowed_themes, $new_allowed_themes);
     }

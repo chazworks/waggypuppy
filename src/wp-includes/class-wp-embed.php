@@ -116,7 +116,7 @@ class WP_Embed
      */
     public function register_handler($id, $regex, $callback, $priority = 10)
     {
-        $this->handlers[ $priority ][ $id ] = [
+        $this->handlers[$priority][$id] = [
             'regex'    => $regex,
             'callback' => $callback,
         ];
@@ -132,7 +132,7 @@ class WP_Embed
      */
     public function unregister_handler($id, $priority = 10)
     {
-        unset($this->handlers[ $priority ][ $id ]);
+        unset($this->handlers[$priority][$id]);
     }
 
     /**

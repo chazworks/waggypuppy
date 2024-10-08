@@ -117,7 +117,7 @@ function update_network_cache($networks)
 {
     $data = [];
     foreach ((array) $networks as $network) {
-        $data[ $network->id ] = $network;
+        $data[$network->id] = $network;
     }
     wp_cache_add_multiple($data, 'networks');
 }

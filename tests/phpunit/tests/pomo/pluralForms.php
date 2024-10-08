@@ -19,7 +19,7 @@ class PluralFormsTest extends WP_UnitTestCase
         $res         = '';
         $depth       = 0;
         for ($i = 0; $i < strlen($expression); ++$i) {
-            $char = $expression[ $i ];
+            $char = $expression[$i];
             switch ($char) {
                 case '?':
                     $res .= ' ? (';
@@ -105,7 +105,7 @@ class PluralFormsTest extends WP_UnitTestCase
         $plural_forms = new Plural_Forms($expression);
         $actual       = [];
         foreach (array_keys($expected) as $num) {
-            $actual[ $num ] = $plural_forms->get($num);
+            $actual[$num] = $plural_forms->get($num);
         }
 
         $this->assertSame($expected, $actual);

@@ -432,7 +432,7 @@ class WP_Term_Query
             foreach ($taxonomies as $_tax) {
                 $hierarchy = _get_term_hierarchy($_tax);
 
-                if (isset($hierarchy[ $_parent ])) {
+                if (isset($hierarchy[$_parent])) {
                     $in_hierarchy = true;
                 }
             }
@@ -864,7 +864,7 @@ class WP_Term_Query
                     }
 
                     // It really is empty.
-                    unset($term_objects[ $k ]);
+                    unset($term_objects[$k]);
                 }
             }
         }
@@ -988,7 +988,7 @@ class WP_Term_Query
         $_terms = [];
         if ('id=>parent' === $_fields) {
             foreach ($term_objects as $term) {
-                $_terms[ $term->term_id ] = $term->parent;
+                $_terms[$term->term_id] = $term->parent;
             }
         } elseif ('ids' === $_fields) {
             foreach ($term_objects as $term) {
@@ -1008,11 +1008,11 @@ class WP_Term_Query
             }
         } elseif ('id=>name' === $_fields) {
             foreach ($term_objects as $term) {
-                $_terms[ $term->term_id ] = $term->name;
+                $_terms[$term->term_id] = $term->name;
             }
         } elseif ('id=>slug' === $_fields) {
             foreach ($term_objects as $term) {
-                $_terms[ $term->term_id ] = $term->slug;
+                $_terms[$term->term_id] = $term->slug;
             }
         } elseif ('all' === $_fields || 'all_with_object_id' === $_fields) {
             $_terms = $term_objects;
@@ -1072,7 +1072,7 @@ class WP_Term_Query
             default:
                 if (array_key_exists($orderby_raw, $meta_clauses)) {
                     // $orderby corresponds to a meta_query clause.
-                    $meta_clause = $meta_clauses[ $orderby_raw ];
+                    $meta_clause = $meta_clauses[$orderby_raw];
                     $orderby     = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
                 }
                 break;
@@ -1152,7 +1152,7 @@ class WP_Term_Query
             }
 
             if ($term instanceof WP_Term) {
-                $term_objects[ $key ] = $term;
+                $term_objects[$key] = $term;
             }
         }
 

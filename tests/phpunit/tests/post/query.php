@@ -147,7 +147,7 @@ class Tests_Post_Query extends WP_UnitTestCase
 
         // Add some custom data to each post.
         foreach ($posts as $key => $post) {
-            $posts[ $key ]->custom_data = [$post->ID, 'custom data'];
+            $posts[$key]->custom_data = [$post->ID, 'custom data'];
         }
 
         return $posts;

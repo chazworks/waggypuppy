@@ -121,7 +121,7 @@ class WP_List_Util
             foreach ($args as $m_key => $m_value) {
                 if (is_array($obj)) {
                     // Treat object as an array.
-                    if (array_key_exists($m_key, $obj) && ($m_value == $obj[ $m_key ])) {
+                    if (array_key_exists($m_key, $obj) && ($m_value == $obj[$m_key])) {
                         ++$matched;
                     }
                 } elseif (is_object($obj)) {
@@ -136,7 +136,7 @@ class WP_List_Util
                 || ('OR' === $operator && $matched > 0)
                 || ('NOT' === $operator && 0 === $matched)
             ) {
-                $filtered[ $key ] = $obj;
+                $filtered[$key] = $obj;
             }
         }
 
@@ -171,9 +171,9 @@ class WP_List_Util
              */
             foreach ($this->output as $key => $value) {
                 if (is_object($value)) {
-                    $newlist[ $key ] = $value->$field;
+                    $newlist[$key] = $value->$field;
                 } elseif (is_array($value)) {
-                    $newlist[ $key ] = $value[ $field ];
+                    $newlist[$key] = $value[$field];
                 } else {
                     _doing_it_wrong(
                         __METHOD__,
@@ -195,15 +195,15 @@ class WP_List_Util
         foreach ($this->output as $value) {
             if (is_object($value)) {
                 if (isset($value->$index_key)) {
-                    $newlist[ $value->$index_key ] = $value->$field;
+                    $newlist[$value->$index_key] = $value->$field;
                 } else {
                     $newlist[] = $value->$field;
                 }
             } elseif (is_array($value)) {
-                if (isset($value[ $index_key ])) {
-                    $newlist[ $value[ $index_key ] ] = $value[ $field ];
+                if (isset($value[$index_key])) {
+                    $newlist[$value[$index_key]] = $value[$field];
                 } else {
-                    $newlist[] = $value[ $field ];
+                    $newlist[] = $value[$field];
                 }
             } else {
                 _doing_it_wrong(
@@ -243,7 +243,7 @@ class WP_List_Util
         }
 
         foreach ($orderby as $field => $direction) {
-            $orderby[ $field ] = 'DESC' === strtoupper($direction) ? 'DESC' : 'ASC';
+            $orderby[$field] = 'DESC' === strtoupper($direction) ? 'DESC' : 'ASC';
         }
 
         $this->orderby = $orderby;
@@ -280,21 +280,21 @@ class WP_List_Util
         $b = (array) $b;
 
         foreach ($this->orderby as $field => $direction) {
-            if (! isset($a[ $field ]) || ! isset($b[ $field ])) {
+            if (! isset($a[$field]) || ! isset($b[$field])) {
                 continue;
             }
 
-            if ($a[ $field ] == $b[ $field ]) {
+            if ($a[$field] == $b[$field]) {
                 continue;
             }
 
             $results = 'DESC' === $direction ? [1, -1] : [-1, 1];
 
-            if (is_numeric($a[ $field ]) && is_numeric($b[ $field ])) {
-                return ($a[ $field ] < $b[ $field ]) ? $results[0] : $results[1];
+            if (is_numeric($a[$field]) && is_numeric($b[$field])) {
+                return ($a[$field] < $b[$field]) ? $results[0] : $results[1];
             }
 
-            return 0 > strcmp($a[ $field ], $b[ $field ]) ? $results[0] : $results[1];
+            return 0 > strcmp($a[$field], $b[$field]) ? $results[0] : $results[1];
         }
 
         return 0;

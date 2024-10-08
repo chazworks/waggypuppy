@@ -120,7 +120,7 @@ class WP_Test_REST_Revisions_Controller extends WP_Test_REST_Controller_Testcase
         }
         $key = array_search('do_not_allow', $caps, true);
         if (false !== $key) {
-            unset($caps[ $key ]);
+            unset($caps[$key]);
         }
         return $caps;
     }

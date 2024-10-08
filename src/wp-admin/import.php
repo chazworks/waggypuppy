@@ -41,8 +41,8 @@ if (current_user_can('install_plugins')) {
 }
 
 // Detect and redirect invalid importers like 'movabletype', which is registered as 'mt'.
-if (! empty($_GET['invalid']) && isset($popular_importers[ $_GET['invalid'] ])) {
-    $importer_id = $popular_importers[ $_GET['invalid'] ]['importer-id'];
+if (! empty($_GET['invalid']) && isset($popular_importers[$_GET['invalid']])) {
+    $importer_id = $popular_importers[$_GET['invalid']]['importer-id'];
     if ($importer_id !== $_GET['invalid']) { // Prevent redirect loops.
         wp_redirect(admin_url('admin.php?import=' . $importer_id));
         exit;
@@ -83,15 +83,15 @@ $importers = get_importers();
 
 // If a popular importer is not registered, create a dummy registration that links to the plugin installer.
 foreach ($popular_importers as $pop_importer => $pop_data) {
-    if (isset($importers[ $pop_importer ])) {
+    if (isset($importers[$pop_importer])) {
         continue;
     }
-    if (isset($importers[ $pop_data['importer-id'] ])) {
+    if (isset($importers[$pop_data['importer-id']])) {
         continue;
     }
 
     // Fill the array of registered (already installed) importers with data of the popular importers from the WordPress.org API.
-    $importers[ $pop_data['importer-id'] ] = [
+    $importers[$pop_data['importer-id']] = [
         $pop_data['name'],
         $pop_data['description'],
         'install' => $pop_data['plugin-slug'],

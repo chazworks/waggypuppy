@@ -42,10 +42,10 @@ class WP_HTML_Decoder
 
         while ($search_at < $search_length && $haystack_at < $haystack_end) {
             $chars_match = $loose_case
-                ? strtolower($haystack[ $haystack_at ]) === strtolower($search_text[ $search_at ])
-                : $haystack[ $haystack_at ] === $search_text[ $search_at ];
+                ? strtolower($haystack[$haystack_at]) === strtolower($search_text[$search_at])
+                : $haystack[$haystack_at] === $search_text[$search_at];
 
-            $is_introducer = '&' === $haystack[ $haystack_at ];
+            $is_introducer = '&' === $haystack[$haystack_at];
             $next_chunk    = $is_introducer
                 ? self::read_character_reference('attribute', $haystack, $haystack_at, $token_length)
                 : null;
@@ -224,7 +224,7 @@ class WP_HTML_Decoder
             return null;
         }
 
-        if ('&' !== $text[ $at ]) {
+        if ('&' !== $text[$at]) {
             return null;
         }
 
@@ -238,7 +238,7 @@ class WP_HTML_Decoder
          *  - fail to parse and return plaintext `&#x1f1`.
          *  - fail to parse and return the replacement character `�`
          */
-        if ('#' === $text[ $at + 1 ]) {
+        if ('#' === $text[$at + 1]) {
             if ($at + 2 >= $length) {
                 return null;
             }
@@ -246,7 +246,7 @@ class WP_HTML_Decoder
             /** Tracks inner parsing within the numeric character reference. */
             $digits_at = $at + 2;
 
-            if ('x' === $text[ $digits_at ] || 'X' === $text[ $digits_at ]) {
+            if ('x' === $text[$digits_at] || 'X' === $text[$digits_at]) {
                 $numeric_base   = 16;
                 $numeric_digits = '0123456789abcdefABCDEF';
                 $max_digits     = 6; // &#x10FFFF;
@@ -261,7 +261,7 @@ class WP_HTML_Decoder
             $zero_count    = strspn($text, '0', $digits_at);
             $digit_count   = strspn($text, $numeric_digits, $digits_at + $zero_count);
             $after_digits  = $digits_at + $zero_count + $digit_count;
-            $has_semicolon = $after_digits < $length && ';' === $text[ $after_digits ];
+            $has_semicolon = $after_digits < $length && ';' === $text[$after_digits];
             $end_of_span   = $has_semicolon ? $after_digits + 1 : $after_digits;
 
             // `&#` or `&#x` without digits returns into plaintext.
@@ -351,7 +351,7 @@ class WP_HTML_Decoder
                     0x0178, // 0x9F -> LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ).
                 ];
 
-                $code_point = $windows_1252_mapping[ $code_point - 0x80 ];
+                $code_point = $windows_1252_mapping[$code_point - 0x80];
             }
 
             $match_byte_length = $end_of_span - $at;
@@ -374,7 +374,7 @@ class WP_HTML_Decoder
         $after_name = $name_at + $name_length;
 
         // If the match ended with a semicolon then it should always be decoded.
-        if (';' === $text[ $name_at + $name_length - 1 ]) {
+        if (';' === $text[$name_at + $name_length - 1]) {
             $match_byte_length = $after_name - $at;
             return $replacement;
         }
@@ -388,8 +388,8 @@ class WP_HTML_Decoder
             $after_name < $length &&
             $name_at < $length &&
             (
-                ctype_alnum($text[ $after_name ]) ||
-                '=' === $text[ $after_name ]
+                ctype_alnum($text[$after_name]) ||
+                '=' === $text[$after_name]
             )
         );
 

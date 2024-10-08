@@ -426,7 +426,7 @@ class Tests_TestHelpers extends WP_UnitTestCase
         $globals = ['post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages'];
 
         foreach ($globals as $global) {
-            $this->assertTrue(! isset($GLOBALS[ $global ]), $global);
+            $this->assertTrue(! isset($GLOBALS[$global]), $global);
         }
     }
 }

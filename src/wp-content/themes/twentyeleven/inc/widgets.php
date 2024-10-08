@@ -67,8 +67,8 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget
             $args['widget_id'] = null;
         }
 
-        if (! is_customize_preview() && isset($cache[ $args['widget_id'] ])) {
-            echo $cache[ $args['widget_id'] ];
+        if (! is_customize_preview() && isset($cache[$args['widget_id']])) {
+            echo $cache[$args['widget_id']];
             return;
         }
 
@@ -147,7 +147,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget
             // End check for ephemeral posts.
         endif;
 
-        $cache[ $args['widget_id'] ] = ob_get_flush();
+        $cache[$args['widget_id']] = ob_get_flush();
         if (! is_customize_preview()) {
             wp_cache_set('widget_twentyeleven_ephemera', $cache, 'widget');
         }

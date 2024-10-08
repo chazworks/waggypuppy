@@ -231,7 +231,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
                 foreach ($widgets as $i => $widget_id) {
                     // This automatically removes the passed widget IDs from any other sidebars in use.
                     if ($sidebar_id !== $request['id'] && in_array($widget_id, $request['widgets'], true)) {
-                        unset($sidebars[ $sidebar_id ][ $i ]);
+                        unset($sidebars[$sidebar_id][$i]);
                     }
 
                     // This automatically removes omitted widget IDs to the inactive sidebar.
@@ -241,7 +241,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
                 }
             }
 
-            $sidebars[ $request['id'] ] = $request['widgets'];
+            $sidebars[$request['id']] = $request['widgets'];
 
             wp_set_sidebars_widgets($sidebars);
         }
@@ -338,8 +338,8 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         $id      = $raw_sidebar['id'];
         $sidebar = ['id' => $id];
 
-        if (isset($wp_registered_sidebars[ $id ])) {
-            $registered_sidebar = $wp_registered_sidebars[ $id ];
+        if (isset($wp_registered_sidebars[$id])) {
+            $registered_sidebar = $wp_registered_sidebars[$id];
 
             $sidebar['status']        = 'active';
             $sidebar['name']          = isset($registered_sidebar['name']) ? $registered_sidebar['name'] : '';
@@ -364,9 +364,9 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         if (rest_is_field_included('widgets', $fields)) {
             $sidebars = wp_get_sidebars_widgets();
             $widgets  = array_filter(
-                isset($sidebars[ $sidebar['id'] ]) ? $sidebars[ $sidebar['id'] ] : [],
+                isset($sidebars[$sidebar['id']]) ? $sidebars[$sidebar['id']] : [],
                 static function ($widget_id) use ($wp_registered_widgets) {
-                    return isset($wp_registered_widgets[ $widget_id ]);
+                    return isset($wp_registered_widgets[$widget_id]);
                 }
             );
 
@@ -376,10 +376,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller
         $schema = $this->get_item_schema();
         $data   = [];
         foreach ($schema['properties'] as $property_id => $property) {
-            if (isset($sidebar[ $property_id ]) && true === rest_validate_value_from_schema($sidebar[ $property_id ], $property)) {
-                $data[ $property_id ] = $sidebar[ $property_id ];
+            if (isset($sidebar[$property_id]) && true === rest_validate_value_from_schema($sidebar[$property_id], $property)) {
+                $data[$property_id] = $sidebar[$property_id];
             } elseif (isset($property['default'])) {
-                $data[ $property_id ] = $property['default'];
+                $data[$property_id] = $property['default'];
             }
         }
 

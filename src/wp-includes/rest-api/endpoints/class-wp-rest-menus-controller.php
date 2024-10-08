@@ -516,12 +516,12 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller
                     ]
                 );
             }
-            $new_locations[ $location ] = $menu_id;
+            $new_locations[$location] = $menu_id;
         }
         $assigned_menu = get_nav_menu_locations();
         foreach ($assigned_menu as $location => $term_id) {
             if ($term_id === $menu_id) {
-                unset($assigned_menu[ $location ]);
+                unset($assigned_menu[$location]);
             }
         }
         $new_assignments = array_merge($assigned_menu, $new_locations);

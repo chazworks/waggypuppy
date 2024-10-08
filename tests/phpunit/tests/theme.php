@@ -65,12 +65,12 @@ class Tests_Theme extends WP_UnitTestCase
     public function test_wp_get_themes_default()
     {
         $themes = wp_get_themes();
-        $this->assertInstanceOf('WP_Theme', $themes[ $this->theme_slug ]);
-        $this->assertSame($this->theme_name, $themes[ $this->theme_slug ]->get('Name'));
+        $this->assertInstanceOf('WP_Theme', $themes[$this->theme_slug]);
+        $this->assertSame($this->theme_name, $themes[$this->theme_slug]->get('Name'));
 
         $single_theme = wp_get_theme($this->theme_slug);
-        $this->assertSame($single_theme->get('Name'), $themes[ $this->theme_slug ]->get('Name'));
-        $this->assertEquals($themes[ $this->theme_slug ], $single_theme);
+        $this->assertSame($single_theme->get('Name'), $themes[$this->theme_slug]->get('Name'));
+        $this->assertEquals($themes[$this->theme_slug], $single_theme);
     }
 
     /**
@@ -80,12 +80,12 @@ class Tests_Theme extends WP_UnitTestCase
     public function test_get_themes_default()
     {
         $themes = get_themes();
-        $this->assertInstanceOf('WP_Theme', $themes[ $this->theme_name ]);
-        $this->assertSame($themes[ $this->theme_name ], get_theme($this->theme_name));
+        $this->assertInstanceOf('WP_Theme', $themes[$this->theme_name]);
+        $this->assertSame($themes[$this->theme_name], get_theme($this->theme_name));
 
-        $this->assertSame($this->theme_name, $themes[ $this->theme_name ]['Name']);
-        $this->assertSame($this->theme_name, $themes[ $this->theme_name ]->Name);
-        $this->assertSame($this->theme_name, $themes[ $this->theme_name ]->name);
+        $this->assertSame($this->theme_name, $themes[$this->theme_name]['Name']);
+        $this->assertSame($this->theme_name, $themes[$this->theme_name]->Name);
+        $this->assertSame($this->theme_name, $themes[$this->theme_name]->name);
     }
 
     /**
@@ -100,7 +100,7 @@ class Tests_Theme extends WP_UnitTestCase
             // WP_Theme implements ArrayAccess. Even ArrayObject returns false for is_array().
             $this->assertFalse(is_array($theme));
             $this->assertInstanceOf('WP_Theme', $theme);
-            $this->assertSame($theme, $themes[ $name ]);
+            $this->assertSame($theme, $themes[$name]);
         }
     }
 

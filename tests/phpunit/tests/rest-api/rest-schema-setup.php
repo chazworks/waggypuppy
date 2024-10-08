@@ -253,7 +253,7 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase
             ]
         );
         $post_revisions   = array_values(wp_get_post_revisions($post_id));
-        $post_revision_id = $post_revisions[ count($post_revisions) - 1 ]->ID;
+        $post_revision_id = $post_revisions[count($post_revisions) - 1]->ID;
 
         // Create an autosave.
         wp_create_post_autosave(
@@ -283,7 +283,7 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase
             ]
         );
         $page_revisions   = array_values(wp_get_post_revisions($page_id));
-        $page_revision_id = $page_revisions[ count($page_revisions) - 1 ]->ID;
+        $page_revision_id = $page_revisions[count($page_revisions) - 1]->ID;
 
         // Create an autosave.
         wp_create_post_autosave(
@@ -765,8 +765,8 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase
 
     private function normalize_fixture($data, $path)
     {
-        if (isset(self::$fixture_replacements[ $path ])) {
-            return self::$fixture_replacements[ $path ];
+        if (isset(self::$fixture_replacements[$path])) {
+            return self::$fixture_replacements[$path];
         }
 
         if (! is_array($data)) {
@@ -777,11 +777,11 @@ class WP_Test_REST_Schema_Initialization extends WP_Test_REST_TestCase
 
         foreach ($data as $key => $value) {
             if (is_string($value) && in_array($key, $datetime_keys, true)) {
-                $data[ $key ] = '2017-02-14T00:00:00';
+                $data[$key] = '2017-02-14T00:00:00';
                 continue;
             }
 
-            $data[ $key ] = $this->normalize_fixture($value, "$path.$key");
+            $data[$key] = $this->normalize_fixture($value, "$path.$key");
         }
 
         return $data;

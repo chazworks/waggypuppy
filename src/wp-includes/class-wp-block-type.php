@@ -512,11 +512,11 @@ class WP_Block_Type
         foreach ($attributes as $attribute_name => $value) {
             // If the attribute is not defined by the block type, it cannot be
             // validated.
-            if (! isset($this->attributes[ $attribute_name ])) {
+            if (! isset($this->attributes[$attribute_name])) {
                 continue;
             }
 
-            $schema = $this->attributes[ $attribute_name ];
+            $schema = $this->attributes[$attribute_name];
 
             // Validate value by JSON schema. An invalid value should revert to
             // its default, if one exists. This occurs by virtue of the missing
@@ -524,7 +524,7 @@ class WP_Block_Type
             // assigned, the attribute value should remain unset.
             $is_valid = rest_validate_value_from_schema($value, $schema, $attribute_name);
             if (is_wp_error($is_valid)) {
-                unset($attributes[ $attribute_name ]);
+                unset($attributes[$attribute_name]);
             }
         }
 
@@ -533,7 +533,7 @@ class WP_Block_Type
         $missing_schema_attributes = array_diff_key($this->attributes, $attributes);
         foreach ($missing_schema_attributes as $attribute_name => $schema) {
             if (isset($schema['default'])) {
-                $attributes[ $attribute_name ] = $schema['default'];
+                $attributes[$attribute_name] = $schema['default'];
             }
         }
 
@@ -567,7 +567,7 @@ class WP_Block_Type
         // Register core attributes.
         foreach (static::GLOBAL_ATTRIBUTES as $attr_key => $attr_schema) {
             if (! array_key_exists($attr_key, $args['attributes'])) {
-                $args['attributes'][ $attr_key ] = $attr_schema;
+                $args['attributes'][$attr_key] = $attr_schema;
             }
         }
 

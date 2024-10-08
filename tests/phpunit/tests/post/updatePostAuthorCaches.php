@@ -41,11 +41,11 @@ class Tests_Post_UpdatePostAuthorCaches extends WP_UnitTestCase
         self::$user_ids = [];
 
         for ($i = 0; $i < self::$post_author_count; $i++) {
-            self::$user_ids[ $i ] = $factory->user->create();
+            self::$user_ids[$i] = $factory->user->create();
             $factory->post->create(
                 [
                     'post_type'   => 'post',
-                    'post_author' => self::$user_ids[ $i ],
+                    'post_author' => self::$user_ids[$i],
                 ]
             );
         }

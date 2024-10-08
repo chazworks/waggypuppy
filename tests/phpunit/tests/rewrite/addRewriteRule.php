@@ -28,7 +28,7 @@ class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase
 
         $rewrite_rules = $wp_rewrite->rewrite_rules();
 
-        $this->assertSame($redirect, $rewrite_rules[ $pattern ]);
+        $this->assertSame($redirect, $rewrite_rules[$pattern]);
     }
 
     /**
@@ -53,6 +53,6 @@ class Tests_Rewrite_AddRewriteRule extends WP_UnitTestCase
 
         $rewrite_rules = $wp_rewrite->rewrite_rules();
 
-        $this->assertSame($redirect, $rewrite_rules[ $pattern ]);
+        $this->assertSame($redirect, $rewrite_rules[$pattern]);
     }
 }

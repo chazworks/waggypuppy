@@ -211,7 +211,7 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase
         $password = 'password';
         $hasher   = new PasswordHash(8, true);
 
-        $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] = $hasher->HashPassword($password);
+        $_COOKIE['wp-postpass_' . COOKIEHASH] = $hasher->HashPassword($password);
 
         $post = self::factory()->post->create_and_get(
             [
@@ -227,7 +227,7 @@ class Tests_Comment_wpHandleCommentSubmission extends WP_UnitTestCase
         ];
         $comment = wp_handle_comment_submission($data);
 
-        unset($_COOKIE[ 'wp-postpass_' . COOKIEHASH ]);
+        unset($_COOKIE['wp-postpass_' . COOKIEHASH]);
 
         $this->assertNotWPError($comment);
         $this->assertInstanceOf('WP_Comment', $comment);

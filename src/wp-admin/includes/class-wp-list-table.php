@@ -356,8 +356,8 @@ class WP_List_Table
             return $this->get_pagenum();
         }
 
-        if (isset($this->_pagination_args[ $key ])) {
-            return $this->_pagination_args[ $key ];
+        if (isset($this->_pagination_args[$key])) {
+            return $this->_pagination_args[$key];
         }
 
         return 0;
@@ -491,7 +491,7 @@ class WP_List_Table
                 continue;
             }
 
-            $views_links[ $view ] = sprintf(
+            $views_links[$view] = sprintf(
                 '<a href="%s"%s>%s</a>',
                 esc_url($link['url']),
                 isset($link['current']) && true === $link['current'] ? ' class="current" aria-current="page"' : '',
@@ -545,7 +545,7 @@ class WP_List_Table
 
         echo "<ul class='subsubsub'>\n";
         foreach ($views as $class => $view) {
-            $views[ $class ] = "\t<li class='$class'>$view";
+            $views[$class] = "\t<li class='$class'>$view";
         }
         echo implode(" |</li>\n", $views) . "</li>\n";
         echo '</ul>';
@@ -1304,7 +1304,7 @@ class WP_List_Table
          * If the primary column doesn't exist,
          * fall back to the first non-checkbox column.
          */
-        if (! isset($columns[ $default ])) {
+        if (! isset($columns[$default])) {
             $default = self::get_default_primary_column_name();
         }
 
@@ -1318,7 +1318,7 @@ class WP_List_Table
          */
         $column = apply_filters('list_table_primary_column', $default, $this->screen->id);
 
-        if (empty($column) || ! isset($columns[ $column ])) {
+        if (empty($column) || ! isset($columns[$column])) {
             $column = $default;
         }
 
@@ -1351,7 +1351,7 @@ class WP_List_Table
 
             $column_headers = [[], [], [], $this->get_primary_column_name()];
             foreach ($this->_column_headers as $key => $value) {
-                $column_headers[ $key ] = $value;
+                $column_headers[$key] = $value;
             }
 
             $this->_column_headers = $column_headers;
@@ -1399,7 +1399,7 @@ class WP_List_Table
                 $data[4] = false;
             }
 
-            $sortable[ $id ] = $data;
+            $sortable[$id] = $data;
         }
 
         $primary               = $this->get_primary_column_name();
@@ -1484,12 +1484,12 @@ class WP_List_Table
                 $class[] = 'column-primary';
             }
 
-            if (isset($sortable[ $column_key ])) {
-                $orderby       = isset($sortable[ $column_key ][0]) ? $sortable[ $column_key ][0] : '';
-                $desc_first    = isset($sortable[ $column_key ][1]) ? $sortable[ $column_key ][1] : false;
-                $abbr          = isset($sortable[ $column_key ][2]) ? $sortable[ $column_key ][2] : '';
-                $orderby_text  = isset($sortable[ $column_key ][3]) ? $sortable[ $column_key ][3] : '';
-                $initial_order = isset($sortable[ $column_key ][4]) ? $sortable[ $column_key ][4] : '';
+            if (isset($sortable[$column_key])) {
+                $orderby       = isset($sortable[$column_key][0]) ? $sortable[$column_key][0] : '';
+                $desc_first    = isset($sortable[$column_key][1]) ? $sortable[$column_key][1] : false;
+                $abbr          = isset($sortable[$column_key][2]) ? $sortable[$column_key][2] : '';
+                $orderby_text  = isset($sortable[$column_key][3]) ? $sortable[$column_key][3] : '';
+                $initial_order = isset($sortable[$column_key][4]) ? $sortable[$column_key][4] : '';
 
                 /*
                  * We're in the initial view and there's no $_GET['orderby'] then check if the
@@ -1605,12 +1605,12 @@ class WP_List_Table
 
         foreach (array_keys($columns) as $column_key) {
 
-            if (isset($sortable[ $column_key ])) {
-                $orderby       = isset($sortable[ $column_key ][0]) ? $sortable[ $column_key ][0] : '';
-                $desc_first    = isset($sortable[ $column_key ][1]) ? $sortable[ $column_key ][1] : false;
-                $abbr          = isset($sortable[ $column_key ][2]) ? $sortable[ $column_key ][2] : '';
-                $orderby_text  = isset($sortable[ $column_key ][3]) ? $sortable[ $column_key ][3] : '';
-                $initial_order = isset($sortable[ $column_key ][4]) ? $sortable[ $column_key ][4] : '';
+            if (isset($sortable[$column_key])) {
+                $orderby       = isset($sortable[$column_key][0]) ? $sortable[$column_key][0] : '';
+                $desc_first    = isset($sortable[$column_key][1]) ? $sortable[$column_key][1] : false;
+                $abbr          = isset($sortable[$column_key][2]) ? $sortable[$column_key][2] : '';
+                $orderby_text  = isset($sortable[$column_key][3]) ? $sortable[$column_key][3] : '';
+                $initial_order = isset($sortable[$column_key][4]) ? $sortable[$column_key][4] : '';
 
                 if (! is_string($orderby_text) || '' === $orderby_text) {
                     return;

@@ -77,7 +77,7 @@ function edit_comment()
     }
 
     foreach (['aa', 'mm', 'jj', 'hh', 'mn'] as $timeunit) {
-        if (! empty($_POST[ 'hidden_' . $timeunit ]) && $_POST[ 'hidden_' . $timeunit ] !== $_POST[ $timeunit ]) {
+        if (! empty($_POST['hidden_' . $timeunit]) && $_POST['hidden_' . $timeunit] !== $_POST[$timeunit]) {
             $_POST['edit_date'] = '1';
             break;
         }
@@ -175,12 +175,12 @@ function get_pending_comments_num($post_id)
 
     // Default to zero pending for all posts in request.
     foreach ($post_id_array as $id) {
-        $pending_keyed[ $id ] = 0;
+        $pending_keyed[$id] = 0;
     }
 
     if (! empty($pending)) {
         foreach ($pending as $pend) {
-            $pending_keyed[ $pend['comment_post_ID'] ] = absint($pend['num_comments']);
+            $pending_keyed[$pend['comment_post_ID']] = absint($pend['num_comments']);
         }
     }
 

@@ -111,7 +111,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
 
         $bookmark = 'append_content_after_template_tag_closer';
         $this->set_bookmark($bookmark);
-        $after_closing_tag = $this->bookmarks[ $bookmark ]->start + $this->bookmarks[ $bookmark ]->length;
+        $after_closing_tag = $this->bookmarks[$bookmark]->start + $this->bookmarks[$bookmark]->length;
         $this->release_bookmark($bookmark);
 
         // Appends the new content.
@@ -145,8 +145,8 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         }
         list( $opener_tag, $closer_tag ) = $bookmarks;
 
-        $after_opener_tag  = $this->bookmarks[ $opener_tag ]->start + $this->bookmarks[ $opener_tag ]->length;
-        $before_closer_tag = $this->bookmarks[ $closer_tag ]->start;
+        $after_opener_tag  = $this->bookmarks[$opener_tag]->start + $this->bookmarks[$opener_tag]->length;
+        $before_closer_tag = $this->bookmarks[$closer_tag]->start;
 
         if ($rewind) {
             $this->seek($opener_tag);

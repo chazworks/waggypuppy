@@ -116,13 +116,13 @@ class WP_oEmbed
 
         if (! empty(self::$early_providers['add'])) {
             foreach (self::$early_providers['add'] as $format => $data) {
-                $providers[ $format ] = $data;
+                $providers[$format] = $data;
             }
         }
 
         if (! empty(self::$early_providers['remove'])) {
             foreach (self::$early_providers['remove'] as $format) {
-                unset($providers[ $format ]);
+                unset($providers[$format]);
             }
         }
 
@@ -320,7 +320,7 @@ class WP_oEmbed
             self::$early_providers['add'] = [];
         }
 
-        self::$early_providers['add'][ $format ] = [$provider, $regex];
+        self::$early_providers['add'][$format] = [$provider, $regex];
     }
 
     /**
@@ -505,11 +505,11 @@ class WP_oEmbed
                 foreach ($links[1] as $link) {
                     $atts = shortcode_parse_atts($link);
 
-                    if (! empty($atts['type']) && ! empty($linktypes[ $atts['type'] ]) && ! empty($atts['href'])) {
-                        $providers[ $linktypes[ $atts['type'] ] ] = htmlspecialchars_decode($atts['href']);
+                    if (! empty($atts['type']) && ! empty($linktypes[$atts['type']]) && ! empty($atts['href'])) {
+                        $providers[$linktypes[$atts['type']]] = htmlspecialchars_decode($atts['href']);
 
                         // Stop here if it's JSON (that's all we need).
-                        if ('json' === $linktypes[ $atts['type'] ]) {
+                        if ('json' === $linktypes[$atts['type']]) {
                             break;
                         }
                     }
@@ -788,8 +788,8 @@ class WP_oEmbed
             $tag_html  = str_replace($replace, $search, $match[0]);
             $tag_token = $token . $i;
 
-            $found[ $tag_token ] = $tag_html;
-            $html                = str_replace($tag_html, $tag_token, $html, $count);
+            $found[$tag_token] = $tag_html;
+            $html              = str_replace($tag_html, $tag_token, $html, $count);
         }
 
         $replaced = str_replace($replace, $search, $html);

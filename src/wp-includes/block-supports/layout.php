@@ -430,7 +430,7 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
             foreach ($gap_sides as $gap_side) {
                 $process_value = $gap_value;
                 if (is_array($gap_value)) {
-                    $process_value = isset($gap_value[ $gap_side ]) ? $gap_value[ $gap_side ] : $fallback_gap_value;
+                    $process_value = isset($gap_value[$gap_side]) ? $gap_value[$gap_side] : $fallback_gap_value;
                 }
                 // Get spacing CSS variable from preset value if provided.
                 if (is_string($process_value) && str_contains($process_value, 'var:preset|spacing|')) {
@@ -459,14 +459,14 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
             if (! empty($layout['justifyContent']) && array_key_exists($layout['justifyContent'], $justify_content_options)) {
                 $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => ['justify-content' => $justify_content_options[ $layout['justifyContent'] ]],
+                    'declarations' => ['justify-content' => $justify_content_options[$layout['justifyContent']]],
                 ];
             }
 
             if (! empty($layout['verticalAlignment']) && array_key_exists($layout['verticalAlignment'], $vertical_alignment_options)) {
                 $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => ['align-items' => $vertical_alignment_options[ $layout['verticalAlignment'] ]],
+                    'declarations' => ['align-items' => $vertical_alignment_options[$layout['verticalAlignment']]],
                 ];
             }
         } else {
@@ -477,7 +477,7 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
             if (! empty($layout['justifyContent']) && array_key_exists($layout['justifyContent'], $justify_content_options)) {
                 $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => ['align-items' => $justify_content_options[ $layout['justifyContent'] ]],
+                    'declarations' => ['align-items' => $justify_content_options[$layout['justifyContent']]],
                 ];
             } else {
                 $layout_styles[] = [
@@ -488,7 +488,7 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
             if (! empty($layout['verticalAlignment']) && array_key_exists($layout['verticalAlignment'], $vertical_alignment_options)) {
                 $layout_styles[] = [
                     'selector'     => $selector,
-                    'declarations' => ['justify-content' => $vertical_alignment_options[ $layout['verticalAlignment'] ]],
+                    'declarations' => ['justify-content' => $vertical_alignment_options[$layout['verticalAlignment']]],
                 ];
             }
         }
@@ -517,7 +517,7 @@ function wp_get_layout_style($selector, $layout, $has_block_gap_support = false,
             foreach ($gap_sides as $gap_side) {
                 $process_value = $gap_value;
                 if (is_array($gap_value)) {
-                    $process_value = isset($gap_value[ $gap_side ]) ? $gap_value[ $gap_side ] : $fallback_gap_value;
+                    $process_value = isset($gap_value[$gap_side]) ? $gap_value[$gap_side] : $fallback_gap_value;
                 }
                 // Get spacing CSS variable from preset value if provided.
                 if (is_string($process_value) && str_contains($process_value, 'var:preset|spacing|')) {
@@ -756,8 +756,8 @@ function wp_render_layout_support_flag($block_content, $block)
 
     // Get classname for layout type.
     if (isset($used_layout['type'])) {
-        $layout_classname = isset($layout_definitions[ $used_layout['type'] ]['className'])
-            ? $layout_definitions[ $used_layout['type'] ]['className']
+        $layout_classname = isset($layout_definitions[$used_layout['type']]['className'])
+            ? $layout_definitions[$used_layout['type']]['className']
             : '';
     } else {
         $layout_classname = isset($layout_definitions['default']['className'])
@@ -785,7 +785,7 @@ function wp_render_layout_support_flag($block_content, $block)
          */
         if (is_array($gap_value)) {
             foreach ($gap_value as $key => $value) {
-                $gap_value[ $key ] = $value && preg_match('%[\\\(&=}]|/\*%', $value) ? null : $value;
+                $gap_value[$key] = $value && preg_match('%[\\\(&=}]|/\*%', $value) ? null : $value;
             }
         } else {
             $gap_value = $gap_value && preg_match('%[\\\(&=}]|/\*%', $gap_value) ? null : $gap_value;

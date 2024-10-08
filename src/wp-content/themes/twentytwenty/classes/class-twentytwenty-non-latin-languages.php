@@ -106,7 +106,7 @@ if (! class_exists('TwentyTwenty_Non_Latin_Languages')) {
             );
 
             // Return if the selected language has no fallback fonts.
-            if (empty($font_family[ $locale ])) {
+            if (empty($font_family[$locale])) {
                 return null;
             }
 
@@ -127,12 +127,12 @@ if (! class_exists('TwentyTwenty_Non_Latin_Languages')) {
             );
 
             // Return if the specified type doesn't exist.
-            if (empty($elements[ $type ])) {
+            if (empty($elements[$type])) {
                 return null;
             }
 
             // Return the specified styles.
-            return twentytwenty_generate_css(implode(',', $elements[ $type ]), 'font-family', implode(',', $font_family[ $locale ]), null, null, false);
+            return twentytwenty_generate_css(implode(',', $elements[$type]), 'font-family', implode(',', $font_family[$locale]), null, null, false);
         }
     }
 }

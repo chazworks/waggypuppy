@@ -57,7 +57,7 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
     foreach (['AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT'] as $key) {
         if (defined($key)) {
             // Check for unique values of each key.
-            $duplicated_keys[ constant($key) ] = isset($duplicated_keys[ constant($key) ]);
+            $duplicated_keys[constant($key)] = isset($duplicated_keys[constant($key)]);
         } else {
             // If a constant is not defined, it's missing.
             $missing_key = true;
@@ -66,8 +66,8 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
 
     // If at least one key uses a default value, consider it duplicated.
     foreach ($default_keys as $default_key) {
-        if (isset($duplicated_keys[ $default_key ])) {
-            $duplicated_keys[ $default_key ] = true;
+        if (isset($duplicated_keys[$default_key])) {
+            $duplicated_keys[$default_key] = true;
         }
     }
 
@@ -127,8 +127,8 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
             } else {
                 /* translators: 1: Table name, 2: Error message. */
                 printf(__('Failed to repair the %1$s table. Error: %2$s'), "<code>$table</code>", "<code>$repair->Msg_text</code>") . '<br />';
-                $problems[ $table ] = $repair->Msg_text;
-                $okay               = false;
+                $problems[$table] = $repair->Msg_text;
+                $okay             = false;
             }
         }
 

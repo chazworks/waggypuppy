@@ -60,7 +60,7 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
         $this->assertSame(array_keys($expected), array_keys($sitemaps), 'Unable to confirm default sitemap types are registered.');
 
         foreach ($expected as $name => $provider) {
-            $this->assertInstanceOf($provider, $sitemaps[ $name ], "Default $name sitemap is not a $provider object.");
+            $this->assertInstanceOf($provider, $sitemaps[$name], "Default $name sitemap is not a $provider object.");
         }
     }
 

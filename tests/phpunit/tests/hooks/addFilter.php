@@ -41,8 +41,8 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
         $this->check_priority_exists($hook, $priority);
 
         $function_index = _wp_filter_build_unique_id($hook_name, $callback, $priority);
-        $this->assertSame($callback, $hook->callbacks[ $priority ][ $function_index ]['function']);
-        $this->assertSame($accepted_args, $hook->callbacks[ $priority ][ $function_index ]['accepted_args']);
+        $this->assertSame($callback, $hook->callbacks[$priority][$function_index]['function']);
+        $this->assertSame($accepted_args, $hook->callbacks[$priority][$function_index]['accepted_args']);
     }
 
     public function test_add_filter_with_object()
@@ -58,8 +58,8 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
         $this->check_priority_exists($hook, $priority);
 
         $function_index = _wp_filter_build_unique_id($hook_name, $callback, $priority);
-        $this->assertSame($callback, $hook->callbacks[ $priority ][ $function_index ]['function']);
-        $this->assertSame($accepted_args, $hook->callbacks[ $priority ][ $function_index ]['accepted_args']);
+        $this->assertSame($callback, $hook->callbacks[$priority][$function_index]['function']);
+        $this->assertSame($accepted_args, $hook->callbacks[$priority][$function_index]['accepted_args']);
     }
 
     public function test_add_filter_with_static_method()
@@ -74,8 +74,8 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
         $this->check_priority_exists($hook, $priority);
 
         $function_index = _wp_filter_build_unique_id($hook_name, $callback, $priority);
-        $this->assertSame($callback, $hook->callbacks[ $priority ][ $function_index ]['function']);
-        $this->assertSame($accepted_args, $hook->callbacks[ $priority ][ $function_index ]['accepted_args']);
+        $this->assertSame($callback, $hook->callbacks[$priority][$function_index]['function']);
+        $this->assertSame($accepted_args, $hook->callbacks[$priority][$function_index]['accepted_args']);
     }
 
     public function test_add_two_filters_with_same_priority()
@@ -89,10 +89,10 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
         $hook->add_filter($hook_name, $callback_one, $priority, $accepted_args);
         $this->check_priority_exists($hook, $priority);
-        $this->assertCount(1, $hook->callbacks[ $priority ]);
+        $this->assertCount(1, $hook->callbacks[$priority]);
 
         $hook->add_filter($hook_name, $callback_two, $priority, $accepted_args);
-        $this->assertCount(2, $hook->callbacks[ $priority ]);
+        $this->assertCount(2, $hook->callbacks[$priority]);
     }
 
     public function test_add_two_filters_with_different_priority()
@@ -106,12 +106,12 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
         $hook->add_filter($hook_name, $callback_one, $priority, $accepted_args);
         $this->check_priority_exists($hook, $priority);
-        $this->assertCount(1, $hook->callbacks[ $priority ]);
+        $this->assertCount(1, $hook->callbacks[$priority]);
 
         $hook->add_filter($hook_name, $callback_two, $priority + 1, $accepted_args);
         $this->check_priority_exists($hook, $priority + 1);
-        $this->assertCount(1, $hook->callbacks[ $priority ]);
-        $this->assertCount(1, $hook->callbacks[ $priority + 1 ]);
+        $this->assertCount(1, $hook->callbacks[$priority]);
+        $this->assertCount(1, $hook->callbacks[$priority + 1]);
     }
 
     public function test_readd_filter()
@@ -124,10 +124,10 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
         $this->check_priority_exists($hook, $priority);
-        $this->assertCount(1, $hook->callbacks[ $priority ]);
+        $this->assertCount(1, $hook->callbacks[$priority]);
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
-        $this->assertCount(1, $hook->callbacks[ $priority ]);
+        $this->assertCount(1, $hook->callbacks[$priority]);
     }
 
     public function test_readd_filter_with_different_priority()
@@ -140,12 +140,12 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
         $this->check_priority_exists($hook, $priority);
-        $this->assertCount(1, $hook->callbacks[ $priority ]);
+        $this->assertCount(1, $hook->callbacks[$priority]);
 
         $hook->add_filter($hook_name, $callback, $priority + 1, $accepted_args);
         $this->check_priority_exists($hook, $priority + 1);
-        $this->assertCount(1, $hook->callbacks[ $priority ]);
-        $this->assertCount(1, $hook->callbacks[ $priority + 1 ]);
+        $this->assertCount(1, $hook->callbacks[$priority]);
+        $this->assertCount(1, $hook->callbacks[$priority + 1]);
     }
 
     public function test_sort_after_add_filter()

@@ -591,9 +591,9 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $controller = new WP_REST_Search_Controller([new WP_REST_Test_Search_Handler(10)]);
 
         $params = $controller->get_collection_params();
-        $this->assertSame('test', $params[ WP_REST_Search_Controller::PROP_TYPE ]['default']);
-        $this->assertSameSets(['test'], $params[ WP_REST_Search_Controller::PROP_TYPE ]['enum']);
-        $this->assertSameSets(['test_first_type', 'test_second_type', WP_REST_Search_Controller::TYPE_ANY], $params[ WP_REST_Search_Controller::PROP_SUBTYPE ]['items']['enum']);
+        $this->assertSame('test', $params[WP_REST_Search_Controller::PROP_TYPE]['default']);
+        $this->assertSameSets(['test'], $params[WP_REST_Search_Controller::PROP_TYPE]['enum']);
+        $this->assertSameSets(['test_first_type', 'test_second_type', WP_REST_Search_Controller::TYPE_ANY], $params[WP_REST_Search_Controller::PROP_SUBTYPE]['items']['enum']);
     }
 
     /**
@@ -608,7 +608,7 @@ class WP_Test_REST_Search_Controller extends WP_Test_REST_Controller_Testcase
         $this->assertArrayHasKey('self', $data['_embedded']);
         $this->assertCount(1, $data['_embedded']['self']);
         $this->assertArrayHasKey(WP_REST_Search_Controller::PROP_ID, $data['_embedded']['self'][0]);
-        $this->assertSame($data[ WP_REST_Search_Controller::PROP_ID ], $data['_embedded']['self'][0][ WP_REST_Search_Controller::PROP_ID ]);
+        $this->assertSame($data[WP_REST_Search_Controller::PROP_ID], $data['_embedded']['self'][0][WP_REST_Search_Controller::PROP_ID]);
     }
 
     /**

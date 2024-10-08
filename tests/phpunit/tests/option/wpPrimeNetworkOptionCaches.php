@@ -55,7 +55,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
             } else {
                 $cache_key = $option;
             }
-            $cache_keys[ $option ] = $cache_key;
+            $cache_keys[$option] = $cache_key;
         }
 
         /*
@@ -122,7 +122,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
             } else {
                 $cache_key = $option;
             }
-            $cache_keys[ $option ] = $cache_key;
+            $cache_keys[$option] = $cache_key;
         }
 
         /*
@@ -181,7 +181,7 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
             } else {
                 $cache_key = $option;
             }
-            $cache_keys[ $option ] = $cache_key;
+            $cache_keys[$option] = $cache_key;
         }
 
         /*
@@ -270,8 +270,8 @@ class Tests_Option_WpPrimeNetworkOptionCaches extends WP_UnitTestCase
 
         $cache_keys = [];
         foreach ($options_to_prime as $option) {
-            $cache_key             = "$network_id:$option";
-            $cache_keys[ $option ] = $cache_key;
+            $cache_key           = "$network_id:$option";
+            $cache_keys[$option] = $cache_key;
         }
 
         /*

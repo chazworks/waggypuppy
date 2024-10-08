@@ -123,13 +123,13 @@ final class WP_Block_Patterns_Registry
             ['name' => $pattern_name]
         );
 
-        $this->registered_patterns[ $pattern_name ] = $pattern;
+        $this->registered_patterns[$pattern_name] = $pattern;
 
         // If the pattern is registered inside an action other than `init`, store it
         // also to a dedicated array. Used to detect deprecated registrations inside
         // `admin_init` or `current_screen`.
         if (current_action() && 'init' !== current_action()) {
-            $this->registered_patterns_outside_init[ $pattern_name ] = $pattern;
+            $this->registered_patterns_outside_init[$pattern_name] = $pattern;
         }
 
         return true;
@@ -155,8 +155,8 @@ final class WP_Block_Patterns_Registry
             return false;
         }
 
-        unset($this->registered_patterns[ $pattern_name ]);
-        unset($this->registered_patterns_outside_init[ $pattern_name ]);
+        unset($this->registered_patterns[$pattern_name]);
+        unset($this->registered_patterns_outside_init[$pattern_name]);
 
         return true;
     }
@@ -177,13 +177,13 @@ final class WP_Block_Patterns_Registry
         } else {
             $patterns = &$this->registered_patterns;
         }
-        if (! isset($patterns[ $pattern_name ]['content']) && isset($patterns[ $pattern_name ]['filePath'])) {
+        if (! isset($patterns[$pattern_name]['content']) && isset($patterns[$pattern_name]['filePath'])) {
             ob_start();
-            include $patterns[ $pattern_name ]['filePath'];
-            $patterns[ $pattern_name ]['content'] = ob_get_clean();
-            unset($patterns[ $pattern_name ]['filePath']);
+            include $patterns[$pattern_name]['filePath'];
+            $patterns[$pattern_name]['content'] = ob_get_clean();
+            unset($patterns[$pattern_name]['filePath']);
         }
-        return $patterns[ $pattern_name ]['content'];
+        return $patterns[$pattern_name]['content'];
     }
 
     /**
@@ -200,7 +200,7 @@ final class WP_Block_Patterns_Registry
             return null;
         }
 
-        $pattern            = $this->registered_patterns[ $pattern_name ];
+        $pattern            = $this->registered_patterns[$pattern_name];
         $content            = $this->get_content($pattern_name);
         $pattern['content'] = apply_block_hooks_to_content(
             $content,
@@ -228,8 +228,8 @@ final class WP_Block_Patterns_Registry
         $hooked_blocks = get_hooked_blocks();
 
         foreach ($patterns as $index => $pattern) {
-            $content                       = $this->get_content($pattern['name'], $outside_init_only);
-            $patterns[ $index ]['content'] = apply_block_hooks_to_content(
+            $content                     = $this->get_content($pattern['name'], $outside_init_only);
+            $patterns[$index]['content'] = apply_block_hooks_to_content(
                 $content,
                 $pattern,
                 'insert_hooked_blocks_and_set_ignored_hooked_blocks_metadata'
@@ -249,7 +249,7 @@ final class WP_Block_Patterns_Registry
      */
     public function is_registered($pattern_name)
     {
-        return isset($this->registered_patterns[ $pattern_name ]);
+        return isset($this->registered_patterns[$pattern_name]);
     }
 
     public function __wakeup()

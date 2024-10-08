@@ -130,7 +130,7 @@ class WP_Block_Metadata_Registry
             return false;
         }
 
-        self::$collections[ $path ] = [
+        self::$collections[$path] = [
             'manifest' => $manifest,
             'metadata' => null,
         ];
@@ -156,7 +156,7 @@ class WP_Block_Metadata_Registry
             return null;
         }
 
-        $collection = &self::$collections[ $path ];
+        $collection = &self::$collections[$path];
 
         if (null === $collection['metadata']) {
             // Load the manifest file if not already loaded
@@ -166,7 +166,7 @@ class WP_Block_Metadata_Registry
         // Get the block name from the path.
         $block_name = self::default_identifier_callback($file_or_folder);
 
-        return isset($collection['metadata'][ $block_name ]) ? $collection['metadata'][ $block_name ] : null;
+        return isset($collection['metadata'][$block_name]) ? $collection['metadata'][$block_name] : null;
     }
 
     /**

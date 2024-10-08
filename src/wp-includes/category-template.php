@@ -86,7 +86,7 @@ function get_the_category($post_id = false)
     $categories = array_values($categories);
 
     foreach (array_keys($categories) as $key) {
-        _make_cat_compat($categories[ $key ]);
+        _make_cat_compat($categories[$key]);
     }
 
     /**
@@ -770,8 +770,8 @@ function wp_tag_cloud($args = '')
             return;
         }
 
-        $tags[ $key ]->link = $link;
-        $tags[ $key ]->id   = $tag->term_id;
+        $tags[$key]->link = $link;
+        $tags[$key]->id   = $tag->term_id;
     }
 
     // Here's where those top tags get sorted according to $args.
@@ -942,8 +942,8 @@ function wp_generate_tag_cloud($tags, $args = '')
     $counts      = [];
     $real_counts = []; // For the alt tag.
     foreach ((array) $tags as $key => $tag) {
-        $real_counts[ $key ] = $tag->count;
-        $counts[ $key ]      = call_user_func($args['topic_count_scale_callback'], $tag->count);
+        $real_counts[$key] = $tag->count;
+        $counts[$key]      = call_user_func($args['topic_count_scale_callback'], $tag->count);
     }
 
     $min_count = min($counts);
@@ -978,8 +978,8 @@ function wp_generate_tag_cloud($tags, $args = '')
     foreach ($tags as $key => $tag) {
         $tag_id = isset($tag->id) ? $tag->id : $key;
 
-        $count      = $counts[ $key ];
-        $real_count = $real_counts[ $key ];
+        $count      = $counts[$key];
+        $real_count = $real_counts[$key];
 
         if ($translate_nooped_plural) {
             $formatted_count = sprintf(translate_nooped_plural($translate_nooped_plural, $real_count), number_format_i18n($real_count));
@@ -1445,7 +1445,7 @@ function get_term_parents_list($term_id, $taxonomy, $args = [])
     $args = wp_parse_args($args, $defaults);
 
     foreach (['link', 'inclusive'] as $bool) {
-        $args[ $bool ] = wp_validate_boolean($args[ $bool ]);
+        $args[$bool] = wp_validate_boolean($args[$bool]);
     }
 
     $parents = get_ancestors($term_id, $taxonomy, 'taxonomy');

@@ -82,7 +82,7 @@ class WP_Widget_Media_Audio extends WP_Widget_Media
         ];
 
         foreach (wp_get_audio_extensions() as $audio_extension) {
-            $schema[ $audio_extension ] = [
+            $schema[$audio_extension] = [
                 'type'        => 'string',
                 'default'     => '',
                 'format'      => 'uri',
@@ -160,7 +160,7 @@ class WP_Widget_Media_Audio extends WP_Widget_Media
 
         $exported_schema = [];
         foreach ($this->get_instance_schema() as $field => $field_schema) {
-            $exported_schema[ $field ] = wp_array_slice_assoc($field_schema, ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update']);
+            $exported_schema[$field] = wp_array_slice_assoc($field_schema, ['type', 'default', 'enum', 'minimum', 'format', 'media_prop', 'should_preview_update']);
         }
         wp_add_inline_script(
             $handle,

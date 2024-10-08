@@ -112,8 +112,8 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
             $location->name        = $name;
             $location->description = $description;
 
-            $location      = $this->prepare_item_for_response($location, $request);
-            $data[ $name ] = $this->prepare_response_for_collection($location);
+            $location    = $this->prepare_item_for_response($location, $request);
+            $data[$name] = $this->prepare_response_for_collection($location);
         }
 
         return rest_ensure_response($data);
@@ -157,7 +157,7 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
 
         $location              = new stdClass();
         $location->name        = $request['location'];
-        $location->description = $registered_menus[ $location->name ];
+        $location->description = $registered_menus[$location->name];
 
         $data = $this->prepare_item_for_response($location, $request);
 
@@ -179,7 +179,7 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
         $location = $item;
 
         $locations = get_nav_menu_locations();
-        $menu      = isset($locations[ $location->name ]) ? $locations[ $location->name ] : 0;
+        $menu      = isset($locations[$location->name]) ? $locations[$location->name] : 0;
 
         $fields = $this->get_fields_for_response($request);
         $data   = [];
@@ -241,7 +241,7 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller
         ];
 
         $locations = get_nav_menu_locations();
-        $menu      = isset($locations[ $location->name ]) ? $locations[ $location->name ] : 0;
+        $menu      = isset($locations[$location->name]) ? $locations[$location->name] : 0;
         if ($menu) {
             $path = rest_get_route_for_term($menu);
             if ($path) {

@@ -80,16 +80,16 @@ class WP_Test_REST_Users_Controller extends WP_Test_REST_Controller_Testcase
                         'tests_no_auto_unregister' => true,
                     ]
                 );
-                self::$authors[ $post_type_name ] = $factory->user->create(
+                self::$authors[$post_type_name] = $factory->user->create(
                     [
                         'role'       => 'editor',
                         'user_email' => 'author_' . $post_type_name . '@example.com',
                     ]
                 );
-                self::$posts[ $post_type_name ]   = $factory->post->create(
+                self::$posts[$post_type_name]   = $factory->post->create(
                     [
                         'post_type'   => $post_type_name,
-                        'post_author' => self::$authors[ $post_type_name ],
+                        'post_author' => self::$authors[$post_type_name],
                     ]
                 );
             }
@@ -3137,7 +3137,7 @@ class WP_Test_REST_Users_Controller extends WP_Test_REST_Controller_Testcase
 
         $meta = (array) $data['meta'];
         $this->assertArrayHasKey($meta_key, $meta);
-        $this->assertSame($expected, $meta[ $meta_key ]);
+        $this->assertSame($expected, $meta[$meta_key]);
     }
 
     public function data_get_default_data()

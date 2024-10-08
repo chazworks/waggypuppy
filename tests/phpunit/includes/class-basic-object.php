@@ -22,7 +22,7 @@ class Basic_Object
     public function __get($name)
     {
         if (array_key_exists($name, $this->arbitrary_props)) {
-            return $this->arbitrary_props[ $name ];
+            return $this->arbitrary_props[$name];
         }
 
         return null;
@@ -30,17 +30,17 @@ class Basic_Object
 
     public function __set($name, $value)
     {
-        $this->arbitrary_props[ $name ] = $value;
+        $this->arbitrary_props[$name] = $value;
     }
 
     public function __isset($name)
     {
-        return isset($this->arbitrary_props[ $name ]);
+        return isset($this->arbitrary_props[$name]);
     }
 
     public function __unset($name)
     {
-        unset($this->arbitrary_props[ $name ]);
+        unset($this->arbitrary_props[$name]);
     }
 
     public function __call($name, $arguments)

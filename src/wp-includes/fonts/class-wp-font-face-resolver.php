@@ -150,8 +150,8 @@ class WP_Font_Face_Resolver
                 continue;
             }
 
-            $src_file        = str_replace($placeholder, '', $src_url);
-            $src[ $src_key ] = get_theme_file_uri($src_file);
+            $src_file      = str_replace($placeholder, '', $src_url);
+            $src[$src_key] = get_theme_file_uri($src_file);
         }
 
         return $src;
@@ -168,10 +168,10 @@ class WP_Font_Face_Resolver
     private static function to_kebab_case(array $data)
     {
         foreach ($data as $key => $value) {
-            $kebab_case          = _wp_to_kebab_case($key);
-            $data[ $kebab_case ] = $value;
+            $kebab_case        = _wp_to_kebab_case($key);
+            $data[$kebab_case] = $value;
             if ($kebab_case !== $key) {
-                unset($data[ $key ]);
+                unset($data[$key]);
             }
         }
 

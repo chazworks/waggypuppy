@@ -2148,7 +2148,7 @@ HTML;
 
         foreach ($data as $description => $datum) {
             // Test that the required flag defaults to false.
-            $return_data[ "$description - required flag not set" ] = [
+            $return_data["$description - required flag not set"] = [
                 $datum[0],
                 $datum[1],
                 [
@@ -2161,7 +2161,7 @@ HTML;
             ];
 
             // Test when the attribute is not required, but has allowed values.
-            $return_data[ "$description - required flag set to false" ] = [
+            $return_data["$description - required flag set to false"] = [
                 $datum[0],
                 $datum[1],
                 [
@@ -2175,7 +2175,7 @@ HTML;
             ];
 
             // Test when the attribute is required, but has allowed values.
-            $return_data[ "$description - required flag set to true" ] = [
+            $return_data["$description - required flag set to true"] = [
                 $datum[0],
                 $datum[2],
                 [
@@ -2189,7 +2189,7 @@ HTML;
             ];
 
             // Test when the attribute is required, but has no allowed values.
-            $return_data[ "$description - required flag set to true, no allowed values specified" ] = [
+            $return_data["$description - required flag set to true, no allowed values specified"] = [
                 $datum[0],
                 $datum[3],
                 [

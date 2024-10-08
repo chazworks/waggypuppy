@@ -50,8 +50,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
         if (isset($plugin_info->no_update)) {
             foreach ($plugin_info->no_update as $plugin) {
                 if (isset($plugin->slug)) {
-                    $plugin->upgrade          = false;
-                    $plugins[ $plugin->slug ] = $plugin;
+                    $plugin->upgrade        = false;
+                    $plugins[$plugin->slug] = $plugin;
                 }
             }
         }
@@ -59,8 +59,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
         if (isset($plugin_info->response)) {
             foreach ($plugin_info->response as $plugin) {
                 if (isset($plugin->slug)) {
-                    $plugin->upgrade          = true;
-                    $plugins[ $plugin->slug ] = $plugin;
+                    $plugin->upgrade        = true;
+                    $plugins[$plugin->slug] = $plugin;
                 }
             }
         }
@@ -149,7 +149,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
         $nonmenu_tabs = apply_filters('install_plugins_nonmenu_tabs', $nonmenu_tabs);
 
         // If a non-valid menu tab has been selected, And it's not a non-menu action.
-        if (empty($tab) || (! isset($tabs[ $tab ]) && ! in_array($tab, (array) $nonmenu_tabs, true))) {
+        if (empty($tab) || (! isset($tabs[$tab]) && ! in_array($tab, (array) $nonmenu_tabs, true))) {
             $tab = key($tabs);
         }
 
@@ -325,7 +325,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
 
         $display_tabs = [];
         foreach ((array) $tabs as $action => $text) {
-            $display_tabs[ 'plugin-install-' . $action ] = [
+            $display_tabs['plugin-install-' . $action] = [
                 'url'     => self_admin_url('plugin-install.php?tab=' . $action),
                 'label'   => $text,
                 'current' => $action === $tab,
@@ -354,7 +354,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
         <?php
         if (! empty($views)) {
             foreach ($views as $class => $view) {
-                $views[ $class ] = "\t<li class='$class'>$view";
+                $views[$class] = "\t<li class='$class'>$view";
             }
             echo implode(" </li>\n", $views) . "</li>\n";
         }
@@ -518,10 +518,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table
 
             // Display the group heading if there is one.
             if (isset($plugin['group']) && $plugin['group'] !== $group) {
-                if (isset($this->groups[ $plugin['group'] ])) {
-                    $group_name = $this->groups[ $plugin['group'] ];
-                    if (isset($plugins_group_titles[ $group_name ])) {
-                        $group_name = $plugins_group_titles[ $group_name ];
+                if (isset($this->groups[$plugin['group']])) {
+                    $group_name = $this->groups[$plugin['group']];
+                    if (isset($plugins_group_titles[$group_name])) {
+                        $group_name = $plugins_group_titles[$group_name];
                     }
                 } else {
                     $group_name = $plugin['group'];

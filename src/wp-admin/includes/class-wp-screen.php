@@ -375,8 +375,8 @@ final class WP_Screen
             $base .= '-user';
         }
 
-        if (isset(self::$_registry[ $id ])) {
-            $screen = self::$_registry[ $id ];
+        if (isset(self::$_registry[$id])) {
+            $screen = self::$_registry[$id];
             if (get_current_screen() === $screen) {
                 return $screen;
             }
@@ -394,7 +394,7 @@ final class WP_Screen
         $screen->in_admin        = $in_admin;
         $screen->is_block_editor = $is_block_editor;
 
-        self::$_registry[ $id ] = $screen;
+        self::$_registry[$id] = $screen;
 
         return $screen;
     }
@@ -480,7 +480,7 @@ final class WP_Screen
      */
     public static function add_old_compat_help($screen, $help)
     {
-        self::$_old_compat_help[ $screen->id ] = $help;
+        self::$_old_compat_help[$screen->id] = $help;
     }
 
     /**
@@ -512,7 +512,7 @@ final class WP_Screen
      */
     public function add_option($option, $args = [])
     {
-        $this->_options[ $option ] = $args;
+        $this->_options[$option] = $args;
     }
 
     /**
@@ -524,7 +524,7 @@ final class WP_Screen
      */
     public function remove_option($option)
     {
-        unset($this->_options[ $option ]);
+        unset($this->_options[$option]);
     }
 
     /**
@@ -561,16 +561,16 @@ final class WP_Screen
      */
     public function get_option($option, $key = false)
     {
-        if (! isset($this->_options[ $option ])) {
+        if (! isset($this->_options[$option])) {
             return null;
         }
         if ($key) {
-            if (isset($this->_options[ $option ][ $key ])) {
-                return $this->_options[ $option ][ $key ];
+            if (isset($this->_options[$option][$key])) {
+                return $this->_options[$option][$key];
             }
             return null;
         }
-        return $this->_options[ $option ];
+        return $this->_options[$option];
     }
 
     /**
@@ -587,10 +587,10 @@ final class WP_Screen
 
         $priorities = [];
         foreach ($help_tabs as $help_tab) {
-            if (isset($priorities[ $help_tab['priority'] ])) {
-                $priorities[ $help_tab['priority'] ][] = $help_tab;
+            if (isset($priorities[$help_tab['priority']])) {
+                $priorities[$help_tab['priority']][] = $help_tab;
             } else {
-                $priorities[ $help_tab['priority'] ] = [$help_tab];
+                $priorities[$help_tab['priority']] = [$help_tab];
             }
         }
 
@@ -599,7 +599,7 @@ final class WP_Screen
         $sorted = [];
         foreach ($priorities as $list) {
             foreach ($list as $tab) {
-                $sorted[ $tab['id'] ] = $tab;
+                $sorted[$tab['id']] = $tab;
             }
         }
 
@@ -616,10 +616,10 @@ final class WP_Screen
      */
     public function get_help_tab($id)
     {
-        if (! isset($this->_help_tabs[ $id ])) {
+        if (! isset($this->_help_tabs[$id])) {
             return null;
         }
-        return $this->_help_tabs[ $id ];
+        return $this->_help_tabs[$id];
     }
 
     /**
@@ -665,7 +665,7 @@ final class WP_Screen
         }
 
         // Allows for overriding an existing tab with that ID.
-        $this->_help_tabs[ $args['id'] ] = $args;
+        $this->_help_tabs[$args['id']] = $args;
     }
 
     /**
@@ -677,7 +677,7 @@ final class WP_Screen
      */
     public function remove_help_tab($id)
     {
-        unset($this->_help_tabs[ $id ]);
+        unset($this->_help_tabs[$id]);
     }
 
     /**
@@ -759,10 +759,10 @@ final class WP_Screen
      */
     public function get_screen_reader_text($key)
     {
-        if (! isset($this->_screen_reader_content[ $key ])) {
+        if (! isset($this->_screen_reader_content[$key])) {
             return null;
         }
-        return $this->_screen_reader_content[ $key ];
+        return $this->_screen_reader_content[$key];
     }
 
     /**
@@ -832,7 +832,7 @@ final class WP_Screen
             'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
         );
 
-        $old_help = isset(self::$_old_compat_help[ $this->id ]) ? self::$_old_compat_help[ $this->id ] : '';
+        $old_help = isset(self::$_old_compat_help[$this->id]) ? self::$_old_compat_help[$this->id] : '';
 
         /**
          * Filters the legacy contextual help text.
@@ -968,8 +968,8 @@ final class WP_Screen
          */
         $columns = apply_filters('screen_layout_columns', [], $this->id, $this);
 
-        if (! empty($columns) && isset($columns[ $this->id ])) {
-            $this->add_option('layout_columns', ['max' => $columns[ $this->id ]]);
+        if (! empty($columns) && isset($columns[$this->id])) {
+            $this->add_option('layout_columns', ['max' => $columns[$this->id]]);
         }
 
         if ($this->get_option('layout_columns')) {
@@ -1024,7 +1024,7 @@ final class WP_Screen
 
         $columns = get_column_headers($this);
 
-        $show_screen = ! empty($wp_meta_boxes[ $this->id ]) || $columns || $this->get_option('per_page');
+        $show_screen = ! empty($wp_meta_boxes[$this->id]) || $columns || $this->get_option('per_page');
 
         $this->_screen_settings = '';
 
@@ -1137,7 +1137,7 @@ final class WP_Screen
     {
         global $wp_meta_boxes;
 
-        if (! isset($wp_meta_boxes[ $this->id ])) {
+        if (! isset($wp_meta_boxes[$this->id])) {
             return;
         }
         ?>
@@ -1385,9 +1385,9 @@ final class WP_Screen
     public function render_screen_reader_content($key = '', $tag = 'h2')
     {
 
-        if (! isset($this->_screen_reader_content[ $key ])) {
+        if (! isset($this->_screen_reader_content[$key])) {
             return;
         }
-        echo "<$tag class='screen-reader-text'>" . $this->_screen_reader_content[ $key ] . "</$tag>";
+        echo "<$tag class='screen-reader-text'>" . $this->_screen_reader_content[$key] . "</$tag>";
     }
 }

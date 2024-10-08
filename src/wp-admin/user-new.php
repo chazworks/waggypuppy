@@ -99,7 +99,7 @@ if (isset($_REQUEST['action']) && 'adduser' === $_REQUEST['action']) {
             );
 
             $roles = get_editable_roles();
-            $role  = $roles[ $_REQUEST['role'] ];
+            $role  = $roles[$_REQUEST['role']];
 
             /**
              * Fires immediately after an existing user is invited to join the site, but before the notification is sent.

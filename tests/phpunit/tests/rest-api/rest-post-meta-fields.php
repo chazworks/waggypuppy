@@ -1334,7 +1334,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
             }
 
             $this->assertArrayHasKey($meta_key, $data['meta']);
-            $this->assertSame($expected_value, $data['meta'][ $meta_key ]);
+            $this->assertSame($expected_value, $data['meta'][$meta_key]);
         } else {
             $this->assertArrayNotHasKey($meta_key, $data['meta']);
         }
@@ -1403,7 +1403,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
 
             $this->assertSame($expected_value, get_post_meta($post_id, $meta_key, $single));
             $this->assertArrayHasKey($meta_key, $data['meta']);
-            $this->assertSame($expected_value, $data['meta'][ $meta_key ]);
+            $this->assertSame($expected_value, $data['meta'][$meta_key]);
         } else {
             $this->assertEmpty(get_post_meta($post_id, $meta_key, $single));
             $this->assertArrayNotHasKey($meta_key, $data['meta']);
@@ -1422,7 +1422,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
                 $can_write = false;
             }
 
-            $data[ $index ][] = $can_write;
+            $data[$index][] = $can_write;
         }
 
         return $data;
@@ -1454,7 +1454,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $data = $response->get_data();
         $this->assertArrayHasKey('meta', $data);
         $this->assertArrayHasKey($meta_key, $data['meta']);
-        $this->assertSame($meta_value, $data['meta'][ $meta_key ]);
+        $this->assertSame($meta_value, $data['meta'][$meta_key]);
     }
 
     public function data_update_value_return_success_with_same_value()
@@ -3019,7 +3019,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
 
         $meta = (array) $data['meta'];
         $this->assertArrayHasKey($meta_key, $meta);
-        $this->assertSame($expected, $meta[ $meta_key ]);
+        $this->assertSame($expected, $meta[$meta_key]);
     }
 
     public function data_get_default_data()
@@ -4026,11 +4026,11 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
             'page' => 'pages',
             'cpt'  => 'cpt',
         ];
-        $request        = new WP_REST_Request('GET', sprintf('/wp/v2/%s', $plural_mapping[ $post_type ]));
+        $request        = new WP_REST_Request('GET', sprintf('/wp/v2/%s', $plural_mapping[$post_type]));
 
         $response = rest_get_server()->dispatch($request);
 
-        $request = new WP_REST_Request('POST', sprintf('/wp/v2/%s/%d', $plural_mapping[ $post_type ], $post_id));
+        $request = new WP_REST_Request('POST', sprintf('/wp/v2/%s/%d', $plural_mapping[$post_type], $post_id));
         $request->set_body_params(
             [
                 'title' => 'Revision 1',
@@ -4044,7 +4044,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $this->assertSame(200, $response->get_status());
 
         // Update the post.
-        $request = new WP_REST_Request('POST', sprintf('/wp/v2/%s/%d', $plural_mapping[ $post_type ], $post_id));
+        $request = new WP_REST_Request('POST', sprintf('/wp/v2/%s/%d', $plural_mapping[$post_type], $post_id));
         $request->set_body_params(
             [
                 'title' => 'Revision 1 update',
@@ -4059,7 +4059,7 @@ class WP_Test_REST_Post_Meta_Fields extends WP_Test_REST_TestCase
         $revision_id_1 = array_shift($revisions)->ID;
 
         // Check that the revision has the correct meta value.
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/%s/%d/revisions/%d', $plural_mapping[ $post_type ], $post_id, $revision_id_1));
+        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/%s/%d/revisions/%d', $plural_mapping[$post_type], $post_id, $revision_id_1));
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status());
 

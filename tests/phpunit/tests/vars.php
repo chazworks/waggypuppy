@@ -120,7 +120,7 @@ class Tests_Vars extends WP_UnitTestCase
     public function test_wp_is_mobile(array $headers, bool $expected)
     {
         foreach ($headers as $key => $value) {
-            $_SERVER[ $key ] = $value;
+            $_SERVER[$key] = $value;
         }
         $this->assertSame($expected, wp_is_mobile());
     }

@@ -988,8 +988,8 @@ function wp_admin_bar_new_content_menu($wp_admin_bar)
             continue;
         }
 
-        $key             = 'post-new.php?post_type=' . $cpt->name;
-        $actions[ $key ] = [$cpt->labels->name_admin_bar, 'new-' . $cpt->name];
+        $key           = 'post-new.php?post_type=' . $cpt->name;
+        $actions[$key] = [$cpt->labels->name_admin_bar, 'new-' . $cpt->name];
     }
     // Avoid clash with parent node and a 'content' post type.
     if (isset($actions['post-new.php?post_type=content'])) {

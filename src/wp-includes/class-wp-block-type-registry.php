@@ -96,7 +96,7 @@ final class WP_Block_Type_Registry
             $block_type = new WP_Block_Type($name, $args);
         }
 
-        $this->registered_block_types[ $name ] = $block_type;
+        $this->registered_block_types[$name] = $block_type;
 
         return $block_type;
     }
@@ -126,8 +126,8 @@ final class WP_Block_Type_Registry
             return false;
         }
 
-        $unregistered_block_type = $this->registered_block_types[ $name ];
-        unset($this->registered_block_types[ $name ]);
+        $unregistered_block_type = $this->registered_block_types[$name];
+        unset($this->registered_block_types[$name]);
 
         return $unregistered_block_type;
     }
@@ -146,7 +146,7 @@ final class WP_Block_Type_Registry
             return null;
         }
 
-        return $this->registered_block_types[ $name ];
+        return $this->registered_block_types[$name];
     }
 
     /**
@@ -171,7 +171,7 @@ final class WP_Block_Type_Registry
      */
     public function is_registered($name)
     {
-        return isset($this->registered_block_types[ $name ]);
+        return isset($this->registered_block_types[$name]);
     }
 
     public function __wakeup()

@@ -258,11 +258,11 @@ function twentyeleven_get_default_link_color($color_scheme = null)
     }
 
     $color_schemes = twentyeleven_color_schemes();
-    if (! isset($color_schemes[ $color_scheme ])) {
+    if (! isset($color_schemes[$color_scheme])) {
         return false;
     }
 
-    return $color_schemes[ $color_scheme ]['default_link_color'];
+    return $color_schemes[$color_scheme]['default_link_color'];
 }
 
 /**
@@ -585,7 +585,7 @@ function twentyeleven_customize_register($wp_customize)
     $schemes = twentyeleven_color_schemes();
     $choices = [];
     foreach ($schemes as $scheme) {
-        $choices[ $scheme['value'] ] = $scheme['label'];
+        $choices[$scheme['value']] = $scheme['label'];
     }
 
     $wp_customize->add_control(
@@ -644,7 +644,7 @@ function twentyeleven_customize_register($wp_customize)
     $layouts = twentyeleven_layouts();
     $choices = [];
     foreach ($layouts as $layout) {
-        $choices[ $layout['value'] ] = $layout['label'];
+        $choices[$layout['value']] = $layout['label'];
     }
 
     $wp_customize->add_control(

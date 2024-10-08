@@ -180,7 +180,7 @@ abstract class WP_Ajax_UnitTestCase extends WP_UnitTestCase
         unset($GLOBALS['current_user']);
         $cookies = [AUTH_COOKIE, SECURE_AUTH_COOKIE, LOGGED_IN_COOKIE, USER_COOKIE, PASS_COOKIE];
         foreach ($cookies as $c) {
-            unset($_COOKIE[ $c ]);
+            unset($_COOKIE[$c]);
         }
     }
 

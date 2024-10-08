@@ -36,7 +36,7 @@ class Tests_Feed_wpSimplePieFile extends WP_UnitTestCase
 
         $file = new WP_SimplePie_File('https://wordpress.org/news/feed/');
 
-        $this->assertSame($expected, $file->headers[ $header_field ]);
+        $this->assertSame($expected, $file->headers[$header_field]);
     }
 
     /**

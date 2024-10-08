@@ -514,7 +514,7 @@ class Tests_Blocks_Register extends WP_UnitTestCase
         $this->assertSame($custom_script_handle, $result);
         $this->assertStringEndsWith(
             'shared-script.js',
-            wp_scripts()->registered[ $custom_script_handle ]->src
+            wp_scripts()->registered[$custom_script_handle]->src
         );
     }
 
@@ -541,7 +541,7 @@ class Tests_Blocks_Register extends WP_UnitTestCase
         $this->assertSame($custom_script_handle, $result);
         $this->assertSame(
             $custom_script_src,
-            wp_scripts()->registered[ $custom_script_handle ]->src
+            wp_scripts()->registered[$custom_script_handle]->src
         );
     }
 
@@ -638,11 +638,11 @@ class Tests_Blocks_Register extends WP_UnitTestCase
         }
 
         $result = register_block_style_handle($metadata, $style_field);
-        $this->assertSame($metadata[ $style_field ], $result, 'Core block registration failed');
+        $this->assertSame($metadata[$style_field], $result, 'Core block registration failed');
         if ($expected_path) {
-            $this->assertStringEndsWith($expected_path, wp_styles()->registered[ $result ]->src, 'Core block stylesheet path incorrect');
+            $this->assertStringEndsWith($expected_path, wp_styles()->registered[$result]->src, 'Core block stylesheet path incorrect');
         } else {
-            $this->assertFalse(wp_styles()->registered[ $result ]->src, 'Core block stylesheet src should be false');
+            $this->assertFalse(wp_styles()->registered[$result]->src, 'Core block stylesheet src should be false');
         }
     }
 

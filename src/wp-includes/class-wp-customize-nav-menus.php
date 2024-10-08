@@ -125,7 +125,7 @@ final class WP_Customize_Nav_Menus
             if (is_wp_error($items)) {
                 wp_send_json_error($items->get_error_code());
             }
-            $all_items[ $item_type['type'] . ':' . $item_type['object'] ] = $items;
+            $all_items[$item_type['type'] . ':' . $item_type['object']] = $items;
         }
 
         wp_send_json_success(['items' => $all_items]);
@@ -406,7 +406,7 @@ final class WP_Customize_Nav_Menus
                 $post_title = sprintf(__('#%d (no title)'), $post->ID);
             }
 
-            $post_type_label = $post_type_objects[ $post->post_type ]->labels->singular_name;
+            $post_type_label = $post_type_objects[$post->post_type]->labels->singular_name;
             $post_states     = get_post_states($post);
             if (! empty($post_states)) {
                 $post_type_label = implode(',', $post_states);
@@ -719,7 +719,7 @@ final class WP_Customize_Nav_Menus
 
         $choices = ['0' => __('&mdash; Select &mdash;')];
         foreach ($menus as $menu) {
-            $choices[ $menu->term_id ] = wp_html_excerpt($menu->name, 40, '&hellip;');
+            $choices[$menu->term_id] = wp_html_excerpt($menu->name, 40, '&hellip;');
         }
 
         // Attempt to re-map the nav menu location assignments when previewing a theme switch.
@@ -757,8 +757,8 @@ final class WP_Customize_Nav_Menus
             }
 
             // Override the assigned nav menu location if mapped during previewed theme switch.
-            if (empty($changeset[ $setting_id ]) && isset($mapped_nav_menu_locations[ $location ])) {
-                $this->manager->set_post_value($setting_id, $mapped_nav_menu_locations[ $location ]);
+            if (empty($changeset[$setting_id]) && isset($mapped_nav_menu_locations[$location])) {
+                $this->manager->set_post_value($setting_id, $mapped_nav_menu_locations[$location]);
             }
 
             $this->manager->add_control(
@@ -1209,7 +1209,7 @@ final class WP_Customize_Nav_Menus
             foreach ($item_types as $i => $item_type) {
                 if (isset($item_type['object']) && 'page' === $item_type['object']) {
                     $page_item_type = $item_type;
-                    unset($item_types[ $i ]);
+                    unset($item_types[$i]);
                 }
             }
 
@@ -1520,8 +1520,8 @@ final class WP_Customize_Nav_Menus
         ksort($exported_args);
         $exported_args['args_hmac'] = $this->hash_nav_menu_args($exported_args);
 
-        $args['customize_preview_nav_menus_args']                            = $exported_args;
-        $this->preview_nav_menu_instance_args[ $exported_args['args_hmac'] ] = $exported_args;
+        $args['customize_preview_nav_menus_args']                          = $exported_args;
+        $this->preview_nav_menu_instance_args[$exported_args['args_hmac']] = $exported_args;
         return $args;
     }
 

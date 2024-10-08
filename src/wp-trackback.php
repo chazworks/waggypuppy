@@ -48,7 +48,7 @@ function trackback_response($error = 0, $error_message = '')
 
 if (! isset($_GET['tb_id']) || ! $_GET['tb_id']) {
     $post_id = explode('/', $_SERVER['REQUEST_URI']);
-    $post_id = (int) $post_id[ count($post_id) - 1 ];
+    $post_id = (int) $post_id[count($post_id) - 1];
 }
 
 $trackback_url = isset($_POST['url']) ? $_POST['url'] : '';

@@ -55,11 +55,11 @@ final class WP_Internal_Pointers
         ];
 
         // Check if screen related pointer is registered.
-        if (empty($registered_pointers[ $hook_suffix ])) {
+        if (empty($registered_pointers[$hook_suffix])) {
             return;
         }
 
-        $pointers = (array) $registered_pointers[ $hook_suffix ];
+        $pointers = (array) $registered_pointers[$hook_suffix];
 
         /*
          * Specify required capabilities for feature pointers
@@ -83,8 +83,8 @@ final class WP_Internal_Pointers
 
         $got_pointers = false;
         foreach (array_diff($pointers, $dismissed) as $pointer) {
-            if (isset($caps_required[ $pointer ])) {
-                foreach ($caps_required[ $pointer ] as $cap) {
+            if (isset($caps_required[$pointer])) {
+                foreach ($caps_required[$pointer] as $cap) {
                     if (! current_user_can($cap)) {
                         continue 2;
                     }

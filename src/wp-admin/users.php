@@ -127,7 +127,7 @@ switch ($wp_list_table->current_action()) {
             'name' => __('&mdash; No role for this site &mdash;'),
         ];
 
-        if (! $role || empty($editable_roles[ $role ])) {
+        if (! $role || empty($editable_roles[$role])) {
             wp_die(__('Sorry, you are not allowed to give users that role.'), 403);
         }
 
@@ -145,7 +145,7 @@ switch ($wp_list_table->current_action()) {
 
             // The new role of the current user must also have the promote_users cap or be a multisite super admin.
             if ($id === $current_user->ID
-                && ! $wp_roles->role_objects[ $role ]->has_cap('promote_users')
+                && ! $wp_roles->role_objects[$role]->has_cap('promote_users')
                 && ! (is_multisite() && current_user_can('manage_network_users'))
             ) {
                     $update = 'err_admin_role';

@@ -439,7 +439,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
      */
     private function bail(string $message)
     {
-        $here  = $this->bookmarks[ $this->state->current_token->bookmark_name ];
+        $here  = $this->bookmarks[$this->state->current_token->bookmark_name];
         $token = substr($this->html, $here->start, $here->length);
 
         $open_elements = [];
@@ -763,7 +763,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
         }
 
         for ($i = count($this->breadcrumbs) - 1; $i >= 0; $i--) {
-            $node  = $this->breadcrumbs[ $i ];
+            $node  = $this->breadcrumbs[$i];
             $crumb = strtoupper(current($breadcrumbs));
 
             if ('*' !== $crumb && $node !== $crumb) {
@@ -4645,7 +4645,7 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
                 /*
                  * NULL bytes and whitespace do not change the frameset-ok flag.
                  */
-                $current_token        = $this->bookmarks[ $this->state->current_token->bookmark_name ];
+                $current_token        = $this->bookmarks[$this->state->current_token->bookmark_name];
                 $cdata_content_start  = $current_token->start + 9;
                 $cdata_content_length = $current_token->length - 12;
                 if (strspn($this->html, "\0 \t\n\f\r", $cdata_content_start, $cdata_content_length) !== $cdata_content_length) {
@@ -5318,9 +5318,9 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
 
         $actual_bookmark_name = "_{$bookmark_name}";
         $processor_started_at = $this->state->current_token
-            ? $this->bookmarks[ $this->state->current_token->bookmark_name ]->start
+            ? $this->bookmarks[$this->state->current_token->bookmark_name]->start
             : 0;
-        $bookmark_starts_at   = $this->bookmarks[ $actual_bookmark_name ]->start;
+        $bookmark_starts_at   = $this->bookmarks[$actual_bookmark_name]->start;
         $direction            = $bookmark_starts_at > $processor_started_at ? 'forward' : 'backward';
 
         /*
@@ -5387,12 +5387,12 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
         }
 
         // When moving forwards, reparse the document until reaching the same location as the original bookmark.
-        if ($bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start) {
+        if ($bookmark_starts_at === $this->bookmarks[$this->state->current_token->bookmark_name]->start) {
             return true;
         }
 
         while ($this->next_token()) {
-            if ($bookmark_starts_at === $this->bookmarks[ $this->state->current_token->bookmark_name ]->start) {
+            if ($bookmark_starts_at === $this->bookmarks[$this->state->current_token->bookmark_name]->start) {
                 while (isset($this->current_element) && WP_HTML_Stack_Event::POP === $this->current_element->operation) {
                     $this->current_element = array_shift($this->element_queue);
                 }
@@ -6060,10 +6060,10 @@ class WP_HTML_Processor extends WP_HTML_Tag_Processor
      */
     private function insert_virtual_node($token_name, $bookmark_name = null): WP_HTML_Token
     {
-        $here = $this->bookmarks[ $this->state->current_token->bookmark_name ];
+        $here = $this->bookmarks[$this->state->current_token->bookmark_name];
         $name = $bookmark_name ?? $this->bookmark_token();
 
-        $this->bookmarks[ $name ] = new WP_HTML_Span($here->start, 0);
+        $this->bookmarks[$name] = new WP_HTML_Span($here->start, 0);
 
         $token = new WP_HTML_Token($name, $token_name, false);
         $this->insert_html_element($token);

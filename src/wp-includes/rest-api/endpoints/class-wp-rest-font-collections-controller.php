@@ -183,7 +183,7 @@ class WP_REST_Font_Collections_Controller extends WP_REST_Controller
 
             foreach ($data_fields as $field) {
                 if (rest_is_field_included($field, $fields)) {
-                    $data[ $field ] = $collection_data[ $field ];
+                    $data[$field] = $collection_data[$field];
                 }
             }
         }

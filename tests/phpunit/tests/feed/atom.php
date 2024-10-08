@@ -165,21 +165,21 @@ class Tests_Feed_Atom extends WP_UnitTestCase
         foreach ($entries as $key => $entry) {
 
             // Get post for comparison.
-            $id = xml_find($entries[ $key ]['child'], 'id');
+            $id = xml_find($entries[$key]['child'], 'id');
             preg_match('/\?p=(\d+)/', $id[0]['content'], $matches);
             $post = get_post($matches[1]);
 
             // Author.
-            $author = xml_find($entries[ $key ]['child'], 'author', 'name');
+            $author = xml_find($entries[$key]['child'], 'author', 'name');
             $user   = new WP_User($post->post_author);
             $this->assertSame($user->display_name, $author[0]['content']);
 
             // Title.
-            $title = xml_find($entries[ $key ]['child'], 'title');
+            $title = xml_find($entries[$key]['child'], 'title');
             $this->assertSame($post->post_title, $title[0]['content']);
 
             // Link rel="alternate".
-            $link_alts = xml_find($entries[ $key ]['child'], 'link');
+            $link_alts = xml_find($entries[$key]['child'], 'link');
             foreach ($link_alts as $link_alt) {
                 if ('alternate' === $link_alt['attributes']['rel']) {
                     $this->assertSame(get_permalink($post), $link_alt['attributes']['href']);
@@ -187,22 +187,22 @@ class Tests_Feed_Atom extends WP_UnitTestCase
             }
 
             // ID.
-            $guid = xml_find($entries[ $key ]['child'], 'id');
+            $guid = xml_find($entries[$key]['child'], 'id');
             $this->assertSame($post->guid, $id[0]['content']);
 
             // Updated.
-            $updated = xml_find($entries[ $key ]['child'], 'updated');
+            $updated = xml_find($entries[$key]['child'], 'updated');
             $this->assertSame(strtotime($post->post_modified_gmt), strtotime($updated[0]['content']));
 
             // Published.
-            $published = xml_find($entries[ $key ]['child'], 'published');
+            $published = xml_find($entries[$key]['child'], 'published');
             $this->assertSame(strtotime($post->post_date_gmt), strtotime($published[0]['content']));
 
             // Category.
             foreach (get_the_category($post->ID) as $term) {
                 $terms[] = $term->name;
             }
-            $categories = xml_find($entries[ $key ]['child'], 'category');
+            $categories = xml_find($entries[$key]['child'], 'category');
             foreach ($categories as $category) {
                 $this->assertContains($category['attributes']['term'], $terms);
             }
@@ -210,12 +210,12 @@ class Tests_Feed_Atom extends WP_UnitTestCase
 
             // Content.
             if (! $this->excerpt_only) {
-                $content = xml_find($entries[ $key ]['child'], 'content');
+                $content = xml_find($entries[$key]['child'], 'content');
                 $this->assertSame(trim(apply_filters('the_content', $post->post_content)), trim($content[0]['content']));
             }
 
             // Link rel="replies".
-            $link_replies = xml_find($entries[ $key ]['child'], 'link');
+            $link_replies = xml_find($entries[$key]['child'], 'link');
             foreach ($link_replies as $link_reply) {
                 if ('replies' === $link_reply['attributes']['rel'] && 'application/atom+xml' === $link_reply['attributes']['type']) {
                     $this->assertSame(get_post_comments_feed_link($post->ID, 'atom'), $link_reply['attributes']['href']);
@@ -288,13 +288,13 @@ class Tests_Feed_Atom extends WP_UnitTestCase
         $entries = array_slice($entries, 0, 1);
 
         foreach ($entries as $key => $entry) {
-            $links = xml_find($entries[ $key ]['child'], 'link');
+            $links = xml_find($entries[$key]['child'], 'link');
             $i     = 0;
             foreach ((array) $links as $link) {
                 if ('enclosure' === $link['attributes']['rel']) {
-                    $this->assertSame($enclosures[ $i ]['expected']['href'], $link['attributes']['href']);
-                    $this->assertEquals($enclosures[ $i ]['expected']['length'], $link['attributes']['length']);
-                    $this->assertSame($enclosures[ $i ]['expected']['type'], $link['attributes']['type']);
+                    $this->assertSame($enclosures[$i]['expected']['href'], $link['attributes']['href']);
+                    $this->assertEquals($enclosures[$i]['expected']['length'], $link['attributes']['length']);
+                    $this->assertSame($enclosures[$i]['expected']['type'], $link['attributes']['type']);
                     ++$i;
                 }
             }

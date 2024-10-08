@@ -107,7 +107,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 
         $results = [];
         foreach ($expected as $option => $value) {
-            $results[ $option ] = get_option($option);
+            $results[$option] = get_option($option);
         }
 
         $wpdb->query("TRUNCATE TABLE {$wpdb->options}");
@@ -241,7 +241,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 
         $results = [];
         foreach ($expected as $meta_key => $value) {
-            $results[ $meta_key ] = get_site_meta(42, $meta_key, true);
+            $results[$meta_key] = get_site_meta(42, $meta_key, true);
         }
 
         $wpdb->query("TRUNCATE TABLE {$wpdb->blogmeta}");
@@ -288,9 +288,9 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
         $results = [];
         foreach ($expected as $meta_key => $value) {
             if (is_multisite()) {
-                $results[ $meta_key ] = get_network_option(42, $meta_key);
+                $results[$meta_key] = get_network_option(42, $meta_key);
             } else {
-                $results[ $meta_key ] = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $meta_key, 42));
+                $results[$meta_key] = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $meta_key, 42));
             }
         }
 

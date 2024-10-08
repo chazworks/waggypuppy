@@ -334,7 +334,7 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase
             if ('foo' === $cookie) {
                 $this->assertArrayNotHasKey($cookie, $cookie_jar);
             } else {
-                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[ $cookie ]);
+                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[$cookie]);
             }
         }
     }
@@ -706,9 +706,9 @@ class Tests_HTTP_HTTP extends WP_UnitTestCase
 
         foreach (array_keys($cookies) as $cookie) {
             if (is_string($cookie)) {
-                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[ $cookie ]);
+                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[$cookie]);
             } else {
-                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[ (string) $cookie ]);
+                $this->assertInstanceOf('WpOrg\Requests\Cookie', $cookie_jar[(string) $cookie]);
             }
         }
     }

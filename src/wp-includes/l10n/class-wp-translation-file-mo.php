@@ -142,8 +142,8 @@ class WP_Translation_File_MO extends WP_Translation_File
         $translations_data = str_split(substr($file_contents, $offsets['translations_addr'], $offsets['translations_length']), 8);
 
         foreach (array_keys($original_data) as $i) {
-            $o = unpack("{$this->uint32}length/{$this->uint32}pos", $original_data[ $i ]);
-            $t = unpack("{$this->uint32}length/{$this->uint32}pos", $translations_data[ $i ]);
+            $o = unpack("{$this->uint32}length/{$this->uint32}pos", $original_data[$i]);
+            $t = unpack("{$this->uint32}length/{$this->uint32}pos", $translations_data[$i]);
 
             if (false === $o || false === $t) {
                 continue;
@@ -163,7 +163,7 @@ class WP_Translation_File_MO extends WP_Translation_File
 
                     list( $name, $value ) = array_map('trim', explode(':', $meta_line, 2));
 
-                    $this->headers[ strtolower($name) ] = $value;
+                    $this->headers[strtolower($name)] = $value;
                 }
             } else {
                 /*
@@ -174,7 +174,7 @@ class WP_Translation_File_MO extends WP_Translation_File
                  */
                 $parts = explode("\0", (string) $original);
 
-                $this->entries[ $parts[0] ] = $translation;
+                $this->entries[$parts[0]] = $translation;
             }
         }
 

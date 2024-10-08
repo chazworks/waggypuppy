@@ -558,11 +558,11 @@ function atom_enclosure()
 
                 // Parse length and type.
                 for ($i = 1; $i <= 2; $i++) {
-                    if (isset($enclosure[ $i ])) {
-                        if (is_numeric($enclosure[ $i ])) {
-                            $length = trim($enclosure[ $i ]);
-                        } elseif (in_array($enclosure[ $i ], $mimes, true)) {
-                            $type = trim($enclosure[ $i ]);
+                    if (isset($enclosure[$i])) {
+                        if (is_numeric($enclosure[$i])) {
+                            $length = trim($enclosure[$i]);
+                        } elseif (in_array($enclosure[$i], $mimes, true)) {
+                            $type = trim($enclosure[$i]);
                         }
                     }
                 }
@@ -800,7 +800,7 @@ function feed_content_type($type = '')
         'rdf'      => 'application/rdf+xml',
     ];
 
-    $content_type = (! empty($types[ $type ])) ? $types[ $type ] : 'application/octet-stream';
+    $content_type = (! empty($types[$type])) ? $types[$type] : 'application/octet-stream';
 
     /**
      * Filters the content type for a specific feed type.

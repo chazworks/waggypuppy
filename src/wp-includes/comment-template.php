@@ -2319,10 +2319,10 @@ function wp_list_comments($args = [], $comments = null)
         }
         if ('all' !== $parsed_args['type']) {
             $comments_by_type = separate_comments($comments);
-            if (empty($comments_by_type[ $parsed_args['type'] ])) {
+            if (empty($comments_by_type[$parsed_args['type']])) {
                 return;
             }
-            $_comments = $comments_by_type[ $parsed_args['type'] ];
+            $_comments = $comments_by_type[$parsed_args['type']];
         } else {
             $_comments = $comments;
         }
@@ -2360,11 +2360,11 @@ function wp_list_comments($args = [], $comments = null)
 
                 if ('all' !== $parsed_args['type']) {
                     $comments_by_type = separate_comments($comments);
-                    if (empty($comments_by_type[ $parsed_args['type'] ])) {
+                    if (empty($comments_by_type[$parsed_args['type']])) {
                         return;
                     }
 
-                    $_comments = $comments_by_type[ $parsed_args['type'] ];
+                    $_comments = $comments_by_type[$parsed_args['type']];
                 } else {
                     $_comments = $comments;
                 }
@@ -2379,10 +2379,10 @@ function wp_list_comments($args = [], $comments = null)
                 if (empty($wp_query->comments_by_type)) {
                     $wp_query->comments_by_type = separate_comments($wp_query->comments);
                 }
-                if (empty($wp_query->comments_by_type[ $parsed_args['type'] ])) {
+                if (empty($wp_query->comments_by_type[$parsed_args['type']])) {
                     return;
                 }
-                $_comments = $wp_query->comments_by_type[ $parsed_args['type'] ];
+                $_comments = $wp_query->comments_by_type[$parsed_args['type']];
             } else {
                 $_comments = $wp_query->comments;
             }

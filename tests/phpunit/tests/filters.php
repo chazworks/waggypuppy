@@ -547,7 +547,7 @@ class Tests_Filters extends WP_UnitTestCase
     {
         global $wp_filter;
 
-        $this->current_priority = $wp_filter[ current_filter() ]->current_priority();
+        $this->current_priority = $wp_filter[current_filter()]->current_priority();
     }
 
     /**

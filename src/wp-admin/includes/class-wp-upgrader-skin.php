@@ -210,8 +210,8 @@ class WP_Upgrader_Skin
      */
     public function feedback($feedback, ...$args)
     {
-        if (isset($this->upgrader->strings[ $feedback ])) {
-            $feedback = $this->upgrader->strings[ $feedback ];
+        if (isset($this->upgrader->strings[$feedback])) {
+            $feedback = $this->upgrader->strings[$feedback];
         }
 
         if (str_contains($feedback, '%')) {

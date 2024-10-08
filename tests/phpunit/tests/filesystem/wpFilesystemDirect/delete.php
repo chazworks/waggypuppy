@@ -77,7 +77,7 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
      */
     public function test_should_delete_a_file($file)
     {
-        $file = self::$file_structure[ $file ]['path'] . $file;
+        $file = self::$file_structure[$file]['path'] . $file;
 
         $this->assertTrue(self::$filesystem->delete($file), 'File deletion failed.');
         $this->assertFileDoesNotExist($file, 'The file was not deleted.');

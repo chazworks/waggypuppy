@@ -131,7 +131,7 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
 
         // Check that none of the required settings are empty values.
         foreach ($required as $key) {
-            if (isset($settings[ $key ]) && ! $settings[ $key ]) {
+            if (isset($settings[$key]) && ! $settings[$key]) {
                 return new WP_Error(
                     'rest_invalid_param',
                     /* translators: %s: Name of the empty font family setting parameter, e.g. "font_family_settings[slug]". */
@@ -160,8 +160,8 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
 
         // Sanitize settings based on callbacks in the schema.
         foreach ($settings as $key => $value) {
-            $sanitize_callback = $schema[ $key ]['arg_options']['sanitize_callback'];
-            $settings[ $key ]  = call_user_func($sanitize_callback, $value);
+            $sanitize_callback = $schema[$key]['arg_options']['sanitize_callback'];
+            $settings[$key]    = call_user_func($sanitize_callback, $value);
         }
 
         return $settings;

@@ -215,33 +215,33 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         foreach ($items as $key => $item) {
 
             // Get post for comparison.
-            $guid = xml_find($items[ $key ]['child'], 'guid');
+            $guid = xml_find($items[$key]['child'], 'guid');
             preg_match('/\?p=(\d+)/', $guid[0]['content'], $matches);
             $post = get_post($matches[1]);
 
             // Title.
-            $title = xml_find($items[ $key ]['child'], 'title');
+            $title = xml_find($items[$key]['child'], 'title');
             $this->assertSame($post->post_title, $title[0]['content']);
 
             // Link.
-            $link = xml_find($items[ $key ]['child'], 'link');
+            $link = xml_find($items[$key]['child'], 'link');
             $this->assertSame(get_permalink($post), $link[0]['content']);
 
             // Comment link.
-            $comments_link = xml_find($items[ $key ]['child'], 'comments');
+            $comments_link = xml_find($items[$key]['child'], 'comments');
             $this->assertSame(get_permalink($post) . '#respond', $comments_link[0]['content']);
 
             // Pub date.
-            $pubdate = xml_find($items[ $key ]['child'], 'pubDate');
+            $pubdate = xml_find($items[$key]['child'], 'pubDate');
             $this->assertSame(strtotime($post->post_date_gmt), strtotime($pubdate[0]['content']));
 
             // Author.
-            $creator = xml_find($items[ $key ]['child'], 'dc:creator');
+            $creator = xml_find($items[$key]['child'], 'dc:creator');
             $user    = new WP_User($post->post_author);
             $this->assertSame($user->display_name, $creator[0]['content']);
 
             // Categories (perhaps multiple).
-            $categories = xml_find($items[ $key ]['child'], 'category');
+            $categories = xml_find($items[$key]['child'], 'category');
             $cats       = [];
             foreach (get_the_category($post->ID) as $term) {
                 $cats[] = $term->name;
@@ -259,28 +259,28 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
 
             // ..with the same names.
             foreach ($cats as $id => $cat) {
-                $this->assertSame($cat, $categories[ $id ]['content']);
+                $this->assertSame($cat, $categories[$id]['content']);
             }
 
             // GUID.
-            $guid = xml_find($items[ $key ]['child'], 'guid');
+            $guid = xml_find($items[$key]['child'], 'guid');
             $this->assertSame('false', $guid[0]['attributes']['isPermaLink']);
             $this->assertSame($post->guid, $guid[0]['content']);
 
             // Description / Excerpt.
             if (! empty($post->post_excerpt)) {
-                $description = xml_find($items[ $key ]['child'], 'description');
+                $description = xml_find($items[$key]['child'], 'description');
                 $this->assertSame(trim($post->post_excerpt), trim($description[0]['content']));
             }
 
             // Post content.
             if (! $this->excerpt_only) {
-                $content = xml_find($items[ $key ]['child'], 'content:encoded');
+                $content = xml_find($items[$key]['child'], 'content:encoded');
                 $this->assertSame(trim(apply_filters('the_content', $post->post_content)), trim($content[0]['content']));
             }
 
             // Comment RSS.
-            $comment_rss = xml_find($items[ $key ]['child'], 'wfw:commentRss');
+            $comment_rss = xml_find($items[$key]['child'], 'wfw:commentRss');
             $this->assertSame(html_entity_decode(get_post_comments_feed_link($post->ID)), $comment_rss[0]['content']);
         }
     }
@@ -302,16 +302,16 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         // Check each of the items against the known post data.
         foreach ($items as $key => $item) {
             // Get post for comparison.
-            $guid = xml_find($items[ $key ]['child'], 'guid');
+            $guid = xml_find($items[$key]['child'], 'guid');
             preg_match('/\?p=(\d+)/', $guid[0]['content'], $matches);
             $post = get_post($matches[1]);
 
             // Comment link.
-            $comments_link = xml_find($items[ $key ]['child'], 'comments');
+            $comments_link = xml_find($items[$key]['child'], 'comments');
             $this->assertEmpty($comments_link);
 
             // Comment RSS.
-            $comment_rss = xml_find($items[ $key ]['child'], 'wfw:commentRss');
+            $comment_rss = xml_find($items[$key]['child'], 'wfw:commentRss');
             $this->assertEmpty($comment_rss);
         }
 

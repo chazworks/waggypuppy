@@ -36,7 +36,7 @@ class Tests_Hooks_PreinitHooks extends WP_UnitTestCase
 
         $hooks = WP_Hook::build_preinitialized_hooks($filters);
 
-        $this->assertSame($priority1, $hooks[ $hook_name1 ]->has_filter($hook_name1, '__return_false'));
-        $this->assertSame($priority2, $hooks[ $hook_name2 ]->has_filter($hook_name2, '__return_null'));
+        $this->assertSame($priority1, $hooks[$hook_name1]->has_filter($hook_name1, '__return_false'));
+        $this->assertSame($priority2, $hooks[$hook_name2]->has_filter($hook_name2, '__return_null'));
     }
 }

@@ -23,8 +23,8 @@ function block_core_gallery_data_id_backcompatibility($parsed_block)
     if ('core/gallery' === $parsed_block['blockName']) {
         foreach ($parsed_block['innerBlocks'] as $key => $inner_block) {
             if ('core/image' === $inner_block['blockName']) {
-                if (! isset($parsed_block['innerBlocks'][ $key ]['attrs']['data-id']) && isset($inner_block['attrs']['id'])) {
-                    $parsed_block['innerBlocks'][ $key ]['attrs']['data-id'] = esc_attr($inner_block['attrs']['id']);
+                if (! isset($parsed_block['innerBlocks'][$key]['attrs']['data-id']) && isset($inner_block['attrs']['id'])) {
+                    $parsed_block['innerBlocks'][$key]['attrs']['data-id'] = esc_attr($inner_block['attrs']['id']);
                 }
             }
         }
@@ -68,7 +68,7 @@ function block_core_gallery_render($attributes, $content)
                 $value           = "var(--wp--preset--spacing--$slug)";
             }
 
-            $gap[ $key ] = $value;
+            $gap[$key] = $value;
         }
     } else {
         // Make sure $gap is a string to avoid PHP 8.1 deprecation error in preg_match() when the value is null.
@@ -159,7 +159,7 @@ function block_core_gallery_render($attributes, $content)
     $content = preg_replace_callback(
         $pattern,
         static function () use ($image_blocks, &$i) {
-            $new_image_block = $image_blocks[ $i ];
+            $new_image_block = $image_blocks[$i];
             ++$i;
             return $new_image_block;
         },

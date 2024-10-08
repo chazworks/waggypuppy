@@ -38,7 +38,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             }
 
             $post = get_post($id);
-            $this->assertSame($outputs[ $k ], urldecode($post->post_name));
+            $this->assertSame($outputs[$k], urldecode($post->post_name));
         }
     }
 

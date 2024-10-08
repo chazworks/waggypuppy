@@ -67,7 +67,7 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
         register_core_block_style_handles();
 
         foreach (self::STYLE_FIELDS as $style_field => $filename) {
-            $style_handle = $schema[ $style_field ];
+            $style_handle = $schema[$style_field];
             if (is_array($style_handle)) {
                 continue;
             }
@@ -93,19 +93,19 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
         $wp_styles = $GLOBALS['wp_styles'];
 
         foreach (self::STYLE_FIELDS as $style_field => $filename) {
-            $style_handle = $schema[ $style_field ];
+            $style_handle = $schema[$style_field];
             if (is_array($style_handle)) {
                 continue;
             }
 
             $this->assertArrayHasKey($style_handle, $wp_styles->registered, 'The key should exist, as this style should be registered');
-            if (false === $wp_styles->registered[ $style_handle ]->src) {
-                $this->assertEmpty($wp_styles->registered[ $style_handle ]->extra, 'If source is false, style path should not be set');
+            if (false === $wp_styles->registered[$style_handle]->src) {
+                $this->assertEmpty($wp_styles->registered[$style_handle]->extra, 'If source is false, style path should not be set');
             } else {
-                $this->assertStringContainsString($this->includes_url, $wp_styles->registered[ $style_handle ]->src, 'Source of style should contain the includes url');
-                $this->assertNotEmpty($wp_styles->registered[ $style_handle ]->extra, 'The path of the style should exist');
-                $this->assertArrayHasKey('path', $wp_styles->registered[ $style_handle ]->extra, 'The path key of the style should exist in extra array');
-                $this->assertNotEmpty($wp_styles->registered[ $style_handle ]->extra['path'], 'The path key of the style should not be empty');
+                $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src, 'Source of style should contain the includes url');
+                $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra, 'The path of the style should exist');
+                $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra, 'The path key of the style should exist in extra array');
+                $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'], 'The path key of the style should not be empty');
             }
         }
     }
@@ -128,13 +128,13 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
         $style_handle = "wp-block-{$name}-theme";
 
         $this->assertArrayHasKey($style_handle, $wp_styles->registered, 'The key should exist, as this style should be registered');
-        if (false === $wp_styles->registered[ $style_handle ]->src) {
-            $this->assertEmpty($wp_styles->registered[ $style_handle ]->extra, 'If source is false, style path should not be set');
+        if (false === $wp_styles->registered[$style_handle]->src) {
+            $this->assertEmpty($wp_styles->registered[$style_handle]->extra, 'If source is false, style path should not be set');
         } else {
-            $this->assertStringContainsString($this->includes_url, $wp_styles->registered[ $style_handle ]->src, 'Source of style should contain the includes url');
-            $this->assertNotEmpty($wp_styles->registered[ $style_handle ]->extra, 'The path of the style should exist');
-            $this->assertArrayHasKey('path', $wp_styles->registered[ $style_handle ]->extra, 'The path key of the style should exist in extra array');
-            $this->assertNotEmpty($wp_styles->registered[ $style_handle ]->extra['path'], 'The path key of the style should not be empty');
+            $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src, 'Source of style should contain the includes url');
+            $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra, 'The path of the style should exist');
+            $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra, 'The path key of the style should exist in extra array');
+            $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'], 'The path key of the style should not be empty');
         }
     }
 
@@ -162,14 +162,14 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
         $wp_locale->text_direction = $orig_text_dir;
 
         $this->assertArrayHasKey($style_handle, $wp_styles->registered, 'The key should exist, as this style should be registered');
-        if (false === $wp_styles->registered[ $style_handle ]->src) {
-            $this->assertEmpty($wp_styles->registered[ $style_handle ]->extra, 'If source is false, style path should not be set');
+        if (false === $wp_styles->registered[$style_handle]->src) {
+            $this->assertEmpty($wp_styles->registered[$style_handle]->extra, 'If source is false, style path should not be set');
         } else {
-            $this->assertStringContainsString($this->includes_url, $wp_styles->registered[ $style_handle ]->src, 'Source of style should contain the includes url');
-            $this->assertNotEmpty($wp_styles->registered[ $style_handle ]->extra, 'The path of the style should exist');
-            $this->assertArrayHasKey('path', $wp_styles->registered[ $style_handle ]->extra, 'The path key of the style should exist in extra array');
-            $this->assertNotEmpty($wp_styles->registered[ $style_handle ]->extra['path'], 'The path key of the style should not be empty');
-            $this->assertArrayHasKey('rtl', $wp_styles->registered[ $style_handle ]->extra, 'The rtl key of the style should exist in extra array');
+            $this->assertStringContainsString($this->includes_url, $wp_styles->registered[$style_handle]->src, 'Source of style should contain the includes url');
+            $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra, 'The path of the style should exist');
+            $this->assertArrayHasKey('path', $wp_styles->registered[$style_handle]->extra, 'The path key of the style should exist in extra array');
+            $this->assertNotEmpty($wp_styles->registered[$style_handle]->extra['path'], 'The path key of the style should not be empty');
+            $this->assertArrayHasKey('rtl', $wp_styles->registered[$style_handle]->extra, 'The rtl key of the style should exist in extra array');
         }
     }
 
@@ -190,7 +190,7 @@ class Tests_Blocks_registerCoreBlockStyleHandles extends WP_UnitTestCase
                 $schema['editorStyle'] = "wp-block-{$name}-editor";
             }
 
-            $data[ $name ] = [$name, $schema];
+            $data[$name] = [$name, $schema];
         }
 
         return $data;

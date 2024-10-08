@@ -120,7 +120,7 @@ class WP
      */
     public function set_query_var($key, $value)
     {
-        $this->query_vars[ $key ] = $value;
+        $this->query_vars[$key] = $value;
     }
 
     /**
@@ -248,7 +248,7 @@ class WP
                             && preg_match('/pagename=\$matches\[([0-9]+)\]/', $query, $varmatch)
                         ) {
                             // This is a verbose page match, let's check to be sure about it.
-                            $page = get_page_by_path($matches[ $varmatch[1] ]);
+                            $page = get_page_by_path($matches[$varmatch[1]]);
 
                             if (! $page) {
                                 continue;
@@ -317,51 +317,51 @@ class WP
 
         foreach (get_post_types([], 'objects') as $post_type => $t) {
             if (is_post_type_viewable($t) && $t->query_var) {
-                $post_type_query_vars[ $t->query_var ] = $post_type;
+                $post_type_query_vars[$t->query_var] = $post_type;
             }
         }
 
         foreach ($this->public_query_vars as $wpvar) {
-            if (isset($this->extra_query_vars[ $wpvar ])) {
-                $this->query_vars[ $wpvar ] = $this->extra_query_vars[ $wpvar ];
-            } elseif (isset($_GET[ $wpvar ]) && isset($_POST[ $wpvar ])
-                && $_GET[ $wpvar ] !== $_POST[ $wpvar ]
+            if (isset($this->extra_query_vars[$wpvar])) {
+                $this->query_vars[$wpvar] = $this->extra_query_vars[$wpvar];
+            } elseif (isset($_GET[$wpvar]) && isset($_POST[$wpvar])
+                && $_GET[$wpvar] !== $_POST[$wpvar]
             ) {
                 wp_die(
                     __('A variable mismatch has been detected.'),
                     __('Sorry, you are not allowed to view this item.'),
                     400
                 );
-            } elseif (isset($_POST[ $wpvar ])) {
-                $this->query_vars[ $wpvar ] = $_POST[ $wpvar ];
-            } elseif (isset($_GET[ $wpvar ])) {
-                $this->query_vars[ $wpvar ] = $_GET[ $wpvar ];
-            } elseif (isset($perma_query_vars[ $wpvar ])) {
-                $this->query_vars[ $wpvar ] = $perma_query_vars[ $wpvar ];
+            } elseif (isset($_POST[$wpvar])) {
+                $this->query_vars[$wpvar] = $_POST[$wpvar];
+            } elseif (isset($_GET[$wpvar])) {
+                $this->query_vars[$wpvar] = $_GET[$wpvar];
+            } elseif (isset($perma_query_vars[$wpvar])) {
+                $this->query_vars[$wpvar] = $perma_query_vars[$wpvar];
             }
 
-            if (! empty($this->query_vars[ $wpvar ])) {
-                if (! is_array($this->query_vars[ $wpvar ])) {
-                    $this->query_vars[ $wpvar ] = (string) $this->query_vars[ $wpvar ];
+            if (! empty($this->query_vars[$wpvar])) {
+                if (! is_array($this->query_vars[$wpvar])) {
+                    $this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar];
                 } else {
-                    foreach ($this->query_vars[ $wpvar ] as $vkey => $v) {
+                    foreach ($this->query_vars[$wpvar] as $vkey => $v) {
                         if (is_scalar($v)) {
-                            $this->query_vars[ $wpvar ][ $vkey ] = (string) $v;
+                            $this->query_vars[$wpvar][$vkey] = (string) $v;
                         }
                     }
                 }
 
-                if (isset($post_type_query_vars[ $wpvar ])) {
-                    $this->query_vars['post_type'] = $post_type_query_vars[ $wpvar ];
-                    $this->query_vars['name']      = $this->query_vars[ $wpvar ];
+                if (isset($post_type_query_vars[$wpvar])) {
+                    $this->query_vars['post_type'] = $post_type_query_vars[$wpvar];
+                    $this->query_vars['name']      = $this->query_vars[$wpvar];
                 }
             }
         }
 
         // Convert urldecoded spaces back into '+'.
         foreach (get_taxonomies([], 'objects') as $taxonomy => $t) {
-            if ($t->query_var && isset($this->query_vars[ $t->query_var ])) {
-                $this->query_vars[ $t->query_var ] = str_replace(' ', '+', $this->query_vars[ $t->query_var ]);
+            if ($t->query_var && isset($this->query_vars[$t->query_var])) {
+                $this->query_vars[$t->query_var] = str_replace(' ', '+', $this->query_vars[$t->query_var]);
             }
         }
 
@@ -395,8 +395,8 @@ class WP
         $this->query_vars = wp_resolve_numeric_slug_conflicts($this->query_vars);
 
         foreach ((array) $this->private_query_vars as $var) {
-            if (isset($this->extra_query_vars[ $var ])) {
-                $this->query_vars[ $var ] = $this->extra_query_vars[ $var ];
+            if (isset($this->extra_query_vars[$var])) {
+                $this->query_vars[$var] = $this->extra_query_vars[$var];
             }
         }
 
@@ -609,14 +609,14 @@ class WP
         $this->query_string = '';
 
         foreach ((array) array_keys($this->query_vars) as $wpvar) {
-            if ('' !== $this->query_vars[ $wpvar ]) {
+            if ('' !== $this->query_vars[$wpvar]) {
                 $this->query_string .= (strlen($this->query_string) < 1) ? '' : '&';
 
-                if (! is_scalar($this->query_vars[ $wpvar ])) { // Discard non-scalars.
+                if (! is_scalar($this->query_vars[$wpvar])) { // Discard non-scalars.
                     continue;
                 }
 
-                $this->query_string .= $wpvar . '=' . rawurlencode($this->query_vars[ $wpvar ]);
+                $this->query_string .= $wpvar . '=' . rawurlencode($this->query_vars[$wpvar]);
             }
         }
 
@@ -664,7 +664,7 @@ class WP
 
         // Extract updated query vars back into global namespace.
         foreach ((array) $wp_query->query_vars as $key => $value) {
-            $GLOBALS[ $key ] = $value;
+            $GLOBALS[$key] = $value;
         }
 
         $GLOBALS['query_string'] = $this->query_string;

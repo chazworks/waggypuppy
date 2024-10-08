@@ -1889,7 +1889,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
             }
 
             foreach ($suite['tests'] as $test) {
-                $tests[ $suite['description'] . ': ' . $test['description'] ] = [
+                $tests[$suite['description'] . ': ' . $test['description']] = [
                     $test['data'],
                     $suite['schema'],
                     $test['valid'],
@@ -1943,7 +1943,7 @@ class WP_Test_REST_Schema_Validation extends WP_UnitTestCase
             }
 
             foreach ($suite['tests'] as $test) {
-                $tests[ $suite['description'] . ': ' . $test['description'] ] = [
+                $tests[$suite['description'] . ': ' . $test['description']] = [
                     $test['data'],
                     $suite['schema'],
                     $test['valid'],

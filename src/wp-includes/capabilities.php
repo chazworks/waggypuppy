@@ -832,8 +832,8 @@ function map_meta_cap($cap, $user_id, ...$args)
         default:
             // Handle meta capabilities for custom post types.
             global $post_type_meta_caps;
-            if (isset($post_type_meta_caps[ $cap ])) {
-                return map_meta_cap($post_type_meta_caps[ $cap ], $user_id, ...$args);
+            if (isset($post_type_meta_caps[$cap])) {
+                return map_meta_cap($post_type_meta_caps[$cap], $user_id, ...$args);
             }
 
             // Block capabilities map to their post equivalent.
@@ -1266,7 +1266,7 @@ function revoke_super_admin($user_id)
     if ($user && 0 !== strcasecmp($user->user_email, get_site_option('admin_email'))) {
         $key = array_search($user->user_login, $super_admins, true);
         if (false !== $key) {
-            unset($super_admins[ $key ]);
+            unset($super_admins[$key]);
             update_site_option('site_admins', $super_admins);
 
             /**

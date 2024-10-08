@@ -128,7 +128,7 @@ if (isset($_GET['action'])) {
                         $submit = __('Confirm');
                     }
                     ?>
-                    <p><?php printf($manage_actions[ $site_action ], "<strong>{$site_address}</strong>"); ?></p>
+                    <p><?php printf($manage_actions[$site_action], "<strong>{$site_address}</strong>"); ?></p>
                     <?php submit_button($submit, 'primary'); ?>
                 </form>
             </div>

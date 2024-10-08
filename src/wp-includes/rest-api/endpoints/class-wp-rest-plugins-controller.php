@@ -670,11 +670,11 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     {
         $plugins = get_plugins();
 
-        if (! isset($plugins[ $plugin ])) {
+        if (! isset($plugins[$plugin])) {
             return new WP_Error('rest_plugin_not_found', __('Plugin not found.'), ['status' => 404]);
         }
 
-        $data          = $plugins[ $plugin ];
+        $data          = $plugins[$plugin];
         $data['_file'] = $plugin;
 
         return $data;

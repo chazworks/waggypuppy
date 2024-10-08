@@ -559,7 +559,7 @@ class WP_Translation_Controller_Convert_Tests extends WP_UnitTestCase
 
         foreach ($formats as $input_format) {
             foreach ($formats as $output_format) {
-                $matrix[ "$input_format to $output_format" ] = [DIR_TESTDATA . '/l10n/example-simple.' . $input_format, $output_format];
+                $matrix["$input_format to $output_format"] = [DIR_TESTDATA . '/l10n/example-simple.' . $input_format, $output_format];
             }
         }
 

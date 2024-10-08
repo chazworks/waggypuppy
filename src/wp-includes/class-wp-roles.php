@@ -162,20 +162,20 @@ class WP_Roles
      */
     public function add_role($role, $display_name, $capabilities = [])
     {
-        if (empty($role) || isset($this->roles[ $role ])) {
+        if (empty($role) || isset($this->roles[$role])) {
             return;
         }
 
-        $this->roles[ $role ] = [
+        $this->roles[$role] = [
             'name'         => $display_name,
             'capabilities' => $capabilities,
         ];
         if ($this->use_db) {
             update_option($this->role_key, $this->roles, true);
         }
-        $this->role_objects[ $role ] = new WP_Role($role, $capabilities);
-        $this->role_names[ $role ]   = $display_name;
-        return $this->role_objects[ $role ];
+        $this->role_objects[$role] = new WP_Role($role, $capabilities);
+        $this->role_names[$role]   = $display_name;
+        return $this->role_objects[$role];
     }
 
     /**
@@ -187,13 +187,13 @@ class WP_Roles
      */
     public function remove_role($role)
     {
-        if (! isset($this->role_objects[ $role ])) {
+        if (! isset($this->role_objects[$role])) {
             return;
         }
 
-        unset($this->role_objects[ $role ]);
-        unset($this->role_names[ $role ]);
-        unset($this->roles[ $role ]);
+        unset($this->role_objects[$role]);
+        unset($this->role_names[$role]);
+        unset($this->roles[$role]);
 
         if ($this->use_db) {
             update_option($this->role_key, $this->roles);
@@ -216,11 +216,11 @@ class WP_Roles
      */
     public function add_cap($role, $cap, $grant = true)
     {
-        if (! isset($this->roles[ $role ])) {
+        if (! isset($this->roles[$role])) {
             return;
         }
 
-        $this->roles[ $role ]['capabilities'][ $cap ] = $grant;
+        $this->roles[$role]['capabilities'][$cap] = $grant;
         if ($this->use_db) {
             update_option($this->role_key, $this->roles);
         }
@@ -236,11 +236,11 @@ class WP_Roles
      */
     public function remove_cap($role, $cap)
     {
-        if (! isset($this->roles[ $role ])) {
+        if (! isset($this->roles[$role])) {
             return;
         }
 
-        unset($this->roles[ $role ]['capabilities'][ $cap ]);
+        unset($this->roles[$role]['capabilities'][$cap]);
         if ($this->use_db) {
             update_option($this->role_key, $this->roles);
         }
@@ -256,8 +256,8 @@ class WP_Roles
      */
     public function get_role($role)
     {
-        if (isset($this->role_objects[ $role ])) {
-            return $this->role_objects[ $role ];
+        if (isset($this->role_objects[$role])) {
+            return $this->role_objects[$role];
         } else {
             return null;
         }
@@ -285,7 +285,7 @@ class WP_Roles
      */
     public function is_role($role)
     {
-        return isset($this->role_names[ $role ]);
+        return isset($this->role_names[$role]);
     }
 
     /**
@@ -302,8 +302,8 @@ class WP_Roles
         $this->role_objects = [];
         $this->role_names   = [];
         foreach (array_keys($this->roles) as $role) {
-            $this->role_objects[ $role ] = new WP_Role($role, $this->roles[ $role ]['capabilities']);
-            $this->role_names[ $role ]   = $this->roles[ $role ]['name'];
+            $this->role_objects[$role] = new WP_Role($role, $this->roles[$role]['capabilities']);
+            $this->role_names[$role]   = $this->roles[$role]['name'];
         }
 
         /**

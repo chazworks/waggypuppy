@@ -145,27 +145,27 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
         foreach ((array) $themes['all'] as $key => $theme) {
             if ($this->is_site_themes && $theme->is_allowed('network')) {
-                unset($themes['all'][ $key ]);
+                unset($themes['all'][$key]);
                 continue;
             }
 
-            if ($maybe_update && isset($current->response[ $key ])) {
-                $themes['all'][ $key ]->update = true;
-                $themes['upgrade'][ $key ]     = $themes['all'][ $key ];
+            if ($maybe_update && isset($current->response[$key])) {
+                $themes['all'][$key]->update = true;
+                $themes['upgrade'][$key]     = $themes['all'][$key];
             }
 
-            $filter                    = $theme->is_allowed($allowed_where, $this->site_id) ? 'enabled' : 'disabled';
-            $themes[ $filter ][ $key ] = $themes['all'][ $key ];
+            $filter                = $theme->is_allowed($allowed_where, $this->site_id) ? 'enabled' : 'disabled';
+            $themes[$filter][$key] = $themes['all'][$key];
 
             $theme_data = [
                 'update_supported' => isset($theme->update_supported) ? $theme->update_supported : true,
             ];
 
             // Extra info if known. array_merge() ensures $theme_data has precedence if keys collide.
-            if (isset($current->response[ $key ])) {
-                $theme_data = array_merge((array) $current->response[ $key ], $theme_data);
-            } elseif (isset($current->no_update[ $key ])) {
-                $theme_data = array_merge((array) $current->no_update[ $key ], $theme_data);
+            if (isset($current->response[$key])) {
+                $theme_data = array_merge((array) $current->response[$key], $theme_data);
+            } elseif (isset($current->no_update[$key])) {
+                $theme_data = array_merge((array) $current->no_update[$key], $theme_data);
             } else {
                 $theme_data['update_supported'] = false;
             }
@@ -200,9 +200,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                 }
 
                 if ($enabled) {
-                    $themes['auto-update-enabled'][ $key ] = $theme;
+                    $themes['auto-update-enabled'][$key] = $theme;
                 } else {
-                    $themes['auto-update-disabled'][ $key ] = $theme;
+                    $themes['auto-update-disabled'][$key] = $theme;
                 }
             }
         }
@@ -215,19 +215,19 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         $totals    = [];
         $js_themes = [];
         foreach ($themes as $type => $list) {
-            $totals[ $type ]    = count($list);
-            $js_themes[ $type ] = array_keys($list);
+            $totals[$type]    = count($list);
+            $js_themes[$type] = array_keys($list);
         }
 
-        if (empty($themes[ $status ]) && ! in_array($status, ['all', 'search'], true)) {
+        if (empty($themes[$status]) && ! in_array($status, ['all', 'search'], true)) {
             $status = 'all';
         }
 
-        $this->items = $themes[ $status ];
+        $this->items = $themes[$status];
         WP_Theme::sort_by_name($this->items);
 
         $this->has_items = ! empty($themes['all']);
-        $total_this_page = $totals[ $status ];
+        $total_this_page = $totals[$status];
 
         wp_localize_script(
             'updates',
@@ -306,8 +306,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     {
         global $orderby, $order;
 
-        $a = $theme_a[ $orderby ];
-        $b = $theme_b[ $orderby ];
+        $a = $theme_a[$orderby];
+        $b = $theme_b[$orderby];
 
         if ($a === $b) {
             return 0;
@@ -457,7 +457,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             }
 
             if ('search' !== $type) {
-                $status_links[ $type ] = [
+                $status_links[$type] = [
                     'url'     => esc_url(add_query_arg('theme_status', $type, $url)),
                     'label'   => sprintf($text, number_format_i18n($count)),
                     'current' => $type === $status,
@@ -861,7 +861,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
         }
 
-        if (isset($available_updates->response[ $stylesheet ])) {
+        if (isset($available_updates->response[$stylesheet])) {
             $html[] = sprintf(
                 '<div class="auto-update-time%s">%s</div>',
                 $time_class,

@@ -160,9 +160,9 @@ function _get_plugin_data_markup_translate($plugin_file, $plugin_data, $markup =
         }
         if ($textdomain) {
             foreach (['Name', 'PluginURI', 'Description', 'Author', 'AuthorURI', 'Version'] as $field) {
-                if (! empty($plugin_data[ $field ])) {
+                if (! empty($plugin_data[$field])) {
 					// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
-                    $plugin_data[ $field ] = translate($plugin_data[ $field ], $textdomain);
+                    $plugin_data[$field] = translate($plugin_data[$field], $textdomain);
                 }
             }
         }
@@ -287,8 +287,8 @@ function get_plugins($plugin_folder = '')
         $cache_plugins = [];
     }
 
-    if (isset($cache_plugins[ $plugin_folder ])) {
-        return $cache_plugins[ $plugin_folder ];
+    if (isset($cache_plugins[$plugin_folder])) {
+        return $cache_plugins[$plugin_folder];
     }
 
     $wp_plugins  = [];
@@ -347,12 +347,12 @@ function get_plugins($plugin_folder = '')
             continue;
         }
 
-        $wp_plugins[ plugin_basename($plugin_file) ] = $plugin_data;
+        $wp_plugins[plugin_basename($plugin_file)] = $plugin_data;
     }
 
     uasort($wp_plugins, '_sort_uname_callback');
 
-    $cache_plugins[ $plugin_folder ] = $wp_plugins;
+    $cache_plugins[$plugin_folder] = $wp_plugins;
     wp_cache_set('plugins', $cache_plugins, 'plugins');
 
     return $wp_plugins;
@@ -405,7 +405,7 @@ function get_mu_plugins()
             $plugin_data['Name'] = $plugin_file;
         }
 
-        $wp_plugins[ $plugin_file ] = $plugin_data;
+        $wp_plugins[$plugin_file] = $plugin_data;
     }
 
     if (isset($wp_plugins['index.php']) && filesize(WPMU_PLUGIN_DIR . '/index.php') <= 30) {
@@ -451,7 +451,7 @@ function get_dropins()
     $plugins_dir = @opendir(WP_CONTENT_DIR);
     if ($plugins_dir) {
         while (($file = readdir($plugins_dir)) !== false) {
-            if (isset($_dropins[ $file ])) {
+            if (isset($_dropins[$file])) {
                 $plugin_files[] = $file;
             }
         }
@@ -477,7 +477,7 @@ function get_dropins()
             $plugin_data['Name'] = $plugin_file;
         }
 
-        $dropins[ $plugin_file ] = $plugin_data;
+        $dropins[$plugin_file] = $plugin_data;
     }
 
     uksort($dropins, 'strnatcasecmp');
@@ -594,7 +594,7 @@ function is_plugin_active_for_network($plugin)
     }
 
     $plugins = get_site_option('active_sitewide_plugins');
-    if (isset($plugins[ $plugin ])) {
+    if (isset($plugins[$plugin])) {
         return true;
     }
 
@@ -672,7 +672,7 @@ function activate_plugin($plugin, $redirect = '', $network_wide = false, $silent
         return $requirements;
     }
 
-    if ($network_wide && ! isset($current[ $plugin ])
+    if ($network_wide && ! isset($current[$plugin])
         || ! $network_wide && ! in_array($plugin, $current, true)
     ) {
         if (! empty($redirect)) {
@@ -717,8 +717,8 @@ function activate_plugin($plugin, $redirect = '', $network_wide = false, $silent
         }
 
         if ($network_wide) {
-            $current            = get_site_option('active_sitewide_plugins', []);
-            $current[ $plugin ] = time();
+            $current          = get_site_option('active_sitewide_plugins', []);
+            $current[$plugin] = time();
             update_site_option('active_sitewide_plugins', $current);
         } else {
             $current   = get_option('active_plugins', []);
@@ -804,7 +804,7 @@ function deactivate_plugins($plugins, $silent = false, $network_wide = null)
         if (false !== $network_wide) {
             if (is_plugin_active_for_network($plugin)) {
                 $do_network = true;
-                unset($network_current[ $plugin ]);
+                unset($network_current[$plugin]);
             } elseif ($network_wide) {
                 continue;
             }
@@ -814,7 +814,7 @@ function deactivate_plugins($plugins, $silent = false, $network_wide = null)
             $key = array_search($plugin, $current, true);
             if (false !== $key) {
                 $do_blog = true;
-                unset($current[ $key ]);
+                unset($current[$key]);
             }
         }
 
@@ -893,7 +893,7 @@ function activate_plugins($plugins, $redirect = '', $network_wide = false, $sile
         }
         $result = activate_plugin($plugin, $redirect, $network_wide, $silent);
         if (is_wp_error($result)) {
-            $errors[ $plugin ] = $result;
+            $errors[$plugin] = $result;
         }
     }
 
@@ -1029,8 +1029,8 @@ function delete_plugins($plugins, $deprecated = '')
         }
 
         // Remove language files, silently.
-        if ('.' !== $plugin_slug && ! empty($plugin_translations[ $plugin_slug ])) {
-            $translations = $plugin_translations[ $plugin_slug ];
+        if ('.' !== $plugin_slug && ! empty($plugin_translations[$plugin_slug])) {
+            $translations = $plugin_translations[$plugin_slug];
 
             foreach ($translations as $translation => $data) {
                 $wp_filesystem->delete(WP_LANG_DIR . '/plugins/' . $plugin_slug . '-' . $translation . '.po');
@@ -1052,7 +1052,7 @@ function delete_plugins($plugins, $deprecated = '')
         $deleted = array_diff($plugins, $errors);
 
         foreach ($deleted as $plugin_file) {
-            unset($current->response[ $plugin_file ]);
+            unset($current->response[$plugin_file]);
         }
 
         set_site_transient('update_plugins', $current);
@@ -1106,7 +1106,7 @@ function validate_active_plugins()
     foreach ($plugins as $plugin) {
         $result = validate_plugin($plugin);
         if (is_wp_error($result)) {
-            $invalid[ $plugin ] = $result;
+            $invalid[$plugin] = $result;
             deactivate_plugins($plugin, true);
         }
     }
@@ -1133,7 +1133,7 @@ function validate_plugin($plugin)
     }
 
     $installed_plugins = get_plugins();
-    if (! isset($installed_plugins[ $plugin ])) {
+    if (! isset($installed_plugins[$plugin])) {
         return new WP_Error('no_plugin_header', __('The plugin does not have a valid header.'));
     }
     return 0;
@@ -1227,11 +1227,11 @@ function validate_plugin_requirements($plugin)
             $dependency_file = WP_Plugin_Dependencies::get_dependency_filepath($dependency);
 
             if (false === $dependency_file) {
-                $unmet_dependencies['not_installed'][ $dependency ] = $dependency_name;
-                $unmet_dependency_names[]                           = $dependency_name;
+                $unmet_dependencies['not_installed'][$dependency] = $dependency_name;
+                $unmet_dependency_names[]                         = $dependency_name;
             } elseif (is_plugin_inactive($dependency_file)) {
-                $unmet_dependencies['inactive'][ $dependency ] = $dependency_name;
-                $unmet_dependency_names[]                      = $dependency_name;
+                $unmet_dependencies['inactive'][$dependency] = $dependency_name;
+                $unmet_dependency_names[]                    = $dependency_name;
             }
         }
 
@@ -1288,7 +1288,7 @@ function is_uninstallable_plugin($plugin)
     $file = plugin_basename($plugin);
 
     $uninstallable_plugins = (array) get_option('uninstall_plugins');
-    if (isset($uninstallable_plugins[ $file ]) || file_exists(WP_PLUGIN_DIR . '/' . dirname($file) . '/uninstall.php')) {
+    if (isset($uninstallable_plugins[$file]) || file_exists(WP_PLUGIN_DIR . '/' . dirname($file) . '/uninstall.php')) {
         return true;
     }
 
@@ -1323,8 +1323,8 @@ function uninstall_plugin($plugin)
     do_action('pre_uninstall_plugin', $plugin, $uninstallable_plugins);
 
     if (file_exists(WP_PLUGIN_DIR . '/' . dirname($file) . '/uninstall.php')) {
-        if (isset($uninstallable_plugins[ $file ])) {
-            unset($uninstallable_plugins[ $file ]);
+        if (isset($uninstallable_plugins[$file])) {
+            unset($uninstallable_plugins[$file]);
             update_option('uninstall_plugins', $uninstallable_plugins);
         }
         unset($uninstallable_plugins);
@@ -1337,9 +1337,9 @@ function uninstall_plugin($plugin)
         return true;
     }
 
-    if (isset($uninstallable_plugins[ $file ])) {
-        $callable = $uninstallable_plugins[ $file ];
-        unset($uninstallable_plugins[ $file ]);
+    if (isset($uninstallable_plugins[$file])) {
+        $callable = $uninstallable_plugins[$file];
+        unset($uninstallable_plugins[$file]);
         update_option('uninstall_plugins', $uninstallable_plugins);
         unset($uninstallable_plugins);
 
@@ -1402,7 +1402,7 @@ function add_menu_page($page_title, $menu_title, $capability, $menu_slug, $callb
 
     $menu_slug = plugin_basename($menu_slug);
 
-    $admin_page_hooks[ $menu_slug ] = sanitize_title($menu_title);
+    $admin_page_hooks[$menu_slug] = sanitize_title($menu_title);
 
     $hookname = get_plugin_page_hookname($menu_slug, '');
 
@@ -1435,10 +1435,10 @@ function add_menu_page($page_title, $menu_title, $capability, $menu_slug, $callb
 
     if (null === $position || ! is_numeric($position)) {
         $menu[] = $new_menu;
-    } elseif (isset($menu[ (string) $position ])) {
+    } elseif (isset($menu[(string) $position])) {
         $collision_avoider = base_convert(substr(md5($menu_slug . $menu_title), -4), 16, 10) * 0.00001;
         $position          = (string) ($position + $collision_avoider);
-        $menu[ $position ] = $new_menu;
+        $menu[$position]   = $new_menu;
     } else {
         /*
          * Cast menu position to a string.
@@ -1448,14 +1448,14 @@ function add_menu_page($page_title, $menu_title, $capability, $menu_slug, $callb
          *
          * A string containing an integer value, eg "10", is treated as a numeric index.
          */
-        $position          = (string) $position;
-        $menu[ $position ] = $new_menu;
+        $position        = (string) $position;
+        $menu[$position] = $new_menu;
     }
 
-    $_registered_pages[ $hookname ] = true;
+    $_registered_pages[$hookname] = true;
 
     // No parent as top level.
-    $_parent_pages[ $menu_slug ] = false;
+    $_parent_pages[$menu_slug] = false;
 
     return $hookname;
 }
@@ -1500,12 +1500,12 @@ function add_submenu_page($parent_slug, $page_title, $menu_title, $capability, $
     $menu_slug   = plugin_basename($menu_slug);
     $parent_slug = plugin_basename($parent_slug);
 
-    if (isset($_wp_real_parent_file[ $parent_slug ])) {
-        $parent_slug = $_wp_real_parent_file[ $parent_slug ];
+    if (isset($_wp_real_parent_file[$parent_slug])) {
+        $parent_slug = $_wp_real_parent_file[$parent_slug];
     }
 
     if (! current_user_can($capability)) {
-        $_wp_submenu_nopriv[ $parent_slug ][ $menu_slug ] = true;
+        $_wp_submenu_nopriv[$parent_slug][$menu_slug] = true;
         return false;
     }
 
@@ -1515,10 +1515,10 @@ function add_submenu_page($parent_slug, $page_title, $menu_title, $capability, $
      * parent file someone is trying to link back to the parent manually. In
      * this case, don't automatically add a link back to avoid duplication.
      */
-    if (! isset($submenu[ $parent_slug ]) && $menu_slug !== $parent_slug) {
+    if (! isset($submenu[$parent_slug]) && $menu_slug !== $parent_slug) {
         foreach ((array) $menu as $parent_menu) {
             if ($parent_menu[2] === $parent_slug && current_user_can($parent_menu[1])) {
-                $submenu[ $parent_slug ][] = array_slice($parent_menu, 0, 4);
+                $submenu[$parent_slug][] = array_slice($parent_menu, 0, 4);
             }
         }
     }
@@ -1539,48 +1539,48 @@ function add_submenu_page($parent_slug, $page_title, $menu_title, $capability, $
     }
 
     if (null === $position ||
-        (! isset($submenu[ $parent_slug ]) || $position >= count($submenu[ $parent_slug ]))
+        (! isset($submenu[$parent_slug]) || $position >= count($submenu[$parent_slug]))
     ) {
-        $submenu[ $parent_slug ][] = $new_sub_menu;
+        $submenu[$parent_slug][] = $new_sub_menu;
     } else {
         // Test for a negative position.
         $position = max($position, 0);
         if (0 === $position) {
             // For negative or `0` positions, prepend the submenu.
-            array_unshift($submenu[ $parent_slug ], $new_sub_menu);
+            array_unshift($submenu[$parent_slug], $new_sub_menu);
         } else {
             $position = absint($position);
             // Grab all of the items before the insertion point.
-            $before_items = array_slice($submenu[ $parent_slug ], 0, $position, true);
+            $before_items = array_slice($submenu[$parent_slug], 0, $position, true);
             // Grab all of the items after the insertion point.
-            $after_items = array_slice($submenu[ $parent_slug ], $position, null, true);
+            $after_items = array_slice($submenu[$parent_slug], $position, null, true);
             // Add the new item.
             $before_items[] = $new_sub_menu;
             // Merge the items.
-            $submenu[ $parent_slug ] = array_merge($before_items, $after_items);
+            $submenu[$parent_slug] = array_merge($before_items, $after_items);
         }
     }
 
     // Sort the parent array.
-    ksort($submenu[ $parent_slug ]);
+    ksort($submenu[$parent_slug]);
 
     $hookname = get_plugin_page_hookname($menu_slug, $parent_slug);
     if (! empty($callback) && ! empty($hookname)) {
         add_action($hookname, $callback);
     }
 
-    $_registered_pages[ $hookname ] = true;
+    $_registered_pages[$hookname] = true;
 
     /*
      * Backward-compatibility for plugins using add_management_page().
      * See wp-admin/admin.php for redirect from edit.php to tools.php.
      */
     if ('tools.php' === $parent_slug) {
-        $_registered_pages[ get_plugin_page_hookname($menu_slug, 'edit.php') ] = true;
+        $_registered_pages[get_plugin_page_hookname($menu_slug, 'edit.php')] = true;
     }
 
     // No parent as top level.
-    $_parent_pages[ $menu_slug ] = $parent_slug;
+    $_parent_pages[$menu_slug] = $parent_slug;
 
     return $hookname;
 }
@@ -1886,7 +1886,7 @@ function remove_menu_page($menu_slug)
 
     foreach ($menu as $i => $item) {
         if ($menu_slug === $item[2]) {
-            unset($menu[ $i ]);
+            unset($menu[$i]);
             return $item;
         }
     }
@@ -1915,13 +1915,13 @@ function remove_submenu_page($menu_slug, $submenu_slug)
 {
     global $submenu;
 
-    if (! isset($submenu[ $menu_slug ])) {
+    if (! isset($submenu[$menu_slug])) {
         return false;
     }
 
-    foreach ($submenu[ $menu_slug ] as $i => $item) {
+    foreach ($submenu[$menu_slug] as $i => $item) {
         if ($submenu_slug === $item[2]) {
-            unset($submenu[ $menu_slug ][ $i ]);
+            unset($submenu[$menu_slug][$i]);
             return $item;
         }
     }
@@ -1946,10 +1946,10 @@ function menu_page_url($menu_slug, $display = true)
 {
     global $_parent_pages;
 
-    if (isset($_parent_pages[ $menu_slug ])) {
-        $parent_slug = $_parent_pages[ $menu_slug ];
+    if (isset($_parent_pages[$menu_slug])) {
+        $parent_slug = $_parent_pages[$menu_slug];
 
-        if ($parent_slug && ! isset($_parent_pages[ $parent_slug ])) {
+        if ($parent_slug && ! isset($_parent_pages[$parent_slug])) {
             $url = admin_url(add_query_arg('page', $menu_slug, $parent_slug));
         } else {
             $url = admin_url('admin.php?page=' . $menu_slug);
@@ -1995,8 +1995,8 @@ function get_admin_page_parent($parent_page = '')
         $plugin_page, $_wp_real_parent_file, $_wp_menu_nopriv, $_wp_submenu_nopriv;
 
     if (! empty($parent_page) && 'admin.php' !== $parent_page) {
-        if (isset($_wp_real_parent_file[ $parent_page ])) {
-            $parent_page = $_wp_real_parent_file[ $parent_page ];
+        if (isset($_wp_real_parent_file[$parent_page])) {
+            $parent_page = $_wp_real_parent_file[$parent_page];
         }
 
         return $parent_page;
@@ -2007,38 +2007,38 @@ function get_admin_page_parent($parent_page = '')
             if ($parent_menu[2] === $plugin_page) {
                 $parent_file = $plugin_page;
 
-                if (isset($_wp_real_parent_file[ $parent_file ])) {
-                    $parent_file = $_wp_real_parent_file[ $parent_file ];
+                if (isset($_wp_real_parent_file[$parent_file])) {
+                    $parent_file = $_wp_real_parent_file[$parent_file];
                 }
 
                 return $parent_file;
             }
         }
-        if (isset($_wp_menu_nopriv[ $plugin_page ])) {
+        if (isset($_wp_menu_nopriv[$plugin_page])) {
             $parent_file = $plugin_page;
 
-            if (isset($_wp_real_parent_file[ $parent_file ])) {
-                    $parent_file = $_wp_real_parent_file[ $parent_file ];
+            if (isset($_wp_real_parent_file[$parent_file])) {
+                    $parent_file = $_wp_real_parent_file[$parent_file];
             }
 
             return $parent_file;
         }
     }
 
-    if (isset($plugin_page) && isset($_wp_submenu_nopriv[ $pagenow ][ $plugin_page ])) {
+    if (isset($plugin_page) && isset($_wp_submenu_nopriv[$pagenow][$plugin_page])) {
         $parent_file = $pagenow;
 
-        if (isset($_wp_real_parent_file[ $parent_file ])) {
-            $parent_file = $_wp_real_parent_file[ $parent_file ];
+        if (isset($_wp_real_parent_file[$parent_file])) {
+            $parent_file = $_wp_real_parent_file[$parent_file];
         }
 
         return $parent_file;
     }
 
     foreach (array_keys((array) $submenu) as $parent_page) {
-        foreach ($submenu[ $parent_page ] as $submenu_array) {
-            if (isset($_wp_real_parent_file[ $parent_page ])) {
-                $parent_page = $_wp_real_parent_file[ $parent_page ];
+        foreach ($submenu[$parent_page] as $submenu_array) {
+            if (isset($_wp_real_parent_file[$parent_page])) {
+                $parent_page = $_wp_real_parent_file[$parent_page];
             }
 
             if (! empty($typenow) && "$pagenow?post_type=$typenow" === $submenu_array[2]) {
@@ -2106,7 +2106,7 @@ function get_admin_page_title()
         }
     } else {
         foreach (array_keys($submenu) as $parent) {
-            foreach ($submenu[ $parent ] as $submenu_array) {
+            foreach ($submenu[$parent] as $submenu_array) {
                 if (isset($plugin_page)
                     && $plugin_page === $submenu_array[2]
                     && ($pagenow === $parent
@@ -2188,14 +2188,14 @@ function get_plugin_page_hookname($plugin_page, $parent_page)
     $parent = get_admin_page_parent($parent_page);
 
     $page_type = 'admin';
-    if (empty($parent_page) || 'admin.php' === $parent_page || isset($admin_page_hooks[ $plugin_page ])) {
-        if (isset($admin_page_hooks[ $plugin_page ])) {
+    if (empty($parent_page) || 'admin.php' === $parent_page || isset($admin_page_hooks[$plugin_page])) {
+        if (isset($admin_page_hooks[$plugin_page])) {
             $page_type = 'toplevel';
-        } elseif (isset($admin_page_hooks[ $parent ])) {
-            $page_type = $admin_page_hooks[ $parent ];
+        } elseif (isset($admin_page_hooks[$parent])) {
+            $page_type = $admin_page_hooks[$parent];
         }
-    } elseif (isset($admin_page_hooks[ $parent ])) {
-        $page_type = $admin_page_hooks[ $parent ];
+    } elseif (isset($admin_page_hooks[$parent])) {
+        $page_type = $admin_page_hooks[$parent];
     }
 
     $plugin_name = preg_replace('!\.php!', '', $plugin_page);
@@ -2225,41 +2225,41 @@ function user_can_access_admin_page()
 
     $parent = get_admin_page_parent();
 
-    if (! isset($plugin_page) && isset($_wp_submenu_nopriv[ $parent ][ $pagenow ])) {
+    if (! isset($plugin_page) && isset($_wp_submenu_nopriv[$parent][$pagenow])) {
         return false;
     }
 
     if (isset($plugin_page)) {
-        if (isset($_wp_submenu_nopriv[ $parent ][ $plugin_page ])) {
+        if (isset($_wp_submenu_nopriv[$parent][$plugin_page])) {
             return false;
         }
 
         $hookname = get_plugin_page_hookname($plugin_page, $parent);
 
-        if (! isset($_registered_pages[ $hookname ])) {
+        if (! isset($_registered_pages[$hookname])) {
             return false;
         }
     }
 
     if (empty($parent)) {
-        if (isset($_wp_menu_nopriv[ $pagenow ])) {
+        if (isset($_wp_menu_nopriv[$pagenow])) {
             return false;
         }
-        if (isset($_wp_submenu_nopriv[ $pagenow ][ $pagenow ])) {
+        if (isset($_wp_submenu_nopriv[$pagenow][$pagenow])) {
             return false;
         }
-        if (isset($plugin_page) && isset($_wp_submenu_nopriv[ $pagenow ][ $plugin_page ])) {
+        if (isset($plugin_page) && isset($_wp_submenu_nopriv[$pagenow][$plugin_page])) {
             return false;
         }
-        if (isset($plugin_page) && isset($_wp_menu_nopriv[ $plugin_page ])) {
+        if (isset($plugin_page) && isset($_wp_menu_nopriv[$plugin_page])) {
             return false;
         }
 
         foreach (array_keys($_wp_submenu_nopriv) as $key) {
-            if (isset($_wp_submenu_nopriv[ $key ][ $pagenow ])) {
+            if (isset($_wp_submenu_nopriv[$key][$pagenow])) {
                 return false;
             }
-            if (isset($plugin_page) && isset($_wp_submenu_nopriv[ $key ][ $plugin_page ])) {
+            if (isset($plugin_page) && isset($_wp_submenu_nopriv[$key][$plugin_page])) {
                 return false;
             }
         }
@@ -2267,12 +2267,12 @@ function user_can_access_admin_page()
         return true;
     }
 
-    if (isset($plugin_page) && $plugin_page === $parent && isset($_wp_menu_nopriv[ $plugin_page ])) {
+    if (isset($plugin_page) && $plugin_page === $parent && isset($_wp_menu_nopriv[$plugin_page])) {
         return false;
     }
 
-    if (isset($submenu[ $parent ])) {
-        foreach ($submenu[ $parent ] as $submenu_array) {
+    if (isset($submenu[$parent])) {
+        foreach ($submenu[$parent] as $submenu_array) {
             if (isset($plugin_page) && $submenu_array[2] === $plugin_page) {
                 return current_user_can($submenu_array[1]);
             } elseif ($submenu_array[2] === $pagenow) {
@@ -2338,13 +2338,13 @@ function add_allowed_options($new_options, $options = '')
 
     foreach ($new_options as $page => $keys) {
         foreach ($keys as $key) {
-            if (! isset($allowed_options[ $page ]) || ! is_array($allowed_options[ $page ])) {
-                $allowed_options[ $page ]   = [];
-                $allowed_options[ $page ][] = $key;
+            if (! isset($allowed_options[$page]) || ! is_array($allowed_options[$page])) {
+                $allowed_options[$page]   = [];
+                $allowed_options[$page][] = $key;
             } else {
-                $pos = array_search($key, $allowed_options[ $page ], true);
+                $pos = array_search($key, $allowed_options[$page], true);
                 if (false === $pos) {
-                    $allowed_options[ $page ][] = $key;
+                    $allowed_options[$page][] = $key;
                 }
             }
         }
@@ -2374,10 +2374,10 @@ function remove_allowed_options($del_options, $options = '')
 
     foreach ($del_options as $page => $keys) {
         foreach ($keys as $key) {
-            if (isset($allowed_options[ $page ]) && is_array($allowed_options[ $page ])) {
-                $pos = array_search($key, $allowed_options[ $page ], true);
+            if (isset($allowed_options[$page]) && is_array($allowed_options[$page])) {
+                $pos = array_search($key, $allowed_options[$page], true);
                 if (false !== $pos) {
-                    unset($allowed_options[ $page ][ $pos ]);
+                    unset($allowed_options[$page][$pos]);
                 }
             }
         }
@@ -2546,7 +2546,7 @@ function wp_get_plugin_error($plugin)
         return false;
     }
 
-    return $GLOBALS['_paused_plugins'][ $plugin ];
+    return $GLOBALS['_paused_plugins'][$plugin];
 }
 
 /**

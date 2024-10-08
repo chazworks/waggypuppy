@@ -134,8 +134,8 @@ function get_block_core_avatar_border_attributes($attributes)
 
     // Individual border styles e.g. top, left etc.
     foreach ($sides as $side) {
-        $border                 = $attributes['style']['border'][ $side ] ?? null;
-        $border_styles[ $side ] = [
+        $border               = $attributes['style']['border'][$side] ?? null;
+        $border_styles[$side] = [
             'color' => isset($border['color']) ? $border['color'] : null,
             'style' => isset($border['style']) ? $border['style'] : null,
             'width' => isset($border['width']) ? $border['width'] : null,

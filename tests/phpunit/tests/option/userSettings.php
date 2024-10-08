@@ -78,8 +78,8 @@ class Tests_Option_UserSettings extends WP_UnitTestCase
     // set_user_setting() bails if `headers_sent()` is true.
     private function set_user_setting($name, $value)
     {
-        $all_user_settings          = get_all_user_settings();
-        $all_user_settings[ $name ] = $value;
+        $all_user_settings        = get_all_user_settings();
+        $all_user_settings[$name] = $value;
 
         return wp_set_all_user_settings($all_user_settings);
     }

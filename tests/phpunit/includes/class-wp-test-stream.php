@@ -62,11 +62,11 @@ class WP_Test_Stream
             throw new Exception('Cannot use an empty bucket name');
         }
 
-        if (! isset(WP_Test_Stream::$data[ $this->bucket ])) {
-            WP_Test_Stream::$data[ $this->bucket ] = [];
+        if (! isset(WP_Test_Stream::$data[$this->bucket])) {
+            WP_Test_Stream::$data[$this->bucket] = [];
         }
 
-        $this->data_ref =& WP_Test_Stream::$data[ $this->bucket ][ $this->file ];
+        $this->data_ref =& WP_Test_Stream::$data[$this->bucket][$this->file];
 
         $this->position = 0;
     }
@@ -113,7 +113,7 @@ class WP_Test_Stream
         $left  = substr($this->data_ref, 0, $this->position);
         $right = substr($this->data_ref, $this->position + strlen($data));
 
-        WP_Test_Stream::$data[ $this->bucket ][ $this->file ] = $left . $data . $right;
+        WP_Test_Stream::$data[$this->bucket][$this->file] = $left . $data . $right;
 
         $this->position += strlen($data);
         return strlen($data);
@@ -220,8 +220,8 @@ class WP_Test_Stream
         $plainfile = rtrim($this->file, '/');
 
         // Check if a file or directory with the same name already exists.
-        if (isset(WP_Test_Stream::$data[ $this->bucket ][ $plainfile ])
-            || isset(WP_Test_Stream::$data[ $this->bucket ][ $plainfile . '/' ])
+        if (isset(WP_Test_Stream::$data[$this->bucket][$plainfile])
+            || isset(WP_Test_Stream::$data[$this->bucket][$plainfile . '/'])
         ) {
             return false;
         }
@@ -308,7 +308,7 @@ class WP_Test_Stream
         if (! isset($this->data_ref)) {
             return false;
         }
-        unset(WP_Test_Stream::$data[ $this->bucket ][ $this->file ]);
+        unset(WP_Test_Stream::$data[$this->bucket][$this->file]);
         return true;
     }
 
@@ -319,6 +319,6 @@ class WP_Test_Stream
      */
     private function &get_directory_ref()
     {
-        return WP_Test_Stream::$data[ $this->bucket ][ rtrim($this->file, '/') . '/' ];
+        return WP_Test_Stream::$data[$this->bucket][rtrim($this->file, '/') . '/'];
     }
 }

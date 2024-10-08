@@ -62,8 +62,8 @@ class Tests_POMO_MO extends WP_UnitTestCase
                 'context'      => 'dragonland',
             ]
         );
-        $this->assertEquals($plural_entry, $mo->entries[ $plural_entry->key() ]);
-        $this->assertSame('dragonland', $mo->entries[ $plural_entry->key() ]->context);
+        $this->assertEquals($plural_entry, $mo->entries[$plural_entry->key()]);
+        $this->assertSame('dragonland', $mo->entries[$plural_entry->key()]->context);
 
         $single_entry = new Translation_Entry(
             [
@@ -72,8 +72,8 @@ class Tests_POMO_MO extends WP_UnitTestCase
                 'context'      => 'not so dragon',
             ]
         );
-        $this->assertEquals($single_entry, $mo->entries[ $single_entry->key() ]);
-        $this->assertSame('not so dragon', $mo->entries[ $single_entry->key() ]->context);
+        $this->assertEquals($single_entry, $mo->entries[$single_entry->key()]);
+        $this->assertSame('not so dragon', $mo->entries[$single_entry->key()]->context);
     }
 
     public function test_translations_merge()
@@ -144,7 +144,7 @@ class Tests_POMO_MO extends WP_UnitTestCase
 
         $this->assertSame(count($entries), count($again->entries));
         foreach ($entries as $entry) {
-            $this->assertEquals($entry, $again->entries[ $entry->key() ]);
+            $this->assertEquals($entry, $again->entries[$entry->key()]);
         }
     }
 

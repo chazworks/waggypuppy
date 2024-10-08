@@ -39,7 +39,7 @@ class Tests_Functions_wpFilterObjectList extends WP_UnitTestCase
             'field4' => ['blue'],
         ];
         foreach ($this->array_list as $key => $value) {
-            $this->object_list[ $key ] = (object) $value;
+            $this->object_list[$key] = (object) $value;
         }
     }
 

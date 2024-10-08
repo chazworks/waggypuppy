@@ -163,7 +163,7 @@ function add_rewrite_rule($regex, $query, $after = 'bottom')
 function add_rewrite_tag($tag, $regex, $query = '')
 {
     // Validate the tag's name.
-    if (strlen($tag) < 3 || '%' !== $tag[0] || '%' !== $tag[ strlen($tag) - 1 ]) {
+    if (strlen($tag) < 3 || '%' !== $tag[0] || '%' !== $tag[strlen($tag) - 1]) {
         return;
     }
 
@@ -410,9 +410,9 @@ function wp_resolve_numeric_slug_conflicts($query_vars = [])
     $compare = '';
     if (0 === $postname_index && (isset($query_vars['year']) || isset($query_vars['monthnum']))) {
         $compare = 'year';
-    } elseif ($postname_index && '%year%' === $permastructs[ $postname_index - 1 ] && (isset($query_vars['monthnum']) || isset($query_vars['day']))) {
+    } elseif ($postname_index && '%year%' === $permastructs[$postname_index - 1] && (isset($query_vars['monthnum']) || isset($query_vars['day']))) {
         $compare = 'monthnum';
-    } elseif ($postname_index && '%monthnum%' === $permastructs[ $postname_index - 1 ] && isset($query_vars['day'])) {
+    } elseif ($postname_index && '%monthnum%' === $permastructs[$postname_index - 1] && isset($query_vars['day'])) {
         $compare = 'day';
     }
 
@@ -423,7 +423,7 @@ function wp_resolve_numeric_slug_conflicts($query_vars = [])
     // This is the potentially clashing slug.
     $value = '';
     if ($compare && array_key_exists($compare, $query_vars)) {
-        $value = $query_vars[ $compare ];
+        $value = $query_vars[$compare];
     }
 
     $post = get_page_by_path($value, OBJECT, 'post');
@@ -602,7 +602,7 @@ function url_to_postid($url)
 
     foreach (get_post_types([], 'objects') as $post_type => $t) {
         if (! empty($t->query_var)) {
-            $post_type_query_vars[ $t->query_var ] = $post_type;
+            $post_type_query_vars[$t->query_var] = $post_type;
         }
     }
 
@@ -622,7 +622,7 @@ function url_to_postid($url)
 
             if ($wp_rewrite->use_verbose_page_rules && preg_match('/pagename=\$matches\[([0-9]+)\]/', $query, $varmatch)) {
                 // This is a verbose page match, let's check to be sure about it.
-                $page = get_page_by_path($matches[ $varmatch[1] ]);
+                $page = get_page_by_path($matches[$varmatch[1]]);
                 if (! $page) {
                     continue;
                 }
@@ -649,9 +649,9 @@ function url_to_postid($url)
             $query = [];
             foreach ((array) $query_vars as $key => $value) {
                 if (in_array((string) $key, $wp->public_query_vars, true)) {
-                    $query[ $key ] = $value;
-                    if (isset($post_type_query_vars[ $key ])) {
-                        $query['post_type'] = $post_type_query_vars[ $key ];
+                    $query[$key] = $value;
+                    if (isset($post_type_query_vars[$key])) {
+                        $query['post_type'] = $post_type_query_vars[$key];
                         $query['name']      = $value;
                     }
                 }

@@ -118,8 +118,8 @@ function unregister_nav_menu($location)
 {
     global $_wp_registered_nav_menus;
 
-    if (is_array($_wp_registered_nav_menus) && isset($_wp_registered_nav_menus[ $location ])) {
-        unset($_wp_registered_nav_menus[ $location ]);
+    if (is_array($_wp_registered_nav_menus) && isset($_wp_registered_nav_menus[$location])) {
+        unset($_wp_registered_nav_menus[$location]);
         if (empty($_wp_registered_nav_menus)) {
             _remove_theme_support('menus');
         }
@@ -186,9 +186,9 @@ function has_nav_menu($location)
     $has_nav_menu = false;
 
     $registered_nav_menus = get_registered_nav_menus();
-    if (isset($registered_nav_menus[ $location ])) {
+    if (isset($registered_nav_menus[$location])) {
         $locations    = get_nav_menu_locations();
-        $has_nav_menu = ! empty($locations[ $location ]);
+        $has_nav_menu = ! empty($locations[$location]);
     }
 
     /**
@@ -216,8 +216,8 @@ function wp_get_nav_menu_name($location)
 
     $locations = get_nav_menu_locations();
 
-    if (isset($locations[ $location ])) {
-        $menu = wp_get_nav_menu_object($locations[ $location ]);
+    if (isset($locations[$location])) {
+        $menu = wp_get_nav_menu_object($locations[$location]);
 
         if ($menu && $menu->name) {
             $menu_name = $menu->name;
@@ -292,7 +292,7 @@ function wp_delete_nav_menu($menu)
     $locations = get_nav_menu_locations();
     foreach ($locations as $location => $menu_id) {
         if ($menu_id === $menu->term_id) {
-            $locations[ $location ] = 0;
+            $locations[$location] = 0;
         }
     }
     set_theme_mod('nav_menu_locations', $locations);
@@ -779,7 +779,7 @@ function wp_get_nav_menu_items($menu, $args = [])
         $i = 1;
 
         foreach ($items as $k => $item) {
-            $items[ $k ]->{$args['output_key']} = $i++;
+            $items[$k]->{$args['output_key']} = $i++;
         }
     }
 
@@ -1263,7 +1263,7 @@ function wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locati
 
     // If old and new theme have just one location, map it and we're done.
     if (1 === count($old_nav_menu_locations) && 1 === count($registered_nav_menus)) {
-        $new_nav_menu_locations[ key($registered_nav_menus) ] = array_pop($old_nav_menu_locations);
+        $new_nav_menu_locations[key($registered_nav_menus)] = array_pop($old_nav_menu_locations);
         return $new_nav_menu_locations;
     }
 
@@ -1272,8 +1272,8 @@ function wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locati
     // Map locations with the same slug.
     foreach ($registered_nav_menus as $location => $name) {
         if (in_array($location, $old_locations, true)) {
-            $new_nav_menu_locations[ $location ] = $old_nav_menu_locations[ $location ];
-            unset($old_nav_menu_locations[ $location ]);
+            $new_nav_menu_locations[$location] = $old_nav_menu_locations[$location];
+            unset($old_nav_menu_locations[$location]);
         }
     }
 
@@ -1322,13 +1322,13 @@ function wp_map_nav_menu_locations($new_nav_menu_locations, $old_nav_menu_locati
                         }
 
                         // Make sure this location wasn't mapped and removed previously.
-                        if (! empty($old_nav_menu_locations[ $location ])) {
+                        if (! empty($old_nav_menu_locations[$location])) {
 
                             // We have a match that can be mapped!
-                            $new_nav_menu_locations[ $new_location ] = $old_nav_menu_locations[ $location ];
+                            $new_nav_menu_locations[$new_location] = $old_nav_menu_locations[$location];
 
                             // Remove the mapped location so it can't be mapped again.
-                            unset($old_nav_menu_locations[ $location ]);
+                            unset($old_nav_menu_locations[$location]);
 
                             // Go back and check the next new menu location.
                             continue 3;

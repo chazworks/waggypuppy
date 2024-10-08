@@ -43,7 +43,7 @@ class Spy_REST_Server extends WP_REST_Server
      */
     public function send_header($header, $value)
     {
-        $this->sent_headers[ $header ] = $value;
+        $this->sent_headers[$header] = $value;
     }
 
     /**
@@ -53,7 +53,7 @@ class Spy_REST_Server extends WP_REST_Server
      */
     public function remove_header($header)
     {
-        unset($this->sent_headers[ $header ]);
+        unset($this->sent_headers[$header]);
     }
 
     /**

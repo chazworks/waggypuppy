@@ -25,7 +25,7 @@ function render_block_core_post_content($attributes, $content, $block)
 
     $post_id = $block->context['postId'];
 
-    if (isset($seen_ids[ $post_id ])) {
+    if (isset($seen_ids[$post_id])) {
         // WP_DEBUG_DISPLAY must only be honored when WP_DEBUG. This precedent
         // is set in `wp_debug_mode()`.
         $is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
@@ -36,7 +36,7 @@ function render_block_core_post_content($attributes, $content, $block)
             '';
     }
 
-    $seen_ids[ $post_id ] = true;
+    $seen_ids[$post_id] = true;
 
     // When inside the main loop, we want to use queried object
     // so that `the_preview` for the current post can apply.
@@ -49,7 +49,7 @@ function render_block_core_post_content($attributes, $content, $block)
 
     /** This filter is documented in wp-includes/post-template.php */
     $content = apply_filters('the_content', str_replace(']]>', ']]&gt;', $content));
-    unset($seen_ids[ $post_id ]);
+    unset($seen_ids[$post_id]);
 
     if (empty($content)) {
         return '';

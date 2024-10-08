@@ -57,7 +57,7 @@ class Tests_User_WpRegisterPersistedPreferencesMeta extends WP_UnitTestCase
                 ],
                 'revisions_enabled' => false,
             ],
-            $wp_meta_keys['user'][''][ $meta_key ],
+            $wp_meta_keys['user'][''][$meta_key],
             'The registered metadata did not have the expected structure'
         );
     }

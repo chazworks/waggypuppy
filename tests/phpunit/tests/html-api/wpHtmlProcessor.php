@@ -304,11 +304,11 @@ class Tests_HtmlApi_WpHtmlProcessor extends WP_UnitTestCase
         ];
 
         foreach (self::data_void_tags_not_ignored_in_body() as $tag_name => $_name) {
-            $self_contained_nodes[ "Void elements ({$tag_name})" ] = ["<{$tag_name}>"];
+            $self_contained_nodes["Void elements ({$tag_name})"] = ["<{$tag_name}>"];
         }
 
         foreach (self::data_special_tags() as $tag_name => $_name) {
-            $self_contained_nodes[ "Special atomic elements ({$tag_name})" ] = ["<{$tag_name}>content</{$tag_name}>"];
+            $self_contained_nodes["Special atomic elements ({$tag_name})"] = ["<{$tag_name}>content</{$tag_name}>"];
         }
 
         return $self_contained_nodes;

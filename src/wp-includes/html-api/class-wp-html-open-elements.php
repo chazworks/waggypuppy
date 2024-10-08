@@ -645,7 +645,7 @@ class WP_HTML_Open_Elements
         $count = count($this->stack);
 
         for ($i = 0; $i < $count; $i++) {
-            yield $this->stack[ $i ];
+            yield $this->stack[$i];
         }
     }
 
@@ -677,7 +677,7 @@ class WP_HTML_Open_Elements
         $has_found_node = null === $above_this_node;
 
         for ($i = count($this->stack) - 1; $i >= 0; $i--) {
-            $node = $this->stack[ $i ];
+            $node = $this->stack[$i];
 
             if (! $has_found_node) {
                 $has_found_node = $node === $above_this_node;

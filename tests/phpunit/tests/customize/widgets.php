@@ -320,7 +320,7 @@ class Tests_WP_Customize_Widgets extends WP_UnitTestCase
         ];
         $customized            = [];
         foreach ($raw_widget_customized as $setting_id => $instance) {
-            $customized[ $setting_id ] = $this->manager->widgets->sanitize_widget_js_instance($instance);
+            $customized[$setting_id] = $this->manager->widgets->sanitize_widget_js_instance($instance);
         }
 
         $this->set_customized_post_data($customized);
@@ -400,7 +400,7 @@ class Tests_WP_Customize_Widgets extends WP_UnitTestCase
         ];
         $args         = $this->manager->widgets->get_setting_args('widget_foo[2]');
         foreach ($default_args as $key => $default_value) {
-            $this->assertSame($default_value, $args[ $key ]);
+            $this->assertSame($default_value, $args[$key]);
         }
         $this->assertTrue(is_callable($args['sanitize_callback']), 'sanitize_callback is callable');
         $this->asserttrue(is_callable($args['sanitize_js_callback']), 'sanitize_js_callback is callable');
@@ -414,7 +414,7 @@ class Tests_WP_Customize_Widgets extends WP_UnitTestCase
         ];
         $args         = $this->manager->widgets->get_setting_args('widget_search[2]');
         foreach ($default_args as $key => $default_value) {
-            $this->assertSame($default_value, $args[ $key ]);
+            $this->assertSame($default_value, $args[$key]);
         }
         $this->assertTrue(is_callable($args['sanitize_callback']), 'sanitize_callback is callable');
         $this->asserttrue(is_callable($args['sanitize_js_callback']), 'sanitize_js_callback is callable');
@@ -434,7 +434,7 @@ class Tests_WP_Customize_Widgets extends WP_UnitTestCase
         ];
         $args          = $this->manager->widgets->get_setting_args('widget_bar[3]', $override_args);
         foreach ($override_args as $key => $override_value) {
-            $this->assertSame($override_value, $args[ $key ]);
+            $this->assertSame($override_value, $args[$key]);
         }
         $this->assertSame('WIDGET_BAR[3]', $args['uppercase_id_set_by_filter']);
 
@@ -446,7 +446,7 @@ class Tests_WP_Customize_Widgets extends WP_UnitTestCase
         ];
         $args         = $this->manager->widgets->get_setting_args('sidebars_widgets[sidebar-1]');
         foreach ($default_args as $key => $default_value) {
-            $this->assertSame($default_value, $args[ $key ]);
+            $this->assertSame($default_value, $args[$key]);
         }
         $this->assertTrue(is_callable($args['sanitize_callback']), 'sanitize_callback is callable');
         $this->asserttrue(is_callable($args['sanitize_js_callback']), 'sanitize_js_callback is callable');
@@ -462,7 +462,7 @@ class Tests_WP_Customize_Widgets extends WP_UnitTestCase
         ];
         $args          = $this->manager->widgets->get_setting_args('sidebars_widgets[sidebar-2]', $override_args);
         foreach ($override_args as $key => $override_value) {
-            $this->assertSame($override_value, $args[ $key ]);
+            $this->assertSame($override_value, $args[$key]);
         }
         $this->assertSame('SIDEBARS_WIDGETS[SIDEBAR-2]', $args['uppercase_id_set_by_filter']);
     }
@@ -584,7 +584,7 @@ class Tests_WP_Customize_Widgets extends WP_UnitTestCase
         global $wp_registered_widgets;
         require_once ABSPATH . 'wp-admin/includes/widgets.php';
         $widget_id = 'search-2';
-        $widget    = $wp_registered_widgets[ $widget_id ];
+        $widget    = $wp_registered_widgets[$widget_id];
         $args      = [
             'widget_id'   => $widget['id'],
             'widget_name' => $widget['name'],
@@ -716,7 +716,7 @@ class Tests_WP_Customize_Widgets extends WP_UnitTestCase
 
         $post_values = $this->manager->unsanitized_post_values();
         $this->assertArrayHasKey($setting_id, $post_values);
-        $post_value = $post_values[ $setting_id ];
+        $post_value = $post_values[$setting_id];
         $this->assertIsArray($post_value);
         $this->assertArrayHasKey('title', $post_value);
         $this->assertArrayHasKey('encoded_serialized_instance', $post_value);

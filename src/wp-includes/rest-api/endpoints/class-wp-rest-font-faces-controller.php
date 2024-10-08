@@ -189,7 +189,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
         // Check that none of the required settings are empty values.
         $required = $schema['required'];
         foreach ($required as $key) {
-            if (isset($settings[ $key ]) && ! $settings[ $key ]) {
+            if (isset($settings[$key]) && ! $settings[$key]) {
                 return new WP_Error(
                     'rest_invalid_param',
                     /* translators: %s: Name of the missing font face settings parameter, e.g. "font_face_settings[src]". */
@@ -215,7 +215,7 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
             }
 
             // Check that srcs are valid URLs or file references.
-            if (false === wp_http_validate_url($src) && ! isset($files[ $src ])) {
+            if (false === wp_http_validate_url($src) && ! isset($files[$src])) {
                 return new WP_Error(
                     'rest_invalid_param',
                     /* translators: 1: Font face source parameter name: "font_face_settings[src]", 2: The invalid src value. */
@@ -256,8 +256,8 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
 
         // Sanitize settings based on callbacks in the schema.
         foreach ($settings as $key => $value) {
-            $sanitize_callback = $schema[ $key ]['arg_options']['sanitize_callback'];
-            $settings[ $key ]  = call_user_func($sanitize_callback, $value);
+            $sanitize_callback = $schema[$key]['arg_options']['sanitize_callback'];
+            $settings[$key]    = call_user_func($sanitize_callback, $value);
         }
 
         return $settings;
@@ -362,12 +362,12 @@ class WP_REST_Font_Faces_Controller extends WP_REST_Posts_Controller
 
         foreach ($srcs as $src) {
             // If src not a file reference, use it as is.
-            if (! isset($file_params[ $src ])) {
+            if (! isset($file_params[$src])) {
                 $processed_srcs[] = $src;
                 continue;
             }
 
-            $file      = $file_params[ $src ];
+            $file      = $file_params[$src];
             $font_file = $this->handle_font_file_upload($file);
             if (is_wp_error($font_file)) {
                 return $font_file;

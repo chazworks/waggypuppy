@@ -199,7 +199,7 @@ if (is_multisite()) :
             // `dirsize_cache` should now be filled after upload and recurse_dirsize() call.
             $cache_path = untrailingslashit($upload_dir['path']);
             $this->assertIsArray(get_transient('dirsize_cache'));
-            $this->assertSame($size, get_transient('dirsize_cache')[ $cache_path ]);
+            $this->assertSame($size, get_transient('dirsize_cache')[$cache_path]);
 
             // Cleanup.
             $this->remove_added_uploads();
@@ -297,7 +297,7 @@ if (is_multisite()) :
              * with the size, using the current format.
              */
             $this->assertSame(21, recurse_dirsize($upload_dir['basedir'] . '/2/1'));
-            $this->assertSame(21, get_transient('dirsize_cache')[ $upload_dir['basedir'] . '/2/1' ]);
+            $this->assertSame(21, get_transient('dirsize_cache')[$upload_dir['basedir'] . '/2/1']);
 
             // No cache match on non existing directory should return false.
             $this->assertFalse(recurse_dirsize($upload_dir['basedir'] . '/does_not_exist'));

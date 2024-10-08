@@ -226,7 +226,7 @@ class WP_Users_List_Table extends WP_List_Table
         ];
 
         foreach ($wp_roles->get_names() as $this_role => $name) {
-            if ($count_users && ! isset($avail_roles[ $this_role ])) {
+            if ($count_users && ! isset($avail_roles[$this_role])) {
                 continue;
             }
 
@@ -236,11 +236,11 @@ class WP_Users_List_Table extends WP_List_Table
                     /* translators: 1: User role name, 2: Number of users. */
                     __('%1$s <span class="count">(%2$s)</span>'),
                     $name,
-                    number_format_i18n($avail_roles[ $this_role ])
+                    number_format_i18n($avail_roles[$this_role])
                 );
             }
 
-            $role_links[ $this_role ] = [
+            $role_links[$this_role] = [
                 'url'     => esc_url(add_query_arg('role', $this_role, $url)),
                 'label'   => $name,
                 'current' => $this_role === $role,
@@ -424,7 +424,7 @@ class WP_Users_List_Table extends WP_List_Table
         }
 
         foreach ($this->items as $userid => $user_object) {
-            echo "\n\t" . $this->single_row($user_object, '', '', isset($post_counts) ? $post_counts[ $userid ] : 0);
+            echo "\n\t" . $this->single_row($user_object, '', '', isset($post_counts) ? $post_counts[$userid] : 0);
         }
     }
 
@@ -676,8 +676,8 @@ class WP_Users_List_Table extends WP_List_Table
         $role_list = [];
 
         foreach ($user_object->roles as $role) {
-            if (isset($wp_roles->role_names[ $role ])) {
-                $role_list[ $role ] = translate_user_role($wp_roles->role_names[ $role ]);
+            if (isset($wp_roles->role_names[$role])) {
+                $role_list[$role] = translate_user_role($wp_roles->role_names[$role]);
             }
         }
 

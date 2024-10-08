@@ -145,7 +145,7 @@ function wp_schedule_single_event($timestamp, $hook, $args = [], $wp_error = fal
             break;
         }
 
-        if (isset($cron[ $event->hook ][ $key ])) {
+        if (isset($cron[$event->hook][$key])) {
             $duplicate = true;
             break;
         }
@@ -191,7 +191,7 @@ function wp_schedule_single_event($timestamp, $hook, $args = [], $wp_error = fal
         return false;
     }
 
-    $crons[ $event->timestamp ][ $event->hook ][ $key ] = [
+    $crons[$event->timestamp][$event->hook][$key] = [
         'schedule' => $event->schedule,
         'args'     => $event->args,
     ];
@@ -248,7 +248,7 @@ function wp_schedule_event($timestamp, $recurrence, $hook, $args = [], $wp_error
 
     $schedules = wp_get_schedules();
 
-    if (! isset($schedules[ $recurrence ])) {
+    if (! isset($schedules[$recurrence])) {
         if ($wp_error) {
             return new WP_Error(
                 'invalid_schedule',
@@ -264,7 +264,7 @@ function wp_schedule_event($timestamp, $recurrence, $hook, $args = [], $wp_error
         'timestamp' => $timestamp,
         'schedule'  => $recurrence,
         'args'      => $args,
-        'interval'  => $schedules[ $recurrence ]['interval'],
+        'interval'  => $schedules[$recurrence]['interval'],
     ];
 
     /** This filter is documented in wp-includes/cron.php */
@@ -304,7 +304,7 @@ function wp_schedule_event($timestamp, $recurrence, $hook, $args = [], $wp_error
 
     $crons = _get_cron_array();
 
-    $crons[ $event->timestamp ][ $event->hook ][ $key ] = [
+    $crons[$event->timestamp][$event->hook][$key] = [
         'schedule' => $event->schedule,
         'args'     => $event->args,
         'interval' => $event->interval,
@@ -357,8 +357,8 @@ function wp_reschedule_event($timestamp, $recurrence, $hook, $args = [], $wp_err
     $interval  = 0;
 
     // First we try to get the interval from the schedule.
-    if (isset($schedules[ $recurrence ])) {
-        $interval = $schedules[ $recurrence ]['interval'];
+    if (isset($schedules[$recurrence])) {
+        $interval = $schedules[$recurrence]['interval'];
     }
 
     // Now we try to get it from the saved interval in case the schedule disappears.
@@ -514,14 +514,14 @@ function wp_unschedule_event($timestamp, $hook, $args = [], $wp_error = false)
     $crons = _get_cron_array();
     $key   = md5(serialize($args));
 
-    unset($crons[ $timestamp ][ $hook ][ $key ]);
+    unset($crons[$timestamp][$hook][$key]);
 
-    if (empty($crons[ $timestamp ][ $hook ])) {
-        unset($crons[ $timestamp ][ $hook ]);
+    if (empty($crons[$timestamp][$hook])) {
+        unset($crons[$timestamp][$hook]);
     }
 
-    if (empty($crons[ $timestamp ])) {
-        unset($crons[ $timestamp ]);
+    if (empty($crons[$timestamp])) {
+        unset($crons[$timestamp]);
     }
 
     return _set_cron_array($crons, $wp_error);
@@ -616,7 +616,7 @@ function wp_clear_scheduled_hook($hook, $args = [], $wp_error = false)
     $key     = md5(serialize($args));
 
     foreach ($crons as $timestamp => $cron) {
-        if (isset($cron[ $hook ][ $key ])) {
+        if (isset($cron[$hook][$key])) {
             $results[] = wp_unschedule_event($timestamp, $hook, $args, true);
         }
     }
@@ -701,14 +701,14 @@ function wp_unschedule_hook($hook, $wp_error = false)
     $results = [];
 
     foreach ($crons as $timestamp => $args) {
-        if (! empty($crons[ $timestamp ][ $hook ])) {
-            $results[] = count($crons[ $timestamp ][ $hook ]);
+        if (! empty($crons[$timestamp][$hook])) {
+            $results[] = count($crons[$timestamp][$hook]);
         }
 
-        unset($crons[ $timestamp ][ $hook ]);
+        unset($crons[$timestamp][$hook]);
 
-        if (empty($crons[ $timestamp ])) {
-            unset($crons[ $timestamp ]);
+        if (empty($crons[$timestamp])) {
+            unset($crons[$timestamp]);
         }
     }
 
@@ -795,7 +795,7 @@ function wp_get_scheduled_event($hook, $args = [], $timestamp = null)
         // Get next event.
         $next = false;
         foreach ($crons as $timestamp => $cron) {
-            if (isset($cron[ $hook ][ $key ])) {
+            if (isset($cron[$hook][$key])) {
                 $next = $timestamp;
                 break;
             }
@@ -806,19 +806,19 @@ function wp_get_scheduled_event($hook, $args = [], $timestamp = null)
         }
 
         $timestamp = $next;
-    } elseif (! isset($crons[ $timestamp ][ $hook ][ $key ])) {
+    } elseif (! isset($crons[$timestamp][$hook][$key])) {
         return false;
     }
 
     $event = (object) [
         'hook'      => $hook,
         'timestamp' => $timestamp,
-        'schedule'  => $crons[ $timestamp ][ $hook ][ $key ]['schedule'],
+        'schedule'  => $crons[$timestamp][$hook][$key]['schedule'],
         'args'      => $args,
     ];
 
-    if (isset($crons[ $timestamp ][ $hook ][ $key ]['interval'])) {
-        $event->interval = $crons[ $timestamp ][ $hook ][ $key ]['interval'];
+    if (isset($crons[$timestamp][$hook][$key]['interval'])) {
+        $event->interval = $crons[$timestamp][$hook][$key]['interval'];
     }
 
     return $event;
@@ -1031,8 +1031,8 @@ function _wp_cron()
         }
 
         foreach ((array) $cronhooks as $hook => $args) {
-            if (isset($schedules[ $hook ]['callback'])
-                && ! call_user_func($schedules[ $hook ]['callback'])
+            if (isset($schedules[$hook]['callback'])
+                && ! call_user_func($schedules[$hook]['callback'])
             ) {
                 continue;
             }
@@ -1200,7 +1200,7 @@ function wp_get_ready_cron_jobs()
             break;
         }
 
-        $results[ $timestamp ] = $cronhooks;
+        $results[$timestamp] = $cronhooks;
     }
 
     return $results;
@@ -1291,7 +1291,7 @@ function _upgrade_cron_array($cron)
         foreach ((array) $hooks as $hook => $args) {
             $key = md5(serialize($args['args']));
 
-            $new_cron[ $timestamp ][ $hook ][ $key ] = $args;
+            $new_cron[$timestamp][$hook][$key] = $args;
         }
     }
 

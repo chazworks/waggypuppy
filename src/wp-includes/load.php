@@ -1058,10 +1058,10 @@ function wp_skip_paused_plugins(array $plugins)
         list( $plugin ) = explode('/', plugin_basename($plugin));
 
         if (array_key_exists($plugin, $paused_plugins)) {
-            unset($plugins[ $index ]);
+            unset($plugins[$index]);
 
             // Store list of paused plugins for displaying an admin notice.
-            $GLOBALS['_paused_plugins'][ $plugin ] = $paused_plugins[ $plugin ];
+            $GLOBALS['_paused_plugins'][$plugin] = $paused_plugins[$plugin];
         }
     }
 
@@ -1136,10 +1136,10 @@ function wp_skip_paused_themes(array $themes)
         $theme = basename($theme);
 
         if (array_key_exists($theme, $paused_themes)) {
-            unset($themes[ $index ]);
+            unset($themes[$index]);
 
             // Store list of paused themes for displaying an admin notice.
-            $GLOBALS['_paused_themes'][ $theme ] = $paused_themes[ $theme ];
+            $GLOBALS['_paused_themes'][$theme] = $paused_themes[$theme];
         }
     }
 
@@ -1720,8 +1720,8 @@ function wp_is_ini_value_changeable($setting)
         }
     }
 
-    if (isset($ini_all[ $setting ]['access'])
-        && (INI_ALL === $ini_all[ $setting ]['access'] || INI_USER === $ini_all[ $setting ]['access'])
+    if (isset($ini_all[$setting]['access'])
+        && (INI_ALL === $ini_all[$setting]['access'] || INI_USER === $ini_all[$setting]['access'])
     ) {
         return true;
     }
@@ -1971,11 +1971,11 @@ function wp_is_json_media_type($media_type)
 {
     static $cache = [];
 
-    if (! isset($cache[ $media_type ])) {
-        $cache[ $media_type ] = (bool) preg_match('/(^|\s|,)application\/([\w!#\$&-\^\.\+]+\+)?json(\+oembed)?($|\s|;|,)/i', $media_type);
+    if (! isset($cache[$media_type])) {
+        $cache[$media_type] = (bool) preg_match('/(^|\s|,)application\/([\w!#\$&-\^\.\+]+\+)?json(\+oembed)?($|\s|;|,)/i', $media_type);
     }
 
-    return $cache[ $media_type ];
+    return $cache[$media_type];
 }
 
 /**

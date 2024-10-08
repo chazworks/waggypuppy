@@ -121,10 +121,10 @@ function block_core_query_disable_enhanced_pagination($parsed_block)
                     return $content;
                 }
 
-                if (isset($dirty_enhanced_queries[ $block['attrs']['queryId'] ])) {
+                if (isset($dirty_enhanced_queries[$block['attrs']['queryId']])) {
                     // Disable navigation in the router store config.
                     wp_interactivity_config('core/router', ['clientNavigationDisabled' => true]);
-                    $dirty_enhanced_queries[ $block['attrs']['queryId'] ] = null;
+                    $dirty_enhanced_queries[$block['attrs']['queryId']] = null;
                 }
 
                 array_pop($enhanced_query_stack);
@@ -144,7 +144,7 @@ function block_core_query_disable_enhanced_pagination($parsed_block)
         (! $supports_client_navigation)
     ) {
         foreach ($enhanced_query_stack as $query_id) {
-            $dirty_enhanced_queries[ $query_id ] = true;
+            $dirty_enhanced_queries[$query_id] = true;
         }
     }
 

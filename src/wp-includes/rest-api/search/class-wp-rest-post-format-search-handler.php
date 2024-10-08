@@ -110,19 +110,19 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler
         $data = [];
 
         if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_ID ] = $id;
+            $data[WP_REST_Search_Controller::PROP_ID] = $id;
         }
 
         if (in_array(WP_REST_Search_Controller::PROP_TITLE, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_TITLE ] = get_post_format_string($id);
+            $data[WP_REST_Search_Controller::PROP_TITLE] = get_post_format_string($id);
         }
 
         if (in_array(WP_REST_Search_Controller::PROP_URL, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_URL ] = get_post_format_link($id);
+            $data[WP_REST_Search_Controller::PROP_URL] = get_post_format_link($id);
         }
 
         if (in_array(WP_REST_Search_Controller::PROP_TYPE, $fields, true)) {
-            $data[ WP_REST_Search_Controller::PROP_TYPE ] = $this->type;
+            $data[WP_REST_Search_Controller::PROP_TYPE] = $this->type;
         }
 
         return $data;

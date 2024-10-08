@@ -20,7 +20,7 @@ class TracTickets
             $trac_url = preg_replace('/^https:/', 'http:', $trac_url);
         }
 
-        if (! isset(self::$trac_ticket_cache[ $trac_url ])) {
+        if (! isset(self::$trac_ticket_cache[$trac_url])) {
             // In case you're running the tests offline, keep track of open tickets.
             $file    = DIR_TESTDATA . '/.trac-ticket-cache.' . str_replace(['http://', 'https://', '/'], ['', '', '-'], rtrim($trac_url, '/'));
             $tickets = @file_get_contents($trac_url . '/query?status=%21closed&format=csv&col=id');
@@ -32,7 +32,7 @@ class TracTickets
                     $tickets = file_get_contents($file);
                 } else {
                     register_shutdown_function(['TracTickets', 'forcingKnownBugs']);
-                    self::$trac_ticket_cache[ $trac_url ] = [];
+                    self::$trac_ticket_cache[$trac_url] = [];
                     return true; // Assume the ticket is closed, which means it gets run.
                 }
             } else {
@@ -43,10 +43,10 @@ class TracTickets
 
             $tickets = explode("\r\n", $tickets);
 
-            self::$trac_ticket_cache[ $trac_url ] = $tickets;
+            self::$trac_ticket_cache[$trac_url] = $tickets;
         }
 
-        return ! in_array($ticket_id, self::$trac_ticket_cache[ $trac_url ], true);
+        return ! in_array($ticket_id, self::$trac_ticket_cache[$trac_url], true);
     }
 
 	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid

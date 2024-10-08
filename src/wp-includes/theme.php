@@ -51,12 +51,12 @@ function wp_get_themes($args = [])
          * one in the case of a conflict. (Normally, last registered theme root wins.)
          */
         $current_theme = get_stylesheet();
-        if (isset($theme_directories[ $current_theme ])) {
+        if (isset($theme_directories[$current_theme])) {
             $root_of_current_theme = get_raw_theme_root($current_theme);
             if (! in_array($root_of_current_theme, $wp_theme_directories, true)) {
                 $root_of_current_theme = WP_CONTENT_DIR . $root_of_current_theme;
             }
-            $theme_directories[ $current_theme ]['theme_root'] = $root_of_current_theme;
+            $theme_directories[$current_theme]['theme_root'] = $root_of_current_theme;
         }
     }
 
@@ -81,19 +81,19 @@ function wp_get_themes($args = [])
     static $_themes = [];
 
     foreach ($theme_directories as $theme => $theme_root) {
-        if (isset($_themes[ $theme_root['theme_root'] . '/' . $theme ])) {
-            $themes[ $theme ] = $_themes[ $theme_root['theme_root'] . '/' . $theme ];
+        if (isset($_themes[$theme_root['theme_root'] . '/' . $theme])) {
+            $themes[$theme] = $_themes[$theme_root['theme_root'] . '/' . $theme];
         } else {
-            $themes[ $theme ] = new WP_Theme($theme, $theme_root['theme_root']);
+            $themes[$theme] = new WP_Theme($theme, $theme_root['theme_root']);
 
-            $_themes[ $theme_root['theme_root'] . '/' . $theme ] = $themes[ $theme ];
+            $_themes[$theme_root['theme_root'] . '/' . $theme] = $themes[$theme];
         }
     }
 
     if (null !== $args['errors']) {
         foreach ($themes as $theme => $wp_theme) {
             if ((bool) $wp_theme->errors() !== $args['errors']) {
-                unset($themes[ $theme ]);
+                unset($themes[$theme]);
             }
         }
     }
@@ -485,9 +485,9 @@ function search_theme_directories($force = false)
      */
     foreach ($wp_theme_directories as $theme_root) {
         if (str_starts_with($theme_root, WP_CONTENT_DIR)) {
-            $relative_theme_roots[ str_replace(WP_CONTENT_DIR, '', $theme_root) ] = $theme_root;
+            $relative_theme_roots[str_replace(WP_CONTENT_DIR, '', $theme_root)] = $theme_root;
         } else {
-            $relative_theme_roots[ $theme_root ] = $theme_root;
+            $relative_theme_roots[$theme_root] = $theme_root;
         }
     }
 
@@ -506,12 +506,12 @@ function search_theme_directories($force = false)
         if (is_array($cached_roots)) {
             foreach ($cached_roots as $theme_dir => $theme_root) {
                 // A cached theme root is no longer around, so skip it.
-                if (! isset($relative_theme_roots[ $theme_root ])) {
+                if (! isset($relative_theme_roots[$theme_root])) {
                     continue;
                 }
-                $found_themes[ $theme_dir ] = [
+                $found_themes[$theme_dir] = [
                     'theme_file' => $theme_dir . '/style.css',
-                    'theme_root' => $relative_theme_roots[ $theme_root ], // Convert relative to absolute.
+                    'theme_root' => $relative_theme_roots[$theme_root], // Convert relative to absolute.
                 ];
             }
             return $found_themes;
@@ -541,7 +541,7 @@ function search_theme_directories($force = false)
                  * wp-content/themes/a-single-theme
                  * wp-content/themes is $theme_root, a-single-theme is $dir.
                  */
-                $found_themes[ $dir ] = [
+                $found_themes[$dir] = [
                     'theme_file' => $dir . '/style.css',
                     'theme_root' => $theme_root,
                 ];
@@ -563,18 +563,18 @@ function search_theme_directories($force = false)
                     if (! file_exists($theme_root . '/' . $dir . '/' . $sub_dir . '/style.css')) {
                         continue;
                     }
-                    $found_themes[ $dir . '/' . $sub_dir ] = [
+                    $found_themes[$dir . '/' . $sub_dir] = [
                         'theme_file' => $dir . '/' . $sub_dir . '/style.css',
                         'theme_root' => $theme_root,
                     ];
-                    $found_theme                           = true;
+                    $found_theme                         = true;
                 }
                 /*
                  * Never mind the above, it's just a theme missing a style.css.
                  * Return it; WP_Theme will catch the error.
                  */
                 if (! $found_theme) {
-                    $found_themes[ $dir ] = [
+                    $found_themes[$dir] = [
                         'theme_file' => $dir . '/style.css',
                         'theme_root' => $theme_root,
                     ];
@@ -589,7 +589,7 @@ function search_theme_directories($force = false)
     $relative_theme_roots = array_flip($relative_theme_roots);
 
     foreach ($found_themes as $theme_dir => $theme_data) {
-        $theme_roots[ $theme_dir ] = $relative_theme_roots[ $theme_data['theme_root'] ]; // Convert absolute to relative.
+        $theme_roots[$theme_dir] = $relative_theme_roots[$theme_data['theme_root']]; // Convert absolute to relative.
     }
 
     if (get_site_transient('theme_roots') !== $theme_roots) {
@@ -732,8 +732,8 @@ function get_raw_theme_root($stylesheet_or_template, $skip_cache = false)
 
     if (empty($theme_root)) {
         $theme_roots = get_theme_roots();
-        if (! empty($theme_roots[ $stylesheet_or_template ])) {
-            $theme_root = $theme_roots[ $stylesheet_or_template ];
+        if (! empty($theme_roots[$stylesheet_or_template])) {
+            $theme_root = $theme_roots[$stylesheet_or_template];
         }
     }
 
@@ -1077,7 +1077,7 @@ function get_theme_mod($name, $default_value = false)
 {
     $mods = get_theme_mods();
 
-    if (isset($mods[ $name ])) {
+    if (isset($mods[$name])) {
         /**
          * Filters the theme modification, or 'theme_mod', value.
          *
@@ -1089,7 +1089,7 @@ function get_theme_mod($name, $default_value = false)
          *
          * @param mixed $current_mod The value of the active theme modification.
          */
-        return apply_filters("theme_mod_{$name}", $mods[ $name ]);
+        return apply_filters("theme_mod_{$name}", $mods[$name]);
     }
 
     if (is_string($default_value)) {
@@ -1118,7 +1118,7 @@ function get_theme_mod($name, $default_value = false)
 function set_theme_mod($name, $value)
 {
     $mods      = get_theme_mods();
-    $old_value = isset($mods[ $name ]) ? $mods[ $name ] : false;
+    $old_value = isset($mods[$name]) ? $mods[$name] : false;
 
     /**
      * Filters the theme modification, or 'theme_mod', value on save.
@@ -1132,7 +1132,7 @@ function set_theme_mod($name, $value)
      * @param mixed $value     The new value of the theme modification.
      * @param mixed $old_value The current value of the theme modification.
      */
-    $mods[ $name ] = apply_filters("pre_set_theme_mod_{$name}", $value, $old_value);
+    $mods[$name] = apply_filters("pre_set_theme_mod_{$name}", $value, $old_value);
 
     $theme = get_option('stylesheet');
 
@@ -1153,11 +1153,11 @@ function remove_theme_mod($name)
 {
     $mods = get_theme_mods();
 
-    if (! isset($mods[ $name ])) {
+    if (! isset($mods[$name])) {
         return;
     }
 
-    unset($mods[ $name ]);
+    unset($mods[$name]);
 
     if (empty($mods)) {
         remove_theme_mods();
@@ -1440,7 +1440,7 @@ function _get_random_header_data()
             return new stdClass();
         }
 
-        $_wp_random_header = (object) $headers[ array_rand($headers) ];
+        $_wp_random_header = (object) $headers[array_rand($headers)];
 
         $_wp_random_header->url = sprintf(
             $_wp_random_header->url,
@@ -1558,23 +1558,23 @@ function get_uploaded_header_images()
         $header_data  = wp_get_attachment_metadata($header->ID);
         $header_index = $header->ID;
 
-        $header_images[ $header_index ]                  = [];
-        $header_images[ $header_index ]['attachment_id'] = $header->ID;
-        $header_images[ $header_index ]['url']           = $url;
-        $header_images[ $header_index ]['thumbnail_url'] = $url;
-        $header_images[ $header_index ]['alt_text']      = get_post_meta($header->ID, '_wp_attachment_image_alt', true);
+        $header_images[$header_index]                  = [];
+        $header_images[$header_index]['attachment_id'] = $header->ID;
+        $header_images[$header_index]['url']           = $url;
+        $header_images[$header_index]['thumbnail_url'] = $url;
+        $header_images[$header_index]['alt_text']      = get_post_meta($header->ID, '_wp_attachment_image_alt', true);
 
         if (isset($header_data['attachment_parent'])) {
-            $header_images[ $header_index ]['attachment_parent'] = $header_data['attachment_parent'];
+            $header_images[$header_index]['attachment_parent'] = $header_data['attachment_parent'];
         } else {
-            $header_images[ $header_index ]['attachment_parent'] = '';
+            $header_images[$header_index]['attachment_parent'] = '';
         }
 
         if (isset($header_data['width'])) {
-            $header_images[ $header_index ]['width'] = $header_data['width'];
+            $header_images[$header_index]['width'] = $header_data['width'];
         }
         if (isset($header_data['height'])) {
-            $header_images[ $header_index ]['height'] = $header_data['height'];
+            $header_images[$header_index]['height'] = $header_data['height'];
         }
     }
 
@@ -1665,8 +1665,8 @@ function unregister_default_headers($header)
 
     if (is_array($header)) {
         array_map('unregister_default_headers', $header);
-    } elseif (isset($_wp_default_headers[ $header ])) {
-        unset($_wp_default_headers[ $header ]);
+    } elseif (isset($_wp_default_headers[$header])) {
+        unset($_wp_default_headers[$header]);
         return true;
     } else {
         return false;
@@ -2299,7 +2299,7 @@ function get_editor_stylesheets()
         foreach ($editor_styles as $key => $file) {
             if (preg_match('~^(https?:)?//~', $file)) {
                 $stylesheets[] = sanitize_url($file);
-                unset($editor_styles[ $key ]);
+                unset($editor_styles[$key]);
             }
         }
 
@@ -2546,29 +2546,29 @@ function get_theme_starter_content()
             // Use options and theme_mods as-is.
             case 'options':
             case 'theme_mods':
-                $content[ $type ] = $config[ $type ];
+                $content[$type] = $config[$type];
                 break;
 
             // Widgets are grouped into sidebars.
             case 'widgets':
-                foreach ($config[ $type ] as $sidebar_id => $widgets) {
+                foreach ($config[$type] as $sidebar_id => $widgets) {
                     foreach ($widgets as $id => $widget) {
                         if (is_array($widget)) {
 
                             // Item extends core content.
-                            if (! empty($core_content[ $type ][ $id ])) {
+                            if (! empty($core_content[$type][$id])) {
                                 $widget = [
-                                    $core_content[ $type ][ $id ][0],
-                                    array_merge($core_content[ $type ][ $id ][1], $widget),
+                                    $core_content[$type][$id][0],
+                                    array_merge($core_content[$type][$id][1], $widget),
                                 ];
                             }
 
-                            $content[ $type ][ $sidebar_id ][] = $widget;
+                            $content[$type][$sidebar_id][] = $widget;
                         } elseif (is_string($widget)
-                            && ! empty($core_content[ $type ])
-                            && ! empty($core_content[ $type ][ $widget ])
+                            && ! empty($core_content[$type])
+                            && ! empty($core_content[$type][$widget])
                         ) {
-                            $content[ $type ][ $sidebar_id ][] = $core_content[ $type ][ $widget ];
+                            $content[$type][$sidebar_id][] = $core_content[$type][$widget];
                         }
                     }
                 }
@@ -2576,29 +2576,29 @@ function get_theme_starter_content()
 
             // And nav menu items are grouped into nav menus.
             case 'nav_menus':
-                foreach ($config[ $type ] as $nav_menu_location => $nav_menu) {
+                foreach ($config[$type] as $nav_menu_location => $nav_menu) {
 
                     // Ensure nav menus get a name.
                     if (empty($nav_menu['name'])) {
                         $nav_menu['name'] = $nav_menu_location;
                     }
 
-                    $content[ $type ][ $nav_menu_location ]['name'] = $nav_menu['name'];
+                    $content[$type][$nav_menu_location]['name'] = $nav_menu['name'];
 
                     foreach ($nav_menu['items'] as $id => $nav_menu_item) {
                         if (is_array($nav_menu_item)) {
 
                             // Item extends core content.
-                            if (! empty($core_content[ $type ][ $id ])) {
-                                $nav_menu_item = array_merge($core_content[ $type ][ $id ], $nav_menu_item);
+                            if (! empty($core_content[$type][$id])) {
+                                $nav_menu_item = array_merge($core_content[$type][$id], $nav_menu_item);
                             }
 
-                            $content[ $type ][ $nav_menu_location ]['items'][] = $nav_menu_item;
+                            $content[$type][$nav_menu_location]['items'][] = $nav_menu_item;
                         } elseif (is_string($nav_menu_item)
-                            && ! empty($core_content[ $type ])
-                            && ! empty($core_content[ $type ][ $nav_menu_item ])
+                            && ! empty($core_content[$type])
+                            && ! empty($core_content[$type][$nav_menu_item])
                         ) {
-                            $content[ $type ][ $nav_menu_location ]['items'][] = $core_content[ $type ][ $nav_menu_item ];
+                            $content[$type][$nav_menu_location]['items'][] = $core_content[$type][$nav_menu_item];
                         }
                     }
                 }
@@ -2606,9 +2606,9 @@ function get_theme_starter_content()
 
             // Attachments are posts but have special treatment.
             case 'attachments':
-                foreach ($config[ $type ] as $id => $item) {
+                foreach ($config[$type] as $id => $item) {
                     if (! empty($item['file'])) {
-                        $content[ $type ][ $id ] = $item;
+                        $content[$type][$id] = $item;
                     }
                 }
                 break;
@@ -2618,16 +2618,16 @@ function get_theme_starter_content()
              * Not a default case for the sake of clarity and future work.
              */
             case 'posts':
-                foreach ($config[ $type ] as $id => $item) {
+                foreach ($config[$type] as $id => $item) {
                     if (is_array($item)) {
 
                         // Item extends core content.
-                        if (! empty($core_content[ $type ][ $id ])) {
-                            $item = array_merge($core_content[ $type ][ $id ], $item);
+                        if (! empty($core_content[$type][$id])) {
+                            $item = array_merge($core_content[$type][$id], $item);
                         }
 
                         // Enforce a subset of fields.
-                        $content[ $type ][ $id ] = wp_array_slice_assoc(
+                        $content[$type][$id] = wp_array_slice_assoc(
                             $item,
                             [
                                 'post_type',
@@ -2641,8 +2641,8 @@ function get_theme_starter_content()
                                 'template',
                             ]
                         );
-                    } elseif (is_string($item) && ! empty($core_content[ $type ][ $item ])) {
-                        $content[ $type ][ $item ] = $core_content[ $type ][ $item ];
+                    } elseif (is_string($item) && ! empty($core_content[$type][$item])) {
+                        $content[$type][$item] = $core_content[$type][$item];
                     }
                 }
                 break;
@@ -2999,7 +2999,7 @@ function add_theme_support($feature, ...$args)
             }
     }
 
-    $_wp_theme_features[ $feature ] = $args;
+    $_wp_theme_features[$feature] = $args;
 }
 
 /**
@@ -3096,25 +3096,25 @@ function get_theme_support($feature, ...$args)
 {
     global $_wp_theme_features;
 
-    if (! isset($_wp_theme_features[ $feature ])) {
+    if (! isset($_wp_theme_features[$feature])) {
         return false;
     }
 
     if (! $args) {
-        return $_wp_theme_features[ $feature ];
+        return $_wp_theme_features[$feature];
     }
 
     switch ($feature) {
         case 'custom-logo':
         case 'custom-header':
         case 'custom-background':
-            if (isset($_wp_theme_features[ $feature ][0][ $args[0] ])) {
-                return $_wp_theme_features[ $feature ][0][ $args[0] ];
+            if (isset($_wp_theme_features[$feature][0][$args[0]])) {
+                return $_wp_theme_features[$feature][0][$args[0]];
             }
             return false;
 
         default:
-            return $_wp_theme_features[ $feature ];
+            return $_wp_theme_features[$feature];
     }
 }
 
@@ -3169,7 +3169,7 @@ function _remove_theme_support($feature)
             return; // Do not continue - custom-header-uploads no longer exists.
     }
 
-    if (! isset($_wp_theme_features[ $feature ])) {
+    if (! isset($_wp_theme_features[$feature])) {
         return false;
     }
 
@@ -3201,7 +3201,7 @@ function _remove_theme_support($feature)
             break;
     }
 
-    unset($_wp_theme_features[ $feature ]);
+    unset($_wp_theme_features[$feature]);
 
     return true;
 }
@@ -3233,14 +3233,14 @@ function current_theme_supports($feature, ...$args)
         return current_theme_supports('custom-header', 'uploads');
     }
 
-    if (! isset($_wp_theme_features[ $feature ])) {
+    if (! isset($_wp_theme_features[$feature])) {
         return false;
     }
 
     // If no args passed then no extra checks need to be performed.
     if (! $args) {
         /** This filter is documented in wp-includes/theme.php */
-        return apply_filters("current_theme_supports-{$feature}", true, $args, $_wp_theme_features[ $feature ]); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+        return apply_filters("current_theme_supports-{$feature}", true, $args, $_wp_theme_features[$feature]); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
     }
 
     switch ($feature) {
@@ -3250,11 +3250,11 @@ function current_theme_supports($feature, ...$args)
              * by passing an array of types to add_theme_support().
              * If no array was passed, then any type is accepted.
              */
-            if (true === $_wp_theme_features[ $feature ]) {  // Registered for all types.
+            if (true === $_wp_theme_features[$feature]) {  // Registered for all types.
                 return true;
             }
             $content_type = $args[0];
-            return in_array($content_type, $_wp_theme_features[ $feature ][0], true);
+            return in_array($content_type, $_wp_theme_features[$feature][0], true);
 
         case 'html5':
         case 'post-formats':
@@ -3265,13 +3265,13 @@ function current_theme_supports($feature, ...$args)
              * Specific areas of HTML5 support *must* be passed via an array to add_theme_support().
              */
             $type = $args[0];
-            return in_array($type, $_wp_theme_features[ $feature ][0], true);
+            return in_array($type, $_wp_theme_features[$feature][0], true);
 
         case 'custom-logo':
         case 'custom-header':
         case 'custom-background':
             // Specific capabilities can be registered by passing an array to add_theme_support().
-            return (isset($_wp_theme_features[ $feature ][0][ $args[0] ]) && $_wp_theme_features[ $feature ][0][ $args[0] ]);
+            return (isset($_wp_theme_features[$feature][0][$args[0]]) && $_wp_theme_features[$feature][0][$args[0]]);
     }
 
     /**
@@ -3286,7 +3286,7 @@ function current_theme_supports($feature, ...$args)
      * @param array  $args     Array of arguments for the feature.
      * @param string $feature  The theme feature.
      */
-    return apply_filters("current_theme_supports-{$feature}", true, $args, $_wp_theme_features[ $feature ]); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    return apply_filters("current_theme_supports-{$feature}", true, $args, $_wp_theme_features[$feature]); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 }
 
 /**
@@ -3452,7 +3452,7 @@ function register_theme_feature($feature, $args = [])
         $args['show_in_rest']['schema'] = rest_default_additional_properties_to_false($args['show_in_rest']['schema']);
     }
 
-    $_wp_registered_theme_features[ $feature ] = $args;
+    $_wp_registered_theme_features[$feature] = $args;
 
     return true;
 }
@@ -3496,7 +3496,7 @@ function get_registered_theme_feature($feature)
         return null;
     }
 
-    return isset($_wp_registered_theme_features[ $feature ]) ? $_wp_registered_theme_features[ $feature ] : null;
+    return isset($_wp_registered_theme_features[$feature]) ? $_wp_registered_theme_features[$feature] : null;
 }
 
 /**

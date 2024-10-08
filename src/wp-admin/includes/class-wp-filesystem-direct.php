@@ -705,7 +705,7 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base
                 }
             }
 
-            $ret[ $struc['name'] ] = $struc;
+            $ret[$struc['name']] = $struc;
         }
 
         $dir->close();

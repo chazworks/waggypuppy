@@ -51,13 +51,13 @@ function get_active_blog_for_user($user_id)
     }
 
     if (! is_multisite()) {
-        return $blogs[ get_current_blog_id() ];
+        return $blogs[get_current_blog_id()];
     }
 
     $primary_blog = get_user_meta($user_id, 'primary_blog', true);
     $first_blog   = current($blogs);
     if (false !== $primary_blog) {
-        if (! isset($blogs[ $primary_blog ])) {
+        if (! isset($blogs[$primary_blog])) {
             update_user_meta($user_id, 'primary_blog', $first_blog->userblog_id);
             $primary = get_site($first_blog->userblog_id);
         } else {
@@ -2026,7 +2026,7 @@ function check_upload_mimes($mimes)
     foreach ($site_exts as $ext) {
         foreach ($mimes as $ext_pattern => $mime) {
             if ('' !== $ext && str_contains($ext_pattern, $ext)) {
-                $site_mimes[ $ext_pattern ] = $mime;
+                $site_mimes[$ext_pattern] = $mime;
             }
         }
     }

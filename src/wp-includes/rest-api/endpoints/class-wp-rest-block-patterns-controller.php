@@ -148,8 +148,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
 
         foreach ($pattern['categories'] as $index => $category) {
             // If the category exists as a key, then it needs migration.
-            if (isset(static::$categories_migration[ $category ])) {
-                $pattern['categories'][ $index ] = static::$categories_migration[ $category ];
+            if (isset(static::$categories_migration[$category])) {
+                $pattern['categories'][$index] = static::$categories_migration[$category];
             }
         }
 
@@ -191,8 +191,8 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller
         ];
         $data   = [];
         foreach ($keys as $item_key => $rest_key) {
-            if (isset($item[ $item_key ]) && rest_is_field_included($rest_key, $fields)) {
-                $data[ $rest_key ] = $item[ $item_key ];
+            if (isset($item[$item_key]) && rest_is_field_included($rest_key, $fields)) {
+                $data[$rest_key] = $item[$item_key];
             }
         }
 

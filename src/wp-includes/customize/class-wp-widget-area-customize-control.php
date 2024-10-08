@@ -43,7 +43,7 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control
         parent::to_json();
         $exported_properties = ['sidebar_id'];
         foreach ($exported_properties as $key) {
-            $this->json[ $key ] = $this->$key;
+            $this->json[$key] = $this->$key;
         }
     }
 

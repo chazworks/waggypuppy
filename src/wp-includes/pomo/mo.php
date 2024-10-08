@@ -294,8 +294,8 @@ if (! class_exists('MO', false)) :
             $reader->close();
 
             for ($i = 0; $i < $header['total']; $i++) {
-                $o = unpack("{$endian}length/{$endian}pos", $originals[ $i ]);
-                $t = unpack("{$endian}length/{$endian}pos", $translations[ $i ]);
+                $o = unpack("{$endian}length/{$endian}pos", $originals[$i]);
+                $t = unpack("{$endian}length/{$endian}pos", $translations[$i]);
                 if (! $o || ! $t) {
                     return false;
                 }
@@ -310,8 +310,8 @@ if (! class_exists('MO', false)) :
                 if ('' === $original) {
                     $this->set_headers($this->make_headers($translation));
                 } else {
-                    $entry                          = &$this->make_entry($original, $translation);
-                    $this->entries[ $entry->key() ] = &$entry;
+                    $entry                        = &$this->make_entry($original, $translation);
+                    $this->entries[$entry->key()] = &$entry;
                 }
             }
             return true;

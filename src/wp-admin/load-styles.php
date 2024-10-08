@@ -67,7 +67,7 @@ foreach ($load as $handle) {
         continue;
     }
 
-    $style = $wp_styles->registered[ $handle ];
+    $style = $wp_styles->registered[$handle];
 
     if (empty($style->src)) {
         continue;

@@ -386,7 +386,7 @@ class REST_Block_Renderer_Controller_Test extends WP_Test_REST_Controller_Testca
         $defaults   = [];
         foreach ($block_type->attributes as $key => $attribute) {
             if (isset($attribute['default'])) {
-                $defaults[ $key ] = $attribute['default'];
+                $defaults[$key] = $attribute['default'];
             }
         }
 

@@ -854,7 +854,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base
                 }
             }
 
-            $ret[ $struc['name'] ] = $struc;
+            $ret[$struc['name']] = $struc;
         }
 
         $dir->close();

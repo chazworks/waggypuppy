@@ -384,7 +384,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
         $new_autosave          = _wp_post_revision_data($post_data, true);
 
         foreach (array_intersect(array_keys($new_autosave), array_keys(_wp_post_revision_fields($post))) as $field) {
-            if (normalize_whitespace($new_autosave[ $field ]) !== normalize_whitespace($post->$field)) {
+            if (normalize_whitespace($new_autosave[$field]) !== normalize_whitespace($post->$field)) {
                 $autosave_is_different = true;
                 break;
             }
@@ -396,7 +396,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
             foreach ($revisioned_meta_keys as $meta_key) {
                 // get_metadata_raw is used to avoid retrieving the default value.
                 $old_meta = get_metadata_raw('post', $post_id, $meta_key, true);
-                $new_meta = isset($meta[ $meta_key ]) ? $meta[ $meta_key ] : '';
+                $new_meta = isset($meta[$meta_key]) ? $meta[$meta_key] : '';
 
                 if ($new_meta !== $old_meta) {
                     $autosave_is_different = true;
@@ -436,8 +436,8 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller
         // Attached any passed meta values that have revisions enabled.
         if (! empty($meta)) {
             foreach ($revisioned_meta_keys as $meta_key) {
-                if (isset($meta[ $meta_key ])) {
-                    update_metadata('post', $revision_id, $meta_key, wp_slash($meta[ $meta_key ]));
+                if (isset($meta[$meta_key])) {
+                    update_metadata('post', $revision_id, $meta_key, wp_slash($meta[$meta_key]));
                 }
             }
         }

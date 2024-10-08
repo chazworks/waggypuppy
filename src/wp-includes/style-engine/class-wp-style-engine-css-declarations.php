@@ -69,7 +69,7 @@ class WP_Style_Engine_CSS_Declarations
         }
 
         // Adds the declaration property/value pair.
-        $this->declarations[ $property ] = $value;
+        $this->declarations[$property] = $value;
 
         return $this;
     }
@@ -84,7 +84,7 @@ class WP_Style_Engine_CSS_Declarations
      */
     public function remove_declaration($property)
     {
-        unset($this->declarations[ $property ]);
+        unset($this->declarations[$property]);
         return $this;
     }
 

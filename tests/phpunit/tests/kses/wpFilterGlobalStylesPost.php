@@ -52,7 +52,7 @@ class Tests_Kses_WpFilterGlobalStylesPost extends WP_UnitTestCase
     {
         $result = [];
         foreach (WP_Theme_JSON::VALID_TOP_LEVEL_KEYS as $safe_rule) {
-            $result[ $safe_rule ] = [$safe_rule];
+            $result[$safe_rule] = [$safe_rule];
         }
 
         // Settings always get removed.

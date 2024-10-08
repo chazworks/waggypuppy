@@ -157,8 +157,8 @@ class WP_Http_Cookie
 
             // Set properties based directly on parameters.
             foreach (['name', 'value', 'path', 'domain', 'port', 'host_only'] as $field) {
-                if (isset($data[ $field ])) {
-                    $this->$field = $data[ $field ];
+                if (isset($data[$field])) {
+                    $this->$field = $data[$field];
                 }
             }
 

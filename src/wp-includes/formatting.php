@@ -156,10 +156,10 @@ function wptexturize($text, $reset = false)
 
         // '99' and '99" are ambiguous among other patterns; assume it's an abbreviated year at the end of a quotation.
         if ("'" !== $apos || "'" !== $closing_single_quote) {
-            $dynamic[ '/\'(\d\d)\'(?=\Z|[.,:;!?)}\-\]]|&gt;|' . $spaces . ')/' ] = $apos_flag . '$1' . $closing_single_quote;
+            $dynamic['/\'(\d\d)\'(?=\Z|[.,:;!?)}\-\]]|&gt;|' . $spaces . ')/'] = $apos_flag . '$1' . $closing_single_quote;
         }
         if ("'" !== $apos || '"' !== $closing_quote) {
-            $dynamic[ '/\'(\d\d)"(?=\Z|[.,:;!?)}\-\]]|&gt;|' . $spaces . ')/' ] = $apos_flag . '$1' . $closing_quote;
+            $dynamic['/\'(\d\d)"(?=\Z|[.,:;!?)}\-\]]|&gt;|' . $spaces . ')/'] = $apos_flag . '$1' . $closing_quote;
         }
 
         // '99 '99s '99's (apostrophe)  But never '9 or '99% or '999 or '99.0.
@@ -169,17 +169,17 @@ function wptexturize($text, $reset = false)
 
         // Quoted numbers like '0.42'.
         if ("'" !== $opening_single_quote && "'" !== $closing_single_quote) {
-            $dynamic[ '/(?<=\A|' . $spaces . ')\'(\d[.,\d]*)\'/' ] = $open_sq_flag . '$1' . $closing_single_quote;
+            $dynamic['/(?<=\A|' . $spaces . ')\'(\d[.,\d]*)\'/'] = $open_sq_flag . '$1' . $closing_single_quote;
         }
 
         // Single quote at start, or preceded by (, {, <, [, ", -, or spaces.
         if ("'" !== $opening_single_quote) {
-            $dynamic[ '/(?<=\A|[([{"\-]|&lt;|' . $spaces . ')\'/' ] = $open_sq_flag;
+            $dynamic['/(?<=\A|[([{"\-]|&lt;|' . $spaces . ')\'/'] = $open_sq_flag;
         }
 
         // Apostrophe in a word. No spaces, double apostrophes, or other punctuation.
         if ("'" !== $apos) {
-            $dynamic[ '/(?<!' . $spaces . ')\'(?!\Z|[.,:;!?"\'(){}[\]\-]|&[lg]t;|' . $spaces . ')/' ] = $apos_flag;
+            $dynamic['/(?<!' . $spaces . ')\'(?!\Z|[.,:;!?"\'(){}[\]\-]|&[lg]t;|' . $spaces . ')/'] = $apos_flag;
         }
 
         $dynamic_characters['apos']   = array_keys($dynamic);
@@ -188,12 +188,12 @@ function wptexturize($text, $reset = false)
 
         // Quoted numbers like "42".
         if ('"' !== $opening_quote && '"' !== $closing_quote) {
-            $dynamic[ '/(?<=\A|' . $spaces . ')"(\d[.,\d]*)"/' ] = $open_q_flag . '$1' . $closing_quote;
+            $dynamic['/(?<=\A|' . $spaces . ')"(\d[.,\d]*)"/'] = $open_q_flag . '$1' . $closing_quote;
         }
 
         // Double quote at start, or preceded by (, {, <, [, -, or spaces, and not followed by spaces.
         if ('"' !== $opening_quote) {
-            $dynamic[ '/(?<=\A|[([{\-]|&lt;|' . $spaces . ')"(?!' . $spaces . ')/' ] = $open_q_flag;
+            $dynamic['/(?<=\A|[([{\-]|&lt;|' . $spaces . ')"(?!' . $spaces . ')/'] = $open_q_flag;
         }
 
         $dynamic_characters['quote']   = array_keys($dynamic);
@@ -202,9 +202,9 @@ function wptexturize($text, $reset = false)
 
         // Dashes and spaces.
         $dynamic['/---/'] = $em_dash;
-        $dynamic[ '/(?<=^|' . $spaces . ')--(?=$|' . $spaces . ')/' ] = $em_dash;
-        $dynamic['/(?<!xn)--/']                                       = $en_dash;
-        $dynamic[ '/(?<=^|' . $spaces . ')-(?=$|' . $spaces . ')/' ]  = $en_dash;
+        $dynamic['/(?<=^|' . $spaces . ')--(?=$|' . $spaces . ')/'] = $em_dash;
+        $dynamic['/(?<!xn)--/']                                     = $en_dash;
+        $dynamic['/(?<=^|' . $spaces . ')-(?=$|' . $spaces . ')/']  = $en_dash;
 
         $dynamic_characters['dash']   = array_keys($dynamic);
         $dynamic_replacements['dash'] = array_values($dynamic);
@@ -476,8 +476,8 @@ function wpautop($text, $br = true)
                 continue;
             }
 
-            $name              = "<pre wp-pre-tag-$i></pre>";
-            $pre_tags[ $name ] = substr($text_part, $start) . '</pre>';
+            $name            = "<pre wp-pre-tag-$i></pre>";
+            $pre_tags[$name] = substr($text_part, $start) . '</pre>';
 
             $text .= substr($text_part, 0, $start) . $name;
             ++$i;
@@ -772,13 +772,13 @@ function wp_replace_in_html_tags($haystack, $replace_pairs)
     if (1 === count($replace_pairs)) {
         // Extract $needle and $replace.
         $needle  = array_key_first($replace_pairs);
-        $replace = $replace_pairs[ $needle ];
+        $replace = $replace_pairs[$needle];
 
         // Loop through delimiters (elements) only.
         for ($i = 1, $c = count($textarr); $i < $c; $i += 2) {
-            if (str_contains($textarr[ $i ], $needle)) {
-                $textarr[ $i ] = str_replace($needle, $replace, $textarr[ $i ]);
-                $changed       = true;
+            if (str_contains($textarr[$i], $needle)) {
+                $textarr[$i] = str_replace($needle, $replace, $textarr[$i]);
+                $changed     = true;
             }
         }
     } else {
@@ -788,9 +788,9 @@ function wp_replace_in_html_tags($haystack, $replace_pairs)
         // Loop through delimiters (elements) only.
         for ($i = 1, $c = count($textarr); $i < $c; $i += 2) {
             foreach ($needles as $needle) {
-                if (str_contains($textarr[ $i ], $needle)) {
-                    $textarr[ $i ] = strtr($textarr[ $i ], $replace_pairs);
-                    $changed       = true;
+                if (str_contains($textarr[$i], $needle)) {
+                    $textarr[$i] = strtr($textarr[$i], $replace_pairs);
+                    $changed     = true;
                     // After one strtr() break out of the foreach loop and look at next element.
                     break;
                 }
@@ -898,7 +898,7 @@ function seems_utf8($str)
     reset_mbstring_encoding();
 
     for ($i = 0; $i < $length; $i++) {
-        $c = ord($str[ $i ]);
+        $c = ord($str[$i]);
 
         if ($c < 0x80) {
             $n = 0; // 0bbbbbbb
@@ -917,7 +917,7 @@ function seems_utf8($str)
         }
 
         for ($j = 0; $j < $n; $j++) { // n bytes matching 10bbbbbb follow ?
-            if ((++$i === $length) || ((ord($str[ $i ]) & 0xC0) !== 0x80)) {
+            if ((++$i === $length) || ((ord($str[$i]) & 0xC0) !== 0x80)) {
                 return false;
             }
         }
@@ -1171,7 +1171,7 @@ function utf8_uri_encode($utf8_string, $length = 0, $encode_ascii_characters = f
 
     for ($i = 0; $i < $string_length; $i++) {
 
-        $value = ord($utf8_string[ $i ]);
+        $value = ord($utf8_string[$i]);
 
         if ($value < 128) {
             $char                = chr($value);
@@ -1200,7 +1200,7 @@ function utf8_uri_encode($utf8_string, $length = 0, $encode_ascii_characters = f
             }
             if (count($values) === $num_octets) {
                 for ($j = 0; $j < $num_octets; $j++) {
-                    $unicode .= '%' . dechex($values[ $j ]);
+                    $unicode .= '%' . dechex($values[$j]);
                 }
 
                 $unicode_length += $num_octets * 3;
@@ -2672,13 +2672,13 @@ function force_balance_tags($text)
                 // Or close to be safe $tag = '/' . $tag.
 
                 // If stacktop value = tag close value, then pop.
-            } elseif ($tagstack[ $stacksize - 1 ] === $tag) { // Found closing tag.
+            } elseif ($tagstack[$stacksize - 1] === $tag) { // Found closing tag.
                 $tag = '</' . $tag . '>'; // Close tag.
                 array_pop($tagstack);
                 --$stacksize;
             } else { // Closing tag not at top, search for it.
                 for ($j = $stacksize - 1; $j >= 0; $j--) {
-                    if ($tagstack[ $j ] === $tag) {
+                    if ($tagstack[$j] === $tag) {
                         // Add tag to tagqueue.
                         for ($k = $stacksize - 1; $k >= $j; $k--) {
                             $tagqueue .= '</' . array_pop($tagstack) . '>';
@@ -2708,7 +2708,7 @@ function force_balance_tags($text)
                  * It's not a single-entity tag.
                  * If the top of the stack is the same as the tag we want to push, close previous tag.
                  */
-                if ($stacksize > 0 && ! in_array($tag, $nestable_tags, true) && $tagstack[ $stacksize - 1 ] === $tag) {
+                if ($stacksize > 0 && ! in_array($tag, $nestable_tags, true) && $tagstack[$stacksize - 1] === $tag) {
                     $tagqueue = '</' . array_pop($tagstack) . '>';
                     --$stacksize;
                 }
@@ -2949,11 +2949,11 @@ function antispambot($email_address, $hex_encoding = 0)
         $j = rand(0, 1 + $hex_encoding);
 
         if (0 === $j) {
-            $email_no_spam_address .= '&#' . ord($email_address[ $i ]) . ';';
+            $email_no_spam_address .= '&#' . ord($email_address[$i]) . ';';
         } elseif (1 === $j) {
-            $email_no_spam_address .= $email_address[ $i ];
+            $email_no_spam_address .= $email_address[$i];
         } elseif (2 === $j) {
-            $email_no_spam_address .= '%' . zeroise(dechex(ord($email_address[ $i ])), 2);
+            $email_no_spam_address .= '%' . zeroise(dechex(ord($email_address[$i])), 2);
         }
     }
 
@@ -3377,9 +3377,9 @@ function wp_targeted_link_rel($text)
 
     $text = '';
     for ($i = 0; $i < count($html_parts); $i++) {
-        $text .= $html_parts[ $i ];
-        if (isset($extra_parts[ $i ])) {
-            $text .= $extra_parts[ $i ];
+        $text .= $html_parts[$i];
+        if (isset($extra_parts[$i])) {
+            $text .= $extra_parts[$i];
         }
     }
 
@@ -3490,7 +3490,7 @@ function translate_smiley($matches)
     }
 
     $smiley = trim(reset($matches));
-    $img    = $wpsmiliestrans[ $smiley ];
+    $img    = $wpsmiliestrans[$smiley];
 
     $matches    = [];
     $ext        = preg_match('/\.([^.]+)$/', $img, $matches) ? strtolower($matches[1]) : false;
@@ -3542,7 +3542,7 @@ function convert_smilies($text)
         $ignore_block_element = '';
 
         for ($i = 0; $i < $stop; $i++) {
-            $content = $textarr[ $i ];
+            $content = $textarr[$i];
 
             // If we're in an ignore block, wait until we find its closing tag.
             if ('' === $ignore_block_element && preg_match('/^<(' . $tags_to_ignore . ')[^>]*>/', $content, $matches)) {
@@ -4683,7 +4683,7 @@ function htmlentities2($text)
 {
     $translation_table = get_html_translation_table(HTML_ENTITIES, ENT_QUOTES);
 
-    $translation_table[ chr(38) ] = '&';
+    $translation_table[chr(38)] = '&';
 
     return preg_replace('/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/', '&amp;', strtr($text, $translation_table));
 }
@@ -5200,7 +5200,7 @@ function map_deep($value, $callback)
 {
     if (is_array($value)) {
         foreach ($value as $index => $item) {
-            $value[ $index ] = map_deep($item, $callback);
+            $value[$index] = map_deep($item, $callback);
         }
     } elseif (is_object($value)) {
         $object_vars = get_object_vars($value);
@@ -5335,14 +5335,14 @@ function wp_sprintf($pattern, ...$args)
         $fragment = substr($pattern, $start, $end - $start);
 
         // Fragment has a specifier.
-        if ('%' === $pattern[ $start ]) {
+        if ('%' === $pattern[$start]) {
             // Find numbered arguments or take the next one in order.
             if (preg_match('/^%(\d+)\$/', $fragment, $matches)) {
                 $index    = $matches[1] - 1; // 0-based array vs 1-based sprintf() arguments.
-                $arg      = isset($args[ $index ]) ? $args[ $index ] : '';
+                $arg      = isset($args[$index]) ? $args[$index] : '';
                 $fragment = str_replace("%{$matches[1]}$", '%', $fragment);
             } else {
-                $arg = isset($args[ $arg_index ]) ? $args[ $arg_index ] : '';
+                $arg = isset($args[$arg_index]) ? $args[$arg_index] : '';
                 ++$arg_index;
             }
 
@@ -5827,7 +5827,7 @@ function sanitize_trackback_urls($to_ping)
     $urls_to_ping = preg_split('/[\r\n\t ]/', trim($to_ping), -1, PREG_SPLIT_NO_EMPTY);
     foreach ($urls_to_ping as $k => $url) {
         if (! preg_match('#^https?://.#i', $url)) {
-            unset($urls_to_ping[ $k ]);
+            unset($urls_to_ping[$k]);
         }
     }
     $urls_to_ping = array_map('sanitize_url', $urls_to_ping);
@@ -6115,7 +6115,7 @@ function wp_staticize_emoji($text)
     $possible_emoji = [];
     foreach ($emoji as $emojum) {
         if (str_contains($text, $emojum)) {
-            $possible_emoji[ $emojum ] = html_entity_decode($emojum);
+            $possible_emoji[$emojum] = html_entity_decode($emojum);
         }
     }
 
@@ -6144,7 +6144,7 @@ function wp_staticize_emoji($text)
     $ignore_block_element = '';
 
     for ($i = 0; $i < $stop; $i++) {
-        $content = $textarr[ $i ];
+        $content = $textarr[$i];
 
         // If we're in an ignore block, wait until we find its closing tag.
         if ('' === $ignore_block_element && preg_match('/^<(' . $tags_to_ignore . ')>/', $content, $matches)) {

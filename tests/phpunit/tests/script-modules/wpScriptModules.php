@@ -44,8 +44,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
 
         while ($p->next_tag(['tag' => 'SCRIPT'])) {
             if ('module' === $p->get_attribute('type')) {
-                $id                             = preg_replace('/-js-module$/', '', $p->get_attribute('id'));
-                $enqueued_script_modules[ $id ] = $p->get_attribute('src');
+                $id                           = preg_replace('/-js-module$/', '', $p->get_attribute('id'));
+                $enqueued_script_modules[$id] = $p->get_attribute('src');
             }
         }
 
@@ -77,8 +77,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
 
         while ($p->next_tag(['tag' => 'LINK'])) {
             if ('modulepreload' === $p->get_attribute('rel')) {
-                $id                              = preg_replace('/-js-modulepreload$/', '', $p->get_attribute('id'));
-                $preloaded_script_modules[ $id ] = $p->get_attribute('href');
+                $id                            = preg_replace('/-js-modulepreload$/', '', $p->get_attribute('id'));
+                $preloaded_script_modules[$id] = $p->get_attribute('href');
             }
         }
 

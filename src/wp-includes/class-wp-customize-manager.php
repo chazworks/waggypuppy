@@ -299,8 +299,8 @@ final class WP_Customize_Manager
         $this->_changeset_uuid     = $args['changeset_uuid'];
 
         foreach (['settings_previewed', 'autosaved', 'branching'] as $key) {
-            if (isset($args[ $key ])) {
-                $this->$key = (bool) $args[ $key ];
+            if (isset($args[$key])) {
+                $this->$key = (bool) $args[$key];
             }
         }
 
@@ -1267,7 +1267,7 @@ final class WP_Customize_Manager
             foreach ($widgets as $widget) {
                 list( $id_base, $instance ) = $widget;
 
-                if (! isset($max_widget_numbers[ $id_base ])) {
+                if (! isset($max_widget_numbers[$id_base])) {
 
                     // When $settings is an array-like object, get an intrinsic array for use with array_keys().
                     $settings = get_option("widget_{$id_base}", []);
@@ -1280,19 +1280,19 @@ final class WP_Customize_Manager
                     // Find the max widget number for this type.
                     $widget_numbers = array_keys($settings);
                     if (count($widget_numbers) > 0) {
-                        $widget_numbers[]               = 1;
-                        $max_widget_numbers[ $id_base ] = max(...$widget_numbers);
+                        $widget_numbers[]             = 1;
+                        $max_widget_numbers[$id_base] = max(...$widget_numbers);
                     } else {
-                        $max_widget_numbers[ $id_base ] = 1;
+                        $max_widget_numbers[$id_base] = 1;
                     }
                 }
-                $max_widget_numbers[ $id_base ] += 1;
+                $max_widget_numbers[$id_base] += 1;
 
-                $widget_id  = sprintf('%s-%d', $id_base, $max_widget_numbers[ $id_base ]);
-                $setting_id = sprintf('widget_%s[%d]', $id_base, $max_widget_numbers[ $id_base ]);
+                $widget_id  = sprintf('%s-%d', $id_base, $max_widget_numbers[$id_base]);
+                $setting_id = sprintf('widget_%s[%d]', $id_base, $max_widget_numbers[$id_base]);
 
                 $setting_value = $this->widgets->sanitize_widget_js_instance($instance);
-                if (empty($changeset_data[ $setting_id ]) || ! empty($changeset_data[ $setting_id ]['starter_content'])) {
+                if (empty($changeset_data[$setting_id]) || ! empty($changeset_data[$setting_id]['starter_content'])) {
                     $this->set_post_value($setting_id, $setting_value);
                     $this->pending_starter_content_settings_ids[] = $setting_id;
                 }
@@ -1300,7 +1300,7 @@ final class WP_Customize_Manager
             }
 
             $setting_id = sprintf('sidebars_widgets[%s]', $sidebar_id);
-            if (empty($changeset_data[ $setting_id ]) || ! empty($changeset_data[ $setting_id ]['starter_content'])) {
+            if (empty($changeset_data[$setting_id]) || ! empty($changeset_data[$setting_id]['starter_content'])) {
                 $this->set_post_value($setting_id, $sidebar_widget_ids);
                 $this->pending_starter_content_settings_ids[] = $setting_id;
             }
@@ -1315,21 +1315,21 @@ final class WP_Customize_Manager
         $needed_posts = [];
         $attachments  = $this->prepare_starter_content_attachments($attachments);
         foreach ($attachments as $attachment) {
-            $key                  = 'attachment:' . $attachment['post_name'];
-            $needed_posts[ $key ] = true;
+            $key                = 'attachment:' . $attachment['post_name'];
+            $needed_posts[$key] = true;
         }
         foreach (array_keys($posts) as $post_symbol) {
-            if (empty($posts[ $post_symbol ]['post_name']) && empty($posts[ $post_symbol ]['post_title'])) {
-                unset($posts[ $post_symbol ]);
+            if (empty($posts[$post_symbol]['post_name']) && empty($posts[$post_symbol]['post_title'])) {
+                unset($posts[$post_symbol]);
                 continue;
             }
-            if (empty($posts[ $post_symbol ]['post_name'])) {
-                $posts[ $post_symbol ]['post_name'] = sanitize_title($posts[ $post_symbol ]['post_title']);
+            if (empty($posts[$post_symbol]['post_name'])) {
+                $posts[$post_symbol]['post_name'] = sanitize_title($posts[$post_symbol]['post_title']);
             }
-            if (empty($posts[ $post_symbol ]['post_type'])) {
-                $posts[ $post_symbol ]['post_type'] = 'post';
+            if (empty($posts[$post_symbol]['post_type'])) {
+                $posts[$post_symbol]['post_type'] = 'post';
             }
-            $needed_posts[ $posts[ $post_symbol ]['post_type'] . ':' . $posts[ $post_symbol ]['post_name'] ] = true;
+            $needed_posts[$posts[$post_symbol]['post_type'] . ':' . $posts[$post_symbol]['post_name']] = true;
         }
         $all_post_slugs = array_merge(
             wp_list_pluck($attachments, 'post_name'),
@@ -1358,7 +1358,7 @@ final class WP_Customize_Manager
                 if (empty($post_name)) {
                     $post_name = get_post_meta($existing_post->ID, '_customize_draft_post_name', true);
                 }
-                $existing_starter_content_posts[ $existing_post->post_type . ':' . $post_name ] = $existing_post;
+                $existing_starter_content_posts[$existing_post->post_type . ':' . $post_name] = $existing_post;
             }
         }
 
@@ -1374,8 +1374,8 @@ final class WP_Customize_Manager
             );
             foreach ($existing_posts_query->posts as $existing_post) {
                 $key = $existing_post->post_type . ':' . $existing_post->post_name;
-                if (isset($needed_posts[ $key ]) && ! isset($existing_starter_content_posts[ $key ])) {
-                    $existing_starter_content_posts[ $key ] = $existing_post;
+                if (isset($needed_posts[$key]) && ! isset($existing_starter_content_posts[$key])) {
+                    $existing_starter_content_posts[$key] = $existing_post;
                 }
             }
         }
@@ -1392,8 +1392,8 @@ final class WP_Customize_Manager
                 $file_path     = $attachment['file_path'];
                 $attachment_id = null;
                 $attached_file = null;
-                if (isset($existing_starter_content_posts[ 'attachment:' . $attachment['post_name'] ])) {
-                    $attachment_post = $existing_starter_content_posts[ 'attachment:' . $attachment['post_name'] ];
+                if (isset($existing_starter_content_posts['attachment:' . $attachment['post_name']])) {
+                    $attachment_post = $existing_starter_content_posts['attachment:' . $attachment['post_name']];
                     $attachment_id   = $attachment_post->ID;
                     $attached_file   = get_attached_file($attachment_id);
                     if (empty($attached_file) || ! file_exists($attached_file)) {
@@ -1435,7 +1435,7 @@ final class WP_Customize_Manager
                     update_post_meta($attachment_id, '_customize_draft_post_name', $attachment['post_name']);
                 }
 
-                $attachment_ids[ $symbol ] = $attachment_id;
+                $attachment_ids[$symbol] = $attachment_id;
             }
             $starter_content_auto_draft_post_ids = array_merge($starter_content_auto_draft_post_ids, array_values($attachment_ids));
         }
@@ -1443,38 +1443,38 @@ final class WP_Customize_Manager
         // Posts & pages.
         if (! empty($posts)) {
             foreach (array_keys($posts) as $post_symbol) {
-                if (empty($posts[ $post_symbol ]['post_type']) || empty($posts[ $post_symbol ]['post_name'])) {
+                if (empty($posts[$post_symbol]['post_type']) || empty($posts[$post_symbol]['post_name'])) {
                     continue;
                 }
-                $post_type = $posts[ $post_symbol ]['post_type'];
-                if (! empty($posts[ $post_symbol ]['post_name'])) {
-                    $post_name = $posts[ $post_symbol ]['post_name'];
-                } elseif (! empty($posts[ $post_symbol ]['post_title'])) {
-                    $post_name = sanitize_title($posts[ $post_symbol ]['post_title']);
+                $post_type = $posts[$post_symbol]['post_type'];
+                if (! empty($posts[$post_symbol]['post_name'])) {
+                    $post_name = $posts[$post_symbol]['post_name'];
+                } elseif (! empty($posts[$post_symbol]['post_title'])) {
+                    $post_name = sanitize_title($posts[$post_symbol]['post_title']);
                 } else {
                     continue;
                 }
 
                 // Use existing auto-draft post if one already exists with the same type and name.
-                if (isset($existing_starter_content_posts[ $post_type . ':' . $post_name ])) {
-                    $posts[ $post_symbol ]['ID'] = $existing_starter_content_posts[ $post_type . ':' . $post_name ]->ID;
+                if (isset($existing_starter_content_posts[$post_type . ':' . $post_name])) {
+                    $posts[$post_symbol]['ID'] = $existing_starter_content_posts[$post_type . ':' . $post_name]->ID;
                     continue;
                 }
 
                 // Translate the featured image symbol.
-                if (! empty($posts[ $post_symbol ]['thumbnail'])
-                    && preg_match('/^{{(?P<symbol>.+)}}$/', $posts[ $post_symbol ]['thumbnail'], $matches)
-                    && isset($attachment_ids[ $matches['symbol'] ])) {
-                    $posts[ $post_symbol ]['meta_input']['_thumbnail_id'] = $attachment_ids[ $matches['symbol'] ];
+                if (! empty($posts[$post_symbol]['thumbnail'])
+                    && preg_match('/^{{(?P<symbol>.+)}}$/', $posts[$post_symbol]['thumbnail'], $matches)
+                    && isset($attachment_ids[$matches['symbol']])) {
+                    $posts[$post_symbol]['meta_input']['_thumbnail_id'] = $attachment_ids[$matches['symbol']];
                 }
 
-                if (! empty($posts[ $post_symbol ]['template'])) {
-                    $posts[ $post_symbol ]['meta_input']['_wp_page_template'] = $posts[ $post_symbol ]['template'];
+                if (! empty($posts[$post_symbol]['template'])) {
+                    $posts[$post_symbol]['meta_input']['_wp_page_template'] = $posts[$post_symbol]['template'];
                 }
 
-                $r = $this->nav_menus->insert_auto_draft_post($posts[ $post_symbol ]);
+                $r = $this->nav_menus->insert_auto_draft_post($posts[$post_symbol]);
                 if ($r instanceof WP_Post) {
-                    $posts[ $post_symbol ]['ID'] = $r->ID;
+                    $posts[$post_symbol]['ID'] = $r->ID;
                 }
             }
 
@@ -1515,7 +1515,7 @@ final class WP_Customize_Manager
             }
 
             if (! $nav_menu_term_id) {
-                while (isset($changeset_data[ sprintf('nav_menu[%d]', $placeholder_id) ])) {
+                while (isset($changeset_data[sprintf('nav_menu[%d]', $placeholder_id)])) {
                     --$placeholder_id;
                 }
                 $nav_menu_term_id    = $placeholder_id;
@@ -1540,8 +1540,8 @@ final class WP_Customize_Manager
                 $nav_menu_item['nav_menu_term_id'] = $nav_menu_term_id;
 
                 if (isset($nav_menu_item['object_id'])) {
-                    if ('post_type' === $nav_menu_item['type'] && preg_match('/^{{(?P<symbol>.+)}}$/', $nav_menu_item['object_id'], $matches) && isset($posts[ $matches['symbol'] ])) {
-                        $nav_menu_item['object_id'] = $posts[ $matches['symbol'] ]['ID'];
+                    if ('post_type' === $nav_menu_item['type'] && preg_match('/^{{(?P<symbol>.+)}}$/', $nav_menu_item['object_id'], $matches) && isset($posts[$matches['symbol']])) {
+                        $nav_menu_item['object_id'] = $posts[$matches['symbol']]['ID'];
                         if (empty($nav_menu_item['title'])) {
                             $original_object        = get_post($nav_menu_item['object_id']);
                             $nav_menu_item['title'] = $original_object->post_title;
@@ -1553,14 +1553,14 @@ final class WP_Customize_Manager
                     $nav_menu_item['object_id'] = 0;
                 }
 
-                if (empty($changeset_data[ $nav_menu_item_setting_id ]) || ! empty($changeset_data[ $nav_menu_item_setting_id ]['starter_content'])) {
+                if (empty($changeset_data[$nav_menu_item_setting_id]) || ! empty($changeset_data[$nav_menu_item_setting_id]['starter_content'])) {
                     $this->set_post_value($nav_menu_item_setting_id, $nav_menu_item);
                     $this->pending_starter_content_settings_ids[] = $nav_menu_item_setting_id;
                 }
             }
 
             $setting_id = sprintf('nav_menu_locations[%s]', $nav_menu_location);
-            if (empty($changeset_data[ $setting_id ]) || ! empty($changeset_data[ $setting_id ]['starter_content'])) {
+            if (empty($changeset_data[$setting_id]) || ! empty($changeset_data[$setting_id]['starter_content'])) {
                 $this->set_post_value($setting_id, $nav_menu_term_id);
                 $this->pending_starter_content_settings_ids[] = $setting_id;
             }
@@ -1574,10 +1574,10 @@ final class WP_Customize_Manager
 
             if (is_serialized($value)) {
                 if (preg_match('/s:\d+:"{{(?P<symbol>.+)}}"/', $value, $matches)) {
-                    if (isset($posts[ $matches['symbol'] ])) {
-                        $symbol_match = $posts[ $matches['symbol'] ]['ID'];
-                    } elseif (isset($attachment_ids[ $matches['symbol'] ])) {
-                        $symbol_match = $attachment_ids[ $matches['symbol'] ];
+                    if (isset($posts[$matches['symbol']])) {
+                        $symbol_match = $posts[$matches['symbol']]['ID'];
+                    } elseif (isset($attachment_ids[$matches['symbol']])) {
+                        $symbol_match = $attachment_ids[$matches['symbol']];
                     }
 
                     // If we have any symbol matches, update the values.
@@ -1589,10 +1589,10 @@ final class WP_Customize_Manager
                     }
                 }
             } elseif (preg_match('/^{{(?P<symbol>.+)}}$/', $value, $matches)) {
-                if (isset($posts[ $matches['symbol'] ])) {
-                    $value = $posts[ $matches['symbol'] ]['ID'];
-                } elseif (isset($attachment_ids[ $matches['symbol'] ])) {
-                    $value = $attachment_ids[ $matches['symbol'] ];
+                if (isset($posts[$matches['symbol']])) {
+                    $value = $posts[$matches['symbol']]['ID'];
+                } elseif (isset($attachment_ids[$matches['symbol']])) {
+                    $value = $attachment_ids[$matches['symbol']];
                 } else {
                     continue;
                 }
@@ -1601,7 +1601,7 @@ final class WP_Customize_Manager
             // Unserialize values after checking for post symbols, so they can be properly referenced.
             $value = maybe_unserialize($value);
 
-            if (empty($changeset_data[ $name ]) || ! empty($changeset_data[ $name ]['starter_content'])) {
+            if (empty($changeset_data[$name]) || ! empty($changeset_data[$name]['starter_content'])) {
                 $this->set_post_value($name, $value);
                 $this->pending_starter_content_settings_ids[] = $name;
             }
@@ -1616,10 +1616,10 @@ final class WP_Customize_Manager
             // Check if value was serialized.
             if (is_serialized($value)) {
                 if (preg_match('/s:\d+:"{{(?P<symbol>.+)}}"/', $value, $matches)) {
-                    if (isset($posts[ $matches['symbol'] ])) {
-                        $symbol_match = $posts[ $matches['symbol'] ]['ID'];
-                    } elseif (isset($attachment_ids[ $matches['symbol'] ])) {
-                        $symbol_match = $attachment_ids[ $matches['symbol'] ];
+                    if (isset($posts[$matches['symbol']])) {
+                        $symbol_match = $posts[$matches['symbol']]['ID'];
+                    } elseif (isset($attachment_ids[$matches['symbol']])) {
+                        $symbol_match = $attachment_ids[$matches['symbol']];
                     }
 
                     // If we have any symbol matches, update the values.
@@ -1631,10 +1631,10 @@ final class WP_Customize_Manager
                     }
                 }
             } elseif (preg_match('/^{{(?P<symbol>.+)}}$/', $value, $matches)) {
-                if (isset($posts[ $matches['symbol'] ])) {
-                    $value = $posts[ $matches['symbol'] ]['ID'];
-                } elseif (isset($attachment_ids[ $matches['symbol'] ])) {
-                    $value = $attachment_ids[ $matches['symbol'] ];
+                if (isset($posts[$matches['symbol']])) {
+                    $value = $posts[$matches['symbol']]['ID'];
+                } elseif (isset($attachment_ids[$matches['symbol']])) {
+                    $value = $attachment_ids[$matches['symbol']];
                 } else {
                     continue;
                 }
@@ -1660,7 +1660,7 @@ final class WP_Customize_Manager
                 $value = wp_get_attachment_url($value);
             }
 
-            if (empty($changeset_data[ $name ]) || ! empty($changeset_data[ $name ]['starter_content'])) {
+            if (empty($changeset_data[$name]) || ! empty($changeset_data[$name]['starter_content'])) {
                 $this->set_post_value($name, $value);
                 $this->pending_starter_content_settings_ids[] = $name;
             }
@@ -1731,9 +1731,9 @@ final class WP_Customize_Manager
                 }
             }
 
-            $attachment['file_name']         = $file_name;
-            $attachment['file_path']         = $file_path;
-            $prepared_attachments[ $symbol ] = $attachment;
+            $attachment['file_name']       = $file_name;
+            $attachment['file_path']       = $file_path;
+            $prepared_attachments[$symbol] = $attachment;
         }
         return $prepared_attachments;
     }
@@ -1804,8 +1804,8 @@ final class WP_Customize_Manager
         if (! $this->is_theme_active()) {
             $stashed_theme_mods = get_option('customize_stashed_theme_mods');
             $stylesheet         = $this->get_stylesheet();
-            if (isset($stashed_theme_mods[ $stylesheet ])) {
-                $values = array_merge($values, wp_list_pluck($stashed_theme_mods[ $stylesheet ], 'value'));
+            if (isset($stashed_theme_mods[$stylesheet])) {
+                $values = array_merge($values, wp_list_pluck($stashed_theme_mods[$stylesheet], 'value'));
             }
         }
 
@@ -1819,10 +1819,10 @@ final class WP_Customize_Manager
                     // Ensure that theme mods values are only used if they were saved under the active theme.
                     $namespace_pattern = '/^(?P<stylesheet>.+?)::(?P<setting_id>.+)$/';
                     if (preg_match($namespace_pattern, $setting_id, $matches) && $this->get_stylesheet() === $matches['stylesheet']) {
-                        $values[ $matches['setting_id'] ] = $setting_params['value'];
+                        $values[$matches['setting_id']] = $setting_params['value'];
                     }
                 } else {
-                    $values[ $setting_id ] = $setting_params['value'];
+                    $values[$setting_id] = $setting_params['value'];
                 }
             }
         }
@@ -1872,7 +1872,7 @@ final class WP_Customize_Manager
             return $default_value;
         }
 
-        $value = $post_values[ $setting->id ];
+        $value = $post_values[$setting->id];
         $valid = $setting->validate($value);
         if (is_wp_error($valid)) {
             return $default_value;
@@ -1900,7 +1900,7 @@ final class WP_Customize_Manager
     public function set_post_value($setting_id, $value)
     {
         $this->unsanitized_post_values(); // Populate _post_values from $_POST['customized'].
-        $this->_post_values[ $setting_id ] = $value;
+        $this->_post_values[$setting_id] = $value;
 
         /**
          * Announces when a specific setting's unsanitized post value has been set.
@@ -2226,22 +2226,22 @@ final class WP_Customize_Manager
 
         foreach ($this->panels as $panel_id => $panel) {
             if ($panel->check_capabilities()) {
-                $settings['activePanels'][ $panel_id ] = $panel->active();
+                $settings['activePanels'][$panel_id] = $panel->active();
                 foreach ($panel->sections as $section_id => $section) {
                     if ($section->check_capabilities()) {
-                        $settings['activeSections'][ $section_id ] = $section->active();
+                        $settings['activeSections'][$section_id] = $section->active();
                     }
                 }
             }
         }
         foreach ($this->sections as $id => $section) {
             if ($section->check_capabilities()) {
-                $settings['activeSections'][ $id ] = $section->active();
+                $settings['activeSections'][$id] = $section->active();
             }
         }
         foreach ($this->controls as $id => $control) {
             if ($control->check_capabilities()) {
-                $settings['activeControls'][ $id ] = $control->active();
+                $settings['activeControls'][$id] = $control->active();
             }
         }
 
@@ -2411,7 +2411,7 @@ final class WP_Customize_Manager
             $setting = $this->get_setting($setting_id);
             if (! $setting) {
                 if ($options['validate_existence']) {
-                    $validities[ $setting_id ] = new WP_Error('unrecognized', __('Setting does not exist or is unrecognized.'));
+                    $validities[$setting_id] = new WP_Error('unrecognized', __('Setting does not exist or is unrecognized.'));
                 }
                 continue;
             }
@@ -2441,7 +2441,7 @@ final class WP_Customize_Manager
             if (false === $validity) {
                 $validity = new WP_Error('invalid_value', __('Invalid value.'));
             }
-            $validities[ $setting_id ] = $validity;
+            $validities[$setting_id] = $validity;
         }
         return $validities;
     }
@@ -2464,7 +2464,7 @@ final class WP_Customize_Manager
         if (is_wp_error($validity)) {
             $notification = [];
             foreach ($validity->errors as $error_code => $error_messages) {
-                $notification[ $error_code ] = [
+                $notification[$error_code] = [
                     'message' => implode(' ', $error_messages),
                     'data'    => $validity->get_error_data($error_code),
                 ];
@@ -2810,11 +2810,11 @@ final class WP_Customize_Manager
             }
 
             $is_value_changed = (
-                ! isset($existing_changeset_data[ $prefixed_setting_id ])
+                ! isset($existing_changeset_data[$prefixed_setting_id])
                 ||
-                ! array_key_exists('value', $existing_changeset_data[ $prefixed_setting_id ])
+                ! array_key_exists('value', $existing_changeset_data[$prefixed_setting_id])
                 ||
-                $existing_changeset_data[ $prefixed_setting_id ]['value'] !== $setting_value
+                $existing_changeset_data[$prefixed_setting_id]['value'] !== $setting_value
             );
             if ($is_value_changed) {
                 $changed_setting_ids[] = $setting_id;
@@ -2870,11 +2870,11 @@ final class WP_Customize_Manager
 
         // Ensure that all post values are included in the changeset data.
         foreach ($post_values as $setting_id => $post_value) {
-            if (! isset($args['data'][ $setting_id ])) {
-                $args['data'][ $setting_id ] = [];
+            if (! isset($args['data'][$setting_id])) {
+                $args['data'][$setting_id] = [];
             }
-            if (! isset($args['data'][ $setting_id ]['value'])) {
-                $args['data'][ $setting_id ]['value'] = $post_value;
+            if (! isset($args['data'][$setting_id]['value'])) {
+                $args['data'][$setting_id]['value'] = $post_value;
             }
         }
 
@@ -2885,7 +2885,7 @@ final class WP_Customize_Manager
             }
 
             // Skip updating changeset for invalid setting values.
-            if (isset($setting_validities[ $setting_id ]) && is_wp_error($setting_validities[ $setting_id ])) {
+            if (isset($setting_validities[$setting_id]) && is_wp_error($setting_validities[$setting_id])) {
                 continue;
             }
 
@@ -2896,22 +2896,22 @@ final class WP_Customize_Manager
 
             if (null === $setting_params) {
                 // Remove setting from changeset entirely.
-                unset($data[ $changeset_setting_id ]);
+                unset($data[$changeset_setting_id]);
             } else {
 
-                if (! isset($data[ $changeset_setting_id ])) {
-                    $data[ $changeset_setting_id ] = [];
+                if (! isset($data[$changeset_setting_id])) {
+                    $data[$changeset_setting_id] = [];
                 }
 
                 // Merge any additional setting params that have been supplied with the existing params.
-                $merged_setting_params = array_merge($data[ $changeset_setting_id ], $setting_params);
+                $merged_setting_params = array_merge($data[$changeset_setting_id], $setting_params);
 
                 // Skip updating setting params if unchanged (ensuring the user_id is not overwritten).
-                if ($data[ $changeset_setting_id ] === $merged_setting_params) {
+                if ($data[$changeset_setting_id] === $merged_setting_params) {
                     continue;
                 }
 
-                $data[ $changeset_setting_id ] = array_merge(
+                $data[$changeset_setting_id] = array_merge(
                     $merged_setting_params,
                     [
                         'type'              => $setting->type,
@@ -2922,7 +2922,7 @@ final class WP_Customize_Manager
 
                 // Clear starter_content flag in data if changeset is not explicitly being updated for starter content.
                 if (empty($args['starter_content'])) {
-                    unset($data[ $changeset_setting_id ]['starter_content']);
+                    unset($data[$changeset_setting_id]['starter_content']);
                 }
             }
         }
@@ -3581,10 +3581,10 @@ final class WP_Customize_Manager
                 preg_match($namespace_pattern, $raw_setting_id, $matches)
             );
             if ($is_theme_mod_setting) {
-                if (! isset($theme_mod_settings[ $matches['stylesheet'] ])) {
-                    $theme_mod_settings[ $matches['stylesheet'] ] = [];
+                if (! isset($theme_mod_settings[$matches['stylesheet']])) {
+                    $theme_mod_settings[$matches['stylesheet']] = [];
                 }
-                $theme_mod_settings[ $matches['stylesheet'] ][ $matches['setting_id'] ] = $setting_params;
+                $theme_mod_settings[$matches['stylesheet']][$matches['setting_id']] = $setting_params;
 
                 if ($this->get_stylesheet() === $matches['stylesheet']) {
                     $actual_setting_id = $matches['setting_id'];
@@ -3595,7 +3595,7 @@ final class WP_Customize_Manager
 
             // Keep track of the user IDs for settings actually for this theme.
             if ($actual_setting_id && isset($setting_params['user_id'])) {
-                $setting_user_ids[ $actual_setting_id ] = $setting_params['user_id'];
+                $setting_user_ids[$actual_setting_id] = $setting_params['user_id'];
             }
         }
 
@@ -3627,9 +3627,9 @@ final class WP_Customize_Manager
         $original_setting_capabilities = [];
         foreach ($changeset_setting_ids as $setting_id) {
             $setting = $this->get_setting($setting_id);
-            if ($setting && ! isset($setting_user_ids[ $setting_id ])) {
-                $original_setting_capabilities[ $setting->id ] = $setting->capability;
-                $setting->capability                           = 'exist';
+            if ($setting && ! isset($setting_user_ids[$setting_id])) {
+                $original_setting_capabilities[$setting->id] = $setting->capability;
+                $setting->capability                         = 'exist';
             }
         }
 
@@ -3644,8 +3644,8 @@ final class WP_Customize_Manager
                  * will ensure, for example, that KSES won't strip unsafe HTML
                  * when a scheduled changeset publishes via WP Cron.
                  */
-                if (isset($setting_user_ids[ $setting_id ])) {
-                    wp_set_current_user($setting_user_ids[ $setting_id ]);
+                if (isset($setting_user_ids[$setting_id])) {
+                    wp_set_current_user($setting_user_ids[$setting_id]);
                 } else {
                     wp_set_current_user($original_user_id);
                 }
@@ -3658,7 +3658,7 @@ final class WP_Customize_Manager
         // Update the stashed theme mod settings, removing the active theme's stashed settings, if activated.
         if (did_action('switch_theme')) {
             $other_theme_mod_settings = $theme_mod_settings;
-            unset($other_theme_mod_settings[ $this->get_stylesheet() ]);
+            unset($other_theme_mod_settings[$this->get_stylesheet()]);
             $this->update_stashed_theme_mod_settings($other_theme_mod_settings);
         }
 
@@ -3727,16 +3727,16 @@ final class WP_Customize_Manager
         }
 
         // Delete any stashed theme mods for the active theme since they would have been loaded and saved upon activation.
-        unset($stashed_theme_mod_settings[ $this->get_stylesheet() ]);
+        unset($stashed_theme_mod_settings[$this->get_stylesheet()]);
 
         // Merge inactive theme mods with the stashed theme mod settings.
         foreach ($inactive_theme_mod_settings as $stylesheet => $theme_mod_settings) {
-            if (! isset($stashed_theme_mod_settings[ $stylesheet ])) {
-                $stashed_theme_mod_settings[ $stylesheet ] = [];
+            if (! isset($stashed_theme_mod_settings[$stylesheet])) {
+                $stashed_theme_mod_settings[$stylesheet] = [];
             }
 
-            $stashed_theme_mod_settings[ $stylesheet ] = array_merge(
-                $stashed_theme_mod_settings[ $stylesheet ],
+            $stashed_theme_mod_settings[$stylesheet] = array_merge(
+                $stashed_theme_mod_settings[$stylesheet],
                 $theme_mod_settings
             );
         }
@@ -3863,7 +3863,7 @@ final class WP_Customize_Manager
             $setting = new $class($this, $id, $args);
         }
 
-        $this->settings[ $setting->id ] = $setting;
+        $this->settings[$setting->id] = $setting;
         return $setting;
     }
 
@@ -3939,8 +3939,8 @@ final class WP_Customize_Manager
      */
     public function get_setting($id)
     {
-        if (isset($this->settings[ $id ])) {
-            return $this->settings[ $id ];
+        if (isset($this->settings[$id])) {
+            return $this->settings[$id];
         }
     }
 
@@ -3955,7 +3955,7 @@ final class WP_Customize_Manager
      */
     public function remove_setting($id)
     {
-        unset($this->settings[ $id ]);
+        unset($this->settings[$id]);
     }
 
     /**
@@ -3980,7 +3980,7 @@ final class WP_Customize_Manager
             $panel = new WP_Customize_Panel($this, $id, $args);
         }
 
-        $this->panels[ $panel->id ] = $panel;
+        $this->panels[$panel->id] = $panel;
         return $panel;
     }
 
@@ -3994,8 +3994,8 @@ final class WP_Customize_Manager
      */
     public function get_panel($id)
     {
-        if (isset($this->panels[ $id ])) {
-            return $this->panels[ $id ];
+        if (isset($this->panels[$id])) {
+            return $this->panels[$id];
         }
     }
 
@@ -4027,7 +4027,7 @@ final class WP_Customize_Manager
                 '4.5.0'
             );
         }
-        unset($this->panels[ $id ]);
+        unset($this->panels[$id]);
     }
 
     /**
@@ -4081,7 +4081,7 @@ final class WP_Customize_Manager
             $section = new WP_Customize_Section($this, $id, $args);
         }
 
-        $this->sections[ $section->id ] = $section;
+        $this->sections[$section->id] = $section;
         return $section;
     }
 
@@ -4095,8 +4095,8 @@ final class WP_Customize_Manager
      */
     public function get_section($id)
     {
-        if (isset($this->sections[ $id ])) {
-            return $this->sections[ $id ];
+        if (isset($this->sections[$id])) {
+            return $this->sections[$id];
         }
     }
 
@@ -4111,7 +4111,7 @@ final class WP_Customize_Manager
      */
     public function remove_section($id)
     {
-        unset($this->sections[ $id ]);
+        unset($this->sections[$id]);
     }
 
     /**
@@ -4165,7 +4165,7 @@ final class WP_Customize_Manager
             $control = new WP_Customize_Control($this, $id, $args);
         }
 
-        $this->controls[ $control->id ] = $control;
+        $this->controls[$control->id] = $control;
         return $control;
     }
 
@@ -4179,8 +4179,8 @@ final class WP_Customize_Manager
      */
     public function get_control($id)
     {
-        if (isset($this->controls[ $id ])) {
-            return $this->controls[ $id ];
+        if (isset($this->controls[$id])) {
+            return $this->controls[$id];
         }
     }
 
@@ -4195,7 +4195,7 @@ final class WP_Customize_Manager
      */
     public function remove_control($id)
     {
-        unset($this->controls[ $id ]);
+        unset($this->controls[$id]);
     }
 
     /**
@@ -4546,12 +4546,12 @@ final class WP_Customize_Manager
         );
 
         foreach ($this->controls as $id => $control) {
-            if (! isset($this->sections[ $control->section ]) || ! $control->check_capabilities()) {
+            if (! isset($this->sections[$control->section]) || ! $control->check_capabilities()) {
                 continue;
             }
 
-            $this->sections[ $control->section ]->controls[] = $control;
-            $controls[ $id ]                                 = $control;
+            $this->sections[$control->section]->controls[] = $control;
+            $controls[$id]                                 = $control;
         }
         $this->controls = $controls;
 
@@ -4582,11 +4582,11 @@ final class WP_Customize_Manager
 
             if (! $section->panel) {
                 // Top-level section.
-                $sections[ $section->id ] = $section;
+                $sections[$section->id] = $section;
             } else {
                 // This section belongs to a panel.
-                if (isset($this->panels [ $section->panel ])) {
-                    $this->panels[ $section->panel ]->sections[ $section->id ] = $section;
+                if (isset($this->panels[$section->panel])) {
+                    $this->panels[$section->panel]->sections[$section->id] = $section;
                 }
             }
         }
@@ -4609,7 +4609,7 @@ final class WP_Customize_Manager
                 continue;
             }
 
-            $panel->sections      = wp_list_sort(
+            $panel->sections    = wp_list_sort(
                 $panel->sections,
                 [
                     'priority'        => 'ASC',
@@ -4618,7 +4618,7 @@ final class WP_Customize_Manager
                 'ASC',
                 true
             );
-            $panels[ $panel->id ] = $panel;
+            $panels[$panel->id] = $panel;
         }
         $this->panels = $panels;
 
@@ -4829,7 +4829,7 @@ final class WP_Customize_Manager
                  * If the return URL is a page added by a theme to the Appearance menu via add_submenu_page(),
                  * verify that it belongs to the active theme, otherwise fall back to the Themes screen.
                  */
-                if (isset($query_vars['page']) && ! isset($_registered_pages[ "appearance_page_{$query_vars['page']}" ])) {
+                if (isset($query_vars['page']) && ! isset($_registered_pages["appearance_page_{$query_vars['page']}"])) {
                     $return_url = admin_url('themes.php');
                 }
             }
@@ -5074,17 +5074,17 @@ final class WP_Customize_Manager
         // Prepare Customize Section objects to pass to JavaScript.
         foreach ($this->sections() as $id => $section) {
             if ($section->check_capabilities()) {
-                $settings['sections'][ $id ] = $section->json();
+                $settings['sections'][$id] = $section->json();
             }
         }
 
         // Prepare Customize Panel objects to pass to JavaScript.
         foreach ($this->panels() as $panel_id => $panel) {
             if ($panel->check_capabilities()) {
-                $settings['panels'][ $panel_id ] = $panel->json();
+                $settings['panels'][$panel_id] = $panel->json();
                 foreach ($panel->sections as $section_id => $section) {
                     if ($section->check_capabilities()) {
-                        $settings['sections'][ $section_id ] = $section->json();
+                        $settings['sections'][$section_id] = $section->json();
                     }
                 }
             }

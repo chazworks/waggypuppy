@@ -118,7 +118,7 @@ function wp_get_missing_image_subsizes($attachment_id)
     // Skip registered sizes that are too large for the uploaded image.
     foreach ($registered_sizes as $size_name => $size_data) {
         if (image_resize_dimensions($full_width, $full_height, $size_data['width'], $size_data['height'], $size_data['crop'])) {
-            $possible_sizes[ $size_name ] = $size_data;
+            $possible_sizes[$size_name] = $size_data;
         }
     }
 
@@ -421,7 +421,7 @@ function _wp_make_subsizes($new_sizes, $file, $image_meta, $attachment_id)
              * To change the behavior, unset changed/mismatched sizes in the `sizes` array in image meta.
              */
             if (array_key_exists($size_name, $new_sizes)) {
-                unset($new_sizes[ $size_name ]);
+                unset($new_sizes[$size_name]);
             }
         }
     } else {
@@ -471,7 +471,7 @@ function _wp_make_subsizes($new_sizes, $file, $image_meta, $attachment_id)
                 // TODO: Log errors.
             } else {
                 // Save the size meta value.
-                $image_meta['sizes'][ $new_size_name ] = $new_size_meta;
+                $image_meta['sizes'][$new_size_name] = $new_size_meta;
                 wp_update_attachment_metadata($attachment_id, $image_meta);
             }
         }
@@ -1023,14 +1023,14 @@ function wp_read_image_metadata($file)
     }
 
     foreach (['title', 'caption', 'credit', 'copyright', 'camera', 'iso'] as $key) {
-        if ($meta[ $key ] && ! seems_utf8($meta[ $key ])) {
-            $meta[ $key ] = utf8_encode($meta[ $key ]);
+        if ($meta[$key] && ! seems_utf8($meta[$key])) {
+            $meta[$key] = utf8_encode($meta[$key]);
         }
     }
 
     foreach ($meta['keywords'] as $key => $keyword) {
         if (! seems_utf8($keyword)) {
-            $meta['keywords'][ $key ] = utf8_encode($keyword);
+            $meta['keywords'][$key] = utf8_encode($keyword);
         }
     }
 

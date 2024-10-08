@@ -37,11 +37,11 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase
         // Each user is either mapped to a given ID, mapped to a new user
         // with given login or imported using details in WXR file.
         foreach ($users as $user => $map) {
-            $authors[ $i ] = $user;
+            $authors[$i] = $user;
             if (is_int($map)) {
-                $mapping[ $i ] = $map;
+                $mapping[$i] = $map;
             } elseif (is_string($map)) {
-                $new[ $i ] = $map;
+                $new[$i] = $map;
             }
 
             ++$i;

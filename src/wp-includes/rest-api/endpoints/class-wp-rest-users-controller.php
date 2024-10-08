@@ -296,8 +296,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller
          * set the parameter's value on the query $prepared_args.
          */
         foreach ($parameter_mappings as $api_param => $wp_param) {
-            if (isset($registered[ $api_param ], $request[ $api_param ])) {
-                $prepared_args[ $wp_param ] = $request[ $api_param ];
+            if (isset($registered[$api_param], $request[$api_param])) {
+                $prepared_args[$wp_param] = $request[$api_param];
             }
         }
 
@@ -318,7 +318,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller
                 'email'           => 'user_email',
                 'url'             => 'user_url',
             ];
-            $prepared_args['orderby'] = $orderby_possibles[ $request['orderby'] ];
+            $prepared_args['orderby'] = $orderby_possibles[$request['orderby']];
         }
 
         if (isset($registered['who']) && ! empty($request['who']) && 'authors' === $request['who']) {
@@ -1240,7 +1240,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller
 
         foreach ($roles as $role) {
 
-            if (! isset($wp_roles->role_objects[ $role ])) {
+            if (! isset($wp_roles->role_objects[$role])) {
                 return new WP_Error(
                     'rest_user_invalid_role',
                     /* translators: %s: Role key. */
@@ -1249,7 +1249,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller
                 );
             }
 
-            $potential_role = $wp_roles->role_objects[ $role ];
+            $potential_role = $wp_roles->role_objects[$role];
 
             /*
              * Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
@@ -1273,7 +1273,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller
             // The new role must be editable by the logged-in user.
             $editable_roles = get_editable_roles();
 
-            if (empty($editable_roles[ $role ])) {
+            if (empty($editable_roles[$role])) {
                 return new WP_Error(
                     'rest_user_invalid_role',
                     __('Sorry, you are not allowed to give users that role.'),
@@ -1511,7 +1511,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller
             $avatar_sizes = rest_get_avatar_sizes();
 
             foreach ($avatar_sizes as $size) {
-                $avatar_properties[ $size ] = [
+                $avatar_properties[$size] = [
                     /* translators: %d: Avatar image size in pixels. */
                     'description' => sprintf(__('Avatar URL with image size of %d pixels.'), $size),
                     'type'        => 'string',

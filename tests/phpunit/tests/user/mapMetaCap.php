@@ -39,7 +39,7 @@ class Tests_User_MapMetaCap extends WP_UnitTestCase
     public static function wpTearDownAfterClass()
     {
         $GLOBALS['super_admins'] = self::$super_admins;
-        unset($GLOBALS['wp_post_types'][ self::$post_type ]);
+        unset($GLOBALS['wp_post_types'][self::$post_type]);
     }
 
     /**

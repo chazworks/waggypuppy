@@ -242,11 +242,11 @@ class Tests_Privacy_wpPrivacyProcessPersonalDataExportPage extends WP_UnitTestCa
         // Let's override other unrelated exporters.
         $exporters = [];
 
-        $exporters[ self::$exporter_key_first ] = [
+        $exporters[self::$exporter_key_first] = [
             'exporter_friendly_name' => __('Custom Exporter #1'),
             'callback'               => null,
         ];
-        $exporters[ self::$exporter_key_last ]  = [
+        $exporters[self::$exporter_key_last]  = [
             'exporter_friendly_name' => __('Custom Exporter #2'),
             'callback'               => null,
         ];

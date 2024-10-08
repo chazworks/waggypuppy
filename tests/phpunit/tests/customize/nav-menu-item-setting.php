@@ -401,7 +401,7 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         $db_ids     = wp_list_pluck($menu_items, 'db_id');
         $this->assertContains($item_id, $db_ids);
         $i                         = array_search($item_id, $db_ids, true);
-        $updated_item              = $menu_items[ $i ];
+        $updated_item              = $menu_items[$i];
         $post_value['post_status'] = $post_value['status'];
         unset($post_value['status']);
         foreach ($post_value as $key => $value) {
@@ -606,7 +606,7 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         $this->assertSameSets(array_keys($unsanitized), array_keys($sanitized));
 
         foreach ($expected_sanitized as $key => $value) {
-            $this->assertSame($value, $sanitized[ $key ], "Expected $key to be sanitized.");
+            $this->assertSame($value, $sanitized[$key], "Expected $key to be sanitized.");
         }
 
         $nav_menu_item_id = wp_update_nav_menu_item(
@@ -697,7 +697,7 @@ class Test_WP_Customize_Nav_Menu_Item_Setting extends WP_UnitTestCase
         $db_ids     = wp_list_pluck($menu_items, 'db_id');
         $this->assertContains($item_id, $db_ids);
         $i                         = array_search($item_id, $db_ids, true);
-        $updated_item              = $menu_items[ $i ];
+        $updated_item              = $menu_items[$i];
         $post_value['post_status'] = $post_value['status'];
         unset($post_value['status']);
         foreach ($post_value as $key => $value) {

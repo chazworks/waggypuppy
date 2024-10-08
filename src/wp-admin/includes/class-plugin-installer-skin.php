@@ -238,8 +238,8 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin
         $is_same_plugin = true; // Let's consider only these rows.
 
         foreach ($rows as $field => $label) {
-            $old_value = ! empty($current_plugin_data[ $field ]) ? (string) $current_plugin_data[ $field ] : '-';
-            $new_value = ! empty($new_plugin_data[ $field ]) ? (string) $new_plugin_data[ $field ] : '-';
+            $old_value = ! empty($current_plugin_data[$field]) ? (string) $current_plugin_data[$field] : '-';
+            $new_value = ! empty($new_plugin_data[$field]) ? (string) $new_plugin_data[$field] : '-';
 
             $is_same_plugin = $is_same_plugin && ($old_value === $new_value);
 

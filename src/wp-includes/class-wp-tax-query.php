@@ -164,20 +164,20 @@ class WP_Tax_Query
                  */
                 if (! empty($cleaned_clause['taxonomy']) && 'NOT IN' !== $cleaned_clause['operator']) {
                     $taxonomy = $cleaned_clause['taxonomy'];
-                    if (! isset($this->queried_terms[ $taxonomy ])) {
-                        $this->queried_terms[ $taxonomy ] = [];
+                    if (! isset($this->queried_terms[$taxonomy])) {
+                        $this->queried_terms[$taxonomy] = [];
                     }
 
                     /*
                      * Backward compatibility: Only store the first
                      * 'terms' and 'field' found for a given taxonomy.
                      */
-                    if (! empty($cleaned_clause['terms']) && ! isset($this->queried_terms[ $taxonomy ]['terms'])) {
-                        $this->queried_terms[ $taxonomy ]['terms'] = $cleaned_clause['terms'];
+                    if (! empty($cleaned_clause['terms']) && ! isset($this->queried_terms[$taxonomy]['terms'])) {
+                        $this->queried_terms[$taxonomy]['terms'] = $cleaned_clause['terms'];
                     }
 
-                    if (! empty($cleaned_clause['field']) && ! isset($this->queried_terms[ $taxonomy ]['field'])) {
-                        $this->queried_terms[ $taxonomy ]['field'] = $cleaned_clause['field'];
+                    if (! empty($cleaned_clause['field']) && ! isset($this->queried_terms[$taxonomy]['field'])) {
+                        $this->queried_terms[$taxonomy]['field'] = $cleaned_clause['field'];
                     }
                 }
 

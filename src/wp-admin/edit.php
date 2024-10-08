@@ -54,8 +54,8 @@ $pagenum       = $wp_list_table->get_pagenum();
 
 // Back-compat for viewing comments of an entry.
 foreach (['p', 'attachment_id', 'page_id'] as $_redirect) {
-    if (! empty($_REQUEST[ $_redirect ])) {
-        wp_redirect(admin_url('edit-comments.php?p=' . absint($_REQUEST[ $_redirect ])));
+    if (! empty($_REQUEST[$_redirect])) {
+        wp_redirect(admin_url('edit-comments.php?p=' . absint($_REQUEST[$_redirect])));
         exit;
     }
 }
@@ -439,10 +439,10 @@ if (isset($_REQUEST['s']) && strlen($_REQUEST['s'])) {
 // If we have a bulk message to issue:
 $messages = [];
 foreach ($bulk_counts as $message => $count) {
-    if (isset($bulk_messages[ $post_type ][ $message ])) {
-        $messages[] = sprintf($bulk_messages[ $post_type ][ $message ], number_format_i18n($count));
-    } elseif (isset($bulk_messages['post'][ $message ])) {
-        $messages[] = sprintf($bulk_messages['post'][ $message ], number_format_i18n($count));
+    if (isset($bulk_messages[$post_type][$message])) {
+        $messages[] = sprintf($bulk_messages[$post_type][$message], number_format_i18n($count));
+    } elseif (isset($bulk_messages['post'][$message])) {
+        $messages[] = sprintf($bulk_messages['post'][$message], number_format_i18n($count));
     }
 
     if ('trashed' === $message && isset($_REQUEST['ids'])) {

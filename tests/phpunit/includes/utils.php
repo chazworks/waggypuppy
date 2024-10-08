@@ -349,18 +349,18 @@ class TestXMLParser
     {
         $index = count($this->data) - 1;
 
-        if (! isset($this->data[ $index ]['content'])) {
-            $this->data[ $index ]['content'] = '';
+        if (! isset($this->data[$index]['content'])) {
+            $this->data[$index]['content'] = '';
         }
-        $this->data[ $index ]['content'] .= $data;
+        $this->data[$index]['content'] .= $data;
     }
 
     public function end_handler($parser, $name)
     {
         if (count($this->data) > 1) {
-            $data                            = array_pop($this->data);
-            $index                           = count($this->data) - 1;
-            $this->data[ $index ]['child'][] = $data;
+            $data                          = array_pop($this->data);
+            $index                         = count($this->data) - 1;
+            $this->data[$index]['child'][] = $data;
         }
     }
 }
@@ -403,12 +403,12 @@ function xml_find($tree, ...$elements)
     for ($i = 0; $i < count($tree); $i++) {
         #       echo "checking '{$tree[$i][name]}' == '{$elements[0]}'\n";
         #       var_dump( $tree[$i]['name'], $elements[0] );
-        if ($tree[ $i ]['name'] === $elements[0]) {
+        if ($tree[$i]['name'] === $elements[0]) {
             #           echo "n == {$n}\n";
             if (1 === $n) {
-                $out[] = $tree[ $i ];
+                $out[] = $tree[$i];
             } else {
-                $subtree =& $tree[ $i ]['child'];
+                $subtree =& $tree[$i]['child'];
                 $out     = array_merge($out, xml_find($subtree, ...array_slice($elements, 1)));
             }
         }
@@ -431,15 +431,15 @@ function xml_array_dumbdown(&$data)
     $out = [];
 
     foreach (array_keys($data) as $i) {
-        $name = $data[ $i ]['name'];
-        if (! empty($data[ $i ]['attributes'])) {
-            $name .= ' ' . xml_join_atts($data[ $i ]['attributes']);
+        $name = $data[$i]['name'];
+        if (! empty($data[$i]['attributes'])) {
+            $name .= ' ' . xml_join_atts($data[$i]['attributes']);
         }
 
-        if (! empty($data[ $i ]['child'])) {
-            $out[ $name ][] = xml_array_dumbdown($data[ $i ]['child']);
+        if (! empty($data[$i]['child'])) {
+            $out[$name][] = xml_array_dumbdown($data[$i]['child']);
         } else {
-            $out[ $name ] = $data[ $i ]['content'];
+            $out[$name] = $data[$i]['content'];
         }
     }
 
@@ -556,18 +556,18 @@ function _unregister_taxonomy($taxonomy_name)
  */
 function _unregister_post_status($status)
 {
-    unset($GLOBALS['wp_post_statuses'][ $status ]);
+    unset($GLOBALS['wp_post_statuses'][$status]);
 }
 
 function _cleanup_query_vars()
 {
     // Clean out globals to stop them polluting wp and wp_query.
     foreach ($GLOBALS['wp']->public_query_vars as $v) {
-        unset($GLOBALS[ $v ]);
+        unset($GLOBALS[$v]);
     }
 
     foreach ($GLOBALS['wp']->private_query_vars as $v) {
-        unset($GLOBALS[ $v ]);
+        unset($GLOBALS[$v]);
     }
 
     foreach (get_taxonomies([], 'objects') as $t) {
@@ -682,10 +682,10 @@ function test_rest_expand_compact_links($links)
 
         $name = explode(':', $rel);
 
-        $curie              = wp_list_filter($links['curies'], ['name' => $name[0]]);
-        $full_uri           = str_replace('{rel}', $name[1], $curie[0]['href']);
-        $links[ $full_uri ] = $links_array;
-        unset($links[ $rel ]);
+        $curie            = wp_list_filter($links['curies'], ['name' => $name[0]]);
+        $full_uri         = str_replace('{rel}', $name[1], $curie[0]['href']);
+        $links[$full_uri] = $links_array;
+        unset($links[$rel]);
     }
     return $links;
 }

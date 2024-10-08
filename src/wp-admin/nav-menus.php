@@ -93,15 +93,15 @@ switch ($action) {
                 foreach ((array) $ordered_menu_items as $ordered_menu_item_object) {
                     if (isset($ordered_menu_item_object->ID)) {
                         if (isset($ordered_menu_item_object->menu_order)) {
-                            $dbids_to_orders[ $ordered_menu_item_object->ID ]         = $ordered_menu_item_object->menu_order;
-                            $orders_to_dbids[ $ordered_menu_item_object->menu_order ] = $ordered_menu_item_object->ID;
+                            $dbids_to_orders[$ordered_menu_item_object->ID]         = $ordered_menu_item_object->menu_order;
+                            $orders_to_dbids[$ordered_menu_item_object->menu_order] = $ordered_menu_item_object->ID;
                         }
                     }
                 }
 
                 // Get next in order.
-                if (isset($orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] + 1 ])) {
-                    $next_item_id   = $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] + 1 ];
+                if (isset($orders_to_dbids[$dbids_to_orders[$menu_item_id] + 1])) {
+                    $next_item_id   = $orders_to_dbids[$dbids_to_orders[$menu_item_id] + 1];
                     $next_item_data = (array) wp_setup_nav_menu_item(get_post($next_item_id));
 
                     // If not siblings of same parent, bubble menu item up but keep order.
@@ -183,22 +183,22 @@ switch ($action) {
                 foreach ((array) $ordered_menu_items as $ordered_menu_item_object) {
                     if (isset($ordered_menu_item_object->ID)) {
                         if (isset($ordered_menu_item_object->menu_order)) {
-                            $dbids_to_orders[ $ordered_menu_item_object->ID ]         = $ordered_menu_item_object->menu_order;
-                            $orders_to_dbids[ $ordered_menu_item_object->menu_order ] = $ordered_menu_item_object->ID;
+                            $dbids_to_orders[$ordered_menu_item_object->ID]         = $ordered_menu_item_object->menu_order;
+                            $orders_to_dbids[$ordered_menu_item_object->menu_order] = $ordered_menu_item_object->ID;
                         }
                     }
                 }
 
                 // If this menu item is not first.
-                if (! empty($dbids_to_orders[ $menu_item_id ])
-                    && ! empty($orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ])
+                if (! empty($dbids_to_orders[$menu_item_id])
+                    && ! empty($orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1])
                 ) {
 
                     // If this menu item is a child of the previous.
                     if (! empty($menu_item_data['menu_item_parent'])
                         && in_array((int) $menu_item_data['menu_item_parent'], array_keys($dbids_to_orders), true)
-                        && isset($orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ])
-                        && ((int) $menu_item_data['menu_item_parent'] === $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ])
+                        && isset($orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1])
+                        && ((int) $menu_item_data['menu_item_parent'] === $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1])
                     ) {
                         if (in_array((int) $menu_item_data['menu_item_parent'], $orders_to_dbids, true)) {
                             $parent_db_id = (int) $menu_item_data['menu_item_parent'];
@@ -215,8 +215,8 @@ switch ($action) {
                              * If there is something before the parent and parent a child of it,
                              * make menu item a child also of it.
                              */
-                            if (! empty($dbids_to_orders[ $parent_db_id ])
-                                && ! empty($orders_to_dbids[ $dbids_to_orders[ $parent_db_id ] - 1 ])
+                            if (! empty($dbids_to_orders[$parent_db_id])
+                                && ! empty($orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1])
                                 && ! empty($parent_data['menu_item_parent'])
                             ) {
                                 $menu_item_data['menu_item_parent'] = $parent_data['menu_item_parent'];
@@ -225,10 +225,10 @@ switch ($action) {
                                 * Else if there is something before parent and parent not a child of it,
                                 * make menu item a child of that something's parent
                                 */
-                            } elseif (! empty($dbids_to_orders[ $parent_db_id ])
-                                && ! empty($orders_to_dbids[ $dbids_to_orders[ $parent_db_id ] - 1 ])
+                            } elseif (! empty($dbids_to_orders[$parent_db_id])
+                                && ! empty($orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1])
                             ) {
-                                $_possible_parent_id = (int) get_post_meta($orders_to_dbids[ $dbids_to_orders[ $parent_db_id ] - 1 ], '_menu_item_menu_item_parent', true);
+                                $_possible_parent_id = (int) get_post_meta($orders_to_dbids[$dbids_to_orders[$parent_db_id] - 1], '_menu_item_menu_item_parent', true);
 
                                 if (in_array($_possible_parent_id, array_keys($dbids_to_orders), true)) {
                                     $menu_item_data['menu_item_parent'] = $_possible_parent_id;
@@ -257,11 +257,11 @@ switch ($action) {
                     } elseif (empty($menu_item_data['menu_order'])
                         || empty($menu_item_data['menu_item_parent'])
                         || ! in_array((int) $menu_item_data['menu_item_parent'], array_keys($dbids_to_orders), true)
-                        || empty($orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ])
-                        || $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ] !== (int) $menu_item_data['menu_item_parent']
+                        || empty($orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1])
+                        || $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1] !== (int) $menu_item_data['menu_item_parent']
                     ) {
                         // Just make it a child of the previous; keep the order.
-                        $menu_item_data['menu_item_parent'] = (int) $orders_to_dbids[ $dbids_to_orders[ $menu_item_id ] - 1 ];
+                        $menu_item_data['menu_item_parent'] = (int) $orders_to_dbids[$dbids_to_orders[$menu_item_id] - 1];
 
                         // Reset invalid `menu_item_parent`.
                         $menu_item_data = _wp_reset_invalid_menu_item_parent($menu_item_data);
@@ -411,7 +411,7 @@ switch ($action) {
                         $locations = get_nav_menu_locations();
 
                         foreach ($locations as $location => $menu_id) {
-                                $locations[ $location ] = $nav_menu_selected_id;
+                                $locations[$location] = $nav_menu_selected_id;
                                 break; // There should only be 1.
                         }
 
@@ -421,7 +421,7 @@ switch ($action) {
                         $locations = get_nav_menu_locations();
 
                         foreach (array_keys($new_menu_locations) as $location) {
-                            $locations[ $location ] = $nav_menu_selected_id;
+                            $locations[$location] = $nav_menu_selected_id;
                         }
 
                         set_theme_mod('nav_menu_locations', $locations);
@@ -431,8 +431,8 @@ switch ($action) {
                         $locations      = get_registered_nav_menus();
                         $menu_locations = get_nav_menu_locations();
 
-                        if (isset($locations[ $_REQUEST['use-location'] ])) {
-                            $menu_locations[ $_REQUEST['use-location'] ] = $nav_menu_selected_id;
+                        if (isset($locations[$_REQUEST['use-location']])) {
+                            $menu_locations[$_REQUEST['use-location']] = $nav_menu_selected_id;
                         }
 
                         set_theme_mod('nav_menu_locations', $menu_locations);
@@ -456,10 +456,10 @@ switch ($action) {
         } else {
             // Remove menu locations that have been unchecked.
             foreach ($locations as $location => $description) {
-                if ((empty($_POST['menu-locations']) || empty($_POST['menu-locations'][ $location ]))
-                    && isset($menu_locations[ $location ]) && $menu_locations[ $location ] === $nav_menu_selected_id
+                if ((empty($_POST['menu-locations']) || empty($_POST['menu-locations'][$location]))
+                    && isset($menu_locations[$location]) && $menu_locations[$location] === $nav_menu_selected_id
                 ) {
-                    unset($menu_locations[ $location ]);
+                    unset($menu_locations[$location]);
                 }
             }
 
@@ -645,7 +645,7 @@ if (! $nav_menu_selected_title && is_nav_menu($nav_menu_selected_id)) {
 
 // Generate truncated menu names.
 foreach ((array) $nav_menus as $key => $_nav_menu) {
-    $nav_menus[ $key ]->truncated_name = wp_html_excerpt($_nav_menu->name, 40, '&hellip;');
+    $nav_menus[$key]->truncated_name = wp_html_excerpt($_nav_menu->name, 40, '&hellip;');
 }
 
 // Retrieve menu locations.
@@ -862,7 +862,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                                 <?php
                                 foreach ($nav_menus as $menu) :
                                     $data_orig = '';
-                                    $selected  = isset($menu_locations[ $_location ]) && $menu_locations[ $_location ] === $menu->term_id;
+                                    $selected  = isset($menu_locations[$_location]) && $menu_locations[$_location] === $menu->term_id;
 
                                     if ($selected) {
                                         $data_orig = 'data-orig="true"';
@@ -874,7 +874,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                                 <?php endforeach; ?>
                             </select>
                             <div class="locations-row-links">
-                                <?php if (isset($menu_locations[ $_location ]) && 0 !== $menu_locations[ $_location ]) : ?>
+                                <?php if (isset($menu_locations[$_location]) && 0 !== $menu_locations[$_location]) : ?>
                                 <span class="locations-edit-menu-link">
                                     <a href="
                                     <?php
@@ -882,7 +882,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                                         add_query_arg(
                                             [
                                                 'action' => 'edit',
-                                                'menu'   => $menu_locations[ $_location ],
+                                                'menu'   => $menu_locations[$_location],
                                             ],
                                             admin_url('nav-menus.php')
                                         )
@@ -988,8 +988,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                             $locations_assigned_to_this_menu = [];
 
                             foreach (array_keys($menu_locations, $_nav_menu->term_id, true) as $menu_location_key) {
-                                if (isset($locations[ $menu_location_key ])) {
-                                    $locations_assigned_to_this_menu[] = $locations[ $menu_location_key ];
+                                if (isset($locations[$menu_location_key])) {
+                                    $locations_assigned_to_this_menu[] = $locations[$menu_location_key];
                                 }
                             }
 
@@ -1199,9 +1199,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                                         foreach ($locations as $location => $description) :
                                             $checked = false;
 
-                                            if (isset($menu_locations[ $location ])
+                                            if (isset($menu_locations[$location])
                                                     && 0 !== $nav_menu_selected_id
-                                                    && $menu_locations[ $location ] === $nav_menu_selected_id
+                                                    && $menu_locations[$location] === $nav_menu_selected_id
                                             ) {
                                                     $checked = true;
                                             }
@@ -1209,13 +1209,13 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                                             <div class="menu-settings-input checkbox-input">
                                                 <input type="checkbox"<?php checked($checked); ?> name="menu-locations[<?php echo esc_attr($location); ?>]" id="locations-<?php echo esc_attr($location); ?>" value="<?php echo esc_attr($nav_menu_selected_id); ?>" />
                                                 <label for="locations-<?php echo esc_attr($location); ?>"><?php echo $description; ?></label>
-                                                <?php if (! empty($menu_locations[ $location ]) && $menu_locations[ $location ] !== $nav_menu_selected_id) : ?>
+                                                <?php if (! empty($menu_locations[$location]) && $menu_locations[$location] !== $nav_menu_selected_id) : ?>
                                                     <span class="theme-location-set">
                                                     <?php
                                                         printf(
                                                             /* translators: %s: Menu name. */
                                                             _x('(Currently set to: %s)', 'menu location'),
-                                                            wp_get_nav_menu_object($menu_locations[ $location ])->name
+                                                            wp_get_nav_menu_object($menu_locations[$location])->name
                                                         );
                                                     ?>
                                                     </span>

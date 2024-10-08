@@ -146,8 +146,8 @@ function wp_dashboard_setup()
     }
 
     foreach ($dashboard_widgets as $widget_id) {
-        $name = empty($wp_registered_widgets[ $widget_id ]['all_link']) ? $wp_registered_widgets[ $widget_id ]['name'] : $wp_registered_widgets[ $widget_id ]['name'] . " <a href='{$wp_registered_widgets[$widget_id]['all_link']}' class='edit-box open-box'>" . __('View all') . '</a>';
-        wp_add_dashboard_widget($widget_id, $name, $wp_registered_widgets[ $widget_id ]['callback'], $wp_registered_widget_controls[ $widget_id ]['callback']);
+        $name = empty($wp_registered_widgets[$widget_id]['all_link']) ? $wp_registered_widgets[$widget_id]['name'] : $wp_registered_widgets[$widget_id]['name'] . " <a href='{$wp_registered_widgets[$widget_id]['all_link']}' class='edit-box open-box'>" . __('View all') . '</a>';
+        wp_add_dashboard_widget($widget_id, $name, $wp_registered_widgets[$widget_id]['callback'], $wp_registered_widget_controls[$widget_id]['callback']);
     }
 
     if ('POST' === $_SERVER['REQUEST_METHOD'] && isset($_POST['widget_id'])) {
@@ -201,7 +201,7 @@ function wp_add_dashboard_widget($widget_id, $widget_name, $callback, $control_c
     }
 
     if ($control_callback && is_callable($control_callback) && current_user_can('edit_dashboard')) {
-        $wp_dashboard_control_callbacks[ $widget_id ] = $control_callback;
+        $wp_dashboard_control_callbacks[$widget_id] = $control_callback;
 
         if (isset($_GET['edit']) && $widget_id === $_GET['edit']) {
             list($url)    = explode('#', add_query_arg('edit', false), 2);
@@ -474,7 +474,7 @@ function wp_network_dashboard_right_now()
     if ($actions) {
         echo '<ul class="subsubsub">';
         foreach ($actions as $class => $action) {
-            $actions[ $class ] = "\t<li class='$class'>$action";
+            $actions[$class] = "\t<li class='$class'>$action";
         }
         echo implode(" |</li>\n", $actions) . "</li>\n";
         echo '</ul>';
@@ -1150,7 +1150,7 @@ function wp_dashboard_rss_output($widget_id)
 {
     $widgets = get_option('dashboard_widget_options');
     echo '<div class="rss-widget">';
-    wp_widget_rss_output($widgets[ $widget_id ]);
+    wp_widget_rss_output($widgets[$widget_id]);
     echo '</div>';
 }
 
@@ -1187,12 +1187,12 @@ function wp_dashboard_cached_rss_widget($widget_id, $callback, $check_urls = [],
     if (empty($check_urls)) {
         $widgets = get_option('dashboard_widget_options');
 
-        if (empty($widgets[ $widget_id ]['url']) && ! $doing_ajax) {
+        if (empty($widgets[$widget_id]['url']) && ! $doing_ajax) {
             echo $loading;
             return false;
         }
 
-        $check_urls = [$widgets[ $widget_id ]['url']];
+        $check_urls = [$widgets[$widget_id]['url']];
     }
 
     $locale    = get_user_locale();
@@ -1238,15 +1238,15 @@ function wp_dashboard_trigger_widget_control($widget_control_id = false)
     global $wp_dashboard_control_callbacks;
 
     if (is_scalar($widget_control_id) && $widget_control_id
-        && isset($wp_dashboard_control_callbacks[ $widget_control_id ])
-        && is_callable($wp_dashboard_control_callbacks[ $widget_control_id ])
+        && isset($wp_dashboard_control_callbacks[$widget_control_id])
+        && is_callable($wp_dashboard_control_callbacks[$widget_control_id])
     ) {
         call_user_func(
-            $wp_dashboard_control_callbacks[ $widget_control_id ],
+            $wp_dashboard_control_callbacks[$widget_control_id],
             '',
             [
                 'id'       => $widget_control_id,
-                'callback' => $wp_dashboard_control_callbacks[ $widget_control_id ],
+                'callback' => $wp_dashboard_control_callbacks[$widget_control_id],
             ]
         );
     }
@@ -1270,26 +1270,26 @@ function wp_dashboard_rss_control($widget_id, $form_inputs = [])
         $widget_options = [];
     }
 
-    if (! isset($widget_options[ $widget_id ])) {
-        $widget_options[ $widget_id ] = [];
+    if (! isset($widget_options[$widget_id])) {
+        $widget_options[$widget_id] = [];
     }
 
     $number = 1; // Hack to use wp_widget_rss_form().
 
-    $widget_options[ $widget_id ]['number'] = $number;
+    $widget_options[$widget_id]['number'] = $number;
 
-    if ('POST' === $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-rss'][ $number ])) {
-        $_POST['widget-rss'][ $number ]         = wp_unslash($_POST['widget-rss'][ $number ]);
-        $widget_options[ $widget_id ]           = wp_widget_rss_process($_POST['widget-rss'][ $number ]);
-        $widget_options[ $widget_id ]['number'] = $number;
+    if ('POST' === $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-rss'][$number])) {
+        $_POST['widget-rss'][$number]         = wp_unslash($_POST['widget-rss'][$number]);
+        $widget_options[$widget_id]           = wp_widget_rss_process($_POST['widget-rss'][$number]);
+        $widget_options[$widget_id]['number'] = $number;
 
         // Title is optional. If black, fill it if possible.
-        if (! $widget_options[ $widget_id ]['title'] && isset($_POST['widget-rss'][ $number ]['title'])) {
-            $rss = fetch_feed($widget_options[ $widget_id ]['url']);
+        if (! $widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title'])) {
+            $rss = fetch_feed($widget_options[$widget_id]['url']);
             if (is_wp_error($rss)) {
-                $widget_options[ $widget_id ]['title'] = htmlentities(__('Unknown Feed'));
+                $widget_options[$widget_id]['title'] = htmlentities(__('Unknown Feed'));
             } else {
-                $widget_options[ $widget_id ]['title'] = htmlentities(strip_tags($rss->get_title()));
+                $widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
                 $rss->__destruct();
                 unset($rss);
             }
@@ -1302,7 +1302,7 @@ function wp_dashboard_rss_control($widget_id, $form_inputs = [])
         delete_transient($cache_key);
     }
 
-    wp_widget_rss_form($widget_options[ $widget_id ], $form_inputs);
+    wp_widget_rss_form($widget_options[$widget_id], $form_inputs);
 }
 
 

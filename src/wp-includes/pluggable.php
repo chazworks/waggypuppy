@@ -349,7 +349,7 @@ if (! function_exists('wp_mail')) :
                             break;
                         default:
                             // Add it to our grand headers array.
-                            $headers[ trim($name) ] = trim($content);
+                            $headers[trim($name)] = trim($content);
                             break;
                     }
                 }
@@ -945,10 +945,10 @@ if (! function_exists('wp_parse_auth_cookie')) :
                     }
             }
 
-            if (empty($_COOKIE[ $cookie_name ])) {
+            if (empty($_COOKIE[$cookie_name])) {
                 return false;
             }
-            $cookie = $_COOKIE[ $cookie_name ];
+            $cookie = $_COOKIE[$cookie_name];
         }
 
         $cookie_elements = explode('|', $cookie);
@@ -1292,7 +1292,7 @@ if (! function_exists('check_admin_referer')) :
 
         $adminurl = strtolower(admin_url());
         $referer  = strtolower(wp_get_referer());
-        $result   = isset($_REQUEST[ $query_arg ]) ? wp_verify_nonce($_REQUEST[ $query_arg ], $action) : false;
+        $result   = isset($_REQUEST[$query_arg]) ? wp_verify_nonce($_REQUEST[$query_arg], $action) : false;
 
         /**
          * Fires once the admin request has been validated or not.
@@ -1338,8 +1338,8 @@ if (! function_exists('check_ajax_referer')) :
 
         $nonce = '';
 
-        if ($query_arg && isset($_REQUEST[ $query_arg ])) {
-            $nonce = $_REQUEST[ $query_arg ];
+        if ($query_arg && isset($_REQUEST[$query_arg])) {
+            $nonce = $_REQUEST[$query_arg];
         } elseif (isset($_REQUEST['_ajax_nonce'])) {
             $nonce = $_REQUEST['_ajax_nonce'];
         } elseif (isset($_REQUEST['_wpnonce'])) {
@@ -1629,7 +1629,7 @@ if (! function_exists('wp_validate_redirect')) :
 
         // Reject malformed components parse_url() can return on odd inputs.
         foreach (['user', 'pass', 'host'] as $component) {
-            if (isset($lp[ $component ]) && strpbrk($lp[ $component ], ':/?#@')) {
+            if (isset($lp[$component]) && strpbrk($lp[$component], ':/?#@')) {
                 return $fallback_url;
             }
         }
@@ -1722,17 +1722,17 @@ if (! function_exists('wp_notify_postauthor')) :
 
         // The comment was left by the author.
         if ($author && ! $notify_author && (int) $comment->user_id === (int) $post->post_author) {
-            unset($emails[ $author->user_email ]);
+            unset($emails[$author->user_email]);
         }
 
         // The author moderated a comment on their own post.
         if ($author && ! $notify_author && get_current_user_id() === (int) $post->post_author) {
-            unset($emails[ $author->user_email ]);
+            unset($emails[$author->user_email]);
         }
 
         // The post author is no longer a member of the blog.
         if ($author && ! $notify_author && ! user_can($post->post_author, 'read_post', $post->ID)) {
-            unset($emails[ $author->user_email ]);
+            unset($emails[$author->user_email]);
         }
 
         // If there's no email to send the comment to, bail, otherwise flip array back around for use below.
@@ -2494,7 +2494,7 @@ if (! function_exists('wp_salt')) :
     function wp_salt($scheme = 'auth')
     {
         static $cached_salts = [];
-        if (isset($cached_salts[ $scheme ])) {
+        if (isset($cached_salts[$scheme])) {
             /**
              * Filters the WordPress salt.
              *
@@ -2504,7 +2504,7 @@ if (! function_exists('wp_salt')) :
              * @param string $scheme      Authentication scheme. Values include 'auth',
              *                            'secure_auth', 'logged_in', and 'nonce'.
              */
-            return apply_filters('salt', $cached_salts[ $scheme ], $scheme);
+            return apply_filters('salt', $cached_salts[$scheme], $scheme);
         }
 
         static $duplicated_keys;
@@ -2518,15 +2518,15 @@ if (! function_exists('wp_salt')) :
              * You can check the localized release package or
              * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
              */
-            $duplicated_keys[ __('put your unique phrase here') ] = true;
+            $duplicated_keys[__('put your unique phrase here')] = true;
 
             foreach (['AUTH', 'SECURE_AUTH', 'LOGGED_IN', 'NONCE', 'SECRET'] as $first) {
                 foreach (['KEY', 'SALT'] as $second) {
                     if (! defined("{$first}_{$second}")) {
                         continue;
                     }
-                    $value                     = constant("{$first}_{$second}");
-                    $duplicated_keys[ $value ] = isset($duplicated_keys[ $value ]);
+                    $value                   = constant("{$first}_{$second}");
+                    $duplicated_keys[$value] = isset($duplicated_keys[$value]);
                 }
             }
         }
@@ -2544,7 +2544,7 @@ if (! function_exists('wp_salt')) :
         foreach (['auth', 'secure_auth', 'logged_in', 'nonce'] as $key) {
             foreach (['key', 'salt'] as $second) {
                 $const = strtoupper("{$key}_{$second}");
-                if (! defined($const) || true === $duplicated_keys[ constant($const) ]) {
+                if (! defined($const) || true === $duplicated_keys[constant($const)]) {
                     $options_to_prime[] = "{$key}_{$second}";
                 }
             }
@@ -2570,23 +2570,23 @@ if (! function_exists('wp_salt')) :
             'key'  => '',
             'salt' => '',
         ];
-        if (defined('SECRET_KEY') && SECRET_KEY && empty($duplicated_keys[ SECRET_KEY ])) {
+        if (defined('SECRET_KEY') && SECRET_KEY && empty($duplicated_keys[SECRET_KEY])) {
             $values['key'] = SECRET_KEY;
         }
-        if ('auth' === $scheme && defined('SECRET_SALT') && SECRET_SALT && empty($duplicated_keys[ SECRET_SALT ])) {
+        if ('auth' === $scheme && defined('SECRET_SALT') && SECRET_SALT && empty($duplicated_keys[SECRET_SALT])) {
             $values['salt'] = SECRET_SALT;
         }
 
         if (in_array($scheme, ['auth', 'secure_auth', 'logged_in', 'nonce'], true)) {
             foreach (['key', 'salt'] as $type) {
                 $const = strtoupper("{$scheme}_{$type}");
-                if (defined($const) && constant($const) && empty($duplicated_keys[ constant($const) ])) {
-                    $values[ $type ] = constant($const);
-                } elseif (! $values[ $type ]) {
-                    $values[ $type ] = get_site_option("{$scheme}_{$type}");
-                    if (! $values[ $type ]) {
-                        $values[ $type ] = wp_generate_password(64, true, true);
-                        update_site_option("{$scheme}_{$type}", $values[ $type ]);
+                if (defined($const) && constant($const) && empty($duplicated_keys[constant($const)])) {
+                    $values[$type] = constant($const);
+                } elseif (! $values[$type]) {
+                    $values[$type] = get_site_option("{$scheme}_{$type}");
+                    if (! $values[$type]) {
+                        $values[$type] = wp_generate_password(64, true, true);
+                        update_site_option("{$scheme}_{$type}", $values[$type]);
                     }
                 }
             }
@@ -2601,10 +2601,10 @@ if (! function_exists('wp_salt')) :
             $values['salt'] = hash_hmac('md5', $scheme, $values['key']);
         }
 
-        $cached_salts[ $scheme ] = $values['key'] . $values['salt'];
+        $cached_salts[$scheme] = $values['key'] . $values['salt'];
 
         /** This filter is documented in wp-includes/pluggable.php */
-        return apply_filters('salt', $cached_salts[ $scheme ], $scheme);
+        return apply_filters('salt', $cached_salts[$scheme], $scheme);
     }
 endif;
 

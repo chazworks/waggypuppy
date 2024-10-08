@@ -180,7 +180,7 @@ class WP_HTML_Active_Formatting_Elements
         $count = count($this->stack);
 
         for ($i = 0; $i < $count; $i++) {
-            yield $this->stack[ $i ];
+            yield $this->stack[$i];
         }
     }
 
@@ -206,7 +206,7 @@ class WP_HTML_Active_Formatting_Elements
     public function walk_up()
     {
         for ($i = count($this->stack) - 1; $i >= 0; $i--) {
-            yield $this->stack[ $i ];
+            yield $this->stack[$i];
         }
     }
 

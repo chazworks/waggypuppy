@@ -185,36 +185,36 @@ class WP_Font_Utils
         foreach ($tree as $key => $value) {
             // Remove keys not in the schema or with null/empty values.
             if (! array_key_exists($key, $schema)) {
-                unset($tree[ $key ]);
+                unset($tree[$key]);
                 continue;
             }
 
             $is_value_array  = is_array($value);
-            $is_schema_array = is_array($schema[ $key ]) && ! is_callable($schema[ $key ]);
+            $is_schema_array = is_array($schema[$key]) && ! is_callable($schema[$key]);
 
             if ($is_value_array && $is_schema_array) {
                 if (wp_is_numeric_array($value)) {
                     // If indexed, process each item in the array.
                     foreach ($value as $item_key => $item_value) {
-                        $tree[ $key ][ $item_key ] = isset($schema[ $key ][0]) && is_array($schema[ $key ][0])
-                            ? self::sanitize_from_schema($item_value, $schema[ $key ][0])
-                            : self::apply_sanitizer($item_value, $schema[ $key ][0]);
+                        $tree[$key][$item_key] = isset($schema[$key][0]) && is_array($schema[$key][0])
+                            ? self::sanitize_from_schema($item_value, $schema[$key][0])
+                            : self::apply_sanitizer($item_value, $schema[$key][0]);
                     }
                 } else {
                     // If it is an associative or indexed array, process as a single object.
-                    $tree[ $key ] = self::sanitize_from_schema($value, $schema[ $key ]);
+                    $tree[$key] = self::sanitize_from_schema($value, $schema[$key]);
                 }
             } elseif (! $is_value_array && $is_schema_array) {
                 // If the value is not an array but the schema is, remove the key.
-                unset($tree[ $key ]);
+                unset($tree[$key]);
             } elseif (! $is_schema_array) {
                 // If the schema is not an array, apply the sanitizer to the value.
-                $tree[ $key ] = self::apply_sanitizer($value, $schema[ $key ]);
+                $tree[$key] = self::apply_sanitizer($value, $schema[$key]);
             }
 
             // Remove keys with null/empty values.
-            if (empty($tree[ $key ])) {
-                unset($tree[ $key ]);
+            if (empty($tree[$key])) {
+                unset($tree[$key]);
             }
         }
 

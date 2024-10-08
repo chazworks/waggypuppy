@@ -151,7 +151,7 @@ class WP_Plugin_Dependencies
      */
     public static function has_dependencies($plugin_file)
     {
-        return isset(self::$dependencies[ $plugin_file ]);
+        return isset(self::$dependencies[$plugin_file]);
     }
 
     /**
@@ -207,8 +207,8 @@ class WP_Plugin_Dependencies
      */
     public static function get_dependencies($plugin_file)
     {
-        if (isset(self::$dependencies[ $plugin_file ])) {
-            return self::$dependencies[ $plugin_file ];
+        if (isset(self::$dependencies[$plugin_file])) {
+            return self::$dependencies[$plugin_file];
         }
 
         return [];
@@ -240,13 +240,13 @@ class WP_Plugin_Dependencies
      */
     public static function has_unmet_dependencies($plugin_file)
     {
-        if (! isset(self::$dependencies[ $plugin_file ])) {
+        if (! isset(self::$dependencies[$plugin_file])) {
             return false;
         }
 
         require_once ABSPATH . '/wp-admin/includes/plugin.php';
 
-        foreach (self::$dependencies[ $plugin_file ] as $dependency) {
+        foreach (self::$dependencies[$plugin_file] as $dependency) {
             $dependency_filepath = self::get_dependency_filepath($dependency);
 
             if (false === $dependency_filepath || is_plugin_inactive($dependency_filepath)) {
@@ -297,7 +297,7 @@ class WP_Plugin_Dependencies
         $slug            = self::convert_to_slug($plugin_file);
 
         foreach (self::get_dependents($slug) as $dependent) {
-            $dependent_names[ $dependent ] = $plugins[ $dependent ]['Name'];
+            $dependent_names[$dependent] = $plugins[$dependent]['Name'];
         }
         sort($dependent_names);
 
@@ -321,18 +321,18 @@ class WP_Plugin_Dependencies
         $dependency_names = [];
         foreach ($dependencies as $dependency) {
             // Use the name if it's available, otherwise fall back to the slug.
-            if (isset($dependency_api_data[ $dependency ]['name'])) {
-                $name = $dependency_api_data[ $dependency ]['name'];
+            if (isset($dependency_api_data[$dependency]['name'])) {
+                $name = $dependency_api_data[$dependency]['name'];
             } else {
                 $dependency_filepath = self::get_dependency_filepath($dependency);
                 if (false !== $dependency_filepath) {
-                    $name = $plugins[ $dependency_filepath ]['Name'];
+                    $name = $plugins[$dependency_filepath]['Name'];
                 } else {
                     $name = $dependency;
                 }
             }
 
-            $dependency_names[ $dependency ] = $name;
+            $dependency_names[$dependency] = $name;
         }
 
         return $dependency_names;
@@ -350,11 +350,11 @@ class WP_Plugin_Dependencies
     {
         $dependency_filepaths = self::get_dependency_filepaths();
 
-        if (! isset($dependency_filepaths[ $slug ])) {
+        if (! isset($dependency_filepaths[$slug])) {
             return false;
         }
 
-        return $dependency_filepaths[ $slug ];
+        return $dependency_filepaths[$slug];
     }
 
     /**
@@ -369,8 +369,8 @@ class WP_Plugin_Dependencies
     {
         $dependency_api_data = self::get_dependency_api_data();
 
-        if (isset($dependency_api_data[ $slug ])) {
-            return $dependency_api_data[ $slug ];
+        if (isset($dependency_api_data[$slug])) {
+            return $dependency_api_data[$slug];
         }
 
         return false;
@@ -429,13 +429,13 @@ class WP_Plugin_Dependencies
             // Build output lines.
             $circular_dependency_lines = '';
             foreach ($circular_dependencies as $circular_dependency) {
-                $first_filepath             = $plugin_dirnames[ $circular_dependency[0] ];
-                $second_filepath            = $plugin_dirnames[ $circular_dependency[1] ];
+                $first_filepath             = $plugin_dirnames[$circular_dependency[0]];
+                $second_filepath            = $plugin_dirnames[$circular_dependency[1]];
                 $circular_dependency_lines .= sprintf(
                     /* translators: 1: First plugin name, 2: Second plugin name. */
                     '<li>' . _x('%1$s requires %2$s', 'The first plugin requires the second plugin.') . '</li>',
-                    '<strong>' . esc_html($plugins[ $first_filepath ]['Name']) . '</strong>',
-                    '<strong>' . esc_html($plugins[ $second_filepath ]['Name']) . '</strong>'
+                    '<strong>' . esc_html($plugins[$first_filepath]['Name']) . '</strong>',
+                    '<strong>' . esc_html($plugins[$second_filepath]['Name']) . '</strong>'
                 );
             }
 
@@ -480,14 +480,14 @@ class WP_Plugin_Dependencies
         self::get_plugins();
         self::get_plugin_dirnames();
 
-        if (! isset(self::$plugin_dirnames[ $slug ])) {
+        if (! isset(self::$plugin_dirnames[$slug])) {
             $status['errorCode']    = 'plugin_not_installed';
             $status['errorMessage'] = __('The plugin is not installed.');
             wp_send_json_error($status);
         }
 
-        $plugin_file          = self::$plugin_dirnames[ $slug ];
-        $status['pluginName'] = self::$plugins[ $plugin_file ]['Name'];
+        $plugin_file          = self::$plugin_dirnames[$slug];
+        $status['pluginName'] = self::$plugins[$plugin_file]['Name'];
         $status['plugin']     = $plugin_file;
 
         if (current_user_can('activate_plugin', $plugin_file) && is_plugin_inactive($plugin_file)) {
@@ -516,7 +516,7 @@ class WP_Plugin_Dependencies
 
         $inactive_dependencies = [];
         foreach ($dependencies as $dependency) {
-            if (false === self::$plugin_dirnames[ $dependency ] || is_plugin_inactive(self::$plugin_dirnames[ $dependency ])) {
+            if (false === self::$plugin_dirnames[$dependency] || is_plugin_inactive(self::$plugin_dirnames[$dependency])) {
                 $inactive_dependencies[] = $dependency;
             }
         }
@@ -524,8 +524,8 @@ class WP_Plugin_Dependencies
         if (! empty($inactive_dependencies)) {
             $inactive_dependency_names = array_map(
                 function ($dependency) {
-                    if (isset(self::$dependency_api_data[ $dependency ]['Name'])) {
-                        $inactive_dependency_name = self::$dependency_api_data[ $dependency ]['Name'];
+                    if (isset(self::$dependency_api_data[$dependency]['Name'])) {
+                        $inactive_dependency_name = self::$dependency_api_data[$dependency]['Name'];
                     } else {
                         $inactive_dependency_name = $dependency;
                     }
@@ -584,12 +584,12 @@ class WP_Plugin_Dependencies
                 continue;
             }
 
-            $dependency_slugs              = self::sanitize_dependency_slugs($header['RequiresPlugins']);
-            self::$dependencies[ $plugin ] = $dependency_slugs;
-            self::$dependency_slugs        = array_merge(self::$dependency_slugs, $dependency_slugs);
+            $dependency_slugs            = self::sanitize_dependency_slugs($header['RequiresPlugins']);
+            self::$dependencies[$plugin] = $dependency_slugs;
+            self::$dependency_slugs      = array_merge(self::$dependency_slugs, $dependency_slugs);
 
-            $dependent_slug                   = self::convert_to_slug($plugin);
-            self::$dependent_slugs[ $plugin ] = $dependent_slug;
+            $dependent_slug                 = self::convert_to_slug($plugin);
+            self::$dependent_slugs[$plugin] = $dependent_slug;
         }
         self::$dependency_slugs = array_unique(self::$dependency_slugs);
     }
@@ -655,12 +655,12 @@ class WP_Plugin_Dependencies
 
         $plugin_dirnames = self::get_plugin_dirnames();
         foreach (self::$dependency_slugs as $slug) {
-            if (isset($plugin_dirnames[ $slug ])) {
-                self::$dependency_filepaths[ $slug ] = $plugin_dirnames[ $slug ];
+            if (isset($plugin_dirnames[$slug])) {
+                self::$dependency_filepaths[$slug] = $plugin_dirnames[$slug];
                 continue;
             }
 
-            self::$dependency_filepaths[ $slug ] = false;
+            self::$dependency_filepaths[$slug] = false;
         }
 
         return self::$dependency_filepaths;
@@ -692,24 +692,24 @@ class WP_Plugin_Dependencies
         foreach (self::$dependency_slugs as $slug) {
             // Set transient for individual data, remove from self::$dependency_api_data if transient expired.
             if (! get_site_transient("wp_plugin_dependencies_plugin_timeout_{$slug}")) {
-                unset(self::$dependency_api_data[ $slug ]);
+                unset(self::$dependency_api_data[$slug]);
                 set_site_transient("wp_plugin_dependencies_plugin_timeout_{$slug}", true, 12 * HOUR_IN_SECONDS);
             }
 
-            if (isset(self::$dependency_api_data[ $slug ])) {
-                if (false === self::$dependency_api_data[ $slug ]) {
+            if (isset(self::$dependency_api_data[$slug])) {
+                if (false === self::$dependency_api_data[$slug]) {
                     $dependency_file = self::get_dependency_filepath($slug);
 
                     if (false === $dependency_file) {
-                        self::$dependency_api_data[ $slug ] = ['Name' => $slug];
+                        self::$dependency_api_data[$slug] = ['Name' => $slug];
                     } else {
-                        self::$dependency_api_data[ $slug ] = ['Name' => $plugins[ $dependency_file ]['Name']];
+                        self::$dependency_api_data[$slug] = ['Name' => $plugins[$dependency_file]['Name']];
                     }
                     continue;
                 }
 
                 // Don't hit the Plugin API if data exists.
-                if (! empty(self::$dependency_api_data[ $slug ]['last_updated'])) {
+                if (! empty(self::$dependency_api_data[$slug]['last_updated'])) {
                     continue;
                 }
             }
@@ -733,16 +733,16 @@ class WP_Plugin_Dependencies
                 continue;
             }
 
-            self::$dependency_api_data[ $slug ] = (array) $information;
+            self::$dependency_api_data[$slug] = (array) $information;
             // plugins_api() returns 'name' not 'Name'.
-            self::$dependency_api_data[ $slug ]['Name'] = self::$dependency_api_data[ $slug ]['name'];
+            self::$dependency_api_data[$slug]['Name'] = self::$dependency_api_data[$slug]['name'];
             set_site_transient('wp_plugin_dependencies_plugin_data', self::$dependency_api_data, 0);
         }
 
         // Remove from self::$dependency_api_data if slug no longer a dependency.
         $differences = array_diff(array_keys(self::$dependency_api_data), self::$dependency_slugs);
         foreach ($differences as $difference) {
-            unset(self::$dependency_api_data[ $difference ]);
+            unset(self::$dependency_api_data[$difference]);
         }
 
         ksort(self::$dependency_api_data);
@@ -770,8 +770,8 @@ class WP_Plugin_Dependencies
 
         $plugin_files = array_keys(self::get_plugins());
         foreach ($plugin_files as $plugin_file) {
-            $slug                           = self::convert_to_slug($plugin_file);
-            self::$plugin_dirnames[ $slug ] = $plugin_file;
+            $slug                         = self::convert_to_slug($plugin_file);
+            self::$plugin_dirnames[$slug] = $plugin_file;
         }
 
         return self::$plugin_dirnames;
@@ -835,7 +835,7 @@ class WP_Plugin_Dependencies
                 $circular_dependencies_pairs[]       = [$self_dependency, $self_dependency];
 
                 // No need to check for itself again.
-                unset($dependencies[ array_search($self_dependency, $dependencies, true) ]);
+                unset($dependencies[array_search($self_dependency, $dependencies, true)]);
             }
         }
 
@@ -849,7 +849,7 @@ class WP_Plugin_Dependencies
             $dependency_location_in_dependents = array_search($dependency, self::$dependent_slugs, true);
 
             if (false !== $dependency_location_in_dependents) {
-                $dependencies_of_the_dependency = self::$dependencies[ $dependency_location_in_dependents ];
+                $dependencies_of_the_dependency = self::$dependencies[$dependency_location_in_dependents];
 
                 foreach ($dependents as $dependent) {
                     // Check if its dependencies includes one of its own dependents.
@@ -865,7 +865,7 @@ class WP_Plugin_Dependencies
                         $circular_dependencies_pairs[]       = [$dependent, $dependency];
 
                         // Remove the dependent from its dependency's dependencies.
-                        unset($dependencies_of_the_dependency[ $dependent_location_in_dependency_dependencies ]);
+                        unset($dependencies_of_the_dependency[$dependent_location_in_dependency_dependencies]);
                     }
                 }
 

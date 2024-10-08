@@ -613,10 +613,10 @@ class Tests_User_Capabilities extends WP_UnitTestCase
      */
     public function test_default_caps_for_all_roles($role, $cap)
     {
-        $user         = self::$users[ $role ];
+        $user         = self::$users[$role];
         $roles_by_cap = $this->getAllCapsAndRoles();
 
-        if (in_array($role, $roles_by_cap[ $cap ], true)) {
+        if (in_array($role, $roles_by_cap[$cap], true)) {
             $this->assertTrue($user->has_cap($cap), "User with the {$role} role should have the {$cap} capability");
             $this->assertTrue(user_can($user, $cap), "User with the {$role} role should have the {$cap} capability");
         } else {
@@ -632,7 +632,7 @@ class Tests_User_Capabilities extends WP_UnitTestCase
      */
     public function test_other_caps_for_all_roles($role)
     {
-        $user   = self::$users[ $role ];
+        $user   = self::$users[$role];
         $old_id = wp_get_current_user()->ID;
         wp_set_current_user($user->ID);
 
@@ -669,7 +669,7 @@ class Tests_User_Capabilities extends WP_UnitTestCase
      */
     public function test_user_exists_in_database($role)
     {
-        $user     = self::$users[ $role ];
+        $user     = self::$users[$role];
         $expected = true;
 
         if ('anonymous' === $role) {
@@ -797,7 +797,7 @@ class Tests_User_Capabilities extends WP_UnitTestCase
      */
     public function test_user_can_edit_comment_on_own_post($role, $can_edit_own_post)
     {
-        $owner   = self::$users[ $role ];
+        $owner   = self::$users[$role];
         $post    = self::factory()->post->create_and_get(
             [
                 'post_author' => $owner->ID,
@@ -821,7 +821,7 @@ class Tests_User_Capabilities extends WP_UnitTestCase
      */
     public function test_user_can_edit_comment_on_others_post($role, $can_edit_others_post)
     {
-        $user    = self::$users[ $role ];
+        $user    = self::$users[$role];
         $owner   = self::factory()->user->create_and_get(
             [
                 'role' => 'editor',
@@ -1016,7 +1016,7 @@ class Tests_User_Capabilities extends WP_UnitTestCase
 
         foreach ($caps as $cap => $roles) {
             // The user should have all the above caps.
-            if (isset($expected_caps[ $cap ])) {
+            if (isset($expected_caps[$cap])) {
                 $this->assertTrue($user->has_cap($cap), "User should have the {$cap} capability");
                 $this->assertTrue(user_can($user, $cap), "User should have the {$cap} capability");
             } else {
@@ -2472,9 +2472,9 @@ class Tests_User_Capabilities extends WP_UnitTestCase
     public function test_block_caps($role, $cap, $use_post, $expected)
     {
         if ($use_post) {
-            $this->assertSame($expected, self::$users[ $role ]->has_cap($cap, self::$block_id));
+            $this->assertSame($expected, self::$users[$role]->has_cap($cap, self::$block_id));
         } else {
-            $this->assertSame($expected, self::$users[ $role ]->has_cap($cap));
+            $this->assertSame($expected, self::$users[$role]->has_cap($cap));
         }
     }
 

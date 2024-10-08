@@ -169,9 +169,9 @@ class Tests_REST_API extends WP_UnitTestCase
 
         // Check for both methods.
         foreach ([0, 1] as $key) {
-            $this->assertArrayHasKey('callback', $endpoint[ $key ]);
-            $this->assertArrayHasKey('methods', $endpoint[ $key ]);
-            $this->assertArrayHasKey('args', $endpoint[ $key ]);
+            $this->assertArrayHasKey('callback', $endpoint[$key]);
+            $this->assertArrayHasKey('methods', $endpoint[$key]);
+            $this->assertArrayHasKey('args', $endpoint[$key]);
         }
     }
 
@@ -2556,21 +2556,21 @@ class Tests_REST_API extends WP_UnitTestCase
         );
 
         $this->assertSame(array_keys($preload_data), $preload_paths);
-        $this->assertArrayHasKey('body', $preload_data[ $url ]);
-        $this->assertArrayHasKey('_links', $preload_data[ $url ]['body']);
+        $this->assertArrayHasKey('body', $preload_data[$url]);
+        $this->assertArrayHasKey('_links', $preload_data[$url]['body']);
 
         if ($expected) {
-            $this->assertArrayHasKey('_embedded', $preload_data[ $url ]['body']);
+            $this->assertArrayHasKey('_embedded', $preload_data[$url]['body']);
         } else {
-            $this->assertArrayNotHasKey('_embedded', $preload_data[ $url ]['body']);
+            $this->assertArrayNotHasKey('_embedded', $preload_data[$url]['body']);
         }
 
         foreach ($expected as $rel) {
-            $this->assertArrayHasKey($rel, $preload_data[ $url ]['body']['_embedded']);
+            $this->assertArrayHasKey($rel, $preload_data[$url]['body']['_embedded']);
         }
 
         foreach ($not_expected as $rel) {
-            $this->assertArrayNotHasKey($rel, $preload_data[ $url ]['body']['_embedded']);
+            $this->assertArrayNotHasKey($rel, $preload_data[$url]['body']['_embedded']);
         }
     }
 

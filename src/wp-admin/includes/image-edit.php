@@ -657,7 +657,7 @@ function image_edit_apply_changes($image, $changes)
             unset($obj->c);
         }
 
-        $changes[ $key ] = $obj;
+        $changes[$key] = $obj;
     }
 
     // Combine operations.
@@ -667,21 +667,21 @@ function image_edit_apply_changes($image, $changes)
         for ($i = 0, $j = 1, $c = count($changes); $j < $c; $j++) {
             $combined = false;
 
-            if ($filtered[ $i ]->type === $changes[ $j ]->type) {
-                switch ($filtered[ $i ]->type) {
+            if ($filtered[$i]->type === $changes[$j]->type) {
+                switch ($filtered[$i]->type) {
                     case 'rotate':
-                        $filtered[ $i ]->angle += $changes[ $j ]->angle;
-                        $combined               = true;
+                        $filtered[$i]->angle += $changes[$j]->angle;
+                        $combined             = true;
                         break;
                     case 'flip':
-                        $filtered[ $i ]->axis ^= $changes[ $j ]->axis;
-                        $combined              = true;
+                        $filtered[$i]->axis ^= $changes[$j]->axis;
+                        $combined            = true;
                         break;
                 }
             }
 
             if (! $combined) {
-                $filtered[ ++$i ] = $changes[ $j ];
+                $filtered[++$i] = $changes[$j];
             }
         }
 
@@ -835,7 +835,7 @@ function wp_restore_image($post_id)
                     wp_delete_file($file);
                 }
             } elseif (isset($meta['width'], $meta['height'])) {
-                $backup_sizes[ "full-$suffix" ] = [
+                $backup_sizes["full-$suffix"] = [
                     'width'  => $meta['width'],
                     'height' => $meta['height'],
                     'file'   => $parts['basename'],
@@ -852,24 +852,24 @@ function wp_restore_image($post_id)
     }
 
     foreach ($default_sizes as $default_size) {
-        if (isset($backup_sizes[ "$default_size-orig" ])) {
-            $data = $backup_sizes[ "$default_size-orig" ];
+        if (isset($backup_sizes["$default_size-orig"])) {
+            $data = $backup_sizes["$default_size-orig"];
 
-            if (isset($meta['sizes'][ $default_size ]) && $meta['sizes'][ $default_size ]['file'] !== $data['file']) {
+            if (isset($meta['sizes'][$default_size]) && $meta['sizes'][$default_size]['file'] !== $data['file']) {
                 if (defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE) {
                     // Delete only if it's an edited image.
-                    if (preg_match('/-e[0-9]{13}-/', $meta['sizes'][ $default_size ]['file'])) {
-                        $delete_file = path_join($parts['dirname'], $meta['sizes'][ $default_size ]['file']);
+                    if (preg_match('/-e[0-9]{13}-/', $meta['sizes'][$default_size]['file'])) {
+                        $delete_file = path_join($parts['dirname'], $meta['sizes'][$default_size]['file']);
                         wp_delete_file($delete_file);
                     }
                 } else {
-                    $backup_sizes[ "$default_size-{$suffix}" ] = $meta['sizes'][ $default_size ];
+                    $backup_sizes["$default_size-{$suffix}"] = $meta['sizes'][$default_size];
                 }
             }
 
-            $meta['sizes'][ $default_size ] = $data;
+            $meta['sizes'][$default_size] = $data;
         } else {
-            unset($meta['sizes'][ $default_size ]);
+            unset($meta['sizes'][$default_size]);
         }
     }
 
@@ -1028,7 +1028,7 @@ function wp_save_image($post_id)
         }
 
         if ($tag) {
-            $backup_sizes[ $tag ] = [
+            $backup_sizes[$tag] = [
                 'width'  => $meta['width'],
                 'height' => $meta['height'],
                 'file'   => $basename,
@@ -1081,10 +1081,10 @@ function wp_save_image($post_id)
         foreach ($sizes as $size) {
             $tag = false;
 
-            if (isset($meta['sizes'][ $size ])) {
-                if (isset($backup_sizes[ "$size-orig" ])) {
+            if (isset($meta['sizes'][$size])) {
+                if (isset($backup_sizes["$size-orig"])) {
                     if ((! defined('IMAGE_EDIT_OVERWRITE') || ! IMAGE_EDIT_OVERWRITE)
-                        && $backup_sizes[ "$size-orig" ]['file'] !== $meta['sizes'][ $size ]['file']
+                        && $backup_sizes["$size-orig"]['file'] !== $meta['sizes'][$size]['file']
                     ) {
                         $tag = "$size-$suffix";
                     }
@@ -1093,21 +1093,21 @@ function wp_save_image($post_id)
                 }
 
                 if ($tag) {
-                    $backup_sizes[ $tag ] = $meta['sizes'][ $size ];
+                    $backup_sizes[$tag] = $meta['sizes'][$size];
                 }
             }
 
-            if (isset($_wp_additional_image_sizes[ $size ])) {
-                $width  = (int) $_wp_additional_image_sizes[ $size ]['width'];
-                $height = (int) $_wp_additional_image_sizes[ $size ]['height'];
-                $crop   = ($nocrop) ? false : $_wp_additional_image_sizes[ $size ]['crop'];
+            if (isset($_wp_additional_image_sizes[$size])) {
+                $width  = (int) $_wp_additional_image_sizes[$size]['width'];
+                $height = (int) $_wp_additional_image_sizes[$size]['height'];
+                $crop   = ($nocrop) ? false : $_wp_additional_image_sizes[$size]['crop'];
             } else {
                 $height = get_option("{$size}_size_h");
                 $width  = get_option("{$size}_size_w");
                 $crop   = ($nocrop) ? false : get_option("{$size}_crop");
             }
 
-            $_sizes[ $size ] = [
+            $_sizes[$size] = [
                 'width'  => $width,
                 'height' => $height,
                 'crop'   => $crop,

@@ -120,7 +120,7 @@ if ($action) {
 
             $theme_info = [];
             foreach ($themes as $key => $theme) {
-                $theme_info[ $theme ] = wp_get_theme($theme);
+                $theme_info[$theme] = wp_get_theme($theme);
             }
 
             require ABSPATH . 'wp-admin/update.php';

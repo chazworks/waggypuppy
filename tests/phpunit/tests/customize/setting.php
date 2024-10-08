@@ -200,8 +200,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
             $this->assertSame($this->undefined, call_user_func($type_options['getter'], $name, $this->undefined));
             $this->assertSame($default, $setting->value());
             $this->assertTrue($setting->preview(), 'Preview applies because setting has post_data_overrides.'); // Activate post_data.
-            $this->assertSame($this->post_data_overrides[ $name ], call_user_func($type_options['getter'], $name, $this->undefined));
-            $this->assertSame($this->post_data_overrides[ $name ], $setting->value());
+            $this->assertSame($this->post_data_overrides[$name], call_user_func($type_options['getter'], $name, $this->undefined));
+            $this->assertSame($this->post_data_overrides[$name], $setting->value());
 
             // Non-multidimensional: Test set setting being overridden by a post value.
             $name          = "set_{$type}_overridden";
@@ -214,8 +214,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
             $this->assertTrue($setting->preview(), 'Preview applies because setting has post_data_overrides.'); // Activate post_data.
             $this->assertSame(0, did_action("customize_preview_{$setting->id}")); // Only applicable for custom types (not options or theme_mods).
             $this->assertSame(0, did_action("customize_preview_{$setting->type}")); // Only applicable for custom types (not options or theme_mods).
-            $this->assertSame($this->post_data_overrides[ $name ], call_user_func($type_options['getter'], $name, $this->undefined));
-            $this->assertSame($this->post_data_overrides[ $name ], $setting->value());
+            $this->assertSame($this->post_data_overrides[$name], call_user_func($type_options['getter'], $name, $this->undefined));
+            $this->assertSame($this->post_data_overrides[$name], $setting->value());
         }
     }
 
@@ -283,7 +283,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
             $this->assertSame(0, did_action("customize_preview_{$setting->type}")); // Only applicable for custom types (not options or theme_mods).
             $base_value = call_user_func($type_options['getter'], $base_name, $this->undefined);
             $this->assertArrayHasKey('foo', $base_value);
-            $this->assertSame($this->post_data_overrides[ $name ], $base_value['foo']);
+            $this->assertSame($this->post_data_overrides[$name], $base_value['foo']);
 
             // Multidimensional: Test set setting being overridden by a post value.
             $base_name          = "set_{$type}_multi_overridden";
@@ -309,7 +309,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
             $this->assertSame(0, did_action("customize_preview_{$setting->type}")); // Only applicable for custom types (not options or theme_mods).
             $base_value = call_user_func($type_options['getter'], $base_name, $this->undefined);
             $this->assertArrayHasKey('foo', $base_value);
-            $this->assertSame($this->post_data_overrides[ $name ], $base_value['foo']);
+            $this->assertSame($this->post_data_overrides[$name], $base_value['foo']);
             $this->assertArrayHasKey('bar', call_user_func($type_options['getter'], $base_name, $this->undefined));
 
             $getter = call_user_func($type_options['getter'], $base_name, $this->undefined);
@@ -330,9 +330,9 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
     private function custom_type_getter($name, $default_value = null)
     {
         if (did_action("customize_preview_{$name}") && array_key_exists($name, $this->custom_type_data_previewed)) {
-            $value = $this->custom_type_data_previewed[ $name ];
+            $value = $this->custom_type_data_previewed[$name];
         } elseif (array_key_exists($name, $this->custom_type_data_saved)) {
-            $value = $this->custom_type_data_saved[ $name ];
+            $value = $this->custom_type_data_saved[$name];
         } else {
             $value = $default_value;
         }
@@ -341,7 +341,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
 
     private function custom_type_setter($name, $value)
     {
-        $this->custom_type_data_saved[ $name ] = $value;
+        $this->custom_type_data_saved[$name] = $value;
     }
 
     /**
@@ -368,7 +368,7 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
     {
         $previewed_value = $setting->post_value($this->undefined);
         if ($this->undefined !== $previewed_value) {
-            $this->custom_type_data_previewed[ $setting->id ] = $previewed_value;
+            $this->custom_type_data_previewed[$setting->id] = $previewed_value;
         }
     }
     /**
@@ -438,8 +438,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $this->assertTrue($setting->preview());
         $this->assertSame(1, did_action("customize_preview_{$setting->id}"), 'One preview action now because initial value was not set and/or there is no incoming post value, so there is is a preview to apply.');
         $this->assertSame(3, did_action("customize_preview_{$setting->type}"));
-        $this->assertSame($post_data_overrides[ $name ], $this->custom_type_getter($name, $this->undefined));
-        $this->assertSame($post_data_overrides[ $name ], $setting->value());
+        $this->assertSame($post_data_overrides[$name], $this->custom_type_getter($name, $this->undefined));
+        $this->assertSame($post_data_overrides[$name], $setting->value());
 
         // Custom type not existing and with a post value override.
         $name          = "set_{$type}_with_post_value";
@@ -454,8 +454,8 @@ class Tests_WP_Customize_Setting extends WP_UnitTestCase
         $this->assertTrue($setting->preview());
         $this->assertSame(1, did_action("customize_preview_{$setting->id}"));
         $this->assertSame(4, did_action("customize_preview_{$setting->type}"));
-        $this->assertSame($post_data_overrides[ $name ], $this->custom_type_getter($name, $this->undefined));
-        $this->assertSame($post_data_overrides[ $name ], $setting->value());
+        $this->assertSame($post_data_overrides[$name], $this->custom_type_getter($name, $this->undefined));
+        $this->assertSame($post_data_overrides[$name], $setting->value());
 
         // Custom type that does not handle supplying the post value from the customize_value_{$id_base} filter.
         $setting_id = 'custom_without_previewing_value_filter';

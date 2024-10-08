@@ -96,7 +96,7 @@ function get_option($option, $default_value = false)
         'comment_whitelist' => 'comment_previously_approved',
     ];
 
-    if (isset($deprecated_keys[ $option ]) && ! wp_installing()) {
+    if (isset($deprecated_keys[$option]) && ! wp_installing()) {
         _deprecated_argument(
             __FUNCTION__,
             '5.5.0',
@@ -104,10 +104,10 @@ function get_option($option, $default_value = false)
                 /* translators: 1: Deprecated option key, 2: New option key. */
                 __('The "%1$s" option key has been renamed to "%2$s".'),
                 $option,
-                $deprecated_keys[ $option ]
+                $deprecated_keys[$option]
             )
         );
-        return get_option($deprecated_keys[ $option ], $default_value);
+        return get_option($deprecated_keys[$option], $default_value);
     }
 
     /**
@@ -164,8 +164,8 @@ function get_option($option, $default_value = false)
     if (! wp_installing()) {
         $alloptions = wp_load_alloptions();
 
-        if (isset($alloptions[ $option ])) {
-            $value = $alloptions[ $option ];
+        if (isset($alloptions[$option])) {
+            $value = $alloptions[$option];
         } else {
             $value = wp_cache_get($option, 'options');
 
@@ -177,7 +177,7 @@ function get_option($option, $default_value = false)
                 if (! is_array($notoptions)) {
                     $notoptions = [];
                     wp_cache_set('notoptions', $notoptions, 'options');
-                } elseif (isset($notoptions[ $option ])) {
+                } elseif (isset($notoptions[$option])) {
                     /**
                      * Filters the default value for an option.
                      *
@@ -202,7 +202,7 @@ function get_option($option, $default_value = false)
                     $value = $row->option_value;
                     wp_cache_add($option, $value, 'options');
                 } else { // Option does not exist, so we must cache its non-existence.
-                    $notoptions[ $option ] = true;
+                    $notoptions[$option] = true;
                     wp_cache_set('notoptions', $notoptions, 'options');
 
                     /** This filter is documented in wp-includes/option.php */
@@ -273,9 +273,9 @@ function wp_prime_option_caches($options)
     // Filter options that are not in the cache.
     $options_to_prime = [];
     foreach ($options as $option) {
-        if ((! isset($cached_options[ $option ]) || false === $cached_options[ $option ])
-            && ! isset($alloptions[ $option ])
-            && ! isset($notoptions[ $option ])
+        if ((! isset($cached_options[$option]) || false === $cached_options[$option])
+            && ! isset($alloptions[$option])
+            && ! isset($notoptions[$option])
         ) {
             $options_to_prime[] = $option;
         }
@@ -303,7 +303,7 @@ function wp_prime_option_caches($options)
          *
          * `get_option()` will handle unserializing the value as needed.
          */
-        $options_found[ $result->option_name ] = $result->option_value;
+        $options_found[$result->option_name] = $result->option_value;
     }
     wp_cache_set_multiple($options_found, 'options');
 
@@ -317,9 +317,9 @@ function wp_prime_option_caches($options)
     // Add the options that were not found to the cache.
     $update_notoptions = false;
     foreach ($options_not_found as $option_name) {
-        if (! isset($notoptions[ $option_name ])) {
-            $notoptions[ $option_name ] = true;
-            $update_notoptions          = true;
+        if (! isset($notoptions[$option_name])) {
+            $notoptions[$option_name] = true;
+            $update_notoptions        = true;
         }
     }
 
@@ -342,8 +342,8 @@ function wp_prime_option_caches_by_group($option_group)
 {
     global $new_allowed_options;
 
-    if (isset($new_allowed_options[ $option_group ])) {
-        wp_prime_option_caches($new_allowed_options[ $option_group ]);
+    if (isset($new_allowed_options[$option_group])) {
+        wp_prime_option_caches($new_allowed_options[$option_group]);
     }
 }
 
@@ -363,7 +363,7 @@ function get_options($options)
 
     $result = [];
     foreach ($options as $option) {
-        $result[ $option ] = get_option($option);
+        $result[$option] = get_option($option);
     }
 
     return $result;
@@ -413,7 +413,7 @@ function wp_set_option_autoload_values(array $options)
         } else {
             $grouped_options['on'][] = $option;
         }
-        $results[ $option ] = false; // Initialize result value.
+        $results[$option] = false; // Initialize result value.
     }
 
     $where      = [];
@@ -446,31 +446,31 @@ function wp_set_option_autoload_values(array $options)
         if (! $options) {
             continue;
         }
-        $options                      = array_intersect($options, $options_to_update);
-        $grouped_options[ $autoload ] = $options;
-        if (! $grouped_options[ $autoload ]) {
+        $options                    = array_intersect($options, $options_to_update);
+        $grouped_options[$autoload] = $options;
+        if (! $grouped_options[$autoload]) {
             continue;
         }
 
         // Run query to update autoload value for all the options where it is needed.
         $success = $wpdb->query(
             $wpdb->prepare(
-                "UPDATE $wpdb->options SET autoload = %s WHERE option_name IN (" . implode(',', array_fill(0, count($grouped_options[ $autoload ]), '%s')) . ')',
+                "UPDATE $wpdb->options SET autoload = %s WHERE option_name IN (" . implode(',', array_fill(0, count($grouped_options[$autoload]), '%s')) . ')',
                 array_merge(
                     [$autoload],
-                    $grouped_options[ $autoload ]
+                    $grouped_options[$autoload]
                 )
             )
         );
         if (! $success) {
             // Set option list to an empty array to indicate no options were updated.
-            $grouped_options[ $autoload ] = [];
+            $grouped_options[$autoload] = [];
             continue;
         }
 
         // Assume that on success all options were updated, which should be the case given only new values are sent.
-        foreach ($grouped_options[ $autoload ] as $option) {
-            $results[ $option ] = true;
+        foreach ($grouped_options[$autoload] as $option) {
+            $results[$option] = true;
         }
     }
 
@@ -488,8 +488,8 @@ function wp_set_option_autoload_values(array $options)
         $alloptions = wp_load_alloptions(true);
 
         foreach ($grouped_options['off'] as $option) {
-            if (isset($alloptions[ $option ])) {
-                unset($alloptions[ $option ]);
+            if (isset($alloptions[$option])) {
+                unset($alloptions[$option]);
             }
         }
 
@@ -544,8 +544,8 @@ function wp_set_options_autoload(array $options, $autoload)
 function wp_set_option_autoload($option, $autoload)
 {
     $result = wp_set_option_autoload_values([$option => $autoload]);
-    if (isset($result[ $option ])) {
-        return $result[ $option ];
+    if (isset($result[$option])) {
+        return $result[$option];
     }
     return false;
 }
@@ -634,7 +634,7 @@ function wp_load_alloptions($force_cache = false)
 
         $alloptions = [];
         foreach ((array) $alloptions_db as $o) {
-            $alloptions[ $o->option_name ] = $o->option_value;
+            $alloptions[$o->option_name] = $o->option_value;
         }
 
         if (! wp_installing() || ! is_multisite()) {
@@ -719,7 +719,7 @@ function wp_prime_network_option_caches($network_id, array $options)
 
     $cache_keys = [];
     foreach ($options as $option) {
-        $cache_keys[ $option ] = "{$network_id}:{$option}";
+        $cache_keys[$option] = "{$network_id}:{$option}";
     }
 
     $cache_group    = 'site-options';
@@ -735,8 +735,8 @@ function wp_prime_network_option_caches($network_id, array $options)
     // Filter options that are not in the cache.
     $options_to_prime = [];
     foreach ($cache_keys as $option => $cache_key) {
-        if ((! isset($cached_options[ $cache_key ]) || false === $cached_options[ $cache_key ])
-            && ! isset($notoptions[ $option ])
+        if ((! isset($cached_options[$cache_key]) || false === $cached_options[$cache_key])
+            && ! isset($notoptions[$option])
         ) {
             $options_to_prime[] = $option;
         }
@@ -763,10 +763,10 @@ function wp_prime_network_option_caches($network_id, array $options)
     $data          = [];
     $options_found = [];
     foreach ($results as $result) {
-        $key                = $result->meta_key;
-        $cache_key          = $cache_keys[ $key ];
-        $data[ $cache_key ] = maybe_unserialize($result->meta_value);
-        $options_found[]    = $key;
+        $key              = $result->meta_key;
+        $cache_key        = $cache_keys[$key];
+        $data[$cache_key] = maybe_unserialize($result->meta_value);
+        $options_found[]  = $key;
     }
     wp_cache_set_multiple($data, $cache_group);
     // If all options were found, no need to update `notoptions` cache.
@@ -779,9 +779,9 @@ function wp_prime_network_option_caches($network_id, array $options)
     // Add the options that were not found to the cache.
     $update_notoptions = false;
     foreach ($options_not_found as $option_name) {
-        if (! isset($notoptions[ $option_name ])) {
-            $notoptions[ $option_name ] = true;
-            $update_notoptions          = true;
+        if (! isset($notoptions[$option_name])) {
+            $notoptions[$option_name] = true;
+            $update_notoptions        = true;
         }
     }
 
@@ -867,7 +867,7 @@ function update_option($option, $value, $autoload = null)
         'comment_whitelist' => 'comment_previously_approved',
     ];
 
-    if (isset($deprecated_keys[ $option ]) && ! wp_installing()) {
+    if (isset($deprecated_keys[$option]) && ! wp_installing()) {
         _deprecated_argument(
             __FUNCTION__,
             '5.5.0',
@@ -875,10 +875,10 @@ function update_option($option, $value, $autoload = null)
                 /* translators: 1: Deprecated option key, 2: New option key. */
                 __('The "%1$s" option key has been renamed to "%2$s".'),
                 $option,
-                $deprecated_keys[ $option ]
+                $deprecated_keys[$option]
             )
         );
-        return update_option($deprecated_keys[ $option ], $value, $autoload);
+        return update_option($deprecated_keys[$option], $value, $autoload);
     }
 
     wp_protect_special_option($option);
@@ -971,8 +971,8 @@ function update_option($option, $value, $autoload = null)
 
     $notoptions = wp_cache_get('notoptions', 'options');
 
-    if (is_array($notoptions) && isset($notoptions[ $option ])) {
-        unset($notoptions[ $option ]);
+    if (is_array($notoptions) && isset($notoptions[$option])) {
+        unset($notoptions[$option]);
         wp_cache_set('notoptions', $notoptions, 'options');
     }
 
@@ -981,8 +981,8 @@ function update_option($option, $value, $autoload = null)
             // Update the cached value based on where it is currently cached.
             $alloptions = wp_load_alloptions(true);
 
-            if (isset($alloptions[ $option ])) {
-                $alloptions[ $option ] = $serialized_value;
+            if (isset($alloptions[$option])) {
+                $alloptions[$option] = $serialized_value;
                 wp_cache_set('alloptions', $alloptions, 'options');
             } else {
                 wp_cache_set($option, $serialized_value, 'options');
@@ -993,14 +993,14 @@ function update_option($option, $value, $autoload = null)
 
             $alloptions = wp_load_alloptions(true);
 
-            $alloptions[ $option ] = $serialized_value;
+            $alloptions[$option] = $serialized_value;
             wp_cache_set('alloptions', $alloptions, 'options');
         } else {
             // Delete the alloptions cache, then set the individual cache.
             $alloptions = wp_load_alloptions(true);
 
-            if (isset($alloptions[ $option ])) {
-                unset($alloptions[ $option ]);
+            if (isset($alloptions[$option])) {
+                unset($alloptions[$option]);
                 wp_cache_set('alloptions', $alloptions, 'options');
             }
 
@@ -1095,7 +1095,7 @@ function add_option($option, $value = '', $deprecated = '', $autoload = null)
         'comment_whitelist' => 'comment_previously_approved',
     ];
 
-    if (isset($deprecated_keys[ $option ]) && ! wp_installing()) {
+    if (isset($deprecated_keys[$option]) && ! wp_installing()) {
         _deprecated_argument(
             __FUNCTION__,
             '5.5.0',
@@ -1103,10 +1103,10 @@ function add_option($option, $value = '', $deprecated = '', $autoload = null)
                 /* translators: 1: Deprecated option key, 2: New option key. */
                 __('The "%1$s" option key has been renamed to "%2$s".'),
                 $option,
-                $deprecated_keys[ $option ]
+                $deprecated_keys[$option]
             )
         );
-        return add_option($deprecated_keys[ $option ], $value, $deprecated, $autoload);
+        return add_option($deprecated_keys[$option], $value, $deprecated, $autoload);
     }
 
     wp_protect_special_option($option);
@@ -1123,7 +1123,7 @@ function add_option($option, $value = '', $deprecated = '', $autoload = null)
      */
     $notoptions = wp_cache_get('notoptions', 'options');
 
-    if (! is_array($notoptions) || ! isset($notoptions[ $option ])) {
+    if (! is_array($notoptions) || ! isset($notoptions[$option])) {
         /** This filter is documented in wp-includes/option.php */
         if (apply_filters("default_option_{$option}", false, $option, false) !== get_option($option)) {
             return false;
@@ -1151,8 +1151,8 @@ function add_option($option, $value = '', $deprecated = '', $autoload = null)
 
     if (! wp_installing()) {
         if (in_array($autoload, wp_autoload_values_to_autoload(), true)) {
-            $alloptions            = wp_load_alloptions(true);
-            $alloptions[ $option ] = $serialized_value;
+            $alloptions          = wp_load_alloptions(true);
+            $alloptions[$option] = $serialized_value;
             wp_cache_set('alloptions', $alloptions, 'options');
         } else {
             wp_cache_set($option, $serialized_value, 'options');
@@ -1162,8 +1162,8 @@ function add_option($option, $value = '', $deprecated = '', $autoload = null)
     // This option exists now.
     $notoptions = wp_cache_get('notoptions', 'options'); // Yes, again... we need it to be fresh.
 
-    if (is_array($notoptions) && isset($notoptions[ $option ])) {
-        unset($notoptions[ $option ]);
+    if (is_array($notoptions) && isset($notoptions[$option])) {
+        unset($notoptions[$option]);
         wp_cache_set('notoptions', $notoptions, 'options');
     }
 
@@ -1238,8 +1238,8 @@ function delete_option($option)
         if (in_array($row->autoload, wp_autoload_values_to_autoload(), true)) {
             $alloptions = wp_load_alloptions(true);
 
-            if (is_array($alloptions) && isset($alloptions[ $option ])) {
-                unset($alloptions[ $option ]);
+            if (is_array($alloptions) && isset($alloptions[$option])) {
+                unset($alloptions[$option]);
                 wp_cache_set('alloptions', $alloptions, 'options');
             }
         } else {
@@ -1251,7 +1251,7 @@ function delete_option($option)
         if (! is_array($notoptions)) {
             $notoptions = [];
         }
-        $notoptions[ $option ] = true;
+        $notoptions[$option] = true;
 
         wp_cache_set('notoptions', $notoptions, 'options');
     }
@@ -1469,7 +1469,7 @@ function get_transient($transient)
             // If option is not in alloptions, it is not autoloaded and thus has a timeout.
             $alloptions = wp_load_alloptions();
 
-            if (! isset($alloptions[ $transient_option ])) {
+            if (! isset($alloptions[$transient_option])) {
                 $transient_timeout = '_transient_timeout_' . $transient;
                 wp_prime_option_caches([$transient_option, $transient_timeout]);
                 $timeout = get_option($transient_timeout);
@@ -1712,8 +1712,8 @@ function wp_user_settings()
 
     $settings = (string) get_user_option('user-settings', $user_id);
 
-    if (isset($_COOKIE[ 'wp-settings-' . $user_id ])) {
-        $cookie = preg_replace('/[^A-Za-z0-9=&_]/', '', $_COOKIE[ 'wp-settings-' . $user_id ]);
+    if (isset($_COOKIE['wp-settings-' . $user_id])) {
+        $cookie = preg_replace('/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $user_id]);
 
         // No change or both empty.
         if ($cookie === $settings) {
@@ -1721,7 +1721,7 @@ function wp_user_settings()
         }
 
         $last_saved = (int) get_user_option('user-settings-time', $user_id);
-        $current    = isset($_COOKIE[ 'wp-settings-time-' . $user_id ]) ? preg_replace('/[^0-9]/', '', $_COOKIE[ 'wp-settings-time-' . $user_id ]) : 0;
+        $current    = isset($_COOKIE['wp-settings-time-' . $user_id]) ? preg_replace('/[^0-9]/', '', $_COOKIE['wp-settings-time-' . $user_id]) : 0;
 
         // The cookie is newer than the saved value. Update the user_option and leave the cookie as-is.
         if ($current > $last_saved) {
@@ -1735,7 +1735,7 @@ function wp_user_settings()
     $secure = ('https' === parse_url(admin_url(), PHP_URL_SCHEME));
     setcookie('wp-settings-' . $user_id, $settings, time() + YEAR_IN_SECONDS, SITECOOKIEPATH, '', $secure);
     setcookie('wp-settings-time-' . $user_id, time(), time() + YEAR_IN_SECONDS, SITECOOKIEPATH, '', $secure);
-    $_COOKIE[ 'wp-settings-' . $user_id ] = $settings;
+    $_COOKIE['wp-settings-' . $user_id] = $settings;
 }
 
 /**
@@ -1751,7 +1751,7 @@ function get_user_setting($name, $default_value = false)
 {
     $all_user_settings = get_all_user_settings();
 
-    return isset($all_user_settings[ $name ]) ? $all_user_settings[ $name ] : $default_value;
+    return isset($all_user_settings[$name]) ? $all_user_settings[$name] : $default_value;
 }
 
 /**
@@ -1774,8 +1774,8 @@ function set_user_setting($name, $value)
         return false;
     }
 
-    $all_user_settings          = get_all_user_settings();
-    $all_user_settings[ $name ] = $value;
+    $all_user_settings        = get_all_user_settings();
+    $all_user_settings[$name] = $value;
 
     return wp_set_all_user_settings($all_user_settings);
 }
@@ -1804,8 +1804,8 @@ function delete_user_setting($names)
     $deleted           = false;
 
     foreach ($names as $name) {
-        if (isset($all_user_settings[ $name ])) {
-            unset($all_user_settings[ $name ]);
+        if (isset($all_user_settings[$name])) {
+            unset($all_user_settings[$name]);
             $deleted = true;
         }
     }
@@ -1841,8 +1841,8 @@ function get_all_user_settings()
 
     $user_settings = [];
 
-    if (isset($_COOKIE[ 'wp-settings-' . $user_id ])) {
-        $cookie = preg_replace('/[^A-Za-z0-9=&_-]/', '', $_COOKIE[ 'wp-settings-' . $user_id ]);
+    if (isset($_COOKIE['wp-settings-' . $user_id])) {
+        $cookie = preg_replace('/[^A-Za-z0-9=&_-]/', '', $_COOKIE['wp-settings-' . $user_id]);
 
         if (strpos($cookie, '=')) { // '=' cannot be 1st char.
             parse_str($cookie, $user_settings);
@@ -2052,7 +2052,7 @@ function get_network_option($network_id, $option, $default_value = false)
     $notoptions_key = "$network_id:notoptions";
     $notoptions     = wp_cache_get($notoptions_key, 'site-options');
 
-    if (is_array($notoptions) && isset($notoptions[ $option ])) {
+    if (is_array($notoptions) && isset($notoptions[$option])) {
 
         /**
          * Filters the value of a specific default network option.
@@ -2092,7 +2092,7 @@ function get_network_option($network_id, $option, $default_value = false)
                     $notoptions = [];
                 }
 
-                $notoptions[ $option ] = true;
+                $notoptions[$option] = true;
                 wp_cache_set($notoptions_key, $notoptions, 'site-options');
 
                 /** This filter is documented in wp-includes/option.php */
@@ -2185,7 +2185,7 @@ function add_network_option($network_id, $option, $value)
          */
         $notoptions = wp_cache_get($notoptions_key, 'site-options');
 
-        if (! is_array($notoptions) || ! isset($notoptions[ $option ])) {
+        if (! is_array($notoptions) || ! isset($notoptions[$option])) {
             if (false !== get_network_option($network_id, $option, false)) {
                 return false;
             }
@@ -2212,8 +2212,8 @@ function add_network_option($network_id, $option, $value)
         // This option exists now.
         $notoptions = wp_cache_get($notoptions_key, 'site-options'); // Yes, again... we need it to be fresh.
 
-        if (is_array($notoptions) && isset($notoptions[ $option ])) {
-            unset($notoptions[ $option ]);
+        if (is_array($notoptions) && isset($notoptions[$option])) {
+            unset($notoptions[$option]);
             wp_cache_set($notoptions_key, $notoptions, 'site-options');
         }
     }
@@ -2320,7 +2320,7 @@ function delete_network_option($network_id, $option)
             if (! is_array($notoptions)) {
                 $notoptions = [];
             }
-            $notoptions[ $option ] = true;
+            $notoptions[$option] = true;
             wp_cache_set($notoptions_key, $notoptions, 'site-options');
         }
     }
@@ -2428,8 +2428,8 @@ function update_network_option($network_id, $option, $value)
     $notoptions_key = "$network_id:notoptions";
     $notoptions     = wp_cache_get($notoptions_key, 'site-options');
 
-    if (is_array($notoptions) && isset($notoptions[ $option ])) {
-        unset($notoptions[ $option ]);
+    if (is_array($notoptions) && isset($notoptions[$option])) {
+        unset($notoptions[$option]);
         wp_cache_set($notoptions_key, $notoptions, 'site-options');
     }
 
@@ -3051,7 +3051,7 @@ function register_setting($option_group, $option_name, $args = [])
         $option_group = 'reading';
     }
 
-    $new_allowed_options[ $option_group ][] = $option_name;
+    $new_allowed_options[$option_group][] = $option_name;
 
     if (! empty($args['sanitize_callback'])) {
         add_filter("sanitize_option_{$option_name}", $args['sanitize_callback']);
@@ -3071,7 +3071,7 @@ function register_setting($option_group, $option_name, $args = [])
      */
     do_action('register_setting', $option_group, $option_name, $args);
 
-    $wp_registered_settings[ $option_name ] = $args;
+    $wp_registered_settings[$option_name] = $args;
 }
 
 /**
@@ -3126,12 +3126,12 @@ function unregister_setting($option_group, $option_name, $deprecated = '')
     }
 
     $pos = false;
-    if (isset($new_allowed_options[ $option_group ])) {
-        $pos = array_search($option_name, (array) $new_allowed_options[ $option_group ], true);
+    if (isset($new_allowed_options[$option_group])) {
+        $pos = array_search($option_name, (array) $new_allowed_options[$option_group], true);
     }
 
     if (false !== $pos) {
-        unset($new_allowed_options[ $option_group ][ $pos ]);
+        unset($new_allowed_options[$option_group][$pos]);
     }
 
     if ('' !== $deprecated) {
@@ -3148,14 +3148,14 @@ function unregister_setting($option_group, $option_name, $deprecated = '')
         remove_filter("sanitize_option_{$option_name}", $deprecated);
     }
 
-    if (isset($wp_registered_settings[ $option_name ])) {
+    if (isset($wp_registered_settings[$option_name])) {
         // Remove the sanitize callback if one was set during registration.
-        if (! empty($wp_registered_settings[ $option_name ]['sanitize_callback'])) {
-            remove_filter("sanitize_option_{$option_name}", $wp_registered_settings[ $option_name ]['sanitize_callback']);
+        if (! empty($wp_registered_settings[$option_name]['sanitize_callback'])) {
+            remove_filter("sanitize_option_{$option_name}", $wp_registered_settings[$option_name]['sanitize_callback']);
         }
 
         // Remove the default filter if a default was provided during registration.
-        if (array_key_exists('default', $wp_registered_settings[ $option_name ])) {
+        if (array_key_exists('default', $wp_registered_settings[$option_name])) {
             remove_filter("default_option_{$option_name}", 'filter_default_option', 10);
         }
 
@@ -3169,7 +3169,7 @@ function unregister_setting($option_group, $option_name, $deprecated = '')
          */
         do_action('unregister_setting', $option_group, $option_name);
 
-        unset($wp_registered_settings[ $option_name ]);
+        unset($wp_registered_settings[$option_name]);
     }
 }
 
@@ -3213,11 +3213,11 @@ function filter_default_option($default_value, $option, $passed_default)
     }
 
     $registered = get_registered_settings();
-    if (empty($registered[ $option ])) {
+    if (empty($registered[$option])) {
         return $default_value;
     }
 
-    return $registered[ $option ]['default'];
+    return $registered[$option]['default'];
 }
 
 /**

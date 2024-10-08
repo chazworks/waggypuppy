@@ -99,7 +99,7 @@ foreach ($sidebars_widgets as $sidebar_id => $widgets) {
                 ]
             );
         } else {
-            unset($sidebars_widgets[ $sidebar_id ]);
+            unset($sidebars_widgets[$sidebar_id]);
         }
     }
 }
@@ -129,17 +129,17 @@ if (isset($_POST['savewidget']) || isset($_POST['removewidget'])) {
     if ($number) {
         foreach ($_POST as $key => $val) {
             if (is_array($val) && preg_match('/__i__|%i%/', key($val))) {
-                $_POST[ $key ] = [$number => array_shift($val)];
+                $_POST[$key] = [$number => array_shift($val)];
                 break;
             }
         }
     }
 
     $sidebar_id = $_POST['sidebar'];
-    $position   = isset($_POST[ $sidebar_id . '_position' ]) ? (int) $_POST[ $sidebar_id . '_position' ] - 1 : 0;
+    $position   = isset($_POST[$sidebar_id . '_position']) ? (int) $_POST[$sidebar_id . '_position'] - 1 : 0;
 
     $id_base = $_POST['id_base'];
-    $sidebar = isset($sidebars_widgets[ $sidebar_id ]) ? $sidebars_widgets[ $sidebar_id ] : [];
+    $sidebar = isset($sidebars_widgets[$sidebar_id]) ? $sidebars_widgets[$sidebar_id] : [];
 
     // Delete.
     if (isset($_POST['removewidget']) && $_POST['removewidget']) {
@@ -183,16 +183,16 @@ if (isset($_POST['savewidget']) || isset($_POST['removewidget'])) {
         break;
     }
 
-    $sidebars_widgets[ $sidebar_id ] = $sidebar;
+    $sidebars_widgets[$sidebar_id] = $sidebar;
 
     // Remove old position.
     if (! isset($_POST['delete_widget'])) {
         foreach ($sidebars_widgets as $key => $sb) {
             if (is_array($sb)) {
-                $sidebars_widgets[ $key ] = array_diff($sb, [$widget_id]);
+                $sidebars_widgets[$key] = array_diff($sb, [$widget_id]);
             }
         }
-        array_splice($sidebars_widgets[ $sidebar_id ], $position, 0, $widget_id);
+        array_splice($sidebars_widgets[$sidebar_id], $position, 0, $widget_id);
     }
 
     wp_set_sidebars_widgets($sidebars_widgets);
@@ -210,9 +210,9 @@ if (isset($_POST['removeinactivewidgets'])) {
             $multi_number = array_pop($pieces);
             $id_base      = implode('-', $pieces);
             $widget       = get_option('widget_' . $id_base);
-            unset($widget[ $multi_number ]);
+            unset($widget[$multi_number]);
             update_option('widget_' . $id_base, $widget);
-            unset($sidebars_widgets['wp_inactive_widgets'][ $key ]);
+            unset($sidebars_widgets['wp_inactive_widgets'][$key]);
         }
 
         wp_set_sidebars_widgets($sidebars_widgets);
@@ -235,23 +235,23 @@ if (isset($_GET['editwidget']) && $_GET['editwidget']) {
             // Copy minimal info from an existing instance of this widget to a new instance.
             foreach ($wp_registered_widget_controls as $control) {
                 if ($_GET['base'] === $control['id_base']) {
-                    $control_callback                                = $control['callback'];
-                    $multi_number                                    = (int) $_GET['num'];
-                    $control['params'][0]['number']                  = -1;
-                    $control['id']                                   = $control['id_base'] . '-' . $multi_number;
-                    $widget_id                                       = $control['id'];
-                    $wp_registered_widget_controls[ $control['id'] ] = $control;
+                    $control_callback                              = $control['callback'];
+                    $multi_number                                  = (int) $_GET['num'];
+                    $control['params'][0]['number']                = -1;
+                    $control['id']                                 = $control['id_base'] . '-' . $multi_number;
+                    $widget_id                                     = $control['id'];
+                    $wp_registered_widget_controls[$control['id']] = $control;
                     break;
                 }
             }
         }
     }
 
-    if (isset($wp_registered_widget_controls[ $widget_id ]) && ! isset($control)) {
-        $control          = $wp_registered_widget_controls[ $widget_id ];
+    if (isset($wp_registered_widget_controls[$widget_id]) && ! isset($control)) {
+        $control          = $wp_registered_widget_controls[$widget_id];
         $control_callback = $control['callback'];
-    } elseif (! isset($wp_registered_widget_controls[ $widget_id ]) && isset($wp_registered_widgets[ $widget_id ])) {
-        $name = esc_html(strip_tags($wp_registered_widgets[ $widget_id ]['name']));
+    } elseif (! isset($wp_registered_widget_controls[$widget_id]) && isset($wp_registered_widgets[$widget_id])) {
+        $name = esc_html(strip_tags($wp_registered_widgets[$widget_id]['name']));
     }
 
     if (! isset($name)) {
@@ -304,12 +304,12 @@ if (isset($_GET['editwidget']) && $_GET['editwidget']) {
         if ('wp_inactive_widgets' === $sbname || str_starts_with($sbname, 'orphaned_widgets')) {
             echo '&nbsp;';
         } else {
-            if (! isset($sidebars_widgets[ $sbname ]) || ! is_array($sidebars_widgets[ $sbname ])) {
-                $j                           = 1;
-                $sidebars_widgets[ $sbname ] = [];
+            if (! isset($sidebars_widgets[$sbname]) || ! is_array($sidebars_widgets[$sbname])) {
+                $j                         = 1;
+                $sidebars_widgets[$sbname] = [];
             } else {
-                $j = count($sidebars_widgets[ $sbname ]);
-                if (isset($_GET['addnew']) || ! in_array($widget_id, $sidebars_widgets[ $sbname ], true)) {
+                $j = count($sidebars_widgets[$sbname]);
+                if (isset($_GET['addnew']) || ! in_array($widget_id, $sidebars_widgets[$sbname], true)) {
                     ++$j;
                 }
             }
@@ -317,7 +317,7 @@ if (isset($_GET['editwidget']) && $_GET['editwidget']) {
             echo "\t\t<select name='{$sbname}_position'>\n";
             echo "\t\t<option value=''>" . __('&mdash; Select &mdash;') . "</option>\n";
             for ($i = 1; $i <= $j; $i++) {
-                if (in_array($widget_id, $sidebars_widgets[ $sbname ], true)) {
+                if (in_array($widget_id, $sidebars_widgets[$sbname], true)) {
                     $selected = selected($i, $key + 1, false);
                 }
                 echo "\t\t<option value='$i'$selected> $i </option>\n";
@@ -404,9 +404,9 @@ $nonce = wp_create_nonce('widgets-access');
 <hr class="wp-header-end">
 
 <?php
-if (isset($_GET['message']) && isset($messages[ $_GET['message'] ])) {
+if (isset($_GET['message']) && isset($messages[$_GET['message']])) {
     wp_admin_notice(
-        $messages[ $_GET['message'] ],
+        $messages[$_GET['message']],
         [
             'id'                 => 'message',
             'additional_classes' => ['updated'],
@@ -414,9 +414,9 @@ if (isset($_GET['message']) && isset($messages[ $_GET['message'] ])) {
         ]
     );
 }
-if (isset($_GET['error']) && isset($errors[ $_GET['error'] ])) {
+if (isset($_GET['error']) && isset($errors[$_GET['error']])) {
     wp_admin_notice(
-        $errors[ $_GET['error'] ],
+        $errors[$_GET['error']],
         [
             'id'                 => 'message',
             'additional_classes' => ['error'],
@@ -503,7 +503,7 @@ foreach ($wp_registered_sidebars as $sidebar => $registered_sidebar) {
         <?php
 
     } else {
-        $theme_sidebars[ $sidebar ] = $registered_sidebar;
+        $theme_sidebars[$sidebar] = $registered_sidebar;
     }
 }
 

@@ -1052,7 +1052,7 @@ class WP_Site_Health
                  * If that other function has a failure, mark this module as required for usual operations.
                  * If that other function hasn't failed, skip this test as it's only a fallback.
                  */
-                if (isset($failures[ $module['fallback_for'] ])) {
+                if (isset($failures[$module['fallback_for']])) {
                     $module['required'] = true;
                 } else {
                     continue;
@@ -1089,7 +1089,7 @@ class WP_Site_Health
                     $result['status'] = 'recommended';
                 }
 
-                $failures[ $library ] = "<span class='dashicons $class'><span class='screen-reader-text'>$screen_reader</span></span> $message";
+                $failures[$library] = "<span class='dashicons $class'><span class='screen-reader-text'>$screen_reader</span></span> $message";
             }
         }
 
@@ -2984,7 +2984,7 @@ class WP_Site_Health
             foreach ($cron as $hook => $dings) {
                 foreach ($dings as $sig => $data) {
 
-                    $this->crons[ "$hook-$sig-$time" ] = (object) [
+                    $this->crons["$hook-$sig-$time"] = (object) [
                         'hook'     => $hook,
                         'time'     => $time,
                         'sig'      => $sig,
@@ -3456,7 +3456,7 @@ class WP_Site_Health
                 }
                 $header_values = (array) $header_values;
                 if (empty($callback) || (is_callable($callback) && count(array_filter($header_values, $callback)) > 0)) {
-                    $response_headers[ $header ] = $header_values;
+                    $response_headers[$header] = $header_values;
                 }
             }
 
@@ -3502,7 +3502,7 @@ class WP_Site_Health
         // Use the median server response time.
         $response_timings = $page_cache_detail['response_timing'];
         rsort($response_timings);
-        $page_speed = $response_timings[ floor(count($response_timings) / 2) ];
+        $page_speed = $response_timings[floor(count($response_timings) / 2)];
 
         // Obtain unique set of all client caching response headers.
         $headers = [];
@@ -3632,7 +3632,7 @@ class WP_Site_Health
         ];
 
         foreach ($threshold_map as $threshold => $table) {
-            if ($thresholds[ $threshold ] <= $results[ $table ]->rows) {
+            if ($thresholds[$threshold] <= $results[$table]->rows) {
                 return true;
             }
         }

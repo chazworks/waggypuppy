@@ -987,7 +987,7 @@ class wpdb
 
         foreach ($modes as $i => $mode) {
             if (in_array($mode, $incompatible_modes, true)) {
-                unset($modes[ $i ]);
+                unset($modes[$i]);
             }
         }
 
@@ -1173,11 +1173,11 @@ class wpdb
             $global_tables = array_merge($this->global_tables, $this->ms_global_tables);
             foreach ($tables as $k => $table) {
                 if (in_array($table, $global_tables, true)) {
-                    $tables[ $table ] = $base_prefix . $table;
+                    $tables[$table] = $base_prefix . $table;
                 } else {
-                    $tables[ $table ] = $blog_prefix . $table;
+                    $tables[$table] = $blog_prefix . $table;
                 }
-                unset($tables[ $k ]);
+                unset($tables[$k]);
             }
 
             if (isset($tables['users']) && defined('CUSTOM_USER_TABLE')) {
@@ -1317,9 +1317,9 @@ class wpdb
         if (is_array($data)) {
             foreach ($data as $k => $v) {
                 if (is_array($v)) {
-                    $data[ $k ] = $this->_escape($v);
+                    $data[$k] = $this->_escape($v);
                 } else {
-                    $data[ $k ] = $this->_real_escape($v);
+                    $data[$k] = $this->_real_escape($v);
                 }
             }
         } else {
@@ -1350,9 +1350,9 @@ class wpdb
         if (is_array($data)) {
             foreach ($data as $k => $v) {
                 if (is_array($v)) {
-                    $data[ $k ] = $this->escape($v, 'recursive');
+                    $data[$k] = $this->escape($v, 'recursive');
                 } else {
-                    $data[ $k ] = $this->_weak_escape($v, 'internal');
+                    $data[$k] = $this->_weak_escape($v, 'internal');
                 }
             }
         } else {
@@ -1541,7 +1541,7 @@ class wpdb
         $arg_strings     = [];
 
         while ($key < $split_query_count) {
-            $placeholder = $split_query[ $key ];
+            $placeholder = $split_query[$key];
 
             $format = substr($placeholder, 1, -1);
             $type   = substr($placeholder, -1);
@@ -1552,7 +1552,7 @@ class wpdb
                  * directly outside of WordPress core, e.g. by HyperDB, in which case
                  * the polyfills from wp-includes/compat.php are not loaded.
                  */
-                && '%' === substr($split_query[ $key - 1 ], -1, 1)
+                && '%' === substr($split_query[$key - 1], -1, 1)
             ) {
 
                 /*
@@ -1564,10 +1564,10 @@ class wpdb
                  * an extra "%", to give the fully escaped "%%%%f" (not a placeholder).
                  */
 
-                $s = $split_query[ $key - 2 ] . $split_query[ $key - 1 ];
+                $s = $split_query[$key - 2] . $split_query[$key - 1];
                 $k = 1;
                 $l = strlen($s);
-                while ($k <= $l && '%' === $s[ $l - $k ]) {
+                while ($k <= $l && '%' === $s[$l - $k]) {
                     ++$k;
                 }
 
@@ -1618,7 +1618,7 @@ class wpdb
                          * directly outside of WordPress core, e.g. by HyperDB, in which case
                          * the polyfills from wp-includes/compat.php are not loaded.
                          */
-                        || ('' === $format && '%' !== substr($split_query[ $key - 1 ], -1, 1))
+                        || ('' === $format && '%' !== substr($split_query[$key - 1], -1, 1))
                     ) {
                         $placeholder = "'%" . $format . "s'";
                     }
@@ -1626,14 +1626,14 @@ class wpdb
             }
 
             // Glue (-2), any leading characters (-1), then the new $placeholder.
-            $new_query .= $split_query[ $key - 2 ] . $split_query[ $key - 1 ] . $placeholder;
+            $new_query .= $split_query[$key - 2] . $split_query[$key - 1] . $placeholder;
 
             $key += 3;
             ++$arg_id;
         }
 
         // Replace $query; and add remaining $query characters, or index 0 if there were no placeholders.
-        $query = $new_query . $split_query[ $key - 2 ];
+        $query = $new_query . $split_query[$key - 2];
 
         $dual_use = array_intersect($arg_identifiers, $arg_strings);
 
@@ -1646,7 +1646,7 @@ class wpdb
             $arg_id = 0;
             // Parse again (only used when there is an error).
             while ($key < $split_query_count) {
-                $placeholder = $split_query[ $key ];
+                $placeholder = $split_query[$key];
 
                 $format = substr($placeholder, 1, -1);
 
@@ -1658,7 +1658,7 @@ class wpdb
                     $arg_pos = $arg_id;
                 }
 
-                $used_placeholders[ $arg_pos ][] = $placeholder;
+                $used_placeholders[$arg_pos][] = $placeholder;
 
                 $key += 3;
                 ++$arg_id;
@@ -1666,7 +1666,7 @@ class wpdb
 
             $conflicts = [];
             foreach ($dual_use as $arg_pos) {
-                $conflicts[] = implode(' and ', $used_placeholders[ $arg_pos ]);
+                $conflicts[] = implode(' and ', $used_placeholders[$arg_pos]);
             }
 
             _doing_it_wrong(
@@ -1725,7 +1725,7 @@ class wpdb
 
                     for ($i = 2, $l = $split_query_count; $i < $l; $i += 3) {
                         // Assume a leading number is for a numbered placeholder, e.g. '%3$s'.
-                        $argnum = (int) substr($split_query[ $i ], 1);
+                        $argnum = (int) substr($split_query[$i], 1);
 
                         if ($max_numbered_placeholder < $argnum) {
                             $max_numbered_placeholder = $argnum;
@@ -2335,7 +2335,7 @@ class wpdb
 
             if ($this->result instanceof mysqli_result) {
                 while ($row = mysqli_fetch_object($this->result)) {
-                    $this->last_result[ $num_rows ] = $row;
+                    $this->last_result[$num_rows] = $row;
                     ++$num_rows;
                 }
             }
@@ -2857,7 +2857,7 @@ class wpdb
 
             $problem_fields = [];
             foreach ($data as $field => $value) {
-                if ($value !== $converted_data[ $field ]) {
+                if ($value !== $converted_data[$field]) {
                     $problem_fields[] = $field;
                 }
             }
@@ -2914,11 +2914,11 @@ class wpdb
                 if (! $value['format']) {
                     $value['format'] = reset($original_formats);
                 }
-            } elseif (isset($this->field_types[ $field ])) {
-                $value['format'] = $this->field_types[ $field ];
+            } elseif (isset($this->field_types[$field])) {
+                $value['format'] = $this->field_types[$field];
             }
 
-            $data[ $field ] = $value;
+            $data[$field] = $value;
         }
 
         return $data;
@@ -2970,7 +2970,7 @@ class wpdb
                 }
             }
 
-            $data[ $field ] = $value;
+            $data[$field] = $value;
         }
 
         return $data;
@@ -3030,7 +3030,7 @@ class wpdb
                 }
             }
 
-            $data[ $field ] = $value;
+            $data[$field] = $value;
         }
 
         return $data;
@@ -3064,12 +3064,12 @@ class wpdb
         }
 
         // Extract var out of cached results based on x,y vals.
-        if (! empty($this->last_result[ $y ])) {
-            $values = array_values(get_object_vars($this->last_result[ $y ]));
+        if (! empty($this->last_result[$y])) {
+            $values = array_values(get_object_vars($this->last_result[$y]));
         }
 
         // If there is a value return it, else return null.
-        return (isset($values[ $x ]) && '' !== $values[ $x ]) ? $values[ $x ] : null;
+        return (isset($values[$x]) && '' !== $values[$x]) ? $values[$x] : null;
     }
 
     /**
@@ -3100,19 +3100,19 @@ class wpdb
             return null;
         }
 
-        if (! isset($this->last_result[ $y ])) {
+        if (! isset($this->last_result[$y])) {
             return null;
         }
 
         if (OBJECT === $output) {
-            return $this->last_result[ $y ] ? $this->last_result[ $y ] : null;
+            return $this->last_result[$y] ? $this->last_result[$y] : null;
         } elseif (ARRAY_A === $output) {
-            return $this->last_result[ $y ] ? get_object_vars($this->last_result[ $y ]) : null;
+            return $this->last_result[$y] ? get_object_vars($this->last_result[$y]) : null;
         } elseif (ARRAY_N === $output) {
-            return $this->last_result[ $y ] ? array_values(get_object_vars($this->last_result[ $y ])) : null;
+            return $this->last_result[$y] ? array_values(get_object_vars($this->last_result[$y])) : null;
         } elseif (OBJECT === strtoupper($output)) {
             // Back compat for OBJECT being previously case-insensitive.
-            return $this->last_result[ $y ] ? $this->last_result[ $y ] : null;
+            return $this->last_result[$y] ? $this->last_result[$y] : null;
         } else {
             $this->print_error(' $db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N');
         }
@@ -3145,7 +3145,7 @@ class wpdb
         // Extract the column values.
         if ($this->last_result) {
             for ($i = 0, $j = count($this->last_result); $i < $j; $i++) {
-                $new_array[ $i ] = $this->get_var(null, $x, $i);
+                $new_array[$i] = $this->get_var(null, $x, $i);
             }
         }
         return $new_array;
@@ -3196,8 +3196,8 @@ class wpdb
                 foreach ($this->last_result as $row) {
                     $var_by_ref = get_object_vars($row);
                     $key        = array_shift($var_by_ref);
-                    if (! isset($new_array[ $key ])) {
-                        $new_array[ $key ] = $row;
+                    if (! isset($new_array[$key])) {
+                        $new_array[$key] = $row;
                     }
                 }
             }
@@ -3254,8 +3254,8 @@ class wpdb
             return $charset;
         }
 
-        if (isset($this->table_charset[ $tablekey ])) {
-            return $this->table_charset[ $tablekey ];
+        if (isset($this->table_charset[$tablekey])) {
+            return $this->table_charset[$tablekey];
         }
 
         $charsets = [];
@@ -3269,23 +3269,23 @@ class wpdb
         }
 
         foreach ($results as $column) {
-            $columns[ strtolower($column->Field) ] = $column;
+            $columns[strtolower($column->Field)] = $column;
         }
 
-        $this->col_meta[ $tablekey ] = $columns;
+        $this->col_meta[$tablekey] = $columns;
 
         foreach ($columns as $column) {
             if (! empty($column->Collation)) {
                 list( $charset ) = explode('_', $column->Collation);
 
-                $charsets[ strtolower($charset) ] = true;
+                $charsets[strtolower($charset)] = true;
             }
 
             list( $type ) = explode('(', $column->Type);
 
             // A binary/blob means the whole query gets treated like this.
             if (in_array(strtoupper($type), ['BINARY', 'VARBINARY', 'TINYBLOB', 'MEDIUMBLOB', 'BLOB', 'LONGBLOB'], true)) {
-                $this->table_charset[ $tablekey ] = 'binary';
+                $this->table_charset[$tablekey] = 'binary';
                 return 'binary';
             }
         }
@@ -3319,7 +3319,7 @@ class wpdb
             }
         }
 
-        $this->table_charset[ $tablekey ] = $charset;
+        $this->table_charset[$tablekey] = $charset;
         return $charset;
     }
 
@@ -3360,7 +3360,7 @@ class wpdb
             return false;
         }
 
-        if (empty($this->table_charset[ $tablekey ])) {
+        if (empty($this->table_charset[$tablekey])) {
             // This primes column information for us.
             $table_charset = $this->get_table_charset($table);
             if (is_wp_error($table_charset)) {
@@ -3369,21 +3369,21 @@ class wpdb
         }
 
         // If still no column information, return the table charset.
-        if (empty($this->col_meta[ $tablekey ])) {
-            return $this->table_charset[ $tablekey ];
+        if (empty($this->col_meta[$tablekey])) {
+            return $this->table_charset[$tablekey];
         }
 
         // If this column doesn't exist, return the table charset.
-        if (empty($this->col_meta[ $tablekey ][ $columnkey ])) {
-            return $this->table_charset[ $tablekey ];
+        if (empty($this->col_meta[$tablekey][$columnkey])) {
+            return $this->table_charset[$tablekey];
         }
 
         // Return false when it's not a string column.
-        if (empty($this->col_meta[ $tablekey ][ $columnkey ]->Collation)) {
+        if (empty($this->col_meta[$tablekey][$columnkey]->Collation)) {
             return false;
         }
 
-        list( $charset ) = explode('_', $this->col_meta[ $tablekey ][ $columnkey ]->Collation);
+        list( $charset ) = explode('_', $this->col_meta[$tablekey][$columnkey]->Collation);
         return $charset;
     }
 
@@ -3414,7 +3414,7 @@ class wpdb
             return false;
         }
 
-        if (empty($this->col_meta[ $tablekey ])) {
+        if (empty($this->col_meta[$tablekey])) {
             // This primes column information for us.
             $table_charset = $this->get_table_charset($table);
             if (is_wp_error($table_charset)) {
@@ -3422,11 +3422,11 @@ class wpdb
             }
         }
 
-        if (empty($this->col_meta[ $tablekey ][ $columnkey ])) {
+        if (empty($this->col_meta[$tablekey][$columnkey])) {
             return false;
         }
 
-        $typeinfo = explode('(', $this->col_meta[ $tablekey ][ $columnkey ]->Type);
+        $typeinfo = explode('(', $this->col_meta[$tablekey][$columnkey]->Type);
 
         $type = strtolower($typeinfo[0]);
         if (! empty($typeinfo[1])) {
@@ -3547,7 +3547,7 @@ class wpdb
         }
 
         $table = strtolower($table);
-        if (empty($this->col_meta[ $table ])) {
+        if (empty($this->col_meta[$table])) {
             return false;
         }
 
@@ -3561,7 +3561,7 @@ class wpdb
             'utf8mb4_general_ci',
         ];
 
-        foreach ($this->col_meta[ $table ] as $col) {
+        foreach ($this->col_meta[$table] as $col) {
             if (empty($col->Collation)) {
                 continue;
             }
@@ -3695,14 +3695,14 @@ class wpdb
                     }
 
                     if (is_array($value['length'])) {
-                        $length          = sprintf('%.0f', $value['length']['length']);
-                        $queries[ $col ] = $this->prepare("CONVERT( LEFT( CONVERT( %s USING $charset ), $length ) USING $connection_charset )", $value['value']);
+                        $length        = sprintf('%.0f', $value['length']['length']);
+                        $queries[$col] = $this->prepare("CONVERT( LEFT( CONVERT( %s USING $charset ), $length ) USING $connection_charset )", $value['value']);
                     } elseif ('binary' !== $charset) {
                         // If we don't have a length, there's no need to convert binary - it will always return the same result.
-                        $queries[ $col ] = $this->prepare("CONVERT( CONVERT( %s USING $charset ) USING $connection_charset )", $value['value']);
+                        $queries[$col] = $this->prepare("CONVERT( CONVERT( %s USING $charset ) USING $connection_charset )", $value['value']);
                     }
 
-                    unset($data[ $col ]['db']);
+                    unset($data[$col]['db']);
                 }
             }
 
@@ -3722,8 +3722,8 @@ class wpdb
             }
 
             foreach (array_keys($data) as $column) {
-                if (isset($row[ "x_$column" ])) {
-                    $data[ $column ]['value'] = $row[ "x_$column" ];
+                if (isset($row["x_$column"])) {
+                    $data[$column]['value'] = $row["x_$column"];
                 }
             }
         }
@@ -3815,7 +3815,7 @@ class wpdb
             return $data;
         }
 
-        return $data[ $column ]['value'];
+        return $data[$column]['value'];
     }
 
     /**
@@ -3908,7 +3908,7 @@ class wpdb
         $num_fields = mysqli_num_fields($this->result);
 
         for ($i = 0; $i < $num_fields; $i++) {
-            $this->col_info[ $i ] = mysqli_fetch_field($this->result);
+            $this->col_info[$i] = mysqli_fetch_field($this->result);
         }
     }
 
@@ -3933,12 +3933,12 @@ class wpdb
                 $i         = 0;
                 $new_array = [];
                 foreach ((array) $this->col_info as $col) {
-                    $new_array[ $i ] = $col->{$info_type};
+                    $new_array[$i] = $col->{$info_type};
                     ++$i;
                 }
                 return $new_array;
             } else {
-                return $this->col_info[ $col_offset ]->{$info_type};
+                return $this->col_info[$col_offset]->{$info_type};
             }
         }
     }

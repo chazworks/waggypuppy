@@ -221,10 +221,10 @@ $messages = apply_filters('post_updated_messages', $messages);
 $message = false;
 if (isset($_GET['message'])) {
     $_GET['message'] = absint($_GET['message']);
-    if (isset($messages[ $post_type ][ $_GET['message'] ])) {
-        $message = $messages[ $post_type ][ $_GET['message'] ];
-    } elseif (! isset($messages[ $post_type ]) && isset($messages['post'][ $_GET['message'] ])) {
-        $message = $messages['post'][ $_GET['message'] ];
+    if (isset($messages[$post_type][$_GET['message']])) {
+        $message = $messages[$post_type][$_GET['message']];
+    } elseif (! isset($messages[$post_type]) && isset($messages['post'][$_GET['message']])) {
+        $message = $messages['post'][$_GET['message']];
     }
 }
 

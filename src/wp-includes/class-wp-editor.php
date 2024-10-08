@@ -363,7 +363,7 @@ final class _WP_Editors
              */
             $qt_init = apply_filters('quicktags_settings', $qt_init, $editor_id);
 
-            self::$qt_settings[ $editor_id ] = $qt_init;
+            self::$qt_settings[$editor_id] = $qt_init;
 
             self::$qt_buttons = array_merge(self::$qt_buttons, explode(',', $qt_init['buttons']));
         }
@@ -469,7 +469,7 @@ final class _WP_Editors
                          * Remove 'spellchecker' from the internal plugins if added with 'tiny_mce_plugins' filter to prevent errors.
                          * It can be added with 'mce_external_plugins'.
                          */
-                        unset($plugins[ $key ]);
+                        unset($plugins[$key]);
                     }
 
                     if (! empty($mce_external_plugins)) {
@@ -506,14 +506,14 @@ final class _WP_Editors
 
                         foreach ($mce_external_plugins as $name => $url) {
                             if (in_array($name, $plugins, true)) {
-                                unset($mce_external_plugins[ $name ]);
+                                unset($mce_external_plugins[$name]);
                                 continue;
                             }
 
-                            $url                           = set_url_scheme($url);
-                            $mce_external_plugins[ $name ] = $url;
-                            $plugurl                       = dirname($url);
-                            $strings                       = '';
+                            $url                         = set_url_scheme($url);
+                            $mce_external_plugins[$name] = $url;
+                            $plugurl                     = dirname($url);
+                            $strings                     = '';
 
                             // Try to load langs/[locale].js and langs/[locale]_dlg.js.
                             if (! in_array($name, $loaded_langs, true)) {
@@ -585,7 +585,7 @@ final class _WP_Editors
                         // Force urlencoding of commas.
                         foreach ($editor_styles as $key => $url) {
                             if (str_contains($url, ',')) {
-                                $editor_styles[ $key ] = str_replace(',', '%2C', $url);
+                                $editor_styles[$key] = str_replace(',', '%2C', $url);
                             }
                         }
 
@@ -825,7 +825,7 @@ final class _WP_Editors
                 $mce_init['toolbar4'] = '';
             }
 
-            self::$mce_settings[ $editor_id ] = $mce_init;
+            self::$mce_settings[$editor_id] = $mce_init;
         } // End if self::$this_tinymce.
     }
 
@@ -845,8 +845,8 @@ final class _WP_Editors
                 $options .= $key . ':' . $val . ',';
                 continue;
             } elseif (! empty($value) && is_string($value) && (
-                ('{' === $value[0] && '}' === $value[ strlen($value) - 1 ]) ||
-                ('[' === $value[0] && ']' === $value[ strlen($value) - 1 ]) ||
+                ('{' === $value[0] && '}' === $value[strlen($value) - 1]) ||
+                ('[' === $value[0] && ']' === $value[strlen($value) - 1]) ||
                 preg_match('/^\(?function ?\(/', $value))) {
 
                 $options .= $key . ':' . $value . ',';
@@ -1083,7 +1083,7 @@ final class _WP_Editors
 
         foreach (self::get_translation() as $name => $value) {
             if (is_array($value)) {
-                $shortcut_labels[ $name ] = $value[1];
+                $shortcut_labels[$name] = $value[1];
             }
         }
 
@@ -1485,7 +1485,7 @@ final class _WP_Editors
 
         foreach ($mce_translation as $name => $value) {
             if (is_array($value)) {
-                $mce_translation[ $name ] = $value[0];
+                $mce_translation[$name] = $value[0];
             }
         }
 
@@ -1502,12 +1502,12 @@ final class _WP_Editors
         foreach ($mce_translation as $key => $value) {
             // Remove strings that are not translated.
             if ($key === $value) {
-                unset($mce_translation[ $key ]);
+                unset($mce_translation[$key]);
                 continue;
             }
 
             if (str_contains($value, '&')) {
-                $mce_translation[ $key ] = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+                $mce_translation[$key] = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
             }
         }
 
@@ -1840,7 +1840,7 @@ final class _WP_Editors
             if ('post' === $post->post_type) {
                 $info = mysql2date(__('Y/m/d'), $post->post_date);
             } else {
-                $info = $pts[ $post->post_type ]->labels->singular_name;
+                $info = $pts[$post->post_type]->labels->singular_name;
             }
 
             $results[] = [

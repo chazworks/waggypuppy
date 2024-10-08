@@ -103,8 +103,8 @@ class WP_Widget_Links extends WP_Widget
             'rating'      => 0,
         ];
         foreach ($instance as $field => $val) {
-            if (isset($new_instance[ $field ])) {
-                $instance[ $field ] = 1;
+            if (isset($new_instance[$field])) {
+                $instance[$field] = 1;
             }
         }
 

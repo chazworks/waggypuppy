@@ -674,8 +674,8 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller
              * Found the metadata element.
              * Get the metadata from its matching content array.
              */
-            if (isset($meta_elements[2][ $index ]) && is_string($meta_elements[2][ $index ])) {
-                $metadata = trim($meta_elements[2][ $index ]);
+            if (isset($meta_elements[2][$index]) && is_string($meta_elements[2][$index])) {
+                $metadata = trim($meta_elements[2][$index]);
             }
 
             break;

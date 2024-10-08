@@ -140,7 +140,7 @@ function get_post_format_string($slug)
     if (! $slug) {
         return $strings['standard'];
     } else {
-        return (isset($strings[ $slug ])) ? $strings[ $slug ] : '';
+        return (isset($strings[$slug])) ? $strings[$slug] : '';
     }
 }
 
@@ -176,8 +176,8 @@ function _post_format_request($qvs)
         return $qvs;
     }
     $slugs = get_post_format_slugs();
-    if (isset($slugs[ $qvs['post_format'] ])) {
-        $qvs['post_format'] = 'post-format-' . $slugs[ $qvs['post_format'] ];
+    if (isset($slugs[$qvs['post_format']])) {
+        $qvs['post_format'] = 'post-format-' . $slugs[$qvs['post_format']];
     }
     $tax = get_taxonomy('post_format');
     if (! is_admin()) {
@@ -246,12 +246,12 @@ function _post_format_get_terms($terms, $taxonomies, $args)
     if (in_array('post_format', (array) $taxonomies, true)) {
         if (isset($args['fields']) && 'names' === $args['fields']) {
             foreach ($terms as $order => $name) {
-                $terms[ $order ] = get_post_format_string(str_replace('post-format-', '', $name));
+                $terms[$order] = get_post_format_string(str_replace('post-format-', '', $name));
             }
         } else {
             foreach ((array) $terms as $order => $term) {
                 if (isset($term->taxonomy) && 'post_format' === $term->taxonomy) {
-                    $terms[ $order ]->name = get_post_format_string(str_replace('post-format-', '', $term->slug));
+                    $terms[$order]->name = get_post_format_string(str_replace('post-format-', '', $term->slug));
                 }
             }
         }
@@ -272,7 +272,7 @@ function _post_format_wp_get_object_terms($terms)
 {
     foreach ((array) $terms as $order => $term) {
         if (isset($term->taxonomy) && 'post_format' === $term->taxonomy) {
-            $terms[ $order ]->name = get_post_format_string(str_replace('post-format-', '', $term->slug));
+            $terms[$order]->name = get_post_format_string(str_replace('post-format-', '', $term->slug));
         }
     }
     return $terms;

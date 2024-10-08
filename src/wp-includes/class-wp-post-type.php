@@ -783,7 +783,7 @@ final class WP_Post_Type
     {
         global $_wp_post_type_features;
 
-        unset($_wp_post_type_features[ $this->name ]);
+        unset($_wp_post_type_features[$this->name]);
     }
 
     /**
@@ -810,14 +810,14 @@ final class WP_Post_Type
             remove_permastruct($this->name);
             foreach ($wp_rewrite->extra_rules_top as $regex => $query) {
                 if (str_contains($query, "index.php?post_type=$this->name")) {
-                    unset($wp_rewrite->extra_rules_top[ $regex ]);
+                    unset($wp_rewrite->extra_rules_top[$regex]);
                 }
             }
         }
 
         // Remove registered custom meta capabilities.
         foreach ($this->cap as $cap) {
-            unset($post_type_meta_caps[ $cap ]);
+            unset($post_type_meta_caps[$cap]);
         }
     }
 

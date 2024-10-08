@@ -191,7 +191,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
      */
     public function filter_exporter_callback_value($exporters)
     {
-        $exporters[ self::$exporter_key ]['callback'] = $this->new_callback_value;
+        $exporters[self::$exporter_key]['callback'] = $this->new_callback_value;
 
         return $exporters;
     }
@@ -217,9 +217,9 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     public function filter_unset_exporter_key($exporters)
     {
         if (false === $this->key_to_unset) {
-            $exporters[ self::$exporter_key ] = false;
+            $exporters[self::$exporter_key] = false;
         } elseif (! empty($this->key_to_unset)) {
-            unset($exporters[ self::$exporter_key ][ $this->key_to_unset ]);
+            unset($exporters[self::$exporter_key][$this->key_to_unset]);
         }
 
         return $exporters;
@@ -800,7 +800,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
      */
     public function filter_register_custom_personal_data_exporter($exporters)
     {
-        $exporters[ self::$exporter_key ] = [
+        $exporters[self::$exporter_key] = [
             'exporter_friendly_name' => self::$exporter_friendly_name,
             'callback'               => [$this, 'callback_custom_personal_data_exporter'],
         ];

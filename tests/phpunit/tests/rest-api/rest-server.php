@@ -602,8 +602,8 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
         $this->assertInstanceOf('WP_Error', $error);
         $this->assertSame($code, $error->get_error_code());
         $this->assertSame($message, $error->get_error_message());
-        $this->assertSame($message2, $error->errors[ $code2 ][0]);
-        $this->assertSame(['status' => 403], $error->error_data[ $code2 ]);
+        $this->assertSame($message2, $error->errors[$code2][0]);
+        $this->assertSame(['status' => 403], $error->error_data[$code2]);
     }
 
     /**
@@ -1566,7 +1566,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
             }
 
             $this->assertArrayHasKey($header, $headers, sprintf('Header %s is not present in the response.', $header));
-            $this->assertSame($value, $headers[ $header ]);
+            $this->assertSame($value, $headers[$header]);
         }
 
         // Last-Modified should be unset as per #WP23021.
@@ -1582,7 +1582,7 @@ class Tests_REST_Server extends WP_Test_REST_TestCase
         $headers = rest_get_server()->sent_headers;
 
         foreach (wp_get_nocache_headers() as $header => $value) {
-            $this->assertFalse(isset($headers[ $header ]) && $headers[ $header ] === $value, sprintf('Header %s is set to nocache.', $header));
+            $this->assertFalse(isset($headers[$header]) && $headers[$header] === $value, sprintf('Header %s is set to nocache.', $header));
         }
     }
 

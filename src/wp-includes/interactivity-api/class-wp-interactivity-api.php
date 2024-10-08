@@ -155,16 +155,16 @@ final class WP_Interactivity_API
 
             $store_namespace = end($this->namespace_stack);
         }
-        if (! isset($this->state_data[ $store_namespace ])) {
-            $this->state_data[ $store_namespace ] = [];
+        if (! isset($this->state_data[$store_namespace])) {
+            $this->state_data[$store_namespace] = [];
         }
         if (is_array($state)) {
-            $this->state_data[ $store_namespace ] = array_replace_recursive(
-                $this->state_data[ $store_namespace ],
+            $this->state_data[$store_namespace] = array_replace_recursive(
+                $this->state_data[$store_namespace],
                 $state
             );
         }
-        return $this->state_data[ $store_namespace ];
+        return $this->state_data[$store_namespace];
     }
 
     /**
@@ -184,16 +184,16 @@ final class WP_Interactivity_API
      */
     public function config(string $store_namespace, array $config = []): array
     {
-        if (! isset($this->config_data[ $store_namespace ])) {
-            $this->config_data[ $store_namespace ] = [];
+        if (! isset($this->config_data[$store_namespace])) {
+            $this->config_data[$store_namespace] = [];
         }
         if (is_array($config)) {
-            $this->config_data[ $store_namespace ] = array_replace_recursive(
-                $this->config_data[ $store_namespace ],
+            $this->config_data[$store_namespace] = array_replace_recursive(
+                $this->config_data[$store_namespace],
                 $config
             );
         }
-        return $this->config_data[ $store_namespace ];
+        return $this->config_data[$store_namespace];
     }
 
     /**
@@ -254,7 +254,7 @@ final class WP_Interactivity_API
         $config = [];
         foreach ($this->config_data as $key => $value) {
             if (! empty($value)) {
-                $config[ $key ] = $value;
+                $config[$key] = $value;
             }
         }
         if (! empty($config)) {
@@ -264,7 +264,7 @@ final class WP_Interactivity_API
         $state = [];
         foreach ($this->state_data as $key => $value) {
             if (! empty($value)) {
-                $state[ $key ] = $value;
+                $state[$key] = $value;
             }
         }
         if (! empty($state)) {
@@ -310,8 +310,8 @@ final class WP_Interactivity_API
 
         $context = end($this->context_stack);
 
-        return ($store_namespace && $context && isset($context[ $store_namespace ]))
-            ? $context[ $store_namespace ]
+        return ($store_namespace && $context && isset($context[$store_namespace]))
+            ? $context[$store_namespace]
             : [];
     }
 
@@ -497,7 +497,7 @@ final class WP_Interactivity_API
             $attr_names    = $p->get_attribute_names_with_prefix('') ?? [];
 
             foreach ($attr_names as $name) {
-                $element_attrs[ $name ] = $p->get_attribute($name);
+                $element_attrs[$name] = $p->get_attribute($name);
             }
 
             // Assign the current element right before running its directive processors.
@@ -519,9 +519,9 @@ final class WP_Interactivity_API
                     $directives_prefixes
                 );
                 foreach ($existing_directives_prefixes as $directive_prefix) {
-                    $func = is_array(self::$directive_processors[ $directive_prefix ])
-                        ? self::$directive_processors[ $directive_prefix ]
-                        : [$this, self::$directive_processors[ $directive_prefix ]];
+                    $func = is_array(self::$directive_processors[$directive_prefix])
+                        ? self::$directive_processors[$directive_prefix]
+                        : [$this, self::$directive_processors[$directive_prefix]];
 
                     call_user_func_array($func, [$p, $mode, &$tag_stack]);
                 }
@@ -580,8 +580,8 @@ final class WP_Interactivity_API
         }
 
         $store = [
-            'state'   => $this->state_data[ $ns ] ?? [],
-            'context' => $context[ $ns ] ?? [],
+            'state'   => $this->state_data[$ns] ?? [],
+            'context' => $context[$ns] ?? [],
         ];
 
         // Checks if the reference path is preceded by a negation operator (!).
@@ -592,8 +592,8 @@ final class WP_Interactivity_API
         $path_segments = explode('.', $path);
         $current       = $store;
         foreach ($path_segments as $path_segment) {
-            if ((is_array($current) || $current instanceof ArrayAccess) && isset($current[ $path_segment ])) {
-                $current = $current[ $path_segment ];
+            if ((is_array($current) || $current instanceof ArrayAccess) && isset($current[$path_segment])) {
+                $current = $current[$path_segment];
             } elseif (is_object($current) && isset($current->$path_segment)) {
                 $current = $current->$path_segment;
             } else {

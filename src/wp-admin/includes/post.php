@@ -166,7 +166,7 @@ function _wp_translate_postdata($update = false, $post_data = null)
     }
 
     foreach (['aa', 'mm', 'jj', 'hh', 'mn'] as $timeunit) {
-        if (! empty($post_data[ 'hidden_' . $timeunit ]) && $post_data[ 'hidden_' . $timeunit ] !== $post_data[ $timeunit ]) {
+        if (! empty($post_data['hidden_' . $timeunit]) && $post_data['hidden_' . $timeunit] !== $post_data[$timeunit]) {
             $post_data['edit_date'] = '1';
             break;
         }
@@ -338,8 +338,8 @@ function edit_post($post_data = null)
     $format_meta_urls = ['url', 'link_url', 'quote_source_url'];
     foreach ($format_meta_urls as $format_meta_url) {
         $keyed = '_format_' . $format_meta_url;
-        if (isset($post_data[ $keyed ])) {
-            update_post_meta($post_id, $keyed, wp_slash(sanitize_url(wp_unslash($post_data[ $keyed ]))));
+        if (isset($post_data[$keyed])) {
+            update_post_meta($post_id, $keyed, wp_slash(sanitize_url(wp_unslash($post_data[$keyed]))));
         }
     }
 
@@ -347,11 +347,11 @@ function edit_post($post_data = null)
 
     foreach ($format_keys as $key) {
         $keyed = '_format_' . $key;
-        if (isset($post_data[ $keyed ])) {
+        if (isset($post_data[$keyed])) {
             if (current_user_can('unfiltered_html')) {
-                update_post_meta($post_id, $keyed, $post_data[ $keyed ]);
+                update_post_meta($post_id, $keyed, $post_data[$keyed]);
             } else {
-                update_post_meta($post_id, $keyed, wp_filter_post_kses($post_data[ $keyed ]));
+                update_post_meta($post_id, $keyed, wp_filter_post_kses($post_data[$keyed]));
             }
         }
     }
@@ -363,8 +363,8 @@ function edit_post($post_data = null)
         }
 
         foreach (wp_get_attachment_id3_keys($post, 'edit') as $key => $label) {
-            if (isset($post_data[ 'id3_' . $key ])) {
-                $id3data[ $key ] = sanitize_text_field(wp_unslash($post_data[ 'id3_' . $key ]));
+            if (isset($post_data['id3_' . $key])) {
+                $id3data[$key] = sanitize_text_field(wp_unslash($post_data['id3_' . $key]));
             }
         }
         wp_update_attachment_metadata($post_id, $id3data);
@@ -432,7 +432,7 @@ function edit_post($post_data = null)
             }
         }
 
-        $attachment_data = isset($post_data['attachments'][ $post_id ]) ? $post_data['attachments'][ $post_id ] : [];
+        $attachment_data = isset($post_data['attachments'][$post_id]) ? $post_data['attachments'][$post_id] : [];
 
         /** This filter is documented in wp-admin/includes/media.php */
         $translated = apply_filters('attachment_fields_to_save', $translated, $attachment_data);
@@ -444,7 +444,7 @@ function edit_post($post_data = null)
             $tax_object = get_taxonomy($taxonomy);
 
             if ($tax_object && isset($tax_object->meta_box_sanitize_cb)) {
-                $translated['tax_input'][ $taxonomy ] = call_user_func_array($tax_object->meta_box_sanitize_cb, [$taxonomy, $terms]);
+                $translated['tax_input'][$taxonomy] = call_user_func_array($tax_object->meta_box_sanitize_cb, [$taxonomy, $terms]);
             }
         }
     }
@@ -460,8 +460,8 @@ function edit_post($post_data = null)
         $fields = ['post_title', 'post_content', 'post_excerpt'];
 
         foreach ($fields as $field) {
-            if (isset($translated[ $field ])) {
-                $translated[ $field ] = $wpdb->strip_invalid_text_for_column($wpdb->posts, $field, $translated[ $field ]);
+            if (isset($translated[$field])) {
+                $translated[$field] = $wpdb->strip_invalid_text_for_column($wpdb->posts, $field, $translated[$field]);
             }
         }
 
@@ -554,8 +554,8 @@ function bulk_edit_posts($post_data = null)
     ];
 
     foreach ($reset as $field) {
-        if (isset($post_data[ $field ]) && ('' === $post_data[ $field ] || '-1' === $post_data[ $field ])) {
-            unset($post_data[ $field ]);
+        if (isset($post_data[$field]) && ('' === $post_data[$field] || '-1' === $post_data[$field])) {
+            unset($post_data[$field]);
         }
     }
 
@@ -575,13 +575,13 @@ function bulk_edit_posts($post_data = null)
             }
 
             if (is_taxonomy_hierarchical($tax_name)) {
-                $tax_input[ $tax_name ] = array_map('absint', $terms);
+                $tax_input[$tax_name] = array_map('absint', $terms);
             } else {
                 $comma = _x(',', 'tag delimiter');
                 if (',' !== $comma) {
                     $terms = str_replace($comma, ',', $terms);
                 }
-                $tax_input[ $tax_name ] = explode(',', trim($terms, " \n\t\r\0\x0B,"));
+                $tax_input[$tax_name] = explode(',', trim($terms, " \n\t\r\0\x0B,"));
             }
         }
     }
@@ -637,8 +637,8 @@ function bulk_edit_posts($post_data = null)
                 continue;
             }
 
-            if (isset($tax_input[ $tax_name ]) && current_user_can($taxonomy_obj->cap->assign_terms)) {
-                $new_terms = $tax_input[ $tax_name ];
+            if (isset($tax_input[$tax_name]) && current_user_can($taxonomy_obj->cap->assign_terms)) {
+                $new_terms = $tax_input[$tax_name];
             } else {
                 $new_terms = [];
             }
@@ -649,7 +649,7 @@ function bulk_edit_posts($post_data = null)
                 $current_terms = (array) wp_get_object_terms($post_id, $tax_name, ['fields' => 'names']);
             }
 
-            $post_data['tax_input'][ $tax_name ] = array_merge($current_terms, $new_terms);
+            $post_data['tax_input'][$tax_name] = array_merge($current_terms, $new_terms);
         }
 
         if (isset($new_cats) && in_array('category', $tax_names, true)) {
@@ -675,8 +675,8 @@ function bulk_edit_posts($post_data = null)
         $post_data['post_mime_type'] = $post->post_mime_type;
 
         foreach (['comment_status', 'ping_status', 'post_author'] as $field) {
-            if (! isset($post_data[ $field ])) {
-                $post_data[ $field ] = $post->$field;
+            if (! isset($post_data[$field])) {
+                $post_data[$field] = $post->$field;
             }
         }
 
@@ -1188,7 +1188,7 @@ function _fix_attachment_links($post)
             continue;
         }
 
-        $link    = $link_matches[0][ $key ];
+        $link    = $link_matches[0][$key];
         $replace = str_replace($url_match[0], 'href=' . $quote . get_attachment_link($url_id) . $quote, $link);
 
         $content = str_replace($link, $replace, $content);
@@ -1993,7 +1993,7 @@ function wp_create_post_autosave($post_data)
         // If the new autosave has the same content as the post, delete the autosave.
         $autosave_is_different = false;
         foreach (array_intersect(array_keys($new_autosave), array_keys(_wp_post_revision_fields($post))) as $field) {
-            if (normalize_whitespace($new_autosave[ $field ]) !== normalize_whitespace($post->$field)) {
+            if (normalize_whitespace($new_autosave[$field]) !== normalize_whitespace($post->$field)) {
                 $autosave_is_different = true;
                 break;
             }
@@ -2062,8 +2062,8 @@ function wp_autosave_post_revisioned_meta_fields($new_autosave)
      */
     foreach (wp_post_revision_meta_keys($post_type) as $meta_key) {
 
-        if (isset($posted_data[ $meta_key ])
-            && get_post_meta($new_autosave['ID'], $meta_key, true) !== wp_unslash($posted_data[ $meta_key ])
+        if (isset($posted_data[$meta_key])
+            && get_post_meta($new_autosave['ID'], $meta_key, true) !== wp_unslash($posted_data[$meta_key])
         ) {
             /*
              * Use the underlying delete_metadata() and add_metadata() functions
@@ -2073,9 +2073,9 @@ function wp_autosave_post_revisioned_meta_fields($new_autosave)
             delete_metadata('post', $new_autosave['ID'], $meta_key);
 
             // One last check to ensure meta value is not empty.
-            if (! empty($posted_data[ $meta_key ])) {
+            if (! empty($posted_data[$meta_key])) {
                 // Add the revisions meta data to the autosave.
-                add_metadata('post', $new_autosave['ID'], $meta_key, $posted_data[ $meta_key ]);
+                add_metadata('post', $new_autosave['ID'], $meta_key, $posted_data[$meta_key]);
             }
         }
     }
@@ -2357,11 +2357,11 @@ function get_block_editor_server_block_settings()
                 continue;
             }
 
-            if (! isset($blocks[ $block_name ])) {
-                $blocks[ $block_name ] = [];
+            if (! isset($blocks[$block_name])) {
+                $blocks[$block_name] = [];
             }
 
-            $blocks[ $block_name ][ $key ] = $block_type->{ $field };
+            $blocks[$block_name][$key] = $block_type->{ $field };
         }
     }
 
@@ -2426,18 +2426,18 @@ function the_block_editor_meta_boxes()
 
     $meta_boxes_per_location = [];
     foreach ($locations as $location) {
-        $meta_boxes_per_location[ $location ] = [];
+        $meta_boxes_per_location[$location] = [];
 
-        if (! isset($wp_meta_boxes[ $current_screen->id ][ $location ])) {
+        if (! isset($wp_meta_boxes[$current_screen->id][$location])) {
             continue;
         }
 
         foreach ($priorities as $priority) {
-            if (! isset($wp_meta_boxes[ $current_screen->id ][ $location ][ $priority ])) {
+            if (! isset($wp_meta_boxes[$current_screen->id][$location][$priority])) {
                 continue;
             }
 
-            $meta_boxes = (array) $wp_meta_boxes[ $current_screen->id ][ $location ][ $priority ];
+            $meta_boxes = (array) $wp_meta_boxes[$current_screen->id][$location][$priority];
             foreach ($meta_boxes as $meta_box) {
                 if (false === $meta_box || ! $meta_box['title']) {
                     continue;
@@ -2448,7 +2448,7 @@ function the_block_editor_meta_boxes()
                     continue;
                 }
 
-                $meta_boxes_per_location[ $location ][] = [
+                $meta_boxes_per_location[$location][] = [
                     'id'    => $meta_box['id'],
                     'title' => $meta_box['title'],
                 ];

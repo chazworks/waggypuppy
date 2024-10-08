@@ -151,7 +151,7 @@ class WP_Media_List_Table extends WP_List_Table
                 false
             );
 
-            $type_links[ $mime_type ] = sprintf(
+            $type_links[$mime_type] = sprintf(
                 '<option value="post_mime_type:%s"%s>%s</option>',
                 esc_attr($mime_type),
                 $selected,
@@ -372,7 +372,7 @@ class WP_Media_List_Table extends WP_List_Table
                 $column_key = 'taxonomy-' . $taxonomy;
             }
 
-            $posts_columns[ $column_key ] = get_taxonomy($taxonomy)->labels->name;
+            $posts_columns[$column_key] = get_taxonomy($taxonomy)->labels->name;
         }
 
         /* translators: Column name. */
@@ -654,8 +654,8 @@ class WP_Media_List_Table extends WP_List_Table
     {
         echo '<div class="post-com-count-wrapper">';
 
-        if (isset($this->comment_pending_count[ $post->ID ])) {
-            $pending_comments = $this->comment_pending_count[ $post->ID ];
+        if (isset($this->comment_pending_count[$post->ID])) {
+            $pending_comments = $this->comment_pending_count[$post->ID];
         } else {
             $pending_comments = get_pending_comments_num($post->ID);
         }

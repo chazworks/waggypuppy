@@ -270,7 +270,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller
 
         foreach ($plain_field_mappings as $field => $header) {
             if (rest_is_field_included($field, $fields)) {
-                $data[ $field ] = $theme->get($header);
+                $data[$field] = $theme->get($header);
             }
         }
 
@@ -290,11 +290,11 @@ class WP_REST_Themes_Controller extends WP_REST_Controller
 
         foreach ($rich_field_mappings as $field => $header) {
             if (rest_is_field_included("{$field}.raw", $fields)) {
-                $data[ $field ]['raw'] = $theme->display($header, false, true);
+                $data[$field]['raw'] = $theme->display($header, false, true);
             }
 
             if (rest_is_field_included("{$field}.rendered", $fields)) {
-                $data[ $field ]['rendered'] = $theme->display($header);
+                $data[$field]['rendered'] = $theme->display($header);
             }
         }
 
@@ -316,7 +316,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller
                 }
 
                 if (! current_theme_supports($feature)) {
-                    $data['theme_supports'][ $name ] = $config['show_in_rest']['schema']['default'];
+                    $data['theme_supports'][$name] = $config['show_in_rest']['schema']['default'];
                     continue;
                 }
 
@@ -334,7 +334,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller
                     continue;
                 }
 
-                $data['theme_supports'][ $name ] = $prepared;
+                $data['theme_supports'][$name] = $prepared;
             }
         }
 
@@ -644,7 +644,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller
 
             $name = $config['show_in_rest']['name'];
 
-            $schema['properties']['theme_supports']['properties'][ $name ] = $config['show_in_rest']['schema'];
+            $schema['properties']['theme_supports']['properties'][$name] = $config['show_in_rest']['schema'];
         }
 
         $this->schema = $schema;

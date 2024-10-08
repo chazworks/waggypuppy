@@ -77,12 +77,12 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
             $attachment_id = $factory->attachment->create_upload_object($file, $post_id);
             set_post_thumbnail($post_id, $attachment_id);
 
-            self::$post_ids[ $post_key ]       = [
+            self::$post_ids[$post_key]       = [
                 'post_id'        => $post_id,
                 'post_author'    => $post_data['post_author'],
                 'xml_item_index' => ++$xml_item_index,
             ];
-            self::$post_ids[ $attachment_key ] = [
+            self::$post_ids[$attachment_key] = [
                 'post_id'        => $attachment_id,
                 'post_author'    => $post_data['post_author'],
                 'xml_item_index' => ++$xml_item_index,
@@ -253,7 +253,7 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
      */
     private function get_expected_id($post_ids_key)
     {
-        $post_info = self::$post_ids[ $post_ids_key ];
+        $post_info = self::$post_ids[$post_ids_key];
 
         return $post_info['post_id'];
     }
@@ -270,7 +270,7 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
      */
     private function get_xml_item($xml, $post_ids_key, $number_of_items)
     {
-        $post_info = self::$post_ids[ $post_ids_key ];
+        $post_info = self::$post_ids[$post_ids_key];
 
         if ($post_info['xml_item_index'] < $number_of_items) {
             $xml_item_index = $post_info['xml_item_index'];
@@ -280,7 +280,7 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
             $xml_item_index = $post_info['xml_item_index'] - $number_of_items;
         }
 
-        return $xml->channel->item[ $xml_item_index ]->children('wp', true);
+        return $xml->channel->item[$xml_item_index]->children('wp', true);
     }
 
     /**
@@ -296,6 +296,6 @@ class Tests_Admin_ExportWp extends WP_UnitTestCase
             return;
         }
         $post_ids_key   = $expected_ids[0];
-        $args['author'] = self::$post_ids[ $post_ids_key ]['post_author'];
+        $args['author'] = self::$post_ids[$post_ids_key]['post_author'];
     }
 }

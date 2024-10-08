@@ -324,7 +324,7 @@ function wp_authenticate_cookie($user, $username, $password)
             $auth_cookie = AUTH_COOKIE;
         }
 
-        if (! empty($_COOKIE[ $auth_cookie ])) {
+        if (! empty($_COOKIE[$auth_cookie])) {
             return new WP_Error('expired_session', __('Please log in again.'));
         }
 
@@ -567,11 +567,11 @@ function wp_validate_logged_in_cookie($user_id)
         return $user_id;
     }
 
-    if (is_blog_admin() || is_network_admin() || empty($_COOKIE[ LOGGED_IN_COOKIE ])) {
+    if (is_blog_admin() || is_network_admin() || empty($_COOKIE[LOGGED_IN_COOKIE])) {
         return false;
     }
 
-    return wp_validate_auth_cookie($_COOKIE[ LOGGED_IN_COOKIE ], 'logged_in');
+    return wp_validate_auth_cookie($_COOKIE[LOGGED_IN_COOKIE], 'logged_in');
 }
 
 /**
@@ -638,12 +638,12 @@ function count_many_users_posts($users, $post_type = 'post', $public_only = fals
 
     $result = $wpdb->get_results("SELECT post_author, COUNT(*) FROM $wpdb->posts $where AND post_author IN ($userlist) GROUP BY post_author", ARRAY_N);
     foreach ($result as $row) {
-        $count[ $row[0] ] = $row[1];
+        $count[$row[0]] = $row[1];
     }
 
     foreach ($users as $id) {
-        if (! isset($count[ $id ])) {
-            $count[ $id ] = 0;
+        if (! isset($count[$id])) {
+            $count[$id] = 0;
         }
     }
 
@@ -1012,25 +1012,25 @@ function get_blogs_of_user($user_id, $all = false)
     }
 
     if (! is_multisite()) {
-        $site_id                        = get_current_blog_id();
-        $sites                          = [$site_id => new stdClass()];
-        $sites[ $site_id ]->userblog_id = $site_id;
-        $sites[ $site_id ]->blogname    = get_option('blogname');
-        $sites[ $site_id ]->domain      = '';
-        $sites[ $site_id ]->path        = '';
-        $sites[ $site_id ]->site_id     = 1;
-        $sites[ $site_id ]->siteurl     = get_option('siteurl');
-        $sites[ $site_id ]->archived    = 0;
-        $sites[ $site_id ]->spam        = 0;
-        $sites[ $site_id ]->deleted     = 0;
+        $site_id                      = get_current_blog_id();
+        $sites                        = [$site_id => new stdClass()];
+        $sites[$site_id]->userblog_id = $site_id;
+        $sites[$site_id]->blogname    = get_option('blogname');
+        $sites[$site_id]->domain      = '';
+        $sites[$site_id]->path        = '';
+        $sites[$site_id]->site_id     = 1;
+        $sites[$site_id]->siteurl     = get_option('siteurl');
+        $sites[$site_id]->archived    = 0;
+        $sites[$site_id]->spam        = 0;
+        $sites[$site_id]->deleted     = 0;
         return $sites;
     }
 
     $site_ids = [];
 
-    if (isset($keys[ $wpdb->base_prefix . 'capabilities' ]) && defined('MULTISITE')) {
+    if (isset($keys[$wpdb->base_prefix . 'capabilities']) && defined('MULTISITE')) {
         $site_ids[] = 1;
-        unset($keys[ $wpdb->base_prefix . 'capabilities' ]);
+        unset($keys[$wpdb->base_prefix . 'capabilities']);
     }
 
     $keys = array_keys($keys);
@@ -1066,7 +1066,7 @@ function get_blogs_of_user($user_id, $all = false)
         $_sites = get_sites($args);
 
         foreach ($_sites as $site) {
-            $sites[ $site->id ] = (object) [
+            $sites[$site->id] = (object) [
                 'userblog_id' => $site->id,
                 'blogname'    => $site->blogname,
                 'domain'      => $site->domain,
@@ -1152,11 +1152,11 @@ function is_user_member_of_blog($user_id = 0, $blog_id = 0)
     $base_capabilities_key = $wpdb->base_prefix . 'capabilities';
     $site_capabilities_key = $wpdb->base_prefix . $blog_id . '_capabilities';
 
-    if (isset($keys[ $base_capabilities_key ]) && 1 === $blog_id) {
+    if (isset($keys[$base_capabilities_key]) && 1 === $blog_id) {
         return true;
     }
 
-    if (isset($keys[ $site_capabilities_key ])) {
+    if (isset($keys[$site_capabilities_key])) {
         return true;
     }
 
@@ -1340,16 +1340,16 @@ function count_users($strategy = 'time', $site_id = null)
         $col         = 0;
         $role_counts = [];
         foreach ($avail_roles as $this_role => $name) {
-            $count = (int) $row[ $col++ ];
+            $count = (int) $row[$col++];
             if ($count > 0) {
-                $role_counts[ $this_role ] = $count;
+                $role_counts[$this_role] = $count;
             }
         }
 
-        $role_counts['none'] = (int) $row[ $col++ ];
+        $role_counts['none'] = (int) $row[$col++];
 
         // Get the meta_value index from the end of the result set.
-        $total_users = (int) $row[ $col ];
+        $total_users = (int) $row[$col];
 
         $result['total_users'] = $total_users;
         $result['avail_roles'] =& $role_counts;
@@ -1376,10 +1376,10 @@ function count_users($strategy = 'time', $site_id = null)
                 ++$avail_roles['none'];
             }
             foreach ($b_roles as $b_role => $val) {
-                if (isset($avail_roles[ $b_role ])) {
-                    ++$avail_roles[ $b_role ];
+                if (isset($avail_roles[$b_role])) {
+                    ++$avail_roles[$b_role];
                 } else {
-                    $avail_roles[ $b_role ] = 1;
+                    $avail_roles[$b_role] = 1;
                 }
             }
         }
@@ -2532,8 +2532,8 @@ function wp_insert_user($userdata)
     }
 
     foreach (wp_get_user_contact_methods($user) as $key => $value) {
-        if (isset($userdata[ $key ])) {
-            update_user_meta($user_id, $key, $userdata[ $key ]);
+        if (isset($userdata[$key])) {
+            update_user_meta($user_id, $key, $userdata[$key]);
         }
     }
 
@@ -2636,7 +2636,7 @@ function wp_update_user($userdata)
 
     // Add additional custom fields.
     foreach (_get_additional_user_keys($user_obj) as $key) {
-        $user[ $key ] = get_user_meta($user_id, $key, true);
+        $user[$key] = get_user_meta($user_id, $key, true);
     }
 
     // Escape data pulled from DB.
@@ -3989,7 +3989,7 @@ function wp_user_personal_data_exporter($email_address)
             case 'first_name':
             case 'last_name':
             case 'description':
-                $value = $user_meta[ $key ][0];
+                $value = $user_meta[$key][0];
                 break;
         }
 
@@ -4069,10 +4069,10 @@ function wp_user_personal_data_exporter($email_address)
         $location_data_to_export = [];
 
         foreach ($location_props_to_export as $key => $name) {
-            if (! empty($location[ $key ])) {
+            if (! empty($location[$key])) {
                 $location_data_to_export[] = [
                     'name'  => $name,
-                    'value' => $location[ $key ],
+                    'value' => $location[$key],
                 ];
             }
         }
@@ -4100,8 +4100,8 @@ function wp_user_personal_data_exporter($email_address)
             $session_tokens_data_to_export = [];
 
             foreach ($session_tokens_props_to_export as $key => $name) {
-                if (! empty($session_token[ $key ])) {
-                    $value = $session_token[ $key ];
+                if (! empty($session_token[$key])) {
+                    $value = $session_token[$key];
                     if (in_array($key, ['expiration', 'login'], true)) {
                         $value = date_i18n('F d, Y H:i A', $value);
                     }

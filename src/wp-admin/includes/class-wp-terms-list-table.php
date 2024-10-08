@@ -332,9 +332,9 @@ class WP_Terms_List_Table extends WP_List_Table
 
             ++$count;
 
-            unset($terms[ $key ]);
+            unset($terms[$key]);
 
-            if (isset($children[ $term->term_id ]) && empty($_REQUEST['s'])) {
+            if (isset($children[$term->term_id]) && empty($_REQUEST['s'])) {
                 $this->_rows($taxonomy, $terms, $children, $start, $per_page, $count, $term->term_id, $level + 1);
             }
         }
@@ -738,7 +738,7 @@ class WP_Terms_List_Table extends WP_List_Table
             list( $columns ) = $this->get_column_info();
 
             foreach ($columns as $column_name => $column_display_name) {
-                if (isset($core_columns[ $column_name ])) {
+                if (isset($core_columns[$column_name])) {
                     continue;
                 }
 

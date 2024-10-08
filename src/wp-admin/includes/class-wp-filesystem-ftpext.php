@@ -309,7 +309,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base
     {
         $dir = $this->dirlist($file);
 
-        return $dir[ $file ]['owner'];
+        return $dir[$file]['owner'];
     }
 
     /**
@@ -324,7 +324,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base
     {
         $dir = $this->dirlist($file);
 
-        return $dir[ $file ]['permsn'];
+        return $dir[$file]['permsn'];
     }
 
     /**
@@ -339,7 +339,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base
     {
         $dir = $this->dirlist($file);
 
-        return $dir[ $file ]['group'];
+        return $dir[$file]['group'];
     }
 
     /**
@@ -824,7 +824,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base
                 continue;
             }
 
-            $dirlist[ $entry['name'] ] = $entry;
+            $dirlist[$entry['name']] = $entry;
         }
 
         $path = trailingslashit($path);
@@ -839,7 +839,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base
                 }
             }
 
-            $ret[ $struc['name'] ] = $struc;
+            $ret[$struc['name']] = $struc;
         }
 
         return $ret;

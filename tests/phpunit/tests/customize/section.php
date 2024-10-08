@@ -144,7 +144,7 @@ class Tests_WP_Customize_Section extends WP_UnitTestCase
         $data    = $section->json();
         $this->assertSame('foo', $data['id']);
         foreach (['title', 'description', 'priority', 'panel', 'type'] as $key) {
-            $this->assertSame($args[ $key ], $data[ $key ]);
+            $this->assertSame($args[$key], $data[$key]);
         }
         $this->assertEmpty($data['content']);
         $this->assertTrue($data['active']);

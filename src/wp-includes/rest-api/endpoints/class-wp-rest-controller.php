@@ -452,7 +452,7 @@ abstract class WP_REST_Controller
                 continue;
             }
 
-            $response_data[ $field_name ] = call_user_func(
+            $response_data[$field_name] = call_user_func(
                 $field_options['get_callback'],
                 $response_data,
                 $field_name,
@@ -483,13 +483,13 @@ abstract class WP_REST_Controller
             }
 
             // Don't run the update callbacks if the data wasn't passed in the request.
-            if (! isset($request[ $field_name ])) {
+            if (! isset($request[$field_name])) {
                 continue;
             }
 
             $result = call_user_func(
                 $field_options['update_callback'],
-                $request[ $field_name ],
+                $request[$field_name],
                 $data_object,
                 $field_name,
                 $request,
@@ -530,7 +530,7 @@ abstract class WP_REST_Controller
                 continue;
             }
 
-            $schema['properties'][ $field_name ] = $field_options['schema'];
+            $schema['properties'][$field_name] = $field_options['schema'];
         }
 
         return $schema;
@@ -559,11 +559,11 @@ abstract class WP_REST_Controller
             return [];
         }
 
-        if (! $wp_rest_additional_fields || ! isset($wp_rest_additional_fields[ $object_type ])) {
+        if (! $wp_rest_additional_fields || ! isset($wp_rest_additional_fields[$object_type])) {
             return [];
         }
 
-        return $wp_rest_additional_fields[ $object_type ];
+        return $wp_rest_additional_fields[$object_type];
     }
 
     /**
@@ -607,7 +607,7 @@ abstract class WP_REST_Controller
              * because it won't be present in $this->get_item_schema().
              */
             if (is_null($field_options['schema'])) {
-                $properties[ $field_name ] = $field_options;
+                $properties[$field_name] = $field_options;
             }
         }
 
@@ -616,7 +616,7 @@ abstract class WP_REST_Controller
         if ($context) {
             foreach ($properties as $name => $options) {
                 if (! empty($options['context']) && ! in_array($context, $options['context'], true)) {
-                    unset($properties[ $name ]);
+                    unset($properties[$name]);
                 }
             }
         }

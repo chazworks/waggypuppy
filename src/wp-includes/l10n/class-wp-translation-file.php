@@ -212,7 +212,7 @@ abstract class WP_Translation_File
             $this->parse_file();
         }
 
-        return $this->entries[ $text ] ?? false;
+        return $this->entries[$text] ?? false;
     }
 
     /**

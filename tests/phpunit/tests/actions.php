@@ -505,7 +505,7 @@ class Tests_Actions extends WP_UnitTestCase
     {
         $hook_name = __FUNCTION__;
         $closure   = static function ($a, $b) {
-            $GLOBALS[ $a ] = $b;
+            $GLOBALS[$a] = $b;
         };
         add_action($hook_name, $closure, 10, 2);
 
@@ -514,7 +514,7 @@ class Tests_Actions extends WP_UnitTestCase
         $context = ['val1', 'val2'];
         do_action($hook_name, $context[0], $context[1]);
 
-        $this->assertSame($GLOBALS[ $context[0] ], $context[1]);
+        $this->assertSame($GLOBALS[$context[0]], $context[1]);
 
         $hook_name2 = __FUNCTION__ . '_2';
         $closure2   = static function () {
@@ -651,7 +651,7 @@ class Tests_Actions extends WP_UnitTestCase
         add_action($hook_name, [$a, 'action'], 12, 1);
         $this->assertTrue(has_action($hook_name));
 
-        $hook = $GLOBALS['wp_filter'][ $hook_name ];
+        $hook = $GLOBALS['wp_filter'][$hook_name];
 
         // From http://wordpress.stackexchange.com/a/57088/6445
         foreach ($hook as $priority => $filter) {
@@ -690,13 +690,13 @@ class Tests_Actions extends WP_UnitTestCase
 
         add_action($hook_name, '__return_null', 11, 1);
 
-        $this->assertArrayHasKey(11, $wp_filter[ $hook_name ]);
-        $this->assertArrayHasKey('__return_null', $wp_filter[ $hook_name ][11]);
+        $this->assertArrayHasKey(11, $wp_filter[$hook_name]);
+        $this->assertArrayHasKey('__return_null', $wp_filter[$hook_name][11]);
 
-        unset($wp_filter[ $hook_name ][11]);
+        unset($wp_filter[$hook_name][11]);
         $this->assertFalse(has_action($hook_name, '__return_null'));
 
-        $wp_filter[ $hook_name ][11] = [
+        $wp_filter[$hook_name][11] = [
             '__return_null' => [
                 'function'      => '__return_null',
                 'accepted_args' => 1,

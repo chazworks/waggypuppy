@@ -64,7 +64,7 @@ foreach ($load as $handle) {
         continue;
     }
 
-    $path = ABSPATH . $wp_scripts->registered[ $handle ]->src;
+    $path = ABSPATH . $wp_scripts->registered[$handle]->src;
     $out .= get_file($path) . "\n";
 }
 

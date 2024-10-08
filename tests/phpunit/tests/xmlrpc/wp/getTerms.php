@@ -108,7 +108,7 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase
         $this->assertNotIXRError($results4);
         $this->assertCount(0, $results4);
 
-        unset($GLOBALS['wp_taxonomies'][ $tax_name ]);
+        unset($GLOBALS['wp_taxonomies'][$tax_name]);
     }
 
     public function test_term_ordering()

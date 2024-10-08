@@ -148,7 +148,7 @@ class Walker
         $id       = $element->$id_field;
 
         // Display this element.
-        $this->has_children = ! empty($children_elements[ $id ]);
+        $this->has_children = ! empty($children_elements[$id]);
         if (isset($args[0]) && is_array($args[0])) {
             $args[0]['has_children'] = $this->has_children; // Back-compat.
         }
@@ -156,9 +156,9 @@ class Walker
         $this->start_el($output, $element, $depth, ...array_values($args));
 
         // Descend only when the depth is right and there are children for this element.
-        if ((0 === $max_depth || $max_depth > $depth + 1) && isset($children_elements[ $id ])) {
+        if ((0 === $max_depth || $max_depth > $depth + 1) && isset($children_elements[$id])) {
 
-            foreach ($children_elements[ $id ] as $child) {
+            foreach ($children_elements[$id] as $child) {
 
                 if (! isset($newlevel)) {
                     $newlevel = true;
@@ -167,7 +167,7 @@ class Walker
                 }
                 $this->display_element($child, $children_elements, $max_depth, $depth + 1, $args, $output);
             }
-            unset($children_elements[ $id ]);
+            unset($children_elements[$id]);
         }
 
         if (isset($newlevel) && $newlevel) {
@@ -231,7 +231,7 @@ class Walker
             if (empty($e->$parent_field)) {
                 $top_level_elements[] = $e;
             } else {
-                $children_elements[ $e->$parent_field ][] = $e;
+                $children_elements[$e->$parent_field][] = $e;
             }
         }
 
@@ -250,7 +250,7 @@ class Walker
                 if ($root->$parent_field === $e->$parent_field) {
                     $top_level_elements[] = $e;
                 } else {
-                    $children_elements[ $e->$parent_field ][] = $e;
+                    $children_elements[$e->$parent_field][] = $e;
                 }
             }
         }
@@ -363,7 +363,7 @@ class Walker
             if (empty($e->$parent_field)) {
                 $top_level_elements[] = $e;
             } else {
-                $children_elements[ $e->$parent_field ][] = $e;
+                $children_elements[$e->$parent_field][] = $e;
             }
         }
 
@@ -382,7 +382,7 @@ class Walker
         }
         if (! empty($args[0]['reverse_children'])) {
             foreach ($children_elements as $parent => $children) {
-                $children_elements[ $parent ] = array_reverse($children);
+                $children_elements[$parent] = array_reverse($children);
             }
         }
 
@@ -455,12 +455,12 @@ class Walker
         $id_field = $this->db_fields['id'];
         $id       = $element->$id_field;
 
-        if (! empty($children_elements[ $id ]) && is_array($children_elements[ $id ])) {
-            foreach ((array) $children_elements[ $id ] as $child) {
+        if (! empty($children_elements[$id]) && is_array($children_elements[$id])) {
+            foreach ((array) $children_elements[$id] as $child) {
                 $this->unset_children($child, $children_elements);
             }
         }
 
-        unset($children_elements[ $id ]);
+        unset($children_elements[$id]);
     }
 }

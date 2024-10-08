@@ -287,8 +287,8 @@ final class WP_Theme implements ArrayAccess
 
         if (is_array($cache)) {
             foreach (['block_template_folders', 'block_theme', 'errors', 'headers', 'template'] as $key) {
-                if (isset($cache[ $key ])) {
-                    $this->$key = $cache[ $key ];
+                if (isset($cache[$key])) {
+                    $this->$key = $cache[$key];
                 }
             }
             if ($this->errors) {
@@ -435,12 +435,12 @@ final class WP_Theme implements ArrayAccess
                 && file_exists($this->theme_root . '/' . $parent_dir . '/' . $this->template . '/index.php')
             ) {
                 $this->template = $parent_dir . '/' . $this->template;
-            } elseif ($directories && isset($directories[ $this->template ])) {
+            } elseif ($directories && isset($directories[$this->template])) {
                 /*
                  * Look for the template in the search_theme_directories() results, in case it is in another theme root.
                  * We don't look into directories of themes, just the theme root.
                  */
-                $theme_root_template = $directories[ $this->template ]['theme_root'];
+                $theme_root_template = $directories[$this->template]['theme_root'];
             } else {
                 // Parent theme is missing.
                 $this->errors = new WP_Error(
@@ -884,7 +884,7 @@ final class WP_Theme implements ArrayAccess
      */
     public function get($header)
     {
-        if (! isset($this->headers[ $header ])) {
+        if (! isset($this->headers[$header])) {
             return false;
         }
 
@@ -895,21 +895,21 @@ final class WP_Theme implements ArrayAccess
             }
         }
 
-        if (isset($this->headers_sanitized[ $header ])) {
-            return $this->headers_sanitized[ $header ];
+        if (isset($this->headers_sanitized[$header])) {
+            return $this->headers_sanitized[$header];
         }
 
         // If themes are a persistent group, sanitize everything and cache it. One cache add is better than many cache sets.
         if (self::$persistently_cache) {
             foreach (array_keys($this->headers) as $_header) {
-                $this->headers_sanitized[ $_header ] = $this->sanitize_header($_header, $this->headers[ $_header ]);
+                $this->headers_sanitized[$_header] = $this->sanitize_header($_header, $this->headers[$_header]);
             }
             $this->cache_add('headers', $this->headers_sanitized);
         } else {
-            $this->headers_sanitized[ $header ] = $this->sanitize_header($header, $this->headers[ $header ]);
+            $this->headers_sanitized[$header] = $this->sanitize_header($header, $this->headers[$header]);
         }
 
-        return $this->headers_sanitized[ $header ];
+        return $this->headers_sanitized[$header];
     }
 
     /**
@@ -1119,10 +1119,10 @@ final class WP_Theme implements ArrayAccess
                 }
 
                 foreach ($value as &$tag) {
-                    if (isset($tags_list[ $tag ])) {
-                        $tag = $tags_list[ $tag ];
-                    } elseif (isset(self::$tag_map[ $tag ])) {
-                        $tag = $tags_list[ self::$tag_map[ $tag ] ];
+                    if (isset($tags_list[$tag])) {
+                        $tag = $tags_list[$tag];
+                    } elseif (isset(self::$tag_map[$tag])) {
+                        $tag = $tags_list[self::$tag_map[$tag]];
                     }
                 }
 
@@ -1372,11 +1372,11 @@ final class WP_Theme implements ArrayAccess
 
                 foreach ($types as $type) {
                     $type = sanitize_key($type);
-                    if (! isset($post_templates[ $type ])) {
-                        $post_templates[ $type ] = [];
+                    if (! isset($post_templates[$type])) {
+                        $post_templates[$type] = [];
                     }
 
-                    $post_templates[ $type ][ $file ] = _cleanup_header_comment($header[1]);
+                    $post_templates[$type][$file] = _cleanup_header_comment($header[1]);
                 }
             }
 
@@ -1395,7 +1395,7 @@ final class WP_Theme implements ArrayAccess
                         continue;
                     }
 
-                    $post_templates[ $type ][ $block_template->slug ] = $block_template->title;
+                    $post_templates[$type][$block_template->slug] = $block_template->title;
                 }
             }
         }
@@ -1429,7 +1429,7 @@ final class WP_Theme implements ArrayAccess
         }
 
         $post_templates = $this->get_post_templates();
-        $post_templates = isset($post_templates[ $post_type ]) ? $post_templates[ $post_type ] : [];
+        $post_templates = isset($post_templates[$post_type]) ? $post_templates[$post_type] : [];
 
         /**
          * Filters list of page templates for a theme.
@@ -1523,7 +1523,7 @@ final class WP_Theme implements ArrayAccess
                 $found = self::scandir($path . '/' . $result, $extensions, $depth - 1, $relative_path . $result);
                 $files = array_merge_recursive($files, $found);
             } elseif (! $extensions || preg_match('~\.(' . $_extensions . ')$~', $result)) {
-                $files[ $relative_path . $result ] = $path . '/' . $result;
+                $files[$relative_path . $result] = $path . '/' . $result;
             }
         }
 
@@ -1588,14 +1588,14 @@ final class WP_Theme implements ArrayAccess
 
         if ('both' === $check || 'network' === $check) {
             $allowed = self::get_allowed_on_network();
-            if (! empty($allowed[ $this->get_stylesheet() ])) {
+            if (! empty($allowed[$this->get_stylesheet()])) {
                 return true;
             }
         }
 
         if ('both' === $check || 'site' === $check) {
             $allowed = self::get_allowed_on_site($blog_id);
-            if (! empty($allowed[ $this->get_stylesheet() ])) {
+            if (! empty($allowed[$this->get_stylesheet()])) {
                 return true;
             }
         }
@@ -1750,7 +1750,7 @@ final class WP_Theme implements ArrayAccess
             $blog_id = get_current_blog_id();
         }
 
-        if (isset($allowed_themes[ $blog_id ])) {
+        if (isset($allowed_themes[$blog_id])) {
             /**
              * Filters the array of themes allowed on the site.
              *
@@ -1759,16 +1759,16 @@ final class WP_Theme implements ArrayAccess
              * @param string[] $allowed_themes An array of theme stylesheet names.
              * @param int      $blog_id        ID of the site. Defaults to current site.
              */
-            return (array) apply_filters('site_allowed_themes', $allowed_themes[ $blog_id ], $blog_id);
+            return (array) apply_filters('site_allowed_themes', $allowed_themes[$blog_id], $blog_id);
         }
 
         $current = get_current_blog_id() === $blog_id;
 
         if ($current) {
-            $allowed_themes[ $blog_id ] = get_option('allowedthemes');
+            $allowed_themes[$blog_id] = get_option('allowedthemes');
         } else {
             switch_to_blog($blog_id);
-            $allowed_themes[ $blog_id ] = get_option('allowedthemes');
+            $allowed_themes[$blog_id] = get_option('allowedthemes');
             restore_current_blog();
         }
 
@@ -1776,35 +1776,35 @@ final class WP_Theme implements ArrayAccess
          * This is all super old MU back compat joy.
          * 'allowedthemes' keys things by stylesheet. 'allowed_themes' keyed things by name.
          */
-        if (false === $allowed_themes[ $blog_id ]) {
+        if (false === $allowed_themes[$blog_id]) {
             if ($current) {
-                $allowed_themes[ $blog_id ] = get_option('allowed_themes');
+                $allowed_themes[$blog_id] = get_option('allowed_themes');
             } else {
                 switch_to_blog($blog_id);
-                $allowed_themes[ $blog_id ] = get_option('allowed_themes');
+                $allowed_themes[$blog_id] = get_option('allowed_themes');
                 restore_current_blog();
             }
 
-            if (! is_array($allowed_themes[ $blog_id ]) || empty($allowed_themes[ $blog_id ])) {
-                $allowed_themes[ $blog_id ] = [];
+            if (! is_array($allowed_themes[$blog_id]) || empty($allowed_themes[$blog_id])) {
+                $allowed_themes[$blog_id] = [];
             } else {
                 $converted = [];
                 $themes    = wp_get_themes();
                 foreach ($themes as $stylesheet => $theme_data) {
-                    if (isset($allowed_themes[ $blog_id ][ $theme_data->get('Name') ])) {
-                        $converted[ $stylesheet ] = true;
+                    if (isset($allowed_themes[$blog_id][$theme_data->get('Name')])) {
+                        $converted[$stylesheet] = true;
                     }
                 }
-                $allowed_themes[ $blog_id ] = $converted;
+                $allowed_themes[$blog_id] = $converted;
             }
             // Set the option so we never have to go through this pain again.
-            if (is_admin() && $allowed_themes[ $blog_id ]) {
+            if (is_admin() && $allowed_themes[$blog_id]) {
                 if ($current) {
-                    update_option('allowedthemes', $allowed_themes[ $blog_id ], false);
+                    update_option('allowedthemes', $allowed_themes[$blog_id], false);
                     delete_option('allowed_themes');
                 } else {
                     switch_to_blog($blog_id);
-                    update_option('allowedthemes', $allowed_themes[ $blog_id ], false);
+                    update_option('allowedthemes', $allowed_themes[$blog_id], false);
                     delete_option('allowed_themes');
                     restore_current_blog();
                 }
@@ -1812,7 +1812,7 @@ final class WP_Theme implements ArrayAccess
         }
 
         /** This filter is documented in wp-includes/class-wp-theme.php */
-        return (array) apply_filters('site_allowed_themes', $allowed_themes[ $blog_id ], $blog_id);
+        return (array) apply_filters('site_allowed_themes', $allowed_themes[$blog_id], $blog_id);
     }
 
     /**
@@ -1974,36 +1974,36 @@ final class WP_Theme implements ArrayAccess
 
             // For properties of type array, parse data as comma-separated.
             foreach ($properties_to_parse as $property) {
-                if (! empty($pattern[ $property ])) {
-                    $pattern[ $property ] = array_filter(wp_parse_list((string) $pattern[ $property ]));
+                if (! empty($pattern[$property])) {
+                    $pattern[$property] = array_filter(wp_parse_list((string) $pattern[$property]));
                 } else {
-                    unset($pattern[ $property ]);
+                    unset($pattern[$property]);
                 }
             }
 
             // Parse properties of type int.
             $property = 'viewportWidth';
-            if (! empty($pattern[ $property ])) {
-                $pattern[ $property ] = (int) $pattern[ $property ];
+            if (! empty($pattern[$property])) {
+                $pattern[$property] = (int) $pattern[$property];
             } else {
-                unset($pattern[ $property ]);
+                unset($pattern[$property]);
             }
 
             // Parse properties of type bool.
             $property = 'inserter';
-            if (! empty($pattern[ $property ])) {
-                $pattern[ $property ] = in_array(
-                    strtolower($pattern[ $property ]),
+            if (! empty($pattern[$property])) {
+                $pattern[$property] = in_array(
+                    strtolower($pattern[$property]),
                     ['yes', 'true'],
                     true
                 );
             } else {
-                unset($pattern[ $property ]);
+                unset($pattern[$property]);
             }
 
             $key = str_replace($dirpath, '', $file);
 
-            $pattern_data[ $key ] = $pattern;
+            $pattern_data[$key] = $pattern;
         }
 
         if ($can_use_cached) {
@@ -2108,7 +2108,7 @@ final class WP_Theme implements ArrayAccess
 
         $allowed_themes = get_site_option('allowedthemes');
         foreach ($stylesheets as $stylesheet) {
-            $allowed_themes[ $stylesheet ] = true;
+            $allowed_themes[$stylesheet] = true;
         }
 
         update_site_option('allowedthemes', $allowed_themes);
@@ -2133,8 +2133,8 @@ final class WP_Theme implements ArrayAccess
 
         $allowed_themes = get_site_option('allowedthemes');
         foreach ($stylesheets as $stylesheet) {
-            if (isset($allowed_themes[ $stylesheet ])) {
-                unset($allowed_themes[ $stylesheet ]);
+            if (isset($allowed_themes[$stylesheet])) {
+                unset($allowed_themes[$stylesheet]);
             }
         }
 
