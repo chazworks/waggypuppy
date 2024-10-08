@@ -94,13 +94,13 @@ wp_debug_mode();
  *                                    Default true.
  */
 if ( WP_CACHE && apply_filters( 'enable_loading_advanced_cache_dropin', true ) && file_exists( WP_CONTENT_DIR . '/advanced-cache.php' ) ) {
-	// For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
-	include WP_CONTENT_DIR . '/advanced-cache.php';
+    // For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
+    include WP_CONTENT_DIR . '/advanced-cache.php';
 
-	// Re-initialize any hooks added manually by advanced-cache.php.
-	if ( $wp_filter ) {
-		$wp_filter = WP_Hook::build_preinitialized_hooks( $wp_filter );
-	}
+    // Re-initialize any hooks added manually by advanced-cache.php.
+    if ( $wp_filter ) {
+        $wp_filter = WP_Hook::build_preinitialized_hooks( $wp_filter );
+    }
 }
 
 // Define WP_LANG_DIR if not set.
@@ -150,19 +150,19 @@ require ABSPATH . WPINC . '/default-filters.php';
 
 // Initialize multisite if enabled.
 if ( is_multisite() ) {
-	require ABSPATH . WPINC . '/class-wp-site-query.php';
-	require ABSPATH . WPINC . '/class-wp-network-query.php';
-	require ABSPATH . WPINC . '/ms-blogs.php';
-	require ABSPATH . WPINC . '/ms-settings.php';
+    require ABSPATH . WPINC . '/class-wp-site-query.php';
+    require ABSPATH . WPINC . '/class-wp-network-query.php';
+    require ABSPATH . WPINC . '/ms-blogs.php';
+    require ABSPATH . WPINC . '/ms-settings.php';
 } elseif ( ! defined( 'MULTISITE' ) ) {
-	define( 'MULTISITE', false );
+    define( 'MULTISITE', false );
 }
 
 register_shutdown_function( 'shutdown_action_hook' );
 
 // Stop most of WordPress from being loaded if SHORTINIT is enabled.
 if ( SHORTINIT ) {
-	return false;
+    return false;
 }
 
 // Load the L10n library.
@@ -429,9 +429,9 @@ $GLOBALS['wp_textdomain_registry']->init();
 
 // Load multisite-specific files.
 if ( is_multisite() ) {
-	require ABSPATH . WPINC . '/ms-functions.php';
-	require ABSPATH . WPINC . '/ms-default-filters.php';
-	require ABSPATH . WPINC . '/ms-deprecated.php';
+    require ABSPATH . WPINC . '/ms-functions.php';
+    require ABSPATH . WPINC . '/ms-default-filters.php';
+    require ABSPATH . WPINC . '/ms-deprecated.php';
 }
 
 // Define constants that rely on the API to obtain the default value.
@@ -447,40 +447,40 @@ $GLOBALS['wp_plugin_paths'] = array();
 
 // Load must-use plugins.
 foreach ( wp_get_mu_plugins() as $mu_plugin ) {
-	$_wp_plugin_file = $mu_plugin;
-	include_once $mu_plugin;
-	$mu_plugin = $_wp_plugin_file; // Avoid stomping of the $mu_plugin variable in a plugin.
+    $_wp_plugin_file = $mu_plugin;
+    include_once $mu_plugin;
+    $mu_plugin = $_wp_plugin_file; // Avoid stomping of the $mu_plugin variable in a plugin.
 
-	/**
-	 * Fires once a single must-use plugin has loaded.
-	 *
-	 * @since 5.1.0
-	 *
-	 * @param string $mu_plugin Full path to the plugin's main file.
-	 */
-	do_action( 'mu_plugin_loaded', $mu_plugin );
+    /**
+     * Fires once a single must-use plugin has loaded.
+     *
+     * @since 5.1.0
+     *
+     * @param string $mu_plugin Full path to the plugin's main file.
+     */
+    do_action( 'mu_plugin_loaded', $mu_plugin );
 }
 unset( $mu_plugin, $_wp_plugin_file );
 
 // Load network activated plugins.
 if ( is_multisite() ) {
-	foreach ( wp_get_active_network_plugins() as $network_plugin ) {
-		wp_register_plugin_realpath( $network_plugin );
+    foreach ( wp_get_active_network_plugins() as $network_plugin ) {
+        wp_register_plugin_realpath( $network_plugin );
 
-		$_wp_plugin_file = $network_plugin;
-		include_once $network_plugin;
-		$network_plugin = $_wp_plugin_file; // Avoid stomping of the $network_plugin variable in a plugin.
+        $_wp_plugin_file = $network_plugin;
+        include_once $network_plugin;
+        $network_plugin = $_wp_plugin_file; // Avoid stomping of the $network_plugin variable in a plugin.
 
-		/**
-		 * Fires once a single network-activated plugin has loaded.
-		 *
-		 * @since 5.1.0
-		 *
-		 * @param string $network_plugin Full path to the plugin's main file.
-		 */
-		do_action( 'network_plugin_loaded', $network_plugin );
-	}
-	unset( $network_plugin, $_wp_plugin_file );
+        /**
+         * Fires once a single network-activated plugin has loaded.
+         *
+         * @since 5.1.0
+         *
+         * @param string $network_plugin Full path to the plugin's main file.
+         */
+        do_action( 'network_plugin_loaded', $network_plugin );
+    }
+    unset( $network_plugin, $_wp_plugin_file );
 }
 
 /**
@@ -491,7 +491,7 @@ if ( is_multisite() ) {
 do_action( 'muplugins_loaded' );
 
 if ( is_multisite() ) {
-	ms_cookie_constants();
+    ms_cookie_constants();
 }
 
 // Define constants after multisite is loaded.
@@ -514,26 +514,26 @@ wp_start_scraping_edited_file_errors();
 register_theme_directory( get_theme_root() );
 
 if ( ! is_multisite() && wp_is_fatal_error_handler_enabled() ) {
-	// Handle users requesting a recovery mode link and initiating recovery mode.
-	wp_recovery_mode()->initialize();
+    // Handle users requesting a recovery mode link and initiating recovery mode.
+    wp_recovery_mode()->initialize();
 }
 
 // Load active plugins.
 foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
-	wp_register_plugin_realpath( $plugin );
+    wp_register_plugin_realpath( $plugin );
 
-	$_wp_plugin_file = $plugin;
-	include_once $plugin;
-	$plugin = $_wp_plugin_file; // Avoid stomping of the $plugin variable in a plugin.
+    $_wp_plugin_file = $plugin;
+    include_once $plugin;
+    $plugin = $_wp_plugin_file; // Avoid stomping of the $plugin variable in a plugin.
 
-	/**
-	 * Fires once a single activated plugin has loaded.
-	 *
-	 * @since 5.1.0
-	 *
-	 * @param string $plugin Full path to the plugin's main file.
-	 */
-	do_action( 'plugin_loaded', $plugin );
+    /**
+     * Fires once a single activated plugin has loaded.
+     *
+     * @since 5.1.0
+     *
+     * @param string $plugin Full path to the plugin's main file.
+     */
+    do_action( 'plugin_loaded', $plugin );
 }
 unset( $plugin, $_wp_plugin_file );
 
@@ -546,7 +546,7 @@ wp_set_internal_encoding();
 
 // Run wp_cache_postload() if object cache is enabled and the function exists.
 if ( WP_CACHE && function_exists( 'wp_cache_postload' ) ) {
-	wp_cache_postload();
+    wp_cache_postload();
 }
 
 /**
@@ -643,7 +643,7 @@ load_default_textdomain();
 $locale      = get_locale();
 $locale_file = WP_LANG_DIR . "/$locale.php";
 if ( ( 0 === validate_file( $locale ) ) && is_readable( $locale_file ) ) {
-	require $locale_file;
+    require $locale_file;
 }
 unset( $locale_file );
 
@@ -668,9 +668,9 @@ $GLOBALS['wp_locale_switcher']->init();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
 foreach ( wp_get_active_and_valid_themes() as $theme ) {
-	if ( file_exists( $theme . '/functions.php' ) ) {
-		include $theme . '/functions.php';
-	}
+    if ( file_exists( $theme . '/functions.php' ) ) {
+        include $theme . '/functions.php';
+    }
 }
 unset( $theme );
 
@@ -683,7 +683,7 @@ do_action( 'after_setup_theme' );
 
 // Create an instance of WP_Site_Health so that Cron events may fire.
 if ( ! class_exists( 'WP_Site_Health' ) ) {
-	require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
+    require_once ABSPATH . 'wp-admin/includes/class-wp-site-health.php';
 }
 WP_Site_Health::get_instance();
 
@@ -705,12 +705,12 @@ do_action( 'init' );
 
 // Check site status.
 if ( is_multisite() ) {
-	$file = ms_site_check();
-	if ( true !== $file ) {
-		require $file;
-		die();
-	}
-	unset( $file );
+    $file = ms_site_check();
+    if ( true !== $file ) {
+        require $file;
+        die();
+    }
+    unset( $file );
 }
 
 /**

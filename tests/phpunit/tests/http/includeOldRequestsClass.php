@@ -8,15 +8,15 @@
  */
 class Tests_HTTP_IncludeOldRequestsClass extends WP_UnitTestCase {
 
-	/**
-	 * @ticket 57341
-	 *
-	 * @coversNothing
-	 */
-	public function test_should_include_old_requests_class() {
-		$this->expectDeprecation();
-		$this->expectDeprecationMessage( 'The PSR-0 `Requests_...` class names in the Requests library are deprecated.' );
+    /**
+     * @ticket 57341
+     *
+     * @coversNothing
+     */
+    public function test_should_include_old_requests_class() {
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage( 'The PSR-0 `Requests_...` class names in the Requests library are deprecated.' );
 
-		new Requests();
-	}
+        new Requests();
+    }
 }

@@ -19,9 +19,9 @@
  * @since Twenty Thirteen 1.0
  */
 function twentythirteen_switch_theme() {
-	switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
-	unset( $_GET['activated'] );
-	add_action( 'admin_notices', 'twentythirteen_upgrade_notice' );
+    switch_theme( WP_DEFAULT_THEME, WP_DEFAULT_THEME );
+    unset( $_GET['activated'] );
+    add_action( 'admin_notices', 'twentythirteen_upgrade_notice' );
 }
 add_action( 'after_switch_theme', 'twentythirteen_switch_theme' );
 
@@ -34,14 +34,14 @@ add_action( 'after_switch_theme', 'twentythirteen_switch_theme' );
  * @since Twenty Thirteen 1.0
  */
 function twentythirteen_upgrade_notice() {
-	printf(
-		'<div class="error"><p>%s</p></div>',
-		sprintf(
-			/* translators: %s: WordPress version. */
-			__( 'Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentythirteen' ),
-			$GLOBALS['wp_version']
-		)
-	);
+    printf(
+        '<div class="error"><p>%s</p></div>',
+        sprintf(
+            /* translators: %s: WordPress version. */
+            __( 'Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentythirteen' ),
+            $GLOBALS['wp_version']
+        )
+    );
 }
 
 /**
@@ -50,17 +50,17 @@ function twentythirteen_upgrade_notice() {
  * @since Twenty Thirteen 1.0
  */
 function twentythirteen_customize() {
-	wp_die(
-		sprintf(
-			/* translators: %s: WordPress version. */
-			__( 'Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentythirteen' ),
-			$GLOBALS['wp_version']
-		),
-		'',
-		array(
-			'back_link' => true,
-		)
-	);
+    wp_die(
+        sprintf(
+            /* translators: %s: WordPress version. */
+            __( 'Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentythirteen' ),
+            $GLOBALS['wp_version']
+        ),
+        '',
+        array(
+            'back_link' => true,
+        )
+    );
 }
 add_action( 'load-customize.php', 'twentythirteen_customize' );
 
@@ -70,14 +70,14 @@ add_action( 'load-customize.php', 'twentythirteen_customize' );
  * @since Twenty Thirteen 1.0
  */
 function twentythirteen_preview() {
-	if ( isset( $_GET['preview'] ) ) {
-		wp_die(
-			sprintf(
-				/* translators: %s: WordPress version. */
-				__( 'Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentythirteen' ),
-				$GLOBALS['wp_version']
-			)
-		);
-	}
+    if ( isset( $_GET['preview'] ) ) {
+        wp_die(
+            sprintf(
+                /* translators: %s: WordPress version. */
+                __( 'Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentythirteen' ),
+                $GLOBALS['wp_version']
+            )
+        );
+    }
 }
 add_action( 'template_redirect', 'twentythirteen_preview' );

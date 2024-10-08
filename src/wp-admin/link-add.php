@@ -10,7 +10,7 @@
 require_once __DIR__ . '/admin.php';
 
 if ( ! current_user_can( 'manage_links' ) ) {
-	wp_die( __( 'Sorry, you are not allowed to add links to this site.' ) );
+    wp_die( __( 'Sorry, you are not allowed to add links to this site.' ) );
 }
 
 // Used in the HTML title tag.
@@ -25,7 +25,7 @@ wp_enqueue_script( 'link' );
 wp_enqueue_script( 'xfn' );
 
 if ( wp_is_mobile() ) {
-	wp_enqueue_script( 'jquery-touch-punch' );
+    wp_enqueue_script( 'jquery-touch-punch' );
 }
 
 $link = get_default_link_to_edit();

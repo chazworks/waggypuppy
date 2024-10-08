@@ -13,12 +13,12 @@
 get_header( 'embed' );
 
 if ( have_posts() ) :
-	while ( have_posts() ) :
-		the_post();
-		get_template_part( 'embed', 'content' );
-	endwhile;
+    while ( have_posts() ) :
+        the_post();
+        get_template_part( 'embed', 'content' );
+    endwhile;
 else :
-	get_template_part( 'embed', '404' );
+    get_template_part( 'embed', '404' );
 endif;
 
 get_footer( 'embed' );

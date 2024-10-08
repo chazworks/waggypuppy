@@ -14,14 +14,14 @@
  */
 class WP_Fake_Block_Type extends WP_Block_Type {
 
-	/**
-	 * Render the fake block.
-	 *
-	 * @param array  $attributes Optional. Block attributes. Default empty array.
-	 * @param string $content    Optional. Block content. Default empty string.
-	 * @return string Rendered block HTML.
-	 */
-	public function render( $attributes = array(), $content = '' ) {
-		return '<div>' . $content . '</div>';
-	}
+    /**
+     * Render the fake block.
+     *
+     * @param array  $attributes Optional. Block attributes. Default empty array.
+     * @param string $content    Optional. Block content. Default empty string.
+     * @return string Rendered block HTML.
+     */
+    public function render( $attributes = array(), $content = '' ) {
+        return '<div>' . $content . '</div>';
+    }
 }

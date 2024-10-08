@@ -8,7 +8,7 @@
  */
 
 if ( isset( $_GET['tab'] ) && ( 'plugin-information' === $_GET['tab'] ) ) {
-	define( 'IFRAME_REQUEST', true );
+    define( 'IFRAME_REQUEST', true );
 }
 
 /** Load WordPress Administration Bootstrap */

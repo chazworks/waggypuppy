@@ -20,15 +20,15 @@
  */
 function twenty_twenty_one_get_starter_content() {
 
-	// Define and register starter content to showcase the theme on new sites.
-	$starter_content = array(
+    // Define and register starter content to showcase the theme on new sites.
+    $starter_content = array(
 
-		// Specify the core-defined pages to create and add custom thumbnails to some of them.
-		'posts'     => array(
-			'front' => array(
-				'post_type'    => 'page',
-				'post_title'   => esc_html_x( 'Create your website with blocks', 'Theme starter content', 'twentytwentyone' ),
-				'post_content' => '
+        // Specify the core-defined pages to create and add custom thumbnails to some of them.
+        'posts'     => array(
+            'front' => array(
+                'post_type'    => 'page',
+                'post_title'   => esc_html_x( 'Create your website with blocks', 'Theme starter content', 'twentytwentyone' ),
+                'post_content' => '
 					<!-- wp:heading {"align":"wide","fontSize":"gigantic","style":{"typography":{"lineHeight":"1.1"}}} -->
 					<h2 class="alignwide has-text-align-wide has-gigantic-font-size" style="line-height:1.1">' . esc_html_x( 'Create your website with blocks', 'Theme starter content', 'twentytwentyone' ) . '</h2>
 					<!-- /wp:heading -->
@@ -134,51 +134,51 @@ function twenty_twenty_one_get_starter_content() {
 					<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
 					<!-- /wp:spacer --></div></div>
 					<!-- /wp:cover -->',
-			),
-			'about',
-			'contact',
-			'blog',
-		),
+            ),
+            'about',
+            'contact',
+            'blog',
+        ),
 
-		// Default to a static front page and assign the front and posts pages.
-		'options'   => array(
-			'show_on_front'  => 'page',
-			'page_on_front'  => '{{front}}',
-			'page_for_posts' => '{{blog}}',
-		),
+        // Default to a static front page and assign the front and posts pages.
+        'options'   => array(
+            'show_on_front'  => 'page',
+            'page_on_front'  => '{{front}}',
+            'page_for_posts' => '{{blog}}',
+        ),
 
-		// Set up nav menus for each of the two areas registered in the theme.
-		'nav_menus' => array(
-			// Assign a menu to the "primary" location.
-			'primary' => array(
-				'name'  => esc_html__( 'Primary menu', 'twentytwentyone' ),
-				'items' => array(
-					'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
-					'page_about',
-					'page_blog',
-					'page_contact',
-				),
-			),
+        // Set up nav menus for each of the two areas registered in the theme.
+        'nav_menus' => array(
+            // Assign a menu to the "primary" location.
+            'primary' => array(
+                'name'  => esc_html__( 'Primary menu', 'twentytwentyone' ),
+                'items' => array(
+                    'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
+                    'page_about',
+                    'page_blog',
+                    'page_contact',
+                ),
+            ),
 
-			// Assign a menu to the "footer" location.
-			'footer'  => array(
-				'name'  => esc_html__( 'Secondary menu', 'twentytwentyone' ),
-				'items' => array(
-					'link_facebook',
-					'link_twitter',
-					'link_instagram',
-					'link_email',
-				),
-			),
-		),
-	);
+            // Assign a menu to the "footer" location.
+            'footer'  => array(
+                'name'  => esc_html__( 'Secondary menu', 'twentytwentyone' ),
+                'items' => array(
+                    'link_facebook',
+                    'link_twitter',
+                    'link_instagram',
+                    'link_email',
+                ),
+            ),
+        ),
+    );
 
-	/**
-	 * Filters the array of starter content.
-	 *
-	 * @since Twenty Twenty-One 1.0
-	 *
-	 * @param array $starter_content Array of starter content.
-	 */
-	return apply_filters( 'twenty_twenty_one_starter_content', $starter_content );
+    /**
+     * Filters the array of starter content.
+     *
+     * @since Twenty Twenty-One 1.0
+     *
+     * @param array $starter_content Array of starter content.
+     */
+    return apply_filters( 'twenty_twenty_one_starter_content', $starter_content );
 }

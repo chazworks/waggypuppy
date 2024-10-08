@@ -8,10 +8,10 @@
 // Parse options.
 $options = 'v:r:d';
 if ( is_callable( 'getopt' ) ) {
-	$opts = getopt( $options );
+    $opts = getopt( $options );
 } else {
-	require __DIR__ . '/wp-testlib/getopt.php';
-	$opts = getoptParser::getopt( $options );
+    require __DIR__ . '/wp-testlib/getopt.php';
+    $opts = getoptParser::getopt( $options );
 }
 
 define( 'DIR_TESTROOT', realpath( __DIR__ ) );
@@ -20,11 +20,11 @@ define( 'TEST_WP', true );
 define( 'WP_DEBUG', array_key_exists( 'd', $opts ) );
 
 if ( ! empty( $opts['r'] ) ) {
-	define( 'DIR_WP', realpath( $opts['r'] ) );
+    define( 'DIR_WP', realpath( $opts['r'] ) );
 } elseif ( ! empty( $opts['v'] ) ) {
-		define( 'DIR_WP', DIR_TESTROOT . '/wordpress-' . $opts['v'] );
+        define( 'DIR_WP', DIR_TESTROOT . '/wordpress-' . $opts['v'] );
 } else {
-	define( 'DIR_WP', DIR_TESTROOT . '/wordpress' );
+    define( 'DIR_WP', DIR_TESTROOT . '/wordpress' );
 }
 
 // Make sure all useful errors are displayed during setup.
@@ -61,7 +61,7 @@ $original_wpdb = $GLOBALS['wpdb'];
 
 // Hide warnings during testing, since that's the normal WP behavior.
 if ( ! WP_DEBUG ) {
-	error_reporting( E_ALL ^ E_NOTICE );
+    error_reporting( E_ALL ^ E_NOTICE );
 }
 
 $to        = 'To <wp.mail.testing@gmail.com>';

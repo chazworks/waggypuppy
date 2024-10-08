@@ -7,8 +7,8 @@
  */
 
 if ( file_exists( __DIR__ . '/../wp-includes/js/dist/edit-post.js' ) ) {
-	require_once __DIR__ . '/_index.php';
-	return;
+    require_once __DIR__ . '/_index.php';
+    return;
 }
 
 require_once dirname( __DIR__ ) . '/index.php';

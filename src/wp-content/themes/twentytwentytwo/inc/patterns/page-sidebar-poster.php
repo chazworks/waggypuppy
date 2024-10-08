@@ -3,9 +3,9 @@
  * Poster with right sidebar block pattern
  */
 return array(
-	'title'      => __( 'Poster with right sidebar', 'twentytwentytwo' ),
-	'categories' => array( 'twentytwentytwo_pages' ),
-	'content'    => '<!-- wp:group {"align":"full","layout":{"inherit":true}} -->
+    'title'      => __( 'Poster with right sidebar', 'twentytwentytwo' ),
+    'categories' => array( 'twentytwentytwo_pages' ),
+    'content'    => '<!-- wp:group {"align":"full","layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull"><!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":"5%"}}} -->
 					<div class="wp-block-columns alignwide"><!-- wp:column {"width":"70%"} -->
 					<div class="wp-block-column" style="flex-basis:70%">

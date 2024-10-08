@@ -3,9 +3,9 @@
  * Subscribe callout block pattern
  */
 return array(
-	'title'      => __( 'Subscribe callout', 'twentytwentytwo' ),
-	'categories' => array( 'featured', 'buttons' ),
-	'content'    => '<!-- wp:columns {"verticalAlignment":"center","align":"wide"} -->
+    'title'      => __( 'Subscribe callout', 'twentytwentytwo' ),
+    'categories' => array( 'featured', 'buttons' ),
+    'content'    => '<!-- wp:columns {"verticalAlignment":"center","align":"wide"} -->
 					<div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
 					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading -->
 					<h2>' . wp_kses_post( __( 'Watch birds<br>from your inbox', 'twentytwentytwo' ) ) . '</h2>

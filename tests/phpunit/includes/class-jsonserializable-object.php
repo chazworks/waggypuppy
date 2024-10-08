@@ -9,14 +9,14 @@
 
 class JsonSerializable_Object implements JsonSerializable {
 
-	private $data;
+    private $data;
 
-	public function __construct( $data ) {
-		$this->data = $data;
-	}
+    public function __construct( $data ) {
+        $this->data = $data;
+    }
 
-	#[ReturnTypeWillChange]
-	public function jsonSerialize() {
-		return $this->data;
-	}
+    #[ReturnTypeWillChange]
+    public function jsonSerialize() {
+        return $this->data;
+    }
 }

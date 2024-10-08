@@ -12,22 +12,22 @@
  */
 if ( function_exists( 'register_block_pattern_category' ) ) {
 
-	register_block_pattern_category(
-		'twentysixteen',
-		array( 'label' => __( 'Twenty Sixteen', 'twentysixteen' ) )
-	);
+    register_block_pattern_category(
+        'twentysixteen',
+        array( 'label' => __( 'Twenty Sixteen', 'twentysixteen' ) )
+    );
 }
 
 /**
  * Register Block Patterns.
  */
 if ( function_exists( 'register_block_pattern' ) ) {
-	register_block_pattern(
-		'twentysixteen/large-heading-short-description',
-		array(
-			'title'      => __( 'Large heading with short description', 'twentysixteen' ),
-			'categories' => array( 'twentysixteen' ),
-			'content'    => '<!-- wp:group {"align":"full","backgroundColor":"background"} -->
+    register_block_pattern(
+        'twentysixteen/large-heading-short-description',
+        array(
+            'title'      => __( 'Large heading with short description', 'twentysixteen' ),
+            'categories' => array( 'twentysixteen' ),
+            'content'    => '<!-- wp:group {"align":"full","backgroundColor":"background"} -->
             <div class="wp-block-group alignfull has-background-background-color has-background"><div class="wp-block-group__inner-container"><!-- wp:spacer {"height":60} -->
             <div style="height:60px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->
@@ -41,15 +41,15 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <div style="height:60px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer --></div></div>
             <!-- /wp:group -->',
-		)
-	);
+        )
+    );
 
-	register_block_pattern(
-		'twentysixteen/big-title-two-columns-text',
-		array(
-			'title'      => __( 'Big Title with Two Columns Text', 'twentysixteen' ),
-			'categories' => array( 'twentysixteen' ),
-			'content'    => '<!-- wp:spacer -->
+    register_block_pattern(
+        'twentysixteen/big-title-two-columns-text',
+        array(
+            'title'      => __( 'Big Title with Two Columns Text', 'twentysixteen' ),
+            'categories' => array( 'twentysixteen' ),
+            'content'    => '<!-- wp:spacer -->
             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->
 
@@ -78,15 +78,15 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- wp:spacer -->
             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->',
-		)
-	);
+        )
+    );
 
-	register_block_pattern(
-		'twentysixteen/large-blockquote',
-		array(
-			'title'      => __( 'Large Blockquote', 'twentysixteen' ),
-			'categories' => array( 'twentysixteen' ),
-			'content'    => '<!-- wp:spacer -->
+    register_block_pattern(
+        'twentysixteen/large-blockquote',
+        array(
+            'title'      => __( 'Large Blockquote', 'twentysixteen' ),
+            'categories' => array( 'twentysixteen' ),
+            'content'    => '<!-- wp:spacer -->
             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->
 
@@ -113,15 +113,15 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- wp:spacer -->
             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->',
-		)
-	);
+        )
+    );
 
-	register_block_pattern(
-		'twentysixteen/call-to-action',
-		array(
-			'title'      => __( 'Call to Action', 'twentysixteen' ),
-			'categories' => array( 'twentysixteen' ),
-			'content'    => '<!-- wp:spacer -->
+    register_block_pattern(
+        'twentysixteen/call-to-action',
+        array(
+            'title'      => __( 'Call to Action', 'twentysixteen' ),
+            'categories' => array( 'twentysixteen' ),
+            'content'    => '<!-- wp:spacer -->
             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->
 
@@ -152,6 +152,6 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- wp:spacer -->
             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->',
-		)
-	);
+        )
+    );
 }

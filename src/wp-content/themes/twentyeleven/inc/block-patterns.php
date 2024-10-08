@@ -15,10 +15,10 @@
  */
 if ( function_exists( 'register_block_pattern_category' ) ) {
 
-	register_block_pattern_category(
-		'twentyeleven',
-		array( 'label' => esc_html__( 'Twenty Eleven', 'twentyeleven' ) )
-	);
+    register_block_pattern_category(
+        'twentyeleven',
+        array( 'label' => esc_html__( 'Twenty Eleven', 'twentyeleven' ) )
+    );
 }
 
 /**
@@ -26,14 +26,14 @@ if ( function_exists( 'register_block_pattern_category' ) ) {
  */
 if ( function_exists( 'register_block_pattern' ) ) {
 
-	// Heading, and two columns featuring an image and dropcap.
-	register_block_pattern(
-		'twentyeleven/large-text',
-		array(
-			'title'         => esc_html__( 'Image and Text Columns', 'twentyeleven' ),
-			'categories'    => array( 'twentyeleven' ),
-			'viewportWidth' => 1000,
-			'content'       => '<!-- wp:heading {"style":{"typography":{"fontSize":45}}} -->
+    // Heading, and two columns featuring an image and dropcap.
+    register_block_pattern(
+        'twentyeleven/large-text',
+        array(
+            'title'         => esc_html__( 'Image and Text Columns', 'twentyeleven' ),
+            'categories'    => array( 'twentyeleven' ),
+            'viewportWidth' => 1000,
+            'content'       => '<!-- wp:heading {"style":{"typography":{"fontSize":45}}} -->
 				<h2 style="font-size:45px">' . esc_html__( 'A Bowl Full of&nbsp;Flowers', 'twentyeleven' ) . '</h2>
 				<!-- /wp:heading -->
 				<!-- wp:columns -->
@@ -51,17 +51,17 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<!-- /wp:paragraph --></div>
 				<!-- /wp:column --></div>
 				<!-- /wp:columns -->',
-		)
-	);
+        )
+    );
 
-	// Two columns with a quote.
-	register_block_pattern(
-		'twentyeleven/inline-quote',
-		array(
-			'title'         => esc_html__( 'Inline Quote', 'twentyeleven' ),
-			'categories'    => array( 'twentyeleven' ),
-			'viewportWidth' => 1000,
-			'content'       => '<!-- wp:columns -->
+    // Two columns with a quote.
+    register_block_pattern(
+        'twentyeleven/inline-quote',
+        array(
+            'title'         => esc_html__( 'Inline Quote', 'twentyeleven' ),
+            'categories'    => array( 'twentyeleven' ),
+            'viewportWidth' => 1000,
+            'content'       => '<!-- wp:columns -->
 				<div class="wp-block-columns"><!-- wp:column -->
 				<div class="wp-block-column"><!-- wp:paragraph -->
 				<p>' . esc_html__( 'This is just an example post to showcase the featured post section on the showcase page. Who doesn&#8217;t like flowers? I like flowers. Nullam hendrerit enim nunc. Vestibulum eget nulla magna! Fusce lobortis neque eu neque egestas tincidunt. Duis elementum consequat lorem, in eleifend justo mollis at. Nam quis adipiscing magna. Duis adipiscing est ac nibh feugiat rhoncus. Donec non lorem felis, eget commodo purus.', 'twentyeleven' ) . '</p>
@@ -76,17 +76,17 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<!-- /wp:quote --></div>
 				<!-- /wp:column --></div>
 				<!-- /wp:columns -->',
-		)
-	);
+        )
+    );
 
-	// Cover block with a call-to-action to follow the blog.
-	register_block_pattern(
-		'twentyeleven/follow',
-		array(
-			'title'         => esc_html__( 'Follow Blog', 'twentyeleven' ),
-			'categories'    => array( 'twentyeleven' ),
-			'viewportWidth' => 1000,
-			'content'       => '<!-- wp:cover {"overlayColor":"black","minHeight":900,"minHeightUnit":"px","align":"center"} -->
+    // Cover block with a call-to-action to follow the blog.
+    register_block_pattern(
+        'twentyeleven/follow',
+        array(
+            'title'         => esc_html__( 'Follow Blog', 'twentyeleven' ),
+            'categories'    => array( 'twentyeleven' ),
+            'viewportWidth' => 1000,
+            'content'       => '<!-- wp:cover {"overlayColor":"black","minHeight":900,"minHeightUnit":"px","align":"center"} -->
 				<div class="wp-block-cover aligncenter has-black-background-color has-background-dim" style="min-height:900px"><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":85}}} -->
 				<p class="has-text-align-center" style="font-size:85px">' . esc_html__( 'Get In Touch', 'twentyeleven' ) . '</p>
 				<!-- /wp:paragraph -->
@@ -102,17 +102,17 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<!-- /wp:button --></div>
 				<!-- /wp:buttons --></div></div>
 				<!-- /wp:cover -->',
-		)
-	);
+        )
+    );
 
-	// Heading, and two columns with an image and text.
-	register_block_pattern(
-		'twentyeleven/about',
-		array(
-			'title'         => esc_html__( 'About Me', 'twentyeleven' ),
-			'categories'    => array( 'twentyeleven' ),
-			'viewportWidth' => 1000,
-			'content'       => '<!-- wp:heading {"style":{"typography":{"fontSize":50}}} -->
+    // Heading, and two columns with an image and text.
+    register_block_pattern(
+        'twentyeleven/about',
+        array(
+            'title'         => esc_html__( 'About Me', 'twentyeleven' ),
+            'categories'    => array( 'twentyeleven' ),
+            'viewportWidth' => 1000,
+            'content'       => '<!-- wp:heading {"style":{"typography":{"fontSize":50}}} -->
 				<h2 style="font-size:50px">' . esc_html__( 'About Me', 'twentyeleven' ) . '</h2>
 				<!-- /wp:heading --><!-- wp:columns -->
 				<div class="wp-block-columns"><!-- wp:column -->
@@ -126,17 +126,17 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<!-- /wp:paragraph --></div>
 				<!-- /wp:column --></div>
 				<!-- /wp:columns -->',
-		)
-	);
+        )
+    );
 
-	// Two columns with headings and lists.
-	register_block_pattern(
-		'twentyeleven/lists',
-		array(
-			'title'         => esc_html__( 'Two Columns of Lists', 'twentyeleven' ),
-			'categories'    => array( 'twentyeleven' ),
-			'viewportWidth' => 1000,
-			'content'       => '<!-- wp:columns -->
+    // Two columns with headings and lists.
+    register_block_pattern(
+        'twentyeleven/lists',
+        array(
+            'title'         => esc_html__( 'Two Columns of Lists', 'twentyeleven' ),
+            'categories'    => array( 'twentyeleven' ),
+            'viewportWidth' => 1000,
+            'content'       => '<!-- wp:columns -->
 				<div class="wp-block-columns"><!-- wp:column -->
 				<div class="wp-block-column"><!-- wp:paragraph {"style":{"typography":{"fontSize":25}}} -->
 				<p style="font-size:25px"><strong>' . esc_html__( 'Books', 'twentyeleven' ) . '</strong></p>
@@ -154,7 +154,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<!-- /wp:list --></div>
 				<!-- /wp:column --></div>
 				<!-- /wp:columns -->',
-		)
-	);
+        )
+    );
 
 }

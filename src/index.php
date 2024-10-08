@@ -8,7 +8,7 @@
 
 /** Define ABSPATH as this file's directory */
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
+    define( 'ABSPATH', __DIR__ . '/' );
 }
 
 /*
@@ -16,8 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Note: WPINC is not defined yet, it is defined later in wp-settings.php.
  */
 if ( file_exists( ABSPATH . 'wp-includes/js/dist/edit-post.js' ) ) {
-	require_once ABSPATH . '_index.php';
-	return;
+    require_once ABSPATH . '_index.php';
+    return;
 }
 
 define( 'WPINC', 'wp-includes' );
@@ -38,14 +38,14 @@ wp_load_translations_early();
 
 // Die with an error message.
 $die = sprintf(
-	'<p>%s</p>',
-	__( 'You are running WordPress without JavaScript and CSS files. These need to be built.' )
+    '<p>%s</p>',
+    __( 'You are running WordPress without JavaScript and CSS files. These need to be built.' )
 );
 
 $die .= '<p>' . sprintf(
-	/* translators: %s: npm install */
-	__( 'Before running any build tasks you need to make sure the dependencies are installed. You can install these by running %s.' ),
-	'<code style="color: green;">npm install</code>'
+    /* translators: %s: npm install */
+    __( 'Before running any build tasks you need to make sure the dependencies are installed. You can install these by running %s.' ),
+    '<code style="color: green;">npm install</code>'
 ) . '</p>';
 
 $die .= '<ul>';
@@ -58,10 +58,10 @@ $die .= '<code style="color: green;">npm run build</code></li>';
 $die .= '</ul>';
 
 $die .= '<p>' . sprintf(
-	/* translators: 1: npm URL, 2: Handbook URL. */
-	__( 'This requires <a href="%1$s">npm</a>. <a href="%2$s">Learn more about setting up your local development environment</a>.' ),
-	'https://www.npmjs.com/get-npm',
-	__( 'https://make.wordpress.org/core/handbook/tutorials/installing-wordpress-locally/' )
+    /* translators: 1: npm URL, 2: Handbook URL. */
+    __( 'This requires <a href="%1$s">npm</a>. <a href="%2$s">Learn more about setting up your local development environment</a>.' ),
+    'https://www.npmjs.com/get-npm',
+    __( 'https://make.wordpress.org/core/handbook/tutorials/installing-wordpress-locally/' )
 ) . '</p>';
 
 wp_die( $die, __( 'WordPress &rsaquo; Error' ) );

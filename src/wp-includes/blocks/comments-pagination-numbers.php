@@ -17,37 +17,37 @@
  * @return string Returns the pagination numbers for the comments.
  */
 function render_block_core_comments_pagination_numbers( $attributes, $content, $block ) {
-	// Bail out early if the post ID is not set for some reason.
-	if ( empty( $block->context['postId'] ) ) {
-		return '';
-	}
+    // Bail out early if the post ID is not set for some reason.
+    if ( empty( $block->context['postId'] ) ) {
+        return '';
+    }
 
-	$comment_vars = build_comment_query_vars_from_block( $block );
+    $comment_vars = build_comment_query_vars_from_block( $block );
 
-	$total   = ( new WP_Comment_Query( $comment_vars ) )->max_num_pages;
-	$current = ! empty( $comment_vars['paged'] ) ? $comment_vars['paged'] : null;
+    $total   = ( new WP_Comment_Query( $comment_vars ) )->max_num_pages;
+    $current = ! empty( $comment_vars['paged'] ) ? $comment_vars['paged'] : null;
 
-	// Render links.
-	$content = paginate_comments_links(
-		array(
-			'total'     => $total,
-			'current'   => $current,
-			'prev_next' => false,
-			'echo'      => false,
-		)
-	);
+    // Render links.
+    $content = paginate_comments_links(
+        array(
+            'total'     => $total,
+            'current'   => $current,
+            'prev_next' => false,
+            'echo'      => false,
+        )
+    );
 
-	if ( empty( $content ) ) {
-		return '';
-	}
+    if ( empty( $content ) ) {
+        return '';
+    }
 
-	$wrapper_attributes = get_block_wrapper_attributes();
+    $wrapper_attributes = get_block_wrapper_attributes();
 
-	return sprintf(
-		'<div %1$s>%2$s</div>',
-		$wrapper_attributes,
-		$content
-	);
+    return sprintf(
+        '<div %1$s>%2$s</div>',
+        $wrapper_attributes,
+        $content
+    );
 }
 
 /**
@@ -56,11 +56,11 @@ function render_block_core_comments_pagination_numbers( $attributes, $content, $
  * @since 6.0.0
  */
 function register_block_core_comments_pagination_numbers() {
-	register_block_type_from_metadata(
-		__DIR__ . '/comments-pagination-numbers',
-		array(
-			'render_callback' => 'render_block_core_comments_pagination_numbers',
-		)
-	);
+    register_block_type_from_metadata(
+        __DIR__ . '/comments-pagination-numbers',
+        array(
+            'render_callback' => 'render_block_core_comments_pagination_numbers',
+        )
+    );
 }
 add_action( 'init', 'register_block_core_comments_pagination_numbers' );

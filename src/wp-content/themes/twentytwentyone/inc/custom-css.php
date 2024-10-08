@@ -22,21 +22,21 @@
  */
 function twenty_twenty_one_generate_css( $selector, $style, $value, $prefix = '', $suffix = '', $display = true ) {
 
-	// Bail early if there is no $selector elements or properties and $value.
-	if ( ! $value || ! $selector ) {
-		return '';
-	}
+    // Bail early if there is no $selector elements or properties and $value.
+    if ( ! $value || ! $selector ) {
+        return '';
+    }
 
-	$css = sprintf( '%s { %s: %s; }', $selector, $style, $prefix . $value . $suffix );
+    $css = sprintf( '%s { %s: %s; }', $selector, $style, $prefix . $value . $suffix );
 
-	if ( $display ) {
-		/*
-		 * Note to reviewers: $css contains auto-generated CSS.
-		 * It is included inside <style> tags and can only be interpreted as CSS on the browser.
-		 * Using wp_strip_all_tags() here is sufficient escaping to avoid
-		 * malicious attempts to close </style> and open a <script>.
-		 */
-		echo wp_strip_all_tags( $css ); // phpcs:ignore WordPress.Security.EscapeOutput
-	}
-	return $css;
+    if ( $display ) {
+        /*
+         * Note to reviewers: $css contains auto-generated CSS.
+         * It is included inside <style> tags and can only be interpreted as CSS on the browser.
+         * Using wp_strip_all_tags() here is sufficient escaping to avoid
+         * malicious attempts to close </style> and open a <script>.
+         */
+        echo wp_strip_all_tags( $css ); // phpcs:ignore WordPress.Security.EscapeOutput
+    }
+    return $css;
 }

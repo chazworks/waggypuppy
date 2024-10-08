@@ -10,7 +10,7 @@ $config_file_path = $argv[1];
 $multisite        = in_array( 'run_ms_tests', $argv, true );
 
 if ( ! defined( 'WP_RUN_CORE_TESTS' ) && in_array( 'run_core_tests', $argv, true ) ) {
-	define( 'WP_RUN_CORE_TESTS', true );
+    define( 'WP_RUN_CORE_TESTS', true );
 }
 
 define( 'WP_INSTALLING', true );
@@ -26,7 +26,7 @@ require_once __DIR__ . '/functions.php';
 
 // Set the theme to our special empty theme, to avoid interference from the current Twenty* theme.
 if ( ! defined( 'WP_DEFAULT_THEME' ) ) {
-	define( 'WP_DEFAULT_THEME', 'default' );
+    define( 'WP_DEFAULT_THEME', 'default' );
 }
 
 tests_reset__SERVER();
@@ -54,9 +54,9 @@ register_theme_directory( __DIR__ . '/../data/themedir1' );
  * was deprecated in MySQL (and MariaDB) 5.5.3, and removed in 5.7.
  */
 if ( version_compare( $wpdb->db_version(), '5.5.3', '>=' ) ) {
-	$wpdb->query( 'SET default_storage_engine = InnoDB' );
+    $wpdb->query( 'SET default_storage_engine = InnoDB' );
 } else {
-	$wpdb->query( 'SET storage_engine = InnoDB' );
+    $wpdb->query( 'SET storage_engine = InnoDB' );
 }
 $wpdb->select( DB_NAME, $wpdb->dbh );
 
@@ -65,17 +65,17 @@ echo 'Installing...' . PHP_EOL;
 $wpdb->query( 'SET foreign_key_checks = 0' );
 foreach ( $wpdb->tables() as $table => $prefixed_table ) {
 	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$wpdb->query( "DROP TABLE IF EXISTS $prefixed_table" );
+    $wpdb->query( "DROP TABLE IF EXISTS $prefixed_table" );
 }
 
 foreach ( $wpdb->tables( 'ms_global' ) as $table => $prefixed_table ) {
 	// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-	$wpdb->query( "DROP TABLE IF EXISTS $prefixed_table" );
+    $wpdb->query( "DROP TABLE IF EXISTS $prefixed_table" );
 
-	// We need to create references to ms global tables.
-	if ( $multisite ) {
-		$wpdb->$table = $prefixed_table;
-	}
+    // We need to create references to ms global tables.
+    if ( $multisite ) {
+        $wpdb->$table = $prefixed_table;
+    }
 }
 $wpdb->query( 'SET foreign_key_checks = 1' );
 
@@ -86,24 +86,24 @@ wp_install( WP_TESTS_TITLE, 'admin', WP_TESTS_EMAIL, true, null, 'password' );
 
 // Delete dummy permalink structure, as prefilled above.
 if ( ! is_multisite() ) {
-	delete_option( 'permalink_structure' );
+    delete_option( 'permalink_structure' );
 }
 remove_action( 'populate_options', '_set_default_permalink_structure_for_tests' );
 
 if ( $multisite ) {
-	echo 'Installing network...' . PHP_EOL;
+    echo 'Installing network...' . PHP_EOL;
 
-	define( 'WP_INSTALLING_NETWORK', true );
+    define( 'WP_INSTALLING_NETWORK', true );
 
-	$title             = WP_TESTS_TITLE . ' Network';
-	$subdomain_install = false;
+    $title             = WP_TESTS_TITLE . ' Network';
+    $subdomain_install = false;
 
-	install_network();
-	$error = populate_network( 1, WP_TESTS_DOMAIN, WP_TESTS_EMAIL, $title, '/', $subdomain_install );
+    install_network();
+    $error = populate_network( 1, WP_TESTS_DOMAIN, WP_TESTS_EMAIL, $title, '/', $subdomain_install );
 
-	if ( is_wp_error( $error ) ) {
-		wp_die( $error );
-	}
+    if ( is_wp_error( $error ) ) {
+        wp_die( $error );
+    }
 
-	$wp_rewrite->set_permalink_structure( '' );
+    $wp_rewrite->set_permalink_structure( '' );
 }

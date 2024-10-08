@@ -19,7 +19,7 @@ require_once ABSPATH . WPINC . '/class-wp-object-cache.php';
  * @global WP_Object_Cache $wp_object_cache
  */
 function wp_cache_init() {
-	$GLOBALS['wp_object_cache'] = new WP_Object_Cache();
+    $GLOBALS['wp_object_cache'] = new WP_Object_Cache();
 }
 
 /**
@@ -39,9 +39,9 @@ function wp_cache_init() {
  * @return bool True on success, false if cache key and group already exist.
  */
 function wp_cache_add( $key, $data, $group = '', $expire = 0 ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->add( $key, $data, $group, (int) $expire );
+    return $wp_object_cache->add( $key, $data, $group, (int) $expire );
 }
 
 /**
@@ -60,9 +60,9 @@ function wp_cache_add( $key, $data, $group = '', $expire = 0 ) {
  *                true on success, or false if cache key and group already exist.
  */
 function wp_cache_add_multiple( array $data, $group = '', $expire = 0 ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->add_multiple( $data, $group, $expire );
+    return $wp_object_cache->add_multiple( $data, $group, $expire );
 }
 
 /**
@@ -82,9 +82,9 @@ function wp_cache_add_multiple( array $data, $group = '', $expire = 0 ) {
  * @return bool True if contents were replaced, false if original value does not exist.
  */
 function wp_cache_replace( $key, $data, $group = '', $expire = 0 ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->replace( $key, $data, $group, (int) $expire );
+    return $wp_object_cache->replace( $key, $data, $group, (int) $expire );
 }
 
 /**
@@ -106,9 +106,9 @@ function wp_cache_replace( $key, $data, $group = '', $expire = 0 ) {
  * @return bool True on success, false on failure.
  */
 function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->set( $key, $data, $group, (int) $expire );
+    return $wp_object_cache->set( $key, $data, $group, (int) $expire );
 }
 
 /**
@@ -127,9 +127,9 @@ function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
  *                true on success, or false on failure.
  */
 function wp_cache_set_multiple( array $data, $group = '', $expire = 0 ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->set_multiple( $data, $group, $expire );
+    return $wp_object_cache->set_multiple( $data, $group, $expire );
 }
 
 /**
@@ -149,9 +149,9 @@ function wp_cache_set_multiple( array $data, $group = '', $expire = 0 ) {
  * @return mixed|false The cache contents on success, false on failure to retrieve contents.
  */
 function wp_cache_get( $key, $group = '', $force = false, &$found = null ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->get( $key, $group, $force, $found );
+    return $wp_object_cache->get( $key, $group, $force, $found );
 }
 
 /**
@@ -170,9 +170,9 @@ function wp_cache_get( $key, $group = '', $force = false, &$found = null ) {
  *               the cache contents on success, or false on failure.
  */
 function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->get_multiple( $keys, $group, $force );
+    return $wp_object_cache->get_multiple( $keys, $group, $force );
 }
 
 /**
@@ -188,9 +188,9 @@ function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
  * @return bool True on successful removal, false on failure.
  */
 function wp_cache_delete( $key, $group = '' ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->delete( $key, $group );
+    return $wp_object_cache->delete( $key, $group );
 }
 
 /**
@@ -207,9 +207,9 @@ function wp_cache_delete( $key, $group = '' ) {
  *                true on success, or false if the contents were not deleted.
  */
 function wp_cache_delete_multiple( array $keys, $group = '' ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->delete_multiple( $keys, $group );
+    return $wp_object_cache->delete_multiple( $keys, $group );
 }
 
 /**
@@ -227,9 +227,9 @@ function wp_cache_delete_multiple( array $keys, $group = '' ) {
  * @return int|false The item's new value on success, false on failure.
  */
 function wp_cache_incr( $key, $offset = 1, $group = '' ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->incr( $key, $offset, $group );
+    return $wp_object_cache->incr( $key, $offset, $group );
 }
 
 /**
@@ -247,9 +247,9 @@ function wp_cache_incr( $key, $offset = 1, $group = '' ) {
  * @return int|false The item's new value on success, false on failure.
  */
 function wp_cache_decr( $key, $offset = 1, $group = '' ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->decr( $key, $offset, $group );
+    return $wp_object_cache->decr( $key, $offset, $group );
 }
 
 /**
@@ -263,9 +263,9 @@ function wp_cache_decr( $key, $offset = 1, $group = '' ) {
  * @return bool True on success, false on failure.
  */
 function wp_cache_flush() {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->flush();
+    return $wp_object_cache->flush();
 }
 
 /**
@@ -278,7 +278,7 @@ function wp_cache_flush() {
  * @return bool True on success, false on failure.
  */
 function wp_cache_flush_runtime() {
-	return wp_cache_flush();
+    return wp_cache_flush();
 }
 
 /**
@@ -296,9 +296,9 @@ function wp_cache_flush_runtime() {
  * @return bool True if group was flushed, false otherwise.
  */
 function wp_cache_flush_group( $group ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	return $wp_object_cache->flush_group( $group );
+    return $wp_object_cache->flush_group( $group );
 }
 
 /**
@@ -312,18 +312,18 @@ function wp_cache_flush_group( $group ) {
  * @return bool True if the feature is supported, false otherwise.
  */
 function wp_cache_supports( $feature ) {
-	switch ( $feature ) {
-		case 'add_multiple':
-		case 'set_multiple':
-		case 'get_multiple':
-		case 'delete_multiple':
-		case 'flush_runtime':
-		case 'flush_group':
-			return true;
+    switch ( $feature ) {
+        case 'add_multiple':
+        case 'set_multiple':
+        case 'get_multiple':
+        case 'delete_multiple':
+        case 'flush_runtime':
+        case 'flush_group':
+            return true;
 
-		default:
-			return false;
-	}
+        default:
+            return false;
+    }
 }
 
 /**
@@ -340,7 +340,7 @@ function wp_cache_supports( $feature ) {
  * @return true Always returns true.
  */
 function wp_cache_close() {
-	return true;
+    return true;
 }
 
 /**
@@ -354,9 +354,9 @@ function wp_cache_close() {
  * @param string|string[] $groups A group or an array of groups to add.
  */
 function wp_cache_add_global_groups( $groups ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	$wp_object_cache->add_global_groups( $groups );
+    $wp_object_cache->add_global_groups( $groups );
 }
 
 /**
@@ -367,7 +367,7 @@ function wp_cache_add_global_groups( $groups ) {
  * @param string|string[] $groups A group or an array of groups to add.
  */
 function wp_cache_add_non_persistent_groups( $groups ) {
-	// Default cache doesn't persist so nothing to do here.
+    // Default cache doesn't persist so nothing to do here.
 }
 
 /**
@@ -383,9 +383,9 @@ function wp_cache_add_non_persistent_groups( $groups ) {
  * @param int $blog_id Site ID.
  */
 function wp_cache_switch_to_blog( $blog_id ) {
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	$wp_object_cache->switch_to_blog( $blog_id );
+    $wp_object_cache->switch_to_blog( $blog_id );
 }
 
 /**
@@ -407,9 +407,9 @@ function wp_cache_switch_to_blog( $blog_id ) {
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  */
 function wp_cache_reset() {
-	_deprecated_function( __FUNCTION__, '3.5.0', 'wp_cache_switch_to_blog()' );
+    _deprecated_function( __FUNCTION__, '3.5.0', 'wp_cache_switch_to_blog()' );
 
-	global $wp_object_cache;
+    global $wp_object_cache;
 
-	$wp_object_cache->reset();
+    $wp_object_cache->reset();
 }

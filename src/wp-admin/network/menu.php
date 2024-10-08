@@ -13,32 +13,32 @@ $menu[2] = array( __( 'Dashboard' ), 'manage_network', 'index.php', '', 'menu-to
 $submenu['index.php'][0] = array( __( 'Home' ), 'read', 'index.php' );
 
 if ( current_user_can( 'update_core' ) ) {
-	$cap = 'update_core';
+    $cap = 'update_core';
 } elseif ( current_user_can( 'update_plugins' ) ) {
-	$cap = 'update_plugins';
+    $cap = 'update_plugins';
 } elseif ( current_user_can( 'update_themes' ) ) {
-	$cap = 'update_themes';
+    $cap = 'update_themes';
 } else {
-	$cap = 'update_languages';
+    $cap = 'update_languages';
 }
 
 $update_data = wp_get_update_data();
 if ( $update_data['counts']['total'] ) {
-	$submenu['index.php'][10] = array(
-		sprintf(
-			/* translators: %s: Number of available updates. */
-			__( 'Updates %s' ),
-			sprintf(
-				'<span class="update-plugins count-%s"><span class="update-count">%s</span></span>',
-				$update_data['counts']['total'],
-				number_format_i18n( $update_data['counts']['total'] )
-			)
-		),
-		$cap,
-		'update-core.php',
-	);
+    $submenu['index.php'][10] = array(
+        sprintf(
+            /* translators: %s: Number of available updates. */
+            __( 'Updates %s' ),
+            sprintf(
+                '<span class="update-plugins count-%s"><span class="update-count">%s</span></span>',
+                $update_data['counts']['total'],
+                number_format_i18n( $update_data['counts']['total'] )
+            )
+        ),
+        $cap,
+        'update-core.php',
+    );
 } else {
-	$submenu['index.php'][10] = array( __( 'Updates' ), $cap, 'update-core.php' );
+    $submenu['index.php'][10] = array( __( 'Updates' ), $cap, 'update-core.php' );
 }
 
 unset( $cap );
@@ -57,50 +57,50 @@ $submenu['users.php'][5]  = array( __( 'All Users' ), 'manage_network_users', 'u
 $submenu['users.php'][10] = array( __( 'Add New User' ), 'create_users', 'user-new.php' );
 
 if ( current_user_can( 'update_themes' ) && $update_data['counts']['themes'] ) {
-	$menu[15] = array(
-		sprintf(
-			/* translators: %s: Number of available theme updates. */
-			__( 'Themes %s' ),
-			sprintf(
-				'<span class="update-plugins count-%s"><span class="theme-count">%s</span></span>',
-				$update_data['counts']['themes'],
-				number_format_i18n( $update_data['counts']['themes'] )
-			)
-		),
-		'manage_network_themes',
-		'themes.php',
-		'',
-		'menu-top menu-icon-appearance',
-		'menu-appearance',
-		'dashicons-admin-appearance',
-	);
+    $menu[15] = array(
+        sprintf(
+            /* translators: %s: Number of available theme updates. */
+            __( 'Themes %s' ),
+            sprintf(
+                '<span class="update-plugins count-%s"><span class="theme-count">%s</span></span>',
+                $update_data['counts']['themes'],
+                number_format_i18n( $update_data['counts']['themes'] )
+            )
+        ),
+        'manage_network_themes',
+        'themes.php',
+        '',
+        'menu-top menu-icon-appearance',
+        'menu-appearance',
+        'dashicons-admin-appearance',
+    );
 } else {
-	$menu[15] = array( __( 'Themes' ), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
+    $menu[15] = array( __( 'Themes' ), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
 }
 $submenu['themes.php'][5]  = array( __( 'Installed Themes' ), 'manage_network_themes', 'themes.php' );
 $submenu['themes.php'][10] = array( __( 'Add New Theme' ), 'install_themes', 'theme-install.php' );
 $submenu['themes.php'][15] = array( __( 'Theme File Editor' ), 'edit_themes', 'theme-editor.php' );
 
 if ( current_user_can( 'update_plugins' ) && $update_data['counts']['plugins'] ) {
-	$menu[20] = array(
-		sprintf(
-			/* translators: %s: Number of available plugin updates. */
-			__( 'Plugins %s' ),
-			sprintf(
-				'<span class="update-plugins count-%s"><span class="plugin-count">%s</span></span>',
-				$update_data['counts']['plugins'],
-				number_format_i18n( $update_data['counts']['plugins'] )
-			)
-		),
-		'manage_network_plugins',
-		'plugins.php',
-		'',
-		'menu-top menu-icon-plugins',
-		'menu-plugins',
-		'dashicons-admin-plugins',
-	);
+    $menu[20] = array(
+        sprintf(
+            /* translators: %s: Number of available plugin updates. */
+            __( 'Plugins %s' ),
+            sprintf(
+                '<span class="update-plugins count-%s"><span class="plugin-count">%s</span></span>',
+                $update_data['counts']['plugins'],
+                number_format_i18n( $update_data['counts']['plugins'] )
+            )
+        ),
+        'manage_network_plugins',
+        'plugins.php',
+        '',
+        'menu-top menu-icon-plugins',
+        'menu-plugins',
+        'dashicons-admin-plugins',
+    );
 } else {
-	$menu[20] = array( __( 'Plugins' ), 'manage_network_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'dashicons-admin-plugins' );
+    $menu[20] = array( __( 'Plugins' ), 'manage_network_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'dashicons-admin-plugins' );
 }
 $submenu['plugins.php'][5]  = array( __( 'Installed Plugins' ), 'manage_network_plugins', 'plugins.php' );
 $submenu['plugins.php'][10] = array( __( 'Add New Plugin' ), 'install_plugins', 'plugin-install.php' );
@@ -108,8 +108,8 @@ $submenu['plugins.php'][15] = array( __( 'Plugin File Editor' ), 'edit_plugins',
 
 $menu[25] = array( __( 'Settings' ), 'manage_network_options', 'settings.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'dashicons-admin-settings' );
 if ( defined( 'MULTISITE' ) && defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ) {
-	$submenu['settings.php'][5]  = array( __( 'Network Settings' ), 'manage_network_options', 'settings.php' );
-	$submenu['settings.php'][10] = array( __( 'Network Setup' ), 'setup_network', 'setup.php' );
+    $submenu['settings.php'][5]  = array( __( 'Network Settings' ), 'manage_network_options', 'settings.php' );
+    $submenu['settings.php'][10] = array( __( 'Network Setup' ), 'setup_network', 'setup.php' );
 }
 unset( $update_data );
 

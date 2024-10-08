@@ -20,11 +20,11 @@
  * @return WP_Interactivity_API The main WP_Interactivity_API instance.
  */
 function wp_interactivity(): WP_Interactivity_API {
-	global $wp_interactivity;
-	if ( ! ( $wp_interactivity instanceof WP_Interactivity_API ) ) {
-		$wp_interactivity = new WP_Interactivity_API();
-	}
-	return $wp_interactivity;
+    global $wp_interactivity;
+    if ( ! ( $wp_interactivity instanceof WP_Interactivity_API ) ) {
+        $wp_interactivity = new WP_Interactivity_API();
+    }
+    return $wp_interactivity;
 }
 
 /**
@@ -37,7 +37,7 @@ function wp_interactivity(): WP_Interactivity_API {
  * @return string The processed HTML content. It returns the original content when the HTML contains unbalanced tags.
  */
 function wp_interactivity_process_directives( string $html ): string {
-	return wp_interactivity()->process_directives( $html );
+    return wp_interactivity()->process_directives( $html );
 }
 
 /**
@@ -60,7 +60,7 @@ function wp_interactivity_process_directives( string $html ): string {
  *               provided.
  */
 function wp_interactivity_state( ?string $store_namespace = null, array $state = array() ): array {
-	return wp_interactivity()->state( $store_namespace, $state );
+    return wp_interactivity()->state( $store_namespace, $state );
 }
 
 /**
@@ -79,7 +79,7 @@ function wp_interactivity_state( ?string $store_namespace = null, array $state =
  *               $config argument was provided.
  */
 function wp_interactivity_config( string $store_namespace, array $config = array() ): array {
-	return wp_interactivity()->config( $store_namespace, $config );
+    return wp_interactivity()->config( $store_namespace, $config );
 }
 
 /**
@@ -102,10 +102,10 @@ function wp_interactivity_config( string $store_namespace, array $config = array
  *                the store namespace if specified.
  */
 function wp_interactivity_data_wp_context( array $context, string $store_namespace = '' ): string {
-	return 'data-wp-context=\'' .
-		( $store_namespace ? $store_namespace . '::' : '' ) .
-		( empty( $context ) ? '{}' : wp_json_encode( $context, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) ) .
-		'\'';
+    return 'data-wp-context=\'' .
+        ( $store_namespace ? $store_namespace . '::' : '' ) .
+        ( empty( $context ) ? '{}' : wp_json_encode( $context, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) ) .
+        '\'';
 }
 
 /**
@@ -123,7 +123,7 @@ function wp_interactivity_data_wp_context( array $context, string $store_namespa
  * @return array The context for the specified store namespace.
  */
 function wp_interactivity_get_context( ?string $store_namespace = null ): array {
-	return wp_interactivity()->get_context( $store_namespace );
+    return wp_interactivity()->get_context( $store_namespace );
 }
 
 /**
@@ -136,5 +136,5 @@ function wp_interactivity_get_context( ?string $store_namespace = null ): array 
  * @return array{attributes: array<string, string|bool>}|null Current element.
  */
 function wp_interactivity_get_element(): ?array {
-	return wp_interactivity()->get_element();
+    return wp_interactivity()->get_element();
 }

@@ -8,7 +8,7 @@
 
 // Don't load directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
+    die( '-1' );
 }
 
 /**
@@ -22,46 +22,46 @@ global $hook_suffix;
 <div class="clear"></div></div><!-- wpcontent -->
 
 <div id="wpfooter" role="contentinfo">
-	<?php
-	/**
-	 * Fires after the opening tag for the admin footer.
-	 *
-	 * @since 2.5.0
-	 */
-	do_action( 'in_admin_footer' );
-	?>
-	<p id="footer-left" class="alignleft">
-		<?php
-		$text = __( 'Thank you for creating with waggypuppy!' );
+    <?php
+    /**
+     * Fires after the opening tag for the admin footer.
+     *
+     * @since 2.5.0
+     */
+    do_action( 'in_admin_footer' );
+    ?>
+    <p id="footer-left" class="alignleft">
+        <?php
+        $text = __( 'Thank you for creating with waggypuppy!' );
 
-		/**
-		 * Filters the "Thank you" text displayed in the admin footer.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param string $text The content that will be printed.
-		 */
-		echo apply_filters( 'admin_footer_text', '<span id="footer-thankyou">' . $text . '</span>' );
-		?>
-	</p>
-	<p id="footer-upgrade" class="alignright">
-		<?php
-		/**
-		 * Filters the version/update text displayed in the admin footer.
-		 *
-		 * WordPress prints the current version and update information,
-		 * using core_update_footer() at priority 10.
-		 *
-		 * @since 2.3.0
-		 *
-		 * @see core_update_footer()
-		 *
-		 * @param string $content The content that will be printed.
-		 */
-		echo apply_filters( 'update_footer', '' );
-		?>
-	</p>
-	<div class="clear"></div>
+        /**
+         * Filters the "Thank you" text displayed in the admin footer.
+         *
+         * @since 2.8.0
+         *
+         * @param string $text The content that will be printed.
+         */
+        echo apply_filters( 'admin_footer_text', '<span id="footer-thankyou">' . $text . '</span>' );
+        ?>
+    </p>
+    <p id="footer-upgrade" class="alignright">
+        <?php
+        /**
+         * Filters the version/update text displayed in the admin footer.
+         *
+         * WordPress prints the current version and update information,
+         * using core_update_footer() at priority 10.
+         *
+         * @since 2.3.0
+         *
+         * @see core_update_footer()
+         *
+         * @param string $content The content that will be printed.
+         */
+        echo apply_filters( 'update_footer', '' );
+        ?>
+    </p>
+    <div class="clear"></div>
 </div>
 <?php
 /**
@@ -102,9 +102,9 @@ do_action( "admin_footer-{$hook_suffix}" ); // phpcs:ignore WordPress.NamingConv
 
 // get_site_option() won't exist when auto upgrading from <= 2.7.
 if ( function_exists( 'get_site_option' )
-	&& false === get_site_option( 'can_compress_scripts' )
+    && false === get_site_option( 'can_compress_scripts' )
 ) {
-	compression_test();
+    compression_test();
 }
 
 ?>
