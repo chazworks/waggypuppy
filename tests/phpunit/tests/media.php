@@ -2372,9 +2372,9 @@ EOF;
         remove_all_filters('wp_calculate_image_sizes');
 
         foreach ($intermediates as $int_size) {
-            $size_array             = $this->get_image_size_array_from_meta($image_meta, $int_size);
-            $image_src              = $image_meta['sizes'][$int_size]['file'];
-            list( $width, $height ) = $size_array;
+            $size_array       = $this->get_image_size_array_from_meta($image_meta, $int_size);
+            $image_src        = $image_meta['sizes'][$int_size]['file'];
+            [$width, $height] = $size_array;
 
             $expected = '(max-width: ' . $width . 'px) 100vw, ' . $width . 'px';
             $sizes    = wp_calculate_image_sizes($size_array, $image_src, $image_meta);

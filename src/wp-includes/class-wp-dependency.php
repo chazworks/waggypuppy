@@ -98,7 +98,7 @@ class _WP_Dependency
      */
     public function __construct(...$args)
     {
-        list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = $args;
+        [$this->handle, $this->src, $this->deps, $this->ver, $this->args] = $args;
         if (! is_array($this->deps)) {
             $this->deps = [];
         }

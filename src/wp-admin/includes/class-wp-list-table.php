@@ -1417,8 +1417,8 @@ class WP_List_Table
      */
     public function get_column_count()
     {
-        list ( $columns, $hidden ) = $this->get_column_info();
-        $hidden                    = array_intersect(array_keys($columns), array_filter($hidden));
+        [$columns, $hidden] = $this->get_column_info();
+        $hidden             = array_intersect(array_keys($columns), array_filter($hidden));
         return count($columns) - count($hidden);
     }
 
@@ -1431,7 +1431,7 @@ class WP_List_Table
      */
     public function print_column_headers($with_id = true)
     {
-        list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
+        [$columns, $hidden, $sortable, $primary] = $this->get_column_info();
 
         $current_url = set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
         $current_url = remove_query_arg('paged', $current_url);
@@ -1581,7 +1581,7 @@ class WP_List_Table
      */
     public function print_table_description()
     {
-        list( $columns, $hidden, $sortable ) = $this->get_column_info();
+        [$columns, $hidden, $sortable] = $this->get_column_info();
 
         if (empty($sortable)) {
             return;
@@ -1805,7 +1805,7 @@ class WP_List_Table
      */
     protected function single_row_columns($item)
     {
-        list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
+        [$columns, $hidden, $sortable, $primary] = $this->get_column_info();
 
         foreach ($columns as $column_name => $column_display_name) {
             $classes = "$column_name column-$column_name";

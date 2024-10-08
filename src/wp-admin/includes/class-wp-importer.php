@@ -105,7 +105,7 @@ class WP_Importer
             if (! empty($results)) {
                 foreach ($results as $r) {
                     // Explode comment_agent key.
-                    list ( $comment_agent_blog_id, $source_comment_id ) = explode('-', $r->comment_agent);
+                    [$comment_agent_blog_id, $source_comment_id] = explode('-', $r->comment_agent);
 
                     $source_comment_id = (int) $source_comment_id;
 

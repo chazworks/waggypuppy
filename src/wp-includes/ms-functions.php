@@ -405,7 +405,7 @@ function is_email_address_unsafe($user_email)
         $banned_names     = array_map('strtolower', $banned_names);
         $normalized_email = strtolower($user_email);
 
-        list( $email_local_part, $email_domain ) = explode('@', $normalized_email);
+        [$email_local_part, $email_domain] = explode('@', $normalized_email);
 
         foreach ($banned_names as $banned_domain) {
             if (! $banned_domain) {

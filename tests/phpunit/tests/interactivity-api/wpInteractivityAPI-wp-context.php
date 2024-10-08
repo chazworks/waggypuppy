@@ -54,12 +54,12 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_sets_a_context_in_a_custom_namespace()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id" }\'>
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -73,7 +73,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_can_set_a_context_in_the_same_tag()
     {
-        $html    = '
+        $html = '
 			<div
 				class="test"
 				data-wp-context=\'myPlugin::{ "id": "some-id" }\'
@@ -82,7 +82,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				Text
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -96,7 +96,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_merges_context_in_the_same_custom_namespace()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id1": "some-id-1" }\'>
 				<div data-wp-context=\'myPlugin::{ "id2": "some-id-2" }\'>
 					<div class="test" data-wp-bind--id="myPlugin::context.id1">Text</div>
@@ -104,7 +104,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
@@ -120,14 +120,14 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_overwrites_context_in_the_same_custom_namespace()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context=\'myPlugin::{ "id": "some-id-2" }\'>
 					<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 				</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
     }
 
@@ -141,7 +141,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_replaces_old_context_after_closing_tag_in_the_same_custom_namespace()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context=\'myPlugin::{ "id": "some-id-2" }\'>
 					<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -149,7 +149,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
@@ -165,7 +165,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_merges_context_in_different_custom_namespaces()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context=\'otherPlugin::{ "id": "some-id-2" }\'>
 					<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -173,7 +173,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
@@ -189,12 +189,12 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_doesnt_throw_on_malformed_context_objects()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ id: "some-id" }\'>
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertNull($p->get_attribute('id'));
     }
 
@@ -208,7 +208,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_doesnt_overwrite_context_on_malformed_context_objects()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context=\'myPlugin::{ id: "some-id-2" }\'>
 					<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -216,7 +216,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
@@ -232,12 +232,12 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_doesnt_throw_on_empty_context()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context="">
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertNull($p->get_attribute('id'));
     }
 
@@ -251,7 +251,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_doesnt_overwrite_context_on_empty_context()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context="">
 					<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -259,7 +259,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
@@ -275,12 +275,12 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_doesnt_throw_on_context_without_value()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context>
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertNull($p->get_attribute('id'));
     }
 
@@ -294,7 +294,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_doesnt_overwrite_context_on_context_without_value()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id-1" }\'>
 				<div data-wp-context>
 					<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
@@ -302,7 +302,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
@@ -317,12 +317,12 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_works_with_multiple_directives()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'myPlugin::{ "id": "some-id" }\' data-wp-context=\'myPlugin::{ "id": "some-id" }\'>
 				<div class="test" data-wp-bind--id="myPlugin::context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -337,12 +337,12 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_doesnt_work_without_any_namespace()
     {
-        $html    = '
+        $html = '
 			<div data-wp-context=\'{ "id": "some-id" }\'>
 				<div class="test" data-wp-bind--id="context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertNull($p->get_attribute('id'));
     }
 
@@ -355,7 +355,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_works_with_default_namespace()
     {
-        $html    = '
+        $html = '
 			<div
 			 data-wp-interactive=\'{ "namespace": "myPlugin" }\'
 			 data-wp-context=\'{ "id": "some-id" }\'
@@ -363,7 +363,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				<div class="test" data-wp-bind--id="context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -376,7 +376,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_overrides_default_namespace()
     {
-        $html    = '
+        $html = '
 			<div
 			 data-wp-interactive=\'{ "namespace": "myPlugin" }\'
 			 data-wp-context=\'otherPlugin::{ "id": "some-id" }\'
@@ -386,7 +386,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -400,7 +400,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_overrides_default_namespace_with_same_namespace()
     {
-        $html    = '
+        $html = '
 			<div
 			 data-wp-interactive=\'{ "namespace": "myPlugin" }\'
 			 data-wp-context=\'myPlugin::{ "id": "some-id" }\'
@@ -408,7 +408,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				<div class="test" data-wp-bind--id="context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -422,7 +422,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_works_with_nested_default_namespaces()
     {
-        $html    = '
+        $html = '
 			<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 				<div data-wp-context=\'{ "id": "some-id" }\'>
 					<div data-wp-interactive=\'{ "namespace": "otherPlugin" }\'>
@@ -436,7 +436,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				<div class="test" data-wp-bind--id="context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('other-id', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -456,7 +456,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_works_with_default_namespace_in_the_same_tag()
     {
-        $html    = '
+        $html = '
 			<div
 			 class="test"
 			 data-wp-interactive=\'{ "namespace": "myPlugin" }\'
@@ -466,7 +466,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				Text
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -480,7 +480,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_merges_context_in_the_same_default_namespace()
     {
-        $html    = '
+        $html = '
 			<div
 				data-wp-interactive=\'{ "namespace": "myPlugin" }\'
 				data-wp-context=\'{ "id1": "some-id-1" }\'
@@ -491,7 +491,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-1', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
@@ -507,7 +507,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_overwrites_context_in_the_same_default_namespace()
     {
-        $html    = '
+        $html = '
 			<div
 				data-wp-interactive=\'{ "namespace": "myPlugin" }\'
 				data-wp-context=\'{ "id": "some-id-1" }\'
@@ -517,7 +517,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
     }
 
@@ -531,7 +531,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
      */
     public function test_wp_context_directive_replaces_old_context_after_closing_tag_in_the_same_default_namespace()
     {
-        $html    = '
+        $html = '
 			<div
 				data-wp-interactive=\'{ "namespace": "myPlugin" }\'
 				data-wp-context=\'{ "id": "some-id-1" }\'
@@ -542,7 +542,7 @@ class Tests_WP_Interactivity_API_WP_Context extends WP_UnitTestCase
 				<div class="test" data-wp-bind--id="context.id">Text</div>
 			</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id-2', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id-1', $p->get_attribute('id'));

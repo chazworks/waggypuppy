@@ -172,12 +172,12 @@ class WP
             $error               = '404';
             $this->did_permalink = true;
 
-            $pathinfo         = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-            list( $pathinfo ) = explode('?', $pathinfo);
-            $pathinfo         = str_replace('%', '%25', $pathinfo);
+            $pathinfo   = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+            [$pathinfo] = explode('?', $pathinfo);
+            $pathinfo   = str_replace('%', '%25', $pathinfo);
 
-            list( $req_uri ) = explode('?', $_SERVER['REQUEST_URI']);
-            $self            = $_SERVER['PHP_SELF'];
+            [$req_uri] = explode('?', $_SERVER['REQUEST_URI']);
+            $self      = $_SERVER['PHP_SELF'];
 
             $home_path       = parse_url(home_url(), PHP_URL_PATH);
             $home_path_regex = '';

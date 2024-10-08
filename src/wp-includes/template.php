@@ -682,9 +682,9 @@ function get_attachment_template()
 
     if ($attachment) {
         if (str_contains($attachment->post_mime_type, '/')) {
-            list( $type, $subtype ) = explode('/', $attachment->post_mime_type);
+            [$type, $subtype] = explode('/', $attachment->post_mime_type);
         } else {
-            list( $type, $subtype ) = [$attachment->post_mime_type, ''];
+            [$type, $subtype] = [$attachment->post_mime_type, ''];
         }
 
         if (! empty($subtype)) {

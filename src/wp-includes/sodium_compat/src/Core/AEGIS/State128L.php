@@ -242,21 +242,21 @@ class ParagonIE_Sodium_Core_AEGIS_State128L
            S'6 = AESRound(S5, S6)
            S'7 = AESRound(S6, S7)
          */
-        list($s_0, $s_1) = ParagonIE_Sodium_Core_AES::doubleRound(
+        [$s_0, $s_1] = ParagonIE_Sodium_Core_AES::doubleRound(
             $this->state[7], $this->state[0] ^ $m0,
             $this->state[0], $this->state[1]
         );
 
-        list($s_2, $s_3) = ParagonIE_Sodium_Core_AES::doubleRound(
+        [$s_2, $s_3] = ParagonIE_Sodium_Core_AES::doubleRound(
             $this->state[1], $this->state[2],
             $this->state[2], $this->state[3]
         );
 
-        list($s_4, $s_5) = ParagonIE_Sodium_Core_AES::doubleRound(
+        [$s_4, $s_5] = ParagonIE_Sodium_Core_AES::doubleRound(
             $this->state[3], $this->state[4] ^ $m1,
             $this->state[4], $this->state[5]
         );
-        list($s_6, $s_7) = ParagonIE_Sodium_Core_AES::doubleRound(
+        [$s_6, $s_7] = ParagonIE_Sodium_Core_AES::doubleRound(
             $this->state[5], $this->state[6],
             $this->state[6], $this->state[7]
         );

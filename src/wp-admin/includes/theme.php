@@ -1185,7 +1185,7 @@ function resume_theme($theme, $redirect = '')
 {
     global $wp_stylesheet_path, $wp_template_path;
 
-    list( $extension ) = explode('/', $theme);
+    [$extension] = explode('/', $theme);
 
     /*
      * We'll override this later if the theme could be resumed without

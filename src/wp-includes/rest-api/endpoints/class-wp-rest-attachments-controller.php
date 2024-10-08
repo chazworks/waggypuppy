@@ -1222,7 +1222,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                 continue;
             }
 
-            list( , $attr_parts ) = explode(';', $value, 2);
+            [, $attr_parts] = explode(';', $value, 2);
 
             $attr_parts = explode(';', $attr_parts);
             $attributes = [];
@@ -1232,7 +1232,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller
                     continue;
                 }
 
-                list( $key, $value ) = explode('=', $part, 2);
+                [$key, $value] = explode('=', $part, 2);
 
                 $attributes[trim($key)] = trim($value);
             }

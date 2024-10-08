@@ -762,7 +762,7 @@ class Requests {
 		}
 
 		foreach ($headers as $header) {
-			list($key, $value) = explode(':', $header, 2);
+			[$key, $value] = explode(':', $header, 2);
 			$value             = trim($value);
 			preg_replace('#(\s+)#i', ' ', $value);
 			$return->headers[$key] = $value;
@@ -1001,7 +1001,7 @@ class Requests {
 			$flg = ord(substr($gz_data, 3, 1));
 			if ($flg > 0) {
 				if ($flg & 4) {
-					list($xlen) = unpack('v', substr($gz_data, $i, 2));
+					[$xlen] = unpack('v', substr($gz_data, $i, 2));
 					$i         += 2 + $xlen;
 				}
 
@@ -1035,10 +1035,10 @@ class Requests {
 		$huffman_encoded = false;
 
 		// low nibble of first byte should be 0x08
-		list(, $first_nibble) = unpack('h', $gz_data);
+		[, $first_nibble] = unpack('h', $gz_data);
 
 		// First 2 bytes should be divisible by 0x1F
-		list(, $first_two_bytes) = unpack('n', $gz_data);
+		[, $first_two_bytes] = unpack('n', $gz_data);
 
 		if ($first_nibble === 0x08 && ($first_two_bytes % 0x1F) === 0) {
 			$huffman_encoded = true;
@@ -1058,7 +1058,7 @@ class Requests {
 			// Offset 28: 2 bytes, optional field length
 			// Offset 30: Filename field, followed by optional field, followed
 			// immediately by data
-			list(, $general_purpose_flag) = unpack('v', substr($gz_data, 6, 2));
+			[, $general_purpose_flag] = unpack('v', substr($gz_data, 6, 2));
 
 			// If the file has been compressed on the fly, 0x08 bit is set of
 			// the general purpose field. We can use this to differentiate

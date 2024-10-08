@@ -320,7 +320,7 @@ class WP_REST_Request implements ArrayAccess
 
         $parameters = '';
         if (strpos($value, ';')) {
-            list( $value, $parameters ) = explode(';', $value, 2);
+            [$value, $parameters] = explode(';', $value, 2);
         }
 
         $value = strtolower($value);
@@ -329,7 +329,7 @@ class WP_REST_Request implements ArrayAccess
         }
 
         // Parse type and subtype out.
-        list( $type, $subtype ) = explode('/', $value, 2);
+        [$type, $subtype] = explode('/', $value, 2);
 
         $data = compact('value', 'type', 'subtype', 'parameters');
         $data = array_map('trim', $data);

@@ -72,7 +72,7 @@ class Tests_Image_Functions extends WP_UnitTestCase
             $mime_type = $finfo->file($filename, FILEINFO_MIME);
         }
         if (false !== strpos($mime_type, ';')) {
-            list( $mime_type, $charset ) = explode(';', $mime_type, 2);
+            [$mime_type, $charset] = explode(';', $mime_type, 2);
         }
         return $mime_type;
     }

@@ -435,7 +435,7 @@ final class WP_Interactivity_API
             }
 
             if ($p->is_tag_closer()) {
-                list( $opening_tag_name, $directives_prefixes ) = end($tag_stack);
+                [$opening_tag_name, $directives_prefixes] = end($tag_stack);
 
                 if (0 === count($tag_stack) || $opening_tag_name !== $tag_name) {
 
@@ -463,7 +463,7 @@ final class WP_Interactivity_API
 
                     // Checks if there is a server directive processor registered for each directive.
                     foreach ($p->get_attribute_names_with_prefix('data-wp-') as $attribute_name) {
-                        list( $directive_prefix ) = $this->extract_prefix_and_suffix($attribute_name);
+                        [$directive_prefix] = $this->extract_prefix_and_suffix($attribute_name);
                         if (array_key_exists($directive_prefix, self::$directive_processors)) {
                             $directives_prefixes[] = $directive_prefix;
                         }
@@ -571,7 +571,7 @@ final class WP_Interactivity_API
         $default_namespace = end($this->namespace_stack);
         $context           = end($this->context_stack);
 
-        list( $ns, $path ) = $this->extract_directive_value($directive_value, $default_namespace);
+        [$ns, $path] = $this->extract_directive_value($directive_value, $default_namespace);
         if (! $ns || ! $path) {
             /* translators: %s: The directive value referenced. */
             $message = sprintf(__('Namespace or reference path cannot be empty. Directive value referenced: %s'), $directive_value);
@@ -689,7 +689,7 @@ final class WP_Interactivity_API
 
         // Replaces the value and namespace if there is a namespace in the value.
         if (1 === preg_match('/^([\w\-_\/]+)::./', $directive_value)) {
-            list($default_namespace, $directive_value) = explode('::', $directive_value, 2);
+            [$default_namespace, $directive_value] = explode('::', $directive_value, 2);
         }
 
         /*
@@ -791,7 +791,7 @@ final class WP_Interactivity_API
         $namespace_value = end($this->namespace_stack);
 
         // Separates the namespace from the context JSON object.
-        list( $namespace_value, $decoded_json ) = is_string($attribute_value) && ! empty($attribute_value)
+        [$namespace_value, $decoded_json] = is_string($attribute_value) && !empty($attribute_value)
             ? $this->extract_directive_value($attribute_value, $namespace_value)
             : [$namespace_value, null];
 
@@ -831,7 +831,7 @@ final class WP_Interactivity_API
             $all_bind_directives = $p->get_attribute_names_with_prefix('data-wp-bind--');
 
             foreach ($all_bind_directives as $attribute_name) {
-                list( , $bound_attribute ) = $this->extract_prefix_and_suffix($attribute_name);
+                [, $bound_attribute] = $this->extract_prefix_and_suffix($attribute_name);
                 if (empty($bound_attribute)) {
                     return;
                 }
@@ -882,7 +882,7 @@ final class WP_Interactivity_API
             $all_class_directives = $p->get_attribute_names_with_prefix('data-wp-class--');
 
             foreach ($all_class_directives as $attribute_name) {
-                list( , $class_name ) = $this->extract_prefix_and_suffix($attribute_name);
+                [, $class_name] = $this->extract_prefix_and_suffix($attribute_name);
                 if (empty($class_name)) {
                     return;
                 }
@@ -916,7 +916,7 @@ final class WP_Interactivity_API
             $all_style_attributes = $p->get_attribute_names_with_prefix('data-wp-style--');
 
             foreach ($all_style_attributes as $attribute_name) {
-                list( , $style_property ) = $this->extract_prefix_and_suffix($attribute_name);
+                [, $style_property] = $this->extract_prefix_and_suffix($attribute_name);
                 if (empty($style_property)) {
                     continue;
                 }
@@ -980,7 +980,7 @@ final class WP_Interactivity_API
             if (empty(trim($style_assignment))) {
                 continue;
             }
-            list( $name, $value ) = explode(':', $style_assignment);
+            [$name, $value] = explode(':', $style_assignment);
             if (trim($name) !== $style_property_name) {
                 $result[] = trim($name) . ':' . trim($value) . ';';
             }
@@ -1190,8 +1190,8 @@ HTML;
             }
 
             // Extracts the namespace from the directive attribute value.
-            $namespace_value         = end($this->namespace_stack);
-            list( $namespace_value ) = is_string($attribute_value) && ! empty($attribute_value)
+            $namespace_value   = end($this->namespace_stack);
+            [$namespace_value] = is_string($attribute_value) && !empty($attribute_value)
                 ? $this->extract_directive_value($attribute_value, $namespace_value)
                 : [$namespace_value, null];
 

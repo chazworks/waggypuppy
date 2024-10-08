@@ -819,7 +819,7 @@ function deactivate_plugins($plugins, $silent = false, $network_wide = null)
         }
 
         if ($do_blog && wp_is_recovery_mode()) {
-            list( $extension ) = explode('/', $plugin);
+            [$extension] = explode('/', $plugin);
             wp_paused_plugins()->delete($extension);
         }
 
@@ -2518,7 +2518,7 @@ function is_plugin_paused($plugin)
         return false;
     }
 
-    list( $plugin ) = explode('/', $plugin);
+    [$plugin] = explode('/', $plugin);
 
     return array_key_exists($plugin, $GLOBALS['_paused_plugins']);
 }
@@ -2540,7 +2540,7 @@ function wp_get_plugin_error($plugin)
         return false;
     }
 
-    list( $plugin ) = explode('/', $plugin);
+    [$plugin] = explode('/', $plugin);
 
     if (! array_key_exists($plugin, $GLOBALS['_paused_plugins'])) {
         return false;
@@ -2587,7 +2587,7 @@ function resume_plugin($plugin, $redirect = '')
         ob_clean();
     }
 
-    list( $extension ) = explode('/', $plugin);
+    [$extension] = explode('/', $plugin);
 
     $result = wp_paused_plugins()->delete($extension);
 

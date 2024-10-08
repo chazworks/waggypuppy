@@ -1403,7 +1403,7 @@ function update_core($from, $to)
             if ($development_build || version_compare($introduced_version, $old_wp_version, '>')) {
                 $directory = ('/' === $file[strlen($file) - 1]);
 
-                list( $type, $filename ) = explode('/', $file, 2);
+                [$type, $filename] = explode('/', $file, 2);
 
                 // Check to see if the bundled items exist before attempting to copy them.
                 if (! $wp_filesystem->exists($from . $distro . 'wp-content/' . $file)) {

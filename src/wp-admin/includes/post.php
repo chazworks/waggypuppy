@@ -1565,7 +1565,7 @@ function get_sample_permalink_html($post, $new_title = null, $new_slug = null)
         return '';
     }
 
-    list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
+    [$permalink, $post_name] = get_sample_permalink($post->ID, $new_title, $new_slug);
 
     $view_link      = false;
     $preview_target = '';

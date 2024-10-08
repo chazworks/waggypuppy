@@ -1368,13 +1368,13 @@ class WP_REST_Comments_Controller extends WP_REST_Controller
             $date_data = rest_get_date_with_gmt($request['date']);
 
             if (! empty($date_data)) {
-                list( $prepared_comment['comment_date'], $prepared_comment['comment_date_gmt'] ) = $date_data;
+                [$prepared_comment['comment_date'], $prepared_comment['comment_date_gmt']] = $date_data;
             }
         } elseif (! empty($request['date_gmt'])) {
             $date_data = rest_get_date_with_gmt($request['date_gmt'], true);
 
             if (! empty($date_data)) {
-                list( $prepared_comment['comment_date'], $prepared_comment['comment_date_gmt'] ) = $date_data;
+                [$prepared_comment['comment_date'], $prepared_comment['comment_date_gmt']] = $date_data;
             }
         }
 

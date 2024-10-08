@@ -1503,7 +1503,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 						&& ($chapter_string_length < 1000)
 						&& ($chapter_string_length <= (strlen($atom_data) - $mdat_offset - 2))
 						&& preg_match('#^([\x00-\xFF]{2})([\x20-\xFF]+)$#', substr($atom_data, $mdat_offset, $chapter_string_length + 2), $chapter_matches)) {
-							list($dummy, $chapter_string_length_hex, $chapter_string) = $chapter_matches;
+							[$dummy, $chapter_string_length_hex, $chapter_string] = $chapter_matches;
 							$mdat_offset += (2 + $chapter_string_length);
 							@$info['quicktime']['comments']['chapters'][] = $chapter_string;
 
@@ -1939,22 +1939,22 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 								if (preg_match('#\\$GPRMC,([0-9\\.]*),([AV]),([0-9\\.]*),([NS]),([0-9\\.]*),([EW]),([0-9\\.]*),([0-9\\.]*),([0-9]*),([0-9\\.]*),([EW]?)(,[A])?(\\*[0-9A-F]{2})#', $GPS_free_data, $matches)) {
 									$GPS_this_GPRMC = array();
 									$GPS_this_GPRMC_raw = array();
-									list(
-										$GPS_this_GPRMC_raw['gprmc'],
-										$GPS_this_GPRMC_raw['timestamp'],
-										$GPS_this_GPRMC_raw['status'],
-										$GPS_this_GPRMC_raw['latitude'],
-										$GPS_this_GPRMC_raw['latitude_direction'],
-										$GPS_this_GPRMC_raw['longitude'],
-										$GPS_this_GPRMC_raw['longitude_direction'],
-										$GPS_this_GPRMC_raw['knots'],
-										$GPS_this_GPRMC_raw['angle'],
-										$GPS_this_GPRMC_raw['datestamp'],
-										$GPS_this_GPRMC_raw['variation'],
-										$GPS_this_GPRMC_raw['variation_direction'],
-										$dummy,
-										$GPS_this_GPRMC_raw['checksum'],
-									) = $matches;
+									[
+                                        $GPS_this_GPRMC_raw['gprmc'],
+                                        $GPS_this_GPRMC_raw['timestamp'],
+                                        $GPS_this_GPRMC_raw['status'],
+                                        $GPS_this_GPRMC_raw['latitude'],
+                                        $GPS_this_GPRMC_raw['latitude_direction'],
+                                        $GPS_this_GPRMC_raw['longitude'],
+                                        $GPS_this_GPRMC_raw['longitude_direction'],
+                                        $GPS_this_GPRMC_raw['knots'],
+                                        $GPS_this_GPRMC_raw['angle'],
+                                        $GPS_this_GPRMC_raw['datestamp'],
+                                        $GPS_this_GPRMC_raw['variation'],
+                                        $GPS_this_GPRMC_raw['variation_direction'],
+                                        $dummy,
+                                        $GPS_this_GPRMC_raw['checksum'],
+                                    ] = $matches;
 									$GPS_this_GPRMC['raw'] = $GPS_this_GPRMC_raw;
 
 									$hour   = substr($GPS_this_GPRMC['raw']['timestamp'], 0, 2);
@@ -1971,7 +1971,7 @@ $this->warning('incomplete/incorrect handling of "stsd" with Parrot metadata in 
 
 									foreach (array('latitude','longitude') as $latlon) {
 										preg_match('#^([0-9]{1,3})([0-9]{2}\\.[0-9]+)$#', $GPS_this_GPRMC['raw'][$latlon], $matches);
-										list($dummy, $deg, $min) = $matches;
+										[$dummy, $deg, $min] = $matches;
 										$GPS_this_GPRMC[$latlon] = $deg + ($min / 60);
 									}
 									$GPS_this_GPRMC['latitude']  *= (($GPS_this_GPRMC['raw']['latitude_direction']  == 'S') ? -1 : 1);

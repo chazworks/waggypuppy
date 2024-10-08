@@ -3615,7 +3615,7 @@ function wp_update_term_count_now($terms, $taxonomy)
         $object_types = (array) $taxonomy->object_type;
         foreach ($object_types as &$object_type) {
             if (str_starts_with($object_type, 'attachment:')) {
-                list( $object_type ) = explode(':', $object_type);
+                [$object_type] = explode(':', $object_type);
             }
         }
 
@@ -4188,7 +4188,7 @@ function _update_post_term_count($terms, $taxonomy)
     $object_types = (array) $taxonomy->object_type;
 
     foreach ($object_types as &$object_type) {
-        list( $object_type ) = explode(':', $object_type);
+        [$object_type] = explode(':', $object_type);
     }
 
     $object_types = array_unique($object_types);

@@ -1992,7 +1992,7 @@ class wpdb
 
         $host_data = $this->parse_db_host($this->dbhost);
         if ($host_data) {
-            list( $host, $port, $socket, $is_ipv6 ) = $host_data;
+            [$host, $port, $socket, $is_ipv6] = $host_data;
         }
 
         /*
@@ -3276,12 +3276,12 @@ class wpdb
 
         foreach ($columns as $column) {
             if (! empty($column->Collation)) {
-                list( $charset ) = explode('_', $column->Collation);
+                [$charset] = explode('_', $column->Collation);
 
                 $charsets[strtolower($charset)] = true;
             }
 
-            list( $type ) = explode('(', $column->Type);
+            [$type] = explode('(', $column->Type);
 
             // A binary/blob means the whole query gets treated like this.
             if (in_array(strtoupper($type), ['BINARY', 'VARBINARY', 'TINYBLOB', 'MEDIUMBLOB', 'BLOB', 'LONGBLOB'], true)) {
@@ -3383,7 +3383,7 @@ class wpdb
             return false;
         }
 
-        list( $charset ) = explode('_', $this->col_meta[$tablekey][$columnkey]->Collation);
+        [$charset] = explode('_', $this->col_meta[$tablekey][$columnkey]->Collation);
         return $charset;
     }
 

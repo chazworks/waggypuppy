@@ -4603,7 +4603,7 @@ function get_avatar_data($id_or_email, $args = null)
     } elseif (is_string($id_or_email)) {
         if (str_contains($id_or_email, '@md5.gravatar.com')) {
             // MD5 hash.
-            list( $email_hash ) = explode('@', $id_or_email);
+            [$email_hash] = explode('@', $id_or_email);
         } else {
             // Email address.
             $email = $id_or_email;

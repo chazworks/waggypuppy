@@ -236,7 +236,7 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
     public function data_is_wp_version_compatible_with_development_versions()
     {
         // For consistent results, remove possible suffixes.
-        list( $version ) = explode('-', wp_get_wp_version());
+        [$version] = explode('-', wp_get_wp_version());
 
         $version_parts  = explode('.', $version);
         $lower_version  = $version_parts;

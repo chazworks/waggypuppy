@@ -291,7 +291,7 @@ function core_upgrade_preamble()
     if ($updates && (count($updates) > 1 || 'latest' !== $updates[0]->response)) {
         echo '<p>' . __('While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, this mode will be deactivated.') . '</p>';
     } elseif (! $updates) {
-        list( $normalized_version ) = explode('-', $wp_version);
+        [$normalized_version] = explode('-', $wp_version);
         echo '<p>' . sprintf(
             /* translators: 1: URL to About screen, 2: WordPress version. */
             __('<a href="%1$s">Learn more about WordPress %2$s</a>.'),

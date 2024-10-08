@@ -211,7 +211,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table
      */
     public function print_js_template_row()
     {
-        list( $columns, $hidden, , $primary ) = $this->get_column_info();
+        [$columns, $hidden, , $primary] = $this->get_column_info();
 
         echo '<tr data-uuid="{{ data.uuid }}">';
 

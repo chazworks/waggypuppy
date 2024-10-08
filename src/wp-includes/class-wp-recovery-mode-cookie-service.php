@@ -94,7 +94,7 @@ final class WP_Recovery_Mode_Cookie_Service
             return $parts;
         }
 
-        list( , $created_at, $random, $signature ) = $parts;
+        [, $created_at, $random, $signature] = $parts;
 
         if (! ctype_digit($created_at)) {
             return new WP_Error('invalid_created_at', __('Invalid cookie format.'));
@@ -143,7 +143,7 @@ final class WP_Recovery_Mode_Cookie_Service
             return $parts;
         }
 
-        list( , , $random ) = $parts;
+        [, , $random] = $parts;
 
         return sha1($random);
     }

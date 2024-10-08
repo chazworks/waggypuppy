@@ -67,7 +67,7 @@ if (! isset($current_site) || ! isset($current_blog)) {
     if (is_admin()) {
         $path = preg_replace('#(.*)/wp-admin/.*#', '$1/', $path);
     }
-    list( $path ) = explode('?', $path);
+    [$path] = explode('?', $path);
 
     $bootstrap_result = ms_load_current_site_and_network($domain, $path, is_subdomain_install());
 

@@ -56,12 +56,12 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_sets_a_default_namespace_with_object()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -75,12 +75,12 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_sets_a_default_namespace_with_string()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive="myPlugin">
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -94,7 +94,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_replaces_the_previous_default_namespace()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "otherPlugin" }\'>
 							<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 									<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -102,7 +102,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('other-id', $p->get_attribute('id'));
@@ -119,7 +119,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_json_without_namespace_doesnt_replace_the_previous_default_namespace()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div data-wp-interactive=\'{}\'>
 									<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -127,7 +127,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -143,7 +143,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_with_empty_value_doesnt_replace_the_previous_default_namespace()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div data-wp-interactive="">
 									<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -151,7 +151,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -167,7 +167,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_with_invalid_value_doesnt_replace_the_previous_default_namespace()
     {
-        $html    = '
+        $html = '
 				<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 						<div data-wp-interactive="$myPlugin">
 								<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -175,7 +175,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
 						<div class="test" data-wp-bind--id="state.id">Text</div>
 				</div>
 		';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -191,7 +191,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_without_value_doesnt_replace_the_previous_default_namespace()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div data-wp-interactive>
 									<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -199,7 +199,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id', $p->get_attribute('id'));
@@ -214,12 +214,12 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_works_with_multiple_directives()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\' data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
     }
 
@@ -233,12 +233,12 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_namespace_can_be_override_by_custom_one()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div class="test" data-wp-bind--id="otherPlugin::state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('other-id', $p->get_attribute('id'));
     }
 
@@ -252,7 +252,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
      */
     public function test_wp_interactive_set_is_unset_on_closing_tag()
     {
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
@@ -260,12 +260,12 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('some-id', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('other-id', $p->get_attribute('id'));
 
-        $html    = '
+        $html = '
 					<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>
 							<div data-wp-interactive=\'{ "namespace": "otherPlugin" }\'>
 									<div class="test" data-wp-bind--id="state.id">Text</div>
@@ -273,7 +273,7 @@ class Tests_WP_Interactivity_API_WP_Interactive extends WP_UnitTestCase
 							<div class="test" data-wp-bind--id="state.id">Text</div>
 					</div>
 			';
-        list($p) = $this->process_directives($html);
+        [$p]  = $this->process_directives($html);
         $this->assertSame('other-id', $p->get_attribute('id'));
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('some-id', $p->get_attribute('id'));

@@ -987,7 +987,7 @@ class WP_Automatic_Updater
                 }
 
                 // Can only reference the About screen if their update was successful.
-                list( $about_version ) = explode('-', $core_update->current, 2);
+                [$about_version] = explode('-', $core_update->current, 2);
                 /* translators: %s: WordPress version. */
                 $body .= sprintf(__('For more on version %s, see the About WordPress screen:'), $about_version);
                 $body .= "\n" . admin_url('about.php');

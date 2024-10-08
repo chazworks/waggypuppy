@@ -2461,7 +2461,7 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
     $credentials['hostname'] = preg_replace('|\w+://|', '', $credentials['hostname']); // Strip any schemes off.
 
     if (strpos($credentials['hostname'], ':')) {
-        list( $credentials['hostname'], $credentials['port'] ) = explode(':', $credentials['hostname'], 2);
+        [$credentials['hostname'], $credentials['port']] = explode(':', $credentials['hostname'], 2);
         if (! is_numeric($credentials['port'])) {
             unset($credentials['port']);
         }

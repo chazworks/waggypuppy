@@ -295,7 +295,7 @@ if (! function_exists('wp_mail')) :
                         continue;
                     }
                     // Explode them out.
-                    list( $name, $content ) = explode(':', trim($header), 2);
+                    [$name, $content] = explode(':', trim($header), 2);
 
                     // Cleanup crew.
                     $name    = trim($name);
@@ -324,8 +324,8 @@ if (! function_exists('wp_mail')) :
                             break;
                         case 'content-type':
                             if (str_contains($content, ';')) {
-                                list( $type, $charset_content ) = explode(';', $content);
-                                $content_type                   = trim($type);
+                                [$type, $charset_content] = explode(';', $content);
+                                $content_type             = trim($type);
                                 if (false !== stripos($charset_content, 'charset=')) {
                                     $charset = trim(str_replace(['charset=', '"'], '', $charset_content));
                                 } elseif (false !== stripos($charset_content, 'boundary=')) {
@@ -956,7 +956,7 @@ if (! function_exists('wp_parse_auth_cookie')) :
             return false;
         }
 
-        list( $username, $expiration, $token, $hmac ) = $cookie_elements;
+        [$username, $expiration, $token, $hmac] = $cookie_elements;
 
         return compact('username', 'expiration', 'token', 'hmac', 'scheme');
     }

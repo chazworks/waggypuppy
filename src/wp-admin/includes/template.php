@@ -896,7 +896,7 @@ function touch_time($edit = 1, $for_post = 1, $tab_index = 0, $multi = 0)
     ];
 
     foreach ($map as $timeunit => $value) {
-        list( $unit, $curr ) = $value;
+        [$unit, $curr] = $value;
 
         echo '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $unit . '" />' . "\n";
         $cur_timeunit = 'cur_' . $timeunit;

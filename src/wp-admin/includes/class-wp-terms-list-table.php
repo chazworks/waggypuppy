@@ -735,7 +735,7 @@ class WP_Terms_List_Table extends WP_List_Table
                 'posts'       => true,
             ];
 
-            list( $columns ) = $this->get_column_info();
+            [$columns] = $this->get_column_info();
 
             foreach ($columns as $column_name => $column_display_name) {
                 if (isset($core_columns[$column_name])) {

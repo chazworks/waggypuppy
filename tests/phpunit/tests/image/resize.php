@@ -27,7 +27,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/test-image.jpg', 25, 25);
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 
@@ -45,7 +45,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
             $this->fail(sprintf('No PNG support in the editor engine %s on this system.', $this->editor_engine));
         }
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 
@@ -63,7 +63,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
             $this->fail(sprintf('No GIF support in the editor engine %s on this system.', $this->editor_engine));
         }
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 
@@ -85,7 +85,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
 
         $image = $this->resize_helper($file, 25, 25);
 
-        list( $w, $h, $type ) = wp_getimagesize($image);
+        [$w, $h, $type] = wp_getimagesize($image);
 
         unlink($image);
 
@@ -112,7 +112,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
 
         $image = $this->resize_helper($file, 25, 25);
 
-        list( $w, $h, $type ) = wp_getimagesize($image);
+        [$w, $h, $type] = wp_getimagesize($image);
 
         unlink($image);
 
@@ -139,7 +139,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
 
         $image = $this->resize_helper($file, 25, 25);
 
-        list( $w, $h, $type ) = wp_getimagesize($image);
+        [$w, $h, $type] = wp_getimagesize($image);
 
         unlink($image);
 
@@ -162,7 +162,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/2007-06-17DSC_4173.JPG', 128, 96);
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 
@@ -176,7 +176,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/2007-06-17DSC_4173.JPG', 128, 0);
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 
@@ -190,7 +190,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/2007-06-17DSC_4173.JPG', 0, 96);
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 
@@ -204,7 +204,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/2007-06-17DSC_4173.JPG', 150, 150, true);
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 
@@ -218,7 +218,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/2007-06-17DSC_4173.JPG', 150, 100, true);
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 
@@ -232,7 +232,7 @@ abstract class WP_Tests_Image_Resize_UnitTestCase extends WP_Image_UnitTestCase
     {
         $image = $this->resize_helper(DIR_TESTDATA . '/images/2007-06-17DSC_4173.JPG', 50, 150, true);
 
-        list( $w, $h, $type ) = getimagesize($image);
+        [$w, $h, $type] = getimagesize($image);
 
         unlink($image);
 

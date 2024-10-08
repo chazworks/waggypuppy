@@ -46,9 +46,9 @@ class Tests_Basic extends WP_UnitTestCase
      */
     public function test_package_json()
     {
-        $package_json    = file_get_contents(dirname(ABSPATH) . '/package.json');
-        $package_json    = json_decode($package_json, true);
-        list( $version ) = explode('-', $GLOBALS['wp_version']);
+        $package_json = file_get_contents(dirname(ABSPATH) . '/package.json');
+        $package_json = json_decode($package_json, true);
+        [$version]    = explode('-', $GLOBALS['wp_version']);
 
         // package.json uses x.y.z, so fill cleaned $wp_version for .0 releases.
         if (1 === substr_count($version, '.')) {

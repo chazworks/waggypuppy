@@ -455,7 +455,7 @@ class WP_Http_Streams
         if (! empty($cert['extensions']['subjectAltName'])) {
             $match_against = preg_split('/,\s*/', $cert['extensions']['subjectAltName']);
             foreach ($match_against as $match) {
-                list( $match_type, $match_host ) = explode(':', $match);
+                [$match_type, $match_host] = explode(':', $match);
                 if (strtolower(trim($match_type)) === $host_type) { // IP: or DNS:
                     $certificate_hostnames[] = strtolower(trim($match_host));
                 }

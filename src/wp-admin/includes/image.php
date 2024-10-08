@@ -758,7 +758,7 @@ function wp_exif_frac2dec($str)
         return 0;
     }
 
-    list( $numerator, $denominator ) = explode('/', $str);
+    [$numerator, $denominator] = explode('/', $str);
 
     // Both the numerator and the denominator must be numbers.
     if (! is_numeric($numerator) || ! is_numeric($denominator)) {
@@ -783,8 +783,8 @@ function wp_exif_frac2dec($str)
  */
 function wp_exif_date2ts($str)
 {
-    list( $date, $time ) = explode(' ', trim($str));
-    list( $y, $m, $d )   = explode(':', $date);
+    [$date, $time] = explode(' ', trim($str));
+    [$y, $m, $d]   = explode(':', $date);
 
     return strtotime("{$y}-{$m}-{$d} {$time}");
 }
@@ -811,7 +811,7 @@ function wp_read_image_metadata($file)
         return false;
     }
 
-    list( , , $image_type ) = wp_getimagesize($file);
+    [, , $image_type] = wp_getimagesize($file);
 
     /*
      * EXIF contains a bunch of data we'll probably never need formatted in ways

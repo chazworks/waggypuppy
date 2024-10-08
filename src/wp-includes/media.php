@@ -132,7 +132,7 @@ function image_constrain_size_for_editor($width, $height, $size = 'medium', $con
      *                               Possible values are 'display' (like in a theme)
      *                               or 'edit' (like inserting into an editor).
      */
-    list( $max_width, $max_height ) = apply_filters('editor_max_image_size', [$max_width, $max_height], $size, $context);
+    [$max_width, $max_height] = apply_filters('editor_max_image_size', [$max_width, $max_height], $size, $context);
 
     return wp_constrain_dimensions($width, $height, $max_width, $max_height);
 }
@@ -269,7 +269,7 @@ function image_downsize($id, $size = 'medium')
 
     if ($img_url) {
         // We have the actual image size, but might need to further constrain it if content_width is narrower.
-        list( $width, $height ) = image_constrain_size_for_editor($width, $height, $size);
+        [$width, $height] = image_constrain_size_for_editor($width, $height, $size);
 
         return [$img_url, $width, $height, $is_intermediate];
     }
@@ -391,8 +391,8 @@ function set_post_thumbnail_size($width = 0, $height = 0, $crop = false)
 function get_image_tag($id, $alt, $title, $align, $size = 'medium')
 {
 
-    list( $img_src, $width, $height ) = image_downsize($id, $size);
-    $hwstring                         = image_hwstring($width, $height);
+    [$img_src, $width, $height] = image_downsize($id, $size);
+    $hwstring                   = image_hwstring($width, $height);
 
     $title = $title ? 'title="' . esc_attr($title) . '" ' : '';
 
@@ -623,7 +623,7 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
             $crop = ['center', 'center'];
         }
 
-        list( $x, $y ) = $crop;
+        [$x, $y] = $crop;
 
         if ('left' === $x) {
             $s_x = 0;
@@ -648,7 +648,7 @@ function image_resize_dimensions($orig_w, $orig_h, $dest_w, $dest_h, $crop = fal
         $s_x = 0;
         $s_y = 0;
 
-        list( $new_w, $new_h ) = wp_constrain_dimensions($orig_w, $orig_h, $dest_w, $dest_h);
+        [$new_w, $new_h] = wp_constrain_dimensions($orig_w, $orig_h, $dest_w, $dest_h);
     }
 
     if (wp_fuzzy_number_match($new_w, $orig_w) && wp_fuzzy_number_match($new_h, $orig_h)) {
@@ -845,7 +845,7 @@ function image_get_intermediate_size($post_id, $size = 'thumbnail')
         }
 
         // Constrain the width and height attributes to the requested values.
-        list( $data['width'], $data['height'] ) = image_constrain_size_for_editor($data['width'], $data['height'], $size);
+        [$data['width'], $data['height']] = image_constrain_size_for_editor($data['width'], $data['height'], $size);
 
     } elseif (! empty($imagedata['sizes'][$size])) {
         $data = $imagedata['sizes'][$size];
@@ -997,7 +997,7 @@ function wp_get_attachment_image_src($attachment_id, $size = 'thumbnail', $icon 
 
                 $src_file = $icon_dir . '/' . wp_basename($src);
 
-                list( $width, $height ) = wp_getimagesize($src_file);
+                [$width, $height] = wp_getimagesize($src_file);
 
                 $ext = strtolower(substr($src_file, -4));
 
@@ -1006,7 +1006,7 @@ function wp_get_attachment_image_src($attachment_id, $size = 'thumbnail', $icon 
                     $width  = 48;
                     $height = 64;
                 } else {
-                    list( $width, $height ) = wp_getimagesize($src_file);
+                    [$width, $height] = wp_getimagesize($src_file);
                 }
             }
         }
@@ -1080,7 +1080,7 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
     $image = wp_get_attachment_image_src($attachment_id, $size, $icon);
 
     if ($image) {
-        list( $src, $width, $height ) = $image;
+        [$src, $width, $height] = $image;
 
         $attachment = get_post($attachment_id);
         $hwstring   = image_hwstring($width, $height);
@@ -1649,7 +1649,7 @@ function wp_image_file_matches_image_meta($image_location, $image_meta, $attachm
     // Ensure the $image_meta is valid.
     if (isset($image_meta['file']) && strlen($image_meta['file']) > 4) {
         // Remove query args in image URI.
-        list( $image_location ) = explode('?', $image_location);
+        [$image_location] = explode('?', $image_location);
 
         // Check if the relative image path from the image meta is at the end of $image_location.
         if (strrpos($image_location, $image_meta['file']) === strlen($image_location) - strlen($image_meta['file'])) {
@@ -1773,8 +1773,8 @@ function wp_image_add_srcset_and_sizes($image, $image_meta, $attachment_id)
         return $image;
     }
 
-    $image_src         = preg_match('/src="([^"]+)"/', $image, $match_src) ? $match_src[1] : '';
-    list( $image_src ) = explode('?', $image_src);
+    $image_src   = preg_match('/src="([^"]+)"/', $image, $match_src) ? $match_src[1] : '';
+    [$image_src] = explode('?', $image_src);
 
     // Return early if we couldn't get the image source.
     if (! $image_src) {
@@ -1900,7 +1900,7 @@ function wp_filter_content_tags($content, $context = null)
     $iframes = [];
 
     foreach ($matches as $match) {
-        list( $tag, $tag_name ) = $match;
+        [$tag, $tag_name] = $match;
 
         switch ($tag_name) {
             case 'img':
@@ -2055,7 +2055,7 @@ function wp_img_tag_add_auto_sizes(string $image): string
  */
 function wp_sizes_attribute_includes_valid_auto(string $sizes_attr): bool
 {
-    list( $first_size ) = explode(',', $sizes_attr, 2);
+    [$first_size] = explode(',', $sizes_attr, 2);
     return 'auto' === strtolower(trim($first_size, " \t\f\r\n"));
 }
 
@@ -2216,8 +2216,8 @@ function wp_img_tag_add_loading_optimization_attrs($image, $context)
  */
 function wp_img_tag_add_width_and_height_attr($image, $context, $attachment_id)
 {
-    $image_src         = preg_match('/src="([^"]+)"/', $image, $match_src) ? $match_src[1] : '';
-    list( $image_src ) = explode('?', $image_src);
+    $image_src   = preg_match('/src="([^"]+)"/', $image, $match_src) ? $match_src[1] : '';
+    [$image_src] = explode('?', $image_src);
 
     // Return early if we couldn't get the image source.
     if (! $image_src) {
@@ -3193,10 +3193,10 @@ function wp_playlist_shortcode($attr)
         if ($atts['images']) {
             $thumb_id = get_post_thumbnail_id($attachment->ID);
             if (! empty($thumb_id)) {
-                list( $src, $width, $height ) = wp_get_attachment_image_src($thumb_id, 'full');
-                $track['image']               = compact('src', 'width', 'height');
-                list( $src, $width, $height ) = wp_get_attachment_image_src($thumb_id, 'thumbnail');
-                $track['thumb']               = compact('src', 'width', 'height');
+                [$src, $width, $height] = wp_get_attachment_image_src($thumb_id, 'full');
+                $track['image']         = compact('src', 'width', 'height');
+                [$src, $width, $height] = wp_get_attachment_image_src($thumb_id, 'thumbnail');
+                $track['thumb']         = compact('src', 'width', 'height');
             } else {
                 $src            = wp_mime_type_icon($attachment->ID, '.svg');
                 $width          = 48;
@@ -4469,9 +4469,9 @@ function wp_prepare_attachment_for_js($attachment)
 
     $meta = wp_get_attachment_metadata($attachment->ID);
     if (str_contains($attachment->post_mime_type, '/')) {
-        list( $type, $subtype ) = explode('/', $attachment->post_mime_type);
+        [$type, $subtype] = explode('/', $attachment->post_mime_type);
     } else {
-        list( $type, $subtype ) = [$attachment->post_mime_type, ''];
+        [$type, $subtype] = [$attachment->post_mime_type, ''];
     }
 
     $attachment_url = wp_get_attachment_url($attachment->ID);
@@ -4598,7 +4598,7 @@ function wp_prepare_attachment_for_js($attachment)
                  * We have the actual image size, but might need to further constrain it if content_width is narrower.
                  * Thumbnail, medium, and full sizes are also checked against the site's height/width options.
                  */
-                list( $width, $height ) = image_constrain_size_for_editor($size_meta['width'], $size_meta['height'], $size, 'edit');
+                [$width, $height] = image_constrain_size_for_editor($size_meta['width'], $size_meta['height'], $size, 'edit');
 
                 $sizes[$size] = [
                     'height'      => $height,
@@ -4662,10 +4662,10 @@ function wp_prepare_attachment_for_js($attachment)
 
         $id = get_post_thumbnail_id($attachment->ID);
         if (! empty($id)) {
-            list( $src, $width, $height ) = wp_get_attachment_image_src($id, 'full');
-            $response['image']            = compact('src', 'width', 'height');
-            list( $src, $width, $height ) = wp_get_attachment_image_src($id, 'thumbnail');
-            $response['thumb']            = compact('src', 'width', 'height');
+            [$src, $width, $height] = wp_get_attachment_image_src($id, 'full');
+            $response['image']      = compact('src', 'width', 'height');
+            [$src, $width, $height] = wp_get_attachment_image_src($id, 'thumbnail');
+            $response['thumb']      = compact('src', 'width', 'height');
         } else {
             $src               = wp_mime_type_icon($attachment->ID, '.svg');
             $width             = 48;

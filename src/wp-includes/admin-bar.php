@@ -1018,7 +1018,7 @@ function wp_admin_bar_new_content_menu($wp_admin_bar)
     );
 
     foreach ($actions as $link => $action) {
-        list( $title, $id ) = $action;
+        [$title, $id] = $action;
 
         $wp_admin_bar->add_node(
             [

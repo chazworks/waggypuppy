@@ -864,7 +864,7 @@ endif;
         }
 
         if (file_exists($file)) {
-            list( $width, $height, $type, $attr ) = wp_getimagesize($file);
+            [$width, $height, $type, $attr] = wp_getimagesize($file);
         } else {
             $data   = wp_get_attachment_metadata($attachment_id);
             $height = isset($data['height']) ? (int) $data['height'] : 0;

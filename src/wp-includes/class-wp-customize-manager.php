@@ -1265,7 +1265,7 @@ final class WP_Customize_Manager
         foreach ($sidebars_widgets as $sidebar_id => $widgets) {
             $sidebar_widget_ids = [];
             foreach ($widgets as $widget) {
-                list( $id_base, $instance ) = $widget;
+                [$id_base, $instance] = $widget;
 
                 if (! isset($max_widget_numbers[$id_base])) {
 

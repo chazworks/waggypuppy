@@ -321,7 +321,7 @@ class Tests_TestHelpers extends WP_UnitTestCase
             $defaults
         );
 
-        list( $message, $title, $args ) = _wp_die_process_input($input['message'], $input['title'], $input['args']);
+        [$message, $title, $args] = _wp_die_process_input($input['message'], $input['title'], $input['args']);
 
         $this->assertSame($expected['message'], $message);
         $this->assertSame($expected['title'], $title);

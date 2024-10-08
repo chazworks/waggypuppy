@@ -143,8 +143,8 @@ class WP_Http_Cookie
                     continue;
                 }
 
-                list( $key, $val ) = strpos($pair, '=') ? explode('=', $pair) : [$pair, ''];
-                $key               = strtolower(trim($key));
+                [$key, $val] = strpos($pair, '=') ? explode('=', $pair) : [$pair, ''];
+                $key         = strtolower(trim($key));
                 if ('expires' === $key) {
                     $val = strtotime($val);
                 }

@@ -901,7 +901,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller
                     foreach ($plugins as $plugin_file) {
                         $plugin_basename = plugin_basename($plugin_file);
                         // Split basename by '/' to get the plugin slug.
-                        list( $plugin_slug, ) = explode('/', $plugin_basename);
+                        [$plugin_slug,] = explode('/', $plugin_basename);
 
                         if ($plugin_slug === $template_object->plugin) {
                             $plugin_data = get_plugin_data($plugin_file);

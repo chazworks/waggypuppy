@@ -351,7 +351,7 @@ class WP_Token_Map
             $group_string = '';
 
             foreach ($groups[$group] as $group_word) {
-                list( $word, $mapping ) = $group_word;
+                [$word, $mapping] = $group_word;
 
                 $word_length    = pack('C', strlen($word));
                 $mapping_length = pack('C', strlen($mapping));

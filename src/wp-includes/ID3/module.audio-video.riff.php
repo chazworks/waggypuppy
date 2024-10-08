@@ -318,8 +318,8 @@ class getid3_riff extends getid3_handler
 					if (preg_match('#^([0-9]{4}).([0-9]{2}).([0-9]{2})$#', $thisfile_riff_WAVE_bext_0['origin_date'], $matches_bext_date)) {
 						if (preg_match('#^([0-9]{2}).([0-9]{2}).([0-9]{2})$#', $thisfile_riff_WAVE_bext_0['origin_time'], $matches_bext_time)) {
 							$bext_timestamp = array();
-							list($dummy, $bext_timestamp['year'], $bext_timestamp['month'],  $bext_timestamp['day'])    = $matches_bext_date;
-							list($dummy, $bext_timestamp['hour'], $bext_timestamp['minute'], $bext_timestamp['second']) = $matches_bext_time;
+							[$dummy, $bext_timestamp['year'], $bext_timestamp['month'], $bext_timestamp['day']] = $matches_bext_date;
+							[$dummy, $bext_timestamp['hour'], $bext_timestamp['minute'], $bext_timestamp['second']] = $matches_bext_time;
 							$thisfile_riff_WAVE_bext_0['origin_date_unix'] = gmmktime($bext_timestamp['hour'], $bext_timestamp['minute'], $bext_timestamp['second'], $bext_timestamp['month'], $bext_timestamp['day'], $bext_timestamp['year']);
 						} else {
 							$this->warning('RIFF.WAVE.BEXT.origin_time is invalid');
@@ -488,7 +488,7 @@ class getid3_riff extends getid3_handler
 							switch ($key) {
 								case 'Loc Position':
 									if (preg_match('#^([\\+\\-]?[0-9]+\\.[0-9]+) ([\\+\\-]?[0-9]+\\.[0-9]+)$#', $value, $matches)) {
-										list($dummy, $latitude, $longitude) = $matches;
+										[$dummy, $latitude, $longitude] = $matches;
 										$thisfile_riff['comments']['gps_latitude'][0]  = floatval($latitude);
 										$thisfile_riff['comments']['gps_longitude'][0] = floatval($longitude);
 										$thisfile_riff['guano'][$key] = floatval($latitude).' '.floatval($longitude);

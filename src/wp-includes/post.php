@@ -1054,8 +1054,8 @@ function get_extended($post)
 {
     // Match the new style more links.
     if (preg_match('/<!--more(.*?)?-->/', $post, $matches)) {
-        list($main, $extended) = explode($matches[0], $post, 2);
-        $more_text             = $matches[1];
+        [$main, $extended] = explode($matches[0], $post, 2);
+        $more_text         = $matches[1];
     } else {
         $main      = $post;
         $extended  = '';
@@ -1973,7 +1973,7 @@ function get_post_type_capabilities($args)
     }
 
     // Singular base for meta capabilities, plural base for primitive capabilities.
-    list( $singular_base, $plural_base ) = $args->capability_type;
+    [$singular_base, $plural_base] = $args->capability_type;
 
     $default_capabilities = [
         // Meta capabilities.

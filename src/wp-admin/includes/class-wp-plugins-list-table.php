@@ -742,7 +742,7 @@ class WP_Plugins_List_Table extends WP_List_Table
         global $status, $page, $s, $totals;
         static $plugin_id_attrs = [];
 
-        list( $plugin_file, $plugin_data ) = $item;
+        [$plugin_file, $plugin_data] = $item;
 
         $plugin_slug    = isset($plugin_data['slug']) ? $plugin_data['slug'] : sanitize_title($plugin_data['Name']);
         $plugin_id_attr = $plugin_slug;
@@ -1155,7 +1155,7 @@ class WP_Plugins_List_Table extends WP_List_Table
             esc_attr($plugin_file)
         );
 
-        list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
+        [$columns, $hidden, $sortable, $primary] = $this->get_column_info();
 
         $auto_updates = (array) get_site_option('auto_update_plugins', []);
 

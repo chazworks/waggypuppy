@@ -939,8 +939,8 @@ switch ($action) {
 
     case 'resetpass':
     case 'rp':
-        list( $rp_path ) = explode('?', wp_unslash($_SERVER['REQUEST_URI']));
-        $rp_cookie       = 'wp-resetpass-' . COOKIEHASH;
+        [$rp_path] = explode('?', wp_unslash($_SERVER['REQUEST_URI']));
+        $rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 
         if (isset($_GET['key']) && isset($_GET['login'])) {
             $value = sprintf('%s:%s', wp_unslash($_GET['login']), wp_unslash($_GET['key']));
@@ -951,7 +951,7 @@ switch ($action) {
         }
 
         if (isset($_COOKIE[$rp_cookie]) && 0 < strpos($_COOKIE[$rp_cookie], ':')) {
-            list( $rp_login, $rp_key ) = explode(':', wp_unslash($_COOKIE[$rp_cookie]), 2);
+            [$rp_login, $rp_key] = explode(':', wp_unslash($_COOKIE[$rp_cookie]), 2);
 
             $user = check_password_reset_key($rp_key, $rp_login);
 

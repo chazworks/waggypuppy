@@ -1549,7 +1549,7 @@ function wp_get_installed_translations($type)
             continue;
         }
 
-        list( , $textdomain, $language ) = $match;
+        [, $textdomain, $language] = $match;
         if ('' === $textdomain) {
             $textdomain = 'default';
         }

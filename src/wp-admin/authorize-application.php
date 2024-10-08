@@ -40,7 +40,7 @@ if (isset($_POST['action']) && 'authorize_application_password' === $_POST['acti
         if (is_wp_error($created)) {
             $error = $created;
         } else {
-            list( $new_password ) = $created;
+            [$new_password] = $created;
 
             if ($success_url) {
                 $redirect = add_query_arg(

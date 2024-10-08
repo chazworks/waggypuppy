@@ -494,9 +494,9 @@ final class WP_Screen
      */
     public function set_parentage($parent_file)
     {
-        $this->parent_file         = $parent_file;
-        list( $this->parent_base ) = explode('?', $parent_file);
-        $this->parent_base         = str_replace('.php', '', $this->parent_base);
+        $this->parent_file   = $parent_file;
+        [$this->parent_base] = explode('?', $parent_file);
+        $this->parent_base   = str_replace('.php', '', $this->parent_base);
     }
 
     /**

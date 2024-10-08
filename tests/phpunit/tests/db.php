@@ -116,7 +116,7 @@ class Tests_DB extends WP_UnitTestCase
         // Restore locale settings.
         foreach ($current_locales as $locale_setting) {
             if (false !== strpos($locale_setting, '=')) {
-                list( $category, $locale ) = explode('=', $locale_setting);
+                [$category, $locale] = explode('=', $locale_setting);
                 if (defined($category)) {
                     setlocale(constant($category), $locale);
                 }
@@ -2305,7 +2305,7 @@ class Tests_DB extends WP_UnitTestCase
         } else {
             $this->assertIsArray($data);
 
-            list( $parsed_host, $parsed_port, $parsed_socket, $parsed_is_ipv6 ) = $data;
+            [$parsed_host, $parsed_port, $parsed_socket, $parsed_is_ipv6] = $data;
 
             $this->assertSame($host, $parsed_host);
             $this->assertSame($port, $parsed_port);

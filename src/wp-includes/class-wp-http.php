@@ -764,13 +764,13 @@ class WP_Http
             }
 
             if (! str_contains($tempheader, ':')) {
-                $stack   = explode(' ', $tempheader, 3);
-                $stack[] = '';
-                list( , $response['code'], $response['message']) = $stack;
+                $stack                                      = explode(' ', $tempheader, 3);
+                $stack[]                                    = '';
+                [, $response['code'], $response['message']] = $stack;
                 continue;
             }
 
-            list($key, $value) = explode(':', $tempheader, 2);
+            [$key, $value] = explode(':', $tempheader, 2);
 
             $key   = strtolower($key);
             $value = trim($value);

@@ -103,7 +103,7 @@ class WP_Media_List_Table extends WP_List_Table
             $_REQUEST['post__not_in'] = $not_in;
         }
 
-        list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query($_REQUEST);
+        [$post_mime_types, $avail_post_mime_types] = wp_edit_attachments_query($_REQUEST);
 
         $this->is_trash = isset($_REQUEST['attachment-filter']) && 'trash' === $_REQUEST['attachment-filter'];
 
@@ -455,7 +455,7 @@ class WP_Media_List_Table extends WP_List_Table
      */
     public function column_title($post)
     {
-        list( $mime ) = explode('/', $post->post_mime_type);
+        [$mime] = explode('/', $post->post_mime_type);
 
         $attachment_id = $post->ID;
 

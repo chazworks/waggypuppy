@@ -1118,7 +1118,7 @@ class WP_REST_Server
             return $response;
         }
 
-        list( $route, $handler ) = $matched;
+        [$route, $handler] = $matched;
 
         if (! is_callable($handler['callback'])) {
             $error = new WP_Error(
@@ -1791,7 +1791,7 @@ class WP_REST_Server
             }
 
             if (! $error) {
-                list( $route, $handler ) = $match;
+                [$route, $handler] = $match;
 
                 if (isset($handler['allow_batch'])) {
                     $allow_batch = $handler['allow_batch'];
@@ -1871,7 +1871,7 @@ class WP_REST_Server
                 if (is_wp_error($match)) {
                     $result = $this->error_to_response($match);
                 } else {
-                    list( $route, $handler ) = $match;
+                    [$route, $handler] = $match;
 
                     if (! $error && ! is_callable($handler['callback'])) {
                         $error = new WP_Error(

@@ -109,7 +109,7 @@ class WPProfiler
 
     public function microtime($since = 0.0)
     {
-        list($usec, $sec) = explode(' ', microtime());
+        [$usec, $sec] = explode(' ', microtime());
         return (float) $sec + (float) $usec - $since;
     }
 

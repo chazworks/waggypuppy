@@ -20,7 +20,7 @@ class Tests_Media_NextImageLink extends WP_Test_Adjacent_Image_Link_TestCase
      */
     public function test_next_image_link($current_attachment_index, $expected_attachment_index, $expected, array $args = [])
     {
-        list( $expected, $args ) = $this->setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, $args);
+        [$expected, $args] = $this->setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, $args);
 
         $this->expectOutputString($expected);
         $this->assertNull(next_image_link(...$args));

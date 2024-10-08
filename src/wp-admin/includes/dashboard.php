@@ -204,11 +204,11 @@ function wp_add_dashboard_widget($widget_id, $widget_name, $callback, $control_c
         $wp_dashboard_control_callbacks[$widget_id] = $control_callback;
 
         if (isset($_GET['edit']) && $widget_id === $_GET['edit']) {
-            list($url)    = explode('#', add_query_arg('edit', false), 2);
+            [$url]        = explode('#', add_query_arg('edit', false), 2);
             $widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url($url) . '">' . __('Cancel') . '</a></span>';
             $callback     = '_wp_dashboard_control_callback';
         } else {
-            list($url)    = explode('#', add_query_arg('edit', $widget_id), 2);
+            [$url]        = explode('#', add_query_arg('edit', $widget_id), 2);
             $widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url("$url#$widget_id") . '" class="edit-box open-box">' . __('Configure') . '</a></span>';
         }
     }
@@ -2086,9 +2086,9 @@ function wp_dashboard_empty()
  */
 function wp_welcome_panel()
 {
-    list( $display_version ) = explode('-', wp_get_wp_version());
-    $can_customize           = current_user_can('customize');
-    $is_block_theme          = wp_is_block_theme();
+    [$display_version] = explode('-', wp_get_wp_version());
+    $can_customize     = current_user_can('customize');
+    $is_block_theme    = wp_is_block_theme();
     ?>
     <div class="welcome-panel-content">
     <div class="welcome-panel-header">

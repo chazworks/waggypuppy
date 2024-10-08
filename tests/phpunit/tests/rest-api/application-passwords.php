@@ -96,7 +96,7 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
             WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => $name]);
         }
 
-        list( $new_password, $new_item ) = WP_Application_Passwords::create_new_application_password(self::$user_id, $args);
+        [$new_password, $new_item] = WP_Application_Passwords::create_new_application_password(self::$user_id, $args);
 
         $this->assertNotEmpty($new_password);
         $this->assertSame(
@@ -153,8 +153,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
     public function test_update_application_password(array $update, array $existing)
     {
         // Create the original item.
-        list( , $original_item ) = WP_Application_Passwords::create_new_application_password(self::$user_id, $existing);
-        $uuid                    = $original_item['uuid'];
+        [, $original_item] = WP_Application_Passwords::create_new_application_password(self::$user_id, $existing);
+        $uuid              = $original_item['uuid'];
 
         $actual = WP_Application_Passwords::update_application_password(self::$user_id, $uuid, $update);
 

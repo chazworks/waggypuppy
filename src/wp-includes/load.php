@@ -134,7 +134,7 @@ function wp_populate_basic_auth_from_authorization_header()
         return;
     }
 
-    list( $user, $pass ) = explode(':', $userpass, 2);
+    [$user, $pass] = explode(':', $userpass, 2);
 
     // Now shove them in the proper keys where we're expecting later on.
     $_SERVER['PHP_AUTH_USER'] = $user;
@@ -1055,7 +1055,7 @@ function wp_skip_paused_plugins(array $plugins)
     }
 
     foreach ($plugins as $index => $plugin) {
-        list( $plugin ) = explode('/', plugin_basename($plugin));
+        [$plugin] = explode('/', plugin_basename($plugin));
 
         if (array_key_exists($plugin, $paused_plugins)) {
             unset($plugins[$index]);

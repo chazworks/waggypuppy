@@ -92,7 +92,7 @@ class WP_Block_Parser
     public function proceed()
     {
         $next_token = $this->next_token();
-        list( $token_type, $block_name, $attrs, $start_offset, $token_length ) = $next_token;
+        [$token_type, $block_name, $attrs, $start_offset, $token_length] = $next_token;
         $stack_depth = count($this->stack);
 
         // we may have some HTML soup before the next block.
@@ -266,7 +266,7 @@ class WP_Block_Parser
             return ['no-more-tokens', null, null, null, null];
         }
 
-        list( $match, $started_at ) = $matches[0];
+        [$match, $started_at] = $matches[0];
 
         $length    = strlen($match);
         $is_closer = isset($matches['closer']) && -1 !== $matches['closer'][1];

@@ -72,7 +72,7 @@ final class WP_Block_Templates_Registry
 
         if (! $template) {
             $theme_name             = get_stylesheet();
-            list( $plugin, $slug )  = explode('//', $template_name);
+            [$plugin, $slug]        = explode('//', $template_name);
             $default_template_types = get_default_block_template_types();
 
             $template              = new WP_Block_Template();

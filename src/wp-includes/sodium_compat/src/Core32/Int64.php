@@ -473,7 +473,7 @@ class ParagonIE_Sodium_Core32_Int64
         if (!$size) {
             $size = 63;
         }
-        list($a, $b) = self::ctSelect($this, $int);
+        [$a, $b] = self::ctSelect($this, $int);
 
         $return = new ParagonIE_Sodium_Core32_Int64();
         $return->unsignedInt = $this->unsignedInt;

@@ -57,7 +57,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         if (! $positions) {
             return null;
         }
-        list( $after_opener_tag, $before_closer_tag ) = $positions;
+        [$after_opener_tag, $before_closer_tag] = $positions;
 
         return substr($this->html, $after_opener_tag, $before_closer_tag - $after_opener_tag);
     }
@@ -78,7 +78,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         if (! $positions) {
             return false;
         }
-        list( $after_opener_tag, $before_closer_tag ) = $positions;
+        [$after_opener_tag, $before_closer_tag] = $positions;
 
         $this->lexical_updates[] = new WP_HTML_Text_Replacement(
             $after_opener_tag,
@@ -143,7 +143,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         if (! $bookmarks) {
             return null;
         }
-        list( $opener_tag, $closer_tag ) = $bookmarks;
+        [$opener_tag, $closer_tag] = $bookmarks;
 
         $after_opener_tag  = $this->bookmarks[$opener_tag]->start + $this->bookmarks[$opener_tag]->length;
         $before_closer_tag = $this->bookmarks[$closer_tag]->start;

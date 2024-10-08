@@ -113,8 +113,8 @@ class WP_Http_Encoding
             $flg = ord(substr($gz_data, 3, 1));
             if ($flg > 0) {
                 if ($flg & 4) {
-                    list($xlen) = unpack('v', substr($gz_data, $i, 2));
-                    $i          = $i + 2 + $xlen;
+                    [$xlen] = unpack('v', substr($gz_data, $i, 2));
+                    $i      = $i + 2 + $xlen;
                 }
                 if ($flg & 8) {
                     $i = strpos($gz_data, "\0", $i) + 1;

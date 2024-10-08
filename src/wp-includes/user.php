@@ -3098,8 +3098,8 @@ function check_password_reset_key($key, $login)
     $expiration_duration = apply_filters('password_reset_expiration', DAY_IN_SECONDS);
 
     if (str_contains($user->user_activation_key, ':')) {
-        list( $pass_request_time, $pass_key ) = explode(':', $user->user_activation_key, 2);
-        $expiration_time                      = $pass_request_time + $expiration_duration;
+        [$pass_request_time, $pass_key] = explode(':', $user->user_activation_key, 2);
+        $expiration_time                = $pass_request_time + $expiration_duration;
     } else {
         $pass_key        = $user->user_activation_key;
         $expiration_time = false;
@@ -3375,7 +3375,7 @@ function retrieve_password($user_login = null)
         $notification_email = $defaults;
     }
 
-    list( $to, $subject, $message, $headers ) = array_values($notification_email);
+    [$to, $subject, $message, $headers] = array_values($notification_email);
 
     $subject = wp_specialchars_decode($subject);
 

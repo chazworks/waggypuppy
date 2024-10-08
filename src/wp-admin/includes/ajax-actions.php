@@ -3626,7 +3626,7 @@ function wp_ajax_get_revision_diffs()
     }
 
     foreach ($_REQUEST['compare'] as $compare_key) {
-        list( $compare_from, $compare_to ) = explode(':', $compare_key); // from:to
+        [$compare_from, $compare_to] = explode(':', $compare_key); // from:to
 
         $return[] = [
             'id'     => $compare_key,

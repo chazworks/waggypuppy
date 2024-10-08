@@ -303,7 +303,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
          * - row >= 0: an index of the $orig or $final array.
          * - row < 0: a blank row for that column.
          */
-        list($orig_matches, $final_matches, $orig_rows, $final_rows) = $this->interleave_changed_lines($orig, $final);
+        [$orig_matches, $final_matches, $orig_rows, $final_rows] = $this->interleave_changed_lines($orig, $final);
 
         // These will hold the word changes as determined by an inline diff.
         $orig_diffs  = [];
@@ -420,9 +420,9 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer
         $final_matches = [];
 
         foreach ($matches as $keys => $difference) {
-            list($o, $f) = explode(',', $keys);
-            $o           = (int) $o;
-            $f           = (int) $f;
+            [$o, $f] = explode(',', $keys);
+            $o       = (int) $o;
+            $f       = (int) $f;
 
             // Already have better matches for these guys.
             if (isset($orig_matches[$o]) && isset($final_matches[$f])) {

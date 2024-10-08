@@ -3610,7 +3610,7 @@ function is_email($email, $deprecated = false)
     }
 
     // Split out the local and domain parts.
-    list( $local, $domain ) = explode('@', $email, 2);
+    [$local, $domain] = explode('@', $email, 2);
 
     /*
      * LOCAL PART
@@ -3831,7 +3831,7 @@ function sanitize_email($email)
     }
 
     // Split out the local and domain parts.
-    list( $local, $domain ) = explode('@', $email, 2);
+    [$local, $domain] = explode('@', $email, 2);
 
     /*
      * LOCAL PART
@@ -6217,7 +6217,7 @@ function wp_staticize_emoji_for_email($mail)
         }
 
         // Explode them out.
-        list( $name, $content ) = explode(':', trim($header), 2);
+        [$name, $content] = explode(':', trim($header), 2);
 
         // Cleanup crew.
         $name    = trim($name);
@@ -6225,8 +6225,8 @@ function wp_staticize_emoji_for_email($mail)
 
         if ('content-type' === strtolower($name)) {
             if (str_contains($content, ';')) {
-                list( $type, $charset ) = explode(';', $content);
-                $content_type           = trim($type);
+                [$type, $charset] = explode(';', $content);
+                $content_type     = trim($type);
             } else {
                 $content_type = trim($content);
             }

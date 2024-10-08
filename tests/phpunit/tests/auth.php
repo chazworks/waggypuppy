@@ -81,9 +81,9 @@ class Tests_Auth extends WP_UnitTestCase
         $cookie = wp_generate_auth_cookie(self::$user_id, time() + 3600, 'auth');
         $this->assertFalse(wp_validate_auth_cookie($cookie, 'logged_in'), 'wrong auth scheme');
 
-        $cookie          = wp_generate_auth_cookie(self::$user_id, time() + 3600, 'auth');
-        list($a, $b, $c) = explode('|', $cookie);
-        $cookie          = $a . '|' . ($b + 1) . '|' . $c;
+        $cookie      = wp_generate_auth_cookie(self::$user_id, time() + 3600, 'auth');
+        [$a, $b, $c] = explode('|', $cookie);
+        $cookie      = $a . '|' . ($b + 1) . '|' . $c;
         $this->assertFalse(wp_validate_auth_cookie(self::$user_id, 'auth'), 'altered cookie');
     }
 
@@ -695,7 +695,7 @@ class Tests_Auth extends WP_UnitTestCase
         );
 
         // Create a new app-only password.
-        list( $user_app_password, $item ) = WP_Application_Passwords::create_new_application_password($user_id, ['name' => 'phpunit']);
+        [$user_app_password, $item] = WP_Application_Passwords::create_new_application_password($user_id, ['name' => 'phpunit']);
 
         // Fake a REST API request.
         add_filter('application_password_is_api_request', '__return_true');
@@ -819,7 +819,7 @@ class Tests_Auth extends WP_UnitTestCase
             }
         );
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
+        [$password] = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         $error = wp_authenticate_application_password(null, self::$_user->user_login, $password);
         $this->assertWPError($error);
@@ -834,7 +834,7 @@ class Tests_Auth extends WP_UnitTestCase
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
+        [$password] = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         $user = wp_authenticate_application_password(null, self::$_user->user_login, $password);
         $this->assertInstanceOf(WP_User::class, $user);
@@ -849,7 +849,7 @@ class Tests_Auth extends WP_UnitTestCase
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
+        [$password] = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         $user = wp_authenticate_application_password(null, self::$_user->user_email, $password);
         $this->assertInstanceOf(WP_User::class, $user);
@@ -864,7 +864,7 @@ class Tests_Auth extends WP_UnitTestCase
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
+        [$password] = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'phpunit']);
 
         $user = wp_authenticate_application_password(null, self::$_user->user_email, WP_Application_Passwords::chunk_password($password));
         $this->assertInstanceOf(WP_User::class, $user);
@@ -908,7 +908,7 @@ class Tests_Auth extends WP_UnitTestCase
     {
         $user = self::factory()->user->create_and_get(['role' => $role]);
 
-        list( $password ) = WP_Application_Passwords::create_new_application_password($user->ID, ['name' => 'phpunit']);
+        [$password] = WP_Application_Passwords::create_new_application_password($user->ID, ['name' => 'phpunit']);
 
         add_filter('application_password_is_api_request', '__return_true');
         add_filter('wp_is_application_passwords_available', '__return_true');

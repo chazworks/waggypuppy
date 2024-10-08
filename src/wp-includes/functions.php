@@ -542,14 +542,14 @@ function human_readable_duration($duration = '')
             return false;
         }
         // Three parts: hours, minutes & seconds.
-        list( $second, $minute, $hour ) = $duration_parts;
+        [$second, $minute, $hour] = $duration_parts;
     } elseif (2 === $duration_count) {
         // Validate ii:ss duration format.
         if (! ((bool) preg_match('/^([0-5]?[0-9]):([0-5]?[0-9])$/', $duration))) {
             return false;
         }
         // Two parts: minutes & seconds.
-        list( $second, $minute ) = $duration_parts;
+        [$second, $minute] = $duration_parts;
     } else {
         return false;
     }
@@ -1188,8 +1188,8 @@ function add_query_arg(...$args)
     }
 
     if (str_contains($uri, '?')) {
-        list( $base, $query ) = explode('?', $uri, 2);
-        $base                .= '?';
+        [$base, $query] = explode('?', $uri, 2);
+        $base          .= '?';
     } elseif ($protocol || ! str_contains($uri, '=')) {
         $base  = $uri . '?';
         $query = '';
@@ -2091,7 +2091,7 @@ function wp_mkdir_p($target)
 
     // Strip the protocol.
     if (wp_is_stream($target)) {
-        list( $wrapper, $target ) = explode('://', $target, 2);
+        [$wrapper, $target] = explode('://', $target, 2);
     }
 
     // From php.net/mkdir user contributed notes.
@@ -2236,7 +2236,7 @@ function wp_normalize_path($path)
     $wrapper = '';
 
     if (wp_is_stream($path)) {
-        list( $wrapper, $path ) = explode('://', $path, 2);
+        [$wrapper, $path] = explode('://', $path, 2);
 
         $wrapper .= '://';
     }
@@ -3887,7 +3887,7 @@ function wp_die($message = '', $title = '', $args = [])
  */
 function _default_wp_die_handler($message, $title = '', $args = [])
 {
-    list( $message, $title, $parsed_args ) = _wp_die_process_input($message, $title, $args);
+    [$message, $title, $parsed_args] = _wp_die_process_input($message, $title, $args);
 
     if (is_string($message)) {
         if (! empty($parsed_args['additional_errors'])) {
@@ -4096,7 +4096,7 @@ function _ajax_wp_die_handler($message, $title = '', $args = [])
         ['response' => 200]
     );
 
-    list( $message, $title, $parsed_args ) = _wp_die_process_input($message, $title, $args);
+    [$message, $title, $parsed_args] = _wp_die_process_input($message, $title, $args);
 
     if (! headers_sent()) {
         // This is intentional. For backward-compatibility, support passing null here.
@@ -4133,7 +4133,7 @@ function _ajax_wp_die_handler($message, $title = '', $args = [])
  */
 function _json_wp_die_handler($message, $title = '', $args = [])
 {
-    list( $message, $title, $parsed_args ) = _wp_die_process_input($message, $title, $args);
+    [$message, $title, $parsed_args] = _wp_die_process_input($message, $title, $args);
 
     $data = [
         'code'              => $parsed_args['code'],
@@ -4176,7 +4176,7 @@ function _json_wp_die_handler($message, $title = '', $args = [])
  */
 function _jsonp_wp_die_handler($message, $title = '', $args = [])
 {
-    list( $message, $title, $parsed_args ) = _wp_die_process_input($message, $title, $args);
+    [$message, $title, $parsed_args] = _wp_die_process_input($message, $title, $args);
 
     $data = [
         'code'              => $parsed_args['code'],
@@ -4227,7 +4227,7 @@ function _xmlrpc_wp_die_handler($message, $title = '', $args = [])
 {
     global $wp_xmlrpc_server;
 
-    list( $message, $title, $parsed_args ) = _wp_die_process_input($message, $title, $args);
+    [$message, $title, $parsed_args] = _wp_die_process_input($message, $title, $args);
 
     if (! headers_sent()) {
         nocache_headers();
@@ -4256,7 +4256,7 @@ function _xmlrpc_wp_die_handler($message, $title = '', $args = [])
  */
 function _xml_wp_die_handler($message, $title = '', $args = [])
 {
-    list( $message, $title, $parsed_args ) = _wp_die_process_input($message, $title, $args);
+    [$message, $title, $parsed_args] = _wp_die_process_input($message, $title, $args);
 
     $message = htmlspecialchars($message);
     $title   = htmlspecialchars($title);
@@ -4302,7 +4302,7 @@ EOD;
  */
 function _scalar_wp_die_handler($message = '', $title = '', $args = [])
 {
-    list( $message, $title, $parsed_args ) = _wp_die_process_input($message, $title, $args);
+    [$message, $title, $parsed_args] = _wp_die_process_input($message, $title, $args);
 
     if ($parsed_args['exit']) {
         if (is_scalar($message)) {
@@ -9055,7 +9055,7 @@ function is_wp_version_compatible($required)
     }
 
     // Strip off any -alpha, -RC, -beta, -src suffixes.
-    list( $version ) = explode('-', $wp_version);
+    [$version] = explode('-', $wp_version);
 
     if (is_string($required)) {
         $trimmed = trim($required);

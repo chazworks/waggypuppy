@@ -2769,7 +2769,7 @@ function media_upload_library_form($errors)
         $q['offset'] = 0;
     }
 
-    list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query($q);
+    [$post_mime_types, $avail_post_mime_types] = wp_edit_attachments_query($q);
 
     ?>
     <form id="filter" method="get">
@@ -2806,8 +2806,8 @@ function media_upload_library_form($errors)
         }
         // If available type specified by media button clicked, filter by that type.
         if (empty($_GET['post_mime_type']) && ! empty($num_posts[$type])) {
-            $_GET['post_mime_type']                        = $type;
-            list($post_mime_types, $avail_post_mime_types) = wp_edit_attachments_query();
+            $_GET['post_mime_type']                    = $type;
+            [$post_mime_types, $avail_post_mime_types] = wp_edit_attachments_query();
         }
         if (empty($_GET['post_mime_type']) || 'all' === $_GET['post_mime_type']) {
             $class = ' class="current"';
@@ -3422,7 +3422,7 @@ function attachment_submitbox_metadata()
 
         if (preg_match('/^.*?\.(\w+)$/', get_attached_file($post->ID), $matches)) {
             echo esc_html(strtoupper($matches[1]));
-            list( $mime_type ) = explode('/', $post->post_mime_type);
+            [$mime_type] = explode('/', $post->post_mime_type);
             if ('image' !== $mime_type && ! empty($meta['mime_type'])) {
                 if ("$mime_type/" . strtolower($matches[1]) !== $meta['mime_type']) {
                     echo ' (' . $meta['mime_type'] . ')';

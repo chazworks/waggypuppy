@@ -884,7 +884,7 @@ class Tests_HtmlApi_WpHtmlTagProcessor extends WP_UnitTestCase
          */
         $match = null;
         preg_match('~^<div test=(.*)></div>$~', $processor->get_updated_html(), $match);
-        list( , $actual_value ) = $match;
+        [, $actual_value] = $match;
 
         $this->assertSame('"' . esc_attr($attribute_value) . '"', $actual_value, 'Entities were not properly escaped in the attribute value');
     }

@@ -3088,7 +3088,7 @@ function _wp_normalize_relative_css_links($css, $stylesheet_url)
     return preg_replace_callback(
         '#(url\s*\(\s*[\'"]?\s*)([^\'"\)]+)#',
         static function ($matches) use ($stylesheet_url) {
-            list( , $prefix, $url ) = $matches;
+            [, $prefix, $url] = $matches;
 
             // Short-circuit if the URL does not require normalization.
             if (str_starts_with($url, 'http:') ||

@@ -1257,8 +1257,8 @@ function get_block_template($id, $template_type = 'wp_template')
     if (count($parts) < 2) {
         return null;
     }
-    list( $theme, $slug ) = $parts;
-    $wp_query_args        = [
+    [$theme, $slug] = $parts;
+    $wp_query_args  = [
         'post_name__in'  => [$slug],
         'post_type'      => $template_type,
         'post_status'    => ['auto-draft', 'draft', 'publish', 'trash'],
@@ -1272,8 +1272,8 @@ function get_block_template($id, $template_type = 'wp_template')
             ],
         ],
     ];
-    $template_query       = new WP_Query($wp_query_args);
-    $posts                = $template_query->posts;
+    $template_query = new WP_Query($wp_query_args);
+    $posts          = $template_query->posts;
 
     if (count($posts) > 0) {
         $template = _build_block_template_result_from_post($posts[0]);
@@ -1333,7 +1333,7 @@ function get_block_file_template($id, $template_type = 'wp_template')
         /** This filter is documented in wp-includes/block-template-utils.php */
         return apply_filters('get_block_file_template', null, $id, $template_type);
     }
-    list( $theme, $slug ) = $parts;
+    [$theme, $slug] = $parts;
 
     if (get_stylesheet() === $theme) {
         $template_file = _get_block_template_file($template_type, $slug);
@@ -1559,7 +1559,7 @@ function get_template_hierarchy($slug, $is_custom = false, $template_prefix = ''
     $template_hierarchy = [$slug];
     // Most default templates don't have `$template_prefix` assigned.
     if (! empty($template_prefix)) {
-        list( $type ) = explode('-', $template_prefix);
+        [$type] = explode('-', $template_prefix);
         // We need these checks because we always add the `$slug` above.
         if (! in_array($template_prefix, [$slug, $type], true)) {
             $template_hierarchy[] = $template_prefix;
@@ -1618,9 +1618,9 @@ function get_template_hierarchy($slug, $is_custom = false, $template_prefix = ''
 
     $template_type = '';
     if (! empty($template_prefix)) {
-        list( $template_type ) = explode('-', $template_prefix);
+        [$template_type] = explode('-', $template_prefix);
     } else {
-        list( $template_type ) = explode('-', $slug);
+        [$template_type] = explode('-', $slug);
     }
     $valid_template_types = ['404', 'archive', 'attachment', 'author', 'category', 'date', 'embed', 'frontpage', 'home', 'index', 'page', 'paged', 'privacypolicy', 'search', 'single', 'singular', 'tag', 'taxonomy'];
     if (in_array($template_type, $valid_template_types, true)) {

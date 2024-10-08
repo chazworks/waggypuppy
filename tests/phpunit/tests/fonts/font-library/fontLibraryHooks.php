@@ -44,8 +44,8 @@ class Tests_Fonts_FontLibraryHooks extends WP_UnitTestCase
 
     public function test_deleting_font_faces_deletes_associated_font_files()
     {
-        list( $font_face_id, $font_path ) = $this->create_font_face_with_file('OpenSans-Regular.woff2');
-        list( , $other_font_path )        = $this->create_font_face_with_file('OpenSans-Regular.ttf');
+        [$font_face_id, $font_path] = $this->create_font_face_with_file('OpenSans-Regular.woff2');
+        [, $other_font_path]        = $this->create_font_face_with_file('OpenSans-Regular.ttf');
 
         wp_delete_post($font_face_id, true);
 
