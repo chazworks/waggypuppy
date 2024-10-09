@@ -21,8 +21,6 @@ wp_cli( `config set WP_DEVELOPMENT_MODE ${process.env.LOCAL_WP_DEVELOPMENT_MODE}
 // Move wp-config.php to the base directory, so it doesn't get mixed up in the src or build directories.
 renameSync( 'src/wp-config.php', 'wp-config.php' );
 
-install_wp_importer();
-
 // Read in wp-tests-config-sample.php, edit it to work with our config, then write it to wp-tests-config.php.
 const testConfig = readFileSync( 'wp-tests-config-sample.php', 'utf8' )
 	.replace( 'youremptytestdbnamehere', 'wordpress_develop_tests' )
@@ -48,15 +46,5 @@ wait_on( { resources: [ `tcp:localhost:${process.env.LOCAL_PORT}`] } )
  * @param {string} cmd The WP-CLI command to run.
  */
 function wp_cli( cmd ) {
-	execSync( `docker compose run --rm cli ${cmd}`, { stdio: 'inherit' } );
-}
-
-/**
- * Downloads the WordPress Importer plugin for use in tests.
- */
-function install_wp_importer() {
-	const testPluginDirectory = 'tests/phpunit/data/plugins/wordpress-importer';
-
-	execSync( `docker compose exec -T php rm -rf ${testPluginDirectory}`, { stdio: 'inherit' } );
-	execSync( `docker compose exec -T php git clone https://github.com/WordPress/wordpress-importer.git ${testPluginDirectory} --depth=1`, { stdio: 'inherit' } );
+	execSync( `docker compose exec php wp --allow-root ${cmd}`, { stdio: 'inherit' } );
 }
