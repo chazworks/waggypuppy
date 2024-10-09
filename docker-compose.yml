@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
 
-    command: ['wp', '--allow-root', 'server', '--host=0.0.0.0', '--port=8889']
+    command: ['wp', 'server', '--host=0.0.0.0', '--port=8889']
 
     environment:
       - XDEBUG_MODE=${XDEBUG_MODE:-develop}

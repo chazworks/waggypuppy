@@ -12,22 +12,11 @@ wp config set WP_ENVIRONMENT_TYPE ${LOCAL_WP_ENVIRONMENT_TYPE:-local} --type=con
 wp config set WP_DEVELOPMENT_MODE ${LOCAL_WP_DEVELOPMENT_MODE:-core} --type=constant
 
 mv src/wp-config.php wp-config.php
-
-domain=${LOCAL_WP_TESTS_DOMAIN:-example.org}
-
-perl -p -e "
-    s/youremptytestdbnamehere/wordpress_develop_tests/g;
-    s/yourusernamehere/root/g;
-    s/yourpasswordhere/password/g;
-    s/localhost/mysql/g;
-    s/'WP_TESTS_DOMAIN', 'example.org'/'WP_TESTS_DOMAIN', '${LOCAL_WP_TESTS_DOMAIN}'/g;
-" wp-tests-config-sample.php > wp-tests-config.php
-
-echo "define( 'FS_METHOD', 'direct' );" >> wp-tests-config.php
+cp wp-tests-config-sample.php wp-tests-config.php
 
 wp db reset --yes
+
 install=install
 [[ $LOCAL_MULTISITE = true ]] && install=multisite-install
 
 wp core $install --title="waggypuppy" --admin_user=admin --admin_password=password --admin_email=test@test.com --skip-email --url=http://localhost:${LOCAL_PORT:-8889}
-

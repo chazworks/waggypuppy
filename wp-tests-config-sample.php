@@ -37,10 +37,10 @@ define('WP_DEBUG', true);
  * DO NOT use a production database or one that is shared with something else.
  */
 
-define('DB_NAME', 'youremptytestdbnamehere');
-define('DB_USER', 'yourusernamehere');
-define('DB_PASSWORD', 'yourpasswordhere');
-define('DB_HOST', 'localhost');
+define('DB_NAME', 'wordpress_develop_tests');
+define('DB_USER', 'root');
+define('DB_PASSWORD', 'password');
+define('DB_HOST', 'mysql');
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 
@@ -68,3 +68,5 @@ define('WP_TESTS_TITLE', 'Test Blog');
 define('WP_PHP_BINARY', 'php');
 
 define('WPLANG', '');
+
+define( 'FS_METHOD', 'direct' );
