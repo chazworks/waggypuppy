@@ -189,7 +189,7 @@
 		"env:logs": "docker compose logs",
 		"env:pull": "docker compose pull",
 		"test:performance": "wp-scripts test-playwright --config tests/performance/playwright.config.js",
-		"test:php": "docker compose run -T php composer update -W && docker compose run php ./vendor/bin/phpunit",
+		"test:php": "docker compose exec php ./vendor/bin/phpunit",
 		"test:e2e": "wp-scripts test-playwright --config tests/e2e/playwright.config.js",
 		"test:visual": "wp-scripts test-playwright --config tests/visual-regression/playwright.config.js",
 		"sync-gutenberg-packages": "grunt sync-gutenberg-packages",
