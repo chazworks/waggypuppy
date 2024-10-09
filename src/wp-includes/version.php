@@ -37,11 +37,11 @@ $tinymce_version = '49110-20201110';
  *
  * @global string $required_php_version
  */
-$required_php_version = '7.2.24';
+$required_php_version = '8.3.0';
 
 /**
  * Holds the required MySQL version.
  *
  * @global string $required_mysql_version
  */
-$required_mysql_version = '5.5.5';
+$required_mysql_version = '8.0.0';

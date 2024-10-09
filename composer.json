@@ -24,8 +24,9 @@
 		}
 	],
 	"require": {
+    "php": ">= 8.3.0",
 		"ext-json": "*",
-		"php": ">=7.2.24"
+		"ext-mysqli": "*"
 	},
 	"suggest": {
 		"ext-dom": "*"
