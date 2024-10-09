@@ -60,10 +60,12 @@ module.exports = function (
 		}, {} ),
 	};
 
-	const blockPHPCopies = Object.keys( blockPHPFiles ).map( ( filename ) => ( {
-		from: normalizeJoin( baseDir, `node_modules/@wordpress/${ filename }` ),
-		to: normalizeJoin( baseDir, `src/${ blockPHPFiles[ filename ] }` ),
-	} ) );
+  // XXX WTF jeez just ... no
+	// const blockPHPCopies = Object.keys( blockPHPFiles ).map( ( filename ) => ( {
+	// 	from: normalizeJoin( baseDir, `node_modules/@wordpress/${ filename }` ),
+	// 	to: normalizeJoin( baseDir, `src/${ blockPHPFiles[ filename ] }` ),
+	// } ) );
+  const blockPHPCopies = [];
 
 	const blockMetadataCopies = Object.keys( blockMetadataFiles ).map(
 		( filename ) => ( {

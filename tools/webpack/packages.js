@@ -163,10 +163,12 @@ module.exports = function (
 		noErrorOnMissing: true,
 	} ) );
 
-	const phpCopies = Object.keys( phpFiles ).map( ( filename ) => ( {
-		from: normalizeJoin( baseDir, `node_modules/@wordpress/${ filename }` ),
-		to: normalizeJoin( baseDir, `src/${ phpFiles[ filename ] }` ),
-	} ) );
+  // XXX WTF this is insane and we're not doing this anymore.
+	// const phpCopies = Object.keys( phpFiles ).map( ( filename ) => ( {
+	// 	from: normalizeJoin( baseDir, `node_modules/@wordpress/${ filename }` ),
+	// 	to: normalizeJoin( baseDir, `src/${ phpFiles[ filename ] }` ),
+	// } ) );
+  const phpCopies = [];
 
 	const baseConfig = getBaseConfig( env );
 	const config = {
