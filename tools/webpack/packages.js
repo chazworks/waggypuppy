@@ -1,3 +1,7 @@
+//
+// XXX everything this config does is sus, but it at least no longer copies PHP files out of node_modules
+//
+
 /**
  * External dependencies
  */
@@ -123,15 +127,6 @@ module.exports = function (
 			'polyfill-library/polyfills/__dist/DOMRect/raw.js',
 	};
 
-	const phpFiles = {
-		'block-serialization-default-parser/class-wp-block-parser.php':
-			'wp-includes/class-wp-block-parser.php',
-		'block-serialization-default-parser/class-wp-block-parser-frame.php':
-			'wp-includes/class-wp-block-parser-frame.php',
-		'block-serialization-default-parser/class-wp-block-parser-block.php':
-			'wp-includes/class-wp-block-parser-block.php',
-	};
-
 	const developmentCopies = mapVendorCopies( vendors, buildTarget );
 	const minifiedCopies = mapVendorCopies( minifiedVendors, buildTarget );
 	const minifyCopies = mapVendorCopies( minifyVendors, buildTarget ).map(
@@ -163,11 +158,6 @@ module.exports = function (
 		noErrorOnMissing: true,
 	} ) );
 
-  // XXX WTF this is insane and we're not doing this anymore.
-	// const phpCopies = Object.keys( phpFiles ).map( ( filename ) => ( {
-	// 	from: normalizeJoin( baseDir, `node_modules/@wordpress/${ filename }` ),
-	// 	to: normalizeJoin( baseDir, `src/${ phpFiles[ filename ] }` ),
-	// } ) );
   const phpCopies = [];
 
 	const baseConfig = getBaseConfig( env );
