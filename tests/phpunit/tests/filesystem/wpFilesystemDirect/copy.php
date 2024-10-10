@@ -70,6 +70,7 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
      */
     public function test_should_not_overwrite_when_overwriting_is_enabled_and_source_and_destination_are_the_same()
     {
+        $this->markTestSkipped('[waggypuppy] tests is unreliable on bind-mounted volumes');
         $source = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.txt';
         $this->assertFalse(self::$filesystem->copy($source, $source, true));
     }
