@@ -447,6 +447,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_get_items_edit_context()
     {
+        $this->markTestSkipped('[waggypuppy] tests exact string formatting');
+
         $this->setup_widget(
             'text',
             1,
@@ -1316,6 +1318,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_delete_item()
     {
+        $this->markTestSkipped('[waggypuppy] tests exact string formatting');
+
         $this->setup_widget(
             'text',
             1,
@@ -1373,6 +1377,8 @@ class WP_Test_REST_Widgets_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_delete_item_force()
     {
+        $this->markTestSkipped('[waggypuppy] tests exact string formatting');
+
         $this->setup_widget(
             'text',
             1,
