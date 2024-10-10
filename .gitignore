@@ -5,6 +5,7 @@
 wp-config.php
 wp-tests-config.php
 .htaccess
+.*_history
 
 # Files and folders related to build/test tools
 .phpunit.result.cache
@@ -12,7 +13,6 @@ wp-tests-config.php
 /.phpcs.xml
 /phpcs.xml
 .cache/*
-/tests/phpunit/data/plugins/wordpress-importer
 /tests/phpunit/data/.trac-ticket-cache*
 /tests/qunit/compiled.html
 /tests/performance/**/*.test.results.json
