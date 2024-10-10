@@ -5,7 +5,7 @@
 define('ABSPATH', __DIR__ . '/src/');
 
 define('WP_DEBUG', true);
-define('WP_SITEURL', 'https://example.org');
+define('WP_SITEURL', 'http://example.org');
 define('WP_DEFAULT_THEME', 'default');
 define('WP_TESTS_DOMAIN', 'example.org');
 define('WP_TESTS_EMAIL', 'admin@example.org');
