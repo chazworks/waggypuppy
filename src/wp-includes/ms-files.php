@@ -8,8 +8,8 @@
  * @subpackage Multisite
  */
 
-define('MS_FILES_REQUEST', true);
-define('SHORTINIT', true);
+const MS_FILES_REQUEST = true;
+const SHORTINIT = true;
 require_once dirname(__DIR__) . '/wp-load.php';
 
 if (! is_multisite()) {

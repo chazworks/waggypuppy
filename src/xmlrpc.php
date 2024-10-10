@@ -10,7 +10,7 @@
  *
  * @var bool
  */
-define('XMLRPC_REQUEST', true);
+const XMLRPC_REQUEST = true;
 
 // Discard unneeded cookies sent by some browser-embedded clients.
 $_COOKIE = [];

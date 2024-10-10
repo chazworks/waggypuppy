@@ -12,12 +12,12 @@
 /**
  * We are installing.
  */
-define('WP_INSTALLING', true);
+const WP_INSTALLING = true;
 
 /**
  * We are blissfully unaware of anything.
  */
-define('WP_SETUP_CONFIG', true);
+const WP_SETUP_CONFIG = true;
 
 /**
  * Disable error reporting

@@ -19,7 +19,7 @@ if (! defined('ABSPATH')) {
     define('ABSPATH', dirname(__DIR__) . '/');
 }
 
-define('WPINC', 'wp-includes');
+const WPINC = 'wp-includes';
 
 $protocol = $_SERVER['SERVER_PROTOCOL'];
 if (! in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {

@@ -12,29 +12,29 @@
 /**
  * @since 0.71
  */
-define('EZSQL_VERSION', 'WP1.25');
+const EZSQL_VERSION = 'WP1.25';
 
 /**
  * @since 0.71
  */
-define('OBJECT', 'OBJECT');
+const OBJECT = 'OBJECT';
 // phpcs:ignore Generic.NamingConventions.UpperCaseConstantName.ConstantNotUpperCase
-define('object', 'OBJECT'); // Back compat.
+const object = 'OBJECT'; // Back compat.
 
 /**
  * @since 2.5.0
  */
-define('OBJECT_K', 'OBJECT_K');
+const OBJECT_K = 'OBJECT_K';
 
 /**
  * @since 0.71
  */
-define('ARRAY_A', 'ARRAY_A');
+const ARRAY_A = 'ARRAY_A';
 
 /**
  * @since 0.71
  */
-define('ARRAY_N', 'ARRAY_N');
+const ARRAY_N = 'ARRAY_N';
 
 /**
  * WordPress database access abstraction class.
