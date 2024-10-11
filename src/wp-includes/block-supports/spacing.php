@@ -12,21 +12,21 @@
 /**
  * Registers the style block attribute for block types that support it.
  *
+ * @param WP_Block_Type $block_type Block Type.
  * @since 5.8.0
  * @access private
  *
- * @param WP_Block_Type $block_type Block Type.
  */
 function wp_register_spacing_support($block_type)
 {
     $has_spacing_support = block_has_support($block_type, 'spacing', false);
 
     // Setup attributes and styles within that if needed.
-    if (! $block_type->attributes) {
+    if (!$block_type->attributes) {
         $block_type->attributes = [];
     }
 
-    if ($has_spacing_support && ! array_key_exists('style', $block_type->attributes)) {
+    if ($has_spacing_support && !array_key_exists('style', $block_type->attributes)) {
         $block_type->attributes['style'] = [
             'type' => 'object',
         ];
@@ -37,13 +37,13 @@ function wp_register_spacing_support($block_type)
  * Adds CSS classes for block spacing to the incoming attributes array.
  * This will be applied to the block markup in the front-end.
  *
- * @since 5.8.0
+ * @param WP_Block_Type $block_type Block Type.
+ * @param array $block_attributes Block attributes.
+ * @return array Block spacing CSS classes and inline styles.
  * @since 6.1.0 Implemented the style engine to generate CSS and classnames.
  * @access private
  *
- * @param WP_Block_Type $block_type       Block Type.
- * @param array         $block_attributes Block attributes.
- * @return array Block spacing CSS classes and inline styles.
+ * @since 5.8.0
  */
 function wp_apply_spacing_support($block_type, $block_attributes)
 {
@@ -51,30 +51,32 @@ function wp_apply_spacing_support($block_type, $block_attributes)
         return [];
     }
 
-    $attributes          = [];
+    $attributes = [];
     $has_padding_support = block_has_support($block_type, ['spacing', 'padding'], false);
-    $has_margin_support  = block_has_support($block_type, ['spacing', 'margin'], false);
-    $block_styles        = isset($block_attributes['style']) ? $block_attributes['style'] : null;
+    $has_margin_support = block_has_support($block_type, ['spacing', 'margin'], false);
+    $block_styles = isset($block_attributes['style']) ? $block_attributes['style'] : null;
 
-    if (! $block_styles) {
+    if (!$block_styles) {
         return $attributes;
     }
 
-    $skip_padding         = wp_should_skip_block_supports_serialization($block_type, 'spacing', 'padding');
-    $skip_margin          = wp_should_skip_block_supports_serialization($block_type, 'spacing', 'margin');
+    $skip_padding = wp_should_skip_block_supports_serialization($block_type, 'spacing', 'padding');
+    $skip_margin = wp_should_skip_block_supports_serialization($block_type, 'spacing', 'margin');
     $spacing_block_styles = [
         'padding' => null,
-        'margin'  => null,
+        'margin' => null,
     ];
-    if ($has_padding_support && ! $skip_padding) {
-        $spacing_block_styles['padding'] = isset($block_styles['spacing']['padding']) ? $block_styles['spacing']['padding'] : null;
+    if ($has_padding_support && !$skip_padding) {
+        $spacing_block_styles['padding'] = isset($block_styles['spacing']['padding'])
+            ? $block_styles['spacing']['padding'] : null;
     }
-    if ($has_margin_support && ! $skip_margin) {
-        $spacing_block_styles['margin'] = isset($block_styles['spacing']['margin']) ? $block_styles['spacing']['margin'] : null;
+    if ($has_margin_support && !$skip_margin) {
+        $spacing_block_styles['margin'] = isset($block_styles['spacing']['margin']) ? $block_styles['spacing']['margin']
+            : null;
     }
     $styles = wp_style_engine_get_styles(['spacing' => $spacing_block_styles]);
 
-    if (! empty($styles['css'])) {
+    if (!empty($styles['css'])) {
         $attributes['style'] = $styles['css'];
     }
 
@@ -86,6 +88,6 @@ WP_Block_Supports::get_instance()->register(
     'spacing',
     [
         'register_attribute' => 'wp_register_spacing_support',
-        'apply'              => 'wp_apply_spacing_support',
-    ]
+        'apply' => 'wp_apply_spacing_support',
+    ],
 );

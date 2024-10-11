@@ -33,8 +33,8 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
                 $parent_id,
                 [
                     'post_mime_type' => 'image/jpeg',
-                    'post_type'      => 'attachment',
-                ]
+                    'post_type' => 'attachment',
+                ],
             );
         }
     }
@@ -42,19 +42,23 @@ abstract class WP_Test_Adjacent_Image_Link_TestCase extends WP_UnitTestCase
     /**
      * Sets up the test scenario.
      *
-     * @param integer $current_attachment_index  Current attachment's index number in the self::$attachments array.
+     * @param integer $current_attachment_index Current attachment's index number in the self::$attachments array.
      * @param integer $expected_attachment_index Expected attachment's index number in the self::$attachments array.
-     * @param string  $expected                  The expected output string.
-     * @param array   $args                      Array of arguments to pass to the function being tested.
+     * @param string $expected The expected output string.
+     * @param array $args Array of arguments to pass to the function being tested.
      * @return array {
      *     Array of the prepared test parameters.
      *
-     *     @var string $expected Expected output string.
-     *     @var array  $args     All of the arguments to pass to the function being tested.
+     * @var string $expected Expected output string.
+     * @var array $args All of the arguments to pass to the function being tested.
      * }
      */
-    protected function setup_test_scenario($current_attachment_index, $expected_attachment_index, $expected, array $args = [])
-    {
+    protected function setup_test_scenario(
+        $current_attachment_index,
+        $expected_attachment_index,
+        $expected,
+        array $args = [],
+    ) {
         // This prep code allows the data provider to specify the different arguments needed for the test scenario.
         $args = array_merge($this->default_args, $args);
         $args = array_values($args);

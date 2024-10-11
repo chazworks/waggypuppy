@@ -4,11 +4,11 @@
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Edit Posts', () => {
-	test.beforeEach( async ( { requestUtils }) => {
+	test.beforeEach( async ( { requestUtils } ) => {
 		await requestUtils.deleteAllPosts();
 	} );
 
-	test( 'displays a message in the posts table when no posts are present',async ( {
+	test( 'displays a message in the posts table when no posts are present', async ( {
 		admin,
 		page,
 	} ) => {
@@ -18,7 +18,7 @@ test.describe( 'Edit Posts', () => {
 		).toBeVisible();
 	} );
 
-	test( 'shows a single post after one is published with the correct title',async ( {
+	test( 'shows a single post after one is published with the correct title', async ( {
 		admin,
 		editor,
 		page,
@@ -28,7 +28,9 @@ test.describe( 'Edit Posts', () => {
 		await editor.publishPost();
 		await admin.visitAdminPage( '/edit.php' );
 
-		const listTable = page.getByRole( 'table', { name: 'Table ordered by' } );
+		const listTable = page.getByRole( 'table', {
+			name: 'Table ordered by',
+		} );
 		await expect( listTable ).toBeVisible();
 
 		// Expect there to be one row in the post list.
@@ -49,20 +51,26 @@ test.describe( 'Edit Posts', () => {
 		await editor.publishPost();
 		await admin.visitAdminPage( '/edit.php' );
 
-		const listTable = page.getByRole( 'table', { name: 'Table ordered by' } );
+		const listTable = page.getByRole( 'table', {
+			name: 'Table ordered by',
+		} );
 		await expect( listTable ).toBeVisible();
 
 		// Click the post title (edit) link
-		await listTable.getByRole( 'link', { name: `“${ title }” (Edit)` } ).click();
+		await listTable
+			.getByRole( 'link', { name: `“${ title }” (Edit)` } )
+			.click();
 
 		// Wait for the editor iframe to load, and switch to it as the active content frame.
 		await page
-				.frameLocator( '[name=editor-canvas]' )
-				.locator( 'body > *' )
-				.first()
-				.waitFor();
+			.frameLocator( '[name=editor-canvas]' )
+			.locator( 'body > *' )
+			.first()
+			.waitFor();
 
-		const editorPostTitle = editor.canvas.getByRole( 'textbox', { name: 'Add title' } );
+		const editorPostTitle = editor.canvas.getByRole( 'textbox', {
+			name: 'Add title',
+		} );
 
 		// Expect title field to be in the editor with correct title shown.
 		await expect( editorPostTitle ).toBeVisible();
@@ -73,21 +81,25 @@ test.describe( 'Edit Posts', () => {
 		admin,
 		editor,
 		page,
-		pageUtils
+		pageUtils,
 	} ) => {
 		const title = 'Test Title';
 		await admin.createNewPost( { title } );
 		await editor.publishPost();
 		await admin.visitAdminPage( '/edit.php' );
 
-		const listTable = page.getByRole( 'table', { name: 'Table ordered by' } );
+		const listTable = page.getByRole( 'table', {
+			name: 'Table ordered by',
+		} );
 		await expect( listTable ).toBeVisible();
 
 		// // Focus on the post title link.
-		await listTable.getByRole( 'link', { name: `“${ title }” (Edit)` } ).focus();
+		await listTable
+			.getByRole( 'link', { name: `“${ title }” (Edit)` } )
+			.focus();
 
 		// Tab to the Quick Edit button and press Enter to quick edit.
-		await pageUtils.pressKeys( 'Tab', { times: 2 } )
+		await pageUtils.pressKeys( 'Tab', { times: 2 } );
 		await page.keyboard.press( 'Enter' );
 
 		// Type in the currently focused (title) field to modify the title, testing that focus is moved to the input.
@@ -97,7 +109,9 @@ test.describe( 'Edit Posts', () => {
 		await page.getByRole( 'button', { name: 'Update' } ).click();
 
 		// Wait for the quick edit button to reappear.
-		await expect( page.getByRole( 'button', { name: 'Quick Edit' } ) ).toBeVisible();
+		await expect(
+			page.getByRole( 'button', { name: 'Quick Edit' } )
+		).toBeVisible();
 
 		// Expect there to be one row in the post list.
 		const posts = listTable.locator( '.row-title' );
@@ -111,21 +125,25 @@ test.describe( 'Edit Posts', () => {
 		admin,
 		editor,
 		page,
-		pageUtils
+		pageUtils,
 	} ) => {
 		const title = 'Test Title';
 		await admin.createNewPost( { title } );
 		await editor.publishPost();
 		await admin.visitAdminPage( '/edit.php' );
 
-		const listTable = page.getByRole( 'table', { name: 'Table ordered by' } );
+		const listTable = page.getByRole( 'table', {
+			name: 'Table ordered by',
+		} );
 		await expect( listTable ).toBeVisible();
 
 		// Focus on the post title link.
-		await listTable.getByRole( 'link', { name: `“${ title }” (Edit)` } ).focus();
+		await listTable
+			.getByRole( 'link', { name: `“${ title }” (Edit)` } )
+			.focus();
 
 		// Tab to the Trash button and press Enter to delete the post.
-		await pageUtils.pressKeys( 'Tab', { times: 3 } )
+		await pageUtils.pressKeys( 'Tab', { times: 3 } );
 		await page.keyboard.press( 'Enter' );
 
 		await expect(

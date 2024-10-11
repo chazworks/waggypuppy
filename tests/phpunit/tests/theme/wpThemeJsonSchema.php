@@ -18,32 +18,32 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
     public function test_migrate_v1_to_latest()
     {
         $theme_json_v1 = [
-            'version'  => 1,
+            'version' => 1,
             'settings' => [
-                'color'      => [
+                'color' => [
                     'palette' => [
                         [
-                            'name'  => 'Pale Pink',
-                            'slug'  => 'pale-pink',
+                            'name' => 'Pale Pink',
+                            'slug' => 'pale-pink',
                             'color' => '#f78da7',
                         ],
                         [
-                            'name'  => 'Vivid Red',
-                            'slug'  => 'vivid-red',
+                            'name' => 'Vivid Red',
+                            'slug' => 'vivid-red',
                             'color' => '#cf2e2e',
                         ],
                     ],
-                    'custom'  => false,
-                    'link'    => true,
+                    'custom' => false,
+                    'link' => true,
                 ],
-                'border'     => [
-                    'color'        => false,
+                'border' => [
+                    'color' => false,
                     'customRadius' => false,
-                    'style'        => false,
-                    'width'        => false,
+                    'style' => false,
+                    'width' => false,
                 ],
                 'typography' => [
-                    'fontSizes'      => [
+                    'fontSizes' => [
                         [
                             'name' => 'Small',
                             'slug' => 'small',
@@ -55,40 +55,40 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
                             'size' => 16,
                         ],
                     ],
-                    'fontStyle'      => false,
-                    'fontWeight'     => false,
-                    'letterSpacing'  => false,
+                    'fontStyle' => false,
+                    'fontWeight' => false,
+                    'letterSpacing' => false,
                     'textDecoration' => false,
-                    'textTransform'  => false,
+                    'textTransform' => false,
                 ],
-                'blocks'     => [
+                'blocks' => [
                     'core/group' => [
-                        'border'     => [
-                            'color'        => true,
+                        'border' => [
+                            'color' => true,
                             'customRadius' => true,
-                            'style'        => true,
-                            'width'        => true,
+                            'style' => true,
+                            'width' => true,
                         ],
                         'typography' => [
-                            'fontStyle'      => true,
-                            'fontWeight'     => true,
-                            'letterSpacing'  => true,
+                            'fontStyle' => true,
+                            'fontWeight' => true,
+                            'letterSpacing' => true,
                             'textDecoration' => true,
-                            'textTransform'  => true,
+                            'textTransform' => true,
                         ],
                     ],
                 ],
             ],
-            'styles'   => [
-                'color'    => [
+            'styles' => [
+                'color' => [
                     'background' => 'purple',
                 ],
-                'blocks'   => [
+                'blocks' => [
                     'core/group' => [
-                        'color'    => [
+                        'color' => [
                             'background' => 'red',
                         ],
-                        'spacing'  => [
+                        'spacing' => [
                             'padding' => [
                                 'top' => '10px',
                             ],
@@ -115,33 +115,33 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
         $actual = WP_Theme_JSON_Schema::migrate($theme_json_v1);
 
         $expected = [
-            'version'  => WP_Theme_JSON::LATEST_SCHEMA,
+            'version' => WP_Theme_JSON::LATEST_SCHEMA,
             'settings' => [
-                'color'      => [
+                'color' => [
                     'palette' => [
                         [
-                            'name'  => 'Pale Pink',
-                            'slug'  => 'pale-pink',
+                            'name' => 'Pale Pink',
+                            'slug' => 'pale-pink',
                             'color' => '#f78da7',
                         ],
                         [
-                            'name'  => 'Vivid Red',
-                            'slug'  => 'vivid-red',
+                            'name' => 'Vivid Red',
+                            'slug' => 'vivid-red',
                             'color' => '#cf2e2e',
                         ],
                     ],
-                    'custom'  => false,
-                    'link'    => true,
+                    'custom' => false,
+                    'link' => true,
                 ],
-                'border'     => [
-                    'color'  => false,
+                'border' => [
+                    'color' => false,
                     'radius' => false,
-                    'style'  => false,
-                    'width'  => false,
+                    'style' => false,
+                    'width' => false,
                 ],
                 'typography' => [
                     'defaultFontSizes' => false,
-                    'fontSizes'        => [
+                    'fontSizes' => [
                         [
                             'name' => 'Small',
                             'slug' => 'small',
@@ -153,40 +153,40 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
                             'size' => 16,
                         ],
                     ],
-                    'fontStyle'        => false,
-                    'fontWeight'       => false,
-                    'letterSpacing'    => false,
-                    'textDecoration'   => false,
-                    'textTransform'    => false,
+                    'fontStyle' => false,
+                    'fontWeight' => false,
+                    'letterSpacing' => false,
+                    'textDecoration' => false,
+                    'textTransform' => false,
                 ],
-                'blocks'     => [
+                'blocks' => [
                     'core/group' => [
-                        'border'     => [
-                            'color'  => true,
+                        'border' => [
+                            'color' => true,
                             'radius' => true,
-                            'style'  => true,
-                            'width'  => true,
+                            'style' => true,
+                            'width' => true,
                         ],
                         'typography' => [
-                            'fontStyle'      => true,
-                            'fontWeight'     => true,
-                            'letterSpacing'  => true,
+                            'fontStyle' => true,
+                            'fontWeight' => true,
+                            'letterSpacing' => true,
                             'textDecoration' => true,
-                            'textTransform'  => true,
+                            'textTransform' => true,
                         ],
                     ],
                 ],
             ],
-            'styles'   => [
-                'color'    => [
+            'styles' => [
+                'color' => [
                     'background' => 'purple',
                 ],
-                'blocks'   => [
+                'blocks' => [
                     'core/group' => [
-                        'color'    => [
+                        'color' => [
                             'background' => 'red',
                         ],
-                        'spacing'  => [
+                        'spacing' => [
                             'padding' => [
                                 'top' => '10px',
                             ],
@@ -216,7 +216,7 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
     public function test_migrate_v2_to_latest()
     {
         $theme_json_v2 = [
-            'version'  => 2,
+            'version' => 2,
             'settings' => [
                 'typography' => [
                     'fontSizes' => [
@@ -232,7 +232,7 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                'spacing'    => [
+                'spacing' => [
                     'spacingSizes' => [
                         [
                             'name' => 'Small',
@@ -252,11 +252,11 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
         $actual = WP_Theme_JSON_Schema::migrate($theme_json_v2);
 
         $expected = [
-            'version'  => WP_Theme_JSON::LATEST_SCHEMA,
+            'version' => WP_Theme_JSON::LATEST_SCHEMA,
             'settings' => [
                 'typography' => [
                     'defaultFontSizes' => false,
-                    'fontSizes'        => [
+                    'fontSizes' => [
                         [
                             'name' => 'Small',
                             'slug' => 'small',
@@ -269,9 +269,9 @@ class Tests_Theme_wpThemeJsonSchema extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                'spacing'    => [
+                'spacing' => [
                     'defaultSpacingSizes' => false,
-                    'spacingSizes'        => [
+                    'spacingSizes' => [
                         [
                             'name' => 'Small',
                             'slug' => 20,

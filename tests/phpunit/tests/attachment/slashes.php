@@ -44,14 +44,14 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase
     {
         $post_id = wp_insert_attachment(
             [
-                'post_status'           => 'publish',
-                'post_title'            => self::SLASH_1,
+                'post_status' => 'publish',
+                'post_title' => self::SLASH_1,
                 'post_content_filtered' => self::SLASH_3,
-                'post_excerpt'          => self::SLASH_5,
-                'post_type'             => 'post',
-            ]
+                'post_excerpt' => self::SLASH_5,
+                'post_type' => 'post',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $this->assertSame(wp_unslash(self::SLASH_1), $post->post_title);
         $this->assertSame(wp_unslash(self::SLASH_3), $post->post_content_filtered);
@@ -59,14 +59,14 @@ class Tests_Attachment_Slashes extends WP_UnitTestCase
 
         $post_id = wp_insert_attachment(
             [
-                'post_status'           => 'publish',
-                'post_title'            => self::SLASH_2,
+                'post_status' => 'publish',
+                'post_title' => self::SLASH_2,
                 'post_content_filtered' => self::SLASH_4,
-                'post_excerpt'          => self::SLASH_6,
-                'post_type'             => 'post',
-            ]
+                'post_excerpt' => self::SLASH_6,
+                'post_type' => 'post',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $this->assertSame(wp_unslash(self::SLASH_2), $post->post_title);
         $this->assertSame(wp_unslash(self::SLASH_4), $post->post_content_filtered);

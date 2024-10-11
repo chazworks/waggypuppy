@@ -2,15 +2,19 @@
  * @output wp-includes/js/wplink.js
  */
 
- /* global wpLink */
+/* global wpLink */
 
-( function( $, wpLinkL10n, wp ) {
-	var editor, searchTimer, River, Query, correctedURL,
+( function ( $, wpLinkL10n, wp ) {
+	var editor,
+		searchTimer,
+		River,
+		Query,
+		correctedURL,
 		emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i,
 		urlRegexp = /^(https?|ftp):\/\/[A-Z0-9.-]+\.[A-Z]{2,63}[^ "]*$/i,
 		inputs = {},
 		rivers = {},
-		isTouch = ( 'ontouchend' in document );
+		isTouch = 'ontouchend' in document;
 
 	function getLink() {
 		if ( editor ) {
@@ -29,8 +33,8 @@
 		textarea: '',
 		modalOpen: false,
 
-		init: function() {
-			inputs.wrap = $('#wp-link-wrap');
+		init: function () {
+			inputs.wrap = $( '#wp-link-wrap' );
 			inputs.dialog = $( '#wp-link' );
 			inputs.backdrop = $( '#wp-link-backdrop' );
 			inputs.submit = $( '#wp-link-submit' );
@@ -50,41 +54,53 @@
 
 			// Get search notice text.
 			inputs.queryNotice = $( '#query-notice-message' );
-			inputs.queryNoticeTextDefault = inputs.queryNotice.find( '.query-notice-default' );
-			inputs.queryNoticeTextHint = inputs.queryNotice.find( '.query-notice-hint' );
+			inputs.queryNoticeTextDefault = inputs.queryNotice.find(
+				'.query-notice-default'
+			);
+			inputs.queryNoticeTextHint =
+				inputs.queryNotice.find( '.query-notice-hint' );
 
 			// Bind event handlers.
 			inputs.dialog.on( 'keydown', wpLink.keydown );
 			inputs.dialog.on( 'keyup', wpLink.keyup );
-			inputs.submit.on( 'click', function( event ) {
+			inputs.submit.on( 'click', function ( event ) {
 				event.preventDefault();
 				wpLink.update();
-			});
+			} );
 
-			inputs.close.add( inputs.backdrop ).add( '#wp-link-cancel button' ).on( 'click', function( event ) {
-				event.preventDefault();
-				wpLink.close();
-			});
+			inputs.close
+				.add( inputs.backdrop )
+				.add( '#wp-link-cancel button' )
+				.on( 'click', function ( event ) {
+					event.preventDefault();
+					wpLink.close();
+				} );
 
 			rivers.elements.on( 'river-select', wpLink.updateFields );
 
 			// Display 'hint' message when search field or 'query-results' box are focused.
-			inputs.search.on( 'focus.wplink', function() {
-				inputs.queryNoticeTextDefault.hide();
-				inputs.queryNoticeTextHint.removeClass( 'screen-reader-text' ).show();
-			} ).on( 'blur.wplink', function() {
-				inputs.queryNoticeTextDefault.show();
-				inputs.queryNoticeTextHint.addClass( 'screen-reader-text' ).hide();
-			} );
+			inputs.search
+				.on( 'focus.wplink', function () {
+					inputs.queryNoticeTextDefault.hide();
+					inputs.queryNoticeTextHint
+						.removeClass( 'screen-reader-text' )
+						.show();
+				} )
+				.on( 'blur.wplink', function () {
+					inputs.queryNoticeTextDefault.show();
+					inputs.queryNoticeTextHint
+						.addClass( 'screen-reader-text' )
+						.hide();
+				} );
 
-			inputs.search.on( 'keyup input', function() {
+			inputs.search.on( 'keyup input', function () {
 				window.clearTimeout( searchTimer );
-				searchTimer = window.setTimeout( function() {
+				searchTimer = window.setTimeout( function () {
 					wpLink.searchInternalLinks();
 				}, 500 );
-			});
+			} );
 
-			inputs.url.on( 'paste', function() {
+			inputs.url.on( 'paste', function () {
 				setTimeout( wpLink.correctURL, 0 );
 			} );
 
@@ -95,13 +111,17 @@
 		correctURL: function () {
 			var url = inputs.url.val().trim();
 
-			if ( url && correctedURL !== url && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( url ) ) {
+			if (
+				url &&
+				correctedURL !== url &&
+				! /^(?:[a-z]+:|#|\?|\.|\/)/.test( url )
+			) {
 				inputs.url.val( 'http://' + url );
 				correctedURL = url;
 			}
 		},
 
-		open: function( editorId, url, text ) {
+		open: function ( editorId, url, text ) {
 			var ed,
 				$body = $( document.body );
 
@@ -148,11 +168,11 @@
 			$( document ).trigger( 'wplink-open', inputs.wrap );
 		},
 
-		isMCE: function() {
+		isMCE: function () {
 			return editor && ! editor.isHidden();
 		},
 
-		refresh: function( url, text ) {
+		refresh: function ( url, text ) {
 			var linkText = '';
 
 			// Refresh rivers (clear links, check visibility).
@@ -169,11 +189,20 @@
 
 				if ( document.selection ) {
 					// Old IE.
-					linkText = document.selection.createRange().text || text || '';
-				} else if ( typeof this.textarea.selectionStart !== 'undefined' &&
-					( this.textarea.selectionStart !== this.textarea.selectionEnd ) ) {
+					linkText =
+						document.selection.createRange().text || text || '';
+				} else if (
+					typeof this.textarea.selectionStart !== 'undefined' &&
+					this.textarea.selectionStart !== this.textarea.selectionEnd
+				) {
 					// W3C.
-					text = this.textarea.value.substring( this.textarea.selectionStart, this.textarea.selectionEnd ) || text || '';
+					text =
+						this.textarea.value.substring(
+							this.textarea.selectionStart,
+							this.textarea.selectionEnd
+						) ||
+						text ||
+						'';
 				}
 
 				inputs.text.val( text );
@@ -189,8 +218,8 @@
 				 * If this is moved above the selection changes,
 				 * IE will show a flashing cursor over the dialog.
 				 */
-				window.setTimeout( function() {
-					inputs.url[0].select();
+				window.setTimeout( function () {
+					inputs.url[ 0 ].select();
 					inputs.url.trigger( 'focus' );
 				} );
 			}
@@ -203,25 +232,37 @@
 			correctedURL = inputs.url.val().replace( /^http:\/\//, '' );
 		},
 
-		hasSelectedText: function( linkNode ) {
-			var node, nodes, i, html = editor.selection.getContent();
+		hasSelectedText: function ( linkNode ) {
+			var node,
+				nodes,
+				i,
+				html = editor.selection.getContent();
 
 			// Partial html and not a fully selected anchor element.
-			if ( /</.test( html ) && ( ! /^<a [^>]+>[^<]+<\/a>$/.test( html ) || html.indexOf('href=') === -1 ) ) {
+			if (
+				/</.test( html ) &&
+				( ! /^<a [^>]+>[^<]+<\/a>$/.test( html ) ||
+					html.indexOf( 'href=' ) === -1 )
+			) {
 				return false;
 			}
 
 			if ( linkNode.length ) {
-				nodes = linkNode[0].childNodes;
+				nodes = linkNode[ 0 ].childNodes;
 
 				if ( ! nodes || ! nodes.length ) {
 					return false;
 				}
 
 				for ( i = nodes.length - 1; i >= 0; i-- ) {
-					node = nodes[i];
+					node = nodes[ i ];
 
-					if ( node.nodeType != 3 && ! window.tinymce.dom.BookmarkManager.isBookmarkNode( node ) ) {
+					if (
+						node.nodeType != 3 &&
+						! window.tinymce.dom.BookmarkManager.isBookmarkNode(
+							node
+						)
+					) {
 						return false;
 					}
 				}
@@ -230,8 +271,9 @@
 			return true;
 		},
 
-		mceRefresh: function( searchStr, text ) {
-			var linkText, href,
+		mceRefresh: function ( searchStr, text ) {
+			var linkText,
+				href,
 				linkNode = getLink(),
 				onlyText = this.hasSelectedText( linkNode );
 
@@ -243,13 +285,20 @@
 					linkText = text || '';
 				}
 
-				if ( searchStr && ( urlRegexp.test( searchStr ) || emailRegexp.test( searchStr ) ) ) {
+				if (
+					searchStr &&
+					( urlRegexp.test( searchStr ) ||
+						emailRegexp.test( searchStr ) )
+				) {
 					href = searchStr;
 				}
 
 				if ( href !== '_wp_link_placeholder' ) {
 					inputs.url.val( href );
-					inputs.openInNewTab.prop( 'checked', '_blank' === linkNode.attr( 'target' ) );
+					inputs.openInNewTab.prop(
+						'checked',
+						'_blank' === linkNode.attr( 'target' )
+					);
 					inputs.submit.val( wpLinkL10n.update );
 				} else {
 					this.setDefaultValues( linkText );
@@ -263,11 +312,14 @@
 				}
 
 				// Always reset the search.
-				window.setTimeout( function() {
+				window.setTimeout( function () {
 					wpLink.searchInternalLinks();
 				} );
 			} else {
-				linkText = editor.selection.getContent({ format: 'text' }) || text || '';
+				linkText =
+					editor.selection.getContent( { format: 'text' } ) ||
+					text ||
+					'';
 				this.setDefaultValues( linkText );
 			}
 
@@ -280,7 +332,7 @@
 			}
 		},
 
-		close: function( reset ) {
+		close: function ( reset ) {
 			$( document.body ).removeClass( 'modal-open' );
 			$( '#wpwrap' ).removeAttr( 'aria-hidden' );
 			wpLink.modalOpen = false;
@@ -290,7 +342,9 @@
 					wpLink.textarea.focus();
 
 					if ( wpLink.range ) {
-						wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
+						wpLink.range.moveToBookmark(
+							wpLink.range.getBookmark()
+						);
 						wpLink.range.select();
 					}
 				} else {
@@ -310,16 +364,16 @@
 			$( document ).trigger( 'wplink-close', inputs.wrap );
 		},
 
-		getAttrs: function() {
+		getAttrs: function () {
 			wpLink.correctURL();
 
 			return {
 				href: inputs.url.val().trim(),
-				target: inputs.openInNewTab.prop( 'checked' ) ? '_blank' : null
+				target: inputs.openInNewTab.prop( 'checked' ) ? '_blank' : null,
 			};
 		},
 
-		buildHtml: function(attrs) {
+		buildHtml: function ( attrs ) {
 			var html = '<a href="' + attrs.href + '"';
 
 			if ( attrs.target ) {
@@ -329,7 +383,7 @@
 			return html + '>';
 		},
 
-		update: function() {
+		update: function () {
 			if ( wpLink.isMCE() ) {
 				wpLink.mceUpdate();
 			} else {
@@ -337,8 +391,14 @@
 			}
 		},
 
-		htmlUpdate: function() {
-			var attrs, text, html, begin, end, cursor, selection,
+		htmlUpdate: function () {
+			var attrs,
+				text,
+				html,
+				begin,
+				end,
+				cursor,
+				selection,
 				textarea = wpLink.textarea;
 
 			if ( ! textarea ) {
@@ -351,7 +411,11 @@
 			var parser = document.createElement( 'a' );
 			parser.href = attrs.href;
 
-			if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+			if (
+				'javascript:' === parser.protocol ||
+				'data:' === parser.protocol
+			) {
+				// jshint ignore:line
 				attrs.href = '';
 			}
 
@@ -360,7 +424,7 @@
 				return;
 			}
 
-			html = wpLink.buildHtml(attrs);
+			html = wpLink.buildHtml( attrs );
 
 			// Insert HTML.
 			if ( document.selection && wpLink.range ) {
@@ -368,7 +432,8 @@
 				// Note: If no text is selected, IE will not place the cursor
 				// inside the closing tag.
 				textarea.focus();
-				wpLink.range.text = html + ( text || wpLink.range.text ) + '</a>';
+				wpLink.range.text =
+					html + ( text || wpLink.range.text ) + '</a>';
 				wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
 				wpLink.range.select();
 
@@ -386,11 +451,10 @@
 					cursor -= 4;
 				}
 
-				textarea.value = (
+				textarea.value =
 					textarea.value.substring( 0, begin ) +
 					html +
-					textarea.value.substring( end, textarea.value.length )
-				);
+					textarea.value.substring( end, textarea.value.length );
 
 				// Update cursor position.
 				textarea.selectionStart = textarea.selectionEnd = cursor;
@@ -404,14 +468,20 @@
 			wp.a11y.speak( wpLinkL10n.linkInserted );
 		},
 
-		mceUpdate: function() {
+		mceUpdate: function () {
 			var attrs = wpLink.getAttrs(),
-				$link, text, hasText;
+				$link,
+				text,
+				hasText;
 
 			var parser = document.createElement( 'a' );
 			parser.href = attrs.href;
 
-			if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+			if (
+				'javascript:' === parser.protocol ||
+				'data:' === parser.protocol
+			) {
+				// jshint ignore:line
 				attrs.href = '';
 			}
 
@@ -423,10 +493,15 @@
 
 			$link = getLink();
 
-			editor.undoManager.transact( function() {
+			editor.undoManager.transact( function () {
 				if ( ! $link.length ) {
-					editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder', 'data-wp-temp-link': 1 } );
-					$link = editor.$( 'a[data-wp-temp-link="1"]' ).removeAttr( 'data-wp-temp-link' );
+					editor.execCommand( 'mceInsertLink', false, {
+						href: '_wp_link_placeholder',
+						'data-wp-temp-link': 1,
+					} );
+					$link = editor
+						.$( 'a[data-wp-temp-link="1"]' )
+						.removeAttr( 'data-wp-temp-link' );
 					hasText = $link.text().trim();
 				}
 
@@ -443,8 +518,8 @@
 						}
 					}
 
-					attrs['data-wplink-edit'] = null;
-					attrs['data-mce-href'] = attrs.href;
+					attrs[ 'data-wplink-edit' ] = null;
+					attrs[ 'data-mce-href' ] = attrs.href;
 					$link.attr( attrs );
 				}
 			} );
@@ -453,10 +528,10 @@
 			editor.focus();
 
 			if ( $link.length ) {
-				editor.selection.select( $link[0] );
+				editor.selection.select( $link[ 0 ] );
 
 				if ( editor.plugins.wplink ) {
-					editor.plugins.wplink.checkLink( $link[0] );
+					editor.plugins.wplink.checkLink( $link[ 0 ] );
 				}
 			}
 
@@ -466,22 +541,32 @@
 			wp.a11y.speak( wpLinkL10n.linkInserted );
 		},
 
-		updateFields: function( e, li ) {
+		updateFields: function ( e, li ) {
 			inputs.url.val( li.children( '.item-permalink' ).val() );
 
-			if ( inputs.wrap.hasClass( 'has-text-field' ) && ! inputs.text.val() ) {
+			if (
+				inputs.wrap.hasClass( 'has-text-field' ) &&
+				! inputs.text.val()
+			) {
 				inputs.text.val( li.children( '.item-title' ).text() );
 			}
 		},
 
-		getUrlFromSelection: function( selection ) {
+		getUrlFromSelection: function ( selection ) {
 			if ( ! selection ) {
 				if ( this.isMCE() ) {
-					selection = editor.selection.getContent({ format: 'text' });
+					selection = editor.selection.getContent( {
+						format: 'text',
+					} );
 				} else if ( document.selection && wpLink.range ) {
 					selection = wpLink.range.text;
-				} else if ( typeof this.textarea.selectionStart !== 'undefined' ) {
-					selection = this.textarea.value.substring( this.textarea.selectionStart, this.textarea.selectionEnd );
+				} else if (
+					typeof this.textarea.selectionStart !== 'undefined'
+				) {
+					selection = this.textarea.value.substring(
+						this.textarea.selectionStart,
+						this.textarea.selectionEnd
+					);
 				}
 			}
 
@@ -499,18 +584,18 @@
 			return '';
 		},
 
-		setDefaultValues: function( selection ) {
+		setDefaultValues: function ( selection ) {
 			inputs.url.val( this.getUrlFromSelection( selection ) );
 
 			// Empty the search field and swap the "rivers".
-			inputs.search.val('');
+			inputs.search.val( '' );
 			wpLink.searchInternalLinks();
 
 			// Update save prompt.
 			inputs.submit.val( wpLinkL10n.save );
 		},
 
-		searchInternalLinks: function() {
+		searchInternalLinks: function () {
 			var waiting,
 				search = inputs.search.val() || '',
 				minInputLength = parseInt( wpLinkL10n.minInputLength, 10 ) || 3;
@@ -520,40 +605,42 @@
 				rivers.search.show();
 
 				// Don't search if the keypress didn't change the title.
-				if ( wpLink.lastSearch == search )
-					return;
+				if ( wpLink.lastSearch == search ) return;
 
 				wpLink.lastSearch = search;
-				waiting = inputs.search.parent().find( '.spinner' ).addClass( 'is-active' );
+				waiting = inputs.search
+					.parent()
+					.find( '.spinner' )
+					.addClass( 'is-active' );
 
 				rivers.search.change( search );
-				rivers.search.ajax( function() {
+				rivers.search.ajax( function () {
 					waiting.removeClass( 'is-active' );
-				});
+				} );
 			} else {
 				rivers.search.hide();
 				rivers.recent.show();
 			}
 		},
 
-		next: function() {
+		next: function () {
 			rivers.search.next();
 			rivers.recent.next();
 		},
 
-		prev: function() {
+		prev: function () {
 			rivers.search.prev();
 			rivers.recent.prev();
 		},
 
-		keydown: function( event ) {
+		keydown: function ( event ) {
 			var fn, id;
 
 			// Escape key.
 			if ( 27 === event.keyCode ) {
 				wpLink.close();
 				event.stopImmediatePropagation();
-			// Tab key.
+				// Tab key.
 			} else if ( 9 === event.keyCode ) {
 				id = event.target.id;
 
@@ -569,12 +656,18 @@
 			}
 
 			// Up Arrow and Down Arrow keys.
-			if ( event.shiftKey || ( 38 !== event.keyCode && 40 !== event.keyCode ) ) {
+			if (
+				event.shiftKey ||
+				( 38 !== event.keyCode && 40 !== event.keyCode )
+			) {
 				return;
 			}
 
-			if ( document.activeElement &&
-				( document.activeElement.id === 'link-title-field' || document.activeElement.id === 'url-field' ) ) {
+			if (
+				document.activeElement &&
+				( document.activeElement.id === 'link-title-field' ||
+					document.activeElement.id === 'url-field' )
+			) {
 				return;
 			}
 
@@ -582,11 +675,14 @@
 			fn = 38 === event.keyCode ? 'prev' : 'next';
 			clearInterval( wpLink.keyInterval );
 			wpLink[ fn ]();
-			wpLink.keyInterval = setInterval( wpLink[ fn ], wpLink.keySensitivity );
+			wpLink.keyInterval = setInterval(
+				wpLink[ fn ],
+				wpLink.keySensitivity
+			);
 			event.preventDefault();
 		},
 
-		keyup: function( event ) {
+		keyup: function ( event ) {
 			// Up Arrow and Down Arrow keys.
 			if ( 38 === event.keyCode || 40 === event.keyCode ) {
 				clearInterval( wpLink.keyInterval );
@@ -594,70 +690,69 @@
 			}
 		},
 
-		delayedCallback: function( func, delay ) {
+		delayedCallback: function ( func, delay ) {
 			var timeoutTriggered, funcTriggered, funcArgs, funcContext;
 
-			if ( ! delay )
-				return func;
+			if ( ! delay ) return func;
 
-			setTimeout( function() {
-				if ( funcTriggered )
-					return func.apply( funcContext, funcArgs );
+			setTimeout( function () {
+				if ( funcTriggered ) return func.apply( funcContext, funcArgs );
 				// Otherwise, wait.
 				timeoutTriggered = true;
 			}, delay );
 
-			return function() {
-				if ( timeoutTriggered )
-					return func.apply( this, arguments );
+			return function () {
+				if ( timeoutTriggered ) return func.apply( this, arguments );
 				// Otherwise, wait.
 				funcArgs = arguments;
 				funcContext = this;
 				funcTriggered = true;
 			};
-		}
+		},
 	};
 
-	River = function( element, search ) {
+	River = function ( element, search ) {
 		var self = this;
 		this.element = element;
 		this.ul = element.children( 'ul' );
 		this.contentHeight = element.children( '#link-selector-height' );
-		this.waiting = element.find('.river-waiting');
+		this.waiting = element.find( '.river-waiting' );
 
 		this.change( search );
 		this.refresh();
 
-		$( '#wp-link .query-results, #wp-link #link-selector' ).on( 'scroll', function() {
-			self.maybeLoad();
-		});
-		element.on( 'click', 'li', function( event ) {
+		$( '#wp-link .query-results, #wp-link #link-selector' ).on(
+			'scroll',
+			function () {
+				self.maybeLoad();
+			}
+		);
+		element.on( 'click', 'li', function ( event ) {
 			self.select( $( this ), event );
-		});
+		} );
 	};
 
 	$.extend( River.prototype, {
-		refresh: function() {
+		refresh: function () {
 			this.deselect();
 			this.visible = this.element.is( ':visible' );
 		},
-		show: function() {
+		show: function () {
 			if ( ! this.visible ) {
 				this.deselect();
 				this.element.show();
 				this.visible = true;
 			}
 		},
-		hide: function() {
+		hide: function () {
 			this.element.hide();
 			this.visible = false;
 		},
 		// Selects a list item and triggers the river-select event.
-		select: function( li, event ) {
+		select: function ( li, event ) {
 			var liHeight, elHeight, liTop, elTop;
 
-			if ( li.hasClass( 'unselectable' ) || li == this.selected )
-				return;
+			if ( li.hasClass( 'unselectable' ) || li == this.selected ) return;
 
 			this.deselect();
 			this.selected = li.addClass( 'selected' );
@@ -667,107 +762,127 @@
 			liTop = li.position().top;
 			elTop = this.element.scrollTop();
 
-			if ( liTop < 0 ) // Make first visible element.
+			if ( liTop < 0 )
+				// Make first visible element.
 				this.element.scrollTop( elTop + liTop );
-			else if ( liTop + liHeight > elHeight ) // Make last visible element.
+			else if ( liTop + liHeight > elHeight )
+				// Make last visible element.
 				this.element.scrollTop( elTop + liTop - elHeight + liHeight );
 
 			// Trigger the river-select event.
 			this.element.trigger( 'river-select', [ li, event, this ] );
 		},
-		deselect: function() {
-			if ( this.selected )
-				this.selected.removeClass( 'selected' );
+		deselect: function () {
+			if ( this.selected ) this.selected.removeClass( 'selected' );
 			this.selected = false;
 		},
-		prev: function() {
-			if ( ! this.visible )
-				return;
+		prev: function () {
+			if ( ! this.visible ) return;
 
 			var to;
 			if ( this.selected ) {
 				to = this.selected.prev( 'li' );
-				if ( to.length )
-					this.select( to );
+				if ( to.length ) this.select( to );
 			}
 		},
-		next: function() {
-			if ( ! this.visible )
-				return;
+		next: function () {
+			if ( ! this.visible ) return;
 
-			var to = this.selected ? this.selected.next( 'li' ) : $( 'li:not(.unselectable):first', this.element );
-			if ( to.length )
-				this.select( to );
+			var to = this.selected
+				? this.selected.next( 'li' )
+				: $( 'li:not(.unselectable):first', this.element );
+			if ( to.length ) this.select( to );
 		},
-		ajax: function( callback ) {
+		ajax: function ( callback ) {
 			var self = this,
 				delay = this.query.page == 1 ? 0 : wpLink.minRiverAJAXDuration,
-				response = wpLink.delayedCallback( function( results, params ) {
+				response = wpLink.delayedCallback( function (
+					results,
+					params
+				) {
 					self.process( results, params );
-					if ( callback )
-						callback( results, params );
-				}, delay );
+					if ( callback ) callback( results, params );
+				},
+				delay );
 
 			this.query.ajax( response );
 		},
-		change: function( search ) {
-			if ( this.query && this._search == search )
-				return;
+		change: function ( search ) {
+			if ( this.query && this._search == search ) return;
 
 			this._search = search;
 			this.query = new Query( search );
 			this.element.scrollTop( 0 );
 		},
-		process: function( results, params ) {
-			var list = '', alt = true, classes = '',
+		process: function ( results, params ) {
+			var list = '',
+				alt = true,
+				classes = '',
 				firstPage = params.page == 1;
 
 			if ( ! results ) {
 				if ( firstPage ) {
-					list += '<li class="unselectable no-matches-found"><span class="item-title"><em>' +
-						wpLinkL10n.noMatchesFound + '</em></span></li>';
+					list +=
+						'<li class="unselectable no-matches-found"><span class="item-title"><em>' +
+						wpLinkL10n.noMatchesFound +
+						'</em></span></li>';
 				}
 			} else {
-				$.each( results, function() {
+				$.each( results, function () {
 					classes = alt ? 'alternate' : '';
 					classes += this.title ? '' : ' no-title';
 					list += classes ? '<li class="' + classes + '">' : '<li>';
-					list += '<input type="hidden" class="item-permalink" value="' + this.permalink + '" />';
+					list +=
+						'<input type="hidden" class="item-permalink" value="' +
+						this.permalink +
+						'" />';
 					list += '<span class="item-title">';
 					list += this.title ? this.title : wpLinkL10n.noTitle;
-					list += '</span><span class="item-info">' + this.info + '</span></li>';
+					list +=
+						'</span><span class="item-info">' +
+						this.info +
+						'</span></li>';
 					alt = ! alt;
-				});
+				} );
 			}
 
 			this.ul[ firstPage ? 'html' : 'append' ]( list );
 		},
-		maybeLoad: function() {
+		maybeLoad: function () {
 			var self = this,
 				el = this.element,
 				bottom = el.scrollTop() + el.height();
 
-			if ( ! this.query.ready() || bottom < this.contentHeight.height() - wpLink.riverBottomThreshold )
+			if (
+				! this.query.ready() ||
+				bottom <
+					this.contentHeight.height() - wpLink.riverBottomThreshold
+			)
 				return;
 
-			setTimeout(function() {
+			setTimeout( function () {
 				var newTop = el.scrollTop(),
 					newBottom = newTop + el.height();
 
-				if ( ! self.query.ready() || newBottom < self.contentHeight.height() - wpLink.riverBottomThreshold )
+				if (
+					! self.query.ready() ||
+					newBottom <
+						self.contentHeight.height() -
+							wpLink.riverBottomThreshold
+				)
 					return;
 
 				self.waiting.addClass( 'is-active' );
 				el.scrollTop( newTop + self.waiting.outerHeight() );
 
-				self.ajax( function() {
+				self.ajax( function () {
 					self.waiting.removeClass( 'is-active' );
-				});
+				} );
 			}, wpLink.timeToTriggerRiver );
-		}
-	});
+		},
+	} );
 
-	Query = function( search ) {
+	Query = function ( search ) {
 		this.page = 1;
 		this.allLoaded = false;
 		this.querying = false;
@@ -775,30 +890,34 @@
 	};
 
 	$.extend( Query.prototype, {
-		ready: function() {
+		ready: function () {
 			return ! ( this.querying || this.allLoaded );
 		},
-		ajax: function( callback ) {
+		ajax: function ( callback ) {
 			var self = this,
 				query = {
-					action : 'wp-link-ajax',
-					page : this.page,
-					'_ajax_linking_nonce' : inputs.nonce.val()
+					action: 'wp-link-ajax',
+					page: this.page,
+					_ajax_linking_nonce: inputs.nonce.val(),
 				};
 
-			if ( this.search )
-				query.search = this.search;
+			if ( this.search ) query.search = this.search;
 
 			this.querying = true;
 
-			$.post( window.ajaxurl, query, function( r ) {
-				self.page++;
-				self.querying = false;
-				self.allLoaded = ! r;
-				callback( r, query );
-			}, 'json' );
-		}
-	});
+			$.post(
+				window.ajaxurl,
+				query,
+				function ( r ) {
+					self.page++;
+					self.querying = false;
+					self.allLoaded = ! r;
+					callback( r, query );
+				},
+				'json'
+			);
+		},
+	} );
 
 	$( wpLink.init );
-})( jQuery, window.wpLinkL10n, window.wp );
+} )( jQuery, window.wpLinkL10n, window.wp );

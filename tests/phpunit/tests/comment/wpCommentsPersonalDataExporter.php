@@ -24,19 +24,19 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
     public function test_wp_comments_personal_data_exporter()
     {
         $args = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_agent'        => 'SOME_AGENT',
-            'comment_date'         => '2018-03-28 20:05:00',
-            'comment_content'      => 'Comment',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_agent' => 'SOME_AGENT',
+            'comment_date' => '2018-03-28 20:05:00',
+            'comment_content' => 'Comment',
         ];
 
         $comment_id = self::factory()->comment->create($args);
 
-        $actual   = wp_comments_personal_data_exporter($args['comment_author_email']);
+        $actual = wp_comments_personal_data_exporter($args['comment_author_email']);
         $expected = $args;
 
         $this->assertTrue($actual['done']);
@@ -69,7 +69,6 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_exporter_no_comments_found()
     {
-
         $actual = wp_comments_personal_data_exporter('nocommentsfound@local.host');
 
         $expected = [
@@ -88,14 +87,14 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
     public function test_wp_comments_personal_data_exporter_empty_comment_prop()
     {
         $args = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-03-28 20:05:00',
-            'comment_agent'        => '',
-            'comment_content'      => 'Comment',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-03-28 20:05:00',
+            'comment_agent' => '',
+            'comment_content' => 'Comment',
         ];
 
         $c = self::factory()->comment->create($args);
@@ -119,14 +118,14 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
     public function test_wp_comments_personal_data_exporter_empty_second_page()
     {
         $args = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-03-28 20:05:00',
-            'comment_agent'        => 'SOME_AGENT',
-            'comment_content'      => 'Comment',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-03-28 20:05:00',
+            'comment_agent' => 'SOME_AGENT',
+            'comment_content' => 'Comment',
         ];
 
         $c = self::factory()->comment->create($args);
@@ -146,16 +145,15 @@ class Tests_Comment_wpCommentsPersonalDataExporter extends WP_UnitTestCase
      */
     public function test_wp_comments_personal_data_exporter_orders_comments_by_id()
     {
-
         $args = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Comment Author',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Comment Author',
             'comment_author_email' => 'personal@local.host',
-            'comment_author_url'   => 'https://local.host/',
-            'comment_author_IP'    => '192.168.0.1',
-            'comment_date'         => '2018-03-28 20:05:00',
-            'comment_agent'        => 'SOME_AGENT',
-            'comment_content'      => 'Comment',
+            'comment_author_url' => 'https://local.host/',
+            'comment_author_IP' => '192.168.0.1',
+            'comment_date' => '2018-03-28 20:05:00',
+            'comment_agent' => 'SOME_AGENT',
+            'comment_content' => 'Comment',
         ];
         self::factory()->comment->create($args);
 

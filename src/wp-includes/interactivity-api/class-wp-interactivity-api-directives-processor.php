@@ -40,12 +40,12 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * It positions the cursor in the closer tag of the balanced template tag,
      * if it exists.
      *
+     * @return string|null The content between the current opener template tag and its matching closer tag or null if it
+     *                     doesn't find the matching closing tag or the current tag is not a template opener tag.
      * @since 6.5.0
      *
      * @access private
      *
-     * @return string|null The content between the current opener template tag and its matching closer tag or null if it
-     *                     doesn't find the matching closing tag or the current tag is not a template opener tag.
      */
     public function get_content_between_balanced_template_tags()
     {
@@ -54,7 +54,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         }
 
         $positions = $this->get_after_opener_tag_and_before_closer_tag_positions();
-        if (! $positions) {
+        if (!$positions) {
             return null;
         }
         [$after_opener_tag, $before_closer_tag] = $positions;
@@ -65,17 +65,17 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
     /**
      * Sets the content between two balanced tags.
      *
+     * @param string $new_content The string to replace the content between the matching tags.
+     * @return bool Whether the content was successfully replaced.
      * @since 6.5.0
      *
      * @access private
      *
-     * @param string $new_content The string to replace the content between the matching tags.
-     * @return bool Whether the content was successfully replaced.
      */
     public function set_content_between_balanced_tags(string $new_content): bool
     {
         $positions = $this->get_after_opener_tag_and_before_closer_tag_positions(true);
-        if (! $positions) {
+        if (!$positions) {
             return false;
         }
         [$after_opener_tag, $before_closer_tag] = $positions;
@@ -83,7 +83,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $this->lexical_updates[] = new WP_HTML_Text_Replacement(
             $after_opener_tag,
             $before_closer_tag - $after_opener_tag,
-            esc_html($new_content)
+            esc_html($new_content),
         );
 
         return true;
@@ -102,7 +102,7 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      */
     public function append_content_after_template_tag_closer(string $new_content): bool
     {
-        if (empty($new_content) || 'TEMPLATE' !== $this->get_tag() || ! $this->is_tag_closer()) {
+        if (empty($new_content) || 'TEMPLATE' !== $this->get_tag() || !$this->is_tag_closer()) {
             return false;
         }
 
@@ -127,12 +127,12 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * By default, it positions the cursor in the closer tag of the balanced tag.
      * If $rewind is true, it seeks back to the opener tag.
      *
+     * @param bool $rewind Optional. Whether to seek back to the opener tag after finding the positions. Defaults to false.
+     * @return array|null Start and end byte position, or null when no balanced tag bookmarks.
      * @since 6.5.0
      *
      * @access private
      *
-     * @param bool $rewind Optional. Whether to seek back to the opener tag after finding the positions. Defaults to false.
-     * @return array|null Start and end byte position, or null when no balanced tag bookmarks.
      */
     private function get_after_opener_tag_and_before_closer_tag_positions(bool $rewind = false)
     {
@@ -140,12 +140,12 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
         $this->get_updated_html();
 
         $bookmarks = $this->get_balanced_tag_bookmarks();
-        if (! $bookmarks) {
+        if (!$bookmarks) {
             return null;
         }
         [$opener_tag, $closer_tag] = $bookmarks;
 
-        $after_opener_tag  = $this->bookmarks[$opener_tag]->start + $this->bookmarks[$opener_tag]->length;
+        $after_opener_tag = $this->bookmarks[$opener_tag]->start + $this->bookmarks[$opener_tag]->length;
         $before_closer_tag = $this->bookmarks[$closer_tag]->start;
 
         if ($rewind) {
@@ -165,17 +165,17 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * It positions the cursor in the closer tag of the balanced tag, if it
      * exists.
      *
+     * @return array|null A pair of bookmarks, or null if there's no matching closing tag.
      * @since 6.5.0
      *
-     * @return array|null A pair of bookmarks, or null if there's no matching closing tag.
      */
     private function get_balanced_tag_bookmarks()
     {
-        static $i   = 0;
+        static $i = 0;
         $opener_tag = 'opener_tag_of_balanced_tag_' . ++$i;
 
         $this->set_bookmark($opener_tag);
-        if (! $this->next_balanced_tag_closer_tag()) {
+        if (!$this->next_balanced_tag_closer_tag()) {
             $this->release_bookmark($opener_tag);
             return null;
         }
@@ -195,21 +195,22 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * This function is intended to skip processing SVG and MathML inner content
      * instead of bailing out the whole processing.
      *
+     * @return bool Whether the foreign content was successfully skipped.
      * @since 6.5.0
      *
      * @access private
      *
-     * @return bool Whether the foreign content was successfully skipped.
      */
     public function skip_to_tag_closer(): bool
     {
-        $depth    = 1;
+        $depth = 1;
         $tag_name = $this->get_tag();
 
         while ($depth > 0 && $this->next_tag(['tag_closers' => 'visit'])) {
-            if (! $this->is_tag_closer() && $this->get_attribute_names_with_prefix('data-wp-')) {
+            if (!$this->is_tag_closer() && $this->get_attribute_names_with_prefix('data-wp-')) {
                 /* translators: 1: SVG or MATH HTML tag. */
-                $message = sprintf(__('Interactivity directives were detected inside an incompatible %1$s tag. These directives will be ignored in the server side render.'), $tag_name);
+                $message = sprintf(__('Interactivity directives were detected inside an incompatible %1$s tag. These directives will be ignored in the server side render.'),
+                    $tag_name);
                 _doing_it_wrong(__METHOD__, $message, '6.6.0');
             }
             if ($this->get_tag() === $tag_name) {
@@ -232,28 +233,28 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
      * closer tag, a tag that doesn't have a closer tag (void), a tag that
      * doesn't visit the closer tag, or if no matching closing tag was found.
      *
+     * @return bool Whether a matching closing tag was found.
      * @since 6.5.0
      *
      * @access private
      *
-     * @return bool Whether a matching closing tag was found.
      */
     public function next_balanced_tag_closer_tag(): bool
     {
-        $depth    = 0;
+        $depth = 0;
         $tag_name = $this->get_tag();
 
-        if (! $this->has_and_visits_its_closer_tag()) {
+        if (!$this->has_and_visits_its_closer_tag()) {
             return false;
         }
 
         while ($this->next_tag(
             [
-                'tag_name'    => $tag_name,
+                'tag_name' => $tag_name,
                 'tag_closers' => 'visit',
-            ]
+            ],
         )) {
-            if (! $this->is_tag_closer()) {
+            if (!$this->is_tag_closer()) {
                 ++$depth;
                 continue;
             }
@@ -271,19 +272,20 @@ final class WP_Interactivity_API_Directives_Processor extends WP_HTML_Tag_Proces
     /**
      * Checks whether the current tag has and will visit its matching closer tag.
      *
+     * @return bool Whether the current tag has a closer tag.
      * @since 6.5.0
      *
      * @access private
      *
-     * @return bool Whether the current tag has a closer tag.
      */
     public function has_and_visits_its_closer_tag(): bool
     {
         $tag_name = $this->get_tag();
 
-        return null !== $tag_name && (
-            ! WP_HTML_Processor::is_void($tag_name) &&
-            ! in_array($tag_name, self::TAGS_THAT_DONT_VISIT_CLOSER_TAG, true)
-        );
+        return null !== $tag_name
+            && (
+                !WP_HTML_Processor::is_void($tag_name)
+                && !in_array($tag_name, self::TAGS_THAT_DONT_VISIT_CLOSER_TAG, true)
+            );
     }
 }

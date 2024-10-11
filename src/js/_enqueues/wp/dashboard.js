@@ -12,9 +12,9 @@ window.communityEventsData = window.communityEventsData || {};
  *
  * @since 2.7.0
  */
-jQuery( function($) {
+jQuery( function ( $ ) {
 	var welcomePanel = $( '#welcome-panel' ),
-		welcomePanelHide = $('#wp_welcome_panel-hide'),
+		welcomePanelHide = $( '#wp_welcome_panel-hide' ),
 		updateWelcomePanel;
 
 	/**
@@ -26,32 +26,38 @@ jQuery( function($) {
 	 *
 	 * @return {void}
 	 */
-	updateWelcomePanel = function( visible ) {
+	updateWelcomePanel = function ( visible ) {
 		$.post( ajaxurl, {
 			action: 'update-welcome-panel',
 			visible: visible,
-			welcomepanelnonce: $( '#welcomepanelnonce' ).val()
-		});
+			welcomepanelnonce: $( '#welcomepanelnonce' ).val(),
+		} );
 	};
 
 	// Unhide the welcome panel if the Welcome Option checkbox is checked.
-	if ( welcomePanel.hasClass('hidden') && welcomePanelHide.prop('checked') ) {
-		welcomePanel.removeClass('hidden');
+	if (
+		welcomePanel.hasClass( 'hidden' ) &&
+		welcomePanelHide.prop( 'checked' )
+	) {
+		welcomePanel.removeClass( 'hidden' );
 	}
 
 	// Hide the welcome panel when the dismiss button or close button is clicked.
-	$('.welcome-panel-close, .welcome-panel-dismiss a', welcomePanel).on( 'click', function(e) {
-		e.preventDefault();
-		welcomePanel.addClass('hidden');
-		updateWelcomePanel( 0 );
-		$('#wp_welcome_panel-hide').prop('checked', false);
-	});
+	$( '.welcome-panel-close, .welcome-panel-dismiss a', welcomePanel ).on(
+		'click',
+		function ( e ) {
+			e.preventDefault();
+			welcomePanel.addClass( 'hidden' );
+			updateWelcomePanel( 0 );
+			$( '#wp_welcome_panel-hide' ).prop( 'checked', false );
+		}
+	);
 
 	// Set welcome panel visibility based on Welcome Option checkbox value.
-	welcomePanelHide.on( 'click', function() {
-		welcomePanel.toggleClass('hidden', ! this.checked );
+	welcomePanelHide.on( 'click', function () {
+		welcomePanel.toggleClass( 'hidden', ! this.checked );
 		updateWelcomePanel( this.checked ? 1 : 0 );
-	});
+	} );
 
 	/**
 	 * These widgets can be populated via ajax.
@@ -61,8 +67,8 @@ jQuery( function($) {
 	 * @type {string[]}
 	 *
 	 * @global
- 	 */
-	window.ajaxWidgets = ['dashboard_primary'];
+	 */
+	window.ajaxWidgets = [ 'dashboard_primary' ];
 
 	/**
 	 * Triggers widget updates via Ajax.
@@ -75,7 +81,7 @@ jQuery( function($) {
 	 *
 	 * @return {void}
 	 */
-	window.ajaxPopulateWidgets = function(el) {
+	window.ajaxPopulateWidgets = function ( el ) {
 		/**
 		 * Fetch the latest representation of the widget via Ajax and show it.
 		 *
@@ -84,19 +90,30 @@ jQuery( function($) {
 		 *
 		 * @return {void}
 		 */
-		function show(i, id) {
-			var p, e = $('#' + id + ' div.inside:visible').find('.widget-loading');
+		function show( i, id ) {
+			var p,
+				e = $( '#' + id + ' div.inside:visible' ).find(
+					'.widget-loading'
+				);
 			// If the element is found in the dom, queue to load latest representation.
 			if ( e.length ) {
 				p = e.parent();
-				setTimeout( function(){
+				setTimeout( function () {
 					// Request the widget content.
-					p.load( ajaxurl + '?action=dashboard-widgets&widget=' + id + '&pagenow=' + pagenow, '', function() {
-						// Hide the parent and slide it out for visual fanciness.
-						p.hide().slideDown('normal', function(){
-							$(this).css('display', '');
-						});
-					});
+					p.load(
+						ajaxurl +
+							'?action=dashboard-widgets&widget=' +
+							id +
+							'&pagenow=' +
+							pagenow,
+						'',
+						function () {
+							// Hide the parent and slide it out for visual fanciness.
+							p.hide().slideDown( 'normal', function () {
+								$( this ).css( 'display', '' );
+							} );
+						}
+					);
 				}, i * 500 );
 			}
 		}
@@ -105,9 +122,9 @@ jQuery( function($) {
 		if ( el ) {
 			el = el.toString();
 			// If the element is available as Ajax widget, show it.
-			if ( $.inArray(el, ajaxWidgets) !== -1 ) {
+			if ( $.inArray( el, ajaxWidgets ) !== -1 ) {
 				// Show element without any delay.
-				show(0, el);
+				show( 0, el );
 			}
 		} else {
 			// Walk through all ajaxWidgets, loading them after each other.
@@ -119,7 +136,7 @@ jQuery( function($) {
 	ajaxPopulateWidgets();
 
 	// Register ajax widgets as postbox toggles.
-	postboxes.add_postbox_toggles(pagenow, { pbshow: ajaxPopulateWidgets } );
+	postboxes.add_postbox_toggles( pagenow, { pbshow: ajaxPopulateWidgets } );
 
 	/**
 	 * Control the Quick Press (Quick Draft) widget.
@@ -130,53 +147,60 @@ jQuery( function($) {
 	 *
 	 * @return {void}
 	 */
-	window.quickPressLoad = function() {
-		var act = $('#quickpost-action'), t;
+	window.quickPressLoad = function () {
+		var act = $( '#quickpost-action' ),
+			t;
 
 		// Enable the submit buttons.
-		$( '#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]' ).prop( 'disabled' , false );
+		$(
+			'#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]'
+		).prop( 'disabled', false );
 
-		t = $('#quick-press').on( 'submit', function( e ) {
+		t = $( '#quick-press' ).on( 'submit', function ( e ) {
 			e.preventDefault();
 
 			// Show a spinner.
-			$('#dashboard_quick_press #publishing-action .spinner').show();
+			$( '#dashboard_quick_press #publishing-action .spinner' ).show();
 
 			// Disable the submit button to prevent duplicate submissions.
-			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', true);
+			$(
+				'#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]'
+			).prop( 'disabled', true );
 
 			// Post the entered data to save it.
-			$.post( t.attr( 'action' ), t.serializeArray(), function( data ) {
+			$.post( t.attr( 'action' ), t.serializeArray(), function ( data ) {
 				// Replace the form, and prepend the published post.
-				$('#dashboard_quick_press .inside').html( data );
-				$('#quick-press').removeClass('initial-form');
+				$( '#dashboard_quick_press .inside' ).html( data );
+				$( '#quick-press' ).removeClass( 'initial-form' );
 				quickPressLoad();
 				highlightLatestPost();
 
 				// Focus the title to allow for quickly drafting another post.
-				$('#title').trigger( 'focus' );
-			});
+				$( '#title' ).trigger( 'focus' );
+			} );
 
 			/**
 			 * Highlights the latest post for one second.
 			 *
 			 * @return {void}
- 			 */
-			function highlightLatestPost () {
-				var latestPost = $('.drafts ul li').first();
-				latestPost.css('background', '#fffbe5');
-				setTimeout(function () {
-					latestPost.css('background', 'none');
-				}, 1000);
+			 */
+			function highlightLatestPost() {
+				var latestPost = $( '.drafts ul li' ).first();
+				latestPost.css( 'background', '#fffbe5' );
+				setTimeout( function () {
+					latestPost.css( 'background', 'none' );
+				}, 1000 );
 			}
 		} );
 
 		// Change the QuickPost action to the publish value.
-		$('#publish').on( 'click', function() { act.val( 'post-quickpress-publish' ); } );
+		$( '#publish' ).on( 'click', function () {
+			act.val( 'post-quickpress-publish' );
+		} );
 
-		$('#quick-press').on( 'click focusin', function() {
+		$( '#quick-press' ).on( 'click focusin', function () {
 			wpActiveEditor = 'content';
-		});
+		} );
 
 		autoResizeTextarea();
 	};
@@ -199,48 +223,58 @@ jQuery( function($) {
 		}
 
 		// Add a hidden div. We'll copy over the text from the textarea to measure its height.
-		$('body').append( '<div class="quick-draft-textarea-clone" style="display: none;"></div>' );
+		$( 'body' ).append(
+			'<div class="quick-draft-textarea-clone" style="display: none;"></div>'
+		);
 
-		var clone = $('.quick-draft-textarea-clone'),
-			editor = $('#content'),
+		var clone = $( '.quick-draft-textarea-clone' ),
+			editor = $( '#content' ),
 			editorHeight = editor.height(),
 			/*
 			 * 100px roughly accounts for browser chrome and allows the
 			 * save draft button to show on-screen at the same time.
 			 */
-			editorMaxHeight = $(window).height() - 100;
+			editorMaxHeight = $( window ).height() - 100;
 
 		/*
 		 * Match up textarea and clone div as much as possible.
 		 * Padding cannot be reliably retrieved using shorthand in all browsers.
 		 */
-		clone.css({
-			'font-family': editor.css('font-family'),
-			'font-size':   editor.css('font-size'),
-			'line-height': editor.css('line-height'),
-			'padding-bottom': editor.css('paddingBottom'),
-			'padding-left': editor.css('paddingLeft'),
-			'padding-right': editor.css('paddingRight'),
-			'padding-top': editor.css('paddingTop'),
+		clone.css( {
+			'font-family': editor.css( 'font-family' ),
+			'font-size': editor.css( 'font-size' ),
+			'line-height': editor.css( 'line-height' ),
+			'padding-bottom': editor.css( 'paddingBottom' ),
+			'padding-left': editor.css( 'paddingLeft' ),
+			'padding-right': editor.css( 'paddingRight' ),
+			'padding-top': editor.css( 'paddingTop' ),
 			'white-space': 'pre-wrap',
 			'word-wrap': 'break-word',
-			'display': 'none'
-		});
+			display: 'none',
+		} );
 
 		// The 'propertychange' is used in IE < 9.
-		editor.on('focus input propertychange', function() {
-			var $this = $(this),
+		editor.on( 'focus input propertychange', function () {
+			var $this = $( this ),
 				// Add a non-breaking space to ensure that the height of a trailing newline is
 				// included.
 				textareaContent = $this.val() + '&nbsp;',
 				// Add 2px to compensate for border-top & border-bottom.
-				cloneHeight = clone.css('width', $this.css('width')).text(textareaContent).outerHeight() + 2;
+				cloneHeight =
+					clone
+						.css( 'width', $this.css( 'width' ) )
+						.text( textareaContent )
+						.outerHeight() + 2;
 
 			// Default to show a vertical scrollbar, if needed.
-			editor.css('overflow-y', 'auto');
+			editor.css( 'overflow-y', 'auto' );
 
 			// Only change the height if it has changed and both heights are below the max.
-			if ( cloneHeight === editorHeight || ( cloneHeight >= editorMaxHeight && editorHeight >= editorMaxHeight ) ) {
+			if (
+				cloneHeight === editorHeight ||
+				( cloneHeight >= editorMaxHeight &&
+					editorHeight >= editorMaxHeight )
+			) {
 				return;
 			}
 
@@ -255,15 +289,14 @@ jQuery( function($) {
 			}
 
 			// Disable scrollbars because we adjust the height to the content.
-			editor.css('overflow', 'hidden');
+			editor.css( 'overflow', 'hidden' );
 
-			$this.css('height', editorHeight + 'px');
-		});
+			$this.css( 'height', editorHeight + 'px' );
+		} );
 	}
-
 } );
 
-jQuery( function( $ ) {
+jQuery( function ( $ ) {
 	'use strict';
 
 	var communityEventsData = window.communityEventsData,
@@ -282,7 +315,7 @@ jQuery( function( $ ) {
 	 * @memberOf wp
 	 * @namespace wp.communityEvents
 	 */
-	app = window.wp.communityEvents = /** @lends wp.communityEvents */{
+	app = window.wp.communityEvents = /** @lends wp.communityEvents */ {
 		initialized: false,
 		model: null,
 
@@ -293,7 +326,7 @@ jQuery( function( $ ) {
 		 *
 		 * @return {void}
 		 */
-		init: function() {
+		init: function () {
 			if ( app.initialized ) {
 				return;
 			}
@@ -320,32 +353,47 @@ jQuery( function( $ ) {
 				.attr( 'aria-hidden', 'true' )
 				.removeClass( 'hide-if-js' );
 
-			$container.on( 'click', '.community-events-toggle-location, .community-events-cancel', app.toggleLocationForm );
+			$container.on(
+				'click',
+				'.community-events-toggle-location, .community-events-cancel',
+				app.toggleLocationForm
+			);
 
 			/**
 			 * Filters events based on entered location.
 			 *
 			 * @return {void}
 			 */
-			$container.on( 'submit', '.community-events-form', function( event ) {
-				var location = $( '#community-events-location' ).val().trim();
+			$container.on(
+				'submit',
+				'.community-events-form',
+				function ( event ) {
+					var location = $( '#community-events-location' )
+						.val()
+						.trim();
 
-				event.preventDefault();
+					event.preventDefault();
 
-				/*
-				 * Don't trigger a search if the search field is empty or the
-				 * search term was made of only spaces before being trimmed.
-				 */
-				if ( ! location ) {
-					return;
+					/*
+					 * Don't trigger a search if the search field is empty or the
+					 * search term was made of only spaces before being trimmed.
+					 */
+					if ( ! location ) {
+						return;
+					}
+
+					app.getEvents( {
+						location: location,
+					} );
 				}
+			);
 
-				app.getEvents({
-					location: location
-				});
-			});
-
-			if ( communityEventsData && communityEventsData.cache && communityEventsData.cache.location && communityEventsData.cache.events ) {
+			if (
+				communityEventsData &&
+				communityEventsData.cache &&
+				communityEventsData.cache.location &&
+				communityEventsData.cache.events
+			) {
 				app.renderEventsTemplate( communityEventsData.cache, 'app' );
 			} else {
 				app.getEvents();
@@ -364,11 +412,11 @@ jQuery( function( $ ) {
 		 *
 		 * @return {void}
 		 */
-		toggleLocationForm: function( action ) {
+		toggleLocationForm: function ( action ) {
 			var $toggleButton = $( '.community-events-toggle-location' ),
 				$cancelButton = $( '.community-events-cancel' ),
-				$form         = $( '.community-events-form' ),
-				$target       = $();
+				$form = $( '.community-events-form' ),
+				$target = $();
 
 			if ( 'object' === typeof action ) {
 				// The action is the event object: get the clicked element.
@@ -378,7 +426,10 @@ jQuery( function( $ ) {
 				 * we explicitly pass a string as value of aria-expanded and
 				 * sometimes a boolean as the result of an evaluation.
 				 */
-				action = 'true' == $toggleButton.attr( 'aria-expanded' ) ? 'hide' : 'show';
+				action =
+					'true' == $toggleButton.attr( 'aria-expanded' )
+						? 'hide'
+						: 'show';
 			}
 
 			if ( 'hide' === action ) {
@@ -409,25 +460,28 @@ jQuery( function( $ ) {
 		 *
 		 * @return {void}
 		 */
-		getEvents: function( requestParams ) {
+		getEvents: function ( requestParams ) {
 			var initiatedBy,
 				app = this,
 				$spinner = $( '.community-events-form' ).children( '.spinner' );
 
-			requestParams          = requestParams || {};
+			requestParams = requestParams || {};
 			requestParams._wpnonce = communityEventsData.nonce;
-			requestParams.timezone = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
+			requestParams.timezone = window.Intl
+				? window.Intl.DateTimeFormat().resolvedOptions().timeZone
+				: '';
 
 			initiatedBy = requestParams.location ? 'user' : 'app';
 
 			$spinner.addClass( 'is-active' );
 
-			wp.ajax.post( 'get-community-events', requestParams )
-				.always( function() {
+			wp.ajax
+				.post( 'get-community-events', requestParams )
+				.always( function () {
 					$spinner.removeClass( 'is-active' );
-				})
+				} )
 
-				.done( function( response ) {
+				.done( function ( response ) {
 					if ( 'no_location_available' === response.error ) {
 						if ( requestParams.location ) {
 							response.unknownCity = requestParams.location;
@@ -442,15 +496,18 @@ jQuery( function( $ ) {
 						}
 					}
 					app.renderEventsTemplate( response, initiatedBy );
-				})
+				} )
 
-				.fail( function() {
-					app.renderEventsTemplate({
-						'location' : false,
-						'events'   : [],
-						'error'    : true
-					}, initiatedBy );
-				});
+				.fail( function () {
+					app.renderEventsTemplate(
+						{
+							location: false,
+							events: [],
+							error: true,
+						},
+						initiatedBy
+					);
+				} );
 		},
 
 		/**
@@ -464,12 +521,12 @@ jQuery( function( $ ) {
 		 *
 		 * @return {void}
 		 */
-		renderEventsTemplate: function( templateParams, initiatedBy ) {
+		renderEventsTemplate: function ( templateParams, initiatedBy ) {
 			var template,
 				elementVisibility,
-				$toggleButton    = $( '.community-events-toggle-location' ),
+				$toggleButton = $( '.community-events-toggle-location' ),
 				$locationMessage = $( '#community-events-location-message' ),
-				$results         = $( '.community-events-results' );
+				$results = $( '.community-events-results' );
 
 			templateParams.events = app.populateDynamicEventFields(
 				templateParams.events,
@@ -486,14 +543,14 @@ jQuery( function( $ ) {
 			 * but once we've reached this point, it should always be shown.
 			 */
 			elementVisibility = {
-				'.community-events'                  : true,
-				'.community-events-loading'          : false,
-				'.community-events-errors'           : false,
-				'.community-events-error-occurred'   : false,
-				'.community-events-could-not-locate' : false,
-				'#community-events-location-message' : false,
-				'.community-events-toggle-location'  : false,
-				'.community-events-results'          : false
+				'.community-events': true,
+				'.community-events-loading': false,
+				'.community-events-errors': false,
+				'.community-events-error-occurred': false,
+				'.community-events-could-not-locate': false,
+				'#community-events-location-message': false,
+				'.community-events-toggle-location': false,
+				'.community-events-results': false,
 			};
 
 			/*
@@ -505,20 +562,25 @@ jQuery( function( $ ) {
 				 * If the API determined the location by geolocating an IP, it will
 				 * provide events, but not a specific location.
 				 */
-				$locationMessage.text( __( 'Attend an upcoming event near you.' ) );
+				$locationMessage.text(
+					__( 'Attend an upcoming event near you.' )
+				);
 
 				if ( templateParams.events.length ) {
 					template = wp.template( 'community-events-event-list' );
 					$results.html( template( templateParams ) );
 				} else {
-					template = wp.template( 'community-events-no-upcoming-events' );
+					template = wp.template(
+						'community-events-no-upcoming-events'
+					);
 					$results.html( template( templateParams ) );
 				}
 
-				elementVisibility['#community-events-location-message'] = true;
-				elementVisibility['.community-events-toggle-location']  = true;
-				elementVisibility['.community-events-results']          = true;
-
+				elementVisibility[
+					'#community-events-location-message'
+				] = true;
+				elementVisibility[ '.community-events-toggle-location' ] = true;
+				elementVisibility[ '.community-events-results' ] = true;
 			} else if ( templateParams.location.description ) {
 				template = wp.template( 'community-events-attend-event-near' );
 				$locationMessage.html( template( templateParams ) );
@@ -527,7 +589,9 @@ jQuery( function( $ ) {
 					template = wp.template( 'community-events-event-list' );
 					$results.html( template( templateParams ) );
 				} else {
-					template = wp.template( 'community-events-no-upcoming-events' );
+					template = wp.template(
+						'community-events-no-upcoming-events'
+					);
 					$results.html( template( templateParams ) );
 				}
 
@@ -542,13 +606,16 @@ jQuery( function( $ ) {
 					);
 				}
 
-				elementVisibility['#community-events-location-message'] = true;
-				elementVisibility['.community-events-toggle-location']  = true;
-				elementVisibility['.community-events-results']          = true;
-
+				elementVisibility[
+					'#community-events-location-message'
+				] = true;
+				elementVisibility[ '.community-events-toggle-location' ] = true;
+				elementVisibility[ '.community-events-results' ] = true;
 			} else if ( templateParams.unknownCity ) {
 				template = wp.template( 'community-events-could-not-locate' );
-				$( '.community-events-could-not-locate' ).html( template( templateParams ) );
+				$( '.community-events-could-not-locate' ).html(
+					template( templateParams )
+				);
 				wp.a11y.speak(
 					sprintf(
 						/*
@@ -567,14 +634,17 @@ jQuery( function( $ ) {
 						 * or country. Use the endonym (native locale name) instead of the
 						 * English name if possible.
 						 */
-						__( 'We couldn’t locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
+						__(
+							'We couldn’t locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.'
+						),
 						templateParams.unknownCity
 					)
 				);
 
-				elementVisibility['.community-events-errors']           = true;
-				elementVisibility['.community-events-could-not-locate'] = true;
-
+				elementVisibility[ '.community-events-errors' ] = true;
+				elementVisibility[
+					'.community-events-could-not-locate'
+				] = true;
 			} else if ( templateParams.error && 'user' === initiatedBy ) {
 				/*
 				 * Errors messages are only shown for requests that were initiated
@@ -584,23 +654,34 @@ jQuery( function( $ ) {
 				 */
 				wp.a11y.speak( __( 'An error occurred. Please try again.' ) );
 
-				elementVisibility['.community-events-errors']         = true;
-				elementVisibility['.community-events-error-occurred'] = true;
+				elementVisibility[ '.community-events-errors' ] = true;
+				elementVisibility[ '.community-events-error-occurred' ] = true;
 			} else {
-				$locationMessage.text( __( 'Enter your closest city to find nearby events.' ) );
+				$locationMessage.text(
+					__( 'Enter your closest city to find nearby events.' )
+				);
 
-				elementVisibility['#community-events-location-message'] = true;
-				elementVisibility['.community-events-toggle-location']  = true;
+				elementVisibility[
+					'#community-events-location-message'
+				] = true;
+				elementVisibility[ '.community-events-toggle-location' ] = true;
 			}
 
 			// Set the visibility of toggleable elements.
-			_.each( elementVisibility, function( isVisible, element ) {
+			_.each( elementVisibility, function ( isVisible, element ) {
 				$( element ).attr( 'aria-hidden', ! isVisible );
-			});
+			} );
 
-			$toggleButton.attr( 'aria-expanded', elementVisibility['.community-events-toggle-location'] );
+			$toggleButton.attr(
+				'aria-expanded',
+				elementVisibility[ '.community-events-toggle-location' ]
+			);
 
-			if ( templateParams.location && ( templateParams.location.ip || templateParams.location.latitude ) ) {
+			if (
+				templateParams.location &&
+				( templateParams.location.ip ||
+					templateParams.location.latitude )
+			) {
 				// Hide the form when there's a valid location.
 				app.toggleLocationForm( 'hide' );
 
@@ -630,12 +711,14 @@ jQuery( function( $ ) {
 		 *
 		 * @returns {Array}
 		 */
-		populateDynamicEventFields: function( rawEvents, timeFormat ) {
+		populateDynamicEventFields: function ( rawEvents, timeFormat ) {
 			// Clone the parameter to avoid mutating it, so that this can remain a pure function.
 			var populatedEvents = JSON.parse( JSON.stringify( rawEvents ) );
 
-			$.each( populatedEvents, function( index, event ) {
-				var timeZone = app.getTimeZone( event.start_unix_timestamp * 1000 );
+			$.each( populatedEvents, function ( index, event ) {
+				var timeZone = app.getTimeZone(
+					event.start_unix_timestamp * 1000
+				);
 
 				event.user_formatted_date = app.getFormattedDate(
 					event.start_unix_timestamp * 1000,
@@ -649,7 +732,9 @@ jQuery( function( $ ) {
 					timeZone
 				);
 
-				event.timeZoneAbbreviation = app.getTimeZoneAbbreviation( event.start_unix_timestamp * 1000 );
+				event.timeZoneAbbreviation = app.getTimeZoneAbbreviation(
+					event.start_unix_timestamp * 1000
+				);
 			} );
 
 			return populatedEvents;
@@ -664,7 +749,7 @@ jQuery( function( $ ) {
 		 *
 		 * @returns {string|number}
 		 */
-		getTimeZone: function( startTimestamp ) {
+		getTimeZone: function ( startTimestamp ) {
 			/*
 			 * Prefer a name like `Europe/Helsinki`, since that automatically tracks daylight savings. This
 			 * doesn't need to take `startTimestamp` into account for that reason.
@@ -699,7 +784,7 @@ jQuery( function( $ ) {
 		 *
 		 * @returns {number}
 		 */
-		getFlippedTimeZoneOffset: function( startTimestamp ) {
+		getFlippedTimeZoneOffset: function ( startTimestamp ) {
 			return new Date( startTimestamp ).getTimezoneOffset() * -1;
 		},
 
@@ -712,7 +797,7 @@ jQuery( function( $ ) {
 		 *
 		 * @returns {string}
 		 */
-		getTimeZoneAbbreviation: function( startTimestamp ) {
+		getTimeZoneAbbreviation: function ( startTimestamp ) {
 			var timeZoneAbbreviation,
 				eventDateTime = new Date( startTimestamp );
 
@@ -724,10 +809,12 @@ jQuery( function( $ ) {
 			 * This doesn't need to take `startTimestamp` into account, because a name like
 			 * `America/Chicago` automatically tracks daylight savings.
 			 */
-			var shortTimeStringParts = eventDateTime.toLocaleTimeString( undefined, { timeZoneName : 'short' } ).split( ' ' );
+			var shortTimeStringParts = eventDateTime
+				.toLocaleTimeString( undefined, { timeZoneName: 'short' } )
+				.split( ' ' );
 
 			if ( 3 === shortTimeStringParts.length ) {
-				timeZoneAbbreviation = shortTimeStringParts[2];
+				timeZoneAbbreviation = shortTimeStringParts[ 2 ];
 			}
 
 			if ( 'undefined' === typeof timeZoneAbbreviation ) {
@@ -735,11 +822,15 @@ jQuery( function( $ ) {
 				 * It's important to use the _event_ time, not the _current_
 				 * time, so that daylight savings time is accounted for.
 				 */
-				var timeZoneOffset = app.getFlippedTimeZoneOffset( startTimestamp ),
+				var timeZoneOffset =
+						app.getFlippedTimeZoneOffset( startTimestamp ),
 					sign = -1 === Math.sign( timeZoneOffset ) ? '' : '+';
 
 				// translators: Used as part of a string like `GMT+5` in the Events Widget.
-				timeZoneAbbreviation = _x( 'GMT', 'Events widget offset prefix' ) + sign + ( timeZoneOffset / 60 );
+				timeZoneAbbreviation =
+					_x( 'GMT', 'Events widget offset prefix' ) +
+					sign +
+					timeZoneOffset / 60;
 			}
 
 			return timeZoneAbbreviation;
@@ -756,7 +847,7 @@ jQuery( function( $ ) {
 		 *
 		 * @returns {string}
 		 */
-		getFormattedDate: function( startDate, endDate, timeZone ) {
+		getFormattedDate: function ( startDate, endDate, timeZone ) {
 			var formattedDate;
 
 			/*
@@ -778,47 +869,91 @@ jQuery( function( $ ) {
 				multipleMonthEvent = __( '%1$s %2$d – %3$s %4$d, %5$d' );
 
 			// Detect single-day events.
-			if ( ! endDate || format( 'Y-m-d', startDate ) === format( 'Y-m-d', endDate ) ) {
+			if (
+				! endDate ||
+				format( 'Y-m-d', startDate ) === format( 'Y-m-d', endDate )
+			) {
 				formattedDate = dateI18n( singleDayEvent, startDate, timeZone );
 
-			// Multiple day events.
-			} else if ( format( 'Y-m', startDate ) === format( 'Y-m', endDate ) ) {
+				// Multiple day events.
+			} else if (
+				format( 'Y-m', startDate ) === format( 'Y-m', endDate )
+			) {
 				formattedDate = sprintf(
 					multipleDayEvent,
-					dateI18n( _x( 'F', 'upcoming events month format' ), startDate, timeZone ),
-					dateI18n( _x( 'j', 'upcoming events day format' ), startDate, timeZone ),
-					dateI18n( _x( 'j', 'upcoming events day format' ), endDate, timeZone ),
-					dateI18n( _x( 'Y', 'upcoming events year format' ), endDate, timeZone )
+					dateI18n(
+						_x( 'F', 'upcoming events month format' ),
+						startDate,
+						timeZone
+					),
+					dateI18n(
+						_x( 'j', 'upcoming events day format' ),
+						startDate,
+						timeZone
+					),
+					dateI18n(
+						_x( 'j', 'upcoming events day format' ),
+						endDate,
+						timeZone
+					),
+					dateI18n(
+						_x( 'Y', 'upcoming events year format' ),
+						endDate,
+						timeZone
+					)
 				);
 
-			// Multi-day events that cross a month boundary.
+				// Multi-day events that cross a month boundary.
 			} else {
 				formattedDate = sprintf(
 					multipleMonthEvent,
-					dateI18n( _x( 'F', 'upcoming events month format' ), startDate, timeZone ),
-					dateI18n( _x( 'j', 'upcoming events day format' ), startDate, timeZone ),
-					dateI18n( _x( 'F', 'upcoming events month format' ), endDate, timeZone ),
-					dateI18n( _x( 'j', 'upcoming events day format' ), endDate, timeZone ),
-					dateI18n( _x( 'Y', 'upcoming events year format' ), endDate, timeZone )
+					dateI18n(
+						_x( 'F', 'upcoming events month format' ),
+						startDate,
+						timeZone
+					),
+					dateI18n(
+						_x( 'j', 'upcoming events day format' ),
+						startDate,
+						timeZone
+					),
+					dateI18n(
+						_x( 'F', 'upcoming events month format' ),
+						endDate,
+						timeZone
+					),
+					dateI18n(
+						_x( 'j', 'upcoming events day format' ),
+						endDate,
+						timeZone
+					),
+					dateI18n(
+						_x( 'Y', 'upcoming events year format' ),
+						endDate,
+						timeZone
+					)
 				);
 			}
 
 			return formattedDate;
-		}
+		},
 	};
 
 	if ( $( '#dashboard_primary' ).is( ':visible' ) ) {
 		app.init();
 	} else {
-		$( document ).on( 'postbox-toggled', function( event, postbox ) {
+		$( document ).on( 'postbox-toggled', function ( event, postbox ) {
 			var $postbox = $( postbox );
 
-			if ( 'dashboard_primary' === $postbox.attr( 'id' ) && $postbox.is( ':visible' ) ) {
+			if (
+				'dashboard_primary' === $postbox.attr( 'id' ) &&
+				$postbox.is( ':visible' )
+			) {
 				app.init();
 			}
-		});
+		} );
 	}
-});
+} );
 
 /**
  * Removed in 5.6.0, needed for back-compatibility.
@@ -827,13 +962,17 @@ jQuery( function( $ ) {
  * @deprecated 5.6.0
  *
  * @type {object}
-*/
+ */
 window.communityEventsData.l10n = window.communityEventsData.l10n || {
 	enter_closest_city: '',
 	error_occurred_please_try_again: '',
 	attend_event_near_generic: '',
 	could_not_locate_city: '',
-	city_updated: ''
+	city_updated: '',
 };
 
-window.communityEventsData.l10n = window.wp.deprecateL10nObject( 'communityEventsData.l10n', window.communityEventsData.l10n, '5.6.0' );
+window.communityEventsData.l10n = window.wp.deprecateL10nObject(
+	'communityEventsData.l10n',
+	window.communityEventsData.l10n,
+	'5.6.0'
+);

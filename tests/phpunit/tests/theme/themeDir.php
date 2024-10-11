@@ -60,7 +60,7 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
     public function test_theme_default()
     {
         $themes = get_themes();
-        $theme  = get_theme('WP Default');
+        $theme = get_theme('WP Default');
         $this->assertSame($themes['WP Default'], $theme);
 
         $this->assertNotEmpty($theme);
@@ -69,7 +69,8 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
 
         $this->assertSame('WP Default', $theme['Name']);
         $this->assertSame('WP Default', $theme['Title']);
-        $this->assertSame('The default WordPress theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.', $theme['Description']);
+        $this->assertSame('The default WordPress theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.',
+            $theme['Description']);
         $this->assertSame('<a href="http://binarybonsai.com/">Michael Heilemann</a>', $theme['Author']);
         $this->assertSame('1.6', $theme['Version']);
         $this->assertSame('default', $theme['Template']);
@@ -99,8 +100,10 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
 
         $this->assertSame('Sandbox', $theme['Name']);
         $this->assertSame('Sandbox', $theme['Title']);
-        $this->assertSame('A theme with powerful, semantic CSS selectors and the ability to add new skins.', $theme['Description']);
-        $this->assertSame('<a href="http://andy.wordpress.com/">Andy Skelton</a> &amp; <a href="http://www.plaintxt.org/">Scott Allan Wallick</a>', $theme['Author']);
+        $this->assertSame('A theme with powerful, semantic CSS selectors and the ability to add new skins.',
+            $theme['Description']);
+        $this->assertSame('<a href="http://andy.wordpress.com/">Andy Skelton</a> &amp; <a href="http://www.plaintxt.org/">Scott Allan Wallick</a>',
+            $theme['Author']);
         $this->assertSame('0.6.1-wpcom', $theme['Version']);
         $this->assertSame('sandbox', $theme['Template']);
         $this->assertSame('sandbox', $theme['Stylesheet']);
@@ -167,7 +170,7 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
         }
 
         $theme_names = array_keys($themes);
-        $expected    = [
+        $expected = [
             'WP Default',
             'Default Child Theme with no theme.json',
             'Sandbox',
@@ -214,15 +217,16 @@ class Tests_Theme_ThemeDir extends WP_UnitTestCase
         $themes = get_themes();
 
         $expected = [
-            'broken-theme'           => [
-                'Name'        => 'broken-theme',
-                'Title'       => 'broken-theme',
+            'broken-theme' => [
+                'Name' => 'broken-theme',
+                'Title' => 'broken-theme',
                 'Description' => __('Stylesheet is missing.'),
             ],
             'Child and Parent Theme' => [
-                'Name'        => 'Child and Parent Theme',
-                'Title'       => 'Child and Parent Theme',
-                'Description' => sprintf(__('The theme defines itself as its parent theme. Please check the %s header.'), '<code>Template</code>'),
+                'Name' => 'Child and Parent Theme',
+                'Title' => 'Child and Parent Theme',
+                'Description' => sprintf(__('The theme defines itself as its parent theme. Please check the %s header.'),
+                    '<code>Template</code>'),
             ],
         ];
 

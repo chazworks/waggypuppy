@@ -31,9 +31,9 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
     {
         self::$user_id = $factory->user->create(
             [
-                'role'   => 'administrator',
+                'role' => 'administrator',
                 'locale' => 'de_DE',
-            ]
+            ],
         );
     }
 
@@ -41,7 +41,7 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
     {
         parent::set_up();
 
-        $this->locale          = '';
+        $this->locale = '';
         $this->previous_locale = '';
 
         unset($GLOBALS['l10n'], $GLOBALS['l10n_unloaded']);
@@ -353,7 +353,7 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
 
     public function store_locale($locale, $previous_locale)
     {
-        $this->locale          = $locale;
+        $this->locale = $locale;
         $this->previous_locale = $previous_locale;
     }
 
@@ -421,9 +421,9 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
         load_default_textdomain($user_locale);
         $language_header_before_switch = $l10n['default']->headers['Language']; // de_DE
 
-        $locale_switched_user_locale  = switch_to_locale($user_locale); // False.
-        $locale_switched_site_locale  = switch_to_locale($site_locale); // True.
-        $site_locale_after_switch     = get_locale();
+        $locale_switched_user_locale = switch_to_locale($user_locale); // False.
+        $locale_switched_site_locale = switch_to_locale($site_locale); // True.
+        $site_locale_after_switch = get_locale();
         $language_header_after_switch = is_textdomain_loaded('default'); // en_US
 
         restore_current_locale();
@@ -465,9 +465,9 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
         load_default_textdomain($user_locale);
         $language_header_before_switch = $l10n['default']->headers['Language']; // de_DE
 
-        $locale_switched_user_locale  = switch_to_locale($user_locale); // False.
-        $locale_switched_site_locale  = switch_to_locale($site_locale); // True.
-        $site_locale_after_switch     = get_locale();
+        $locale_switched_user_locale = switch_to_locale($user_locale); // False.
+        $locale_switched_site_locale = switch_to_locale($site_locale); // True.
+        $site_locale_after_switch = get_locale();
         $language_header_after_switch = $l10n['default']->headers['Language']; // es_ES
 
         restore_current_locale();
@@ -629,7 +629,7 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
 
         $has_translations = $wp_textdomain_registry->has('internationalized-plugin');
-        $path             = $wp_textdomain_registry->get('internationalized-plugin', 'es_ES');
+        $path = $wp_textdomain_registry->get('internationalized-plugin', 'es_ES');
 
         $actual = i18n_plugin_test();
 
@@ -657,32 +657,32 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
 
         $user_2 = self::factory()->user->create(
             [
-                'role'   => 'administrator',
+                'role' => 'administrator',
                 'locale' => 'es_ES',
-            ]
+            ],
         );
 
-        $locale_1  = $wp_locale_switcher->get_switched_locale();
+        $locale_1 = $wp_locale_switcher->get_switched_locale();
         $user_id_1 = $wp_locale_switcher->get_switched_user_id();
 
         switch_to_user_locale(self::$user_id);
 
-        $locale_2  = $wp_locale_switcher->get_switched_locale();
+        $locale_2 = $wp_locale_switcher->get_switched_locale();
         $user_id_2 = $wp_locale_switcher->get_switched_user_id();
 
         switch_to_locale('en_GB');
 
-        $locale_3  = $wp_locale_switcher->get_switched_locale();
+        $locale_3 = $wp_locale_switcher->get_switched_locale();
         $user_id_3 = $wp_locale_switcher->get_switched_user_id();
 
         switch_to_user_locale($user_2);
 
-        $locale_4  = $wp_locale_switcher->get_switched_locale();
+        $locale_4 = $wp_locale_switcher->get_switched_locale();
         $user_id_4 = $wp_locale_switcher->get_switched_user_id();
 
         restore_current_locale();
 
-        $locale_5  = $wp_locale_switcher->get_switched_locale();
+        $locale_5 = $wp_locale_switcher->get_switched_locale();
         $user_id_5 = $wp_locale_switcher->get_switched_user_id();
 
         $this->assertFalse($locale_1, 'Locale should be false before switching');
@@ -713,22 +713,22 @@ class Tests_L10n_wpLocaleSwitcher extends WP_UnitTestCase
     {
         global $wp_locale_switcher;
 
-        $locale_1  = $wp_locale_switcher->get_switched_locale();
+        $locale_1 = $wp_locale_switcher->get_switched_locale();
         $user_id_1 = $wp_locale_switcher->get_switched_user_id();
 
         switch_to_user_locale(self::$user_id);
 
-        $locale_2  = $wp_locale_switcher->get_switched_locale();
+        $locale_2 = $wp_locale_switcher->get_switched_locale();
         $user_id_2 = $wp_locale_switcher->get_switched_user_id();
 
         switch_to_locale('en_GB');
 
-        $locale_3  = $wp_locale_switcher->get_switched_locale();
+        $locale_3 = $wp_locale_switcher->get_switched_locale();
         $user_id_3 = $wp_locale_switcher->get_switched_user_id();
 
         restore_previous_locale();
 
-        $locale_4  = $wp_locale_switcher->get_switched_locale();
+        $locale_4 = $wp_locale_switcher->get_switched_locale();
         $user_id_4 = $wp_locale_switcher->get_switched_user_id();
 
         $this->assertFalse($locale_1, 'Locale should be false before switching');

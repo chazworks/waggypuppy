@@ -6,10 +6,10 @@
  */
 
 return [
-    'title'      => _x('Large title', 'Block pattern title'),
+    'title' => _x('Large title', 'Block pattern title'),
     'blockTypes' => ['core/query'],
     'categories' => ['query'],
-    'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"100px","right":"100px","bottom":"100px","left":"100px"}},"color":{"text":"#ffffff","background":"#000000"}}} -->
+    'content' => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"100px","right":"100px","bottom":"100px","left":"100px"}},"color":{"text":"#ffffff","background":"#000000"}}} -->
 					<div class="wp-block-group alignfull has-text-color has-background" style="background-color:#000000;color:#ffffff;padding-top:100px;padding-right:100px;padding-bottom:100px;padding-left:100px"><!-- wp:query {"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false}} -->
 					<div class="wp-block-query"><!-- wp:post-template -->
 					<!-- wp:separator {"customColor":"#ffffff","align":"wide","className":"is-style-wide"} -->

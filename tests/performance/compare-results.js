@@ -53,17 +53,21 @@ let summaryMarkdown = `## Performance Test Results\n\n`;
 
 if ( process.env.TARGET_SHA ) {
 	if ( beforeStats.length > 0 ) {
-		if (process.env.GITHUB_SHA) {
-			summaryMarkdown += `This compares the results from this commit (${linkToSha(
+		if ( process.env.GITHUB_SHA ) {
+			summaryMarkdown += `This compares the results from this commit (${ linkToSha(
 				process.env.GITHUB_SHA
-			)}) with the ones from ${linkToSha(process.env.TARGET_SHA)}.\n\n`;
-		} else {
-			summaryMarkdown += `This compares the results from this commit with the ones from ${linkToSha(
+			) }) with the ones from ${ linkToSha(
 				process.env.TARGET_SHA
-			)}.\n\n`;
+			) }.\n\n`;
+		} else {
+			summaryMarkdown += `This compares the results from this commit with the ones from ${ linkToSha(
+				process.env.TARGET_SHA
+			) }.\n\n`;
 		}
 	} else {
-		summaryMarkdown += `Note: no build was found for the target commit ${linkToSha(process.env.TARGET_SHA)}. No comparison is possible.\n\n`;
+		summaryMarkdown += `Note: no build was found for the target commit ${ linkToSha(
+			process.env.TARGET_SHA
+		) }. No comparison is possible.\n\n`;
 	}
 }
 

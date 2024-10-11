@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Testing Ajax response class
  *
@@ -63,9 +64,7 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase
      *
      * @param string $message
      */
-    public function dieHandler($message)
-    {
-    }
+    public function dieHandler($message) {}
 
     /**
      * Test that charset in header matches blog_charset
@@ -82,7 +81,6 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase
      */
     public function test_response_charset_in_header()
     {
-
         // Generate an Ajax response.
         ob_start();
         $ajax_response = new WP_Ajax_Response();
@@ -102,7 +100,6 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase
      */
     public function test_response_charset_in_xml()
     {
-
         // Generate an Ajax response.
         ob_start();
         $ajax_response = new WP_Ajax_Response();
@@ -110,6 +107,8 @@ class Tests_Ajax_wpAjaxResponse extends WP_UnitTestCase
 
         // Check the XML tag.
         $contents = ob_get_clean();
-        $this->assertMatchesRegularExpression('/<\?xml\s+version=\'1.0\'\s+encoding=\'' . preg_quote(get_option('blog_charset')) . '\'\s+standalone=\'yes\'\?>/', $contents);
+        $this->assertMatchesRegularExpression('/<\?xml\s+version=\'1.0\'\s+encoding=\''
+            . preg_quote(get_option('blog_charset'))
+            . '\'\s+standalone=\'yes\'\?>/', $contents);
     }
 }

@@ -30,8 +30,7 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control
      *
      * @since 4.3.0
      */
-    protected function render_content()
-    {}
+    protected function render_content() {}
 
     /**
      * Render the Underscore template for this control.
@@ -43,16 +42,16 @@ class WP_Customize_Nav_Menu_Name_Control extends WP_Customize_Control
         ?>
         <label>
             <# if ( data.label ) { #>
-                <span class="customize-control-title">{{ data.label }}</span>
+            <span class="customize-control-title">{{ data.label }}</span>
             <# } #>
             <input type="text" class="menu-name-field live-update-section-title"
-                <# if ( data.description ) { #>
-                    aria-describedby="{{ data.section }}-description"
-                <# } #>
-                />
+            <# if ( data.description ) { #>
+            aria-describedby="{{ data.section }}-description"
+            <# } #>
+            />
         </label>
         <# if ( data.description ) { #>
-            <p id="{{ data.section }}-description">{{ data.description }}</p>
+        <p id="{{ data.section }}-description">{{ data.description }}</p>
         <# } #>
         <?php
     }

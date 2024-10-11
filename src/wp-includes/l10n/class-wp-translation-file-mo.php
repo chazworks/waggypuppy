@@ -37,10 +37,10 @@ class WP_Translation_File_MO extends WP_Translation_File
     /**
      * Detects endian and validates file.
      *
-     * @since 6.5.0
-     *
      * @param string $header File contents.
      * @return false|'V'|'N' V for little endian, N for big endian, or false on failure.
+     * @since 6.5.0
+     *
      */
     protected function detect_endian_and_validate_file(string $header)
     {
@@ -69,12 +69,12 @@ class WP_Translation_File_MO extends WP_Translation_File
         }
 
         // Force cast to an integer as it can be a float on x86 systems. See https://core.trac.wp.org/ticket/60678.
-        if ((int) self::MAGIC_MARKER === $big) {
+        if ((int)self::MAGIC_MARKER === $big) {
             return 'N';
         }
 
         // Force cast to an integer as it can be a float on x86 systems. See https://core.trac.wp.org/ticket/60678.
-        if ((int) self::MAGIC_MARKER === $little) {
+        if ((int)self::MAGIC_MARKER === $little) {
             return 'V';
         }
 
@@ -85,15 +85,15 @@ class WP_Translation_File_MO extends WP_Translation_File
     /**
      * Parses the file.
      *
+     * @return bool True on success, false otherwise.
      * @since 6.5.0
      *
-     * @return bool True on success, false otherwise.
      */
     protected function parse_file(): bool
     {
         $this->parsed = true;
 
-        $file_contents = file_get_contents($this->file); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+        $file_contents = file_get_contents($this->file);
 
         if (false === $file_contents) {
             return false;
@@ -118,13 +118,14 @@ class WP_Translation_File_MO extends WP_Translation_File
             return false;
         }
 
-        $offsets = unpack("{$this->uint32}rev/{$this->uint32}total/{$this->uint32}originals_addr/{$this->uint32}translations_addr/{$this->uint32}hash_length/{$this->uint32}hash_addr", $offsets);
+        $offsets = unpack("{$this->uint32}rev/{$this->uint32}total/{$this->uint32}originals_addr/{$this->uint32}translations_addr/{$this->uint32}hash_length/{$this->uint32}hash_addr",
+            $offsets);
 
         if (false === $offsets) {
             return false;
         }
 
-        $offsets['originals_length']    = $offsets['translations_addr'] - $offsets['originals_addr'];
+        $offsets['originals_length'] = $offsets['translations_addr'] - $offsets['originals_addr'];
         $offsets['translations_length'] = $offsets['hash_addr'] - $offsets['translations_addr'];
 
         if ($offsets['rev'] > 0) {
@@ -138,8 +139,9 @@ class WP_Translation_File_MO extends WP_Translation_File
         }
 
         // Load the Originals.
-        $original_data     = str_split(substr($file_contents, $offsets['originals_addr'], $offsets['originals_length']), 8);
-        $translations_data = str_split(substr($file_contents, $offsets['translations_addr'], $offsets['translations_length']), 8);
+        $original_data = str_split(substr($file_contents, $offsets['originals_addr'], $offsets['originals_length']), 8);
+        $translations_data = str_split(substr($file_contents, $offsets['translations_addr'],
+            $offsets['translations_length']), 8);
 
         foreach (array_keys($original_data) as $i) {
             $o = unpack("{$this->uint32}length/{$this->uint32}pos", $original_data[$i]);
@@ -149,7 +151,7 @@ class WP_Translation_File_MO extends WP_Translation_File
                 continue;
             }
 
-            $original    = substr($file_contents, $o['pos'], $o['length']);
+            $original = substr($file_contents, $o['pos'], $o['length']);
             $translation = substr($file_contents, $t['pos'], $t['length']);
             // GlotPress bug.
             $translation = rtrim($translation, "\0");
@@ -157,7 +159,7 @@ class WP_Translation_File_MO extends WP_Translation_File
             // Metadata about the MO file is stored in the first translation entry.
             if ('' === $original) {
                 foreach (explode("\n", $translation) as $meta_line) {
-                    if ('' === $meta_line || ! str_contains($meta_line, ':')) {
+                    if ('' === $meta_line || !str_contains($meta_line, ':')) {
                         continue;
                     }
 
@@ -172,7 +174,7 @@ class WP_Translation_File_MO extends WP_Translation_File
                  * which caters for cases where both __( 'Product' ) and _n( 'Product', 'Products' )
                  * are used and the translation is expected to be the same for both.
                  */
-                $parts = explode("\0", (string) $original);
+                $parts = explode("\0", (string)$original);
 
                 $this->entries[$parts[0]] = $translation;
             }
@@ -184,9 +186,9 @@ class WP_Translation_File_MO extends WP_Translation_File
     /**
      * Exports translation contents as a string.
      *
+     * @return string Translation file contents.
      * @since 6.5.0
      *
-     * @return string Translation file contents.
      */
     public function export(): string
     {
@@ -195,7 +197,7 @@ class WP_Translation_File_MO extends WP_Translation_File
         foreach ($this->headers as $header => $value) {
             $headers_string .= "{$header}: $value\n";
         }
-        $entries     = array_merge(['' => $headers_string], $this->entries);
+        $entries = array_merge(['' => $headers_string], $this->entries);
         $entry_count = count($entries);
 
         if (false === $this->uint32) {
@@ -204,38 +206,38 @@ class WP_Translation_File_MO extends WP_Translation_File
 
         $bytes_for_entries = $entry_count * 4 * 2;
         // Pair of 32bit ints per entry.
-        $originals_addr    = 28; /* header */
+        $originals_addr = 28; /* header */
         $translations_addr = $originals_addr + $bytes_for_entries;
-        $hash_addr         = $translations_addr + $bytes_for_entries;
-        $entry_offsets     = $hash_addr;
+        $hash_addr = $translations_addr + $bytes_for_entries;
+        $entry_offsets = $hash_addr;
 
         $file_header = pack(
             $this->uint32 . '*',
             // Force cast to an integer as it can be a float on x86 systems. See https://core.trac.wp.org/ticket/60678.
-            (int) self::MAGIC_MARKER,
+            (int)self::MAGIC_MARKER,
             0, /* rev */
             $entry_count,
             $originals_addr,
             $translations_addr,
             0, /* hash_length */
-            $hash_addr
+            $hash_addr,
         );
 
         $o_entries = '';
         $t_entries = '';
-        $o_addr    = '';
-        $t_addr    = '';
+        $o_addr = '';
+        $t_addr = '';
 
         foreach (array_keys($entries) as $original) {
-            $o_addr        .= pack($this->uint32 . '*', strlen($original), $entry_offsets);
+            $o_addr .= pack($this->uint32 . '*', strlen($original), $entry_offsets);
             $entry_offsets += strlen($original) + 1;
-            $o_entries     .= $original . "\0";
+            $o_entries .= $original . "\0";
         }
 
         foreach ($entries as $translations) {
-            $t_addr        .= pack($this->uint32 . '*', strlen($translations), $entry_offsets);
+            $t_addr .= pack($this->uint32 . '*', strlen($translations), $entry_offsets);
             $entry_offsets += strlen($translations) + 1;
-            $t_entries     .= $translations . "\0";
+            $t_entries .= $translations . "\0";
         }
 
         return $file_header . $o_addr . $t_addr . $o_entries . $t_entries;

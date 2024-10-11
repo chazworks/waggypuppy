@@ -17,8 +17,8 @@ class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase
      *
      * @dataProvider data_theme_has_theme_json_reports_correctly
      *
-     * @param string $theme    The slug of the theme to switch to.
-     * @param bool   $expected The expected result.
+     * @param string $theme The slug of the theme to switch to.
+     * @param bool $expected The expected result.
      */
     public function test_theme_has_theme_json_reports_correctly($theme, $expected)
     {
@@ -34,24 +34,24 @@ class Tests_Theme_WpThemeHasThemeJson extends WP_Theme_UnitTestCase
     public function data_theme_has_theme_json_reports_correctly()
     {
         return [
-            'a theme with theme.json'       => [
-                'theme'    => 'block-theme',
+            'a theme with theme.json' => [
+                'theme' => 'block-theme',
                 'expected' => true,
             ],
-            'a theme without theme.json'    => [
-                'theme'    => 'default',
+            'a theme without theme.json' => [
+                'theme' => 'default',
                 'expected' => false,
             ],
             'a child theme with theme.json' => [
-                'theme'    => 'block-theme-child',
+                'theme' => 'block-theme-child',
                 'expected' => true,
             ],
             'a child theme without theme.json and parent theme with theme.json' => [
-                'theme'    => 'block-theme-child-no-theme-json',
+                'theme' => 'block-theme-child-no-theme-json',
                 'expected' => true,
             ],
             'a child theme without theme.json and parent theme without theme.json' => [
-                'theme'    => 'default-child-no-theme-json',
+                'theme' => 'default-child-no-theme-json',
                 'expected' => false,
             ],
         ];

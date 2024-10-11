@@ -71,8 +71,9 @@ class Tests_Taxonomy extends WP_UnitTestCase
         $this->assertSame('Categories: Uncategorized.', $taxes['category']);
 
         $taxes = get_the_taxonomies($post_id, ['term_template' => '<span class="foo"><a href="%1$s">%2$s</a></span>']);
-        $link  = get_category_link(1);
-        $this->assertSame('Categories: <span class="foo"><a href="' . $link . '">Uncategorized</a></span>.', $taxes['category']);
+        $link = get_category_link(1);
+        $this->assertSame('Categories: <span class="foo"><a href="' . $link . '">Uncategorized</a></span>.',
+            $taxes['category']);
     }
 
     public function test_the_taxonomies()
@@ -82,8 +83,8 @@ class Tests_Taxonomy extends WP_UnitTestCase
         $this->expectOutputString(
             sprintf(
                 'Categories: <a href="%s">Uncategorized</a>.',
-                get_category_link(1)
-            )
+                get_category_link(1),
+            ),
         );
         the_taxonomies(['post' => $post_id]);
     }
@@ -99,10 +100,10 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'the_taxonomies',
             [
                 [
-                    'post'          => $post_id,
+                    'post' => $post_id,
                     'term_template' => '%2$s',
                 ],
-            ]
+            ],
         );
         $this->assertSame('Categories: Uncategorized.', $output);
 
@@ -110,12 +111,12 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'the_taxonomies',
             [
                 [
-                    'post'          => $post_id,
+                    'post' => $post_id,
                     'term_template' => '<span class="foo"><a href="%1$s">%2$s</a></span>',
                 ],
-            ]
+            ],
         );
-        $link   = get_category_link(1);
+        $link = get_category_link(1);
         $this->assertSame('Categories: <span class="foo"><a href="' . $link . '">Uncategorized</a></span>.', $output);
     }
 
@@ -171,15 +172,15 @@ class Tests_Taxonomy extends WP_UnitTestCase
     public function data_taxonomy_exists_should_return_false_with_non_string_taxonomy()
     {
         return [
-            'array'        => [[]],
-            'object'       => [new stdClass()],
-            'bool (true)'  => [true],
+            'array' => [[]],
+            'object' => [new stdClass()],
+            'bool (true)' => [true],
             'bool (false)' => [false],
-            'null'         => [null],
-            'integer (0)'  => [0],
-            'integer (1)'  => [1],
-            'float (0.0)'  => [0.0],
-            'float (1.1)'  => [1.1],
+            'null' => [null],
+            'integer (0)' => [0],
+            'integer (1)' => [1],
+            'float (0.0)' => [0.0],
+            'float (1.1)' => [1.1],
         ];
     }
 
@@ -200,7 +201,6 @@ class Tests_Taxonomy extends WP_UnitTestCase
 
     public function test_register_taxonomy()
     {
-
         // Make up a new taxonomy name, and ensure it's unused.
         $tax = 'tax_new';
         $this->assertFalse(taxonomy_exists($tax));
@@ -215,7 +215,6 @@ class Tests_Taxonomy extends WP_UnitTestCase
 
     public function test_register_hierarchical_taxonomy()
     {
-
         // Make up a new taxonomy name, and ensure it's unused.
         $tax = 'tax_new';
         $this->assertFalse(taxonomy_exists($tax));
@@ -266,7 +265,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'show_ui' => true,
-            ]
+            ],
         );
 
         register_taxonomy(
@@ -274,7 +273,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'show_ui' => false,
-            ]
+            ],
         );
 
         $tax_1 = get_taxonomy('wptests_tax_1');
@@ -290,7 +289,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
     public function test_register_taxonomy_fires_registered_actions()
     {
         $taxonomy = 'taxonomy53212';
-        $action   = new MockAction();
+        $action = new MockAction();
 
         add_action('registered_taxonomy', [$action, 'action']);
         add_action("registered_taxonomy_{$taxonomy}", [$action, 'action']);
@@ -353,7 +352,8 @@ class Tests_Taxonomy extends WP_UnitTestCase
     /**
      * @ticket 32590
      */
-    public function test_register_taxonomy_for_post_type_for_taxonomy_with_no_object_type_should_filter_out_empty_object_types()
+    public function test_register_taxonomy_for_post_type_for_taxonomy_with_no_object_type_should_filter_out_empty_object_types(
+    )
     {
         register_taxonomy('wptests_tax', '');
         register_taxonomy_for_object_type('wptests_tax', 'post');
@@ -377,9 +377,9 @@ class Tests_Taxonomy extends WP_UnitTestCase
 
     public function test_get_objects_in_term_should_return_objects_ids()
     {
-        $tag_id              = self::factory()->tag->create();
-        $cat_id              = self::factory()->category->create();
-        $posts_with_tag      = [];
+        $tag_id = self::factory()->tag->create();
+        $cat_id = self::factory()->category->create();
+        $posts_with_tag = [];
         $posts_with_category = [];
 
         for ($i = 0; $i < 3; $i++) {
@@ -403,7 +403,8 @@ class Tests_Taxonomy extends WP_UnitTestCase
         $this->assertEquals($posts_with_tag, get_objects_in_term($tag_id, 'post_tag'));
         $this->assertEquals($posts_with_category, get_objects_in_term($cat_id, 'category'));
         $this->assertEquals($posts_with_terms, get_objects_in_term([$tag_id, $cat_id], ['post_tag', 'category']));
-        $this->assertEquals(array_reverse($posts_with_tag), get_objects_in_term($tag_id, 'post_tag', ['order' => 'desc']));
+        $this->assertEquals(array_reverse($posts_with_tag),
+            get_objects_in_term($tag_id, 'post_tag', ['order' => 'desc']));
     }
 
     /**
@@ -413,11 +414,11 @@ class Tests_Taxonomy extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
 
-        $posts   = self::factory()->post->create_many(2);
+        $posts = self::factory()->post->create_many(2);
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         wp_set_object_terms($posts[1], $term_id, 'wptests_tax');
@@ -439,11 +440,11 @@ class Tests_Taxonomy extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
 
-        $posts   = self::factory()->post->create_many(2);
+        $posts = self::factory()->post->create_many(2);
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         wp_set_object_terms($posts[1], $term_id, 'wptests_tax');
@@ -465,11 +466,11 @@ class Tests_Taxonomy extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax', 'post');
 
-        $posts   = self::factory()->post->create_many(2);
+        $posts = self::factory()->post->create_many(2);
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         wp_set_object_terms($posts[1], $term_id, 'wptests_tax');
@@ -505,7 +506,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
     public function test_insert_category_create()
     {
         $cat = [
-            'cat_ID'   => 0,
+            'cat_ID' => 0,
             'taxonomy' => 'category',
             'cat_name' => 'test1',
         ];
@@ -515,7 +516,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
     public function test_insert_category_update()
     {
         $cat = [
-            'cat_ID'   => 1,
+            'cat_ID' => 1,
             'taxonomy' => 'category',
             'cat_name' => 'Updated Name',
         ];
@@ -525,7 +526,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
     public function test_insert_category_force_error_handle()
     {
         $cat = [
-            'cat_ID'   => 0,
+            'cat_ID' => 0,
             'taxonomy' => 'force_error',
             'cat_name' => 'Error',
         ];
@@ -535,7 +536,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
     public function test_insert_category_force_error_no_handle()
     {
         $cat = [
-            'cat_ID'   => 0,
+            'cat_ID' => 0,
             'taxonomy' => 'force_error',
             'cat_name' => 'Error',
         ];
@@ -548,7 +549,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
         $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $this->assertSame([], get_ancestors($t, 'wptests_tax'));
@@ -562,30 +563,30 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'hierarchical' => true,
-            ]
+            ],
         );
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'parent'   => $t1,
-            ]
+                'parent' => $t1,
+            ],
         );
         $t3 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'parent'   => $t2,
-            ]
+                'parent' => $t2,
+            ],
         );
         $t4 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'parent'   => $t1,
-            ]
+                'parent' => $t1,
+            ],
         );
 
         $this->assertSameSets([$t2, $t1], get_ancestors($t3, 'wptests_tax'));
@@ -598,7 +599,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'taxonomy' => 'wptests_pt',
-            ]
+            ],
         );
 
         $this->assertSameSets([], get_ancestors($p, 'wptests_tax'));
@@ -610,30 +611,30 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'wptests_pt',
             [
                 'hierarchical' => true,
-            ]
+            ],
         );
         $p1 = self::factory()->post->create(
             [
                 'post_type' => 'wptests_pt',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
-                'post_type'   => 'wptests_pt',
+                'post_type' => 'wptests_pt',
                 'post_parent' => $p1,
-            ]
+            ],
         );
         $p3 = self::factory()->post->create(
             [
-                'post_type'   => 'wptests_pt',
+                'post_type' => 'wptests_pt',
                 'post_parent' => $p2,
-            ]
+            ],
         );
         $p4 = self::factory()->post->create(
             [
-                'post_type'   => 'wptests_pt',
+                'post_type' => 'wptests_pt',
                 'post_parent' => $p1,
-            ]
+            ],
         );
 
         $this->assertSameSets([$p2, $p1], get_ancestors($p3, 'wptests_pt'));
@@ -649,18 +650,18 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'wptests_conflict',
             [
                 'hierarchical' => true,
-            ]
+            ],
         );
         $p1 = self::factory()->post->create(
             [
                 'post_type' => 'wptests_conflict',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
-                'post_type'   => 'wptests_conflict',
+                'post_type' => 'wptests_conflict',
                 'post_parent' => $p1,
-            ]
+            ],
         );
 
         register_taxonomy(
@@ -668,18 +669,18 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'hierarchical' => true,
-            ]
+            ],
         );
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_conflict',
-            ]
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_conflict',
-                'parent'   => $t1,
-            ]
+                'parent' => $t1,
+            ],
         );
 
         $this->assertSameSets([$p1], get_ancestors($p2, 'wptests_conflict', 'post_type'));
@@ -698,13 +699,13 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'publicly_queryable' => false,
-            ]
+            ],
         );
 
         $t = self::factory()->term->create_and_get(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p = self::factory()->post->create();
@@ -718,7 +719,8 @@ class Tests_Taxonomy extends WP_UnitTestCase
     /**
      * @ticket 21949
      */
-    public function test_it_should_be_possible_to_register_a_query_var_that_matches_the_name_of_a_nonpublicly_queryable_taxonomy()
+    public function test_it_should_be_possible_to_register_a_query_var_that_matches_the_name_of_a_nonpublicly_queryable_taxonomy(
+    )
     {
         global $wp;
 
@@ -727,12 +729,12 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'publicly_queryable' => false,
-            ]
+            ],
         );
         $t = self::factory()->term->create_and_get(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p = self::factory()->post->create();
@@ -768,13 +770,13 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'publicly_queryable' => false,
-            ]
+            ],
         );
 
         $t = self::factory()->term->create_and_get(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p = self::factory()->post->create();
@@ -795,7 +797,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'public' => true,
-            ]
+            ],
         );
 
         $this->assertContains('wptests_tax', get_taxonomies(['publicly_queryable' => true]));
@@ -803,7 +805,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
         $t = self::factory()->term->create_and_get(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p = self::factory()->post->create();
@@ -824,7 +826,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'public' => false,
-            ]
+            ],
         );
 
         $this->assertContains('wptests_tax', get_taxonomies(['publicly_queryable' => false]));
@@ -832,7 +834,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
         $t = self::factory()->term->create_and_get(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p = self::factory()->post->create();
@@ -852,9 +854,9 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'wptests_tax',
             'post',
             [
-                'public'             => false,
+                'public' => false,
                 'publicly_queryable' => true,
-            ]
+            ],
         );
 
         $this->assertContains('wptests_tax', get_taxonomies(['publicly_queryable' => true]));
@@ -862,7 +864,7 @@ class Tests_Taxonomy extends WP_UnitTestCase
         $t = self::factory()->term->create_and_get(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p = self::factory()->post->create();
@@ -882,9 +884,9 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'wptests_tax',
             'post',
             [
-                'public'    => false,
+                'public' => false,
                 'query_var' => true,
-            ]
+            ],
         );
 
         $tax = get_taxonomy('wptests_tax');
@@ -946,8 +948,8 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'query_var' => 'bar',
-                'rewrite'   => true,
-            ]
+                'rewrite' => true,
+            ],
         );
 
         $this->assertIsArray($wp_rewrite->extra_permastructs['foo']);
@@ -1038,45 +1040,44 @@ class Tests_Taxonomy extends WP_UnitTestCase
      */
     public function test_edit_post_hierarchical_taxonomy()
     {
-
         $taxonomy_name = 'foo';
-        $term_name     = 'bar';
+        $term_name = 'bar';
 
         register_taxonomy(
             $taxonomy_name,
             ['post'],
             [
                 'hierarchical' => false,
-                'meta_box_cb'  => 'post_categories_meta_box',
-            ]
+                'meta_box_cb' => 'post_categories_meta_box',
+            ],
         );
         $post = self::factory()->post->create_and_get(
             [
                 'post_type' => 'post',
-            ]
+            ],
         );
 
         $term_id = self::factory()->term->create_object(
             [
-                'name'     => $term_name,
+                'name' => $term_name,
                 'taxonomy' => $taxonomy_name,
-            ]
+            ],
         );
 
         wp_set_current_user(self::factory()->user->create(['role' => 'editor']));
         $updated_post_id = edit_post(
             [
-                'post_ID'   => $post->ID,
+                'post_ID' => $post->ID,
                 'post_type' => 'post',
                 'tax_input' => [
                     $taxonomy_name => [
-                        (string) $term_id, // Cast term_id as string to match what's sent in WP Admin.
+                        (string)$term_id, // Cast term_id as string to match what's sent in WP Admin.
                     ],
                 ],
-            ]
+            ],
         );
 
-        $terms_obj        = get_the_terms($updated_post_id, $taxonomy_name);
+        $terms_obj = get_the_terms($updated_post_id, $taxonomy_name);
         $problematic_term = current(wp_list_pluck($terms_obj, 'name'));
 
         $this->assertSame($problematic_term, $term_name);
@@ -1089,7 +1090,6 @@ class Tests_Taxonomy extends WP_UnitTestCase
      */
     public function test_default_term_for_custom_taxonomy()
     {
-
         wp_set_current_user(self::factory()->user->create(['role' => 'editor']));
 
         $tax = 'custom-tax';
@@ -1100,20 +1100,20 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post',
             [
                 'hierarchical' => true,
-                'public'       => true,
+                'public' => true,
                 'default_term' => [
                     'name' => 'Default category',
                     'slug' => 'default-category',
                 ],
-            ]
+            ],
         );
 
         // Add post.
         $post_id = self::factory()->post->create(
             [
                 'post_title' => 'Foo',
-                'post_type'  => 'post',
-            ]
+                'post_type' => 'post',
+            ],
         );
 
         // Test default term.
@@ -1128,13 +1128,13 @@ class Tests_Taxonomy extends WP_UnitTestCase
             'post-custom-tax',
             [
                 'taxonomies' => [$tax],
-            ]
+            ],
         );
         $post_id = self::factory()->post->create(
             [
                 'post_title' => 'Foo',
-                'post_type'  => 'post-custom-tax',
-            ]
+                'post_type' => 'post-custom-tax',
+            ],
         );
 
         // Test default term.
@@ -1153,8 +1153,8 @@ class Tests_Taxonomy extends WP_UnitTestCase
     public function test_default_term_for_post_in_multiple_taxonomies()
     {
         $post_type = 'test_post_type';
-        $tax1      = 'test_tax1';
-        $tax2      = 'test_tax2';
+        $tax1 = 'test_tax1';
+        $tax2 = 'test_tax2';
 
         register_post_type($post_type, ['taxonomies' => [$tax1, $tax2]]);
         register_taxonomy($tax1, $post_type, ['default_term' => 'term_1']);

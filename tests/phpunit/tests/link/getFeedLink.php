@@ -12,7 +12,7 @@ class Tests_Link_GetFeedLink extends WP_UnitTestCase
      * @dataProvider data_plain_permastruct
      *
      * @param string $expected Expected suffix to home_url().
-     * @param string $type     Feed type to request.
+     * @param string $type Feed type to request.
      */
     public function tests_plain_permastruct($expected, $type)
     {
@@ -37,7 +37,7 @@ class Tests_Link_GetFeedLink extends WP_UnitTestCase
      * @dataProvider data_pretty_permastruct
      *
      * @param string $expected Expected suffix to home_url().
-     * @param string $type     Feed type to request.
+     * @param string $type Feed type to request.
      */
     public function tests_pretty_permastruct($expected, $type)
     {
@@ -51,7 +51,7 @@ class Tests_Link_GetFeedLink extends WP_UnitTestCase
      * @dataProvider data_pretty_permastruct
      *
      * @param string $expected Expected suffix to home_url().
-     * @param string $type     Feed type to request.
+     * @param string $type Feed type to request.
      */
     public function tests_pretty_permastruct_with_prefix($expected, $type)
     {

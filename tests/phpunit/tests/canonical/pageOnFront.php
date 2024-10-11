@@ -18,19 +18,19 @@ class Tests_Canonical_PageOnFront extends WP_Canonical_UnitTestCase
             self::factory()->post->create(
                 [
                     'post_title' => 'blog-page',
-                    'post_type'  => 'page',
-                ]
-            )
+                    'post_type' => 'page',
+                ],
+            ),
         );
         update_option(
             'page_on_front',
             self::factory()->post->create(
                 [
-                    'post_title'   => 'front-page',
-                    'post_type'    => 'page',
+                    'post_title' => 'front-page',
+                    'post_type' => 'page',
                     'post_content' => "Page 1\n<!--nextpage-->\nPage 2",
-                ]
-            )
+                ],
+            ),
         );
     }
 

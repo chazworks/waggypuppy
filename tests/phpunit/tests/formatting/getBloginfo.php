@@ -46,16 +46,16 @@ class Tests_Formatting_GetBloginfo extends WP_UnitTestCase
     public function test_bloginfo_sanitize_option()
     {
         $old_values = [
-            'blogname'        => get_option('blogname'),
+            'blogname' => get_option('blogname'),
             'blogdescription' => get_option('blogdescription'),
         ];
 
         $values = [
-            'foo'                  => 'foo',
-            '<em>foo</em>'         => '&lt;em&gt;foo&lt;/em&gt;',
+            'foo' => 'foo',
+            '<em>foo</em>' => '&lt;em&gt;foo&lt;/em&gt;',
             '<script>foo</script>' => '&lt;script&gt;foo&lt;/script&gt;',
-            '&lt;foo&gt;'          => '&lt;foo&gt;',
-            '<foo'                 => '&lt;foo',
+            '&lt;foo&gt;' => '&lt;foo&gt;',
+            '<foo' => '&lt;foo',
         ];
 
         foreach ($values as $value => $expected) {

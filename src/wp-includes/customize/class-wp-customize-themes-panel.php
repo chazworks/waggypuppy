@@ -48,7 +48,8 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel
                 ?>
 
                 <?php if (current_user_can('switch_themes')) : ?>
-                    <button type="button" class="button change-theme" aria-label="<?php esc_attr_e('Change theme'); ?>"><?php _ex('Change', 'theme'); ?></button>
+                    <button type="button" class="button change-theme"
+                            aria-label="<?php esc_attr_e('Change theme'); ?>"><?php _ex('Change', 'theme'); ?></button>
                 <?php endif; ?>
             </h3>
             <ul class="accordion-sub-container control-panel-content"></ul>
@@ -80,15 +81,16 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel
                 <span class="preview-notice">
                     <?php
                     printf(
-                        /* translators: %s: Themes panel title in the Customizer. */
+                    /* translators: %s: Themes panel title in the Customizer. */
                         __('You are browsing %s'),
-                        '<strong class="panel-title">' . __('Themes') . '</strong>'
+                        '<strong class="panel-title">' . __('Themes') . '</strong>',
                     ); // Separate strings for consistency with other panels.
                     ?>
                 </span>
-                <?php if (current_user_can('install_themes') && ! is_multisite()) : ?>
+                <?php if (current_user_can('install_themes') && !is_multisite()) : ?>
                     <# if ( data.description ) { #>
-                        <button class="customize-help-toggle dashicons dashicons-editor-help" type="button" aria-expanded="false"><span class="screen-reader-text">
+                    <button class="customize-help-toggle dashicons dashicons-editor-help" type="button"
+                            aria-expanded="false"><span class="screen-reader-text">
                             <?php
                             /* translators: Hidden accessibility text. */
                             _e('Help');
@@ -97,11 +99,11 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel
                     <# } #>
                 <?php endif; ?>
             </div>
-            <?php if (current_user_can('install_themes') && ! is_multisite()) : ?>
+            <?php if (current_user_can('install_themes') && !is_multisite()) : ?>
                 <# if ( data.description ) { #>
-                    <div class="description customize-panel-description">
-                        {{{ data.description }}}
-                    </div>
+                <div class="description customize-panel-description">
+                    {{{ data.description }}}
+                </div>
                 <# } #>
             <?php endif; ?>
 

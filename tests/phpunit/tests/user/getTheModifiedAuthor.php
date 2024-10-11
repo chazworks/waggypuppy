@@ -9,28 +9,28 @@
 class Tests_User_GetTheModifiedAuthor extends WP_UnitTestCase
 {
     protected static $author_id = 0;
-    protected static $post_id   = 0;
+    protected static $post_id = 0;
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$author_id = $factory->user->create(
             [
-                'role'         => 'author',
-                'user_login'   => 'test_author',
+                'role' => 'author',
+                'user_login' => 'test_author',
                 'display_name' => 'Test Author',
-                'description'  => 'test_author',
-                'user_url'     => 'http://example.com',
-            ]
+                'description' => 'test_author',
+                'user_url' => 'http://example.com',
+            ],
         );
 
         self::$post_id = $factory->post->create(
             [
-                'post_author'  => self::$author_id,
-                'post_status'  => 'publish',
+                'post_author' => self::$author_id,
+                'post_status' => 'publish',
                 'post_content' => 'content',
-                'post_title'   => 'title',
-                'post_type'    => 'post',
-            ]
+                'post_title' => 'title',
+                'post_type' => 'post',
+            ],
         );
 
         add_post_meta(self::$post_id, '_edit_last', self::$author_id);
@@ -46,7 +46,7 @@ class Tests_User_GetTheModifiedAuthor extends WP_UnitTestCase
     public function test_get_the_modified_author()
     {
         $author_name = get_the_modified_author();
-        $user        = new WP_User(self::$author_id);
+        $user = new WP_User(self::$author_id);
 
         $this->assertSame($user->display_name, $author_name);
         $this->assertSame('Test Author', $author_name);

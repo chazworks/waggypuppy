@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test cases for the `_wp_privacy_send_request_confirmation_notification()` function.
  *
@@ -57,7 +58,7 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
         $post_id = self::factory()->post->create(
             [
                 'post_type' => 'post', // Should be 'user_request'.
-            ]
+            ],
         );
 
         _wp_privacy_send_request_confirmation_notification($post_id);
@@ -73,7 +74,7 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      */
     public function test_should_send_email_to_site_admin_when_user_request_confirmed()
     {
-        $email      = 'export.request.from.unregistered.user@example.com';
+        $email = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
         _wp_privacy_account_request_confirmed($request_id);
@@ -82,8 +83,8 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
         $mailer = tests_retrieve_phpmailer_instance();
 
         $this->assertSame('request-confirmed', get_post_status($request_id));
-        $this->assertTrue((bool) get_post_meta($request_id, '_wp_user_request_confirmed_timestamp', true));
-        $this->assertTrue((bool) get_post_meta($request_id, '_wp_admin_notified', true));
+        $this->assertTrue((bool)get_post_meta($request_id, '_wp_user_request_confirmed_timestamp', true));
+        $this->assertTrue((bool)get_post_meta($request_id, '_wp_admin_notified', true));
         $this->assertSame(get_site_option('admin_email'), $mailer->get_recipient('to')->address);
         $this->assertStringContainsString('Action Confirmed', $mailer->get_sent()->subject);
         $this->assertStringContainsString('Request: Export Personal Data', $mailer->get_sent()->body);
@@ -97,7 +98,7 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      */
     public function test_should_only_send_email_to_site_admin_when_user_request_is_confirmed()
     {
-        $email      = 'export.request.from.unregistered.user@example.com';
+        $email = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
         _wp_privacy_send_request_confirmation_notification($request_id);
@@ -118,7 +119,7 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      */
     public function test_should_only_send_email_once_to_admin_when_user_request_is_confirmed()
     {
-        $email      = 'export.request.from.unregistered.user@example.com';
+        $email = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
         _wp_privacy_account_request_confirmed($request_id);
@@ -143,7 +144,7 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      */
     public function test_email_address_should_be_filterable()
     {
-        $email      = 'export.request.from.unregistered.user@example.com';
+        $email = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
         _wp_privacy_account_request_confirmed($request_id);
@@ -159,11 +160,11 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
     /**
      * Filter callback that modifies the recipient of the user request confirmation notification.
      *
+     * @param string $admin_email The email address of the notification recipient.
+     * @param WP_User_Request $request The request that is initiating the notification.
+     * @return string Admin email address.
      * @since 4.9.8
      *
-     * @param string          $admin_email The email address of the notification recipient.
-     * @param WP_User_Request $request     The request that is initiating the notification.
-     * @return string Admin email address.
      */
     public function modify_email_address($admin_email, $request)
     {
@@ -178,7 +179,7 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      */
     public function test_email_content_should_be_filterable()
     {
-        $email      = 'export.request.from.unregistered.user@example.com';
+        $email = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
         _wp_privacy_account_request_confirmed($request_id);
@@ -188,26 +189,27 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
         remove_filter('user_request_confirmed_email_content', [$this, 'modify_email_content'], 10);
 
         $mailer = tests_retrieve_phpmailer_instance();
-        $this->assertStringContainsString('Custom content containing email address:' . $email, $mailer->get_sent()->body);
+        $this->assertStringContainsString('Custom content containing email address:' . $email,
+            $mailer->get_sent()->body);
     }
 
     /**
      * Filter callback that modifies the body of the user request confirmation email.
      *
-     * @since 4.9.8
-     *
      * @param string $email_text Email text.
-     * @param array  $email_data {
+     * @param array $email_data {
      *     Data relating to the account action email.
      *
-     *     @type WP_User_Request $request     User request object.
-     *     @type string          $user_email  The email address confirming a request
-     *     @type string          $description Description of the action being performed so the user knows what the email is for.
-     *     @type string          $manage_url  The link to click manage privacy requests of this type.
-     *     @type string          $sitename    The site name sending the mail.
-     *     @type string          $siteurl     The site URL sending the mail.
+     * @type WP_User_Request $request User request object.
+     * @type string $user_email The email address confirming a request
+     * @type string $description Description of the action being performed so the user knows what the email is for.
+     * @type string $manage_url The link to click manage privacy requests of this type.
+     * @type string $sitename The site name sending the mail.
+     * @type string $siteurl The site URL sending the mail.
      * }
      * @return string Email text.
+     * @since 4.9.8
+     *
      */
     public function modify_email_content($email_text, $email_data)
     {
@@ -224,7 +226,7 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
      */
     public function test_email_headers_should_be_filterable()
     {
-        $email      = 'export.request.from.unregistered.user@example.com';
+        $email = 'export.request.from.unregistered.user@example.com';
         $request_id = wp_create_user_request($email, 'export_personal_data');
 
         _wp_privacy_account_request_confirmed($request_id);
@@ -241,10 +243,10 @@ class Tests_Privacy_wpPrivacySendRequestConfirmationNotification extends WP_Unit
     /**
      * Filter callback that modifies the headers of the user request confirmation email.
      *
-     * @since 5.4.0
-     *
      * @param string|array $headers The email headers.
      * @return array The new email headers.
+     * @since 5.4.0
+     *
      */
     public function modify_email_headers($headers)
     {

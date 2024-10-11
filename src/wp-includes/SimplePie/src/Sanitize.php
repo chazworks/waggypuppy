@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -68,11 +68,49 @@ class Sanitize implements RegistryAware
     // Options
     public $remove_div = true;
     public $image_handler = '';
-    public $strip_htmltags = ['base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style'];
+    public $strip_htmltags = [
+        'base',
+        'blink',
+        'body',
+        'doctype',
+        'embed',
+        'font',
+        'form',
+        'frame',
+        'frameset',
+        'html',
+        'iframe',
+        'input',
+        'marquee',
+        'meta',
+        'noscript',
+        'object',
+        'param',
+        'script',
+        'style',
+    ];
     public $encode_instead_of_strip = false;
-    public $strip_attributes = ['bgsound', 'expr', 'id', 'style', 'onclick', 'onerror', 'onfinish', 'onmouseover', 'onmouseout', 'onfocus', 'onblur', 'lowsrc', 'dynsrc'];
+    public $strip_attributes = [
+        'bgsound',
+        'expr',
+        'id',
+        'style',
+        'onclick',
+        'onerror',
+        'onfinish',
+        'onmouseover',
+        'onmouseout',
+        'onfocus',
+        'onblur',
+        'lowsrc',
+        'dynsrc',
+    ];
     public $rename_attributes = [];
-    public $add_attributes = ['audio' => ['preload' => 'none'], 'iframe' => ['sandbox' => 'allow-scripts allow-same-origin'], 'video' => ['preload' => 'none']];
+    public $add_attributes = [
+        'audio' => ['preload' => 'none'],
+        'iframe' => ['sandbox' => 'allow-scripts allow-same-origin'],
+        'video' => ['preload' => 'none'],
+    ];
     public $strip_comments = false;
     public $output_encoding = 'UTF-8';
     public $enable_cache = true;
@@ -115,13 +153,13 @@ class Sanitize implements RegistryAware
 
     public function remove_div($enable = true)
     {
-        $this->remove_div = (bool) $enable;
+        $this->remove_div = (bool)$enable;
     }
 
     public function set_image_handler($page = false)
     {
         if ($page) {
-            $this->image_handler = (string) $page;
+            $this->image_handler = (string)$page;
         } else {
             $this->image_handler = false;
         }
@@ -132,28 +170,36 @@ class Sanitize implements RegistryAware
         $this->registry = $registry;
     }
 
-    public function pass_cache_data($enable_cache = true, $cache_location = './cache', $cache_name_function = 'md5', $cache_class = 'SimplePie\Cache', ?DataCache $cache = null)
-    {
+    public function pass_cache_data(
+        $enable_cache = true,
+        $cache_location = './cache',
+        $cache_name_function = 'md5',
+        $cache_class = 'SimplePie\Cache',
+        ?DataCache $cache = null,
+    ) {
         if (isset($enable_cache)) {
-            $this->enable_cache = (bool) $enable_cache;
+            $this->enable_cache = (bool)$enable_cache;
         }
 
         if ($cache_location) {
-            $this->cache_location = (string) $cache_location;
+            $this->cache_location = (string)$cache_location;
         }
 
-        if (!is_string($cache_name_function) && !is_object($cache_name_function) && !$cache_name_function instanceof NameFilter) {
+        if (!is_string($cache_name_function) && !is_object($cache_name_function)
+            && !$cache_name_function
+                instanceof
+                NameFilter) {
             throw new InvalidArgumentException(sprintf(
                 '%s(): Argument #3 ($cache_name_function) must be of type %s',
                 __METHOD__,
-                NameFilter::class
+                NameFilter::class,
             ), 1);
         }
 
         // BC: $cache_name_function could be a callable as string
         if (is_string($cache_name_function)) {
             // trigger_error(sprintf('Providing $cache_name_function as string in "%s()" is deprecated since SimplePie 1.8.0, provide as "%s" instead.', __METHOD__, NameFilter::class), \E_USER_DEPRECATED);
-            $this->cache_name_function = (string) $cache_name_function;
+            $this->cache_name_function = (string)$cache_name_function;
 
             $cache_name_function = new CallableNameFilter($cache_name_function);
         }
@@ -165,23 +211,48 @@ class Sanitize implements RegistryAware
         }
     }
 
-    public function pass_file_data($file_class = 'SimplePie\File', $timeout = 10, $useragent = '', $force_fsockopen = false)
-    {
+    public function pass_file_data(
+        $file_class = 'SimplePie\File',
+        $timeout = 10,
+        $useragent = '',
+        $force_fsockopen = false,
+    ) {
         if ($timeout) {
-            $this->timeout = (string) $timeout;
+            $this->timeout = (string)$timeout;
         }
 
         if ($useragent) {
-            $this->useragent = (string) $useragent;
+            $this->useragent = (string)$useragent;
         }
 
         if ($force_fsockopen) {
-            $this->force_fsockopen = (string) $force_fsockopen;
+            $this->force_fsockopen = (string)$force_fsockopen;
         }
     }
 
-    public function strip_htmltags($tags = ['base', 'blink', 'body', 'doctype', 'embed', 'font', 'form', 'frame', 'frameset', 'html', 'iframe', 'input', 'marquee', 'meta', 'noscript', 'object', 'param', 'script', 'style'])
-    {
+    public function strip_htmltags(
+        $tags = [
+            'base',
+            'blink',
+            'body',
+            'doctype',
+            'embed',
+            'font',
+            'form',
+            'frame',
+            'frameset',
+            'html',
+            'iframe',
+            'input',
+            'marquee',
+            'meta',
+            'noscript',
+            'object',
+            'param',
+            'script',
+            'style',
+        ],
+    ) {
         if ($tags) {
             if (is_array($tags)) {
                 $this->strip_htmltags = $tags;
@@ -195,7 +266,7 @@ class Sanitize implements RegistryAware
 
     public function encode_instead_of_strip($encode = false)
     {
-        $this->encode_instead_of_strip = (bool) $encode;
+        $this->encode_instead_of_strip = (bool)$encode;
     }
 
     public function rename_attributes($attribs = [])
@@ -211,8 +282,23 @@ class Sanitize implements RegistryAware
         }
     }
 
-    public function strip_attributes($attribs = ['bgsound', 'expr', 'id', 'style', 'onclick', 'onerror', 'onfinish', 'onmouseover', 'onmouseout', 'onfocus', 'onblur', 'lowsrc', 'dynsrc'])
-    {
+    public function strip_attributes(
+        $attribs = [
+            'bgsound',
+            'expr',
+            'id',
+            'style',
+            'onclick',
+            'onerror',
+            'onfinish',
+            'onmouseover',
+            'onmouseout',
+            'onfocus',
+            'onblur',
+            'lowsrc',
+            'dynsrc',
+        ],
+    ) {
         if ($attribs) {
             if (is_array($attribs)) {
                 $this->strip_attributes = $attribs;
@@ -224,8 +310,13 @@ class Sanitize implements RegistryAware
         }
     }
 
-    public function add_attributes($attribs = ['audio' => ['preload' => 'none'], 'iframe' => ['sandbox' => 'allow-scripts allow-same-origin'], 'video' => ['preload' => 'none']])
-    {
+    public function add_attributes(
+        $attribs = [
+            'audio' => ['preload' => 'none'],
+            'iframe' => ['sandbox' => 'allow-scripts allow-same-origin'],
+            'video' => ['preload' => 'none'],
+        ],
+    ) {
         if ($attribs) {
             if (is_array($attribs)) {
                 $this->add_attributes = $attribs;
@@ -239,12 +330,12 @@ class Sanitize implements RegistryAware
 
     public function strip_comments($strip = false)
     {
-        $this->strip_comments = (bool) $strip;
+        $this->strip_comments = (bool)$strip;
     }
 
     public function set_output_encoding($encoding = 'UTF-8')
     {
-        $this->output_encoding = (string) $encoding;
+        $this->output_encoding = (string)$encoding;
     }
 
     /**
@@ -255,8 +346,8 @@ class Sanitize implements RegistryAware
      * |del|@cite, |form|@action, |img|@longdesc, |img|@src, |input|@src,
      * |ins|@cite, |q|@cite, |source|@src, |video|@src
      *
-     * @since 1.0
      * @param array|null $element_attribute Element/attribute key/value pairs, null for default
+     * @since 1.0
      */
     public function set_url_replacements($element_attribute = null)
     {
@@ -270,7 +361,7 @@ class Sanitize implements RegistryAware
                 'form' => 'action',
                 'img' => [
                     'longdesc',
-                    'src'
+                    'src',
                 ],
                 'input' => 'src',
                 'ins' => 'cite',
@@ -278,11 +369,11 @@ class Sanitize implements RegistryAware
                 'source' => 'src',
                 'video' => [
                     'poster',
-                    'src'
-                ]
+                    'src',
+                ],
             ];
         }
-        $this->replace_url_attributes = (array) $element_attribute;
+        $this->replace_url_attributes = (array)$element_attribute;
     }
 
     /**
@@ -333,9 +424,10 @@ class Sanitize implements RegistryAware
      */
     public function https_url($url)
     {
-        return (strtolower(substr($url, 0, 7)) === 'http://') &&
-            $this->is_https_domain(parse_url($url, PHP_URL_HOST)) ?
-            substr_replace($url, 's', 4, 0) : //Add the 's' to HTTPS
+        return (strtolower(substr($url, 0, 7)) === 'http://') && $this->is_https_domain(parse_url($url, PHP_URL_HOST))
+            ?
+            substr_replace($url, 's', 4, 0)
+            : //Add the 's' to HTTPS
             $url;
     }
 
@@ -344,7 +436,9 @@ class Sanitize implements RegistryAware
         $data = trim($data);
         if ($data !== '' || $type & \SimplePie\SimplePie::CONSTRUCT_IRI) {
             if ($type & \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML) {
-                if (preg_match('/(&(#(x[0-9a-fA-F]+|[0-9]+)|[a-zA-Z0-9]+)|<\/[A-Za-z][^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3E]*' . \SimplePie\SimplePie::PCRE_HTML_ATTRIBUTE . '>)/', $data)) {
+                if (preg_match('/(&(#(x[0-9a-fA-F]+|[0-9]+)|[a-zA-Z0-9]+)|<\/[A-Za-z][^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3E]*'
+                    . \SimplePie\SimplePie::PCRE_HTML_ATTRIBUTE
+                    . '>)/', $data)) {
                     $type |= \SimplePie\SimplePie::CONSTRUCT_HTML;
                 } else {
                     $type |= \SimplePie\SimplePie::CONSTRUCT_TEXT;
@@ -413,7 +507,7 @@ class Sanitize implements RegistryAware
                 }
 
                 // If image handling (caching, etc.) is enabled, cache and rewrite all the image tags.
-                if (isset($this->image_handler) && ((string) $this->image_handler) !== '' && $this->enable_cache) {
+                if (isset($this->image_handler) && ((string)$this->image_handler) !== '' && $this->enable_cache) {
                     $images = $document->getElementsByTagName('img');
 
                     foreach ($images as $img) {
@@ -424,14 +518,28 @@ class Sanitize implements RegistryAware
                             if ($cache->get_data($image_url, false)) {
                                 $img->setAttribute('src', $this->image_handler . $image_url);
                             } else {
-                                $file = $this->registry->create(File::class, [$img->getAttribute('src'), $this->timeout, 5, ['X-FORWARDED-FOR' => $_SERVER['REMOTE_ADDR']], $this->useragent, $this->force_fsockopen]);
+                                $file = $this->registry->create(File::class, [
+                                    $img->getAttribute('src'),
+                                    $this->timeout,
+                                    5,
+                                    ['X-FORWARDED-FOR' => $_SERVER['REMOTE_ADDR']],
+                                    $this->useragent,
+                                    $this->force_fsockopen,
+                                ]);
                                 $headers = $file->headers;
 
-                                if ($file->success && ($file->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0 || ($file->status_code === 200 || $file->status_code > 206 && $file->status_code < 300))) {
-                                    if ($cache->set_data($image_url, ['headers' => $file->headers, 'body' => $file->body], $this->cache_duration)) {
+                                if ($file->success
+                                    && ($file->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0
+                                        || ($file->status_code === 200
+                                            || $file->status_code > 206
+                                            && $file->status_code
+                                            < 300))) {
+                                    if ($cache->set_data($image_url,
+                                        ['headers' => $file->headers, 'body' => $file->body], $this->cache_duration)) {
                                         $img->setAttribute('src', $this->image_handler . $image_url);
                                     } else {
-                                        trigger_error("$this->cache_location is not writable. Make sure you've set the correct relative or absolute path, and that the location is server-writable.", E_USER_WARNING);
+                                        trigger_error("$this->cache_location is not writable. Make sure you've set the correct relative or absolute path, and that the location is server-writable.",
+                                            E_USER_WARNING);
                                     }
                                 }
                             }
@@ -475,7 +583,7 @@ class Sanitize implements RegistryAware
     protected function preprocess($html, $type)
     {
         $ret = '';
-        $html = preg_replace('%</?(?:html|body)[^>]*?'.'>%is', '', $html);
+        $html = preg_replace('%</?(?:html|body)[^>]*?' . '>%is', '', $html);
         if ($type & ~\SimplePie\SimplePie::CONSTRUCT_XHTML) {
             // Atom XHTML constructs are wrapped with a div by default
             // Note: No protection if $html contains a stray </div>!
@@ -504,7 +612,8 @@ class Sanitize implements RegistryAware
             foreach ($elements as $element) {
                 foreach ($attributes as $attribute) {
                     if ($element->hasAttribute($attribute)) {
-                        $value = $this->registry->call(Misc::class, 'absolutize_url', [$element->getAttribute($attribute), $this->base]);
+                        $value = $this->registry->call(Misc::class, 'absolutize_url',
+                            [$element->getAttribute($attribute), $this->base]);
                         if ($value !== false) {
                             $value = $this->https_url($value);
                             $element->setAttribute($attribute, $value);
@@ -550,8 +659,7 @@ class Sanitize implements RegistryAware
                             // In XHTML, empty values should never exist, so we repeat the value
                             if (empty($value) && ($type & \SimplePie\SimplePie::CONSTRUCT_XHTML)) {
                                 $value = $name;
-                            }
-                            // For HTML, empty is fine
+                            } // For HTML, empty is fine
                             elseif (empty($value) && ($type & \SimplePie\SimplePie::CONSTRUCT_HTML)) {
                                 $attrs[] = $name;
                                 continue;
@@ -643,7 +751,7 @@ class Sanitize implements RegistryAware
             $cache = $this->registry->call(Cache::class, 'get_handler', [
                 $this->cache_location,
                 $image_url,
-                Base::TYPE_IMAGE
+                Base::TYPE_IMAGE,
             ]);
 
             return new BaseDataCache($cache);

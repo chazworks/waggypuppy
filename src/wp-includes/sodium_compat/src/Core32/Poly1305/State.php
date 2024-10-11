@@ -12,7 +12,7 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
     /**
      * @var array<int, int>
      */
-    protected $buffer = array();
+    protected $buffer = [];
 
     /**
      * @var bool
@@ -42,22 +42,22 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
     /**
      * ParagonIE_Sodium_Core32_Poly1305_State constructor.
      *
-     * @internal You should not use this directly from another application
-     *
      * @param string $key
      * @throws InvalidArgumentException
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public function __construct($key = '')
     {
         if (self::strlen($key) < 32) {
             throw new InvalidArgumentException(
-                'Poly1305 requires a 32-byte key'
+                'Poly1305 requires a 32-byte key',
             );
         }
         /* r &= 0xffffffc0ffffffc0ffffffc0fffffff */
-        $this->r = array(
+        $this->r = [
             // st->r[0] = ...
             ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($key, 0, 4))
                 ->setUnsignedInt(true)
@@ -81,20 +81,20 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
             ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($key, 12, 4))
                 ->setUnsignedInt(true)
                 ->shiftRight(8)
-                ->mask(0x00fffff)
-        );
+                ->mask(0x00fffff),
+        ];
 
         /* h = 0 */
-        $this->h = array(
-            new ParagonIE_Sodium_Core32_Int32(array(0, 0), true),
-            new ParagonIE_Sodium_Core32_Int32(array(0, 0), true),
-            new ParagonIE_Sodium_Core32_Int32(array(0, 0), true),
-            new ParagonIE_Sodium_Core32_Int32(array(0, 0), true),
-            new ParagonIE_Sodium_Core32_Int32(array(0, 0), true)
-        );
+        $this->h = [
+            new ParagonIE_Sodium_Core32_Int32([0, 0], true),
+            new ParagonIE_Sodium_Core32_Int32([0, 0], true),
+            new ParagonIE_Sodium_Core32_Int32([0, 0], true),
+            new ParagonIE_Sodium_Core32_Int32([0, 0], true),
+            new ParagonIE_Sodium_Core32_Int32([0, 0], true),
+        ];
 
         /* save pad for later */
-        $this->pad = array(
+        $this->pad = [
             ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($key, 16, 4))
                 ->setUnsignedInt(true)->toInt64(),
             ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($key, 20, 4))
@@ -103,19 +103,19 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
                 ->setUnsignedInt(true)->toInt64(),
             ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($key, 28, 4))
                 ->setUnsignedInt(true)->toInt64(),
-        );
+        ];
 
         $this->leftover = 0;
         $this->final = false;
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $message
      * @return self
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public function update($message = '')
     {
@@ -143,7 +143,7 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
 
             $this->blocks(
                 self::intArrayToString($this->buffer),
-                ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE
+                ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE,
             );
             $this->leftover = 0;
         }
@@ -169,28 +169,28 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
                 $mi = self::chrToInt($message[$i]);
                 $this->buffer[$this->leftover + $i] = $mi;
             }
-            $this->leftover = (int) $this->leftover + $bytes;
+            $this->leftover = (int)$this->leftover + $bytes;
         }
         return $this;
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param string $message
      * @param int $bytes
      * @return self
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public function blocks($message, $bytes)
     {
         if (self::strlen($message) < 16) {
             $message = str_pad($message, 16, "\x00", STR_PAD_RIGHT);
         }
-        $hibit = ParagonIE_Sodium_Core32_Int32::fromInt((int) ($this->final ? 0 : 1 << 24)); /* 1 << 128 */
+        $hibit = ParagonIE_Sodium_Core32_Int32::fromInt((int)($this->final ? 0 : 1 << 24)); /* 1 << 128 */
         $hibit->setUnsignedInt(true);
-        $zero = new ParagonIE_Sodium_Core32_Int64(array(0, 0, 0, 0), true);
+        $zero = new ParagonIE_Sodium_Core32_Int64([0, 0, 0, 0], true);
         /**
          * @var ParagonIE_Sodium_Core32_Int64 $d0
          * @var ParagonIE_Sodium_Core32_Int64 $d1
@@ -230,27 +230,27 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
             /* h += m[i] */
             $h0 = $h0->addInt32(
                 ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($message, 0, 4))
-                    ->mask(0x3ffffff)
+                    ->mask(0x3ffffff),
             )->toInt64();
             $h1 = $h1->addInt32(
                 ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($message, 3, 4))
                     ->shiftRight(2)
-                    ->mask(0x3ffffff)
+                    ->mask(0x3ffffff),
             )->toInt64();
             $h2 = $h2->addInt32(
                 ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($message, 6, 4))
                     ->shiftRight(4)
-                    ->mask(0x3ffffff)
+                    ->mask(0x3ffffff),
             )->toInt64();
             $h3 = $h3->addInt32(
                 ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($message, 9, 4))
                     ->shiftRight(6)
-                    ->mask(0x3ffffff)
+                    ->mask(0x3ffffff),
             )->toInt64();
             $h4 = $h4->addInt32(
                 ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($message, 12, 4))
                     ->shiftRight(8)
-                    ->orInt32($hibit)
+                    ->orInt32($hibit),
             )->toInt64();
 
             /* h *= r */
@@ -317,22 +317,22 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
             // Chop off the left 32 bytes.
             $message = self::substr(
                 $message,
-                ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE
+                ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE,
             );
             $bytes -= ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE;
         }
 
         /** @var array<int, ParagonIE_Sodium_Core32_Int32> $h */
-        $this->h = array($h0, $h1, $h2, $h3, $h4);
+        $this->h = [$h0, $h1, $h2, $h3, $h4];
         return $this;
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @return string
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public function finish()
     {
@@ -348,9 +348,9 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
                 self::substr(
                     self::intArrayToString($this->buffer),
                     0,
-                    ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE
+                    ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE,
                 ),
-                $b = ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE
+                $b = ParagonIE_Sodium_Core32_Poly1305::BLOCK_SIZE,
             );
         }
 
@@ -395,22 +395,22 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
 
         /* compute h + -p */
         $g0 = $h0->addInt(5);
-        $c  = $g0->shiftRight(26);
+        $c = $g0->shiftRight(26);
         $g0 = $g0->mask(0x3ffffff);
         $g1 = $h1->addInt32($c);
-        $c  = $g1->shiftRight(26);
+        $c = $g1->shiftRight(26);
         $g1 = $g1->mask(0x3ffffff);
         $g2 = $h2->addInt32($c);
-        $c  = $g2->shiftRight(26);
+        $c = $g2->shiftRight(26);
         $g2 = $g2->mask(0x3ffffff);
         $g3 = $h3->addInt32($c);
-        $c  = $g3->shiftRight(26);
+        $c = $g3->shiftRight(26);
         $g3 = $g3->mask(0x3ffffff);
         $g4 = $h4->addInt32($c)->subInt(1 << 26);
 
         # $mask = ($g4 >> 31) - 1;
         /* select h if h < p, or h + -p if h >= p */
-        $mask = (int) (($g4->toInt() >> 31) + 1);
+        $mask = (int)(($g4->toInt() >> 31) + 1);
 
         $g0 = $g0->mask($mask);
         $g1 = $g1->mask($mask);

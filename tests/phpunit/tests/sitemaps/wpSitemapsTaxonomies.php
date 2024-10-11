@@ -34,7 +34,7 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$cats      = $factory->term->create_many(10, ['taxonomy' => 'category']);
+        self::$cats = $factory->term->create_many(10, ['taxonomy' => 'category']);
         self::$post_tags = $factory->term->create_many(10);
         self::$editor_id = $factory->user->create(['role' => 'editor']);
     }
@@ -51,9 +51,9 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
         // Create a test post to calculate update times.
         $post = self::factory()->post->create_and_get(
             [
-                'tags_input'    => self::$post_tags,
+                'tags_input' => self::$post_tags,
                 'post_category' => $categories,
-            ]
+            ],
         );
 
         $tax_provider = new WP_Sitemaps_Taxonomies();
@@ -66,7 +66,7 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
                     'loc' => get_term_link($id, 'category'),
                 ];
             },
-            $categories
+            $categories,
         );
 
         $this->assertSame($expected_cats, $cat_list, 'Category URL list does not match.');
@@ -79,7 +79,7 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
                     'loc' => get_term_link($id, 'post_tag'),
                 ];
             },
-            self::$post_tags
+            self::$post_tags,
         );
 
         $this->assertSame($expected_tags, $tag_list, 'Post Tags URL list does not match.');
@@ -109,7 +109,7 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
                     'loc' => get_term_link($id, $taxonomy),
                 ];
             },
-            $terms
+            $terms,
         );
 
         $tax_provider = new WP_Sitemaps_Taxonomies();
@@ -186,32 +186,41 @@ class Tests_Sitemaps_wpSitemapsTaxonomies extends WP_UnitTestCase
         register_taxonomy('private_taxonomy', 'post', ['public' => false]);
 
         // Create test terms in the custom taxonomy.
-        $public_term        = self::factory()->term->create(['taxonomy' => 'public_taxonomy']);
+        $public_term = self::factory()->term->create(['taxonomy' => 'public_taxonomy']);
         $non_queryable_term = self::factory()->term->create(['taxonomy' => 'non_queryable_taxonomy']);
-        $private_term       = self::factory()->term->create(['taxonomy' => 'private_taxonomy']);
+        $private_term = self::factory()->term->create(['taxonomy' => 'private_taxonomy']);
 
         // Create a test post applied to all test terms.
         self::factory()->post->create_and_get(
             [
                 'tax_input' => [
-                    'public_taxonomy'        => [$public_term],
+                    'public_taxonomy' => [$public_term],
                     'non_queryable_taxonomy' => [$non_queryable_term],
-                    'private_taxonomy'       => [$private_term],
+                    'private_taxonomy' => [$private_term],
                 ],
-            ]
+            ],
         );
 
         $tax_provider = new WP_Sitemaps_Taxonomies();
-        $entries      = wp_list_pluck($tax_provider->get_sitemap_entries(), 'loc');
+        $entries = wp_list_pluck($tax_provider->get_sitemap_entries(), 'loc');
 
         // Clean up.
         unregister_taxonomy_for_object_type('public_taxonomy', 'post');
         unregister_taxonomy_for_object_type('non_queryable_taxonomy', 'post');
         unregister_taxonomy_for_object_type('private_taxonomy', 'post');
 
-        $this->assertContains('http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-subtype=public_taxonomy&paged=1', $entries, 'Public Taxonomies are not in the index.');
-        $this->assertNotContains('http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-subtype=non_queryable_taxonomy&paged=1', $entries, 'Private Taxonomies are visible in the index.');
-        $this->assertNotContains('http://' . WP_TESTS_DOMAIN . '/?sitemap=taxonomies&sitemap-subtype=private_taxonomy&paged=1', $entries, 'Private Taxonomies are visible in the index.');
+        $this->assertContains('http://'
+            . WP_TESTS_DOMAIN
+            . '/?sitemap=taxonomies&sitemap-subtype=public_taxonomy&paged=1', $entries,
+            'Public Taxonomies are not in the index.');
+        $this->assertNotContains('http://'
+            . WP_TESTS_DOMAIN
+            . '/?sitemap=taxonomies&sitemap-subtype=non_queryable_taxonomy&paged=1', $entries,
+            'Private Taxonomies are visible in the index.');
+        $this->assertNotContains('http://'
+            . WP_TESTS_DOMAIN
+            . '/?sitemap=taxonomies&sitemap-subtype=private_taxonomy&paged=1', $entries,
+            'Private Taxonomies are visible in the index.');
     }
 
     /**

@@ -68,7 +68,7 @@ class Tests_Filesystem_WpFilesystemDirect_Chmod extends WP_Filesystem_Direct_Uni
     public function data_should_set_mode_when_not_passed()
     {
         return [
-            'a file'      => [
+            'a file' => [
                 'path' => 'a_file_that_exists.txt',
                 'type' => 'FILE',
             ],

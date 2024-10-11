@@ -16,8 +16,8 @@ class PluralFormsTest extends WP_UnitTestCase
     protected static function parenthesize_plural_expression($expression)
     {
         $expression .= ';';
-        $res         = '';
-        $depth       = 0;
+        $res = '';
+        $depth = 0;
         for ($i = 0; $i < strlen($expression); ++$i) {
             $char = $expression[$i];
             switch ($char) {
@@ -29,7 +29,7 @@ class PluralFormsTest extends WP_UnitTestCase
                     $res .= ') : (';
                     break;
                 case ';':
-                    $res  .= str_repeat(')', $depth) . ';';
+                    $res .= str_repeat(')', $depth) . ';';
                     $depth = 0;
                     break;
                 default:
@@ -49,8 +49,8 @@ class PluralFormsTest extends WP_UnitTestCase
         require_once dirname(__DIR__, 2) . '/includes/plural-form-function.php';
 
         $parenthesized = self::parenthesize_plural_expression($expression);
-        $old_style     = tests_make_plural_form_function($nplurals, $parenthesized);
-        $plural_forms  = new Plural_Forms($expression);
+        $old_style = tests_make_plural_form_function($nplurals, $parenthesized);
+        $plural_forms = new Plural_Forms($expression);
 
         $generated_old = [];
         $generated_new = [];
@@ -76,7 +76,7 @@ class PluralFormsTest extends WP_UnitTestCase
 
     public static function data_locales()
     {
-        if (! class_exists('GP_Locales')) {
+        if (!class_exists('GP_Locales')) {
             $filename = download_url('https://raw.githubusercontent.com/GlotPress/GlotPress-WP/develop/locales/locales.php');
             if (is_wp_error($filename)) {
                 return [];
@@ -84,7 +84,7 @@ class PluralFormsTest extends WP_UnitTestCase
             require_once $filename;
         }
 
-        $locales            = GP_Locales::locales();
+        $locales = GP_Locales::locales();
         $plural_expressions = [];
         foreach ($locales as $slug => $locale) {
             $plural_expression = $locale->plural_expression;
@@ -103,7 +103,7 @@ class PluralFormsTest extends WP_UnitTestCase
     public function test_simple($expression, $expected)
     {
         $plural_forms = new Plural_Forms($expression);
-        $actual       = [];
+        $actual = [];
         foreach (array_keys($expected) as $num) {
             $actual[$num] = $plural_forms->get($num);
         }
@@ -119,10 +119,10 @@ class PluralFormsTest extends WP_UnitTestCase
                 'n != 1',
                 [
                     -1 => 1,
-                    0  => 1,
-                    1  => 0,
-                    2  => 1,
-                    5  => 1,
+                    0 => 1,
+                    1 => 0,
+                    2 => 1,
+                    5 => 1,
                     10 => 1,
                 ],
             ],
@@ -131,9 +131,9 @@ class PluralFormsTest extends WP_UnitTestCase
                 'n ? 1 : 2',
                 [
                     -1 => 1,
-                    0  => 2,
-                    1  => 1,
-                    2  => 1,
+                    0 => 2,
+                    1 => 1,
+                    2 => 1,
                 ],
             ],
             [
@@ -142,10 +142,10 @@ class PluralFormsTest extends WP_UnitTestCase
                 [
                     -2 => 2,
                     -1 => 2,
-                    0  => 2,
-                    1  => 2,
-                    2  => 1,
-                    3  => 1,
+                    0 => 2,
+                    1 => 2,
+                    2 => 1,
+                    3 => 1,
                 ],
             ],
             [
@@ -153,11 +153,11 @@ class PluralFormsTest extends WP_UnitTestCase
                 [
                     -2 => 3,
                     -1 => 3,
-                    0  => 3,
-                    1  => 3,
-                    2  => 2,
-                    3  => 1,
-                    4  => 1,
+                    0 => 3,
+                    1 => 3,
+                    2 => 2,
+                    3 => 1,
+                    4 => 1,
                 ],
             ],
         ];
@@ -236,7 +236,7 @@ class PluralFormsTest extends WP_UnitTestCase
             ->with($this->identicalTo(2))
             ->will($this->returnValue(1));
 
-        $first  = $mock->get(2);
+        $first = $mock->get(2);
         $second = $mock->get(2);
         $this->assertSame($first, $second);
     }

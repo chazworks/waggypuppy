@@ -30,13 +30,13 @@ class WP_Customize_Nav_Menu_Section extends WP_Customize_Section
     /**
      * Get section parameters for JS.
      *
-     * @since 4.3.0
      * @return array Exported parameters.
+     * @since 4.3.0
      */
     public function json()
     {
-        $exported            = parent::json();
-        $exported['menu_id'] = (int) preg_replace('/^nav_menu\[(-?\d+)\]/', '$1', $this->id);
+        $exported = parent::json();
+        $exported['menu_id'] = (int)preg_replace('/^nav_menu\[(-?\d+)\]/', '$1', $this->id);
 
         return $exported;
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the links_add_target() function.
  *
@@ -29,11 +30,11 @@ class Tests_Formatting_LinksAddTarget extends WP_UnitTestCase
      * Data provider.
      *
      * @return array {
-     *     @type array {
-     *         @type string     $content  String to search for links in.
-     *         @type string     $target   The target to add to the links.
-     *         @type array|null $tags     An array of tags to apply to.
-     *         @type string     $expected Expected output.
+     * @type array {
+     * @type string $content String to search for links in.
+     * @type string $target The target to add to the links.
+     * @type array|null $tags An array of tags to apply to.
+     * @type string $expected Expected output.
      *     }
      * }
      */

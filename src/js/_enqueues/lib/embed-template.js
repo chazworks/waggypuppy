@@ -1,28 +1,34 @@
 /**
  * @output wp-includes/js/wp-embed-template.js
  */
-(function ( window, document ) {
+( function ( window, document ) {
 	'use strict';
 
-	var supportedBrowser = ( document.querySelector && window.addEventListener ),
+	var supportedBrowser = document.querySelector && window.addEventListener,
 		loaded = false,
 		secret,
 		secretTimeout,
 		resizing;
 
 	function sendEmbedMessage( message, value ) {
-		window.parent.postMessage( {
-			message: message,
-			value: value,
-			secret: secret
-		}, '*' );
+		window.parent.postMessage(
+			{
+				message: message,
+				value: value,
+				secret: secret,
+			},
+			'*'
+		);
 	}
 
 	/**
 	 * Send the height message to the parent window.
 	 */
 	function sendHeightMessage() {
-		sendEmbedMessage( 'height', Math.ceil( document.body.getBoundingClientRect().height ) );
+		sendEmbedMessage(
+			'height',
+			Math.ceil( document.body.getBoundingClientRect().height )
+		);
 	}
 
 	function onLoad() {
@@ -32,11 +38,19 @@
 		loaded = true;
 
 		var share_dialog = document.querySelector( '.wp-embed-share-dialog' ),
-			share_dialog_open = document.querySelector( '.wp-embed-share-dialog-open' ),
-			share_dialog_close = document.querySelector( '.wp-embed-share-dialog-close' ),
+			share_dialog_open = document.querySelector(
+				'.wp-embed-share-dialog-open'
+			),
+			share_dialog_close = document.querySelector(
+				'.wp-embed-share-dialog-close'
+			),
 			share_input = document.querySelectorAll( '.wp-embed-share-input' ),
-			share_dialog_tabs = document.querySelectorAll( '.wp-embed-share-tab-button button' ),
-			featured_image = document.querySelector( '.wp-embed-featured-image img' ),
+			share_dialog_tabs = document.querySelectorAll(
+				'.wp-embed-share-tab-button button'
+			),
+			featured_image = document.querySelector(
+				'.wp-embed-featured-image img'
+			),
 			i;
 
 		if ( share_input ) {
@@ -48,9 +62,16 @@
 		}
 
 		function openSharingDialog() {
-			share_dialog.className = share_dialog.className.replace( 'hidden', '' );
+			share_dialog.className = share_dialog.className.replace(
+				'hidden',
+				''
+			);
 			// Initial focus should go on the currently selected tab in the dialog.
-			document.querySelector( '.wp-embed-share-tab-button [aria-selected="true"]' ).focus();
+			document
+				.querySelector(
+					'.wp-embed-share-tab-button [aria-selected="true"]'
+				)
+				.focus();
 		}
 
 		function closeSharingDialog() {
@@ -71,19 +92,28 @@
 		}
 
 		function shareClickHandler( e ) {
-			var currentTab = document.querySelector( '.wp-embed-share-tab-button [aria-selected="true"]' );
+			var currentTab = document.querySelector(
+				'.wp-embed-share-tab-button [aria-selected="true"]'
+			);
 			currentTab.setAttribute( 'aria-selected', 'false' );
-			document.querySelector( '#' + currentTab.getAttribute( 'aria-controls' ) ).setAttribute( 'aria-hidden', 'true' );
+			document
+				.querySelector(
+					'#' + currentTab.getAttribute( 'aria-controls' )
+				)
+				.setAttribute( 'aria-hidden', 'true' );
 
 			e.target.setAttribute( 'aria-selected', 'true' );
-			document.querySelector( '#' + e.target.getAttribute( 'aria-controls' ) ).setAttribute( 'aria-hidden', 'false' );
+			document
+				.querySelector( '#' + e.target.getAttribute( 'aria-controls' ) )
+				.setAttribute( 'aria-hidden', 'false' );
 		}
 
 		function shareKeyHandler( e ) {
 			var target = e.target,
 				previousSibling = target.parentElement.previousElementSibling,
 				nextSibling = target.parentElement.nextElementSibling,
-				newTab, newTabChild;
+				newTab,
+				newTabChild;
 
 			if ( 37 === e.keyCode ) {
 				newTab = previousSibling;
@@ -94,7 +124,8 @@
 			}
 
 			if ( 'rtl' === document.documentElement.getAttribute( 'dir' ) ) {
-				newTab = ( newTab === previousSibling ) ? nextSibling : previousSibling;
+				newTab =
+					newTab === previousSibling ? nextSibling : previousSibling;
 			}
 
 			if ( newTab ) {
@@ -102,34 +133,57 @@
 
 				target.setAttribute( 'tabindex', '-1' );
 				target.setAttribute( 'aria-selected', false );
-				document.querySelector( '#' + target.getAttribute( 'aria-controls' ) ).setAttribute( 'aria-hidden', 'true' );
+				document
+					.querySelector(
+						'#' + target.getAttribute( 'aria-controls' )
+					)
+					.setAttribute( 'aria-hidden', 'true' );
 
 				newTabChild.setAttribute( 'tabindex', '0' );
 				newTabChild.setAttribute( 'aria-selected', 'true' );
 				newTabChild.focus();
-				document.querySelector( '#' + newTabChild.getAttribute( 'aria-controls' ) ).setAttribute( 'aria-hidden', 'false' );
+				document
+					.querySelector(
+						'#' + newTabChild.getAttribute( 'aria-controls' )
+					)
+					.setAttribute( 'aria-hidden', 'false' );
 			}
 		}
 
 		if ( share_dialog_tabs ) {
 			for ( i = 0; i < share_dialog_tabs.length; i++ ) {
-				share_dialog_tabs[ i ].addEventListener( 'click', shareClickHandler );
+				share_dialog_tabs[ i ].addEventListener(
+					'click',
+					shareClickHandler
+				);
 
-				share_dialog_tabs[ i ].addEventListener( 'keydown', shareKeyHandler );
+				share_dialog_tabs[ i ].addEventListener(
+					'keydown',
+					shareKeyHandler
+				);
 			}
 		}
 
-		document.addEventListener( 'keydown', function ( e ) {
-			if ( 27 === e.keyCode && -1 === share_dialog.className.indexOf( 'hidden' ) ) {
-				closeSharingDialog();
-			} else if ( 9 === e.keyCode ) {
-				constrainTabbing( e );
-			}
-		}, false );
+		document.addEventListener(
+			'keydown',
+			function ( e ) {
+				if (
+					27 === e.keyCode &&
+					-1 === share_dialog.className.indexOf( 'hidden' )
+				) {
+					closeSharingDialog();
+				} else if ( 9 === e.keyCode ) {
+					constrainTabbing( e );
+				}
+			},
+			false
+		);
 
 		function constrainTabbing( e ) {
 			// Need to re-get the selected tab each time.
-			var firstFocusable = document.querySelector( '.wp-embed-share-tab-button [aria-selected="true"]' );
+			var firstFocusable = document.querySelector(
+				'.wp-embed-share-tab-button [aria-selected="true"]'
+			);
 
 			if ( share_dialog_close === e.target && ! e.shiftKey ) {
 				firstFocusable.focus();
@@ -165,7 +219,12 @@
 			}
 
 			// Only catch clicks from the primary mouse button, without any modifiers.
-			if ( event.altKey || event.ctrlKey || event.metaKey || event.shiftKey ) {
+			if (
+				event.altKey ||
+				event.ctrlKey ||
+				event.metaKey ||
+				event.shiftKey
+			) {
 				return;
 			}
 
@@ -225,11 +284,14 @@
 	 * Re-get the secret when it was added later on.
 	 */
 	function getSecret() {
-		if ( window.self === window.top || !!secret ) {
+		if ( window.self === window.top || !! secret ) {
 			return;
 		}
 
-		secret = window.location.hash.replace( /.*secret=([\d\w]{10}).*/, '$1' );
+		secret = window.location.hash.replace(
+			/.*secret=([\d\w]{10}).*/,
+			'$1'
+		);
 
 		clearTimeout( secretTimeout );
 
@@ -240,10 +302,12 @@
 
 	if ( supportedBrowser ) {
 		getSecret();
-		document.documentElement.className = document.documentElement.className.replace( /\bno-js\b/, '' ) + ' js';
+		document.documentElement.className =
+			document.documentElement.className.replace( /\bno-js\b/, '' ) +
+			' js';
 		document.addEventListener( 'DOMContentLoaded', onLoad, false );
 		window.addEventListener( 'load', onLoad, false );
 		window.addEventListener( 'resize', onResize, false );
 		window.addEventListener( 'message', onMessage, false );
 	}
-})( window, document );
+} )( window, document );

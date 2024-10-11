@@ -53,7 +53,7 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
             grant_super_admin($administrator_id);
         }
 
-        $filter  = ['role' => 'invalidrole'];
+        $filter = ['role' => 'invalidrole'];
         $results = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter]);
         $this->assertIXRError($results);
         $this->assertSame(403, $results->code);
@@ -64,25 +64,26 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
      */
     public function test_role_filter()
     {
-        $author_id        = $this->make_user_by_role('author');
-        $editor_id        = $this->make_user_by_role('editor');
+        $author_id = $this->make_user_by_role('author');
+        $editor_id = $this->make_user_by_role('editor');
         $administrator_id = $this->make_user_by_role('administrator');
         if (is_multisite()) {
             grant_super_admin($administrator_id);
         }
 
         // Test a single role ('editor').
-        $filter  = ['role' => 'editor'];
+        $filter = ['role' => 'editor'];
         $results = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter]);
         $this->assertNotIXRError($results);
         $this->assertCount(1, $results);
         $this->assertEquals($editor_id, $results[0]['user_id']);
 
         // Test 'authors', which should return all non-subscribers.
-        $filter2  = ['who' => 'authors'];
+        $filter2 = ['who' => 'authors'];
         $results2 = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter2]);
         $this->assertNotIXRError($results2);
-        $this->assertCount(3, array_intersect([$author_id, $editor_id, $administrator_id], wp_list_pluck($results2, 'user_id')));
+        $this->assertCount(3,
+            array_intersect([$author_id, $editor_id, $administrator_id], wp_list_pluck($results2, 'user_id')));
     }
 
     public function test_paging_filters()
@@ -97,7 +98,7 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
         $user_ids = get_users(['fields' => 'ID']);
 
         $users_found = [];
-        $page_size   = 2;
+        $page_size = 2;
 
         $filter = [
             'number' => $page_size,
@@ -119,9 +120,9 @@ class Tests_XMLRPC_wp_getUsers extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('administrator');
 
-        $filter  = [
+        $filter = [
             'orderby' => 'email',
-            'order'   => 'ASC',
+            'order' => 'ASC',
         ];
         $results = $this->myxmlrpcserver->wp_getUsers([1, 'administrator', 'administrator', $filter]);
         $this->assertNotIXRError($results);

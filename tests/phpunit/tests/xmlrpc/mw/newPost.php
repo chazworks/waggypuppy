@@ -8,7 +8,7 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
 
     public function test_invalid_username_password()
     {
-        $post   = [];
+        $post = [];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'username', 'password', $post]);
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
@@ -18,7 +18,7 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('subscriber');
 
-        $post   = [];
+        $post = [];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'subscriber', 'subscriber', $post]);
         $this->assertIXRError($result);
         $this->assertSame(401, $result->code);
@@ -28,7 +28,7 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('author');
 
-        $post   = [];
+        $post = [];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'author', 'author', $post]);
         $this->assertIXRError($result);
         $this->assertSame(500, $result->code);
@@ -39,7 +39,7 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('author');
 
-        $post   = ['title' => 'Test'];
+        $post = ['title' => 'Test'];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'author', 'author', $post]);
         $this->assertNotIXRError($result);
         $this->assertStringMatchesFormat('%d', $result);
@@ -49,9 +49,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('author');
 
-        $post   = [
+        $post = [
             'title' => 'Test',
-            'ID'    => 103948,
+            'ID' => 103948,
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'author', 'author', $post]);
         $this->assertNotIXRError($result);
@@ -62,8 +62,8 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('author');
 
-        $post   = [
-            'title'       => 'Test',
+        $post = [
+            'title' => 'Test',
             'post_status' => 'publish',
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'author', 'author', $post]);
@@ -74,8 +74,8 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('contributor');
 
-        $post   = [
-            'title'       => 'Test',
+        $post = [
+            'title' => 'Test',
             'post_status' => 'publish',
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'contributor', 'contributor', $post]);
@@ -88,8 +88,8 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
         $other_author_id = $this->make_user_by_role('author');
 
-        $post   = [
-            'title'        => 'Test',
+        $post = [
+            'title' => 'Test',
             'wp_author_id' => $other_author_id,
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'editor', 'editor', $post]);
@@ -101,8 +101,8 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('contributor');
         $other_author_id = $this->make_user_by_role('author');
 
-        $post   = [
-            'title'        => 'Test',
+        $post = [
+            'title' => 'Test',
             'wp_author_id' => $other_author_id,
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'contributor', 'contributor', $post]);
@@ -117,8 +117,8 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $post   = [
-            'title'        => 'Test',
+        $post = [
+            'title' => 'Test',
             'wp_author_id' => 99999999,
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'editor', 'editor', $post]);
@@ -130,7 +130,7 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $my_author_id = $this->make_user_by_role('author');
 
-        $post   = ['title' => 'Test'];
+        $post = ['title' => 'Test'];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'author', 'author', $post]);
         $this->assertNotIXRError($result);
         $this->assertStringMatchesFormat('%d', $result);
@@ -150,11 +150,11 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('author');
 
         // Create attachment.
-        $filename      = (DIR_TESTDATA . '/images/a2-small.jpg');
+        $filename = (DIR_TESTDATA . '/images/a2-small.jpg');
         $attachment_id = self::factory()->attachment->create_upload_object($filename);
 
-        $post   = [
-            'title'             => 'Post Thumbnail Test',
+        $post = [
+            'title' => 'Post Thumbnail Test',
             'wp_post_thumbnail' => $attachment_id,
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'author', 'author', $post]);
@@ -168,8 +168,8 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('author');
 
-        $post   = [
-            'title'     => 'Test',
+        $post = [
+            'title' => 'Test',
             'post_type' => 'page',
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'author', 'author', $post]);
@@ -181,8 +181,8 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $post   = [
-            'title'     => 'Test',
+        $post = [
+            'title' => 'Test',
             'post_type' => 'page',
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'editor', 'editor', $post]);
@@ -202,9 +202,9 @@ class Tests_XMLRPC_mw_newPost extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $post   = [
-            'title'       => 'Test',
-            'post_type'   => 'post',
+        $post = [
+            'title' => 'Test',
+            'post_type' => 'post',
             'post_status' => 'draft',
         ];
         $result = $this->myxmlrpcserver->mw_newPost([1, 'editor', 'editor', $post]);

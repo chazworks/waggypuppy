@@ -8,7 +8,7 @@
 class Tests_Menu_wpNavMenu extends WP_UnitTestCase
 {
 
-    private static $menu_id        = 0;
+    private static $menu_id = 0;
     private static $lvl0_menu_item = 0;
     private static $lvl1_menu_item = 0;
     private static $lvl2_menu_item = 0;
@@ -26,10 +26,10 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
             self::$menu_id,
             0,
             [
-                'menu-item-title'  => 'Root menu item',
-                'menu-item-url'    => '#',
+                'menu-item-title' => 'Root menu item',
+                'menu-item-url' => '#',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         // Create lvl1 menu item.
@@ -37,11 +37,11 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
             self::$menu_id,
             0,
             [
-                'menu-item-title'     => 'Lvl1 menu item',
-                'menu-item-url'       => '#',
+                'menu-item-title' => 'Lvl1 menu item',
+                'menu-item-url' => '#',
                 'menu-item-parent-id' => self::$lvl0_menu_item,
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-status' => 'publish',
+            ],
         );
 
         // Create lvl2 menu item.
@@ -49,11 +49,11 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
             self::$menu_id,
             0,
             [
-                'menu-item-title'     => 'Lvl2 menu item',
-                'menu-item-url'       => '#',
+                'menu-item-title' => 'Lvl2 menu item',
+                'menu-item-url' => '#',
                 'menu-item-parent-id' => self::$lvl1_menu_item,
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-status' => 'publish',
+            ],
         );
 
         // Create lvl3 menu item.
@@ -61,11 +61,11 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
             self::$menu_id,
             0,
             [
-                'menu-item-title'     => 'Lvl3 menu item',
-                'menu-item-url'       => '#',
+                'menu-item-title' => 'Lvl3 menu item',
+                'menu-item-url' => '#',
                 'menu-item-parent-id' => self::$lvl2_menu_item,
-                'menu-item-status'    => 'publish',
-            ]
+                'menu-item-status' => 'publish',
+            ],
         );
 
         /*
@@ -101,49 +101,48 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
      */
     public function test_wp_nav_menu_should_have_has_children_class_without_custom_depth()
     {
-
         // Render the menu with all its hierarchy.
         $menu_html = wp_nav_menu(
             [
                 'menu' => self::$menu_id,
                 'echo' => false,
-            ]
+            ],
         );
 
         $this->assertStringContainsString(
             sprintf(
                 '<li id="menu-item-%1$d" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-%1$d">',
-                self::$lvl0_menu_item
+                self::$lvl0_menu_item,
             ),
             $menu_html,
-            'Level 0 should be present in the HTML output and have the `menu-item-has-children` class.'
+            'Level 0 should be present in the HTML output and have the `menu-item-has-children` class.',
         );
 
         $this->assertStringContainsString(
             sprintf(
                 '<li id="menu-item-%1$d" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-%1$d">',
-                self::$lvl1_menu_item
+                self::$lvl1_menu_item,
             ),
             $menu_html,
-            'Level 1 should be present in the HTML output and have the `menu-item-has-children` class.'
+            'Level 1 should be present in the HTML output and have the `menu-item-has-children` class.',
         );
 
         $this->assertStringContainsString(
             sprintf(
                 '<li id="menu-item-%1$d" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-%1$d">',
-                self::$lvl2_menu_item
+                self::$lvl2_menu_item,
             ),
             $menu_html,
-            'Level 2 should be present in the HTML output and have the `menu-item-has-children` class.'
+            'Level 2 should be present in the HTML output and have the `menu-item-has-children` class.',
         );
 
         $this->assertStringContainsString(
             sprintf(
                 '<li id="menu-item-%1$d" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-%1$d">',
-                self::$lvl3_menu_item
+                self::$lvl3_menu_item,
             ),
             $menu_html,
-            'Level 3 should be present in the HTML output and not have the `menu-item-has-children` class since it has no children.'
+            'Level 3 should be present in the HTML output and not have the `menu-item-has-children` class since it has no children.',
         );
     }
 
@@ -156,50 +155,49 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
      */
     public function test_wp_nav_menu_should_not_have_has_children_class_with_custom_depth()
     {
-
         // Render the menu limited to 1 level of hierarchy (Lvl0 + Lvl1).
         $menu_html = wp_nav_menu(
             [
-                'menu'  => self::$menu_id,
+                'menu' => self::$menu_id,
                 'depth' => 3,
-                'echo'  => false,
-            ]
+                'echo' => false,
+            ],
         );
 
         $this->assertStringContainsString(
             sprintf(
                 '<li id="menu-item-%1$d" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-%1$d">',
-                self::$lvl0_menu_item
+                self::$lvl0_menu_item,
             ),
             $menu_html,
-            'Level 0 should be present in the HTML output and have the `menu-item-has-children` class.'
+            'Level 0 should be present in the HTML output and have the `menu-item-has-children` class.',
         );
 
         $this->assertStringContainsString(
             sprintf(
                 '<li id="menu-item-%1$d" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-%1$d">',
-                self::$lvl1_menu_item
+                self::$lvl1_menu_item,
             ),
             $menu_html,
-            'Level 1 should be present in the HTML output and have the `menu-item-has-children` class.'
+            'Level 1 should be present in the HTML output and have the `menu-item-has-children` class.',
         );
 
         $this->assertStringContainsString(
             sprintf(
                 '<li id="menu-item-%1$d" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-%1$d">',
-                self::$lvl2_menu_item
+                self::$lvl2_menu_item,
             ),
             $menu_html,
-            'Level 2 should be present in the HTML output and not have the `menu-item-has-children` class since it is the last item to be rendered.'
+            'Level 2 should be present in the HTML output and not have the `menu-item-has-children` class since it is the last item to be rendered.',
         );
 
         $this->assertStringNotContainsString(
             sprintf(
                 '<li id="menu-item-%d"',
-                self::$lvl3_menu_item
+                self::$lvl3_menu_item,
             ),
             $menu_html,
-            'Level 3 should not be present in the HTML output.'
+            'Level 3 should not be present in the HTML output.',
         );
     }
 
@@ -215,10 +213,10 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
             self::$menu_id,
             0,
             [
-                'menu-item-title'  => 'Root menu item with high ID',
-                'menu-item-url'    => '#',
+                'menu-item-title' => 'Root menu item with high ID',
+                'menu-item-url' => '#',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         // Reparent level 1 menu item to the new level zero menu item.
@@ -227,7 +225,7 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
             self::$lvl1_menu_item,
             [
                 'menu-item-parent-id' => $new_lvl0_menu_item,
-            ]
+            ],
         );
 
         // Delete the old level zero menu item.
@@ -238,16 +236,16 @@ class Tests_Menu_wpNavMenu extends WP_UnitTestCase
             [
                 'menu' => self::$menu_id,
                 'echo' => false,
-            ]
+            ],
         );
 
         $this->assertStringContainsString(
             sprintf(
                 '<li id="menu-item-%1$d" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-%1$d">',
-                $new_lvl0_menu_item
+                $new_lvl0_menu_item,
             ),
             $menu_html,
-            'The level zero menu item should appear in the menu.'
+            'The level zero menu item should appear in the menu.',
         );
     }
 }

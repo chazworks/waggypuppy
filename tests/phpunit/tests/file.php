@@ -24,23 +24,23 @@ class Tests_File extends WP_UnitTestCase
     public function test_get_file_data()
     {
         $theme_headers = [
-            'Name'        => 'Theme Name',
-            'ThemeURI'    => 'Theme URI',
+            'Name' => 'Theme Name',
+            'ThemeURI' => 'Theme URI',
             'Description' => 'Description',
-            'Version'     => 'Version',
-            'Author'      => 'Author',
-            'AuthorURI'   => 'Author URI',
+            'Version' => 'Version',
+            'Author' => 'Author',
+            'AuthorURI' => 'Author URI',
         ];
 
         $actual = get_file_data(DIR_TESTDATA . '/themedir1/default/style.css', $theme_headers);
 
         $expected = [
-            'Name'        => 'WP Default',
-            'ThemeURI'    => 'http://wp.org/',
+            'Name' => 'WP Default',
+            'ThemeURI' => 'http://wp.org/',
             'Description' => 'The default WordPress theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.',
-            'Version'     => '1.6',
-            'Author'      => 'Michael Heilemann',
-            'AuthorURI'   => 'http://binarybonsai.com/',
+            'Version' => '1.6',
+            'Author' => 'Michael Heilemann',
+            'AuthorURI' => 'http://binarybonsai.com/',
         ];
 
         foreach ($actual as $header => $value) {
@@ -56,16 +56,16 @@ class Tests_File extends WP_UnitTestCase
     public function test_get_file_data_with_cr_line_endings()
     {
         $headers = [
-            'SomeHeader'  => 'Some Header',
+            'SomeHeader' => 'Some Header',
             'Description' => 'Description',
-            'Author'      => 'Author',
+            'Author' => 'Author',
         ];
 
-        $actual   = get_file_data(DIR_TESTDATA . '/formatting/file-header-cr-line-endings.php', $headers);
+        $actual = get_file_data(DIR_TESTDATA . '/formatting/file-header-cr-line-endings.php', $headers);
         $expected = [
-            'SomeHeader'  => 'Some header value!',
+            'SomeHeader' => 'Some header value!',
             'Description' => 'This file is using CR line endings for a testcase.',
-            'Author'      => 'A Very Old Mac',
+            'Author' => 'A Very Old Mac',
         ];
 
         foreach ($actual as $header => $value) {
@@ -84,7 +84,7 @@ class Tests_File extends WP_UnitTestCase
             'TemplateName' => 'Template Name',
         ];
 
-        $actual   = get_file_data(DIR_TESTDATA . '/formatting/file-header-php-open-tag-prefix.php', $headers);
+        $actual = get_file_data(DIR_TESTDATA . '/formatting/file-header-php-open-tag-prefix.php', $headers);
         $expected = [
             'TemplateName' => 'Something',
         ];
@@ -100,7 +100,7 @@ class Tests_File extends WP_UnitTestCase
 
         $fp = fopen($fullpath, 'x');
         // File already exists?
-        if (! $fp) {
+        if (!$fp) {
             return false;
         }
 
@@ -147,7 +147,7 @@ class Tests_File extends WP_UnitTestCase
 
     public function test_unique_filename_is_sanitized()
     {
-        $name     = __FUNCTION__;
+        $name = __FUNCTION__;
         $filename = wp_unique_filename($this->dir, $name . self::BADCHARS . '.txt');
 
         // Make sure the bad characters were all stripped out.
@@ -174,7 +174,7 @@ class Tests_File extends WP_UnitTestCase
 
     public function test_unique_filename_multiple_ext()
     {
-        $name     = __FUNCTION__;
+        $name = __FUNCTION__;
         $filename = wp_unique_filename($this->dir, $name . '.php.txt');
 
         // "foo.php.txt" becomes "foo.php_.txt".
@@ -187,7 +187,7 @@ class Tests_File extends WP_UnitTestCase
 
     public function test_unique_filename_no_ext()
     {
-        $name     = __FUNCTION__;
+        $name = __FUNCTION__;
         $filename = wp_unique_filename($this->dir, $name);
 
         $this->assertSame($name, $filename);
@@ -207,6 +207,7 @@ class Tests_File extends WP_UnitTestCase
 
         $this->assertNotEmpty(basename(basename($file, '.tmp'), '.zip'));
     }
+
     public function data_wp_tempnam_filenames()
     {
         return [
@@ -248,7 +249,9 @@ class Tests_File extends WP_UnitTestCase
     {
         return [
             'the limit before adding characters for uniqueness' => ['filename' => str_pad('', 241, 'filename')],
-            'one more than the limit before adding characters for uniqueness' => ['filename' => str_pad('', 242, 'filename')],
+            'one more than the limit before adding characters for uniqueness' => [
+                'filename' => str_pad('', 242, 'filename'),
+            ],
             '251 characters' => ['filename' => str_pad('', 251, 'filename')],
             '252 characters' => ['filename' => str_pad('', 252, 'filename')],
             '253 characters' => ['filename' => str_pad('', 253, 'filename')],
@@ -272,7 +275,7 @@ class Tests_File extends WP_UnitTestCase
                 return '123456';
             },
             10,
-            0
+            0,
         );
 
         // A filename at the limit.
@@ -307,12 +310,12 @@ class Tests_File extends WP_UnitTestCase
                 return '1a2b3c4d5e6f';
             },
             10,
-            0
+            0,
         );
 
         // A filename at the limit.
         $filename = str_pad('', 252, 'filename');
-        $actual   = wp_tempnam($filename);
+        $actual = wp_tempnam($filename);
 
         self::unlink($actual);
 
@@ -330,10 +333,11 @@ class Tests_File extends WP_UnitTestCase
     public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_wp_unique_filename_is_filtered()
     {
         // Determine the number of additional characters added by `wp_tempnam()`.
-        $temp_dir                    = get_temp_dir();
-        $additional_chars_filename   = wp_unique_filename($temp_dir, 'filename');
-        $additional_chars_generated  = wp_tempnam($additional_chars_filename, $temp_dir);
-        $additional_chars_difference = strlen(basename($additional_chars_generated)) - strlen($additional_chars_filename);
+        $temp_dir = get_temp_dir();
+        $additional_chars_filename = wp_unique_filename($temp_dir, 'filename');
+        $additional_chars_generated = wp_tempnam($additional_chars_filename, $temp_dir);
+        $additional_chars_difference = strlen(basename($additional_chars_generated))
+            - strlen($additional_chars_filename);
 
         $filenames_over_limit = 0;
 
@@ -349,12 +353,12 @@ class Tests_File extends WP_UnitTestCase
                 return $filename;
             },
             10,
-            1
+            1,
         );
 
         // A filename that will hit the limit when `wp_tempnam()` adds characters.
         $filename = str_pad('', 252 - $additional_chars_difference, 'filename');
-        $actual   = wp_tempnam($filename);
+        $actual = wp_tempnam($filename);
 
         self::unlink($additional_chars_generated);
         self::unlink($actual);
@@ -372,7 +376,8 @@ class Tests_File extends WP_UnitTestCase
      *
      * @covers ::wp_tempnam
      */
-    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_random_password_and_wp_unique_filename_are_filtered()
+    public function test_wp_tempnam_should_limit_filename_length_to_252_characters_when_random_password_and_wp_unique_filename_are_filtered(
+    )
     {
         // Force random passwords to 12 characters.
         add_filter(
@@ -381,14 +386,15 @@ class Tests_File extends WP_UnitTestCase
                 return '1a2b3c4d5e6f';
             },
             10,
-            0
+            0,
         );
 
         // Determine the number of additional characters added by `wp_tempnam()`.
-        $temp_dir                    = get_temp_dir();
-        $additional_chars_filename   = wp_unique_filename($temp_dir, 'filename');
-        $additional_chars_generated  = wp_tempnam($additional_chars_filename, $temp_dir);
-        $additional_chars_difference = strlen(basename($additional_chars_generated)) - strlen($additional_chars_filename);
+        $temp_dir = get_temp_dir();
+        $additional_chars_filename = wp_unique_filename($temp_dir, 'filename');
+        $additional_chars_generated = wp_tempnam($additional_chars_filename, $temp_dir);
+        $additional_chars_difference = strlen(basename($additional_chars_generated))
+            - strlen($additional_chars_filename);
 
         $filenames_over_limit = 0;
 
@@ -404,12 +410,12 @@ class Tests_File extends WP_UnitTestCase
                 return $filename;
             },
             10,
-            1
+            1,
         );
 
         // A filename that will hit the limit when `wp_tempnam()` adds characters.
         $filename = str_pad('', 252 - $additional_chars_difference, 'filename');
-        $actual   = wp_tempnam($filename);
+        $actual = wp_tempnam($filename);
 
         self::unlink($additional_chars_generated);
         self::unlink($actual);
@@ -433,9 +439,9 @@ class Tests_File extends WP_UnitTestCase
 
         // Measure how long the call takes.
         $timer_start = microtime(1);
-        $verify      = verify_file_signature($file, $expected_signature, 'WordPress');
-        $timer_end   = microtime(1);
-        $time_taken  = ($timer_end - $timer_start);
+        $verify = verify_file_signature($file, $expected_signature, 'WordPress');
+        $timer_end = microtime(1);
+        $time_taken = ($timer_end - $timer_start);
 
         unlink($file);
         remove_filter('wp_trusted_keys', [$this, 'filter_trust_plus85Tq_key']);
@@ -462,7 +468,7 @@ class Tests_File extends WP_UnitTestCase
 
         // Test an invalid signature.
         $expected_signature = base64_encode(str_repeat('A', SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES));
-        $verify             = verify_file_signature($file, $expected_signature, 'waggypuppy');
+        $verify = verify_file_signature($file, $expected_signature, 'waggypuppy');
         unlink($file);
 
         if (is_wp_error($verify) && 'signature_verification_unsupported' === $verify->get_error_code()) {

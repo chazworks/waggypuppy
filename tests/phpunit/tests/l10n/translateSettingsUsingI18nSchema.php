@@ -28,50 +28,50 @@ class Tests_L10n_TranslateSettingsUsingI18nSchema extends WP_UnitTestCase
         add_filter('locale', [$this, 'filter_set_locale_to_polish']);
         load_textdomain($textdomain, WP_LANG_DIR . '/plugins/notice-pl_PL.mo');
 
-        $i18n_schema = (object) [
-            'title'    => 'block title',
+        $i18n_schema = (object)[
+            'title' => 'block title',
             'keywords' => ['block keyword'],
-            'styles'   => [
-                (object) ['label' => 'block style label'],
+            'styles' => [
+                (object)['label' => 'block style label'],
             ],
-            'context'  => (object) [
-                '*' => (object) [
+            'context' => (object)[
+                '*' => (object)[
                     'variations' => [
-                        (object) [
-                            'title'       => 'block variation title',
+                        (object)[
+                            'title' => 'block variation title',
                             'description' => 'block variation description',
-                            'keywords'    => ['block variation keyword'],
+                            'keywords' => ['block variation keyword'],
                         ],
                     ],
                 ],
             ],
         ];
-        $settings    = [
-            'title'    => 'Notice',
+        $settings = [
+            'title' => 'Notice',
             'keywords' => [
                 'alert',
                 'message',
             ],
-            'styles'   => [
+            'styles' => [
                 ['label' => 'Default'],
                 ['label' => 'Other'],
             ],
-            'context'  => [
+            'context' => [
                 'namespace' => [
                     'variations' => [
                         [
-                            'title'       => 'Error',
+                            'title' => 'Error',
                             'description' => 'Shows error.',
-                            'keywords'    => ['failure'],
+                            'keywords' => ['failure'],
                         ],
                     ],
                 ],
             ],
         ];
-        $result      = translate_settings_using_i18n_schema(
+        $result = translate_settings_using_i18n_schema(
             $i18n_schema,
             $settings,
-            $textdomain
+            $textdomain,
         );
 
         unload_textdomain($textdomain);
@@ -88,17 +88,17 @@ class Tests_L10n_TranslateSettingsUsingI18nSchema extends WP_UnitTestCase
                     'label' => 'Inny',
                 ],
             ],
-            $result['styles']
+            $result['styles'],
         );
         $this->assertSame(
             [
                 [
-                    'title'       => 'Błąd',
+                    'title' => 'Błąd',
                     'description' => 'Wyświetla błąd.',
-                    'keywords'    => ['niepowodzenie'],
+                    'keywords' => ['niepowodzenie'],
                 ],
             ],
-            $result['context']['namespace']['variations']
+            $result['context']['namespace']['variations'],
         );
     }
 }

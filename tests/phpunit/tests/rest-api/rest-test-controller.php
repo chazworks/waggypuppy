@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Controller functionality
  *
@@ -12,15 +13,15 @@ class WP_REST_Test_Controller extends WP_REST_Controller
     /**
      * Prepares the item for the REST response.
      *
-     * @param mixed           $item    waggypuppy representation of the item.
+     * @param mixed $item waggypuppy representation of the item.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function prepare_item_for_response($item, $request)
     {
-        $context  = ! empty($request['context']) ? $request['context'] : 'view';
-        $item     = $this->add_additional_fields_to_object($item, $request);
-        $item     = $this->filter_response_by_context($item, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $item = $this->add_additional_fields_to_object($item, $request);
+        $item = $this->filter_response_by_context($item, $context);
         $response = rest_ensure_response($item);
         return $response;
     }
@@ -33,117 +34,117 @@ class WP_REST_Test_Controller extends WP_REST_Controller
     public function get_item_schema()
     {
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'type',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'type',
+            'type' => 'object',
             'properties' => [
-                'somestring'        => [
-                    'type'        => 'string',
+                'somestring' => [
+                    'type' => 'string',
                     'description' => 'A pretty string.',
-                    'minLength'   => 3,
-                    'maxLength'   => 3,
-                    'pattern'     => '[a-zA-Z]+',
-                    'context'     => ['view'],
+                    'minLength' => 3,
+                    'maxLength' => 3,
+                    'pattern' => '[a-zA-Z]+',
+                    'context' => ['view'],
                 ],
-                'someinteger'       => [
-                    'type'             => 'integer',
-                    'multipleOf'       => 10,
-                    'minimum'          => 100,
-                    'maximum'          => 200,
+                'someinteger' => [
+                    'type' => 'integer',
+                    'multipleOf' => 10,
+                    'minimum' => 100,
+                    'maximum' => 200,
                     'exclusiveMinimum' => true,
                     'exclusiveMaximum' => true,
-                    'context'          => ['view'],
-                ],
-                'someboolean'       => [
-                    'type'    => 'boolean',
                     'context' => ['view'],
                 ],
-                'someurl'           => [
-                    'type'    => 'string',
-                    'format'  => 'uri',
+                'someboolean' => [
+                    'type' => 'boolean',
                     'context' => ['view'],
                 ],
-                'somedate'          => [
-                    'type'    => 'string',
-                    'format'  => 'date-time',
+                'someurl' => [
+                    'type' => 'string',
+                    'format' => 'uri',
                     'context' => ['view'],
                 ],
-                'someemail'         => [
-                    'type'    => 'string',
-                    'format'  => 'email',
+                'somedate' => [
+                    'type' => 'string',
+                    'format' => 'date-time',
                     'context' => ['view'],
                 ],
-                'somehex'           => [
-                    'type'    => 'string',
-                    'format'  => 'hex-color',
+                'someemail' => [
+                    'type' => 'string',
+                    'format' => 'email',
                     'context' => ['view'],
                 ],
-                'someuuid'          => [
-                    'type'    => 'string',
-                    'format'  => 'uuid',
+                'somehex' => [
+                    'type' => 'string',
+                    'format' => 'hex-color',
                     'context' => ['view'],
                 ],
-                'sometextfield'     => [
-                    'type'    => 'string',
-                    'format'  => 'text-field',
+                'someuuid' => [
+                    'type' => 'string',
+                    'format' => 'uuid',
+                    'context' => ['view'],
+                ],
+                'sometextfield' => [
+                    'type' => 'string',
+                    'format' => 'text-field',
                     'context' => ['view'],
                 ],
                 'sometextareafield' => [
-                    'type'    => 'string',
-                    'format'  => 'textarea-field',
+                    'type' => 'string',
+                    'format' => 'textarea-field',
                     'context' => ['view'],
                 ],
-                'someenum'          => [
-                    'type'    => 'string',
-                    'enum'    => ['a', 'b', 'c'],
+                'someenum' => [
+                    'type' => 'string',
+                    'enum' => ['a', 'b', 'c'],
                     'context' => ['view'],
                 ],
-                'someargoptions'    => [
-                    'type'        => 'integer',
-                    'required'    => true,
+                'someargoptions' => [
+                    'type' => 'integer',
+                    'required' => true,
                     'arg_options' => [
-                        'required'          => false,
+                        'required' => false,
                         'sanitize_callback' => '__return_true',
                     ],
                 ],
-                'somedefault'       => [
-                    'type'    => 'string',
-                    'enum'    => ['a', 'b', 'c'],
+                'somedefault' => [
+                    'type' => 'string',
+                    'enum' => ['a', 'b', 'c'],
                     'context' => ['view'],
                     'default' => 'a',
                 ],
-                'somearray'         => [
-                    'type'        => 'array',
-                    'items'       => [
+                'somearray' => [
+                    'type' => 'array',
+                    'items' => [
                         'type' => 'string',
                     ],
-                    'minItems'    => 1,
-                    'maxItems'    => 10,
+                    'minItems' => 1,
+                    'maxItems' => 10,
                     'uniqueItems' => true,
-                    'context'     => ['view'],
+                    'context' => ['view'],
                 ],
-                'someobject'        => [
-                    'type'                 => 'object',
+                'someobject' => [
+                    'type' => 'object',
                     'additionalProperties' => [
                         'type' => 'string',
                     ],
-                    'properties'           => [
+                    'properties' => [
                         'object_id' => [
                             'type' => 'integer',
                         ],
                     ],
-                    'patternProperties'    => [
+                    'patternProperties' => [
                         '[0-9]' => [
                             'type' => 'string',
                         ],
                     ],
-                    'minProperties'        => 1,
-                    'maxProperties'        => 10,
-                    'anyOf'                => [
+                    'minProperties' => 1,
+                    'maxProperties' => 10,
+                    'anyOf' => [
                         [
                             'properties' => [
                                 'object_id' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'minimum' => 100,
                                 ],
                             ],
@@ -151,17 +152,17 @@ class WP_REST_Test_Controller extends WP_REST_Controller
                         [
                             'properties' => [
                                 'object_id' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'maximum' => 100,
                                 ],
                             ],
                         ],
                     ],
-                    'oneOf'                => [
+                    'oneOf' => [
                         [
                             'properties' => [
                                 'object_id' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'minimum' => 100,
                                 ],
                             ],
@@ -169,14 +170,14 @@ class WP_REST_Test_Controller extends WP_REST_Controller
                         [
                             'properties' => [
                                 'object_id' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'maximum' => 100,
                                 ],
                             ],
                         ],
                     ],
-                    'ignored_prop'         => 'ignored_prop',
-                    'context'              => ['view'],
+                    'ignored_prop' => 'ignored_prop',
+                    'context' => ['view'],
                 ],
             ],
         ];

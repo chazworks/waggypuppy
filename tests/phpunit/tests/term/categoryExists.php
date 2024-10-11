@@ -10,14 +10,14 @@ class Tests_Term_CategoryExists extends WP_UnitTestCase
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
             [
-                'name'   => 'Foo',
+                'name' => 'Foo',
                 'parent' => $c1,
-            ]
+            ],
         );
         $c3 = self::factory()->category->create(
             [
                 'name' => 'Foo',
-            ]
+            ],
         );
 
         $found = category_exists('Foo', 0);
@@ -34,14 +34,14 @@ class Tests_Term_CategoryExists extends WP_UnitTestCase
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
             [
-                'name'   => 'Foo',
+                'name' => 'Foo',
                 'parent' => $c1,
-            ]
+            ],
         );
         $c3 = self::factory()->category->create(
             [
                 'name' => 'Foo',
-            ]
+            ],
         );
 
         $found = category_exists('Foo');
@@ -59,13 +59,13 @@ class Tests_Term_CategoryExists extends WP_UnitTestCase
         $c2 = self::factory()->category->create(
             [
                 'name' => 'Foo',
-            ]
+            ],
         );
         $c3 = self::factory()->category->create(
             [
-                'name'   => 'Foo',
+                'name' => 'Foo',
                 'parent' => $c1,
-            ]
+            ],
         );
 
         $found = category_exists('Foo');
@@ -81,14 +81,14 @@ class Tests_Term_CategoryExists extends WP_UnitTestCase
         $c1 = self::factory()->category->create();
         $c2 = self::factory()->category->create(
             [
-                'name'   => 'Foo',
+                'name' => 'Foo',
                 'parent' => $c1,
-            ]
+            ],
         );
         $c3 = self::factory()->category->create(
             [
                 'name' => 'Foo',
-            ]
+            ],
         );
 
         $found = category_exists('Foo', $c1);

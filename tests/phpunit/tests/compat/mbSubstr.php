@@ -39,8 +39,13 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase
     /**
      * @dataProvider data_utf8_substrings
      */
-    public function test_8bit_mb_substr($input_string, $start, $length, $expected_character_substring, $expected_byte_substring)
-    {
+    public function test_8bit_mb_substr(
+        $input_string,
+        $start,
+        $length,
+        $expected_character_substring,
+        $expected_byte_substring,
+    ) {
         $this->assertSame($expected_byte_substring, _mb_substr($input_string, $start, $length, '8bit'));
     }
 
@@ -53,53 +58,53 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase
     {
         return [
             [
-                'input_string'                 => 'баба',
-                'start'                        => 0,
-                'length'                       => 3,
+                'input_string' => 'баба',
+                'start' => 0,
+                'length' => 3,
                 'expected_character_substring' => 'баб',
-                'expected_byte_substring'      => "б\xD0",
+                'expected_byte_substring' => "б\xD0",
             ],
             [
-                'input_string'                 => 'баба',
-                'start'                        => 0,
-                'length'                       => -1,
+                'input_string' => 'баба',
+                'start' => 0,
+                'length' => -1,
                 'expected_character_substring' => 'баб',
-                'expected_byte_substring'      => "баб\xD0",
+                'expected_byte_substring' => "баб\xD0",
             ],
             [
-                'input_string'                 => 'баба',
-                'start'                        => 1,
-                'length'                       => null,
+                'input_string' => 'баба',
+                'start' => 1,
+                'length' => null,
                 'expected_character_substring' => 'аба',
-                'expected_byte_substring'      => "\xB1аба",
+                'expected_byte_substring' => "\xB1аба",
             ],
             [
-                'input_string'                 => 'баба',
-                'start'                        => -3,
-                'length'                       => null,
+                'input_string' => 'баба',
+                'start' => -3,
+                'length' => null,
                 'expected_character_substring' => 'аба',
-                'expected_byte_substring'      => "\xB1а",
+                'expected_byte_substring' => "\xB1а",
             ],
             [
-                'input_string'                 => 'баба',
-                'start'                        => -3,
-                'length'                       => 2,
+                'input_string' => 'баба',
+                'start' => -3,
+                'length' => 2,
                 'expected_character_substring' => 'аб',
-                'expected_byte_substring'      => "\xB1\xD0",
+                'expected_byte_substring' => "\xB1\xD0",
             ],
             [
-                'input_string'                 => 'баба',
-                'start'                        => -1,
-                'length'                       => 2,
+                'input_string' => 'баба',
+                'start' => -1,
+                'length' => 2,
                 'expected_character_substring' => 'а',
-                'expected_byte_substring'      => "\xB0",
+                'expected_byte_substring' => "\xB0",
             ],
             [
-                'input_string'                 => 'I am your баба',
-                'start'                        => 0,
-                'length'                       => 11,
+                'input_string' => 'I am your баба',
+                'start' => 0,
+                'length' => 11,
                 'expected_character_substring' => 'I am your б',
-                'expected_byte_substring'      => "I am your \xD0",
+                'expected_byte_substring' => "I am your \xD0",
             ],
         ];
     }
@@ -110,29 +115,29 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase
     public function test_mb_substr_phpcore_basic()
     {
         $string_ascii = 'ABCDEF';
-        $string_mb    = base64_decode('5pel5pys6Kqe44OG44Kt44K544OI44Gn44GZ44CCMDEyMzTvvJXvvJbvvJfvvJjvvJnjgII=');
+        $string_mb = base64_decode('5pel5pys6Kqe44OG44Kt44K544OI44Gn44GZ44CCMDEyMzTvvJXvvJbvvJfvvJjvvJnjgII=');
 
         $this->assertSame(
             'DEF',
             _mb_substr($string_ascii, 3),
-            'Substring does not match expected for offset 3'
+            'Substring does not match expected for offset 3',
         );
         $this->assertSame(
             'DEF',
             _mb_substr($string_ascii, 3, 5, 'ISO-8859-1'),
-            'Substring does not match expected for offset 3, length 5, with iso charset'
+            'Substring does not match expected for offset 3, length 5, with iso charset',
         );
 
         // Specific latin-1 as that is the default the core PHP test operates under.
         $this->assertSame(
             'peacrOiqng==',
             base64_encode(_mb_substr($string_mb, 2, 7, 'latin-1')),
-            'Substring does not match expected for offset 2, length 7, with latin-1 charset'
+            'Substring does not match expected for offset 2, length 7, with latin-1 charset',
         );
         $this->assertSame(
             '6Kqe44OG44Kt44K544OI44Gn44GZ',
             base64_encode(_mb_substr($string_mb, 2, 7, 'utf-8')),
-            'Substring does not match expected for offset 2, length 7, with utf-8 charset'
+            'Substring does not match expected for offset 2, length 7, with utf-8 charset',
         );
     }
 
@@ -141,12 +146,12 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase
      *
      * @dataProvider data_mb_substr_phpcore_input_type_handling
      *
-     * @param mixed  $input    Input to pass to the function.
+     * @param mixed $input Input to pass to the function.
      * @param string $expected Expected function output.
      */
     public function test_mb_substr_phpcore_input_type_handling($input, $expected)
     {
-        $start  = 0;
+        $start = 0;
         $length = 5;
 
         $this->assertSame($expected, _mb_substr($input, $start, $length));
@@ -160,82 +165,82 @@ class Tests_Compat_mbSubstr extends WP_UnitTestCase
     public function data_mb_substr_phpcore_input_type_handling()
     {
         $heredoc = <<<EOT
-hello world
-EOT;
+            hello world
+            EOT;
 
         return [
-            'integer zero'                   => [
-                'input'    => 0,
+            'integer zero' => [
+                'input' => 0,
                 'expected' => '0',
             ],
-            'integer 1'                      => [
-                'input'    => 1,
+            'integer 1' => [
+                'input' => 1,
                 'expected' => '1',
             ],
-            'positive integer'               => [
-                'input'    => 12345,
+            'positive integer' => [
+                'input' => 12345,
                 'expected' => '12345',
             ],
-            'negative integer'               => [
-                'input'    => -2345,
+            'negative integer' => [
+                'input' => -2345,
                 'expected' => '-2345',
             ],
             // Float data.
-            'positive float with fraction'   => [
-                'input'    => 10.5,
+            'positive float with fraction' => [
+                'input' => 10.5,
                 'expected' => '10.5',
             ],
-            'negative float with fraction'   => [
-                'input'    => -10.5,
+            'negative float with fraction' => [
+                'input' => -10.5,
                 'expected' => '-10.5',
             ],
-            'float scientific whole number'  => [
-                'input'    => 12.3456789000e10,
+            'float scientific whole number' => [
+                'input' => 12.3456789000e10,
                 'expected' => '12345',
             ],
             'float scientific with fraction' => [
-                'input'    => 12.3456789000E-10,
+                'input' => 12.3456789000E-10,
                 'expected' => '1.234',
             ],
-            'float, fraction only'           => [
-                'input'    => .5,
+            'float, fraction only' => [
+                'input' => .5,
                 'expected' => '0.5',
             ],
             // Null data.
-            'null'                           => [
-                'input'    => null,
+            'null' => [
+                'input' => null,
                 'expected' => '',
             ],
             // Boolean data.
-            'boolean true'                   => [
-                'input'    => true,
+            'boolean true' => [
+                'input' => true,
                 'expected' => '1',
             ],
-            'boolean false'                  => [
-                'input'    => false,
+            'boolean false' => [
+                'input' => false,
                 'expected' => '',
             ],
             // Empty data.
-            'empty string'                   => [
-                'input'    => '',
+            'empty string' => [
+                'input' => '',
                 'expected' => '',
             ],
             // String data.
-            'double quoted string'           => [
-                'input'    => "string'",
+            'double quoted string' => [
+                'input' => "string'",
                 'expected' => 'strin',
             ],
-            'single quoted string'           => [
-                'input'    => 'string',
+            'single quoted string' => [
+                'input' => 'string',
                 'expected' => 'strin',
             ],
-            'heredoc string'                 => [
-                'input'    => $heredoc,
+            'heredoc string' => [
+                'input' => $heredoc,
                 'expected' => 'hello',
             ],
             // Object data.
-            'object with __toString method'  => [
-                'input'    => new ClassWithToStringForMbSubstr(),
+            'object with __toString method' => [
+                'input' => new ClassWithToStringForMbSubstr(),
                 'expected' => 'Class',
             ],
         ];
@@ -243,6 +248,7 @@ EOT;
 }
 
 /* used in data_mb_substr_phpcore_input_type_handling() */
+
 class ClassWithToStringForMbSubstr
 {
     public function __toString()

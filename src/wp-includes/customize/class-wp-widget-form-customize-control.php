@@ -101,20 +101,20 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control
         require_once ABSPATH . 'wp-admin/includes/widgets.php';
 
         $widget = $wp_registered_widgets[$this->widget_id];
-        if (! isset($widget['params'][0])) {
+        if (!isset($widget['params'][0])) {
             $widget['params'][0] = [];
         }
 
         $args = [
-            'widget_id'   => $widget['id'],
+            'widget_id' => $widget['id'],
             'widget_name' => $widget['name'],
         ];
 
-        $args                 = wp_list_widget_controls_dynamic_sidebar(
+        $args = wp_list_widget_controls_dynamic_sidebar(
             [
                 0 => $args,
                 1 => $widget['params'][0],
-            ]
+            ],
         );
         $widget_control_parts = $this->manager->widgets->get_widget_control_parts($args);
 
@@ -127,15 +127,14 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control
      *
      * @since 3.9.0
      */
-    public function render_content()
-    {}
+    public function render_content() {}
 
     /**
      * Whether the current widget is rendered on the page.
      *
+     * @return bool Whether the widget is rendered.
      * @since 4.0.0
      *
-     * @return bool Whether the widget is rendered.
      */
     public function active_callback()
     {

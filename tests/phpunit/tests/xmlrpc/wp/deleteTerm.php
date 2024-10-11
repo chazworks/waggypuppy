@@ -12,7 +12,7 @@ class Tests_XMLRPC_wp_deleteTerm extends WP_XMLRPC_UnitTestCase
         self::$term_id = $factory->term->create(
             [
                 'taxonomy' => 'category',
-            ]
+            ],
         );
     }
 

@@ -14,11 +14,11 @@ var selectionSync = {
 	/**
 	 * @since 3.5.0
 	 */
-	syncSelection: function() {
-		var selection = this.get('selection'),
+	syncSelection: function () {
+		var selection = this.get( 'selection' ),
 			manager = this.frame._selection;
 
-		if ( ! this.get('syncSelection') || ! manager || ! selection ) {
+		if ( ! this.get( 'syncSelection' ) || ! manager || ! selection ) {
 			return;
 		}
 
@@ -29,9 +29,12 @@ var selectionSync = {
 		 * reference to those. Other attachments are considered in flux.
 		 */
 		if ( selection.multiple ) {
-			selection.reset( [], { silent: true });
+			selection.reset( [], { silent: true } );
 			selection.validateAll( manager.attachments );
-			manager.difference = _.difference( manager.attachments.models, selection.models );
+			manager.difference = _.difference(
+				manager.attachments.models,
+				selection.models
+			);
 		}
 
 		// Sync the selection's single item with the master.
@@ -46,23 +49,25 @@ var selectionSync = {
 	 *
 	 * @since 3.5.0
 	 */
-	recordSelection: function() {
-		var selection = this.get('selection'),
+	recordSelection: function () {
+		var selection = this.get( 'selection' ),
 			manager = this.frame._selection;
 
-		if ( ! this.get('syncSelection') || ! manager || ! selection ) {
+		if ( ! this.get( 'syncSelection' ) || ! manager || ! selection ) {
 			return;
 		}
 
 		if ( selection.multiple ) {
-			manager.attachments.reset( selection.toArray().concat( manager.difference ) );
+			manager.attachments.reset(
+				selection.toArray().concat( manager.difference )
+			);
 			manager.difference = [];
 		} else {
 			manager.attachments.add( selection.toArray() );
 		}
 
 		manager.single = selection._single;
-	}
+	},
 };
 
 module.exports = selectionSync;

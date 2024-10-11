@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the block template loading algorithm.
  *
@@ -31,41 +32,45 @@ class Tests_Block_Template extends WP_UnitTestCase
     public function test_page_home_block_template_takes_precedence_over_less_specific_block_templates()
     {
         global $_wp_current_template_content;
-        $type                   = 'page';
-        $templates              = [
+        $type = 'page';
+        $templates = [
             'page-home.php',
             'page-1.php',
             'page.php',
         ];
-        $resolved_template_path = locate_block_template(get_stylesheet_directory() . '/page-home.php', $type, $templates);
+        $resolved_template_path = locate_block_template(get_stylesheet_directory() . '/page-home.php', $type,
+            $templates);
         $this->assertSame(self::$template_canvas_path, $resolved_template_path);
-        $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/page-home.html', $_wp_current_template_content);
+        $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/page-home.html',
+            $_wp_current_template_content);
     }
 
     public function test_page_block_template_takes_precedence()
     {
         global $_wp_current_template_content;
-        $type                   = 'page';
-        $templates              = [
+        $type = 'page';
+        $templates = [
             'page-slug-doesnt-exist.php',
             'page-1.php',
             'page.php',
         ];
         $resolved_template_path = locate_block_template(get_stylesheet_directory() . '/page.php', $type, $templates);
         $this->assertSame(self::$template_canvas_path, $resolved_template_path);
-        $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/page.html', $_wp_current_template_content);
+        $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/page.html',
+            $_wp_current_template_content);
     }
 
     public function test_block_template_takes_precedence_over_equally_specific_php_template()
     {
         global $_wp_current_template_content;
-        $type                   = 'index';
-        $templates              = [
+        $type = 'index';
+        $templates = [
             'index.php',
         ];
         $resolved_template_path = locate_block_template(get_stylesheet_directory() . '/index.php', $type, $templates);
         $this->assertSame(self::$template_canvas_path, $resolved_template_path);
-        $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/index.html', $_wp_current_template_content);
+        $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/index.html',
+            $_wp_current_template_content);
     }
 
     /**
@@ -76,10 +81,10 @@ class Tests_Block_Template extends WP_UnitTestCase
      */
     public function test_more_specific_php_template_takes_precedence_over_less_specific_block_template()
     {
-        $page_id_template       = 'page-1.php';
-        $page_id_template_path  = get_stylesheet_directory() . '/' . $page_id_template;
-        $type                   = 'page';
-        $templates              = [
+        $page_id_template = 'page-1.php';
+        $page_id_template_path = get_stylesheet_directory() . '/' . $page_id_template;
+        $type = 'page';
+        $templates = [
             'page-slug-doesnt-exist.php',
             'page-1.php',
             'page.php',
@@ -101,15 +106,15 @@ class Tests_Block_Template extends WP_UnitTestCase
     {
         switch_theme('block-theme-child');
 
-        $page_slug_template      = 'page-home.php';
+        $page_slug_template = 'page-home.php';
         $page_slug_template_path = get_stylesheet_directory() . '/' . $page_slug_template;
-        $type                    = 'page';
-        $templates               = [
+        $type = 'page';
+        $templates = [
             'page-home.php',
             'page-1.php',
             'page.php',
         ];
-        $resolved_template_path  = locate_block_template($page_slug_template_path, $type, $templates);
+        $resolved_template_path = locate_block_template($page_slug_template_path, $type, $templates);
         $this->assertSame($page_slug_template_path, $resolved_template_path);
     }
 
@@ -119,17 +124,18 @@ class Tests_Block_Template extends WP_UnitTestCase
 
         switch_theme('block-theme-child');
 
-        $page_template                   = 'page-1.php';
+        $page_template = 'page-1.php';
         $parent_theme_page_template_path = get_template_directory() . '/' . $page_template;
-        $type                            = 'page';
-        $templates                       = [
+        $type = 'page';
+        $templates = [
             'page-slug-doesnt-exist.php',
             'page-1.php',
             'page.php',
         ];
-        $resolved_template_path          = locate_block_template($parent_theme_page_template_path, $type, $templates);
+        $resolved_template_path = locate_block_template($parent_theme_page_template_path, $type, $templates);
         $this->assertSame(self::$template_canvas_path, $resolved_template_path);
-        $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/page-1.html', $_wp_current_template_content);
+        $this->assertStringEqualsFile(get_stylesheet_directory() . '/templates/page-1.html',
+            $_wp_current_template_content);
     }
 
     /**
@@ -137,16 +143,16 @@ class Tests_Block_Template extends WP_UnitTestCase
      */
     public function test_custom_page_php_template_takes_precedence_over_all_other_templates()
     {
-        $custom_page_template      = 'templates/full-width.php';
+        $custom_page_template = 'templates/full-width.php';
         $custom_page_template_path = get_stylesheet_directory() . '/' . $custom_page_template;
-        $type                      = 'page';
-        $templates                 = [
+        $type = 'page';
+        $templates = [
             $custom_page_template,
             'page-slug.php',
             'page-1.php',
             'page.php',
         ];
-        $resolved_template_path    = locate_block_template($custom_page_template_path, $type, $templates);
+        $resolved_template_path = locate_block_template($custom_page_template_path, $type, $templates);
         $this->assertSame($custom_page_template_path, $resolved_template_path);
     }
 
@@ -159,12 +165,12 @@ class Tests_Block_Template extends WP_UnitTestCase
 
         // Set up custom template post.
         $args = [
-            'post_type'    => 'wp_template',
-            'post_name'    => 'wp-custom-template-my-block-template',
-            'post_title'   => 'My Custom Block Template',
+            'post_type' => 'wp_template',
+            'post_name' => 'wp-custom-template-my-block-template',
+            'post_title' => 'My Custom Block Template',
             'post_content' => 'Content',
             'post_excerpt' => 'Description of my block template',
-            'tax_input'    => [
+            'tax_input' => [
                 'wp_theme' => [
                     get_stylesheet(),
                 ],
@@ -174,15 +180,15 @@ class Tests_Block_Template extends WP_UnitTestCase
         wp_set_post_terms($post->ID, get_stylesheet(), 'wp_theme');
 
         $custom_page_block_template = 'wp-custom-template-my-block-template';
-        $page_template_path         = get_stylesheet_directory() . '/' . 'page.php';
-        $type                       = 'page';
-        $templates                  = [
+        $page_template_path = get_stylesheet_directory() . '/' . 'page.php';
+        $type = 'page';
+        $templates = [
             $custom_page_block_template,
             'page-slug.php',
             'page-1.php',
             'page.php',
         ];
-        $resolved_template_path     = locate_block_template($page_template_path, $type, $templates);
+        $resolved_template_path = locate_block_template($page_template_path, $type, $templates);
         $this->assertSame(self::$template_canvas_path, $resolved_template_path);
         $this->assertSame($post->post_content, $_wp_current_template_content);
 
@@ -217,8 +223,8 @@ class Tests_Block_Template extends WP_UnitTestCase
         $this->register_in_the_loop_logger_block($in_the_loop_logs);
 
         // Set main query to single post.
-        $post_id      = self::factory()->post->create(['post_title' => 'A single post']);
-        $wp_query     = new WP_Query(['p' => $post_id]);
+        $post_id = self::factory()->post->create(['post_title' => 'A single post']);
+        $wp_query = new WP_Query(['p' => $post_id]);
         $wp_the_query = $wp_query;
 
         // Force a template ID that is for the current stylesheet.
@@ -226,7 +232,7 @@ class Tests_Block_Template extends WP_UnitTestCase
         // Use block template that just renders post title and the above test block.
         $_wp_current_template_content = '<!-- wp:post-title /--><!-- wp:test/in-the-loop-logger /-->';
 
-        $expected  = '<div class="wp-site-blocks">';
+        $expected = '<div class="wp-site-blocks">';
         $expected .= '<h2 class="wp-block-post-title">A single post</h2>';
         $expected .= '</div>';
 
@@ -251,17 +257,17 @@ class Tests_Block_Template extends WP_UnitTestCase
         $this->register_in_the_loop_logger_block($in_the_loop_logs);
 
         // Set main query to a general post query (i.e. not for a specific post).
-        $post_id      = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'A single post',
+                'post_title' => 'A single post',
                 'post_content' => 'The content.',
-            ]
+            ],
         );
-        $wp_query     = new WP_Query(
+        $wp_query = new WP_Query(
             [
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         $wp_the_query = $wp_query;
 
@@ -273,7 +279,7 @@ class Tests_Block_Template extends WP_UnitTestCase
          * `get_the_block_template_html()` should not start the loop, but the `core/query` and `core/post-template`
          * blocks should.
          */
-        $_wp_current_template_content  = '<!-- wp:test/in-the-loop-logger /-->';
+        $_wp_current_template_content = '<!-- wp:test/in-the-loop-logger /-->';
         $_wp_current_template_content .= '<!-- wp:query {"query":{"inherit":true}} -->';
         $_wp_current_template_content .= '<!-- wp:post-template -->';
         $_wp_current_template_content .= '<!-- wp:post-title /-->';
@@ -281,11 +287,15 @@ class Tests_Block_Template extends WP_UnitTestCase
         $_wp_current_template_content .= '<!-- /wp:post-template -->';
         $_wp_current_template_content .= '<!-- /wp:query -->';
 
-        $expected  = '<div class="wp-site-blocks">';
+        $expected = '<div class="wp-site-blocks">';
         $expected .= '<ul class="wp-block-post-template is-layout-flow wp-block-post-template-is-layout-flow wp-block-query-is-layout-flow">';
-        $expected .= '<li class="wp-block-post post-' . $post_id . ' post type-post status-publish format-standard hentry category-uncategorized">';
+        $expected .= '<li class="wp-block-post post-'
+            . $post_id
+            . ' post type-post status-publish format-standard hentry category-uncategorized">';
         $expected .= '<h2 class="wp-block-post-title">A single post</h2>';
-        $expected .= '<div class="entry-content wp-block-post-content is-layout-flow wp-block-post-content-is-layout-flow">' . wpautop('The content.') . '</div>';
+        $expected .= '<div class="entry-content wp-block-post-content is-layout-flow wp-block-post-content-is-layout-flow">'
+            . wpautop('The content.')
+            . '</div>';
         $expected .= '</li>';
         $expected .= '</ul>';
         $expected .= '</div>';
@@ -312,8 +322,8 @@ class Tests_Block_Template extends WP_UnitTestCase
         $this->register_in_the_loop_logger_block($in_the_loop_logs);
 
         // Set main query to single post.
-        $post_id      = self::factory()->post->create(['post_title' => 'A single post']);
-        $wp_query     = new WP_Query(['p' => $post_id]);
+        $post_id = self::factory()->post->create(['post_title' => 'A single post']);
+        $wp_query = new WP_Query(['p' => $post_id]);
         $wp_the_query = $wp_query;
 
         // Force a template ID that is not for the current stylesheet.
@@ -323,7 +333,8 @@ class Tests_Block_Template extends WP_UnitTestCase
 
         $output = get_the_block_template_html();
         $this->unregister_in_the_loop_logger_block();
-        $this->assertSame([false], $in_the_loop_logs, 'Main query loop was triggered despite a custom block template outside the current theme being used');
+        $this->assertSame([false], $in_the_loop_logs,
+            'Main query loop was triggered despite a custom block template outside the current theme being used');
     }
 
     /**
@@ -333,7 +344,7 @@ class Tests_Block_Template extends WP_UnitTestCase
      *
      * @dataProvider data_get_block_theme_folders
      *
-     * @param string   $theme    The theme's stylesheet.
+     * @param string $theme The theme's stylesheet.
      * @param string[] $expected The expected associative array of block theme folders.
      */
     public function test_get_block_theme_folders($theme, $expected)
@@ -344,7 +355,7 @@ class Tests_Block_Template extends WP_UnitTestCase
         $this->assertSame($expected, get_block_theme_folders($theme), 'Incorrect block theme folders were retrieved.');
         $reflection = new ReflectionMethod($wp_theme, 'cache_get');
         $reflection->setAccessible(true);
-        $theme_cache  = $reflection->invoke($wp_theme, 'theme');
+        $theme_cache = $reflection->invoke($wp_theme, 'theme');
         $cached_value = $theme_cache['block_template_folders'];
         $reflection->setAccessible(false);
 
@@ -359,45 +370,45 @@ class Tests_Block_Template extends WP_UnitTestCase
     public function data_get_block_theme_folders()
     {
         return [
-            'block-theme'                       => [
+            'block-theme' => [
                 'block-theme',
                 [
-                    'wp_template'      => 'templates',
+                    'wp_template' => 'templates',
                     'wp_template_part' => 'parts',
                 ],
             ],
-            'block-theme-deprecated-path'       => [
+            'block-theme-deprecated-path' => [
                 'block-theme-deprecated-path',
                 [
-                    'wp_template'      => 'block-templates',
+                    'wp_template' => 'block-templates',
                     'wp_template_part' => 'block-template-parts',
                 ],
             ],
-            'block-theme-child'                 => [
+            'block-theme-child' => [
                 'block-theme-child',
                 [
-                    'wp_template'      => 'templates',
+                    'wp_template' => 'templates',
                     'wp_template_part' => 'parts',
                 ],
             ],
             'block-theme-child-deprecated-path' => [
                 'block-theme-child-deprecated-path',
                 [
-                    'wp_template'      => 'block-templates',
+                    'wp_template' => 'block-templates',
                     'wp_template_part' => 'block-template-parts',
                 ],
             ],
-            'this-is-an-invalid-theme'          => [
+            'this-is-an-invalid-theme' => [
                 'this-is-an-invalid-theme',
                 [
-                    'wp_template'      => 'templates',
+                    'wp_template' => 'templates',
                     'wp_template_part' => 'parts',
                 ],
             ],
-            'null'                              => [
+            'null' => [
                 null,
                 [
-                    'wp_template'      => 'templates',
+                    'wp_template' => 'templates',
                     'wp_template_part' => 'parts',
                 ],
             ],
@@ -429,11 +440,12 @@ class Tests_Block_Template extends WP_UnitTestCase
             static function ($template) use ($theme_dir) {
                 return $theme_dir . '/' . $template;
             },
-            $templates
+            $templates,
         );
 
         $template_paths = _get_block_templates_paths($theme_dir);
-        $template_paths = array_map([$this, 'normalizeDirectorySeparatorsInPath'], _get_block_templates_paths($theme_dir));
+        $template_paths = array_map([$this, 'normalizeDirectorySeparatorsInPath'],
+            _get_block_templates_paths($theme_dir));
 
         $this->assertSameSets($expected_template_paths, $template_paths);
     }
@@ -482,7 +494,7 @@ class Tests_Block_Template extends WP_UnitTestCase
     public function test_get_block_template_from_registry()
     {
         $template_name = 'test-plugin//test-template';
-        $args          = [
+        $args = [
             'title' => 'Test Template',
         ];
 
@@ -509,7 +521,7 @@ class Tests_Block_Template extends WP_UnitTestCase
                     $in_the_loop_logs[] = in_the_loop();
                     return '';
                 },
-            ]
+            ],
         );
     }
 

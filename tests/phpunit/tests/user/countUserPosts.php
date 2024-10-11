@@ -13,18 +13,18 @@ class Tests_User_CountUserPosts extends WP_UnitTestCase
     {
         self::$user_id = $factory->user->create(
             [
-                'role'       => 'author',
+                'role' => 'author',
                 'user_login' => 'count_user_posts_user',
                 'user_email' => 'count_user_posts_user@example.com',
-            ]
+            ],
         );
 
         self::$post_ids = $factory->post->create_many(
             4,
             [
                 'post_author' => self::$user_id,
-                'post_type'   => 'post',
-            ]
+                'post_type' => 'post',
+            ],
         );
         self::$post_ids = array_merge(
             self::$post_ids,
@@ -32,9 +32,9 @@ class Tests_User_CountUserPosts extends WP_UnitTestCase
                 3,
                 [
                     'post_author' => self::$user_id,
-                    'post_type'   => 'wptests_pt',
-                ]
-            )
+                    'post_type' => 'wptests_pt',
+                ],
+            ),
         );
         self::$post_ids = array_merge(
             self::$post_ids,
@@ -42,16 +42,16 @@ class Tests_User_CountUserPosts extends WP_UnitTestCase
                 2,
                 [
                     'post_author' => 12345,
-                    'post_type'   => 'wptests_pt',
-                ]
-            )
+                    'post_type' => 'wptests_pt',
+                ],
+            ),
         );
 
         self::$post_ids[] = $factory->post->create(
             [
                 'post_author' => 12345,
-                'post_type'   => 'wptests_pt',
-            ]
+                'post_type' => 'wptests_pt',
+            ],
         );
     }
 

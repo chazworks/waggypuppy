@@ -46,61 +46,64 @@ class WP_Script_Modules
      * Registers the script module if no script module with that script module
      * identifier has already been registered.
      *
-     * @since 6.5.0
-     *
-     * @param string            $id       The identifier of the script module. Should be unique. It will be used in the
+     * @param string $id The identifier of the script module. Should be unique. It will be used in the
      *                                    final import map.
-     * @param string            $src      Optional. Full URL of the script module, or path of the script module relative
+     * @param string $src Optional. Full URL of the script module, or path of the script module relative
      *                                    to the waggypuppy root directory. If it is provided and the script module has
      *                                    not been registered yet, it will be registered.
-     * @param array             $deps     {
+     * @param array $deps {
      *                                        Optional. List of dependencies.
      *
-     *                                        @type string|array ...$0 {
+     * @type string|array ...$0 {
      *                                            An array of script module identifiers of the dependencies of this script
      *                                            module. The dependencies can be strings or arrays. If they are arrays,
      *                                            they need an `id` key with the script module identifier, and can contain
      *                                            an `import` key with either `static` or `dynamic`. By default,
      *                                            dependencies that don't contain an `import` key are considered static.
      *
-     *                                            @type string $id     The script module identifier.
-     *                                            @type string $import Optional. Import type. May be either `static` or
+     * @type string $id The script module identifier.
+     * @type string $import Optional. Import type. May be either `static` or
      *                                                                 `dynamic`. Defaults to `static`.
      *                                        }
      *                                    }
-     * @param string|false|null $version  Optional. String specifying the script module version number. Defaults to false.
+     * @param string|false|null $version Optional. String specifying the script module version number. Defaults to false.
      *                                    It is added to the URL as a query string for cache busting purposes. If $version
      *                                    is set to false, the version number is the currently installed waggypuppy version.
      *                                    If $version is set to null, no version is added.
+     * @since 6.5.0
+     *
      */
     public function register(string $id, string $src, array $deps = [], $version = false)
     {
-        if (! isset($this->registered[$id])) {
+        if (!isset($this->registered[$id])) {
             $dependencies = [];
             foreach ($deps as $dependency) {
                 if (is_array($dependency)) {
-                    if (! isset($dependency['id'])) {
-                        _doing_it_wrong(__METHOD__, __('Missing required id key in entry among dependencies array.'), '6.5.0');
+                    if (!isset($dependency['id'])) {
+                        _doing_it_wrong(__METHOD__, __('Missing required id key in entry among dependencies array.'),
+                            '6.5.0');
                         continue;
                     }
                     $dependencies[] = [
-                        'id'     => $dependency['id'],
-                        'import' => isset($dependency['import']) && 'dynamic' === $dependency['import'] ? 'dynamic' : 'static',
+                        'id' => $dependency['id'],
+                        'import' => isset($dependency['import']) && 'dynamic' === $dependency['import'] ? 'dynamic'
+                            : 'static',
                     ];
                 } elseif (is_string($dependency)) {
                     $dependencies[] = [
-                        'id'     => $dependency,
+                        'id' => $dependency,
                         'import' => 'static',
                     ];
                 } else {
-                    _doing_it_wrong(__METHOD__, __('Entries in dependencies array must be either strings or arrays with an id key.'), '6.5.0');
+                    _doing_it_wrong(__METHOD__,
+                        __('Entries in dependencies array must be either strings or arrays with an id key.'), '6.5.0');
                 }
             }
 
             $this->registered[$id] = [
-                'src'          => $src,
-                'version'      => $version,
-                'enqueue'      => isset($this->enqueued_before_registered[$id]),
+                'src' => $src,
+                'version' => $version,
+                'enqueue' => isset($this->enqueued_before_registered[$id]),
                 'dependencies' => $dependencies,
             ];
         }
@@ -112,32 +115,32 @@ class WP_Script_Modules
      * If a src is provided and the script module has not been registered yet, it
      * will be registered.
      *
-     * @since 6.5.0
-     *
-     * @param string            $id       The identifier of the script module. Should be unique. It will be used in the
+     * @param string $id The identifier of the script module. Should be unique. It will be used in the
      *                                    final import map.
-     * @param string            $src      Optional. Full URL of the script module, or path of the script module relative
+     * @param string $src Optional. Full URL of the script module, or path of the script module relative
      *                                    to the waggypuppy root directory. If it is provided and the script module has
      *                                    not been registered yet, it will be registered.
-     * @param array             $deps     {
+     * @param array $deps {
      *                                        Optional. List of dependencies.
      *
-     *                                        @type string|array ...$0 {
+     * @type string|array ...$0 {
      *                                            An array of script module identifiers of the dependencies of this script
      *                                            module. The dependencies can be strings or arrays. If they are arrays,
      *                                            they need an `id` key with the script module identifier, and can contain
      *                                            an `import` key with either `static` or `dynamic`. By default,
      *                                            dependencies that don't contain an `import` key are considered static.
      *
-     *                                            @type string $id     The script module identifier.
-     *                                            @type string $import Optional. Import type. May be either `static` or
+     * @type string $id The script module identifier.
+     * @type string $import Optional. Import type. May be either `static` or
      *                                                                 `dynamic`. Defaults to `static`.
      *                                        }
      *                                    }
-     * @param string|false|null $version  Optional. String specifying the script module version number. Defaults to false.
+     * @param string|false|null $version Optional. String specifying the script module version number. Defaults to false.
      *                                    It is added to the URL as a query string for cache busting purposes. If $version
      *                                    is set to false, the version number is the currently installed waggypuppy version.
      *                                    If $version is set to null, no version is added.
+     * @since 6.5.0
+     *
      */
     public function enqueue(string $id, string $src = '', array $deps = [], $version = false)
     {
@@ -154,9 +157,9 @@ class WP_Script_Modules
     /**
      * Unmarks the script module so it will no longer be enqueued in the page.
      *
+     * @param string $id The identifier of the script module.
      * @since 6.5.0
      *
-     * @param string $id The identifier of the script module.
      */
     public function dequeue(string $id)
     {
@@ -169,9 +172,9 @@ class WP_Script_Modules
     /**
      * Removes a registered script module.
      *
+     * @param string $id The identifier of the script module.
      * @since 6.5.0
      *
-     * @param string $id The identifier of the script module.
      */
     public function deregister(string $id)
     {
@@ -218,9 +221,9 @@ class WP_Script_Modules
             wp_print_script_tag(
                 [
                     'type' => 'module',
-                    'src'  => $this->get_src($id),
-                    'id'   => $id . '-js-module',
-                ]
+                    'src' => $this->get_src($id),
+                    'id' => $id . '-js-module',
+                ],
             );
         }
     }
@@ -235,13 +238,14 @@ class WP_Script_Modules
      */
     public function print_script_module_preloads()
     {
-        foreach ($this->get_dependencies(array_keys($this->get_marked_for_enqueue()), ['static']) as $id => $script_module) {
+        foreach ($this->get_dependencies(array_keys($this->get_marked_for_enqueue()),
+            ['static']) as $id => $script_module) {
             // Don't preload if it's marked for enqueue.
             if (true !== $script_module['enqueue']) {
                 echo sprintf(
                     '<link rel="modulepreload" href="%s" id="%s">',
                     esc_url($this->get_src($id)),
-                    esc_attr($id . '-js-modulepreload')
+                    esc_attr($id . '-js-modulepreload'),
                 );
             }
         }
@@ -255,13 +259,13 @@ class WP_Script_Modules
     public function print_import_map()
     {
         $import_map = $this->get_import_map();
-        if (! empty($import_map['imports'])) {
+        if (!empty($import_map['imports'])) {
             wp_print_inline_script_tag(
                 wp_json_encode($import_map, JSON_HEX_TAG | JSON_HEX_AMP),
                 [
                     'type' => 'importmap',
-                    'id'   => 'wp-importmap',
-                ]
+                    'id' => 'wp-importmap',
+                ],
             );
         }
     }
@@ -269,10 +273,10 @@ class WP_Script_Modules
     /**
      * Returns the import map array.
      *
-     * @since 6.5.0
-     *
      * @return array Array with an `imports` key mapping to an array of script module identifiers and their respective
      *               URLs, including the version query.
+     * @since 6.5.0
+     *
      */
     private function get_import_map(): array
     {
@@ -286,9 +290,9 @@ class WP_Script_Modules
     /**
      * Retrieves the list of script modules marked for enqueue.
      *
+     * @return array[] Script modules marked for enqueue, keyed by script module identifier.
      * @since 6.5.0
      *
-     * @return array[] Script modules marked for enqueue, keyed by script module identifier.
      */
     private function get_marked_for_enqueue(): array
     {
@@ -309,12 +313,12 @@ class WP_Script_Modules
      * on the requested import types: 'static', 'dynamic', or both. This method is
      * recursive and also retrieves dependencies of the dependencies.
      *
-     * @since 6.5.0
-     *
-     * @param string[] $ids          The identifiers of the script modules for which to gather dependencies.
+     * @param string[] $ids The identifiers of the script modules for which to gather dependencies.
      * @param string[] $import_types Optional. Import types of dependencies to retrieve: 'static', 'dynamic', or both.
      *                               Default is both.
      * @return array[] List of dependencies, keyed by script module identifier.
+     * @since 6.5.0
+     *
      */
     private function get_dependencies(array $ids, array $import_types = ['static', 'dynamic'])
     {
@@ -323,16 +327,17 @@ class WP_Script_Modules
             function ($dependency_script_modules, $id) use ($import_types) {
                 $dependencies = [];
                 foreach ($this->registered[$id]['dependencies'] as $dependency) {
-                    if (in_array($dependency['import'], $import_types, true) &&
-                    isset($this->registered[$dependency['id']]) &&
-                    ! isset($dependency_script_modules[$dependency['id']])
+                    if (in_array($dependency['import'], $import_types, true)
+                        && isset($this->registered[$dependency['id']])
+                        && !isset($dependency_script_modules[$dependency['id']])
                     ) {
                         $dependencies[$dependency['id']] = $this->registered[$dependency['id']];
                     }
                 }
-                return array_merge($dependency_script_modules, $dependencies, $this->get_dependencies(array_keys($dependencies), $import_types));
+                return array_merge($dependency_script_modules, $dependencies,
+                    $this->get_dependencies(array_keys($dependencies), $import_types));
             },
-            []
+            [],
         );
     }
 
@@ -343,19 +348,19 @@ class WP_Script_Modules
      * waggypuppy version. If $version is set to null, no version is added.
      * Otherwise, the string passed in $version is used.
      *
-     * @since 6.5.0
-     *
      * @param string $id The script module identifier.
      * @return string The script module src with a version if relevant.
+     * @since 6.5.0
+     *
      */
     private function get_src(string $id): string
     {
-        if (! isset($this->registered[$id])) {
+        if (!isset($this->registered[$id])) {
             return '';
         }
 
         $script_module = $this->registered[$id];
-        $src           = $script_module['src'];
+        $src = $script_module['src'];
 
         if (false === $script_module['version']) {
             $src = add_query_arg('ver', get_bloginfo('version'), $src);
@@ -366,10 +371,10 @@ class WP_Script_Modules
         /**
          * Filters the script module source.
          *
+         * @param string $src Module source URL.
+         * @param string $id Module identifier.
          * @since 6.5.0
          *
-         * @param string $src Module source URL.
-         * @param string $id  Module identifier.
          */
         $src = apply_filters('script_module_loader_src', $src, $id);
 
@@ -420,6 +425,19 @@ class WP_Script_Modules
              * initialization or immediately on page load. It does not replace the REST API or
              * fetching data from the client.
              *
+             * @param array $data The data associated with the Script Module.
+             * @example
+             *   const dataContainer = document.getElementById( 'wp-script-module-data-MyScriptModuleID' );
+             *   let data = {};
+             *   if ( dataContainer ) {
+             *     try {
+             *       data = JSON.parse( dataContainer.textContent );
+             *     } catch {}
+             *   }
+             *   initMyScriptModuleWithData( data );
+             *
+             * @since 6.7.0
+             *
              * @example
              *   add_filter(
              *     'script_module_data_MyScriptModuleID',
@@ -436,19 +454,6 @@ class WP_Script_Modules
              *
              * The data can be read on the client with a pattern like this:
              *
-             * @example
-             *   const dataContainer = document.getElementById( 'wp-script-module-data-MyScriptModuleID' );
-             *   let data = {};
-             *   if ( dataContainer ) {
-             *     try {
-             *       data = JSON.parse( dataContainer.textContent );
-             *     } catch {}
-             *   }
-             *   initMyScriptModuleWithData( data );
-             *
-             * @since 6.7.0
-             *
-             * @param array $data The data associated with the Script Module.
              */
             $data = apply_filters("script_module_data_{$module_id}", []);
 
@@ -479,20 +484,23 @@ class WP_Script_Modules
                  * @see https://www.php.net/manual/en/json.constants.php for details on these constants.
                  * @see https://html.spec.whatwg.org/#script-data-state for details on script tag parsing.
                  */
-                $json_encode_flags = JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS;
-                if (! is_utf8_charset()) {
+                $json_encode_flags = JSON_HEX_TAG
+                    | JSON_UNESCAPED_SLASHES
+                    | JSON_UNESCAPED_UNICODE
+                    | JSON_UNESCAPED_LINE_TERMINATORS;
+                if (!is_utf8_charset()) {
                     $json_encode_flags = JSON_HEX_TAG | JSON_UNESCAPED_SLASHES;
                 }
 
                 wp_print_inline_script_tag(
                     wp_json_encode(
                         $data,
-                        $json_encode_flags
+                        $json_encode_flags,
                     ),
                     [
                         'type' => 'application/json',
-                        'id'   => "wp-script-module-data-{$module_id}",
-                    ]
+                        'id' => "wp-script-module-data-{$module_id}",
+                    ],
                 );
             }
         }
@@ -505,11 +513,13 @@ class WP_Script_Modules
      */
     public function print_a11y_script_module_html()
     {
-        if (! $this->a11y_available) {
+        if (!$this->a11y_available) {
             return;
         }
         echo '<div style="position:absolute;margin:-1px;padding:0;height:1px;width:1px;overflow:hidden;clip-path:inset(50%);border:0;word-wrap:normal !important;">'
-            . '<p id="a11y-speak-intro-text" class="a11y-speak-intro-text" hidden>' . esc_html__('Notifications') . '</p>'
+            . '<p id="a11y-speak-intro-text" class="a11y-speak-intro-text" hidden>'
+            . esc_html__('Notifications')
+            . '</p>'
             . '<div id="a11y-speak-assertive" class="a11y-speak-region" aria-live="assertive" aria-relevant="additions text" aria-atomic="true"></div>'
             . '<div id="a11y-speak-polite" class="a11y-speak-region" aria-live="polite" aria-relevant="additions text" aria-atomic="true"></div>'
             . '</div>';

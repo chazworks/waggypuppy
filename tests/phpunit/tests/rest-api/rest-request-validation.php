@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Request validation functionality.
  *
@@ -18,14 +19,14 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
             [
                 'args' => [
                     'minmaxrange' => [
-                        'type'    => 'integer',
+                        'type' => 'integer',
                         'minimum' => 2,
                         'maximum' => 10,
                     ],
                 ],
-            ]
+            ],
         );
-        $ret     = rest_validate_request_arg(1, $request, 'minmaxrange');
+        $ret = rest_validate_request_arg(1, $request, 'minmaxrange');
         $this->assertSame('minmaxrange must be between 2 (inclusive) and 10 (inclusive)', $ret->get_error_message());
         $ret = rest_validate_request_arg(2, $request, 'minmaxrange');
         $this->assertTrue($ret);
@@ -43,15 +44,15 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
             [
                 'args' => [
                     'minmaxrange' => [
-                        'type'             => 'integer',
-                        'minimum'          => 2,
-                        'maximum'          => 10,
+                        'type' => 'integer',
+                        'minimum' => 2,
+                        'maximum' => 10,
                         'exclusiveMinimum' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $ret     = rest_validate_request_arg(1, $request, 'minmaxrange');
+        $ret = rest_validate_request_arg(1, $request, 'minmaxrange');
         $this->assertSame('minmaxrange must be between 2 (exclusive) and 10 (inclusive)', $ret->get_error_message());
         $ret = rest_validate_request_arg(2, $request, 'minmaxrange');
         $this->assertSame('minmaxrange must be between 2 (exclusive) and 10 (inclusive)', $ret->get_error_message());
@@ -73,15 +74,15 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
             [
                 'args' => [
                     'minmaxrange' => [
-                        'type'             => 'integer',
-                        'minimum'          => 2,
-                        'maximum'          => 10,
+                        'type' => 'integer',
+                        'minimum' => 2,
+                        'maximum' => 10,
                         'exclusiveMaximum' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $ret     = rest_validate_request_arg(1, $request, 'minmaxrange');
+        $ret = rest_validate_request_arg(1, $request, 'minmaxrange');
         $this->assertSame('minmaxrange must be between 2 (inclusive) and 10 (exclusive)', $ret->get_error_message());
         $ret = rest_validate_request_arg(2, $request, 'minmaxrange');
         $this->assertTrue($ret);
@@ -103,16 +104,16 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
             [
                 'args' => [
                     'minmaxrange' => [
-                        'type'             => 'integer',
-                        'minimum'          => 2,
-                        'maximum'          => 10,
+                        'type' => 'integer',
+                        'minimum' => 2,
+                        'maximum' => 10,
                         'exclusiveMinimum' => true,
                         'exclusiveMaximum' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $ret     = rest_validate_request_arg(1, $request, 'minmaxrange');
+        $ret = rest_validate_request_arg(1, $request, 'minmaxrange');
         $this->assertSame('minmaxrange must be between 2 (exclusive) and 10 (exclusive)', $ret->get_error_message());
         $ret = rest_validate_request_arg(2, $request, 'minmaxrange');
         $this->assertSame('minmaxrange must be between 2 (exclusive) and 10 (exclusive)', $ret->get_error_message());
@@ -134,13 +135,13 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
             [
                 'args' => [
                     'greaterthanmin' => [
-                        'type'    => 'integer',
+                        'type' => 'integer',
                         'minimum' => 2,
                     ],
                 ],
-            ]
+            ],
         );
-        $ret     = rest_validate_request_arg(1, $request, 'greaterthanmin');
+        $ret = rest_validate_request_arg(1, $request, 'greaterthanmin');
         $this->assertSame('greaterthanmin must be greater than or equal to 2', $ret->get_error_message());
         $ret = rest_validate_request_arg(2, $request, 'greaterthanmin');
         $this->assertTrue($ret);
@@ -154,14 +155,14 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
             [
                 'args' => [
                     'greaterthanmin' => [
-                        'type'             => 'integer',
-                        'minimum'          => 2,
+                        'type' => 'integer',
+                        'minimum' => 2,
                         'exclusiveMinimum' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $ret     = rest_validate_request_arg(1, $request, 'greaterthanmin');
+        $ret = rest_validate_request_arg(1, $request, 'greaterthanmin');
         $this->assertSame('greaterthanmin must be greater than 2', $ret->get_error_message());
         $ret = rest_validate_request_arg(2, $request, 'greaterthanmin');
         $this->assertSame('greaterthanmin must be greater than 2', $ret->get_error_message());
@@ -177,13 +178,13 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
             [
                 'args' => [
                     'lessthanmax' => [
-                        'type'    => 'integer',
+                        'type' => 'integer',
                         'maximum' => 10,
                     ],
                 ],
-            ]
+            ],
         );
-        $ret     = rest_validate_request_arg(11, $request, 'lessthanmax');
+        $ret = rest_validate_request_arg(11, $request, 'lessthanmax');
         $this->assertSame('lessthanmax must be less than or equal to 10', $ret->get_error_message());
         $ret = rest_validate_request_arg(10, $request, 'lessthanmax');
         $this->assertTrue($ret);
@@ -197,14 +198,14 @@ class WP_Test_REST_Request_Validation extends WP_Test_REST_TestCase
             [
                 'args' => [
                     'lessthanmax' => [
-                        'type'             => 'integer',
-                        'maximum'          => 10,
+                        'type' => 'integer',
+                        'maximum' => 10,
                         'exclusiveMaximum' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $ret     = rest_validate_request_arg(11, $request, 'lessthanmax');
+        $ret = rest_validate_request_arg(11, $request, 'lessthanmax');
         $this->assertSame('lessthanmax must be less than 10', $ret->get_error_message());
         $ret = rest_validate_request_arg(10, $request, 'lessthanmax');
         $this->assertSame('lessthanmax must be less than 10', $ret->get_error_message());

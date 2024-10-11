@@ -45,22 +45,22 @@ class WP_List_Util
      *
      * Sets the input array.
      *
+     * @param array $input Array to perform operations on.
      * @since 4.7.0
      *
-     * @param array $input Array to perform operations on.
      */
     public function __construct($input)
     {
         $this->output = $input;
-        $this->input  = $input;
+        $this->input = $input;
     }
 
     /**
      * Returns the original input array.
      *
+     * @return array The input array.
      * @since 4.7.0
      *
-     * @return array The input array.
      */
     public function get_input()
     {
@@ -70,9 +70,9 @@ class WP_List_Util
     /**
      * Returns the output array.
      *
+     * @return array The output array.
      * @since 4.7.0
      *
-     * @return array The output array.
      */
     public function get_output()
     {
@@ -89,15 +89,15 @@ class WP_List_Util
      * that will not disqualify it. When using the 'AND' operator,
      * any missing properties will disqualify it.
      *
-     * @since 4.7.0
-     *
-     * @param array  $args     Optional. An array of key => value arguments to match
+     * @param array $args Optional. An array of key => value arguments to match
      *                         against each object. Default empty array.
      * @param string $operator Optional. The logical operation to perform. 'AND' means
      *                         all elements from the array must match. 'OR' means only
      *                         one element needs to match. 'NOT' means no elements may
      *                         match. Default 'AND'.
      * @return array Array of found values.
+     * @since 4.7.0
+     *
      */
     public function filter($args = [], $operator = 'AND')
     {
@@ -107,12 +107,12 @@ class WP_List_Util
 
         $operator = strtoupper($operator);
 
-        if (! in_array($operator, ['AND', 'OR', 'NOT'], true)) {
+        if (!in_array($operator, ['AND', 'OR', 'NOT'], true)) {
             $this->output = [];
             return $this->output;
         }
 
-        $count    = count($args);
+        $count = count($args);
         $filtered = [];
 
         foreach ($this->output as $key => $obj) {
@@ -151,20 +151,20 @@ class WP_List_Util
      * This has the same functionality and prototype of
      * array_column() (PHP 5.5) but also supports objects.
      *
-     * @since 4.7.0
-     *
-     * @param int|string $field     Field to fetch from the object or array.
+     * @param int|string $field Field to fetch from the object or array.
      * @param int|string $index_key Optional. Field from the element to use as keys for the new array.
      *                              Default null.
      * @return array Array of found values. If `$index_key` is set, an array of found values with keys
      *               corresponding to `$index_key`. If `$index_key` is null, array keys from the original
      *               `$list` will be preserved in the results.
+     * @since 4.7.0
+     *
      */
     public function pluck($field, $index_key = null)
     {
         $newlist = [];
 
-        if (! $index_key) {
+        if (!$index_key) {
             /*
              * This is simple. Could at some point wrap array_column()
              * if we knew we had an array of arrays.
@@ -178,7 +178,7 @@ class WP_List_Util
                     _doing_it_wrong(
                         __METHOD__,
                         __('Values for the input array must be either objects or arrays.'),
-                        '6.2.0'
+                        '6.2.0',
                     );
                 }
             }
@@ -209,7 +209,7 @@ class WP_List_Util
                 _doing_it_wrong(
                     __METHOD__,
                     __('Values for the input array must be either objects or arrays.'),
-                    '6.2.0'
+                    '6.2.0',
                 );
             }
         }
@@ -222,15 +222,15 @@ class WP_List_Util
     /**
      * Sorts the input array based on one or more orderby arguments.
      *
-     * @since 4.7.0
-     *
-     * @param string|array $orderby       Optional. Either the field name to order by or an array
+     * @param string|array $orderby Optional. Either the field name to order by or an array
      *                                    of multiple orderby fields as `$orderby => $order`.
      *                                    Default empty array.
-     * @param string       $order         Optional. Either 'ASC' or 'DESC'. Only used if `$orderby`
+     * @param string $order Optional. Either 'ASC' or 'DESC'. Only used if `$orderby`
      *                                    is a string. Default 'ASC'.
-     * @param bool         $preserve_keys Optional. Whether to preserve keys. Default false.
+     * @param bool $preserve_keys Optional. Whether to preserve keys. Default false.
      * @return array The sorted array.
+     * @since 4.7.0
+     *
      */
     public function sort($orderby = [], $order = 'ASC', $preserve_keys = false)
     {
@@ -262,13 +262,13 @@ class WP_List_Util
     /**
      * Callback to sort an array by specific fields.
      *
-     * @since 4.7.0
-     *
-     * @see WP_List_Util::sort()
-     *
      * @param object|array $a One object to compare.
      * @param object|array $b The other object to compare.
      * @return int 0 if both objects equal. -1 if second object should come first, 1 otherwise.
+     * @see WP_List_Util::sort()
+     *
+     * @since 4.7.0
+     *
      */
     private function sort_callback($a, $b)
     {
@@ -276,11 +276,11 @@ class WP_List_Util
             return 0;
         }
 
-        $a = (array) $a;
-        $b = (array) $b;
+        $a = (array)$a;
+        $b = (array)$b;
 
         foreach ($this->orderby as $field => $direction) {
-            if (! isset($a[$field]) || ! isset($b[$field])) {
+            if (!isset($a[$field]) || !isset($b[$field])) {
                 continue;
             }
 

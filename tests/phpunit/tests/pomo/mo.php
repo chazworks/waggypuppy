@@ -12,10 +12,10 @@ class Tests_POMO_MO extends WP_UnitTestCase
         $mo->import_from_file(DIR_TESTDATA . '/pomo/simple.mo');
         $this->assertSame(
             [
-                'Project-Id-Version'   => 'WordPress 2.6-bleeding',
+                'Project-Id-Version' => 'WordPress 2.6-bleeding',
                 'Report-Msgid-Bugs-To' => 'wp-polyglots@lists.automattic.com',
             ],
-            $mo->headers
+            $mo->headers,
         );
         $this->assertCount(2, $mo->entries);
         $this->assertSame(['dyado'], $mo->entries['baba']->translations);
@@ -27,7 +27,13 @@ class Tests_POMO_MO extends WP_UnitTestCase
         $mo = new MO();
         $mo->import_from_file(DIR_TESTDATA . '/pomo/plural.mo');
         $this->assertCount(1, $mo->entries);
-        $this->assertSame(['oney dragoney', 'twoey dragoney', 'manyey dragoney', 'manyeyey dragoney', 'manyeyeyey dragoney'], $mo->entries['one dragon']->translations);
+        $this->assertSame([
+            'oney dragoney',
+            'twoey dragoney',
+            'manyey dragoney',
+            'manyeyey dragoney',
+            'manyeyeyey dragoney',
+        ], $mo->entries['one dragon']->translations);
 
         $this->assertSame('oney dragoney', $mo->translate_plural('one dragon', '%d dragons', 1));
         $this->assertSame('twoey dragoney', $mo->translate_plural('one dragon', '%d dragons', 2));
@@ -38,7 +44,8 @@ class Tests_POMO_MO extends WP_UnitTestCase
         $this->assertSame('oney dragoney', $mo->translate_plural('one dragon', '%d dragons', 2));
         $this->assertSame('oney dragoney', $mo->translate_plural('one dragon', '%d dragons', -8));
 
-        $mo->set_header('Plural-Forms', 'nplurals=5; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;');
+        $mo->set_header('Plural-Forms',
+            'nplurals=5; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;');
         $this->assertSame('oney dragoney', $mo->translate_plural('one dragon', '%d dragons', 1));
         $this->assertSame('manyey dragoney', $mo->translate_plural('one dragon', '%d dragons', 11));
         $this->assertSame('twoey dragoney', $mo->translate_plural('one dragon', '%d dragons', 3));
@@ -56,21 +63,21 @@ class Tests_POMO_MO extends WP_UnitTestCase
         $this->assertCount(2, $mo->entries);
         $plural_entry = new Translation_Entry(
             [
-                'singular'     => 'one dragon',
-                'plural'       => '%d dragons',
+                'singular' => 'one dragon',
+                'plural' => '%d dragons',
                 'translations' => ['oney dragoney', 'twoey dragoney', 'manyey dragoney'],
-                'context'      => 'dragonland',
-            ]
+                'context' => 'dragonland',
+            ],
         );
         $this->assertEquals($plural_entry, $mo->entries[$plural_entry->key()]);
         $this->assertSame('dragonland', $mo->entries[$plural_entry->key()]->context);
 
         $single_entry = new Translation_Entry(
             [
-                'singular'     => 'one dragon',
+                'singular' => 'one dragon',
                 'translations' => ['oney dragoney'],
-                'context'      => 'not so dragon',
-            ]
+                'context' => 'not so dragon',
+            ],
         );
         $this->assertEquals($single_entry, $mo->entries[$single_entry->key()]);
         $this->assertSame('not so dragon', $mo->entries[$single_entry->key()]->context);
@@ -91,42 +98,42 @@ class Tests_POMO_MO extends WP_UnitTestCase
 
     public function test_export_mo_file()
     {
-        $entries              = [];
-        $entries[]            = new Translation_Entry(
+        $entries = [];
+        $entries[] = new Translation_Entry(
             [
-                'singular'     => 'pink',
+                'singular' => 'pink',
                 'translations' => ['розов'],
-            ]
+            ],
         );
         $no_translation_entry = new Translation_Entry(['singular' => 'grey']);
-        $entries[]            = new Translation_Entry(
+        $entries[] = new Translation_Entry(
             [
-                'singular'     => 'green',
-                'plural'       => 'greens',
+                'singular' => 'green',
+                'plural' => 'greens',
                 'translations' => ['зелен', 'зелени'],
-            ]
+            ],
         );
-        $entries[]            = new Translation_Entry(
+        $entries[] = new Translation_Entry(
             [
-                'singular'     => 'red',
-                'context'      => 'color',
+                'singular' => 'red',
+                'context' => 'color',
                 'translations' => ['червен'],
-            ]
+            ],
         );
-        $entries[]            = new Translation_Entry(
+        $entries[] = new Translation_Entry(
             [
-                'singular'     => 'red',
-                'context'      => 'bull',
+                'singular' => 'red',
+                'context' => 'bull',
                 'translations' => ['бик'],
-            ]
+            ],
         );
-        $entries[]            = new Translation_Entry(
+        $entries[] = new Translation_Entry(
             [
-                'singular'     => 'maroon',
-                'plural'       => 'maroons',
-                'context'      => 'context',
+                'singular' => 'maroon',
+                'plural' => 'maroons',
+                'context' => 'context',
                 'translations' => ['пурпурен', 'пурпурни'],
-            ]
+            ],
         );
 
         $mo = new MO();
@@ -151,12 +158,12 @@ class Tests_POMO_MO extends WP_UnitTestCase
     public function test_export_should_not_include_empty_translations()
     {
         $entries = [];
-        $mo      = new MO();
+        $mo = new MO();
         $mo->add_entry(
             [
-                'singular'     => 'baba',
+                'singular' => 'baba',
                 'translations' => ['', ''],
-            ]
+            ],
         );
 
         $temp_fn = $this->temp_filename();
@@ -180,7 +187,7 @@ class Tests_POMO_MO extends WP_UnitTestCase
     public function disabled_test_performance()
     {
         $start = microtime(true);
-        $mo    = new MO();
+        $mo = new MO();
         $mo->import_from_file(DIR_TESTDATA . '/pomo/de_DE-2.8.mo');
         // echo "\nPerformance: ".(microtime(true) - $start)."\n";
     }

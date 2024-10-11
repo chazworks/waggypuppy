@@ -20,155 +20,158 @@
  * @param {Backbone.View} options.view     A parent view the region exists within.
  * @param {string}        options.selector jQuery selector for the region within the parent view.
  */
-var Region = function( options ) {
+var Region = function ( options ) {
 	_.extend( this, _.pick( options || {}, 'id', 'view', 'selector' ) );
 };
 
 // Use Backbone's self-propagating `extend` inheritance method.
 Region.extend = Backbone.Model.extend;
 
-_.extend( Region.prototype,/** @lends wp.media.controller.Region.prototype */{
-	/**
-	 * Activate a mode.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param {string} mode
-	 *
-	 * @fires Region#activate
-	 * @fires Region#deactivate
-	 *
-	 * @return {wp.media.controller.Region} Returns itself to allow chaining.
-	 */
-	mode: function( mode ) {
-		if ( ! mode ) {
-			return this._mode;
-		}
-		// Bail if we're trying to change to the current mode.
-		if ( mode === this._mode ) {
+_.extend(
+	Region.prototype,
+	/** @lends wp.media.controller.Region.prototype */ {
+		/**
+		 * Activate a mode.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param {string} mode
+		 *
+		 * @fires Region#activate
+		 * @fires Region#deactivate
+		 *
+		 * @return {wp.media.controller.Region} Returns itself to allow chaining.
+		 */
+		mode: function ( mode ) {
+			if ( ! mode ) {
+				return this._mode;
+			}
+			// Bail if we're trying to change to the current mode.
+			if ( mode === this._mode ) {
+				return this;
+			}
+
+			/**
+			 * Region mode deactivation event.
+			 *
+			 * @event wp.media.controller.Region#deactivate
+			 */
+			this.trigger( 'deactivate' );
+
+			this._mode = mode;
+			this.render( mode );
+
+			/**
+			 * Region mode activation event.
+			 *
+			 * @event wp.media.controller.Region#activate
+			 */
+			this.trigger( 'activate' );
 			return this;
-		}
+		},
+		/**
+		 * Render a mode.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param {string} mode
+		 *
+		 * @fires Region#create
+		 * @fires Region#render
+		 *
+		 * @return {wp.media.controller.Region} Returns itself to allow chaining.
+		 */
+		render: function ( mode ) {
+			// If the mode isn't active, activate it.
+			if ( mode && mode !== this._mode ) {
+				return this.mode( mode );
+			}
+
+			var set = { view: null },
+				view;
+
+			/**
+			 * Create region view event.
+			 *
+			 * Region view creation takes place in an event callback on the frame.
+			 *
+			 * @event wp.media.controller.Region#create
+			 * @type {object}
+			 * @property {object} view
+			 */
+			this.trigger( 'create', set );
+			view = set.view;
+
+			/**
+			 * Render region view event.
+			 *
+			 * Region view creation takes place in an event callback on the frame.
+			 *
+			 * @event wp.media.controller.Region#render
+			 * @type {object}
+			 */
+			this.trigger( 'render', view );
+			if ( view ) {
+				this.set( view );
+			}
+			return this;
+		},
 
 		/**
-		 * Region mode deactivation event.
+		 * Get the region's view.
 		 *
-		 * @event wp.media.controller.Region#deactivate
+		 * @since 3.5.0
+		 *
+		 * @return {wp.media.View}
 		 */
-		this.trigger('deactivate');
-
-		this._mode = mode;
-		this.render( mode );
+		get: function () {
+			return this.view.views.first( this.selector );
+		},
 
 		/**
-		 * Region mode activation event.
+		 * Set the region's view as a subview of the frame.
 		 *
-		 * @event wp.media.controller.Region#activate
+		 * @since 3.5.0
+		 *
+		 * @param {Array|Object} views
+		 * @param {Object} [options={}]
+		 * @return {wp.Backbone.Subviews} Subviews is returned to allow chaining.
 		 */
-		this.trigger('activate');
-		return this;
-	},
-	/**
-	 * Render a mode.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param {string} mode
-	 *
-	 * @fires Region#create
-	 * @fires Region#render
-	 *
-	 * @return {wp.media.controller.Region} Returns itself to allow chaining.
-	 */
-	render: function( mode ) {
-		// If the mode isn't active, activate it.
-		if ( mode && mode !== this._mode ) {
-			return this.mode( mode );
-		}
-
-		var set = { view: null },
-			view;
+		set: function ( views, options ) {
+			if ( options ) {
+				options.add = false;
+			}
+			return this.view.views.set( this.selector, views, options );
+		},
 
 		/**
-		 * Create region view event.
+		 * Trigger regional view events on the frame.
 		 *
-		 * Region view creation takes place in an event callback on the frame.
+		 * @since 3.5.0
 		 *
-		 * @event wp.media.controller.Region#create
-		 * @type {object}
-		 * @property {object} view
+		 * @param {string} event
+		 * @return {undefined|wp.media.controller.Region} Returns itself to allow chaining.
 		 */
-		this.trigger( 'create', set );
-		view = set.view;
+		trigger: function ( event ) {
+			var base, args;
 
-		/**
-		 * Render region view event.
-		 *
-		 * Region view creation takes place in an event callback on the frame.
-		 *
-		 * @event wp.media.controller.Region#render
-		 * @type {object}
-		 */
-		this.trigger( 'render', view );
-		if ( view ) {
-			this.set( view );
-		}
-		return this;
-	},
+			if ( ! this._mode ) {
+				return;
+			}
 
-	/**
-	 * Get the region's view.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @return {wp.media.View}
-	 */
-	get: function() {
-		return this.view.views.first( this.selector );
-	},
+			args = _.toArray( arguments );
+			base = this.id + ':' + event;
 
-	/**
-	 * Set the region's view as a subview of the frame.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param {Array|Object} views
-	 * @param {Object} [options={}]
-	 * @return {wp.Backbone.Subviews} Subviews is returned to allow chaining.
-	 */
-	set: function( views, options ) {
-		if ( options ) {
-			options.add = false;
-		}
-		return this.view.views.set( this.selector, views, options );
-	},
+			// Trigger `{this.id}:{event}:{this._mode}` event on the frame.
+			args[ 0 ] = base + ':' + this._mode;
+			this.view.trigger.apply( this.view, args );
 
-	/**
-	 * Trigger regional view events on the frame.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param {string} event
-	 * @return {undefined|wp.media.controller.Region} Returns itself to allow chaining.
-	 */
-	trigger: function( event ) {
-		var base, args;
-
-		if ( ! this._mode ) {
-			return;
-		}
-
-		args = _.toArray( arguments );
-		base = this.id + ':' + event;
-
-		// Trigger `{this.id}:{event}:{this._mode}` event on the frame.
-		args[0] = base + ':' + this._mode;
-		this.view.trigger.apply( this.view, args );
-
-		// Trigger `{this.id}:{event}` event on the frame.
-		args[0] = base;
-		this.view.trigger.apply( this.view, args );
-		return this;
+			// Trigger `{this.id}:{event}` event on the frame.
+			args[ 0 ] = base;
+			this.view.trigger.apply( this.view, args );
+			return this;
+		},
 	}
-});
+);
 
 module.exports = Region;

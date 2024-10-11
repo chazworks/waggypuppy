@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test wp_strip_all_tags()
  *
@@ -11,7 +12,6 @@ class Tests_Formatting_wpStripAllTags extends WP_UnitTestCase
 
     public function test_wp_strip_all_tags()
     {
-
         $text = 'lorem<br />ipsum';
         $this->assertSame('loremipsum', wp_strip_all_tags($text));
 
@@ -54,8 +54,9 @@ class Tests_Formatting_wpStripAllTags extends WP_UnitTestCase
      *
      * @param mixed $non_string A non-string value.
      */
-    public function test_wp_strip_all_tags_should_return_empty_string_and_trigger_an_error_for_non_string_arg($non_string)
-    {
+    public function test_wp_strip_all_tags_should_return_empty_string_and_trigger_an_error_for_non_string_arg(
+        $non_string,
+    ) {
         $type = gettype($non_string);
         $this->expectError();
         $this->expectErrorMessage("Warning: wp_strip_all_tags expects parameter #1 (\$text) to be a string, $type given.");
@@ -70,10 +71,10 @@ class Tests_Formatting_wpStripAllTags extends WP_UnitTestCase
     public function data_wp_strip_all_tags_should_return_empty_string_and_trigger_an_error_for_non_string_arg()
     {
         return [
-            'an empty array'     => ['non_string' => []],
-            'a non-empty array'  => ['non_string' => ['a string']],
-            'an empty object'    => ['non_string' => new stdClass()],
-            'a non-empty object' => ['non_string' => (object) ['howdy' => 'admin']],
+            'an empty array' => ['non_string' => []],
+            'a non-empty array' => ['non_string' => ['a string']],
+            'an empty object' => ['non_string' => new stdClass()],
+            'a non-empty object' => ['non_string' => (object)['howdy' => 'admin']],
         ];
     }
 
@@ -88,7 +89,7 @@ class Tests_Formatting_wpStripAllTags extends WP_UnitTestCase
      */
     public function test_wp_strip_all_tags_should_cast_scalar_values_to_string($text)
     {
-        $this->assertSame((string) $text, wp_strip_all_tags($text));
+        $this->assertSame((string)$text, wp_strip_all_tags($text));
     }
 
     /**
@@ -99,14 +100,14 @@ class Tests_Formatting_wpStripAllTags extends WP_UnitTestCase
     public function data_wp_strip_all_tags_should_cast_scalar_values_to_string()
     {
         return [
-            '(int) 0'      => ['text' => 0],
-            '(int) 1'      => ['text' => 1],
-            '(int) -1'     => ['text' => -1],
-            '(float) 0.0'  => ['text' => 0.0],
-            '(float) 1.0'  => ['text' => 1.0],
+            '(int) 0' => ['text' => 0],
+            '(int) 1' => ['text' => 1],
+            '(int) -1' => ['text' => -1],
+            '(float) 0.0' => ['text' => 0.0],
+            '(float) 1.0' => ['text' => 1.0],
             '(float) -1.0' => ['text' => -1.0],
             '(bool) false' => ['text' => false],
-            '(bool) true'  => ['text' => true],
+            '(bool) true' => ['text' => true],
         ];
     }
 }

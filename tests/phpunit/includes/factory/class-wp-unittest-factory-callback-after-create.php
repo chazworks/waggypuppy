@@ -11,9 +11,9 @@ class WP_UnitTest_Factory_Callback_After_Create
     /**
      * WP_UnitTest_Factory_Callback_After_Create constructor.
      *
+     * @param callable $callback A callback function.
      * @since UT (3.7.0)
      *
-     * @param callable $callback A callback function.
      */
     public function __construct($callback)
     {
@@ -23,11 +23,11 @@ class WP_UnitTest_Factory_Callback_After_Create
     /**
      * Calls the set callback on a given object.
      *
-     * @since UT (3.7.0)
-     *
      * @param int $object_id ID of the object to apply the callback on.
      *
      * @return mixed Updated object field.
+     * @since UT (3.7.0)
+     *
      */
     public function call($object_id)
     {

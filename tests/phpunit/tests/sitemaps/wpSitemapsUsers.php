@@ -29,7 +29,7 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$users     = $factory->user->create_many(10, ['role' => 'editor']);
+        self::$users = $factory->user->create_many(10, ['role' => 'editor']);
         self::$editor_id = self::$users[0];
     }
 
@@ -53,7 +53,7 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase
                     'loc' => get_author_posts_url($user_id),
                 ];
             },
-            self::$users
+            self::$users,
         );
 
         $user_provider = new WP_Sitemaps_Users();
@@ -76,14 +76,14 @@ class Tests_Sitemaps_wpSitemapsUsers extends WP_UnitTestCase
             self::factory()->post->create(
                 [
                     'post_author' => $user_id,
-                    'post_type'   => 'attachment',
-                ]
+                    'post_type' => 'attachment',
+                ],
             );
             self::factory()->post->create(
                 [
                     'post_author' => $user_id,
-                    'post_type'   => 'page',
-                ]
+                    'post_type' => 'page',
+                ],
             );
         }
 

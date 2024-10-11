@@ -13,8 +13,9 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase
     {
         parent::set_up();
 
-        if (! call_user_func([$this->editor_engine, 'test'])) {
-            $this->markTestSkipped(sprintf('The image editor engine %s is not supported on this system.', $this->editor_engine));
+        if (!call_user_func([$this->editor_engine, 'test'])) {
+            $this->markTestSkipped(sprintf('The image editor engine %s is not supported on this system.',
+                $this->editor_engine));
         }
 
         add_filter('wp_image_editors', [$this, 'setEngine'], 10, 2);
@@ -33,13 +34,13 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase
     /**
      * Helper assertion for testing alpha on images using GD library
      *
-     * @param  string $image_path
-     * @param  array $point      array(x,y)
-     * @param  int $alpha
+     * @param string $image_path
+     * @param array $point array(x,y)
+     * @param int $alpha
      */
     protected function assertImageAlphaAtPointGD($image_path, $point, $alpha)
     {
-        $im  = imagecreatefrompng($image_path);
+        $im = imagecreatefrompng($image_path);
         $rgb = imagecolorat($im, $point[0], $point[1]);
 
         $colors = imagecolorsforindex($im, $rgb);
@@ -51,12 +52,12 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase
      * Helper assertion for testing alpha on images using Imagick
      *
      * @param string $image_path
-     * @param array $point      array(x,y)
+     * @param array $point array(x,y)
      * @param int $expected
      */
     protected function assertImageAlphaAtPointImagick($image_path, $point, $expected)
     {
-        $im    = new Imagick($image_path);
+        $im = new Imagick($image_path);
         $pixel = $im->getImagePixelColor($point[0], $point[1]);
         $color = $pixel->getColorValue(imagick::COLOR_ALPHA);
         $this->assertSame($expected, $color);
@@ -66,14 +67,14 @@ abstract class WP_Image_UnitTestCase extends WP_UnitTestCase
      * Helper assertion to check actual image dimensions on disk
      *
      * @param string $filename Image filename.
-     * @param int    $width    Width to verify.
-     * @param int    $height   Height to verify.
+     * @param int $width Width to verify.
+     * @param int $height Height to verify.
      */
     protected function assertImageDimensions($filename, $width, $height)
     {
-        $detected_width  = 0;
+        $detected_width = 0;
         $detected_height = 0;
-        $image_size      = getimagesize($filename);
+        $image_size = getimagesize($filename);
 
         if (isset($image_size[0])) {
             $detected_width = $image_size[0];

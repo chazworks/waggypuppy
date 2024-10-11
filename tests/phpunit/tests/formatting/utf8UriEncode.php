@@ -30,8 +30,8 @@ class Tests_Formatting_Utf8UriEncode extends WP_UnitTestCase
 
     public function data()
     {
-        $utf8_urls     = file(DIR_TESTDATA . '/formatting/utf-8/utf-8.txt');
-        $urlencoded    = file(DIR_TESTDATA . '/formatting/utf-8/urlencoded.txt');
+        $utf8_urls = file(DIR_TESTDATA . '/formatting/utf-8/utf-8.txt');
+        $urlencoded = file(DIR_TESTDATA . '/formatting/utf-8/urlencoded.txt');
         $data_provided = [];
         foreach ($utf8_urls as $key => $value) {
             $data_provided[] = [trim($value), trim($urlencoded[$key])];

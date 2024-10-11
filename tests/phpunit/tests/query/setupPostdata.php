@@ -6,7 +6,17 @@
  */
 class Tests_Query_SetupPostdata extends WP_UnitTestCase
 {
-    protected $global_keys = ['id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages'];
+    protected $global_keys = [
+        'id',
+        'authordata',
+        'currentday',
+        'currentmonth',
+        'page',
+        'pages',
+        'multipage',
+        'more',
+        'numpages',
+    ];
 
     protected $global_data = [];
 
@@ -37,7 +47,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
      */
     public function test_setup_by_fake_post()
     {
-        $fake     = new stdClass();
+        $fake = new stdClass();
         $fake->ID = 98765;
         setup_postdata($fake->ID);
 
@@ -52,7 +62,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
     {
         $p = self::factory()->post->create();
 
-        $post     = new stdClass();
+        $post = new stdClass();
         $post->ID = $p;
         setup_postdata($p);
 
@@ -65,7 +75,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $p = self::factory()->post->create_and_get(
             [
                 'post_author' => $u->ID,
-            ]
+            ],
         );
         setup_postdata($p);
 
@@ -78,7 +88,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $p = self::factory()->post->create_and_get(
             [
                 'post_date' => '1980-09-09 06:30:00',
-            ]
+            ],
         );
         setup_postdata($p);
 
@@ -90,7 +100,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $p = self::factory()->post->create_and_get(
             [
                 'post_date' => '1980-09-09 06:30:00',
-            ]
+            ],
         );
         setup_postdata($p);
 
@@ -104,15 +114,15 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $post1 = self::factory()->post->create_and_get(
             [
                 'post_author' => $users[0],
-                'post_date'   => '2012-02-02 02:00:00',
-            ]
+                'post_date' => '2012-02-02 02:00:00',
+            ],
         );
 
         $post2 = self::factory()->post->create_and_get(
             [
                 'post_author' => $users[1],
-                'post_date'   => '2013-03-03 03:00:00',
-            ]
+                'post_date' => '2013-03-03 03:00:00',
+            ],
         );
 
         $this->go_to(get_permalink($post1));
@@ -128,7 +138,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'posts_per_page' => 1,
-            ]
+            ],
         );
         if ($q->have_posts()) {
             while ($q->have_posts()) {
@@ -155,7 +165,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_content' => 'Page 0',
-            ]
+            ],
         );
         setup_postdata($post);
 
@@ -169,7 +179,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_content' => 'Page 0<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            ]
+            ],
         );
         setup_postdata($post);
 
@@ -186,7 +196,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_content' => '<!--nextpage-->Page 1<!--nextpage-->Page 2<!--nextpage-->Page 3',
-            ]
+            ],
         );
         setup_postdata($post);
 
@@ -200,7 +210,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_content' => "Page 0\n<!--nextpage-->\nPage 1\nhas a line break\n<!--nextpage-->Page 2<!--nextpage-->\n\nPage 3",
-            ]
+            ],
         );
         setup_postdata($post);
 
@@ -215,12 +225,12 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $post1 = self::factory()->post->create(
             [
                 'post_content' => 'Post 1 Page 1<!--nextpage-->Post 1 Page 2',
-            ]
+            ],
         );
         $post2 = self::factory()->post->create(
             [
                 'post_content' => 'Post 2 Page 1<!--nextpage-->Post 2 Page 2',
-            ]
+            ],
         );
 
         $this->go_to('/?p=' . $post1);
@@ -233,7 +243,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'post__in' => [$post2],
-            ]
+            ],
         );
         if ($q->have_posts()) {
             while ($q->have_posts()) {
@@ -254,7 +264,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $page = self::factory()->post->create_and_get(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         $this->go_to('/?page=78');
@@ -270,7 +280,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $page = self::factory()->post->create_and_get(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
         $this->go_to(get_permalink($page));
         setup_postdata($page);
@@ -292,11 +302,11 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
 
         // Secondary loop.
         $posts = self::factory()->post->create_many(5);
-        $q     = new WP_Query(
+        $q = new WP_Query(
             [
-                'page'           => 4,
+                'page' => 4,
                 'posts_per_page' => 1,
-            ]
+            ],
         );
         if ($q->have_posts()) {
             while ($q->have_posts()) {
@@ -350,7 +360,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $page = self::factory()->post->create_and_get(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
         $this->go_to(get_permalink($page));
         setup_postdata($post);
@@ -387,7 +397,7 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'posts_per_page' => 1,
-            ]
+            ],
         );
         if ($q->have_posts()) {
             while ($q->have_posts()) {
@@ -411,12 +421,12 @@ class Tests_Query_SetupPostdata extends WP_UnitTestCase
      */
     public function test_setup_postdata_with_the_content()
     {
-        $post_id                   = self::factory()->post->create(['post_content' => 'global post']);
-        $GLOBALS['post']           = get_post($post_id);
+        $post_id = self::factory()->post->create(['post_content' => 'global post']);
+        $GLOBALS['post'] = get_post($post_id);
         $GLOBALS['wp_query']->post = $GLOBALS['post'];
 
         $a_post_id = self::factory()->post->create();
-        $a_post    = get_post($a_post_id);
+        $a_post = get_post($a_post_id);
 
         setup_postdata($a_post);
         $content = get_echo('the_content');

@@ -27,8 +27,8 @@ class Tests_Date_wpTimezone extends WP_UnitTestCase
      *
      * @dataProvider data_should_convert_gmt_offset
      *
-     * @param float  $gmt_offset Numeric offset from UTC.
-     * @param string $tz_name    Expected timezone name.
+     * @param float $gmt_offset Numeric offset from UTC.
+     * @param string $tz_name Expected timezone name.
      */
     public function test_should_convert_gmt_offset($gmt_offset, $tz_name)
     {

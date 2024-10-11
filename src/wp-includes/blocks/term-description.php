@@ -8,11 +8,11 @@
 /**
  * Renders the `core/term-description` block on the server.
  *
- * @since 5.9.0
- *
  * @param array $attributes Block attributes.
  *
  * @return string Returns the description of the current taxonomy term, if available
+ * @since 5.9.0
+ *
  */
 function render_block_core_term_description($attributes)
 {
@@ -49,7 +49,8 @@ function register_block_core_term_description()
         __DIR__ . '/term-description',
         [
             'render_callback' => 'render_block_core_term_description',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_term_description');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for block rendering functions.
  *
@@ -71,10 +72,10 @@ class Tests_Blocks_Render extends WP_UnitTestCase
         add_shortcode('someshortcode', [$this, 'handle_shortcode']);
 
         $classic_content = "Foo\n\n[someshortcode]\n\nBar\n\n[/someshortcode]\n\nBaz";
-        $block_content   = "<!-- wp:core/paragraph -->\n<p>Foo</p>\n<!-- /wp:core/paragraph -->\n\n<!-- wp:core/shortcode -->[someshortcode]\n\nBar\n\n[/someshortcode]<!-- /wp:core/shortcode -->\n\n<!-- wp:core/paragraph -->\n<p>Baz</p>\n<!-- /wp:core/paragraph -->";
+        $block_content = "<!-- wp:core/paragraph -->\n<p>Foo</p>\n<!-- /wp:core/paragraph -->\n\n<!-- wp:core/shortcode -->[someshortcode]\n\nBar\n\n[/someshortcode]<!-- /wp:core/shortcode -->\n\n<!-- wp:core/paragraph -->\n<p>Baz</p>\n<!-- /wp:core/paragraph -->";
 
         $classic_filtered_content = apply_filters('the_content', $classic_content);
-        $block_filtered_content   = apply_filters('the_content', $block_content);
+        $block_filtered_content = apply_filters('the_content', $block_content);
 
         // Block rendering add some extra blank lines, but we're not worried about them.
         $block_filtered_content = preg_replace("/\n{2,}/", "\n", $block_filtered_content);
@@ -101,7 +102,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
                     $this,
                     'dynamic_the_content_call',
                 ],
-            ]
+            ],
         );
 
         $content = "foo\n\nbar";
@@ -145,15 +146,15 @@ class Tests_Blocks_Render extends WP_UnitTestCase
                     $this,
                     'render_dynamic_incrementer',
                 ],
-            ]
+            ],
         );
 
-        $this->assertSame($minimum_depth, (int) do_blocks($content));
+        $this->assertSame($minimum_depth, (int)do_blocks($content));
     }
 
     public function render_dynamic_incrementer($attrs, $content)
     {
-        return (string) (1 + (int) $content);
+        return (string)(1 + (int)$content);
     }
 
     /**
@@ -162,7 +163,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     public function test_blocks_arent_autopeed()
     {
         $expected_content = 'test';
-        $test_content     = "<!-- wp:fake/block -->\n$expected_content\n<!-- /wp:fake/block -->";
+        $test_content = "<!-- wp:fake/block -->\n$expected_content\n<!-- /wp:fake/block -->";
 
         $current_priority = has_action('the_content', 'wpautop');
 
@@ -175,7 +176,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
         // ... and that the restore function has removed itself.
         $this->assertFalse(has_action('the_content', '_restore_wpautop_hook'));
 
-        $test_content     = 'test';
+        $test_content = 'test';
         $expected_content = "<p>$test_content</p>";
 
         $current_priority = has_action('the_content', 'wpautop');
@@ -197,22 +198,23 @@ class Tests_Blocks_Render extends WP_UnitTestCase
 
         $fixture_filenames = array_merge(
             glob(self::$fixtures_dir . '/*.json'),
-            glob(self::$fixtures_dir . '/*.html')
+            glob(self::$fixtures_dir . '/*.html'),
         );
 
         $fixture_filenames = array_values(
             array_unique(
                 array_map(
                     [$this, 'clean_fixture_filename'],
-                    $fixture_filenames
-                )
-            )
+                    $fixture_filenames,
+                ),
+            ),
         );
 
         return array_map(
             [$this, 'pass_parser_fixture_filenames'],
-            $fixture_filenames
-        );  }
+            $fixture_filenames,
+        );
+    }
 
     /**
      * @dataProvider data_do_block_test_filenames
@@ -220,11 +222,11 @@ class Tests_Blocks_Render extends WP_UnitTestCase
      */
     public function test_do_block_output($html_filename, $server_html_filename)
     {
-        $html_path        = self::$fixtures_dir . '/' . $html_filename;
+        $html_path = self::$fixtures_dir . '/' . $html_filename;
         $server_html_path = self::$fixtures_dir . '/' . $server_html_filename;
 
         foreach ([$html_path, $server_html_path] as $filename) {
-            if (! file_exists($filename)) {
+            if (!file_exists($filename)) {
                 throw new Exception("Missing fixture file: '$filename'");
             }
         }
@@ -238,16 +240,16 @@ class Tests_Blocks_Render extends WP_UnitTestCase
         // The gallery block uses a unique class name of `wp_unique_id( 'wp-block-gallery-' )`
         // so we need to normalize the random id.
         $normalized_html = preg_replace('/wp-block-gallery-\d+/', 'wp-block-gallery-1', $normalized_html);
-        $expected_html   = self::strip_r(file_get_contents($server_html_path));
+        $expected_html = self::strip_r(file_get_contents($server_html_path));
 
         // Convert HTML to be white space insensitive.
         $normalized_html = preg_replace('/(\s+$)/m', '', $normalized_html);
-        $expected_html   = preg_replace('/(\s+$)/m', '', $expected_html);
+        $expected_html = preg_replace('/(\s+$)/m', '', $expected_html);
 
         $this->assertSame(
             $expected_html,
             $normalized_html,
-            "File '$html_path' does not match expected value"
+            "File '$html_path' does not match expected value",
         );
     }
 
@@ -257,7 +259,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     public function test_render_field_in_block_json()
     {
         $result = register_block_type(
-            DIR_TESTDATA . '/blocks/notice'
+            DIR_TESTDATA . '/blocks/notice',
         );
 
         $actual_content = do_blocks('<!-- wp:tests/notice {"message":"Hello from the test"} --><!-- /wp:tests/notice -->');
@@ -297,7 +299,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
             'between' .
             '3:b2' .
             '4:b2' .
-            'after'
+            'after',
         );
     }
 
@@ -307,29 +309,29 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     public function test_dynamic_block_with_default_attributes()
     {
         $settings = [
-            'attributes'      => [
-                'content'         => [
-                    'type'    => 'string',
+            'attributes' => [
+                'content' => [
+                    'type' => 'string',
                     'default' => 'Default content.',
                 ],
-                'align'           => [
-                    'type'    => 'string',
+                'align' => [
+                    'type' => 'string',
                     'default' => 'full',
                 ],
                 'backgroundColor' => [
-                    'type'    => 'string',
+                    'type' => 'string',
                     'default' => 'blueberry-1',
                 ],
-                'textColor'       => [
-                    'type'    => 'string',
+                'textColor' => [
+                    'type' => 'string',
                     'default' => 'white',
                 ],
             ],
-            'supports'        => [
+            'supports' => [
                 'align' => ['wide', 'full'],
                 'color' => [
                     'background' => true,
-                    'text'       => true,
+                    'text' => true,
                 ],
             ],
             'render_callback' => function ($attributes) {
@@ -346,9 +348,11 @@ class Tests_Blocks_Render extends WP_UnitTestCase
         $updated_post_content = do_blocks($post_content);
         $this->assertSame(
             $updated_post_content,
-            'before' .
-            '<p class="alignfull wp-block-dynamic has-text-color has-white-color has-background has-blueberry-1-background-color">Default content.</p>' .
-            'after'
+            'before'
+            .
+            '<p class="alignfull wp-block-dynamic has-text-color has-white-color has-background has-blueberry-1-background-color">Default content.</p>'
+            .
+            'after',
         );
     }
 
@@ -366,11 +370,11 @@ class Tests_Blocks_Render extends WP_UnitTestCase
                     $this,
                     'render_test_block_wp_query',
                 ],
-            ]
+            ],
         );
 
         $posts = self::factory()->post->create_many(5);
-        $post  = get_post(end($posts));
+        $post = get_post(end($posts));
 
         $global_post = $post;
         do_blocks('<!-- wp:core/test /-->');
@@ -380,17 +384,17 @@ class Tests_Blocks_Render extends WP_UnitTestCase
 
     public function test_render_latest_comments_on_password_protected_post()
     {
-        $post_id      = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_password' => 'password',
-            ]
+            ],
         );
         $comment_text = wp_generate_password(10, false);
         self::factory()->comment->create(
             [
                 'comment_post_ID' => $post_id,
                 'comment_content' => $comment_text,
-            ]
+            ],
         );
         $comments = do_blocks('<!-- wp:latest-comments {"commentsToShow":1,"displayExcerpt":true} /-->');
 
@@ -427,7 +431,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
                     $this,
                     'render_serialize_dynamic_block',
                 ],
-            ]
+            ],
         );
 
         $output = do_blocks('<!-- wp:dynamic -->inner<!-- /wp:dynamic -->');
@@ -446,7 +450,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
                     $this,
                     'render_test_block_numeric',
                 ],
-            ]
+            ],
         );
 
         register_block_type(
@@ -456,7 +460,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
                     $this,
                     'render_serialize_dynamic_block',
                 ],
-            ]
+            ],
         );
 
         $output = do_blocks('<!-- wp:dynamic -->before<!-- wp:test /-->after<!-- /wp:dynamic -->');
@@ -475,7 +479,7 @@ class Tests_Blocks_Render extends WP_UnitTestCase
                     $this,
                     'render_serialize_dynamic_block',
                 ],
-            ]
+            ],
         );
 
         $output = do_blocks('<!-- wp:dynamic -->before<!-- wp:dynamic -->deep inner<!-- /wp:dynamic -->after<!-- /wp:dynamic -->');
@@ -490,10 +494,10 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     /**
      * Helper function to remove relative paths and extension from a filename, leaving just the fixture name.
      *
-     * @since 5.0.0
-     *
      * @param string $filename The filename to clean.
      * @return string The cleaned fixture name.
+     * @since 5.0.0
+     *
      */
     protected function clean_fixture_filename($filename)
     {
@@ -505,10 +509,10 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     /**
      * Helper function to return the filenames needed to test the parser output.
      *
-     * @since 5.0.0
-     *
      * @param string $filename The cleaned fixture name.
      * @return array The input and expected output filenames for that fixture.
+     * @since 5.0.0
+     *
      */
     protected function pass_parser_fixture_filenames($filename)
     {
@@ -521,10 +525,10 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     /**
      * Helper function to remove '\r' characters from a string.
      *
-     * @since 5.0.0
-     *
      * @param string $input The string to remove '\r' from.
      * @return string The input string, with '\r' characters removed.
+     * @since 5.0.0
+     *
      */
     protected function strip_r($input)
     {
@@ -534,10 +538,10 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     /**
      * Test block rendering function.
      *
-     * @since 5.0.0
-     *
      * @param array $attributes Block attributes.
      * @return string Block output.
+     * @since 5.0.0
+     *
      */
     public function render_test_block($attributes)
     {
@@ -548,9 +552,9 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     /**
      * Test block rendering function, returning numeric value.
      *
+     * @return int Block output.
      * @since 5.0.0
      *
-     * @return int Block output.
      */
     public function render_test_block_numeric()
     {
@@ -560,9 +564,9 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     /**
      * Test block rendering function, returning base64 encoded serialised value.
      *
+     * @return string Block output.
      * @since 5.0.0
      *
-     * @return string Block output.
      */
     public function render_serialize_dynamic_block($attributes, $content)
     {
@@ -572,22 +576,22 @@ class Tests_Blocks_Render extends WP_UnitTestCase
     /**
      * Test block rendering function, creating a new WP_Query instance.
      *
+     * @return string Block output.
      * @since 5.0.0
      *
-     * @return string Block output.
      */
     public function render_test_block_wp_query()
     {
         $content = '';
-        $recent  = new WP_Query(
+        $recent = new WP_Query(
             [
-                'numberposts'      => 10,
-                'orderby'          => 'ID',
-                'order'            => 'DESC',
-                'post_type'        => 'post',
-                'post_status'      => 'draft, publish, future, pending, private',
+                'numberposts' => 10,
+                'orderby' => 'ID',
+                'order' => 'DESC',
+                'post_type' => 'post',
+                'post_status' => 'draft, publish, future, pending, private',
                 'suppress_filters' => true,
-            ]
+            ],
         );
 
         while ($recent->have_posts()) {

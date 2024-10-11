@@ -27,7 +27,7 @@ class Tests_Post_Slashes extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$author_id = $factory->user->create(['role' => 'editor']);
-        self::$post_id   = $factory->post->create();
+        self::$post_id = $factory->post->create();
     }
 
     public function set_up()
@@ -44,31 +44,31 @@ class Tests_Post_Slashes extends WP_UnitTestCase
     {
         $post_id = self::$post_id;
 
-        $_POST               = [];
-        $_POST['post_ID']    = $post_id;
+        $_POST = [];
+        $_POST['post_ID'] = $post_id;
         $_POST['post_title'] = self::SLASH_1;
-        $_POST['content']    = self::SLASH_5;
-        $_POST['excerpt']    = self::SLASH_7;
+        $_POST['content'] = self::SLASH_5;
+        $_POST['excerpt'] = self::SLASH_7;
 
         $_POST = add_magic_quotes($_POST); // The edit_post() function will strip slashes.
 
         $post_id = edit_post();
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $this->assertSame(self::SLASH_1, $post->post_title);
         $this->assertSame(self::SLASH_5, $post->post_content);
         $this->assertSame(self::SLASH_7, $post->post_excerpt);
 
-        $_POST               = [];
-        $_POST['post_ID']    = $post_id;
+        $_POST = [];
+        $_POST['post_ID'] = $post_id;
         $_POST['post_title'] = self::SLASH_2;
-        $_POST['content']    = self::SLASH_4;
-        $_POST['excerpt']    = self::SLASH_6;
+        $_POST['content'] = self::SLASH_4;
+        $_POST['excerpt'] = self::SLASH_6;
 
         $_POST = add_magic_quotes($_POST); // The edit_post() function will strip slashes.
 
         $post_id = edit_post();
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $this->assertSame(self::SLASH_2, $post->post_title);
         $this->assertSame(self::SLASH_4, $post->post_content);
@@ -82,15 +82,15 @@ class Tests_Post_Slashes extends WP_UnitTestCase
     {
         $post_id = wp_insert_post(
             [
-                'post_status'  => 'publish',
-                'post_title'   => self::SLASH_1,
+                'post_status' => 'publish',
+                'post_title' => self::SLASH_1,
                 'post_content' => self::SLASH_3,
                 'post_excerpt' => self::SLASH_5,
-                'post_type'    => 'post',
-                'slashed'      => false,
-            ]
+                'post_type' => 'post',
+                'slashed' => false,
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $this->assertSame(wp_unslash(self::SLASH_1), $post->post_title);
         $this->assertSame(wp_unslash(self::SLASH_3), $post->post_content);
@@ -98,14 +98,14 @@ class Tests_Post_Slashes extends WP_UnitTestCase
 
         $post_id = wp_insert_post(
             [
-                'post_status'  => 'publish',
-                'post_title'   => self::SLASH_2,
+                'post_status' => 'publish',
+                'post_title' => self::SLASH_2,
                 'post_content' => self::SLASH_4,
                 'post_excerpt' => self::SLASH_6,
-                'post_type'    => 'post',
-            ]
+                'post_type' => 'post',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $this->assertSame(wp_unslash(self::SLASH_2), $post->post_title);
         $this->assertSame(wp_unslash(self::SLASH_4), $post->post_content);
@@ -121,11 +121,11 @@ class Tests_Post_Slashes extends WP_UnitTestCase
 
         wp_update_post(
             [
-                'ID'           => $post_id,
-                'post_title'   => self::SLASH_1,
+                'ID' => $post_id,
+                'post_title' => self::SLASH_1,
                 'post_content' => self::SLASH_3,
                 'post_excerpt' => self::SLASH_5,
-            ]
+            ],
         );
         $post = get_post($post_id);
 
@@ -135,11 +135,11 @@ class Tests_Post_Slashes extends WP_UnitTestCase
 
         wp_update_post(
             [
-                'ID'           => $post_id,
-                'post_title'   => self::SLASH_2,
+                'ID' => $post_id,
+                'post_title' => self::SLASH_2,
                 'post_content' => self::SLASH_4,
                 'post_excerpt' => self::SLASH_6,
-            ]
+            ],
         );
         $post = get_post($post_id);
 
@@ -153,8 +153,8 @@ class Tests_Post_Slashes extends WP_UnitTestCase
      */
     public function test_wp_trash_untrash()
     {
-        $post    = [
-            'post_title'   => self::SLASH_1,
+        $post = [
+            'post_title' => self::SLASH_1,
             'post_content' => self::SLASH_3,
             'post_excerpt' => self::SLASH_5,
         ];

@@ -79,7 +79,7 @@ if (is_multisite()) :
             update_blog_details($blog_ids[2], ['deleted' => 1]);
 
             // Passing true as the second parameter should retrieve ALL sites, even if marked.
-            $blogs_of_user    = get_blogs_of_user($user1_id, true);
+            $blogs_of_user = get_blogs_of_user($user1_id, true);
             $blog_ids_of_user = array_keys($blogs_of_user);
             $this->assertSame($blog_ids, $blog_ids_of_user);
 
@@ -189,23 +189,23 @@ if (is_multisite()) :
         {
             $user_id = self::factory()->user->create(
                 [
-                    'role'       => 'author',
+                    'role' => 'author',
                     'user_login' => 'testuser1',
-                ]
+                ],
             );
 
-            $spam_username = (string) $user_id;
-            $spam_user_id  = self::factory()->user->create(
+            $spam_username = (string)$user_id;
+            $spam_user_id = self::factory()->user->create(
                 [
-                    'role'       => 'author',
+                    'role' => 'author',
                     'user_login' => $spam_username,
-                ]
+                ],
             );
             wp_update_user(
                 [
-                    'ID'   => $spam_user_id,
+                    'ID' => $spam_user_id,
                     'spam' => '1',
-                ]
+                ],
             );
 
             $this->assertTrue(is_user_spammy($spam_username));
@@ -228,7 +228,7 @@ if (is_multisite()) :
             $first = reset($blogs)->userblog_id;
             remove_user_from_blog($user_id, $first);
 
-            $blogs  = get_blogs_of_user($user_id);
+            $blogs = get_blogs_of_user($user_id);
             $second = reset($blogs)->userblog_id;
             $this->assertCount(1, $blogs);
 
@@ -350,7 +350,7 @@ if (is_multisite()) :
         {
             $u = self::factory()->user->create();
 
-            $u_string = (string) $u;
+            $u_string = (string)$u;
             $this->assertTrue(wpmu_delete_user($u_string));
             $this->assertFalse(get_user_by('id', $u));
         }
@@ -403,7 +403,7 @@ if (is_multisite()) :
             $site_id = self::factory()->blog->create();
 
             $suppress = $wpdb->suppress_errors();
-            $result   = add_user_to_blog(73622, $site_id, 'subscriber');
+            $result = add_user_to_blog(73622, $site_id, 'subscriber');
             $wpdb->suppress_errors($suppress);
 
             wp_delete_site($site_id);
@@ -445,9 +445,9 @@ if (is_multisite()) :
         public function test_wp_roles_global_is_reset()
         {
             global $wp_roles;
-            $role      = 'test_global_is_reset';
+            $role = 'test_global_is_reset';
             $role_name = 'Test Global Is Reset';
-            $blog_id   = self::factory()->blog->create();
+            $blog_id = self::factory()->blog->create();
 
             $wp_roles->add_role($role, $role_name, []);
 

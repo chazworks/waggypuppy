@@ -14,18 +14,19 @@ use WpOrg\Requests\Exception\Http;
  *
  * @package Requests\Exceptions
  */
-final class Status405 extends Http {
-	/**
-	 * HTTP status code
-	 *
-	 * @var integer
-	 */
-	protected $code = 405;
+final class Status405 extends Http
+{
+    /**
+     * HTTP status code
+     *
+     * @var integer
+     */
+    protected $code = 405;
 
-	/**
-	 * Reason phrase
-	 *
-	 * @var string
-	 */
-	protected $reason = 'Method Not Allowed';
+    /**
+     * Reason phrase
+     *
+     * @var string
+     */
+    protected $reason = 'Method Not Allowed';
 }

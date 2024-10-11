@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the Block Templates abstraction layer.
  *
@@ -23,17 +24,17 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
          */
         self::$template_post = $factory->post->create_and_get(
             [
-                'post_type'    => 'wp_template',
-                'post_name'    => 'my_template',
-                'post_title'   => 'My Template',
+                'post_type' => 'wp_template',
+                'post_name' => 'my_template',
+                'post_title' => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => [
+                'tax_input' => [
                     'wp_theme' => [
                         'this-theme-should-not-resolve',
                     ],
                 ],
-            ]
+            ],
         );
 
         wp_set_post_terms(self::$template_post->ID, 'this-theme-should-not-resolve', 'wp_theme');
@@ -41,17 +42,17 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
         // Set up template post.
         self::$template_post = $factory->post->create_and_get(
             [
-                'post_type'    => 'wp_template',
-                'post_name'    => 'my_template',
-                'post_title'   => 'My Template',
+                'post_type' => 'wp_template',
+                'post_name' => 'my_template',
+                'post_title' => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => [
+                'tax_input' => [
                     'wp_theme' => [
                         self::TEST_THEME,
                     ],
                 ],
-            ]
+            ],
         );
 
         wp_set_post_terms(self::$template_post->ID, self::TEST_THEME, 'wp_theme');
@@ -59,20 +60,20 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
         // Set up template part post.
         self::$template_part_post = $factory->post->create_and_get(
             [
-                'post_type'    => 'wp_template_part',
-                'post_name'    => 'my_template_part',
-                'post_title'   => 'My Template Part',
+                'post_type' => 'wp_template_part',
+                'post_name' => 'my_template_part',
+                'post_title' => 'My Template Part',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template part',
-                'tax_input'    => [
-                    'wp_theme'              => [
+                'tax_input' => [
+                    'wp_theme' => [
                         self::TEST_THEME,
                     ],
                     'wp_template_part_area' => [
                         WP_TEMPLATE_PART_AREA_HEADER,
                     ],
                 ],
-            ]
+            ],
         );
 
         wp_set_post_terms(self::$template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');
@@ -112,36 +113,36 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
     public function test_inject_theme_attribute_in_template_part_block()
     {
         $template_part_block = [
-            'blockName'    => 'core/template-part',
-            'attrs'        => [
-                'slug'      => 'header',
-                'align'     => 'full',
-                'tagName'   => 'header',
+            'blockName' => 'core/template-part',
+            'attrs' => [
+                'slug' => 'header',
+                'align' => 'full',
+                'tagName' => 'header',
                 'className' => 'site-header',
             ],
-            'innerHTML'    => '',
+            'innerHTML' => '',
             'innerContent' => [],
-            'innerBlocks'  => [],
+            'innerBlocks' => [],
         ];
 
         _inject_theme_attribute_in_template_part_block($template_part_block);
         $expected = [
-            'blockName'    => 'core/template-part',
-            'attrs'        => [
-                'slug'      => 'header',
-                'align'     => 'full',
-                'tagName'   => 'header',
+            'blockName' => 'core/template-part',
+            'attrs' => [
+                'slug' => 'header',
+                'align' => 'full',
+                'tagName' => 'header',
                 'className' => 'site-header',
-                'theme'     => get_stylesheet(),
+                'theme' => get_stylesheet(),
             ],
-            'innerHTML'    => '',
+            'innerHTML' => '',
             'innerContent' => [],
-            'innerBlocks'  => [],
+            'innerBlocks' => [],
         ];
         $this->assertSame(
             $expected,
             $template_part_block,
-            '`theme` attribute was not correctly injected in template part block.'
+            '`theme` attribute was not correctly injected in template part block.',
         );
     }
 
@@ -153,17 +154,17 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
     public function test_not_inject_theme_attribute_in_template_part_block_theme_attribute_exists()
     {
         $template_part_block = [
-            'blockName'    => 'core/template-part',
-            'attrs'        => [
-                'slug'      => 'header',
-                'align'     => 'full',
-                'tagName'   => 'header',
+            'blockName' => 'core/template-part',
+            'attrs' => [
+                'slug' => 'header',
+                'align' => 'full',
+                'tagName' => 'header',
                 'className' => 'site-header',
-                'theme'     => 'fake-theme',
+                'theme' => 'fake-theme',
             ],
-            'innerHTML'    => '',
+            'innerHTML' => '',
             'innerContent' => [],
-            'innerBlocks'  => [],
+            'innerBlocks' => [],
         ];
 
         $expected = $template_part_block;
@@ -171,7 +172,7 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
         $this->assertSame(
             $expected,
             $template_part_block,
-            'Existing `theme` attribute in template part block was not respected by attribute injection.'
+            'Existing `theme` attribute in template part block was not respected by attribute injection.',
         );
     }
 
@@ -183,11 +184,11 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
     public function test_not_inject_theme_attribute_non_template_part_block()
     {
         $non_template_part_block = [
-            'blockName'    => 'core/post-content',
-            'attrs'        => [],
-            'innerHTML'    => '',
+            'blockName' => 'core/post-content',
+            'attrs' => [],
+            'innerHTML' => '',
             'innerContent' => [],
-            'innerBlocks'  => [],
+            'innerBlocks' => [],
         ];
 
         $expected = $non_template_part_block;
@@ -195,7 +196,7 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
         $this->assertSame(
             $expected,
             $non_template_part_block,
-            '`theme` attribute injection modified non-template-part block.'
+            '`theme` attribute injection modified non-template-part block.',
         );
     }
 
@@ -208,42 +209,42 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
      */
     public function test_inject_theme_attribute_in_block_template_content()
     {
-        $theme                           = get_stylesheet();
+        $theme = get_stylesheet();
         $content_without_theme_attribute = '<!-- wp:template-part {"slug":"header","align":"full", "tagName":"header","className":"site-header"} /-->';
-        $template_content                = _inject_theme_attribute_in_block_template_content(
+        $template_content = _inject_theme_attribute_in_block_template_content(
             $content_without_theme_attribute,
-            $theme
+            $theme,
         );
-        $expected                        = sprintf(
+        $expected = sprintf(
             '<!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header","theme":"%s"} /-->',
-            get_stylesheet()
+            get_stylesheet(),
         );
         $this->assertSame($expected, $template_content);
 
         $content_without_theme_attribute_nested = '<!-- wp:group --><!-- wp:template-part {"slug":"header","align":"full", "tagName":"header","className":"site-header"} /--><!-- /wp:group -->';
-        $template_content                       = _inject_theme_attribute_in_block_template_content(
+        $template_content = _inject_theme_attribute_in_block_template_content(
             $content_without_theme_attribute_nested,
-            $theme
+            $theme,
         );
-        $expected                               = sprintf(
+        $expected = sprintf(
             '<!-- wp:group --><!-- wp:template-part {"slug":"header","align":"full","tagName":"header","className":"site-header","theme":"%s"} /--><!-- /wp:group -->',
-            get_stylesheet()
+            get_stylesheet(),
         );
         $this->assertSame($expected, $template_content);
 
         // Does not inject theme when there is an existing theme attribute.
         $content_with_existing_theme_attribute = '<!-- wp:template-part {"slug":"header","theme":"fake-theme","align":"full", "tagName":"header","className":"site-header"} /-->';
-        $template_content                      = _inject_theme_attribute_in_block_template_content(
+        $template_content = _inject_theme_attribute_in_block_template_content(
             $content_with_existing_theme_attribute,
-            $theme
+            $theme,
         );
         $this->assertSame($content_with_existing_theme_attribute, $template_content);
 
         // Does not inject theme when there is no template part.
         $content_with_no_template_part = '<!-- wp:post-content /-->';
-        $template_content              = _inject_theme_attribute_in_block_template_content(
+        $template_content = _inject_theme_attribute_in_block_template_content(
             $content_with_no_template_part,
-            $theme
+            $theme,
         );
         $this->assertSame($content_with_no_template_part, $template_content);
     }
@@ -270,7 +271,7 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
      * @dataProvider data_remove_theme_attribute_in_block_template_content
      *
      * @param string $template_content The template markup.
-     * @param string $expected         The expected markup after removing the theme attribute from Template Part blocks.
+     * @param string $expected The expected markup after removing the theme attribute from Template Part blocks.
      */
     public function test_remove_theme_attribute_from_template_part_block($template_content, $expected)
     {
@@ -280,8 +281,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
             $expected,
             traverse_and_serialize_blocks(
                 $template_content_parsed_blocks,
-                '_remove_theme_attribute_from_template_part_block'
-            )
+                '_remove_theme_attribute_from_template_part_block',
+            ),
         );
     }
 
@@ -314,7 +315,7 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
      */
     public function test_get_block_template_from_file()
     {
-        $id       = get_stylesheet() . '//' . 'index';
+        $id = get_stylesheet() . '//' . 'index';
         $template = get_block_template($id, 'wp_template');
         $this->assertSame($id, $template->id);
         $this->assertSame(get_stylesheet(), $template->theme);
@@ -324,7 +325,7 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
         $this->assertSame('wp_template', $template->type);
 
         // Test template parts.
-        $id       = get_stylesheet() . '//' . 'small-header';
+        $id = get_stylesheet() . '//' . 'small-header';
         $template = get_block_template($id, 'wp_template_part');
         $this->assertSame($id, $template->id);
         $this->assertSame(get_stylesheet(), $template->theme);
@@ -340,7 +341,7 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
      */
     public function test_get_block_template_from_post()
     {
-        $id       = get_stylesheet() . '//' . 'my_template';
+        $id = get_stylesheet() . '//' . 'my_template';
         $template = get_block_template($id, 'wp_template');
         $this->assertSame($id, $template->id);
         $this->assertSame(get_stylesheet(), $template->theme);
@@ -350,7 +351,7 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
         $this->assertSame('wp_template', $template->type);
 
         // Test template parts.
-        $id       = get_stylesheet() . '//' . 'my_template_part';
+        $id = get_stylesheet() . '//' . 'my_template_part';
         $template = get_block_template($id, 'wp_template_part');
         $this->assertSame($id, $template->id);
         $this->assertSame(get_stylesheet(), $template->theme);
@@ -367,21 +368,21 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
     public function test_flatten_blocks()
     {
         $content_template_part_inside_group = '<!-- wp:group --><!-- wp:template-part {"slug":"header"} /--><!-- /wp:group -->';
-        $blocks                             = parse_blocks($content_template_part_inside_group);
-        $actual                             = _flatten_blocks($blocks);
-        $expected                           = [$blocks[0], $blocks[0]['innerBlocks'][0]];
+        $blocks = parse_blocks($content_template_part_inside_group);
+        $actual = _flatten_blocks($blocks);
+        $expected = [$blocks[0], $blocks[0]['innerBlocks'][0]];
         $this->assertSame($expected, $actual);
 
         $content_template_part_inside_group_inside_group = '<!-- wp:group --><!-- wp:group --><!-- wp:template-part {"slug":"header"} /--><!-- /wp:group --><!-- /wp:group -->';
-        $blocks   = parse_blocks($content_template_part_inside_group_inside_group);
-        $actual   = _flatten_blocks($blocks);
+        $blocks = parse_blocks($content_template_part_inside_group_inside_group);
+        $actual = _flatten_blocks($blocks);
         $expected = [$blocks[0], $blocks[0]['innerBlocks'][0], $blocks[0]['innerBlocks'][0]['innerBlocks'][0]];
         $this->assertSame($expected, $actual);
 
         $content_without_inner_blocks = '<!-- wp:group /-->';
-        $blocks                       = parse_blocks($content_without_inner_blocks);
-        $actual                       = _flatten_blocks($blocks);
-        $expected                     = [$blocks[0]];
+        $blocks = parse_blocks($content_without_inner_blocks);
+        $actual = _flatten_blocks($blocks);
+        $expected = [$blocks[0]];
         $this->assertSame($expected, $actual);
     }
 
@@ -400,8 +401,8 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
         // Open ZIP file and make sure the directories exist.
         $zip = new ZipArchive();
         $zip->open($filename);
-        $has_theme_json               = $zip->locateName('theme.json') !== false;
-        $has_block_templates_dir      = $zip->locateName('templates/') !== false;
+        $has_theme_json = $zip->locateName('theme.json') !== false;
+        $has_block_templates_dir = $zip->locateName('templates/') !== false;
         $has_block_template_parts_dir = $zip->locateName('parts/') !== false;
         $this->assertTrue($has_theme_json, 'theme.json exists');
         $this->assertTrue($has_block_templates_dir, 'theme/templates directory exists');
@@ -409,7 +410,7 @@ class Tests_Block_Template_Utils extends WP_UnitTestCase
 
         // ZIP file contains at least one HTML file.
         $has_html_files = false;
-        $num_files      = $zip->numFiles;
+        $num_files = $zip->numFiles;
         for ($i = 0; $i < $num_files; $i++) {
             $filename = $zip->getNameIndex($i);
             if ('.html' === substr($filename, -5)) {

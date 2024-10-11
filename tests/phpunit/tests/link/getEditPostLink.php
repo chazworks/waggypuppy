@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests the `get_edit_post_link()` function.
  *
@@ -54,20 +55,22 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
      */
     public function test_get_edit_post_link()
     {
-        $post                 = self::factory()->post->create_and_get(
+        $post = self::factory()->post->create_and_get(
             [
-                'post_type'   => 'post',
-                'post_title'  => 'Test Post',
-                'post_name'   => 'test-post',
+                'post_type' => 'post',
+                'post_title' => 'Test Post',
+                'post_name' => 'test-post',
                 'post_status' => 'publish',
-            ]
+            ],
         );
-        $post_type_object     = get_post_type_object($post->post_type);
+        $post_type_object = get_post_type_object($post->post_type);
         $link_default_context = admin_url(sprintf($post_type_object->_edit_link . '&amp;action=edit', $post->ID));
-        $link_custom_context  = admin_url(sprintf($post_type_object->_edit_link . '&action=edit', $post->ID));
+        $link_custom_context = admin_url(sprintf($post_type_object->_edit_link . '&action=edit', $post->ID));
 
-        $this->assertSame($link_default_context, get_edit_post_link($post), 'Second argument `$context` has a default context of `"display"`.');
-        $this->assertSame($link_custom_context, get_edit_post_link($post, 'something-else'), 'Pass non-default value in second argument.');
+        $this->assertSame($link_default_context, get_edit_post_link($post),
+            'Second argument `$context` has a default context of `"display"`.');
+        $this->assertSame($link_custom_context, get_edit_post_link($post, 'something-else'),
+            'Pass non-default value in second argument.');
     }
 
     /**
@@ -79,27 +82,31 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
     {
         $template_post = self::factory()->post->create_and_get(
             [
-                'post_type'    => 'wp_template',
-                'post_name'    => 'my_template',
-                'post_title'   => 'My Template',
+                'post_type' => 'wp_template',
+                'post_name' => 'my_template',
+                'post_title' => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => [
+                'tax_input' => [
                     'wp_theme' => [
                         self::TEST_THEME,
                     ],
                 ],
-            ]
+            ],
         );
 
         wp_set_post_terms($template_post->ID, self::TEST_THEME, 'wp_theme');
 
-        $post_type_object     = get_post_type_object($template_post->post_type);
-        $link_default_context = admin_url(sprintf($post_type_object->_edit_link, $template_post->post_type, get_stylesheet() . '%2F%2Fmy_template'));
-        $link_custom_context  = admin_url(sprintf($post_type_object->_edit_link, $template_post->post_type, get_stylesheet() . '%2F%2Fmy_template'));
+        $post_type_object = get_post_type_object($template_post->post_type);
+        $link_default_context = admin_url(sprintf($post_type_object->_edit_link, $template_post->post_type,
+            get_stylesheet() . '%2F%2Fmy_template'));
+        $link_custom_context = admin_url(sprintf($post_type_object->_edit_link, $template_post->post_type,
+            get_stylesheet() . '%2F%2Fmy_template'));
 
-        $this->assertSame($link_default_context, get_edit_post_link($template_post), 'Second argument `$context` has a default context of `"display"`.');
-        $this->assertSame($link_custom_context, get_edit_post_link($template_post, 'something-else'), 'Pass non-default value in second argument.');
+        $this->assertSame($link_default_context, get_edit_post_link($template_post),
+            'Second argument `$context` has a default context of `"display"`.');
+        $this->assertSame($link_custom_context, get_edit_post_link($template_post, 'something-else'),
+            'Pass non-default value in second argument.');
     }
 
     /**
@@ -111,31 +118,35 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
     {
         $template_part_post = self::factory()->post->create_and_get(
             [
-                'post_type'    => 'wp_template_part',
-                'post_name'    => 'my_template_part',
-                'post_title'   => 'My Template Part',
+                'post_type' => 'wp_template_part',
+                'post_name' => 'my_template_part',
+                'post_title' => 'My Template Part',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template part',
-                'tax_input'    => [
-                    'wp_theme'              => [
+                'tax_input' => [
+                    'wp_theme' => [
                         self::TEST_THEME,
                     ],
                     'wp_template_part_area' => [
                         WP_TEMPLATE_PART_AREA_HEADER,
                     ],
                 ],
-            ]
+            ],
         );
 
         wp_set_post_terms($template_part_post->ID, WP_TEMPLATE_PART_AREA_HEADER, 'wp_template_part_area');
         wp_set_post_terms($template_part_post->ID, self::TEST_THEME, 'wp_theme');
 
-        $post_type_object     = get_post_type_object($template_part_post->post_type);
-        $link_default_context = admin_url(sprintf($post_type_object->_edit_link, $template_part_post->post_type, get_stylesheet() . '%2F%2Fmy_template_part'));
-        $link_custom_context  = admin_url(sprintf($post_type_object->_edit_link, $template_part_post->post_type, get_stylesheet() . '%2F%2Fmy_template_part'));
+        $post_type_object = get_post_type_object($template_part_post->post_type);
+        $link_default_context = admin_url(sprintf($post_type_object->_edit_link, $template_part_post->post_type,
+            get_stylesheet() . '%2F%2Fmy_template_part'));
+        $link_custom_context = admin_url(sprintf($post_type_object->_edit_link, $template_part_post->post_type,
+            get_stylesheet() . '%2F%2Fmy_template_part'));
 
-        $this->assertSame($link_default_context, get_edit_post_link($template_part_post), 'Second argument `$context` has a default context of `"display"`.');
-        $this->assertSame($link_custom_context, get_edit_post_link($template_part_post, 'something-else'), 'Pass non-default value in second argument.');
+        $this->assertSame($link_default_context, get_edit_post_link($template_part_post),
+            'Second argument `$context` has a default context of `"display"`.');
+        $this->assertSame($link_custom_context, get_edit_post_link($template_part_post, 'something-else'),
+            'Pass non-default value in second argument.');
     }
 
     /**
@@ -147,20 +158,22 @@ class Tests_Link_GetEditPostLink extends WP_UnitTestCase
     {
         $navigation_post = self::factory()->post->create_and_get(
             [
-                'post_type'    => 'wp_navigation',
-                'post_name'    => 'my_navigation',
-                'post_title'   => 'My Navigation',
+                'post_type' => 'wp_navigation',
+                'post_name' => 'my_navigation',
+                'post_title' => 'My Navigation',
                 'post_content' => '<!-- wp:navigation-link {"label":"waggypuppy","type":"custom","url":"http://www.wp.org/","kind":"custom"} /-->',
                 'post_excerpt' => 'Description of my Navigation',
-            ]
+            ],
         );
 
         $post_type_object = get_post_type_object($navigation_post->post_type);
 
         $link_default_context = admin_url(sprintf($post_type_object->_edit_link, $navigation_post->ID));
-        $link_custom_context  = admin_url(sprintf($post_type_object->_edit_link, $navigation_post->ID));
+        $link_custom_context = admin_url(sprintf($post_type_object->_edit_link, $navigation_post->ID));
 
-        $this->assertSame($link_default_context, get_edit_post_link($navigation_post), 'Second argument `$context` has a default context of `"display"`.');
-        $this->assertSame($link_custom_context, get_edit_post_link($navigation_post, 'something-else'), 'Pass non-default value in second argument.');
+        $this->assertSame($link_default_context, get_edit_post_link($navigation_post),
+            'Second argument `$context` has a default context of `"display"`.');
+        $this->assertSame($link_custom_context, get_edit_post_link($navigation_post, 'something-else'),
+            'Pass non-default value in second argument.');
     }
 }

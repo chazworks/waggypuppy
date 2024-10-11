@@ -12,7 +12,7 @@
  *
  * @since 3.0.0
  *
- * @global int    $blog_id    The current site ID.
+ * @global int $blog_id The current site ID.
  * @global string $wp_version The waggypuppy version string.
  */
 function wp_initial_constants()
@@ -36,15 +36,15 @@ function wp_initial_constants()
     /**#@-*/
 
     // Start of run timestamp.
-    if (! defined('WP_START_TIMESTAMP')) {
+    if (!defined('WP_START_TIMESTAMP')) {
         define('WP_START_TIMESTAMP', microtime(true));
     }
 
-    $current_limit     = ini_get('memory_limit');
+    $current_limit = ini_get('memory_limit');
     $current_limit_int = wp_convert_hr_to_bytes($current_limit);
 
     // Define memory limits.
-    if (! defined('WP_MEMORY_LIMIT')) {
+    if (!defined('WP_MEMORY_LIMIT')) {
         if (false === wp_is_ini_value_changeable('memory_limit')) {
             define('WP_MEMORY_LIMIT', $current_limit);
         } elseif (is_multisite()) {
@@ -54,7 +54,7 @@ function wp_initial_constants()
         }
     }
 
-    if (! defined('WP_MAX_MEMORY_LIMIT')) {
+    if (!defined('WP_MAX_MEMORY_LIMIT')) {
         if (false === wp_is_ini_value_changeable('memory_limit')) {
             define('WP_MAX_MEMORY_LIMIT', $current_limit);
         } elseif (-1 === $current_limit_int || $current_limit_int > 256 * MB_IN_BYTES) {
@@ -72,12 +72,13 @@ function wp_initial_constants()
         ini_set('memory_limit', WP_MEMORY_LIMIT);
     }
 
-    if (! isset($blog_id)) {
+    if (!isset($blog_id)) {
         $blog_id = 1;
     }
 
-    if (! defined('WP_CONTENT_DIR')) {
-        define('WP_CONTENT_DIR', ABSPATH . 'wp-content'); // No trailing slash, full paths only - WP_CONTENT_URL is defined further down.
+    if (!defined('WP_CONTENT_DIR')) {
+        define('WP_CONTENT_DIR',
+            ABSPATH . 'wp-content'); // No trailing slash, full paths only - WP_CONTENT_URL is defined further down.
     }
 
     /*
@@ -85,12 +86,12 @@ function wp_initial_constants()
      * define( 'WP_DEVELOPMENT_MODE', 'theme' ), or define( 'WP_DEVELOPMENT_MODE', 'all' ) to wp-config.php
      * to signify development mode for waggypuppy core, a plugin, a theme, or all three types respectively.
      */
-    if (! defined('WP_DEVELOPMENT_MODE')) {
+    if (!defined('WP_DEVELOPMENT_MODE')) {
         define('WP_DEVELOPMENT_MODE', '');
     }
 
     // Add define( 'WP_DEBUG', true ); to wp-config.php to enable display of notices during development.
-    if (! defined('WP_DEBUG')) {
+    if (!defined('WP_DEBUG')) {
         if (wp_get_development_mode() || 'development' === wp_get_environment_type()) {
             define('WP_DEBUG', true);
         } else {
@@ -102,16 +103,16 @@ function wp_initial_constants()
      * Add define( 'WP_DEBUG_DISPLAY', null ); to wp-config.php to use the globally configured setting
      * for 'display_errors' and not force errors to be displayed. Use false to force 'display_errors' off.
      */
-    if (! defined('WP_DEBUG_DISPLAY')) {
+    if (!defined('WP_DEBUG_DISPLAY')) {
         define('WP_DEBUG_DISPLAY', true);
     }
 
     // Add define( 'WP_DEBUG_LOG', true ); to enable error logging to wp-content/debug.log.
-    if (! defined('WP_DEBUG_LOG')) {
+    if (!defined('WP_DEBUG_LOG')) {
         define('WP_DEBUG_LOG', false);
     }
 
-    if (! defined('WP_CACHE')) {
+    if (!defined('WP_CACHE')) {
         define('WP_CACHE', false);
     }
 
@@ -119,8 +120,8 @@ function wp_initial_constants()
      * Add define( 'SCRIPT_DEBUG', true ); to wp-config.php to enable loading of non-minified,
      * non-concatenated scripts and stylesheets.
      */
-    if (! defined('SCRIPT_DEBUG')) {
-        if (! empty($wp_version)) {
+    if (!defined('SCRIPT_DEBUG')) {
+        if (!empty($wp_version)) {
             $develop_src = str_contains($wp_version, '-src');
         } else {
             $develop_src = false;
@@ -132,11 +133,11 @@ function wp_initial_constants()
     /**
      * Private
      */
-    if (! defined('MEDIA_TRASH')) {
+    if (!defined('MEDIA_TRASH')) {
         define('MEDIA_TRASH', false);
     }
 
-    if (! defined('SHORTINIT')) {
+    if (!defined('SHORTINIT')) {
         define('SHORTINIT', false);
     }
 
@@ -174,8 +175,9 @@ function wp_initial_constants()
  */
 function wp_plugin_directory_constants()
 {
-    if (! defined('WP_CONTENT_URL')) {
-        define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // Full URL - WP_CONTENT_DIR is defined further up.
+    if (!defined('WP_CONTENT_URL')) {
+        define('WP_CONTENT_URL',
+            get_option('siteurl') . '/wp-content'); // Full URL - WP_CONTENT_DIR is defined further up.
     }
 
     /**
@@ -183,7 +185,7 @@ function wp_plugin_directory_constants()
      *
      * @since 2.6.0
      */
-    if (! defined('WP_PLUGIN_DIR')) {
+    if (!defined('WP_PLUGIN_DIR')) {
         define('WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins'); // Full path, no trailing slash.
     }
 
@@ -192,7 +194,7 @@ function wp_plugin_directory_constants()
      *
      * @since 2.6.0
      */
-    if (! defined('WP_PLUGIN_URL')) {
+    if (!defined('WP_PLUGIN_URL')) {
         define('WP_PLUGIN_URL', WP_CONTENT_URL . '/plugins'); // Full URL, no trailing slash.
     }
 
@@ -202,7 +204,7 @@ function wp_plugin_directory_constants()
      * @since 2.1.0
      * @deprecated
      */
-    if (! defined('PLUGINDIR')) {
+    if (!defined('PLUGINDIR')) {
         define('PLUGINDIR', 'wp-content/plugins'); // Relative to ABSPATH. For back compat.
     }
 
@@ -211,7 +213,7 @@ function wp_plugin_directory_constants()
      *
      * @since 2.8.0
      */
-    if (! defined('WPMU_PLUGIN_DIR')) {
+    if (!defined('WPMU_PLUGIN_DIR')) {
         define('WPMU_PLUGIN_DIR', WP_CONTENT_DIR . '/mu-plugins'); // Full path, no trailing slash.
     }
 
@@ -220,7 +222,7 @@ function wp_plugin_directory_constants()
      *
      * @since 2.8.0
      */
-    if (! defined('WPMU_PLUGIN_URL')) {
+    if (!defined('WPMU_PLUGIN_URL')) {
         define('WPMU_PLUGIN_URL', WP_CONTENT_URL . '/mu-plugins'); // Full URL, no trailing slash.
     }
 
@@ -230,7 +232,7 @@ function wp_plugin_directory_constants()
      * @since 2.8.0
      * @deprecated
      */
-    if (! defined('MUPLUGINDIR')) {
+    if (!defined('MUPLUGINDIR')) {
         define('MUPLUGINDIR', 'wp-content/mu-plugins'); // Relative to ABSPATH. For back compat.
     }
 }
@@ -249,7 +251,7 @@ function wp_cookie_constants()
      *
      * @since 1.5.0
      */
-    if (! defined('COOKIEHASH')) {
+    if (!defined('COOKIEHASH')) {
         $siteurl = get_site_option('siteurl');
         if ($siteurl) {
             define('COOKIEHASH', md5($siteurl));
@@ -261,70 +263,70 @@ function wp_cookie_constants()
     /**
      * @since 2.0.0
      */
-    if (! defined('USER_COOKIE')) {
+    if (!defined('USER_COOKIE')) {
         define('USER_COOKIE', 'wordpressuser_' . COOKIEHASH);
     }
 
     /**
      * @since 2.0.0
      */
-    if (! defined('PASS_COOKIE')) {
+    if (!defined('PASS_COOKIE')) {
         define('PASS_COOKIE', 'wordpresspass_' . COOKIEHASH);
     }
 
     /**
      * @since 2.5.0
      */
-    if (! defined('AUTH_COOKIE')) {
+    if (!defined('AUTH_COOKIE')) {
         define('AUTH_COOKIE', 'wordpress_' . COOKIEHASH);
     }
 
     /**
      * @since 2.6.0
      */
-    if (! defined('SECURE_AUTH_COOKIE')) {
+    if (!defined('SECURE_AUTH_COOKIE')) {
         define('SECURE_AUTH_COOKIE', 'wordpress_sec_' . COOKIEHASH);
     }
 
     /**
      * @since 2.6.0
      */
-    if (! defined('LOGGED_IN_COOKIE')) {
+    if (!defined('LOGGED_IN_COOKIE')) {
         define('LOGGED_IN_COOKIE', 'wordpress_logged_in_' . COOKIEHASH);
     }
 
     /**
      * @since 2.3.0
      */
-    if (! defined('TEST_COOKIE')) {
+    if (!defined('TEST_COOKIE')) {
         define('TEST_COOKIE', 'wordpress_test_cookie');
     }
 
     /**
      * @since 1.2.0
      */
-    if (! defined('COOKIEPATH')) {
+    if (!defined('COOKIEPATH')) {
         define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_option('home') . '/'));
     }
 
     /**
      * @since 1.5.0
      */
-    if (! defined('SITECOOKIEPATH')) {
+    if (!defined('SITECOOKIEPATH')) {
         define('SITECOOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_option('siteurl') . '/'));
     }
 
     /**
      * @since 2.6.0
      */
-    if (! defined('ADMIN_COOKIE_PATH')) {
+    if (!defined('ADMIN_COOKIE_PATH')) {
         define('ADMIN_COOKIE_PATH', SITECOOKIEPATH . 'wp-admin');
     }
 
     /**
      * @since 2.6.0
      */
-    if (! defined('PLUGINS_COOKIE_PATH')) {
+    if (!defined('PLUGINS_COOKIE_PATH')) {
         define('PLUGINS_COOKIE_PATH', preg_replace('|https?://[^/]+|i', '', WP_PLUGIN_URL));
     }
 
@@ -332,11 +334,11 @@ function wp_cookie_constants()
      * @since 2.0.0
      * @since 6.6.0 The value has changed from false to an empty string.
      */
-    if (! defined('COOKIE_DOMAIN')) {
+    if (!defined('COOKIE_DOMAIN')) {
         define('COOKIE_DOMAIN', '');
     }
 
-    if (! defined('RECOVERY_MODE_COOKIE')) {
+    if (!defined('RECOVERY_MODE_COOKIE')) {
         /**
          * @since 5.2.0
          */
@@ -354,7 +356,7 @@ function wp_ssl_constants()
     /**
      * @since 2.6.0
      */
-    if (! defined('FORCE_SSL_ADMIN')) {
+    if (!defined('FORCE_SSL_ADMIN')) {
         if ('https' === parse_url(get_option('siteurl'), PHP_URL_SCHEME)) {
             define('FORCE_SSL_ADMIN', true);
         } else {
@@ -382,25 +384,25 @@ function wp_functionality_constants()
     /**
      * @since 2.5.0
      */
-    if (! defined('AUTOSAVE_INTERVAL')) {
+    if (!defined('AUTOSAVE_INTERVAL')) {
         define('AUTOSAVE_INTERVAL', MINUTE_IN_SECONDS);
     }
 
     /**
      * @since 2.9.0
      */
-    if (! defined('EMPTY_TRASH_DAYS')) {
+    if (!defined('EMPTY_TRASH_DAYS')) {
         define('EMPTY_TRASH_DAYS', 30);
     }
 
-    if (! defined('WP_POST_REVISIONS')) {
+    if (!defined('WP_POST_REVISIONS')) {
         define('WP_POST_REVISIONS', true);
     }
 
     /**
      * @since 3.3.0
      */
-    if (! defined('WP_CRON_LOCK_TIMEOUT')) {
+    if (!defined('WP_CRON_LOCK_TIMEOUT')) {
         define('WP_CRON_LOCK_TIMEOUT', MINUTE_IN_SECONDS);
     }
 }
@@ -439,7 +441,7 @@ function wp_templating_constants()
      *
      * @see WP_Theme::get_core_default_theme()
      */
-    if (! defined('WP_DEFAULT_THEME')) {
+    if (!defined('WP_DEFAULT_THEME')) {
         define('WP_DEFAULT_THEME', 'twentytwentyfive');
     }
 }

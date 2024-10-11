@@ -12,7 +12,7 @@ class Tests_Category_GetCategoryLink extends WP_UnitTestCase
     {
         $c = self::factory()->category->create();
 
-        $found    = get_category_link($c);
+        $found = get_category_link($c);
         $expected = home_url('?cat=' . $c);
 
         $this->assertSame($expected, $found);
@@ -28,13 +28,13 @@ class Tests_Category_GetCategoryLink extends WP_UnitTestCase
         $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'slug'     => 'test-term',
-            ]
+                'slug' => 'test-term',
+            ],
         );
 
         $term = get_term($t);
 
-        $found    = get_category_link($t);
+        $found = get_category_link($t);
         $expected = home_url('?wptests_tax=test-term');
 
         $this->assertSame($expected, $found);
@@ -50,13 +50,13 @@ class Tests_Category_GetCategoryLink extends WP_UnitTestCase
         $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'slug'     => 'test-term',
-            ]
+                'slug' => 'test-term',
+            ],
         );
 
         clean_term_cache($t);
 
-        $found    = get_category_link($t);
+        $found = get_category_link($t);
         $expected = home_url('?wptests_tax=test-term');
 
         $this->assertSame($expected, $found);

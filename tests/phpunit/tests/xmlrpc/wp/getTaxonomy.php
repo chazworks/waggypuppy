@@ -63,9 +63,9 @@ class Tests_XMLRPC_wp_getTaxonomy extends WP_XMLRPC_UnitTestCase
         $this->assertSame($taxonomy->show_ui, $result['show_ui'], 'show_ui');
         $this->assertSame($taxonomy->public, $result['public'], 'public');
         $this->assertSame($taxonomy->hierarchical, $result['hierarchical'], 'hierarchical');
-        $this->assertSame((array) $taxonomy->labels, $result['labels'], 'labels');
-        $this->assertSame((array) $taxonomy->cap, $result['cap'], 'capabilities');
-        $this->assertSame((array) $taxonomy->object_type, $result['object_type'], 'object_types');
+        $this->assertSame((array)$taxonomy->labels, $result['labels'], 'labels');
+        $this->assertSame((array)$taxonomy->cap, $result['cap'], 'capabilities');
+        $this->assertSame((array)$taxonomy->object_type, $result['object_type'], 'object_types');
     }
 
     /**

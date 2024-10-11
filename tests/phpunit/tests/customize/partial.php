@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the Test_WP_Customize_Partial class.
  *
@@ -31,7 +32,7 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
         parent::set_up();
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $GLOBALS['wp_customize'] = new WP_Customize_Manager();
-        $this->wp_customize      = $GLOBALS['wp_customize'];
+        $this->wp_customize = $GLOBALS['wp_customize'];
         if (isset($this->wp_customize->selective_refresh)) {
             $this->selective_refresh = $this->wp_customize->selective_refresh;
         }
@@ -45,7 +46,7 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
     public function test_construct_default_args()
     {
         $partial_id = 'blogname';
-        $partial    = new WP_Customize_Partial($this->selective_refresh, $partial_id);
+        $partial = new WP_Customize_Partial($this->selective_refresh, $partial_id);
         $this->assertSame($partial_id, $partial->id);
         $this->assertSame($this->selective_refresh, $partial->component);
         $this->assertSame('default', $partial->type);
@@ -66,12 +67,12 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
     public function render_post_content_partial($partial)
     {
         $id_data = $partial->id_data();
-        $post_id = (int) $id_data['keys'][0];
+        $post_id = (int)$id_data['keys'][0];
         if (empty($post_id)) {
             return false;
         }
         $post = get_post($post_id);
-        if (! $post) {
+        if (!$post) {
             return false;
         }
         return apply_filters('the_content', $post->post_content);
@@ -84,25 +85,24 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
      */
     public function test_construct_non_default_args()
     {
-
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Hello World',
+                'post_title' => 'Hello World',
                 'post_content' => 'Lorem Ipsum',
-            ]
+            ],
         );
 
         $partial_id = sprintf('post_content[%d]', $post_id);
-        $args       = [
-            'type'                => 'post',
-            'selector'            => "article.post-$post_id .entry-content",
-            'settings'            => ['user[1]', "post[$post_id]"],
-            'primary_setting'     => "post[$post_id]",
-            'render_callback'     => [$this, 'render_post_content_partial'],
+        $args = [
+            'type' => 'post',
+            'selector' => "article.post-$post_id .entry-content",
+            'settings' => ['user[1]', "post[$post_id]"],
+            'primary_setting' => "post[$post_id]",
+            'render_callback' => [$this, 'render_post_content_partial'],
             'container_inclusive' => false,
-            'fallback_refresh'    => false,
+            'fallback_refresh' => false,
         ];
-        $partial    = new WP_Customize_Partial($this->selective_refresh, $partial_id, $args);
+        $partial = new WP_Customize_Partial($this->selective_refresh, $partial_id, $args);
         $this->assertSame($partial_id, $partial->id);
         $this->assertSame($this->selective_refresh, $partial->component);
         $this->assertSame($args['type'], $partial->type);
@@ -119,7 +119,7 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
             $partial_id,
             [
                 'settings' => 'blogdescription',
-            ]
+            ],
         );
         $this->assertSame(['blogdescription'], $partial->settings);
         $this->assertSame('blogdescription', $partial->primary_setting);
@@ -160,9 +160,9 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
     /**
      * Filter customize_partial_render.
      *
-     * @param string|false         $rendered          Content.
-     * @param WP_Customize_Partial $partial           Partial.
-     * @param array                $container_context Data.
+     * @param string|false $rendered Content.
+     * @param WP_Customize_Partial $partial Partial.
+     * @param array $container_context Data.
      * @return string|false Content.
      */
     public function filter_customize_partial_render($rendered, $partial, $container_context)
@@ -177,9 +177,9 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
     /**
      * Filter customize_partial_render_{$partial->id}.
      *
-     * @param string|false         $rendered          Content.
-     * @param WP_Customize_Partial $partial           Partial.
-     * @param array                $container_context Data.
+     * @param string|false $rendered Content.
+     * @param WP_Customize_Partial $partial Partial.
+     * @param array $container_context Data.
      * @return string|false Content.
      */
     public function filter_customize_partial_render_with_id($rendered, $partial, $container_context)
@@ -233,7 +233,7 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
             'foo',
             [
                 'render_callback' => [$this, 'render_echo_and_return'],
-            ]
+            ],
         );
         $this->setExpectedIncorrectUsage('render');
         $this->assertSame('bar', $partial->render());
@@ -246,21 +246,23 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
      */
     public function test_render_echo_callback()
     {
-        $partial                                       = new WP_Customize_Partial(
+        $partial = new WP_Customize_Partial(
             $this->selective_refresh,
             'foo',
             [
                 'render_callback' => [$this, 'render_echo'],
-            ]
+            ],
         );
-        $count_filter_customize_partial_render         = $this->count_filter_customize_partial_render;
+        $count_filter_customize_partial_render = $this->count_filter_customize_partial_render;
         $count_filter_customize_partial_render_with_id = $this->count_filter_customize_partial_render_with_id;
         add_filter('customize_partial_render', [$this, 'filter_customize_partial_render'], 10, 3);
-        add_filter("customize_partial_render_{$partial->id}", [$this, 'filter_customize_partial_render_with_id'], 10, 3);
+        add_filter("customize_partial_render_{$partial->id}", [$this, 'filter_customize_partial_render_with_id'], 10,
+            3);
         $rendered = $partial->render();
         $this->assertSame('foo', $rendered);
         $this->assertSame($count_filter_customize_partial_render + 1, $this->count_filter_customize_partial_render);
-        $this->assertSame($count_filter_customize_partial_render_with_id + 1, $this->count_filter_customize_partial_render_with_id);
+        $this->assertSame($count_filter_customize_partial_render_with_id + 1,
+            $this->count_filter_customize_partial_render_with_id);
     }
 
     /**
@@ -270,21 +272,23 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
      */
     public function test_render_return_callback()
     {
-        $partial                                       = new WP_Customize_Partial(
+        $partial = new WP_Customize_Partial(
             $this->selective_refresh,
             'foo',
             [
                 'render_callback' => [$this, 'render_return'],
-            ]
+            ],
         );
-        $count_filter_customize_partial_render         = $this->count_filter_customize_partial_render;
+        $count_filter_customize_partial_render = $this->count_filter_customize_partial_render;
         $count_filter_customize_partial_render_with_id = $this->count_filter_customize_partial_render_with_id;
         add_filter('customize_partial_render', [$this, 'filter_customize_partial_render'], 10, 3);
-        add_filter("customize_partial_render_{$partial->id}", [$this, 'filter_customize_partial_render_with_id'], 10, 3);
+        add_filter("customize_partial_render_{$partial->id}", [$this, 'filter_customize_partial_render_with_id'], 10,
+            3);
         $rendered = $partial->render();
         $this->assertSame('bar', $rendered);
         $this->assertSame($count_filter_customize_partial_render + 1, $this->count_filter_customize_partial_render);
-        $this->assertSame($count_filter_customize_partial_render_with_id + 1, $this->count_filter_customize_partial_render_with_id);
+        $this->assertSame($count_filter_customize_partial_render_with_id + 1,
+            $this->count_filter_customize_partial_render_with_id);
     }
 
     /**
@@ -306,18 +310,18 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
      */
     public function test_json()
     {
-        $post_id    = 123;
+        $post_id = 123;
         $partial_id = sprintf('post_content[%d]', $post_id);
-        $args       = [
-            'type'                => 'post',
-            'selector'            => "article.post-$post_id .entry-content",
-            'settings'            => ['user[1]', "post[$post_id]"],
-            'primary_setting'     => "post[$post_id]",
-            'render_callback'     => [$this, 'render_post_content_partial'],
+        $args = [
+            'type' => 'post',
+            'selector' => "article.post-$post_id .entry-content",
+            'settings' => ['user[1]', "post[$post_id]"],
+            'primary_setting' => "post[$post_id]",
+            'render_callback' => [$this, 'render_post_content_partial'],
             'container_inclusive' => false,
-            'fallback_refresh'    => false,
+            'fallback_refresh' => false,
         ];
-        $partial    = new WP_Customize_Partial($this->selective_refresh, $partial_id, $args);
+        $partial = new WP_Customize_Partial($this->selective_refresh, $partial_id, $args);
 
         $exported = $partial->json();
         $this->assertArrayHasKey('settings', $exported);
@@ -342,7 +346,7 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
             'blogname',
             [
                 'settings' => ['blogname'],
-            ]
+            ],
         );
         $this->assertTrue($partial->check_capabilities());
 
@@ -351,7 +355,7 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
             'blogname',
             [
                 'settings' => ['blogname', 'non_existing'],
-            ]
+            ],
         );
         $this->assertFalse($partial->check_capabilities());
 
@@ -359,14 +363,14 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
             'top_secret_message',
             [
                 'capability' => 'top_secret_clearance',
-            ]
+            ],
         );
         $partial = new WP_Customize_Partial(
             $this->selective_refresh,
             'blogname',
             [
                 'settings' => ['blogname', 'top_secret_clearance'],
-            ]
+            ],
         );
         $this->assertFalse($partial->check_capabilities());
 
@@ -375,7 +379,7 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
             'no_setting',
             [
                 'settings' => [],
-            ]
+            ],
         );
         $this->assertTrue($partial->check_capabilities());
 
@@ -383,9 +387,9 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
             $this->selective_refresh,
             'no_setting',
             [
-                'settings'   => [],
+                'settings' => [],
                 'capability' => 'top_secret_clearance',
-            ]
+            ],
         );
         $this->assertFalse($partial->check_capabilities());
 
@@ -393,9 +397,9 @@ class Test_WP_Customize_Partial extends WP_UnitTestCase
             $this->selective_refresh,
             'no_setting',
             [
-                'settings'   => [],
+                'settings' => [],
                 'capability' => 'edit_theme_options',
-            ]
+            ],
         );
         $this->assertTrue($partial->check_capabilities());
     }

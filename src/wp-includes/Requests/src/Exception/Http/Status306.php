@@ -14,18 +14,19 @@ use WpOrg\Requests\Exception\Http;
  *
  * @package Requests\Exceptions
  */
-final class Status306 extends Http {
-	/**
-	 * HTTP status code
-	 *
-	 * @var integer
-	 */
-	protected $code = 306;
+final class Status306 extends Http
+{
+    /**
+     * HTTP status code
+     *
+     * @var integer
+     */
+    protected $code = 306;
 
-	/**
-	 * Reason phrase
-	 *
-	 * @var string
-	 */
-	protected $reason = 'Switch Proxy';
+    /**
+     * Reason phrase
+     *
+     * @var string
+     */
+    protected $reason = 'Switch Proxy';
 }

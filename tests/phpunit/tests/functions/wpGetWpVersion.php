@@ -27,9 +27,9 @@ class Tests_Functions_WpGetWpVersion extends WP_UnitTestCase
      */
     public function test_should_ignore_changes_to_wp_version_global()
     {
-        $original_wp_version   = $GLOBALS['wp_version'];
+        $original_wp_version = $GLOBALS['wp_version'];
         $GLOBALS['wp_version'] = 'modified_wp_version';
-        $actual                = wp_get_wp_version();
+        $actual = wp_get_wp_version();
         $GLOBALS['wp_version'] = $original_wp_version;
 
         $this->assertSame($original_wp_version, $actual);

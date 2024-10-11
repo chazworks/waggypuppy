@@ -25,9 +25,9 @@ class WP_Widget_Tag_Cloud extends WP_Widget
     public function __construct()
     {
         $widget_ops = [
-            'description'                 => __('A cloud of your most used tags.'),
+            'description' => __('A cloud of your most used tags.'),
             'customize_selective_refresh' => true,
-            'show_instance_in_rest'       => true,
+            'show_instance_in_rest' => true,
         ];
         parent::__construct('tag_cloud', __('Tag Cloud'), $widget_ops);
     }
@@ -35,53 +35,53 @@ class WP_Widget_Tag_Cloud extends WP_Widget
     /**
      * Outputs the content for the current Tag Cloud widget instance.
      *
-     * @since 2.8.0
-     *
-     * @param array $args     Display arguments including 'before_title', 'after_title',
+     * @param array $args Display arguments including 'before_title', 'after_title',
      *                        'before_widget', and 'after_widget'.
      * @param array $instance Settings for the current Tag Cloud widget instance.
+     * @since 2.8.0
+     *
      */
     public function widget($args, $instance)
     {
         $current_taxonomy = $this->_get_current_taxonomy($instance);
 
-        if (! empty($instance['title'])) {
+        if (!empty($instance['title'])) {
             $title = $instance['title'];
         } else {
             if ('post_tag' === $current_taxonomy) {
                 $title = __('Tags');
             } else {
-                $tax   = get_taxonomy($current_taxonomy);
+                $tax = get_taxonomy($current_taxonomy);
                 $title = $tax->labels->name;
             }
         }
 
         $default_title = $title;
 
-        $show_count = ! empty($instance['count']);
+        $show_count = !empty($instance['count']);
 
         $tag_cloud = wp_tag_cloud(
-            /**
-             * Filters the taxonomy used in the Tag Cloud widget.
-             *
-             * @since 2.8.0
-             * @since 3.0.0 Added taxonomy drop-down.
-             * @since 4.9.0 Added the `$instance` parameter.
-             *
-             * @see wp_tag_cloud()
-             *
-             * @param array $args     Args used for the tag cloud widget.
-             * @param array $instance Array of settings for the current widget.
-             */
+        /**
+         * Filters the taxonomy used in the Tag Cloud widget.
+         *
+         * @param array $args Args used for the tag cloud widget.
+         * @param array $instance Array of settings for the current widget.
+         * @since 4.9.0 Added the `$instance` parameter.
+         *
+         * @see wp_tag_cloud()
+         *
+         * @since 2.8.0
+         * @since 3.0.0 Added taxonomy drop-down.
+         */
             apply_filters(
                 'widget_tag_cloud_args',
                 [
-                    'taxonomy'   => $current_taxonomy,
-                    'echo'       => false,
+                    'taxonomy' => $current_taxonomy,
+                    'echo' => false,
                     'show_count' => $show_count,
                 ],
-                $instance
-            )
+                $instance,
+            ),
         );
 
         if (empty($tag_cloud)) {
@@ -103,7 +103,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget
 
         if ('html5' === $format) {
             // The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
-            $title      = trim(strip_tags($title));
+            $title = trim(strip_tags($title));
             $aria_label = $title ? $title : $default_title;
             echo '<nav aria-label="' . esc_attr($aria_label) . '">';
         }
@@ -124,18 +124,18 @@ class WP_Widget_Tag_Cloud extends WP_Widget
     /**
      * Handles updating settings for the current Tag Cloud widget instance.
      *
-     * @since 2.8.0
-     *
      * @param array $new_instance New settings for this instance as input by the user via
      *                            WP_Widget::form().
      * @param array $old_instance Old settings for this instance.
      * @return array Settings to save or bool false to cancel saving.
+     * @since 2.8.0
+     *
      */
     public function update($new_instance, $old_instance)
     {
-        $instance             = [];
-        $instance['title']    = sanitize_text_field($new_instance['title']);
-        $instance['count']    = ! empty($new_instance['count']) ? 1 : 0;
+        $instance = [];
+        $instance['title'] = sanitize_text_field($new_instance['title']);
+        $instance['count'] = !empty($new_instance['count']) ? 1 : 0;
         $instance['taxonomy'] = stripslashes($new_instance['taxonomy']);
         return $instance;
     }
@@ -143,29 +143,30 @@ class WP_Widget_Tag_Cloud extends WP_Widget
     /**
      * Outputs the Tag Cloud widget settings form.
      *
+     * @param array $instance Current settings.
      * @since 2.8.0
      *
-     * @param array $instance Current settings.
      */
     public function form($instance)
     {
-        $title = ! empty($instance['title']) ? $instance['title'] : '';
-        $count = isset($instance['count']) ? (bool) $instance['count'] : false;
+        $title = !empty($instance['title']) ? $instance['title'] : '';
+        $count = isset($instance['count']) ? (bool)$instance['count'] : false;
         ?>
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
-            <input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo esc_attr($title); ?>" />
+            <input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>"
+                   name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo esc_attr($title); ?>"/>
         </p>
         <?php
-        $taxonomies       = get_taxonomies(['show_tagcloud' => true], 'object');
+        $taxonomies = get_taxonomies(['show_tagcloud' => true], 'object');
         $current_taxonomy = $this->_get_current_taxonomy($instance);
 
         switch (count($taxonomies)) {
-
             // No tag cloud supporting taxonomies found, display error message.
             case 0:
                 ?>
-                <input type="hidden" id="<?php echo $this->get_field_id('taxonomy'); ?>" name="<?php echo $this->get_field_name('taxonomy'); ?>" value="" />
+                <input type="hidden" id="<?php echo $this->get_field_id('taxonomy'); ?>"
+                       name="<?php echo $this->get_field_name('taxonomy'); ?>" value=""/>
                 <p>
                     <?php _e('The tag cloud will not be displayed since there are no taxonomies that support the tag cloud widget.'); ?>
                 </p>
@@ -174,10 +175,12 @@ class WP_Widget_Tag_Cloud extends WP_Widget
 
             // Just a single tag cloud supporting taxonomy found, no need to display a select.
             case 1:
-                $keys     = array_keys($taxonomies);
+                $keys = array_keys($taxonomies);
                 $taxonomy = reset($keys);
                 ?>
-                <input type="hidden" id="<?php echo $this->get_field_id('taxonomy'); ?>" name="<?php echo $this->get_field_name('taxonomy'); ?>" value="<?php echo esc_attr($taxonomy); ?>" />
+                <input type="hidden" id="<?php echo $this->get_field_id('taxonomy'); ?>"
+                       name="<?php echo $this->get_field_name('taxonomy'); ?>"
+                       value="<?php echo esc_attr($taxonomy); ?>"/>
                 <?php
                 break;
 
@@ -186,21 +189,24 @@ class WP_Widget_Tag_Cloud extends WP_Widget
                 ?>
                 <p>
                     <label for="<?php echo $this->get_field_id('taxonomy'); ?>"><?php _e('Taxonomy:'); ?></label>
-                    <select class="widefat" id="<?php echo $this->get_field_id('taxonomy'); ?>" name="<?php echo $this->get_field_name('taxonomy'); ?>">
-                    <?php foreach ($taxonomies as $taxonomy => $tax) : ?>
-                        <option value="<?php echo esc_attr($taxonomy); ?>" <?php selected($taxonomy, $current_taxonomy); ?>>
-                            <?php echo esc_html($tax->labels->name); ?>
-                        </option>
-                    <?php endforeach; ?>
+                    <select class="widefat" id="<?php echo $this->get_field_id('taxonomy'); ?>"
+                            name="<?php echo $this->get_field_name('taxonomy'); ?>">
+                        <?php foreach ($taxonomies as $taxonomy => $tax) : ?>
+                            <option value="<?php echo esc_attr($taxonomy); ?>" <?php selected($taxonomy,
+                                $current_taxonomy); ?>>
+                                <?php echo esc_html($tax->labels->name); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </p>
-                <?php
+            <?php
         }
 
         if (count($taxonomies) > 0) {
             ?>
             <p>
-                <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>" <?php checked($count, true); ?> />
+                <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>"
+                       name="<?php echo $this->get_field_name('count'); ?>" <?php checked($count, true); ?> />
                 <label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Show tag counts'); ?></label>
             </p>
             <?php
@@ -210,14 +216,14 @@ class WP_Widget_Tag_Cloud extends WP_Widget
     /**
      * Retrieves the taxonomy for the current Tag cloud widget instance.
      *
-     * @since 4.4.0
-     *
      * @param array $instance Current settings.
      * @return string Name of the current taxonomy if set, otherwise 'post_tag'.
+     * @since 4.4.0
+     *
      */
     public function _get_current_taxonomy($instance)
     {
-        if (! empty($instance['taxonomy']) && taxonomy_exists($instance['taxonomy'])) {
+        if (!empty($instance['taxonomy']) && taxonomy_exists($instance['taxonomy'])) {
             return $instance['taxonomy'];
         }
 

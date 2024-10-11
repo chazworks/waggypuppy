@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group post
  * @group walker
@@ -31,15 +32,15 @@ class Tests_Post_Walker_Page extends WP_UnitTestCase
     public function test_start_el_with_empty_attributes($value, $expected)
     {
         $output = '';
-        $page   = self::factory()->post->create_and_get(['post_type' => 'page']);
-        $link   = get_permalink($page);
+        $page = self::factory()->post->create_and_get(['post_type' => 'page']);
+        $link = get_permalink($page);
 
         add_filter(
             'page_menu_link_attributes',
             static function ($atts) use ($value) {
                 $atts['data-test'] = $value;
                 return $atts;
-            }
+            },
         );
 
         $this->walker->start_el($output, $page, 0);
@@ -48,7 +49,8 @@ class Tests_Post_Walker_Page extends WP_UnitTestCase
             $expected = sprintf(' data-test="%s"', $expected);
         }
 
-        $this->assertSame("<li class=\"page_item page-item-{$page->ID}\"><a href=\"{$link}\"{$expected}>{$page->post_title}</a>", $output);
+        $this->assertSame("<li class=\"page_item page-item-{$page->ID}\"><a href=\"{$link}\"{$expected}>{$page->post_title}</a>",
+            $output);
     }
 
     public function data_start_el_with_empty_attributes()

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Request functionality.
  *
@@ -89,10 +90,10 @@ class Tests_REST_Request extends WP_UnitTestCase
     /**
      * @dataProvider data_content_type_parsing
      *
-     * @param string $header     Header value.
-     * @param string $value      Full type value.
-     * @param string $type       Main type (application, text, etc).
-     * @param string $subtype    Subtype (json, etc).
+     * @param string $header Header value.
+     * @param string $value Full type value.
+     * @param string $type Main type (application, text, etc).
+     * @param string $subtype Subtype (json, etc).
      * @param string $parameters Parameters (charset=utf-8, etc).
      */
     public function test_content_type_parsing($header, $value, $type, $subtype, $parameters)
@@ -114,7 +115,13 @@ class Tests_REST_Request extends WP_UnitTestCase
         return [
             // Check basic parsing.
             ['application/x-wp-example', 'application/x-wp-example', 'application', 'x-wp-example', ''],
-            ['application/x-wp-example; charset=utf-8', 'application/x-wp-example', 'application', 'x-wp-example', 'charset=utf-8'],
+            [
+                'application/x-wp-example; charset=utf-8',
+                'application/x-wp-example',
+                'application',
+                'x-wp-example',
+                'charset=utf-8',
+            ],
 
             // Check case insensitivity.
             ['APPLICATION/x-WP-Example', 'application/x-wp-example', 'application', 'x-wp-example', ''],
@@ -125,36 +132,36 @@ class Tests_REST_Request extends WP_UnitTestCase
     {
         $this->request->set_url_params(
             [
-                'source'         => 'url',
+                'source' => 'url',
                 'has_url_params' => true,
-            ]
+            ],
         );
         $this->request->set_query_params(
             [
-                'source'           => 'query',
+                'source' => 'query',
                 'has_query_params' => true,
-            ]
+            ],
         );
         $this->request->set_body_params(
             [
-                'source'          => 'body',
+                'source' => 'body',
                 'has_body_params' => true,
-            ]
+            ],
         );
 
         $json_data = wp_json_encode(
             [
-                'source'          => 'json',
+                'source' => 'json',
                 'has_json_params' => true,
-            ]
+            ],
         );
         $this->request->set_body($json_data);
 
         $this->request->set_default_params(
             [
-                'source'             => 'defaults',
+                'source' => 'defaults',
                 'has_default_params' => true,
-            ]
+            ],
         );
     }
 
@@ -205,8 +212,8 @@ class Tests_REST_Request extends WP_UnitTestCase
      * @dataProvider data_alternate_json_content_type
      *
      * @param string $content_type The Content-Type header.
-     * @param string $source       The source value.
-     * @param bool   $accept_json  The accept_json value.
+     * @param string $source The source value.
+     * @param bool $accept_json The accept_json value.
      */
     public function test_alternate_json_content_type($content_type, $source, $accept_json)
     {
@@ -238,7 +245,7 @@ class Tests_REST_Request extends WP_UnitTestCase
      * @dataProvider data_is_json_content_type
      *
      * @param string $content_type The Content-Type header.
-     * @param bool   $is_json      The is_json value.
+     * @param bool $is_json The is_json value.
      */
     public function test_is_json_content_type($content_type, $is_json)
     {
@@ -341,7 +348,7 @@ class Tests_REST_Request extends WP_UnitTestCase
     public function test_non_post_body_parameters($request_method)
     {
         $data = [
-            'foo'  => 'bar',
+            'foo' => 'bar',
             'alot' => [
                 'of' => 'parameters',
             ],
@@ -371,7 +378,7 @@ class Tests_REST_Request extends WP_UnitTestCase
     public function test_parameters_for_json_put()
     {
         $data = [
-            'foo'  => 'bar',
+            'foo' => 'bar',
             'alot' => [
                 'of' => 'parameters',
             ],
@@ -394,7 +401,7 @@ class Tests_REST_Request extends WP_UnitTestCase
     public function test_parameters_for_json_post()
     {
         $data = [
-            'foo'  => 'bar',
+            'foo' => 'bar',
             'alot' => [
                 'of' => 'parameters',
             ],
@@ -421,11 +428,11 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_method('POST');
 
         $expected = [
-            'source'             => 'body',
+            'source' => 'body',
             'has_default_params' => true,
-            'has_url_params'     => true,
-            'has_query_params'   => true,
-            'has_body_params'    => true,
+            'has_url_params' => true,
+            'has_query_params' => true,
+            'has_body_params' => true,
         ];
         $this->assertSame($expected, $this->request->get_params());
     }
@@ -436,7 +443,7 @@ class Tests_REST_Request extends WP_UnitTestCase
             [
                 '1' => 'hello',
                 '2' => 'goodbye',
-            ]
+            ],
         );
         $expected = [
             '1' => 'hello',
@@ -450,8 +457,8 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'someinteger' => '123',
-                'somestring'  => 'hello',
-            ]
+                'somestring' => 'hello',
+            ],
         );
 
         $this->request->set_attributes(
@@ -460,11 +467,11 @@ class Tests_REST_Request extends WP_UnitTestCase
                     'someinteger' => [
                         'sanitize_callback' => 'absint',
                     ],
-                    'somestring'  => [
+                    'somestring' => [
                         'sanitize_callback' => 'absint',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->request->sanitize_params();
@@ -478,8 +485,8 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'successparam' => '123',
-                'failparam'    => '123',
-            ]
+                'failparam' => '123',
+            ],
         );
         $this->request->set_attributes(
             [
@@ -487,11 +494,11 @@ class Tests_REST_Request extends WP_UnitTestCase
                     'successparam' => [
                         'sanitize_callback' => 'absint',
                     ],
-                    'failparam'    => [
+                    'failparam' => [
                         'sanitize_callback' => [$this, '_return_wp_error_on_validate_callback'],
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->sanitize_params();
@@ -507,7 +514,7 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'failparam' => '123',
-            ]
+            ],
         );
         $this->request->set_attributes(
             [
@@ -522,7 +529,7 @@ class Tests_REST_Request extends WP_UnitTestCase
                         },
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->sanitize_params();
@@ -543,7 +550,7 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'failparam' => '123',
-            ]
+            ],
         );
         $this->request->set_attributes(
             [
@@ -554,7 +561,7 @@ class Tests_REST_Request extends WP_UnitTestCase
                         },
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->sanitize_params();
@@ -565,11 +572,11 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->assertArrayHasKey('failparam', $data['details']);
         $this->assertSame(
             [
-                'code'    => 'invalid',
+                'code' => 'invalid',
                 'message' => 'Invalid.',
-                'data'    => 'mydata',
+                'data' => 'mydata',
             ],
-            $data['details']['failparam']
+            $data['details']['failparam'],
         );
     }
 
@@ -578,19 +585,19 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'some_email' => '',
-            ]
+            ],
         );
 
         $this->request->set_attributes(
             [
                 'args' => [
                     'some_email' => [
-                        'type'              => 'string',
-                        'format'            => 'email',
+                        'type' => 'string',
+                        'format' => 'email',
                         'sanitize_callback' => null,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertTrue($this->request->sanitize_params());
@@ -601,19 +608,19 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'some_uri' => 1.23422,
-            ]
+            ],
         );
 
         $this->request->set_attributes(
             [
                 'args' => [
                     'some_uri' => [
-                        'type'              => 'string',
-                        'format'            => 'uri',
+                        'type' => 'string',
+                        'format' => 'uri',
                         'sanitize_callback' => false,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertTrue($this->request->sanitize_params());
@@ -628,7 +635,7 @@ class Tests_REST_Request extends WP_UnitTestCase
                         'required' => true,
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->has_valid_params();
@@ -642,14 +649,14 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_attributes(
             [
                 'args' => [
-                    'someinteger'      => [
+                    'someinteger' => [
                         'required' => true,
                     ],
                     'someotherinteger' => [
                         'required' => true,
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->has_valid_params();
@@ -668,7 +675,7 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'someinteger' => '123',
-            ]
+            ],
         );
 
         $this->request->set_attributes(
@@ -678,7 +685,7 @@ class Tests_REST_Request extends WP_UnitTestCase
                         'validate_callback' => '__return_false',
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->has_valid_params();
@@ -713,22 +720,22 @@ class Tests_REST_Request extends WP_UnitTestCase
     {
         $this->request->set_url_params(
             [
-                'someinteger'      => '123',
+                'someinteger' => '123',
                 'someotherinteger' => '123',
-            ]
+            ],
         );
 
         $this->request->set_attributes(
             [
                 'args' => [
-                    'someinteger'      => [
+                    'someinteger' => [
                         'validate_callback' => '__return_false',
                     ],
                     'someotherinteger' => [
                         'validate_callback' => '__return_false',
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->has_valid_params();
@@ -746,22 +753,22 @@ class Tests_REST_Request extends WP_UnitTestCase
     {
         $this->request->set_url_params(
             [
-                'someinteger'     => '123',
+                'someinteger' => '123',
                 'someotherparams' => '123',
-            ]
+            ],
         );
 
         $this->request->set_attributes(
             [
                 'args' => [
-                    'someinteger'     => [
+                    'someinteger' => [
                         'validate_callback' => '__return_false',
                     ],
                     'someotherparams' => [
                         'validate_callback' => [$this, '_return_wp_error_on_validate_callback'],
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->has_valid_params();
@@ -781,7 +788,7 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'failparam' => '123',
-            ]
+            ],
         );
         $this->request->set_attributes(
             [
@@ -796,7 +803,7 @@ class Tests_REST_Request extends WP_UnitTestCase
                         },
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->has_valid_params();
@@ -817,7 +824,7 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->request->set_url_params(
             [
                 'failparam' => '123',
-            ]
+            ],
         );
         $this->request->set_attributes(
             [
@@ -828,7 +835,7 @@ class Tests_REST_Request extends WP_UnitTestCase
                         },
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $this->request->has_valid_params();
@@ -839,11 +846,11 @@ class Tests_REST_Request extends WP_UnitTestCase
         $this->assertArrayHasKey('failparam', $data['details']);
         $this->assertSame(
             [
-                'code'    => 'invalid',
+                'code' => 'invalid',
                 'message' => 'Invalid.',
-                'data'    => 'mydata',
+                'data' => 'mydata',
             ],
-            $data['details']['failparam']
+            $data['details']['failparam'],
         );
     }
 
@@ -857,11 +864,11 @@ class Tests_REST_Request extends WP_UnitTestCase
         return [
             [
                 'permalink_structure' => '/%post_name%/',
-                'original_url'        => 'http://' . WP_TESTS_DOMAIN . '/wp-json/wp/v2/posts/1?foo=bar',
+                'original_url' => 'http://' . WP_TESTS_DOMAIN . '/wp-json/wp/v2/posts/1?foo=bar',
             ],
             [
                 'permalink_structure' => '',
-                'original_url'        => 'http://' . WP_TESTS_DOMAIN . '/index.php?rest_route=%2Fwp%2Fv2%2Fposts%2F1&foo=bar',
+                'original_url' => 'http://' . WP_TESTS_DOMAIN . '/index.php?rest_route=%2Fwp%2Fv2%2Fposts%2F1&foo=bar',
             ],
         ];
     }
@@ -881,7 +888,7 @@ class Tests_REST_Request extends WP_UnitTestCase
             [
                 'foo' => 'bar',
             ],
-            $request->get_query_params()
+            $request->get_query_params(),
         );
     }
 
@@ -892,11 +899,11 @@ class Tests_REST_Request extends WP_UnitTestCase
     {
         update_option('permalink_structure', $permalink_structure);
         $using_site = site_url('/wp/v2/posts/1');
-        $request    = WP_REST_Request::from_url($using_site);
+        $request = WP_REST_Request::from_url($using_site);
         $this->assertFalse($request);
 
         $using_home = home_url('/wp/v2/posts/1');
-        $request    = WP_REST_Request::from_url($using_home);
+        $request = WP_REST_Request::from_url($using_home);
         $this->assertFalse($request);
     }
 
@@ -916,20 +923,20 @@ class Tests_REST_Request extends WP_UnitTestCase
             wp_json_encode(
                 [
                     'param' => 'value',
-                ]
-            )
+                ],
+            ),
         );
         $this->assertSame('value', $request->get_param('param'));
         $this->assertSame(
             ['param' => 'value'],
-            $request->get_json_params()
+            $request->get_json_params(),
         );
 
         $request->set_param('param', 'new_value');
         $this->assertSame('new_value', $request->get_param('param'));
         $this->assertSame(
             ['param' => 'new_value'],
-            $request->get_json_params()
+            $request->get_json_params(),
         );
     }
 
@@ -945,13 +952,13 @@ class Tests_REST_Request extends WP_UnitTestCase
             wp_json_encode(
                 [
                     'param' => 'value_body',
-                ]
-            )
+                ],
+            ),
         );
         $request->set_query_params(
             [
                 'param' => 'value_query',
-            ]
+            ],
         );
         $request->set_param('param', 'new_value');
 
@@ -973,18 +980,18 @@ class Tests_REST_Request extends WP_UnitTestCase
             wp_json_encode(
                 [
                     'param_body' => 'value_body',
-                ]
-            )
+                ],
+            ),
         );
         $original_defaults = [
             'param_query' => 'default_query_value',
-            'param_body'  => 'default_body_value',
+            'param_body' => 'default_body_value',
         ];
         $request->set_default_params($original_defaults);
         $request->set_query_params(
             [
                 'param_query' => 'value_query',
-            ]
+            ],
         );
         $request->set_param('param_query', 'new_value');
 
@@ -1008,13 +1015,13 @@ class Tests_REST_Request extends WP_UnitTestCase
             wp_json_encode(
                 [
                     'param' => 'value_body',
-                ]
-            )
+                ],
+            ),
         );
         $request->set_query_params(
             [
                 'param' => 'value_query',
-            ]
+            ],
         );
         $request->set_param('param', null);
 
@@ -1036,13 +1043,13 @@ class Tests_REST_Request extends WP_UnitTestCase
             wp_json_encode(
                 [
                     'param' => null,
-                ]
-            )
+                ],
+            ),
         );
         $request->set_query_params(
             [
                 'param' => null,
-            ]
+            ],
         );
         $request->set_param('param', 'new_value');
 
@@ -1075,18 +1082,18 @@ class Tests_REST_Request extends WP_UnitTestCase
         $request = new WP_REST_Request();
         $request->set_query_params(['test' => 'value']);
 
-        $error    = new WP_Error('error_code', __('Error Message'), ['status' => 400]);
+        $error = new WP_Error('error_code', __('Error Message'), ['status' => 400]);
         $callback = $this->createPartialMock('Mock_Invokable', ['__invoke']);
         $callback->expects(self::once())->method('__invoke')->with(self::identicalTo($request))->willReturn($error);
         $request->set_attributes(
             [
-                'args'              => [
+                'args' => [
                     'test' => [
                         'validate_callback' => '__return_true',
                     ],
                 ],
                 'validate_callback' => $callback,
-            ]
+            ],
         );
 
         $this->assertSame($error, $request->has_valid_params());
@@ -1100,13 +1107,13 @@ class Tests_REST_Request extends WP_UnitTestCase
         $request = new WP_REST_Request();
         $request->set_query_params(['test' => 'value']);
 
-        $error    = new WP_Error('error_code', __('Error Message'), ['status' => 400]);
+        $error = new WP_Error('error_code', __('Error Message'), ['status' => 400]);
         $callback = $this->createPartialMock('Mock_Invokable', ['__invoke']);
         $callback->expects(self::once())->method('__invoke')->with(self::identicalTo($request))->willReturn($error);
         $request->set_attributes(
             [
                 'validate_callback' => $callback,
-            ]
+            ],
         );
 
         $this->assertSame($error, $request->has_valid_params());
@@ -1125,12 +1132,12 @@ class Tests_REST_Request extends WP_UnitTestCase
         $request->set_attributes(
             [
                 'validate_callback' => $callback,
-                'args'              => [
+                'args' => [
                     'test' => [
                         'validate_callback' => '__return_false',
                     ],
                 ],
-            ]
+            ],
         );
 
         $valid = $request->has_valid_params();

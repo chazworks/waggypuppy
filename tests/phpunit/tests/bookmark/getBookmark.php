@@ -50,7 +50,7 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
     public function test_should_return_global_link_in_requested_output_format($args)
     {
         $GLOBALS['link'] = self::$bookmark;
-        $args            = $this->init_func_args($args, 0);
+        $args = $this->init_func_args($args, 0);
         $actual_bookmark = get_bookmark(...$args);
 
         $expected = $this->maybe_format_expected_data($args, $GLOBALS['link']);
@@ -85,46 +85,46 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
     {
         return [
             // Unhappy path.
-            'with bookmark type mismatch'        => [
+            'with bookmark type mismatch' => [
                 [
                     'bookmark' => '',
                 ],
             ],
-            'with invalid output'                => [
+            'with invalid output' => [
                 [
                     'bookmark' => 0,
-                    'output'   => 'invalid',
+                    'output' => 'invalid',
                 ],
             ],
             'with bookmark type mismatch and invalid output' => [
                 [
                     'bookmark' => null,
-                    'output'   => 'invalid',
+                    'output' => 'invalid',
                 ],
             ],
             // Happy path.
-            'with defaults'                      => [
+            'with defaults' => [
                 [
                     'bookmark' => 0,
                 ],
             ],
-            'with non-default output'            => [
+            'with non-default output' => [
                 [
                     'bookmark' => 0,
-                    'output'   => ARRAY_A,
+                    'output' => ARRAY_A,
                 ],
             ],
-            'with non-default filter'            => [
+            'with non-default filter' => [
                 [
                     'bookmark' => 0,
-                    'filter'   => 'display',
+                    'filter' => 'display',
                 ],
             ],
             'with non-default output and filter' => [
                 [
                     'bookmark' => 0,
-                    'output'   => ARRAY_N,
-                    'filter'   => 'display',
+                    'output' => ARRAY_N,
+                    'filter' => 'display',
                 ],
             ],
         ];
@@ -137,7 +137,7 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
      */
     public function test_should_cache_bookmark_when_given_instance($args)
     {
-        $args     = $this->init_func_args($args);
+        $args = $this->init_func_args($args);
         $bookmark = $args[0];
         $expected = $this->maybe_format_expected_data($args, $bookmark);
 
@@ -161,33 +161,33 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
     {
         return [
             // Unhappy path.
-            'with incomplete bookmark data'      => [
+            'with incomplete bookmark data' => [
                 [
-                    'bookmark' => (object) [
+                    'bookmark' => (object)[
                         'link_id' => '100',
                     ],
                 ],
             ],
-            'with invalid output'                => [
+            'with invalid output' => [
                 [
                     'output' => 'invalid',
                 ],
             ],
-            'with invalid filter'                => [
+            'with invalid filter' => [
                 [
                     'filter' => 'invalid',
                 ],
             ],
             // Happy path.
-            'with defaults'                      => [
+            'with defaults' => [
                 [],
             ],
-            'with non-default output'            => [
+            'with non-default output' => [
                 [
                     'output' => ARRAY_A,
                 ],
             ],
-            'with non-default filter'            => [
+            'with non-default filter' => [
                 [
                     'filter' => 'display',
                 ],
@@ -210,9 +210,9 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
      */
     public function test_should_return_global_when_else($args)
     {
-        $args            = $this->init_func_args($args, self::$bookmark->link_id);
+        $args = $this->init_func_args($args, self::$bookmark->link_id);
         $GLOBALS['link'] = self::$bookmark;
-        $expected        = $this->maybe_format_expected_data($args, $GLOBALS['link']);
+        $expected = $this->maybe_format_expected_data($args, $GLOBALS['link']);
 
         // Run the function and test results.
         $actual_bookmark = get_bookmark(...$args);
@@ -232,7 +232,7 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
     {
         // Cache the bookmark instance to setup the test.
         wp_cache_add(self::$bookmark->link_id, self::$bookmark, 'bookmark');
-        $args     = $this->init_func_args($args, self::$bookmark->link_id);
+        $args = $this->init_func_args($args, self::$bookmark->link_id);
         $expected = $this->maybe_format_expected_data($args, self::$bookmark);
 
         // Run the function and test results.
@@ -263,13 +263,14 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
     public function test_should_return_null_when_bookmark_not_in_database($args)
     {
         $bookmark_link_id = self::$bookmark->link_id * 100;
-        $args             = $this->init_func_args($args, $bookmark_link_id);
+        $args = $this->init_func_args($args, $bookmark_link_id);
 
         // Validate it will run path 6.
         $this->assertFalse(wp_cache_get($bookmark_link_id, 'bookmark'));
         $this->assertArrayNotHasKey('link', $GLOBALS);
         global $wpdb;
-        $db_actual = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->links WHERE link_id = %d LIMIT 1", $bookmark_link_id));
+        $db_actual = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->links WHERE link_id = %d LIMIT 1",
+            $bookmark_link_id));
         $this->assertNull($db_actual);
 
         // Run the function and test results.
@@ -288,7 +289,7 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
      */
     public function test_should_return_existing_bookmark_from_database($args)
     {
-        $args     = $this->init_func_args($args, self::$bookmark->link_id);
+        $args = $this->init_func_args($args, self::$bookmark->link_id);
         $expected = $this->maybe_format_expected_data($args, self::$bookmark);
 
         // Validate it will run path 5.
@@ -321,26 +322,26 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
     {
         return [
             // Unhappy path.
-            'with invalid output'                => [
+            'with invalid output' => [
                 [
                     'output' => 'invalid',
                 ],
             ],
-            'with invalid filter'                => [
+            'with invalid filter' => [
                 [
                     'filter' => 'invalid',
                 ],
             ],
             // Happy path.
-            'with defaults'                      => [
+            'with defaults' => [
                 [],
             ],
-            'with non-default output'            => [
+            'with non-default output' => [
                 [
                     'output' => ARRAY_A,
                 ],
             ],
-            'with non-default filter'            => [
+            'with non-default filter' => [
                 [
                     'filter' => 'display',
                 ],
@@ -373,7 +374,7 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
      * Initialize the get_bookmark's function arguments to match the order of the function's signature and
      * reduce code in the tests.
      *
-     * @param array        $args     Function argument list.
+     * @param array $args Function argument list.
      * @param int|stdClass $bookmark Optional. Bookmark's cache key or instance.
      * @return array Ordered argument list.
      */
@@ -382,13 +383,13 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
         // The defaults sets the order to match the function's arguments as well as setting the default values.
         $defaults = [
             'bookmark' => self::$bookmark,
-            'output'   => OBJECT,
-            'filter'   => 'raw',
+            'output' => OBJECT,
+            'filter' => 'raw',
         ];
-        $args     = array_merge($defaults, $args);
+        $args = array_merge($defaults, $args);
 
         // When given a bookmark, use it.
-        if (! is_null($bookmark)) {
+        if (!is_null($bookmark)) {
             $args['bookmark'] = $bookmark;
         }
 
@@ -402,7 +403,7 @@ class Tests_Bookmark_GetBookmark extends WP_UnitTestCase
     /**
      * Maybe format the bookmark's expected data.
      *
-     * @param array             $args     Function argument list.
+     * @param array $args Function argument list.
      * @param int|stdClass|null $bookmark Optional. Bookmark's cache key or instance.
      * @return array|stdClass bookmark's data.
      */

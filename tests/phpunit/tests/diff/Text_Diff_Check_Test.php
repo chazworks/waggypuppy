@@ -31,8 +31,7 @@ final class Text_Diff_Check_Test extends WP_UnitTestCase
     /**
      * Disable WP specific set up as it is not needed.
      */
-    public function set_up()
-    {}
+    public function set_up() {}
 
     public function test_check_passes_when_passed_same_input()
     {

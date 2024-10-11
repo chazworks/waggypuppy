@@ -34,11 +34,11 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
     /**
      * Returns 0 if this field element results in all NUL bytes.
      *
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core_Curve25519_Fe $f
      * @return int
      * @throws SodiumException
+     * @internal You should not use this directly from another application
+     *
      */
     public static function fe_iszero(ParagonIE_Sodium_Core_Curve25519_Fe $f)
     {
@@ -66,33 +66,33 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
      */
     public static function ristretto255_sqrt_ratio_m1(
         ParagonIE_Sodium_Core_Curve25519_Fe $u,
-        ParagonIE_Sodium_Core_Curve25519_Fe $v
+        ParagonIE_Sodium_Core_Curve25519_Fe $v,
     ) {
         $sqrtm1 = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$sqrtm1);
 
         $v3 = self::fe_mul(
             self::fe_sq($v),
-            $v
+            $v,
         ); /* v3 = v^3 */
         $x = self::fe_mul(
             self::fe_mul(
                 self::fe_sq($v3),
-                $u
+                $u,
             ),
-            $v
+            $v,
         ); /* x = uv^7 */
 
         $x = self::fe_mul(
             self::fe_mul(
                 self::fe_pow22523($x), /* x = (uv^7)^((q-5)/8) */
-                $v3
+                $v3,
             ),
-            $u
+            $u,
         ); /* x = uv^3(uv^7)^((q-5)/8) */
 
         $vxx = self::fe_mul(
             self::fe_sq($x),
-            $v
+            $v,
         ); /* vx^2 */
 
         $m_root_check = self::fe_sub($vxx, $u); /* vx^2-u */
@@ -107,12 +107,12 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
         $x_sqrtm1 = self::fe_mul($x, $sqrtm1); /* x*sqrt(-1) */
 
         $x = self::fe_abs(
-            self::fe_cmov($x, $x_sqrtm1, $has_p_root | $has_f_root)
+            self::fe_cmov($x, $x_sqrtm1, $has_p_root | $has_f_root),
         );
-        return array(
+        return [
             'x' => $x,
-            'nonsquare' => $has_m_root | $has_p_root
-        );
+            'nonsquare' => $has_m_root | $has_p_root,
+        ];
     }
 
     /**
@@ -158,7 +158,7 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
 
         $v = self::fe_mul(
             ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$d),
-            $u1u1
+            $u1u1,
         ); /* v = d*u1^2 */
         $v = self::fe_neg($v); /* v = -d*u1^2 */
         $v = self::fe_sub($v, $u2u2); /* v = -(d*u1^2)-u2^2 */
@@ -178,14 +178,14 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
 
         $h->X = self::fe_mul($h->X, $s_);
         $h->X = self::fe_abs(
-            self::fe_add($h->X, $h->X)
+            self::fe_add($h->X, $h->X),
         );
         $h->Y = self::fe_mul($u1, $h->Y);
         $h->Z = self::fe_1();
         $h->T = self::fe_mul($h->X, $h->Y);
 
-        $res = - ((1 - $notsquare) | self::fe_isnegative($h->T) | self::fe_iszero($h->Y));
-        return array('h' => $h, 'res' => $res);
+        $res = -((1 - $notsquare) | self::fe_isnegative($h->T) | self::fe_iszero($h->Y));
+        return ['h' => $h, 'res' => $res];
     }
 
     /**
@@ -219,7 +219,7 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
         $iy = self::fe_mul($h->Y, $sqrtm1); /* iy = Y*sqrt(-1) */
         $eden = self::fe_mul($den1, $invsqrtamd);
 
-        $t_z_inv =  self::fe_mul($h->T, $z_inv); /* t_z_inv = T*z_inv */
+        $t_z_inv = self::fe_mul($h->T, $z_inv); /* t_z_inv = T*z_inv */
         $rotate = self::fe_isnegative($t_z_inv);
 
         $x_ = self::fe_copy($h->X);
@@ -242,9 +242,9 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
             self::fe_abs(
                 self::fe_mul(
                     $den_inv,
-                    self::fe_sub($h->Z, $y_)
-                )
-            )
+                    self::fe_sub($h->Z, $y_),
+                ),
+            ),
         );
     }
 
@@ -256,24 +256,24 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
      */
     public static function ristretto255_elligator(ParagonIE_Sodium_Core_Curve25519_Fe $t)
     {
-        $sqrtm1   = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$sqrtm1);
-        $onemsqd  = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$onemsqd);
-        $d        = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$d);
-        $sqdmone  = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$sqdmone);
+        $sqrtm1 = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$sqrtm1);
+        $onemsqd = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$onemsqd);
+        $d = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$d);
+        $sqdmone = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$sqdmone);
         $sqrtadm1 = ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(self::$sqrtadm1);
 
         $one = self::fe_1();
-        $r   = self::fe_mul($sqrtm1, self::fe_sq($t));         /* r = sqrt(-1)*t^2 */
-        $u   = self::fe_mul(self::fe_add($r, $one), $onemsqd); /* u = (r+1)*(1-d^2) */
-        $c   = self::fe_neg(self::fe_1());                     /* c = -1 */
+        $r = self::fe_mul($sqrtm1, self::fe_sq($t));         /* r = sqrt(-1)*t^2 */
+        $u = self::fe_mul(self::fe_add($r, $one), $onemsqd); /* u = (r+1)*(1-d^2) */
+        $c = self::fe_neg(self::fe_1());                     /* c = -1 */
         $rpd = self::fe_add($r, $d);                           /* rpd = r+d */
 
         $v = self::fe_mul(
             self::fe_sub(
                 $c,
-                self::fe_mul($r, $d)
+                self::fe_mul($r, $d),
             ),
-            $rpd
+            $rpd,
         ); /* v = (c-r*d)*(r+d) */
 
         $result = self::ristretto255_sqrt_ratio_m1($u, $v);
@@ -282,8 +282,8 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
 
         $s_prime = self::fe_neg(
             self::fe_abs(
-                self::fe_mul($s, $t)
-            )
+                self::fe_mul($s, $t),
+            ),
         ); /* s_prime = -|s*t| */
         $s = self::fe_cmov($s, $s_prime, $wasnt_square);
         $c = self::fe_cmov($c, $r, $wasnt_square);
@@ -296,16 +296,16 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
             self::fe_mul(
                 self::fe_mul(
                     self::fe_sub($r, $one),
-                    $c
+                    $c,
                 ),
-                $sqdmone
+                $sqdmone,
             ),
-            $v
+            $v,
         ); /* n =  c*(r-1)*(d-1)^2-v */
 
         $w0 = self::fe_mul(
             self::fe_add($s, $s),
-            $v
+            $v,
         ); /* w0 = 2s*v */
 
         $w1 = self::fe_mul($n, $sqrtadm1); /* w1 = n*sqrt(ad-1) */
@@ -317,7 +317,7 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
             self::fe_mul($w0, $w3),
             self::fe_mul($w2, $w1),
             self::fe_mul($w1, $w3),
-            self::fe_mul($w0, $w2)
+            self::fe_mul($w0, $w2),
         );
     }
 
@@ -345,13 +345,13 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
         //ge25519_add_cached(&p_p1p1, &p0, &p1_cached);
         $p_p1p1 = self::ge_add(
             $p0,
-            self::ge_p3_to_cached($p1)
+            self::ge_p3_to_cached($p1),
         );
 
         //ge25519_p1p1_to_p3(&p, &p_p1p1);
         //ristretto255_p3_tobytes(s, &p);
         return self::ristretto255_p3_tobytes(
-            self::ge_p1p1_to_p3($p_p1p1)
+            self::ge_p1p1_to_p3($p_p1p1),
         );
     }
 
@@ -435,7 +435,7 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
             $ctx = hash_final($st, true);
             $ctx_len = 32;
         }
-        $t = array(0, $hLen, 0);
+        $t = [0, $hLen, 0];
         $ux = str_repeat("\0", 64);
         $st = hash_init('sha256');
         self::hash_update($st, $ux);
@@ -485,7 +485,7 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
             $ctx = hash_final($st, true);
             $ctx_len = 32;
         }
-        $t = array(0, $hLen, 0);
+        $t = [0, $hLen, 0];
         $ux = str_repeat("\0", 128);
         $st = hash_init('sha512');
         self::hash_update($st, $ux);
@@ -542,7 +542,7 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
     protected static function _string_to_element($ctx, $msg, $hash_alg)
     {
         return self::ristretto255_from_hash(
-            self::h2c_string_to_hash(self::crypto_core_ristretto255_HASHBYTES, $ctx, $msg, $hash_alg)
+            self::h2c_string_to_hash(self::crypto_core_ristretto255_HASHBYTES, $ctx, $msg, $hash_alg),
         );
     }
 
@@ -554,7 +554,7 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
     public static function ristretto255_random()
     {
         return self::ristretto255_from_hash(
-            ParagonIE_Sodium_Compat::randombytes_buf(self::crypto_core_ristretto255_HASHBYTES)
+            ParagonIE_Sodium_Compat::randombytes_buf(self::crypto_core_ristretto255_HASHBYTES),
         );
     }
 
@@ -639,8 +639,8 @@ class ParagonIE_Sodium_Core_Ristretto255 extends ParagonIE_Sodium_Core_Ed25519
         $h = array_fill(0, 64, 0);
         $h_be = self::stringToIntArray(
             self::h2c_string_to_hash(
-                self::HASH_SC_L, $ctx, $msg, $hash_alg
-            )
+                self::HASH_SC_L, $ctx, $msg, $hash_alg,
+            ),
         );
 
         for ($i = 0; $i < self::HASH_SC_L; ++$i) {

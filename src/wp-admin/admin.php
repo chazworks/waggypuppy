@@ -11,23 +11,23 @@
  *
  * @since 2.3.2
  */
-if (! defined('WP_ADMIN')) {
+if (!defined('WP_ADMIN')) {
     define('WP_ADMIN', true);
 }
 
-if (! defined('WP_NETWORK_ADMIN')) {
+if (!defined('WP_NETWORK_ADMIN')) {
     define('WP_NETWORK_ADMIN', false);
 }
 
-if (! defined('WP_USER_ADMIN')) {
+if (!defined('WP_USER_ADMIN')) {
     define('WP_USER_ADMIN', false);
 }
 
-if (! WP_NETWORK_ADMIN && ! WP_USER_ADMIN) {
+if (!WP_NETWORK_ADMIN && !WP_USER_ADMIN) {
     define('WP_BLOG_ADMIN', true);
 }
 
-if (isset($_GET['import']) && ! defined('WP_LOAD_IMPORTERS')) {
+if (isset($_GET['import']) && !defined('WP_LOAD_IMPORTERS')) {
     define('WP_LOAD_IMPORTERS', true);
 }
 
@@ -36,7 +36,6 @@ require_once dirname(__DIR__) . '/wp-load.php';
 nocache_headers();
 
 if (get_option('db_upgraded')) {
-
     flush_rewrite_rules();
     update_option('db_upgraded', false, true);
 
@@ -46,12 +45,10 @@ if (get_option('db_upgraded')) {
      * @since 2.8.0
      */
     do_action('after_db_upgrade');
-
-} elseif (! wp_doing_ajax() && empty($_POST)
-    && (int) get_option('db_version') !== $wp_db_version
+} elseif (!wp_doing_ajax() && empty($_POST)
+    && (int)get_option('db_version') !== $wp_db_version
 ) {
-
-    if (! is_multisite()) {
+    if (!is_multisite()) {
         wp_redirect(admin_url('upgrade.php?_wp_http_referer=' . urlencode(wp_unslash($_SERVER['REQUEST_URI']))));
         exit;
     }
@@ -66,9 +63,9 @@ if (get_option('db_upgraded')) {
      * If the network is 50 sites or less, it will run every time. Otherwise,
      * it will throttle itself to reduce load.
      *
+     * @param bool $do_mu_upgrade Whether to perform the Multisite upgrade routine. Default true.
      * @since MU (3.0.0)
      *
-     * @param bool $do_mu_upgrade Whether to perform the Multisite upgrade routine. Default true.
      */
     if (apply_filters('do_mu_upgrade', true)) {
         $c = get_blog_count();
@@ -77,14 +74,14 @@ if (get_option('db_upgraded')) {
          * If there are 50 or fewer sites, run every time. Otherwise, throttle to reduce load:
          * attempt to do no more than threshold value, with some +/- allowed.
          */
-        if ($c <= 50 || ($c > 50 && mt_rand(0, (int) ($c / 50)) === 1)) {
+        if ($c <= 50 || ($c > 50 && mt_rand(0, (int)($c / 50)) === 1)) {
             require_once ABSPATH . WPINC . '/http.php';
             $response = wp_remote_get(
                 admin_url('upgrade.php?step=1'),
                 [
-                    'timeout'     => 120,
+                    'timeout' => 120,
                     'httpversion' => '1.1',
-                ]
+                ],
             );
             /** This action is documented in wp-admin/network/upgrade.php */
             do_action('after_mu_upgrade', $response);
@@ -99,12 +96,12 @@ require_once ABSPATH . 'wp-admin/includes/admin.php';
 auth_redirect();
 
 // Schedule Trash collection.
-if (! wp_next_scheduled('wp_scheduled_delete') && ! wp_installing()) {
+if (!wp_next_scheduled('wp_scheduled_delete') && !wp_installing()) {
     wp_schedule_event(time(), 'daily', 'wp_scheduled_delete');
 }
 
 // Schedule transient cleanup.
-if (! wp_next_scheduled('delete_expired_transients') && ! wp_installing()) {
+if (!wp_next_scheduled('delete_expired_transients') && !wp_installing()) {
     wp_schedule_event(time(), 'daily', 'delete_expired_transients');
 }
 
@@ -120,12 +117,12 @@ wp_enqueue_script('common');
  * $wp_importers is sometimes set in wp-admin/includes/import.php.
  * The remaining variables are imported as globals elsewhere, declared as globals here.
  *
- * @global string $pagenow      The filename of the current screen.
- * @global array  $wp_importers
+ * @global string $pagenow The filename of the current screen.
+ * @global array $wp_importers
  * @global string $hook_suffix
  * @global string $plugin_page
- * @global string $typenow      The post type of the current screen.
- * @global string $taxnow       The taxonomy of the current screen.
+ * @global string $typenow The post type of the current screen.
+ * @global string $taxnow The taxonomy of the current screen.
  */
 global $pagenow, $wp_importers, $hook_suffix, $plugin_page, $typenow, $taxnow;
 
@@ -175,20 +172,20 @@ if (current_user_can('manage_options')) {
 do_action('admin_init');
 
 if (isset($plugin_page)) {
-    if (! empty($typenow)) {
+    if (!empty($typenow)) {
         $the_parent = $pagenow . '?post_type=' . $typenow;
     } else {
         $the_parent = $pagenow;
     }
 
     $page_hook = get_plugin_page_hook($plugin_page, $the_parent);
-    if (! $page_hook) {
+    if (!$page_hook) {
         $page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
 
         // Back-compat for plugins using add_management_page().
         if (empty($page_hook) && 'edit.php' === $pagenow && get_plugin_page_hook($plugin_page, 'tools.php')) {
             // There could be plugin specific params on the URL, so we need the whole query string.
-            if (! empty($_SERVER['QUERY_STRING'])) {
+            if (!empty($_SERVER['QUERY_STRING'])) {
                 $query_string = $_SERVER['QUERY_STRING'];
             } else {
                 $query_string = 'page=' . $plugin_page;
@@ -234,8 +231,8 @@ if (isset($plugin_page)) {
          *
          * @since 2.1.0
          */
-        do_action("load-{$page_hook}"); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-        if (! isset($_GET['noheader'])) {
+        do_action("load-{$page_hook}");
+        if (!isset($_GET['noheader'])) {
             require_once ABSPATH . 'wp-admin/admin-header.php';
         }
 
@@ -262,8 +259,8 @@ if (isset($plugin_page)) {
             wp_die(__('Invalid plugin page.'));
         }
 
-        if (! (file_exists(WP_PLUGIN_DIR . "/$plugin_page") && is_file(WP_PLUGIN_DIR . "/$plugin_page"))
-            && ! (file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") && is_file(WPMU_PLUGIN_DIR . "/$plugin_page"))
+        if (!(file_exists(WP_PLUGIN_DIR . "/$plugin_page") && is_file(WP_PLUGIN_DIR . "/$plugin_page"))
+            && !(file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") && is_file(WPMU_PLUGIN_DIR . "/$plugin_page"))
         ) {
             /* translators: %s: Admin page generated by a plugin. */
             wp_die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
@@ -281,9 +278,9 @@ if (isset($plugin_page)) {
          *
          * @since 1.5.0
          */
-        do_action("load-{$plugin_page}"); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+        do_action("load-{$plugin_page}");
 
-        if (! isset($_GET['noheader'])) {
+        if (!isset($_GET['noheader'])) {
             require_once ABSPATH . 'wp-admin/admin-header.php';
         }
 
@@ -298,10 +295,9 @@ if (isset($plugin_page)) {
 
     exit;
 } elseif (isset($_GET['import'])) {
-
     $importer = $_GET['import'];
 
-    if (! current_user_can('import')) {
+    if (!current_user_can('import')) {
         wp_die(__('Sorry, you are not allowed to import content into this site.'));
     }
 
@@ -310,7 +306,7 @@ if (isset($plugin_page)) {
         exit;
     }
 
-    if (! isset($wp_importers[$importer]) || ! is_callable($wp_importers[$importer][2])) {
+    if (!isset($wp_importers[$importer]) || !is_callable($wp_importers[$importer][2])) {
         wp_redirect(admin_url('import.php?invalid=' . $importer));
         exit;
     }
@@ -332,14 +328,14 @@ if (isset($plugin_page)) {
      *
      * @since 3.5.0
      */
-    do_action("load-importer-{$importer}"); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    do_action("load-importer-{$importer}");
 
     // Used in the HTML title tag.
-    $title        = __('Import');
-    $parent_file  = 'tools.php';
+    $title = __('Import');
+    $parent_file = 'tools.php';
     $submenu_file = 'import.php';
 
-    if (! isset($_GET['noheader'])) {
+    if (!isset($_GET['noheader'])) {
         require_once ABSPATH . 'wp-admin/admin-header.php';
     }
 
@@ -353,9 +349,9 @@ if (isset($plugin_page)) {
      * Multisite uses this hook to filter all data through kses by default,
      * as a super administrator may be assisting an untrusted user.
      *
+     * @param bool $force Whether to force data to be filtered through kses. Default false.
      * @since 3.1.0
      *
-     * @param bool $force Whether to force data to be filtered through kses. Default false.
      */
     if (apply_filters('force_filtered_html_on_import', false)) {
         kses_init_filters();  // Always filter imported data with kses on multisite.
@@ -382,7 +378,7 @@ if (isset($plugin_page)) {
      *
      * @since 2.1.0
      */
-    do_action("load-{$pagenow}"); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    do_action("load-{$pagenow}");
 
     /*
      * The following hooks are fired to ensure backward compatibility.
@@ -390,22 +386,22 @@ if (isset($plugin_page)) {
      */
     if ('page' === $typenow) {
         if ('post-new.php' === $pagenow) {
-            do_action('load-page-new.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+            do_action('load-page-new.php');
         } elseif ('post.php' === $pagenow) {
-            do_action('load-page.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+            do_action('load-page.php');
         }
     } elseif ('edit-tags.php' === $pagenow) {
         if ('category' === $taxnow) {
-            do_action('load-categories.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+            do_action('load-categories.php');
         } elseif ('link_category' === $taxnow) {
-            do_action('load-edit-link-categories.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+            do_action('load-edit-link-categories.php');
         }
     } elseif ('term.php' === $pagenow) {
-        do_action('load-edit-tags.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+        do_action('load-edit-tags.php');
     }
 }
 
-if (! empty($_REQUEST['action'])) {
+if (!empty($_REQUEST['action'])) {
     $action = $_REQUEST['action'];
 
     /**

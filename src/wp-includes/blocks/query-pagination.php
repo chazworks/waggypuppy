@@ -8,12 +8,12 @@
 /**
  * Renders the `core/query-pagination` block on the server.
  *
- * @since 5.9.0
- *
- * @param array  $attributes Block attributes.
- * @param string $content    Block default content.
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
  *
  * @return string Returns the wrapper for the Query pagination.
+ * @since 5.9.0
+ *
  */
 function render_block_core_query_pagination($attributes, $content)
 {
@@ -21,18 +21,18 @@ function render_block_core_query_pagination($attributes, $content)
         return '';
     }
 
-    $classes            = (isset($attributes['style']['elements']['link']['color']['text'])) ? 'has-link-color' : '';
+    $classes = (isset($attributes['style']['elements']['link']['color']['text'])) ? 'has-link-color' : '';
     $wrapper_attributes = get_block_wrapper_attributes(
         [
             'aria-label' => __('Pagination'),
-            'class'      => $classes,
-        ]
+            'class' => $classes,
+        ],
     );
 
     return sprintf(
         '<nav %1$s>%2$s</nav>',
         $wrapper_attributes,
-        $content
+        $content,
     );
 }
 
@@ -47,7 +47,8 @@ function register_block_core_query_pagination()
         __DIR__ . '/query-pagination',
         [
             'render_callback' => 'render_block_core_query_pagination',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_query_pagination');

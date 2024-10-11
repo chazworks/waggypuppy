@@ -25,7 +25,7 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $tq = new WP_Tax_Query(
             [
                 'relation' => 'or',
-            ]
+            ],
         );
         $this->assertSame('OR', $tq->relation);
     }
@@ -35,7 +35,7 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $tq = new WP_Tax_Query(
             [
                 'relation' => 'OR',
-            ]
+            ],
         );
         $this->assertSame('OR', $tq->relation);
     }
@@ -45,7 +45,7 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $tq = new WP_Tax_Query(
             [
                 'relation' => 'foo',
-            ]
+            ],
         );
         $this->assertSame('AND', $tq->relation);
     }
@@ -55,15 +55,15 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $tq = new WP_Tax_Query(
             [
                 [],
-            ]
+            ],
         );
 
         $expected = [
-            'taxonomy'         => '',
-            'terms'            => [],
+            'taxonomy' => '',
+            'terms' => [],
             'include_children' => true,
-            'field'            => 'term_id',
-            'operator'         => 'IN',
+            'field' => 'term_id',
+            'operator' => 'IN',
         ];
 
         $this->assertSameSetsWithIndex($expected, $tq->queries[0]);
@@ -74,20 +74,20 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $tq = new WP_Tax_Query(
             [
                 [
-                    'taxonomy'         => 'foo',
+                    'taxonomy' => 'foo',
                     'include_children' => false,
-                    'foo'              => 'bar',
+                    'foo' => 'bar',
                 ],
-            ]
+            ],
         );
 
         $expected = [
-            'taxonomy'         => 'foo',
-            'terms'            => [],
+            'taxonomy' => 'foo',
+            'terms' => [],
             'include_children' => false,
-            'field'            => 'term_id',
-            'operator'         => 'IN',
-            'foo'              => 'bar',
+            'field' => 'term_id',
+            'operator' => 'IN',
+            'foo' => 'bar',
         ];
 
         $this->assertSameSetsWithIndex($expected, $tq->queries[0]);
@@ -100,7 +100,7 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                 [
                     'terms' => 'foo',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame(['foo'], $tq->queries[0]['terms']);
@@ -116,9 +116,9 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                 '',
                 [
                     'taxonomy' => 'post_tag',
-                    'terms'    => 'foo',
+                    'terms' => 'foo',
                 ],
-            ]
+            ],
         );
 
         $this->assertCount(1, $q->queries);
@@ -126,10 +126,10 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
 
     public function test_transform_query_terms_empty()
     {
-        $tq    = new WP_Tax_Query(
+        $tq = new WP_Tax_Query(
             [
                 [],
-            ]
+            ],
         );
         $query = $tq->queries[0];
 
@@ -140,12 +140,12 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
 
     public function test_transform_query_field_same_as_resulting_field()
     {
-        $tq    = new WP_Tax_Query(
+        $tq = new WP_Tax_Query(
             [
                 [
                     'field' => 'term_id',
                 ],
-            ]
+            ],
         );
         $query = $tq->queries[0];
 
@@ -158,7 +158,7 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
     {
         $t1 = self::factory()->category->create(['slug' => 'foo']);
         $t2 = self::factory()->category->create(['slug' => 'bar']);
-        $p  = self::factory()->post->create();
+        $p = self::factory()->post->create();
         wp_set_post_categories($p, $t1);
 
         $tq1 = new WP_Tax_Query(
@@ -167,7 +167,7 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                     'terms' => ['foo'],
                     'field' => 'slug',
                 ],
-            ]
+            ],
         );
         $tq1->transform_query($tq1->queries[0], 'term_taxonomy_id');
 
@@ -177,7 +177,7 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                     'terms' => ['foo'],
                     'field' => 'slug',
                 ],
-            ]
+            ],
         );
         $tq2->transform_query($tq2->queries[0], 'TERM_ ta%xonomy_id');
 
@@ -186,18 +186,18 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
 
     public function test_transform_query_field_slug()
     {
-        $t1     = self::factory()->category->create(['slug' => 'foo']);
-        $p      = self::factory()->post->create();
+        $t1 = self::factory()->category->create(['slug' => 'foo']);
+        $p = self::factory()->post->create();
         $tt_ids = wp_set_post_categories($p, $t1);
 
         $tq = new WP_Tax_Query(
             [
                 [
                     'taxonomy' => 'category',
-                    'terms'    => ['foo'],
-                    'field'    => 'slug',
+                    'terms' => ['foo'],
+                    'field' => 'slug',
                 ],
-            ]
+            ],
         );
         $tq->transform_query($tq->queries[0], 'term_taxonomy_id');
 
@@ -207,23 +207,23 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
 
     public function test_transform_query_field_name()
     {
-        $t1     = self::factory()->category->create(
+        $t1 = self::factory()->category->create(
             [
                 'slug' => 'foo',
                 'name' => 'Foo',
-            ]
+            ],
         );
-        $p      = self::factory()->post->create();
+        $p = self::factory()->post->create();
         $tt_ids = wp_set_post_categories($p, $t1);
 
         $tq = new WP_Tax_Query(
             [
                 [
                     'taxonomy' => 'category',
-                    'terms'    => ['Foo'],
-                    'field'    => 'name',
+                    'terms' => ['Foo'],
+                    'field' => 'name',
                 ],
-            ]
+            ],
         );
         $tq->transform_query($tq->queries[0], 'term_taxonomy_id');
 
@@ -233,23 +233,23 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
 
     public function test_transform_query_field_term_taxonomy_id()
     {
-        $t1     = self::factory()->category->create(
+        $t1 = self::factory()->category->create(
             [
                 'slug' => 'foo',
                 'name' => 'Foo',
-            ]
+            ],
         );
-        $p      = self::factory()->post->create();
+        $p = self::factory()->post->create();
         $tt_ids = wp_set_post_categories($p, $t1);
 
         $tq = new WP_Tax_Query(
             [
                 [
                     'taxonomy' => 'category',
-                    'terms'    => $tt_ids,
-                    'field'    => 'term_taxonomy_id',
+                    'terms' => $tt_ids,
+                    'field' => 'term_taxonomy_id',
                 ],
-            ]
+            ],
         );
         $tq->transform_query($tq->queries[0], 'term_id');
 
@@ -259,23 +259,23 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
 
     public function test_transform_query_field_term_taxonomy_default()
     {
-        $t1     = self::factory()->category->create(
+        $t1 = self::factory()->category->create(
             [
                 'slug' => 'foo',
                 'name' => 'Foo',
-            ]
+            ],
         );
-        $p      = self::factory()->post->create();
+        $p = self::factory()->post->create();
         $tt_ids = wp_set_post_categories($p, $t1);
 
         $tq = new WP_Tax_Query(
             [
                 [
                     'taxonomy' => 'category',
-                    'terms'    => [$t1],
-                    'field'    => 'foo', // Anything defaults to term_id.
+                    'terms' => [$t1],
+                    'field' => 'foo', // Anything defaults to term_id.
                 ],
-            ]
+            ],
         );
         $tq->transform_query($tq->queries[0], 'term_taxonomy_id');
 
@@ -288,11 +288,11 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $tq = new WP_Tax_Query(
             [
                 [
-                    'terms'    => ['foo'],
-                    'field'    => 'slug',
+                    'terms' => ['foo'],
+                    'field' => 'slug',
                     'operator' => 'AND',
                 ],
-            ]
+            ],
         );
         $tq->transform_query($tq->queries[0], 'term_taxonomy_id');
 
@@ -309,17 +309,17 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t3 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $tq = new WP_Tax_Query(
@@ -327,20 +327,20 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                 'relation' => 'OR',
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t1,
+                    'field' => 'term_id',
+                    'terms' => $t1,
                 ],
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t2,
+                    'field' => 'term_id',
+                    'terms' => $t2,
                 ],
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t3,
+                    'field' => 'term_id',
+                    'terms' => $t3,
                 ],
-            ]
+            ],
         );
 
         global $wpdb;
@@ -363,17 +363,17 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t3 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $tq = new WP_Tax_Query(
@@ -381,20 +381,20 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                 'relation' => 'AND',
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t1,
+                    'field' => 'term_id',
+                    'terms' => $t1,
                 ],
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t2,
+                    'field' => 'term_id',
+                    'terms' => $t2,
                 ],
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t3,
+                    'field' => 'term_id',
+                    'terms' => $t3,
                 ],
-            ]
+            ],
         );
 
         global $wpdb;
@@ -403,9 +403,11 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $this->assertSame(3, substr_count($sql['join'], 'JOIN'));
 
         // Checking number of occurrences of AND while skipping the one at the beginning.
-        $this->assertSame(2, substr_count(substr($sql['where'], 5), 'AND'), 'SQL query does not contain expected number conditions joined by operator AND.');
+        $this->assertSame(2, substr_count(substr($sql['where'], 5), 'AND'),
+            'SQL query does not contain expected number conditions joined by operator AND.');
 
-        $this->assertStringNotContainsString('OR', $sql['where'], 'SQL query contains conditions joined by operator OR.');
+        $this->assertStringNotContainsString('OR', $sql['where'],
+            'SQL query contains conditions joined by operator OR.');
 
         _unregister_taxonomy('wptests_tax');
     }
@@ -421,17 +423,17 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t3 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $tq = new WP_Tax_Query(
@@ -439,31 +441,33 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                 'relation' => 'OR',
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t1,
+                    'field' => 'term_id',
+                    'terms' => $t1,
                 ],
                 [
                     'relation' => 'OR',
                     [
                         'taxonomy' => 'wptests_tax',
-                        'field'    => 'term_id',
-                        'terms'    => $t2,
+                        'field' => 'term_id',
+                        'terms' => $t2,
                     ],
                     [
                         'taxonomy' => 'wptests_tax',
-                        'field'    => 'term_id',
-                        'terms'    => $t3,
+                        'field' => 'term_id',
+                        'terms' => $t3,
                     ],
                 ],
-            ]
+            ],
         );
 
         global $wpdb;
         $sql = $tq->get_sql($wpdb->posts, 'ID');
 
         $this->assertSame(2, substr_count($sql['join'], 'JOIN'));
-        $this->assertSame(2, substr_count($sql['where'], 'OR'), 'SQL query does not contain expected number conditions joined by operator OR.');
-        $this->assertStringNotContainsString('AND', substr($sql['where'], 5), 'SQL query contains conditions joined by operator AND.');
+        $this->assertSame(2, substr_count($sql['where'], 'OR'),
+            'SQL query does not contain expected number conditions joined by operator OR.');
+        $this->assertStringNotContainsString('AND', substr($sql['where'], 5),
+            'SQL query contains conditions joined by operator AND.');
 
         _unregister_taxonomy('wptests_tax');
     }
@@ -480,16 +484,16 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                 'relation' => 'OR',
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
+                    'field' => 'term_id',
                     'operator' => 'NOT IN',
-                    'terms'    => [],
+                    'terms' => [],
                 ],
-            ]
+            ],
         );
 
         global $wpdb;
         $expected = [
-            'join'  => '',
+            'join' => '',
             'where' => '',
         ];
 
@@ -510,16 +514,16 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                 'relation' => 'OR',
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
+                    'field' => 'term_id',
                     'operator' => 'AND',
-                    'terms'    => [],
+                    'terms' => [],
                 ],
-            ]
+            ],
         );
 
         global $wpdb;
         $expected = [
-            'join'  => '',
+            'join' => '',
             'where' => '',
         ];
 
@@ -539,17 +543,17 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         $t3 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $tq = new WP_Tax_Query(
@@ -557,30 +561,33 @@ class Tests_Term_Tax_Query extends WP_UnitTestCase
                 'relation' => 'UNSUPPORTED',
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t1,
+                    'field' => 'term_id',
+                    'terms' => $t1,
                 ],
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t2,
+                    'field' => 'term_id',
+                    'terms' => $t2,
                 ],
                 [
                     'taxonomy' => 'wptests_tax',
-                    'field'    => 'term_id',
-                    'terms'    => $t3,
+                    'field' => 'term_id',
+                    'terms' => $t3,
                 ],
-            ]
+            ],
         );
 
         global $wpdb;
         $sql = $tq->get_sql($wpdb->posts, 'ID');
 
         // Checking number of occurrences of AND while skipping the one at the beginning.
-        $this->assertSame(2, substr_count(substr($sql['where'], 5), 'AND'), 'SQL query does not contain expected number conditions joined by operator AND.');
+        $this->assertSame(2, substr_count(substr($sql['where'], 5), 'AND'),
+            'SQL query does not contain expected number conditions joined by operator AND.');
 
-        $this->assertStringNotContainsString('UNSUPPORTED', $sql['where'], 'SQL query contains unsupported relation operator.');
-        $this->assertStringNotContainsString('OR', $sql['where'], 'SQL query contains conditions joined by operator OR.');
+        $this->assertStringNotContainsString('UNSUPPORTED', $sql['where'],
+            'SQL query contains unsupported relation operator.');
+        $this->assertStringNotContainsString('OR', $sql['where'],
+            'SQL query contains conditions joined by operator OR.');
 
         _unregister_taxonomy('wptests_tax');
     }

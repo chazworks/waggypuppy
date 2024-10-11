@@ -24,11 +24,11 @@
 
         wp_link_pages(
             [
-                'before'   => '<nav class="page-links" aria-label="' . esc_attr__('Page', 'twentytwentyone') . '">',
-                'after'    => '</nav>',
+                'before' => '<nav class="page-links" aria-label="' . esc_attr__('Page', 'twentytwentyone') . '">',
+                'after' => '</nav>',
                 /* translators: %: Page number. */
                 'pagelink' => esc_html__('Page %', 'twentytwentyone'),
-            ]
+            ],
         );
         ?>
     </div><!-- .entry-content -->
@@ -37,7 +37,7 @@
         <?php twenty_twenty_one_entry_meta_footer(); ?>
     </footer><!-- .entry-footer -->
 
-    <?php if (! is_singular('attachment')) : ?>
+    <?php if (!is_singular('attachment')) : ?>
         <?php get_template_part('template-parts/post/author-bio'); ?>
     <?php endif; ?>
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering schema validation and sanitization functionality.
  *
@@ -62,7 +63,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_format_email()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'email',
         ];
         $this->assertSame('email@example.com', rest_sanitize_value_from_schema('email@example.com', $schema));
@@ -73,13 +74,14 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_format_ip()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'ip',
         ];
 
         $this->assertSame('127.0.0.1', rest_sanitize_value_from_schema('127.0.0.1', $schema));
         $this->assertSame('hello', rest_sanitize_value_from_schema('hello', $schema));
-        $this->assertSame('2001:DB8:0:0:8:800:200C:417A', rest_sanitize_value_from_schema('2001:DB8:0:0:8:800:200C:417A', $schema));
+        $this->assertSame('2001:DB8:0:0:8:800:200C:417A',
+            rest_sanitize_value_from_schema('2001:DB8:0:0:8:800:200C:417A', $schema));
     }
 
     /**
@@ -88,7 +90,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_format_hex_color()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'hex-color',
         ];
         $this->assertSame('#000000', rest_sanitize_value_from_schema('#000000', $schema));
@@ -102,21 +104,21 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_format_uuid()
     {
         $schema = [
-            'type'   => 'string',
+            'type' => 'string',
             'format' => 'uuid',
         ];
         $this->assertSame('44', rest_sanitize_value_from_schema(44, $schema));
         $this->assertSame('hello', rest_sanitize_value_from_schema('hello', $schema));
         $this->assertSame(
             '123e4567-e89b-12d3-a456-426655440000',
-            rest_sanitize_value_from_schema('123e4567-e89b-12d3-a456-426655440000', $schema)
+            rest_sanitize_value_from_schema('123e4567-e89b-12d3-a456-426655440000', $schema),
         );
     }
 
     public function test_type_array()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'type' => 'number',
             ],
@@ -128,9 +130,9 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_type_array_nested()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
-                'type'  => 'array',
+                'type' => 'array',
                 'items' => [
                     'type' => 'number',
                 ],
@@ -143,7 +145,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_type_array_as_csv()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'type' => 'number',
             ],
@@ -156,7 +158,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_type_array_with_enum()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'enum' => ['chicken', 'ribs', 'brisket'],
                 'type' => 'string',
@@ -169,7 +171,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_type_array_with_enum_as_csv()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'enum' => ['chicken', 'ribs', 'brisket'],
                 'type' => 'string',
@@ -183,7 +185,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_type_array_is_associative()
     {
         $schema = [
-            'type'  => 'array',
+            'type' => 'array',
             'items' => [
                 'type' => 'string',
             ],
@@ -192,18 +194,18 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
             ['1', '2'],
             rest_sanitize_value_from_schema(
                 [
-                    'first'  => '1',
+                    'first' => '1',
                     'second' => '2',
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
     }
 
     public function test_type_object()
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'a' => [
                     'type' => 'number',
@@ -222,16 +224,16 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
                     'a' => '1',
                     'b' => 1,
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
     }
 
     public function test_type_object_strips_additional_properties()
     {
         $schema = [
-            'type'                 => 'object',
-            'properties'           => [
+            'type' => 'object',
+            'properties' => [
                 'a' => [
                     'type' => 'number',
                 ],
@@ -247,8 +249,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
                     'a' => '1',
                     'b' => 1,
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
     }
 
@@ -264,11 +266,11 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_type_object_pattern_properties($pattern_properties, $value, $expected)
     {
         $schema = [
-            'type'                 => 'object',
-            'properties'           => [
+            'type' => 'object',
+            'properties' => [
                 'propA' => ['type' => 'string'],
             ],
-            'patternProperties'    => $pattern_properties,
+            'patternProperties' => $pattern_properties,
             'additionalProperties' => false,
         ];
 
@@ -342,7 +344,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
                     '.+' => ['type' => 'string'],
                 ],
                 [
-                    ''      => '',
+                    '' => '',
                     'propA' => 'a',
                 ],
                 ['propA' => 'a'],
@@ -353,10 +355,10 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_type_object_nested()
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'a' => [
-                    'type'       => 'object',
+                    'type' => 'object',
                     'properties' => [
                         'b' => ['type' => 'number'],
                         'c' => ['type' => 'number'],
@@ -379,8 +381,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
                         'c' => '3',
                     ],
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
         $this->assertEquals(
             [
@@ -400,8 +402,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
                     ],
                     'b' => 1,
                 ],
-                $schema
-            )
+                $schema,
+            ),
         );
         $this->assertSame(['a' => []], rest_sanitize_value_from_schema(['a' => null], $schema));
     }
@@ -409,14 +411,14 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_type_object_stdclass()
     {
         $schema = [
-            'type'       => 'object',
+            'type' => 'object',
             'properties' => [
                 'a' => [
                     'type' => 'number',
                 ],
             ],
         ];
-        $this->assertEquals(['a' => 1], rest_sanitize_value_from_schema((object) ['a' => '1'], $schema));
+        $this->assertEquals(['a' => 1], rest_sanitize_value_from_schema((object)['a' => '1'], $schema));
     }
 
     /**
@@ -454,7 +456,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_nullable_date()
     {
         $schema = [
-            'type'   => ['string', 'null'],
+            'type' => ['string', 'null'],
             'format' => 'date-time',
         ];
 
@@ -469,7 +471,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_format_validation_is_skipped_if_non_string_type()
     {
         $schema = [
-            'type'   => 'array',
+            'type' => 'array',
             'format' => 'hex-color',
         ];
         $this->assertSame(['#fff'], rest_sanitize_value_from_schema('#fff', $schema));
@@ -503,7 +505,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
 
         $schema = [
             'format' => 'hex-color',
-            'type'   => 'str',
+            'type' => 'str',
         ];
         $this->assertSame('#abc', rest_sanitize_value_from_schema('#abc', $schema));
         $this->assertSame('', rest_sanitize_value_from_schema('#jkl', $schema));
@@ -512,7 +514,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_object_or_string()
     {
         $schema = [
-            'type'       => ['object', 'string'],
+            'type' => ['object', 'string'],
             'properties' => [
                 'raw' => [
                     'type' => 'string',
@@ -528,7 +530,7 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_object_or_bool()
     {
         $schema = [
-            'type'       => ['object', 'boolean'],
+            'type' => ['object', 'boolean'],
             'properties' => [
                 'raw' => [
                     'type' => 'boolean',
@@ -552,7 +554,8 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
         $this->assertSame(['raw' => false], rest_sanitize_value_from_schema(['raw' => '0'], $schema));
         $this->assertSame(['raw' => false], rest_sanitize_value_from_schema(['raw' => 0], $schema));
 
-        $this->assertSame(['raw' => true], rest_sanitize_value_from_schema(['raw' => 'something non boolean'], $schema));
+        $this->assertSame(['raw' => true],
+            rest_sanitize_value_from_schema(['raw' => 'something non boolean'], $schema));
     }
 
     /**
@@ -603,10 +606,10 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
     public function test_unique_items_after_sanitization()
     {
         $schema = [
-            'type'        => 'array',
+            'type' => 'array',
             'uniqueItems' => true,
-            'items'       => [
-                'type'   => 'string',
+            'items' => [
+                'type' => 'string',
                 'format' => 'uri',
             ],
         ];
@@ -628,11 +631,11 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
         $schema = [
             'anyOf' => [
                 [
-                    'type'       => 'integer',
+                    'type' => 'integer',
                     'multipleOf' => 2,
                 ],
                 [
-                    'type'      => 'string',
+                    'type' => 'string',
                     'maxLength' => 1,
                 ],
             ],
@@ -652,11 +655,11 @@ class WP_Test_REST_Schema_Sanitization extends WP_UnitTestCase
         $schema = [
             'oneOf' => [
                 [
-                    'type'       => 'integer',
+                    'type' => 'integer',
                     'multipleOf' => 2,
                 ],
                 [
-                    'type'      => 'string',
+                    'type' => 'string',
                     'maxLength' => 1,
                 ],
             ],

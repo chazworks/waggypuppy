@@ -23,9 +23,9 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Constructor.
      *
+     * @param string $post_type Post type.
      * @since 6.6.0
      *
-     * @param string $post_type Post type.
      */
     public function __construct($post_type = 'wp_global_styles')
     {
@@ -44,18 +44,18 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             '/' . $this->rest_base . '/themes/(?P<stylesheet>[\/\s%\w\.\(\)\[\]\@_\-]+)/variations',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_theme_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_theme_items'],
                     'permission_callback' => [$this, 'get_theme_items_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'stylesheet' => [
                             'description' => __('The theme identifier'),
-                            'type'        => 'string',
+                            'type' => 'string',
                         ],
                     ],
-                    'allow_batch'         => $this->allow_batch,
+                    'allow_batch' => $this->allow_batch,
                 ],
-            ]
+            ],
         );
 
         // List themes global styles.
@@ -69,23 +69,23 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
                  * Matches theme's directory: `/themes/<subdirectory>/<theme>/` or `/themes/<theme>/`.
                  * Excludes invalid directory name characters: `/:<>*?"|`.
                  */
-                '[^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?'
+                '[^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?',
             ),
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_theme_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_theme_item'],
                     'permission_callback' => [$this, 'get_theme_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'stylesheet' => [
-                            'description'       => __('The theme identifier'),
-                            'type'              => 'string',
+                            'description' => __('The theme identifier'),
+                            'type' => 'string',
                             'sanitize_callback' => [$this, '_sanitize_global_styles_callback'],
                         ],
                     ],
-                    'allow_batch'         => $this->allow_batch,
+                    'allow_batch' => $this->allow_batch,
                 ],
-            ]
+            ],
         );
 
         // Lists/updates a single global style variation based on the given id.
@@ -94,26 +94,26 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             '/' . $this->rest_base . '/(?P<id>[\/\w-]+)',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
-                    'args'                => [
+                    'args' => [
                         'id' => [
-                            'description'       => __('The id of a template'),
-                            'type'              => 'string',
+                            'description' => __('The id of a template'),
+                            'type' => 'string',
                             'sanitize_callback' => [$this, '_sanitize_global_styles_callback'],
                         ],
                     ],
                 ],
                 [
-                    'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => [$this, 'update_item'],
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'update_item'],
                     'permission_callback' => [$this, 'update_item_permissions_check'],
-                    'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
+                    'args' => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
                 ],
-                'schema'      => [$this, 'get_public_item_schema'],
+                'schema' => [$this, 'get_public_item_schema'],
                 'allow_batch' => $this->allow_batch,
-            ]
+            ],
         );
     }
 
@@ -122,10 +122,10 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
      * For example, `wp/v2/global-styles/twentytwentytwo%200.4.0`
      * would be decoded to `twentytwentytwo 0.4.0`.
      *
-     * @since 5.9.0
-     *
      * @param string $id_or_stylesheet Global styles ID or stylesheet.
      * @return string Sanitized global styles ID or stylesheet.
+     * @since 5.9.0
+     *
      */
     public function _sanitize_global_styles_callback($id_or_stylesheet)
     {
@@ -135,20 +135,20 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Get the post, if the ID is valid.
      *
-     * @since 5.9.0
-     *
      * @param int $id Supplied ID.
      * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
+     * @since 5.9.0
+     *
      */
     protected function get_post($id)
     {
         $error = new WP_Error(
             'rest_global_styles_not_found',
             __('No global styles config exist with that id.'),
-            ['status' => 404]
+            ['status' => 404],
         );
 
-        $id = (int) $id;
+        $id = (int)$id;
         if ($id <= 0) {
             return $error;
         }
@@ -164,10 +164,10 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a given request has access to read a single global style.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.9.0
+     *
      */
     public function get_item_permissions_check($request)
     {
@@ -176,19 +176,19 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return $post;
         }
 
-        if ('edit' === $request['context'] && $post && ! $this->check_update_permission($post)) {
+        if ('edit' === $request['context'] && $post && !$this->check_update_permission($post)) {
             return new WP_Error(
                 'rest_forbidden_context',
                 __('Sorry, you are not allowed to edit this global style.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
-        if (! $this->check_read_permission($post)) {
+        if (!$this->check_read_permission($post)) {
             return new WP_Error(
                 'rest_cannot_view',
                 __('Sorry, you are not allowed to view this global style.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -198,10 +198,10 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a global style can be read.
      *
-     * @since 5.9.0
-     *
      * @param WP_Post $post Post object.
      * @return bool Whether the post can be read.
+     * @since 5.9.0
+     *
      */
     public function check_read_permission($post)
     {
@@ -211,10 +211,10 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a given request has access to write a single global styles config.
      *
-     * @since 5.9.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has write access for the item, WP_Error object otherwise.
+     * @since 5.9.0
+     *
      */
     public function update_item_permissions_check($request)
     {
@@ -223,11 +223,11 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return $post;
         }
 
-        if ($post && ! $this->check_update_permission($post)) {
+        if ($post && !$this->check_update_permission($post)) {
             return new WP_Error(
                 'rest_cannot_edit',
                 __('Sorry, you are not allowed to edit this global style.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -237,25 +237,26 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Prepares a single global styles config for update.
      *
-     * @since 5.9.0
-     * @since 6.2.0 Added validation of styles.css property.
-     * @since 6.6.0 Added registration of block style variations from theme.json sources (theme.json, user theme.json, partials).
-     *
      * @param WP_REST_Request $request Request object.
      * @return stdClass|WP_Error Prepared item on success. WP_Error on when the custom CSS is not valid.
+     * @since 6.6.0 Added registration of block style variations from theme.json sources (theme.json, user theme.json, partials).
+     *
+     * @since 5.9.0
+     * @since 6.2.0 Added validation of styles.css property.
      */
     protected function prepare_item_for_database($request)
     {
-        $changes     = new stdClass();
+        $changes = new stdClass();
         $changes->ID = $request['id'];
 
-        $post            = get_post($request['id']);
+        $post = get_post($request['id']);
         $existing_config = [];
         if ($post) {
-            $existing_config     = json_decode($post->post_content, true);
+            $existing_config = json_decode($post->post_content, true);
             $json_decoding_error = json_last_error();
-            if (JSON_ERROR_NONE !== $json_decoding_error || ! isset($existing_config['isGlobalStylesUserThemeJSON']) ||
-                ! $existing_config['isGlobalStylesUserThemeJSON']) {
+            if (JSON_ERROR_NONE !== $json_decoding_error
+                || !isset($existing_config['isGlobalStylesUserThemeJSON'])
+                || !$existing_config['isGlobalStylesUserThemeJSON']) {
                 $existing_config = [];
             }
         }
@@ -284,15 +285,15 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
                 $config['settings'] = $existing_config['settings'];
             }
             $config['isGlobalStylesUserThemeJSON'] = true;
-            $config['version']                     = WP_Theme_JSON::LATEST_SCHEMA;
-            $changes->post_content                 = wp_json_encode($config);
+            $config['version'] = WP_Theme_JSON::LATEST_SCHEMA;
+            $changes->post_content = wp_json_encode($config);
         }
 
         // Post title.
         if (isset($request['title'])) {
             if (is_string($request['title'])) {
                 $changes->post_title = $request['title'];
-            } elseif (! empty($request['title']['raw'])) {
+            } elseif (!empty($request['title']['raw'])) {
                 $changes->post_title = $request['title']['raw'];
             }
         }
@@ -303,27 +304,29 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Prepare a global styles config output for response.
      *
-     * @since 5.9.0
-     * @since 6.6.0 Added custom relative theme file URIs to `_links`.
-     *
-     * @param WP_Post         $post    Global Styles post object.
+     * @param WP_Post $post Global Styles post object.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
+     * @since 6.6.0 Added custom relative theme file URIs to `_links`.
+     *
+     * @since 5.9.0
      */
     public function prepare_item_for_response($post, $request)
     {
-        $raw_config                       = json_decode($post->post_content, true);
-        $is_global_styles_user_theme_json = isset($raw_config['isGlobalStylesUserThemeJSON']) && true === $raw_config['isGlobalStylesUserThemeJSON'];
-        $config                           = [];
-        $theme_json                       = null;
+        $raw_config = json_decode($post->post_content, true);
+        $is_global_styles_user_theme_json = isset($raw_config['isGlobalStylesUserThemeJSON'])
+            && true
+            === $raw_config['isGlobalStylesUserThemeJSON'];
+        $config = [];
+        $theme_json = null;
         if ($is_global_styles_user_theme_json) {
             $theme_json = new WP_Theme_JSON($raw_config, 'custom');
-            $config     = $theme_json->get_raw_data();
+            $config = $theme_json->get_raw_data();
         }
 
         // Base fields for every post.
         $fields = $this->get_fields_for_response($request);
-        $data   = [];
+        $data = [];
 
         if (rest_is_field_included('id', $fields)) {
             $data['id'] = $post->ID;
@@ -346,16 +349,18 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         }
 
         if (rest_is_field_included('settings', $fields)) {
-            $data['settings'] = ! empty($config['settings']) && $is_global_styles_user_theme_json ? $config['settings'] : new stdClass();
+            $data['settings'] = !empty($config['settings']) && $is_global_styles_user_theme_json ? $config['settings']
+                : new stdClass();
         }
 
         if (rest_is_field_included('styles', $fields)) {
-            $data['styles'] = ! empty($config['styles']) && $is_global_styles_user_theme_json ? $config['styles'] : new stdClass();
+            $data['styles'] = !empty($config['styles']) && $is_global_styles_user_theme_json ? $config['styles']
+                : new stdClass();
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
 
         // Wrap the data in a response object.
         $response = rest_ensure_response($data);
@@ -366,15 +371,15 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             // Only return resolved URIs for get requests to user theme JSON.
             if ($theme_json) {
                 $resolved_theme_uris = WP_Theme_JSON_Resolver::get_resolved_theme_uris($theme_json);
-                if (! empty($resolved_theme_uris)) {
+                if (!empty($resolved_theme_uris)) {
                     $links['https://api.w.org/theme-file'] = $resolved_theme_uris;
                 }
             }
 
             $response->add_links($links);
-            if (! empty($links['self']['href'])) {
+            if (!empty($links['self']['href'])) {
                 $actions = $this->get_available_actions($post, $request);
-                $self    = $links['self']['href'];
+                $self = $links['self']['href'];
                 foreach ($actions as $rel) {
                     $response->add_link($rel, $self);
                 }
@@ -387,18 +392,18 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Prepares links for the request.
      *
+     * @param integer $id ID.
+     * @return array Links for the given post.
      * @since 5.9.0
      * @since 6.3.0 Adds revisions count and rest URL href to version-history.
      *
-     * @param integer $id ID.
-     * @return array Links for the given post.
      */
     protected function prepare_links($id)
     {
         $base = sprintf('%s/%s', $this->namespace, $this->rest_base);
 
         $links = [
-            'self'  => [
+            'self' => [
                 'href' => rest_url(trailingslashit($base) . $id),
             ],
             'about' => [
@@ -407,11 +412,11 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         ];
 
         if (post_type_supports($this->post_type, 'revisions')) {
-            $revisions                = wp_get_latest_revision_id_and_total_count($id);
-            $revisions_count          = ! is_wp_error($revisions) ? $revisions['count'] : 0;
-            $revisions_base           = sprintf('/%s/%d/revisions', $base, $id);
+            $revisions = wp_get_latest_revision_id_and_total_count($id);
+            $revisions_count = !is_wp_error($revisions) ? $revisions['count'] : 0;
+            $revisions_base = sprintf('/%s/%d/revisions', $base, $id);
             $links['version-history'] = [
-                'href'  => rest_url($revisions_base),
+                'href' => rest_url($revisions_base),
                 'count' => $revisions_count,
             ];
         }
@@ -422,13 +427,13 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Get the link relations available for the post and current user.
      *
+     * @param WP_Post $post Post object.
+     * @param WP_REST_Request $request Request object.
+     * @return array List of link relations.
      * @since 5.9.0
      * @since 6.2.0 Added 'edit-css' action.
      * @since 6.6.0 Added $post and $request parameters.
      *
-     * @param WP_Post         $post    Post object.
-     * @param WP_REST_Request $request Request object.
-     * @return array List of link relations.
      */
     protected function get_available_actions($post, $request)
     {
@@ -449,9 +454,9 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Retrieves the query params for the global styles collection.
      *
+     * @return array Collection parameters.
      * @since 5.9.0
      *
-     * @return array Collection parameters.
      */
     public function get_collection_params()
     {
@@ -461,9 +466,9 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Retrieves the global styles type' schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.9.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -472,42 +477,42 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         }
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => $this->post_type,
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => $this->post_type,
+            'type' => 'object',
             'properties' => [
-                'id'       => [
+                'id' => [
                     'description' => __('ID of global styles config.'),
-                    'type'        => 'string',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['embed', 'view', 'edit'],
+                    'readonly' => true,
                 ],
-                'styles'   => [
+                'styles' => [
                     'description' => __('Global styles.'),
-                    'type'        => ['object'],
-                    'context'     => ['view', 'edit'],
+                    'type' => ['object'],
+                    'context' => ['view', 'edit'],
                 ],
                 'settings' => [
                     'description' => __('Global settings.'),
-                    'type'        => ['object'],
-                    'context'     => ['view', 'edit'],
+                    'type' => ['object'],
+                    'context' => ['view', 'edit'],
                 ],
-                'title'    => [
+                'title' => [
                     'description' => __('Title of the global styles variation.'),
-                    'type'        => ['object', 'string'],
-                    'default'     => '',
-                    'context'     => ['embed', 'view', 'edit'],
-                    'properties'  => [
-                        'raw'      => [
+                    'type' => ['object', 'string'],
+                    'default' => '',
+                    'context' => ['embed', 'view', 'edit'],
+                    'properties' => [
+                        'raw' => [
                             'description' => __('Title for the global styles variation, as it exists in the database.'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit', 'embed'],
+                            'type' => 'string',
+                            'context' => ['view', 'edit', 'embed'],
                         ],
                         'rendered' => [
                             'description' => __('HTML title for the post, transformed for display.'),
-                            'type'        => 'string',
-                            'context'     => ['view', 'edit', 'embed'],
-                            'readonly'    => true,
+                            'type' => 'string',
+                            'context' => ['view', 'edit', 'embed'],
+                            'readonly' => true,
                         ],
                     ],
                 ],
@@ -522,11 +527,11 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a given request has access to read a single theme global styles config.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      * @since 5.9.0
      * @since 6.7.0 Allow users with edit post capabilities to view theme global styles.
      *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
     public function get_theme_item_permissions_check($request)
     {
@@ -556,18 +561,18 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             __('Sorry, you are not allowed to access the global styles on this site.'),
             [
                 'status' => rest_authorization_required_code(),
-            ]
+            ],
         );
     }
 
     /**
      * Returns the given theme global styles config.
      *
+     * @param WP_REST_Request $request The request instance.
+     * @return WP_REST_Response|WP_Error
      * @since 5.9.0
      * @since 6.6.0 Added custom relative theme file URIs to `_links`.
      *
-     * @param WP_REST_Request $request The request instance.
-     * @return WP_REST_Response|WP_Error
      */
     public function get_theme_item($request)
     {
@@ -576,37 +581,38 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_theme_not_found',
                 __('Theme not found.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
-        $theme  = WP_Theme_JSON_Resolver::get_merged_data('theme');
+        $theme = WP_Theme_JSON_Resolver::get_merged_data('theme');
         $fields = $this->get_fields_for_response($request);
-        $data   = [];
+        $data = [];
 
         if (rest_is_field_included('settings', $fields)) {
             $data['settings'] = $theme->get_settings();
         }
 
         if (rest_is_field_included('styles', $fields)) {
-            $raw_data       = $theme->get_raw_data();
+            $raw_data = $theme->get_raw_data();
             $data['styles'] = isset($raw_data['styles']) ? $raw_data['styles'] : [];
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
 
         $response = rest_ensure_response($data);
 
         if (rest_is_field_included('_links', $fields) || rest_is_field_included('_embedded', $fields)) {
-            $links               = [
+            $links = [
                 'self' => [
-                    'href' => rest_url(sprintf('%s/%s/themes/%s', $this->namespace, $this->rest_base, $request['stylesheet'])),
+                    'href' => rest_url(sprintf('%s/%s/themes/%s', $this->namespace, $this->rest_base,
+                        $request['stylesheet'])),
                 ],
             ];
             $resolved_theme_uris = WP_Theme_JSON_Resolver::get_resolved_theme_uris($theme);
-            if (! empty($resolved_theme_uris)) {
+            if (!empty($resolved_theme_uris)) {
                 $links['https://api.w.org/theme-file'] = $resolved_theme_uris;
             }
             $response->add_links($links);
@@ -618,11 +624,11 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a given request has access to read a single theme global styles config.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      * @since 6.0.0
      * @since 6.7.0 Allow users with edit post capabilities to view theme global styles.
      *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
      */
     public function get_theme_items_permissions_check($request)
     {
@@ -632,13 +638,13 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
     /**
      * Returns the given theme global styles variations.
      *
-     * @since 6.0.0
-     * @since 6.2.0 Returns parent theme variations, if they exist.
-     * @since 6.6.0 Added custom relative theme file URIs to `_links` for each item.
-     *
      * @param WP_REST_Request $request The request instance.
      *
      * @return WP_REST_Response|WP_Error
+     * @since 6.6.0 Added custom relative theme file URIs to `_links` for each item.
+     *
+     * @since 6.0.0
+     * @since 6.2.0 Returns parent theme variations, if they exist.
      */
     public function get_theme_items($request)
     {
@@ -647,7 +653,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_theme_not_found',
                 __('Theme not found.'),
-                ['status' => 404]
+                ['status' => 404],
             );
         }
 
@@ -660,13 +666,13 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
         $variations = WP_Theme_JSON_Resolver::get_style_variations();
         foreach ($variations as $variation) {
             $variation_theme_json = new WP_Theme_JSON($variation);
-            $resolved_theme_uris  = WP_Theme_JSON_Resolver::get_resolved_theme_uris($variation_theme_json);
-            $data                 = rest_ensure_response($variation);
-            if (! empty($resolved_theme_uris)) {
+            $resolved_theme_uris = WP_Theme_JSON_Resolver::get_resolved_theme_uris($variation_theme_json);
+            $data = rest_ensure_response($variation);
+            if (!empty($resolved_theme_uris)) {
                 $data->add_links(
                     [
                         'https://api.w.org/theme-file' => $resolved_theme_uris,
-                    ]
+                    ],
                 );
             }
             $response[] = $this->prepare_response_for_collection($data);
@@ -680,11 +686,11 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
      *
      * Currently just checks for invalid markup.
      *
+     * @param string $css CSS to validate.
+     * @return true|WP_Error True if the input was validated, otherwise WP_Error.
      * @since 6.2.0
      * @since 6.4.0 Changed method visibility to protected.
      *
-     * @param string $css CSS to validate.
-     * @return true|WP_Error True if the input was validated, otherwise WP_Error.
      */
     protected function validate_custom_css($css)
     {
@@ -692,7 +698,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Posts_Controller
             return new WP_Error(
                 'rest_custom_css_illegal_markup',
                 __('Markup is not allowed in CSS.'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
         return true;

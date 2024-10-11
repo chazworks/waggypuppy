@@ -23,24 +23,24 @@ if (is_multisite()) :
             self::$site_id = self::factory()->blog->create(
                 [
                     'path' => '/' . self::$post_and_blog_path,
-                ]
+                ],
             );
 
             self::$root_page = self::factory()->post->create_and_get(
                 [
-                    'post_type'  => 'page',
+                    'post_type' => 'page',
                     'post_title' => 'Bar',
-                    'post_name'  => self::$post_and_blog_path,
-                ]
+                    'post_name' => self::$post_and_blog_path,
+                ],
             );
 
             self::$child_page = self::factory()->post->create_and_get(
                 [
                     'post_parent' => self::$root_page->ID,
-                    'post_type'   => 'page',
-                    'post_title'  => 'Bar',
-                    'post_name'   => self::$post_and_blog_path,
-                ]
+                    'post_type' => 'page',
+                    'post_title' => 'Bar',
+                    'post_name' => self::$post_and_blog_path,
+                ],
             );
         }
 

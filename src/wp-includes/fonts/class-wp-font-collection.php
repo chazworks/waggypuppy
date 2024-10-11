@@ -45,11 +45,11 @@ final class WP_Font_Collection
     /**
      * WP_Font_Collection constructor.
      *
-     * @since 6.5.0
-     *
      * @param string $slug Font collection slug. May only contain alphanumeric characters, dashes,
      *                     and underscores. See sanitize_title().
-     * @param array  $args Font collection data. See wp_register_font_collection() for information on accepted arguments.
+     * @param array $args Font collection data. See wp_register_font_collection() for information on accepted arguments.
+     * @since 6.5.0
+     *
      */
     public function __construct(string $slug, array $args)
     {
@@ -58,8 +58,9 @@ final class WP_Font_Collection
             _doing_it_wrong(
                 __METHOD__,
                 /* translators: %s: Font collection slug. */
-                sprintf(__('Font collection slug "%s" is not valid. Slugs must use only alphanumeric characters, dashes, and underscores.'), $slug),
-                '6.5.0'
+                sprintf(__('Font collection slug "%s" is not valid. Slugs must use only alphanumeric characters, dashes, and underscores.'),
+                    $slug),
+                '6.5.0',
             );
         }
 
@@ -79,9 +80,9 @@ final class WP_Font_Collection
     /**
      * Retrieves the font collection data.
      *
+     * @return array|WP_Error An array containing the font collection data, or a WP_Error on failure.
      * @since 6.5.0
      *
-     * @return array|WP_Error An array containing the font collection data, or a WP_Error on failure.
      */
     public function get_data()
     {
@@ -101,7 +102,7 @@ final class WP_Font_Collection
         // Set defaults for optional properties.
         $defaults = [
             'description' => '',
-            'categories'  => [],
+            'categories' => [],
         ];
 
         return wp_parse_args($this->data, $defaults);
@@ -110,18 +111,18 @@ final class WP_Font_Collection
     /**
      * Loads font collection data from a JSON file or URL.
      *
-     * @since 6.5.0
-     *
      * @param string $file_or_url File path or URL to a JSON file containing the font collection data.
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
+     * @since 6.5.0
+     *
      */
     private function load_from_json($file_or_url)
     {
-        $url  = wp_http_validate_url($file_or_url);
+        $url = wp_http_validate_url($file_or_url);
         $file = file_exists($file_or_url) ? wp_normalize_path(realpath($file_or_url)) : false;
 
-        if (! $url && ! $file) {
+        if (!$url && !$file) {
             // translators: %s: File path or URL to font collection JSON file.
             $message = __('Font collection JSON file is invalid or does not exist.');
             _doing_it_wrong(__METHOD__, $message, '6.5.0');
@@ -135,7 +136,7 @@ final class WP_Font_Collection
         }
 
         $data = [
-            'name'          => $this->data['name'],
+            'name' => $this->data['name'],
             'font_families' => $data['font_families'],
         ];
 
@@ -153,17 +154,18 @@ final class WP_Font_Collection
     /**
      * Loads the font collection data from a JSON file path.
      *
-     * @since 6.5.0
-     *
      * @param string $file File path to a JSON file containing the font collection data.
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
+     * @since 6.5.0
+     *
      */
     private function load_from_file($file)
     {
         $data = wp_json_file_decode($file, ['associative' => true]);
         if (empty($data)) {
-            return new WP_Error('font_collection_decode_error', __('Error decoding the font collection JSON file contents.'));
+            return new WP_Error('font_collection_decode_error',
+                __('Error decoding the font collection JSON file contents.'));
         }
 
         return $this->sanitize_and_validate_data($data, ['font_families']);
@@ -172,17 +174,17 @@ final class WP_Font_Collection
     /**
      * Loads the font collection data from a JSON file URL.
      *
-     * @since 6.5.0
-     *
      * @param string $url URL to a JSON file containing the font collection data.
      * @return array|WP_Error An array containing the font collection data on success,
      *                        else an instance of WP_Error on failure.
+     * @since 6.5.0
+     *
      */
     private function load_from_url($url)
     {
         // Limit key to 167 characters to avoid failure in the case of a long URL.
         $transient_key = substr('wp_font_collection_url_' . $url, 0, 167);
-        $data          = get_site_transient($transient_key);
+        $data = get_site_transient($transient_key);
 
         if (false === $data) {
             $response = wp_safe_remote_get($url);
@@ -190,16 +192,17 @@ final class WP_Font_Collection
                 return new WP_Error(
                     'font_collection_request_error',
                     sprintf(
-                        // translators: %s: Font collection URL.
+                    // translators: %s: Font collection URL.
                         __('Error fetching the font collection data from "%s".'),
-                        $url
-                    )
+                        $url,
+                    ),
                 );
             }
 
             $data = json_decode(wp_remote_retrieve_body($response), true);
             if (empty($data)) {
-                return new WP_Error('font_collection_decode_error', __('Error decoding the font collection data from the HTTP response JSON.'));
+                return new WP_Error('font_collection_decode_error',
+                    __('Error decoding the font collection data from the HTTP response JSON.'));
             }
 
             // Make sure the data is valid before storing it in a transient.
@@ -217,24 +220,24 @@ final class WP_Font_Collection
     /**
      * Sanitizes and validates the font collection data.
      *
-     * @since 6.5.0
-     *
-     * @param array $data                Font collection data to sanitize and validate.
+     * @param array $data Font collection data to sanitize and validate.
      * @param array $required_properties Required properties that must exist in the passed data.
      * @return array|WP_Error Sanitized data if valid, otherwise a WP_Error instance.
+     * @since 6.5.0
+     *
      */
     private function sanitize_and_validate_data($data, $required_properties = [])
     {
         $schema = self::get_sanitization_schema();
-        $data   = WP_Font_Utils::sanitize_from_schema($data, $schema);
+        $data = WP_Font_Utils::sanitize_from_schema($data, $schema);
 
         foreach ($required_properties as $property) {
             if (empty($data[$property])) {
                 $message = sprintf(
-                    // translators: 1: Font collection slug, 2: Missing property name, e.g. "font_families".
+                // translators: 1: Font collection slug, 2: Missing property name, e.g. "font_families".
                     __('Font collection "%1$s" has missing or empty property: "%2$s".'),
                     $this->slug,
-                    $property
+                    $property,
                 );
                 _doing_it_wrong(__METHOD__, $message, '6.5.0');
                 return new WP_Error('font_collection_missing_property', $message);
@@ -247,52 +250,52 @@ final class WP_Font_Collection
     /**
      * Retrieves the font collection sanitization schema.
      *
+     * @return array Font collection sanitization schema.
      * @since 6.5.0
      *
-     * @return array Font collection sanitization schema.
      */
     private static function get_sanitization_schema()
     {
         return [
-            'name'          => 'sanitize_text_field',
-            'description'   => 'sanitize_text_field',
+            'name' => 'sanitize_text_field',
+            'description' => 'sanitize_text_field',
             'font_families' => [
                 [
                     'font_family_settings' => [
-                        'name'       => 'sanitize_text_field',
-                        'slug'       => static function ($value) {
+                        'name' => 'sanitize_text_field',
+                        'slug' => static function ($value) {
                             return _wp_to_kebab_case(sanitize_title($value));
                         },
                         'fontFamily' => 'WP_Font_Utils::sanitize_font_family',
-                        'preview'    => 'sanitize_url',
-                        'fontFace'   => [
+                        'preview' => 'sanitize_url',
+                        'fontFace' => [
                             [
-                                'fontFamily'            => 'sanitize_text_field',
-                                'fontStyle'             => 'sanitize_text_field',
-                                'fontWeight'            => 'sanitize_text_field',
-                                'src'                   => static function ($value) {
+                                'fontFamily' => 'sanitize_text_field',
+                                'fontStyle' => 'sanitize_text_field',
+                                'fontWeight' => 'sanitize_text_field',
+                                'src' => static function ($value) {
                                     return is_array($value)
                                         ? array_map('sanitize_text_field', $value)
                                         : sanitize_text_field($value);
                                 },
-                                'preview'               => 'sanitize_url',
-                                'fontDisplay'           => 'sanitize_text_field',
-                                'fontStretch'           => 'sanitize_text_field',
-                                'ascentOverride'        => 'sanitize_text_field',
-                                'descentOverride'       => 'sanitize_text_field',
-                                'fontVariant'           => 'sanitize_text_field',
-                                'fontFeatureSettings'   => 'sanitize_text_field',
+                                'preview' => 'sanitize_url',
+                                'fontDisplay' => 'sanitize_text_field',
+                                'fontStretch' => 'sanitize_text_field',
+                                'ascentOverride' => 'sanitize_text_field',
+                                'descentOverride' => 'sanitize_text_field',
+                                'fontVariant' => 'sanitize_text_field',
+                                'fontFeatureSettings' => 'sanitize_text_field',
                                 'fontVariationSettings' => 'sanitize_text_field',
-                                'lineGapOverride'       => 'sanitize_text_field',
-                                'sizeAdjust'            => 'sanitize_text_field',
-                                'unicodeRange'          => 'sanitize_text_field',
+                                'lineGapOverride' => 'sanitize_text_field',
+                                'sizeAdjust' => 'sanitize_text_field',
+                                'unicodeRange' => 'sanitize_text_field',
                             ],
                         ],
                     ],
-                    'categories'           => ['sanitize_title'],
+                    'categories' => ['sanitize_title'],
                 ],
             ],
-            'categories'    => [
+            'categories' => [
                 [
                     'name' => 'sanitize_text_field',
                     'slug' => 'sanitize_title',

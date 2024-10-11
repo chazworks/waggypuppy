@@ -1,7 +1,6 @@
 <?php
 
 if (class_exists('PHPUnit\Runner\Version') && version_compare(PHPUnit\Runner\Version::id(), '6.0', '>=')) {
-
     class_alias('PHPUnit\Framework\TestCase', 'PHPUnit_Framework_TestCase');
     class_alias('PHPUnit\Framework\Exception', 'PHPUnit_Framework_Exception');
     class_alias('PHPUnit\Framework\ExpectationFailedException', 'PHPUnit_Framework_ExpectationFailedException');
@@ -21,7 +20,7 @@ if (class_exists('PHPUnit\Runner\Version') && version_compare(PHPUnit\Runner\Ver
     class PHPUnit_Util_Test
     {
 
-		// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+
         public static function getTickets($class_name, $method_name)
         {
             $annotations = PHPUnit\Util\Test::parseTestMethodAnnotations($class_name, $method_name);
@@ -39,5 +38,4 @@ if (class_exists('PHPUnit\Runner\Version') && version_compare(PHPUnit\Runner\Ver
             return array_unique($tickets);
         }
     }
-
 }

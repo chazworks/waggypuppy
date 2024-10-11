@@ -54,14 +54,14 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
     /**
      * WP_Customize_Custom_CSS_Setting constructor.
      *
-     * @since 4.7.0
-     *
+     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+     * @param string $id A specific ID of the setting.
+     *                                      Can be a theme mod or option name.
+     * @param array $args Setting arguments.
      * @throws Exception If the setting ID does not match the pattern `custom_css[$stylesheet]`.
      *
-     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-     * @param string               $id      A specific ID of the setting.
-     *                                      Can be a theme mod or option name.
-     * @param array                $args    Setting arguments.
+     * @since 4.7.0
+     *
      */
     public function __construct($manager, $id, $args = [])
     {
@@ -78,9 +78,9 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
     /**
      * Add filter to preview post value.
      *
+     * @return bool False when preview short-circuits due no change needing to be previewed.
      * @since 4.7.9
      *
-     * @return bool False when preview short-circuits due no change needing to be previewed.
      */
     public function preview()
     {
@@ -97,19 +97,19 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
      *
      * This is used in the preview when `wp_get_custom_css()` is called for rendering the styles.
      *
-     * @since 4.7.0
-     *
-     * @see wp_get_custom_css()
-     *
-     * @param string $css        Original CSS.
+     * @param string $css Original CSS.
      * @param string $stylesheet Current stylesheet.
      * @return string CSS.
+     * @see wp_get_custom_css()
+     *
+     * @since 4.7.0
+     *
      */
     public function filter_previewed_wp_get_custom_css($css, $stylesheet)
     {
         if ($stylesheet === $this->stylesheet) {
             $customized_value = $this->post_value(null);
-            if (! is_null($customized_value)) {
+            if (!is_null($customized_value)) {
                 $css = $customized_value;
             }
         }
@@ -119,11 +119,11 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
     /**
      * Fetch the value of the setting. Will return the previewed value when `preview()` is called.
      *
-     * @since 4.7.0
-     *
+     * @return string
      * @see WP_Customize_Setting::value()
      *
-     * @return string
+     * @since 4.7.0
+     *
      */
     public function value()
     {
@@ -134,8 +134,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
             }
         }
         $id_base = $this->id_data['base'];
-        $value   = '';
-        $post    = wp_get_custom_css_post($this->stylesheet);
+        $value = '';
+        $post = wp_get_custom_css_post($this->stylesheet);
         if ($post) {
             $value = $post->post_content;
         }
@@ -155,12 +155,12 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
      * Checks for imbalanced braces, brackets, and comments.
      * Notifications are rendered when the customizer state is saved.
      *
-     * @since 4.7.0
-     * @since 4.9.0 Checking for balanced characters has been moved client-side via linting in code editor.
-     * @since 5.9.0 Renamed `$css` to `$value` for PHP 8 named parameter support.
-     *
      * @param string $value CSS to validate.
      * @return true|WP_Error True if the input was validated, otherwise WP_Error.
+     * @since 5.9.0 Renamed `$css` to `$value` for PHP 8 named parameter support.
+     *
+     * @since 4.7.0
+     * @since 4.9.0 Checking for balanced characters has been moved client-side via linting in code editor.
      */
     public function validate($value)
     {
@@ -173,7 +173,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
             $validity->add('illegal_markup', __('Markup is not allowed in CSS.'));
         }
 
-        if (! $validity->has_errors()) {
+        if (!$validity->has_errors()) {
             $validity = parent::validate($css);
         }
         return $validity;
@@ -182,11 +182,11 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
     /**
      * Store the CSS setting value in the custom_css custom post type for the stylesheet.
      *
+     * @param string $value CSS to update.
+     * @return int|false The post ID or false if the value could not be saved.
      * @since 4.7.0
      * @since 5.9.0 Renamed `$css` to `$value` for PHP 8 named parameter support.
      *
-     * @param string $value CSS to update.
-     * @return int|false The post ID or false if the value could not be saved.
      */
     public function update($value)
     {
@@ -201,7 +201,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting
             $css,
             [
                 'stylesheet' => $this->stylesheet,
-            ]
+            ],
         );
 
         if ($r instanceof WP_Error) {

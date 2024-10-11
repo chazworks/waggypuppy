@@ -84,48 +84,48 @@ class WP_Block_Metadata_Registry
      * );
      * ```
      *
-     * @since 6.7.0
-     *
-     * @param string $path     The absolute base path for the collection ( e.g., WP_PLUGIN_DIR . '/my-plugin/blocks/' ).
+     * @param string $path The absolute base path for the collection ( e.g., WP_PLUGIN_DIR . '/my-plugin/blocks/' ).
      * @param string $manifest The absolute path to the manifest file containing the metadata collection.
      * @return bool True if the collection was registered successfully, false otherwise.
+     * @since 6.7.0
+     *
      */
     public static function register_collection($path, $manifest)
     {
         $path = wp_normalize_path(rtrim($path, '/'));
 
-        $wpinc_dir  = self::get_wpinc_dir();
+        $wpinc_dir = self::get_wpinc_dir();
         $plugin_dir = self::get_plugin_dir();
 
         // Check if the path is valid:
         if (str_starts_with($path, $plugin_dir)) {
             // For plugins, ensure the path is within a specific plugin directory and not the base plugin directory.
             $relative_path = substr($path, strlen($plugin_dir) + 1);
-            $plugin_name   = strtok($relative_path, '/');
+            $plugin_name = strtok($relative_path, '/');
 
             if (empty($plugin_name) || $plugin_name === $relative_path) {
                 _doing_it_wrong(
                     __METHOD__,
                     __('Block metadata collections can only be registered for a specific plugin. The provided path is neither a core path nor a valid plugin path.'),
-                    '6.7.0'
+                    '6.7.0',
                 );
                 return false;
             }
-        } elseif (! str_starts_with($path, $wpinc_dir)) {
+        } elseif (!str_starts_with($path, $wpinc_dir)) {
             // If it's neither a plugin directory path nor within 'wp-includes', the path is invalid.
             _doing_it_wrong(
                 __METHOD__,
                 __('Block metadata collections can only be registered for a specific plugin. The provided path is neither a core path nor a valid plugin path.'),
-                '6.7.0'
+                '6.7.0',
             );
             return false;
         }
 
-        if (! file_exists($manifest)) {
+        if (!file_exists($manifest)) {
             _doing_it_wrong(
                 __METHOD__,
                 __('The specified manifest file does not exist.'),
-                '6.7.0'
+                '6.7.0',
             );
             return false;
         }
@@ -144,15 +144,15 @@ class WP_Block_Metadata_Registry
      * This method uses the registered collections to efficiently lookup
      * block metadata without reading individual `block.json` files.
      *
-     * @since 6.7.0
-     *
      * @param string $file_or_folder The path to the file or folder containing the block.
      * @return array|null The block metadata for the block, or null if not found.
+     * @since 6.7.0
+     *
      */
     public static function get_metadata($file_or_folder)
     {
         $path = self::find_collection_path($file_or_folder);
-        if (! $path) {
+        if (!$path) {
             return null;
         }
 
@@ -172,10 +172,10 @@ class WP_Block_Metadata_Registry
     /**
      * Finds the collection path for a given file or folder.
      *
-     * @since 6.7.0
-     *
      * @param string $file_or_folder The path to the file or folder.
      * @return string|null The collection path if found, or null if not found.
+     * @since 6.7.0
+     *
      */
     private static function find_collection_path($file_or_folder)
     {
@@ -202,10 +202,10 @@ class WP_Block_Metadata_Registry
     /**
      * Checks if metadata exists for a given block name in a specific collection.
      *
-     * @since 6.7.0
-     *
      * @param string $file_or_folder The path to the file or folder containing the block metadata.
      * @return bool True if metadata exists for the block, false otherwise.
+     * @since 6.7.0
+     *
      */
     public static function has_metadata($file_or_folder)
     {
@@ -228,10 +228,10 @@ class WP_Block_Metadata_Registry
      *
      * This default behavior matches the standard waggypuppy block structure.
      *
-     * @since 6.7.0
-     *
      * @param string $path The file or folder path to determine the block identifier from.
      * @return string The block identifier, or an empty string if the path is empty.
+     * @since 6.7.0
+     *
      */
     private static function default_identifier_callback($path)
     {
@@ -252,13 +252,13 @@ class WP_Block_Metadata_Registry
     /**
      * Gets the waggypuppy 'wp-includes' directory path.
      *
+     * @return string The waggypuppy 'wp-includes' directory path.
      * @since 6.7.0
      *
-     * @return string The waggypuppy 'wp-includes' directory path.
      */
     private static function get_wpinc_dir()
     {
-        if (! isset(self::$wpinc_dir)) {
+        if (!isset(self::$wpinc_dir)) {
             self::$wpinc_dir = wp_normalize_path(ABSPATH . WPINC);
         }
         return self::$wpinc_dir;
@@ -267,13 +267,13 @@ class WP_Block_Metadata_Registry
     /**
      * Gets the normalized waggypuppy plugin directory path.
      *
+     * @return string The normalized waggypuppy plugin directory path.
      * @since 6.7.0
      *
-     * @return string The normalized waggypuppy plugin directory path.
      */
     private static function get_plugin_dir()
     {
-        if (! isset(self::$plugin_dir)) {
+        if (!isset(self::$plugin_dir)) {
             self::$plugin_dir = wp_normalize_path(WP_PLUGIN_DIR);
         }
         return self::$plugin_dir;

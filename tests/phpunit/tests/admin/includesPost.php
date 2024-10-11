@@ -15,15 +15,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$user_ids   = $factory->user->create_many(2, ['role' => 'author']);
+        self::$user_ids = $factory->user->create_many(2, ['role' => 'author']);
         self::$author_ids = self::$user_ids;
 
         self::$contributor_id = $factory->user->create(['role' => 'contributor']);
-        self::$user_ids[]     = self::$contributor_id;
-        self::$editor_id      = $factory->user->create(['role' => 'editor']);
-        self::$user_ids[]     = self::$editor_id;
-        self::$admin_id       = $factory->user->create(['role' => 'administrator']);
-        self::$user_ids[]     = self::$admin_id;
+        self::$user_ids[] = self::$contributor_id;
+        self::$editor_id = $factory->user->create(['role' => 'editor']);
+        self::$user_ids[] = self::$editor_id;
+        self::$admin_id = $factory->user->create(['role' => 'administrator']);
+        self::$user_ids[] = self::$admin_id;
 
         self::$post_id = $factory->post->create();
     }
@@ -33,9 +33,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         wp_set_current_user(self::$contributor_id);
 
         // Create new draft post.
-        $_post_data                = [];
+        $_post_data = [];
         $_post_data['post_author'] = self::$contributor_id;
-        $_post_data['post_type']   = 'post';
+        $_post_data['post_type'] = 'post';
         $_post_data['saveasdraft'] = true;
 
         $_results = _wp_translate_postdata(false, $_post_data);
@@ -44,10 +44,10 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertSame('draft', $_results['post_status']);
 
         // Submit post for approval.
-        $_post_data                = [];
+        $_post_data = [];
         $_post_data['post_author'] = self::$contributor_id;
-        $_post_data['post_type']   = 'post';
-        $_post_data['publish']     = true;
+        $_post_data['post_type'] = 'post';
+        $_post_data['publish'] = true;
 
         $_results = _wp_translate_postdata(false, $_post_data);
         $this->assertNotWPError($_results);
@@ -55,9 +55,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertSame('pending', $_results['post_status']);
 
         // Create new draft post for another user.
-        $_post_data                = [];
+        $_post_data = [];
         $_post_data['post_author'] = self::$editor_id;
-        $_post_data['post_type']   = 'post';
+        $_post_data['post_type'] = 'post';
         $_post_data['saveasdraft'] = true;
 
         $_results = _wp_translate_postdata(false, $_post_data);
@@ -66,10 +66,10 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertSame('Sorry, you are not allowed to create posts as this user.', $_results->get_error_message());
 
         // Edit draft post for another user.
-        $_post_data                = [];
-        $_post_data['post_ID']     = self::factory()->post->create(['post_author' => self::$editor_id]);
+        $_post_data = [];
+        $_post_data['post_ID'] = self::factory()->post->create(['post_author' => self::$editor_id]);
         $_post_data['post_author'] = self::$editor_id;
-        $_post_data['post_type']   = 'post';
+        $_post_data['post_type'] = 'post';
         $_post_data['post_status'] = 'draft';
         $_post_data['saveasdraft'] = true;
 
@@ -84,9 +84,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         wp_set_current_user(self::$editor_id);
 
         // Create new draft post.
-        $_post_data                = [];
+        $_post_data = [];
         $_post_data['post_author'] = self::$editor_id;
-        $_post_data['post_type']   = 'post';
+        $_post_data['post_type'] = 'post';
         $_post_data['saveasdraft'] = true;
 
         $_results = _wp_translate_postdata(false, $_post_data);
@@ -95,10 +95,10 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertSame('draft', $_results['post_status']);
 
         // Publish post.
-        $_post_data                = [];
+        $_post_data = [];
         $_post_data['post_author'] = self::$editor_id;
-        $_post_data['post_type']   = 'post';
-        $_post_data['publish']     = true;
+        $_post_data['post_type'] = 'post';
+        $_post_data['publish'] = true;
 
         $_results = _wp_translate_postdata(false, $_post_data);
         $this->assertNotWPError($_results);
@@ -106,9 +106,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertSame('publish', $_results['post_status']);
 
         // Create new draft post for another user.
-        $_post_data                = [];
+        $_post_data = [];
         $_post_data['post_author'] = self::$contributor_id;
-        $_post_data['post_type']   = 'post';
+        $_post_data['post_type'] = 'post';
         $_post_data['saveasdraft'] = true;
 
         $_results = _wp_translate_postdata(false, $_post_data);
@@ -117,10 +117,10 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertSame('draft', $_results['post_status']);
 
         // Edit draft post for another user.
-        $_post_data                = [];
-        $_post_data['post_ID']     = self::factory()->post->create(['post_author' => self::$contributor_id]);
+        $_post_data = [];
+        $_post_data['post_ID'] = self::factory()->post->create(['post_author' => self::$contributor_id]);
         $_post_data['post_author'] = self::$contributor_id;
-        $_post_data['post_type']   = 'post';
+        $_post_data['post_type'] = 'post';
         $_post_data['post_status'] = 'draft';
         $_post_data['saveasdraft'] = true;
 
@@ -142,9 +142,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertSame('auto-draft', $post->post_status);
         $post_data = [
             'post_title' => 'Post title',
-            'content'    => 'Post content',
-            'post_type'  => 'post',
-            'post_ID'    => $post->ID,
+            'content' => 'Post content',
+            'post_type' => 'post',
+            'post_ID' => $post->ID,
         ];
         edit_post($post_data);
         $this->assertSame('draft', get_post($post->ID)->post_status);
@@ -161,20 +161,20 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'foo',
-                'slug'     => 'bar',
-            ]
+                'name' => 'foo',
+                'slug' => 'bar',
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'bar',
-                'slug'     => 'foo',
-            ]
+                'name' => 'bar',
+                'slug' => 'foo',
+            ],
         );
 
         $post_data = [
-            'post_ID'   => self::$post_id,
+            'post_ID' => self::$post_id,
             'tax_input' => [
                 'wptests_tax' => 'foo,baz',
             ],
@@ -202,13 +202,13 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'foo',
-                'slug'     => 'bar',
-            ]
+                'name' => 'foo',
+                'slug' => 'bar',
+            ],
         );
 
         $post_data = [
-            'post_ID'   => self::$post_id,
+            'post_ID' => self::$post_id,
             'tax_input' => [
                 'wptests_tax' => ' ',
             ],
@@ -230,29 +230,29 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
         $post1 = self::factory()->post->create(
             [
-                'post_author'    => self::$author_ids[0],
+                'post_author' => self::$author_ids[0],
                 'comment_status' => 'open',
-                'ping_status'    => 'open',
-                'post_status'    => 'publish',
-            ]
+                'ping_status' => 'open',
+                'post_status' => 'publish',
+            ],
         );
 
         $post2 = self::factory()->post->create(
             [
-                'post_author'    => self::$author_ids[1],
+                'post_author' => self::$author_ids[1],
                 'comment_status' => 'closed',
-                'ping_status'    => 'closed',
-                'post_status'    => 'draft',
-            ]
+                'ping_status' => 'closed',
+                'post_status' => 'draft',
+            ],
         );
 
         $request = [
-            'post_type'      => 'post',
-            'post_author'    => '-1',
-            'ping_status'    => '-1',
+            'post_type' => 'post',
+            'post_author' => '-1',
+            'ping_status' => '-1',
             'comment_status' => '-1',
-            '_status'        => '-1',
-            'post'           => [$post1, $post2],
+            '_status' => '-1',
+            'post' => [$post1, $post2],
         ];
 
         bulk_edit_posts($request);
@@ -283,8 +283,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
         $request = [
             'post_format' => '-1', // Don't change the post format.
-            '_status'     => '-1',
-            'post'        => $post_ids,
+            '_status' => '-1',
+            'post' => $post_ids,
         ];
 
         bulk_edit_posts($request);
@@ -311,21 +311,21 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
         $post = self::factory()->post->create(
             [
-                'post_author'    => self::$author_ids[0],
+                'post_author' => self::$author_ids[0],
                 'comment_status' => 'closed',
-                'ping_status'    => 'closed',
-                'post_status'    => 'future',
-                'post_date'      => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
-            ]
+                'ping_status' => 'closed',
+                'post_status' => 'future',
+                'post_date' => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
+            ],
         );
 
         $request = [
-            'post_type'      => 'post',
-            'post_author'    => -1,
-            'ping_status'    => -1,
+            'post_type' => 'post',
+            'post_author' => -1,
+            'ping_status' => -1,
             'comment_status' => -1,
-            '_status'        => 'publish',
-            'post'           => [$post],
+            '_status' => 'publish',
+            'post' => [$post],
         ];
 
         bulk_edit_posts($request);
@@ -333,6 +333,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertSame('publish', get_post_status($post));
         $this->assertLessThanOrEqual(gmdate('Y-m-d H:i:s'), get_post_time('Y-m-d H:i:s', false, $post));
     }
+
     /**
      * @ticket 31635
      */
@@ -343,21 +344,21 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         // Create draft last edited a month ago
         $post = self::factory()->post->create(
             [
-                'post_author'    => self::$author_ids[0],
+                'post_author' => self::$author_ids[0],
                 'comment_status' => 'closed',
-                'ping_status'    => 'closed',
-                'post_status'    => 'draft',
-                'post_date'      => gmdate('Y-m-d H:i:s', strtotime('-1 month')),
-            ]
+                'ping_status' => 'closed',
+                'post_status' => 'draft',
+                'post_date' => gmdate('Y-m-d H:i:s', strtotime('-1 month')),
+            ],
         );
 
         $request = [
-            'post_type'      => 'post',
-            'post_author'    => -1,
-            'ping_status'    => -1,
+            'post_type' => 'post',
+            'post_author' => -1,
+            'ping_status' => -1,
             'comment_status' => -1,
-            '_status'        => 'publish',
-            'post'           => [$post],
+            '_status' => 'publish',
+            'post' => [$post],
         ];
 
         bulk_edit_posts($request);
@@ -379,8 +380,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
         $request = [
             'post_format' => 'aside',
-            '_status'     => '-1',
-            'post'        => [self::$post_id],
+            '_status' => '-1',
+            'post' => [self::$post_id],
         ];
 
         add_action('save_post', [$this, 'check_post_format']);
@@ -417,8 +418,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $indeterminate_categories = array_merge($terms1, $terms2, $terms3);
 
         $request = [
-            '_status'                     => -1,
-            'post'                        => $post_ids,
+            '_status' => -1,
+            'post' => $post_ids,
             'indeterminate_post_category' => $indeterminate_categories,
         ];
 
@@ -441,10 +442,10 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         wp_set_current_user(self::$admin_id);
 
         $post_ids = self::factory()->post->create_many(3);
-        $term1    = wp_create_category('test1');
-        $term2    = wp_create_category('test2');
-        $term3    = wp_create_category('test3');
-        $term4    = wp_create_category('test4');
+        $term1 = wp_create_category('test1');
+        $term2 = wp_create_category('test2');
+        $term3 = wp_create_category('test3');
+        $term4 = wp_create_category('test4');
 
         wp_set_post_categories($post_ids[0], [$term1, $term2]);
         wp_set_post_categories($post_ids[1], [$term2, $term3]);
@@ -459,9 +460,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $categories[] = $term4;
 
         $request = [
-            '_status'                     => -1,
-            'post'                        => $post_ids,
-            'post_category'               => $categories,
+            '_status' => -1,
+            'post' => $post_ids,
+            'post_category' => $categories,
             'indeterminate_post_category' => $indeterminate,
         ];
 
@@ -485,9 +486,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         wp_set_current_user(self::$admin_id);
 
         $post_ids = self::factory()->post->create_many(3);
-        $term1    = wp_create_category('test1');
-        $term2    = wp_create_category('test2');
-        $term3    = wp_create_category('test3');
+        $term1 = wp_create_category('test1');
+        $term2 = wp_create_category('test2');
+        $term3 = wp_create_category('test3');
 
         wp_set_post_categories($post_ids[0], [$term1, $term2]);
         wp_set_post_categories($post_ids[1], [$term2, $term3]);
@@ -505,9 +506,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         unset($categories[$remove_key]);
 
         $request = [
-            '_status'                     => -1,
-            'post'                        => $post_ids,
-            'post_category'               => $categories,
+            '_status' => -1,
+            'post' => $post_ids,
+            'post_category' => $categories,
             'indeterminate_post_category' => $indeterminate,
         ];
 
@@ -541,11 +542,11 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
         bulk_edit_posts(
             [
-                'post'      => self::$post_id,
+                'post' => self::$post_id,
                 'post_type' => 'post',
-                '_status'   => 1,
+                '_status' => 1,
 
-            ]
+            ],
         );
 
         $this->assertSame(1, $action->get_call_count());
@@ -570,9 +571,9 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
         $post_data = [
             'post_ID' => $post_id,
-            'meta'    => [
+            'meta' => [
                 $meta_id => [
-                    'key'   => 'unprotected_meta_key',
+                    'key' => 'unprotected_meta_key',
                     'value' => 'protected',
                 ],
             ],
@@ -595,15 +596,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->set_permalink_structure("/$permalink_structure/");
 
         $future_date = gmdate('Y-m-d H:i:s', time() + 100);
-        $p           = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
                 'post_status' => 'future',
-                'post_name'   => 'foo',
-                'post_date'   => $future_date,
-            ]
+                'post_name' => 'foo',
+                'post_date' => $future_date,
+            ],
         );
 
-        $found    = get_sample_permalink($p);
+        $found = get_sample_permalink($p);
         $expected = trailingslashit(home_url($permalink_structure));
 
         $this->assertSame($expected, $found[0]);
@@ -613,17 +614,18 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
      * @ticket 30910
      * @ticket 18306
      */
-    public function test_get_sample_permalink_html_should_use_default_permalink_for_view_post_link_when_pretty_permalinks_are_disabled()
+    public function test_get_sample_permalink_html_should_use_default_permalink_for_view_post_link_when_pretty_permalinks_are_disabled(
+    )
     {
         wp_set_current_user(self::$admin_id);
 
         $future_date = gmdate('Y-m-d H:i:s', time() + 100);
-        $p           = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
                 'post_status' => 'future',
-                'post_name'   => 'foo',
-                'post_date'   => $future_date,
-            ]
+                'post_name' => 'foo',
+                'post_date' => $future_date,
+            ],
         );
 
         $found = get_sample_permalink_html($p);
@@ -635,23 +637,24 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
      * @ticket 30910
      * @ticket 18306
      */
-    public function test_get_sample_permalink_html_should_use_pretty_permalink_for_view_post_link_when_pretty_permalinks_are_enabled()
+    public function test_get_sample_permalink_html_should_use_pretty_permalink_for_view_post_link_when_pretty_permalinks_are_enabled(
+    )
     {
         $this->set_permalink_structure('/%postname%/');
 
         wp_set_current_user(self::$admin_id);
 
         $future_date = gmdate('Y-m-d H:i:s', time() + 100);
-        $p           = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
                 'post_status' => 'future',
-                'post_name'   => 'foo-صورة',
-                'post_date'   => $future_date,
-            ]
+                'post_name' => 'foo-صورة',
+                'post_date' => $future_date,
+            ],
         );
 
         $found = get_sample_permalink_html($p);
-        $post  = get_post($p);
+        $post = get_post($p);
         $this->assertStringContainsString('href="' . get_option('home') . '/' . $post->post_name . '/"', $found);
         $this->assertStringContainsString('>' . urldecode($post->post_name) . '<', $found);
     }
@@ -659,7 +662,8 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
     /**
      * @ticket 35980
      */
-    public function test_get_sample_permalink_html_should_use_pretty_permalink_for_view_attachment_link_when_pretty_permalinks_are_enabled()
+    public function test_get_sample_permalink_html_should_use_pretty_permalink_for_view_attachment_link_when_pretty_permalinks_are_enabled(
+    )
     {
         $this->set_permalink_structure('/%postname%/');
 
@@ -670,14 +674,14 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
             0,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-                'post_title'     => 'صورة',
-                'post_status'    => 'inherit',
-            ]
+                'post_type' => 'attachment',
+                'post_title' => 'صورة',
+                'post_status' => 'inherit',
+            ],
         );
 
         $found = get_sample_permalink_html($p);
-        $post  = get_post($p);
+        $post = get_post($p);
         $this->assertStringContainsString('href="' . get_option('home') . '/' . $post->post_name . '/"', $found);
         $this->assertStringContainsString('>' . urldecode(get_permalink($post)) . '<', $found);
     }
@@ -696,42 +700,44 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_name'   => 'foo-صورة',
-            ]
+                'post_name' => 'foo-صورة',
+            ],
         );
 
-        $found   = get_sample_permalink_html($p, null, 'new_slug-صورة');
-        $post    = get_post($p);
+        $found = get_sample_permalink_html($p, null, 'new_slug-صورة');
+        $post = get_post($p);
         $message = 'Published post';
-        $this->assertStringContainsString('href="' . get_option('home') . '/' . $post->post_name . '/"', $found, $message);
+        $this->assertStringContainsString('href="' . get_option('home') . '/' . $post->post_name . '/"', $found,
+            $message);
         $this->assertStringContainsString('>new_slug-صورة<', $found, $message);
 
         // Scheduled posts should use published permalink.
         $future_date = gmdate('Y-m-d H:i:s', time() + 100);
-        $p           = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
                 'post_status' => 'future',
-                'post_name'   => 'bar-صورة',
-                'post_date'   => $future_date,
-            ]
+                'post_name' => 'bar-صورة',
+                'post_date' => $future_date,
+            ],
         );
 
-        $found   = get_sample_permalink_html($p, null, 'new_slug-صورة');
-        $post    = get_post($p);
+        $found = get_sample_permalink_html($p, null, 'new_slug-صورة');
+        $post = get_post($p);
         $message = 'Scheduled post';
-        $this->assertStringContainsString('href="' . get_option('home') . '/' . $post->post_name . '/"', $found, $message);
+        $this->assertStringContainsString('href="' . get_option('home') . '/' . $post->post_name . '/"', $found,
+            $message);
         $this->assertStringContainsString('>new_slug-صورة<', $found, $message);
 
         // Draft posts should use preview link.
         $p = self::factory()->post->create(
             [
                 'post_status' => 'draft',
-                'post_name'   => 'baz-صورة',
-            ]
+                'post_name' => 'baz-صورة',
+            ],
         );
 
-        $found   = get_sample_permalink_html($p, null, 'new_slug-صورة');
-        $post    = get_post($p);
+        $found = get_sample_permalink_html($p, null, 'new_slug-صورة');
+        $post = get_post($p);
         $message = 'Draft post';
 
         $preview_link = get_permalink($post->ID);
@@ -745,23 +751,24 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
      * @ticket 30910
      * @ticket 18306
      */
-    public function test_get_sample_permalink_html_should_use_preview_links_for_draft_and_pending_posts_with_no_post_name()
+    public function test_get_sample_permalink_html_should_use_preview_links_for_draft_and_pending_posts_with_no_post_name(
+    )
     {
         $this->set_permalink_structure('/%postname%/');
 
         wp_set_current_user(self::$admin_id);
 
         $future_date = gmdate('Y-m-d H:i:s', time() + 100);
-        $p           = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
                 'post_status' => 'pending',
-                'post_name'   => '',
-                'post_date'   => $future_date,
-            ]
+                'post_name' => '',
+                'post_date' => $future_date,
+            ],
         );
 
         $found = get_sample_permalink_html($p);
-        $post  = get_post($p);
+        $post = get_post($p);
         $this->assertStringContainsString('href="' . esc_url(get_preview_post_link($post)), $found);
     }
 
@@ -775,7 +782,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_name' => '2015',
-            ]
+            ],
         );
 
         $found = get_sample_permalink($p);
@@ -785,14 +792,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_allow_yearlike_slugs_if_permastruct_does_not_cause_an_archive_conflict()
+    public function test_get_sample_permalink_should_allow_yearlike_slugs_if_permastruct_does_not_cause_an_archive_conflict(
+    )
     {
         $this->set_permalink_structure('/%year%/%postname%/');
 
         $p = self::factory()->post->create(
             [
                 'post_name' => '2015',
-            ]
+            ],
         );
 
         $found = get_sample_permalink($p);
@@ -809,7 +817,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_name' => '11',
-            ]
+            ],
         );
 
         $found = get_sample_permalink($p);
@@ -826,7 +834,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_name' => '13',
-            ]
+            ],
         );
 
         $found = get_sample_permalink($p);
@@ -843,7 +851,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_name' => '30',
-            ]
+            ],
         );
 
         $found = get_sample_permalink($p);
@@ -860,13 +868,13 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         self::factory()->post->create(
             [
                 'post_name' => '30-2',
-            ]
+            ],
         );
 
         $p = self::factory()->post->create(
             [
                 'post_name' => '30',
-            ]
+            ],
         );
 
         $found = get_sample_permalink($p);
@@ -883,7 +891,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_name' => '32',
-            ]
+            ],
         );
 
         $found = get_sample_permalink($p);
@@ -893,14 +901,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
     /**
      * @ticket 5305
      */
-    public function test_get_sample_permalink_should_allow_daylike_slugs_if_permastruct_does_not_cause_an_archive_conflict()
+    public function test_get_sample_permalink_should_allow_daylike_slugs_if_permastruct_does_not_cause_an_archive_conflict(
+    )
     {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
         $p = self::factory()->post->create(
             [
                 'post_name' => '30',
-            ]
+            ],
         );
 
         $found = get_sample_permalink($p);
@@ -916,18 +925,18 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
         $parent = self::factory()->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => 'Parent Page',
-            ]
+            ],
         );
 
         $child = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_title'  => 'Child Page',
+                'post_type' => 'page',
+                'post_title' => 'Child Page',
                 'post_parent' => $parent,
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         $actual = get_sample_permalink($child);
@@ -947,7 +956,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $post = self::factory()->post->create_and_get(
             [
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         $post_original = clone $post;
@@ -955,11 +964,12 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         add_filter(
             'get_sample_permalink',
             function ($permalink, $post_id, $title, $name, $post) use ($post_original) {
-                $this->assertEquals($post_original, $post, 'Modified post object passed to get_sample_permalink filter.');
+                $this->assertEquals($post_original, $post,
+                    'Modified post object passed to get_sample_permalink filter.');
                 return $permalink;
             },
             10,
-            5
+            5,
         );
 
         get_sample_permalink($post);
@@ -975,15 +985,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->set_permalink_structure("/$permalink_structure/");
 
         $future_date = gmdate('Y-m-d H:i:s', time() + 100);
-        $p           = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
                 'post_status' => 'auto-draft',
-                'post_name'   => 'foo',
-                'post_date'   => $future_date,
-            ]
+                'post_name' => 'foo',
+                'post_date' => $future_date,
+            ],
         );
 
-        $found    = get_sample_permalink($p);
+        $found = get_sample_permalink($p);
         $expected = trailingslashit(home_url($permalink_structure));
 
         $this->assertSame($expected, $found[0]);
@@ -994,7 +1004,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_title' => 'Foo Bar',
-            ]
+            ],
         );
 
         $this->assertSame($p, post_exists('Foo Bar'));
@@ -1005,7 +1015,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_title' => 'Foo Bar',
-            ]
+            ],
         );
 
         $this->assertSame(0, post_exists('Foo Bar Baz'));
@@ -1013,13 +1023,13 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
     public function test_post_exists_should_match_nonempty_content()
     {
-        $title   = 'Foo Bar';
+        $title = 'Foo Bar';
         $content = 'Foo Bar Baz';
-        $p       = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
-                'post_title'   => $title,
+                'post_title' => $title,
                 'post_content' => $content,
-            ]
+            ],
         );
 
         $this->assertSame($p, post_exists($title, $content));
@@ -1030,13 +1040,13 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
      */
     public function test_post_exists_should_match_content_with_no_title()
     {
-        $title   = '';
+        $title = '';
         $content = 'Foo Bar Baz';
-        $p       = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
-                'post_title'   => $title,
+                'post_title' => $title,
                 'post_content' => $content,
-            ]
+            ],
         );
 
         $this->assertSame($p, post_exists($title, $content));
@@ -1044,13 +1054,13 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
     public function test_post_exists_should_not_match_when_nonempty_content_doesnt_match()
     {
-        $title   = 'Foo Bar';
+        $title = 'Foo Bar';
         $content = 'Foo Bar Baz';
-        $p       = self::factory()->post->create(
+        $p = self::factory()->post->create(
             [
-                'post_title'   => $title,
+                'post_title' => $title,
                 'post_content' => $content . ' Quz',
-            ]
+            ],
         );
 
         $this->assertSame(0, post_exists($title, $content));
@@ -1059,12 +1069,12 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
     public function test_post_exists_should_match_nonempty_date()
     {
         $title = 'Foo Bar';
-        $date  = '2014-05-08 12:00:00';
-        $p     = self::factory()->post->create(
+        $date = '2014-05-08 12:00:00';
+        $p = self::factory()->post->create(
             [
                 'post_title' => $title,
-                'post_date'  => $date,
-            ]
+                'post_date' => $date,
+            ],
         );
 
         $this->assertSame($p, post_exists($title, '', $date));
@@ -1073,12 +1083,12 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
     public function test_post_exists_should_not_match_when_nonempty_date_doesnt_match()
     {
         $title = 'Foo Bar';
-        $date  = '2014-05-08 12:00:00';
-        $p     = self::factory()->post->create(
+        $date = '2014-05-08 12:00:00';
+        $p = self::factory()->post->create(
             [
                 'post_title' => $title,
-                'post_date'  => '2015-10-10 00:00:00',
-            ]
+                'post_date' => '2015-10-10 00:00:00',
+            ],
         );
 
         $this->assertSame(0, post_exists($title, '', $date));
@@ -1086,15 +1096,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
     public function test_post_exists_should_match_nonempty_title_content_and_date()
     {
-        $title   = 'Foo Bar';
+        $title = 'Foo Bar';
         $content = 'Foo Bar Baz';
-        $date    = '2014-05-08 12:00:00';
-        $p       = self::factory()->post->create(
+        $date = '2014-05-08 12:00:00';
+        $p = self::factory()->post->create(
             [
-                'post_title'   => $title,
+                'post_title' => $title,
                 'post_content' => $content,
-                'post_date'    => $date,
-            ]
+                'post_date' => $date,
+            ],
         );
 
         $this->assertSame($p, post_exists($title, $content, $date));
@@ -1102,14 +1112,14 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
     public function test_get_block_editor_server_block_settings()
     {
-        $name     = 'core/test';
+        $name = 'core/test';
         $settings = [
-            'icon'            => 'text',
-            'category'        => 'common',
+            'icon' => 'text',
+            'category' => 'common',
             'render_callback' => 'foo',
-            'ancestor'        => ['core/test-ancestor'],
-            'selectors'       => ['root' => '.wp-block-test'],
-            'block_hooks'     => ['core/post-content' => 'before'],
+            'ancestor' => ['core/test-ancestor'],
+            'selectors' => ['root' => '.wp-block-test'],
+            'block_hooks' => ['core/post-content' => 'before'],
         ];
 
         register_block_type($name, $settings);
@@ -1121,24 +1131,24 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
         $this->assertArrayHasKey($name, $blocks);
         $this->assertSame(
             [
-                'apiVersion'  => 1,
-                'title'       => '',
+                'apiVersion' => 1,
+                'title' => '',
                 'description' => '',
-                'icon'        => 'text',
-                'attributes'  => [
-                    'lock'     => ['type' => 'object'],
+                'icon' => 'text',
+                'attributes' => [
+                    'lock' => ['type' => 'object'],
                     'metadata' => ['type' => 'object'],
                 ],
                 'usesContext' => [],
-                'blockHooks'  => ['core/post-content' => 'before'],
-                'selectors'   => ['root' => '.wp-block-test'],
-                'category'    => 'common',
-                'styles'      => [],
-                'ancestor'    => ['core/test-ancestor'],
-                'keywords'    => [],
-                'variations'  => [],
+                'blockHooks' => ['core/post-content' => 'before'],
+                'selectors' => ['root' => '.wp-block-test'],
+                'category' => 'common',
+                'styles' => [],
+                'ancestor' => ['core/test-ancestor'],
+                'keywords' => [],
+                'variations' => [],
             ],
-            $blocks[$name]
+            $blocks[$name],
         );
     }
 
@@ -1153,7 +1163,7 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
 
         $_POST = [
             'metakeyinput' => 'testkey',
-            'metavalue'    => '',
+            'metavalue' => '',
         ];
 
         wp_set_current_user(self::$admin_id);
@@ -1179,13 +1189,13 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
             $this->expectDeprecationMessageMatches('`Passing null to parameter \#[0-9]+ \(\$[^\)]+\) of type [^ ]+ is deprecated`');
         }
 
-        $title     = 'Foo Bar';
+        $title = 'Foo Bar';
         $post_type = 'page';
-        $post_id   = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_title' => $title,
-                'post_type'  => $post_type,
-            ]
+                'post_type' => $post_type,
+            ],
         );
         $this->assertSame($post_id, post_exists($title, null, null, $post_type));
     }
@@ -1207,13 +1217,13 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
             $this->expectDeprecationMessageMatches('`Passing null to parameter \#[0-9]+ \(\$[^\)]+\) of type [^ ]+ is deprecated`');
         }
 
-        $title     = 'Foo Bar';
+        $title = 'Foo Bar';
         $post_type = 'page';
-        $post_id   = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_title' => $title,
-                'post_type'  => $post_type,
-            ]
+                'post_type' => $post_type,
+            ],
         );
         $this->assertSame(0, post_exists($title, null, null, 'post'));
     }
@@ -1235,15 +1245,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
             $this->expectDeprecationMessageMatches('`Passing null to parameter \#[0-9]+ \(\$[^\)]+\) of type [^ ]+ is deprecated`');
         }
 
-        $title       = 'Foo Bar';
-        $post_type   = 'post';
+        $title = 'Foo Bar';
+        $post_type = 'post';
         $post_status = 'publish';
-        $post_id     = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_title'  => $title,
-                'post_type'   => $post_type,
+                'post_title' => $title,
+                'post_type' => $post_type,
                 'post_status' => $post_status,
-            ]
+            ],
         );
         $this->assertSame($post_id, post_exists($title, null, null, null, $post_status));
     }
@@ -1266,15 +1276,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
             $this->expectDeprecationMessageMatches('`Passing null to parameter \#[0-9]+ \(\$[^\)]+\) of type [^ ]+ is deprecated`');
         }
 
-        $title       = 'Foo Bar';
-        $post_type   = 'post';
+        $title = 'Foo Bar';
+        $post_type = 'post';
         $post_status = 'publish';
-        $post_id     = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_title'  => $title,
-                'post_type'   => $post_type,
+                'post_title' => $title,
+                'post_type' => $post_type,
                 'post_status' => $post_status,
-            ]
+            ],
         );
         $this->assertSame($post_id, post_exists($title, null, null, $post_type, $post_status));
     }
@@ -1296,15 +1306,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
             $this->expectDeprecationMessageMatches('`Passing null to parameter \#[0-9]+ \(\$[^\)]+\) of type [^ ]+ is deprecated`');
         }
 
-        $title       = 'Foo Bar';
-        $post_type   = 'post';
+        $title = 'Foo Bar';
+        $post_type = 'post';
         $post_status = 'draft';
-        $post_id     = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_title'  => $title,
-                'post_type'   => $post_type,
+                'post_title' => $title,
+                'post_type' => $post_type,
                 'post_status' => $post_status,
-            ]
+            ],
         );
         $this->assertSame(0, post_exists($title, null, null, null, 'publish'));
     }
@@ -1326,15 +1336,15 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
             $this->expectDeprecationMessageMatches('`Passing null to parameter \#[0-9]+ \(\$[^\)]+\) of type [^ ]+ is deprecated`');
         }
 
-        $title       = 'Foo Bar';
-        $post_type   = 'post';
+        $title = 'Foo Bar';
+        $post_type = 'post';
         $post_status = 'publish';
-        $post_id     = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
-                'post_title'  => $title,
-                'post_type'   => $post_type,
+                'post_title' => $title,
+                'post_type' => $post_type,
                 'post_status' => $post_status,
-            ]
+            ],
         );
 
         $this->assertSame(0, post_exists($title, null, null, $post_type, 'draft'));
@@ -1346,27 +1356,26 @@ class Tests_Admin_IncludesPost extends WP_UnitTestCase
      */
     public function test_user_get_refreshed_metabox_nonce()
     {
-
         // Create a post by the current user.
         wp_set_current_user(self::$editor_id);
 
         $post_data = [
             'post_content' => 'Test post content',
-            'post_title'   => 'Test post title',
+            'post_title' => 'Test post title',
             'post_excerpt' => 'Test post excerpt',
-            'post_author'  => self::$editor_id,
-            'post_status'  => 'draft',
+            'post_author' => self::$editor_id,
+            'post_status' => 'draft',
         ];
-        $post_id   = wp_insert_post($post_data);
+        $post_id = wp_insert_post($post_data);
 
         // Simulate the $_POST data from the heartbeat.
         $data = [
             'wp-refresh-metabox-loader-nonces' => [
-                'post_id' => (string) $post_id,
+                'post_id' => (string)$post_id,
             ],
-            'wp-refresh-post-lock'             => [
-                'lock'    => '1658203298:1',
-                'post_id' => (string) $post_id,
+            'wp-refresh-post-lock' => [
+                'lock' => '1658203298:1',
+                'post_id' => (string)$post_id,
             ],
         ];
 

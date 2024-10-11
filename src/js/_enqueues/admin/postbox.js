@@ -9,7 +9,7 @@
 
 /* global ajaxurl, postboxes */
 
-(function($) {
+( function ( $ ) {
 	var $document = $( document ),
 		__ = wp.i18n.__;
 
@@ -24,7 +24,6 @@
 	 * @type {Object}
 	 */
 	window.postboxes = {
-
 		/**
 		 * Handles a click on either the postbox heading or the postbox open/close icon.
 		 *
@@ -40,7 +39,7 @@
 		 *
 		 * @return {void}
 		 */
-		handle_click : function () {
+		handle_click: function () {
 			var $el = $( this ),
 				p = $el.closest( '.postbox' ),
 				id = p.attr( 'id' ),
@@ -58,7 +57,8 @@
 				$el.attr( 'aria-expanded', ariaExpandedValue );
 			} else {
 				// The handle heading was clicked.
-				$el.closest( '.postbox' ).find( 'button.handlediv' )
+				$el.closest( '.postbox' )
+					.find( 'button.handlediv' )
 					.attr( 'aria-expanded', ariaExpandedValue );
 			}
 
@@ -67,9 +67,15 @@
 			}
 
 			if ( id ) {
-				if ( !p.hasClass('closed') && typeof postboxes.pbshow === 'function' ) {
+				if (
+					! p.hasClass( 'closed' ) &&
+					typeof postboxes.pbshow === 'function'
+				) {
 					postboxes.pbshow( id );
-				} else if ( p.hasClass('closed') && typeof postboxes.pbhide === 'function' ) {
+				} else if (
+					p.hasClass( 'closed' ) &&
+					typeof postboxes.pbhide === 'function'
+				) {
 					postboxes.pbhide( id );
 				}
 			}
@@ -95,13 +101,16 @@
 		 *
 		 * @return {void}
 		 */
-		handleOrder: function() {
+		handleOrder: function () {
 			var button = $( this ),
 				postbox = button.closest( '.postbox' ),
 				postboxId = postbox.attr( 'id' ),
-				postboxesWithinSortables = postbox.closest( '.meta-box-sortables' ).find( '.postbox:visible' ),
+				postboxesWithinSortables = postbox
+					.closest( '.meta-box-sortables' )
+					.find( '.postbox:visible' ),
 				postboxesWithinSortablesCount = postboxesWithinSortables.length,
-				postboxWithinSortablesIndex = postboxesWithinSortables.index( postbox ),
+				postboxWithinSortablesIndex =
+					postboxesWithinSortables.index( postbox ),
 				firstOrLastPositionMessage;
 
 			if ( 'dashboard_browser_nag' === postboxId ) {
@@ -110,9 +119,11 @@
 
 			// If on the first or last position, do nothing and send an audible message to screen reader users.
 			if ( 'true' === button.attr( 'aria-disabled' ) ) {
-				firstOrLastPositionMessage = button.hasClass( 'handle-order-higher' ) ?
-					__( 'The box is on the first position' ) :
-					__( 'The box is on the last position' );
+				firstOrLastPositionMessage = button.hasClass(
+					'handle-order-higher'
+				)
+					? __( 'The box is on the first position' )
+					: __( 'The box is on the last position' );
 
 				wp.a11y.speak( firstOrLastPositionMessage );
 				return;
@@ -122,7 +133,11 @@
 			if ( button.hasClass( 'handle-order-higher' ) ) {
 				// If the box is first within a sortable area, move it to the previous sortable area.
 				if ( 0 === postboxWithinSortablesIndex ) {
-					postboxes.handleOrderBetweenSortables( 'previous', button, postbox );
+					postboxes.handleOrderBetweenSortables(
+						'previous',
+						button,
+						postbox
+					);
 					return;
 				}
 
@@ -135,8 +150,15 @@
 			// Move a postbox down.
 			if ( button.hasClass( 'handle-order-lower' ) ) {
 				// If the box is last within a sortable area, move it to the next sortable area.
-				if ( postboxWithinSortablesIndex + 1 === postboxesWithinSortablesCount ) {
-					postboxes.handleOrderBetweenSortables( 'next', button, postbox );
+				if (
+					postboxWithinSortablesIndex + 1 ===
+					postboxesWithinSortablesCount
+				) {
+					postboxes.handleOrderBetweenSortables(
+						'next',
+						button,
+						postbox
+					);
 					return;
 				}
 
@@ -145,7 +167,6 @@
 				postboxes.updateOrderButtonsProperties();
 				postboxes.save_order( postboxes.page );
 			}
-
 		},
 
 		/**
@@ -159,16 +180,18 @@
 		 *
 		 * @return {void}
 		 */
-		handleOrderBetweenSortables: function( position, button, postbox ) {
-			var closestSortablesId = button.closest( '.meta-box-sortables' ).attr( 'id' ),
+		handleOrderBetweenSortables: function ( position, button, postbox ) {
+			var closestSortablesId = button
+					.closest( '.meta-box-sortables' )
+					.attr( 'id' ),
 				sortablesIds = [],
 				sortablesIndex,
 				detachedPostbox;
 
 			// Get the list of sortables within the page.
-			$( '.meta-box-sortables:visible' ).each( function() {
+			$( '.meta-box-sortables:visible' ).each( function () {
 				sortablesIds.push( $( this ).attr( 'id' ) );
-			});
+			} );
 
 			// Return if there's only one visible sortables area, e.g. in the block editor page.
 			if ( 1 === sortablesIds.length ) {
@@ -182,11 +205,15 @@
 
 			// Move the detached postbox to its new position.
 			if ( 'previous' === position ) {
-				$( detachedPostbox ).appendTo( '#' + sortablesIds[ sortablesIndex - 1 ] );
+				$( detachedPostbox ).appendTo(
+					'#' + sortablesIds[ sortablesIndex - 1 ]
+				);
 			}
 
 			if ( 'next' === position ) {
-				$( detachedPostbox ).prependTo( '#' + sortablesIds[ sortablesIndex + 1 ] );
+				$( detachedPostbox ).prependTo(
+					'#' + sortablesIds[ sortablesIndex + 1 ]
+				);
 			}
 
 			postboxes._mark_area();
@@ -202,15 +229,23 @@
 		 *
 		 * @return {void}
 		 */
-		updateOrderButtonsProperties: function() {
-			var firstSortablesId = $( '.meta-box-sortables:visible:first' ).attr( 'id' ),
-				lastSortablesId = $( '.meta-box-sortables:visible:last' ).attr( 'id' ),
+		updateOrderButtonsProperties: function () {
+			var firstSortablesId = $(
+					'.meta-box-sortables:visible:first'
+				).attr( 'id' ),
+				lastSortablesId = $( '.meta-box-sortables:visible:last' ).attr(
+					'id'
+				),
 				firstPostbox = $( '.postbox:visible:first' ),
 				lastPostbox = $( '.postbox:visible:last' ),
 				firstPostboxId = firstPostbox.attr( 'id' ),
 				lastPostboxId = lastPostbox.attr( 'id' ),
-				firstPostboxSortablesId = firstPostbox.closest( '.meta-box-sortables' ).attr( 'id' ),
-				lastPostboxSortablesId = lastPostbox.closest( '.meta-box-sortables' ).attr( 'id' ),
+				firstPostboxSortablesId = firstPostbox
+					.closest( '.meta-box-sortables' )
+					.attr( 'id' ),
+				lastPostboxSortablesId = lastPostbox
+					.closest( '.meta-box-sortables' )
+					.attr( 'id' ),
 				moveUpButtons = $( '.handle-order-higher' ),
 				moveDownButtons = $( '.handle-order-lower' );
 
@@ -223,19 +258,26 @@
 				.removeClass( 'hidden' );
 
 			// When there's only one "sortables" area (e.g. in the block editor) and only one visible postbox, hide the buttons.
-			if ( firstSortablesId === lastSortablesId && firstPostboxId === lastPostboxId ) {
+			if (
+				firstSortablesId === lastSortablesId &&
+				firstPostboxId === lastPostboxId
+			) {
 				moveUpButtons.addClass( 'hidden' );
 				moveDownButtons.addClass( 'hidden' );
 			}
 
 			// Set an aria-disabled=true attribute on the first visible "move" buttons.
 			if ( firstSortablesId === firstPostboxSortablesId ) {
-				$( firstPostbox ).find( '.handle-order-higher' ).attr( 'aria-disabled', 'true' );
+				$( firstPostbox )
+					.find( '.handle-order-higher' )
+					.attr( 'aria-disabled', 'true' );
 			}
 
 			// Set an aria-disabled=true attribute on the last visible "move" buttons.
 			if ( lastSortablesId === lastPostboxSortablesId ) {
-				$( '.postbox:visible .handle-order-lower' ).last().attr( 'aria-disabled', 'true' );
+				$( '.postbox:visible .handle-order-lower' )
+					.last()
+					.attr( 'aria-disabled', 'true' );
 			}
 		},
 
@@ -252,9 +294,11 @@
 		 * @param {Function} args.pbhide A callback that is called when a postbox closes.
 		 * @return {void}
 		 */
-		add_postbox_toggles : function (page, args) {
+		add_postbox_toggles: function ( page, args ) {
 			var $handles = $( '.postbox .hndle, .postbox .handlediv' ),
-				$orderButtons = $( '.postbox .handle-order-higher, .postbox .handle-order-lower' );
+				$orderButtons = $(
+					'.postbox .handle-order-higher, .postbox .handle-order-lower'
+				);
 
 			this.page = page;
 			this.init( page, args );
@@ -267,9 +311,9 @@
 			/**
 			 * @since 2.7.0
 			 */
-			$('.postbox .hndle a').on( 'click', function(e) {
+			$( '.postbox .hndle a' ).on( 'click', function ( e ) {
 				e.stopPropagation();
-			});
+			} );
 
 			/**
 			 * Hides a postbox.
@@ -283,11 +327,14 @@
 			 *
 			 * @return {void}
 			 */
-			$( '.postbox a.dismiss' ).on( 'click.postboxes', function( e ) {
-				var hide_id = $(this).parents('.postbox').attr('id') + '-hide';
+			$( '.postbox a.dismiss' ).on( 'click.postboxes', function ( e ) {
+				var hide_id =
+					$( this ).parents( '.postbox' ).attr( 'id' ) + '-hide';
 				e.preventDefault();
-				$( '#' + hide_id ).prop('checked', false).triggerHandler('click');
-			});
+				$( '#' + hide_id )
+					.prop( 'checked', false )
+					.triggerHandler( 'click' );
+			} );
 
 			/**
 			 * Hides the postbox element
@@ -302,8 +349,8 @@
 			 *
 			 * @return {void}
 			 */
-			$('.hide-postbox-tog').on('click.postboxes', function() {
-				var $el = $(this),
+			$( '.hide-postbox-tog' ).on( 'click.postboxes', function () {
+				var $el = $( this ),
 					boxId = $el.val(),
 					$postbox = $( '#' + boxId );
 
@@ -327,7 +374,7 @@
 				 * @see postboxes.handle_click
 				 */
 				$document.trigger( 'postbox-toggled', $postbox );
-			});
+			} );
 
 			/**
 			 * Changes the amount of columns based on the layout preferences.
@@ -336,14 +383,17 @@
 			 *
 			 * @return {void}
 			 */
-			$('.columns-prefs input[type="radio"]').on('click.postboxes', function(){
-				var n = parseInt($(this).val(), 10);
+			$( '.columns-prefs input[type="radio"]' ).on(
+				'click.postboxes',
+				function () {
+					var n = parseInt( $( this ).val(), 10 );
 
-				if ( n ) {
-					postboxes._pb_edit(n);
-					postboxes.save_order( page );
+					if ( n ) {
+						postboxes._pb_edit( n );
+						postboxes.save_order( page );
+					}
 				}
-			});
+			);
 		},
 
 		/**
@@ -361,22 +411,22 @@
 		 *
 		 * @return {void}
 		 */
-		init : function(page, args) {
+		init: function ( page, args ) {
 			var isMobile = $( document.body ).hasClass( 'mobile' ),
 				$handleButtons = $( '.postbox .handlediv' );
 
 			$.extend( this, args || {} );
-			$('.meta-box-sortables').sortable({
+			$( '.meta-box-sortables' ).sortable( {
 				placeholder: 'sortable-placeholder',
 				connectWith: '.meta-box-sortables',
 				items: '.postbox',
 				handle: '.hndle',
 				cursor: 'move',
-				delay: ( isMobile ? 200 : 0 ),
+				delay: isMobile ? 200 : 0,
 				distance: 2,
 				tolerance: 'pointer',
 				forcePlaceholderSize: true,
-				helper: function( event, element ) {
+				helper: function ( event, element ) {
 					/* `helper: 'clone'` is equivalent to `return element.clone();`
 					 * Cloning a checked radio and then inserting that clone next to the original
 					 * radio unchecks the original radio (since only one of the two can be checked).
@@ -384,43 +434,60 @@
 					 * when the helper is inserted into the DOM for the sortable, no radios are
 					 * duplicated, and no original radio gets unchecked.
 					 */
-					return element.clone()
+					return element
+						.clone()
 						.find( ':input' )
-							.attr( 'name', function( i, currentName ) {
-								return 'sort_' + parseInt( Math.random() * 100000, 10 ).toString() + '_' + currentName;
-							} )
+						.attr( 'name', function ( i, currentName ) {
+							return (
+								'sort_' +
+								parseInt(
+									Math.random() * 100000,
+									10
+								).toString() +
+								'_' +
+								currentName
+							);
+						} )
 						.end();
 				},
 				opacity: 0.65,
-				start: function() {
+				start: function () {
 					$( 'body' ).addClass( 'is-dragging-metaboxes' );
 					// Refresh the cached positions of all the sortable items so that the min-height set while dragging works.
 					$( '.meta-box-sortables' ).sortable( 'refreshPositions' );
 				},
-				stop: function() {
+				stop: function () {
 					var $el = $( this );
 
 					$( 'body' ).removeClass( 'is-dragging-metaboxes' );
 
-					if ( $el.find( '#dashboard_browser_nag' ).is( ':visible' ) && 'dashboard_browser_nag' != this.firstChild.id ) {
-						$el.sortable('cancel');
+					if (
+						$el.find( '#dashboard_browser_nag' ).is( ':visible' ) &&
+						'dashboard_browser_nag' != this.firstChild.id
+					) {
+						$el.sortable( 'cancel' );
 						return;
 					}
 
 					postboxes.updateOrderButtonsProperties();
-					postboxes.save_order(page);
+					postboxes.save_order( page );
 				},
-				receive: function(e,ui) {
-					if ( 'dashboard_browser_nag' == ui.item[0].id )
-						$(ui.sender).sortable('cancel');
+				receive: function ( e, ui ) {
+					if ( 'dashboard_browser_nag' == ui.item[ 0 ].id )
+						$( ui.sender ).sortable( 'cancel' );
 
 					postboxes._mark_area();
 					$document.trigger( 'postbox-moved', ui.item );
-				}
-			});
+				},
+			} );
 
 			if ( isMobile ) {
-				$(document.body).on('orientationchange.postboxes', function(){ postboxes._pb_change(); });
+				$( document.body ).on(
+					'orientationchange.postboxes',
+					function () {
+						postboxes._pb_change();
+					}
+				);
 				this._pb_change();
 			}
 
@@ -428,13 +495,19 @@
 
 			// Update the "move" buttons properties.
 			this.updateOrderButtonsProperties();
-			$document.on( 'postbox-toggled', this.updateOrderButtonsProperties );
+			$document.on(
+				'postbox-toggled',
+				this.updateOrderButtonsProperties
+			);
 
 			// Set the handle buttons `aria-expanded` attribute initial value on page load.
 			$handleButtons.each( function () {
 				var $el = $( this );
-				$el.attr( 'aria-expanded', ! $el.closest( '.postbox' ).hasClass( 'closed' ) );
-			});
+				$el.attr(
+					'aria-expanded',
+					! $el.closest( '.postbox' ).hasClass( 'closed' )
+				);
+			} );
 		},
 
 		/**
@@ -450,7 +523,7 @@
 		 * @param {string} page The page we are currently on.
 		 * @return {void}
 		 */
-		save_state : function(page) {
+		save_state: function ( page ) {
 			var closed, hidden;
 
 			// Return on the nav-menus.php screen, see #35112.
@@ -458,16 +531,28 @@
 				return;
 			}
 
-			closed = $( '.postbox' ).filter( '.closed' ).map( function() { return this.id; } ).get().join( ',' );
-			hidden = $( '.postbox' ).filter( ':hidden' ).map( function() { return this.id; } ).get().join( ',' );
+			closed = $( '.postbox' )
+				.filter( '.closed' )
+				.map( function () {
+					return this.id;
+				} )
+				.get()
+				.join( ',' );
+			hidden = $( '.postbox' )
+				.filter( ':hidden' )
+				.map( function () {
+					return this.id;
+				} )
+				.get()
+				.join( ',' );
 
-			$.post(ajaxurl, {
+			$.post( ajaxurl, {
 				action: 'closed-postboxes',
 				closed: closed,
 				hidden: hidden,
-				closedpostboxesnonce: jQuery('#closedpostboxesnonce').val(),
-				page: page
-			});
+				closedpostboxesnonce: jQuery( '#closedpostboxesnonce' ).val(),
+				page: page,
+			} );
 		},
 
 		/**
@@ -482,29 +567,30 @@
 		 * @param {string} page The page we are currently on.
 		 * @return {void}
 		 */
-		save_order : function(page) {
-			var postVars, page_columns = $('.columns-prefs input:checked').val() || 0;
+		save_order: function ( page ) {
+			var postVars,
+				page_columns = $( '.columns-prefs input:checked' ).val() || 0;
 
 			postVars = {
 				action: 'meta-box-order',
-				_ajax_nonce: $('#meta-box-order-nonce').val(),
+				_ajax_nonce: $( '#meta-box-order-nonce' ).val(),
 				page_columns: page_columns,
-				page: page
+				page: page,
 			};
 
-			$('.meta-box-sortables').each( function() {
-				postVars[ 'order[' + this.id.split( '-' )[0] + ']' ] = $( this ).sortable( 'toArray' ).join( ',' );
+			$( '.meta-box-sortables' ).each( function () {
+				postVars[ 'order[' + this.id.split( '-' )[ 0 ] + ']' ] = $(
+					this
+				)
+					.sortable( 'toArray' )
+					.join( ',' );
 			} );
 
-			$.post(
-				ajaxurl,
-				postVars,
-				function( response ) {
-					if ( response.success ) {
-						wp.a11y.speak( __( 'The boxes order has been saved.' ) );
-					}
+			$.post( ajaxurl, postVars, function ( response ) {
+				if ( response.success ) {
+					wp.a11y.speak( __( 'The boxes order has been saved.' ) );
 				}
-			);
+			} );
 		},
 
 		/**
@@ -521,24 +607,28 @@
 		 *
 		 * @return {void}
 		 */
-		_mark_area : function() {
+		_mark_area: function () {
 			var visible = $( 'div.postbox:visible' ).length,
-				visibleSortables = $( '#dashboard-widgets .meta-box-sortables:visible, #post-body .meta-box-sortables:visible' ),
+				visibleSortables = $(
+					'#dashboard-widgets .meta-box-sortables:visible, #post-body .meta-box-sortables:visible'
+				),
 				areAllVisibleSortablesEmpty = true;
 
-			visibleSortables.each( function() {
-				var t = $(this);
+			visibleSortables.each( function () {
+				var t = $( this );
 
 				if ( visible == 1 || t.children( '.postbox:visible' ).length ) {
-					t.removeClass('empty-container');
+					t.removeClass( 'empty-container' );
 					areAllVisibleSortablesEmpty = false;
+				} else {
+					t.addClass( 'empty-container' );
 				}
-				else {
-					t.addClass('empty-container');
-				}
-			});
+			} );
 
-			postboxes.updateEmptySortablesText( visibleSortables, areAllVisibleSortablesEmpty );
+			postboxes.updateEmptySortablesText(
+				visibleSortables,
+				areAllVisibleSortablesEmpty
+			);
 		},
 
 		/**
@@ -551,15 +641,20 @@
 		 *
 		 * @return {void}
 		 */
-		updateEmptySortablesText: function( visibleSortables, areAllVisibleSortablesEmpty ) {
+		updateEmptySortablesText: function (
+			visibleSortables,
+			areAllVisibleSortablesEmpty
+		) {
 			var isDashboard = $( '#dashboard-widgets' ).length,
-				emptySortableText = areAllVisibleSortablesEmpty ?  __( 'Add boxes from the Screen Options menu' ) : __( 'Drag boxes here' );
+				emptySortableText = areAllVisibleSortablesEmpty
+					? __( 'Add boxes from the Screen Options menu' )
+					: __( 'Drag boxes here' );
 
 			if ( ! isDashboard ) {
 				return;
 			}
 
-			visibleSortables.each( function() {
+			visibleSortables.each( function () {
 				if ( $( this ).hasClass( 'empty-container' ) ) {
 					$( this ).attr( 'data-emptyString', emptySortableText );
 				}
@@ -579,11 +674,14 @@
 		 * @param {number} n The amount of columns to divide the post edit page in.
 		 * @return {void}
 		 */
-		_pb_edit : function(n) {
-			var el = $('.metabox-holder').get(0);
+		_pb_edit: function ( n ) {
+			var el = $( '.metabox-holder' ).get( 0 );
 
 			if ( el ) {
-				el.className = el.className.replace(/columns-\d+/, 'columns-' + n);
+				el.className = el.className.replace(
+					/columns-\d+/,
+					'columns-' + n
+				);
 			}
 
 			/**
@@ -608,22 +706,22 @@
 		 *
 		 * @return {void}
 		 */
-		_pb_change : function() {
+		_pb_change: function () {
 			var check = $( 'label.columns-prefs-1 input[type="radio"]' );
 
 			switch ( window.orientation ) {
 				case 90:
 				case -90:
-					if ( !check.length || !check.is(':checked') )
-						this._pb_edit(2);
+					if ( ! check.length || ! check.is( ':checked' ) )
+						this._pb_edit( 2 );
 					break;
 				case 0:
 				case 180:
 					if ( $( '#poststuff' ).length ) {
-						this._pb_edit(1);
+						this._pb_edit( 1 );
 					} else {
-						if ( !check.length || !check.is(':checked') )
-							this._pb_edit(2);
+						if ( ! check.length || ! check.is( ':checked' ) )
+							this._pb_edit( 2 );
 					}
 					break;
 			}
@@ -639,7 +737,7 @@
 		 *                                     is opened.
 		 * @memberof postboxes
 		 */
-		pbshow : false,
+		pbshow: false,
 
 		/**
 		 * @since 2.7.0
@@ -648,7 +746,6 @@
 		 *                                     is closed.
 		 * @memberof postboxes
 		 */
-		pbhide : false
+		pbhide: false,
 	};
-
-}(jQuery));
+} )( jQuery );

@@ -9,8 +9,8 @@ class Tests_Post_Meta extends WP_UnitTestCase
 
     private $last_register_meta_call = [
         'object_type' => '',
-        'meta_key'    => '',
-        'args'        => [],
+        'meta_key' => '',
+        'args' => [],
     ];
 
     protected static $author;
@@ -23,20 +23,20 @@ class Tests_Post_Meta extends WP_UnitTestCase
 
         self::$post_id = $factory->post->create(
             [
-                'post_author'  => self::$author->ID,
-                'post_status'  => 'publish',
+                'post_author' => self::$author->ID,
+                'post_status' => 'publish',
                 'post_content' => 'content',
-                'post_title'   => 'title',
-            ]
+                'post_title' => 'title',
+            ],
         );
 
         self::$post_id_2 = $factory->post->create(
             [
-                'post_author'  => self::$author->ID,
-                'post_status'  => 'publish',
+                'post_author' => self::$author->ID,
+                'post_status' => 'publish',
                 'post_content' => 'content',
-                'post_title'   => 'title',
-            ]
+                'post_title' => 'title',
+            ],
         );
     }
 
@@ -175,17 +175,17 @@ class Tests_Post_Meta extends WP_UnitTestCase
         $mid = add_post_meta(self::$post_id, 'get_post_meta_by_key', 'get_post_meta_by_key_value', true);
         $this->assertIsInt($mid);
 
-        $mobj             = new stdClass();
-        $mobj->meta_id    = $mid;
-        $mobj->post_id    = self::$post_id;
-        $mobj->meta_key   = 'get_post_meta_by_key';
+        $mobj = new stdClass();
+        $mobj->meta_id = $mid;
+        $mobj->post_id = self::$post_id;
+        $mobj->meta_key = 'get_post_meta_by_key';
         $mobj->meta_value = 'get_post_meta_by_key_value';
         $this->assertEquals($mobj, get_post_meta_by_id($mid));
         delete_metadata_by_mid('post', $mid);
 
         $mid = add_post_meta(self::$post_id, 'get_post_meta_by_key', ['foo', 'bar'], true);
         $this->assertIsInt($mid);
-        $mobj->meta_id    = $mid;
+        $mobj->meta_id = $mid;
         $mobj->meta_value = ['foo', 'bar'];
         $this->assertEquals($mobj, get_post_meta_by_id($mid));
         delete_metadata_by_mid('post', $mid);
@@ -243,15 +243,15 @@ class Tests_Post_Meta extends WP_UnitTestCase
      */
     public function test_funky_post_meta()
     {
-        $classy          = new StdClass();
-        $classy->ID      = 1;
+        $classy = new StdClass();
+        $classy->ID = 1;
         $classy->stringy = 'I love slashes\\\\';
-        $funky_meta[]    = $classy;
+        $funky_meta[] = $classy;
 
-        $classy          = new StdClass();
-        $classy->ID      = 2;
+        $classy = new StdClass();
+        $classy->ID = 2;
         $classy->stringy = 'I love slashes\\\\ more';
-        $funky_meta[]    = $classy;
+        $funky_meta[] = $classy;
 
         // Add a post meta item.
         $this->assertIsInt(add_post_meta(self::$post_id, 'test_funky_post_meta', $funky_meta, true));
@@ -292,8 +292,8 @@ class Tests_Post_Meta extends WP_UnitTestCase
     public function filter_register_meta_args_set_last_register_meta_call($args, $defaults, $object_type, $meta_key)
     {
         $this->last_register_meta_call['object_type'] = $object_type;
-        $this->last_register_meta_call['meta_key']    = $meta_key;
-        $this->last_register_meta_call['args']        = $args;
+        $this->last_register_meta_call['meta_key'] = $meta_key;
+        $this->last_register_meta_call['args'] = $args;
 
         return $args;
     }

@@ -8,13 +8,13 @@
 /**
  * Renders the `core/button` block on the server,
  *
- * @since 6.6.0
- *
- * @param array    $attributes The block attributes.
- * @param string   $content    The block content.
- * @param WP_Block $block      The block object.
+ * @param array $attributes The block attributes.
+ * @param string $content The block content.
+ * @param WP_Block $block The block object.
  *
  * @return string The block content.
+ * @since 6.6.0
+ *
  */
 function render_block_core_button($attributes, $content)
 {
@@ -76,7 +76,8 @@ function register_block_core_button()
         __DIR__ . '/button',
         [
             'render_callback' => 'render_block_core_button',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_button');

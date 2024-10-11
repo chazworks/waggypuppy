@@ -15,11 +15,11 @@
  *
  * @since 4.5.0
  *
- * @property int    $id
- * @property int    $network_id
+ * @property int $id
+ * @property int $network_id
  * @property string $blogname
  * @property string $siteurl
- * @property int    $post_count
+ * @property int $post_count
  * @property string $home
  */
 #[AllowDynamicProperties]
@@ -149,26 +149,27 @@ final class WP_Site
     /**
      * Retrieves a site from the database by its ID.
      *
+     * @param int $site_id The ID of the site to retrieve.
+     * @return WP_Site|false The site's object if found. False if not.
      * @since 4.5.0
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param int $site_id The ID of the site to retrieve.
-     * @return WP_Site|false The site's object if found. False if not.
      */
     public static function get_instance($site_id)
     {
         global $wpdb;
 
-        $site_id = (int) $site_id;
-        if (! $site_id) {
+        $site_id = (int)$site_id;
+        if (!$site_id) {
             return false;
         }
 
         $_site = wp_cache_get($site_id, 'sites');
 
         if (false === $_site) {
-            $_site = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->blogs} WHERE blog_id = %d LIMIT 1", $site_id));
+            $_site = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->blogs} WHERE blog_id = %d LIMIT 1",
+                $site_id));
 
             if (empty($_site) || is_wp_error($_site)) {
                 $_site = -1;
@@ -190,9 +191,9 @@ final class WP_Site
      * Will populate object properties from the object provided and assign other
      * default properties based on that information.
      *
+     * @param WP_Site|object $site A site object.
      * @since 4.5.0
      *
-     * @param WP_Site|object $site A site object.
      */
     public function __construct($site)
     {
@@ -204,9 +205,9 @@ final class WP_Site
     /**
      * Converts an object to array.
      *
+     * @return array Object as array.
      * @since 4.6.0
      *
-     * @return array Object as array.
      */
     public function to_array()
     {
@@ -219,24 +220,24 @@ final class WP_Site
      * Allows current multisite naming conventions when getting properties.
      * Allows access to extended site properties.
      *
-     * @since 4.6.0
-     *
      * @param string $key Property to get.
      * @return mixed Value of the property. Null if not available.
+     * @since 4.6.0
+     *
      */
     public function __get($key)
     {
         switch ($key) {
             case 'id':
-                return (int) $this->blog_id;
+                return (int)$this->blog_id;
             case 'network_id':
-                return (int) $this->site_id;
+                return (int)$this->site_id;
             case 'blogname':
             case 'siteurl':
             case 'post_count':
             case 'home':
             default: // Custom properties added by 'site_details' filter.
-                if (! did_action('ms_loaded')) {
+                if (!did_action('ms_loaded')) {
                     return null;
                 }
 
@@ -255,10 +256,10 @@ final class WP_Site
      * Allows current multisite naming conventions when checking for properties.
      * Checks for extended site properties.
      *
-     * @since 4.6.0
-     *
      * @param string $key Property to check if set.
      * @return bool Whether the property is set.
+     * @since 4.6.0
+     *
      */
     public function __isset($key)
     {
@@ -270,12 +271,12 @@ final class WP_Site
             case 'siteurl':
             case 'post_count':
             case 'home':
-                if (! did_action('ms_loaded')) {
+                if (!did_action('ms_loaded')) {
                     return false;
                 }
                 return true;
             default: // Custom properties added by 'site_details' filter.
-                if (! did_action('ms_loaded')) {
+                if (!did_action('ms_loaded')) {
                     return false;
                 }
 
@@ -293,19 +294,19 @@ final class WP_Site
      *
      * Allows current multisite naming conventions while setting properties.
      *
+     * @param string $key Property to set.
+     * @param mixed $value Value to assign to the property.
      * @since 4.6.0
      *
-     * @param string $key   Property to set.
-     * @param mixed  $value Value to assign to the property.
      */
     public function __set($key, $value)
     {
         switch ($key) {
             case 'id':
-                $this->blog_id = (string) $value;
+                $this->blog_id = (string)$value;
                 break;
             case 'network_id':
-                $this->site_id = (string) $value;
+                $this->site_id = (string)$value;
                 break;
             default:
                 $this->$key = $value;
@@ -317,28 +318,27 @@ final class WP_Site
      *
      * This method is used internally to lazy-load the extended properties of a site.
      *
-     * @since 4.6.0
-     *
+     * @return stdClass A raw site object with all details included.
      * @see WP_Site::__get()
      *
-     * @return stdClass A raw site object with all details included.
+     * @since 4.6.0
+     *
      */
     private function get_details()
     {
         $details = wp_cache_get($this->blog_id, 'site-details');
 
         if (false === $details) {
-
             switch_to_blog($this->blog_id);
             // Create a raw copy of the object for backward compatibility with the filter below.
             $details = new stdClass();
             foreach (get_object_vars($this) as $key => $value) {
                 $details->$key = $value;
             }
-            $details->blogname   = get_option('blogname');
-            $details->siteurl    = get_option('siteurl');
+            $details->blogname = get_option('blogname');
+            $details->siteurl = get_option('siteurl');
             $details->post_count = get_option('post_count');
-            $details->home       = get_option('home');
+            $details->home = get_option('home');
             restore_current_blog();
 
             wp_cache_set($this->blog_id, $details, 'site-details');
@@ -350,9 +350,9 @@ final class WP_Site
         /**
          * Filters a site's extended properties.
          *
+         * @param stdClass $details The site details.
          * @since 4.6.0
          *
-         * @param stdClass $details The site details.
          */
         $details = apply_filters('site_details', $details);
 

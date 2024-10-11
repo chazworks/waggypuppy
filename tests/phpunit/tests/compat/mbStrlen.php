@@ -53,44 +53,44 @@ class Tests_Compat_mbStrlen extends WP_UnitTestCase
     {
         return [
             [
-                'input_string'              => 'баба',
+                'input_string' => 'баба',
                 'expected_character_length' => 4,
-                'expected_byte_length'      => 8,
+                'expected_byte_length' => 8,
             ],
             [
-                'input_string'              => 'баб',
+                'input_string' => 'баб',
                 'expected_character_length' => 3,
-                'expected_byte_length'      => 6,
+                'expected_byte_length' => 6,
             ],
             [
-                'input_string'              => 'I am your б',
+                'input_string' => 'I am your б',
                 'expected_character_length' => 11,
-                'expected_byte_length'      => 12,
+                'expected_byte_length' => 12,
             ],
             [
-                'input_string'              => '1111111111',
+                'input_string' => '1111111111',
                 'expected_character_length' => 10,
-                'expected_byte_length'      => 10,
+                'expected_byte_length' => 10,
             ],
             [
-                'input_string'              => '²²²²²²²²²²',
+                'input_string' => '²²²²²²²²²²',
                 'expected_character_length' => 10,
-                'expected_byte_length'      => 20,
+                'expected_byte_length' => 20,
             ],
             [
-                'input_string'              => '３３３３３３３３３３',
+                'input_string' => '３３３３３３３３３３',
                 'expected_character_length' => 10,
-                'expected_byte_length'      => 30,
+                'expected_byte_length' => 30,
             ],
             [
-                'input_string'              => '𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜',
+                'input_string' => '𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜𝟜',
                 'expected_character_length' => 10,
-                'expected_byte_length'      => 40,
+                'expected_byte_length' => 40,
             ],
             [
-                'input_string'              => '1²３𝟜1²３𝟜1²３𝟜',
+                'input_string' => '1²３𝟜1²３𝟜1²３𝟜',
                 'expected_character_length' => 12,
-                'expected_byte_length'      => 30,
+                'expected_byte_length' => 30,
             ],
         ];
     }

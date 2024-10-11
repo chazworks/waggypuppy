@@ -7,7 +7,7 @@
  */
 
 /** Define ABSPATH as this file's directory */
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     define('ABSPATH', __DIR__ . '/');
 }
 
@@ -39,14 +39,14 @@ wp_load_translations_early();
 // Die with an error message.
 $die = sprintf(
     '<p>%s</p>',
-    __('You are running waggypuppy without JavaScript and CSS files. These need to be built.')
+    __('You are running waggypuppy without JavaScript and CSS files. These need to be built.'),
 );
 
 $die .= '<p>' . sprintf(
     /* translators: %s: npm install */
-    __('Before running any build tasks you need to make sure the dependencies are installed. You can install these by running %s.'),
-    '<code style="color: green;">npm install</code>'
-) . '</p>';
+        __('Before running any build tasks you need to make sure the dependencies are installed. You can install these by running %s.'),
+        '<code style="color: green;">npm install</code>',
+    ) . '</p>';
 
 $die .= '<ul>';
 $die .= '<li>' . __('To build waggypuppy while developing, run:') . '<br /><br />';
@@ -59,9 +59,9 @@ $die .= '</ul>';
 
 $die .= '<p>' . sprintf(
     /* translators: 1: npm URL, 2: Handbook URL. */
-    __('This requires <a href="%1$s">npm</a>. <a href="%2$s">Learn more about setting up your local development environment</a>.'),
-    'https://www.npmjs.com/get-npm',
-    __('https://make.wp.org/core/handbook/tutorials/installing-wordpress-locally/')
-) . '</p>';
+        __('This requires <a href="%1$s">npm</a>. <a href="%2$s">Learn more about setting up your local development environment</a>.'),
+        'https://www.npmjs.com/get-npm',
+        __('https://make.wp.org/core/handbook/tutorials/installing-wordpress-locally/'),
+    ) . '</p>';
 
 wp_die($die, __('waggypuppy &rsaquo; Error'));

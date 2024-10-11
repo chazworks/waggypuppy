@@ -14,9 +14,9 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
         // Apply a filter to test filterable values.
         add_filter('wp_sitemaps_max_urls', [$this, '_filter_max_url_value'], 10, 2);
 
-        $expected_posts      = wp_sitemaps_get_max_urls('post');
+        $expected_posts = wp_sitemaps_get_max_urls('post');
         $expected_taxonomies = wp_sitemaps_get_max_urls('term');
-        $expected_users      = wp_sitemaps_get_max_urls('user');
+        $expected_users = wp_sitemaps_get_max_urls('user');
 
         $this->assertSame($expected_posts, 300, 'Can not confirm max URL number for posts.');
         $this->assertSame($expected_taxonomies, 50, 'Can not confirm max URL number for taxonomies.');
@@ -26,8 +26,8 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
     /**
      * Callback function for testing the `sitemaps_max_urls` filter.
      *
-     * @param int    $max_urls The maximum number of URLs included in a sitemap. Default 2000.
-     * @param string $type     Optional. The type of sitemap to be filtered. Default empty.
+     * @param int $max_urls The maximum number of URLs included in a sitemap. Default 2000.
+     * @param string $type Optional. The type of sitemap to be filtered. Default empty.
      * @return int The maximum number of URLs.
      */
     public function _filter_max_url_value($max_urls, $type)
@@ -52,12 +52,13 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
         $sitemaps = wp_get_sitemap_providers();
 
         $expected = [
-            'posts'      => 'WP_Sitemaps_Posts',
+            'posts' => 'WP_Sitemaps_Posts',
             'taxonomies' => 'WP_Sitemaps_Taxonomies',
-            'users'      => 'WP_Sitemaps_Users',
+            'users' => 'WP_Sitemaps_Users',
         ];
 
-        $this->assertSame(array_keys($expected), array_keys($sitemaps), 'Unable to confirm default sitemap types are registered.');
+        $this->assertSame(array_keys($expected), array_keys($sitemaps),
+            'Unable to confirm default sitemap types are registered.');
 
         foreach ($expected as $name => $provider) {
             $this->assertInstanceOf($provider, $sitemaps[$name], "Default $name sitemap is not a $provider object.");
@@ -96,10 +97,10 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
      * @return array[] {
      *     Data to test with.
      *
-     *     @type string       $0 Sitemap name.
-     *     @type string       $1 Sitemap subtype name.
-     *     @type int          $3 Sitemap page.
-     *     @type string|false $4 Sitemap URL.
+     * @type string       $0 Sitemap name.
+     * @type string       $1 Sitemap subtype name.
+     * @type int          $3 Sitemap page.
+     * @type string|false $4 Sitemap URL.
      * }
      */
     public function data_get_sitemap_url_plain_permalinks()
@@ -129,10 +130,10 @@ class Tests_Sitemaps_Functions extends WP_UnitTestCase
      * @return array[] {
      *     Data to test with.
      *
-     *     @type string       $0 Sitemap name.
-     *     @type string       $1 Sitemap subtype name.
-     *     @type int          $3 Sitemap page.
-     *     @type string|false $4 Sitemap URL.
+     * @type string       $0 Sitemap name.
+     * @type string       $1 Sitemap subtype name.
+     * @type int          $3 Sitemap page.
+     * @type string|false $4 Sitemap URL.
      * }
      */
     public function data_get_sitemap_url_pretty_permalinks()

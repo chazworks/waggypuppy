@@ -15,9 +15,9 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
     {
         self::$user_id = $factory->user->create(
             [
-                'role'   => 'administrator',
+                'role' => 'administrator',
                 'locale' => 'userLocale',
-            ]
+            ],
         );
     }
 
@@ -29,7 +29,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             $_COOKIE['wp_lang'],
             $GLOBALS['pagenow'],
             $GLOBALS['wp_local_package'],
-            $_REQUEST['language']
+            $_REQUEST['language'],
         );
         wp_installing(false);
 
@@ -48,7 +48,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'pre_determine_locale',
             static function () {
                 return 1234;
-            }
+            },
         );
         $this->assertNotFalse(determine_locale());
     }
@@ -58,8 +58,8 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
         add_filter(
             'pre_determine_locale',
             static function () {
-                    return 'myNewLocale';
-            }
+                return 'myNewLocale';
+            },
         );
         $this->assertSame('myNewLocale', determine_locale());
     }
@@ -70,7 +70,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         $this->assertSame(get_locale(), determine_locale());
@@ -82,7 +82,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         set_current_screen('dashboard');
@@ -96,7 +96,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         set_current_screen('dashboard');
@@ -111,13 +111,13 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
 
         $_SERVER['CONTENT_TYPE'] = 'application/json';
-        $_GET['_locale']         = 'user';
+        $_GET['_locale'] = 'user';
 
         $this->assertSame('userLocale', determine_locale());
     }
@@ -128,11 +128,11 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         $_SERVER['CONTENT_TYPE'] = 'application/json';
-        $_GET['_locale']         = 'user';
+        $_GET['_locale'] = 'user';
 
         $this->assertSame('siteLocale', determine_locale());
     }
@@ -143,7 +143,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
@@ -159,13 +159,13 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
 
         $_SERVER['CONTENT_TYPE'] = 'application/json';
-        $_GET['_locale']         = 'foo';
+        $_GET['_locale'] = 'foo';
 
         $this->assertSame('siteLocale', determine_locale());
     }
@@ -176,7 +176,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
@@ -192,7 +192,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
@@ -208,13 +208,13 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
 
         $GLOBALS['pagenow'] = 'wp-login.php';
-        $_GET['wp_lang']    = 'de_DE';
+        $_GET['wp_lang'] = 'de_DE';
 
         $this->assertSame('de_DE', determine_locale());
     }
@@ -225,13 +225,13 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
 
         $GLOBALS['pagenow'] = 'wp-login.php';
-        $_GET['wp_lang']    = '';
+        $_GET['wp_lang'] = '';
 
         $this->assertSame('siteLocale', determine_locale());
     }
@@ -242,13 +242,13 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
 
         $GLOBALS['pagenow'] = 'wp-login.php';
-        $_GET['wp_lang']    = '###'; // Something sanitize_locale_name() strips away.
+        $_GET['wp_lang'] = '###'; // Something sanitize_locale_name() strips away.
 
         $this->assertSame('siteLocale', determine_locale());
     }
@@ -259,7 +259,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
@@ -275,7 +275,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
@@ -292,7 +292,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
             'locale',
             static function () {
                 return 'siteLocale';
-            }
+            },
         );
 
         wp_set_current_user(self::$user_id);
@@ -328,6 +328,7 @@ class Tests_L10n_DetermineLocale extends WP_UnitTestCase
         $GLOBALS['wp_local_package'] = 'de_DE';
         $this->assertSame('en_US', determine_locale());
     }
+
     public function test_wp_local_package_global_installing()
     {
         $GLOBALS['wp_local_package'] = 'de_DE';

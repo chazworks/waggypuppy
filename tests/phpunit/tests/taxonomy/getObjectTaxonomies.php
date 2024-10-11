@@ -14,7 +14,7 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
 
     public function test_object_should_accept_string()
     {
-        $found    = get_object_taxonomies('wptests_pt');
+        $found = get_object_taxonomies('wptests_pt');
         $expected = ['wptests_tax'];
 
         $this->assertSame($expected, $found);
@@ -22,7 +22,7 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
 
     public function test_object_should_accept_array_of_post_type_names()
     {
-        $found    = get_object_taxonomies(['wptests_pt']);
+        $found = get_object_taxonomies(['wptests_pt']);
         $expected = ['wptests_tax'];
 
         $this->assertSame($expected, $found);
@@ -30,8 +30,8 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
 
     public function test_object_should_accept_post_object()
     {
-        $p        = self::factory()->post->create_and_get(['post_type' => 'wptests_pt']);
-        $found    = get_object_taxonomies($p);
+        $p = self::factory()->post->create_and_get(['post_type' => 'wptests_pt']);
+        $found = get_object_taxonomies($p);
         $expected = ['wptests_tax'];
 
         $this->assertSame($expected, $found);
@@ -48,7 +48,7 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
 
     public function test_any_value_of_output_other_than_names_should_return_objects()
     {
-        $found    = get_object_taxonomies('wptests_pt', 'foo');
+        $found = get_object_taxonomies('wptests_pt', 'foo');
         $expected = get_object_taxonomies('wptests_pt', 'objects');
 
         $this->assertSame($expected, $found);
@@ -61,13 +61,13 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax2', 'attachment:image');
 
-        $a          = self::factory()->attachment->create_object(
+        $a = self::factory()->attachment->create_object(
             'image.jpg',
             0,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
         $attachment = get_post($a);
 
@@ -83,13 +83,13 @@ class Tests_Taxonomy_GetObjectTaxonomies extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax2', 'attachment:image');
 
-        $a          = self::factory()->attachment->create_object(
+        $a = self::factory()->attachment->create_object(
             'image.jpg',
             0,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
         $attachment = get_post($a);
 

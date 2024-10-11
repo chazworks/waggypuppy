@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group query
  *
@@ -51,15 +52,15 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
     {
         $query_args = [
             'post_type' => 'wptests_pt',
-            'fields'    => 'id=>parent',
+            'fields' => 'id=>parent',
         ];
 
         $q = new WP_Query($query_args);
 
         $expected = [];
         foreach (self::$post_ids as $post_id) {
-            $expected[] = (object) [
-                'ID'          => $post_id,
+            $expected[] = (object)[
+                'ID' => $post_id,
                 'post_parent' => 0,
             ];
         }
@@ -82,7 +83,7 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
     {
         $query_args = [
             'post_type' => 'wptests_pt',
-            'fields'    => 'ids',
+            'fields' => 'ids',
         ];
 
         $q = new WP_Query($query_args);
@@ -107,7 +108,7 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
     {
         $query_args = [
             'post_type' => 'wptests_pt',
-            'fields'    => 'all',
+            'fields' => 'all',
         ];
 
         $q = new WP_Query($query_args);
@@ -135,17 +136,17 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
 
         $query_args = [
             'post_type' => 'wptests_pt',
-            'fields'    => 'id=>parent',
+            'fields' => 'id=>parent',
         ];
 
         $q = new WP_Query($query_args);
 
         $expected = [];
         foreach (self::$post_ids as $post_id) {
-            $expected[] = (object) [
-                'ID'                => $post_id,
-                'post_parent'       => 0,
-                'test_post_fields'  => '1',
+            $expected[] = (object)[
+                'ID' => $post_id,
+                'post_parent' => 0,
+                'test_post_fields' => '1',
                 'test_post_clauses' => '2',
             ];
         }
@@ -171,7 +172,7 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
 
         $query_args = [
             'post_type' => 'wptests_pt',
-            'fields'    => 'ids',
+            'fields' => 'ids',
         ];
 
         $q = new WP_Query($query_args);
@@ -200,14 +201,14 @@ class Tests_Query_FieldsClause extends WP_UnitTestCase
 
         $query_args = [
             'post_type' => 'wptests_pt',
-            'fields'    => 'all',
+            'fields' => 'all',
         ];
 
         $q = new WP_Query($query_args);
 
         $expected = array_map('get_post', self::$post_ids);
         foreach ($expected as $post) {
-            $post->test_post_fields  = '1';
+            $post->test_post_fields = '1';
             $post->test_post_clauses = '2';
         }
 

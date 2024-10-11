@@ -32,14 +32,14 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
      * Clean up global scope.
      *
      * @global WP_Scripts $wp_scripts
-     * @global WP_Styles  $wp_style
+     * @global WP_Styles $wp_style
      */
     public function clean_up_global_scope()
     {
         global $wp_scripts, $wp_styles;
         parent::clean_up_global_scope();
         $wp_scripts = null;
-        $wp_styles  = null;
+        $wp_styles = null;
     }
 
     /**
@@ -69,7 +69,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         $widget->_register();
 
         $this->assertSame(10, has_action('admin_print_scripts-widgets.php', [$widget, 'enqueue_admin_scripts']));
-        $this->assertSame(10, has_action('admin_footer-widgets.php', ['WP_Widget_Custom_HTML', 'render_control_template_scripts']));
+        $this->assertSame(10,
+            has_action('admin_footer-widgets.php', ['WP_Widget_Custom_HTML', 'render_control_template_scripts']));
         $this->assertSame(10, has_action('admin_head-widgets.php', ['WP_Widget_Custom_HTML', 'add_help_text']));
     }
 
@@ -80,17 +81,17 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
      */
     public function test_widget()
     {
-        $widget  = new WP_Widget_Custom_HTML();
+        $widget = new WP_Widget_Custom_HTML();
         $content = "<i>Custom HTML</i>\n\n<b>CODE</b>\nLast line.<u>unclosed";
 
-        $args     = [
-            'before_title'  => '<h2>',
-            'after_title'   => "</h2>\n",
+        $args = [
+            'before_title' => '<h2>',
+            'after_title' => "</h2>\n",
             'before_widget' => '<section id="custom_html-5" class="widget widget_custom_html">',
-            'after_widget'  => "</section>\n",
+            'after_widget' => "</section>\n",
         ];
         $instance = [
-            'title'   => 'Foo',
+            'title' => 'Foo',
             'content' => $content,
         ];
 
@@ -98,10 +99,10 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         $text_widget_instance = array_merge(
             $instance,
             [
-                'text'   => $instance['content'],
+                'text' => $instance['content'],
                 'filter' => false,
                 'visual' => false,
-            ]
+            ],
         );
         unset($text_widget_instance['content']);
 
@@ -110,13 +111,14 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         add_filter('widget_text', [$this, 'filter_widget_text'], 10, 3);
         ob_start();
         $this->widget_custom_html_content_args = null;
-        $this->widget_text_args                = null;
+        $this->widget_text_args = null;
         $widget->widget($args, $instance);
         $output = ob_get_clean();
         $this->assertNotEmpty($this->widget_custom_html_content_args);
         $this->assertNotEmpty($this->widget_text_args);
         $this->assertStringContainsString('[filter:widget_text][filter:widget_custom_html_content]', $output);
-        $this->assertStringContainsString('<section id="custom_html-5" class="widget_text widget widget_custom_html">', $output);
+        $this->assertStringContainsString('<section id="custom_html-5" class="widget_text widget widget_custom_html">',
+            $output);
         $this->assertStringContainsString('<div class="textwidget custom-html-widget">', $output);
         $this->assertStringNotContainsString('<p>', $output);
         $this->assertStringNotContainsString('<br>', $output);
@@ -138,30 +140,30 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
     /**
      * Filters the content of the Custom HTML widget using the legacy widget_text filter.
      *
-     * @param string                $text     The widget content.
-     * @param array                 $instance Array of settings for the current widget.
-     * @param WP_Widget_Custom_HTML $widget   Current widget instance.
+     * @param string $text The widget content.
+     * @param array $instance Array of settings for the current widget.
+     * @param WP_Widget_Custom_HTML $widget Current widget instance.
      * @return string Widget content.
      */
     public function filter_widget_text($text, $instance, $widget)
     {
         $this->widget_text_args = [$text, $instance, $widget];
-        $text                  .= '[filter:widget_text]';
+        $text .= '[filter:widget_text]';
         return $text;
     }
 
     /**
      * Filters the content of the Custom HTML widget using the dedicated widget_custom_html_content filter.
      *
-     * @param string                $widget_content The widget content.
-     * @param array                 $instance       Array of settings for the current widget.
-     * @param WP_Widget_Custom_HTML $widget         Current Custom HTML widget instance.
+     * @param string $widget_content The widget content.
+     * @param array $instance Array of settings for the current widget.
+     * @param WP_Widget_Custom_HTML $widget Current Custom HTML widget instance.
      * @return string Widget content.
      */
     public function filter_widget_custom_html_content($widget_content, $instance, $widget)
     {
         $this->widget_custom_html_content_args = [$widget_content, $instance, $widget];
-        $widget_content                       .= '[filter:widget_custom_html_content]';
+        $widget_content .= '[filter:widget_custom_html_content]';
         return $widget_content;
     }
 
@@ -172,9 +174,9 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
      */
     public function test_update()
     {
-        $widget   = new WP_Widget_Custom_HTML();
+        $widget = new WP_Widget_Custom_HTML();
         $instance = [
-            'title'   => "The\n<b>Title</b>",
+            'title' => "The\n<b>Title</b>",
             'content' => "The\n\n<b>Code</b>",
         ];
 
@@ -182,16 +184,16 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
             self::factory()->user->create(
                 [
                     'role' => 'administrator',
-                ]
-            )
+                ],
+            ),
         );
 
         // Should return valid instance.
         $expected = [
-            'title'   => sanitize_text_field($instance['title']),
+            'title' => sanitize_text_field($instance['title']),
             'content' => $instance['content'],
         ];
-        $result   = $widget->update($instance, []);
+        $result = $widget->update($instance, []);
         $this->assertSame($expected, $result);
 
         // Make sure KSES is applying as expected.
@@ -199,7 +201,7 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         $this->assertTrue(current_user_can('unfiltered_html'));
         $instance['content'] = '<script>alert( "Howdy!" );</script>';
         $expected['content'] = $instance['content'];
-        $result              = $widget->update($instance, []);
+        $result = $widget->update($instance, []);
         $this->assertSame($expected, $result);
         remove_filter('map_meta_cap', [$this, 'grant_unfiltered_html_cap']);
 
@@ -207,7 +209,7 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         $this->assertFalse(current_user_can('unfiltered_html'));
         $instance['content'] = '<script>alert( "Howdy!" );</script>';
         $expected['content'] = wp_kses_post($instance['content']);
-        $result              = $widget->update($instance, []);
+        $result = $widget->update($instance, []);
         $this->assertSame($expected, $result);
         remove_filter('map_meta_cap', [$this, 'revoke_unfiltered_html_cap'], 10);
     }
@@ -215,14 +217,14 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
     /**
      * Grant unfiltered_html cap via map_meta_cap.
      *
-     * @param array  $caps    Returns the user's actual capabilities.
-     * @param string $cap     Capability name.
+     * @param array $caps Returns the user's actual capabilities.
+     * @param string $cap Capability name.
      * @return array Caps.
      */
     public function grant_unfiltered_html_cap($caps, $cap)
     {
         if ('unfiltered_html' === $cap) {
-            $caps   = array_diff($caps, ['do_not_allow']);
+            $caps = array_diff($caps, ['do_not_allow']);
             $caps[] = 'unfiltered_html';
         }
         return $caps;
@@ -231,14 +233,14 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
     /**
      * Revoke unfiltered_html cap via map_meta_cap.
      *
-     * @param array  $caps    Returns the user's actual capabilities.
-     * @param string $cap     Capability name.
+     * @param array $caps Returns the user's actual capabilities.
+     * @param string $cap Capability name.
      * @return array Caps.
      */
     public function revoke_unfiltered_html_cap($caps, $cap)
     {
         if ('unfiltered_html' === $cap) {
-            $caps   = array_diff($caps, ['unfiltered_html']);
+            $caps = array_diff($caps, ['unfiltered_html']);
             $caps[] = 'do_not_allow';
         }
         return $caps;
@@ -299,7 +301,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         WP_Widget_Custom_HTML::render_control_template_scripts();
         $output = ob_get_clean();
 
-        $this->assertStringContainsString('<script type="text/html" id="tmpl-widget-custom-html-control-fields">', $output);
+        $this->assertStringContainsString('<script type="text/html" id="tmpl-widget-custom-html-control-fields">',
+            $output);
     }
 
     /**
@@ -313,7 +316,8 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         WP_Widget_Custom_HTML::add_help_text();
         $help_tab = get_current_screen()->get_help_tab('custom_html_widget');
 
-        $this->assertStringContainsString('Use the Custom HTML widget to add arbitrary HTML code to your widget areas.', $help_tab['content']);
+        $this->assertStringContainsString('Use the Custom HTML widget to add arbitrary HTML code to your widget areas.',
+            $help_tab['content']);
     }
 
     /**
@@ -328,14 +332,14 @@ class Tests_Widgets_wpWidgetCustomHtml extends WP_UnitTestCase
         $content = 'Test content with an internal <a href="/">link</a>.';
 
         $args = [
-            'before_title'  => '<h2>',
-            'after_title'   => '</h2>',
+            'before_title' => '<h2>',
+            'after_title' => '</h2>',
             'before_widget' => '',
-            'after_widget'  => '',
+            'after_widget' => '',
         ];
 
         $instance = [
-            'title'   => 'Foo',
+            'title' => 'Foo',
             'content' => $content,
         ];
 

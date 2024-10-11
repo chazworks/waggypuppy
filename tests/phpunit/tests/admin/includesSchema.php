@@ -17,20 +17,20 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
     {
         global $wpdb;
 
-        self::$options  = 'testprefix_options';
+        self::$options = 'testprefix_options';
         self::$blogmeta = 'testprefix_blogmeta';
         self::$sitemeta = 'testprefix_sitemeta';
 
-        $options  = self::$options;
+        $options = self::$options;
         $blogmeta = self::$blogmeta;
         $sitemeta = self::$sitemeta;
 
         require_once ABSPATH . 'wp-admin/includes/schema.php';
 
-        $charset_collate  = $wpdb->get_charset_collate();
+        $charset_collate = $wpdb->get_charset_collate();
         $max_index_length = 191;
 
-		// phpcs:disable waggypuppy.DB.PreparedSQL.InterpolatedNotPrepared
+
         $wpdb->query(
             "
 			CREATE TABLE {$options} (
@@ -41,7 +41,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 				PRIMARY KEY  (option_id),
 				UNIQUE KEY option_name (option_name)
 			) {$charset_collate}
-			"
+			",
         );
         $wpdb->query(
             "
@@ -54,7 +54,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 				KEY meta_key (meta_key({$max_index_length})),
 				KEY blog_id (blog_id)
 			) {$charset_collate}
-			"
+			",
         );
         $wpdb->query(
             "
@@ -67,9 +67,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
 				KEY meta_key (meta_key({$max_index_length})),
 				KEY site_id (site_id)
 			) {$charset_collate}
-			"
+			",
         );
-		// phpcs:enable
     }
 
     /**
@@ -79,15 +78,14 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
     {
         global $wpdb;
 
-        $options  = self::$options;
+        $options = self::$options;
         $blogmeta = self::$blogmeta;
         $sitemeta = self::$sitemeta;
 
-		// phpcs:disable waggypuppy.DB.PreparedSQL.InterpolatedNotPrepared
+
         $wpdb->query("DROP TABLE IF EXISTS {$options}");
         $wpdb->query("DROP TABLE IF EXISTS {$blogmeta}");
         $wpdb->query("DROP TABLE IF EXISTS {$sitemeta}");
-		// phpcs:enable
     }
 
     /**
@@ -98,7 +96,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
     {
         global $wpdb;
 
-        $orig_options  = $wpdb->options;
+        $orig_options = $wpdb->options;
         $wpdb->options = self::$options;
 
         populate_options($options);
@@ -124,25 +122,25 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
                 [],
                 [
                     // Random options to check.
-                    'posts_per_rss'    => '10',
-                    'rss_use_excerpt'  => '0',
-                    'mailserver_url'   => 'mail.example.com',
+                    'posts_per_rss' => '10',
+                    'rss_use_excerpt' => '0',
+                    'mailserver_url' => 'mail.example.com',
                     'mailserver_login' => 'login@example.com',
-                    'mailserver_pass'  => '',
+                    'mailserver_pass' => '',
                 ],
             ],
             [
                 [
-                    'posts_per_rss'   => '7',
+                    'posts_per_rss' => '7',
                     'rss_use_excerpt' => '1',
                 ],
                 [
                     // Random options to check.
-                    'posts_per_rss'    => '7',
-                    'rss_use_excerpt'  => '1',
-                    'mailserver_url'   => 'mail.example.com',
+                    'posts_per_rss' => '7',
+                    'rss_use_excerpt' => '1',
+                    'mailserver_url' => 'mail.example.com',
                     'mailserver_login' => 'login@example.com',
-                    'mailserver_pass'  => '',
+                    'mailserver_pass' => '',
                 ],
             ],
             [
@@ -151,12 +149,12 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
                 ],
                 [
                     // Random options to check.
-                    'custom_option'    => '1',
-                    'posts_per_rss'    => '10',
-                    'rss_use_excerpt'  => '0',
-                    'mailserver_url'   => 'mail.example.com',
+                    'custom_option' => '1',
+                    'posts_per_rss' => '10',
+                    'rss_use_excerpt' => '0',
+                    'mailserver_url' => 'mail.example.com',
                     'mailserver_login' => 'login@example.com',
-                    'mailserver_pass'  => '',
+                    'mailserver_pass' => '',
                 ],
             ],
             [
@@ -192,7 +190,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
         global $wpdb;
 
         // Back up.
-        $orig_options  = $wpdb->options;
+        $orig_options = $wpdb->options;
         $wpdb->options = self::$options;
 
         // Set the "default" value for the timezone to a deprecated timezone.
@@ -206,7 +204,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
                 return $translation;
             },
             10,
-            3
+            3,
         );
 
         // Test.
@@ -234,7 +232,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
     {
         global $wpdb;
 
-        $orig_blogmeta  = $wpdb->blogmeta;
+        $orig_blogmeta = $wpdb->blogmeta;
         $wpdb->blogmeta = self::$blogmeta;
 
         populate_site_meta(42, $meta);
@@ -280,7 +278,7 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
     {
         global $wpdb;
 
-        $orig_sitemeta  = $wpdb->sitemeta;
+        $orig_sitemeta = $wpdb->sitemeta;
         $wpdb->sitemeta = self::$sitemeta;
 
         populate_network_meta(42, $meta);
@@ -290,7 +288,8 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
             if (is_multisite()) {
                 $results[$meta_key] = get_network_option(42, $meta_key);
             } else {
-                $results[$meta_key] = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d", $meta_key, 42));
+                $results[$meta_key] = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM {$wpdb->sitemeta} WHERE meta_key = %s AND site_id = %d",
+                    $meta_key, 42));
             }
         }
 
@@ -308,23 +307,23 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
                 [],
                 [
                     // Random meta to check.
-                    'registration'      => 'none',
+                    'registration' => 'none',
                     'blog_upload_space' => '100',
-                    'fileupload_maxk'   => '1500',
+                    'fileupload_maxk' => '1500',
                 ],
             ],
             [
                 [
                     'site_name' => 'My Great Network',
-                    'WPLANG'    => 'fr_FR',
+                    'WPLANG' => 'fr_FR',
                 ],
                 [
                     // Random meta to check.
-                    'site_name'         => 'My Great Network',
-                    'registration'      => 'none',
+                    'site_name' => 'My Great Network',
+                    'registration' => 'none',
                     'blog_upload_space' => '100',
-                    'fileupload_maxk'   => '1500',
-                    'WPLANG'            => 'fr_FR',
+                    'fileupload_maxk' => '1500',
+                    'WPLANG' => 'fr_FR',
                 ],
             ],
             [
@@ -333,10 +332,10 @@ class Tests_Admin_IncludesSchema extends WP_UnitTestCase
                 ],
                 [
                     // Random meta to check.
-                    'custom_meta'       => '1',
-                    'registration'      => 'none',
+                    'custom_meta' => '1',
+                    'registration' => 'none',
                     'blog_upload_space' => '100',
-                    'fileupload_maxk'   => '1500',
+                    'fileupload_maxk' => '1500',
                 ],
             ],
         ];

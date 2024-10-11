@@ -70,7 +70,6 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
      */
     public function test_should_not_automatically_create_fallback_if_filter_is_falsey()
     {
-
         add_filter('wp_navigation_should_create_fallback', '__return_false');
 
         $data = WP_Navigation_Fallback::get_fallback();
@@ -88,9 +87,9 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
      * @ticket 58557
      * @covers WP_REST_Navigation_Fallback_Controller::get_fallback
      */
-    public function test_should_return_a_default_fallback_navigation_menu_with_no_blocks_if_page_list_block_is_not_registered()
+    public function test_should_return_a_default_fallback_navigation_menu_with_no_blocks_if_page_list_block_is_not_registered(
+    )
     {
-
         $original_page_list_block = WP_Block_Type_Registry::get_instance()->get_registered('core/page-list');
 
         unregister_block_type('core/page-list');
@@ -99,7 +98,8 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
 
         $this->assertInstanceOf('WP_Post', $data, 'Response should be of the correct type.');
 
-        $this->assertNotSame('<!-- wp:page-list /-->', $data->post_content, 'Navigation Menu should not contain a Page List block.');
+        $this->assertNotSame('<!-- wp:page-list /-->', $data->post_content,
+            'Navigation Menu should not contain a Page List block.');
 
         $this->assertEmpty($data->post_content, 'Menu should be empty.');
 
@@ -134,32 +134,34 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
      */
     public function test_should_return_the_most_recently_created_navigation_menu()
     {
-
         self::factory()->post->create_and_get(
             [
-                'post_type'    => 'wp_navigation',
-                'post_title'   => 'Existing Navigation Menu 1',
+                'post_type' => 'wp_navigation',
+                'post_title' => 'Existing Navigation Menu 1',
                 'post_content' => '<!-- wp:page-list /-->',
-            ]
+            ],
         );
 
         $most_recently_published_nav = self::factory()->post->create_and_get(
             [
-                'post_type'    => 'wp_navigation',
-                'post_title'   => 'Existing Navigation Menu 2',
+                'post_type' => 'wp_navigation',
+                'post_title' => 'Existing Navigation Menu 2',
                 'post_content' => '<!-- wp:navigation-link {"label":"Hello world","type":"post","id":1,"url":"/hello-world","kind":"post-type"} /-->',
-            ]
+            ],
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
 
         $this->assertInstanceOf('WP_Post', $data, 'Response should be of the correct type.');
 
-        $this->assertSame($most_recently_published_nav->post_title, $data->post_title, 'Fallback menu title should be the same as the most recently created menu.');
+        $this->assertSame($most_recently_published_nav->post_title, $data->post_title,
+            'Fallback menu title should be the same as the most recently created menu.');
 
-        $this->assertSame($most_recently_published_nav->post_name, $data->post_name, 'Post name should be the same as the most recently created menu.');
+        $this->assertSame($most_recently_published_nav->post_name, $data->post_name,
+            'Post name should be the same as the most recently created menu.');
 
-        $this->assertSame($most_recently_published_nav->post_content, $data->post_content, 'Post content should be the same as the most recently created menu.');
+        $this->assertSame($most_recently_published_nav->post_content, $data->post_content,
+            'Post content should be the same as the most recently created menu.');
 
         // Check that no new Navigation menu was created.
         $navs_in_db = $this->get_navigations_in_database();
@@ -179,26 +181,30 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
             $menu_id,
             0,
             [
-                'menu-item-title'  => 'Classic Menu Item 1',
-                'menu-item-url'    => '/classic-menu-item-1',
+                'menu-item-title' => 'Classic Menu Item 1',
+                'menu-item-url' => '/classic-menu-item-1',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
 
         $this->assertInstanceOf('WP_Post', $data, 'Response should be of the correct type.');
 
-        $this->assertSame('Existing Classic Menu', $data->post_title, 'Fallback menu title should be the same as the classic menu.');
+        $this->assertSame('Existing Classic Menu', $data->post_title,
+            'Fallback menu title should be the same as the classic menu.');
 
         // Assert that the fallback contains a navigation-link block.
-        $this->assertStringContainsString('<!-- wp:navigation-link', $data->post_content, 'The fallback Navigation Menu should contain a `core/navigation-link` block.');
+        $this->assertStringContainsString('<!-- wp:navigation-link', $data->post_content,
+            'The fallback Navigation Menu should contain a `core/navigation-link` block.');
 
         // Assert that fallback post_content contains the expected menu item title.
-        $this->assertStringContainsString('"label":"Classic Menu Item 1"', $data->post_content, 'The fallback Navigation Menu should contain menu item with a label matching the title of the menu item from the Classic Menu.');
+        $this->assertStringContainsString('"label":"Classic Menu Item 1"', $data->post_content,
+            'The fallback Navigation Menu should contain menu item with a label matching the title of the menu item from the Classic Menu.');
 
         // Assert that fallback post_content contains the expected menu item url.
-        $this->assertStringContainsString('"url":"/classic-menu-item-1"', $data->post_content, 'The fallback Navigation Menu should contain menu item with a url matching the slug of the menu item from the Classic Menu.');
+        $this->assertStringContainsString('"url":"/classic-menu-item-1"', $data->post_content,
+            'The fallback Navigation Menu should contain menu item with a url matching the slug of the menu item from the Classic Menu.');
 
         // Check that only a single Navigation fallback was created.
         $navs_in_db = $this->get_navigations_in_database();
@@ -217,10 +223,10 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
             $pl_menu_id,
             0,
             [
-                'menu-item-title'  => 'PL Classic Menu Item',
-                'menu-item-url'    => '/pl-classic-menu-item',
+                'menu-item-title' => 'PL Classic Menu Item',
+                'menu-item-url' => '/pl-classic-menu-item',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         $another_menu_id = wp_create_nav_menu('Another Classic Menu');
@@ -229,22 +235,23 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
             $another_menu_id,
             0,
             [
-                'menu-item-title'  => 'Another Classic Menu Item',
-                'menu-item-url'    => '/another-classic-menu-item',
+                'menu-item-title' => 'Another Classic Menu Item',
+                'menu-item-url' => '/another-classic-menu-item',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
-        $locations            = get_nav_menu_locations();
+        $locations = get_nav_menu_locations();
         $locations['primary'] = $pl_menu_id;
-        $locations['header']  = $another_menu_id;
+        $locations['header'] = $another_menu_id;
         set_theme_mod('nav_menu_locations', $locations);
 
         $data = WP_Navigation_Fallback::get_fallback();
 
         $this->assertInstanceOf('WP_Post', $data, 'Response should be of the correct type.');
 
-        $this->assertSame('Classic Menu in Primary Location', $data->post_title, 'Fallback menu title should match the menu in the "primary" location.');
+        $this->assertSame('Classic Menu in Primary Location', $data->post_title,
+            'Fallback menu title should match the menu in the "primary" location.');
     }
 
     /**
@@ -253,7 +260,6 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
      */
     public function test_should_fallback_to_classic_menu_with_primary_slug()
     {
-
         // Creates a classic menu with the slug "primary".
         $primary_menu_id = wp_create_nav_menu('Primary');
 
@@ -261,10 +267,10 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
             $primary_menu_id,
             0,
             [
-                'menu-item-title'  => 'Classic Menu Item',
-                'menu-item-url'    => '/classic-menu-item',
+                'menu-item-title' => 'Classic Menu Item',
+                'menu-item-url' => '/classic-menu-item',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         $another_menu_id = wp_create_nav_menu('Another Classic Menu');
@@ -273,17 +279,18 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
             $another_menu_id,
             0,
             [
-                'menu-item-title'  => 'Another Classic Menu Item',
-                'menu-item-url'    => '/another-classic-menu-item',
+                'menu-item-title' => 'Another Classic Menu Item',
+                'menu-item-url' => '/another-classic-menu-item',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
 
         $this->assertInstanceOf('WP_Post', $data, 'Response should be of the correct type.');
 
-        $this->assertSame('Primary', $data->post_title, 'Fallback menu title should match the menu with the slug "primary".');
+        $this->assertSame('Primary', $data->post_title,
+            'Fallback menu title should match the menu with the slug "primary".');
     }
 
     /**
@@ -292,7 +299,6 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
      */
     public function test_should_fallback_to_most_recently_created_classic_menu()
     {
-
         // Creates a classic menu with the slug "primary".
         $primary_menu_id = wp_create_nav_menu('Older Classic Menu');
 
@@ -300,10 +306,10 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
             $primary_menu_id,
             0,
             [
-                'menu-item-title'  => 'Classic Menu Item',
-                'menu-item-url'    => '/classic-menu-item',
+                'menu-item-title' => 'Classic Menu Item',
+                'menu-item-url' => '/classic-menu-item',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         $most_recent_menu_id = wp_create_nav_menu('Most Recent Classic Menu');
@@ -312,17 +318,18 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
             $most_recent_menu_id,
             0,
             [
-                'menu-item-title'  => 'Another Classic Menu Item',
-                'menu-item-url'    => '/another-classic-menu-item',
+                'menu-item-title' => 'Another Classic Menu Item',
+                'menu-item-url' => '/another-classic-menu-item',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
 
         $this->assertInstanceOf('WP_Post', $data, 'Response should be of the correct type.');
 
-        $this->assertSame('Most Recent Classic Menu', $data->post_title, 'Fallback menu title should match the menu that was created most recently.');
+        $this->assertSame('Most Recent Classic Menu', $data->post_title,
+            'Fallback menu title should match the menu that was created most recently.');
     }
 
     /**
@@ -337,27 +344,29 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
             $menu_id,
             0,
             [
-                'menu-item-title'  => 'Classic Menu Item 1',
-                'menu-item-url'    => '/classic-menu-item-1',
+                'menu-item-title' => 'Classic Menu Item 1',
+                'menu-item-url' => '/classic-menu-item-1',
                 'menu-item-status' => 'publish',
-            ]
+            ],
         );
 
         $existing_navigation_menu = self::factory()->post->create_and_get(
             [
-                'post_type'    => 'wp_navigation',
-                'post_title'   => 'Existing Navigation Menu 1',
+                'post_type' => 'wp_navigation',
+                'post_title' => 'Existing Navigation Menu 1',
                 'post_content' => '<!-- wp:page-list /-->',
-            ]
+            ],
         );
 
         $data = WP_Navigation_Fallback::get_fallback();
 
         $this->assertInstanceOf('WP_Post', $data, 'Response should be of the correct type.');
 
-        $this->assertSame($existing_navigation_menu->post_title, $data->post_title, 'Fallback menu title should be the same as the existing Navigation menu.');
+        $this->assertSame($existing_navigation_menu->post_title, $data->post_title,
+            'Fallback menu title should be the same as the existing Navigation menu.');
 
-        $this->assertNotSame('Existing Classic Menu', $data->post_title, 'Fallback menu title should not be the same as the Classic Menu.');
+        $this->assertNotSame('Existing Classic Menu', $data->post_title,
+            'Fallback menu title should not be the same as the Classic Menu.');
 
         // Check that only a single Navigation fallback was created.
         $navs_in_db = $this->get_navigations_in_database();
@@ -369,12 +378,12 @@ class WP_Navigation_Fallback_Test extends WP_UnitTestCase
     {
         $navs_in_db = new WP_Query(
             [
-                'post_type'      => 'wp_navigation',
-                'post_status'    => 'publish',
+                'post_type' => 'wp_navigation',
+                'post_status' => 'publish',
                 'posts_per_page' => -1,
-                'orderby'        => 'date',
-                'order'          => 'DESC',
-            ]
+                'orderby' => 'date',
+                'order' => 'DESC',
+            ],
         );
 
         return $navs_in_db->posts ? $navs_in_db->posts : [];

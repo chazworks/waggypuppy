@@ -16,9 +16,18 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
     /**
      * @var int[] AES round constants
      */
-    private static $Rcon = array(
-        0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36
-    );
+    private static $Rcon = [
+        0x01,
+        0x02,
+        0x04,
+        0x08,
+        0x10,
+        0x20,
+        0x40,
+        0x80,
+        0x1B,
+        0x36,
+    ];
 
     /**
      * Mutates the values of $q!
@@ -212,8 +221,8 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
         $q2 = $q[2] & self::U32_MAX;
         $q3 = $q[3] & self::U32_MAX;
         $q4 = $q[4] & self::U32_MAX;
-        $q5 = (~$q[5])  & self::U32_MAX;
-        $q6 = (~$q[6])  & self::U32_MAX;
+        $q5 = (~$q[5]) & self::U32_MAX;
+        $q6 = (~$q[6]) & self::U32_MAX;
         $q7 = $q[7] & self::U32_MAX;
         $q[7] = ($q1 ^ $q4 ^ $q6) & self::U32_MAX;
         $q[6] = ($q0 ^ $q3 ^ $q5) & self::U32_MAX;
@@ -232,7 +241,7 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
     public static function subWord($x)
     {
         $q = ParagonIE_Sodium_Core_AES_Block::fromArray(
-            array($x, $x, $x, $x, $x, $x, $x, $x)
+            [$x, $x, $x, $x, $x, $x, $x, $x],
         );
         $q->orthogonalize();
         self::sbox($q);
@@ -263,8 +272,8 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
             default:
                 throw new SodiumException('Invalid key length: ' . $key_len);
         }
-        $skey = array();
-        $comp_skey = array();
+        $skey = [];
+        $comp_skey = [];
         $nk = $key_len >> 2;
         $nkf = ($num_rounds + 1) << 2;
         $tmp = 0;
@@ -293,7 +302,7 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
         }
         for ($i = 0; $i < $nkf; $i += 4) {
             $q = ParagonIE_Sodium_Core_AES_Block::fromArray(
-                array_slice($skey, $i << 1, 8)
+                array_slice($skey, $i << 1, 8),
             );
             $q->orthogonalize();
             // We have to overwrite $skey since we're not using C pointers like BearSSL did
@@ -319,7 +328,7 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
     public static function addRoundKey(
         ParagonIE_Sodium_Core_AES_Block $q,
         ParagonIE_Sodium_Core_AES_KeySchedule $skey,
-        $offset = 0
+        $offset = 0,
     ) {
         $block = $skey->getRoundKey($offset);
         for ($j = 0; $j < 8; ++$j) {
@@ -397,7 +406,7 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
      */
     public static function bitsliceEncryptBlock(
         ParagonIE_Sodium_Core_AES_Expanded $skey,
-        ParagonIE_Sodium_Core_AES_Block $q
+        ParagonIE_Sodium_Core_AES_Block $q,
     ) {
         self::addRoundKey($q, $skey);
         for ($u = 1; $u < $skey->getNumRounds(); ++$u) {
@@ -448,9 +457,9 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
     /**
      * Process two AES blocks in one shot.
      *
-     * @param string $b0  First AES block
+     * @param string $b0 First AES block
      * @param string $rk0 First round key
-     * @param string $b1  Second AES block
+     * @param string $b1 Second AES block
      * @param string $rk1 Second round key
      * @return string[]
      */
@@ -489,10 +498,10 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
         for ($i = 0; $i < 8; ++$i) {
             $q[$i] ^= $rk[$i];
         }
-        return array(
+        return [
             self::store32_le($q[0]) . self::store32_le($q[2]) . self::store32_le($q[4]) . self::store32_le($q[6]),
             self::store32_le($q[1]) . self::store32_le($q[3]) . self::store32_le($q[5]) . self::store32_le($q[7]),
-        );
+        ];
     }
 
     /**
@@ -502,7 +511,7 @@ class ParagonIE_Sodium_Core_AES extends ParagonIE_Sodium_Core_Util
      */
     public static function bitsliceDecryptBlock(
         ParagonIE_Sodium_Core_AES_Expanded $skey,
-        ParagonIE_Sodium_Core_AES_Block $q
+        ParagonIE_Sodium_Core_AES_Block $q,
     ) {
         self::addRoundKey($q, $skey, ($skey->getNumRounds() << 3));
         for ($u = $skey->getNumRounds() - 1; $u > 0; --$u) {

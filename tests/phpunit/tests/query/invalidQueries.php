@@ -46,17 +46,17 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
         foreach (['publish', 'private'] as $status) {
             self::$page_ids[$status] = $factory->post->create(
                 [
-                    'post_type'   => 'page',
+                    'post_type' => 'page',
                     'post_status' => $status,
                     'post_author' => self::$author_id,
-                ]
+                ],
             );
 
             self::$post_ids[$status] = $factory->post->create(
                 [
                     'post_status' => $status,
                     'post_author' => self::$author_id,
-                ]
+                ],
             );
         }
     }
@@ -114,7 +114,7 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
         $query = new WP_Query(
             [
                 'post_type' => ['unregistered_cpt', 'page'],
-            ]
+            ],
         );
 
         $this->assertStringContainsString("{$wpdb->posts}.post_type = 'unregistered_cpt'", self::$last_posts_request);
@@ -145,9 +145,9 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
     {
         $query = new WP_Query(
             [
-                'static'    => 'a',
+                'static' => 'a',
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         // Only the published page should be returned.
@@ -162,7 +162,7 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
         $query = new WP_Query(
             [
                 'static' => 'a',
-            ]
+            ],
         );
 
         // Only the published post should be returned.
@@ -180,7 +180,7 @@ class Tests_Query_InvalidQueries extends WP_UnitTestCase
         $query = new WP_Query(
             [
                 'page' => [1, 2, 3],
-            ]
+            ],
         );
 
         $this->assertSame(0, $query->query_vars['page']);

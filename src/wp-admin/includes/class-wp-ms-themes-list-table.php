@@ -34,14 +34,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     /**
      * Constructor.
      *
-     * @since 3.1.0
-     *
+     * @param array $args An associative array of arguments.
      * @see WP_List_Table::__construct() for more information on default arguments.
      *
      * @global string $status
-     * @global int    $page
+     * @global int $page
      *
-     * @param array $args An associative array of arguments.
+     * @since 3.1.0
+     *
      */
     public function __construct($args = [])
     {
@@ -51,11 +51,20 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             [
                 'plural' => 'themes',
                 'screen' => isset($args['screen']) ? $args['screen'] : null,
-            ]
+            ],
         );
 
         $status = isset($_REQUEST['theme_status']) ? $_REQUEST['theme_status'] : 'all';
-        if (! in_array($status, ['all', 'enabled', 'disabled', 'upgrade', 'search', 'broken', 'auto-update-enabled', 'auto-update-disabled'], true)) {
+        if (!in_array($status, [
+            'all',
+            'enabled',
+            'disabled',
+            'upgrade',
+            'search',
+            'broken',
+            'auto-update-enabled',
+            'auto-update-disabled',
+        ], true)) {
             $status = 'all';
         }
 
@@ -64,11 +73,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         $this->is_site_themes = ('site-themes-network' === $this->screen->id) ? true : false;
 
         if ($this->is_site_themes) {
-            $this->site_id = isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0;
+            $this->site_id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
         }
 
-        $this->show_autoupdates = wp_is_auto_update_enabled_for_type('theme') &&
-            ! $this->is_site_themes && current_user_can('update_themes');
+        $this->show_autoupdates = wp_is_auto_update_enabled_for_type('theme')
+            && !$this->is_site_themes
+            && current_user_can('update_themes');
     }
 
     /**
@@ -104,46 +114,46 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     {
         global $status, $totals, $page, $orderby, $order, $s;
 
-        $orderby = ! empty($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']) : '';
-        $order   = ! empty($_REQUEST['order']) ? sanitize_text_field($_REQUEST['order']) : '';
-        $s       = ! empty($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
+        $orderby = !empty($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']) : '';
+        $order = !empty($_REQUEST['order']) ? sanitize_text_field($_REQUEST['order']) : '';
+        $s = !empty($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
 
         $themes = [
             /**
              * Filters the full array of WP_Theme objects to list in the Multisite
              * themes list table.
              *
+             * @param WP_Theme[] $all Array of WP_Theme objects to display in the list table.
              * @since 3.1.0
              *
-             * @param WP_Theme[] $all Array of WP_Theme objects to display in the list table.
              */
-            'all'      => apply_filters('all_themes', wp_get_themes()),
-            'search'   => [],
-            'enabled'  => [],
+            'all' => apply_filters('all_themes', wp_get_themes()),
+            'search' => [],
+            'enabled' => [],
             'disabled' => [],
-            'upgrade'  => [],
-            'broken'   => $this->is_site_themes ? [] : wp_get_themes(['errors' => true]),
+            'upgrade' => [],
+            'broken' => $this->is_site_themes ? [] : wp_get_themes(['errors' => true]),
         ];
 
         if ($this->show_autoupdates) {
-            $auto_updates = (array) get_site_option('auto_update_themes', []);
+            $auto_updates = (array)get_site_option('auto_update_themes', []);
 
-            $themes['auto-update-enabled']  = [];
+            $themes['auto-update-enabled'] = [];
             $themes['auto-update-disabled'] = [];
         }
 
         if ($this->is_site_themes) {
             $themes_per_page = $this->get_items_per_page('site_themes_network_per_page');
-            $allowed_where   = 'site';
+            $allowed_where = 'site';
         } else {
             $themes_per_page = $this->get_items_per_page('themes_network_per_page');
-            $allowed_where   = 'network';
+            $allowed_where = 'network';
         }
 
-        $current      = get_site_transient('update_themes');
-        $maybe_update = current_user_can('update_themes') && ! $this->is_site_themes && $current;
+        $current = get_site_transient('update_themes');
+        $maybe_update = current_user_can('update_themes') && !$this->is_site_themes && $current;
 
-        foreach ((array) $themes['all'] as $key => $theme) {
+        foreach ((array)$themes['all'] as $key => $theme) {
             if ($this->is_site_themes && $theme->is_allowed('network')) {
                 unset($themes['all'][$key]);
                 continue;
@@ -151,10 +161,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
             if ($maybe_update && isset($current->response[$key])) {
                 $themes['all'][$key]->update = true;
-                $themes['upgrade'][$key]     = $themes['all'][$key];
+                $themes['upgrade'][$key] = $themes['all'][$key];
             }
 
-            $filter                = $theme->is_allowed($allowed_where, $this->site_id) ? 'enabled' : 'disabled';
+            $filter = $theme->is_allowed($allowed_where, $this->site_id) ? 'enabled' : 'disabled';
             $themes[$filter][$key] = $themes['all'][$key];
 
             $theme_data = [
@@ -163,9 +173,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
             // Extra info if known. array_merge() ensures $theme_data has precedence if keys collide.
             if (isset($current->response[$key])) {
-                $theme_data = array_merge((array) $current->response[$key], $theme_data);
+                $theme_data = array_merge((array)$current->response[$key], $theme_data);
             } elseif (isset($current->no_update[$key])) {
-                $theme_data = array_merge((array) $current->no_update[$key], $theme_data);
+                $theme_data = array_merge((array)$current->no_update[$key], $theme_data);
             } else {
                 $theme_data['update_supported'] = false;
             }
@@ -177,26 +187,26 @@ class WP_MS_Themes_List_Table extends WP_List_Table
              * as contained within $updates or $no_updates but used when the Theme is not known.
              */
             $filter_payload = [
-                'theme'        => $key,
-                'new_version'  => '',
-                'url'          => '',
-                'package'      => '',
-                'requires'     => '',
+                'theme' => $key,
+                'new_version' => '',
+                'url' => '',
+                'package' => '',
+                'requires' => '',
                 'requires_php' => '',
             ];
 
-            $filter_payload = (object) array_merge($filter_payload, array_intersect_key($theme_data, $filter_payload));
+            $filter_payload = (object)array_merge($filter_payload, array_intersect_key($theme_data, $filter_payload));
 
             $auto_update_forced = wp_is_auto_update_forced_for_item('theme', null, $filter_payload);
 
-            if (! is_null($auto_update_forced)) {
+            if (!is_null($auto_update_forced)) {
                 $theme->auto_update_forced = $auto_update_forced;
             }
 
             if ($this->show_autoupdates) {
                 $enabled = in_array($key, $auto_updates, true) && $theme->update_supported;
                 if (isset($theme->auto_update_forced)) {
-                    $enabled = (bool) $theme->auto_update_forced;
+                    $enabled = (bool)$theme->auto_update_forced;
                 }
 
                 if ($enabled) {
@@ -208,25 +218,26 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         }
 
         if ($s) {
-            $status           = 'search';
-            $themes['search'] = array_filter(array_merge($themes['all'], $themes['broken']), [$this, '_search_callback']);
+            $status = 'search';
+            $themes['search'] = array_filter(array_merge($themes['all'], $themes['broken']),
+                [$this, '_search_callback']);
         }
 
-        $totals    = [];
+        $totals = [];
         $js_themes = [];
         foreach ($themes as $type => $list) {
-            $totals[$type]    = count($list);
+            $totals[$type] = count($list);
             $js_themes[$type] = array_keys($list);
         }
 
-        if (empty($themes[$status]) && ! in_array($status, ['all', 'search'], true)) {
+        if (empty($themes[$status]) && !in_array($status, ['all', 'search'], true)) {
             $status = 'all';
         }
 
         $this->items = $themes[$status];
         WP_Theme::sort_by_name($this->items);
 
-        $this->has_items = ! empty($themes['all']);
+        $this->has_items = !empty($themes['all']);
         $total_this_page = $totals[$status];
 
         wp_localize_script(
@@ -235,12 +246,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             [
                 'themes' => $js_themes,
                 'totals' => wp_get_update_data(),
-            ]
+            ],
         );
 
         if ($orderby) {
             $orderby = ucfirst($orderby);
-            $order   = strtoupper($order);
+            $order = strtoupper($order);
 
             if ('Name' === $orderby) {
                 if ('ASC' === $order) {
@@ -260,8 +271,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         $this->set_pagination_args(
             [
                 'total_items' => $total_this_page,
-                'per_page'    => $themes_per_page,
-            ]
+                'per_page' => $themes_per_page,
+            ],
         );
     }
 
@@ -295,12 +306,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     }
 
     // Not used by any core columns.
+
     /**
-     * @global string $orderby
-     * @global string $order
      * @param array $theme_a
      * @param array $theme_b
      * @return int
+     * @global string $order
+     * @global string $orderby
      */
     public function _order_callback($theme_a, $theme_b)
     {
@@ -337,8 +349,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     public function get_columns()
     {
         $columns = [
-            'cb'          => '<input type="checkbox" />',
-            'name'        => __('Theme'),
+            'cb' => '<input type="checkbox" />',
+            'name' => __('Theme'),
             'description' => __('Description'),
         ];
 
@@ -362,9 +374,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     /**
      * Gets the name of the primary column.
      *
+     * @return string Unalterable name of the primary column name, in this case, 'name'.
      * @since 4.3.0
      *
-     * @return string Unalterable name of the primary column name, in this case, 'name'.
      */
     protected function get_primary_column_name()
     {
@@ -372,9 +384,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     }
 
     /**
-     * @global array $totals
-     * @global string $status
      * @return array
+     * @global string $status
+     * @global array $totals
      */
     protected function get_views()
     {
@@ -382,7 +394,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
         $status_links = [];
         foreach ($totals as $type => $count) {
-            if (! $count) {
+            if (!$count) {
                 continue;
             }
 
@@ -393,7 +405,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                         'All <span class="count">(%s)</span>',
                         'All <span class="count">(%s)</span>',
                         $count,
-                        'themes'
+                        'themes',
                     );
                     break;
                 case 'enabled':
@@ -402,7 +414,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                         'Enabled <span class="count">(%s)</span>',
                         'Enabled <span class="count">(%s)</span>',
                         $count,
-                        'themes'
+                        'themes',
                     );
                     break;
                 case 'disabled':
@@ -411,7 +423,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                         'Disabled <span class="count">(%s)</span>',
                         'Disabled <span class="count">(%s)</span>',
                         $count,
-                        'themes'
+                        'themes',
                     );
                     break;
                 case 'upgrade':
@@ -420,7 +432,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                         'Update Available <span class="count">(%s)</span>',
                         'Update Available <span class="count">(%s)</span>',
                         $count,
-                        'themes'
+                        'themes',
                     );
                     break;
                 case 'broken':
@@ -429,7 +441,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                         'Broken <span class="count">(%s)</span>',
                         'Broken <span class="count">(%s)</span>',
                         $count,
-                        'themes'
+                        'themes',
                     );
                     break;
                 case 'auto-update-enabled':
@@ -437,7 +449,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                     $text = _n(
                         'Auto-updates Enabled <span class="count">(%s)</span>',
                         'Auto-updates Enabled <span class="count">(%s)</span>',
-                        $count
+                        $count,
                     );
                     break;
                 case 'auto-update-disabled':
@@ -445,7 +457,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                     $text = _n(
                         'Auto-updates Disabled <span class="count">(%s)</span>',
                         'Auto-updates Disabled <span class="count">(%s)</span>',
-                        $count
+                        $count,
                     );
                     break;
             }
@@ -458,8 +470,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
             if ('search' !== $type) {
                 $status_links[$type] = [
-                    'url'     => esc_url(add_query_arg('theme_status', $type, $url)),
-                    'label'   => sprintf($text, number_format_i18n($count)),
+                    'url' => esc_url(add_query_arg('theme_status', $type, $url)),
+                    'label' => sprintf($text, number_format_i18n($count)),
                     'current' => $type === $status,
                 ];
             }
@@ -469,9 +481,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     }
 
     /**
+     * @return array
      * @global string $status
      *
-     * @return array
      */
     protected function get_bulk_actions()
     {
@@ -484,7 +496,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         if ('disabled' !== $status) {
             $actions['disable-selected'] = $this->is_site_themes ? __('Disable') : __('Network Disable');
         }
-        if (! $this->is_site_themes) {
+        if (!$this->is_site_themes) {
             if (current_user_can('update_themes')) {
                 $actions['update-selected'] = __('Update');
             }
@@ -521,10 +533,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     /**
      * Handles the checkbox column output.
      *
-     * @since 4.3.0
+     * @param WP_Theme $item The current WP_Theme object.
      * @since 5.9.0 Renamed `$theme` to `$item` to match parent class for PHP 8 named parameter support.
      *
-     * @param WP_Theme $item The current WP_Theme object.
+     * @since 4.3.0
      */
     public function column_cb($item)
     {
@@ -533,14 +545,15 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
         $checkbox_id = 'checkbox_' . md5($theme->get('Name'));
         ?>
-        <input type="checkbox" name="checked[]" value="<?php echo esc_attr($theme->get_stylesheet()); ?>" id="<?php echo $checkbox_id; ?>" />
-        <label for="<?php echo $checkbox_id; ?>" >
+        <input type="checkbox" name="checked[]" value="<?php echo esc_attr($theme->get_stylesheet()); ?>"
+               id="<?php echo $checkbox_id; ?>"/>
+        <label for="<?php echo $checkbox_id; ?>">
             <span class="screen-reader-text">
             <?php
             printf(
-                /* translators: Hidden accessibility text. %s: Theme name */
+            /* translators: Hidden accessibility text. %s: Theme name */
                 __('Select %s'),
-                $theme->display('Name')
+                $theme->display('Name'),
             );
             ?>
             </span>
@@ -551,13 +564,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     /**
      * Handles the name column output.
      *
-     * @since 4.3.0
-     *
+     * @param WP_Theme $theme The current WP_Theme object.
      * @global string $status
-     * @global int    $page
+     * @global int $page
      * @global string $s
      *
-     * @param WP_Theme $theme The current WP_Theme object.
+     * @since 4.3.0
+     *
      */
     public function column_name($theme)
     {
@@ -566,33 +579,33 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         $context = $status;
 
         if ($this->is_site_themes) {
-            $url     = "site-themes.php?id={$this->site_id}&amp;";
+            $url = "site-themes.php?id={$this->site_id}&amp;";
             $allowed = $theme->is_allowed('site', $this->site_id);
         } else {
-            $url     = 'themes.php?';
+            $url = 'themes.php?';
             $allowed = $theme->is_allowed('network');
         }
 
         // Pre-order.
         $actions = [
-            'enable'  => '',
+            'enable' => '',
             'disable' => '',
-            'delete'  => '',
+            'delete' => '',
         ];
 
         $stylesheet = $theme->get_stylesheet();
-        $theme_key  = urlencode($stylesheet);
+        $theme_key = urlencode($stylesheet);
 
-        if (! $allowed) {
-            if (! $theme->errors()) {
+        if (!$allowed) {
+            if (!$theme->errors()) {
                 $url = add_query_arg(
                     [
                         'action' => 'enable',
-                        'theme'  => $theme_key,
-                        'paged'  => $page,
-                        's'      => $s,
+                        'theme' => $theme_key,
+                        'paged' => $page,
+                        's' => $s,
                     ],
-                    $url
+                    $url,
                 );
 
                 if ($this->is_site_themes) {
@@ -607,18 +620,18 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                     '<a href="%s" class="edit" aria-label="%s">%s</a>',
                     esc_url(wp_nonce_url($url, 'enable-theme_' . $stylesheet)),
                     esc_attr($aria_label),
-                    ($this->is_site_themes ? __('Enable') : __('Network Enable'))
+                    ($this->is_site_themes ? __('Enable') : __('Network Enable')),
                 );
             }
         } else {
             $url = add_query_arg(
                 [
                     'action' => 'disable',
-                    'theme'  => $theme_key,
-                    'paged'  => $page,
-                    's'      => $s,
+                    'theme' => $theme_key,
+                    'paged' => $page,
+                    's' => $s,
                 ],
-                $url
+                $url,
             );
 
             if ($this->is_site_themes) {
@@ -633,24 +646,24 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                 '<a href="%s" aria-label="%s">%s</a>',
                 esc_url(wp_nonce_url($url, 'disable-theme_' . $stylesheet)),
                 esc_attr($aria_label),
-                ($this->is_site_themes ? __('Disable') : __('Network Disable'))
+                ($this->is_site_themes ? __('Disable') : __('Network Disable')),
             );
         }
 
-        if (! $allowed && ! $this->is_site_themes
+        if (!$allowed && !$this->is_site_themes
             && current_user_can('delete_themes')
             && get_option('stylesheet') !== $stylesheet
             && get_option('template') !== $stylesheet
         ) {
             $url = add_query_arg(
                 [
-                    'action'       => 'delete-selected',
-                    'checked[]'    => $theme_key,
+                    'action' => 'delete-selected',
+                    'checked[]' => $theme_key,
                     'theme_status' => $context,
-                    'paged'        => $page,
-                    's'            => $s,
+                    'paged' => $page,
+                    's' => $s,
                 ],
-                'themes.php'
+                'themes.php',
             );
 
             /* translators: %s: Theme name. */
@@ -660,7 +673,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                 '<a href="%s" class="delete" aria-label="%s">%s</a>',
                 esc_url(wp_nonce_url($url, 'bulk-themes')),
                 esc_attr($aria_label),
-                __('Delete')
+                __('Delete'),
             );
         }
         /**
@@ -679,11 +692,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table
          * The default action links for the Site themes list table include
          * 'Enable', and 'Disable'.
          *
+         * @param string[] $actions An array of action links.
+         * @param WP_Theme $theme The current WP_Theme object.
+         * @param string $context Status of the theme, one of 'all', 'enabled', or 'disabled'.
          * @since 2.8.0
          *
-         * @param string[] $actions An array of action links.
-         * @param WP_Theme $theme   The current WP_Theme object.
-         * @param string   $context Status of the theme, one of 'all', 'enabled', or 'disabled'.
          */
         $actions = apply_filters('theme_action_links', array_filter($actions), $theme, $context);
 
@@ -695,11 +708,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table
          * directory name of the theme, which in most cases is synonymous
          * with the template name.
          *
+         * @param string[] $actions An array of action links.
+         * @param WP_Theme $theme The current WP_Theme object.
+         * @param string $context Status of the theme, one of 'all', 'enabled', or 'disabled'.
          * @since 3.1.0
          *
-         * @param string[] $actions An array of action links.
-         * @param WP_Theme $theme   The current WP_Theme object.
-         * @param string   $context Status of the theme, one of 'all', 'enabled', or 'disabled'.
          */
         $actions = apply_filters("theme_action_links_{$stylesheet}", $actions, $theme, $context);
 
@@ -709,12 +722,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     /**
      * Handles the description column output.
      *
+     * @param WP_Theme $theme The current WP_Theme object.
+     * @global string $status
+     * @global array $totals
+     *
      * @since 4.3.0
      *
-     * @global string $status
-     * @global array  $totals
-     *
-     * @param WP_Theme $theme The current WP_Theme object.
      */
     public function column_description($theme)
     {
@@ -731,8 +744,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             $allowed = $theme->is_allowed('network');
         }
 
-        $class = ! $allowed ? 'inactive' : 'active';
-        if (! empty($totals['upgrade']) && ! empty($theme->update)) {
+        $class = !$allowed ? 'inactive' : 'active';
+        if (!empty($totals['upgrade']) && !empty($theme->update)) {
             $class .= ' update';
         }
 
@@ -758,15 +771,15 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                 '<a href="%s" aria-label="%s">%s</a>',
                 $theme->display('ThemeURI'),
                 esc_attr($aria_label),
-                __('Visit Theme Site')
+                __('Visit Theme Site'),
             );
         }
 
         if ($theme->parent()) {
             $theme_meta[] = sprintf(
-                /* translators: %s: Theme name. */
+            /* translators: %s: Theme name. */
                 __('Child theme of %s'),
-                '<strong>' . $theme->parent()->display('Name') . '</strong>'
+                '<strong>' . $theme->parent()->display('Name') . '</strong>',
             );
         }
 
@@ -774,13 +787,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table
          * Filters the array of row meta for each theme in the Multisite themes
          * list table.
          *
-         * @since 3.1.0
-         *
          * @param string[] $theme_meta An array of the theme's metadata, including
          *                             the version, author, and theme URI.
-         * @param string   $stylesheet Directory name of the theme.
-         * @param WP_Theme $theme      WP_Theme object.
-         * @param string   $status     Status of the theme.
+         * @param string $stylesheet Directory name of the theme.
+         * @param WP_Theme $theme WP_Theme object.
+         * @param string $status Status of the theme.
+         * @since 3.1.0
+         *
          */
         $theme_meta = apply_filters('theme_row_meta', $theme_meta, $stylesheet, $theme, $status);
 
@@ -792,12 +805,12 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     /**
      * Handles the auto-updates column output.
      *
+     * @param WP_Theme $theme The current WP_Theme object.
+     * @global string $status
+     * @global int $page
+     *
      * @since 5.5.0
      *
-     * @global string $status
-     * @global int  $page
-     *
-     * @param WP_Theme $theme The current WP_Theme object.
      */
     public function column_autoupdates($theme)
     {
@@ -805,10 +818,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
         static $auto_updates, $available_updates;
 
-        if (! $auto_updates) {
-            $auto_updates = (array) get_site_option('auto_update_themes', []);
+        if (!$auto_updates) {
+            $auto_updates = (array)get_site_option('auto_update_themes', []);
         }
-        if (! $available_updates) {
+        if (!$available_updates) {
             $available_updates = get_site_transient('update_themes');
         }
 
@@ -821,26 +834,26 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             } else {
                 $text = __('Auto-updates disabled');
             }
-            $action     = 'unavailable';
+            $action = 'unavailable';
             $time_class = ' hidden';
         } elseif (empty($theme->update_supported)) {
-            $text       = '';
-            $action     = 'unavailable';
+            $text = '';
+            $action = 'unavailable';
             $time_class = ' hidden';
         } elseif (in_array($stylesheet, $auto_updates, true)) {
-            $text       = __('Disable auto-updates');
-            $action     = 'disable';
+            $text = __('Disable auto-updates');
+            $action = 'disable';
             $time_class = '';
         } else {
-            $text       = __('Enable auto-updates');
-            $action     = 'enable';
+            $text = __('Enable auto-updates');
+            $action = 'enable';
             $time_class = ' hidden';
         }
 
         $query_args = [
-            'action'       => "{$action}-auto-update",
-            'theme'        => $stylesheet,
-            'paged'        => $page,
+            'action' => "{$action}-auto-update",
+            'theme' => $stylesheet,
+            'paged' => $page,
             'theme_status' => $status,
         ];
 
@@ -852,20 +865,19 @@ class WP_MS_Themes_List_Table extends WP_List_Table
             $html[] = sprintf(
                 '<a href="%s" class="toggle-auto-update aria-button-if-js" data-wp-action="%s">',
                 wp_nonce_url($url, 'updates'),
-                $action
+                $action,
             );
 
             $html[] = '<span class="dashicons dashicons-update spin hidden" aria-hidden="true"></span>';
             $html[] = '<span class="label">' . $text . '</span>';
             $html[] = '</a>';
-
         }
 
         if (isset($available_updates->response[$stylesheet])) {
             $html[] = sprintf(
                 '<div class="auto-update-time%s">%s</div>',
                 $time_class,
-                wp_get_auto_update_message()
+                wp_get_auto_update_message(),
             );
         }
 
@@ -874,32 +886,32 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         /**
          * Filters the HTML of the auto-updates setting for each theme in the Themes list table.
          *
+         * @param string $html The HTML for theme's auto-update setting, including
+         *                             toggle auto-update action link and time to next update.
+         * @param string $stylesheet Directory name of the theme.
+         * @param WP_Theme $theme WP_Theme object.
          * @since 5.5.0
          *
-         * @param string   $html       The HTML for theme's auto-update setting, including
-         *                             toggle auto-update action link and time to next update.
-         * @param string   $stylesheet Directory name of the theme.
-         * @param WP_Theme $theme      WP_Theme object.
          */
         echo apply_filters('theme_auto_update_setting_html', $html, $stylesheet, $theme);
 
         wp_admin_notice(
             '',
             [
-                'type'               => 'error',
+                'type' => 'error',
                 'additional_classes' => ['notice-alt', 'inline', 'hidden'],
-            ]
+            ],
         );
     }
 
     /**
      * Handles default column output.
      *
+     * @param WP_Theme $item The current WP_Theme object.
+     * @param string $column_name The current column name.
      * @since 4.3.0
      * @since 5.9.0 Renamed `$theme` to `$item` to match parent class for PHP 8 named parameter support.
      *
-     * @param WP_Theme $item        The current WP_Theme object.
-     * @param string   $column_name The current column name.
      */
     public function column_default($item, $column_name)
     {
@@ -911,11 +923,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         /**
          * Fires inside each custom column of the Multisite themes list table.
          *
+         * @param string $column_name Name of the column.
+         * @param string $stylesheet Directory name of the theme.
+         * @param WP_Theme $theme Current WP_Theme object.
          * @since 3.1.0
          *
-         * @param string   $column_name Name of the column.
-         * @param string   $stylesheet  Directory name of the theme.
-         * @param WP_Theme $theme       Current WP_Theme object.
          */
         do_action('manage_themes_custom_column', $column_name, $stylesheet, $theme);
     }
@@ -923,9 +935,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     /**
      * Handles the output for a single table row.
      *
+     * @param WP_Theme $item The current WP_Theme object.
      * @since 4.3.0
      *
-     * @param WP_Theme $item The current WP_Theme object.
      */
     public function single_row_columns($item)
     {
@@ -950,9 +962,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                     $active_theme_label = '';
 
                     /* The presence of the site_id property means that this is a subsite view and a label for the active theme needs to be added */
-                    if (! empty($this->site_id)) {
+                    if (!empty($this->site_id)) {
                         $stylesheet = get_blog_option($this->site_id, 'stylesheet');
-                        $template   = get_blog_option($this->site_id, 'template');
+                        $template = get_blog_option($this->site_id, 'template');
 
                         /* Add a label for the active template */
                         if ($item->get_template() === $template) {
@@ -965,7 +977,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table
                         }
                     }
 
-                    echo "<td class='theme-title column-primary{$extra_classes}'><strong>" . $item->display('Name') . $active_theme_label . '</strong>';
+                    echo "<td class='theme-title column-primary{$extra_classes}'><strong>"
+                        . $item->display('Name')
+                        . $active_theme_label
+                        . '</strong>';
 
                     $this->column_name($item);
 
@@ -999,10 +1014,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table
     }
 
     /**
-     * @global string $status
-     * @global array  $totals
-     *
      * @param WP_Theme $theme
+     * @global array $totals
+     *
+     * @global string $status
      */
     public function single_row($theme)
     {
@@ -1016,15 +1031,15 @@ class WP_MS_Themes_List_Table extends WP_List_Table
 
         $stylesheet = $theme->get_stylesheet();
 
-        $class = ! $allowed ? 'inactive' : 'active';
-        if (! empty($totals['upgrade']) && ! empty($theme->update)) {
+        $class = !$allowed ? 'inactive' : 'active';
+        if (!empty($totals['upgrade']) && !empty($theme->update)) {
             $class .= ' update';
         }
 
         printf(
             '<tr class="%s" data-slug="%s">',
             esc_attr($class),
-            esc_attr($stylesheet)
+            esc_attr($stylesheet),
         );
 
         $this->single_row_columns($theme);
@@ -1038,11 +1053,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table
         /**
          * Fires after each row in the Multisite themes list table.
          *
+         * @param string $stylesheet Directory name of the theme.
+         * @param WP_Theme $theme Current WP_Theme object.
+         * @param string $status Status of the theme.
          * @since 3.1.0
          *
-         * @param string   $stylesheet Directory name of the theme.
-         * @param WP_Theme $theme      Current WP_Theme object.
-         * @param string   $status     Status of the theme.
          */
         do_action('after_theme_row', $stylesheet, $theme, $status);
 
@@ -1053,11 +1068,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table
          * directory name of the theme, most often synonymous with the template
          * name of the theme.
          *
+         * @param string $stylesheet Directory name of the theme.
+         * @param WP_Theme $theme Current WP_Theme object.
+         * @param string $status Status of the theme.
          * @since 3.5.0
          *
-         * @param string   $stylesheet Directory name of the theme.
-         * @param WP_Theme $theme      Current WP_Theme object.
-         * @param string   $status     Status of the theme.
          */
         do_action("after_theme_row_{$stylesheet}", $stylesheet, $theme, $status);
     }

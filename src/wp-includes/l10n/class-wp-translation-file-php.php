@@ -24,14 +24,14 @@ class WP_Translation_File_PHP extends WP_Translation_File
         $this->parsed = true;
 
         $result = include $this->file;
-        if (! $result || ! is_array($result)) {
+        if (!$result || !is_array($result)) {
             $this->error = 'Invalid data';
             return;
         }
 
         if (isset($result['messages']) && is_array($result['messages'])) {
             foreach ($result['messages'] as $original => $translation) {
-                $this->entries[(string) $original] = $translation;
+                $this->entries[(string)$original] = $translation;
             }
             unset($result['messages']);
         }
@@ -42,9 +42,9 @@ class WP_Translation_File_PHP extends WP_Translation_File
     /**
      * Exports translation contents as a string.
      *
+     * @return string Translation file contents.
      * @since 6.5.0
      *
-     * @return string Translation file contents.
      */
     public function export(): string
     {
@@ -59,14 +59,14 @@ class WP_Translation_File_PHP extends WP_Translation_File
      * Like {@see var_export()} but "minified", using short array syntax
      * and no newlines.
      *
-     * @since 6.5.0
-     *
      * @param mixed $value The variable you want to export.
      * @return string The variable representation.
+     * @since 6.5.0
+     *
      */
     private function var_export($value): string
     {
-        if (! is_array($value)) {
+        if (!is_array($value)) {
             return var_export($value, true);
         }
 

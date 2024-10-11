@@ -37,7 +37,7 @@ class Tests_WP_Embed extends WP_UnitTestCase
         $GLOBALS['post'] = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Hello World',
-            ]
+            ],
         );
 
         $this->expectOutputString('');
@@ -51,11 +51,11 @@ class Tests_WP_Embed extends WP_UnitTestCase
         $GLOBALS['post'] = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Hello World',
-            ]
+            ],
         );
         $_GET['message'] = 'foo';
 
-        $url    = admin_url('admin-ajax.php?action=oembed-cache&post=' . $GLOBALS['post']->ID, 'relative');
+        $url = admin_url('admin-ajax.php?action=oembed-cache&post=' . $GLOBALS['post']->ID, 'relative');
         $actual = get_echo([$this->wp_embed, 'maybe_run_ajax_cache']);
 
         unset($GLOBALS['post']);
@@ -71,30 +71,30 @@ class Tests_WP_Embed extends WP_UnitTestCase
             [
                 'youtube_embed_url',
             ],
-            array_keys($GLOBALS['wp_embed']->handlers[10])
+            array_keys($GLOBALS['wp_embed']->handlers[10]),
         );
         $this->assertSameSets(
             [
                 'audio',
                 'video',
             ],
-            array_keys($GLOBALS['wp_embed']->handlers[9999])
+            array_keys($GLOBALS['wp_embed']->handlers[9999]),
         );
     }
 
     public function test_wp_embed_register_handler()
     {
-        $handle   = __FUNCTION__;
-        $regex    = '#https?://example\.com/embed/([^/]+)#i';
+        $handle = __FUNCTION__;
+        $regex = '#https?://example\.com/embed/([^/]+)#i';
         $callback = [$this, '_embed_handler_callback'];
 
         wp_embed_register_handler($handle, $regex, $callback);
 
         $expected = [
-            'regex'    => $regex,
+            'regex' => $regex,
             'callback' => $callback,
         ];
-        $actual   = $GLOBALS['wp_embed']->handlers[10];
+        $actual = $GLOBALS['wp_embed']->handlers[10];
 
         wp_embed_unregister_handler($handle);
 
@@ -110,7 +110,8 @@ class Tests_WP_Embed extends WP_UnitTestCase
         $handlers = $GLOBALS['wp_embed']->handlers[10];
 
         // Restore.
-        wp_embed_register_handler('youtube_embed_url', '#https?://(www.)?youtube\.com/(?:v|embed)/([^/]+)#i', 'wp_embed_handler_youtube');
+        wp_embed_register_handler('youtube_embed_url', '#https?://(www.)?youtube\.com/(?:v|embed)/([^/]+)#i',
+            'wp_embed_handler_youtube');
 
         $this->assertArrayNotHasKey('youtube_embed_url', $handlers);
     }
@@ -131,8 +132,8 @@ class Tests_WP_Embed extends WP_UnitTestCase
      */
     public function test_autoembed_should_return_modified_content()
     {
-        $handle   = __FUNCTION__;
-        $regex    = '#https?://example\.com/embed/([^/]+)#i';
+        $handle = __FUNCTION__;
+        $regex = '#https?://example\.com/embed/([^/]+)#i';
         $callback = [$this, '_embed_handler_callback'];
 
         wp_embed_register_handler($handle, $regex, $callback);
@@ -177,10 +178,10 @@ class Tests_WP_Embed extends WP_UnitTestCase
 
     public function test_cache_oembed_for_post()
     {
-        $url           = 'https://example.com/';
-        $expected      = '<b>Embedded content</b>';
-        $key_suffix    = md5($url . serialize(wp_embed_defaults($url)));
-        $cachekey      = '_oembed_' . $key_suffix;
+        $url = 'https://example.com/';
+        $expected = '<b>Embedded content</b>';
+        $key_suffix = md5($url . serialize(wp_embed_defaults($url)));
+        $cachekey = '_oembed_' . $key_suffix;
         $cachekey_time = '_oembed_time_' . $key_suffix;
 
         $post_id = self::factory()->post->create(['post_content' => 'https://example.com/']);
@@ -198,11 +199,11 @@ class Tests_WP_Embed extends WP_UnitTestCase
     {
         global $post;
 
-        $post       = self::factory()->post->create_and_get();
-        $url        = 'https://example.com/';
-        $expected   = '<b>Embedded content</b>';
+        $post = self::factory()->post->create_and_get();
+        $url = 'https://example.com/';
+        $expected = '<b>Embedded content</b>';
         $key_suffix = md5($url . serialize(wp_embed_defaults($url)));
-        $cachekey   = '_oembed_' . $key_suffix;
+        $cachekey = '_oembed_' . $key_suffix;
 
         add_post_meta($post->ID, $cachekey, $expected);
 
@@ -226,11 +227,11 @@ class Tests_WP_Embed extends WP_UnitTestCase
     {
         global $post;
 
-        $post          = self::factory()->post->create_and_get();
-        $url           = 'https://example.com/';
-        $expected      = '<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>';
-        $key_suffix    = md5($url . serialize(wp_embed_defaults($url)));
-        $cachekey      = '_oembed_' . $key_suffix;
+        $post = self::factory()->post->create_and_get();
+        $url = 'https://example.com/';
+        $expected = '<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>';
+        $key_suffix = md5($url . serialize(wp_embed_defaults($url)));
+        $cachekey = '_oembed_' . $key_suffix;
         $cachekey_time = '_oembed_time_' . $key_suffix;
 
         add_post_meta($post->ID, $cachekey, '{{unknown}}');
@@ -243,7 +244,7 @@ class Tests_WP_Embed extends WP_UnitTestCase
         // Result should be cached.
         $actual_2 = $this->wp_embed->shortcode([], $url);
 
-        $cached      = get_post_meta($post->ID, $cachekey, true);
+        $cached = get_post_meta($post->ID, $cachekey, true);
         $cached_time = get_post_meta($post->ID, $cachekey_time, true);
 
         // Cleanup.
@@ -260,8 +261,8 @@ class Tests_WP_Embed extends WP_UnitTestCase
      */
     public function test_shortcode_should_cache_data_in_custom_post()
     {
-        $url        = 'https://example.com/';
-        $expected   = '<b>Embedded content</b>';
+        $url = 'https://example.com/';
+        $expected = '<b>Embedded content</b>';
         $key_suffix = md5($url . serialize(wp_embed_defaults($url)));
 
         add_filter('pre_oembed_result', [$this, '_pre_oembed_result_callback']);
@@ -269,7 +270,7 @@ class Tests_WP_Embed extends WP_UnitTestCase
         remove_filter('pre_oembed_result', [$this, '_pre_oembed_result_callback']);
 
         $oembed_post_id = $this->wp_embed->find_oembed_post_id($key_suffix);
-        $post_content   = get_post($oembed_post_id)->post_content;
+        $post_content = get_post($oembed_post_id)->post_content;
 
         // Result should be cached.
         $actual_2 = $this->wp_embed->shortcode([], $url);
@@ -287,8 +288,8 @@ class Tests_WP_Embed extends WP_UnitTestCase
      */
     public function test_shortcode_should_cache_failure_in_custom_post()
     {
-        $url        = 'https://example.com/';
-        $expected   = '<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>';
+        $url = 'https://example.com/';
+        $expected = '<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>';
         $key_suffix = md5($url . serialize(wp_embed_defaults($url)));
 
         add_filter('pre_oembed_result', '__return_empty_string');
@@ -296,7 +297,7 @@ class Tests_WP_Embed extends WP_UnitTestCase
         remove_filter('pre_oembed_result', '__return_empty_string');
 
         $oembed_post_id = $this->wp_embed->find_oembed_post_id($key_suffix);
-        $post_content   = get_post($oembed_post_id)->post_content;
+        $post_content = get_post($oembed_post_id)->post_content;
 
         // Result should be cached.
         $actual_2 = $this->wp_embed->shortcode([], $url);
@@ -318,8 +319,8 @@ class Tests_WP_Embed extends WP_UnitTestCase
     {
         add_filter('oembed_ttl', '__return_zero');
 
-        $url        = 'https://example.com/';
-        $embedded   = '<b>Embedded content</b>';
+        $url = 'https://example.com/';
+        $embedded = '<b>Embedded content</b>';
         $key_suffix = md5($url . serialize(wp_embed_defaults($url)));
 
         add_filter('pre_oembed_result', '__return_empty_string');
@@ -330,7 +331,7 @@ class Tests_WP_Embed extends WP_UnitTestCase
 
         $this->assertSame('{{unknown}}', get_post($oembed_post_id)->post_content);
 
-        $previous_usecache        = $this->wp_embed->usecache;
+        $previous_usecache = $this->wp_embed->usecache;
         $this->wp_embed->usecache = false;
 
         // The update cannot be empty because empty responses won't overwrite the cache.
@@ -349,7 +350,7 @@ class Tests_WP_Embed extends WP_UnitTestCase
      */
     public function test_shortcode_should_get_url_from_src_attribute()
     {
-        $url    = 'http://example.com/embed/foo';
+        $url = 'http://example.com/embed/foo';
         $actual = $this->wp_embed->shortcode(['src' => $url]);
 
         $this->assertSame('<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>', $actual);
@@ -368,7 +369,7 @@ class Tests_WP_Embed extends WP_UnitTestCase
      */
     public function test_shortcode_should_make_link_for_unknown_url()
     {
-        $url    = 'http://example.com/embed/foo';
+        $url = 'http://example.com/embed/foo';
         $actual = $this->wp_embed->shortcode([], $url);
 
         $this->assertSame('<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>', $actual);
@@ -379,14 +380,14 @@ class Tests_WP_Embed extends WP_UnitTestCase
      */
     public function test_run_shortcode_url_only()
     {
-        $url    = 'http://example.com/embed/foo';
+        $url = 'http://example.com/embed/foo';
         $actual = $this->wp_embed->run_shortcode('[embed]' . $url . '[/embed]');
         $this->assertSame('<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>', $actual);
     }
 
     public function test_maybe_make_link()
     {
-        $url    = 'http://example.com/embed/foo';
+        $url = 'http://example.com/embed/foo';
         $actual = $this->wp_embed->maybe_make_link($url);
 
         $this->assertSame('<a href="' . esc_url($url) . '">' . esc_html($url) . '</a>', $actual);

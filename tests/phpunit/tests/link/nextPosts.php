@@ -22,13 +22,13 @@ class Tests_Link_NextPosts extends WP_UnitTestCase
         global $wp_query, $paged;
 
         $factory->post->create_many(3);
-        $paged    = 2;
+        $paged = 2;
         $wp_query = new WP_Query(
             [
-                'post_type'      => 'post',
+                'post_type' => 'post',
                 'posts_per_page' => 1,
-                'paged'          => $paged,
-            ]
+                'paged' => $paged,
+            ],
         );
     }
 

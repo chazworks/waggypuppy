@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group block-supports
  *
@@ -34,38 +35,38 @@ class Tests_Block_Supports_Border extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'borderColor' => [
                         'type' => 'string',
                     ],
-                    'style'       => [
+                    'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     '__experimentalBorder' => [
-                        'color'  => true,
+                        'color' => true,
                         'radius' => true,
-                        'width'  => true,
-                        'style'  => true,
+                        'width' => true,
+                        'style' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = [
             'borderColor' => 'red',
-            'style'       => [
+            'style' => [
                 'border' => [
                     'radius' => '10px',
-                    'width'  => '1px',
-                    'style'  => 'dashed',
+                    'width' => '1px',
+                    'style' => 'dashed',
                 ],
             ],
         ];
 
-        $actual   = wp_apply_border_support($block_type, $block_atts);
+        $actual = wp_apply_border_support($block_type, $block_atts);
         $expected = [
             'class' => 'has-border-color has-red-border-color',
             'style' => 'border-radius:10px;border-style:dashed;border-width:1px;',
@@ -84,36 +85,36 @@ class Tests_Block_Supports_Border extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     '__experimentalBorder' => [
-                        'color'                           => true,
-                        'radius'                          => true,
-                        'width'                           => true,
-                        'style'                           => true,
+                        'color' => true,
+                        'radius' => true,
+                        'width' => true,
+                        'style' => true,
                         '__experimentalSkipSerialization' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = [
             'style' => [
                 'border' => [
-                    'color'  => '#eeeeee',
-                    'width'  => '1px',
-                    'style'  => 'dotted',
+                    'color' => '#eeeeee',
+                    'width' => '1px',
+                    'style' => 'dotted',
                     'radius' => '10px',
                 ],
             ],
         ];
 
-        $actual   = wp_apply_border_support($block_type, $block_atts);
+        $actual = wp_apply_border_support($block_type, $block_atts);
         $expected = [];
 
         $this->assertSame($expected, $actual);
@@ -129,36 +130,36 @@ class Tests_Block_Supports_Border extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     '__experimentalBorder' => [
-                        'color'                           => true,
-                        'radius'                          => true,
-                        'width'                           => true,
-                        'style'                           => true,
+                        'color' => true,
+                        'radius' => true,
+                        'width' => true,
+                        'style' => true,
                         '__experimentalSkipSerialization' => ['radius', 'color'],
                     ],
                 ],
-            ]
+            ],
         );
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = [
             'style' => [
                 'border' => [
-                    'color'  => '#eeeeee',
-                    'width'  => '1px',
-                    'style'  => 'dotted',
+                    'color' => '#eeeeee',
+                    'width' => '1px',
+                    'style' => 'dotted',
                     'radius' => '10px',
                 ],
             ],
         ];
 
-        $actual   = wp_apply_border_support($block_type, $block_atts);
+        $actual = wp_apply_border_support($block_type, $block_atts);
         $expected = [
             'style' => 'border-style:dotted;border-width:1px;',
         ];

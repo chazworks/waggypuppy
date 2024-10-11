@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group taxonomy
  * @group category
@@ -17,15 +18,15 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
             [
                 'name' => 'Test Category',
                 'slug' => 'test_category',
-            ]
+            ],
         );
 
         // Get the default functionality of wp_dropdown_categories().
         $dropdown_default = wp_dropdown_categories(
             [
-                'echo'       => 0,
+                'echo' => 0,
                 'hide_empty' => 0,
-            ]
+            ],
         );
 
         // Test to see if it returns the default with the category ID.
@@ -42,16 +43,16 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
             [
                 'name' => 'Test Category',
                 'slug' => 'test_category',
-            ]
+            ],
         );
 
         // Get the default functionality of wp_dropdown_categories().
         $found = wp_dropdown_categories(
             [
-                'echo'        => 0,
-                'hide_empty'  => 0,
+                'echo' => 0,
+                'hide_empty' => 0,
                 'value_field' => 'term_id',
-            ]
+            ],
         );
 
         // Test to see if it returns the default with the category ID.
@@ -68,16 +69,16 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
             [
                 'name' => 'Test Category',
                 'slug' => 'test_category',
-            ]
+            ],
         );
 
         // Get the default functionality of wp_dropdown_categories().
         $found = wp_dropdown_categories(
             [
-                'echo'        => 0,
-                'hide_empty'  => 0,
+                'echo' => 0,
+                'hide_empty' => 0,
                 'value_field' => 'slug',
-            ]
+            ],
         );
 
         // Test to see if it returns the default with the category slug.
@@ -87,23 +88,24 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
     /**
      * @ticket 30306
      */
-    public function test_wp_dropdown_categories_value_field_should_fall_back_on_term_id_when_an_invalid_value_is_provided()
+    public function test_wp_dropdown_categories_value_field_should_fall_back_on_term_id_when_an_invalid_value_is_provided(
+    )
     {
         // Create a test category.
         $cat_id = self::factory()->category->create(
             [
                 'name' => 'Test Category',
                 'slug' => 'test_category',
-            ]
+            ],
         );
 
         // Get the default functionality of wp_dropdown_categories().
         $found = wp_dropdown_categories(
             [
-                'echo'        => 0,
-                'hide_empty'  => 0,
+                'echo' => 0,
+                'hide_empty' => 0,
                 'value_field' => 'foo',
-            ]
+            ],
         );
 
         // Test to see if it returns the default with the category slug.
@@ -119,23 +121,23 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
             [
                 'name' => 'Test Category 1',
                 'slug' => 'test_category_1',
-            ]
+            ],
         );
 
         $c2 = self::factory()->category->create(
             [
                 'name' => 'Test Category 2',
                 'slug' => 'test_category_2',
-            ]
+            ],
         );
 
         $found = wp_dropdown_categories(
             [
-                'echo'        => 0,
-                'hide_empty'  => 0,
+                'echo' => 0,
+                'hide_empty' => 0,
                 'value_field' => 'slug',
-                'selected'    => 'test_category_2',
-            ]
+                'selected' => 'test_category_2',
+            ],
         );
 
         $this->assertStringContainsString('value="test_category_2" selected="selected"', $found);
@@ -144,17 +146,18 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
     /**
      * @ticket 33452
      */
-    public function test_wp_dropdown_categories_show_option_all_should_be_selected_if_no_selected_value_is_explicitly_passed_and_value_field_does_not_have_string_values()
+    public function test_wp_dropdown_categories_show_option_all_should_be_selected_if_no_selected_value_is_explicitly_passed_and_value_field_does_not_have_string_values(
+    )
     {
         $cats = self::factory()->category->create_many(3);
 
         $found = wp_dropdown_categories(
             [
-                'echo'            => 0,
-                'hide_empty'      => 0,
+                'echo' => 0,
+                'hide_empty' => 0,
                 'show_option_all' => 'Foo',
-                'value_field'     => 'slug',
-            ]
+                'value_field' => 'slug',
+            ],
         );
 
         $this->assertStringContainsString("value='0' selected='selected'", $found);
@@ -168,18 +171,19 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
     /**
      * @ticket 33452
      */
-    public function test_wp_dropdown_categories_show_option_all_should_be_selected_if_selected_value_of_0_string_is_explicitly_passed_and_value_field_does_not_have_string_values()
+    public function test_wp_dropdown_categories_show_option_all_should_be_selected_if_selected_value_of_0_string_is_explicitly_passed_and_value_field_does_not_have_string_values(
+    )
     {
         $cats = self::factory()->category->create_many(3);
 
         $found = wp_dropdown_categories(
             [
-                'echo'            => 0,
-                'hide_empty'      => 0,
+                'echo' => 0,
+                'hide_empty' => 0,
                 'show_option_all' => 'Foo',
-                'value_field'     => 'slug',
-                'selected'        => '0',
-            ]
+                'value_field' => 'slug',
+                'selected' => '0',
+            ],
         );
 
         $this->assertStringContainsString("value='0' selected='selected'", $found);
@@ -200,15 +204,15 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
             [
                 'name' => 'Test Category',
                 'slug' => 'test_category',
-            ]
+            ],
         );
 
-        $args                = [
-            'show_option_none'  => __('Select one', 'text-domain'),
+        $args = [
+            'show_option_none' => __('Select one', 'text-domain'),
             'option_none_value' => '',
-            'required'          => true,
-            'hide_empty'        => 0,
-            'echo'              => 0,
+            'required' => true,
+            'hide_empty' => 0,
+            'echo' => 0,
         ];
         $dropdown_categories = wp_dropdown_categories($args);
 
@@ -226,15 +230,15 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
             [
                 'name' => 'Test Category',
                 'slug' => 'test_category',
-            ]
+            ],
         );
 
-        $args                = [
-            'show_option_none'  => __('Select one', 'text-domain'),
+        $args = [
+            'show_option_none' => __('Select one', 'text-domain'),
             'option_none_value' => '',
-            'required'          => false,
-            'hide_empty'        => 0,
-            'echo'              => 0,
+            'required' => false,
+            'hide_empty' => 0,
+            'echo' => 0,
         ];
         $dropdown_categories = wp_dropdown_categories($args);
 
@@ -252,14 +256,14 @@ class Tests_Category_WpDropdownCategories extends WP_UnitTestCase
             [
                 'name' => 'Test Category',
                 'slug' => 'test_category',
-            ]
+            ],
         );
 
-        $args                = [
-            'show_option_none'  => __('Select one', 'text-domain'),
+        $args = [
+            'show_option_none' => __('Select one', 'text-domain'),
             'option_none_value' => '',
-            'hide_empty'        => 0,
-            'echo'              => 0,
+            'hide_empty' => 0,
+            'echo' => 0,
         ];
         $dropdown_categories = wp_dropdown_categories($args);
 

@@ -12,7 +12,7 @@ class Tests_Post_GetTheContent extends WP_UnitTestCase
     public function test_argument_back_compat_more_link_text()
     {
         $text = 'Foo<!--more-->Bar';
-        $p    = self::factory()->post->create(['post_content' => $text]);
+        $p = self::factory()->post->create(['post_content' => $text]);
 
         $q = new WP_Query(['p' => $p]);
         while ($q->have_posts()) {
@@ -30,7 +30,7 @@ class Tests_Post_GetTheContent extends WP_UnitTestCase
     public function test_argument_back_compat_strip_teaser()
     {
         $text = 'Foo<!--more-->Bar';
-        $p    = self::factory()->post->create(['post_content' => $text]);
+        $p = self::factory()->post->create(['post_content' => $text]);
 
         $this->go_to(get_permalink($p));
 
@@ -70,7 +70,7 @@ class Tests_Post_GetTheContent extends WP_UnitTestCase
 
         $text_2 = 'Bing<!--nextpage-->Bang<!--nextpage-->Boom';
         $post_2 = self::factory()->post->create_and_get(['post_content' => $text_2]);
-        $go_to  = add_query_arg('page', '2', get_permalink($post_1->ID));
+        $go_to = add_query_arg('page', '2', get_permalink($post_1->ID));
         $this->go_to($go_to);
 
         while (have_posts()) {

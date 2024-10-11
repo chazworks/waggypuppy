@@ -23,7 +23,7 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_n_noop()
     {
-        $text_domain   = 'text-domain';
+        $text_domain = 'text-domain';
         $nooped_plural = _n_noop('%s post', '%s posts', $text_domain);
 
         $this->assertSame('text-domain', $nooped_plural['domain']);
@@ -39,7 +39,7 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_nx_noop()
     {
-        $text_domain   = 'text-domain';
+        $text_domain = 'text-domain';
         $nooped_plural = _nx_noop('%s post', '%s posts', 'my-context', $text_domain);
 
         $this->assertSame('text-domain', $nooped_plural['domain']);
@@ -58,7 +58,8 @@ class Tests_L10n extends WP_UnitTestCase
     {
         $this->assertSame('no-bar-at-all', before_last_bar('no-bar-at-all'));
         $this->assertSame('before-last-bar', before_last_bar('before-last-bar|after-bar'));
-        $this->assertSame('first-before-bar|second-before-bar', before_last_bar('first-before-bar|second-before-bar|after-last-bar'));
+        $this->assertSame('first-before-bar|second-before-bar',
+            before_last_bar('first-before-bar|second-before-bar|after-last-bar'));
     }
 
     /**
@@ -83,7 +84,7 @@ class Tests_L10n extends WP_UnitTestCase
                 'ja_JP',
                 'de_CH',
             ],
-            $array
+            $array,
         );
     }
 
@@ -128,20 +129,22 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages()
     {
-        $args   = [
-            'id'           => 'foo',
-            'name'         => 'bar',
-            'languages'    => ['de_DE'],
+        $args = [
+            'id' => 'foo',
+            'name' => 'bar',
+            'languages' => ['de_DE'],
             'translations' => $this->wp_dropdown_languages_filter(),
-            'selected'     => 'de_DE',
-            'echo'         => false,
+            'selected' => 'de_DE',
+            'echo' => false,
         ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
         $this->assertStringContainsString('name="bar"', $actual);
-        $this->assertStringContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>', $actual);
-        $this->assertStringContainsString('<option value="de_DE" lang="de" selected=\'selected\' data-installed="1">Deutsch</option>', $actual);
+        $this->assertStringContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>',
+            $actual);
+        $this->assertStringContainsString('<option value="de_DE" lang="de" selected=\'selected\' data-installed="1">Deutsch</option>',
+            $actual);
         $this->assertStringContainsString('<option value="it_IT" lang="it">Italiano</option>', $actual);
         $this->assertStringContainsString('<option value="ja_JP" lang="ja">日本語</option>', $actual);
     }
@@ -153,22 +156,25 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_site_default()
     {
-        $args   = [
-            'id'                       => 'foo',
-            'name'                     => 'bar',
-            'languages'                => ['de_DE'],
-            'translations'             => $this->wp_dropdown_languages_filter(),
-            'selected'                 => 'de_DE',
-            'echo'                     => false,
+        $args = [
+            'id' => 'foo',
+            'name' => 'bar',
+            'languages' => ['de_DE'],
+            'translations' => $this->wp_dropdown_languages_filter(),
+            'selected' => 'de_DE',
+            'echo' => false,
             'show_option_site_default' => true,
         ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
         $this->assertStringContainsString('name="bar"', $actual);
-        $this->assertStringContainsString('<option value="site-default" data-installed="1">Site Default</option>', $actual);
-        $this->assertStringContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>', $actual);
-        $this->assertStringContainsString('<option value="de_DE" lang="de" selected=\'selected\' data-installed="1">Deutsch</option>', $actual);
+        $this->assertStringContainsString('<option value="site-default" data-installed="1">Site Default</option>',
+            $actual);
+        $this->assertStringContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>',
+            $actual);
+        $this->assertStringContainsString('<option value="de_DE" lang="de" selected=\'selected\' data-installed="1">Deutsch</option>',
+            $actual);
         $this->assertStringContainsString('<option value="it_IT" lang="it">Italiano</option>', $actual);
         $this->assertStringContainsString('<option value="ja_JP" lang="ja">日本語</option>', $actual);
     }
@@ -180,18 +186,19 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_exclude_en_us()
     {
-        $args   = [
-            'id'                => 'foo',
-            'name'              => 'bar',
-            'languages'         => ['de_DE'],
-            'translations'      => $this->wp_dropdown_languages_filter(),
-            'selected'          => 'de_DE',
-            'echo'              => false,
+        $args = [
+            'id' => 'foo',
+            'name' => 'bar',
+            'languages' => ['de_DE'],
+            'translations' => $this->wp_dropdown_languages_filter(),
+            'selected' => 'de_DE',
+            'echo' => false,
             'show_option_en_us' => false,
         ];
         $actual = wp_dropdown_languages($args);
 
-        $this->assertStringNotContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>', $actual);
+        $this->assertStringNotContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>',
+            $actual);
     }
 
     /**
@@ -201,20 +208,22 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_en_US_selected()
     {
-        $args   = [
-            'id'           => 'foo',
-            'name'         => 'bar',
-            'languages'    => ['de_DE'],
+        $args = [
+            'id' => 'foo',
+            'name' => 'bar',
+            'languages' => ['de_DE'],
             'translations' => $this->wp_dropdown_languages_filter(),
-            'selected'     => 'en_US',
-            'echo'         => false,
+            'selected' => 'en_US',
+            'echo' => false,
         ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
         $this->assertStringContainsString('name="bar"', $actual);
-        $this->assertStringContainsString('<option value="" lang="en" data-installed="1" selected=\'selected\'>English (United States)</option>', $actual);
-        $this->assertStringContainsString('<option value="de_DE" lang="de" data-installed="1">Deutsch</option>', $actual);
+        $this->assertStringContainsString('<option value="" lang="en" data-installed="1" selected=\'selected\'>English (United States)</option>',
+            $actual);
+        $this->assertStringContainsString('<option value="de_DE" lang="de" data-installed="1">Deutsch</option>',
+            $actual);
         $this->assertStringContainsString('<option value="it_IT" lang="it">Italiano</option>', $actual);
         $this->assertStringContainsString('<option value="ja_JP" lang="ja">日本語</option>', $actual);
     }
@@ -226,24 +235,27 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_site_default_ja_JP()
     {
-        $args   = [
-            'id'                       => 'foo',
-            'name'                     => 'bar',
-            'languages'                => ['ja_JP'],
-            'translations'             => $this->wp_dropdown_languages_filter(),
-            'selected'                 => 'ja_JP',
-            'echo'                     => false,
+        $args = [
+            'id' => 'foo',
+            'name' => 'bar',
+            'languages' => ['ja_JP'],
+            'translations' => $this->wp_dropdown_languages_filter(),
+            'selected' => 'ja_JP',
+            'echo' => false,
             'show_option_site_default' => true,
         ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
         $this->assertStringContainsString('name="bar"', $actual);
-        $this->assertStringContainsString('<option value="site-default" data-installed="1">Site Default</option>', $actual);
-        $this->assertStringContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>', $actual);
+        $this->assertStringContainsString('<option value="site-default" data-installed="1">Site Default</option>',
+            $actual);
+        $this->assertStringContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>',
+            $actual);
         $this->assertStringContainsString('<option value="de_DE" lang="de">Deutsch</option>', $actual);
         $this->assertStringContainsString('<option value="it_IT" lang="it">Italiano</option>', $actual);
-        $this->assertStringContainsString('<option value="ja_JP" lang="ja" selected=\'selected\' data-installed="1">日本語</option>', $actual);
+        $this->assertStringContainsString('<option value="ja_JP" lang="ja" selected=\'selected\' data-installed="1">日本語</option>',
+            $actual);
     }
 
     /**
@@ -253,22 +265,25 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_dropdown_languages_ja_JP_selected()
     {
-        $args   = [
-            'id'           => 'foo',
-            'name'         => 'bar',
-            'languages'    => ['de_DE'],
+        $args = [
+            'id' => 'foo',
+            'name' => 'bar',
+            'languages' => ['de_DE'],
             'translations' => $this->wp_dropdown_languages_filter(),
-            'selected'     => 'ja_JP',
-            'echo'         => false,
+            'selected' => 'ja_JP',
+            'echo' => false,
         ];
         $actual = wp_dropdown_languages($args);
 
         $this->assertStringContainsString('id="foo"', $actual);
         $this->assertStringContainsString('name="bar"', $actual);
-        $this->assertStringContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>', $actual);
-        $this->assertStringContainsString('<option value="de_DE" lang="de" data-installed="1">Deutsch</option>', $actual);
+        $this->assertStringContainsString('<option value="" lang="en" data-installed="1">English (United States)</option>',
+            $actual);
+        $this->assertStringContainsString('<option value="de_DE" lang="de" data-installed="1">Deutsch</option>',
+            $actual);
         $this->assertStringContainsString('<option value="it_IT" lang="it">Italiano</option>', $actual);
-        $this->assertStringContainsString('<option value="ja_JP" lang="ja" selected=\'selected\'>日本語</option>', $actual);
+        $this->assertStringContainsString('<option value="ja_JP" lang="ja" selected=\'selected\'>日本語</option>',
+            $actual);
     }
 
     /**
@@ -280,19 +295,19 @@ class Tests_L10n extends WP_UnitTestCase
     {
         return [
             'de_DE' => [
-                'language'    => 'de_DE',
+                'language' => 'de_DE',
                 'native_name' => 'Deutsch',
-                'iso'         => ['de'],
+                'iso' => ['de'],
             ],
             'it_IT' => [
-                'language'    => 'it_IT',
+                'language' => 'it_IT',
                 'native_name' => 'Italiano',
-                'iso'         => ['it', 'ita'],
+                'iso' => ['it', 'ita'],
             ],
             'ja_JP' => [
-                'language'    => 'ja_JP',
+                'language' => 'ja_JP',
                 'native_name' => '日本語',
-                'iso'         => ['ja'],
+                'iso' => ['ja'],
             ],
         ];
     }
@@ -304,21 +319,21 @@ class Tests_L10n extends WP_UnitTestCase
      */
     public function test_wp_get_pomo_file_data()
     {
-        $file  = DIR_TESTDATA . '/pomo/empty.po';
+        $file = DIR_TESTDATA . '/pomo/empty.po';
         $array = wp_get_pomo_file_data($file);
         $this->assertArrayHasKey('POT-Creation-Date', $array);
         $this->assertArrayHasKey('PO-Revision-Date', $array);
         $this->assertArrayHasKey('Project-Id-Version', $array);
         $this->assertArrayHasKey('X-Generator', $array);
 
-        $file  = DIR_TESTDATA . '/pomo/mo.pot';
+        $file = DIR_TESTDATA . '/pomo/mo.pot';
         $array = wp_get_pomo_file_data($file);
         $this->assertNotEmpty($array['POT-Creation-Date']);
         $this->assertNotEmpty($array['PO-Revision-Date']);
         $this->assertNotEmpty($array['Project-Id-Version']);
         $this->assertArrayHasKey('X-Generator', $array);
 
-        $file  = DIR_TESTDATA . '/languages/es_ES.po';
+        $file = DIR_TESTDATA . '/languages/es_ES.po';
         $array = wp_get_pomo_file_data($file);
         $this->assertArrayHasKey('POT-Creation-Date', $array);
         $this->assertNotEmpty($array['PO-Revision-Date']);
@@ -489,7 +504,7 @@ class Tests_L10n extends WP_UnitTestCase
         $args = [
             'post_content' => $this->long_text,
             'post_excerpt' => '',
-            'post_status'  => 'draft',
+            'post_status' => 'draft',
         ];
 
         self::factory()->post->create($args);
@@ -529,7 +544,7 @@ class Tests_L10n extends WP_UnitTestCase
         $args = [
             'post_content' => $this->long_text,
             'post_excerpt' => '',
-            'post_status'  => 'draft',
+            'post_status' => 'draft',
         ];
 
         $post = self::factory()->post->create($args);
@@ -569,7 +584,7 @@ class Tests_L10n extends WP_UnitTestCase
         $args = [
             'post_content' => str_repeat('あ', 200),
             'post_excerpt' => '',
-            'post_status'  => 'draft',
+            'post_status' => 'draft',
         ];
 
         self::factory()->post->create($args);
@@ -591,11 +606,11 @@ class Tests_L10n extends WP_UnitTestCase
     {
         switch_to_locale('en_US');
 
-        $args            = [
+        $args = [
             'comment_content' => $this->long_text,
         ];
-        $comment_id      = self::factory()->comment->create($args);
-        $expect          = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut&hellip;';
+        $comment_id = self::factory()->comment->create($args);
+        $expect = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut&hellip;';
         $comment_excerpt = get_comment_excerpt($comment_id);
 
         restore_previous_locale();
@@ -612,11 +627,11 @@ class Tests_L10n extends WP_UnitTestCase
     {
         switch_to_locale('ja_JP');
 
-        $args            = [
+        $args = [
             'comment_content' => $this->long_text,
         ];
-        $comment_id      = self::factory()->comment->create($args);
-        $expect          = 'Lorem ipsum dolor sit amet, consectetur &hellip;';
+        $comment_id = self::factory()->comment->create($args);
+        $expect = 'Lorem ipsum dolor sit amet, consectetur &hellip;';
         $comment_excerpt = get_comment_excerpt($comment_id);
 
         restore_previous_locale();
@@ -633,11 +648,11 @@ class Tests_L10n extends WP_UnitTestCase
     {
         switch_to_locale('ja_JP');
 
-        $args            = [
+        $args = [
             'comment_content' => str_repeat('あ', 200),
         ];
-        $comment_id      = self::factory()->comment->create($args);
-        $expect          = str_repeat('あ', 40) . '&hellip;';
+        $comment_id = self::factory()->comment->create($args);
+        $expect = str_repeat('あ', 40) . '&hellip;';
         $comment_excerpt = get_comment_excerpt($comment_id);
 
         restore_previous_locale();

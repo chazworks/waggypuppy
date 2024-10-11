@@ -53,7 +53,7 @@ class WP_Sitemaps
     {
         $this->registry = new WP_Sitemaps_Registry();
         $this->renderer = new WP_Sitemaps_Renderer();
-        $this->index    = new WP_Sitemaps_Index($this->registry);
+        $this->index = new WP_Sitemaps_Index($this->registry);
     }
 
     /**
@@ -71,7 +71,7 @@ class WP_Sitemaps
 
         add_action('template_redirect', [$this, 'render_sitemaps']);
 
-        if (! $this->sitemaps_enabled()) {
+        if (!$this->sitemaps_enabled()) {
             return;
         }
 
@@ -85,13 +85,13 @@ class WP_Sitemaps
     /**
      * Determines whether sitemaps are enabled or not.
      *
+     * @return bool Whether sitemaps are enabled.
      * @since 5.5.0
      *
-     * @return bool Whether sitemaps are enabled.
      */
     public function sitemaps_enabled()
     {
-        $is_enabled = (bool) get_option('blog_public');
+        $is_enabled = (bool)get_option('blog_public');
 
         /**
          * Filters whether XML Sitemaps are enabled or not.
@@ -99,14 +99,14 @@ class WP_Sitemaps
          * When XML Sitemaps are disabled via this filter, rewrite rules are still
          * in place to ensure a 404 is returned.
          *
-         * @see WP_Sitemaps::register_rewrites()
-         *
-         * @since 5.5.0
-         *
          * @param bool $is_enabled Whether XML Sitemaps are enabled or not.
          *                         Defaults to true for public sites.
+         * @since 5.5.0
+         *
+         * @see WP_Sitemaps::register_rewrites()
+         *
          */
-        return (bool) apply_filters('wp_sitemaps_enabled', $is_enabled);
+        return (bool)apply_filters('wp_sitemaps_enabled', $is_enabled);
     }
 
     /**
@@ -117,9 +117,9 @@ class WP_Sitemaps
     public function register_sitemaps()
     {
         $providers = [
-            'posts'      => new WP_Sitemaps_Posts(),
+            'posts' => new WP_Sitemaps_Posts(),
             'taxonomies' => new WP_Sitemaps_Taxonomies(),
-            'users'      => new WP_Sitemaps_Users(),
+            'users' => new WP_Sitemaps_Users(),
         ];
 
         /* @var WP_Sitemaps_Provider $provider */
@@ -151,12 +151,12 @@ class WP_Sitemaps
         add_rewrite_rule(
             '^wp-sitemap-([a-z]+?)-([a-z\d_-]+?)-(\d+?)\.xml$',
             'index.php?sitemap=$matches[1]&sitemap-subtype=$matches[2]&paged=$matches[3]',
-            'top'
+            'top',
         );
         add_rewrite_rule(
             '^wp-sitemap-([a-z]+?)-(\d+?)\.xml$',
             'index.php?sitemap=$matches[1]&paged=$matches[2]',
-            'top'
+            'top',
         );
     }
 
@@ -171,17 +171,17 @@ class WP_Sitemaps
     {
         global $wp_query;
 
-        $sitemap         = sanitize_text_field(get_query_var('sitemap'));
-        $object_subtype  = sanitize_text_field(get_query_var('sitemap-subtype'));
+        $sitemap = sanitize_text_field(get_query_var('sitemap'));
+        $object_subtype = sanitize_text_field(get_query_var('sitemap-subtype'));
         $stylesheet_type = sanitize_text_field(get_query_var('sitemap-stylesheet'));
-        $paged           = absint(get_query_var('paged'));
+        $paged = absint(get_query_var('paged'));
 
         // Bail early if this isn't a sitemap or stylesheet route.
-        if (! ($sitemap || $stylesheet_type)) {
+        if (!($sitemap || $stylesheet_type)) {
             return;
         }
 
-        if (! $this->sitemaps_enabled()) {
+        if (!$this->sitemaps_enabled()) {
             $wp_query->set_404();
             status_header(404);
             return;
@@ -205,7 +205,7 @@ class WP_Sitemaps
 
         $provider = $this->registry->get_provider($sitemap);
 
-        if (! $provider) {
+        if (!$provider) {
             return;
         }
 
@@ -229,11 +229,11 @@ class WP_Sitemaps
     /**
      * Redirects a URL to the wp-sitemap.xml
      *
+     * @param bool $bypass Pass-through of the pre_handle_404 filter value.
+     * @param WP_Query $query The WP_Query object.
+     * @return bool Bypass value.
      * @since 5.5.0
      *
-     * @param bool     $bypass Pass-through of the pre_handle_404 filter value.
-     * @param WP_Query $query  The WP_Query object.
-     * @return bool Bypass value.
      */
     public function redirect_sitemapxml($bypass, $query)
     {
@@ -256,11 +256,11 @@ class WP_Sitemaps
     /**
      * Adds the sitemap index to robots.txt.
      *
+     * @param string $output robots.txt output.
+     * @param bool $is_public Whether the site is public.
+     * @return string The robots.txt output.
      * @since 5.5.0
      *
-     * @param string $output    robots.txt output.
-     * @param bool   $is_public Whether the site is public.
-     * @return string The robots.txt output.
      */
     public function add_robots($output, $is_public)
     {

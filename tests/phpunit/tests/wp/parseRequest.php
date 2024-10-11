@@ -54,7 +54,7 @@ class Tests_WP_ParseRequest extends WP_UnitTestCase
             'home_url',
             static function ($url) {
                 return 'http://example.org';
-            }
+            },
         );
 
         $this->wp->parse_request();

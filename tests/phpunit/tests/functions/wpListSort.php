@@ -15,7 +15,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
      *
      * @param string|array $orderby Either the field name to order by or an array
      *                              of multiple orderby fields as `$orderby => $order`.
-     * @param string       $order   Either 'ASC' or 'DESC'.
+     * @param string $order Either 'ASC' or 'DESC'.
      */
     public function test_wp_list_sort($input_list, $orderby, $order, $expected)
     {
@@ -30,7 +30,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
     public function data_wp_list_sort()
     {
         return [
-            'single orderby ascending'        => [
+            'single orderby ascending' => [
                 [
                     [
                         'foo' => 'bar',
@@ -38,9 +38,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'baz',
@@ -60,13 +60,13 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'value',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],
-            'single orderby descending'       => [
+            'single orderby descending' => [
                 [
                     [
                         'foo' => 'bar',
@@ -74,9 +74,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'baz',
@@ -87,9 +87,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                 'DESC',
                 [
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'baz',
@@ -102,7 +102,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'single orderby array ascending'  => [
+            'single orderby array ascending' => [
                 [
                     [
                         'foo' => 'bar',
@@ -110,9 +110,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'baz',
@@ -132,9 +132,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'value',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],
@@ -146,9 +146,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'baz',
@@ -159,9 +159,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                 'IGNORED',
                 [
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'baz',
@@ -174,7 +174,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'multiple orderby ascending'      => [
+            'multiple orderby ascending' => [
                 [
                     [
                         'foo' => 'bar',
@@ -182,9 +182,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'foo',
@@ -206,9 +206,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                 'IGNORED',
                 [
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'bar',
@@ -229,7 +229,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'multiple orderby descending'     => [
+            'multiple orderby descending' => [
                 [
                     [
                         'foo' => 'bar',
@@ -237,9 +237,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'foo',
@@ -278,13 +278,13 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],
-            'multiple orderby mixed'          => [
+            'multiple orderby mixed' => [
                 [
                     [
                         'foo' => 'bar',
@@ -292,9 +292,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     [
                         'foo' => 'foo',
@@ -333,9 +333,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],
@@ -347,7 +347,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
      *
      * @param string|array $orderby Either the field name to order by or an array
      *                              of multiple orderby fields as `$orderby => $order`.
-     * @param string       $order   Either 'ASC' or 'DESC'.
+     * @param string $order Either 'ASC' or 'DESC'.
      */
     public function test_wp_list_sort_preserve_keys($input_list, $orderby, $order, $expected)
     {
@@ -362,7 +362,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
     public function data_wp_list_sort_preserve_keys()
     {
         return [
-            'single orderby ascending'        => [
+            'single orderby ascending' => [
                 [
                     'foobar' => [
                         'foo' => 'bar',
@@ -370,9 +370,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     'foofoo' => [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     'foobaz' => [
                         'foo' => 'baz',
@@ -392,13 +392,13 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'value',
                     ],
                     'foofoo' => [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],
-            'single orderby descending'       => [
+            'single orderby descending' => [
                 [
                     'foobar' => [
                         'foo' => 'bar',
@@ -406,9 +406,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     'foofoo' => [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     'foobaz' => [
                         'foo' => 'baz',
@@ -419,9 +419,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                 'DESC',
                 [
                     'foofoo' => [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     'foobaz' => [
                         'foo' => 'baz',
@@ -434,7 +434,7 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'single orderby array ascending'  => [
+            'single orderby array ascending' => [
                 [
                     'foobar' => [
                         'foo' => 'bar',
@@ -442,9 +442,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     'foofoo' => [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     'foobaz' => [
                         'foo' => 'baz',
@@ -464,9 +464,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'value',
                     ],
                     'foofoo' => [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],
@@ -478,9 +478,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'key' => 'foo',
                     ],
                     'foofoo' => [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     'foobaz' => [
                         'foo' => 'baz',
@@ -491,9 +491,9 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                 'IGNORED',
                 [
                     'foofoo' => [
-                        'foo'   => 'foo',
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                     'foobaz' => [
                         'foo' => 'baz',
@@ -506,23 +506,23 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'multiple orderby ascending'      => [
+            'multiple orderby ascending' => [
                 [
-                    'foobarfoo'   => [
+                    'foobarfoo' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
                     ],
-                    'foofoobar'   => [
-                        'foo'   => 'foo',
+                    'foofoobar' => [
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    'foofookey'   => [
+                    'foofookey' => [
                         'foo' => 'foo',
                         'key' => 'key',
                     ],
-                    'foobazkey'   => [
+                    'foobazkey' => [
                         'foo' => 'baz',
                         'key' => 'key',
                     ],
@@ -537,21 +537,21 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                 ],
                 'IGNORED',
                 [
-                    'foofoobar'   => [
-                        'foo'   => 'foo',
+                    'foofoobar' => [
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    'foobarfoo'   => [
+                    'foobarfoo' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
                     ],
-                    'foobazkey'   => [
+                    'foobazkey' => [
                         'foo' => 'baz',
                         'key' => 'key',
                     ],
-                    'foofookey'   => [
+                    'foofookey' => [
                         'foo' => 'foo',
                         'key' => 'key',
                     ],
@@ -561,23 +561,23 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'multiple orderby descending'     => [
+            'multiple orderby descending' => [
                 [
-                    'foobarfoo'   => [
+                    'foobarfoo' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
                     ],
-                    'foofoobar'   => [
-                        'foo'   => 'foo',
+                    'foofoobar' => [
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    'foofookey'   => [
+                    'foofookey' => [
                         'foo' => 'foo',
                         'key' => 'key',
                     ],
-                    'foobazkey'   => [
+                    'foobazkey' => [
                         'foo' => 'baz',
                         'key' => 'key',
                     ],
@@ -596,43 +596,43 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'foo' => 'bar',
                         'key' => 'value',
                     ],
-                    'foofookey'   => [
+                    'foofookey' => [
                         'foo' => 'foo',
                         'key' => 'key',
                     ],
-                    'foobazkey'   => [
+                    'foobazkey' => [
                         'foo' => 'baz',
                         'key' => 'key',
                     ],
-                    'foobarfoo'   => [
+                    'foobarfoo' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
                     ],
-                    'foofoobar'   => [
-                        'foo'   => 'foo',
+                    'foofoobar' => [
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],
-            'multiple orderby mixed'          => [
+            'multiple orderby mixed' => [
                 [
-                    'foobarfoo'   => [
+                    'foobarfoo' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
                     ],
-                    'foofoobar'   => [
-                        'foo'   => 'foo',
+                    'foofoobar' => [
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    'foofookey'   => [
+                    'foofookey' => [
                         'foo' => 'foo',
                         'key' => 'key',
                     ],
-                    'foobazkey'   => [
+                    'foobazkey' => [
                         'foo' => 'baz',
                         'key' => 'key',
                     ],
@@ -651,23 +651,23 @@ class Tests_Functions_wpListSort extends WP_UnitTestCase
                         'foo' => 'bar',
                         'key' => 'value',
                     ],
-                    'foobazkey'   => [
+                    'foobazkey' => [
                         'foo' => 'baz',
                         'key' => 'key',
                     ],
-                    'foofookey'   => [
+                    'foofookey' => [
                         'foo' => 'foo',
                         'key' => 'key',
                     ],
-                    'foobarfoo'   => [
+                    'foobarfoo' => [
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'key' => 'foo',
                     ],
-                    'foofoobar'   => [
-                        'foo'   => 'foo',
+                    'foofoobar' => [
+                        'foo' => 'foo',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],

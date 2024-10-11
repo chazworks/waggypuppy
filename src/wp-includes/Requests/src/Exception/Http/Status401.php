@@ -14,18 +14,19 @@ use WpOrg\Requests\Exception\Http;
  *
  * @package Requests\Exceptions
  */
-final class Status401 extends Http {
-	/**
-	 * HTTP status code
-	 *
-	 * @var integer
-	 */
-	protected $code = 401;
+final class Status401 extends Http
+{
+    /**
+     * HTTP status code
+     *
+     * @var integer
+     */
+    protected $code = 401;
 
-	/**
-	 * Reason phrase
-	 *
-	 * @var string
-	 */
-	protected $reason = 'Unauthorized';
+    /**
+     * Reason phrase
+     *
+     * @var string
+     */
+    protected $reason = 'Unauthorized';
 }

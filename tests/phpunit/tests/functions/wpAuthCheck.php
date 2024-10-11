@@ -56,10 +56,10 @@ class Tests_Functions_wpAuthCheck extends WP_UnitTestCase
 
         $GLOBALS['login_grace_period'] = 1;
 
-        $expected  = [
+        $expected = [
             'wp-auth-check' => false,
         ];
-        $actual    = wp_auth_check([]);
+        $actual = wp_auth_check([]);
         $logged_in = is_user_logged_in();
 
         // Leave the global state unchanged.

@@ -15,6 +15,7 @@ class Tests_Formatting_SanitizeOrderby extends WP_UnitTestCase
     {
         $this->assertSame($orderby, sanitize_sql_orderby($orderby));
     }
+
     public function data_sanitize_sql_orderby_valid()
     {
         return [
@@ -43,6 +44,7 @@ class Tests_Formatting_SanitizeOrderby extends WP_UnitTestCase
     {
         $this->assertFalse(sanitize_sql_orderby($orderby));
     }
+
     public function data_sanitize_sql_orderby_invalid()
     {
         return [

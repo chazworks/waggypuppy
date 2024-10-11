@@ -26,9 +26,9 @@ class WP_Paused_Extensions_Storage
     /**
      * Constructor.
      *
+     * @param string $extension_type Extension type. Either 'plugin' or 'theme'.
      * @since 5.2.0
      *
-     * @param string $extension_type Extension type. Either 'plugin' or 'theme'.
      */
     public function __construct($extension_type)
     {
@@ -41,35 +41,37 @@ class WP_Paused_Extensions_Storage
      * Only one error is stored per extension, with subsequent errors for the same extension overriding the
      * previously stored error.
      *
-     * @since 5.2.0
-     *
      * @param string $extension Plugin or theme directory name.
-     * @param array  $error     {
+     * @param array $error {
      *     Error information returned by `error_get_last()`.
      *
-     *     @type int    $type    The error type.
-     *     @type string $file    The name of the file in which the error occurred.
-     *     @type int    $line    The line number in which the error occurred.
-     *     @type string $message The error message.
+     * @type int $type The error type.
+     * @type string $file The name of the file in which the error occurred.
+     * @type int $line The line number in which the error occurred.
+     * @type string $message The error message.
      * }
      * @return bool True on success, false on failure.
+     * @since 5.2.0
+     *
      */
     public function set($extension, $error)
     {
-        if (! $this->is_api_loaded()) {
+        if (!$this->is_api_loaded()) {
             return false;
         }
 
         $option_name = $this->get_option_name();
 
-        if (! $option_name) {
+        if (!$option_name) {
             return false;
         }
 
-        $paused_extensions = (array) get_option($option_name, []);
+        $paused_extensions = (array)get_option($option_name, []);
 
         // Do not update if the error is already stored.
-        if (isset($paused_extensions[$this->type][$extension]) && $paused_extensions[$this->type][$extension] === $error) {
+        if (isset($paused_extensions[$this->type][$extension])
+            && $paused_extensions[$this->type][$extension]
+            === $error) {
             return true;
         }
 
@@ -81,27 +83,27 @@ class WP_Paused_Extensions_Storage
     /**
      * Forgets a previously recorded extension error.
      *
-     * @since 5.2.0
-     *
      * @param string $extension Plugin or theme directory name.
      * @return bool True on success, false on failure.
+     * @since 5.2.0
+     *
      */
     public function delete($extension)
     {
-        if (! $this->is_api_loaded()) {
+        if (!$this->is_api_loaded()) {
             return false;
         }
 
         $option_name = $this->get_option_name();
 
-        if (! $option_name) {
+        if (!$option_name) {
             return false;
         }
 
-        $paused_extensions = (array) get_option($option_name, []);
+        $paused_extensions = (array)get_option($option_name, []);
 
         // Do not delete if no error is stored.
-        if (! isset($paused_extensions[$this->type][$extension])) {
+        if (!isset($paused_extensions[$this->type][$extension])) {
             return true;
         }
 
@@ -112,7 +114,7 @@ class WP_Paused_Extensions_Storage
         }
 
         // Clean up the entire option if we're removing the only error.
-        if (! $paused_extensions) {
+        if (!$paused_extensions) {
             return delete_option($option_name);
         }
 
@@ -122,20 +124,20 @@ class WP_Paused_Extensions_Storage
     /**
      * Gets the error for an extension, if paused.
      *
-     * @since 5.2.0
-     *
      * @param string $extension Plugin or theme directory name.
      * @return array|null Error that is stored, or null if the extension is not paused.
+     * @since 5.2.0
+     *
      */
     public function get($extension)
     {
-        if (! $this->is_api_loaded()) {
+        if (!$this->is_api_loaded()) {
             return null;
         }
 
         $paused_extensions = $this->get_all();
 
-        if (! isset($paused_extensions[$extension])) {
+        if (!isset($paused_extensions[$extension])) {
             return null;
         }
 
@@ -145,27 +147,27 @@ class WP_Paused_Extensions_Storage
     /**
      * Gets the paused extensions with their errors.
      *
-     * @since 5.2.0
-     *
      * @return array {
      *     Associative array of errors keyed by extension slug.
      *
-     *     @type array ...$0 Error information returned by `error_get_last()`.
+     * @type array ...$0 Error information returned by `error_get_last()`.
      * }
+     * @since 5.2.0
+     *
      */
     public function get_all()
     {
-        if (! $this->is_api_loaded()) {
+        if (!$this->is_api_loaded()) {
             return [];
         }
 
         $option_name = $this->get_option_name();
 
-        if (! $option_name) {
+        if (!$option_name) {
             return [];
         }
 
-        $paused_extensions = (array) get_option($option_name, []);
+        $paused_extensions = (array)get_option($option_name, []);
 
         return isset($paused_extensions[$this->type]) ? $paused_extensions[$this->type] : [];
     }
@@ -173,27 +175,27 @@ class WP_Paused_Extensions_Storage
     /**
      * Remove all paused extensions.
      *
+     * @return bool
      * @since 5.2.0
      *
-     * @return bool
      */
     public function delete_all()
     {
-        if (! $this->is_api_loaded()) {
+        if (!$this->is_api_loaded()) {
             return false;
         }
 
         $option_name = $this->get_option_name();
 
-        if (! $option_name) {
+        if (!$option_name) {
             return false;
         }
 
-        $paused_extensions = (array) get_option($option_name, []);
+        $paused_extensions = (array)get_option($option_name, []);
 
         unset($paused_extensions[$this->type]);
 
-        if (! $paused_extensions) {
+        if (!$paused_extensions) {
             return delete_option($option_name);
         }
 
@@ -203,9 +205,9 @@ class WP_Paused_Extensions_Storage
     /**
      * Checks whether the underlying API to store paused extensions is loaded.
      *
+     * @return bool True if the API is loaded, false otherwise.
      * @since 5.2.0
      *
-     * @return bool True if the API is loaded, false otherwise.
      */
     protected function is_api_loaded()
     {
@@ -215,13 +217,13 @@ class WP_Paused_Extensions_Storage
     /**
      * Get the option name for storing paused extensions.
      *
+     * @return string
      * @since 5.2.0
      *
-     * @return string
      */
     protected function get_option_name()
     {
-        if (! wp_recovery_mode()->is_active()) {
+        if (!wp_recovery_mode()->is_active()) {
             return '';
         }
 

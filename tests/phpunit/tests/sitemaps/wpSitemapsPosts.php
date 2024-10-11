@@ -60,15 +60,15 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase
 
         update_option('show_on_front', 'posts');
 
-        $url_list      = $posts_provider->get_url_list(1, 'page');
+        $url_list = $posts_provider->get_url_list(1, 'page');
         $sitemap_entry = array_shift($url_list);
 
         $this->assertEqualSetsWithIndex(
             [
-                'loc'     => home_url('/'),
+                'loc' => home_url('/'),
                 'lastmod' => '2000-01-01',
             ],
-            $sitemap_entry
+            $sitemap_entry,
         );
     }
 
@@ -92,7 +92,7 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase
         $factory = self::factory();
 
         // Create 4 posts, and stick the last one.
-        $post_ids     = $factory->post->create_many(4);
+        $post_ids = $factory->post->create_many(4);
         $last_post_id = end($post_ids);
         stick_post($last_post_id);
 
@@ -106,7 +106,7 @@ class Tests_Sitemaps_wpSitemapsPosts extends WP_UnitTestCase
 
         foreach ($post_ids as $post_id) {
             $expected[] = [
-                'loc'     => home_url("?p={$post_id}"),
+                'loc' => home_url("?p={$post_id}"),
                 'lastmod' => get_post_modified_time(DATE_W3C, true, $post_id),
             ];
         }

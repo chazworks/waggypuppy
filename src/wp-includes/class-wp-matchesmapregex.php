@@ -46,13 +46,13 @@ class WP_MatchesMapRegex
      * constructor
      *
      * @param string $subject subject if regex
-     * @param array  $matches data to use in map
+     * @param array $matches data to use in map
      */
     public function __construct($subject, $matches)
     {
         $this->_subject = $subject;
         $this->_matches = $matches;
-        $this->output   = $this->_map();
+        $this->output = $this->_map();
     }
 
     /**
@@ -61,7 +61,7 @@ class WP_MatchesMapRegex
      * static helper function to ease use
      *
      * @param string $subject subject
-     * @param array  $matches data used for substitution
+     * @param array $matches data used for substitution
      * @return string
      */
     public static function apply($subject, $matches)
@@ -89,7 +89,7 @@ class WP_MatchesMapRegex
      */
     public function callback($matches)
     {
-        $index = (int) substr($matches[0], 9, -1);
+        $index = (int)substr($matches[0], 9, -1);
         return (isset($this->_matches[$index]) ? urlencode($this->_matches[$index]) : '');
     }
 }

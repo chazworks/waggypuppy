@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group editor
  *
@@ -22,7 +23,7 @@ class Tests_Editor_wpTinyMceInlineScripts extends WP_UnitTestCase
             static function ($settings) {
                 $settings['tinymce'] = ['wp_autoresize_on' => true];
                 return $settings;
-            }
+            },
         );
 
         add_filter(
@@ -30,7 +31,7 @@ class Tests_Editor_wpTinyMceInlineScripts extends WP_UnitTestCase
             static function ($tinymce_settings) use (&$merged_settings) {
                 $merged_settings = $tinymce_settings;
                 return $tinymce_settings;
-            }
+            },
         );
 
         wp_scripts();

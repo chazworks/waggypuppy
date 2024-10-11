@@ -9,10 +9,12 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var EditLibrary = wp.media.view.Attachment.extend(/** @lends wp.media.view.Attachment.EditLibrary.prototype */{
-	buttons: {
-		close: true
+var EditLibrary = wp.media.view.Attachment.extend(
+	/** @lends wp.media.view.Attachment.EditLibrary.prototype */ {
+		buttons: {
+			close: true,
+		},
 	}
-});
+);
 
 module.exports = EditLibrary;

@@ -40,123 +40,140 @@ var Library = wp.media.controller.Library,
  * @param {string}                     attributes.type                   The collection's media type. (e.g. 'video').
  * @param {string}                     attributes.collectionType         The collection type. (e.g. 'playlist').
  */
-CollectionEdit = Library.extend(/** @lends wp.media.controller.CollectionEdit.prototype */{
-	defaults: {
-		multiple:         false,
-		sortable:         true,
-		date:             false,
-		searchable:       false,
-		content:          'browse',
-		describe:         true,
-		dragInfo:         true,
-		idealColumnWidth: 170,
-		editing:          false,
-		priority:         60,
-		SettingsView:     false,
-		syncSelection:    false
-	},
+CollectionEdit = Library.extend(
+	/** @lends wp.media.controller.CollectionEdit.prototype */ {
+		defaults: {
+			multiple: false,
+			sortable: true,
+			date: false,
+			searchable: false,
+			content: 'browse',
+			describe: true,
+			dragInfo: true,
+			idealColumnWidth: 170,
+			editing: false,
+			priority: 60,
+			SettingsView: false,
+			syncSelection: false,
+		},
 
-	/**
-	 * @since 3.9.0
-	 */
-	initialize: function() {
-		var collectionType = this.get('collectionType');
+		/**
+		 * @since 3.9.0
+		 */
+		initialize: function () {
+			var collectionType = this.get( 'collectionType' );
 
-		if ( 'video' === this.get( 'type' ) ) {
-			collectionType = 'video-' + collectionType;
-		}
-
-		this.set( 'id', collectionType + '-edit' );
-		this.set( 'toolbar', collectionType + '-edit' );
-
-		// If we haven't been provided a `library`, create a `Selection`.
-		if ( ! this.get('library') ) {
-			this.set( 'library', new wp.media.model.Selection() );
-		}
-		// The single `Attachment` view to be used in the `Attachments` view.
-		if ( ! this.get('AttachmentView') ) {
-			this.set( 'AttachmentView', wp.media.view.Attachment.EditLibrary );
-		}
-		Library.prototype.initialize.apply( this, arguments );
-	},
-
-	/**
-	 * @since 3.9.0
-	 */
-	activate: function() {
-		var library = this.get('library');
-
-		// Limit the library to images only.
-		library.props.set( 'type', this.get( 'type' ) );
-
-		// Watch for uploaded attachments.
-		this.get('library').observe( wp.Uploader.queue );
-
-		this.frame.on( 'content:render:browse', this.renderSettings, this );
-
-		Library.prototype.activate.apply( this, arguments );
-	},
-
-	/**
-	 * @since 3.9.0
-	 */
-	deactivate: function() {
-		// Stop watching for uploaded attachments.
-		this.get('library').unobserve( wp.Uploader.queue );
-
-		this.frame.off( 'content:render:browse', this.renderSettings, this );
-
-		Library.prototype.deactivate.apply( this, arguments );
-	},
-
-	/**
-	 * Render the collection embed settings view in the browser sidebar.
-	 *
-	 * @todo This is against the pattern elsewhere in media. Typically the frame
-	 *       is responsible for adding region mode callbacks. Explain.
-	 *
-	 * @since 3.9.0
-	 *
-	 * @param {wp.media.view.attachmentsBrowser} The attachments browser view.
-	 */
-	renderSettings: function( attachmentsBrowserView ) {
-		var library = this.get('library'),
-			collectionType = this.get('collectionType'),
-			dragInfoText = this.get('dragInfoText'),
-			SettingsView = this.get('SettingsView'),
-			obj = {};
-
-		if ( ! library || ! attachmentsBrowserView ) {
-			return;
-		}
-
-		library[ collectionType ] = library[ collectionType ] || new Backbone.Model();
-
-		obj[ collectionType ] = new SettingsView({
-			controller: this,
-			model:      library[ collectionType ],
-			priority:   40
-		});
-
-		attachmentsBrowserView.sidebar.set( obj );
-
-		if ( dragInfoText ) {
-			attachmentsBrowserView.toolbar.set( 'dragInfo', new wp.media.View({
-				el: $( '<div class="instructions">' + dragInfoText + '</div>' )[0],
-				priority: -40
-			}) );
-		}
-
-		// Add the 'Reverse order' button to the toolbar.
-		attachmentsBrowserView.toolbar.set( 'reverse', {
-			text:     l10n.reverseOrder,
-			priority: 80,
-
-			click: function() {
-				library.reset( library.toArray().reverse() );
+			if ( 'video' === this.get( 'type' ) ) {
+				collectionType = 'video-' + collectionType;
 			}
-		});
+
+			this.set( 'id', collectionType + '-edit' );
+			this.set( 'toolbar', collectionType + '-edit' );
+
+			// If we haven't been provided a `library`, create a `Selection`.
+			if ( ! this.get( 'library' ) ) {
+				this.set( 'library', new wp.media.model.Selection() );
+			}
+			// The single `Attachment` view to be used in the `Attachments` view.
+			if ( ! this.get( 'AttachmentView' ) ) {
+				this.set(
+					'AttachmentView',
+					wp.media.view.Attachment.EditLibrary
+				);
+			}
+			Library.prototype.initialize.apply( this, arguments );
+		},
+
+		/**
+		 * @since 3.9.0
+		 */
+		activate: function () {
+			var library = this.get( 'library' );
+
+			// Limit the library to images only.
+			library.props.set( 'type', this.get( 'type' ) );
+
+			// Watch for uploaded attachments.
+			this.get( 'library' ).observe( wp.Uploader.queue );
+
+			this.frame.on( 'content:render:browse', this.renderSettings, this );
+
+			Library.prototype.activate.apply( this, arguments );
+		},
+
+		/**
+		 * @since 3.9.0
+		 */
+		deactivate: function () {
+			// Stop watching for uploaded attachments.
+			this.get( 'library' ).unobserve( wp.Uploader.queue );
+
+			this.frame.off(
+				'content:render:browse',
+				this.renderSettings,
+				this
+			);
+
+			Library.prototype.deactivate.apply( this, arguments );
+		},
+
+		/**
+		 * Render the collection embed settings view in the browser sidebar.
+		 *
+		 * @todo This is against the pattern elsewhere in media. Typically the frame
+		 *       is responsible for adding region mode callbacks. Explain.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param {wp.media.view.attachmentsBrowser} The attachments browser view.
+		 */
+		renderSettings: function ( attachmentsBrowserView ) {
+			var library = this.get( 'library' ),
+				collectionType = this.get( 'collectionType' ),
+				dragInfoText = this.get( 'dragInfoText' ),
+				SettingsView = this.get( 'SettingsView' ),
+				obj = {};
+
+			if ( ! library || ! attachmentsBrowserView ) {
+				return;
+			}
+
+			library[ collectionType ] =
+				library[ collectionType ] || new Backbone.Model();
+
+			obj[ collectionType ] = new SettingsView( {
+				controller: this,
+				model: library[ collectionType ],
+				priority: 40,
+			} );
+
+			attachmentsBrowserView.sidebar.set( obj );
+
+			if ( dragInfoText ) {
+				attachmentsBrowserView.toolbar.set(
+					'dragInfo',
+					new wp.media.View( {
+						el: $(
+							'<div class="instructions">' +
+								dragInfoText +
+								'</div>'
+						)[ 0 ],
+						priority: -40,
+					} )
+				);
+			}
+
+			// Add the 'Reverse order' button to the toolbar.
+			attachmentsBrowserView.toolbar.set( 'reverse', {
+				text: l10n.reverseOrder,
+				priority: 80,
+
+				click: function () {
+					library.reset( library.toArray().reverse() );
+				},
+			} );
+		},
 	}
-});
+);
 
 module.exports = CollectionEdit;

@@ -15,15 +15,15 @@ class Tests_Functions_Referer extends WP_UnitTestCase
     {
         parent::set_up();
 
-        $_SERVER['HTTP_REFERER']      = '';
-        $_SERVER['REQUEST_URI']       = '';
+        $_SERVER['HTTP_REFERER'] = '';
+        $_SERVER['REQUEST_URI'] = '';
         $_REQUEST['_wp_http_referer'] = '';
     }
 
     public function tear_down()
     {
-        $_SERVER['HTTP_REFERER']      = '';
-        $_SERVER['REQUEST_URI']       = '';
+        $_SERVER['HTTP_REFERER'] = '';
+        $_SERVER['REQUEST_URI'] = '';
         $_REQUEST['_wp_http_referer'] = '';
 
         parent::tear_down();
@@ -37,7 +37,7 @@ class Tests_Functions_Referer extends WP_UnitTestCase
     public function filter_allowed_redirect_hosts($hosts)
     {
         // Make sure we're only using the hostname and not anything else that might be in the WP_TESTS_DOMAIN.
-        $parsed  = parse_url('http://' . WP_TESTS_DOMAIN);
+        $parsed = parse_url('http://' . WP_TESTS_DOMAIN);
         $hosts[] = 'another.' . $parsed['host'];
 
         return $hosts;
@@ -46,28 +46,28 @@ class Tests_Functions_Referer extends WP_UnitTestCase
     public function test_from_request_relative_referrer()
     {
         $_REQUEST['_wp_http_referer'] = addslashes('/test.php?id=123');
-        $_SERVER['REQUEST_URI']       = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertFalse(wp_get_referer());
     }
 
     public function test_from_request_same_url()
     {
         $_REQUEST['_wp_http_referer'] = addslashes('http://' . WP_TESTS_DOMAIN . '/test.php?id=123');
-        $_SERVER['REQUEST_URI']       = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertFalse(wp_get_referer());
     }
 
     public function test_from_request_different_resource()
     {
         $_REQUEST['_wp_http_referer'] = addslashes('http://' . WP_TESTS_DOMAIN . '/another.php?id=123');
-        $_SERVER['REQUEST_URI']       = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertSame('http://' . WP_TESTS_DOMAIN . '/another.php?id=123', wp_get_referer());
     }
 
     public function test_from_request_different_query_args()
     {
         $_REQUEST['_wp_http_referer'] = addslashes('http://' . WP_TESTS_DOMAIN . '/test.php?another=555');
-        $_SERVER['REQUEST_URI']       = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertSame('http://' . WP_TESTS_DOMAIN . '/test.php?another=555', wp_get_referer());
     }
 
@@ -79,7 +79,7 @@ class Tests_Functions_Referer extends WP_UnitTestCase
         add_filter('site_url', [$this, '_fake_subfolder_install']);
 
         $_REQUEST['_wp_http_referer'] = addslashes('http://' . WP_TESTS_DOMAIN . '/subfolder/test.php?id=123');
-        $_SERVER['REQUEST_URI']       = addslashes('/subfolder/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/subfolder/test.php?id=123');
         $this->assertFalse(wp_get_referer());
 
         remove_filter('site_url', [$this, '_fake_subfolder_install']);
@@ -93,7 +93,7 @@ class Tests_Functions_Referer extends WP_UnitTestCase
         add_filter('site_url', [$this, '_fake_subfolder_install']);
 
         $_REQUEST['_wp_http_referer'] = addslashes('http://' . WP_TESTS_DOMAIN . '/subfolder/another.php?id=123');
-        $_SERVER['REQUEST_URI']       = addslashes('/subfolder/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/subfolder/test.php?id=123');
         $this->assertSame('http://' . WP_TESTS_DOMAIN . '/subfolder/another.php?id=123', wp_get_referer());
 
         remove_filter('site_url', [$this, '_fake_subfolder_install']);
@@ -102,21 +102,21 @@ class Tests_Functions_Referer extends WP_UnitTestCase
     public function test_relative_referrer()
     {
         $_REQUEST['HTTP_REFERER'] = addslashes('/test.php?id=123');
-        $_SERVER['REQUEST_URI']   = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertFalse(wp_get_referer());
     }
 
     public function test_same_url()
     {
         $_SERVER['HTTP_REFERER'] = addslashes('http://' . WP_TESTS_DOMAIN . '/test.php?id=123');
-        $_SERVER['REQUEST_URI']  = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertFalse(wp_get_referer());
     }
 
     public function test_different_resource()
     {
         $_SERVER['HTTP_REFERER'] = addslashes('http://' . WP_TESTS_DOMAIN . '/another.php?id=123');
-        $_SERVER['REQUEST_URI']  = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertSame('http://' . WP_TESTS_DOMAIN . '/another.php?id=123', wp_get_referer());
     }
 
@@ -127,7 +127,7 @@ class Tests_Functions_Referer extends WP_UnitTestCase
     public function test_different_server()
     {
         $_SERVER['HTTP_REFERER'] = addslashes('http://another.' . WP_TESTS_DOMAIN . '/test.php?id=123');
-        $_SERVER['REQUEST_URI']  = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertFalse(wp_get_referer());
     }
 
@@ -139,7 +139,7 @@ class Tests_Functions_Referer extends WP_UnitTestCase
     {
         add_filter('allowed_redirect_hosts', [$this, 'filter_allowed_redirect_hosts']);
         $_SERVER['HTTP_REFERER'] = addslashes('http://another.' . WP_TESTS_DOMAIN . '/test.php?id=123');
-        $_SERVER['REQUEST_URI']  = addslashes('/test.php?id=123');
+        $_SERVER['REQUEST_URI'] = addslashes('/test.php?id=123');
         $this->assertSame('http://another.' . WP_TESTS_DOMAIN . '/test.php?id=123', wp_get_referer());
         remove_filter('allowed_redirect_hosts', [$this, 'filter_allowed_redirect_hosts']);
     }
@@ -175,7 +175,7 @@ class Tests_Functions_Referer extends WP_UnitTestCase
      */
     public function test_raw_referer_both()
     {
-        $_SERVER['HTTP_REFERER']      = addslashes('http://example.com/foo?bar');
+        $_SERVER['HTTP_REFERER'] = addslashes('http://example.com/foo?bar');
         $_REQUEST['_wp_http_referer'] = addslashes('http://foo.bar/baz');
         $this->assertSame('http://foo.bar/baz', wp_get_raw_referer());
     }

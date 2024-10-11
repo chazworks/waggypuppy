@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -68,12 +68,20 @@ class File
     public $method = \SimplePie\SimplePie::FILE_SOURCE_NONE;
     public $permanent_url;
 
-    public function __construct($url, $timeout = 10, $redirects = 5, $headers = null, $useragent = null, $force_fsockopen = false, $curl_options = [])
-    {
+    public function __construct(
+        $url,
+        $timeout = 10,
+        $redirects = 5,
+        $headers = null,
+        $useragent = null,
+        $force_fsockopen = false,
+        $curl_options = [],
+    ) {
         if (class_exists('idna_convert')) {
             $idn = new \idna_convert();
             $parsed = \SimplePie\Misc::parse_url($url);
-            $url = \SimplePie\Misc::compress_parse_url($parsed['scheme'], $idn->encode($parsed['authority']), $parsed['path'], $parsed['query'], null);
+            $url = \SimplePie\Misc::compress_parse_url($parsed['scheme'], $idn->encode($parsed['authority']),
+                $parsed['path'], $parsed['query'], null);
         }
         $this->url = $url;
         $this->permanent_url = $url;
@@ -124,17 +132,23 @@ class File
                         $this->url = $info['url'];
                     }
                     curl_close($fp);
-                    $this->headers = \SimplePie\HTTP\Parser::prepareHeaders($this->headers, $info['redirect_count'] + 1);
+                    $this->headers = \SimplePie\HTTP\Parser::prepareHeaders($this->headers,
+                        $info['redirect_count'] + 1);
                     $parser = new \SimplePie\HTTP\Parser($this->headers);
                     if ($parser->parse()) {
                         $this->headers = $parser->headers;
                         $this->body = trim($parser->body);
                         $this->status_code = $parser->status_code;
-                        if ((in_array($this->status_code, [300, 301, 302, 303, 307]) || $this->status_code > 307 && $this->status_code < 400) && isset($this->headers['location']) && $this->redirects < $redirects) {
+                        if ((in_array($this->status_code, [300, 301, 302, 303, 307])
+                                || $this->status_code > 307
+                                && $this->status_code < 400)
+                            && isset($this->headers['location'])
+                            && $this->redirects < $redirects) {
                             $this->redirects++;
                             $location = \SimplePie\Misc::absolutize_url($this->headers['location'], $url);
                             $previousStatusCode = $this->status_code;
-                            $this->__construct($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen, $curl_options);
+                            $this->__construct($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen,
+                                $curl_options);
                             $this->permanent_url = ($previousStatusCode == 301) ? $location : $url;
                             return;
                         }
@@ -195,11 +209,16 @@ class File
                             $this->headers = $parser->headers;
                             $this->body = $parser->body;
                             $this->status_code = $parser->status_code;
-                            if ((in_array($this->status_code, [300, 301, 302, 303, 307]) || $this->status_code > 307 && $this->status_code < 400) && isset($this->headers['location']) && $this->redirects < $redirects) {
+                            if ((in_array($this->status_code, [300, 301, 302, 303, 307])
+                                    || $this->status_code > 307
+                                    && $this->status_code < 400)
+                                && isset($this->headers['location'])
+                                && $this->redirects < $redirects) {
                                 $this->redirects++;
                                 $location = \SimplePie\Misc::absolutize_url($this->headers['location'], $url);
                                 $previousStatusCode = $this->status_code;
-                                $this->__construct($location, $timeout, $redirects, $headers, $useragent, $force_fsockopen, $curl_options);
+                                $this->__construct($location, $timeout, $redirects, $headers, $useragent,
+                                    $force_fsockopen, $curl_options);
                                 $this->permanent_url = ($previousStatusCode == 301) ? $location : $url;
                                 return;
                             }
@@ -222,7 +241,9 @@ class File
                                             $this->body = $decompressed;
                                         } elseif (($decompressed = gzuncompress($this->body)) !== false) {
                                             $this->body = $decompressed;
-                                        } elseif (function_exists('gzdecode') && ($decompressed = gzdecode($this->body)) !== false) {
+                                        } elseif (function_exists('gzdecode')
+                                            && ($decompressed = gzdecode($this->body))
+                                            !== false) {
                                             $this->body = $decompressed;
                                         } else {
                                             $this->error = 'Unable to decode HTTP "deflate" stream';
@@ -244,7 +265,8 @@ class File
                 }
             }
         } else {
-            $this->method = \SimplePie\SimplePie::FILE_SOURCE_LOCAL | \SimplePie\SimplePie::FILE_SOURCE_FILE_GET_CONTENTS;
+            $this->method = \SimplePie\SimplePie::FILE_SOURCE_LOCAL
+                | \SimplePie\SimplePie::FILE_SOURCE_FILE_GET_CONTENTS;
             if (empty($url) || !($this->body = trim(file_get_contents($url)))) {
                 $this->error = 'file_get_contents could not read the file';
                 $this->success = false;

@@ -37,35 +37,34 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
      */
     public function register_routes()
     {
-
         register_rest_route(
             $this->namespace,
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
-                    'args'                => [],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
+                    'args' => [],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
                 ],
                 [
-                    'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => [$this, 'update_item'],
-                    'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'update_item'],
+                    'args' => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
                     'permission_callback' => [$this, 'get_item_permissions_check'],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Checks if a given request has access to read and manage settings.
      *
-     * @since 4.7.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return bool True if the request has read access for the item, otherwise false.
+     * @since 4.7.0
+     *
      */
     public function get_item_permissions_check($request)
     {
@@ -75,14 +74,14 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
     /**
      * Retrieves the settings.
      *
-     * @since 4.7.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return array|WP_Error Array on success, or WP_Error object on failure.
+     * @since 4.7.0
+     *
      */
     public function get_item($request)
     {
-        $options  = $this->get_registered_options();
+        $options = $this->get_registered_options();
         $response = [];
 
         foreach ($options as $name => $args) {
@@ -92,13 +91,13 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
              * Allow hijacking the setting value and overriding the built-in behavior by returning a
              * non-null value.  The returned value will be presented as the setting value instead.
              *
-             * @since 4.7.0
-             *
-             * @param mixed  $result Value to use for the requested setting. Can be a scalar
+             * @param mixed $result Value to use for the requested setting. Can be a scalar
              *                       matching the registered schema for the setting, or null to
              *                       follow the default get_option() behavior.
-             * @param string $name   Setting name (as shown in REST API responses).
-             * @param array  $args   Arguments passed to register_setting() for this setting.
+             * @param string $name Setting name (as shown in REST API responses).
+             * @param array $args Arguments passed to register_setting() for this setting.
+             * @since 4.7.0
+             *
              */
             $response[$name] = apply_filters('rest_pre_get_setting', null, $name, $args);
 
@@ -120,11 +119,11 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
     /**
      * Prepares a value for output based off a schema array.
      *
-     * @since 4.7.0
-     *
-     * @param mixed $value  Value to prepare.
+     * @param mixed $value Value to prepare.
      * @param array $schema Schema to match.
      * @return mixed The prepared value.
+     * @since 4.7.0
+     *
      */
     protected function prepare_value($value, $schema)
     {
@@ -143,10 +142,10 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
     /**
      * Updates settings for the settings object.
      *
-     * @since 4.7.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return array|WP_Error Array on success, or error object on failure.
+     * @since 4.7.0
+     *
      */
     public function update_item($request)
     {
@@ -155,7 +154,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
         $params = $request->get_params();
 
         foreach ($options as $name => $args) {
-            if (! array_key_exists($name, $params)) {
+            if (!array_key_exists($name, $params)) {
                 continue;
             }
 
@@ -165,13 +164,13 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
              * Allows hijacking the setting update logic and overriding the built-in behavior by
              * returning true.
              *
+             * @param bool $result Whether to override the default behavior for updating the
+             *                       value of a setting.
+             * @param string $name Setting name (as shown in REST API responses).
+             * @param mixed $value Updated setting value.
+             * @param array $args Arguments passed to register_setting() for this setting.
              * @since 4.7.0
              *
-             * @param bool   $result Whether to override the default behavior for updating the
-             *                       value of a setting.
-             * @param string $name   Setting name (as shown in REST API responses).
-             * @param mixed  $value  Updated setting value.
-             * @param array  $args   Arguments passed to register_setting() for this setting.
              */
             $updated = apply_filters('rest_pre_update_setting', false, $name, $request[$name], $args);
 
@@ -196,12 +195,14 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
                  * delete all options that have invalid values from the
                  * database.
                  */
-                if (is_wp_error(rest_validate_value_from_schema(get_option($args['option_name'], false), $args['schema']))) {
+                if (is_wp_error(rest_validate_value_from_schema(get_option($args['option_name'], false),
+                    $args['schema']))) {
                     return new WP_Error(
                         'rest_invalid_stored_value',
                         /* translators: %s: Property name. */
-                        sprintf(__('The %s property has an invalid stored value, and cannot be updated to null.'), $name),
-                        ['status' => 500]
+                        sprintf(__('The %s property has an invalid stored value, and cannot be updated to null.'),
+                            $name),
+                        ['status' => 500],
                     );
                 }
 
@@ -217,9 +218,9 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
     /**
      * Retrieves all of the registered options for the Settings API.
      *
+     * @return array Array of registered options.
      * @since 4.7.0
      *
-     * @return array Array of registered options.
      */
     protected function get_registered_options()
     {
@@ -237,20 +238,20 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
             }
 
             $defaults = [
-                'name'   => ! empty($rest_args['name']) ? $rest_args['name'] : $name,
+                'name' => !empty($rest_args['name']) ? $rest_args['name'] : $name,
                 'schema' => [],
             ];
 
             $rest_args = array_merge($defaults, $rest_args);
 
             $default_schema = [
-                'type'        => empty($args['type']) ? null : $args['type'],
-                'title'       => empty($args['label']) ? '' : $args['label'],
+                'type' => empty($args['type']) ? null : $args['type'],
+                'title' => empty($args['label']) ? '' : $args['label'],
                 'description' => empty($args['description']) ? '' : $args['description'],
-                'default'     => isset($args['default']) ? $args['default'] : null,
+                'default' => isset($args['default']) ? $args['default'] : null,
             ];
 
-            $rest_args['schema']      = array_merge($default_schema, $rest_args['schema']);
+            $rest_args['schema'] = array_merge($default_schema, $rest_args['schema']);
             $rest_args['option_name'] = $name;
 
             // Skip over settings that don't have a defined type in the schema.
@@ -262,7 +263,8 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
              * Allow the supported types for settings, as we don't want invalid types
              * to be updated with arbitrary values that we can't do decent sanitizing for.
              */
-            if (! in_array($rest_args['schema']['type'], ['number', 'integer', 'string', 'boolean', 'array', 'object'], true)) {
+            if (!in_array($rest_args['schema']['type'], ['number', 'integer', 'string', 'boolean', 'array', 'object'],
+                true)) {
                 continue;
             }
 
@@ -277,9 +279,9 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
     /**
      * Retrieves the site setting schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 4.7.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -290,14 +292,14 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
         $options = $this->get_registered_options();
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'settings',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'settings',
+            'type' => 'object',
             'properties' => [],
         ];
 
         foreach ($options as $option_name => $option) {
-            $schema['properties'][$option_name]                = $option['schema'];
+            $schema['properties'][$option_name] = $option['schema'];
             $schema['properties'][$option_name]['arg_options'] = [
                 'sanitize_callback' => [$this, 'sanitize_callback'],
             ];
@@ -315,12 +317,12 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
      * `null` as it's not a valid value for something like "type => string". We
      * provide a wrapper sanitizer to allow the use of `null`.
      *
+     * @param mixed $value The value for the setting.
+     * @param WP_REST_Request $request The request object.
+     * @param string $param The parameter name.
+     * @return mixed|WP_Error
      * @since 4.7.0
      *
-     * @param mixed           $value   The value for the setting.
-     * @param WP_REST_Request $request The request object.
-     * @param string          $param   The parameter name.
-     * @return mixed|WP_Error
      */
     public function sanitize_callback($value, $request, $param)
     {
@@ -339,11 +341,11 @@ class WP_REST_Settings_Controller extends WP_REST_Controller
      * registered items, as the REST API will allow additional properties by
      * default.
      *
+     * @param array $schema The schema array.
+     * @return array
      * @since 4.9.0
      * @deprecated 6.1.0 Use {@see rest_default_additional_properties_to_false()} instead.
      *
-     * @param array $schema The schema array.
-     * @return array
      */
     protected function set_additional_properties_to_false($schema)
     {

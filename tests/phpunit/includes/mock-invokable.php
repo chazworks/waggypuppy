@@ -14,6 +14,5 @@
 class Mock_Invokable
 {
 
-    public function __invoke()
-    {}
+    public function __invoke() {}
 }

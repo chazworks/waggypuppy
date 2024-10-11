@@ -58,9 +58,9 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase
                 'meta_value' => 'value2',
             ],
             [
-                'user_id'  => $user_id,
+                'user_id' => $user_id,
                 'meta_key' => 'key',
-            ]
+            ],
         );
 
         // Clear the user caches.
@@ -98,9 +98,9 @@ class Tests_Meta_UpdateMetadata extends WP_UnitTestCase
                 'meta_value' => 'value2',
             ],
             [
-                'post_id'  => $post_id,
+                'post_id' => $post_id,
                 'meta_key' => 'key',
-            ]
+            ],
         );
 
         // Clear the post caches.

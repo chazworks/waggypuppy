@@ -58,10 +58,10 @@ class WP_REST_Search_Controller extends WP_REST_Controller
     /**
      * Constructor.
      *
-     * @since 5.0.0
-     *
      * @param array $search_handlers List of search handlers to use in the controller. Each search
      *                               handler instance must extend the `WP_REST_Search_Handler` class.
+     * @since 5.0.0
+     *
      */
     public function __construct(array $search_handlers)
     {
@@ -69,12 +69,12 @@ class WP_REST_Search_Controller extends WP_REST_Controller
         $this->rest_base = 'search';
 
         foreach ($search_handlers as $search_handler) {
-            if (! $search_handler instanceof WP_REST_Search_Handler) {
+            if (!$search_handler instanceof WP_REST_Search_Handler) {
                 _doing_it_wrong(
                     __METHOD__,
                     /* translators: %s: PHP class name. */
                     sprintf(__('REST search handlers must extend the %s class.'), 'WP_REST_Search_Handler'),
-                    '5.0.0'
+                    '5.0.0',
                 );
                 continue;
             }
@@ -97,23 +97,23 @@ class WP_REST_Search_Controller extends WP_REST_Controller
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permission_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Checks if a given request has access to search content.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has search access, WP_Error object otherwise.
+     * @since 5.0.0
+     *
      */
     public function get_items_permission_check($request)
     {
@@ -123,10 +123,10 @@ class WP_REST_Search_Controller extends WP_REST_Controller
     /**
      * Retrieves a collection of search results.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.0.0
+     *
      */
     public function get_items($request)
     {
@@ -137,11 +137,13 @@ class WP_REST_Search_Controller extends WP_REST_Controller
 
         $result = $handler->search_items($request);
 
-        if (! isset($result[WP_REST_Search_Handler::RESULT_IDS]) || ! is_array($result[WP_REST_Search_Handler::RESULT_IDS]) || ! isset($result[WP_REST_Search_Handler::RESULT_TOTAL])) {
+        if (!isset($result[WP_REST_Search_Handler::RESULT_IDS])
+            || !is_array($result[WP_REST_Search_Handler::RESULT_IDS])
+            || !isset($result[WP_REST_Search_Handler::RESULT_TOTAL])) {
             return new WP_Error(
                 'rest_search_handler_error',
                 __('Internal search handler error.'),
-                ['status' => 500]
+                ['status' => 500],
             );
         }
 
@@ -150,20 +152,20 @@ class WP_REST_Search_Controller extends WP_REST_Controller
         $results = [];
 
         foreach ($ids as $id) {
-            $data      = $this->prepare_item_for_response($id, $request);
+            $data = $this->prepare_item_for_response($id, $request);
             $results[] = $this->prepare_response_for_collection($data);
         }
 
-        $total     = (int) $result[WP_REST_Search_Handler::RESULT_TOTAL];
-        $page      = (int) $request['page'];
-        $per_page  = (int) $request['per_page'];
-        $max_pages = (int) ceil($total / $per_page);
+        $total = (int)$result[WP_REST_Search_Handler::RESULT_TOTAL];
+        $page = (int)$request['page'];
+        $per_page = (int)$request['per_page'];
+        $max_pages = (int)ceil($total / $per_page);
 
         if ($page > $max_pages && $total > 0) {
             return new WP_Error(
                 'rest_search_invalid_page_number',
                 __('The page number requested is larger than the number of pages available.'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 
@@ -172,7 +174,8 @@ class WP_REST_Search_Controller extends WP_REST_Controller
         $response->header('X-WP-TotalPages', $max_pages);
 
         $request_params = $request->get_query_params();
-        $base           = add_query_arg(urlencode_deep($request_params), rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)));
+        $base = add_query_arg(urlencode_deep($request_params),
+            rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)));
 
         if ($page > 1) {
             $prev_link = add_query_arg('page', $page - 1, $base);
@@ -189,13 +192,13 @@ class WP_REST_Search_Controller extends WP_REST_Controller
     /**
      * Prepares a single search result for response.
      *
+     * @param int|string $item ID of the item to prepare.
+     * @param WP_REST_Request $request Request object.
+     * @return WP_REST_Response Response object.
      * @since 5.0.0
      * @since 5.6.0 The `$id` parameter can accept a string.
      * @since 5.9.0 Renamed `$id` to `$item` to match parent class for PHP 8 named parameter support.
      *
-     * @param int|string      $item    ID of the item to prepare.
-     * @param WP_REST_Request $request Request object.
-     * @return WP_REST_Response Response object.
      */
     public function prepare_item_for_response($item, $request)
     {
@@ -212,13 +215,13 @@ class WP_REST_Search_Controller extends WP_REST_Controller
         $data = $handler->prepare_item($item_id, $fields);
         $data = $this->add_additional_fields_to_object($data, $request);
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->filter_response_by_context($data, $context);
 
         $response = rest_ensure_response($data);
 
         if (rest_is_field_included('_links', $fields) || rest_is_field_included('_embedded', $fields)) {
-            $links               = $handler->prepare_item_links($item_id);
+            $links = $handler->prepare_item_links($item_id);
             $links['collection'] = [
                 'href' => rest_url(sprintf('%s/%s', $this->namespace, $this->rest_base)),
             ];
@@ -231,9 +234,9 @@ class WP_REST_Search_Controller extends WP_REST_Controller
     /**
      * Retrieves the item schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.0.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -241,54 +244,54 @@ class WP_REST_Search_Controller extends WP_REST_Controller
             return $this->add_additional_fields_schema($this->schema);
         }
 
-        $types    = [];
+        $types = [];
         $subtypes = [];
 
         foreach ($this->search_handlers as $search_handler) {
-            $types[]  = $search_handler->get_type();
+            $types[] = $search_handler->get_type();
             $subtypes = array_merge($subtypes, $search_handler->get_subtypes());
         }
 
-        $types    = array_unique($types);
+        $types = array_unique($types);
         $subtypes = array_unique($subtypes);
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'search-result',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'search-result',
+            'type' => 'object',
             'properties' => [
-                self::PROP_ID      => [
+                self::PROP_ID => [
                     'description' => __('Unique identifier for the object.'),
-                    'type'        => ['integer', 'string'],
-                    'context'     => ['view', 'embed'],
-                    'readonly'    => true,
+                    'type' => ['integer', 'string'],
+                    'context' => ['view', 'embed'],
+                    'readonly' => true,
                 ],
-                self::PROP_TITLE   => [
+                self::PROP_TITLE => [
                     'description' => __('The title for the object.'),
-                    'type'        => 'string',
-                    'context'     => ['view', 'embed'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'context' => ['view', 'embed'],
+                    'readonly' => true,
                 ],
-                self::PROP_URL     => [
+                self::PROP_URL => [
                     'description' => __('URL to the object.'),
-                    'type'        => 'string',
-                    'format'      => 'uri',
-                    'context'     => ['view', 'embed'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'format' => 'uri',
+                    'context' => ['view', 'embed'],
+                    'readonly' => true,
                 ],
-                self::PROP_TYPE    => [
+                self::PROP_TYPE => [
                     'description' => __('Object type.'),
-                    'type'        => 'string',
-                    'enum'        => $types,
-                    'context'     => ['view', 'embed'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'enum' => $types,
+                    'context' => ['view', 'embed'],
+                    'readonly' => true,
                 ],
                 self::PROP_SUBTYPE => [
                     'description' => __('Object subtype.'),
-                    'type'        => 'string',
-                    'enum'        => $subtypes,
-                    'context'     => ['view', 'embed'],
-                    'readonly'    => true,
+                    'type' => 'string',
+                    'enum' => $subtypes,
+                    'context' => ['view', 'embed'],
+                    'readonly' => true,
                 ],
             ],
         ];
@@ -301,21 +304,21 @@ class WP_REST_Search_Controller extends WP_REST_Controller
     /**
      * Retrieves the query params for the search results collection.
      *
+     * @return array Collection parameters.
      * @since 5.0.0
      *
-     * @return array Collection parameters.
      */
     public function get_collection_params()
     {
-        $types    = [];
+        $types = [];
         $subtypes = [];
 
         foreach ($this->search_handlers as $search_handler) {
-            $types[]  = $search_handler->get_type();
+            $types[] = $search_handler->get_type();
             $subtypes = array_merge($subtypes, $search_handler->get_subtypes());
         }
 
-        $types    = array_unique($types);
+        $types = array_unique($types);
         $subtypes = array_unique($subtypes);
 
         $query_params = parent::get_collection_params();
@@ -323,17 +326,17 @@ class WP_REST_Search_Controller extends WP_REST_Controller
         $query_params['context']['default'] = 'view';
 
         $query_params[self::PROP_TYPE] = [
-            'default'     => $types[0],
+            'default' => $types[0],
             'description' => __('Limit results to items of an object type.'),
-            'type'        => 'string',
-            'enum'        => $types,
+            'type' => 'string',
+            'enum' => $types,
         ];
 
         $query_params[self::PROP_SUBTYPE] = [
-            'default'           => self::TYPE_ANY,
-            'description'       => __('Limit results to items of one or more object subtypes.'),
-            'type'              => 'array',
-            'items'             => [
+            'default' => self::TYPE_ANY,
+            'description' => __('Limit results to items of one or more object subtypes.'),
+            'type' => 'array',
+            'items' => [
                 'enum' => array_merge($subtypes, [self::TYPE_ANY]),
                 'type' => 'string',
             ],
@@ -342,20 +345,20 @@ class WP_REST_Search_Controller extends WP_REST_Controller
 
         $query_params['exclude'] = [
             'description' => __('Ensure result set excludes specific IDs.'),
-            'type'        => 'array',
-            'items'       => [
+            'type' => 'array',
+            'items' => [
                 'type' => 'integer',
             ],
-            'default'     => [],
+            'default' => [],
         ];
 
         $query_params['include'] = [
             'description' => __('Limit result set to specific IDs.'),
-            'type'        => 'array',
-            'items'       => [
+            'type' => 'array',
+            'items' => [
                 'type' => 'integer',
             ],
-            'default'     => [],
+            'default' => [],
         ];
 
         return $query_params;
@@ -364,12 +367,12 @@ class WP_REST_Search_Controller extends WP_REST_Controller
     /**
      * Sanitizes the list of subtypes, to ensure only subtypes of the passed type are included.
      *
+     * @param string|array $subtypes One or more subtypes.
+     * @param WP_REST_Request $request Full details about the request.
+     * @param string $parameter Parameter name.
+     * @return string[]|WP_Error List of valid subtypes, or WP_Error object on failure.
      * @since 5.0.0
      *
-     * @param string|array    $subtypes  One or more subtypes.
-     * @param WP_REST_Request $request   Full details about the request.
-     * @param string          $parameter Parameter name.
-     * @return string[]|WP_Error List of valid subtypes, or WP_Error object on failure.
      */
     public function sanitize_subtypes($subtypes, $request, $parameter)
     {
@@ -396,20 +399,20 @@ class WP_REST_Search_Controller extends WP_REST_Controller
     /**
      * Gets the search handler to handle the current request.
      *
-     * @since 5.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Search_Handler|WP_Error Search handler for the request type, or WP_Error object on failure.
+     * @since 5.0.0
+     *
      */
     protected function get_search_handler($request)
     {
         $type = $request->get_param(self::PROP_TYPE);
 
-        if (! $type || ! is_string($type) || ! isset($this->search_handlers[$type])) {
+        if (!$type || !is_string($type) || !isset($this->search_handlers[$type])) {
             return new WP_Error(
                 'rest_search_invalid_type',
                 __('Invalid type parameter.'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 

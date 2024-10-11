@@ -33,16 +33,16 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase
 
         self::$post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Post title for comment_time() tests',
+                'post_title' => 'Post title for comment_time() tests',
                 'post_content' => 'Post content for comment_time() tests',
-            ]
+            ],
         );
 
         self::$comment_id = self::factory()->comment->create(
             [
                 'comment_post_ID' => self::$post_id,
-                'user_id'         => 1,
-            ]
+                'user_id' => 1,
+            ],
         );
     }
 
@@ -74,7 +74,7 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase
     public function data_should_output_the_same_value_that_get_comment_time_returns()
     {
         return [
-            'an empty format'   => [
+            'an empty format' => [
                 'format' => '',
             ],
             'a PHP date format' => [
@@ -95,7 +95,7 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase
 
         // Back up the global comment before setting the value.
         $comment_backup = $comment;
-        $comment        = self::$comment_id;
+        $comment = self::$comment_id;
 
         $expected = get_comment_time();
 
@@ -121,7 +121,7 @@ class Tests_Comment_CommentTime extends WP_UnitTestCase
 
         // Back up the global comment before setting the value.
         $comment_backup = $comment;
-        $comment        = null;
+        $comment = null;
 
         ob_start();
         comment_time();

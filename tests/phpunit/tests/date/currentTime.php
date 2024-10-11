@@ -28,12 +28,14 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
     {
         update_option('gmt_offset', 6);
 
-        $format       = 'F j, Y, g:i a';
-        $timestamp    = time();
+        $format = 'F j, Y, g:i a';
+        $timestamp = time();
         $wp_timestamp = $timestamp + 6 * HOUR_IN_SECONDS;
 
-        $this->assertEqualsWithDelta(strtotime(gmdate($format)), strtotime(current_time($format, true)), 2, 'The dates should be equal');
-        $this->assertEqualsWithDelta(strtotime(gmdate($format, $wp_timestamp)), strtotime(current_time($format)), 2, 'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime(gmdate($format)), strtotime(current_time($format, true)), 2,
+            'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime(gmdate($format, $wp_timestamp)), strtotime(current_time($format)), 2,
+            'The dates should be equal');
     }
 
     /**
@@ -43,12 +45,14 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
     {
         update_option('gmt_offset', 6);
 
-        $format       = 'Y-m-d H:i:s';
-        $timestamp    = time();
+        $format = 'Y-m-d H:i:s';
+        $timestamp = time();
         $wp_timestamp = $timestamp + 6 * HOUR_IN_SECONDS;
 
-        $this->assertEqualsWithDelta(strtotime(gmdate($format)), strtotime(current_time('mysql', true)), 2, 'The dates should be equal');
-        $this->assertEqualsWithDelta(strtotime(gmdate($format, $wp_timestamp)), strtotime(current_time('mysql')), 2, 'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime(gmdate($format)), strtotime(current_time('mysql', true)), 2,
+            'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime(gmdate($format, $wp_timestamp)), strtotime(current_time('mysql')), 2,
+            'The dates should be equal');
     }
 
     /**
@@ -58,12 +62,12 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
     {
         update_option('gmt_offset', 6);
 
-        $timestamp    = time();
+        $timestamp = time();
         $wp_timestamp = $timestamp + 6 * HOUR_IN_SECONDS;
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.RequestedUTC
+
         $this->assertEqualsWithDelta($timestamp, current_time('timestamp', true), 2, 'The dates should be equal');
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+
         $this->assertEqualsWithDelta($wp_timestamp, current_time('timestamp'), 2, 'The dates should be equal');
     }
 
@@ -72,27 +76,31 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
      */
     public function test_should_work_with_changed_timezone()
     {
-        $format          = 'Y-m-d H:i:s';
+        $format = 'Y-m-d H:i:s';
         $timezone_string = 'America/Regina';
         update_option('timezone_string', $timezone_string);
         $datetime = new DateTime('now', new DateTimeZone($timezone_string));
 
-		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+
         date_default_timezone_set($timezone_string);
 
         $current_time_custom_timezone_gmt = current_time($format, true);
-        $current_time_custom_timezone     = current_time($format);
+        $current_time_custom_timezone = current_time($format);
 
-		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+
         date_default_timezone_set('UTC');
 
         $current_time_gmt = current_time($format, true);
-        $current_time     = current_time($format);
+        $current_time = current_time($format);
 
-        $this->assertEqualsWithDelta(strtotime(gmdate($format)), strtotime($current_time_custom_timezone_gmt), 2, 'The dates should be equal');
-        $this->assertEqualsWithDelta(strtotime($datetime->format($format)), strtotime($current_time_custom_timezone), 2, 'The dates should be equal');
-        $this->assertEqualsWithDelta(strtotime(gmdate($format)), strtotime($current_time_gmt), 2, 'The dates should be equal');
-        $this->assertEqualsWithDelta(strtotime($datetime->format($format)), strtotime($current_time), 2, 'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime(gmdate($format)), strtotime($current_time_custom_timezone_gmt), 2,
+            'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime($datetime->format($format)), strtotime($current_time_custom_timezone), 2,
+            'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime(gmdate($format)), strtotime($current_time_gmt), 2,
+            'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime($datetime->format($format)), strtotime($current_time), 2,
+            'The dates should be equal');
     }
 
     /**
@@ -108,21 +116,25 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
         update_option('timezone_string', $timezone);
 
         $timestamp = time();
-        $datetime  = new DateTime('@' . $timestamp);
+        $datetime = new DateTime('@' . $timestamp);
         $datetime->setTimezone(wp_timezone());
         $wp_timestamp = $timestamp + $datetime->getOffset();
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.RequestedUTC
-        $this->assertEqualsWithDelta($timestamp, current_time('timestamp', true), 2, 'When passing "timestamp", the date should be equal to time()');
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.RequestedUTC
-        $this->assertEqualsWithDelta($timestamp, current_time('U', true), 2, 'When passing "U", the date should be equal to time()');
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
-        $this->assertEqualsWithDelta($wp_timestamp, current_time('timestamp'), 2, 'When passing "timestamp", the date should be equal to calculated timestamp');
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
-        $this->assertEqualsWithDelta($wp_timestamp, current_time('U'), 2, 'When passing "U", the date should be equal to calculated timestamp');
+        $this->assertEqualsWithDelta($timestamp, current_time('timestamp', true), 2,
+            'When passing "timestamp", the date should be equal to time()');
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+        $this->assertEqualsWithDelta($timestamp, current_time('U', true), 2,
+            'When passing "U", the date should be equal to time()');
+
+
+        $this->assertEqualsWithDelta($wp_timestamp, current_time('timestamp'), 2,
+            'When passing "timestamp", the date should be equal to calculated timestamp');
+
+        $this->assertEqualsWithDelta($wp_timestamp, current_time('U'), 2,
+            'When passing "U", the date should be equal to calculated timestamp');
+
+
         $this->assertIsInt(current_time('timestamp'), 'The returned timestamp should be an integer');
     }
 
@@ -138,14 +150,16 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
     {
         update_option('timezone_string', $timezone);
 
-        $timestamp      = time();
+        $timestamp = time();
         $datetime_local = new DateTime('@' . $timestamp);
         $datetime_local->setTimezone(wp_timezone());
         $datetime_utc = new DateTime('@' . $timestamp);
         $datetime_utc->setTimezone(new DateTimeZone('UTC'));
 
-        $this->assertEqualsWithDelta(strtotime($datetime_local->format(DATE_W3C)), strtotime(current_time(DATE_W3C)), 2, 'The dates should be equal');
-        $this->assertEqualsWithDelta(strtotime($datetime_utc->format(DATE_W3C)), strtotime(current_time(DATE_W3C, true)), 2, 'When passing "timestamp", the dates should be equal');
+        $this->assertEqualsWithDelta(strtotime($datetime_local->format(DATE_W3C)), strtotime(current_time(DATE_W3C)), 2,
+            'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime($datetime_utc->format(DATE_W3C)),
+            strtotime(current_time(DATE_W3C, true)), 2, 'When passing "timestamp", the dates should be equal');
     }
 
     /**
@@ -169,22 +183,22 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
      */
     public function test_should_work_with_deprecated_timezone()
     {
-        $format          = 'Y-m-d H:i';
+        $format = 'Y-m-d H:i';
         $timezone_string = 'America/Buenos_Aires'; // This timezone was deprecated pre-PHP 5.6.
         update_option('timezone_string', $timezone_string);
         $datetime = new DateTime('now', new DateTimeZone($timezone_string));
 
-		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+
         date_default_timezone_set($timezone_string);
 
         $current_time_custom_timezone_gmt = current_time($format, true);
-        $current_time_custom_timezone     = current_time($format);
+        $current_time_custom_timezone = current_time($format);
 
-		// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
+
         date_default_timezone_set('UTC');
 
         $current_time_gmt = current_time($format, true);
-        $current_time     = current_time($format);
+        $current_time = current_time($format);
 
         $this->assertSame(gmdate($format), $current_time_custom_timezone_gmt, 'The dates should be equal [1]');
         $this->assertSame($datetime->format($format), $current_time_custom_timezone, 'The dates should be equal [2]');
@@ -205,7 +219,7 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
 
         $expected = time();
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+
         $this->assertEqualsWithDelta($expected, current_time('timestamp'), 2, 'The timestamps should be equal');
     }
 
@@ -224,9 +238,9 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
         update_option('timezone_string', '');
         update_option('gmt_offset', $partial_hour);
 
-        $expected = time() + (int) ($partial_hour * HOUR_IN_SECONDS);
+        $expected = time() + (int)($partial_hour * HOUR_IN_SECONDS);
 
-		// phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+
         $this->assertEqualsWithDelta($expected, current_time('timestamp'), 2, 'The timestamps should be equal');
     }
 
@@ -239,14 +253,14 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
      *
      * @dataProvider data_partial_hour_timezones_with_timestamp
      *
-     * @param float $partial_hour     Partial hour GMT offset to test.
+     * @param float $partial_hour Partial hour GMT offset to test.
      * @param string $timezone_string Timezone string to test.
      */
     public function test_partial_hour_timezones_match_datetime_offset($partial_hour, $timezone_string)
     {
-        $timezone   = new DateTimeZone($timezone_string);
-        $datetime   = new DateTime('now', $timezone);
-        $dst_offset = (int) $datetime->format('I');
+        $timezone = new DateTimeZone($timezone_string);
+        $datetime = new DateTime('now', $timezone);
+        $dst_offset = (int)$datetime->format('I');
 
         // Timezone offset in hours.
         $offset = $timezone->getOffset($datetime) / HOUR_IN_SECONDS;
@@ -272,7 +286,7 @@ class Tests_Date_CurrentTime extends WP_UnitTestCase
     {
         return [
             '+12:45' => [12.75, 'Pacific/Chatham'], // New Zealand, Chatham Islands.
-            '+9:30'  => [9.5, 'Australia/Darwin'], // Australian Northern Territory.
+            '+9:30' => [9.5, 'Australia/Darwin'], // Australian Northern Territory.
             '+05:30' => [5.5, 'Asia/Kolkata'], // India and Sri Lanka.
             '+05:45' => [5.75, 'Asia/Kathmandu'], // Nepal.
             '-03:30' => [-3.50, 'Canada/Newfoundland'], // Canada, Newfoundland.

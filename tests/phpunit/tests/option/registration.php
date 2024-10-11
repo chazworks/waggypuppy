@@ -49,7 +49,7 @@ class Tests_Option_Registration extends WP_UnitTestCase
             'test_option',
             [
                 'sanitize_callback' => [$this, 'filter_registered_setting'],
-            ]
+            ],
         );
 
         $filtered = apply_filters('sanitize_option_test_option', 'smart', 'test_option', 'smart');
@@ -73,7 +73,7 @@ class Tests_Option_Registration extends WP_UnitTestCase
             'test_default',
             [
                 'default' => 'Got that Viper with them rally stripes',
-            ]
+            ],
         );
 
         $this->assertSame('Got that Viper with them rally stripes', get_option('test_default'));
@@ -91,7 +91,7 @@ class Tests_Option_Registration extends WP_UnitTestCase
             'test_default',
             [
                 'default' => 'Got that Viper with them rally stripes',
-            ]
+            ],
         );
 
         // This set of tests/references (and a previous version) are in support of Viper007Bond.
@@ -113,7 +113,7 @@ class Tests_Option_Registration extends WP_UnitTestCase
             'test_default',
             [
                 'default' => 'My Default :)',
-            ]
+            ],
         );
         wp_cache_delete('notoptions', 'options');
         $this->assertTrue(add_option('test_default', 'hello'));
@@ -153,7 +153,7 @@ class Tests_Option_Registration extends WP_UnitTestCase
             'test_default',
             [
                 'default' => 'Got that Viper with them rally stripes',
-            ]
+            ],
         );
 
         unregister_setting('test_group', 'test_default');

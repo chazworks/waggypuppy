@@ -40,11 +40,12 @@ class Tests_Image_Meta extends WP_UnitTestCase
         $this->assertSame('', $out['credit'], 'Credit value not the same');
         $this->assertSame('NIKON D70', $out['camera'], 'Camera value not the same');
         $this->assertSame('', $out['caption'], 'Caption value not the same');
-        $this->assertSame((string) strtotime('2004-07-22 17:14:59'), $out['created_timestamp'], 'Timestamp value not equivalent');
+        $this->assertSame((string)strtotime('2004-07-22 17:14:59'), $out['created_timestamp'],
+            'Timestamp value not equivalent');
         $this->assertSame('', $out['copyright'], 'Copyright value not the same');
         $this->assertSame('27', $out['focal_length'], 'Focal length value not equivalent');
         $this->assertSame('400', $out['iso'], 'Iso value not equivalent');
-        $this->assertSame((string) (1 / 40), $out['shutter_speed'], 'Shutter speed value not equivalent');
+        $this->assertSame((string)(1 / 40), $out['shutter_speed'], 'Shutter speed value not equivalent');
         $this->assertSame('', $out['title'], 'Title value not the same');
     }
 
@@ -57,11 +58,12 @@ class Tests_Image_Meta extends WP_UnitTestCase
         $this->assertSame('', $out['credit'], 'Credit value not the same');
         $this->assertSame('NIKON D70', $out['camera'], 'Camera value not the same');
         $this->assertSame('Copyright Alex Shiels', $out['caption'], 'Caption value not the same');
-        $this->assertSame((string) strtotime('2007-06-17 21:18:00'), $out['created_timestamp'], 'Timestamp value not equivalent');
+        $this->assertSame((string)strtotime('2007-06-17 21:18:00'), $out['created_timestamp'],
+            'Timestamp value not equivalent');
         $this->assertSame('', $out['copyright'], 'Copyright value not the same');
         $this->assertSame('0', $out['focal_length'], 'Focal length value not equivalent');
         $this->assertSame('0', $out['iso'], 'Iso value not equivalent'); // Interesting - a Nikon bug?
-        $this->assertSame((string) (1 / 500), $out['shutter_speed'], 'Shutter speed value not equivalent');
+        $this->assertSame((string)(1 / 500), $out['shutter_speed'], 'Shutter speed value not equivalent');
         $this->assertSame('Copyright Alex Shiels', $out['title'], 'Title value not the same');
         // $this->assertSame( array( 'Flowers' ), $out['keywords'] );
     }
@@ -75,11 +77,12 @@ class Tests_Image_Meta extends WP_UnitTestCase
         $this->assertSame('IPTC Creator', $out['credit'], 'Credit value not the same');
         $this->assertSame('NIKON D70', $out['camera'], 'Camera value not the same');
         $this->assertSame('IPTC Caption', $out['caption'], 'Caption value not the same');
-        $this->assertSame((string) strtotime('2004-07-22 17:14:35'), $out['created_timestamp'], 'Timestamp value not equivalent');
+        $this->assertSame((string)strtotime('2004-07-22 17:14:35'), $out['created_timestamp'],
+            'Timestamp value not equivalent');
         $this->assertSame('IPTC Copyright', $out['copyright'], 'Copyright value not the same');
         $this->assertSame('18', $out['focal_length'], 'Focal length value not equivalent');
         $this->assertSame('200', $out['iso'], 'Iso value not equivalent');
-        $this->assertSame((string) (1 / 25), $out['shutter_speed'], 'Shutter speed value not equivalent');
+        $this->assertSame((string)(1 / 25), $out['shutter_speed'], 'Shutter speed value not equivalent');
         $this->assertSame('IPTC Headline', $out['title'], 'Title value not the same');
     }
 
@@ -92,11 +95,12 @@ class Tests_Image_Meta extends WP_UnitTestCase
         $this->assertSame('', $out['credit'], 'Credit value not the same');
         $this->assertSame('FinePix S5600', $out['camera'], 'Camera value not the same');
         $this->assertSame('', $out['caption'], 'Caption value not the same');
-        $this->assertSame((string) strtotime('2007-09-03 10:17:03'), $out['created_timestamp'], 'Timestamp value not equivalent');
+        $this->assertSame((string)strtotime('2007-09-03 10:17:03'), $out['created_timestamp'],
+            'Timestamp value not equivalent');
         $this->assertSame('', $out['copyright'], 'Copyright value not the same');
         $this->assertSame('6.3', $out['focal_length'], 'Focal length value not equivalent');
         $this->assertSame('64', $out['iso'], 'Iso value not equivalent');
-        $this->assertSame((string) (1 / 320), $out['shutter_speed'], 'Shutter speed value not equivalent');
+        $this->assertSame((string)(1 / 320), $out['shutter_speed'], 'Shutter speed value not equivalent');
         $this->assertSame('', $out['title'], 'Title value not the same');
     }
 
@@ -199,55 +203,55 @@ class Tests_Image_Meta extends WP_UnitTestCase
     public function data_stream()
     {
         return [
-            'Orientation only metadata'                => [
-                'file'     => 'testimagemeta://wp_read_image_metadata/image1.jpg',
+            'Orientation only metadata' => [
+                'file' => 'testimagemeta://wp_read_image_metadata/image1.jpg',
                 'metadata' => [
-                    'aperture'          => '0',
-                    'credit'            => '',
-                    'camera'            => '',
-                    'caption'           => '',
+                    'aperture' => '0',
+                    'credit' => '',
+                    'camera' => '',
+                    'caption' => '',
                     'created_timestamp' => '0',
-                    'copyright'         => '',
-                    'focal_length'      => '0',
-                    'iso'               => '0',
-                    'shutter_speed'     => '0',
-                    'title'             => '',
-                    'orientation'       => '3',
-                    'keywords'          => [],
+                    'copyright' => '',
+                    'focal_length' => '0',
+                    'iso' => '0',
+                    'shutter_speed' => '0',
+                    'title' => '',
+                    'orientation' => '3',
+                    'keywords' => [],
                 ],
             ],
             'Exif from a Nikon D70 with IPTC data added later' => [
-                'file'     => 'testimagemeta://wp_read_image_metadata/image2.jpg',
+                'file' => 'testimagemeta://wp_read_image_metadata/image2.jpg',
                 'metadata' => [
-                    'aperture'          => '6.3',
-                    'credit'            => 'IPTC Creator',
-                    'camera'            => 'NIKON D70',
-                    'caption'           => 'IPTC Caption',
+                    'aperture' => '6.3',
+                    'credit' => 'IPTC Creator',
+                    'camera' => 'NIKON D70',
+                    'caption' => 'IPTC Caption',
                     'created_timestamp' => '1090516475',
-                    'copyright'         => 'IPTC Copyright',
-                    'focal_length'      => '18',
-                    'iso'               => '200',
-                    'shutter_speed'     => '0.04',
-                    'title'             => 'IPTC Headline',
-                    'orientation'       => '0',
-                    'keywords'          => [],
+                    'copyright' => 'IPTC Copyright',
+                    'focal_length' => '18',
+                    'iso' => '200',
+                    'shutter_speed' => '0.04',
+                    'title' => 'IPTC Headline',
+                    'orientation' => '0',
+                    'keywords' => [],
                 ],
             ],
             'Exif from a DMC-LX2 camera with keywords' => [
-                'file'     => 'testimagemeta://wp_read_image_metadata/image3.jpg',
+                'file' => 'testimagemeta://wp_read_image_metadata/image3.jpg',
                 'metadata' => [
-                    'aperture'          => '8',
-                    'credit'            => 'Photoshop Author',
-                    'camera'            => 'DMC-LX2',
-                    'caption'           => 'Photoshop Description',
+                    'aperture' => '8',
+                    'credit' => 'Photoshop Author',
+                    'camera' => 'DMC-LX2',
+                    'caption' => 'Photoshop Description',
                     'created_timestamp' => '1306315327',
-                    'copyright'         => 'Photoshop Copyrright Notice',
-                    'focal_length'      => '6.3',
-                    'iso'               => '100',
-                    'shutter_speed'     => '0.0025',
-                    'title'             => 'Photoshop Document Ttitle',
-                    'orientation'       => '1',
-                    'keywords'          => ['beach', 'baywatch', 'LA', 'sunset'],
+                    'copyright' => 'Photoshop Copyrright Notice',
+                    'focal_length' => '6.3',
+                    'iso' => '100',
+                    'shutter_speed' => '0.0025',
+                    'title' => 'Photoshop Document Ttitle',
+                    'orientation' => '1',
+                    'keywords' => ['beach', 'baywatch', 'LA', 'sunset'],
                 ],
             ],
         ];

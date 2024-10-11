@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Testing Ajax handler for exporting personal data.
  *
@@ -115,20 +116,20 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     /**
      * Create user export request fixtures.
      *
+     * @param WP_UnitTest_Factory $factory Factory.
      * @since 5.2.0
      *
-     * @param WP_UnitTest_Factory $factory Factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$request_email          = 'requester@example.com';
-        self::$request_id             = wp_create_user_request(self::$request_email, 'export_personal_data');
-        self::$action                 = 'wp-privacy-export-personal-data';
-        self::$exporter               = 1;
-        self::$exporter_key           = 'custom-exporter';
+        self::$request_email = 'requester@example.com';
+        self::$request_id = wp_create_user_request(self::$request_email, 'export_personal_data');
+        self::$action = 'wp-privacy-export-personal-data';
+        self::$exporter = 1;
+        self::$exporter_key = 'custom-exporter';
         self::$exporter_friendly_name = 'Custom Exporter';
-        self::$page                   = 1;
-        self::$send_as_email          = false;
+        self::$page = 1;
+        self::$send_as_email = false;
     }
 
     /**
@@ -140,7 +141,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     {
         parent::set_up();
 
-        $this->key_to_unset       = '';
+        $this->key_to_unset = '';
         $this->new_callback_value = '';
 
         // Make sure the exporter response is not modified and avoid e.g. writing export file to disk.
@@ -184,10 +185,10 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     /**
      * Change the test exporter callback to a specified value.
      *
-     * @since 5.2.0
-     *
      * @param array $exporters List of data exporters.
      * @return array List of data exporters.
+     * @since 5.2.0
+     *
      */
     public function filter_exporter_callback_value($exporters)
     {
@@ -218,7 +219,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     {
         if (false === $this->key_to_unset) {
             $exporters[self::$exporter_key] = false;
-        } elseif (! empty($this->key_to_unset)) {
+        } elseif (!empty($this->key_to_unset)) {
             unset($exporters[self::$exporter_key][$this->key_to_unset]);
         }
 
@@ -235,7 +236,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call(
             [
                 'id' => null, // Missing request ID.
-            ]
+            ],
         );
 
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -252,7 +253,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call(
             [
                 'id' => -1, // Invalid request ID, less than 1.
-            ]
+            ],
         );
 
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -305,7 +306,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call(
             [
                 'security' => 'invalid-nonce',
-            ]
+            ],
         );
     }
 
@@ -318,14 +319,14 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     {
         $request_id = wp_create_user_request(
             'erase-request@example.com',
-            'remove_personal_data' // Incorrect request type, expects 'export_personal_data'.
+            'remove_personal_data', // Incorrect request type, expects 'export_personal_data'.
         );
 
         $this->_make_ajax_call(
             [
                 'security' => wp_create_nonce('wp-privacy-export-personal-data-' . $request_id),
-                'id'       => $request_id,
-            ]
+                'id' => $request_id,
+            ],
         );
 
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -341,9 +342,9 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     {
         wp_update_post(
             [
-                'ID'         => self::$request_id,
+                'ID' => self::$request_id,
                 'post_title' => '', // Invalid requester's email address.
-            ]
+            ],
         );
 
         $this->_make_ajax_call();
@@ -362,7 +363,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call(
             [
                 'exporter' => null, // Missing exporter index.
-            ]
+            ],
         );
 
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -379,7 +380,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call(
             [
                 'page' => null, // Missing page index.
-            ]
+            ],
         );
 
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -398,7 +399,8 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call();
 
         $this->assertFalse($this->_last_response_parsed['success']);
-        $this->assertSame('An exporter has improperly used the registration filter.', $this->_last_response_parsed['data']);
+        $this->assertSame('An exporter has improperly used the registration filter.',
+            $this->_last_response_parsed['data']);
     }
 
     /**
@@ -411,7 +413,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call(
             [
                 'exporter' => -1, // Negative exporter index.
-            ]
+            ],
         );
 
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -428,7 +430,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call(
             [
                 'exporter' => PHP_INT_MAX, // Out of range exporter index.
-            ]
+            ],
         );
 
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -445,7 +447,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->_make_ajax_call(
             [
                 'page' => 0, // Page index less than one.
-            ]
+            ],
         );
 
         $this->assertFalse($this->_last_response_parsed['success']);
@@ -466,9 +468,9 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->assertSame(
             sprintf(
                 'Expected an array describing the exporter at index %s.',
-                self::$exporter_key
+                self::$exporter_key,
             ),
-            $this->_last_response_parsed['data']
+            $this->_last_response_parsed['data'],
         );
     }
 
@@ -486,9 +488,9 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->assertSame(
             sprintf(
                 'Exporter array at index %s does not include a friendly name.',
-                self::$exporter_key
+                self::$exporter_key,
             ),
-            $this->_last_response_parsed['data']
+            $this->_last_response_parsed['data'],
         );
     }
 
@@ -506,9 +508,9 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->assertSame(
             sprintf(
                 'Exporter does not include a callback: %s.',
-                self::$exporter_friendly_name
+                self::$exporter_friendly_name,
             ),
-            $this->_last_response_parsed['data']
+            $this->_last_response_parsed['data'],
         );
     }
 
@@ -526,9 +528,9 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->assertSame(
             sprintf(
                 'Exporter callback is not a valid callback: %s.',
-                self::$exporter_friendly_name
+                self::$exporter_friendly_name,
             ),
-            $this->_last_response_parsed['data']
+            $this->_last_response_parsed['data'],
         );
     }
 
@@ -550,11 +552,11 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     /**
      * Callback for exporter's response.
      *
+     * @param string $email_address The requester's email address.
+     * @param int $page Page number.
+     * @return WP_Error WP_Error instance.
      * @since 5.2.0
      *
-     * @param string $email_address The requester's email address.
-     * @param int    $page          Page number.
-     * @return WP_Error WP_Error instance.
      */
     public function callback_return_wp_error($email_address, $page = 1)
     {
@@ -575,9 +577,9 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->assertSame(
             sprintf(
                 'Expected response as an array from exporter: %s.',
-                self::$exporter_friendly_name
+                self::$exporter_friendly_name,
             ),
-            $this->_last_response_parsed['data']
+            $this->_last_response_parsed['data'],
         );
     }
 
@@ -595,21 +597,21 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->assertSame(
             sprintf(
                 'Expected data in response array from exporter: %s.',
-                self::$exporter_friendly_name
+                self::$exporter_friendly_name,
             ),
-            $this->_last_response_parsed['data']
+            $this->_last_response_parsed['data'],
         );
     }
 
     /**
      * Callback for exporter's response.
      *
-     * @since 5.2.0
-     *
      * @param string $email_address The requester's email address.
-     * @param int    $page          Page number.
+     * @param int $page Page number.
      *
      * @return array Export data.
+     * @since 5.2.0
+     *
      */
     public function callback_missing_data_response($email_address, $page = 1)
     {
@@ -633,25 +635,25 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->assertSame(
             sprintf(
                 'Expected data array in response array from exporter: %s.',
-                self::$exporter_friendly_name
+                self::$exporter_friendly_name,
             ),
-            $this->_last_response_parsed['data']
+            $this->_last_response_parsed['data'],
         );
     }
 
     /**
      * Callback for exporter's response.
      *
-     * @since 5.2.0
-     *
-     * @param  string $email_address The requester's email address.
-     * @param  int    $page          Page number.
+     * @param string $email_address The requester's email address.
+     * @param int $page Page number.
      *
      * @return array Export data.
+     * @since 5.2.0
+     *
      */
     public function callback_missing_data_array_response($email_address, $page = 1)
     {
-        $response         = $this->callback_custom_personal_data_exporter($email_address, $page);
+        $response = $this->callback_custom_personal_data_exporter($email_address, $page);
         $response['data'] = false; // Not an array.
         return $response;
     }
@@ -670,21 +672,21 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
         $this->assertSame(
             sprintf(
                 'Expected done (boolean) in response array from exporter: %s.',
-                self::$exporter_friendly_name
+                self::$exporter_friendly_name,
             ),
-            $this->_last_response_parsed['data']
+            $this->_last_response_parsed['data'],
         );
     }
 
     /**
      * Remove the response's done flag.
      *
-     * @since 5.2.0
-     *
      * @param string $email_address The requester's email address.
-     * @param int    $page          Page number.
+     * @param int $page Page number.
      *
      * @return array Export data.
+     * @since 5.2.0
+     *
      */
     public function callback_missing_done_response($email_address, $page = 1)
     {
@@ -718,7 +720,6 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
      */
     public function test_success_when_no_items_to_export()
     {
-
         $this->_make_ajax_call(['page' => 2]);
 
         $this->assertTrue($this->_last_response_parsed['success']);
@@ -743,7 +744,7 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
             self::$request_email,
             self::$request_id,
             self::$send_as_email,
-            self::$exporter_key
+            self::$exporter_key,
         );
 
         $this->assertTrue($this->_last_response_parsed['success']);
@@ -757,33 +758,40 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     /**
      * Filter exporter's data response.
      *
-     * @since 5.2.0
-     *
-     * @param array  $response        The personal data for the given exporter and page.
-     * @param int    $exporter_index  The index of the exporter that provided this data.
-     * @param string $email_address   The email address associated with this personal data.
-     * @param int    $page            The page for this response.
-     * @param int    $request_id      The privacy request post ID associated with this request.
-     * @param bool   $send_as_email   Whether the final results of the export should be emailed to the user.
-     * @param string $exporter_key    The key (slug) of the exporter that provided this data.
+     * @param array $response The personal data for the given exporter and page.
+     * @param int $exporter_index The index of the exporter that provided this data.
+     * @param string $email_address The email address associated with this personal data.
+     * @param int $page The page for this response.
+     * @param int $request_id The privacy request post ID associated with this request.
+     * @param bool $send_as_email Whether the final results of the export should be emailed to the user.
+     * @param string $exporter_key The key (slug) of the exporter that provided this data.
      *
      * @return array The personal data for the given exporter and page.
+     * @since 5.2.0
+     *
      */
-    public function filter_exporter_data_response($response, $exporter_index, $email_address, $page, $request_id, $send_as_email, $exporter_key)
-    {
-        $group_label                  = sprintf(
+    public function filter_exporter_data_response(
+        $response,
+        $exporter_index,
+        $email_address,
+        $page,
+        $request_id,
+        $send_as_email,
+        $exporter_key,
+    ) {
+        $group_label = sprintf(
             '%s-%s-%s-%s-%s-%s',
             $exporter_index,
             $page,
             $email_address,
             $request_id,
             $send_as_email,
-            $exporter_key
+            $exporter_key,
         );
-        $response['group_label']      = $group_label;
-        $response['group_id']         = 'filtered_group_id';
-        $response['item_id']          = 'filtered_item_id';
-        $response['data'][0]['name']  = 'filtered_name';
+        $response['group_label'] = $group_label;
+        $response['group_id'] = 'filtered_group_id';
+        $response['item_id'] = 'filtered_item_id';
+        $response['data'][0]['name'] = 'filtered_name';
         $response['data'][0]['value'] = 'filtered_value';
 
         return $response;
@@ -792,17 +800,17 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     /**
      * Filter to register a custom personal data exporter.
      *
-     * @since 5.2.0
-     *
      * @param array $exporters An array of personal data exporters.
      *
      * @return array An array of personal data exporters.
+     * @since 5.2.0
+     *
      */
     public function filter_register_custom_personal_data_exporter($exporters)
     {
         $exporters[self::$exporter_key] = [
             'exporter_friendly_name' => self::$exporter_friendly_name,
-            'callback'               => [$this, 'callback_custom_personal_data_exporter'],
+            'callback' => [$this, 'callback_custom_personal_data_exporter'],
         ];
         return $exporters;
     }
@@ -810,12 +818,12 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     /**
      * Callback for a custom personal data exporter.
      *
-     * @since 5.2.0
-     *
      * @param string $email_address The requester's email address.
-     * @param int    $page          Page number.
+     * @param int $page Page number.
      *
      * @return array Export data response.
+     * @since 5.2.0
+     *
      */
     public function callback_custom_personal_data_exporter($email_address, $page = 1)
     {
@@ -823,12 +831,12 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
 
         if (1 === $page) {
             $data_to_export = [
-                'group_id'    => self::$exporter_key . '-group-id',
+                'group_id' => self::$exporter_key . '-group-id',
                 'group_label' => self::$exporter_key . '-group-label',
-                'item_id'     => self::$exporter_key . '-item-id',
-                'data'        => [
+                'item_id' => self::$exporter_key . '-item-id',
+                'data' => [
                     [
-                        'name'  => 'Email',
+                        'name' => 'Email',
                         'value' => $email_address,
                     ],
                 ],
@@ -844,22 +852,22 @@ class Tests_Ajax_wpAjaxWpPrivacyExportPersonalData extends WP_Ajax_UnitTestCase
     /**
      * Helper function for Ajax handler.
      *
+     * @param array $args Ajax request arguments.
      * @since 5.2.0
      *
-     * @param array $args Ajax request arguments.
      */
     protected function _make_ajax_call($args = [])
     {
         $this->_last_response_parsed = null;
-        $this->_last_response        = '';
+        $this->_last_response = '';
 
         $defaults = [
-            'action'      => self::$action,
-            'security'    => wp_create_nonce(self::$action . '-' . self::$request_id),
-            'exporter'    => self::$exporter,
-            'page'        => self::$page,
+            'action' => self::$action,
+            'security' => wp_create_nonce(self::$action . '-' . self::$request_id),
+            'exporter' => self::$exporter,
+            'page' => self::$page,
             'sendAsEmail' => self::$send_as_email,
-            'id'          => self::$request_id,
+            'id' => self::$request_id,
         ];
 
         $_POST = wp_parse_args($args, $defaults);

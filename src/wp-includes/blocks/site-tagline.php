@@ -8,32 +8,32 @@
 /**
  * Renders the `core/site-tagline` block on the server.
  *
- * @since 5.8.0
- *
  * @param array $attributes The block attributes.
  *
  * @return string The render.
+ * @since 5.8.0
+ *
  */
 function render_block_core_site_tagline($attributes)
 {
     $site_tagline = get_bloginfo('description');
-    if (! $site_tagline) {
+    if (!$site_tagline) {
         return;
     }
 
-    $tag_name           = 'p';
-    $align_class_name   = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
+    $tag_name = 'p';
+    $align_class_name = empty($attributes['textAlign']) ? '' : "has-text-align-{$attributes['textAlign']}";
     $wrapper_attributes = get_block_wrapper_attributes(['class' => $align_class_name]);
 
     if (isset($attributes['level']) && 0 !== $attributes['level']) {
-        $tag_name = 'h' . (int) $attributes['level'];
+        $tag_name = 'h' . (int)$attributes['level'];
     }
 
     return sprintf(
         '<%1$s %2$s>%3$s</%1$s>',
         $tag_name,
         $wrapper_attributes,
-        $site_tagline
+        $site_tagline,
     );
 }
 
@@ -48,7 +48,7 @@ function register_block_core_site_tagline()
         __DIR__ . '/site-tagline',
         [
             'render_callback' => 'render_block_core_site_tagline',
-        ]
+        ],
     );
 }
 

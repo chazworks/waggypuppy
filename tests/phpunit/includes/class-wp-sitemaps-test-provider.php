@@ -26,16 +26,16 @@ class WP_Sitemaps_Test_Provider extends WP_Sitemaps_Provider
     public function get_object_subtypes()
     {
         return [
-            'type-1' => (object) ['name' => 'type-1'],
-            'type-2' => (object) ['name' => 'type-2'],
-            'type-3' => (object) ['name' => 'type-3'],
+            'type-1' => (object)['name' => 'type-1'],
+            'type-2' => (object)['name' => 'type-2'],
+            'type-3' => (object)['name' => 'type-3'],
         ];
     }
 
     /**
      * Gets a URL list for a sitemap.
      *
-     * @param int    $page_num       Page of results.
+     * @param int $page_num Page of results.
      * @param string $object_subtype Optional. Object subtype name. Default empty.
      * @return array[] Array of URL information for a sitemap.
      */

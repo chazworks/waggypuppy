@@ -35,18 +35,18 @@ class WP_Style_Engine_Processor
     /**
      * Adds a store to the processor.
      *
-     * @since 6.1.0
-     *
      * @param WP_Style_Engine_CSS_Rules_Store $store The store to add.
      * @return WP_Style_Engine_Processor Returns the object to allow chaining methods.
+     * @since 6.1.0
+     *
      */
     public function add_store($store)
     {
-        if (! $store instanceof WP_Style_Engine_CSS_Rules_Store) {
+        if (!$store instanceof WP_Style_Engine_CSS_Rules_Store) {
             _doing_it_wrong(
                 __METHOD__,
                 __('$store must be an instance of WP_Style_Engine_CSS_Rules_Store'),
-                '6.1.0'
+                '6.1.0',
             );
             return $this;
         }
@@ -59,22 +59,22 @@ class WP_Style_Engine_Processor
     /**
      * Adds rules to be processed.
      *
-     * @since 6.1.0
-     * @since 6.6.0 Added support for rules_group.
-     *
      * @param WP_Style_Engine_CSS_Rule|WP_Style_Engine_CSS_Rule[] $css_rules A single, or an array of,
      *                                                                       WP_Style_Engine_CSS_Rule objects
      *                                                                       from a store or otherwise.
      * @return WP_Style_Engine_Processor Returns the object to allow chaining methods.
+     * @since 6.1.0
+     * @since 6.6.0 Added support for rules_group.
+     *
      */
     public function add_rules($css_rules)
     {
-        if (! is_array($css_rules)) {
+        if (!is_array($css_rules)) {
             $css_rules = [$css_rules];
         }
 
         foreach ($css_rules as $rule) {
-            $selector    = $rule->get_selector();
+            $selector = $rule->get_selector();
             $rules_group = $rule->get_rules_group();
 
             /**
@@ -82,7 +82,7 @@ class WP_Style_Engine_Processor
              * add the rule to it.
              * Otherwise, create a new entry for the rules_group.
              */
-            if (! empty($rules_group)) {
+            if (!empty($rules_group)) {
                 if (isset($this->css_rules["$rules_group $selector"])) {
                     $this->css_rules["$rules_group $selector"]->add_declarations($rule->get_declarations());
                     continue;
@@ -105,18 +105,18 @@ class WP_Style_Engine_Processor
     /**
      * Gets the CSS rules as a string.
      *
-     * @since 6.1.0
-     * @since 6.4.0 The Optimization is no longer the default.
-     *
-     * @param array $options   {
+     * @param array $options {
      *     Optional. An array of options. Default empty array.
      *
-     *     @type bool $optimize Whether to optimize the CSS output, e.g. combine rules.
+     * @type bool $optimize Whether to optimize the CSS output, e.g. combine rules.
      *                          Default false.
-     *     @type bool $prettify Whether to add new lines and indents to output.
+     * @type bool $prettify Whether to add new lines and indents to output.
      *                          Defaults to whether the `SCRIPT_DEBUG` constant is defined.
      * }
      * @return string The computed CSS.
+     * @since 6.1.0
+     * @since 6.4.0 The Optimization is no longer the default.
+     *
      */
     public function get_css($options = [])
     {
@@ -124,7 +124,7 @@ class WP_Style_Engine_Processor
             'optimize' => false,
             'prettify' => defined('SCRIPT_DEBUG') && SCRIPT_DEBUG,
         ];
-        $options  = wp_parse_args($options, $defaults);
+        $options = wp_parse_args($options, $defaults);
 
         // If we have stores, get the rules from them.
         foreach ($this->stores as $store) {
@@ -179,7 +179,7 @@ class WP_Style_Engine_Processor
                 unset($this->css_rules[$key]);
             }
             // Create a new rule with the combined selectors.
-            $duplicate_selectors                   = implode(',', $duplicates);
+            $duplicate_selectors = implode(',', $duplicates);
             $this->css_rules[$duplicate_selectors] = new WP_Style_Engine_CSS_Rule($duplicate_selectors, $declarations);
         }
     }

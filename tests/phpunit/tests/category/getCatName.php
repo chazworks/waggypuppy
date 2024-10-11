@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group taxonomy
  * @group category
@@ -13,13 +14,12 @@ class Tests_Category_GetCatName extends WP_UnitTestCase
      */
     public function test_get_cat_name()
     {
-
         // Create test category.
         $testcat = self::factory()->category->create_and_get(
             [
                 'slug' => 'testcat',
                 'name' => 'Test Category 1',
-            ]
+            ],
         );
 
         // Validate.

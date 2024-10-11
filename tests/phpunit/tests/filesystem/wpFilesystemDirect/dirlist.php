@@ -25,25 +25,26 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      *
      * @dataProvider data_should_get_dirlist
      *
-     * @param string      $path           The path.
-     * @param bool        $include_hidden Whether to include hidden files.
-     * @param bool        $recursive      Whether to recursive into subdirectories.
-     * @param array|false $expected       The expected result.
+     * @param string $path The path.
+     * @param bool $include_hidden Whether to include hidden files.
+     * @param bool $recursive Whether to recursive into subdirectories.
+     * @param array|false $expected The expected result.
      */
     public function test_should_get_dirlist($path, $include_hidden, $recursive, $expected)
     {
-        $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'] . $path, $include_hidden, $recursive);
+        $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'] . $path, $include_hidden,
+            $recursive);
 
         if (is_array($expected)) {
             $this->assertSameSets(
                 $expected,
                 array_keys($actual),
-                'The array keys do not match.'
+                'The array keys do not match.',
             );
         } else {
             $this->assertFalse(
                 $actual,
-                '`WP_Filesystem_Direct::dirlist()` did not return false.'
+                '`WP_Filesystem_Direct::dirlist()` did not return false.',
             );
         }
     }
@@ -57,43 +58,43 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
     {
         return [
             'a directory that exists excluding hidden files' => [
-                'path'           => '',
+                'path' => '',
                 'include_hidden' => false,
-                'recursive'      => false,
-                'expected'       => [
+                'recursive' => false,
+                'expected' => [
                     'a_file_that_exists.txt',
                     'subdir',
                 ],
             ],
             'a directory that exists including hidden files' => [
-                'path'           => '',
+                'path' => '',
                 'include_hidden' => true,
-                'recursive'      => false,
-                'expected'       => [
+                'recursive' => false,
+                'expected' => [
                     'a_file_that_exists.txt',
                     '.a_hidden_file',
                     'subdir',
                 ],
             ],
             'a directory that does not exist' => [
-                'path'           => 'a_directory_that_does_not_exist/',
+                'path' => 'a_directory_that_does_not_exist/',
                 'include_hidden' => true,
-                'recursive'      => false,
-                'expected'       => false,
+                'recursive' => false,
+                'expected' => false,
             ],
-            'a file that exists'              => [
-                'path'           => 'a_file_that_exists.txt',
+            'a file that exists' => [
+                'path' => 'a_file_that_exists.txt',
                 'include_hidden' => true,
-                'recursive'      => false,
-                'expected'       => [
+                'recursive' => false,
+                'expected' => [
                     'a_file_that_exists.txt',
                 ],
             ],
-            'a file that does not exist'      => [
-                'path'           => 'a_file_that_does_not_exist.txt',
+            'a file that does not exist' => [
+                'path' => 'a_file_that_does_not_exist.txt',
                 'include_hidden' => true,
-                'recursive'      => false,
-                'expected'       => false,
+                'recursive' => false,
+                'expected' => false,
             ],
         ];
     }
@@ -123,7 +124,6 @@ class Tests_Filesystem_WpFilesystemDirect_Dirlist extends WP_Filesystem_Direct_U
      */
     public function test_should_not_recurse_into_subdirectory()
     {
-
         $actual = self::$filesystem->dirlist(self::$file_structure['test_dir']['path'], true, false);
 
         $this->assertIsArray($actual, 'Did not return an array.');

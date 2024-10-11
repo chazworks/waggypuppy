@@ -8,17 +8,17 @@
 /**
  * Renders the `core/post-title` block on the server.
  *
- * @since 6.3.0 Omitting the $post argument from the `get_the_title`.
- *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
  *
  * @return string Returns the filtered post title for the current post wrapped inside "h1" tags.
+ * @since 6.3.0 Omitting the $post argument from the `get_the_title`.
+ *
  */
 function render_block_core_post_title($attributes, $content, $block)
 {
-    if (! isset($block->context['postId'])) {
+    if (!isset($block->context['postId'])) {
         return '';
     }
 
@@ -28,18 +28,19 @@ function render_block_core_post_title($attributes, $content, $block)
      */
     $title = get_the_title();
 
-    if (! $title) {
+    if (!$title) {
         return '';
     }
 
     $tag_name = 'h2';
     if (isset($attributes['level'])) {
-        $tag_name = 0 === $attributes['level'] ? 'p' : 'h' . (int) $attributes['level'];
+        $tag_name = 0 === $attributes['level'] ? 'p' : 'h' . (int)$attributes['level'];
     }
 
     if (isset($attributes['isLink']) && $attributes['isLink']) {
-        $rel   = ! empty($attributes['rel']) ? 'rel="' . esc_attr($attributes['rel']) . '"' : '';
-        $title = sprintf('<a href="%1$s" target="%2$s" %3$s>%4$s</a>', esc_url(get_the_permalink($block->context['postId'])), esc_attr($attributes['linkTarget']), $rel, $title);
+        $rel = !empty($attributes['rel']) ? 'rel="' . esc_attr($attributes['rel']) . '"' : '';
+        $title = sprintf('<a href="%1$s" target="%2$s" %3$s>%4$s</a>',
+            esc_url(get_the_permalink($block->context['postId'])), esc_attr($attributes['linkTarget']), $rel, $title);
     }
 
     $classes = [];
@@ -55,7 +56,7 @@ function render_block_core_post_title($attributes, $content, $block)
         '<%1$s %2$s>%3$s</%1$s>',
         $tag_name,
         $wrapper_attributes,
-        $title
+        $title,
     );
 }
 
@@ -70,7 +71,8 @@ function register_block_core_post_title()
         __DIR__ . '/post-title',
         [
             'render_callback' => 'render_block_core_post_title',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_post_title');

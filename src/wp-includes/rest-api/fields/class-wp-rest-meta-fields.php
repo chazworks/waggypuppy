@@ -19,19 +19,19 @@ abstract class WP_REST_Meta_Fields
     /**
      * Retrieves the object meta type.
      *
-     * @since 4.7.0
-     *
      * @return string One of 'post', 'comment', 'term', 'user', or anything
      *                else supported by `_get_meta_table()`.
+     * @since 4.7.0
+     *
      */
     abstract protected function get_meta_type();
 
     /**
      * Retrieves the object meta subtype.
      *
+     * @return string Subtype for the meta type, or empty string if no specific subtype.
      * @since 4.9.8
      *
-     * @return string Subtype for the meta type, or empty string if no specific subtype.
      */
     protected function get_meta_subtype()
     {
@@ -41,9 +41,9 @@ abstract class WP_REST_Meta_Fields
     /**
      * Retrieves the object type for register_rest_field().
      *
+     * @return string The REST field type, such as post type name, taxonomy name, 'comment', or `user`.
      * @since 4.7.0
      *
-     * @return string The REST field type, such as post type name, taxonomy name, 'comment', or `user`.
      */
     abstract protected function get_rest_field_type();
 
@@ -63,29 +63,29 @@ abstract class WP_REST_Meta_Fields
             $this->get_rest_field_type(),
             'meta',
             [
-                'get_callback'    => [$this, 'get_value'],
+                'get_callback' => [$this, 'get_value'],
                 'update_callback' => [$this, 'update_value'],
-                'schema'          => $this->get_field_schema(),
-            ]
+                'schema' => $this->get_field_schema(),
+            ],
         );
     }
 
     /**
      * Retrieves the meta field value.
      *
+     * @param int $object_id Object ID to fetch meta for.
+     * @param WP_REST_Request $request Full details about the request.
+     * @return array Array containing the meta values keyed by name.
      * @since 4.7.0
      *
-     * @param int             $object_id Object ID to fetch meta for.
-     * @param WP_REST_Request $request   Full details about the request.
-     * @return array Array containing the meta values keyed by name.
      */
     public function get_value($object_id, $request)
     {
-        $fields   = $this->get_registered_fields();
+        $fields = $this->get_registered_fields();
         $response = [];
 
         foreach ($fields as $meta_key => $args) {
-            $name       = $args['name'];
+            $name = $args['name'];
             $all_values = get_metadata($this->get_meta_type(), $object_id, $meta_key, false);
 
             if ($args['single']) {
@@ -119,16 +119,16 @@ abstract class WP_REST_Meta_Fields
      * in the database, such as booleans. We need to cast back to the relevant
      * type before passing back to JSON.
      *
+     * @param mixed $value Meta value to prepare.
+     * @param WP_REST_Request $request Current request object.
+     * @param array $args Options for the field.
+     * @return mixed Prepared value.
      * @since 4.7.0
      *
-     * @param mixed           $value   Meta value to prepare.
-     * @param WP_REST_Request $request Current request object.
-     * @param array           $args    Options for the field.
-     * @return mixed Prepared value.
      */
     protected function prepare_value_for_response($value, $request, $args)
     {
-        if (! empty($args['prepare_callback'])) {
+        if (!empty($args['prepare_callback'])) {
             $value = call_user_func($args['prepare_callback'], $value, $request, $args);
         }
 
@@ -138,20 +138,20 @@ abstract class WP_REST_Meta_Fields
     /**
      * Updates meta values.
      *
+     * @param array $meta Array of meta parsed from the request.
+     * @param int $object_id Object ID to fetch meta for.
+     * @return null|WP_Error Null on success, WP_Error object on failure.
      * @since 4.7.0
      *
-     * @param array $meta      Array of meta parsed from the request.
-     * @param int   $object_id Object ID to fetch meta for.
-     * @return null|WP_Error Null on success, WP_Error object on failure.
      */
     public function update_value($meta, $object_id)
     {
         $fields = $this->get_registered_fields();
-        $error  = new WP_Error();
+        $error = new WP_Error();
 
         foreach ($fields as $meta_key => $args) {
             $name = $args['name'];
-            if (! array_key_exists($name, $meta)) {
+            if (!array_key_exists($name, $meta)) {
                 continue;
             }
 
@@ -163,7 +163,7 @@ abstract class WP_REST_Meta_Fields
              *
              * Non-single meta can also be removed by passing an empty array.
              */
-            if (is_null($value) || ([] === $value && ! $args['single'])) {
+            if (is_null($value) || ([] === $value && !$args['single'])) {
                 $args = $this->get_registered_fields()[$meta_key];
 
                 if ($args['single']) {
@@ -173,8 +173,9 @@ abstract class WP_REST_Meta_Fields
                         $error->add(
                             'rest_invalid_stored_value',
                             /* translators: %s: Custom field key. */
-                            sprintf(__('The %s property has an invalid stored value, and cannot be updated to null.'), $name),
-                            ['status' => 500]
+                            sprintf(__('The %s property has an invalid stored value, and cannot be updated to null.'),
+                                $name),
+                            ['status' => 500],
                         );
                         continue;
                     }
@@ -187,12 +188,12 @@ abstract class WP_REST_Meta_Fields
                 continue;
             }
 
-            if (! $args['single'] && is_array($value) && count(array_filter($value, 'is_null'))) {
+            if (!$args['single'] && is_array($value) && count(array_filter($value, 'is_null'))) {
                 $error->add(
                     'rest_invalid_stored_value',
                     /* translators: %s: Custom field key. */
                     sprintf(__('The %s property has an invalid stored value, and cannot be updated to null.'), $name),
-                    ['status' => 500]
+                    ['status' => 500],
                 );
                 continue;
             }
@@ -228,26 +229,26 @@ abstract class WP_REST_Meta_Fields
     /**
      * Deletes a meta value for an object.
      *
+     * @param int $object_id Object ID the field belongs to.
+     * @param string $meta_key Key for the field.
+     * @param string $name Name for the field that is exposed in the REST API.
+     * @return true|WP_Error True if meta field is deleted, WP_Error otherwise.
      * @since 4.7.0
      *
-     * @param int    $object_id Object ID the field belongs to.
-     * @param string $meta_key  Key for the field.
-     * @param string $name      Name for the field that is exposed in the REST API.
-     * @return true|WP_Error True if meta field is deleted, WP_Error otherwise.
      */
     protected function delete_meta_value($object_id, $meta_key, $name)
     {
         $meta_type = $this->get_meta_type();
 
-        if (! current_user_can("delete_{$meta_type}_meta", $object_id, $meta_key)) {
+        if (!current_user_can("delete_{$meta_type}_meta", $object_id, $meta_key)) {
             return new WP_Error(
                 'rest_cannot_delete',
                 /* translators: %s: Custom field key. */
                 sprintf(__('Sorry, you are not allowed to edit the %s custom field.'), $name),
                 [
-                    'key'    => $name,
+                    'key' => $name,
                     'status' => rest_authorization_required_code(),
-                ]
+                ],
             );
         }
 
@@ -255,14 +256,14 @@ abstract class WP_REST_Meta_Fields
             return true;
         }
 
-        if (! delete_metadata($meta_type, $object_id, wp_slash($meta_key))) {
+        if (!delete_metadata($meta_type, $object_id, wp_slash($meta_key))) {
             return new WP_Error(
                 'rest_meta_database_error',
                 __('Could not delete meta value from database.'),
                 [
-                    'key'    => $name,
+                    'key' => $name,
                     'status' => WP_Http::INTERNAL_SERVER_ERROR,
-                ]
+                ],
             );
         }
 
@@ -274,40 +275,40 @@ abstract class WP_REST_Meta_Fields
      *
      * Alters the list of values in the database to match the list of provided values.
      *
-     * @since 4.7.0
+     * @param int $object_id Object ID to update.
+     * @param string $meta_key Key for the custom field.
+     * @param string $name Name for the field that is exposed in the REST API.
+     * @param array $values List of values to update to.
+     * @return true|WP_Error True if meta fields are updated, WP_Error otherwise.
      * @since 6.7.0 Stores values into DB even if provided registered default value.
      *
-     * @param int    $object_id Object ID to update.
-     * @param string $meta_key  Key for the custom field.
-     * @param string $name      Name for the field that is exposed in the REST API.
-     * @param array  $values    List of values to update to.
-     * @return true|WP_Error True if meta fields are updated, WP_Error otherwise.
+     * @since 4.7.0
      */
     protected function update_multi_meta_value($object_id, $meta_key, $name, $values)
     {
         $meta_type = $this->get_meta_type();
 
-        if (! current_user_can("edit_{$meta_type}_meta", $object_id, $meta_key)) {
+        if (!current_user_can("edit_{$meta_type}_meta", $object_id, $meta_key)) {
             return new WP_Error(
                 'rest_cannot_update',
                 /* translators: %s: Custom field key. */
                 sprintf(__('Sorry, you are not allowed to edit the %s custom field.'), $name),
                 [
-                    'key'    => $name,
+                    'key' => $name,
                     'status' => rest_authorization_required_code(),
-                ]
+                ],
             );
         }
 
         $current_values = get_metadata_raw($meta_type, $object_id, $meta_key, false);
-        $subtype        = get_object_subtype($meta_type, $object_id);
+        $subtype = get_object_subtype($meta_type, $object_id);
 
-        if (! is_array($current_values)) {
+        if (!is_array($current_values)) {
             $current_values = [];
         }
 
         $to_remove = $current_values;
-        $to_add    = $values;
+        $to_add = $values;
 
         foreach ($to_add as $add_key => $value) {
             $remove_keys = array_keys(
@@ -315,8 +316,8 @@ abstract class WP_REST_Meta_Fields
                     $current_values,
                     function ($stored_value) use ($meta_key, $subtype, $value) {
                         return $this->is_meta_value_same_as_stored_value($meta_key, $subtype, $stored_value, $value);
-                    }
-                )
+                    },
+                ),
             );
 
             if (empty($remove_keys)) {
@@ -342,29 +343,29 @@ abstract class WP_REST_Meta_Fields
         $to_remove = array_map('maybe_unserialize', array_unique(array_map('maybe_serialize', $to_remove)));
 
         foreach ($to_remove as $value) {
-            if (! delete_metadata($meta_type, $object_id, wp_slash($meta_key), wp_slash($value))) {
+            if (!delete_metadata($meta_type, $object_id, wp_slash($meta_key), wp_slash($value))) {
                 return new WP_Error(
                     'rest_meta_database_error',
                     /* translators: %s: Custom field key. */
                     sprintf(__('Could not update the meta value of %s in database.'), $meta_key),
                     [
-                        'key'    => $name,
+                        'key' => $name,
                         'status' => WP_Http::INTERNAL_SERVER_ERROR,
-                    ]
+                    ],
                 );
             }
         }
 
         foreach ($to_add as $value) {
-            if (! add_metadata($meta_type, $object_id, wp_slash($meta_key), wp_slash($value))) {
+            if (!add_metadata($meta_type, $object_id, wp_slash($meta_key), wp_slash($value))) {
                 return new WP_Error(
                     'rest_meta_database_error',
                     /* translators: %s: Custom field key. */
                     sprintf(__('Could not update the meta value of %s in database.'), $meta_key),
                     [
-                        'key'    => $name,
+                        'key' => $name,
                         'status' => WP_Http::INTERNAL_SERVER_ERROR,
-                    ]
+                    ],
                 );
             }
         }
@@ -375,14 +376,14 @@ abstract class WP_REST_Meta_Fields
     /**
      * Updates a meta value for an object.
      *
-     * @since 4.7.0
+     * @param int $object_id Object ID to update.
+     * @param string $meta_key Key for the custom field.
+     * @param string $name Name for the field that is exposed in the REST API.
+     * @param mixed $value Updated value.
+     * @return true|WP_Error True if the meta field was updated, WP_Error otherwise.
      * @since 6.7.0 Stores values into DB even if provided registered default value.
      *
-     * @param int    $object_id Object ID to update.
-     * @param string $meta_key  Key for the custom field.
-     * @param string $name      Name for the field that is exposed in the REST API.
-     * @param mixed  $value     Updated value.
-     * @return true|WP_Error True if the meta field was updated, WP_Error otherwise.
+     * @since 4.7.0
      */
     protected function update_meta_value($object_id, $meta_key, $name, $value)
     {
@@ -390,7 +391,7 @@ abstract class WP_REST_Meta_Fields
 
         // Do the exact same check for a duplicate value as in update_metadata() to avoid update_metadata() returning false.
         $old_value = get_metadata_raw($meta_type, $object_id, $meta_key);
-        $subtype   = get_object_subtype($meta_type, $object_id);
+        $subtype = get_object_subtype($meta_type, $object_id);
 
         if (is_array($old_value) && 1 === count($old_value)
             && $this->is_meta_value_same_as_stored_value($meta_key, $subtype, $old_value[0], $value)
@@ -398,27 +399,27 @@ abstract class WP_REST_Meta_Fields
             return true;
         }
 
-        if (! current_user_can("edit_{$meta_type}_meta", $object_id, $meta_key)) {
+        if (!current_user_can("edit_{$meta_type}_meta", $object_id, $meta_key)) {
             return new WP_Error(
                 'rest_cannot_update',
                 /* translators: %s: Custom field key. */
                 sprintf(__('Sorry, you are not allowed to edit the %s custom field.'), $name),
                 [
-                    'key'    => $name,
+                    'key' => $name,
                     'status' => rest_authorization_required_code(),
-                ]
+                ],
             );
         }
 
-        if (! update_metadata($meta_type, $object_id, wp_slash($meta_key), wp_slash($value))) {
+        if (!update_metadata($meta_type, $object_id, wp_slash($meta_key), wp_slash($value))) {
             return new WP_Error(
                 'rest_meta_database_error',
                 /* translators: %s: Custom field key. */
                 sprintf(__('Could not update the meta value of %s in database.'), $meta_key),
                 [
-                    'key'    => $name,
+                    'key' => $name,
                     'status' => WP_Http::INTERNAL_SERVER_ERROR,
-                ]
+                ],
             );
         }
 
@@ -428,22 +429,22 @@ abstract class WP_REST_Meta_Fields
     /**
      * Checks if the user provided value is equivalent to a stored value for the given meta key.
      *
+     * @param string $meta_key The meta key being checked.
+     * @param string $subtype The object subtype.
+     * @param mixed $stored_value The currently stored value retrieved from get_metadata().
+     * @param mixed $user_value The value provided by the user.
+     * @return bool
      * @since 5.5.0
      *
-     * @param string $meta_key     The meta key being checked.
-     * @param string $subtype      The object subtype.
-     * @param mixed  $stored_value The currently stored value retrieved from get_metadata().
-     * @param mixed  $user_value   The value provided by the user.
-     * @return bool
      */
     protected function is_meta_value_same_as_stored_value($meta_key, $subtype, $stored_value, $user_value)
     {
-        $args      = $this->get_registered_fields()[$meta_key];
+        $args = $this->get_registered_fields()[$meta_key];
         $sanitized = sanitize_meta($meta_key, $user_value, $this->get_meta_type(), $subtype);
 
         if (in_array($args['type'], ['string', 'number', 'integer', 'boolean'], true)) {
             // The return value of get_metadata will always be a string for scalar types.
-            $sanitized = (string) $sanitized;
+            $sanitized = (string)$sanitized;
         }
 
         return $sanitized === $stored_value;
@@ -452,19 +453,19 @@ abstract class WP_REST_Meta_Fields
     /**
      * Retrieves all the registered meta fields.
      *
+     * @return array Registered fields.
      * @since 4.7.0
      *
-     * @return array Registered fields.
      */
     protected function get_registered_fields()
     {
         $registered = [];
 
-        $meta_type    = $this->get_meta_type();
+        $meta_type = $this->get_meta_type();
         $meta_subtype = $this->get_meta_subtype();
 
         $meta_keys = get_registered_meta_keys($meta_type);
-        if (! empty($meta_subtype)) {
+        if (!empty($meta_subtype)) {
             $meta_keys = array_merge($meta_keys, get_registered_meta_keys($meta_type, $meta_subtype));
         }
 
@@ -480,25 +481,25 @@ abstract class WP_REST_Meta_Fields
             }
 
             $default_args = [
-                'name'             => $name,
-                'single'           => $args['single'],
-                'type'             => ! empty($args['type']) ? $args['type'] : null,
-                'schema'           => [],
+                'name' => $name,
+                'single' => $args['single'],
+                'type' => !empty($args['type']) ? $args['type'] : null,
+                'schema' => [],
                 'prepare_callback' => [$this, 'prepare_value'],
             ];
 
             $default_schema = [
-                'type'        => $default_args['type'],
-                'title'       => empty($args['label']) ? '' : $args['label'],
+                'type' => $default_args['type'],
+                'title' => empty($args['label']) ? '' : $args['label'],
                 'description' => empty($args['description']) ? '' : $args['description'],
-                'default'     => isset($args['default']) ? $args['default'] : null,
+                'default' => isset($args['default']) ? $args['default'] : null,
             ];
 
-            $rest_args           = array_merge($default_args, $rest_args);
+            $rest_args = array_merge($default_args, $rest_args);
             $rest_args['schema'] = array_merge($default_schema, $rest_args['schema']);
 
-            $type = ! empty($rest_args['type']) ? $rest_args['type'] : null;
-            $type = ! empty($rest_args['schema']['type']) ? $rest_args['schema']['type'] : $type;
+            $type = !empty($rest_args['type']) ? $rest_args['type'] : null;
+            $type = !empty($rest_args['schema']['type']) ? $rest_args['schema']['type'] : $type;
 
             if (null === $rest_args['schema']['default']) {
                 $rest_args['schema']['default'] = static::get_empty_value_for_type($type);
@@ -506,13 +507,13 @@ abstract class WP_REST_Meta_Fields
 
             $rest_args['schema'] = rest_default_additional_properties_to_false($rest_args['schema']);
 
-            if (! in_array($type, ['string', 'boolean', 'integer', 'number', 'array', 'object'], true)) {
+            if (!in_array($type, ['string', 'boolean', 'integer', 'number', 'array', 'object'], true)) {
                 continue;
             }
 
             if (empty($rest_args['single'])) {
                 $rest_args['schema'] = [
-                    'type'  => 'array',
+                    'type' => 'array',
                     'items' => $rest_args['schema'],
                 ];
             }
@@ -526,9 +527,9 @@ abstract class WP_REST_Meta_Fields
     /**
      * Retrieves the object's meta schema, conforming to JSON Schema.
      *
+     * @return array Field schema data.
      * @since 4.7.0
      *
-     * @return array Field schema data.
      */
     public function get_field_schema()
     {
@@ -536,9 +537,9 @@ abstract class WP_REST_Meta_Fields
 
         $schema = [
             'description' => __('Meta fields.'),
-            'type'        => 'object',
-            'context'     => ['view', 'edit'],
-            'properties'  => [],
+            'type' => 'object',
+            'context' => ['view', 'edit'],
+            'properties' => [],
             'arg_options' => [
                 'sanitize_callback' => null,
                 'validate_callback' => [$this, 'check_meta_is_array'],
@@ -558,12 +559,12 @@ abstract class WP_REST_Meta_Fields
      * Default preparation for meta fields. Override by passing the
      * `prepare_callback` in your `show_in_rest` options.
      *
+     * @param mixed $value Meta value from the database.
+     * @param WP_REST_Request $request Request object.
+     * @param array $args REST-specific options for the meta key.
+     * @return mixed Value prepared for output. If a non-JsonSerializable object, null.
      * @since 4.7.0
      *
-     * @param mixed           $value   Meta value from the database.
-     * @param WP_REST_Request $request Request object.
-     * @param array           $args    REST-specific options for the meta key.
-     * @return mixed Value prepared for output. If a non-JsonSerializable object, null.
      */
     public static function prepare_value($value, $request, $args)
     {
@@ -587,16 +588,16 @@ abstract class WP_REST_Meta_Fields
     /**
      * Check the 'meta' value of a request is an associative array.
      *
+     * @param mixed $value The meta value submitted in the request.
+     * @param WP_REST_Request $request Full details about the request.
+     * @param string $param The parameter name.
+     * @return array|false The meta array, if valid, false otherwise.
      * @since 4.7.0
      *
-     * @param mixed           $value   The meta value submitted in the request.
-     * @param WP_REST_Request $request Full details about the request.
-     * @param string          $param   The parameter name.
-     * @return array|false The meta array, if valid, false otherwise.
      */
     public function check_meta_is_array($value, $request, $param)
     {
-        if (! is_array($value)) {
+        if (!is_array($value)) {
             return false;
         }
 
@@ -611,11 +612,11 @@ abstract class WP_REST_Meta_Fields
      * registered items, as the REST API will allow additional properties by
      * default.
      *
+     * @param array $schema The schema array.
+     * @return array
      * @since 5.3.0
      * @deprecated 5.6.0 Use rest_default_additional_properties_to_false() instead.
      *
-     * @param array $schema The schema array.
-     * @return array
      */
     protected function default_additional_properties_to_false($schema)
     {
@@ -627,10 +628,10 @@ abstract class WP_REST_Meta_Fields
     /**
      * Gets the empty value for a schema type.
      *
-     * @since 5.3.0
-     *
      * @param string $type The schema type.
      * @return mixed
+     * @since 5.3.0
+     *
      */
     protected static function get_empty_value_for_type($type)
     {

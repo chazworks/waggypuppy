@@ -71,13 +71,13 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
         require_once ABSPATH . 'wp-admin/includes/file.php';
         WP_Filesystem();
 
-        self::$test_dir                  = get_temp_dir() . 'move_dir/';
-        self::$existing_from             = self::$test_dir . 'existing_from/';
-        self::$existing_from_subdir      = self::$existing_from . 'existing_from_subdir/';
-        self::$existing_from_file        = self::$existing_from . 'existing_from_file.txt';
+        self::$test_dir = get_temp_dir() . 'move_dir/';
+        self::$existing_from = self::$test_dir . 'existing_from/';
+        self::$existing_from_subdir = self::$existing_from . 'existing_from_subdir/';
+        self::$existing_from_file = self::$existing_from . 'existing_from_file.txt';
         self::$existing_from_subdir_file = self::$existing_from_subdir . 'existing_from_subdir_file.txt';
-        self::$existing_to               = self::$test_dir . 'existing_to/';
-        self::$existing_to_file          = self::$existing_to . 'existing_to_file.txt';
+        self::$existing_to = self::$test_dir . 'existing_to/';
+        self::$existing_to_file = self::$existing_to . 'existing_to_file.txt';
     }
 
     /**
@@ -123,40 +123,40 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
      *
      * @dataProvider data_should_return_wp_error
      *
-     * @param string $from      The source directory path.
-     * @param string $to        The destination directory path.
-     * @param bool   $overwrite Whether to overwrite the destination directory.
-     * @param string $expected  The expected WP_Error code.
+     * @param string $from The source directory path.
+     * @param string $to The destination directory path.
+     * @param bool $overwrite Whether to overwrite the destination directory.
+     * @param string $expected The expected WP_Error code.
      */
     public function test_should_return_wp_error($from, $to, $overwrite, $expected)
     {
         global $wp_filesystem;
 
-        $from   = self::$test_dir . $from;
-        $to     = self::$test_dir . $to;
+        $from = self::$test_dir . $from;
+        $to = self::$test_dir . $to;
         $result = move_dir($from, $to, $overwrite);
 
         $this->assertWPError(
             $result,
-            'move_dir() did not return a WP_Error object.'
+            'move_dir() did not return a WP_Error object.',
         );
 
         $this->assertSame(
             $expected,
             $result->get_error_code(),
-            'The expected error code was not returned.'
+            'The expected error code was not returned.',
         );
 
         if ('source_destination_same_move_dir' !== $expected) {
             $this->assertTrue(
                 $wp_filesystem->exists($from),
-                'The $from directory does not exist anymore.'
+                'The $from directory does not exist anymore.',
             );
 
             if (false === $overwrite && 'existing_to' === untrailingslashit($to)) {
                 $this->assertTrue(
                     $wp_filesystem->exists($to),
-                    'The $to directory does not exist anymore.'
+                    'The $to directory does not exist anymore.',
                 );
             }
         }
@@ -171,40 +171,40 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
     {
         return [
             '$overwrite is false and $to exists' => [
-                'from'      => 'existing_from',
-                'to'        => 'existing_to',
+                'from' => 'existing_from',
+                'to' => 'existing_to',
                 'overwrite' => false,
-                'expected'  => 'destination_already_exists_move_dir',
+                'expected' => 'destination_already_exists_move_dir',
             ],
             'same source and destination, source has trailing slash' => [
-                'from'      => 'existing_from/',
-                'to'        => 'existing_from',
+                'from' => 'existing_from/',
+                'to' => 'existing_from',
                 'overwrite' => false,
-                'expected'  => 'source_destination_same_move_dir',
+                'expected' => 'source_destination_same_move_dir',
             ],
             'same source and destination, destination has trailing slash' => [
-                'from'      => 'existing_from',
-                'to'        => 'existing_from/',
+                'from' => 'existing_from',
+                'to' => 'existing_from/',
                 'overwrite' => false,
-                'expected'  => 'source_destination_same_move_dir',
+                'expected' => 'source_destination_same_move_dir',
             ],
             'same source and destination, source lowercase, destination uppercase' => [
-                'from'      => 'existing_from',
-                'to'        => 'EXISTING_FROM',
+                'from' => 'existing_from',
+                'to' => 'EXISTING_FROM',
                 'overwrite' => false,
-                'expected'  => 'source_destination_same_move_dir',
+                'expected' => 'source_destination_same_move_dir',
             ],
             'same source and destination, source uppercase, destination lowercase' => [
-                'from'      => 'EXISTING_FROM',
-                'to'        => 'existing_from',
+                'from' => 'EXISTING_FROM',
+                'to' => 'existing_from',
                 'overwrite' => false,
-                'expected'  => 'source_destination_same_move_dir',
+                'expected' => 'source_destination_same_move_dir',
             ],
             'same source and destination, source and destination in inverted case' => [
-                'from'      => 'ExIsTiNg_FrOm',
-                'to'        => 'eXiStInG_fRoM',
+                'from' => 'ExIsTiNg_FrOm',
+                'to' => 'eXiStInG_fRoM',
                 'overwrite' => false,
-                'expected'  => 'source_destination_same_move_dir',
+                'expected' => 'source_destination_same_move_dir',
             ],
         ];
     }
@@ -216,31 +216,31 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
      *
      * @dataProvider data_should_move_directory
      *
-     * @param string $from      The source directory path.
-     * @param string $to        The destination directory path.
-     * @param bool   $overwrite Whether to overwrite the destination directory.
+     * @param string $from The source directory path.
+     * @param string $to The destination directory path.
+     * @param bool $overwrite Whether to overwrite the destination directory.
      */
     public function test_should_move_directory($from, $to, $overwrite)
     {
         global $wp_filesystem;
 
-        $from   = self::$test_dir . $from;
-        $to     = self::$test_dir . $to;
+        $from = self::$test_dir . $from;
+        $to = self::$test_dir . $to;
         $result = move_dir($from, $to, $overwrite);
 
         $this->assertTrue(
             $result,
-            'The directory was not moved.'
+            'The directory was not moved.',
         );
 
         $this->assertFalse(
             $wp_filesystem->exists($from),
-            'The source directory still exists.'
+            'The source directory still exists.',
         );
 
         $this->assertTrue(
             $wp_filesystem->exists($to),
-            'The destination directory does not exist.'
+            'The destination directory does not exist.',
         );
 
         $dirlist = $wp_filesystem->dirlist($to, true, true);
@@ -254,13 +254,13 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
                 'existing_from_subdir',
             ],
             $to_contents,
-            'The expected files were not moved.'
+            'The expected files were not moved.',
         );
 
         $this->assertSame(
             ['existing_from_subdir_file.txt'],
             array_keys($dirlist['existing_from_subdir']['files']),
-            'Sub-directory files failed to move.'
+            'Sub-directory files failed to move.',
         );
     }
 
@@ -273,13 +273,13 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
     {
         return [
             '$overwrite is false and $to does not exist' => [
-                'from'      => 'existing_from',
-                'to'        => 'non_existing_to',
+                'from' => 'existing_from',
+                'to' => 'non_existing_to',
                 'overwrite' => false,
             ],
-            '$overwrite is true and $to exists'          => [
-                'from'      => 'existing_from',
-                'to'        => 'existing_to',
+            '$overwrite is true and $to exists' => [
+                'from' => 'existing_from',
+                'to' => 'existing_to',
                 'overwrite' => true,
             ],
         ];
@@ -291,7 +291,8 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
      *
      * @ticket 57375
      */
-    public function test_should_return_wp_error_when_overwriting_is_enabled_the_destination_exists_but_cannot_be_deleted()
+    public function test_should_return_wp_error_when_overwriting_is_enabled_the_destination_exists_but_cannot_be_deleted(
+    )
     {
         global $wp_filesystem;
         $wpfilesystem_backup = $wp_filesystem;
@@ -309,13 +310,13 @@ class Tests_Filesystem_MoveDir extends WP_UnitTestCase
 
         $this->assertWPError(
             $actual,
-            'A WP_Error object was not returned.'
+            'A WP_Error object was not returned.',
         );
 
         $this->assertSame(
             'destination_not_deleted_move_dir',
             $actual->get_error_code(),
-            'An unexpected error code was returned.'
+            'An unexpected error code was returned.',
         );
     }
 }

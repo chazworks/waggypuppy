@@ -62,17 +62,17 @@ class WP_Upgrader_Skin
      *
      * Sets up the generic skin for the waggypuppy Upgrader classes.
      *
-     * @since 2.8.0
-     *
      * @param array $args Optional. The waggypuppy upgrader skin arguments to
      *                    override default options. Default empty array.
+     * @since 2.8.0
+     *
      */
     public function __construct($args = [])
     {
-        $defaults      = [
-            'url'     => '',
-            'nonce'   => '',
-            'title'   => '',
+        $defaults = [
+            'url' => '',
+            'nonce' => '',
+            'title' => '',
             'context' => false,
         ];
         $this->options = wp_parse_args($args, $defaults);
@@ -81,9 +81,9 @@ class WP_Upgrader_Skin
     /**
      * Sets the relationship between the skin being used and the upgrader.
      *
+     * @param WP_Upgrader $upgrader
      * @since 2.8.0
      *
-     * @param WP_Upgrader $upgrader
      */
     public function set_upgrader(&$upgrader)
     {
@@ -98,16 +98,14 @@ class WP_Upgrader_Skin
      *
      * @since 3.0.0
      */
-    public function add_strings()
-    {
-    }
+    public function add_strings() {}
 
     /**
      * Sets the result of an upgrade.
      *
+     * @param string|bool|WP_Error $result The result of an upgrade.
      * @since 2.8.0
      *
-     * @param string|bool|WP_Error $result The result of an upgrade.
      */
     public function set_result($result)
     {
@@ -118,25 +116,25 @@ class WP_Upgrader_Skin
      * Displays a form to the user to request for their FTP/SSH details in order
      * to connect to the filesystem.
      *
-     * @since 2.8.0
+     * @param bool|WP_Error $error Optional. Whether the current request has failed to connect,
+     *                                                    or an error object. Default false.
+     * @param string $context Optional. Full path to the directory that is tested
+     *                                                    for being writable. Default empty.
+     * @param bool $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
+     * @return bool True on success, false on failure.
      * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
      *
      * @see request_filesystem_credentials()
      *
-     * @param bool|WP_Error $error                        Optional. Whether the current request has failed to connect,
-     *                                                    or an error object. Default false.
-     * @param string        $context                      Optional. Full path to the directory that is tested
-     *                                                    for being writable. Default empty.
-     * @param bool          $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
-     * @return bool True on success, false on failure.
+     * @since 2.8.0
      */
     public function request_filesystem_credentials($error = false, $context = '', $allow_relaxed_file_ownership = false)
     {
         $url = $this->options['url'];
-        if (! $context) {
+        if (!$context) {
             $context = $this->options['context'];
         }
-        if (! empty($this->options['nonce'])) {
+        if (!empty($this->options['nonce'])) {
             $url = wp_nonce_url($url, $this->options['nonce']);
         }
 
@@ -177,13 +175,13 @@ class WP_Upgrader_Skin
     /**
      * Displays an error message about the update.
      *
+     * @param string|WP_Error $errors Errors.
      * @since 2.8.0
      *
-     * @param string|WP_Error $errors Errors.
      */
     public function error($errors)
     {
-        if (! $this->done_header) {
+        if (!$this->done_header) {
             $this->header();
         }
         if (is_string($errors)) {
@@ -202,11 +200,11 @@ class WP_Upgrader_Skin
     /**
      * Displays a message about the update.
      *
+     * @param string $feedback Message data.
+     * @param mixed ...$args Optional text replacements.
      * @since 2.8.0
      * @since 5.9.0 Renamed `$string` (a PHP reserved keyword) to `$feedback` for PHP 8 named parameter support.
      *
-     * @param string $feedback Message data.
-     * @param mixed  ...$args  Optional text replacements.
      */
     public function feedback($feedback, ...$args)
     {
@@ -216,8 +214,8 @@ class WP_Upgrader_Skin
 
         if (str_contains($feedback, '%')) {
             if ($args) {
-                $args     = array_map('strip_tags', $args);
-                $args     = array_map('esc_html', $args);
+                $args = array_map('strip_tags', $args);
+                $args = array_map('esc_html', $args);
                 $feedback = vsprintf($feedback, $args);
             }
         }
@@ -232,28 +230,26 @@ class WP_Upgrader_Skin
      *
      * @since 2.8.0
      */
-    public function before()
-    {}
+    public function before() {}
 
     /**
      * Performs an action following an update.
      *
      * @since 2.8.0
      */
-    public function after()
-    {}
+    public function after() {}
 
     /**
      * Outputs JavaScript that calls function to decrement the update counts.
      *
-     * @since 3.9.0
-     *
      * @param string $type Type of update count to decrement. Likely values include 'plugin',
      *                     'theme', 'translation', etc.
+     * @since 3.9.0
+     *
      */
     protected function decrement_update_count($type)
     {
-        if (! $this->result || is_wp_error($this->result) || 'up_to_date' === $this->result) {
+        if (!$this->result || is_wp_error($this->result) || 'up_to_date' === $this->result) {
             return;
         }
 
@@ -286,24 +282,22 @@ class WP_Upgrader_Skin
      *
      * @since 3.0.0
      */
-    public function bulk_header()
-    {}
+    public function bulk_header() {}
 
     /**
      * Displays the footer following the bulk update process.
      *
      * @since 3.0.0
      */
-    public function bulk_footer()
-    {}
+    public function bulk_footer() {}
 
     /**
      * Hides the `process_failed` error message when updating by uploading a zip file.
      *
-     * @since 5.5.0
-     *
      * @param WP_Error $wp_error WP_Error object.
      * @return bool True if the error should be hidden, false otherwise.
+     * @since 5.5.0
+     *
      */
     public function hide_process_failed($wp_error)
     {

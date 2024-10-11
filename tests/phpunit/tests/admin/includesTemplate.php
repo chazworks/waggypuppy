@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group admin
  */
@@ -15,8 +16,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
             0,
             [
                 'selected_cats' => [$term_id],
-                'echo'          => false,
-            ]
+                'echo' => false,
+            ],
         );
 
         $this->assertStringContainsString("checked='checked'", $output);
@@ -32,8 +33,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
             0,
             [
                 'popular_cats' => [$term_id],
-                'echo'         => false,
-            ]
+                'echo' => false,
+            ],
         );
 
         $this->assertStringContainsString('class="popular-category"', $output);
@@ -52,17 +53,18 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
      *
      * @covers ::get_inline_data
      */
-    public function test_get_inline_data_contains_term_if_show_ui_is_false_but_show_on_quick_edit_is_true_for_hierarchical_taxonomy()
+    public function test_get_inline_data_contains_term_if_show_ui_is_false_but_show_on_quick_edit_is_true_for_hierarchical_taxonomy(
+    )
     {
         // Create a post with a term from a hierarchical taxonomy.
         register_taxonomy(
             'wptests_tax_1',
             'post',
             [
-                'show_ui'            => false,
+                'show_ui' => false,
                 'show_in_quick_edit' => true,
-                'hierarchical'       => true,
-            ]
+                'hierarchical' => true,
+            ],
         );
         $term = wp_insert_term('Test', 'wptests_tax_1');
         $post = self::factory()->post->create_and_get();
@@ -71,7 +73,11 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         // Test that get_inline_data() has `post_category` div containing the assigned term.
         wp_set_current_user(self::factory()->user->create(['role' => 'editor']));
         get_inline_data($post);
-        $this->expectOutputRegex('/<div class="post_category" id="wptests_tax_1_' . $post->ID . '">' . $term['term_id'] . '<\/div>/');
+        $this->expectOutputRegex('/<div class="post_category" id="wptests_tax_1_'
+            . $post->ID
+            . '">'
+            . $term['term_id']
+            . '<\/div>/');
     }
 
     /**
@@ -79,17 +85,18 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
      *
      * @covers ::get_inline_data
      */
-    public function test_get_inline_data_contains_term_if_show_ui_is_false_but_show_on_quick_edit_is_true_for_nonhierarchical_taxonomy()
+    public function test_get_inline_data_contains_term_if_show_ui_is_false_but_show_on_quick_edit_is_true_for_nonhierarchical_taxonomy(
+    )
     {
         // Create a post with a term from a non-hierarchical taxonomy.
         register_taxonomy(
             'wptests_tax_1',
             'post',
             [
-                'show_ui'            => false,
+                'show_ui' => false,
                 'show_in_quick_edit' => true,
-                'hierarchical'       => false,
-            ]
+                'hierarchical' => false,
+            ],
         );
         $term = wp_insert_term('Test', 'wptests_tax_1');
         $post = self::factory()->post->create_and_get();
@@ -197,60 +204,72 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
 
         global $wp_settings_sections;
         $this->assertIsArray($wp_settings_sections, 'List of sections is not initialized.');
-        $this->assertArrayHasKey('test-page', $wp_settings_sections, 'List of sections for the test page has not been added to sections list.');
-        $this->assertIsArray($wp_settings_sections['test-page'], 'List of sections for the test page is not initialized.');
-        $this->assertArrayHasKey('test-section', $wp_settings_sections['test-page'], 'Test section has not been added to the list of sections for the test page.');
+        $this->assertArrayHasKey('test-page', $wp_settings_sections,
+            'List of sections for the test page has not been added to sections list.');
+        $this->assertIsArray($wp_settings_sections['test-page'],
+            'List of sections for the test page is not initialized.');
+        $this->assertArrayHasKey('test-section', $wp_settings_sections['test-page'],
+            'Test section has not been added to the list of sections for the test page.');
 
         $this->assertEqualSetsWithIndex(
             [
-                'id'             => 'test-section',
-                'title'          => 'Section title',
-                'callback'       => '__return_false',
+                'id' => 'test-section',
+                'title' => 'Section title',
+                'callback' => '__return_false',
                 'before_section' => '',
-                'after_section'  => '',
-                'section_class'  => '',
+                'after_section' => '',
+                'section_class' => '',
             ],
             $wp_settings_sections['test-page']['test-section'],
-            'Test section data does not match the expected dataset.'
+            'Test section data does not match the expected dataset.',
         );
     }
 
     /**
      * @ticket 17851
      *
-     * @param array  $extra_args                   Extra arguments to pass to function `add_settings_section()`.
-     * @param array  $expected_section_data        Expected set of section data.
+     * @param array $extra_args Extra arguments to pass to function `add_settings_section()`.
+     * @param array $expected_section_data Expected set of section data.
      * @param string $expected_before_section_html Expected HTML markup to be rendered before the settings section.
-     * @param string $expected_after_section_html  Expected HTML markup to be rendered after the settings section.
+     * @param string $expected_after_section_html Expected HTML markup to be rendered after the settings section.
      *
      * @covers ::add_settings_section
      * @covers ::do_settings_sections
      *
      * @dataProvider data_extra_args_for_add_settings_section
      */
-    public function test_add_settings_section_with_extra_args($extra_args, $expected_section_data, $expected_before_section_html, $expected_after_section_html)
-    {
+    public function test_add_settings_section_with_extra_args(
+        $extra_args,
+        $expected_section_data,
+        $expected_before_section_html,
+        $expected_after_section_html,
+    ) {
         add_settings_section('test-section', 'Section title', '__return_false', 'test-page', $extra_args);
         add_settings_field('test-field', 'Field title', '__return_false', 'test-page', 'test-section');
 
         global $wp_settings_sections;
         $this->assertIsArray($wp_settings_sections, 'List of sections is not initialized.');
-        $this->assertArrayHasKey('test-page', $wp_settings_sections, 'List of sections for the test page has not been added to sections list.');
-        $this->assertIsArray($wp_settings_sections['test-page'], 'List of sections for the test page is not initialized.');
-        $this->assertArrayHasKey('test-section', $wp_settings_sections['test-page'], 'Test section has not been added to the list of sections for the test page.');
+        $this->assertArrayHasKey('test-page', $wp_settings_sections,
+            'List of sections for the test page has not been added to sections list.');
+        $this->assertIsArray($wp_settings_sections['test-page'],
+            'List of sections for the test page is not initialized.');
+        $this->assertArrayHasKey('test-section', $wp_settings_sections['test-page'],
+            'Test section has not been added to the list of sections for the test page.');
 
         $this->assertEqualSetsWithIndex(
             $expected_section_data,
             $wp_settings_sections['test-page']['test-section'],
-            'Test section data does not match the expected dataset.'
+            'Test section data does not match the expected dataset.',
         );
 
         ob_start();
         do_settings_sections('test-page');
         $output = ob_get_clean();
 
-        $this->assertStringContainsString($expected_before_section_html, $output, 'Test page output does not contain the custom markup to be placed before the section.');
-        $this->assertStringContainsString($expected_after_section_html, $output, 'Test page output does not contain the custom markup to be placed after the section.');
+        $this->assertStringContainsString($expected_before_section_html, $output,
+            'Test page output does not contain the custom markup to be placed before the section.');
+        $this->assertStringContainsString($expected_after_section_html, $output,
+            'Test page output does not contain the custom markup to be placed after the section.');
     }
 
     /**
@@ -264,16 +283,16 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
             'class placeholder section_class present' => [
                 [
                     'before_section' => '<div class="%s">',
-                    'after_section'  => '</div><!-- end of the test section -->',
-                    'section_class'  => 'test-section-wrap',
+                    'after_section' => '</div><!-- end of the test section -->',
+                    'section_class' => 'test-section-wrap',
                 ],
                 [
-                    'id'             => 'test-section',
-                    'title'          => 'Section title',
-                    'callback'       => '__return_false',
+                    'id' => 'test-section',
+                    'title' => 'Section title',
+                    'callback' => '__return_false',
                     'before_section' => '<div class="%s">',
-                    'after_section'  => '</div><!-- end of the test section -->',
-                    'section_class'  => 'test-section-wrap',
+                    'after_section' => '</div><!-- end of the test section -->',
+                    'section_class' => 'test-section-wrap',
                 ],
                 '<div class="test-section-wrap">',
                 '</div><!-- end of the test section -->',
@@ -281,81 +300,81 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
             'missing class placeholder section_class' => [
                 [
                     'before_section' => '<div class="testing-section-wrapper">',
-                    'after_section'  => '</div><!-- end of the test section -->',
-                    'section_class'  => 'test-section-wrap',
+                    'after_section' => '</div><!-- end of the test section -->',
+                    'section_class' => 'test-section-wrap',
                 ],
                 [
-                    'id'             => 'test-section',
-                    'title'          => 'Section title',
-                    'callback'       => '__return_false',
+                    'id' => 'test-section',
+                    'title' => 'Section title',
+                    'callback' => '__return_false',
                     'before_section' => '<div class="testing-section-wrapper">',
-                    'after_section'  => '</div><!-- end of the test section -->',
-                    'section_class'  => 'test-section-wrap',
+                    'after_section' => '</div><!-- end of the test section -->',
+                    'section_class' => 'test-section-wrap',
                 ],
                 '<div class="testing-section-wrapper">',
                 '</div><!-- end of the test section -->',
             ],
-            'empty section_class'                     => [
+            'empty section_class' => [
                 [
                     'before_section' => '<div class="test-section-container">',
-                    'after_section'  => '</div><!-- end of the test section -->',
-                    'section_class'  => '',
+                    'after_section' => '</div><!-- end of the test section -->',
+                    'section_class' => '',
                 ],
                 [
-                    'id'             => 'test-section',
-                    'title'          => 'Section title',
-                    'callback'       => '__return_false',
+                    'id' => 'test-section',
+                    'title' => 'Section title',
+                    'callback' => '__return_false',
                     'before_section' => '<div class="test-section-container">',
-                    'after_section'  => '</div><!-- end of the test section -->',
-                    'section_class'  => '',
+                    'after_section' => '</div><!-- end of the test section -->',
+                    'section_class' => '',
                 ],
                 '<div class="test-section-container">',
                 '</div><!-- end of the test section -->',
             ],
-            'section_class missing'                   => [
+            'section_class missing' => [
                 [
                     'before_section' => '<div class="wp-whitelabel-section">',
-                    'after_section'  => '</div><!-- end of the test section -->',
+                    'after_section' => '</div><!-- end of the test section -->',
                 ],
                 [
-                    'id'             => 'test-section',
-                    'title'          => 'Section title',
-                    'callback'       => '__return_false',
+                    'id' => 'test-section',
+                    'title' => 'Section title',
+                    'callback' => '__return_false',
                     'before_section' => '<div class="wp-whitelabel-section">',
-                    'after_section'  => '</div><!-- end of the test section -->',
-                    'section_class'  => '',
+                    'after_section' => '</div><!-- end of the test section -->',
+                    'section_class' => '',
                 ],
                 '<div class="wp-whitelabel-section">',
                 '</div><!-- end of the test section -->',
             ],
-            'disallowed tag in before_section'        => [
+            'disallowed tag in before_section' => [
                 [
                     'before_section' => '<div class="video-settings-section"><iframe src="https://www.wp.org/" />',
-                    'after_section'  => '</div><!-- end of the test section -->',
+                    'after_section' => '</div><!-- end of the test section -->',
                 ],
                 [
-                    'id'             => 'test-section',
-                    'title'          => 'Section title',
-                    'callback'       => '__return_false',
+                    'id' => 'test-section',
+                    'title' => 'Section title',
+                    'callback' => '__return_false',
                     'before_section' => '<div class="video-settings-section"><iframe src="https://www.wp.org/" />',
-                    'after_section'  => '</div><!-- end of the test section -->',
-                    'section_class'  => '',
+                    'after_section' => '</div><!-- end of the test section -->',
+                    'section_class' => '',
                 ],
                 '<div class="video-settings-section">',
                 '</div><!-- end of the test section -->',
             ],
-            'disallowed tag in after_section'         => [
+            'disallowed tag in after_section' => [
                 [
                     'before_section' => '<div class="video-settings-section">',
-                    'after_section'  => '</div><iframe src="https://www.wp.org/" />',
+                    'after_section' => '</div><iframe src="https://www.wp.org/" />',
                 ],
                 [
-                    'id'             => 'test-section',
-                    'title'          => 'Section title',
-                    'callback'       => '__return_false',
+                    'id' => 'test-section',
+                    'title' => 'Section title',
+                    'callback' => '__return_false',
                     'before_section' => '<div class="video-settings-section">',
-                    'after_section'  => '</div><iframe src="https://www.wp.org/" />',
-                    'section_class'  => '',
+                    'after_section' => '</div><iframe src="https://www.wp.org/" />',
+                    'section_class' => '',
                 ],
                 '<div class="video-settings-section">',
                 '</div>',
@@ -374,17 +393,17 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
     {
         global $wp_settings_errors;
 
-        $blogname_error        = [
+        $blogname_error = [
             'setting' => 'blogname',
-            'code'    => 'blogname',
+            'code' => 'blogname',
             'message' => 'Capital P dangit!',
-            'type'    => 'error',
+            'type' => 'error',
         ];
         $blogdescription_error = [
             'setting' => 'blogdescription',
-            'code'    => 'blogdescription',
+            'code' => 'blogdescription',
             'message' => 'Too short',
-            'type'    => 'error',
+            'type' => 'error',
         ];
 
         $wp_settings_errors = null;
@@ -400,7 +419,8 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
         $_GET['settings-updated'] = '1';
         set_transient('settings_errors', [$blogname_error]);
         $wp_settings_errors = null;
-        add_settings_error($blogdescription_error['setting'], $blogdescription_error['code'], $blogdescription_error['message'], $blogdescription_error['type']);
+        add_settings_error($blogdescription_error['setting'], $blogdescription_error['code'],
+            $blogdescription_error['message'], $blogdescription_error['type']);
         $this->assertSameSets([$blogname_error, $blogdescription_error], get_settings_errors());
 
         $wp_settings_errors = null;
@@ -452,7 +472,7 @@ class Tests_Admin_IncludesTemplate extends WP_UnitTestCase
 
         set_current_screen('dashboard');
 
-        if (! function_exists('wp_add_dashboard_widget')) {
+        if (!function_exists('wp_add_dashboard_widget')) {
             require_once ABSPATH . 'wp-admin/includes/dashboard.php';
         }
 

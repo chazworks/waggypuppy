@@ -13,75 +13,81 @@ var View = wp.media.View,
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-AttachmentCompat = View.extend(/** @lends wp.media.view.AttachmentCompat.prototype */{
-	tagName:   'form',
-	className: 'compat-item',
+AttachmentCompat = View.extend(
+	/** @lends wp.media.view.AttachmentCompat.prototype */ {
+		tagName: 'form',
+		className: 'compat-item',
 
-	events: {
-		'submit':          'preventDefault',
-		'change input':    'save',
-		'change select':   'save',
-		'change textarea': 'save'
-	},
+		events: {
+			submit: 'preventDefault',
+			'change input': 'save',
+			'change select': 'save',
+			'change textarea': 'save',
+		},
 
-	initialize: function() {
-		// Render the view when a new item is added.
-		this.listenTo( this.model, 'add', this.render );
-	},
+		initialize: function () {
+			// Render the view when a new item is added.
+			this.listenTo( this.model, 'add', this.render );
+		},
 
-	/**
-	 * @return {wp.media.view.AttachmentCompat} Returns itself to allow chaining.
-	 */
-	dispose: function() {
-		if ( this.$(':focus').length ) {
-			this.save();
-		}
 		/**
-		 * call 'dispose' directly on the parent class
+		 * @return {wp.media.view.AttachmentCompat} Returns itself to allow chaining.
 		 */
-		return View.prototype.dispose.apply( this, arguments );
-	},
-	/**
-	 * @return {wp.media.view.AttachmentCompat} Returns itself to allow chaining.
-	 */
-	render: function() {
-		var compat = this.model.get('compat');
-		if ( ! compat || ! compat.item ) {
-			return;
-		}
+		dispose: function () {
+			if ( this.$( ':focus' ).length ) {
+				this.save();
+			}
+			/**
+			 * call 'dispose' directly on the parent class
+			 */
+			return View.prototype.dispose.apply( this, arguments );
+		},
+		/**
+		 * @return {wp.media.view.AttachmentCompat} Returns itself to allow chaining.
+		 */
+		render: function () {
+			var compat = this.model.get( 'compat' );
+			if ( ! compat || ! compat.item ) {
+				return;
+			}
 
-		this.views.detach();
-		this.$el.html( compat.item );
-		this.views.render();
-		return this;
-	},
-	/**
-	 * @param {Object} event
-	 */
-	preventDefault: function( event ) {
-		event.preventDefault();
-	},
-	/**
-	 * @param {Object} event
-	 */
-	save: function( event ) {
-		var data = {};
-
-		if ( event ) {
+			this.views.detach();
+			this.$el.html( compat.item );
+			this.views.render();
+			return this;
+		},
+		/**
+		 * @param {Object} event
+		 */
+		preventDefault: function ( event ) {
 			event.preventDefault();
-		}
+		},
+		/**
+		 * @param {Object} event
+		 */
+		save: function ( event ) {
+			var data = {};
 
-		_.each( this.$el.serializeArray(), function( pair ) {
-			data[ pair.name ] = pair.value;
-		});
+			if ( event ) {
+				event.preventDefault();
+			}
 
-		this.controller.trigger( 'attachment:compat:waiting', ['waiting'] );
-		this.model.saveCompat( data ).always( _.bind( this.postSave, this ) );
-	},
+			_.each( this.$el.serializeArray(), function ( pair ) {
+				data[ pair.name ] = pair.value;
+			} );
 
-	postSave: function() {
-		this.controller.trigger( 'attachment:compat:ready', ['ready'] );
+			this.controller.trigger( 'attachment:compat:waiting', [
+				'waiting',
+			] );
+			this.model
+				.saveCompat( data )
+				.always( _.bind( this.postSave, this ) );
+		},
+
+		postSave: function () {
+			this.controller.trigger( 'attachment:compat:ready', [ 'ready' ] );
+		},
 	}
-});
+);
 
 module.exports = AttachmentCompat;

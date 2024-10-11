@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the features using get_hooked_blocks function.
  *
@@ -82,34 +83,34 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
             'tests/injected-one',
             [
                 'block_hooks' => [
-                    'tests/hooked-at-before'           => 'before',
-                    'tests/hooked-at-after'            => 'after',
+                    'tests/hooked-at-before' => 'before',
+                    'tests/hooked-at-after' => 'after',
                     'tests/hooked-at-before-and-after' => 'before',
                 ],
-            ]
+            ],
         );
         register_block_type(
             'tests/injected-two',
             [
                 'block_hooks' => [
-                    'tests/hooked-at-before'           => 'before',
-                    'tests/hooked-at-after'            => 'after',
+                    'tests/hooked-at-before' => 'before',
+                    'tests/hooked-at-after' => 'after',
                     'tests/hooked-at-before-and-after' => 'after',
-                    'tests/hooked-at-first-child'      => 'first_child',
-                    'tests/hooked-at-last-child'       => 'last_child',
+                    'tests/hooked-at-first-child' => 'first_child',
+                    'tests/hooked-at-last-child' => 'last_child',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame(
             [
-                'tests/hooked-at-before'           => [
+                'tests/hooked-at-before' => [
                     'before' => [
                         'tests/injected-one',
                         'tests/injected-two',
                     ],
                 ],
-                'tests/hooked-at-after'            => [
+                'tests/hooked-at-after' => [
                     'after' => [
                         'tests/injected-one',
                         'tests/injected-two',
@@ -119,22 +120,22 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
                     'before' => [
                         'tests/injected-one',
                     ],
-                    'after'  => [
+                    'after' => [
                         'tests/injected-two',
                     ],
                 ],
-                'tests/hooked-at-first-child'      => [
+                'tests/hooked-at-first-child' => [
                     'first_child' => [
                         'tests/injected-two',
                     ],
                 ],
-                'tests/hooked-at-last-child'       => [
+                'tests/hooked-at-last-child' => [
                     'last_child' => [
                         'tests/injected-two',
                     ],
                 ],
             ],
-            get_hooked_blocks()
+            get_hooked_blocks(),
         );
     }
 
@@ -154,20 +155,20 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
 
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-before /-->',
-            $template->content
+            $template->content,
         );
         $this->assertStringContainsString(
             '<!-- wp:post-content {"layout":{"type":"constrained"},"metadata":{"ignoredHookedBlocks":["tests/hooked-after"]}} /-->'
             . '<!-- wp:tests/hooked-after /-->',
-            $template->content
+            $template->content,
         );
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-first-child /-->',
-            $template->content
+            $template->content,
         );
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-last-child /-->',
-            $template->content
+            $template->content,
         );
     }
 
@@ -188,19 +189,19 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
         $this->assertStringContainsString(
             '<!-- wp:tests/hooked-before /-->'
             . '<!-- wp:navigation {"layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"right"},"metadata":{"ignoredHookedBlocks":["tests/hooked-before"]}} /-->',
-            $template->content
+            $template->content,
         );
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-after /-->',
-            $template->content
+            $template->content,
         );
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-first-child /-->',
-            $template->content
+            $template->content,
         );
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-last-child /-->',
-            $template->content
+            $template->content,
         );
     }
 
@@ -217,27 +218,27 @@ class Tests_Blocks_GetHookedBlocks extends WP_UnitTestCase
         $this->switch_to_block_theme_hooked_blocks();
 
         $pattern = WP_Block_Patterns_Registry::get_instance()->get_registered(
-            get_stylesheet() . '/hidden-comments'
+            get_stylesheet() . '/hidden-comments',
         );
 
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-before /-->',
-            $pattern['content']
+            $pattern['content'],
         );
         $this->assertStringNotContainsString(
             '<!-- wp:tests/hooked-after /-->',
-            $pattern['content']
+            $pattern['content'],
         );
         $this->assertStringContainsString(
             '<!-- wp:comments {"metadata":{"ignoredHookedBlocks":["tests/hooked-first-child"]}} -->'
             . '<div class="wp-block-comments">'
             . '<!-- wp:tests/hooked-first-child /-->',
-            str_replace(["\n", "\t"], '', $pattern['content'])
+            str_replace(["\n", "\t"], '', $pattern['content']),
         );
         $this->assertStringContainsString(
             '<!-- wp:tests/hooked-last-child /-->'
             . '<!-- /wp:comment-template -->',
-            str_replace(["\n", "\t"], '', $pattern['content'])
+            str_replace(["\n", "\t"], '', $pattern['content']),
         );
     }
 }

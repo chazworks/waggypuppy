@@ -74,18 +74,18 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$users     = $factory->user->create_many(10);
+        self::$users = $factory->user->create_many(10);
         self::$post_tags = $factory->term->create_many(10);
-        self::$cats      = $factory->term->create_many(10, ['taxonomy' => 'category']);
-        self::$pages     = $factory->post->create_many(10, ['post_type' => 'page']);
+        self::$cats = $factory->term->create_many(10, ['taxonomy' => 'category']);
+        self::$pages = $factory->post->create_many(10, ['post_type' => 'page']);
 
         // Create a set of posts pre-assigned to tags and authors.
         self::$posts = $factory->post->create_many(
             10,
             [
-                'tags_input'  => self::$post_tags,
+                'tags_input' => self::$post_tags,
                 'post_author' => reset(self::$users),
-            ]
+            ],
         );
 
         // Create a user with an editor role to complete some tests.
@@ -193,8 +193,10 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         unregister_post_type('public_cpt');
         unregister_post_type('private_cpt');
 
-        $this->assertContains('http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-subtype=public_cpt&paged=1', $entries, 'Public CPTs are not in the index.');
-        $this->assertNotContains('http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-subtype=private_cpt&paged=1', $entries, 'Private CPTs are visible in the index.');
+        $this->assertContains('http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-subtype=public_cpt&paged=1',
+            $entries, 'Public CPTs are not in the index.');
+        $this->assertNotContains('http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-subtype=private_cpt&paged=1',
+            $entries, 'Private CPTs are visible in the index.');
     }
 
     /**
@@ -207,9 +209,9 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         register_post_type(
             'non_queryable_cpt',
             [
-                'public'             => true,
+                'public' => true,
                 'publicly_queryable' => false,
-            ]
+            ],
         );
         self::factory()->post->create(['post_type' => 'non_queryable_cpt']);
 
@@ -218,7 +220,10 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         // Clean up.
         unregister_post_type('non_queryable_cpt');
 
-        $this->assertNotContains('http://' . WP_TESTS_DOMAIN . '/?sitemap=posts&sitemap-subtype=non_queryable_cpt&paged=1', $entries, 'Non-publicly queryable CPTs are visible in the index.');
+        $this->assertNotContains('http://'
+            . WP_TESTS_DOMAIN
+            . '/?sitemap=posts&sitemap-subtype=non_queryable_cpt&paged=1', $entries,
+            'Non-publicly queryable CPTs are visible in the index.');
     }
 
     /**
@@ -269,9 +274,9 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         array_unshift(
             $expected,
             [
-                'loc'     => home_url('/'),
+                'loc' => home_url('/'),
                 'lastmod' => $post_list_sorted[0]['lastmod'],
-            ]
+            ],
         );
 
         $this->assertSame($expected, $post_list);
@@ -358,9 +363,9 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         register_post_type(
             $post_type,
             [
-                'public'             => true,
+                'public' => true,
                 'publicly_queryable' => false,
-            ]
+            ],
         );
 
         self::factory()->post->create_many(10, ['post_type' => $post_type]);
@@ -379,28 +384,28 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
      * Helper function for building an expected url list.
      *
      * @param string $type An object sub type, e.g., post type.
-     * @param array  $ids  Array of object IDs.
+     * @param array $ids Array of object IDs.
      * @return array A formed URL list.
      */
     public function _get_expected_url_list($type, $ids)
     {
         $posts = get_posts(
             [
-                'include'   => $ids,
-                'orderby'   => 'ID',
-                'order'     => 'ASC',
+                'include' => $ids,
+                'orderby' => 'ID',
+                'order' => 'ASC',
                 'post_type' => $type,
-            ]
+            ],
         );
 
         return array_map(
             static function ($post) {
                 return [
-                    'loc'     => get_permalink($post),
+                    'loc' => get_permalink($post),
                     'lastmod' => get_post_modified_time(DATE_W3C, true, $post),
                 ];
             },
-            $posts
+            $posts,
         );
     }
 
@@ -413,7 +418,8 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
 
         $sitemaps = wp_get_sitemap_providers();
 
-        $this->assertSame($sitemaps['test_sitemap'], self::$test_provider, 'Can not confirm sitemap registration is working.');
+        $this->assertSame($sitemaps['test_sitemap'], self::$test_provider,
+            'Can not confirm sitemap registration is working.');
     }
 
     /**
@@ -422,7 +428,7 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
     public function test_robots_text()
     {
         // Get the text added to the default robots text output.
-        $robots_text    = apply_filters('robots_txt', '', true);
+        $robots_text = apply_filters('robots_txt', '', true);
         $sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
 
         $this->assertStringContainsString($sitemap_string, $robots_text, 'Sitemap URL not included in robots text.');
@@ -433,7 +439,7 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
      */
     public function test_robots_text_private_site()
     {
-        $robots_text    = apply_filters('robots_txt', '', false);
+        $robots_text = apply_filters('robots_txt', '', false);
         $sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/?sitemap=index';
 
         $this->assertStringNotContainsString($sitemap_string, $robots_text);
@@ -448,7 +454,7 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%postname%/');
 
         // Get the text added to the default robots text output.
-        $robots_text    = apply_filters('robots_txt', '', true);
+        $robots_text = apply_filters('robots_txt', '', true);
         $sitemap_string = 'Sitemap: http://' . WP_TESTS_DOMAIN . '/wp-sitemap.xml';
 
         // Clean up permalinks.
@@ -463,7 +469,7 @@ class Tests_Sitemaps_Sitemaps extends WP_UnitTestCase
     public function test_robots_text_prefixed_with_line_feed()
     {
         // Get the text added to the default robots text output.
-        $robots_text    = apply_filters('robots_txt', '', true);
+        $robots_text = apply_filters('robots_txt', '', true);
         $sitemap_string = "\nSitemap: ";
 
         $this->assertStringContainsString($sitemap_string, $robots_text, 'Sitemap URL not prefixed with "\n".');

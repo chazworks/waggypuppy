@@ -3,11 +3,10 @@
 add_filter(
     'template_include',
     static function ($template) {
-
         global $timestart, $wpdb;
 
         $server_timing_values = [];
-        $template_start       = microtime(true);
+        $template_start = microtime(true);
 
         $server_timing_values['before-template'] = $template_start - $timestart;
 
@@ -20,15 +19,16 @@ add_filter(
 
                 $server_timing_values['template'] = microtime(true) - $template_start;
 
-                $server_timing_values['total'] = $server_timing_values['before-template'] + $server_timing_values['template'];
+                $server_timing_values['total'] = $server_timing_values['before-template']
+                    + $server_timing_values['template'];
 
                 /*
                  * While values passed via Server-Timing are intended to be durations,
                  * any numeric value can actually be passed.
                  * This is a nice little trick as it allows to easily get this information in JS.
                  */
-                $server_timing_values['memory-usage']  = memory_get_usage();
-                $server_timing_values['db-queries']    = $wpdb->num_queries;
+                $server_timing_values['memory-usage'] = memory_get_usage();
+                $server_timing_values['db-queries'] = $wpdb->num_queries;
                 $server_timing_values['ext-obj-cache'] = wp_using_ext_object_cache() ? 1 : 0;
 
                 $header_values = [];
@@ -42,12 +42,12 @@ add_filter(
 
                 echo $output;
             },
-            PHP_INT_MIN
+            PHP_INT_MIN,
         );
 
         return $template;
     },
-    PHP_INT_MAX
+    PHP_INT_MAX,
 );
 
 add_action(
@@ -71,8 +71,8 @@ add_action(
                  * any numeric value can actually be passed.
                  * This is a nice little trick as it allows to easily get this information in JS.
                  */
-                $server_timing_values['memory-usage']  = memory_get_usage();
-                $server_timing_values['db-queries']    = $wpdb->num_queries;
+                $server_timing_values['memory-usage'] = memory_get_usage();
+                $server_timing_values['db-queries'] = $wpdb->num_queries;
                 $server_timing_values['ext-obj-cache'] = wp_using_ext_object_cache() ? 1 : 0;
 
                 $header_values = [];
@@ -86,8 +86,8 @@ add_action(
 
                 echo $output;
             },
-            PHP_INT_MIN
+            PHP_INT_MIN,
         );
     },
-    PHP_INT_MAX
+    PHP_INT_MAX,
 );

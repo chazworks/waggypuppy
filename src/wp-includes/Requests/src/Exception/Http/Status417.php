@@ -14,18 +14,19 @@ use WpOrg\Requests\Exception\Http;
  *
  * @package Requests\Exceptions
  */
-final class Status417 extends Http {
-	/**
-	 * HTTP status code
-	 *
-	 * @var integer
-	 */
-	protected $code = 417;
+final class Status417 extends Http
+{
+    /**
+     * HTTP status code
+     *
+     * @var integer
+     */
+    protected $code = 417;
 
-	/**
-	 * Reason phrase
-	 *
-	 * @var string
-	 */
-	protected $reason = 'Expectation Failed';
+    /**
+     * Reason phrase
+     *
+     * @var string
+     */
+    protected $reason = 'Expectation Failed';
 }

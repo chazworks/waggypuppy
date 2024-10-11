@@ -108,7 +108,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
          */
         _set_cron_array([]);
 
-        $times = (array) $times;
+        $times = (array)$times;
         foreach ($times as $job => $time) {
             $timestamp = strtotime($time);
             wp_schedule_event($timestamp, 'daily', __FUNCTION__ . "_{$job}");
@@ -180,21 +180,26 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
      * @covers ::get_page_cache_headers()
      * @covers ::check_for_page_caching()
      */
-    public function test_get_page_cache($responses, $expected_status, $expected_label, $good_basic_auth = null, $delay_the_response = false)
-    {
+    public function test_get_page_cache(
+        $responses,
+        $expected_status,
+        $expected_label,
+        $good_basic_auth = null,
+        $delay_the_response = false,
+    ) {
         $expected_props = [
-            'badge'  => [
+            'badge' => [
                 'label' => __('Performance'),
                 'color' => 'blue',
             ],
-            'test'   => 'page_cache',
+            'test' => 'page_cache',
             'status' => $expected_status,
-            'label'  => $expected_label,
+            'label' => $expected_label,
         ];
 
         if (null !== $good_basic_auth) {
             $_SERVER['PHP_AUTH_USER'] = 'admin';
-            $_SERVER['PHP_AUTH_PW']   = 'password';
+            $_SERVER['PHP_AUTH_PW'] = 'password';
         }
 
         $threshold = 10;
@@ -203,14 +208,19 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
                 'site_status_good_response_time_threshold',
                 static function () use ($threshold) {
                     return $threshold;
-                }
+                },
             );
         }
 
         add_filter(
             'pre_http_request',
-            function ($response, $parsed_args) use (&$responses, &$is_unauthorized, $good_basic_auth, $delay_the_response, $threshold) {
-
+            function ($response, $parsed_args) use (
+                &$responses,
+                &$is_unauthorized,
+                $good_basic_auth,
+                $delay_the_response,
+                $threshold,
+            ) {
                 $expected_response = array_shift($responses);
 
                 if ($delay_the_response) {
@@ -222,7 +232,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
 
                     return [
                         'response' => [
-                            'code'    => 401,
+                            'code' => 401,
                             'message' => 'Unauthorized',
                         ],
                     ];
@@ -231,22 +241,22 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
                 if (null !== $good_basic_auth) {
                     $this->assertArrayHasKey(
                         'Authorization',
-                        $parsed_args['headers']
+                        $parsed_args['headers'],
                     );
                 }
 
                 $this->assertIsArray($expected_response);
 
                 return [
-                    'headers'  => $expected_response,
+                    'headers' => $expected_response,
                     'response' => [
-                        'code'    => 200,
+                        'code' => 200,
                         'message' => 'OK',
                     ],
                 ];
             },
             20,
-            2
+            2,
         );
 
         $actual = $this->instance->get_test_page_cache();
@@ -261,7 +271,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
 
         $this->assertSame(
             $expected_props,
-            wp_array_slice_assoc($actual, array_keys($expected_props))
+            wp_array_slice_assoc($actual, array_keys($expected_props)),
         );
     }
 
@@ -277,33 +287,33 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
     public function data_get_page_cache()
     {
         $recommended_label = 'Page cache is not detected but the server response time is OK';
-        $good_label        = 'Page cache is detected and the server response time is good';
-        $critical_label    = 'Page cache is not detected and the server response time is slow';
-        $error_label       = 'Unable to detect the presence of page cache';
+        $good_label = 'Page cache is detected and the server response time is good';
+        $critical_label = 'Page cache is not detected and the server response time is slow';
+        $error_label = 'Unable to detect the presence of page cache';
 
         return [
-            'basic-auth-fail'                        => [
-                'responses'       => [
+            'basic-auth-fail' => [
+                'responses' => [
                     'unauthorized',
                 ],
                 'expected_status' => 'recommended',
-                'expected_label'  => $error_label,
+                'expected_label' => $error_label,
                 'good_basic_auth' => false,
             ],
-            'no-cache-control'                       => [
-                'responses'          => array_fill(0, 3, []),
-                'expected_status'    => 'critical',
-                'expected_label'     => $critical_label,
-                'good_basic_auth'    => null,
+            'no-cache-control' => [
+                'responses' => array_fill(0, 3, []),
+                'expected_status' => 'critical',
+                'expected_label' => $critical_label,
+                'good_basic_auth' => null,
                 'delay_the_response' => true,
             ],
-            'no-cache'                               => [
-                'responses'       => array_fill(0, 3, ['cache-control' => 'no-cache']),
+            'no-cache' => [
+                'responses' => array_fill(0, 3, ['cache-control' => 'no-cache']),
                 'expected_status' => 'recommended',
-                'expected_label'  => $recommended_label,
+                'expected_label' => $recommended_label,
             ],
-            'no-cache-arrays'                        => [
-                'responses'       => array_fill(
+            'no-cache-arrays' => [
+                'responses' => array_fill(
                     0,
                     3,
                     [
@@ -311,112 +321,112 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
                             'no-cache',
                             'no-store',
                         ],
-                    ]
+                    ],
                 ),
                 'expected_status' => 'recommended',
-                'expected_label'  => $recommended_label,
+                'expected_label' => $recommended_label,
             ],
-            'no-cache-with-delayed-response'         => [
-                'responses'          => array_fill(0, 3, ['cache-control' => 'no-cache']),
-                'expected_status'    => 'critical',
-                'expected_label'     => $critical_label,
-                'good_basic_auth'    => null,
+            'no-cache-with-delayed-response' => [
+                'responses' => array_fill(0, 3, ['cache-control' => 'no-cache']),
+                'expected_status' => 'critical',
+                'expected_label' => $critical_label,
+                'good_basic_auth' => null,
                 'delay_the_response' => true,
             ],
-            'age'                                    => [
-                'responses'       => array_fill(
+            'age' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['age' => '1345']
+                    ['age' => '1345'],
                 ),
                 'expected_status' => 'good',
-                'expected_label'  => $good_label,
+                'expected_label' => $good_label,
             ],
-            'cache-control-max-age'                  => [
-                'responses'       => array_fill(
+            'cache-control-max-age' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['cache-control' => 'public; max-age=600']
+                    ['cache-control' => 'public; max-age=600'],
                 ),
                 'expected_status' => 'good',
-                'expected_label'  => $good_label,
+                'expected_label' => $good_label,
             ],
-            'etag'                                   => [
-                'responses'       => array_fill(
+            'etag' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['etag' => '"1234567890"']
+                    ['etag' => '"1234567890"'],
                 ),
                 'expected_status' => 'good',
-                'expected_label'  => $good_label,
+                'expected_label' => $good_label,
             ],
             'cache-control-max-age-after-2-requests' => [
-                'responses'       => [
+                'responses' => [
                     [],
                     [],
                     ['cache-control' => 'public; max-age=600'],
                 ],
                 'expected_status' => 'good',
-                'expected_label'  => $good_label,
+                'expected_label' => $good_label,
             ],
-            'cache-control-with-future-expires'      => [
-                'responses'       => array_fill(
+            'cache-control-with-future-expires' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['expires' => gmdate('r', time() + HOUR_IN_SECONDS)]
+                    ['expires' => gmdate('r', time() + HOUR_IN_SECONDS)],
                 ),
                 'expected_status' => 'good',
-                'expected_label'  => $good_label,
+                'expected_label' => $good_label,
             ],
-            'cache-control-with-past-expires'        => [
-                'responses'          => array_fill(
+            'cache-control-with-past-expires' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['expires' => gmdate('r', time() - HOUR_IN_SECONDS)]
+                    ['expires' => gmdate('r', time() - HOUR_IN_SECONDS)],
                 ),
-                'expected_status'    => 'critical',
-                'expected_label'     => $critical_label,
-                'good_basic_auth'    => null,
+                'expected_status' => 'critical',
+                'expected_label' => $critical_label,
+                'good_basic_auth' => null,
                 'delay_the_response' => true,
             ],
-            'cache-control-with-basic-auth'          => [
-                'responses'       => array_fill(
+            'cache-control-with-basic-auth' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['cache-control' => 'public; max-age=600']
+                    ['cache-control' => 'public; max-age=600'],
                 ),
                 'expected_status' => 'good',
-                'expected_label'  => $good_label,
+                'expected_label' => $good_label,
                 'good_basic_auth' => true,
             ],
-            'x-cache-enabled'                        => [
-                'responses'       => array_fill(
+            'x-cache-enabled' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['x-cache-enabled' => 'true']
+                    ['x-cache-enabled' => 'true'],
                 ),
                 'expected_status' => 'good',
-                'expected_label'  => $good_label,
+                'expected_label' => $good_label,
             ],
-            'x-cache-enabled-with-delay'             => [
-                'responses'          => array_fill(
+            'x-cache-enabled-with-delay' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['x-cache-enabled' => 'false']
+                    ['x-cache-enabled' => 'false'],
                 ),
-                'expected_status'    => 'critical',
-                'expected_label'     => $critical_label,
-                'good_basic_auth'    => null,
+                'expected_status' => 'critical',
+                'expected_label' => $critical_label,
+                'good_basic_auth' => null,
                 'delay_the_response' => true,
             ],
-            'x-cache-disabled'                       => [
-                'responses'       => array_fill(
+            'x-cache-disabled' => [
+                'responses' => array_fill(
                     0,
                     3,
-                    ['x-cache-disabled' => 'off']
+                    ['x-cache-disabled' => 'off'],
                 ),
                 'expected_status' => 'good',
-                'expected_label'  => $good_label,
+                'expected_label' => $good_label,
             ],
         ];
     }
@@ -434,17 +444,17 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
                 return [
                     'alloptions_count' => PHP_INT_MAX,
                     'alloptions_bytes' => PHP_INT_MAX,
-                    'comments_count'   => PHP_INT_MAX,
-                    'options_count'    => PHP_INT_MAX,
-                    'posts_count'      => PHP_INT_MAX,
-                    'terms_count'      => PHP_INT_MAX,
-                    'users_count'      => PHP_INT_MAX,
+                    'comments_count' => PHP_INT_MAX,
+                    'options_count' => PHP_INT_MAX,
+                    'posts_count' => PHP_INT_MAX,
+                    'terms_count' => PHP_INT_MAX,
+                    'users_count' => PHP_INT_MAX,
                 ];
-            }
+            },
         );
 
         $this->assertFalse(
-            $this->instance->should_suggest_persistent_object_cache()
+            $this->instance->should_suggest_persistent_object_cache(),
         );
     }
 
@@ -456,7 +466,7 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
     public function test_object_cache_default_thresholds_on_multisite()
     {
         $this->assertTrue(
-            $this->instance->should_suggest_persistent_object_cache()
+            $this->instance->should_suggest_persistent_object_cache(),
         );
     }
 
@@ -467,12 +477,12 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
     {
         add_filter('site_status_should_suggest_persistent_object_cache', '__return_true');
         $this->assertTrue(
-            $this->instance->should_suggest_persistent_object_cache()
+            $this->instance->should_suggest_persistent_object_cache(),
         );
 
         add_filter('site_status_should_suggest_persistent_object_cache', '__return_false', 11);
         $this->assertFalse(
-            $this->instance->should_suggest_persistent_object_cache()
+            $this->instance->should_suggest_persistent_object_cache(),
         );
     }
 
@@ -486,11 +496,11 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
             'site_status_persistent_object_cache_thresholds',
             static function ($thresholds) use ($threshold, $count) {
                 return array_merge($thresholds, [$threshold => $count]);
-            }
+            },
         );
 
         $this->assertTrue(
-            $this->instance->should_suggest_persistent_object_cache()
+            $this->instance->should_suggest_persistent_object_cache(),
         );
     }
 
@@ -521,12 +531,14 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
      */
     public function test_wp_autoloaded_options_test_no_warning()
     {
-        $expected_label  = esc_html__('Autoloaded options are acceptable');
+        $expected_label = esc_html__('Autoloaded options are acceptable');
         $expected_status = 'good';
 
         $result = $this->instance->get_test_autoloaded_options();
-        $this->assertSame($expected_label, $result['label'], 'The label should indicate that autoloaded options are acceptable.');
-        $this->assertSame($expected_status, $result['status'], 'The status should be "good" when autoloaded options are acceptable.');
+        $this->assertSame($expected_label, $result['label'],
+            'The label should indicate that autoloaded options are acceptable.');
+        $this->assertSame($expected_status, $result['status'],
+            'The status should be "good" when autoloaded options are acceptable.');
     }
 
     /**
@@ -540,12 +552,14 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
     {
         self::set_autoloaded_option(800000);
 
-        $expected_label  = esc_html__('Autoloaded options could affect performance');
+        $expected_label = esc_html__('Autoloaded options could affect performance');
         $expected_status = 'critical';
 
         $result = $this->instance->get_test_autoloaded_options();
-        $this->assertSame($expected_label, $result['label'], 'The label should indicate that autoloaded options could affect performance.');
-        $this->assertSame($expected_status, $result['status'], 'The status should be "critical" when autoloaded options could affect performance.');
+        $this->assertSame($expected_label, $result['label'],
+            'The label should indicate that autoloaded options could affect performance.');
+        $this->assertSame($expected_status, $result['status'],
+            'The status should be "critical" when autoloaded options could affect performance.');
     }
 
     /**
@@ -561,22 +575,25 @@ class Tests_Admin_wpSiteHealth extends WP_UnitTestCase
 
         $autoload_values = wp_autoload_values_to_autoload();
 
-        $autoloaded_options_size = (int) $wpdb->get_var(
+        $autoloaded_options_size = (int)$wpdb->get_var(
             $wpdb->prepare(
                 sprintf(
                     "SELECT SUM(LENGTH(option_value)) FROM $wpdb->options WHERE autoload IN (%s)",
-                    implode(',', array_fill(0, count($autoload_values), '%s'))
+                    implode(',', array_fill(0, count($autoload_values), '%s')),
                 ),
-                $autoload_values
-            )
+                $autoload_values,
+            ),
         );
-        $this->assertSame($autoloaded_options_size, $this->instance->get_autoloaded_options_size(), 'The size of autoloaded options should match the calculated size from the database.');
+        $this->assertSame($autoloaded_options_size, $this->instance->get_autoloaded_options_size(),
+            'The size of autoloaded options should match the calculated size from the database.');
 
         // Add autoload option.
-        $test_option_string       = 'test';
+        $test_option_string = 'test';
         $test_option_string_bytes = mb_strlen($test_option_string, '8bit');
         self::set_autoloaded_option($test_option_string_bytes);
-        $this->assertSame($autoloaded_options_size + $test_option_string_bytes, $this->instance->get_autoloaded_options_size(), 'The size of autoloaded options should increase by the size of the newly added option.');
+        $this->assertSame($autoloaded_options_size + $test_option_string_bytes,
+            $this->instance->get_autoloaded_options_size(),
+            'The size of autoloaded options should increase by the size of the newly added option.');
     }
 
     /**

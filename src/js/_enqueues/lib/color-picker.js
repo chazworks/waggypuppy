@@ -2,10 +2,10 @@
  * @output wp-admin/js/color-picker.js
  */
 
-( function( $, undef ) {
-
+( function ( $, undef ) {
 	var ColorPicker,
-		_before = '<button type="button" class="button wp-color-result" aria-expanded="false"><span class="wp-color-result-text"></span></button>',
+		_before =
+			'<button type="button" class="button wp-color-result" aria-expanded="false"><span class="wp-color-result-text"></span></button>',
 		_after = '<div class="wp-picker-holder" />',
 		_wrap = '<div class="wp-picker-container" />',
 		_button = '<input type="button" class="button button-small" />',
@@ -20,7 +20,7 @@
 	 *
 	 * @since 3.5.0
 	 */
-	ColorPicker = /** @lends $.widget.wp.wpColorPicker.prototype */{
+	ColorPicker = /** @lends $.widget.wp.wpColorPicker.prototype */ {
 		options: {
 			defaultColor: false,
 			change: false,
@@ -30,7 +30,7 @@
 			width: 255,
 			mode: 'hsv',
 			type: 'full',
-			slider: 'horizontal'
+			slider: 'horizontal',
 		},
 		/**
 		 * Creates a color picker that only allows you to adjust the hue.
@@ -40,7 +40,7 @@
 		 *
 		 * @return {void}
 		 */
-		_createHueOnly: function() {
+		_createHueOnly: function () {
 			var self = this,
 				el = self.element,
 				color;
@@ -66,13 +66,13 @@
 				 *
 				 * @return {void}
 				 */
-				change: function( event, ui ) {
+				change: function ( event, ui ) {
 					if ( typeof self.options.change === 'function' ) {
 						self.options.change.call( this, event, ui );
 					}
 				},
 				width: self.options.width,
-				slider: self.options.slider
+				slider: self.options.slider,
 			} );
 		},
 		/**
@@ -83,7 +83,7 @@
 		 *
 		 * @return {void}
 		 */
-		_create: function() {
+		_create: function () {
 			// Return early if Iris support is missing.
 			if ( ! $.support.iris ) {
 				return;
@@ -136,9 +136,13 @@
 				.insertBefore( self.wrappingLabel )
 				.css( { backgroundColor: self.initialValue } );
 			// Set the toggle button span element text.
-			self.toggler.find( '.wp-color-result-text' ).text( __( 'Select Color' ) );
+			self.toggler
+				.find( '.wp-color-result-text' )
+				.text( __( 'Select Color' ) );
 			// Set up the Iris container and insert it after the wrapping label.
-			self.pickerContainer = $( _after ).insertAfter( self.wrappingLabel );
+			self.pickerContainer = $( _after ).insertAfter(
+				self.wrappingLabel
+			);
 			// Store a reference to the Clear/Default button.
 			self.button = $( _button );
 
@@ -186,13 +190,15 @@
 				 *
 				 * @return {void}
 				 */
-				change: function( event, ui ) {
-					self.toggler.css( { backgroundColor: ui.color.toString() } );
+				change: function ( event, ui ) {
+					self.toggler.css( {
+						backgroundColor: ui.color.toString(),
+					} );
 
 					if ( typeof self.options.change === 'function' ) {
 						self.options.change.call( this, event, ui );
 					}
-				}
+				},
 			} );
 
 			el.val( self.initialValue );
@@ -211,7 +217,7 @@
 		 *
 		 * @return {void}
 		 */
-		_addListeners: function() {
+		_addListeners: function () {
 			var self = this;
 
 			/**
@@ -223,22 +229,22 @@
 			 *
 			 * @return {void}
 			 */
-			self.wrap.on( 'click.wpcolorpicker', function( event ) {
+			self.wrap.on( 'click.wpcolorpicker', function ( event ) {
 				event.stopPropagation();
-			});
+			} );
 
 			/**
 			 * Open or close the color picker depending on the class.
 			 *
 			 * @since 3.5.0
 			 */
-			self.toggler.on( 'click', function(){
+			self.toggler.on( 'click', function () {
 				if ( self.toggler.hasClass( 'wp-picker-open' ) ) {
 					self.close();
 				} else {
 					self.open();
 				}
-			});
+			} );
 
 			/**
 			 * Checks if value is empty when changing the color in the color picker.
@@ -250,7 +256,7 @@
 			 *
 			 * @return {void}
 			 */
-			self.element.on( 'change', function( event ) {
+			self.element.on( 'change', function ( event ) {
 				var me = $( this ),
 					val = me.val();
 
@@ -261,7 +267,7 @@
 						self.options.clear.call( this, event );
 					}
 				}
-			});
+			} );
 
 			/**
 			 * Enables the user to either clear the color in the color picker or revert back to the default color.
@@ -272,7 +278,7 @@
 			 *
 			 * @return {void}
 			 */
-			self.button.on( 'click', function( event ) {
+			self.button.on( 'click', function ( event ) {
 				var me = $( this );
 				if ( me.hasClass( 'wp-picker-clear' ) ) {
 					self.element.val( '' );
@@ -283,7 +289,7 @@
 				} else if ( me.hasClass( 'wp-picker-default' ) ) {
 					self.element.val( self.options.defaultColor ).change();
 				}
-			});
+			} );
 		},
 		/**
 		 * Opens the color picker dialog.
@@ -292,14 +298,16 @@
 		 *
 		 * @return {void}
 		 */
-		open: function() {
+		open: function () {
 			this.element.iris( 'toggle' );
 			this.inputWrapper.removeClass( 'hidden' );
 			this.wrap.addClass( 'wp-picker-active' );
 			this.toggler
 				.addClass( 'wp-picker-open' )
 				.attr( 'aria-expanded', 'true' );
-			$( 'body' ).trigger( 'click.wpcolorpicker' ).on( 'click.wpcolorpicker', this.close );
+			$( 'body' )
+				.trigger( 'click.wpcolorpicker' )
+				.on( 'click.wpcolorpicker', this.close );
 		},
 		/**
 		 * Closes the color picker dialog.
@@ -308,7 +316,7 @@
 		 *
 		 * @return {void}
 		 */
-		close: function() {
+		close: function () {
 			this.element.iris( 'toggle' );
 			this.inputWrapper.addClass( 'hidden' );
 			this.wrap.removeClass( 'wp-picker-active' );
@@ -326,7 +334,7 @@
 		 *
 		 * @return {string} The element's color.
 		 */
-		color: function( newColor ) {
+		color: function ( newColor ) {
 			if ( newColor === undef ) {
 				return this.element.iris( 'option', 'color' );
 			}
@@ -342,15 +350,15 @@
 		 *
 		 * @return {boolean|string} The element's color.
 		 */
-		defaultColor: function( newDefaultColor ) {
+		defaultColor: function ( newDefaultColor ) {
 			if ( newDefaultColor === undef ) {
 				return this.options.defaultColor;
 			}
 
 			this.options.defaultColor = newDefaultColor;
-		}
+		},
 	};
 
 	// Register the color picker as a widget.
 	$.widget( 'wp.wpColorPicker', ColorPicker );
-}( jQuery ) );
+} )( jQuery );

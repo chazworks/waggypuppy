@@ -12,8 +12,8 @@
  *
  * @return {void}
  */
-( function( document, window, navigator ) {
-	document.addEventListener( 'DOMContentLoaded', function() {
+( function ( document, window, navigator ) {
+	document.addEventListener( 'DOMContentLoaded', function () {
 		var adminBar = document.getElementById( 'wpadminbar' ),
 			topMenuItems,
 			allMenuItems,
@@ -35,14 +35,16 @@
 		adminBarSearchForm = document.getElementById( 'adminbarsearch' );
 		shortlink = document.getElementById( 'wp-admin-bar-get-shortlink' );
 		skipLink = adminBar.querySelector( '.screen-reader-shortcut' );
-		mobileEvent = /Mobile\/.+Safari/.test( navigator.userAgent ) ? 'touchstart' : 'click';
+		mobileEvent = /Mobile\/.+Safari/.test( navigator.userAgent )
+			? 'touchstart'
+			: 'click';
 
 		// Remove nojs class after the DOM is loaded.
 		removeClass( adminBar, 'nojs' );
 
 		if ( 'ontouchstart' in window ) {
 			// Remove hover class when the user touches outside the menu items.
-			document.body.addEventListener( mobileEvent, function( e ) {
+			document.body.addEventListener( mobileEvent, function ( e ) {
 				if ( ! getClosest( e.target, 'li.menupop' ) ) {
 					removeAllHoverClass( topMenuItems );
 				}
@@ -50,13 +52,22 @@
 
 			// Add listener for menu items to toggle hover class by touches.
 			// Remove the callback later for better performance.
-			adminBar.addEventListener( 'touchstart', function bindMobileEvents() {
-				for ( var i = 0; i < topMenuItems.length; i++ ) {
-					topMenuItems[i].addEventListener( 'click', mobileHover.bind( null, topMenuItems ) );
-				}
+			adminBar.addEventListener(
+				'touchstart',
+				function bindMobileEvents() {
+					for ( var i = 0; i < topMenuItems.length; i++ ) {
+						topMenuItems[ i ].addEventListener(
+							'click',
+							mobileHover.bind( null, topMenuItems )
+						);
+					}
 
-				adminBar.removeEventListener( 'touchstart', bindMobileEvents );
-			} );
+					adminBar.removeEventListener(
+						'touchstart',
+						bindMobileEvents
+					);
+				}
+			);
 		}
 
 		// Scroll page to top when clicking on the admin bar.
@@ -64,33 +75,38 @@
 
 		for ( i = 0; i < topMenuItems.length; i++ ) {
 			// Adds or removes the hover class based on the hover intent.
-			window.hoverintent(
-				topMenuItems[i],
-				addClass.bind( null, topMenuItems[i], 'hover' ),
-				removeClass.bind( null, topMenuItems[i], 'hover' )
-			).options( {
-				timeout: 180
-			} );
+			window
+				.hoverintent(
+					topMenuItems[ i ],
+					addClass.bind( null, topMenuItems[ i ], 'hover' ),
+					removeClass.bind( null, topMenuItems[ i ], 'hover' )
+				)
+				.options( {
+					timeout: 180,
+				} );
 
 			// Toggle hover class if the enter key is pressed.
-			topMenuItems[i].addEventListener( 'keydown', toggleHoverIfEnter );
+			topMenuItems[ i ].addEventListener( 'keydown', toggleHoverIfEnter );
 		}
 
 		// Remove hover class if the escape key is pressed.
 		for ( i = 0; i < allMenuItems.length; i++ ) {
-			allMenuItems[i].addEventListener( 'keydown', removeHoverIfEscape );
+			allMenuItems[ i ].addEventListener(
+				'keydown',
+				removeHoverIfEscape
+			);
 		}
 
 		if ( adminBarSearchForm ) {
 			adminBarSearchInput = document.getElementById( 'adminbar-search' );
 
 			// Adds the adminbar-focused class on focus.
-			adminBarSearchInput.addEventListener( 'focus', function() {
+			adminBarSearchInput.addEventListener( 'focus', function () {
 				addClass( adminBarSearchForm, 'adminbar-focused' );
 			} );
 
 			// Removes the adminbar-focused class on blur.
-			adminBarSearchInput.addEventListener( 'blur', function() {
+			adminBarSearchInput.addEventListener( 'blur', function () {
 				removeClass( adminBarSearchForm, 'adminbar-focused' );
 			} );
 		}
@@ -231,7 +247,7 @@
 
 		input.focus();
 		input.select();
-		input.onblur = function() {
+		input.onblur = function () {
 			removeClass( wrapper, 'selected' );
 		};
 
@@ -305,7 +321,11 @@
 		}
 
 		var menuItemToggle = element.querySelector( 'a' );
-		if ( className === 'hover' && menuItemToggle && menuItemToggle.hasAttribute( 'aria-expanded' ) ) {
+		if (
+			className === 'hover' &&
+			menuItemToggle &&
+			menuItemToggle.hasAttribute( 'aria-expanded' )
+		) {
 			menuItemToggle.setAttribute( 'aria-expanded', 'true' );
 		}
 	}
@@ -319,8 +339,7 @@
 	 * @param {string}      className The class name.
 	 */
 	function removeClass( element, className ) {
-		var testName,
-			classes;
+		var testName, classes;
 
 		if ( ! element || ! hasClass( element, className ) ) {
 			return;
@@ -340,7 +359,11 @@
 		}
 
 		var menuItemToggle = element.querySelector( 'a' );
-		if ( className === 'hover' && menuItemToggle && menuItemToggle.hasAttribute( 'aria-expanded' ) ) {
+		if (
+			className === 'hover' &&
+			menuItemToggle &&
+			menuItemToggle.hasAttribute( 'aria-expanded' )
+		) {
 			menuItemToggle.setAttribute( 'aria-expanded', 'false' );
 		}
 	}
@@ -355,7 +378,7 @@
 	function removeAllHoverClass( topMenuItems ) {
 		if ( topMenuItems && topMenuItems.length ) {
 			for ( var i = 0; i < topMenuItems.length; i++ ) {
-				removeClass( topMenuItems[i], 'hover' );
+				removeClass( topMenuItems[ i ], 'hover' );
 			}
 		}
 	}
@@ -383,7 +406,7 @@
 			window.scrollTo( {
 				top: -32,
 				left: 0,
-				behavior: 'smooth'
+				behavior: 'smooth',
 			} );
 		} catch ( er ) {
 			window.scrollTo( 0, -32 );
@@ -407,11 +430,13 @@
 				window.Element.prototype.msMatchesSelector ||
 				window.Element.prototype.oMatchesSelector ||
 				window.Element.prototype.webkitMatchesSelector ||
-				function( s ) {
-					var matches = ( this.document || this.ownerDocument ).querySelectorAll( s ),
+				function ( s ) {
+					var matches = (
+							this.document || this.ownerDocument
+						).querySelectorAll( s ),
 						i = matches.length;
 
-					while ( --i >= 0 && matches.item( i ) !== this ) { }
+					while ( --i >= 0 && matches.item( i ) !== this ) {}
 
 					return i > -1;
 				};
@@ -426,5 +451,4 @@
 
 		return null;
 	}
-
 } )( document, window, navigator );

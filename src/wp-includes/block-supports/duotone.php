@@ -37,7 +37,7 @@ WP_Block_Supports::get_instance()->register(
     'duotone',
     [
         'register_attribute' => ['WP_Duotone', 'register_duotone_support'],
-    ]
+    ],
 );
 
 // Add classnames to blocks using duotone support.

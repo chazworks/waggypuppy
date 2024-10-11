@@ -27,13 +27,13 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         foreach ($inputs as $k => $post_title) {
             for ($i = 0; $i < 2; $i++) {
                 $post = [
-                    'post_author'  => $author_id,
-                    'post_status'  => 'publish',
+                    'post_author' => $author_id,
+                    'post_status' => 'publish',
                     'post_content' => 'Post content',
-                    'post_title'   => $post_title,
+                    'post_title' => $post_title,
                 ];
 
-                $id               = self::factory()->post->create($post);
+                $id = self::factory()->post->create($post);
                 $this->post_ids[] = $id;
             }
 
@@ -50,14 +50,14 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         register_post_type('post-type-1', ['hierarchical' => true]);
         register_post_type('post-type-2', ['hierarchical' => true]);
 
-        $args              = [
-            'post_type'   => 'post-type-1',
-            'post_name'   => 'some-slug',
+        $args = [
+            'post_type' => 'post-type-1',
+            'post_name' => 'some-slug',
             'post_status' => 'publish',
         ];
-        $one               = self::factory()->post->create($args);
+        $one = self::factory()->post->create($args);
         $args['post_type'] = 'post-type-2';
-        $two               = self::factory()->post->create($args);
+        $two = self::factory()->post->create($args);
 
         $this->assertSame('some-slug', get_post($one)->post_name);
         $this->assertSame('some-slug', get_post($two)->post_name);
@@ -76,14 +76,14 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
     {
         register_post_type('post-type-1', ['hierarchical' => true]);
 
-        $args              = [
-            'post_type'   => 'post-type-1',
-            'post_name'   => 'some-slug',
+        $args = [
+            'post_type' => 'post-type-1',
+            'post_name' => 'some-slug',
             'post_status' => 'publish',
         ];
-        $one               = self::factory()->post->create($args);
+        $one = self::factory()->post->create($args);
         $args['post_name'] = 'some-slug-2';
-        $two               = self::factory()->post->create($args);
+        $two = self::factory()->post->create($args);
 
         $this->assertSame('some-slug', get_post($one)->post_name);
         $this->assertSame('some-slug-2', get_post($two)->post_name);
@@ -101,26 +101,26 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
         register_post_type('post-type-1', ['hierarchical' => true]);
 
         $args = [
-            'post_type'   => 'post-type-1',
-            'post_name'   => 'some-slug',
+            'post_type' => 'post-type-1',
+            'post_name' => 'some-slug',
             'post_status' => 'publish',
         ];
-        $one  = self::factory()->post->create($args);
+        $one = self::factory()->post->create($args);
 
-        $args       = [
+        $args = [
             'post_mime_type' => 'image/jpeg',
-            'post_type'      => 'attachment',
-            'post_name'      => 'image',
+            'post_type' => 'attachment',
+            'post_name' => 'image',
         ];
         $attachment = self::factory()->attachment->create_object('image.jpg', $one, $args);
 
         $args = [
-            'post_type'   => 'post-type-1',
-            'post_name'   => 'image',
+            'post_type' => 'post-type-1',
+            'post_name' => 'image',
             'post_status' => 'publish',
             'post_parent' => $one,
         ];
-        $two  = self::factory()->post->create($args);
+        $two = self::factory()->post->create($args);
 
         $this->assertSame('some-slug', get_post($one)->post_name);
         $this->assertSame('image', get_post($attachment)->post_name);
@@ -141,13 +141,13 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $p2 = self::factory()->post->create(
             [
                 'post_type' => 'post',
-            ]
+            ],
         );
 
         $actual = wp_unique_post_slug('foo', $p2, $status, 'post', 0);
@@ -170,13 +170,13 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $p2 = self::factory()->post->create(
             [
                 'post_type' => 'post',
-            ]
+            ],
         );
 
         $actual = wp_unique_post_slug('foo', $p2, 'inherit', 'revision', 0);
@@ -195,7 +195,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('2015', $p, 'publish', 'post', 0);
@@ -205,16 +205,17 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
     /**
      * @ticket 5305
      */
-    public function test_slugs_resulting_in_permalinks_that_resemble_year_archives_should_not_be_suffixed_for_already_published_posts()
+    public function test_slugs_resulting_in_permalinks_that_resemble_year_archives_should_not_be_suffixed_for_already_published_posts(
+    )
     {
         $this->set_permalink_structure('/%postname%/');
 
         $p = self::factory()->post->create(
             [
-                'post_type'   => 'post',
-                'post_name'   => 'foo',
+                'post_type' => 'post',
+                'post_name' => 'foo',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('2015', $p, 'publish', 'post', 0);
@@ -224,7 +225,8 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
     /**
      * @ticket 5305
      */
-    public function test_yearlike_slugs_should_not_be_suffixed_if_permalink_structure_does_not_result_in_a_clash_with_year_archives()
+    public function test_yearlike_slugs_should_not_be_suffixed_if_permalink_structure_does_not_result_in_a_clash_with_year_archives(
+    )
     {
         $this->set_permalink_structure('/%year%/%postname%/');
 
@@ -232,7 +234,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('2015', $p, 'publish', 'post', 0);
@@ -250,7 +252,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('11', $p, 'publish', 'post', 0);
@@ -260,7 +262,8 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
     /**
      * @ticket 5305
      */
-    public function test_monthlike_slugs_should_not_be_suffixed_if_permalink_structure_does_not_result_in_a_clash_with_month_archives()
+    public function test_monthlike_slugs_should_not_be_suffixed_if_permalink_structure_does_not_result_in_a_clash_with_month_archives(
+    )
     {
         $this->set_permalink_structure('/%year%/foo/%postname%/');
 
@@ -268,7 +271,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('11', $p, 'publish', 'post', 0);
@@ -286,7 +289,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('13', $p, 'publish', 'post', 0);
@@ -304,7 +307,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('30', $p, 'publish', 'post', 0);
@@ -314,7 +317,8 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
     /**
      * @ticket 5305
      */
-    public function test_daylike_slugs_should_not_be_suffixed_if_permalink_structure_does_not_result_in_a_clash_with_day_archives()
+    public function test_daylike_slugs_should_not_be_suffixed_if_permalink_structure_does_not_result_in_a_clash_with_day_archives(
+    )
     {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
@@ -322,7 +326,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('30', $p, 'publish', 'post', 0);
@@ -340,7 +344,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('32', $p, 'publish', 'post', 0);
@@ -358,7 +362,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'post',
                 'post_name' => 'embed',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('embed', $p, 'publish', 'post', 0);
@@ -376,7 +380,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'embed',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('embed', $p, 'publish', 'paage', 0);
@@ -394,7 +398,7 @@ class Tests_Post_wpUniquePostSlug extends WP_UnitTestCase
             [
                 'post_type' => 'attachment',
                 'post_name' => 'embed',
-            ]
+            ],
         );
 
         $found = wp_unique_post_slug('embed', $p, 'publish', 'attachment', 0);

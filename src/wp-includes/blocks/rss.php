@@ -8,29 +8,37 @@
 /**
  * Renders the `core/rss` block on server.
  *
- * @since 5.2.0
- *
  * @param array $attributes The block attributes.
  *
  * @return string Returns the block content with received rss items.
+ * @since 5.2.0
+ *
  */
 function render_block_core_rss($attributes)
 {
     if (in_array(untrailingslashit($attributes['feedURL']), [site_url(), home_url()], true)) {
-        return '<div class="components-placeholder"><div class="notice notice-error">' . __('Adding an RSS feed to this site’s homepage is not supported, as it could lead to a loop that slows down your site. Try using another block, like the <strong>Latest Posts</strong> block, to list posts from the site.') . '</div></div>';
+        return '<div class="components-placeholder"><div class="notice notice-error">'
+            . __('Adding an RSS feed to this site’s homepage is not supported, as it could lead to a loop that slows down your site. Try using another block, like the <strong>Latest Posts</strong> block, to list posts from the site.')
+            . '</div></div>';
     }
 
     $rss = fetch_feed($attributes['feedURL']);
 
     if (is_wp_error($rss)) {
-        return '<div class="components-placeholder"><div class="notice notice-error"><strong>' . __('RSS Error:') . '</strong> ' . esc_html($rss->get_error_message()) . '</div></div>';
+        return '<div class="components-placeholder"><div class="notice notice-error"><strong>'
+            . __('RSS Error:')
+            . '</strong> '
+            . esc_html($rss->get_error_message())
+            . '</div></div>';
     }
 
-    if (! $rss->get_item_quantity()) {
-        return '<div class="components-placeholder"><div class="notice notice-error">' . __('An error has occurred, which probably means the feed is down. Try again later.') . '</div></div>';
+    if (!$rss->get_item_quantity()) {
+        return '<div class="components-placeholder"><div class="notice notice-error">'
+            . __('An error has occurred, which probably means the feed is down. Try again later.')
+            . '</div></div>';
     }
 
-    $rss_items  = $rss->get_items(0, $attributes['itemsToShow']);
+    $rss_items = $rss->get_items(0, $attributes['itemsToShow']);
     $list_items = '';
     foreach ($rss_items as $item) {
         $title = esc_html(trim(strip_tags($item->get_title())));
@@ -52,7 +60,7 @@ function render_block_core_rss($attributes)
                 $date = sprintf(
                     '<time datetime="%1$s" class="wp-block-rss__item-publish-date">%2$s</time> ',
                     esc_attr(date_i18n('c', $date)),
-                    esc_attr(date_i18n(get_option('date_format'), $date))
+                    esc_attr(date_i18n(get_option('date_format'), $date)),
                 );
             }
         }
@@ -64,9 +72,9 @@ function render_block_core_rss($attributes)
                 $author = $author->get_name();
                 $author = '<span class="wp-block-rss__item-author">' . sprintf(
                     /* translators: %s: the author. */
-                    __('by %s'),
-                    esc_html(strip_tags($author))
-                ) . '</span>';
+                        __('by %s'),
+                        esc_html(strip_tags($author)),
+                    ) . '</span>';
             }
         }
 
@@ -119,7 +127,8 @@ function register_block_core_rss()
         __DIR__ . '/rss',
         [
             'render_callback' => 'render_block_core_rss',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_rss');

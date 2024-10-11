@@ -17,7 +17,7 @@ class Tests_WP_SendHeaders extends WP_UnitTestCase
             'send_headers',
             function ($wp) {
                 $this->assertQueryTrue('is_front_page', 'is_home');
-            }
+            },
         );
 
         $this->go_to(home_url());
@@ -32,7 +32,7 @@ class Tests_WP_SendHeaders extends WP_UnitTestCase
             'wp_headers',
             function ($headers) {
                 $this->assertArrayHasKey('X-Pingback', $headers);
-            }
+            },
         );
 
         $post_id = self::factory()->post->create();

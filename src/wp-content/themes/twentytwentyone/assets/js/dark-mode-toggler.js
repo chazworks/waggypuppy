@@ -1,4 +1,5 @@
-function toggleDarkMode() { // jshint ignore:line
+function toggleDarkMode() {
+	// jshint ignore:line
 	var toggler = document.getElementById( 'dark-mode-toggler' );
 
 	if ( 'false' === toggler.getAttribute( 'aria-pressed' ) ) {
@@ -15,11 +16,15 @@ function toggleDarkMode() { // jshint ignore:line
 }
 
 function twentytwentyoneIsDarkMode() {
-	var isDarkMode = window.matchMedia( '(prefers-color-scheme: dark)' ).matches;
+	var isDarkMode = window.matchMedia(
+		'(prefers-color-scheme: dark)'
+	).matches;
 
 	if ( 'yes' === window.localStorage.getItem( 'twentytwentyoneDarkMode' ) ) {
 		isDarkMode = true;
-	} else if ( 'no' === window.localStorage.getItem( 'twentytwentyoneDarkMode' ) ) {
+	} else if (
+		'no' === window.localStorage.getItem( 'twentytwentyoneDarkMode' )
+	) {
 		isDarkMode = false;
 	}
 
@@ -44,15 +49,15 @@ function darkModeInitialLoad() {
 }
 
 function darkModeRepositionTogglerOnScroll() {
-
 	var toggler = document.getElementById( 'dark-mode-toggler' ),
 		prevScroll = window.scrollY || document.documentElement.scrollTop,
 		currentScroll,
-
-		checkScroll = function() {
-			currentScroll = window.scrollY || document.documentElement.scrollTop;
+		checkScroll = function () {
+			currentScroll =
+				window.scrollY || document.documentElement.scrollTop;
 			if (
-				currentScroll + ( window.innerHeight * 1.5 ) > document.body.clientHeight ||
+				currentScroll + window.innerHeight * 1.5 >
+					document.body.clientHeight ||
 				currentScroll < prevScroll
 			) {
 				toggler.classList.remove( 'hide' );

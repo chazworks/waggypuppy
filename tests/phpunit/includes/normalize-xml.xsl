@@ -18,59 +18,59 @@
 	</ns0:root>
   -->
 <xsl:transform
-		xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
-		version='1.0'
-	>
+    xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+    version='1.0'
+>
 
-	<!--
-		Output UTF-8 XML, no indentation and all CDATA sections replaced with their character content.
-	  -->
-	<xsl:output
-		method='xml'
-		indent='no'
-		cdata-section-elements=''
-		encoding='UTF-8' />
+    <!--
+        Output UTF-8 XML, no indentation and all CDATA sections replaced with their character content.
+      -->
+    <xsl:output
+        method='xml'
+        indent='no'
+        cdata-section-elements=''
+        encoding='UTF-8'/>
 
-	<!--
-		Strip insignificant white space.
-	  -->
-	<xsl:strip-space elements='*' />
+    <!--
+        Strip insignificant white space.
+      -->
+    <xsl:strip-space elements='*'/>
 
-	<!--
-		Noramlize elements by not relying on the prefix used in the input document
-		and ordering attributes first by namespace-uri and then by local-name.
-	  -->
-	<xsl:template match='*' priority='10'>
-		<xsl:element name='{local-name()}' namespace='{namespace-uri()}'>
-			<xsl:apply-templates select='@*'>
-				<xsl:sort select='namespace-uri()' />
-				<xsl:sort select='local-name()' />
-			</xsl:apply-templates>
+    <!--
+        Noramlize elements by not relying on the prefix used in the input document
+        and ordering attributes first by namespace-uri and then by local-name.
+      -->
+    <xsl:template match='*' priority='10'>
+        <xsl:element name='{local-name()}' namespace='{namespace-uri()}'>
+            <xsl:apply-templates select='@*'>
+                <xsl:sort select='namespace-uri()'/>
+                <xsl:sort select='local-name()'/>
+            </xsl:apply-templates>
 
-			<xsl:apply-templates select='node()' />
-		</xsl:element>
-	</xsl:template>
+            <xsl:apply-templates select='node()'/>
+        </xsl:element>
+    </xsl:template>
 
-	<!--
-		Noramlize attributes by not relying on the prefix used in the input document.
-	  -->
-	<xsl:template match='@*'>
-		<xsl:attribute name='{local-name()}' namespace='{namespace-uri()}'>
-			<xsl:value-of select='.' />
-		</xsl:attribute>
-	</xsl:template>
+    <!--
+        Noramlize attributes by not relying on the prefix used in the input document.
+      -->
+    <xsl:template match='@*'>
+        <xsl:attribute name='{local-name()}' namespace='{namespace-uri()}'>
+            <xsl:value-of select='.'/>
+        </xsl:attribute>
+    </xsl:template>
 
-	<!--
-		Strip comments.
-	  -->
-	<xsl:template match='comment()' priority='10' />
+    <!--
+        Strip comments.
+      -->
+    <xsl:template match='comment()' priority='10'/>
 
-	<!--
-		Pass all other nodes through unchanged.
-	  -->
-	<xsl:template match='node()'>
-		<xsl:copy>
-			<xsl:apply-templates select='node()' />
-		</xsl:copy>
-	</xsl:template>
+    <!--
+        Pass all other nodes through unchanged.
+      -->
+    <xsl:template match='node()'>
+        <xsl:copy>
+            <xsl:apply-templates select='node()'/>
+        </xsl:copy>
+    </xsl:template>
 </xsl:transform>

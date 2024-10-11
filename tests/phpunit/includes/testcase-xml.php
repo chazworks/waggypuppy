@@ -6,7 +6,7 @@ abstract class WP_Test_XML_TestCase extends WP_UnitTestCase
      * Load XML from a string.
      *
      * @param string $xml
-     * @param int    $options Bitwise OR of the {@link https://www.php.net/manual/en/libxml.constants.php libxml option constants}.
+     * @param int $options Bitwise OR of the {@link https://www.php.net/manual/en/libxml.constants.php libxml option constants}.
      *                        Default is 0.
      * @return DOMDocument The DOMDocument object loaded from the XML.
      */
@@ -23,7 +23,7 @@ abstract class WP_Test_XML_TestCase extends WP_UnitTestCase
 
         $this->assertFalse(
             isset($libxml_last_error->message),
-            isset($libxml_last_error->message) ? sprintf('Non-well-formed XML: %s.', $libxml_last_error->message) : ''
+            isset($libxml_last_error->message) ? sprintf('Non-well-formed XML: %s.', $libxml_last_error->message) : '',
         );
 
         // Restore default error handler.
@@ -37,19 +37,19 @@ abstract class WP_Test_XML_TestCase extends WP_UnitTestCase
      * Normalize an XML document to make comparing two documents easier.
      *
      * @param string $xml
-     * @param int    $options Bitwise OR of the {@link https://www.php.net/manual/en/libxml.constants.php libxml option constants}.
+     * @param int $options Bitwise OR of the {@link https://www.php.net/manual/en/libxml.constants.php libxml option constants}.
      *                        Default is 0.
      * @return string The normalized form of `$xml`.
      */
     public function normalizeXML($xml, $options = 0)
     {
-        if (! class_exists('XSLTProcessor')) {
+        if (!class_exists('XSLTProcessor')) {
             $this->markTestSkipped('This test requires the XSL extension.');
         }
 
         static $xslt_proc;
 
-        if (! $xslt_proc) {
+        if (!$xslt_proc) {
             $xslt_proc = new XSLTProcessor();
             $xslt_proc->importStyleSheet(simplexml_load_file(__DIR__ . '/normalize-xml.xsl'));
         }
@@ -69,11 +69,11 @@ abstract class WP_Test_XML_TestCase extends WP_UnitTestCase
      *
      * @param string $expectedXml
      * @param string $actualXml
-     * @param string $message   Optional. Message to display when the assertion fails.
+     * @param string $message Optional. Message to display when the assertion fails.
      */
-    public function assertXMLEquals($expectedXml, $actualXml, $message = '')  // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+    public function assertXMLEquals($expectedXml, $actualXml, $message = '')
     {
-        $this->assertSame($this->normalizeXML($expectedXml), $this->normalizeXML($actualXml), $message); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+        $this->assertSame($this->normalizeXML($expectedXml), $this->normalizeXML($actualXml), $message);
     }
 
     /**
@@ -88,10 +88,10 @@ abstract class WP_Test_XML_TestCase extends WP_UnitTestCase
      *
      * @param string $expectedXml
      * @param string $actualXml
-     * @param string $message   Optional. Message to display when the assertion fails.
+     * @param string $message Optional. Message to display when the assertion fails.
      */
-    public function assertXMLNotEquals($expectedXml, $actualXml, $message = '')  // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+    public function assertXMLNotEquals($expectedXml, $actualXml, $message = '')
     {
-        $this->assertNotEquals($this->normalizeXML($expectedXml), $this->normalizeXML($actualXml), $message); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
+        $this->assertNotEquals($this->normalizeXML($expectedXml), $this->normalizeXML($actualXml), $message);
     }
 }

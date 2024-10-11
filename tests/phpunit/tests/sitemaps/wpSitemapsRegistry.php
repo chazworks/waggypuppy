@@ -11,7 +11,7 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase
         $provider = new WP_Sitemaps_Test_Provider();
         $registry = new WP_Sitemaps_Registry();
 
-        $actual    = $registry->add_provider('foo', $provider);
+        $actual = $registry->add_provider('foo', $provider);
         $providers = $registry->get_providers();
 
         $this->assertTrue($actual);
@@ -23,10 +23,10 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase
     {
         $provider1 = new WP_Sitemaps_Test_Provider();
         $provider2 = new WP_Sitemaps_Test_Provider();
-        $registry  = new WP_Sitemaps_Registry();
+        $registry = new WP_Sitemaps_Registry();
 
-        $actual1   = $registry->add_provider('foo', $provider1);
-        $actual2   = $registry->add_provider('foo', $provider2);
+        $actual1 = $registry->add_provider('foo', $provider1);
+        $actual2 = $registry->add_provider('foo', $provider2);
         $providers = $registry->get_providers();
 
         $this->assertTrue($actual1);
@@ -41,7 +41,7 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase
      *
      * @ticket 56336
      *
-     * @covers WP_Sitemaps_Registry::get_provider
+     * @covers       WP_Sitemaps_Registry::get_provider
      *
      * @dataProvider data_get_provider_should_return_null_with_non_string_name
      *
@@ -61,15 +61,15 @@ class Tests_Sitemaps_wpSitemapsRegistry extends WP_UnitTestCase
     public function data_get_provider_should_return_null_with_non_string_name()
     {
         return [
-            'array'        => [[]],
-            'object'       => [new stdClass()],
-            'bool (true)'  => [true],
+            'array' => [[]],
+            'object' => [new stdClass()],
+            'bool (true)' => [true],
             'bool (false)' => [false],
-            'null'         => [null],
-            'integer (0)'  => [0],
-            'integer (1)'  => [1],
-            'float (0.0)'  => [0.0],
-            'float (1.1)'  => [1.1],
+            'null' => [null],
+            'integer (0)' => [0],
+            'integer (1)' => [1],
+            'float (0.0)' => [0.0],
+            'float (1.1)' => [1.1],
         ];
     }
 }

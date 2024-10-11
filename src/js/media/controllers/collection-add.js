@@ -37,67 +37,81 @@ var Selection = wp.media.model.Selection,
  * @param {string}                     attributes.type                      The collection's media type. (e.g. 'video').
  * @param {string}                     attributes.collectionType            The collection type. (e.g. 'playlist').
  */
-CollectionAdd = Library.extend(/** @lends wp.media.controller.CollectionAdd.prototype */{
-	defaults: _.defaults( {
-		// Selection defaults. @see media.model.Selection
-		multiple:      'add',
-		// Attachments browser defaults. @see media.view.AttachmentsBrowser
-		filterable:    'uploaded',
+CollectionAdd = Library.extend(
+	/** @lends wp.media.controller.CollectionAdd.prototype */ {
+		defaults: _.defaults(
+			{
+				// Selection defaults. @see media.model.Selection
+				multiple: 'add',
+				// Attachments browser defaults. @see media.view.AttachmentsBrowser
+				filterable: 'uploaded',
 
-		priority:      100,
-		syncSelection: false
-	}, Library.prototype.defaults ),
+				priority: 100,
+				syncSelection: false,
+			},
+			Library.prototype.defaults
+		),
 
-	/**
-	 * @since 3.9.0
-	 */
-	initialize: function() {
-		var collectionType = this.get('collectionType');
-
-		if ( 'video' === this.get( 'type' ) ) {
-			collectionType = 'video-' + collectionType;
-		}
-
-		this.set( 'id', collectionType + '-library' );
-		this.set( 'toolbar', collectionType + '-add' );
-		this.set( 'menu', collectionType );
-
-		// If we haven't been provided a `library`, create a `Selection`.
-		if ( ! this.get('library') ) {
-			this.set( 'library', wp.media.query({ type: this.get('type') }) );
-		}
-		Library.prototype.initialize.apply( this, arguments );
-	},
-
-	/**
-	 * @since 3.9.0
-	 */
-	activate: function() {
-		var library = this.get('library'),
-			editLibrary = this.get('editLibrary'),
-			edit = this.frame.state( this.get('collectionType') + '-edit' ).get('library');
-
-		if ( editLibrary && editLibrary !== edit ) {
-			library.unobserve( editLibrary );
-		}
-
-		// Accepts attachments that exist in the original library and
-		// that do not exist in gallery's library.
-		library.validator = function( attachment ) {
-			return !! this.mirroring.get( attachment.cid ) && ! edit.get( attachment.cid ) && Selection.prototype.validator.apply( this, arguments );
-		};
-
-		/*
-		 * Reset the library to ensure that all attachments are re-added
-		 * to the collection. Do so silently, as calling `observe` will
-		 * trigger the `reset` event.
+		/**
+		 * @since 3.9.0
 		 */
-		library.reset( library.mirroring.models, { silent: true });
-		library.observe( edit );
-		this.set('editLibrary', edit);
+		initialize: function () {
+			var collectionType = this.get( 'collectionType' );
 
-		Library.prototype.activate.apply( this, arguments );
+			if ( 'video' === this.get( 'type' ) ) {
+				collectionType = 'video-' + collectionType;
+			}
+
+			this.set( 'id', collectionType + '-library' );
+			this.set( 'toolbar', collectionType + '-add' );
+			this.set( 'menu', collectionType );
+
+			// If we haven't been provided a `library`, create a `Selection`.
+			if ( ! this.get( 'library' ) ) {
+				this.set(
+					'library',
+					wp.media.query( { type: this.get( 'type' ) } )
+				);
+			}
+			Library.prototype.initialize.apply( this, arguments );
+		},
+
+		/**
+		 * @since 3.9.0
+		 */
+		activate: function () {
+			var library = this.get( 'library' ),
+				editLibrary = this.get( 'editLibrary' ),
+				edit = this.frame
+					.state( this.get( 'collectionType' ) + '-edit' )
+					.get( 'library' );
+
+			if ( editLibrary && editLibrary !== edit ) {
+				library.unobserve( editLibrary );
+			}
+
+			// Accepts attachments that exist in the original library and
+			// that do not exist in gallery's library.
+			library.validator = function ( attachment ) {
+				return (
+					!! this.mirroring.get( attachment.cid ) &&
+					! edit.get( attachment.cid ) &&
+					Selection.prototype.validator.apply( this, arguments )
+				);
+			};
+
+			/*
+			 * Reset the library to ensure that all attachments are re-added
+			 * to the collection. Do so silently, as calling `observe` will
+			 * trigger the `reset` event.
+			 */
+			library.reset( library.mirroring.models, { silent: true } );
+			library.observe( edit );
+			this.set( 'editLibrary', edit );
+
+			Library.prototype.activate.apply( this, arguments );
+		},
 	}
-});
+);
 
 module.exports = CollectionAdd;

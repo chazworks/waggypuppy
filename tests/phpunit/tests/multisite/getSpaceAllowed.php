@@ -37,9 +37,9 @@ if (is_multisite()) :
         /**
          * @dataProvider data_blog_upload_space
          *
-         * @param mixed $site_option    Option to assign to the site's `blog_upload_space`.
+         * @param mixed $site_option Option to assign to the site's `blog_upload_space`.
          * @param mixed $network_option Option to assign to the network's `blog_upload_space`.
-         * @param int   $expected       Expected return value.
+         * @param int $expected Expected return value.
          */
         public function test_get_space_allowed($site_option, $network_option, $expected)
         {

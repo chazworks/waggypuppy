@@ -18,18 +18,19 @@ use WpOrg\Requests\Exception\Http;
  *
  * @package Requests\Exceptions
  */
-final class Status431 extends Http {
-	/**
-	 * HTTP status code
-	 *
-	 * @var integer
-	 */
-	protected $code = 431;
+final class Status431 extends Http
+{
+    /**
+     * HTTP status code
+     *
+     * @var integer
+     */
+    protected $code = 431;
 
-	/**
-	 * Reason phrase
-	 *
-	 * @var string
-	 */
-	protected $reason = 'Request Header Fields Too Large';
+    /**
+     * Reason phrase
+     *
+     * @var string
+     */
+    protected $reason = 'Request Header Fields Too Large';
 }

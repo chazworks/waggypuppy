@@ -8,20 +8,21 @@
 /**
  * Filters the blog option to return the path for the previewed theme.
  *
- * @since 6.3.0
- *
  * @param string $current_stylesheet The current theme's stylesheet or template path.
  * @return string The previewed theme's stylesheet or template path.
+ * @since 6.3.0
+ *
  */
 function wp_get_theme_preview_path($current_stylesheet = null)
 {
-    if (! current_user_can('switch_themes')) {
+    if (!current_user_can('switch_themes')) {
         return $current_stylesheet;
     }
 
-    $preview_stylesheet = ! empty($_GET['wp_theme_preview']) ? sanitize_text_field(wp_unslash($_GET['wp_theme_preview'])) : null;
-    $wp_theme           = wp_get_theme($preview_stylesheet);
-    if (! is_wp_error($wp_theme->errors())) {
+    $preview_stylesheet = !empty($_GET['wp_theme_preview']) ? sanitize_text_field(wp_unslash($_GET['wp_theme_preview']))
+        : null;
+    $wp_theme = wp_get_theme($preview_stylesheet);
+    if (!is_wp_error($wp_theme->errors())) {
         if (current_filter() === 'template') {
             $theme_path = $wp_theme->get_template();
         } else {
@@ -43,7 +44,7 @@ function wp_get_theme_preview_path($current_stylesheet = null)
 function wp_attach_theme_preview_middleware()
 {
     // Don't allow non-admins to preview themes.
-    if (! current_user_can('switch_themes')) {
+    if (!current_user_can('switch_themes')) {
         return;
     }
 
@@ -51,9 +52,9 @@ function wp_attach_theme_preview_middleware()
         'wp-api-fetch',
         sprintf(
             'wp.apiFetch.use( wp.apiFetch.createThemePreviewMiddleware( %s ) );',
-            wp_json_encode(sanitize_text_field(wp_unslash($_GET['wp_theme_preview'])))
+            wp_json_encode(sanitize_text_field(wp_unslash($_GET['wp_theme_preview']))),
         ),
-        'after'
+        'after',
     );
 }
 
@@ -88,7 +89,7 @@ function wp_block_theme_activate_nonce()
  */
 function wp_initialize_theme_preview_hooks()
 {
-    if (! empty($_GET['wp_theme_preview'])) {
+    if (!empty($_GET['wp_theme_preview'])) {
         add_filter('stylesheet', 'wp_get_theme_preview_path');
         add_filter('template', 'wp_get_theme_preview_path');
         add_action('init', 'wp_attach_theme_preview_middleware');

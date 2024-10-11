@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test WP_Font_Collection constructor.
  *
@@ -17,7 +18,7 @@ class Tests_Fonts_WpFontCollection_Construct extends WP_UnitTestCase
     {
         $this->setExpectedIncorrectUsage('WP_Font_Collection::__construct');
         $mock_collection_data = [
-            'name'          => 'Test Collection',
+            'name' => 'Test Collection',
             'font_families' => ['mock '],
         ];
 

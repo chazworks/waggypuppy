@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_Script_Modules functionality.
  *
@@ -38,13 +39,13 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
      */
     public function get_enqueued_script_modules()
     {
-        $script_modules_markup   = get_echo([$this->script_modules, 'print_enqueued_script_modules']);
-        $p                       = new WP_HTML_Tag_Processor($script_modules_markup);
+        $script_modules_markup = get_echo([$this->script_modules, 'print_enqueued_script_modules']);
+        $p = new WP_HTML_Tag_Processor($script_modules_markup);
         $enqueued_script_modules = [];
 
         while ($p->next_tag(['tag' => 'SCRIPT'])) {
             if ('module' === $p->get_attribute('type')) {
-                $id                           = preg_replace('/-js-module$/', '', $p->get_attribute('id'));
+                $id = preg_replace('/-js-module$/', '', $p->get_attribute('id'));
                 $enqueued_script_modules[$id] = $p->get_attribute('src');
             }
         }
@@ -60,7 +61,8 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
     public function get_import_map()
     {
         $import_map_markup = get_echo([$this->script_modules, 'print_import_map']);
-        preg_match('/<script type="importmap" id="wp-importmap">.*?(\{.*\}).*?<\/script>/s', $import_map_markup, $import_map_string);
+        preg_match('/<script type="importmap" id="wp-importmap">.*?(\{.*\}).*?<\/script>/s', $import_map_markup,
+            $import_map_string);
         return json_decode($import_map_string[1], true)['imports'];
     }
 
@@ -71,13 +73,13 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
      */
     public function get_preloaded_script_modules()
     {
-        $preloaded_markup         = get_echo([$this->script_modules, 'print_script_module_preloads']);
-        $p                        = new WP_HTML_Tag_Processor($preloaded_markup);
+        $preloaded_markup = get_echo([$this->script_modules, 'print_script_module_preloads']);
+        $p = new WP_HTML_Tag_Processor($preloaded_markup);
         $preloaded_script_modules = [];
 
         while ($p->next_tag(['tag' => 'LINK'])) {
             if ('modulepreload' === $p->get_attribute('rel')) {
-                $id                            = preg_replace('/-js-modulepreload$/', '', $p->get_attribute('id'));
+                $id = preg_replace('/-js-modulepreload$/', '', $p->get_attribute('id'));
                 $preloaded_script_modules[$id] = $p->get_attribute('href');
             }
         }
@@ -109,15 +111,15 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
     }
 
     /**
-    * Tests that a script module can be dequeued after being enqueued.
-    *
-    * @ticket 56313
-    *
-    * @covers ::register()
-    * @covers ::enqueue()
-    * @covers ::dequeue()
-    * @covers ::print_enqueued_script_modules()
-    */
+     * Tests that a script module can be dequeued after being enqueued.
+     *
+     * @ticket 56313
+     *
+     * @covers ::register()
+     * @covers ::enqueue()
+     * @covers ::dequeue()
+     * @covers ::print_enqueued_script_modules()
+     */
     public function test_wp_dequeue_script_module()
     {
         $this->script_modules->register('foo', '/foo.js');
@@ -210,15 +212,15 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
     }
 
     /**
-    * Tests that a script module can be enqueued before it is registered, and will
-    * be handled correctly once registered.
-    *
-    * @ticket 56313
-    *
-    * @covers ::register()
-    * @covers ::enqueue()
-    * @covers ::print_enqueued_script_modules()
-    */
+     * Tests that a script module can be enqueued before it is registered, and will
+     * be handled correctly once registered.
+     *
+     * @ticket 56313
+     *
+     * @covers ::register()
+     * @covers ::enqueue()
+     * @covers ::print_enqueued_script_modules()
+     */
     public function test_wp_enqueue_script_module_works_before_register()
     {
         $this->script_modules->enqueue('foo');
@@ -324,24 +326,24 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             [
                 'static-dep',
                 [
-                    'id'     => 'dynamic-dep',
+                    'id' => 'dynamic-dep',
                     'import' => 'dynamic',
                 ],
-            ]
+            ],
         );
         $this->script_modules->register(
             'static-dep',
             '/static-dep.js',
             [
                 [
-                    'id'     => 'nested-static-dep',
+                    'id' => 'nested-static-dep',
                     'import' => 'static',
                 ],
                 [
-                    'id'     => 'nested-dynamic-dep',
+                    'id' => 'nested-dynamic-dep',
                     'import' => 'dynamic',
                 ],
-            ]
+            ],
         );
         $this->script_modules->register('dynamic-dep', '/dynamic-dep.js');
         $this->script_modules->register('nested-static-dep', '/nested-static-dep.js');
@@ -396,24 +398,24 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             [
                 'static-dep',
                 [
-                    'id'     => 'dynamic-dep',
+                    'id' => 'dynamic-dep',
                     'import' => 'dynamic',
                 ],
-            ]
+            ],
         );
         $this->script_modules->register(
             'static-dep',
             '/static-dep.js',
             [
                 [
-                    'id'     => 'nested-static-dep',
+                    'id' => 'nested-static-dep',
                     'import' => 'static',
                 ],
                 [
-                    'id'     => 'nested-dynamic-dep',
+                    'id' => 'nested-dynamic-dep',
                     'import' => 'dynamic',
                 ],
-            ]
+            ],
         );
         $this->script_modules->register('dynamic-dep', '/dynamic-dep.js');
         $this->script_modules->register('nested-static-dep', '/nested-static-dep.js');
@@ -448,10 +450,10 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             [
                 'static-dep',
                 [
-                    'id'     => 'dynamic-dep',
+                    'id' => 'dynamic-dep',
                     'import' => 'dynamic',
                 ],
-            ]
+            ],
         );
         $this->script_modules->register('static-dep', '/static-dep.js');
         $this->script_modules->register('dynamic-dep', '/dynamic-dep.js', ['nested-static-dep']);
@@ -485,7 +487,7 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             [
                 'dep',
                 'enqueued-dep',
-            ]
+            ],
         );
         $this->script_modules->register('dep', '/dep.js');
         $this->script_modules->register('enqueued-dep', '/enqueued-dep.js');
@@ -517,7 +519,7 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             [
                 'dep',
                 'enqueued-dep',
-            ]
+            ],
         );
         $this->script_modules->register('dep', '/dep.js');
         $this->script_modules->register('enqueued-dep', '/enqueued-dep.js');
@@ -548,7 +550,7 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             'module_with_version',
             'http://example.com/module.js',
             [],
-            '1.0'
+            '1.0',
         );
 
         $result = $get_src->invoke($this->script_modules, 'module_with_version');
@@ -558,7 +560,7 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             'module_without_version',
             'http://example.com/module.js',
             [],
-            null
+            null,
         );
 
         $result = $get_src->invoke($this->script_modules, 'module_without_version');
@@ -568,7 +570,7 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             'module_with_wp_version',
             'http://example.com/module.js',
             [],
-            false
+            false,
         );
 
         $result = $get_src->invoke($this->script_modules, 'module_with_wp_version');
@@ -578,7 +580,7 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             'module_with_existing_query_string',
             'http://example.com/module.js?foo=bar',
             [],
-            '1.0'
+            '1.0',
         );
 
         $result = $get_src->invoke($this->script_modules, 'module_with_existing_query_string');
@@ -591,14 +593,15 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
                 return add_query_arg('script_module_id', urlencode($id), $src);
             },
             10,
-            2
+            2,
         );
 
         $result = $get_src->invoke($this->script_modules, 'module_without_version');
         $this->assertSame('http://example.com/module.js?script_module_id=module_without_version', $result);
 
         $result = $get_src->invoke($this->script_modules, 'module_with_existing_query_string');
-        $this->assertSame('http://example.com/module.js?foo=bar&ver=1.0&script_module_id=module_with_existing_query_string', $result);
+        $this->assertSame('http://example.com/module.js?foo=bar&ver=1.0&script_module_id=module_with_existing_query_string',
+            $result);
     }
 
     /**
@@ -622,7 +625,7 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             [
                 'dep',
             ],
-            '1.0'
+            '1.0',
         );
         $this->script_modules->register('dep', '/dep.js', [], '2.0');
         $this->script_modules->enqueue('foo');
@@ -718,7 +721,7 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
         $this->script_modules->register('dep', '/dep.js');
 
         $enqueued_script_modules = $this->get_enqueued_script_modules();
-        $import_map              = $this->get_import_map();
+        $import_map = $this->get_import_map();
 
         $this->assertCount(1, $enqueued_script_modules);
         $this->assertSame('/foo.js?ver=1.0', $enqueued_script_modules['foo']);
@@ -737,17 +740,16 @@ class Tests_Script_Modules_WpScriptModules extends WP_UnitTestCase
             function ($data) {
                 $data['foo'] = 'bar';
                 return $data;
-            }
+            },
         );
 
         $actual = get_echo([$this->script_modules, 'print_script_module_data']);
 
         $expected = <<<HTML
-<script type="application/json" id="wp-script-module-data-@test/module">
-{"foo":"bar"}
-</script>
-
-HTML;
+            <script type="application/json" id="wp-script-module-data-@test/module">
+            {"foo":"bar"}
+            </script>
+            HTML;
         $this->assertSame($expected, $actual);
     }
 
@@ -763,17 +765,16 @@ HTML;
             function ($data) {
                 $data['foo'] = 'bar';
                 return $data;
-            }
+            },
         );
 
         $actual = get_echo([$this->script_modules, 'print_script_module_data']);
 
         $expected = <<<HTML
-<script type="application/json" id="wp-script-module-data-@test/dependency">
-{"foo":"bar"}
-</script>
-
-HTML;
+            <script type="application/json" id="wp-script-module-data-@test/dependency">
+            {"foo":"bar"}
+            </script>
+            HTML;
         $this->assertSame($expected, $actual);
     }
 
@@ -789,7 +790,7 @@ HTML;
             function ($data) {
                 $data['foo'] = 'bar';
                 return $data;
-            }
+            },
         );
 
         $actual = get_echo([$this->script_modules, 'print_script_module_data']);
@@ -807,7 +808,7 @@ HTML;
             'script_module_data_@test/module',
             function ($data) {
                 return $data;
-            }
+            },
         );
 
         $actual = get_echo([$this->script_modules, 'print_script_module_data']);
@@ -819,9 +820,9 @@ HTML;
      * @ticket 61510
      *
      * @dataProvider data_special_chars_script_encoding
-     * @param string $input    Raw input string.
+     * @param string $input Raw input string.
      * @param string $expected Expected output string.
-     * @param string $charset  Blog charset option.
+     * @param string $charset Blog charset option.
      */
     public function test_print_script_module_data_encoding($input, $expected, $charset)
     {
@@ -829,7 +830,7 @@ HTML;
             'pre_option_blog_charset',
             function () use ($charset) {
                 return $charset;
-            }
+            },
         );
 
         $this->script_modules->enqueue('@test/module', '/example.js');
@@ -838,17 +839,16 @@ HTML;
             function ($data) use ($input) {
                 $data[''] = $input;
                 return $data;
-            }
+            },
         );
 
         $actual = get_echo([$this->script_modules, 'print_script_module_data']);
 
         $expected = <<<HTML
-<script type="application/json" id="wp-script-module-data-@test/module">
-{"":"{$expected}"}
-</script>
-
-HTML;
+            <script type="application/json" id="wp-script-module-data-@test/module">
+            {"":"{$expected}"}
+            </script>
+            HTML;
 
         $this->assertSame($expected, $actual);
     }
@@ -862,44 +862,48 @@ HTML;
     {
         return [
             // UTF-8
-            'Solidus'                                => ['/', '/', 'UTF-8'],
-            'Double quote'                           => ['"', '\\"', 'UTF-8'],
-            'Single quote'                           => ['\'', '\'', 'UTF-8'],
-            'Less than'                              => ['<', '\u003C', 'UTF-8'],
-            'Greater than'                           => ['>', '\u003E', 'UTF-8'],
-            'Ampersand'                              => ['&', '&', 'UTF-8'],
-            'Newline'                                => ["\n", "\\n", 'UTF-8'],
-            'Tab'                                    => ["\t", "\\t", 'UTF-8'],
-            'Form feed'                              => ["\f", "\\f", 'UTF-8'],
-            'Carriage return'                        => ["\r", "\\r", 'UTF-8'],
-            'Line separator'                         => ["\u{2028}", "\u{2028}", 'UTF-8'],
-            'Paragraph separator'                    => ["\u{2029}", "\u{2029}", 'UTF-8'],
+            'Solidus' => ['/', '/', 'UTF-8'],
+            'Double quote' => ['"', '\\"', 'UTF-8'],
+            'Single quote' => ['\'', '\'', 'UTF-8'],
+            'Less than' => ['<', '\u003C', 'UTF-8'],
+            'Greater than' => ['>', '\u003E', 'UTF-8'],
+            'Ampersand' => ['&', '&', 'UTF-8'],
+            'Newline' => ["\n", "\\n", 'UTF-8'],
+            'Tab' => ["\t", "\\t", 'UTF-8'],
+            'Form feed' => ["\f", "\\f", 'UTF-8'],
+            'Carriage return' => ["\r", "\\r", 'UTF-8'],
+            'Line separator' => ["\u{2028}", "\u{2028}", 'UTF-8'],
+            'Paragraph separator' => ["\u{2029}", "\u{2029}", 'UTF-8'],
 
             /*
              * The following is the Flag of England emoji
              * PHP: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}"
              */
-            'Flag of england'                        => ['🏴󠁧󠁢󠁥󠁮󠁧󠁿', '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'UTF-8'],
-            'Malicious script closer'                => ['</script>', '\u003C/script\u003E', 'UTF-8'],
+            'Flag of england' => ['🏴󠁧󠁢󠁥󠁮󠁧󠁿', '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'UTF-8'],
+            'Malicious script closer' => ['</script>', '\u003C/script\u003E', 'UTF-8'],
             'Entity-encoded malicious script closer' => ['&lt;/script&gt;', '&lt;/script&gt;', 'UTF-8'],
 
             // Non UTF-8
-            'Solidus'                                => ['/', '/', 'iso-8859-1'],
-            'Less than'                              => ['<', '\u003C', 'iso-8859-1'],
-            'Greater than'                           => ['>', '\u003E', 'iso-8859-1'],
-            'Ampersand'                              => ['&', '&', 'iso-8859-1'],
-            'Newline'                                => ["\n", "\\n", 'iso-8859-1'],
-            'Tab'                                    => ["\t", "\\t", 'iso-8859-1'],
-            'Form feed'                              => ["\f", "\\f", 'iso-8859-1'],
-            'Carriage return'                        => ["\r", "\\r", 'iso-8859-1'],
-            'Line separator'                         => ["\u{2028}", "\u2028", 'iso-8859-1'],
-            'Paragraph separator'                    => ["\u{2029}", "\u2029", 'iso-8859-1'],
+            'Solidus' => ['/', '/', 'iso-8859-1'],
+            'Less than' => ['<', '\u003C', 'iso-8859-1'],
+            'Greater than' => ['>', '\u003E', 'iso-8859-1'],
+            'Ampersand' => ['&', '&', 'iso-8859-1'],
+            'Newline' => ["\n", "\\n", 'iso-8859-1'],
+            'Tab' => ["\t", "\\t", 'iso-8859-1'],
+            'Form feed' => ["\f", "\\f", 'iso-8859-1'],
+            'Carriage return' => ["\r", "\\r", 'iso-8859-1'],
+            'Line separator' => ["\u{2028}", "\u2028", 'iso-8859-1'],
+            'Paragraph separator' => ["\u{2029}", "\u2029", 'iso-8859-1'],
             /*
              * The following is the Flag of England emoji
              * PHP: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}"
              */
-            'Flag of england'                        => ['🏴󠁧󠁢󠁥󠁮󠁧󠁿', "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f", 'iso-8859-1'],
-            'Malicious script closer'                => ['</script>', '\u003C/script\u003E', 'iso-8859-1'],
+            'Flag of england' => [
+                '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+                "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f",
+                'iso-8859-1',
+            ],
+            'Malicious script closer' => ['</script>', '\u003C/script\u003E', 'iso-8859-1'],
             'Entity-encoded malicious script closer' => ['&lt;/script&gt;', '&lt;/script&gt;', 'iso-8859-1'],
 
         ];
@@ -918,7 +922,7 @@ HTML;
             'script_module_data_@test/module',
             function ($_) use ($data) {
                 return $data;
-            }
+            },
         );
 
         $actual = get_echo([$this->script_modules, 'print_script_module_data']);
@@ -934,10 +938,10 @@ HTML;
     public static function data_invalid_script_module_data(): array
     {
         return [
-            'null'     => [null],
+            'null' => [null],
             'stdClass' => [new stdClass()],
             'number 1' => [1],
-            'string'   => ['string'],
+            'string' => ['string'],
         ];
     }
 }

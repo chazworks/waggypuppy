@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -103,15 +103,22 @@ class Source implements RegistryAware
     public function get_title()
     {
         if ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'title')) {
-            return $this->sanitize($return[0]['data'], $this->registry->call(Misc::class, 'atom_10_construct_type', [$return[0]['attribs']]), $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'],
+                $this->registry->call(Misc::class, 'atom_10_construct_type', [$return[0]['attribs']]),
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_03, 'title')) {
-            return $this->sanitize($return[0]['data'], $this->registry->call(Misc::class, 'atom_03_construct_type', [$return[0]['attribs']]), $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'],
+                $this->registry->call(Misc::class, 'atom_03_construct_type', [$return[0]['attribs']]),
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_10, 'title')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML,
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_090, 'title')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML,
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_20, 'title')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML,
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_11, 'title')) {
             return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_10, 'title')) {
@@ -135,7 +142,7 @@ class Source implements RegistryAware
     {
         $categories = [];
 
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'category') as $category) {
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'category') as $category) {
             $term = null;
             $scheme = null;
             $label = null;
@@ -150,7 +157,7 @@ class Source implements RegistryAware
             }
             $categories[] = $this->registry->create(Category::class, [$term, $scheme, $label]);
         }
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_20, 'category') as $category) {
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_20, 'category') as $category) {
             // This is really the label, but keep this as the term also for BC.
             // Label will also work on retrieving because that falls back to term.
             $term = $this->sanitize($category['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
@@ -161,11 +168,13 @@ class Source implements RegistryAware
             }
             $categories[] = $this->registry->create(Category::class, [$term, $scheme, null]);
         }
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_11, 'subject') as $category) {
-            $categories[] = $this->registry->create(Category::class, [$this->sanitize($category['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_11, 'subject') as $category) {
+            $categories[] = $this->registry->create(Category::class,
+                [$this->sanitize($category['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
         }
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_10, 'subject') as $category) {
-            $categories[] = $this->registry->create(Category::class, [$this->sanitize($category['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_10, 'subject') as $category) {
+            $categories[] = $this->registry->create(Category::class,
+                [$this->sanitize($category['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
         }
 
         if (!empty($categories)) {
@@ -188,18 +197,22 @@ class Source implements RegistryAware
     public function get_authors()
     {
         $authors = [];
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'author') as $author) {
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'author') as $author) {
             $name = null;
             $uri = null;
             $email = null;
             if (isset($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['name'][0]['data'])) {
-                $name = $this->sanitize($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['name'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
+                $name = $this->sanitize($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['name'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_TEXT);
             }
             if (isset($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]['data'])) {
-                $uri = $this->sanitize($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]));
+                $uri = $this->sanitize($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_IRI,
+                    $this->get_base($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]));
             }
             if (isset($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['email'][0]['data'])) {
-                $email = $this->sanitize($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['email'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
+                $email = $this->sanitize($author['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['email'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_TEXT);
             }
             if ($name !== null || $email !== null || $uri !== null) {
                 $authors[] = $this->registry->create(Author::class, [$name, $uri, $email]);
@@ -210,26 +223,33 @@ class Source implements RegistryAware
             $url = null;
             $email = null;
             if (isset($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['name'][0]['data'])) {
-                $name = $this->sanitize($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['name'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
+                $name = $this->sanitize($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['name'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_TEXT);
             }
             if (isset($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]['data'])) {
-                $url = $this->sanitize($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]));
+                $url = $this->sanitize($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_IRI,
+                    $this->get_base($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]));
             }
             if (isset($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['email'][0]['data'])) {
-                $email = $this->sanitize($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['email'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
+                $email = $this->sanitize($author[0]['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['email'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_TEXT);
             }
             if ($name !== null || $email !== null || $url !== null) {
                 $authors[] = $this->registry->create(Author::class, [$name, $url, $email]);
             }
         }
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_11, 'creator') as $author) {
-            $authors[] = $this->registry->create(Author::class, [$this->sanitize($author['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_11, 'creator') as $author) {
+            $authors[] = $this->registry->create(Author::class,
+                [$this->sanitize($author['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
         }
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_10, 'creator') as $author) {
-            $authors[] = $this->registry->create(Author::class, [$this->sanitize($author['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_10, 'creator') as $author) {
+            $authors[] = $this->registry->create(Author::class,
+                [$this->sanitize($author['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
         }
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ITUNES, 'author') as $author) {
-            $authors[] = $this->registry->create(Author::class, [$this->sanitize($author['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ITUNES, 'author') as $author) {
+            $authors[] = $this->registry->create(Author::class,
+                [$this->sanitize($author['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT), null, null]);
         }
 
         if (!empty($authors)) {
@@ -252,35 +272,45 @@ class Source implements RegistryAware
     public function get_contributors()
     {
         $contributors = [];
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'contributor') as $contributor) {
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10,
+            'contributor') as $contributor) {
             $name = null;
             $uri = null;
             $email = null;
             if (isset($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['name'][0]['data'])) {
-                $name = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['name'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
+                $name = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['name'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_TEXT);
             }
             if (isset($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]['data'])) {
-                $uri = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]));
+                $uri = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_IRI,
+                    $this->get_base($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['uri'][0]));
             }
             if (isset($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['email'][0]['data'])) {
-                $email = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['email'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
+                $email = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_10]['email'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_TEXT);
             }
             if ($name !== null || $email !== null || $uri !== null) {
                 $contributors[] = $this->registry->create(Author::class, [$name, $uri, $email]);
             }
         }
-        foreach ((array) $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_03, 'contributor') as $contributor) {
+        foreach ((array)$this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_03,
+            'contributor') as $contributor) {
             $name = null;
             $url = null;
             $email = null;
             if (isset($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['name'][0]['data'])) {
-                $name = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['name'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
+                $name = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['name'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_TEXT);
             }
             if (isset($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]['data'])) {
-                $url = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]));
+                $url = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_IRI,
+                    $this->get_base($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['url'][0]));
             }
             if (isset($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['email'][0]['data'])) {
-                $email = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['email'][0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
+                $email = $this->sanitize($contributor['child'][\SimplePie\SimplePie::NAMESPACE_ATOM_03]['email'][0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_TEXT);
             }
             if ($name !== null || $email !== null || $url !== null) {
                 $contributors[] = $this->registry->create(Author::class, [$name, $url, $email]);
@@ -320,7 +350,8 @@ class Source implements RegistryAware
                 foreach ($links as $link) {
                     if (isset($link['attribs']['']['href'])) {
                         $link_rel = (isset($link['attribs']['']['rel'])) ? $link['attribs']['']['rel'] : 'alternate';
-                        $this->data['links'][$link_rel][] = $this->sanitize($link['attribs']['']['href'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($link));
+                        $this->data['links'][$link_rel][] = $this->sanitize($link['attribs']['']['href'],
+                            \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($link));
                     }
                 }
             }
@@ -328,28 +359,36 @@ class Source implements RegistryAware
                 foreach ($links as $link) {
                     if (isset($link['attribs']['']['href'])) {
                         $link_rel = (isset($link['attribs']['']['rel'])) ? $link['attribs']['']['rel'] : 'alternate';
-                        $this->data['links'][$link_rel][] = $this->sanitize($link['attribs']['']['href'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($link));
+                        $this->data['links'][$link_rel][] = $this->sanitize($link['attribs']['']['href'],
+                            \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($link));
                     }
                 }
             }
             if ($links = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_10, 'link')) {
-                $this->data['links']['alternate'][] = $this->sanitize($links[0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($links[0]));
+                $this->data['links']['alternate'][] = $this->sanitize($links[0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($links[0]));
             }
             if ($links = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_090, 'link')) {
-                $this->data['links']['alternate'][] = $this->sanitize($links[0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($links[0]));
+                $this->data['links']['alternate'][] = $this->sanitize($links[0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($links[0]));
             }
             if ($links = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_20, 'link')) {
-                $this->data['links']['alternate'][] = $this->sanitize($links[0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($links[0]));
+                $this->data['links']['alternate'][] = $this->sanitize($links[0]['data'],
+                    \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($links[0]));
             }
 
             $keys = array_keys($this->data['links']);
             foreach ($keys as $key) {
                 if ($this->registry->call(Misc::class, 'is_isegment_nz_nc', [$key])) {
                     if (isset($this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key])) {
-                        $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key] = array_merge($this->data['links'][$key], $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key]);
-                        $this->data['links'][$key] = &$this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key];
+                        $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY
+                        . $key] = array_merge($this->data['links'][$key],
+                            $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key]);
+                        $this->data['links'][$key] = &$this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY
+                        . $key];
                     } else {
-                        $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY . $key] = &$this->data['links'][$key];
+                        $this->data['links'][\SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY
+                        . $key] = &$this->data['links'][$key];
                     }
                 } elseif (substr($key, 0, 41) === \SimplePie\SimplePie::IANA_LINK_RELATIONS_REGISTRY) {
                     $this->data['links'][substr($key, 41)] = &$this->data['links'][$key];
@@ -368,23 +407,32 @@ class Source implements RegistryAware
     public function get_description()
     {
         if ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'subtitle')) {
-            return $this->sanitize($return[0]['data'], $this->registry->call(Misc::class, 'atom_10_construct_type', [$return[0]['attribs']]), $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'],
+                $this->registry->call(Misc::class, 'atom_10_construct_type', [$return[0]['attribs']]),
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_03, 'tagline')) {
-            return $this->sanitize($return[0]['data'], $this->registry->call(Misc::class, 'atom_03_construct_type', [$return[0]['attribs']]), $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'],
+                $this->registry->call(Misc::class, 'atom_03_construct_type', [$return[0]['attribs']]),
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_10, 'description')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML,
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_090, 'description')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML,
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_20, 'description')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_MAYBE_HTML,
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_11, 'description')) {
             return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_10, 'description')) {
             return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ITUNES, 'summary')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_HTML, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_HTML,
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ITUNES, 'subtitle')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_HTML, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_HTML,
+                $this->get_base($return[0]));
         }
 
         return null;
@@ -393,9 +441,13 @@ class Source implements RegistryAware
     public function get_copyright()
     {
         if ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'rights')) {
-            return $this->sanitize($return[0]['data'], $this->registry->call(Misc::class, 'atom_10_construct_type', [$return[0]['attribs']]), $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'],
+                $this->registry->call(Misc::class, 'atom_10_construct_type', [$return[0]['attribs']]),
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_03, 'copyright')) {
-            return $this->sanitize($return[0]['data'], $this->registry->call(Misc::class, 'atom_03_construct_type', [$return[0]['attribs']]), $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'],
+                $this->registry->call(Misc::class, 'atom_03_construct_type', [$return[0]['attribs']]),
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_RSS_20, 'copyright')) {
             return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_TEXT);
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_DC_11, 'rights')) {
@@ -425,9 +477,11 @@ class Source implements RegistryAware
     public function get_latitude()
     {
         if ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_W3C_BASIC_GEO, 'lat')) {
-            return (float) $return[0]['data'];
-        } elseif (($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_GEORSS, 'point')) && preg_match('/^((?:-)?[0-9]+(?:\.[0-9]+)) ((?:-)?[0-9]+(?:\.[0-9]+))$/', trim($return[0]['data']), $match)) {
-            return (float) $match[1];
+            return (float)$return[0]['data'];
+        } elseif (($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_GEORSS, 'point'))
+            && preg_match('/^((?:-)?[0-9]+(?:\.[0-9]+)) ((?:-)?[0-9]+(?:\.[0-9]+))$/', trim($return[0]['data']),
+                $match)) {
+            return (float)$match[1];
         }
 
         return null;
@@ -436,11 +490,13 @@ class Source implements RegistryAware
     public function get_longitude()
     {
         if ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_W3C_BASIC_GEO, 'long')) {
-            return (float) $return[0]['data'];
+            return (float)$return[0]['data'];
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_W3C_BASIC_GEO, 'lon')) {
-            return (float) $return[0]['data'];
-        } elseif (($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_GEORSS, 'point')) && preg_match('/^((?:-)?[0-9]+(?:\.[0-9]+)) ((?:-)?[0-9]+(?:\.[0-9]+))$/', trim($return[0]['data']), $match)) {
-            return (float) $match[2];
+            return (float)$return[0]['data'];
+        } elseif (($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_GEORSS, 'point'))
+            && preg_match('/^((?:-)?[0-9]+(?:\.[0-9]+)) ((?:-)?[0-9]+(?:\.[0-9]+))$/', trim($return[0]['data']),
+                $match)) {
+            return (float)$match[2];
         }
 
         return null;
@@ -451,9 +507,11 @@ class Source implements RegistryAware
         if ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ITUNES, 'image')) {
             return $this->sanitize($return[0]['attribs']['']['href'], \SimplePie\SimplePie::CONSTRUCT_IRI);
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'logo')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI,
+                $this->get_base($return[0]));
         } elseif ($return = $this->get_source_tags(\SimplePie\SimplePie::NAMESPACE_ATOM_10, 'icon')) {
-            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI, $this->get_base($return[0]));
+            return $this->sanitize($return[0]['data'], \SimplePie\SimplePie::CONSTRUCT_IRI,
+                $this->get_base($return[0]));
         }
 
         return null;

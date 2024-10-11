@@ -27,7 +27,7 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase
 
         parent::set_up();
 
-        $this->locale_original    = $locale;
+        $this->locale_original = $locale;
         $this->wp_locale_original = clone $wp_locale;
     }
 
@@ -35,7 +35,7 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase
     {
         global $locale, $wp_locale;
 
-        $locale    = $this->locale_original;
+        $locale = $this->locale_original;
         $wp_locale = $this->wp_locale_original;
 
         parent::tear_down();
@@ -56,8 +56,8 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase
 
         $month_names = $this->get_months_names($test_locale);
 
-        $locale                    = $test_locale;
-        $wp_locale->month          = $month_names['month'];
+        $locale = $test_locale;
+        $wp_locale->month = $month_names['month'];
         $wp_locale->month_genitive = $month_names['month_genitive'];
 
         $declined_date = wp_maybe_decline_date($input, $format);
@@ -102,57 +102,265 @@ class Tests_Date_MaybeDeclineDate extends WP_UnitTestCase
         switch ($locale) {
             case 'ru_RU':
                 $months = [
-                    'month'          => ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-                    'month_genitive' => ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'],
+                    'month' => [
+                        'Январь',
+                        'Февраль',
+                        'Март',
+                        'Апрель',
+                        'Май',
+                        'Июнь',
+                        'Июль',
+                        'Август',
+                        'Сентябрь',
+                        'Октябрь',
+                        'Ноябрь',
+                        'Декабрь',
+                    ],
+                    'month_genitive' => [
+                        'января',
+                        'февраля',
+                        'марта',
+                        'апреля',
+                        'мая',
+                        'июня',
+                        'июля',
+                        'августа',
+                        'сентября',
+                        'октября',
+                        'ноября',
+                        'декабря',
+                    ],
                 ];
                 break;
 
             case 'pl_PL':
                 $months = [
-                    'month'          => ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
-                    'month_genitive' => ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'],
+                    'month' => [
+                        'Styczeń',
+                        'Luty',
+                        'Marzec',
+                        'Kwiecień',
+                        'Maj',
+                        'Czerwiec',
+                        'Lipiec',
+                        'Sierpień',
+                        'Wrzesień',
+                        'Październik',
+                        'Listopad',
+                        'Grudzień',
+                    ],
+                    'month_genitive' => [
+                        'stycznia',
+                        'lutego',
+                        'marca',
+                        'kwietnia',
+                        'maja',
+                        'czerwca',
+                        'lipca',
+                        'sierpnia',
+                        'września',
+                        'października',
+                        'listopada',
+                        'grudnia',
+                    ],
                 ];
                 break;
 
             case 'hr':
                 $months = [
-                    'month'          => ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
-                    'month_genitive' => ['siječnja', 'veljače', 'ožujka', 'ožujka', 'svibnja', 'lipnja', 'srpnja', 'kolovoza', 'rujna', 'listopada', 'studenoga', 'prosinca'],
+                    'month' => [
+                        'Siječanj',
+                        'Veljača',
+                        'Ožujak',
+                        'Travanj',
+                        'Svibanj',
+                        'Lipanj',
+                        'Srpanj',
+                        'Kolovoz',
+                        'Rujan',
+                        'Listopad',
+                        'Studeni',
+                        'Prosinac',
+                    ],
+                    'month_genitive' => [
+                        'siječnja',
+                        'veljače',
+                        'ožujka',
+                        'ožujka',
+                        'svibnja',
+                        'lipnja',
+                        'srpnja',
+                        'kolovoza',
+                        'rujna',
+                        'listopada',
+                        'studenoga',
+                        'prosinca',
+                    ],
                 ];
                 break;
 
             case 'ca':
                 $months = [
-                    'month'          => ['gener', 'febrer', 'març', 'abril', 'maig', 'juny', 'juliol', 'agost', 'setembre', 'octubre', 'novembre', 'desembre'],
-                    'month_genitive' => ['gener', 'febrer', 'març', 'abril', 'maig', 'juny', 'juliol', 'agost', 'setembre', 'octubre', 'novembre', 'desembre'],
+                    'month' => [
+                        'gener',
+                        'febrer',
+                        'març',
+                        'abril',
+                        'maig',
+                        'juny',
+                        'juliol',
+                        'agost',
+                        'setembre',
+                        'octubre',
+                        'novembre',
+                        'desembre',
+                    ],
+                    'month_genitive' => [
+                        'gener',
+                        'febrer',
+                        'març',
+                        'abril',
+                        'maig',
+                        'juny',
+                        'juliol',
+                        'agost',
+                        'setembre',
+                        'octubre',
+                        'novembre',
+                        'desembre',
+                    ],
                 ];
                 break;
 
             case 'cs_CZ':
                 $months = [
-                    'month'          => ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-                    'month_genitive' => ['ledna', 'února', 'března', 'dubna', 'května', 'června', 'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'],
+                    'month' => [
+                        'Leden',
+                        'Únor',
+                        'Březen',
+                        'Duben',
+                        'Květen',
+                        'Červen',
+                        'Červenec',
+                        'Srpen',
+                        'Září',
+                        'Říjen',
+                        'Listopad',
+                        'Prosinec',
+                    ],
+                    'month_genitive' => [
+                        'ledna',
+                        'února',
+                        'března',
+                        'dubna',
+                        'května',
+                        'června',
+                        'července',
+                        'srpna',
+                        'září',
+                        'října',
+                        'listopadu',
+                        'prosince',
+                    ],
                 ];
                 break;
 
             case 'it_IT':
                 $months = [
-                    'month'          => ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
-                    'month_genitive' => ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+                    'month' => [
+                        'Gennaio',
+                        'Febbraio',
+                        'Marzo',
+                        'Aprile',
+                        'Maggio',
+                        'Giugno',
+                        'Luglio',
+                        'Agosto',
+                        'Settembre',
+                        'Ottobre',
+                        'Novembre',
+                        'Dicembre',
+                    ],
+                    'month_genitive' => [
+                        'Gennaio',
+                        'Febbraio',
+                        'Marzo',
+                        'Aprile',
+                        'Maggio',
+                        'Giugno',
+                        'Luglio',
+                        'Agosto',
+                        'Settembre',
+                        'Ottobre',
+                        'Novembre',
+                        'Dicembre',
+                    ],
                 ];
                 break;
 
             case 'el':
                 $months = [
-                    'month'          => ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος', 'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'],
-                    'month_genitive' => ['Ιανουαρίου', 'Φεβρουαρίου', 'Μαρτίου', 'Απριλίου', 'Μαΐου', 'Ιουνίου', 'Ιουλίου', 'Αυγούστου', 'Σεπτεμβρίου', 'Οκτωβρίου', 'Νοεμβρίου', 'Δεκεμβρίου'],
+                    'month' => [
+                        'Ιανουάριος',
+                        'Φεβρουάριος',
+                        'Μάρτιος',
+                        'Απρίλιος',
+                        'Μάιος',
+                        'Ιούνιος',
+                        'Ιούλιος',
+                        'Αύγουστος',
+                        'Σεπτέμβριος',
+                        'Οκτώβριος',
+                        'Νοέμβριος',
+                        'Δεκέμβριος',
+                    ],
+                    'month_genitive' => [
+                        'Ιανουαρίου',
+                        'Φεβρουαρίου',
+                        'Μαρτίου',
+                        'Απριλίου',
+                        'Μαΐου',
+                        'Ιουνίου',
+                        'Ιουλίου',
+                        'Αυγούστου',
+                        'Σεπτεμβρίου',
+                        'Οκτωβρίου',
+                        'Νοεμβρίου',
+                        'Δεκεμβρίου',
+                    ],
                 ];
                 break;
 
             default:
                 $months = [
-                    'month'          => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    'month_genitive' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    'month' => [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December',
+                    ],
+                    'month_genitive' => [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December',
+                    ],
                 ];
         }
 

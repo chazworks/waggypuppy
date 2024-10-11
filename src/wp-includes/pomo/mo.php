@@ -10,7 +10,7 @@
 require_once __DIR__ . '/translations.php';
 require_once __DIR__ . '/streams.php';
 
-if (! class_exists('MO', false)) :
+if (!class_exists('MO', false)) :
     class MO extends Gettext_Translations
     {
 
@@ -48,11 +48,11 @@ if (! class_exists('MO', false)) :
         {
             $reader = new POMO_FileReader($filename);
 
-            if (! $reader->is_resource()) {
+            if (!$reader->is_resource()) {
                 return false;
             }
 
-            $this->filename = (string) $filename;
+            $this->filename = (string)$filename;
 
             return $this->import_from_reader($reader);
         }
@@ -64,7 +64,7 @@ if (! class_exists('MO', false)) :
         public function export_to_file($filename)
         {
             $fh = fopen($filename, 'wb');
-            if (! $fh) {
+            if (!$fh) {
                 return false;
             }
             $res = $this->export_to_file_handle($fh);
@@ -78,7 +78,7 @@ if (! class_exists('MO', false)) :
         public function export()
         {
             $tmp_fh = fopen('php://temp', 'r+');
-            if (! $tmp_fh) {
+            if (!$tmp_fh) {
                 return false;
             }
             $this->export_to_file_handle($tmp_fh);
@@ -96,7 +96,7 @@ if (! class_exists('MO', false)) :
                 return false;
             }
 
-            if (! array_filter($entry->translations)) {
+            if (!array_filter($entry->translations)) {
                 return false;
             }
 
@@ -111,14 +111,14 @@ if (! class_exists('MO', false)) :
         {
             $entries = array_filter($this->entries, [$this, 'is_entry_good_for_export']);
             ksort($entries);
-            $magic                     = 0x950412de;
-            $revision                  = 0;
-            $total                     = count($entries) + 1; // All the headers are one entry.
-            $originals_lengths_addr    = 28;
+            $magic = 0x950412de;
+            $revision = 0;
+            $total = count($entries) + 1; // All the headers are one entry.
+            $originals_lengths_addr = 28;
             $translations_lengths_addr = $originals_lengths_addr + 8 * $total;
-            $size_of_hash              = 0;
-            $hash_addr                 = $translations_lengths_addr + 8 * $total;
-            $current_addr              = $hash_addr;
+            $size_of_hash = 0;
+            $hash_addr = $translations_lengths_addr + 8 * $total;
+            $current_addr = $hash_addr;
             fwrite(
                 $fh,
                 pack(
@@ -129,8 +129,8 @@ if (! class_exists('MO', false)) :
                     $originals_lengths_addr,
                     $translations_lengths_addr,
                     $size_of_hash,
-                    $hash_addr
-                )
+                    $hash_addr,
+                ),
             );
             fseek($fh, $originals_lengths_addr);
 
@@ -143,19 +143,19 @@ if (! class_exists('MO', false)) :
 
             foreach ($entries as $entry) {
                 $originals_table .= $this->export_original($entry) . "\0";
-                $length           = $reader->strlen($this->export_original($entry));
+                $length = $reader->strlen($this->export_original($entry));
                 fwrite($fh, pack('VV', $length, $current_addr));
                 $current_addr += $length + 1; // Account for the NULL byte after.
             }
 
             $exported_headers = $this->export_headers();
             fwrite($fh, pack('VV', $reader->strlen($exported_headers), $current_addr));
-            $current_addr      += strlen($exported_headers) + 1;
+            $current_addr += strlen($exported_headers) + 1;
             $translations_table = $exported_headers . "\0";
 
             foreach ($entries as $entry) {
                 $translations_table .= $this->export_translations($entry) . "\0";
-                $length              = $reader->strlen($this->export_translations($entry));
+                $length = $reader->strlen($this->export_translations($entry));
                 fwrite($fh, pack('VV', $length, $current_addr));
                 $current_addr += $length + 1;
             }
@@ -213,10 +213,10 @@ if (! class_exists('MO', false)) :
             // The magic is 0x950412de.
 
             // bug in PHP 5.0.2, see https://savannah.nongnu.org/bugs/?func=detailitem&item_id=10565
-            $magic_little    = (int) - 1794895138;
-            $magic_little_64 = (int) 2500072158;
+            $magic_little = (int)-1794895138;
+            $magic_little_64 = (int)2500072158;
             // 0xde120495
-            $magic_big = ((int) - 569244523) & 0xFFFFFFFF;
+            $magic_big = ((int)-569244523) & 0xFFFFFFFF;
             if ($magic_little === $magic || $magic_little_64 === $magic) {
                 return 'little';
             } elseif ($magic_big === $magic) {
@@ -246,8 +246,9 @@ if (! class_exists('MO', false)) :
             }
 
             // Parse header.
-            $header = unpack("{$endian}revision/{$endian}total/{$endian}originals_lengths_addr/{$endian}translations_lengths_addr/{$endian}hash_length/{$endian}hash_addr", $header);
-            if (! is_array($header)) {
+            $header = unpack("{$endian}revision/{$endian}total/{$endian}originals_lengths_addr/{$endian}translations_lengths_addr/{$endian}hash_length/{$endian}hash_addr",
+                $header);
+            if (!is_array($header)) {
                 return false;
             }
 
@@ -282,7 +283,7 @@ if (! class_exists('MO', false)) :
             }
 
             // Transform raw data into set of indices.
-            $originals    = $reader->str_split($originals, 8);
+            $originals = $reader->str_split($originals, 8);
             $translations = $reader->str_split($translations, 8);
 
             // Skip hash table.
@@ -296,7 +297,7 @@ if (! class_exists('MO', false)) :
             for ($i = 0; $i < $header['total']; $i++) {
                 $o = unpack("{$endian}length/{$endian}pos", $originals[$i]);
                 $t = unpack("{$endian}length/{$endian}pos", $translations[$i]);
-                if (! $o || ! $t) {
+                if (!$o || !$t) {
                     return false;
                 }
 
@@ -304,13 +305,13 @@ if (! class_exists('MO', false)) :
                 $o['pos'] -= $strings_addr;
                 $t['pos'] -= $strings_addr;
 
-                $original    = $reader->substr($strings, $o['pos'], $o['length']);
+                $original = $reader->substr($strings, $o['pos'], $o['length']);
                 $translation = $reader->substr($strings, $t['pos'], $t['length']);
 
                 if ('' === $original) {
                     $this->set_headers($this->make_headers($translation));
                 } else {
-                    $entry                        = &$this->make_entry($original, $translation);
+                    $entry = &$this->make_entry($original, $translation);
                     $this->entries[$entry->key()] = &$entry;
                 }
             }
@@ -334,15 +335,15 @@ if (! class_exists('MO', false)) :
             // Look for context, separated by \4.
             $parts = explode("\4", $original);
             if (isset($parts[1])) {
-                $original       = $parts[1];
+                $original = $parts[1];
                 $entry->context = $parts[0];
             }
             // Look for plural original.
-            $parts           = explode("\0", $original);
+            $parts = explode("\0", $original);
             $entry->singular = $parts[0];
             if (isset($parts[1])) {
                 $entry->is_plural = true;
-                $entry->plural    = $parts[1];
+                $entry->plural = $parts[1];
             }
             // Plural translations are also separated by \0.
             $entry->translations = explode("\0", $translation);

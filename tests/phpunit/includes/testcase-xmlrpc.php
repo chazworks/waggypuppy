@@ -33,9 +33,9 @@ abstract class WP_XMLRPC_UnitTestCase extends WP_UnitTestCase
         return self::factory()->user->create(
             [
                 'user_login' => $role,
-                'user_pass'  => $role,
-                'role'       => $role,
-            ]
+                'user_pass' => $role,
+                'role' => $role,
+            ],
         );
     }
 }

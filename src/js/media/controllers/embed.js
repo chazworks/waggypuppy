@@ -25,114 +25,125 @@ var l10n = wp.media.view.l10n,
  * @param {string} [attributes.url]                   The embed URL.
  * @param {object} [attributes.metadata={}]           Properties of the embed, which will override attributes.url if set.
  */
-Embed = wp.media.controller.State.extend(/** @lends wp.media.controller.Embed.prototype */{
-	defaults: {
-		id:       'embed',
-		title:    l10n.insertFromUrlTitle,
-		content:  'embed',
-		menu:     'default',
-		toolbar:  'main-embed',
-		priority: 120,
-		type:     'link',
-		url:      '',
-		metadata: {}
-	},
+Embed = wp.media.controller.State.extend(
+	/** @lends wp.media.controller.Embed.prototype */ {
+		defaults: {
+			id: 'embed',
+			title: l10n.insertFromUrlTitle,
+			content: 'embed',
+			menu: 'default',
+			toolbar: 'main-embed',
+			priority: 120,
+			type: 'link',
+			url: '',
+			metadata: {},
+		},
 
-	// The amount of time used when debouncing the scan.
-	sensitivity: 400,
+		// The amount of time used when debouncing the scan.
+		sensitivity: 400,
 
-	initialize: function(options) {
-		this.metadata = options.metadata;
-		this.debouncedScan = _.debounce( _.bind( this.scan, this ), this.sensitivity );
-		this.props = new Backbone.Model( this.metadata || { url: '' });
-		this.props.on( 'change:url', this.debouncedScan, this );
-		this.props.on( 'change:url', this.refresh, this );
-		this.on( 'scan', this.scanImage, this );
-	},
+		initialize: function ( options ) {
+			this.metadata = options.metadata;
+			this.debouncedScan = _.debounce(
+				_.bind( this.scan, this ),
+				this.sensitivity
+			);
+			this.props = new Backbone.Model( this.metadata || { url: '' } );
+			this.props.on( 'change:url', this.debouncedScan, this );
+			this.props.on( 'change:url', this.refresh, this );
+			this.on( 'scan', this.scanImage, this );
+		},
 
-	/**
-	 * Trigger a scan of the embedded URL's content for metadata required to embed.
-	 *
-	 * @fires wp.media.controller.Embed#scan
-	 */
-	scan: function() {
-		var scanners,
-			embed = this,
-			attributes = {
-				type: 'link',
-				scanners: []
-			};
-
-		/*
-		 * Scan is triggered with the list of `attributes` to set on the
-		 * state, useful for the 'type' attribute and 'scanners' attribute,
-		 * an array of promise objects for asynchronous scan operations.
+		/**
+		 * Trigger a scan of the embedded URL's content for metadata required to embed.
+		 *
+		 * @fires wp.media.controller.Embed#scan
 		 */
-		if ( this.props.get('url') ) {
-			this.trigger( 'scan', attributes );
-		}
+		scan: function () {
+			var scanners,
+				embed = this,
+				attributes = {
+					type: 'link',
+					scanners: [],
+				};
 
-		if ( attributes.scanners.length ) {
-			scanners = attributes.scanners = $.when.apply( $, attributes.scanners );
-			scanners.always( function() {
-				if ( embed.get('scanners') === scanners ) {
-					embed.set( 'loading', false );
-				}
-			});
-		} else {
-			attributes.scanners = null;
-		}
-
-		attributes.loading = !! attributes.scanners;
-		this.set( attributes );
-	},
-	/**
-	 * Try scanning the embed as an image to discover its dimensions.
-	 *
-	 * @param {Object} attributes
-	 */
-	scanImage: function( attributes ) {
-		var frame = this.frame,
-			state = this,
-			url = this.props.get('url'),
-			image = new Image(),
-			deferred = $.Deferred();
-
-		attributes.scanners.push( deferred.promise() );
-
-		// Try to load the image and find its width/height.
-		image.onload = function() {
-			deferred.resolve();
-
-			if ( state !== frame.state() || url !== state.props.get('url') ) {
-				return;
+			/*
+			 * Scan is triggered with the list of `attributes` to set on the
+			 * state, useful for the 'type' attribute and 'scanners' attribute,
+			 * an array of promise objects for asynchronous scan operations.
+			 */
+			if ( this.props.get( 'url' ) ) {
+				this.trigger( 'scan', attributes );
 			}
 
-			state.set({
-				type: 'image'
-			});
+			if ( attributes.scanners.length ) {
+				scanners = attributes.scanners = $.when.apply(
+					$,
+					attributes.scanners
+				);
+				scanners.always( function () {
+					if ( embed.get( 'scanners' ) === scanners ) {
+						embed.set( 'loading', false );
+					}
+				} );
+			} else {
+				attributes.scanners = null;
+			}
 
-			state.props.set({
-				width:  image.width,
-				height: image.height
-			});
-		};
+			attributes.loading = !! attributes.scanners;
+			this.set( attributes );
+		},
+		/**
+		 * Try scanning the embed as an image to discover its dimensions.
+		 *
+		 * @param {Object} attributes
+		 */
+		scanImage: function ( attributes ) {
+			var frame = this.frame,
+				state = this,
+				url = this.props.get( 'url' ),
+				image = new Image(),
+				deferred = $.Deferred();
 
-		image.onerror = deferred.reject;
-		image.src = url;
-	},
+			attributes.scanners.push( deferred.promise() );
 
-	refresh: function() {
-		this.frame.toolbar.get().refresh();
-	},
+			// Try to load the image and find its width/height.
+			image.onload = function () {
+				deferred.resolve();
 
-	reset: function() {
-		this.props.clear().set({ url: '' });
+				if (
+					state !== frame.state() ||
+					url !== state.props.get( 'url' )
+				) {
+					return;
+				}
 
-		if ( this.active ) {
-			this.refresh();
-		}
+				state.set( {
+					type: 'image',
+				} );
+
+				state.props.set( {
+					width: image.width,
+					height: image.height,
+				} );
+			};
+
+			image.onerror = deferred.reject;
+			image.src = url;
+		},
+
+		refresh: function () {
+			this.frame.toolbar.get().refresh();
+		},
+
+		reset: function () {
+			this.props.clear().set( { url: '' } );
+
+			if ( this.active ) {
+				this.refresh();
+			}
+		},
 	}
-});
+);
 
 module.exports = Embed;

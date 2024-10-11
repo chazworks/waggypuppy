@@ -36,7 +36,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencies extends WP_PluginDependen
         $expected = ['dependency', 'dependency2'];
         $this->set_property_value(
             'dependencies',
-            ['dependent/dependent.php' => $expected]
+            ['dependent/dependent.php' => $expected],
         );
         $this->assertSame($expected, self::$instance::get_dependencies('dependent/dependent.php'));
     }

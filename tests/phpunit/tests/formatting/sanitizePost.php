@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group formatting
  * @group post
@@ -14,12 +15,12 @@ class Tests_Formatting_SanitizePost extends WP_UnitTestCase
      */
     public function test_int_fields()
     {
-        $post       = self::factory()->post->create_and_get();
+        $post = self::factory()->post->create_and_get();
         $int_fields = [
-            'ID'            => 'integer',
-            'post_parent'   => 'integer',
-            'menu_order'    => 'integer',
-            'post_author'   => 'string',
+            'ID' => 'integer',
+            'post_parent' => 'integer',
+            'menu_order' => 'integer',
+            'post_author' => 'string',
             'comment_count' => 'string',
         ];
 

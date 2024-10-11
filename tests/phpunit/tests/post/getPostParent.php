@@ -17,12 +17,12 @@ class Tests_Post_GetPostParent extends WP_UnitTestCase
     {
         $post = [
             'post_status' => 'publish',
-            'post_type'   => 'page',
+            'post_type' => 'page',
         ];
 
         // Insert two initial posts.
         $parent_id = self::factory()->post->create($post);
-        $child_id  = self::factory()->post->create($post);
+        $child_id = self::factory()->post->create($post);
 
         // Test if the function returns null by default.
         $parent = get_post_parent($child_id);
@@ -31,9 +31,9 @@ class Tests_Post_GetPostParent extends WP_UnitTestCase
         // Update child post with a parent.
         wp_update_post(
             [
-                'ID'          => $child_id,
+                'ID' => $child_id,
                 'post_parent' => $parent_id,
-            ]
+            ],
         );
 
         // Test if the function returns the parent object.
@@ -49,12 +49,12 @@ class Tests_Post_GetPostParent extends WP_UnitTestCase
     {
         $post = [
             'post_status' => 'publish',
-            'post_type'   => 'page',
+            'post_type' => 'page',
         ];
 
         // Insert two initial posts.
         $parent_id = self::factory()->post->create($post);
-        $child_id  = self::factory()->post->create($post);
+        $child_id = self::factory()->post->create($post);
 
         // Test if the function returns false by default.
         $parent = has_post_parent($child_id);
@@ -63,9 +63,9 @@ class Tests_Post_GetPostParent extends WP_UnitTestCase
         // Update child post with a parent.
         wp_update_post(
             [
-                'ID'          => $child_id,
+                'ID' => $child_id,
                 'post_parent' => $parent_id,
-            ]
+            ],
         );
 
         // Test if the function returns true for a child post.

@@ -25,35 +25,35 @@
  *
  * Do not use this function before the {@see 'init'} action hook; everything will break.
  *
+ * @param string $text The text to be formatted.
+ * @param bool $reset Set to true for unit testing. Translated patterns will reset.
+ * @return string The string replaced with HTML entities.
  * @since 0.71
  *
  * @global array $wp_cockneyreplace Array of formatted entities for certain common phrases.
  * @global array $shortcode_tags
  *
- * @param string $text  The text to be formatted.
- * @param bool   $reset Set to true for unit testing. Translated patterns will reset.
- * @return string The string replaced with HTML entities.
  */
 function wptexturize($text, $reset = false)
 {
     global $wp_cockneyreplace, $shortcode_tags;
-    static $static_characters            = null,
-        $static_replacements             = null,
-        $dynamic_characters              = null,
-        $dynamic_replacements            = null,
-        $default_no_texturize_tags       = null,
-        $default_no_texturize_shortcodes = null,
-        $run_texturize                   = true,
-        $apos                            = null,
-        $prime                           = null,
-        $double_prime                    = null,
-        $opening_quote                   = null,
-        $closing_quote                   = null,
-        $opening_single_quote            = null,
-        $closing_single_quote            = null,
-        $open_q_flag                     = '<!--oq-->',
-        $open_sq_flag                    = '<!--osq-->',
-        $apos_flag                       = '<!--apos-->';
+    static $static_characters = null,
+    $static_replacements = null,
+    $dynamic_characters = null,
+    $dynamic_replacements = null,
+    $default_no_texturize_tags = null,
+    $default_no_texturize_shortcodes = null,
+    $run_texturize = true,
+    $apos = null,
+    $prime = null,
+    $double_prime = null,
+    $opening_quote = null,
+    $closing_quote = null,
+    $opening_single_quote = null,
+    $closing_single_quote = null,
+    $open_q_flag = '<!--oq-->',
+    $open_sq_flag = '<!--osq-->',
+    $apos_flag = '<!--apos-->';
 
     // If there's nothing to do, just stop.
     if (empty($text) || false === $run_texturize) {
@@ -61,7 +61,7 @@ function wptexturize($text, $reset = false)
     }
 
     // Set up static variables. Run once only.
-    if ($reset || ! isset($static_characters)) {
+    if ($reset || !isset($static_characters)) {
         /**
          * Filters whether to skip running wptexturize().
          *
@@ -70,11 +70,11 @@ function wptexturize($text, $reset = false)
          *
          * The filter runs only once, the first time wptexturize() is called.
          *
-         * @since 4.0.0
-         *
+         * @param bool $run_texturize Whether to short-circuit wptexturize().
          * @see wptexturize()
          *
-         * @param bool $run_texturize Whether to short-circuit wptexturize().
+         * @since 4.0.0
+         *
          */
         $run_texturize = apply_filters('run_wptexturize', $run_texturize);
         if (false === $run_texturize) {
@@ -104,12 +104,12 @@ function wptexturize($text, $reset = false)
         /* translators: Em dash. */
         $em_dash = _x('&#8212;', 'em dash');
 
-        $default_no_texturize_tags       = ['pre', 'code', 'kbd', 'style', 'script', 'tt'];
+        $default_no_texturize_tags = ['pre', 'code', 'kbd', 'style', 'script', 'tt'];
         $default_no_texturize_shortcodes = ['code'];
 
         // If a plugin has provided an autocorrect array, use it.
         if (isset($wp_cockneyreplace)) {
-            $cockney        = array_keys($wp_cockneyreplace);
+            $cockney = array_keys($wp_cockneyreplace);
             $cockneyreplace = array_values($wp_cockneyreplace);
         } else {
             /*
@@ -121,42 +121,44 @@ function wptexturize($text, $reset = false)
                 ',',
                 _x(
                     "'tain't,'twere,'twas,'tis,'twill,'til,'bout,'nuff,'round,'cause,'em",
-                    'Comma-separated list of words to texturize in your language'
-                )
+                    'Comma-separated list of words to texturize in your language',
+                ),
             );
 
             $cockneyreplace = explode(
                 ',',
                 _x(
                     '&#8217;tain&#8217;t,&#8217;twere,&#8217;twas,&#8217;tis,&#8217;twill,&#8217;til,&#8217;bout,&#8217;nuff,&#8217;round,&#8217;cause,&#8217;em',
-                    'Comma-separated list of replacement words in your language'
-                )
+                    'Comma-separated list of replacement words in your language',
+                ),
             );
         }
 
-        $static_characters   = array_merge(['...', '``', '\'\'', ' (tm)'], $cockney);
+        $static_characters = array_merge(['...', '``', '\'\'', ' (tm)'], $cockney);
         $static_replacements = array_merge(['&#8230;', $opening_quote, $closing_quote, ' &#8482;'], $cockneyreplace);
 
         /*
          * Pattern-based replacements of characters.
          * Sort the remaining patterns into several arrays for performance tuning.
          */
-        $dynamic_characters   = [
-            'apos'  => [],
+        $dynamic_characters = [
+            'apos' => [],
             'quote' => [],
-            'dash'  => [],
+            'dash' => [],
         ];
         $dynamic_replacements = [
-            'apos'  => [],
+            'apos' => [],
             'quote' => [],
-            'dash'  => [],
+            'dash' => [],
         ];
-        $dynamic              = [];
-        $spaces               = wp_spaces_regexp();
+        $dynamic = [];
+        $spaces = wp_spaces_regexp();
 
         // '99' and '99" are ambiguous among other patterns; assume it's an abbreviated year at the end of a quotation.
         if ("'" !== $apos || "'" !== $closing_single_quote) {
-            $dynamic['/\'(\d\d)\'(?=\Z|[.,:;!?)}\-\]]|&gt;|' . $spaces . ')/'] = $apos_flag . '$1' . $closing_single_quote;
+            $dynamic['/\'(\d\d)\'(?=\Z|[.,:;!?)}\-\]]|&gt;|' . $spaces . ')/'] = $apos_flag
+                . '$1'
+                . $closing_single_quote;
         }
         if ("'" !== $apos || '"' !== $closing_quote) {
             $dynamic['/\'(\d\d)"(?=\Z|[.,:;!?)}\-\]]|&gt;|' . $spaces . ')/'] = $apos_flag . '$1' . $closing_quote;
@@ -182,9 +184,9 @@ function wptexturize($text, $reset = false)
             $dynamic['/(?<!' . $spaces . ')\'(?!\Z|[.,:;!?"\'(){}[\]\-]|&[lg]t;|' . $spaces . ')/'] = $apos_flag;
         }
 
-        $dynamic_characters['apos']   = array_keys($dynamic);
+        $dynamic_characters['apos'] = array_keys($dynamic);
         $dynamic_replacements['apos'] = array_values($dynamic);
-        $dynamic                      = [];
+        $dynamic = [];
 
         // Quoted numbers like "42".
         if ('"' !== $opening_quote && '"' !== $closing_quote) {
@@ -196,17 +198,17 @@ function wptexturize($text, $reset = false)
             $dynamic['/(?<=\A|[([{\-]|&lt;|' . $spaces . ')"(?!' . $spaces . ')/'] = $open_q_flag;
         }
 
-        $dynamic_characters['quote']   = array_keys($dynamic);
+        $dynamic_characters['quote'] = array_keys($dynamic);
         $dynamic_replacements['quote'] = array_values($dynamic);
-        $dynamic                       = [];
+        $dynamic = [];
 
         // Dashes and spaces.
         $dynamic['/---/'] = $em_dash;
         $dynamic['/(?<=^|' . $spaces . ')--(?=$|' . $spaces . ')/'] = $em_dash;
-        $dynamic['/(?<!xn)--/']                                     = $en_dash;
-        $dynamic['/(?<=^|' . $spaces . ')-(?=$|' . $spaces . ')/']  = $en_dash;
+        $dynamic['/(?<!xn)--/'] = $en_dash;
+        $dynamic['/(?<=^|' . $spaces . ')-(?=$|' . $spaces . ')/'] = $en_dash;
 
-        $dynamic_characters['dash']   = array_keys($dynamic);
+        $dynamic_characters['dash'] = array_keys($dynamic);
         $dynamic_replacements['dash'] = array_values($dynamic);
     }
 
@@ -214,30 +216,30 @@ function wptexturize($text, $reset = false)
     /**
      * Filters the list of HTML elements not to texturize.
      *
+     * @param string[] $default_no_texturize_tags An array of HTML element names.
      * @since 2.8.0
      *
-     * @param string[] $default_no_texturize_tags An array of HTML element names.
      */
     $no_texturize_tags = apply_filters('no_texturize_tags', $default_no_texturize_tags);
     /**
      * Filters the list of shortcodes not to texturize.
      *
+     * @param string[] $default_no_texturize_shortcodes An array of shortcode names.
      * @since 2.8.0
      *
-     * @param string[] $default_no_texturize_shortcodes An array of shortcode names.
      */
     $no_texturize_shortcodes = apply_filters('no_texturize_shortcodes', $default_no_texturize_shortcodes);
 
-    $no_texturize_tags_stack       = [];
+    $no_texturize_tags_stack = [];
     $no_texturize_shortcodes_stack = [];
 
     // Look for shortcodes and HTML elements.
 
     preg_match_all('@\[/?([^<>&/\[\]\x00-\x20=]++)@', $text, $matches);
-    $tagnames         = array_intersect(array_keys($shortcode_tags), $matches[1]);
-    $found_shortcodes = ! empty($tagnames);
-    $shortcode_regex  = $found_shortcodes ? _get_wptexturize_shortcode_regex($tagnames) : '';
-    $regex            = _get_wptexturize_split_regex($shortcode_regex);
+    $tagnames = array_intersect(array_keys($shortcode_tags), $matches[1]);
+    $found_shortcodes = !empty($tagnames);
+    $shortcode_regex = $found_shortcodes ? _get_wptexturize_shortcode_regex($tagnames) : '';
+    $regex = _get_wptexturize_split_regex($shortcode_regex);
 
     $textarr = preg_split($regex, $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
@@ -259,11 +261,10 @@ function wptexturize($text, $reset = false)
         } elseif ('' === trim($curl)) {
             // This is a newline between delimiters. Performance improves when we check this.
             continue;
-
         } elseif ('[' === $first && $found_shortcodes && 1 === preg_match('/^' . $shortcode_regex . '$/', $curl)) {
             // This is a shortcode delimiter.
 
-            if (! str_starts_with($curl, '[[') && ! str_ends_with($curl, ']]')) {
+            if (!str_starts_with($curl, '[[') && !str_ends_with($curl, ']]')) {
                 // Looks like a normal shortcode.
                 _wptexturize_pushpop_element($curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes);
             } else {
@@ -308,29 +309,29 @@ function wptexturize($text, $reset = false)
  * Implements a logic tree to determine whether or not "7'." represents seven feet,
  * then converts the special char into either a prime char or a closing quote char.
  *
- * @since 4.3.0
- *
- * @param string $haystack    The plain text to be searched.
- * @param string $needle      The character to search for such as ' or ".
- * @param string $prime       The prime char to use for replacement.
- * @param string $open_quote  The opening quote char. Opening quote replacement must be
+ * @param string $haystack The plain text to be searched.
+ * @param string $needle The character to search for such as ' or ".
+ * @param string $prime The prime char to use for replacement.
+ * @param string $open_quote The opening quote char. Opening quote replacement must be
  *                            accomplished already.
  * @param string $close_quote The closing quote char to use for replacement.
  * @return string The $haystack value after primes and quotes replacements.
+ * @since 4.3.0
+ *
  */
 function wptexturize_primes($haystack, $needle, $prime, $open_quote, $close_quote)
 {
-    $spaces           = wp_spaces_regexp();
-    $flag             = '<!--wp-prime-or-quote-->';
-    $quote_pattern    = "/$needle(?=\\Z|[.,:;!?)}\\-\\]]|&gt;|" . $spaces . ')/';
-    $prime_pattern    = "/(?<=\\d)$needle/";
+    $spaces = wp_spaces_regexp();
+    $flag = '<!--wp-prime-or-quote-->';
+    $quote_pattern = "/$needle(?=\\Z|[.,:;!?)}\\-\\]]|&gt;|" . $spaces . ')/';
+    $prime_pattern = "/(?<=\\d)$needle/";
     $flag_after_digit = "/(?<=\\d)$flag/";
-    $flag_no_digit    = "/(?<!\\d)$flag/";
+    $flag_no_digit = "/(?<!\\d)$flag/";
 
     $sentences = explode($open_quote, $haystack);
 
     foreach ($sentences as $key => &$sentence) {
-        if (! str_contains($sentence, $needle)) {
+        if (!str_contains($sentence, $needle)) {
             continue;
         } elseif (0 !== $key && 0 === substr_count($sentence, $close_quote)) {
             $sentence = preg_replace($quote_pattern, $flag, $sentence, -1, $count);
@@ -383,12 +384,12 @@ function wptexturize_primes($haystack, $needle, $prime, $open_quote, $close_quot
  * Assumes first char of `$text` is tag opening and last char is tag closing.
  * Assumes second char of `$text` is optionally `/` to indicate closing as in `</html>`.
  *
+ * @param string $text Text to check. Must be a tag like `<html>` or `[shortcode]`.
+ * @param string[] $stack Array of open tag elements.
+ * @param string[] $disabled_elements Array of tag names to match against. Spaces are not allowed in tag names.
  * @since 2.9.0
  * @access private
  *
- * @param string   $text              Text to check. Must be a tag like `<html>` or `[shortcode]`.
- * @param string[] $stack             Array of open tag elements.
- * @param string[] $disabled_elements Array of tag names to match against. Spaces are not allowed in tag names.
  */
 function _wptexturize_pushpop_element($text, &$stack, $disabled_elements)
 {
@@ -438,13 +439,13 @@ function _wptexturize_pushpop_element($text, &$stack, $disabled_elements)
  * replace double line breaks with HTML paragraph tags. The remaining line breaks
  * after conversion become `<br />` tags, unless `$br` is set to '0' or 'false'.
  *
- * @since 0.71
- *
  * @param string $text The text which has to be formatted.
- * @param bool   $br   Optional. If set, this will convert all remaining line breaks
+ * @param bool $br Optional. If set, this will convert all remaining line breaks
  *                     after paragraphing. Line breaks within `<script>`, `<style>`,
  *                     and `<svg>` tags are not affected. Default true.
  * @return string Text which has been converted into correct paragraph tags.
+ * @since 0.71
+ *
  */
 function wpautop($text, $br = true)
 {
@@ -463,9 +464,9 @@ function wpautop($text, $br = true)
      */
     if (str_contains($text, '<pre')) {
         $text_parts = explode('</pre>', $text);
-        $last_part  = array_pop($text_parts);
-        $text       = '';
-        $i          = 0;
+        $last_part = array_pop($text_parts);
+        $text = '';
+        $i = 0;
 
         foreach ($text_parts as $text_part) {
             $start = strpos($text_part, '<pre');
@@ -476,7 +477,7 @@ function wpautop($text, $br = true)
                 continue;
             }
 
-            $name            = "<pre wp-pre-tag-$i></pre>";
+            $name = "<pre wp-pre-tag-$i></pre>";
             $pre_tags[$name] = substr($text_part, $start) . '</pre>';
 
             $text .= substr($text_part, 0, $start) . $name;
@@ -576,7 +577,8 @@ function wpautop($text, $br = true)
     // Optionally insert line breaks.
     if ($br) {
         // Replace newlines that shouldn't be touched with a placeholder.
-        $text = preg_replace_callback('/<(script|style|svg|math).*?<\/\\1>/s', '_autop_newline_preservation_helper', $text);
+        $text = preg_replace_callback('/<(script|style|svg|math).*?<\/\\1>/s', '_autop_newline_preservation_helper',
+            $text);
 
         // Normalize <br>
         $text = str_replace(['<br>', '<br/>'], '<br />', $text);
@@ -596,7 +598,7 @@ function wpautop($text, $br = true)
     $text = preg_replace("|\n</p>$|", '</p>', $text);
 
     // Replace placeholder <pre> tags with their original content.
-    if (! empty($pre_tags)) {
+    if (!empty($pre_tags)) {
         $text = str_replace(array_keys($pre_tags), array_values($pre_tags), $text);
     }
 
@@ -611,10 +613,10 @@ function wpautop($text, $br = true)
 /**
  * Separates HTML elements and comments from the text.
  *
- * @since 4.2.4
- *
  * @param string $input The text which has to be formatted.
  * @return string[] Array of the formatted text.
+ * @since 4.2.4
+ *
  */
 function wp_html_split($input)
 {
@@ -624,21 +626,20 @@ function wp_html_split($input)
 /**
  * Retrieves the regular expression for an HTML element.
  *
+ * @return string The regular expression
  * @since 4.4.0
  *
- * @return string The regular expression
  */
 function get_html_split_regex()
 {
     static $regex;
 
-    if (! isset($regex)) {
-		// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
+    if (!isset($regex)) {
         $comments =
             '!'             // Start of comment, after the <.
             . '(?:'         // Unroll the loop: Consume everything until --> is found.
-            .     '-(?!->)' // Dash not followed by end of comment.
-            .     '[^\-]*+' // Consume non-dashes.
+            . '-(?!->)' // Dash not followed by end of comment.
+            . '[^\-]*+' // Consume non-dashes.
             . ')*+'         // Loop possessively.
             . '(?:-->)?';   // End of comment. If not found, match all input.
 
@@ -646,33 +647,32 @@ function get_html_split_regex()
             '!\[CDATA\['    // Start of comment, after the <.
             . '[^\]]*+'     // Consume non-].
             . '(?:'         // Unroll the loop: Consume everything until ]]> is found.
-            .     '](?!]>)' // One ] not followed by end of comment.
-            .     '[^\]]*+' // Consume non-].
+            . '](?!]>)' // One ] not followed by end of comment.
+            . '[^\]]*+' // Consume non-].
             . ')*+'         // Loop possessively.
             . '(?:]]>)?';   // End of comment. If not found, match all input.
 
         $escaped =
             '(?='             // Is the element escaped?
-            .    '!--'
+            . '!--'
             . '|'
-            .    '!\[CDATA\['
+            . '!\[CDATA\['
             . ')'
             . '(?(?=!-)'      // If yes, which type?
-            .     $comments
+            . $comments
             . '|'
-            .     $cdata
+            . $cdata
             . ')';
 
         $regex =
             '/('                // Capture the entire match.
-            .     '<'           // Find start of element.
-            .     '(?'          // Conditional expression follows.
-            .         $escaped  // Find end of escaped element.
-            .     '|'           // ...else...
-            .         '[^>]*>?' // Find end of normal element.
-            .     ')'
+            . '<'           // Find start of element.
+            . '(?'          // Conditional expression follows.
+            . $escaped  // Find end of escaped element.
+            . '|'           // ...else...
+            . '[^>]*>?' // Find end of normal element.
+            . ')'
             . ')/';
-		// phpcs:enable
     }
 
     return $regex;
@@ -682,35 +682,33 @@ function get_html_split_regex()
  * Retrieves the combined regular expression for HTML and shortcodes.
  *
  * @access private
- * @ignore
- * @internal This function will be removed in 4.5.0 per Shortcode API Roadmap.
- * @since 4.4.0
- *
  * @param string $shortcode_regex Optional. The result from _get_wptexturize_shortcode_regex().
  * @return string The regular expression
+ * @since 4.4.0
+ *
+ * @ignore
+ * @internal This function will be removed in 4.5.0 per Shortcode API Roadmap.
  */
 function _get_wptexturize_split_regex($shortcode_regex = '')
 {
     static $html_regex;
 
-    if (! isset($html_regex)) {
-		// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
+    if (!isset($html_regex)) {
         $comment_regex =
             '!'             // Start of comment, after the <.
             . '(?:'         // Unroll the loop: Consume everything until --> is found.
-            .     '-(?!->)' // Dash not followed by end of comment.
-            .     '[^\-]*+' // Consume non-dashes.
+            . '-(?!->)' // Dash not followed by end of comment.
+            . '[^\-]*+' // Consume non-dashes.
             . ')*+'         // Loop possessively.
             . '(?:-->)?';   // End of comment. If not found, match all input.
 
         $html_regex = // Needs replaced with wp_html_split() per Shortcode API Roadmap.
             '<'                  // Find start of element.
             . '(?(?=!--)'        // Is this a comment?
-            .     $comment_regex // Find end of comment.
+            . $comment_regex // Find end of comment.
             . '|'
-            .     '[^>]*>?'      // Find end of element. If not found, match all input.
+            . '[^>]*>?'      // Find end of element. If not found, match all input.
             . ')';
-		// phpcs:enable
     }
 
     if (empty($shortcode_regex)) {
@@ -726,29 +724,29 @@ function _get_wptexturize_split_regex($shortcode_regex = '')
  * Retrieves the regular expression for shortcodes.
  *
  * @access private
+ * @param string[] $tagnames Array of shortcodes to find.
+ * @return string The regular expression
  * @ignore
  * @since 4.4.0
  *
- * @param string[] $tagnames Array of shortcodes to find.
- * @return string The regular expression
  */
 function _get_wptexturize_shortcode_regex($tagnames)
 {
     $tagregexp = implode('|', array_map('preg_quote', $tagnames));
     $tagregexp = "(?:$tagregexp)(?=[\\s\\]\\/])"; // Excerpt of get_shortcode_regex().
-	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
+
     $regex =
         '\['                // Find start of shortcode.
         . '[\/\[]?'         // Shortcodes may begin with [/ or [[.
         . $tagregexp        // Only match registered shortcodes, because performance.
         . '(?:'
-        .     '[^\[\]<>]+'  // Shortcodes do not contain other shortcodes. Quantifier critical.
+        . '[^\[\]<>]+'  // Shortcodes do not contain other shortcodes. Quantifier critical.
         . '|'
-        .     '<[^\[\]>]*>' // HTML elements permitted. Prevents matching ] before >.
+        . '<[^\[\]>]*>' // HTML elements permitted. Prevents matching ] before >.
         . ')*+'             // Possessive critical.
         . '\]'              // Find end of shortcode.
         . '\]?';            // Shortcodes may end with ]].
-	// phpcs:enable
+
 
     return $regex;
 }
@@ -756,11 +754,11 @@ function _get_wptexturize_shortcode_regex($tagnames)
 /**
  * Replaces characters or phrases within HTML elements only.
  *
+ * @param string $haystack The text which has to be formatted.
+ * @param array $replace_pairs In the form array('from' => 'to', ...).
+ * @return string The formatted text.
  * @since 4.2.3
  *
- * @param string $haystack      The text which has to be formatted.
- * @param array  $replace_pairs In the form array('from' => 'to', ...).
- * @return string The formatted text.
  */
 function wp_replace_in_html_tags($haystack, $replace_pairs)
 {
@@ -771,14 +769,14 @@ function wp_replace_in_html_tags($haystack, $replace_pairs)
     // Optimize when searching for one item.
     if (1 === count($replace_pairs)) {
         // Extract $needle and $replace.
-        $needle  = array_key_first($replace_pairs);
+        $needle = array_key_first($replace_pairs);
         $replace = $replace_pairs[$needle];
 
         // Loop through delimiters (elements) only.
         for ($i = 1, $c = count($textarr); $i < $c; $i += 2) {
             if (str_contains($textarr[$i], $needle)) {
                 $textarr[$i] = str_replace($needle, $replace, $textarr[$i]);
-                $changed     = true;
+                $changed = true;
             }
         }
     } else {
@@ -790,7 +788,7 @@ function wp_replace_in_html_tags($haystack, $replace_pairs)
             foreach ($needles as $needle) {
                 if (str_contains($textarr[$i], $needle)) {
                     $textarr[$i] = strtr($textarr[$i], $replace_pairs);
-                    $changed     = true;
+                    $changed = true;
                     // After one strtr() break out of the foreach loop and look at next element.
                     break;
                 }
@@ -808,11 +806,11 @@ function wp_replace_in_html_tags($haystack, $replace_pairs)
 /**
  * Newline preservation help function for wpautop().
  *
+ * @param array $matches preg_replace_callback matches array
+ * @return string
  * @since 3.1.0
  * @access private
  *
- * @param array $matches preg_replace_callback matches array
- * @return string
  */
 function _autop_newline_preservation_helper($matches)
 {
@@ -824,57 +822,79 @@ function _autop_newline_preservation_helper($matches)
  *
  * Ensures that shortcodes are not wrapped in `<p>...</p>`.
  *
+ * @param string $text The content.
+ * @return string The filtered content.
  * @since 2.9.0
  *
  * @global array $shortcode_tags
  *
- * @param string $text The content.
- * @return string The filtered content.
  */
 function shortcode_unautop($text)
 {
     global $shortcode_tags;
 
-    if (empty($shortcode_tags) || ! is_array($shortcode_tags)) {
+    if (empty($shortcode_tags) || !is_array($shortcode_tags)) {
         return $text;
     }
 
     $tagregexp = implode('|', array_map('preg_quote', array_keys($shortcode_tags)));
-    $spaces    = wp_spaces_regexp();
+    $spaces = wp_spaces_regexp();
 
-	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound,Universal.WhiteSpace.PrecisionAlignment.Found -- don't remove regex indentation
+
     $pattern =
         '/'
-        . '<p>'                              // Opening paragraph.
-        . '(?:' . $spaces . ')*+'            // Optional leading whitespace.
-        . '('                                // 1: The shortcode.
-        .     '\\['                          // Opening bracket.
-        .     "($tagregexp)"                 // 2: Shortcode name.
-        .     '(?![\\w-])'                   // Not followed by word character or hyphen.
-                                             // Unroll the loop: Inside the opening shortcode tag.
-        .     '[^\\]\\/]*'                   // Not a closing bracket or forward slash.
-        .     '(?:'
-        .         '\\/(?!\\])'               // A forward slash not followed by a closing bracket.
-        .         '[^\\]\\/]*'               // Not a closing bracket or forward slash.
-        .     ')*?'
-        .     '(?:'
-        .         '\\/\\]'                   // Self closing tag and closing bracket.
-        .     '|'
-        .         '\\]'                      // Closing bracket.
-        .         '(?:'                      // Unroll the loop: Optionally, anything between the opening and closing shortcode tags.
-        .             '[^\\[]*+'             // Not an opening bracket.
-        .             '(?:'
-        .                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag.
-        .                 '[^\\[]*+'         // Not an opening bracket.
-        .             ')*+'
-        .             '\\[\\/\\2\\]'         // Closing shortcode tag.
-        .         ')?'
-        .     ')'
+        . '<p>'
+        // Opening paragraph.
+        . '(?:'
+        . $spaces
+        . ')*+'
+        // Optional leading whitespace.
+        . '('
+        // 1: The shortcode.
+        . '\\['
+        // Opening bracket.
+        . "($tagregexp)"
+        // 2: Shortcode name.
+        . '(?![\\w-])'
+        // Not followed by word character or hyphen.
+        // Unroll the loop: Inside the opening shortcode tag.
+        . '[^\\]\\/]*'
+        // Not a closing bracket or forward slash.
+        . '(?:'
+        . '\\/(?!\\])'
+        // A forward slash not followed by a closing bracket.
+        . '[^\\]\\/]*'
+        // Not a closing bracket or forward slash.
+        . ')*?'
+        . '(?:'
+        . '\\/\\]'
+        // Self closing tag and closing bracket.
+        . '|'
+        . '\\]'
+        // Closing bracket.
+        . '(?:'
+        // Unroll the loop: Optionally, anything between the opening and closing shortcode tags.
+        . '[^\\[]*+'
+        // Not an opening bracket.
+        . '(?:'
+        . '\\[(?!\\/\\2\\])'
+        // An opening bracket not followed by the closing shortcode tag.
+        . '[^\\[]*+'
+        // Not an opening bracket.
+        . ')*+'
+        . '\\[\\/\\2\\]'
+        // Closing shortcode tag.
+        . ')?'
         . ')'
-        . '(?:' . $spaces . ')*+'            // Optional trailing whitespace.
-        . '<\\/p>'                           // Closing paragraph.
+        . ')'
+        . '(?:'
+        . $spaces
+        . ')*+'
+        // Optional trailing whitespace.
+        . '<\\/p>'
+        // Closing paragraph.
         . '/';
-	// phpcs:enable
+
 
     return preg_replace($pattern, '$1', $text);
 }
@@ -885,11 +905,11 @@ function shortcode_unautop($text)
  * NOTE: This function checks for 5-Byte sequences, UTF8
  *       has Bytes Sequences with a maximum length of 4.
  *
+ * @param string $str The string to be checked
+ * @return bool True if $str fits a UTF-8 model, false otherwise.
  * @author bmorel at ssi dot fr (modified)
  * @since 1.2.1
  *
- * @param string $str The string to be checked
- * @return bool True if $str fits a UTF-8 model, false otherwise.
  */
 function seems_utf8($str)
 {
@@ -934,12 +954,8 @@ function seems_utf8($str)
  * `$quote_style` can be set to ENT_COMPAT to encode `"` to
  * `&quot;`, or ENT_QUOTES to do both. Default is ENT_NOQUOTES where no quotes are encoded.
  *
- * @since 1.2.2
- * @since 5.5.0 `$quote_style` also accepts `ENT_XML1`.
- * @access private
- *
- * @param string       $text          The text which is to be encoded.
- * @param int|string   $quote_style   Optional. Converts double quotes if set to ENT_COMPAT,
+ * @param string $text The text which is to be encoded.
+ * @param int|string $quote_style Optional. Converts double quotes if set to ENT_COMPAT,
  *                                    both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES.
  *                                    Converts single and double quotes, as well as converting HTML
  *                                    named entities (that are not also XML named entities) to their
@@ -947,20 +963,24 @@ function seems_utf8($str)
  *                                    converting single quotes if set to 'single',
  *                                    double if set to 'double' or both if otherwise set.
  *                                    Default is ENT_NOQUOTES.
- * @param false|string $charset       Optional. The character encoding of the string. Default false.
- * @param bool         $double_encode Optional. Whether to encode existing HTML entities. Default false.
+ * @param false|string $charset Optional. The character encoding of the string. Default false.
+ * @param bool $double_encode Optional. Whether to encode existing HTML entities. Default false.
  * @return string The encoded text with HTML entities.
+ * @since 5.5.0 `$quote_style` also accepts `ENT_XML1`.
+ * @access private
+ *
+ * @since 1.2.2
  */
 function _wp_specialchars($text, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false)
 {
-    $text = (string) $text;
+    $text = (string)$text;
 
     if (0 === strlen($text)) {
         return '';
     }
 
     // Don't bother if there are no specialchars - saves some processing.
-    if (! preg_match('/[&<>"\']/', $text)) {
+    if (!preg_match('/[&<>"\']/', $text)) {
         return $text;
     }
 
@@ -969,7 +989,7 @@ function _wp_specialchars($text, $quote_style = ENT_NOQUOTES, $charset = false, 
         $quote_style = ENT_NOQUOTES;
     } elseif (ENT_XML1 === $quote_style) {
         $quote_style = ENT_QUOTES | ENT_XML1;
-    } elseif (! in_array($quote_style, [ENT_NOQUOTES, ENT_COMPAT, ENT_QUOTES, 'single', 'double'], true)) {
+    } elseif (!in_array($quote_style, [ENT_NOQUOTES, ENT_COMPAT, ENT_QUOTES, 'single', 'double'], true)) {
         $quote_style = ENT_QUOTES;
     }
 
@@ -978,13 +998,13 @@ function _wp_specialchars($text, $quote_style = ENT_NOQUOTES, $charset = false, 
     $_quote_style = $quote_style;
 
     if ('double' === $quote_style) {
-        $quote_style  = ENT_COMPAT;
+        $quote_style = ENT_COMPAT;
         $_quote_style = ENT_COMPAT;
     } elseif ('single' === $quote_style) {
         $quote_style = ENT_NOQUOTES;
     }
 
-    if (! $double_encode) {
+    if (!$double_encode) {
         /*
          * Guarantee every &entity; is valid, convert &garbage; into &amp;garbage;
          * This is required for PHP < 5.4.0 because ENT_HTML401 flag is unavailable.
@@ -1010,9 +1030,7 @@ function _wp_specialchars($text, $quote_style = ENT_NOQUOTES, $charset = false, 
  * `$quote_style` can be set to ENT_COMPAT to decode `"` entities,
  * or ENT_QUOTES to do both `"` and `'`. Default is ENT_NOQUOTES where no quotes are decoded.
  *
- * @since 2.8.0
- *
- * @param string     $text        The text which is to be decoded.
+ * @param string $text The text which is to be decoded.
  * @param string|int $quote_style Optional. Converts double quotes if set to ENT_COMPAT,
  *                                both single and double if set to ENT_QUOTES or
  *                                none if set to ENT_NOQUOTES.
@@ -1021,72 +1039,74 @@ function _wp_specialchars($text, $quote_style = ENT_NOQUOTES, $charset = false, 
  *                                double if set to 'double' or both if otherwise set.
  *                                Default is ENT_NOQUOTES.
  * @return string The decoded text without HTML entities.
+ * @since 2.8.0
+ *
  */
 function wp_specialchars_decode($text, $quote_style = ENT_NOQUOTES)
 {
-    $text = (string) $text;
+    $text = (string)$text;
 
     if (0 === strlen($text)) {
         return '';
     }
 
     // Don't bother if there are no entities - saves a lot of processing.
-    if (! str_contains($text, '&')) {
+    if (!str_contains($text, '&')) {
         return $text;
     }
 
     // Match the previous behavior of _wp_specialchars() when the $quote_style is not an accepted value.
     if (empty($quote_style)) {
         $quote_style = ENT_NOQUOTES;
-    } elseif (! in_array($quote_style, [0, 2, 3, 'single', 'double'], true)) {
+    } elseif (!in_array($quote_style, [0, 2, 3, 'single', 'double'], true)) {
         $quote_style = ENT_QUOTES;
     }
 
     // More complete than get_html_translation_table( HTML_SPECIALCHARS ).
-    $single      = [
+    $single = [
         '&#039;' => '\'',
         '&#x27;' => '\'',
     ];
     $single_preg = [
-        '/&#0*39;/'   => '&#039;',
+        '/&#0*39;/' => '&#039;',
         '/&#x0*27;/i' => '&#x27;',
     ];
-    $double      = [
+    $double = [
         '&quot;' => '"',
         '&#034;' => '"',
         '&#x22;' => '"',
     ];
     $double_preg = [
-        '/&#0*34;/'   => '&#034;',
+        '/&#0*34;/' => '&#034;',
         '/&#x0*22;/i' => '&#x22;',
     ];
-    $others      = [
-        '&lt;'   => '<',
+    $others = [
+        '&lt;' => '<',
         '&#060;' => '<',
-        '&gt;'   => '>',
+        '&gt;' => '>',
         '&#062;' => '>',
-        '&amp;'  => '&',
+        '&amp;' => '&',
         '&#038;' => '&',
         '&#x26;' => '&',
     ];
     $others_preg = [
-        '/&#0*60;/'   => '&#060;',
-        '/&#0*62;/'   => '&#062;',
-        '/&#0*38;/'   => '&#038;',
+        '/&#0*60;/' => '&#060;',
+        '/&#0*62;/' => '&#062;',
+        '/&#0*38;/' => '&#038;',
         '/&#x0*26;/i' => '&#x26;',
     ];
 
     if (ENT_QUOTES === $quote_style) {
-        $translation      = array_merge($single, $double, $others);
+        $translation = array_merge($single, $double, $others);
         $translation_preg = array_merge($single_preg, $double_preg, $others_preg);
     } elseif (ENT_COMPAT === $quote_style || 'double' === $quote_style) {
-        $translation      = array_merge($double, $others);
+        $translation = array_merge($double, $others);
         $translation_preg = array_merge($double_preg, $others_preg);
     } elseif ('single' === $quote_style) {
-        $translation      = array_merge($single, $others);
+        $translation = array_merge($single, $others);
         $translation_preg = array_merge($single_preg, $others_preg);
     } elseif (ENT_NOQUOTES === $quote_style) {
-        $translation      = $others;
+        $translation = $others;
         $translation_preg = $others_preg;
     }
 
@@ -1100,15 +1120,15 @@ function wp_specialchars_decode($text, $quote_style = ENT_NOQUOTES)
 /**
  * Checks for invalid UTF8 in a string.
  *
+ * @param string $text The text which is to be checked.
+ * @param bool $strip Optional. Whether to attempt to strip out invalid UTF8. Default false.
+ * @return string The checked text.
  * @since 2.8.0
  *
- * @param string $text   The text which is to be checked.
- * @param bool   $strip  Optional. Whether to attempt to strip out invalid UTF8. Default false.
- * @return string The checked text.
  */
 function wp_check_invalid_utf8($text, $strip = false)
 {
-    $text = (string) $text;
+    $text = (string)$text;
 
     if (0 === strlen($text)) {
         return '';
@@ -1116,25 +1136,24 @@ function wp_check_invalid_utf8($text, $strip = false)
 
     // Store the site charset as a static to avoid multiple calls to get_option().
     static $is_utf8 = null;
-    if (! isset($is_utf8)) {
+    if (!isset($is_utf8)) {
         $is_utf8 = is_utf8_charset();
     }
-    if (! $is_utf8) {
+    if (!$is_utf8) {
         return $text;
     }
 
     // Check for support for utf8 in the installed PCRE library once and store the result in a static.
     static $utf8_pcre = null;
-    if (! isset($utf8_pcre)) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+    if (!isset($utf8_pcre)) {
         $utf8_pcre = @preg_match('/^./u', 'a');
     }
     // We can't demand utf8 in the PCRE installation, so just return the string in those cases.
-    if (! $utf8_pcre) {
+    if (!$utf8_pcre) {
         return $text;
     }
 
-	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- preg_match fails when it encounters invalid UTF8 in $text.
+
     if (1 === @preg_match('/^./us', $text)) {
         return $text;
     }
@@ -1150,19 +1169,19 @@ function wp_check_invalid_utf8($text, $strip = false)
 /**
  * Encodes the Unicode values to be used in the URI.
  *
+ * @param string $utf8_string String to encode.
+ * @param int $length Max length of the string
+ * @param bool $encode_ascii_characters Whether to encode ascii characters such as < " '
+ * @return string String with Unicode encoded for URI.
  * @since 1.5.0
  * @since 5.8.3 Added the `encode_ascii_characters` parameter.
  *
- * @param string $utf8_string             String to encode.
- * @param int    $length                  Max length of the string
- * @param bool   $encode_ascii_characters Whether to encode ascii characters such as < " '
- * @return string String with Unicode encoded for URI.
  */
 function utf8_uri_encode($utf8_string, $length = 0, $encode_ascii_characters = false)
 {
-    $unicode        = '';
-    $values         = [];
-    $num_octets     = 1;
+    $unicode = '';
+    $values = [];
+    $num_octets = 1;
     $unicode_length = 0;
 
     mbstring_binary_safe_encoding();
@@ -1170,17 +1189,16 @@ function utf8_uri_encode($utf8_string, $length = 0, $encode_ascii_characters = f
     reset_mbstring_encoding();
 
     for ($i = 0; $i < $string_length; $i++) {
-
         $value = ord($utf8_string[$i]);
 
         if ($value < 128) {
-            $char                = chr($value);
-            $encoded_char        = $encode_ascii_characters ? rawurlencode($char) : $char;
+            $char = chr($value);
+            $encoded_char = $encode_ascii_characters ? rawurlencode($char) : $char;
             $encoded_char_length = strlen($encoded_char);
             if ($length && ($unicode_length + $encoded_char_length) > $length) {
                 break;
             }
-            $unicode        .= $encoded_char;
+            $unicode .= $encoded_char;
             $unicode_length += $encoded_char_length;
         } else {
             if (count($values) === 0) {
@@ -1205,7 +1223,7 @@ function utf8_uri_encode($utf8_string, $length = 0, $encode_ascii_characters = f
 
                 $unicode_length += $num_octets * 3;
 
-                $values     = [];
+                $values = [];
                 $num_octets = 1;
             }
         }
@@ -1594,6 +1612,11 @@ function utf8_uri_encode($utf8_string, $length = 0, $encode_ascii_characters = f
  * | U+0110   | Đ     | DJ          | Latin capital letter D with stroke      |
  * | U+0111   | đ     | dj          | Latin small letter d with stroke        |
  *
+ * @param string $text Text that might have accent characters.
+ * @param string $locale Optional. The locale to use for accent removal. Some character
+ *                       replacements depend on the locale being used (e.g. 'de_DE').
+ *                       Defaults to the current locale.
+ * @return string Filtered string with replaced "nice" characters.
  * @since 1.2.1
  * @since 4.6.0 Added locale support for `de_CH`, `de_CH_informal`, and `ca`.
  * @since 4.7.0 Added locale support for `sr_RS`.
@@ -1602,20 +1625,14 @@ function utf8_uri_encode($utf8_string, $length = 0, $encode_ascii_characters = f
  * @since 6.0.0 Added the `$locale` parameter.
  * @since 6.1.0 Added Unicode NFC encoding normalization support.
  *
- * @param string $text   Text that might have accent characters.
- * @param string $locale Optional. The locale to use for accent removal. Some character
- *                       replacements depend on the locale being used (e.g. 'de_DE').
- *                       Defaults to the current locale.
- * @return string Filtered string with replaced "nice" characters.
  */
 function remove_accents($text, $locale = '')
 {
-    if (! preg_match('/[\x80-\xff]/', $text)) {
+    if (!preg_match('/[\x80-\xff]/', $text)) {
         return $text;
     }
 
     if (seems_utf8($text)) {
-
         /*
          * Unicode sequence normalization from NFD (Normalization Form Decomposed)
          * to NFC (Normalization Form [Pre]Composed), the encoding used in this function.
@@ -1623,7 +1640,7 @@ function remove_accents($text, $locale = '')
         if (function_exists('normalizer_is_normalized')
             && function_exists('normalizer_normalize')
         ) {
-            if (! normalizer_is_normalized($text)) {
+            if (!normalizer_is_normalized($text)) {
                 $text = normalizer_normalize($text);
             }
         }
@@ -2007,11 +2024,11 @@ function remove_accents($text, $locale = '')
 
         $chars['out'] = 'EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy';
 
-        $text                = strtr($text, $chars['in'], $chars['out']);
-        $double_chars        = [];
-        $double_chars['in']  = ["\x8c", "\x9c", "\xc6", "\xd0", "\xde", "\xdf", "\xe6", "\xf0", "\xfe"];
+        $text = strtr($text, $chars['in'], $chars['out']);
+        $double_chars = [];
+        $double_chars['in'] = ["\x8c", "\x9c", "\xc6", "\xd0", "\xde", "\xdf", "\xe6", "\xf0", "\xfe"];
         $double_chars['out'] = ['OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th'];
-        $text                = str_replace($double_chars['in'], $double_chars['out'], $text);
+        $text = str_replace($double_chars['in'], $double_chars['out'], $text);
     }
 
     return $text;
@@ -2027,28 +2044,61 @@ function remove_accents($text, $locale = '')
  * and end of filename. It is not guaranteed that this function will return a
  * filename that is allowed to be uploaded.
  *
- * @since 2.1.0
- *
  * @param string $filename The filename to be sanitized.
  * @return string The sanitized filename.
+ * @since 2.1.0
+ *
  */
 function sanitize_file_name($filename)
 {
     $filename_raw = $filename;
-    $filename     = remove_accents($filename);
+    $filename = remove_accents($filename);
 
-    $special_chars = ['?', '[', ']', '/', '\\', '=', '<', '>', ':', ';', ',', "'", '"', '&', '$', '#', '*', '(', ')', '|', '~', '`', '!', '{', '}', '%', '+', '’', '«', '»', '”', '“', chr(0)];
+    $special_chars = [
+        '?',
+        '[',
+        ']',
+        '/',
+        '\\',
+        '=',
+        '<',
+        '>',
+        ':',
+        ';',
+        ',',
+        "'",
+        '"',
+        '&',
+        '$',
+        '#',
+        '*',
+        '(',
+        ')',
+        '|',
+        '~',
+        '`',
+        '!',
+        '{',
+        '}',
+        '%',
+        '+',
+        '’',
+        '«',
+        '»',
+        '”',
+        '“',
+        chr(0),
+    ];
 
     // Check for support for utf8 in the installed PCRE library once and store the result in a static.
     static $utf8_pcre = null;
-    if (! isset($utf8_pcre)) {
-		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+    if (!isset($utf8_pcre)) {
         $utf8_pcre = @preg_match('/^./u', 'a');
     }
 
-    if (! seems_utf8($filename)) {
-        $_ext     = pathinfo($filename, PATHINFO_EXTENSION);
-        $_name    = pathinfo($filename, PATHINFO_FILENAME);
+    if (!seems_utf8($filename)) {
+        $_ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $_name = pathinfo($filename, PATHINFO_FILENAME);
         $filename = sanitize_title_with_dashes($_name) . '.' . $_ext;
     }
 
@@ -2059,10 +2109,10 @@ function sanitize_file_name($filename)
     /**
      * Filters the list of characters to remove from a filename.
      *
+     * @param string[] $special_chars Array of characters to remove.
+     * @param string $filename_raw The original filename to be sanitized.
      * @since 2.8.0
      *
-     * @param string[] $special_chars Array of characters to remove.
-     * @param string   $filename_raw  The original filename to be sanitized.
      */
     $special_chars = apply_filters('sanitize_file_name_chars', $special_chars, $filename_raw);
 
@@ -2072,9 +2122,9 @@ function sanitize_file_name($filename)
     $filename = preg_replace('/[\r\n\t -]+/', '-', $filename);
     $filename = trim($filename, '.-_');
 
-    if (! str_contains($filename, '.')) {
+    if (!str_contains($filename, '.')) {
         $mime_types = wp_get_mime_types();
-        $filetype   = wp_check_filetype('test.' . $filename, $mime_types);
+        $filetype = wp_check_filetype('test.' . $filename, $mime_types);
         if ($filetype['ext'] === $filename) {
             $filename = 'unnamed-file.' . $filetype['ext'];
         }
@@ -2090,15 +2140,15 @@ function sanitize_file_name($filename)
     }
 
     // Process multiple extensions.
-    $filename  = array_shift($parts);
+    $filename = array_shift($parts);
     $extension = array_pop($parts);
-    $mimes     = get_allowed_mime_types();
+    $mimes = get_allowed_mime_types();
 
     /*
      * Loop over any intermediate extensions. Postfix them with a trailing underscore
      * if they are a 2 - 5 character long alpha string not in the allowed extension list.
      */
-    foreach ((array) $parts as $part) {
+    foreach ((array)$parts as $part) {
         $filename .= '.' . $part;
 
         if (preg_match('/^[a-zA-Z]{2,5}\d?$/', $part)) {
@@ -2110,7 +2160,7 @@ function sanitize_file_name($filename)
                     break;
                 }
             }
-            if (! $allowed) {
+            if (!$allowed) {
                 $filename .= '_';
             }
         }
@@ -2121,10 +2171,10 @@ function sanitize_file_name($filename)
     /**
      * Filters a sanitized filename string.
      *
+     * @param string $filename Sanitized filename.
+     * @param string $filename_raw The filename prior to sanitization.
      * @since 2.8.0
      *
-     * @param string $filename     Sanitized filename.
-     * @param string $filename_raw The filename prior to sanitization.
      */
     return apply_filters('sanitize_file_name', $filename, $filename_raw);
 }
@@ -2137,18 +2187,18 @@ function sanitize_file_name($filename)
  * raw username (the username in the parameter), and the value of $strict as parameters
  * for the {@see 'sanitize_user'} filter.
  *
- * @since 2.0.0
- *
  * @param string $username The username to be sanitized.
- * @param bool   $strict   Optional. If set to true, limits $username to specific characters.
+ * @param bool $strict Optional. If set to true, limits $username to specific characters.
  *                         Default false.
  * @return string The sanitized username, after passing through filters.
+ * @since 2.0.0
+ *
  */
 function sanitize_user($username, $strict = false)
 {
     $raw_username = $username;
-    $username     = wp_strip_all_tags($username);
-    $username     = remove_accents($username);
+    $username = wp_strip_all_tags($username);
+    $username = remove_accents($username);
     // Remove percent-encoded characters.
     $username = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $username);
     // Remove HTML entities.
@@ -2166,11 +2216,11 @@ function sanitize_user($username, $strict = false)
     /**
      * Filters a sanitized username string.
      *
+     * @param string $username Sanitized username.
+     * @param string $raw_username The username prior to sanitization.
+     * @param bool $strict Whether to limit the sanitization to specific characters.
      * @since 2.0.1
      *
-     * @param string $username     Sanitized username.
-     * @param string $raw_username The username prior to sanitization.
-     * @param bool   $strict       Whether to limit the sanitization to specific characters.
      */
     return apply_filters('sanitize_user', $username, $raw_username, $strict);
 }
@@ -2181,10 +2231,10 @@ function sanitize_user($username, $strict = false)
  * Keys are used as internal identifiers. Lowercase alphanumeric characters,
  * dashes, and underscores are allowed.
  *
- * @since 3.0.0
- *
  * @param string $key String key.
  * @return string Sanitized key.
+ * @since 3.0.0
+ *
  */
 function sanitize_key($key)
 {
@@ -2198,10 +2248,10 @@ function sanitize_key($key)
     /**
      * Filters a sanitized key string.
      *
+     * @param string $sanitized_key Sanitized key.
+     * @param string $key The key prior to sanitization.
      * @since 3.0.0
      *
-     * @param string $sanitized_key Sanitized key.
-     * @param string $key           The key prior to sanitization.
      */
     return apply_filters('sanitize_key', $sanitized_key, $key);
 }
@@ -2215,14 +2265,14 @@ function sanitize_key($key)
  *
  * If `$title` is empty and `$fallback_title` is set, the latter will be used.
  *
- * @since 1.0.0
- *
- * @param string $title          The string to be sanitized.
+ * @param string $title The string to be sanitized.
  * @param string $fallback_title Optional. A title to use if $title is empty. Default empty.
- * @param string $context        Optional. The operation for which the string is sanitized.
+ * @param string $context Optional. The operation for which the string is sanitized.
  *                               When set to 'save', the string runs through remove_accents().
  *                               Default 'save'.
  * @return string The sanitized string.
+ * @since 1.0.0
+ *
  */
 function sanitize_title($title, $fallback_title = '', $context = 'save')
 {
@@ -2235,11 +2285,11 @@ function sanitize_title($title, $fallback_title = '', $context = 'save')
     /**
      * Filters a sanitized title string.
      *
+     * @param string $title Sanitized title.
+     * @param string $raw_title The title prior to sanitization.
+     * @param string $context The context for which the title is being sanitized.
      * @since 1.2.0
      *
-     * @param string $title     Sanitized title.
-     * @param string $raw_title The title prior to sanitization.
-     * @param string $context   The context for which the title is being sanitized.
      */
     $title = apply_filters('sanitize_title', $title, $raw_title, $context);
 
@@ -2255,10 +2305,10 @@ function sanitize_title($title, $fallback_title = '', $context = 'save')
  *
  * Used for querying the database for a value from URL.
  *
- * @since 3.1.0
- *
  * @param string $title The string to be sanitized.
  * @return string The sanitized string.
+ * @since 3.1.0
+ *
  */
 function sanitize_title_for_query($title)
 {
@@ -2271,14 +2321,14 @@ function sanitize_title_for_query($title)
  * Limits the output to alphanumeric characters, underscore (_) and dash (-).
  * Whitespace becomes a dash.
  *
- * @since 1.2.0
- *
- * @param string $title     The title to be sanitized.
+ * @param string $title The title to be sanitized.
  * @param string $raw_title Optional. Not used. Default empty.
- * @param string $context   Optional. The operation for which the string is sanitized.
+ * @param string $context Optional. The operation for which the string is sanitized.
  *                          When set to 'save', additional entities are converted to hyphens
  *                          or stripped entirely. Default 'display'.
  * @return string The sanitized title.
+ * @since 1.2.0
+ *
  */
 function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display')
 {
@@ -2361,7 +2411,7 @@ function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display
                 '%ef%bf%bc', // Object replacement character.
             ],
             '',
-            $title
+            $title,
         );
 
         // Convert non-visible characters that display with a width to hyphen.
@@ -2383,7 +2433,7 @@ function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display
                 '%e2%80%af', // Narrow no-break space.
             ],
             '-',
-            $title
+            $title,
         );
 
         // Convert &times to 'x'.
@@ -2410,14 +2460,15 @@ function sanitize_title_with_dashes($title, $raw_title = '', $context = 'display
  *
  * Also accepts 'RAND()'.
  *
- * @since 2.5.1
- *
  * @param string $orderby Order by clause to be validated.
  * @return string|false Returns $orderby if valid, false otherwise.
+ * @since 2.5.1
+ *
  */
 function sanitize_sql_orderby($orderby)
 {
-    if (preg_match('/^\s*(([a-z0-9_]+|`[a-z0-9_]+`)(\s+(ASC|DESC))?\s*(,\s*(?=[a-z0-9_`])|$))+$/i', $orderby) || preg_match('/^\s*RAND\(\s*\)\s*$/i', $orderby)) {
+    if (preg_match('/^\s*(([a-z0-9_]+|`[a-z0-9_]+`)(\s+(ASC|DESC))?\s*(,\s*(?=[a-z0-9_`])|$))+$/i', $orderby)
+        || preg_match('/^\s*RAND\(\s*\)\s*$/i', $orderby)) {
         return $orderby;
     }
     return false;
@@ -2429,14 +2480,14 @@ function sanitize_sql_orderby($orderby)
  * Strips the string down to A-Z,a-z,0-9,_,-. If this results in an empty
  * string then it will return the alternative value supplied.
  *
- * @todo Expand to support the full range of CDATA that a class attribute can contain.
- *
- * @since 2.8.0
- *
  * @param string $classname The classname to be sanitized.
- * @param string $fallback  Optional. The value to return if the sanitization ends up as an empty string.
+ * @param string $fallback Optional. The value to return if the sanitization ends up as an empty string.
  *                          Default empty string.
  * @return string The sanitized value.
+ * @since 2.8.0
+ *
+ * @todo Expand to support the full range of CDATA that a class attribute can contain.
+ *
  */
 function sanitize_html_class($classname, $fallback = '')
 {
@@ -2452,11 +2503,11 @@ function sanitize_html_class($classname, $fallback = '')
     /**
      * Filters a sanitized HTML class string.
      *
-     * @since 2.8.0
-     *
      * @param string $sanitized The sanitized HTML class.
      * @param string $classname HTML class before sanitization.
-     * @param string $fallback  The fallback string.
+     * @param string $fallback The fallback string.
+     * @since 2.8.0
+     *
      */
     return apply_filters('sanitize_html_class', $sanitized, $classname, $fallback);
 }
@@ -2464,10 +2515,10 @@ function sanitize_html_class($classname, $fallback = '')
 /**
  * Strips out all characters not allowed in a locale name.
  *
- * @since 6.2.1
- *
  * @param string $locale_name The locale name to be sanitized.
  * @return string The sanitized value.
+ * @since 6.2.1
+ *
  */
 function sanitize_locale_name($locale_name)
 {
@@ -2477,10 +2528,10 @@ function sanitize_locale_name($locale_name)
     /**
      * Filters a sanitized locale name string.
      *
+     * @param string $sanitized The sanitized locale name.
+     * @param string $locale_name The locale name before sanitization.
      * @since 6.2.1
      *
-     * @param string $sanitized   The sanitized locale name.
-     * @param string $locale_name The locale name before sanitization.
      */
     return apply_filters('sanitize_locale_name', $sanitized, $locale_name);
 }
@@ -2488,15 +2539,15 @@ function sanitize_locale_name($locale_name)
 /**
  * Converts lone & characters into `&#038;` (a.k.a. `&amp;`)
  *
- * @since 0.71
- *
- * @param string $content    String of characters to be converted.
+ * @param string $content String of characters to be converted.
  * @param string $deprecated Not used.
  * @return string Converted string.
+ * @since 0.71
+ *
  */
 function convert_chars($content, $deprecated = '')
 {
-    if (! empty($deprecated)) {
+    if (!empty($deprecated)) {
         _deprecated_argument(__FUNCTION__, '0.71');
     }
 
@@ -2510,10 +2561,10 @@ function convert_chars($content, $deprecated = '')
 /**
  * Converts invalid Unicode references range to valid range.
  *
- * @since 4.3.0
- *
  * @param string $content String with entities that need converting.
  * @return string Converted string.
+ * @since 4.3.0
+ *
  */
 function convert_invalid_entities($content)
 {
@@ -2562,15 +2613,15 @@ function convert_invalid_entities($content)
 /**
  * Balances tags if forced to, or if the 'use_balanceTags' option is set to true.
  *
+ * @param string $text Text to be balanced
+ * @param bool $force If true, forces balancing, ignoring the value of the option. Default false.
+ * @return string Balanced text
  * @since 0.71
  *
- * @param string $text  Text to be balanced
- * @param bool   $force If true, forces balancing, ignoring the value of the option. Default false.
- * @return string Balanced text
  */
-function balanceTags($text, $force = false)   // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function balanceTags($text, $force = false)
 {
-    if ($force || (int) get_option('use_balanceTags') === 1) {
+    if ($force || (int)get_option('use_balanceTags') === 1) {
         return force_balance_tags($text);
     } else {
         return $text;
@@ -2580,6 +2631,8 @@ function balanceTags($text, $force = false)   // phpcs:ignore WordPress.NamingCo
 /**
  * Balances tags of string using a modified stack.
  *
+ * @param string $text Text to be balanced.
+ * @return string Balanced text.
  * @since 2.0.4
  * @since 5.3.0 Improve accuracy and add support for custom element tags.
  *
@@ -2593,17 +2646,34 @@ function balanceTags($text, $force = false)   // phpcs:ignore WordPress.NamingCo
  *           Added Cleaning Hooks
  *      1.0  First Version
  *
- * @param string $text Text to be balanced.
- * @return string Balanced text.
  */
 function force_balance_tags($text)
 {
-    $tagstack  = [];
+    $tagstack = [];
     $stacksize = 0;
-    $tagqueue  = '';
-    $newtext   = '';
+    $tagqueue = '';
+    $newtext = '';
     // Known single-entity/self-closing tags.
-    $single_tags = ['area', 'base', 'basefont', 'br', 'col', 'command', 'embed', 'frame', 'hr', 'img', 'input', 'isindex', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+    $single_tags = [
+        'area',
+        'base',
+        'basefont',
+        'br',
+        'col',
+        'command',
+        'embed',
+        'frame',
+        'hr',
+        'img',
+        'input',
+        'isindex',
+        'link',
+        'meta',
+        'param',
+        'source',
+        'track',
+        'wbr',
+    ];
     // Tags that can be immediately nested within themselves.
     $nestable_tags = ['article', 'aside', 'blockquote', 'details', 'div', 'figure', 'object', 'q', 'section', 'span'];
 
@@ -2630,33 +2700,33 @@ function force_balance_tags($text)
         '#<' . // Start with an opening bracket.
         '(/?)' . // Group 1 - If it's a closing tag it'll have a leading slash.
         '(' . // Group 2 - Tag name.
-            // Custom element tags have more lenient rules than HTML tag names.
-            '(?:[a-z](?:[a-z0-9._]*)-(?:[a-z0-9._-]+)+)' .
-                '|' .
-            // Traditional tag rules approximate HTML tag names.
-            '(?:[\w:]+)' .
+        // Custom element tags have more lenient rules than HTML tag names.
+        '(?:[a-z](?:[a-z0-9._]*)-(?:[a-z0-9._-]+)+)' .
+        '|' .
+        // Traditional tag rules approximate HTML tag names.
+        '(?:[\w:]+)' .
         ')' .
         '(?:' .
-            // We either immediately close the tag with its '>' and have nothing here.
-            '\s*' .
-            '(/?)' . // Group 3 - "attributes" for empty tag.
-                '|' .
-            // Or we must start with space characters to separate the tag name from the attributes (or whitespace).
-            '(\s+)' . // Group 4 - Pre-attribute whitespace.
-            '([^>]*)' . // Group 5 - Attributes.
+        // We either immediately close the tag with its '>' and have nothing here.
+        '\s*' .
+        '(/?)' . // Group 3 - "attributes" for empty tag.
+        '|' .
+        // Or we must start with space characters to separate the tag name from the attributes (or whitespace).
+        '(\s+)' . // Group 4 - Pre-attribute whitespace.
+        '([^>]*)' . // Group 5 - Attributes.
         ')' .
         '>#' // End with a closing bracket.
     );
 
     while (preg_match($tag_pattern, $text, $regex)) {
-        $full_match        = $regex[0];
-        $has_leading_slash = ! empty($regex[1]);
-        $tag_name          = $regex[2];
-        $tag               = strtolower($tag_name);
-        $is_single_tag     = in_array($tag, $single_tags, true);
-        $pre_attribute_ws  = isset($regex[4]) ? $regex[4] : '';
-        $attributes        = trim(isset($regex[5]) ? $regex[5] : $regex[3]);
-        $has_self_closer   = str_ends_with($attributes, '/');
+        $full_match = $regex[0];
+        $has_leading_slash = !empty($regex[1]);
+        $tag_name = $regex[2];
+        $tag = strtolower($tag_name);
+        $is_single_tag = in_array($tag, $single_tags, true);
+        $pre_attribute_ws = isset($regex[4]) ? $regex[4] : '';
+        $attributes = trim(isset($regex[5]) ? $regex[5] : $regex[3]);
+        $has_self_closer = str_ends_with($attributes, '/');
 
         $newtext .= $tagqueue;
 
@@ -2696,19 +2766,19 @@ function force_balance_tags($text)
                  * then don't let it be treated as such and immediately close it with a closing tag.
                  * The tag will encapsulate no text as a result.
                  */
-                if (! $is_single_tag) {
+                if (!$is_single_tag) {
                     $attributes = trim(substr($attributes, 0, -1)) . "></$tag";
                 }
             } elseif ($is_single_tag) {
                 // Else if it's a known single-entity tag but it doesn't close itself, do so.
                 $pre_attribute_ws = ' ';
-                $attributes      .= '/';
+                $attributes .= '/';
             } else {
                 /*
                  * It's not a single-entity tag.
                  * If the top of the stack is the same as the tag we want to push, close previous tag.
                  */
-                if ($stacksize > 0 && ! in_array($tag, $nestable_tags, true) && $tagstack[$stacksize - 1] === $tag) {
+                if ($stacksize > 0 && !in_array($tag, $nestable_tags, true) && $tagstack[$stacksize - 1] === $tag) {
                     $tagqueue = '</' . array_pop($tagstack) . '>';
                     --$stacksize;
                 }
@@ -2723,13 +2793,13 @@ function force_balance_tags($text)
 
             $tag = '<' . $tag . $pre_attribute_ws . $attributes . '>';
             // If already queuing a close tag, then put this tag on too.
-            if (! empty($tagqueue)) {
+            if (!empty($tagqueue)) {
                 $tagqueue .= $tag;
-                $tag       = '';
+                $tag = '';
             }
         }
         $newtext .= substr($text, 0, $i) . $tag;
-        $text     = substr($text, $i + $l);
+        $text = substr($text, $i + $l);
     }
 
     // Clear tag queue.
@@ -2756,26 +2826,26 @@ function force_balance_tags($text)
  * to convert special characters to HTML entities. If `$richedit` is set to true,
  * it is simply a holder for the {@see 'format_to_edit'} filter.
  *
- * @since 0.71
- * @since 4.4.0 The `$richedit` parameter was renamed to `$rich_text` for clarity.
- *
- * @param string $content   The text about to be edited.
- * @param bool   $rich_text Optional. Whether `$content` should be considered rich text,
+ * @param string $content The text about to be edited.
+ * @param bool $rich_text Optional. Whether `$content` should be considered rich text,
  *                          in which case it would not be passed through esc_textarea().
  *                          Default false.
  * @return string The text after the filter (and possibly htmlspecialchars()) has been run.
+ * @since 4.4.0 The `$richedit` parameter was renamed to `$rich_text` for clarity.
+ *
+ * @since 0.71
  */
 function format_to_edit($content, $rich_text = false)
 {
     /**
      * Filters the text to be formatted for editing.
      *
+     * @param string $content The text, prior to formatting for editing.
      * @since 1.2.0
      *
-     * @param string $content The text, prior to formatting for editing.
      */
     $content = apply_filters('format_to_edit', $content);
-    if (! $rich_text) {
+    if (!$rich_text) {
         $content = esc_textarea($content);
     }
     return $content;
@@ -2792,11 +2862,11 @@ function format_to_edit($content, $rich_text = false)
  * and the size of the number. If the number is large enough, then no zeros will
  * be appended.
  *
+ * @param int $number Number to append zeros to if not greater than threshold.
+ * @param int $threshold Digit places number needs to be to not have zeros added.
+ * @return string Adds leading zeros to number if needed.
  * @since 0.71
  *
- * @param int $number     Number to append zeros to if not greater than threshold.
- * @param int $threshold  Digit places number needs to be to not have zeros added.
- * @return string Adds leading zeros to number if needed.
  */
 function zeroise($number, $threshold)
 {
@@ -2806,10 +2876,10 @@ function zeroise($number, $threshold)
 /**
  * Adds backslashes before letters and before a number at the start of a string.
  *
- * @since 0.71
- *
  * @param string $value Value to which backslashes will be added.
  * @return string String with backslashes inserted.
+ * @since 0.71
+ *
  */
 function backslashit($value)
 {
@@ -2828,10 +2898,10 @@ function backslashit($value)
  * The primary use of this is for paths and thus should be used for paths. It is
  * not restricted to paths and offers no specific path support.
  *
- * @since 1.2.0
- *
  * @param string $value Value to which trailing slash will be added.
  * @return string String with trailing slash added.
+ * @since 1.2.0
+ *
  */
 function trailingslashit($value)
 {
@@ -2844,10 +2914,10 @@ function trailingslashit($value)
  * The primary use of this is for paths and thus should be used for paths. It is
  * not restricted to paths and offers no specific path support.
  *
- * @since 2.2.0
- *
  * @param string $text Value from which trailing slashes will be removed.
  * @return string String without the trailing slashes.
+ * @since 2.2.0
+ *
  */
 function untrailingslashit($value)
 {
@@ -2857,10 +2927,10 @@ function untrailingslashit($value)
 /**
  * Adds slashes to a string or recursively adds slashes to strings within an array.
  *
- * @since 0.71
- *
  * @param string|array $gpc String or array of data to slash.
  * @return string|array Slashed `$gpc`.
+ * @since 0.71
+ *
  */
 function addslashes_gpc($gpc)
 {
@@ -2870,10 +2940,10 @@ function addslashes_gpc($gpc)
 /**
  * Navigates through an array, object, or scalar, and removes slashes from the values.
  *
- * @since 2.0.0
- *
  * @param mixed $value The value to be stripped.
  * @return mixed Stripped value.
+ * @since 2.0.0
+ *
  */
 function stripslashes_deep($value)
 {
@@ -2883,10 +2953,10 @@ function stripslashes_deep($value)
 /**
  * Callback function for `stripslashes_deep()` which strips slashes from strings.
  *
- * @since 4.4.0
- *
  * @param mixed $value The array or string to be stripped.
  * @return mixed The stripped value.
+ * @since 4.4.0
+ *
  */
 function stripslashes_from_strings_only($value)
 {
@@ -2896,10 +2966,10 @@ function stripslashes_from_strings_only($value)
 /**
  * Navigates through an array, object, or scalar, and encodes the values to be used in a URL.
  *
- * @since 2.2.0
- *
  * @param mixed $value The array or string to be encoded.
  * @return mixed The encoded value.
+ * @since 2.2.0
+ *
  */
 function urlencode_deep($value)
 {
@@ -2909,10 +2979,10 @@ function urlencode_deep($value)
 /**
  * Navigates through an array, object, or scalar, and raw-encodes the values to be used in a URL.
  *
- * @since 3.4.0
- *
  * @param mixed $value The array or string to be encoded.
  * @return mixed The encoded value.
+ * @since 3.4.0
+ *
  */
 function rawurlencode_deep($value)
 {
@@ -2922,10 +2992,10 @@ function rawurlencode_deep($value)
 /**
  * Navigates through an array, object, or scalar, and decodes URL-encoded values
  *
- * @since 4.4.0
- *
  * @param mixed $value The array or string to be decoded.
  * @return mixed The decoded value.
+ * @since 4.4.0
+ *
  */
 function urldecode_deep($value)
 {
@@ -2935,11 +3005,11 @@ function urldecode_deep($value)
 /**
  * Converts email addresses characters to HTML entities to block spam bots.
  *
+ * @param string $email_address Email address.
+ * @param int $hex_encoding Optional. Set to 1 to enable hex encoding.
+ * @return string Converted email address.
  * @since 0.71
  *
- * @param string $email_address Email address.
- * @param int    $hex_encoding  Optional. Set to 1 to enable hex encoding.
- * @return string Converted email address.
  */
 function antispambot($email_address, $hex_encoding = 0)
 {
@@ -2965,11 +3035,11 @@ function antispambot($email_address, $hex_encoding = 0)
  *
  * This function was backported from 2.5.0 to 2.3.2. Regex callback for make_clickable().
  *
+ * @param array $matches Single Regex Match.
+ * @return string HTML A element with URI address.
  * @since 2.3.2
  * @access private
  *
- * @param array $matches Single Regex Match.
- * @return string HTML A element with URI address.
  */
 function _make_url_clickable_cb($matches)
 {
@@ -2980,20 +3050,20 @@ function _make_url_clickable_cb($matches)
          * If the trailing character is a closing parenthesis, and the URL has an opening parenthesis in it,
          * add the closing parenthesis to the URL. Then we can let the parenthesis balancer do its thing below.
          */
-        $url   .= $matches[3];
+        $url .= $matches[3];
         $suffix = '';
     } else {
         $suffix = $matches[3];
     }
 
-    if (isset($matches[4]) && ! empty($matches[4])) {
+    if (isset($matches[4]) && !empty($matches[4])) {
         $url .= $matches[4];
     }
 
     // Include parentheses in the URL only if paired.
     while (substr_count($url, '(') < substr_count($url, ')')) {
         $suffix = strrchr($url, ')') . $suffix;
-        $url    = substr($url, 0, strrpos($url, ')'));
+        $url = substr($url, 0, strrpos($url, ')'));
     }
 
     $url = esc_url($url);
@@ -3011,22 +3081,22 @@ function _make_url_clickable_cb($matches)
  *
  * This function was backported from 2.5.0 to 2.3.2. Regex callback for make_clickable().
  *
+ * @param array $matches Single Regex Match.
+ * @return string HTML A element with URL address.
  * @since 2.3.2
  * @access private
  *
- * @param array $matches Single Regex Match.
- * @return string HTML A element with URL address.
  */
 function _make_web_ftp_clickable_cb($matches)
 {
-    $ret  = '';
+    $ret = '';
     $dest = $matches[2];
     $dest = 'http://' . $dest;
 
     // Removed trailing [.,;:)] from URL.
     $last_char = substr($dest, -1);
     if (in_array($last_char, ['.', ',', ';', ':', ')'], true) === true) {
-        $ret  = $last_char;
+        $ret = $last_char;
         $dest = substr($dest, 0, strlen($dest) - 1);
     }
 
@@ -3045,11 +3115,11 @@ function _make_web_ftp_clickable_cb($matches)
  *
  * This function was backported from 2.5.0 to 2.3.2. Regex callback for make_clickable().
  *
+ * @param array $matches Single Regex Match.
+ * @return string HTML A element with email address.
  * @since 2.3.2
  * @access private
  *
- * @param array $matches Single Regex Match.
- * @return string HTML A element with email address.
  */
 function _make_email_clickable_cb($matches)
 {
@@ -3061,19 +3131,19 @@ function _make_email_clickable_cb($matches)
 /**
  * Helper function used to build the "rel" attribute for a URL when creating an anchor using make_clickable().
  *
- * @since 6.2.0
- *
  * @param string $url The URL.
  * @return string The rel attribute for the anchor or an empty string if no rel attribute should be added.
+ * @since 6.2.0
+ *
  */
 function _make_clickable_rel_attr($url)
 {
-    $rel_parts        = [];
-    $scheme           = strtolower(wp_parse_url($url, PHP_URL_SCHEME));
+    $rel_parts = [];
+    $scheme = strtolower(wp_parse_url($url, PHP_URL_SCHEME));
     $nofollow_schemes = array_intersect(wp_allowed_protocols(), ['https', 'http']);
 
     // Apply "nofollow" to external links with qualifying URL schemes (mailto:, tel:, etc... shouldn't be followed).
-    if (! wp_is_internal_link($url) && in_array($scheme, $nofollow_schemes, true)) {
+    if (!wp_is_internal_link($url) && in_array($scheme, $nofollow_schemes, true)) {
         $rel_parts[] = 'nofollow';
     }
 
@@ -3087,10 +3157,10 @@ function _make_clickable_rel_attr($url)
     /**
      * Filters the rel value that is added to URL matches converted to links.
      *
-     * @since 5.3.0
-     *
      * @param string $rel The rel value.
      * @param string $url The matched URL being converted to a link tag.
+     * @since 5.3.0
+     *
      */
     $rel = apply_filters('make_clickable_rel', $rel, $url);
 
@@ -3105,18 +3175,17 @@ function _make_clickable_rel_attr($url)
  * Converts URI, www and ftp, and email addresses. Finishes by fixing links
  * within links.
  *
- * @since 0.71
- *
  * @param string $text Content to convert URIs.
  * @return string Content with converted URIs.
+ * @since 0.71
+ *
  */
 function make_clickable($text)
 {
-    $r               = '';
-    $textarr         = preg_split('/(<[^<>]+>)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE); // Split out HTML tags.
+    $r = '';
+    $textarr = preg_split('/(<[^<>]+>)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE); // Split out HTML tags.
     $nested_code_pre = 0; // Keep track of how many levels link is nested inside <pre> or <code>.
     foreach ($textarr as $piece) {
-
         if (preg_match('|^<code[\s>]|i', $piece)
             || preg_match('|^<pre[\s>]|i', $piece)
             || preg_match('|^<script[\s>]|i', $piece)
@@ -3135,7 +3204,7 @@ function make_clickable($text)
 
         if ($nested_code_pre
             || empty($piece)
-            || ('<' === $piece[0] && ! preg_match('|^<\s*[\w]{1,20}+://|', $piece))
+            || ('<' === $piece[0] && !preg_match('|^<\s*[\w]{1,20}+://|', $piece))
         ) {
             $r .= $piece;
             continue;
@@ -3144,7 +3213,8 @@ function make_clickable($text)
         // Long strings might contain expensive edge cases...
         if (10000 < strlen($piece)) {
             // ...break it up.
-            foreach (_split_str_by_whitespace($piece, 2100) as $chunk) { // 2100: Extra room for scheme and leading and trailing parentheses.
+            foreach (_split_str_by_whitespace($piece,
+                2100) as $chunk) { // 2100: Extra room for scheme and leading and trailing parentheses.
                 if (2101 < strlen($chunk)) {
                     $r .= $chunk; // Too big, no whitespace: bail.
                 } else {
@@ -3175,11 +3245,13 @@ function make_clickable($text)
 
             $ret = preg_replace_callback($url_clickable, '_make_url_clickable_cb', $ret);
 
-            $ret = preg_replace_callback('#([\s>])((www|ftp)\.[\w\\x80-\\xff\#$%&~/.\-;:=,?@\[\]+]+)#is', '_make_web_ftp_clickable_cb', $ret);
-            $ret = preg_replace_callback('#([\s>])([.0-9a-z_+-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})#i', '_make_email_clickable_cb', $ret);
+            $ret = preg_replace_callback('#([\s>])((www|ftp)\.[\w\\x80-\\xff\#$%&~/.\-;:=,?@\[\]+]+)#is',
+                '_make_web_ftp_clickable_cb', $ret);
+            $ret = preg_replace_callback('#([\s>])([.0-9a-z_+-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})#i',
+                '_make_email_clickable_cb', $ret);
 
             $ret = substr($ret, 1, -1); // Remove our whitespace padding.
-            $r  .= $ret;
+            $r .= $ret;
         }
     }
 
@@ -3210,12 +3282,12 @@ function make_clickable($text)
  *         7 => '1 3 5 7 90 ',  // 11 characters: End of $text.
  *     );
  *
+ * @param string $text The string to split.
+ * @param int $goal The desired chunk length.
+ * @return array Numeric array of chunks.
  * @since 3.4.0
  * @access private
  *
- * @param string $text   The string to split.
- * @param int    $goal   The desired chunk length.
- * @return array Numeric array of chunks.
  */
 function _split_str_by_whitespace($text, $goal)
 {
@@ -3233,8 +3305,8 @@ function _split_str_by_whitespace($text, $goal)
             }
         }
 
-        $chunks[]         = substr($text, 0, $pos + 1);
-        $text             = substr($text, $pos + 1);
+        $chunks[] = substr($text, 0, $pos + 1);
+        $text = substr($text, $pos + 1);
         $string_nullspace = substr($string_nullspace, $pos + 1);
     }
 
@@ -3250,26 +3322,26 @@ function _split_str_by_whitespace($text, $goal)
  *
  * Will remove already existing string before adding to prevent invalidating (X)HTML.
  *
+ * @param array $matches Single match.
+ * @param string $rel The rel attribute to add.
+ * @return string HTML A element with the added rel attribute.
  * @since 5.3.0
  *
- * @param array  $matches Single match.
- * @param string $rel     The rel attribute to add.
- * @return string HTML A element with the added rel attribute.
  */
 function wp_rel_callback($matches, $rel)
 {
     $text = $matches[1];
     $atts = wp_kses_hair($matches[1], wp_allowed_protocols());
 
-    if (! empty($atts['href']) && wp_is_internal_link($atts['href']['value'])) {
+    if (!empty($atts['href']) && wp_is_internal_link($atts['href']['value'])) {
         $rel = trim(str_replace('nofollow', '', $rel));
     }
 
-    if (! empty($atts['rel'])) {
-        $parts     = array_map('trim', explode(' ', $atts['rel']['value']));
+    if (!empty($atts['rel'])) {
+        $parts = array_map('trim', explode(' ', $atts['rel']['value']));
         $rel_array = array_map('trim', explode(' ', $rel));
-        $parts     = array_unique(array_merge($parts, $rel_array));
-        $rel       = implode(' ', $parts);
+        $parts = array_unique(array_merge($parts, $rel_array));
+        $rel = implode(' ', $parts);
         unset($atts['rel']);
 
         $html = '';
@@ -3291,10 +3363,10 @@ function wp_rel_callback($matches, $rel)
 /**
  * Adds `rel="nofollow"` string to all HTML A elements in content.
  *
- * @since 1.5.0
- *
  * @param string $text Content that may contain HTML A elements.
  * @return string Converted content.
+ * @since 1.5.0
+ *
  */
 function wp_rel_nofollow($text)
 {
@@ -3305,7 +3377,7 @@ function wp_rel_nofollow($text)
         static function ($matches) {
             return wp_rel_callback($matches, 'nofollow');
         },
-        $text
+        $text,
     );
     return wp_slash($text);
 }
@@ -3313,11 +3385,11 @@ function wp_rel_nofollow($text)
 /**
  * Callback to add `rel="nofollow"` string to HTML A element.
  *
+ * @param array $matches Single match.
+ * @return string HTML A Element with `rel="nofollow"`.
  * @since 2.3.0
  * @deprecated 5.3.0 Use wp_rel_callback()
  *
- * @param array $matches Single match.
- * @return string HTML A Element with `rel="nofollow"`.
  */
 function wp_rel_nofollow_callback($matches)
 {
@@ -3327,10 +3399,10 @@ function wp_rel_nofollow_callback($matches)
 /**
  * Adds `rel="nofollow ugc"` string to all HTML A elements in content.
  *
- * @since 5.3.0
- *
  * @param string $text Content that may contain HTML A elements.
  * @return string Converted content.
+ * @since 5.3.0
+ *
  */
 function wp_rel_ugc($text)
 {
@@ -3341,7 +3413,7 @@ function wp_rel_ugc($text)
         static function ($matches) {
             return wp_rel_callback($matches, 'nofollow ugc');
         },
-        $text
+        $text,
     );
     return wp_slash($text);
 }
@@ -3349,12 +3421,12 @@ function wp_rel_ugc($text)
 /**
  * Adds `rel="noopener"` to all HTML A elements that have a target.
  *
- * @since 5.1.0
- * @since 5.6.0 Removed 'noreferrer' relationship.
- * @deprecated 6.7.0
- *
  * @param string $text Content that may contain HTML A elements.
  * @return string Converted content.
+ * @deprecated 6.7.0
+ *
+ * @since 5.1.0
+ * @since 5.6.0 Removed 'noreferrer' relationship.
  */
 function wp_targeted_link_rel($text)
 {
@@ -3369,7 +3441,7 @@ function wp_targeted_link_rel($text)
 
     preg_match_all($script_and_style_regex, $text, $matches);
     $extra_parts = $matches[0];
-    $html_parts  = preg_split($script_and_style_regex, $text);
+    $html_parts = preg_split($script_and_style_regex, $text);
 
     foreach ($html_parts as &$part) {
         $part = preg_replace_callback('|<a\s([^>]*target\s*=[^>]*)>|i', 'wp_targeted_link_rel_callback', $part);
@@ -3391,22 +3463,22 @@ function wp_targeted_link_rel($text)
  *
  * Will not duplicate an existing 'noopener' value to avoid invalidating the HTML.
  *
- * @since 5.1.0
- * @since 5.6.0 Removed 'noreferrer' relationship.
- * @deprecated 6.7.0
- *
  * @param array $matches Single match.
  * @return string HTML A Element with `rel="noopener"` in addition to any existing values.
+ * @deprecated 6.7.0
+ *
+ * @since 5.1.0
+ * @since 5.6.0 Removed 'noreferrer' relationship.
  */
 function wp_targeted_link_rel_callback($matches)
 {
     _deprecated_function(__FUNCTION__, '6.7.0');
 
-    $link_html          = $matches[1];
+    $link_html = $matches[1];
     $original_link_html = $link_html;
 
     // Consider the HTML escaped if there are no unescaped quotes.
-    $is_escaped = ! preg_match('/(^|[^\\\\])[\'"]/', $link_html);
+    $is_escaped = !preg_match('/(^|[^\\\\])[\'"]/', $link_html);
     if ($is_escaped) {
         // Replace only the quotes so that they are parsable by wp_kses_hair(), leave the rest as is.
         $link_html = preg_replace('/\\\\([\'"])/', '$1', $link_html);
@@ -3417,25 +3489,25 @@ function wp_targeted_link_rel_callback($matches)
     /**
      * Filters the rel values that are added to links with `target` attribute.
      *
+     * @param string $rel The rel values.
+     * @param string $link_html The matched content of the link tag including all HTML attributes.
      * @since 5.1.0
      *
-     * @param string $rel       The rel values.
-     * @param string $link_html The matched content of the link tag including all HTML attributes.
      */
     $rel = apply_filters('wp_targeted_link_rel', 'noopener', $link_html);
 
     // Return early if no rel values to be added or if no actual target attribute.
-    if (! $rel || ! isset($atts['target'])) {
+    if (!$rel || !isset($atts['target'])) {
         return "<a $original_link_html>";
     }
 
     if (isset($atts['rel'])) {
         $all_parts = preg_split('/\s/', "{$atts['rel']['value']} $rel", -1, PREG_SPLIT_NO_EMPTY);
-        $rel       = implode(' ', array_unique($all_parts));
+        $rel = implode(' ', array_unique($all_parts));
     }
 
     $atts['rel']['whole'] = 'rel="' . esc_attr($rel) . '"';
-    $link_html            = implode(' ', array_column($atts, 'whole'));
+    $link_html = implode(' ', array_column($atts, 'whole'));
 
     if ($is_escaped) {
         $link_html = preg_replace('/[\'"]/', '\\\\$0', $link_html);
@@ -3474,12 +3546,12 @@ function wp_remove_targeted_link_rel_filters()
  * Looks up one smiley code in the $wpsmiliestrans global array and returns an
  * `<img>` string for that smiley.
  *
+ * @param array $matches Single match. Smiley code to convert to image.
+ * @return string Image string for smiley.
  * @since 2.8.0
  *
  * @global array $wpsmiliestrans
  *
- * @param array $matches Single match. Smiley code to convert to image.
- * @return string Image string for smiley.
  */
 function translate_smiley($matches)
 {
@@ -3490,29 +3562,30 @@ function translate_smiley($matches)
     }
 
     $smiley = trim(reset($matches));
-    $img    = $wpsmiliestrans[$smiley];
+    $img = $wpsmiliestrans[$smiley];
 
-    $matches    = [];
-    $ext        = preg_match('/\.([^.]+)$/', $img, $matches) ? strtolower($matches[1]) : false;
+    $matches = [];
+    $ext = preg_match('/\.([^.]+)$/', $img, $matches) ? strtolower($matches[1]) : false;
     $image_exts = ['jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp', 'avif'];
 
     // Don't convert smilies that aren't images - they're probably emoji.
-    if (! in_array($ext, $image_exts, true)) {
+    if (!in_array($ext, $image_exts, true)) {
         return $img;
     }
 
     /**
      * Filters the Smiley image URL before it's used in the image element.
      *
+     * @param string $smiley_url URL for the smiley image.
+     * @param string $img Filename for the smiley image.
+     * @param string $site_url Site URL, as returned by site_url().
      * @since 2.9.0
      *
-     * @param string $smiley_url URL for the smiley image.
-     * @param string $img        Filename for the smiley image.
-     * @param string $site_url   Site URL, as returned by site_url().
      */
     $src_url = apply_filters('smilies_src', includes_url("images/smilies/$img"), $img, site_url());
 
-    return sprintf('<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', esc_url($src_url), esc_attr($smiley));
+    return sprintf('<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
+        esc_url($src_url), esc_attr($smiley));
 }
 
 /**
@@ -3521,24 +3594,25 @@ function translate_smiley($matches)
  * Will only convert smilies if the option 'use_smilies' is true and the global
  * used in the function isn't empty.
  *
+ * @param string $text Content to convert smilies from text.
+ * @return string Converted content with text smilies replaced with images.
  * @since 0.71
  *
  * @global string|array $wp_smiliessearch
  *
- * @param string $text Content to convert smilies from text.
- * @return string Converted content with text smilies replaced with images.
  */
 function convert_smilies($text)
 {
     global $wp_smiliessearch;
     $output = '';
-    if (get_option('use_smilies') && ! empty($wp_smiliessearch)) {
+    if (get_option('use_smilies') && !empty($wp_smiliessearch)) {
         // HTML loop taken from texturize function, could possible be consolidated.
-        $textarr = preg_split('/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE); // Capture the tags as well as in between.
-        $stop    = count($textarr); // Loop stuff.
+        $textarr = preg_split('/(<.*>)/U', $text, -1,
+            PREG_SPLIT_DELIM_CAPTURE); // Capture the tags as well as in between.
+        $stop = count($textarr); // Loop stuff.
 
         // Ignore processing of specific tags.
-        $tags_to_ignore       = 'code|pre|style|script|textarea';
+        $tags_to_ignore = 'code|pre|style|script|textarea';
         $ignore_block_element = '';
 
         for ($i = 0; $i < $stop; $i++) {
@@ -3573,15 +3647,15 @@ function convert_smilies($text)
  *
  * Does not grok i18n domains. Not RFC compliant.
  *
+ * @param string $email Email address to verify.
+ * @param bool $deprecated Deprecated.
+ * @return string|false Valid email address on success, false on failure.
  * @since 0.71
  *
- * @param string $email      Email address to verify.
- * @param bool   $deprecated Deprecated.
- * @return string|false Valid email address on success, false on failure.
  */
 function is_email($email, $deprecated = false)
 {
-    if (! empty($deprecated)) {
+    if (!empty($deprecated)) {
         _deprecated_argument(__FUNCTION__, '3.0.0');
     }
 
@@ -3594,11 +3668,11 @@ function is_email($email, $deprecated = false)
          * 'email_no_at', 'local_invalid_chars', 'domain_period_sequence', 'domain_period_limits',
          * 'domain_no_periods', 'sub_hyphen_limits', 'sub_invalid_chars', or no specific context.
          *
+         * @param string|false $is_email The email address if successfully passed the is_email() checks, false otherwise.
+         * @param string $email The email address being checked.
+         * @param string $context Context under which the email was tested.
          * @since 2.8.0
          *
-         * @param string|false $is_email The email address if successfully passed the is_email() checks, false otherwise.
-         * @param string       $email    The email address being checked.
-         * @param string       $context  Context under which the email was tested.
          */
         return apply_filters('is_email', false, $email, 'email_too_short');
     }
@@ -3616,7 +3690,7 @@ function is_email($email, $deprecated = false)
      * LOCAL PART
      * Test for invalid characters.
      */
-    if (! preg_match('/^[a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]+$/', $local)) {
+    if (!preg_match('/^[a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~\.-]+$/', $local)) {
         /** This filter is documented in wp-includes/formatting.php */
         return apply_filters('is_email', false, $email, 'local_invalid_chars');
     }
@@ -3654,7 +3728,7 @@ function is_email($email, $deprecated = false)
         }
 
         // Test for invalid characters.
-        if (! preg_match('/^[a-z0-9-]+$/i', $sub)) {
+        if (!preg_match('/^[a-z0-9-]+$/i', $sub)) {
             /** This filter is documented in wp-includes/formatting.php */
             return apply_filters('is_email', false, $email, 'sub_invalid_chars');
         }
@@ -3668,15 +3742,15 @@ function is_email($email, $deprecated = false)
 /**
  * Converts to ASCII from email subjects.
  *
- * @since 1.2.0
- *
  * @param string $subject Subject line.
  * @return string Converted string to ASCII.
+ * @since 1.2.0
+ *
  */
 function wp_iso_descrambler($subject)
 {
     /* this may only work with iso-8859-1, I'm afraid */
-    if (! preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $subject, $matches)) {
+    if (!preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $subject, $matches)) {
         return $subject;
     }
 
@@ -3687,11 +3761,11 @@ function wp_iso_descrambler($subject)
 /**
  * Helper function to convert hex encoded chars to ASCII.
  *
+ * @param array $matches The preg_replace_callback matches array.
+ * @return string Converted chars.
  * @since 3.1.0
  * @access private
  *
- * @param array $matches The preg_replace_callback matches array.
- * @return string Converted chars.
  */
 function _wp_iso_convert($matches)
 {
@@ -3704,11 +3778,11 @@ function _wp_iso_convert($matches)
  * Requires and returns a date in the Y-m-d H:i:s format.
  * Return format can be overridden using the $format parameter.
  *
+ * @param string $date_string The date to be converted, in the timezone of the site.
+ * @param string $format The format string for the returned date. Default 'Y-m-d H:i:s'.
+ * @return string Formatted version of the date, in UTC.
  * @since 1.2.0
  *
- * @param string $date_string The date to be converted, in the timezone of the site.
- * @param string $format      The format string for the returned date. Default 'Y-m-d H:i:s'.
- * @return string Formatted version of the date, in UTC.
  */
 function get_gmt_from_date($date_string, $format = 'Y-m-d H:i:s')
 {
@@ -3727,11 +3801,11 @@ function get_gmt_from_date($date_string, $format = 'Y-m-d H:i:s')
  * Requires a date in the Y-m-d H:i:s format.
  * Default return format of 'Y-m-d H:i:s' can be overridden using the `$format` parameter.
  *
+ * @param string $date_string The date to be converted, in UTC or GMT timezone.
+ * @param string $format The format string for the returned date. Default 'Y-m-d H:i:s'.
+ * @return string Formatted version of the date, in the site's timezone.
  * @since 1.2.0
  *
- * @param string $date_string The date to be converted, in UTC or GMT timezone.
- * @param string $format      The format string for the returned date. Default 'Y-m-d H:i:s'.
- * @return string Formatted version of the date, in the site's timezone.
  */
 function get_date_from_gmt($date_string, $format = 'Y-m-d H:i:s')
 {
@@ -3747,10 +3821,10 @@ function get_date_from_gmt($date_string, $format = 'Y-m-d H:i:s')
 /**
  * Given an ISO 8601 timezone, returns its UTC offset in seconds.
  *
- * @since 1.5.0
- *
  * @param string $timezone Either 'Z' for 0 offset or '±hhmm'.
  * @return int|float The offset in seconds.
+ * @since 1.5.0
+ *
  */
 function iso8601_timezone_to_offset($timezone)
 {
@@ -3758,10 +3832,10 @@ function iso8601_timezone_to_offset($timezone)
     if ('Z' === $timezone) {
         $offset = 0;
     } else {
-        $sign    = (str_starts_with($timezone, '+')) ? 1 : -1;
-        $hours   = (int) substr($timezone, 1, 2);
-        $minutes = (int) substr($timezone, 3, 4) / 60;
-        $offset  = $sign * HOUR_IN_SECONDS * ($hours + $minutes);
+        $sign = (str_starts_with($timezone, '+')) ? 1 : -1;
+        $hours = (int)substr($timezone, 1, 2);
+        $minutes = (int)substr($timezone, 3, 4) / 60;
+        $offset = $sign * HOUR_IN_SECONDS * ($hours + $minutes);
     }
     return $offset;
 }
@@ -3769,17 +3843,17 @@ function iso8601_timezone_to_offset($timezone)
 /**
  * Given an ISO 8601 (Ymd\TH:i:sO) date, returns a MySQL DateTime (Y-m-d H:i:s) format used by post_date[_gmt].
  *
+ * @param string $date_string Date and time in ISO 8601 format {@link https://en.wikipedia.org/wiki/ISO_8601}.
+ * @param string $timezone Optional. If set to 'gmt' returns the result in UTC. Default 'user'.
+ * @return string|false The date and time in MySQL DateTime format - Y-m-d H:i:s, or false on failure.
  * @since 1.5.0
  *
- * @param string $date_string Date and time in ISO 8601 format {@link https://en.wikipedia.org/wiki/ISO_8601}.
- * @param string $timezone    Optional. If set to 'gmt' returns the result in UTC. Default 'user'.
- * @return string|false The date and time in MySQL DateTime format - Y-m-d H:i:s, or false on failure.
  */
 function iso8601_to_datetime($date_string, $timezone = 'user')
 {
-    $timezone    = strtolower($timezone);
+    $timezone = strtolower($timezone);
     $wp_timezone = wp_timezone();
-    $datetime    = date_create($date_string, $wp_timezone); // Timezone is ignored if input has one.
+    $datetime = date_create($date_string, $wp_timezone); // Timezone is ignored if input has one.
 
     if (false === $datetime) {
         return false;
@@ -3799,10 +3873,10 @@ function iso8601_to_datetime($date_string, $timezone = 'user')
 /**
  * Strips out all characters that are not allowable in an email.
  *
- * @since 1.5.0
- *
  * @param string $email Email address to filter.
  * @return string Filtered email address.
+ * @since 1.5.0
+ *
  */
 function sanitize_email($email)
 {
@@ -3815,11 +3889,11 @@ function sanitize_email($email)
          * 'email_no_at', 'local_invalid_chars', 'domain_period_sequence', 'domain_period_limits',
          * 'domain_no_periods', 'domain_no_valid_subs', or no context.
          *
+         * @param string $sanitized_email The sanitized email address.
+         * @param string $email The email address, as provided to sanitize_email().
+         * @param string|null $message A message to pass to the user. null if email is sanitized.
          * @since 2.8.0
          *
-         * @param string $sanitized_email The sanitized email address.
-         * @param string $email           The email address, as provided to sanitize_email().
-         * @param string|null $message    A message to pass to the user. null if email is sanitized.
          */
         return apply_filters('sanitize_email', '', $email, 'email_too_short');
     }
@@ -3909,12 +3983,12 @@ function sanitize_email($email)
  * The difference is returned in a human-readable format such as "1 hour",
  * "5 minutes", "2 days".
  *
- * @since 1.5.0
+ * @param int $from Unix timestamp from which the difference begins.
+ * @param int $to Optional. Unix timestamp to end the time difference. Default becomes time() if not set.
+ * @return string Human-readable time difference.
  * @since 5.3.0 Added support for showing a difference in seconds.
  *
- * @param int $from Unix timestamp from which the difference begins.
- * @param int $to   Optional. Unix timestamp to end the time difference. Default becomes time() if not set.
- * @return string Human-readable time difference.
+ * @since 1.5.0
  */
 function human_time_diff($from, $to = 0)
 {
@@ -3922,7 +3996,7 @@ function human_time_diff($from, $to = 0)
         $to = time();
     }
 
-    $diff = (int) abs($to - $from);
+    $diff = (int)abs($to - $from);
 
     if ($diff < MINUTE_IN_SECONDS) {
         $secs = $diff;
@@ -3978,12 +4052,12 @@ function human_time_diff($from, $to = 0)
     /**
      * Filters the human-readable difference between two timestamps.
      *
+     * @param string $since The difference in human-readable text.
+     * @param int $diff The difference in seconds.
+     * @param int $from Unix timestamp from which the difference begins.
+     * @param int $to Unix timestamp to end the time difference.
      * @since 4.0.0
      *
-     * @param string $since The difference in human-readable text.
-     * @param int    $diff  The difference in seconds.
-     * @param int    $from  Unix timestamp from which the difference begins.
-     * @param int    $to    Unix timestamp to end the time difference.
      */
     return apply_filters('human_time_diff', $since, $diff, $from, $to);
 }
@@ -3996,13 +4070,13 @@ function human_time_diff($from, $to = 0)
  * The 55-word limit can be modified by plugins/themes using the {@see 'excerpt_length'} filter
  * The ' [&hellip;]' string can be modified by plugins/themes using the {@see 'excerpt_more'} filter
  *
+ * @param string $text Optional. The excerpt. If set to empty, an excerpt is generated.
+ * @param WP_Post|object|int $post Optional. WP_Post instance or Post ID/object. Default null.
+ * @return string The excerpt.
  * @since 1.5.0
  * @since 5.2.0 Added the `$post` parameter.
  * @since 6.3.0 Removes footnotes markup from the excerpt content.
  *
- * @param string             $text Optional. The excerpt. If set to empty, an excerpt is generated.
- * @param WP_Post|object|int $post Optional. WP_Post instance or Post ID/object. Default null.
- * @return string The excerpt.
  */
 function wp_trim_excerpt($text = '', $post = null)
 {
@@ -4048,36 +4122,35 @@ function wp_trim_excerpt($text = '', $post = null)
         }
 
         /* translators: Maximum number of words used in a post excerpt. */
-        $excerpt_length = (int) _x('55', 'excerpt_length');
+        $excerpt_length = (int)_x('55', 'excerpt_length');
 
         /**
          * Filters the maximum number of words in a post excerpt.
          *
+         * @param int $number The maximum number of words. Default 55.
          * @since 2.7.0
          *
-         * @param int $number The maximum number of words. Default 55.
          */
-        $excerpt_length = (int) apply_filters('excerpt_length', $excerpt_length);
+        $excerpt_length = (int)apply_filters('excerpt_length', $excerpt_length);
 
         /**
          * Filters the string in the "more" link displayed after a trimmed excerpt.
          *
+         * @param string $more_string The string shown within the more link.
          * @since 2.9.0
          *
-         * @param string $more_string The string shown within the more link.
          */
         $excerpt_more = apply_filters('excerpt_more', ' ' . '[&hellip;]');
-        $text         = wp_trim_words($text, $excerpt_length, $excerpt_more);
-
+        $text = wp_trim_words($text, $excerpt_length, $excerpt_more);
     }
 
     /**
      * Filters the trimmed excerpt string.
      *
+     * @param string $text The trimmed text.
+     * @param string $raw_excerpt The text prior to trimming.
      * @since 2.8.0
      *
-     * @param string $text        The trimmed text.
-     * @param string $raw_excerpt The text prior to trimming.
      */
     return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
 }
@@ -4089,12 +4162,12 @@ function wp_trim_excerpt($text = '', $post = null)
  * character (such as East Asian languages), the $num_words argument will apply
  * to the number of individual characters.
  *
+ * @param string $text Text to trim.
+ * @param int $num_words Number of words. Default 55.
+ * @param string $more Optional. What to append if $text needs to be trimmed. Default '&hellip;'.
+ * @return string Trimmed text.
  * @since 3.3.0
  *
- * @param string $text      Text to trim.
- * @param int    $num_words Number of words. Default 55.
- * @param string $more      Optional. What to append if $text needs to be trimmed. Default '&hellip;'.
- * @return string Trimmed text.
  */
 function wp_trim_words($text, $num_words = 55, $more = null)
 {
@@ -4103,17 +4176,18 @@ function wp_trim_words($text, $num_words = 55, $more = null)
     }
 
     $original_text = $text;
-    $text          = wp_strip_all_tags($text);
-    $num_words     = (int) $num_words;
+    $text = wp_strip_all_tags($text);
+    $num_words = (int)$num_words;
 
-    if (str_starts_with(wp_get_word_count_type(), 'characters') && preg_match('/^utf\-?8$/i', get_option('blog_charset'))) {
+    if (str_starts_with(wp_get_word_count_type(), 'characters')
+        && preg_match('/^utf\-?8$/i', get_option('blog_charset'))) {
         $text = trim(preg_replace("/[\n\r\t ]+/", ' ', $text), ' ');
         preg_match_all('/./u', $text, $words_array);
         $words_array = array_slice($words_array[0], 0, $num_words + 1);
-        $sep         = '';
+        $sep = '';
     } else {
         $words_array = preg_split("/[\n\r\t ]+/", $text, $num_words + 1, PREG_SPLIT_NO_EMPTY);
-        $sep         = ' ';
+        $sep = ' ';
     }
 
     if (count($words_array) > $num_words) {
@@ -4127,12 +4201,12 @@ function wp_trim_words($text, $num_words = 55, $more = null)
     /**
      * Filters the text content after words have been trimmed.
      *
+     * @param string $text The trimmed text.
+     * @param int $num_words The number of words to trim the text to. Default 55.
+     * @param string $more An optional string to append to the end of the trimmed text, e.g. &hellip;.
+     * @param string $original_text The text before it was trimmed.
      * @since 3.3.0
      *
-     * @param string $text          The trimmed text.
-     * @param int    $num_words     The number of words to trim the text to. Default 55.
-     * @param string $more          An optional string to append to the end of the trimmed text, e.g. &hellip;.
-     * @param string $original_text The text before it was trimmed.
      */
     return apply_filters('wp_trim_words', $text, $num_words, $more, $original_text);
 }
@@ -4140,23 +4214,22 @@ function wp_trim_words($text, $num_words = 55, $more = null)
 /**
  * Converts named entities into numbered entities.
  *
- * @since 1.5.1
- *
  * @param string $text The text within which entities will be converted.
  * @return string Text with converted entities.
+ * @since 1.5.1
+ *
  */
 function ent2ncr($text)
 {
-
     /**
      * Filters text before named entities are converted into numbered entities.
      *
      * A non-null string must be returned for the filter to be evaluated.
      *
+     * @param string|null $converted_text The text to be converted. Default null.
+     * @param string $text The text prior to entity conversion.
      * @since 3.3.0
      *
-     * @param string|null $converted_text The text to be converted. Default null.
-     * @param string      $text           The text prior to entity conversion.
      */
     $filtered = apply_filters('pre_ent2ncr', null, $text);
     if (null !== $filtered) {
@@ -4164,262 +4237,262 @@ function ent2ncr($text)
     }
 
     $to_ncr = [
-        '&quot;'     => '&#34;',
-        '&amp;'      => '&#38;',
-        '&lt;'       => '&#60;',
-        '&gt;'       => '&#62;',
-        '|'          => '&#124;',
-        '&nbsp;'     => '&#160;',
-        '&iexcl;'    => '&#161;',
-        '&cent;'     => '&#162;',
-        '&pound;'    => '&#163;',
-        '&curren;'   => '&#164;',
-        '&yen;'      => '&#165;',
-        '&brvbar;'   => '&#166;',
-        '&brkbar;'   => '&#166;',
-        '&sect;'     => '&#167;',
-        '&uml;'      => '&#168;',
-        '&die;'      => '&#168;',
-        '&copy;'     => '&#169;',
-        '&ordf;'     => '&#170;',
-        '&laquo;'    => '&#171;',
-        '&not;'      => '&#172;',
-        '&shy;'      => '&#173;',
-        '&reg;'      => '&#174;',
-        '&macr;'     => '&#175;',
-        '&hibar;'    => '&#175;',
-        '&deg;'      => '&#176;',
-        '&plusmn;'   => '&#177;',
-        '&sup2;'     => '&#178;',
-        '&sup3;'     => '&#179;',
-        '&acute;'    => '&#180;',
-        '&micro;'    => '&#181;',
-        '&para;'     => '&#182;',
-        '&middot;'   => '&#183;',
-        '&cedil;'    => '&#184;',
-        '&sup1;'     => '&#185;',
-        '&ordm;'     => '&#186;',
-        '&raquo;'    => '&#187;',
-        '&frac14;'   => '&#188;',
-        '&frac12;'   => '&#189;',
-        '&frac34;'   => '&#190;',
-        '&iquest;'   => '&#191;',
-        '&Agrave;'   => '&#192;',
-        '&Aacute;'   => '&#193;',
-        '&Acirc;'    => '&#194;',
-        '&Atilde;'   => '&#195;',
-        '&Auml;'     => '&#196;',
-        '&Aring;'    => '&#197;',
-        '&AElig;'    => '&#198;',
-        '&Ccedil;'   => '&#199;',
-        '&Egrave;'   => '&#200;',
-        '&Eacute;'   => '&#201;',
-        '&Ecirc;'    => '&#202;',
-        '&Euml;'     => '&#203;',
-        '&Igrave;'   => '&#204;',
-        '&Iacute;'   => '&#205;',
-        '&Icirc;'    => '&#206;',
-        '&Iuml;'     => '&#207;',
-        '&ETH;'      => '&#208;',
-        '&Ntilde;'   => '&#209;',
-        '&Ograve;'   => '&#210;',
-        '&Oacute;'   => '&#211;',
-        '&Ocirc;'    => '&#212;',
-        '&Otilde;'   => '&#213;',
-        '&Ouml;'     => '&#214;',
-        '&times;'    => '&#215;',
-        '&Oslash;'   => '&#216;',
-        '&Ugrave;'   => '&#217;',
-        '&Uacute;'   => '&#218;',
-        '&Ucirc;'    => '&#219;',
-        '&Uuml;'     => '&#220;',
-        '&Yacute;'   => '&#221;',
-        '&THORN;'    => '&#222;',
-        '&szlig;'    => '&#223;',
-        '&agrave;'   => '&#224;',
-        '&aacute;'   => '&#225;',
-        '&acirc;'    => '&#226;',
-        '&atilde;'   => '&#227;',
-        '&auml;'     => '&#228;',
-        '&aring;'    => '&#229;',
-        '&aelig;'    => '&#230;',
-        '&ccedil;'   => '&#231;',
-        '&egrave;'   => '&#232;',
-        '&eacute;'   => '&#233;',
-        '&ecirc;'    => '&#234;',
-        '&euml;'     => '&#235;',
-        '&igrave;'   => '&#236;',
-        '&iacute;'   => '&#237;',
-        '&icirc;'    => '&#238;',
-        '&iuml;'     => '&#239;',
-        '&eth;'      => '&#240;',
-        '&ntilde;'   => '&#241;',
-        '&ograve;'   => '&#242;',
-        '&oacute;'   => '&#243;',
-        '&ocirc;'    => '&#244;',
-        '&otilde;'   => '&#245;',
-        '&ouml;'     => '&#246;',
-        '&divide;'   => '&#247;',
-        '&oslash;'   => '&#248;',
-        '&ugrave;'   => '&#249;',
-        '&uacute;'   => '&#250;',
-        '&ucirc;'    => '&#251;',
-        '&uuml;'     => '&#252;',
-        '&yacute;'   => '&#253;',
-        '&thorn;'    => '&#254;',
-        '&yuml;'     => '&#255;',
-        '&OElig;'    => '&#338;',
-        '&oelig;'    => '&#339;',
-        '&Scaron;'   => '&#352;',
-        '&scaron;'   => '&#353;',
-        '&Yuml;'     => '&#376;',
-        '&fnof;'     => '&#402;',
-        '&circ;'     => '&#710;',
-        '&tilde;'    => '&#732;',
-        '&Alpha;'    => '&#913;',
-        '&Beta;'     => '&#914;',
-        '&Gamma;'    => '&#915;',
-        '&Delta;'    => '&#916;',
-        '&Epsilon;'  => '&#917;',
-        '&Zeta;'     => '&#918;',
-        '&Eta;'      => '&#919;',
-        '&Theta;'    => '&#920;',
-        '&Iota;'     => '&#921;',
-        '&Kappa;'    => '&#922;',
-        '&Lambda;'   => '&#923;',
-        '&Mu;'       => '&#924;',
-        '&Nu;'       => '&#925;',
-        '&Xi;'       => '&#926;',
-        '&Omicron;'  => '&#927;',
-        '&Pi;'       => '&#928;',
-        '&Rho;'      => '&#929;',
-        '&Sigma;'    => '&#931;',
-        '&Tau;'      => '&#932;',
-        '&Upsilon;'  => '&#933;',
-        '&Phi;'      => '&#934;',
-        '&Chi;'      => '&#935;',
-        '&Psi;'      => '&#936;',
-        '&Omega;'    => '&#937;',
-        '&alpha;'    => '&#945;',
-        '&beta;'     => '&#946;',
-        '&gamma;'    => '&#947;',
-        '&delta;'    => '&#948;',
-        '&epsilon;'  => '&#949;',
-        '&zeta;'     => '&#950;',
-        '&eta;'      => '&#951;',
-        '&theta;'    => '&#952;',
-        '&iota;'     => '&#953;',
-        '&kappa;'    => '&#954;',
-        '&lambda;'   => '&#955;',
-        '&mu;'       => '&#956;',
-        '&nu;'       => '&#957;',
-        '&xi;'       => '&#958;',
-        '&omicron;'  => '&#959;',
-        '&pi;'       => '&#960;',
-        '&rho;'      => '&#961;',
-        '&sigmaf;'   => '&#962;',
-        '&sigma;'    => '&#963;',
-        '&tau;'      => '&#964;',
-        '&upsilon;'  => '&#965;',
-        '&phi;'      => '&#966;',
-        '&chi;'      => '&#967;',
-        '&psi;'      => '&#968;',
-        '&omega;'    => '&#969;',
+        '&quot;' => '&#34;',
+        '&amp;' => '&#38;',
+        '&lt;' => '&#60;',
+        '&gt;' => '&#62;',
+        '|' => '&#124;',
+        '&nbsp;' => '&#160;',
+        '&iexcl;' => '&#161;',
+        '&cent;' => '&#162;',
+        '&pound;' => '&#163;',
+        '&curren;' => '&#164;',
+        '&yen;' => '&#165;',
+        '&brvbar;' => '&#166;',
+        '&brkbar;' => '&#166;',
+        '&sect;' => '&#167;',
+        '&uml;' => '&#168;',
+        '&die;' => '&#168;',
+        '&copy;' => '&#169;',
+        '&ordf;' => '&#170;',
+        '&laquo;' => '&#171;',
+        '&not;' => '&#172;',
+        '&shy;' => '&#173;',
+        '&reg;' => '&#174;',
+        '&macr;' => '&#175;',
+        '&hibar;' => '&#175;',
+        '&deg;' => '&#176;',
+        '&plusmn;' => '&#177;',
+        '&sup2;' => '&#178;',
+        '&sup3;' => '&#179;',
+        '&acute;' => '&#180;',
+        '&micro;' => '&#181;',
+        '&para;' => '&#182;',
+        '&middot;' => '&#183;',
+        '&cedil;' => '&#184;',
+        '&sup1;' => '&#185;',
+        '&ordm;' => '&#186;',
+        '&raquo;' => '&#187;',
+        '&frac14;' => '&#188;',
+        '&frac12;' => '&#189;',
+        '&frac34;' => '&#190;',
+        '&iquest;' => '&#191;',
+        '&Agrave;' => '&#192;',
+        '&Aacute;' => '&#193;',
+        '&Acirc;' => '&#194;',
+        '&Atilde;' => '&#195;',
+        '&Auml;' => '&#196;',
+        '&Aring;' => '&#197;',
+        '&AElig;' => '&#198;',
+        '&Ccedil;' => '&#199;',
+        '&Egrave;' => '&#200;',
+        '&Eacute;' => '&#201;',
+        '&Ecirc;' => '&#202;',
+        '&Euml;' => '&#203;',
+        '&Igrave;' => '&#204;',
+        '&Iacute;' => '&#205;',
+        '&Icirc;' => '&#206;',
+        '&Iuml;' => '&#207;',
+        '&ETH;' => '&#208;',
+        '&Ntilde;' => '&#209;',
+        '&Ograve;' => '&#210;',
+        '&Oacute;' => '&#211;',
+        '&Ocirc;' => '&#212;',
+        '&Otilde;' => '&#213;',
+        '&Ouml;' => '&#214;',
+        '&times;' => '&#215;',
+        '&Oslash;' => '&#216;',
+        '&Ugrave;' => '&#217;',
+        '&Uacute;' => '&#218;',
+        '&Ucirc;' => '&#219;',
+        '&Uuml;' => '&#220;',
+        '&Yacute;' => '&#221;',
+        '&THORN;' => '&#222;',
+        '&szlig;' => '&#223;',
+        '&agrave;' => '&#224;',
+        '&aacute;' => '&#225;',
+        '&acirc;' => '&#226;',
+        '&atilde;' => '&#227;',
+        '&auml;' => '&#228;',
+        '&aring;' => '&#229;',
+        '&aelig;' => '&#230;',
+        '&ccedil;' => '&#231;',
+        '&egrave;' => '&#232;',
+        '&eacute;' => '&#233;',
+        '&ecirc;' => '&#234;',
+        '&euml;' => '&#235;',
+        '&igrave;' => '&#236;',
+        '&iacute;' => '&#237;',
+        '&icirc;' => '&#238;',
+        '&iuml;' => '&#239;',
+        '&eth;' => '&#240;',
+        '&ntilde;' => '&#241;',
+        '&ograve;' => '&#242;',
+        '&oacute;' => '&#243;',
+        '&ocirc;' => '&#244;',
+        '&otilde;' => '&#245;',
+        '&ouml;' => '&#246;',
+        '&divide;' => '&#247;',
+        '&oslash;' => '&#248;',
+        '&ugrave;' => '&#249;',
+        '&uacute;' => '&#250;',
+        '&ucirc;' => '&#251;',
+        '&uuml;' => '&#252;',
+        '&yacute;' => '&#253;',
+        '&thorn;' => '&#254;',
+        '&yuml;' => '&#255;',
+        '&OElig;' => '&#338;',
+        '&oelig;' => '&#339;',
+        '&Scaron;' => '&#352;',
+        '&scaron;' => '&#353;',
+        '&Yuml;' => '&#376;',
+        '&fnof;' => '&#402;',
+        '&circ;' => '&#710;',
+        '&tilde;' => '&#732;',
+        '&Alpha;' => '&#913;',
+        '&Beta;' => '&#914;',
+        '&Gamma;' => '&#915;',
+        '&Delta;' => '&#916;',
+        '&Epsilon;' => '&#917;',
+        '&Zeta;' => '&#918;',
+        '&Eta;' => '&#919;',
+        '&Theta;' => '&#920;',
+        '&Iota;' => '&#921;',
+        '&Kappa;' => '&#922;',
+        '&Lambda;' => '&#923;',
+        '&Mu;' => '&#924;',
+        '&Nu;' => '&#925;',
+        '&Xi;' => '&#926;',
+        '&Omicron;' => '&#927;',
+        '&Pi;' => '&#928;',
+        '&Rho;' => '&#929;',
+        '&Sigma;' => '&#931;',
+        '&Tau;' => '&#932;',
+        '&Upsilon;' => '&#933;',
+        '&Phi;' => '&#934;',
+        '&Chi;' => '&#935;',
+        '&Psi;' => '&#936;',
+        '&Omega;' => '&#937;',
+        '&alpha;' => '&#945;',
+        '&beta;' => '&#946;',
+        '&gamma;' => '&#947;',
+        '&delta;' => '&#948;',
+        '&epsilon;' => '&#949;',
+        '&zeta;' => '&#950;',
+        '&eta;' => '&#951;',
+        '&theta;' => '&#952;',
+        '&iota;' => '&#953;',
+        '&kappa;' => '&#954;',
+        '&lambda;' => '&#955;',
+        '&mu;' => '&#956;',
+        '&nu;' => '&#957;',
+        '&xi;' => '&#958;',
+        '&omicron;' => '&#959;',
+        '&pi;' => '&#960;',
+        '&rho;' => '&#961;',
+        '&sigmaf;' => '&#962;',
+        '&sigma;' => '&#963;',
+        '&tau;' => '&#964;',
+        '&upsilon;' => '&#965;',
+        '&phi;' => '&#966;',
+        '&chi;' => '&#967;',
+        '&psi;' => '&#968;',
+        '&omega;' => '&#969;',
         '&thetasym;' => '&#977;',
-        '&upsih;'    => '&#978;',
-        '&piv;'      => '&#982;',
-        '&ensp;'     => '&#8194;',
-        '&emsp;'     => '&#8195;',
-        '&thinsp;'   => '&#8201;',
-        '&zwnj;'     => '&#8204;',
-        '&zwj;'      => '&#8205;',
-        '&lrm;'      => '&#8206;',
-        '&rlm;'      => '&#8207;',
-        '&ndash;'    => '&#8211;',
-        '&mdash;'    => '&#8212;',
-        '&lsquo;'    => '&#8216;',
-        '&rsquo;'    => '&#8217;',
-        '&sbquo;'    => '&#8218;',
-        '&ldquo;'    => '&#8220;',
-        '&rdquo;'    => '&#8221;',
-        '&bdquo;'    => '&#8222;',
-        '&dagger;'   => '&#8224;',
-        '&Dagger;'   => '&#8225;',
-        '&bull;'     => '&#8226;',
-        '&hellip;'   => '&#8230;',
-        '&permil;'   => '&#8240;',
-        '&prime;'    => '&#8242;',
-        '&Prime;'    => '&#8243;',
-        '&lsaquo;'   => '&#8249;',
-        '&rsaquo;'   => '&#8250;',
-        '&oline;'    => '&#8254;',
-        '&frasl;'    => '&#8260;',
-        '&euro;'     => '&#8364;',
-        '&image;'    => '&#8465;',
-        '&weierp;'   => '&#8472;',
-        '&real;'     => '&#8476;',
-        '&trade;'    => '&#8482;',
-        '&alefsym;'  => '&#8501;',
-        '&crarr;'    => '&#8629;',
-        '&lArr;'     => '&#8656;',
-        '&uArr;'     => '&#8657;',
-        '&rArr;'     => '&#8658;',
-        '&dArr;'     => '&#8659;',
-        '&hArr;'     => '&#8660;',
-        '&forall;'   => '&#8704;',
-        '&part;'     => '&#8706;',
-        '&exist;'    => '&#8707;',
-        '&empty;'    => '&#8709;',
-        '&nabla;'    => '&#8711;',
-        '&isin;'     => '&#8712;',
-        '&notin;'    => '&#8713;',
-        '&ni;'       => '&#8715;',
-        '&prod;'     => '&#8719;',
-        '&sum;'      => '&#8721;',
-        '&minus;'    => '&#8722;',
-        '&lowast;'   => '&#8727;',
-        '&radic;'    => '&#8730;',
-        '&prop;'     => '&#8733;',
-        '&infin;'    => '&#8734;',
-        '&ang;'      => '&#8736;',
-        '&and;'      => '&#8743;',
-        '&or;'       => '&#8744;',
-        '&cap;'      => '&#8745;',
-        '&cup;'      => '&#8746;',
-        '&int;'      => '&#8747;',
-        '&there4;'   => '&#8756;',
-        '&sim;'      => '&#8764;',
-        '&cong;'     => '&#8773;',
-        '&asymp;'    => '&#8776;',
-        '&ne;'       => '&#8800;',
-        '&equiv;'    => '&#8801;',
-        '&le;'       => '&#8804;',
-        '&ge;'       => '&#8805;',
-        '&sub;'      => '&#8834;',
-        '&sup;'      => '&#8835;',
-        '&nsub;'     => '&#8836;',
-        '&sube;'     => '&#8838;',
-        '&supe;'     => '&#8839;',
-        '&oplus;'    => '&#8853;',
-        '&otimes;'   => '&#8855;',
-        '&perp;'     => '&#8869;',
-        '&sdot;'     => '&#8901;',
-        '&lceil;'    => '&#8968;',
-        '&rceil;'    => '&#8969;',
-        '&lfloor;'   => '&#8970;',
-        '&rfloor;'   => '&#8971;',
-        '&lang;'     => '&#9001;',
-        '&rang;'     => '&#9002;',
-        '&larr;'     => '&#8592;',
-        '&uarr;'     => '&#8593;',
-        '&rarr;'     => '&#8594;',
-        '&darr;'     => '&#8595;',
-        '&harr;'     => '&#8596;',
-        '&loz;'      => '&#9674;',
-        '&spades;'   => '&#9824;',
-        '&clubs;'    => '&#9827;',
-        '&hearts;'   => '&#9829;',
-        '&diams;'    => '&#9830;',
+        '&upsih;' => '&#978;',
+        '&piv;' => '&#982;',
+        '&ensp;' => '&#8194;',
+        '&emsp;' => '&#8195;',
+        '&thinsp;' => '&#8201;',
+        '&zwnj;' => '&#8204;',
+        '&zwj;' => '&#8205;',
+        '&lrm;' => '&#8206;',
+        '&rlm;' => '&#8207;',
+        '&ndash;' => '&#8211;',
+        '&mdash;' => '&#8212;',
+        '&lsquo;' => '&#8216;',
+        '&rsquo;' => '&#8217;',
+        '&sbquo;' => '&#8218;',
+        '&ldquo;' => '&#8220;',
+        '&rdquo;' => '&#8221;',
+        '&bdquo;' => '&#8222;',
+        '&dagger;' => '&#8224;',
+        '&Dagger;' => '&#8225;',
+        '&bull;' => '&#8226;',
+        '&hellip;' => '&#8230;',
+        '&permil;' => '&#8240;',
+        '&prime;' => '&#8242;',
+        '&Prime;' => '&#8243;',
+        '&lsaquo;' => '&#8249;',
+        '&rsaquo;' => '&#8250;',
+        '&oline;' => '&#8254;',
+        '&frasl;' => '&#8260;',
+        '&euro;' => '&#8364;',
+        '&image;' => '&#8465;',
+        '&weierp;' => '&#8472;',
+        '&real;' => '&#8476;',
+        '&trade;' => '&#8482;',
+        '&alefsym;' => '&#8501;',
+        '&crarr;' => '&#8629;',
+        '&lArr;' => '&#8656;',
+        '&uArr;' => '&#8657;',
+        '&rArr;' => '&#8658;',
+        '&dArr;' => '&#8659;',
+        '&hArr;' => '&#8660;',
+        '&forall;' => '&#8704;',
+        '&part;' => '&#8706;',
+        '&exist;' => '&#8707;',
+        '&empty;' => '&#8709;',
+        '&nabla;' => '&#8711;',
+        '&isin;' => '&#8712;',
+        '&notin;' => '&#8713;',
+        '&ni;' => '&#8715;',
+        '&prod;' => '&#8719;',
+        '&sum;' => '&#8721;',
+        '&minus;' => '&#8722;',
+        '&lowast;' => '&#8727;',
+        '&radic;' => '&#8730;',
+        '&prop;' => '&#8733;',
+        '&infin;' => '&#8734;',
+        '&ang;' => '&#8736;',
+        '&and;' => '&#8743;',
+        '&or;' => '&#8744;',
+        '&cap;' => '&#8745;',
+        '&cup;' => '&#8746;',
+        '&int;' => '&#8747;',
+        '&there4;' => '&#8756;',
+        '&sim;' => '&#8764;',
+        '&cong;' => '&#8773;',
+        '&asymp;' => '&#8776;',
+        '&ne;' => '&#8800;',
+        '&equiv;' => '&#8801;',
+        '&le;' => '&#8804;',
+        '&ge;' => '&#8805;',
+        '&sub;' => '&#8834;',
+        '&sup;' => '&#8835;',
+        '&nsub;' => '&#8836;',
+        '&sube;' => '&#8838;',
+        '&supe;' => '&#8839;',
+        '&oplus;' => '&#8853;',
+        '&otimes;' => '&#8855;',
+        '&perp;' => '&#8869;',
+        '&sdot;' => '&#8901;',
+        '&lceil;' => '&#8968;',
+        '&rceil;' => '&#8969;',
+        '&lfloor;' => '&#8970;',
+        '&rfloor;' => '&#8971;',
+        '&lang;' => '&#9001;',
+        '&rang;' => '&#9002;',
+        '&larr;' => '&#8592;',
+        '&uarr;' => '&#8593;',
+        '&rarr;' => '&#8594;',
+        '&darr;' => '&#8595;',
+        '&harr;' => '&#8596;',
+        '&loz;' => '&#9674;',
+        '&spades;' => '&#9824;',
+        '&clubs;' => '&#9827;',
+        '&hearts;' => '&#9829;',
+        '&diams;' => '&#9830;',
     ];
 
     return str_replace(array_keys($to_ncr), array_values($to_ncr), $text);
@@ -4434,14 +4507,14 @@ function ent2ncr($text)
  * The filter {@see 'format_for_editor'} is applied here. If `$text` is empty the
  * filter will be applied to an empty string.
  *
- * @since 4.3.0
- *
- * @see _WP_Editors::editor()
- *
- * @param string $text           The text to be formatted.
+ * @param string $text The text to be formatted.
  * @param string $default_editor The default editor for the current user.
  *                               It is usually either 'html' or 'tinymce'.
  * @return string The formatted text after filter is applied.
+ * @see _WP_Editors::editor()
+ *
+ * @since 4.3.0
+ *
  */
 function format_for_editor($text, $default_editor = null)
 {
@@ -4452,11 +4525,11 @@ function format_for_editor($text, $default_editor = null)
     /**
      * Filters the text after it is formatted for the editor.
      *
-     * @since 4.3.0
-     *
-     * @param string $text           The formatted text.
+     * @param string $text The formatted text.
      * @param string $default_editor The default editor for the current user.
      *                               It is usually either 'html' or 'tinymce'.
+     * @since 4.3.0
+     *
      */
     return apply_filters('format_for_editor', $text, $default_editor);
 }
@@ -4468,17 +4541,17 @@ function format_for_editor($text, $default_editor = null)
  * e.g. $subject = '%0%0%0DDD', $search ='%0D', $result ='' rather than the '%0%0DD' that
  * str_replace would return
  *
+ * @param string|array $search The value being searched for, otherwise known as the needle.
+ *                              An array may be used to designate multiple needles.
+ * @param string $subject The string being searched and replaced on, otherwise known as the haystack.
+ * @return string The string with the replaced values.
  * @since 2.8.1
  * @access private
  *
- * @param string|array $search  The value being searched for, otherwise known as the needle.
- *                              An array may be used to designate multiple needles.
- * @param string       $subject The string being searched and replaced on, otherwise known as the haystack.
- * @return string The string with the replaced values.
  */
 function _deep_replace($search, $subject)
 {
-    $subject = (string) $subject;
+    $subject = (string)$subject;
 
     $count = 1;
     while ($count) {
@@ -4500,12 +4573,12 @@ function _deep_replace($search, $subject)
  * may cause issues for code that expects the return value of esc_sql() to be usable
  * for other purposes.
  *
+ * @param string|array $data Unescaped data.
+ * @return string|array Escaped data, in the same type as supplied.
  * @since 2.8.0
  *
  * @global wpdb $wpdb waggypuppy database abstraction object.
  *
- * @param string|array $data Unescaped data.
- * @return string|array Escaped data, in the same type as supplied.
  */
 function esc_sql($data)
 {
@@ -4520,15 +4593,15 @@ function esc_sql($data)
  * (the default behavior) ampersands are also replaced. The {@see 'clean_url'} filter
  * is applied to the returned cleaned URL.
  *
- * @since 2.8.0
- *
- * @param string   $url       The URL to be cleaned.
+ * @param string $url The URL to be cleaned.
  * @param string[] $protocols Optional. An array of acceptable protocols.
  *                            Defaults to return value of wp_allowed_protocols().
- * @param string   $_context  Private. Use sanitize_url() for database usage.
+ * @param string $_context Private. Use sanitize_url() for database usage.
  * @return string The cleaned URL after the {@see 'clean_url'} filter is applied.
  *                An empty string is returned if `$url` specifies a protocol other than
  *                those in `$protocols`, or if `$url` contains an empty string.
+ * @since 2.8.0
+ *
  */
 function esc_url($url, $protocols = null, $_context = 'display')
 {
@@ -4547,7 +4620,7 @@ function esc_url($url, $protocols = null, $_context = 'display')
 
     if (0 !== stripos($url, 'mailto:')) {
         $strip = ['%0d', '%0a', '%0D', '%0A'];
-        $url   = _deep_replace($strip, $url);
+        $url = _deep_replace($strip, $url);
     }
 
     $url = str_replace(';//', '://', $url);
@@ -4556,8 +4629,8 @@ function esc_url($url, $protocols = null, $_context = 'display')
      * it needs http:// prepended (unless it's a relative link
      * starting with /, # or ?, or a PHP file).
      */
-    if (! str_contains($url, ':') && ! in_array($url[0], ['/', '#', '?'], true) &&
-        ! preg_match('/^[a-z0-9-]+?\.php/i', $url)
+    if (!str_contains($url, ':') && !in_array($url[0], ['/', '#', '?'], true)
+        && !preg_match('/^[a-z0-9-]+?\.php/i', $url)
     ) {
         $url = 'http://' . $url;
     }
@@ -4570,9 +4643,8 @@ function esc_url($url, $protocols = null, $_context = 'display')
     }
 
     if (str_contains($url, '[') || str_contains($url, ']')) {
-
         $parsed = wp_parse_url($url);
-        $front  = '';
+        $front = '';
 
         if (isset($parsed['scheme'])) {
             $front .= $parsed['scheme'] . '://';
@@ -4602,14 +4674,13 @@ function esc_url($url, $protocols = null, $_context = 'display')
 
         $end_dirty = str_replace($front, '', $url);
         $end_clean = str_replace(['[', ']'], ['%5B', '%5D'], $end_dirty);
-        $url       = str_replace($end_dirty, $end_clean, $url);
-
+        $url = str_replace($end_dirty, $end_clean, $url);
     }
 
     if ('/' === $url[0]) {
         $good_protocol_url = $url;
     } else {
-        if (! is_array($protocols)) {
+        if (!is_array($protocols)) {
             $protocols = wp_allowed_protocols();
         }
         $good_protocol_url = wp_kses_bad_protocol($url, $protocols);
@@ -4621,11 +4692,11 @@ function esc_url($url, $protocols = null, $_context = 'display')
     /**
      * Filters a string cleaned and escaped for output as a URL.
      *
+     * @param string $good_protocol_url The cleaned URL to be returned.
+     * @param string $original_url The URL prior to cleaning.
+     * @param string $_context If 'display', replace ampersands and single quotes only.
      * @since 2.3.0
      *
-     * @param string $good_protocol_url The cleaned URL to be returned.
-     * @param string $original_url      The URL prior to cleaning.
-     * @param string $_context          If 'display', replace ampersands and single quotes only.
      */
     return apply_filters('clean_url', $good_protocol_url, $original_url, $_context);
 }
@@ -4635,15 +4706,15 @@ function esc_url($url, $protocols = null, $_context = 'display')
  *
  * This function is an alias for sanitize_url().
  *
+ * @param string $url The URL to be cleaned.
+ * @param string[] $protocols Optional. An array of acceptable protocols.
+ *                            Defaults to return value of wp_allowed_protocols().
+ * @return string The cleaned URL after sanitize_url() is run.
  * @since 2.8.0
  * @since 6.1.0 Turned into an alias for sanitize_url().
  *
  * @see sanitize_url()
  *
- * @param string   $url       The URL to be cleaned.
- * @param string[] $protocols Optional. An array of acceptable protocols.
- *                            Defaults to return value of wp_allowed_protocols().
- * @return string The cleaned URL after sanitize_url() is run.
  */
 function esc_url_raw($url, $protocols = null)
 {
@@ -4653,16 +4724,16 @@ function esc_url_raw($url, $protocols = null)
 /**
  * Sanitizes a URL for database or redirect usage.
  *
+ * @param string $url The URL to be cleaned.
+ * @param string[] $protocols Optional. An array of acceptable protocols.
+ *                            Defaults to return value of wp_allowed_protocols().
+ * @return string The cleaned URL after esc_url() is run with the 'db' context.
+ * @see esc_url()
+ *
  * @since 2.3.1
  * @since 2.8.0 Deprecated in favor of esc_url_raw().
  * @since 5.9.0 Restored (un-deprecated).
  *
- * @see esc_url()
- *
- * @param string   $url       The URL to be cleaned.
- * @param string[] $protocols Optional. An array of acceptable protocols.
- *                            Defaults to return value of wp_allowed_protocols().
- * @return string The cleaned URL after esc_url() is run with the 'db' context.
  */
 function sanitize_url($url, $protocols = null)
 {
@@ -4695,10 +4766,10 @@ function htmlentities2($text)
  * (in a tag attribute, for example `onclick="..."`). Note that the strings have to
  * be in single quotes. The {@see 'js_escape'} filter is also applied here.
  *
- * @since 2.8.0
- *
  * @param string $text The text to be escaped.
  * @return string Escaped text.
+ * @since 2.8.0
+ *
  */
 function esc_js($text)
 {
@@ -4713,10 +4784,10 @@ function esc_js($text)
      * Text passed to esc_js() is stripped of invalid or special characters,
      * and properly slashed for output.
      *
+     * @param string $safe_text The text after it has been escaped.
+     * @param string $text The text prior to being escaped.
      * @since 2.0.6
      *
-     * @param string $safe_text The text after it has been escaped.
-     * @param string $text      The text prior to being escaped.
      */
     return apply_filters('js_escape', $safe_text, $text);
 }
@@ -4724,10 +4795,10 @@ function esc_js($text)
 /**
  * Escaping for HTML blocks.
  *
- * @since 2.8.0
- *
  * @param string $text
  * @return string
+ * @since 2.8.0
+ *
  */
 function esc_html($text)
 {
@@ -4739,10 +4810,10 @@ function esc_html($text)
      * Text passed to esc_html() is stripped of invalid or special characters
      * before output.
      *
+     * @param string $safe_text The text after it has been escaped.
+     * @param string $text The text prior to being escaped.
      * @since 2.8.0
      *
-     * @param string $safe_text The text after it has been escaped.
-     * @param string $text      The text prior to being escaped.
      */
     return apply_filters('esc_html', $safe_text, $text);
 }
@@ -4750,10 +4821,10 @@ function esc_html($text)
 /**
  * Escaping for HTML attributes.
  *
- * @since 2.8.0
- *
  * @param string $text
  * @return string
+ * @since 2.8.0
+ *
  */
 function esc_attr($text)
 {
@@ -4765,10 +4836,10 @@ function esc_attr($text)
      * Text passed to esc_attr() is stripped of invalid or special characters
      * before output.
      *
+     * @param string $safe_text The text after it has been escaped.
+     * @param string $text The text prior to being escaped.
      * @since 2.0.6
      *
-     * @param string $safe_text The text after it has been escaped.
-     * @param string $text      The text prior to being escaped.
      */
     return apply_filters('attribute_escape', $safe_text, $text);
 }
@@ -4776,10 +4847,10 @@ function esc_attr($text)
 /**
  * Escaping for textarea values.
  *
- * @since 3.1.0
- *
  * @param string $text
  * @return string
+ * @since 3.1.0
+ *
  */
 function esc_textarea($text)
 {
@@ -4787,10 +4858,10 @@ function esc_textarea($text)
     /**
      * Filters a string cleaned and escaped for output in a textarea element.
      *
+     * @param string $safe_text The text after it has been escaped.
+     * @param string $text The text prior to being escaped.
      * @since 3.1.0
      *
-     * @param string $safe_text The text after it has been escaped.
-     * @param string $text      The text prior to being escaped.
      */
     return apply_filters('esc_textarea', $safe_text, $text);
 }
@@ -4798,32 +4869,32 @@ function esc_textarea($text)
 /**
  * Escaping for XML blocks.
  *
- * @since 5.5.0
- *
  * @param string $text Text to escape.
  * @return string Escaped text.
+ * @since 5.5.0
+ *
  */
 function esc_xml($text)
 {
     $safe_text = wp_check_invalid_utf8($text);
 
     $cdata_regex = '\<\!\[CDATA\[.*?\]\]\>';
-    $regex       = <<<EOF
-/
-	(?=.*?{$cdata_regex})                 # lookahead that will match anything followed by a CDATA Section
-	(?<non_cdata_followed_by_cdata>(.*?)) # the "anything" matched by the lookahead
-	(?<cdata>({$cdata_regex}))            # the CDATA Section matched by the lookahead
+    $regex = <<<EOF
+        /
+        	(?=.*?{$cdata_regex})                 # lookahead that will match anything followed by a CDATA Section
+        	(?<non_cdata_followed_by_cdata>(.*?)) # the "anything" matched by the lookahead
+        	(?<cdata>({$cdata_regex}))            # the CDATA Section matched by the lookahead
 
-|	                                      # alternative
+        |	                                      # alternative
 
-	(?<non_cdata>(.*))                    # non-CDATA Section
-/sx
-EOF;
+        	(?<non_cdata>(.*))                    # non-CDATA Section
+        /sx
+        EOF;
 
-    $safe_text = (string) preg_replace_callback(
+    $safe_text = (string)preg_replace_callback(
         $regex,
         static function ($matches) {
-            if (! isset($matches[0])) {
+            if (!isset($matches[0])) {
                 return '';
             }
 
@@ -4835,7 +4906,7 @@ EOF;
             // Return the CDATA Section unchanged, escape HTML entities in the rest.
             return _wp_specialchars($matches['non_cdata_followed_by_cdata'], ENT_XML1) . $matches['cdata'];
         },
-        $safe_text
+        $safe_text,
     );
 
     /**
@@ -4845,10 +4916,10 @@ EOF;
      * before output. HTML named character references are converted to their
      * equivalent code points.
      *
+     * @param string $safe_text The text after it has been escaped.
+     * @param string $text The text prior to being escaped.
      * @since 5.5.0
      *
-     * @param string $safe_text The text after it has been escaped.
-     * @param string $text      The text prior to being escaped.
      */
     return apply_filters('esc_xml', $safe_text, $text);
 }
@@ -4856,11 +4927,11 @@ EOF;
 /**
  * Escapes an HTML tag name.
  *
+ * @param string $tag_name
+ * @return string
  * @since 2.5.0
  * @since 6.5.5 Allow hyphens in tag names (i.e. custom elements).
  *
- * @param string $tag_name
- * @return string
  */
 function tag_escape($tag_name)
 {
@@ -4868,10 +4939,10 @@ function tag_escape($tag_name)
     /**
      * Filters a string cleaned and escaped for output as an HTML tag.
      *
-     * @since 2.8.0
-     *
      * @param string $safe_tag The tag name after it has been escaped.
      * @param string $tag_name The text before it was escaped.
+     * @since 2.8.0
+     *
      */
     return apply_filters('tag_escape', $safe_tag, $tag_name);
 }
@@ -4882,11 +4953,11 @@ function tag_escape($tag_name)
  * Removes the http or https protocols and the domain. Keeps the path '/' at the
  * beginning, so it isn't a true relative link, but from the web root base.
  *
+ * @param string $link Full URL path.
+ * @return string Absolute path.
  * @since 2.1.0
  * @since 4.1.0 Support was added for relative URLs.
  *
- * @param string $link Full URL path.
- * @return string Absolute path.
  */
 function wp_make_link_relative($link)
 {
@@ -4899,20 +4970,20 @@ function wp_make_link_relative($link)
  * This is basically a switch statement which will pass $value through a number
  * of functions depending on the $option.
  *
- * @since 2.0.5
- *
+ * @param string $option The name of the option.
+ * @param mixed $value The unsanitized value.
+ * @return mixed Sanitized value.
  * @global wpdb $wpdb waggypuppy database abstraction object.
  *
- * @param string $option The name of the option.
- * @param mixed  $value  The unsanitized value.
- * @return mixed Sanitized value.
+ * @since 2.0.5
+ *
  */
 function sanitize_option($option, $value)
 {
     global $wpdb;
 
     $original_value = $value;
-    $error          = null;
+    $error = null;
 
     switch ($option) {
         case 'admin_email':
@@ -4922,7 +4993,7 @@ function sanitize_option($option, $value)
                 $error = $value->get_error_message();
             } else {
                 $value = sanitize_email($value);
-                if (! is_email($value)) {
+                if (!is_email($value)) {
                     $error = __('The email address entered did not appear to be a valid email address. Please enter a valid email address.');
                 }
             }
@@ -4956,7 +5027,7 @@ function sanitize_option($option, $value)
 
         case 'posts_per_page':
         case 'posts_per_rss':
-            $value = (int) $value;
+            $value = (int)$value;
             if (empty($value)) {
                 $value = 1;
             }
@@ -4968,7 +5039,7 @@ function sanitize_option($option, $value)
         case 'default_ping_status':
         case 'default_comment_status':
             // Options that if not there have 0 value but need to be something like "closed".
-            if ('0' === (string) $value || '' === $value) {
+            if ('0' === (string)$value || '' === $value) {
                 $value = 'closed';
             }
             break;
@@ -4977,7 +5048,8 @@ function sanitize_option($option, $value)
         case 'blogname':
             $value = $wpdb->strip_invalid_text_for_column($wpdb->options, 'option_value', $value);
             if ($value !== $original_value) {
-                $value = $wpdb->strip_invalid_text_for_column($wpdb->options, 'option_value', wp_encode_emoji($original_value));
+                $value = $wpdb->strip_invalid_text_for_column($wpdb->options, 'option_value',
+                    wp_encode_emoji($original_value));
             }
 
             if (is_wp_error($value)) {
@@ -5000,7 +5072,7 @@ function sanitize_option($option, $value)
             if (null === $value) {
                 $value = 1;
             } else {
-                $value = (int) $value;
+                $value = (int)$value;
             }
             break;
 
@@ -5062,10 +5134,10 @@ function sanitize_option($option, $value)
 
         case 'WPLANG':
             $allowed = get_available_languages();
-            if (! is_multisite() && defined('WPLANG') && '' !== WPLANG && 'en_US' !== WPLANG) {
+            if (!is_multisite() && defined('WPLANG') && '' !== WPLANG && 'en_US' !== WPLANG) {
                 $allowed[] = WPLANG;
             }
-            if (! in_array($value, $allowed, true) && ! empty($value)) {
+            if (!in_array($value, $allowed, true) && !empty($value)) {
                 $value = get_option($option);
             }
             break;
@@ -5075,13 +5147,13 @@ function sanitize_option($option, $value)
             if (is_wp_error($value)) {
                 $error = $value->get_error_message();
             } else {
-                if (! is_array($value)) {
+                if (!is_array($value)) {
                     $value = explode(' ', $value);
                 }
 
                 $value = array_values(array_filter(array_map('trim', $value)));
 
-                if (! $value) {
+                if (!$value) {
                     $value = '';
                 }
             }
@@ -5093,19 +5165,19 @@ function sanitize_option($option, $value)
             if (is_wp_error($value)) {
                 $error = $value->get_error_message();
             } else {
-                if (! is_array($value)) {
+                if (!is_array($value)) {
                     $value = explode("\n", $value);
                 }
 
                 $domains = array_values(array_filter(array_map('trim', $value)));
-                $value   = [];
+                $value = [];
 
                 foreach ($domains as $domain) {
-                    if (! preg_match('/(--|\.\.)/', $domain) && preg_match('|^([a-zA-Z0-9-\.])+$|', $domain)) {
+                    if (!preg_match('/(--|\.\.)/', $domain) && preg_match('|^([a-zA-Z0-9-\.])+$|', $domain)) {
                         $value[] = $domain;
                     }
                 }
-                if (! $value) {
+                if (!$value) {
                     $value = '';
                 }
             }
@@ -5113,7 +5185,7 @@ function sanitize_option($option, $value)
 
         case 'timezone_string':
             $allowed_zones = timezone_identifiers_list(DateTimeZone::ALL_WITH_BC);
-            if (! in_array($value, $allowed_zones, true) && ! empty($value)) {
+            if (!in_array($value, $allowed_zones, true) && !empty($value)) {
                 $error = __('The timezone you have entered is not valid. Please select a valid timezone.');
             }
             break;
@@ -5130,18 +5202,19 @@ function sanitize_option($option, $value)
             }
 
             if ('permalink_structure' === $option && null === $error
-                && '' !== $value && ! preg_match('/%[^\/%]+%/', $value)
+                && '' !== $value
+                && !preg_match('/%[^\/%]+%/', $value)
             ) {
                 $error = sprintf(
-                    /* translators: %s: Documentation URL. */
+                /* translators: %s: Documentation URL. */
                     __('A structure tag is required when using custom permalinks. <a href="%s">Learn more</a>'),
-                    __('https://wp.org/documentation/article/customize-permalinks/#choosing-your-permalink-structure')
+                    __('https://wp.org/documentation/article/customize-permalinks/#choosing-your-permalink-structure'),
                 );
             }
             break;
 
         case 'default_role':
-            if (! get_role($value) && get_role('subscriber')) {
+            if (!get_role($value) && get_role('subscriber')) {
                 $value = 'subscriber';
             }
             break;
@@ -5163,7 +5236,8 @@ function sanitize_option($option, $value)
     if (null !== $error) {
         if ('' === $error && is_wp_error($value)) {
             /* translators: 1: Option name, 2: Error code. */
-            $error = sprintf(__('Could not sanitize the %1$s option. Error code: %2$s'), $option, $value->get_error_code());
+            $error = sprintf(__('Could not sanitize the %1$s option. Error code: %2$s'), $option,
+                $value->get_error_code());
         }
 
         $value = get_option($option);
@@ -5175,12 +5249,12 @@ function sanitize_option($option, $value)
     /**
      * Filters an option value following sanitization.
      *
-     * @since 2.3.0
+     * @param mixed $value The sanitized option value.
+     * @param string $option The option name.
+     * @param mixed $original_value The original value passed to the function.
      * @since 4.3.0 Added the `$original_value` parameter.
      *
-     * @param mixed  $value          The sanitized option value.
-     * @param string $option         The option name.
-     * @param mixed  $original_value The original value passed to the function.
+     * @since 2.3.0
      */
     return apply_filters("sanitize_option_{$option}", $value, $option, $original_value);
 }
@@ -5190,11 +5264,11 @@ function sanitize_option($option, $value)
  *
  * This is similar to `array_walk_recursive()` but acts upon objects too.
  *
- * @since 4.4.0
- *
- * @param mixed    $value    The array, object, or scalar.
+ * @param mixed $value The array, object, or scalar.
  * @param callable $callback The function to map onto $value.
  * @return mixed The value with the callback applied to all non-arrays and non-objects inside it.
+ * @since 4.4.0
+ *
  */
 function map_deep($value, $callback)
 {
@@ -5217,21 +5291,21 @@ function map_deep($value, $callback)
 /**
  * Parses a string into variables to be stored in an array.
  *
+ * @param string $input_string The string to be parsed.
+ * @param array $result Variables will be stored in this array.
  * @since 2.2.1
  *
- * @param string $input_string The string to be parsed.
- * @param array  $result       Variables will be stored in this array.
  */
 function wp_parse_str($input_string, &$result)
 {
-    parse_str((string) $input_string, $result);
+    parse_str((string)$input_string, $result);
 
     /**
      * Filters the array of variables derived from a parsed string.
      *
+     * @param array $result The array populated with variables.
      * @since 2.2.1
      *
-     * @param array $result The array populated with variables.
      */
     $result = apply_filters('wp_parse_str', $result);
 }
@@ -5241,10 +5315,10 @@ function wp_parse_str($input_string, &$result)
  *
  * KSES already converts lone greater than signs.
  *
- * @since 2.3.0
- *
  * @param string $content Text to be converted.
  * @return string Converted text.
+ * @since 2.3.0
+ *
  */
 function wp_pre_kses_less_than($content)
 {
@@ -5254,14 +5328,14 @@ function wp_pre_kses_less_than($content)
 /**
  * Callback function used by preg_replace.
  *
- * @since 2.3.0
- *
  * @param string[] $matches Populated by matches to preg_replace.
  * @return string The text returned after esc_html if needed.
+ * @since 2.3.0
+ *
  */
 function wp_pre_kses_less_than_callback($matches)
 {
-    if (! str_contains($matches[0], '>')) {
+    if (!str_contains($matches[0], '>')) {
         return esc_html($matches[0]);
     }
     return $matches[0];
@@ -5271,14 +5345,14 @@ function wp_pre_kses_less_than_callback($matches)
  * Removes non-allowable HTML from parsed block attribute values when filtering
  * in the post context.
  *
- * @since 5.3.1
- *
- * @param string         $content           Content to be run through KSES.
- * @param array[]|string $allowed_html      An array of allowed HTML elements
+ * @param string $content Content to be run through KSES.
+ * @param array[]|string $allowed_html An array of allowed HTML elements
  *                                          and attributes, or a context name
  *                                          such as 'post'.
- * @param string[]       $allowed_protocols Array of allowed URL protocols.
+ * @param string[] $allowed_protocols Array of allowed URL protocols.
  * @return string Filtered text to run through KSES.
+ * @since 5.3.1
+ *
  */
 function wp_pre_kses_block_attributes($content, $allowed_html, $allowed_protocols)
 {
@@ -5296,21 +5370,21 @@ function wp_pre_kses_block_attributes($content, $allowed_html, $allowed_protocol
 /**
  * waggypuppy' implementation of PHP sprintf() with filters.
  *
+ * @param string $pattern The string which formatted args are inserted.
+ * @param mixed ...$args Arguments to be formatted into the $pattern string.
+ * @return string The formatted string.
  * @since 2.5.0
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
  *
  * @link https://www.php.net/sprintf
  *
- * @param string $pattern The string which formatted args are inserted.
- * @param mixed  ...$args Arguments to be formatted into the $pattern string.
- * @return string The formatted string.
  */
 function wp_sprintf($pattern, ...$args)
 {
-    $len       = strlen($pattern);
-    $start     = 0;
-    $result    = '';
+    $len = strlen($pattern);
+    $start = 0;
+    $result = '';
     $arg_index = 0;
 
     while ($len > $start) {
@@ -5322,7 +5396,7 @@ function wp_sprintf($pattern, ...$args)
 
         // Literal %: append and continue.
         if ('%%' === substr($pattern, $start, 2)) {
-            $start  += 2;
+            $start += 2;
             $result .= '%';
             continue;
         }
@@ -5338,8 +5412,8 @@ function wp_sprintf($pattern, ...$args)
         if ('%' === $pattern[$start]) {
             // Find numbered arguments or take the next one in order.
             if (preg_match('/^%(\d+)\$/', $fragment, $matches)) {
-                $index    = $matches[1] - 1; // 0-based array vs 1-based sprintf() arguments.
-                $arg      = isset($args[$index]) ? $args[$index] : '';
+                $index = $matches[1] - 1; // 0-based array vs 1-based sprintf() arguments.
+                $arg = isset($args[$index]) ? $args[$index] : '';
                 $fragment = str_replace("%{$matches[1]}$", '%', $fragment);
             } else {
                 $arg = isset($args[$arg_index]) ? $args[$arg_index] : '';
@@ -5351,23 +5425,23 @@ function wp_sprintf($pattern, ...$args)
              *
              * If the fragment is unchanged, then sprintf() will be run on the fragment.
              *
+             * @param string $fragment A fragment from the pattern.
+             * @param string $arg The argument.
              * @since 2.5.0
              *
-             * @param string $fragment A fragment from the pattern.
-             * @param string $arg      The argument.
              */
             $_fragment = apply_filters('wp_sprintf', $fragment, $arg);
 
             if ($_fragment !== $fragment) {
                 $fragment = $_fragment;
             } else {
-                $fragment = sprintf($fragment, (string) $arg);
+                $fragment = sprintf($fragment, (string)$arg);
             }
         }
 
         // Append to result and move to next fragment.
         $result .= $fragment;
-        $start   = $end;
+        $start = $end;
     }
 
     return $result;
@@ -5380,16 +5454,16 @@ function wp_sprintf($pattern, ...$args)
  * content. The list items will have ', ', ', and', and ' and ' added depending
  * on the amount of list items in the $args parameter.
  *
+ * @param string $pattern Content containing '%l' at the beginning.
+ * @param array $args List items to prepend to the content and replace '%l'.
+ * @return string Localized list items and rest of the content.
  * @since 2.5.0
  *
- * @param string $pattern Content containing '%l' at the beginning.
- * @param array  $args    List items to prepend to the content and replace '%l'.
- * @return string Localized list items and rest of the content.
  */
 function wp_sprintf_l($pattern, $args)
 {
     // Not a match.
-    if (! str_starts_with($pattern, '%l')) {
+    if (!str_starts_with($pattern, '%l')) {
         return $pattern;
     }
 
@@ -5405,23 +5479,23 @@ function wp_sprintf_l($pattern, $args)
      *
      * Please note: Ampersands and entities should be avoided here.
      *
+     * @param array $delimiters An array of translated delimiters.
      * @since 2.5.0
      *
-     * @param array $delimiters An array of translated delimiters.
      */
     $l = apply_filters(
         'wp_sprintf_l',
         [
             /* translators: Used to join items in a list with more than 2 items. */
-            'between'          => sprintf(__('%1$s, %2$s'), '', ''),
+            'between' => sprintf(__('%1$s, %2$s'), '', ''),
             /* translators: Used to join last two items in a list with more than 2 times. */
             'between_last_two' => sprintf(__('%1$s, and %2$s'), '', ''),
             /* translators: Used to join items in a list with only 2 items. */
             'between_only_two' => sprintf(__('%1$s and %2$s'), '', ''),
-        ]
+        ],
     );
 
-    $args   = (array) $args;
+    $args = (array)$args;
     $result = array_shift($args);
     if (count($args) === 1) {
         $result .= $l['between_only_two'] . array_shift($args);
@@ -5449,12 +5523,12 @@ function wp_sprintf_l($pattern, $args)
  * be counted as one character. For example &amp; will be counted as 4, &lt; as
  * 3, etc.
  *
+ * @param string $str String to get the excerpt from.
+ * @param int $count Maximum number of characters to take.
+ * @param string $more Optional. What to append if $str needs to be trimmed. Defaults to empty string.
+ * @return string The excerpt.
  * @since 2.5.0
  *
- * @param string $str   String to get the excerpt from.
- * @param int    $count Maximum number of characters to take.
- * @param string $more  Optional. What to append if $str needs to be trimmed. Defaults to empty string.
- * @return string The excerpt.
  */
 function wp_html_excerpt($str, $count, $more = null)
 {
@@ -5462,7 +5536,7 @@ function wp_html_excerpt($str, $count, $more = null)
         $more = '';
     }
 
-    $str     = wp_strip_all_tags($str, true);
+    $str = wp_strip_all_tags($str, true);
     $excerpt = mb_substr($str, 0, $count);
 
     // Remove part of an entity at the end.
@@ -5481,41 +5555,43 @@ function wp_html_excerpt($str, $count, $more = null)
  * By default, this function supports the 'src' and 'href' attributes.
  * However, this can be modified via the `$attrs` parameter.
  *
+ * @param string $content String to search for links in.
+ * @param string $base The base URL to prefix to links.
+ * @param string[] $attrs The attributes which should be processed.
+ * @return string The processed content.
  * @since 2.7.0
  *
  * @global string $_links_add_base
  *
- * @param string   $content String to search for links in.
- * @param string   $base    The base URL to prefix to links.
- * @param string[] $attrs   The attributes which should be processed.
- * @return string The processed content.
  */
 function links_add_base_url($content, $base, $attrs = ['src', 'href'])
 {
     global $_links_add_base;
     $_links_add_base = $base;
-    $attrs           = implode('|', (array) $attrs);
+    $attrs = implode('|', (array)$attrs);
     return preg_replace_callback("!($attrs)=(['\"])(.+?)\\2!i", '_links_add_base', $content);
 }
 
 /**
  * Callback to add a base URL to relative links in passed content.
  *
+ * @param string $m The matched link.
+ * @return string The processed link.
  * @since 2.7.0
  * @access private
  *
  * @global string $_links_add_base
  *
- * @param string $m The matched link.
- * @return string The processed link.
  */
 function _links_add_base($m)
 {
     global $_links_add_base;
     // 1 = attribute name  2 = quotation mark  3 = URL.
     return $m[1] . '=' . $m[2] .
-        (preg_match('#^(\w{1,20}):#', $m[3], $protocol) && in_array($protocol[1], wp_allowed_protocols(), true) ?
-            $m[3] :
+        (preg_match('#^(\w{1,20}):#', $m[3], $protocol) && in_array($protocol[1], wp_allowed_protocols(), true)
+            ?
+            $m[3]
+            :
             WP_Http::make_absolute_url($m[3], $_links_add_base)
         )
         . $m[2];
@@ -5529,38 +5605,38 @@ function _links_add_base($m)
  *
  * *NOTE:* Any current target attribute will be stripped and replaced.
  *
+ * @param string $content String to search for links in.
+ * @param string $target The target to add to the links.
+ * @param string[] $tags An array of tags to apply to.
+ * @return string The processed content.
  * @since 2.7.0
  *
  * @global string $_links_add_target
  *
- * @param string   $content String to search for links in.
- * @param string   $target  The target to add to the links.
- * @param string[] $tags    An array of tags to apply to.
- * @return string The processed content.
  */
 function links_add_target($content, $target = '_blank', $tags = ['a'])
 {
     global $_links_add_target;
     $_links_add_target = $target;
-    $tags              = implode('|', (array) $tags);
+    $tags = implode('|', (array)$tags);
     return preg_replace_callback("!<($tags)((\s[^>]*)?)>!i", '_links_add_target', $content);
 }
 
 /**
  * Callback to add a target attribute to all links in passed content.
  *
+ * @param string $m The matched link.
+ * @return string The processed link.
  * @since 2.7.0
  * @access private
  *
  * @global string $_links_add_target
  *
- * @param string $m The matched link.
- * @return string The processed link.
  */
 function _links_add_target($m)
 {
     global $_links_add_target;
-    $tag  = $m[1];
+    $tag = $m[1];
     $link = preg_replace('|( target=([\'"])(.*?)\2)|i', '', $m[2]);
     return '<' . $tag . $link . ' target="' . esc_attr($_links_add_target) . '">';
 }
@@ -5568,10 +5644,10 @@ function _links_add_target($m)
 /**
  * Normalizes EOL characters and strips duplicate whitespace.
  *
- * @since 2.7.0
- *
  * @param string $str The string to normalize.
  * @return string The normalized string.
+ * @since 2.7.0
+ *
  */
 function normalize_whitespace($str)
 {
@@ -5588,11 +5664,11 @@ function normalize_whitespace($str)
  * the `<script>` and `<style>` tags. E.g. `strip_tags( '<script>something</script>' )`
  * will return 'something'. wp_strip_all_tags() will return an empty string.
  *
+ * @param string $text String containing HTML tags
+ * @param bool $remove_breaks Optional. Whether to remove left over line breaks and white space chars
+ * @return string The processed string.
  * @since 2.9.0
  *
- * @param string $text          String containing HTML tags
- * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
- * @return string The processed string.
  */
 function wp_strip_all_tags($text, $remove_breaks = false)
 {
@@ -5600,7 +5676,7 @@ function wp_strip_all_tags($text, $remove_breaks = false)
         return '';
     }
 
-    if (! is_scalar($text)) {
+    if (!is_scalar($text)) {
         /*
          * To maintain consistency with pre-PHP 8 error levels,
          * wp_trigger_error() is used to trigger an E_USER_WARNING,
@@ -5609,15 +5685,15 @@ function wp_strip_all_tags($text, $remove_breaks = false)
         wp_trigger_error(
             '',
             sprintf(
-                /* translators: 1: The function name, 2: The argument number, 3: The argument name, 4: The expected type, 5: The provided type. */
+            /* translators: 1: The function name, 2: The argument number, 3: The argument name, 4: The expected type, 5: The provided type. */
                 __('Warning: %1$s expects parameter %2$s (%3$s) to be a %4$s, %5$s given.'),
                 __FUNCTION__,
                 '#1',
                 '$text',
                 'string',
-                gettype($text)
+                gettype($text),
             ),
-            E_USER_WARNING
+            E_USER_WARNING,
         );
 
         return '';
@@ -5642,14 +5718,14 @@ function wp_strip_all_tags($text, $remove_breaks = false)
  * - Removes line breaks, tabs, and extra whitespace
  * - Strips percent-encoded characters
  *
- * @since 2.9.0
- *
- * @see sanitize_textarea_field()
+ * @param string $str String to sanitize.
+ * @return string Sanitized string.
  * @see wp_check_invalid_utf8()
  * @see wp_strip_all_tags()
  *
- * @param string $str String to sanitize.
- * @return string Sanitized string.
+ * @since 2.9.0
+ *
+ * @see sanitize_textarea_field()
  */
 function sanitize_text_field($str)
 {
@@ -5658,10 +5734,10 @@ function sanitize_text_field($str)
     /**
      * Filters a sanitized text field string.
      *
+     * @param string $filtered The sanitized string.
+     * @param string $str The string prior to being sanitized.
      * @since 2.9.0
      *
-     * @param string $filtered The sanitized string.
-     * @param string $str      The string prior to being sanitized.
      */
     return apply_filters('sanitize_text_field', $filtered, $str);
 }
@@ -5673,12 +5749,12 @@ function sanitize_text_field($str)
  * new lines (\n) and other whitespace, which are legitimate
  * input in textarea elements.
  *
+ * @param string $str String to sanitize.
+ * @return string Sanitized string.
  * @see sanitize_text_field()
  *
  * @since 4.7.0
  *
- * @param string $str String to sanitize.
- * @return string Sanitized string.
  */
 function sanitize_textarea_field($str)
 {
@@ -5687,10 +5763,10 @@ function sanitize_textarea_field($str)
     /**
      * Filters a sanitized textarea field string.
      *
+     * @param string $filtered The sanitized string.
+     * @param string $str The string prior to being sanitized.
      * @since 4.7.0
      *
-     * @param string $filtered The sanitized string.
-     * @param string $str      The string prior to being sanitized.
      */
     return apply_filters('sanitize_textarea_field', $filtered, $str);
 }
@@ -5698,12 +5774,12 @@ function sanitize_textarea_field($str)
 /**
  * Internal helper function to sanitize a string from user input or from the database.
  *
+ * @param string $str String to sanitize.
+ * @param bool $keep_newlines Optional. Whether to keep newlines. Default: false.
+ * @return string Sanitized string.
  * @since 4.7.0
  * @access private
  *
- * @param string $str           String to sanitize.
- * @param bool   $keep_newlines Optional. Whether to keep newlines. Default: false.
- * @return string Sanitized string.
  */
 function _sanitize_text_fields($str, $keep_newlines = false)
 {
@@ -5711,7 +5787,7 @@ function _sanitize_text_fields($str, $keep_newlines = false)
         return '';
     }
 
-    $str = (string) $str;
+    $str = (string)$str;
 
     $filtered = wp_check_invalid_utf8($str);
 
@@ -5727,7 +5803,7 @@ function _sanitize_text_fields($str, $keep_newlines = false)
         $filtered = str_replace("<\n", "&lt;\n", $filtered);
     }
 
-    if (! $keep_newlines) {
+    if (!$keep_newlines) {
         $filtered = preg_replace('/[\r\n\t ]+/', ' ', $filtered);
     }
     $filtered = trim($filtered);
@@ -5736,7 +5812,7 @@ function _sanitize_text_fields($str, $keep_newlines = false)
     $found = false;
     while (preg_match('/%[a-f0-9]{2}/i', $filtered, $match)) {
         $filtered = str_replace($match[0], '', $filtered);
-        $found    = true;
+        $found = true;
     }
 
     if ($found) {
@@ -5750,27 +5826,27 @@ function _sanitize_text_fields($str, $keep_newlines = false)
 /**
  * i18n-friendly version of basename().
  *
- * @since 3.1.0
- *
- * @param string $path   A path.
+ * @param string $path A path.
  * @param string $suffix If the filename ends in suffix this will also be cut off.
  * @return string
+ * @since 3.1.0
+ *
  */
 function wp_basename($path, $suffix = '')
 {
     return urldecode(basename(str_replace(['%2F', '%5C'], '/', urlencode($path)), $suffix));
 }
 
-// phpcs:disable waggypuppy.WP.CapitalPDangit.MisspelledInComment,waggypuppy.WP.CapitalPDangit.MisspelledInText,waggypuppy.NamingConventions.ValidFunctionName.FunctionNameInvalid -- 8-)
+
 /**
  * Forever eliminate "Wordpress" from the planet (or at least the little bit we can influence).
  *
  * Violating our coding standards for a good function name.
  *
- * @since 3.0.0
- *
  * @param string $text The text to be modified.
  * @return string The modified text.
+ * @since 3.0.0
+ *
  */
 function capital_P_dangit($text)
 {
@@ -5787,18 +5863,18 @@ function capital_P_dangit($text)
     return str_replace(
         [' Wordpress', '&#8216;Wordpress', $dblq . 'Wordpress', '>Wordpress', '(Wordpress'],
         [' WordPress', '&#8216;WordPress', $dblq . 'WordPress', '>WordPress', '(WordPress'],
-        $text
+        $text,
     );
 }
-// phpcs:enable
+
 
 /**
  * Sanitizes a mime type
  *
- * @since 3.1.3
- *
  * @param string $mime_type Mime type.
  * @return string Sanitized mime type.
+ * @since 3.1.3
+ *
  */
 function sanitize_mime_type($mime_type)
 {
@@ -5806,10 +5882,10 @@ function sanitize_mime_type($mime_type)
     /**
      * Filters a mime type following sanitization.
      *
+     * @param string $sani_mime_type The sanitized mime type.
+     * @param string $mime_type The mime type prior to sanitization.
      * @since 3.1.3
      *
-     * @param string $sani_mime_type The sanitized mime type.
-     * @param string $mime_type      The mime type prior to sanitization.
      */
     return apply_filters('sanitize_mime_type', $sani_mime_type, $mime_type);
 }
@@ -5817,16 +5893,16 @@ function sanitize_mime_type($mime_type)
 /**
  * Sanitizes space or carriage return separated URLs that are used to send trackbacks.
  *
- * @since 3.4.0
- *
  * @param string $to_ping Space or carriage return separated URLs
  * @return string URLs starting with the http or https protocol, separated by a carriage return.
+ * @since 3.4.0
+ *
  */
 function sanitize_trackback_urls($to_ping)
 {
     $urls_to_ping = preg_split('/[\r\n\t ]/', trim($to_ping), -1, PREG_SPLIT_NO_EMPTY);
     foreach ($urls_to_ping as $k => $url) {
-        if (! preg_match('#^https?://.#i', $url)) {
+        if (!preg_match('#^https?://.#i', $url)) {
             unset($urls_to_ping[$k]);
         }
     }
@@ -5838,10 +5914,10 @@ function sanitize_trackback_urls($to_ping)
      * The string returned here consists of a space or carriage return-delimited list
      * of trackback URLs.
      *
+     * @param string $urls_to_ping Sanitized space or carriage return separated URLs.
+     * @param string $to_ping Space or carriage return separated URLs before sanitization.
      * @since 3.4.0
      *
-     * @param string $urls_to_ping Sanitized space or carriage return separated URLs.
-     * @param string $to_ping      Space or carriage return separated URLs before sanitization.
      */
     return apply_filters('sanitize_trackback_urls', $urls_to_ping, $to_ping);
 }
@@ -5852,11 +5928,11 @@ function sanitize_trackback_urls($to_ping)
  * This should be used when preparing data for core API that expects slashed data.
  * This should not be used to escape data going directly into an SQL query.
  *
+ * @param string|array $value String or array of data to slash.
+ * @return string|array Slashed `$value`, in the same type as supplied.
  * @since 3.6.0
  * @since 5.5.0 Non-string values are left untouched.
  *
- * @param string|array $value String or array of data to slash.
- * @return string|array Slashed `$value`, in the same type as supplied.
  */
 function wp_slash($value)
 {
@@ -5877,10 +5953,10 @@ function wp_slash($value)
  * This should be used to remove slashes from data passed to core API that
  * expects data to be unslashed.
  *
- * @since 3.6.0
- *
  * @param string|array $value String or array of data to unslash.
  * @return string|array Unslashed `$value`, in the same type as supplied.
+ * @since 3.6.0
+ *
  */
 function wp_unslash($value)
 {
@@ -5890,10 +5966,10 @@ function wp_unslash($value)
 /**
  * Extracts and returns the first URL from passed content.
  *
- * @since 3.6.0
- *
  * @param string $content A string which might contain a URL.
  * @return string|false The found URL.
+ * @since 3.6.0
+ *
  */
 function get_url_in_content($content)
 {
@@ -5915,9 +5991,9 @@ function get_url_in_content($content)
  * This is designed to replace the PCRE \s sequence. In ticket #22692, that
  * sequence was found to be unreliable due to random inclusion of the A0 byte.
  *
+ * @return string The spaces regexp.
  * @since 4.0.0
  *
- * @return string The spaces regexp.
  */
 function wp_spaces_regexp()
 {
@@ -5932,9 +6008,9 @@ function wp_spaces_regexp()
          * may represent whitespace. For websites not encoded in UTF-8, the 0xC2 0xA0
          * sequence may not be in use.
          *
+         * @param string $spaces Regexp pattern for matching common whitespace characters.
          * @since 4.0.0
          *
-         * @param string $spaces Regexp pattern for matching common whitespace characters.
          */
         $spaces = apply_filters('wp_spaces_regexp', '[\r\n\t ]|\xC2\xA0|&nbsp;');
     }
@@ -5951,7 +6027,7 @@ function wp_enqueue_emoji_styles()
 {
     // Back-compat for plugins that disable functionality by unhooking this action.
     $action = is_admin() ? 'admin_print_styles' : 'wp_print_styles';
-    if (! has_action($action, 'print_emoji_styles')) {
+    if (!has_action($action, 'print_emoji_styles')) {
         return;
     }
     remove_action($action, 'print_emoji_styles');
@@ -5968,7 +6044,7 @@ function wp_enqueue_emoji_styles()
 		background: none !important;
 		padding: 0 !important;
 	}';
-    $handle       = 'wp-emoji-styles';
+    $handle = 'wp-emoji-styles';
     wp_register_style($handle, false);
     wp_add_inline_style($handle, $emoji_styles);
     wp_enqueue_style($handle);
@@ -6005,38 +6081,38 @@ function _print_emoji_detection_script()
         /**
          * Filters the URL where emoji png images are hosted.
          *
+         * @param string $url The emoji base URL for png images.
          * @since 4.2.0
          *
-         * @param string $url The emoji base URL for png images.
          */
         'baseUrl' => apply_filters('emoji_url', 'https://s.w.org/images/core/emoji/15.0.3/72x72/'),
 
         /**
          * Filters the extension of the emoji png files.
          *
+         * @param string $extension The emoji extension for png files. Default .png.
          * @since 4.2.0
          *
-         * @param string $extension The emoji extension for png files. Default .png.
          */
-        'ext'     => apply_filters('emoji_ext', '.png'),
+        'ext' => apply_filters('emoji_ext', '.png'),
 
         /**
          * Filters the URL where emoji SVG images are hosted.
          *
+         * @param string $url The emoji base URL for svg images.
          * @since 4.6.0
          *
-         * @param string $url The emoji base URL for svg images.
          */
-        'svgUrl'  => apply_filters('emoji_svg_url', 'https://s.w.org/images/core/emoji/15.0.3/svg/'),
+        'svgUrl' => apply_filters('emoji_svg_url', 'https://s.w.org/images/core/emoji/15.0.3/svg/'),
 
         /**
          * Filters the extension of the emoji SVG files.
          *
+         * @param string $extension The emoji extension for svg files. Default .svg.
          * @since 4.6.0
          *
-         * @param string $extension The emoji extension for svg files. Default .svg.
          */
-        'svgExt'  => apply_filters('emoji_svg_ext', '.svg'),
+        'svgExt' => apply_filters('emoji_svg_ext', '.svg'),
     ];
 
     $version = 'ver=' . get_bloginfo('version');
@@ -6051,13 +6127,14 @@ function _print_emoji_detection_script()
     } else {
         $settings['source'] = [
             /** This filter is documented in wp-includes/class-wp-scripts.php */
-            'concatemoji' => apply_filters('script_loader_src', includes_url("js/wp-emoji-release.min.js?$version"), 'concatemoji'),
+            'concatemoji' => apply_filters('script_loader_src', includes_url("js/wp-emoji-release.min.js?$version"),
+                'concatemoji'),
         ];
     }
 
     wp_print_inline_script_tag(
         sprintf('window._wpemojiSettings = %s;', wp_json_encode($settings)) . "\n" .
-            file_get_contents(ABSPATH . WPINC . '/js/wp-emoji-loader' . wp_scripts_get_suffix() . '.js')
+        file_get_contents(ABSPATH . WPINC . '/js/wp-emoji-loader' . wp_scripts_get_suffix() . '.js'),
     );
 }
 
@@ -6066,10 +6143,10 @@ function _print_emoji_detection_script()
  *
  * This allows us to store emoji in a DB using the utf8 character set.
  *
- * @since 4.2.0
- *
  * @param string $content The content to encode.
  * @return string The encoded content.
+ * @since 4.2.0
+ *
  */
 function wp_encode_emoji($content)
 {
@@ -6088,15 +6165,16 @@ function wp_encode_emoji($content)
 /**
  * Converts emoji to a static img element.
  *
- * @since 4.2.0
- *
  * @param string $text The content to encode.
  * @return string The encoded content.
+ * @since 4.2.0
+ *
  */
 function wp_staticize_emoji($text)
 {
-    if (! str_contains($text, '&#x')) {
-        if ((function_exists('mb_check_encoding') && mb_check_encoding($text, 'ASCII')) || ! preg_match('/[^\x00-\x7F]/', $text)) {
+    if (!str_contains($text, '&#x')) {
+        if ((function_exists('mb_check_encoding') && mb_check_encoding($text, 'ASCII'))
+            || !preg_match('/[^\x00-\x7F]/', $text)) {
             // The text doesn't contain anything that might be emoji, so we can return early.
             return $text;
         } else {
@@ -6119,7 +6197,7 @@ function wp_staticize_emoji($text)
         }
     }
 
-    if (! $possible_emoji) {
+    if (!$possible_emoji) {
         return $text;
     }
 
@@ -6137,10 +6215,10 @@ function wp_staticize_emoji($text)
      * First, capture the tags as well as in between.
      */
     $textarr = preg_split('/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-    $stop    = count($textarr);
+    $stop = count($textarr);
 
     // Ignore processing of specific tags.
-    $tags_to_ignore       = 'code|pre|style|script|textarea';
+    $tags_to_ignore = 'code|pre|style|script|textarea';
     $ignore_block_element = '';
 
     for ($i = 0; $i < $stop; $i++) {
@@ -6152,16 +6230,18 @@ function wp_staticize_emoji($text)
         }
 
         // If it's not a tag and not in ignore block.
-        if ('' === $ignore_block_element && strlen($content) > 0 && '<' !== $content[0] && str_contains($content, '&#x')) {
+        if ('' === $ignore_block_element && strlen($content) > 0 && '<' !== $content[0]
+            && str_contains($content, '&#x')) {
             foreach ($possible_emoji as $emojum => $emoji_char) {
-                if (! str_contains($content, $emojum)) {
+                if (!str_contains($content, $emojum)) {
                     continue;
                 }
 
                 $file = str_replace(';&#x', '-', $emojum);
                 $file = str_replace(['&#x', ';'], '', $file);
 
-                $entity = sprintf('<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', $cdn_url . $file . $ext, $emoji_char);
+                $entity = sprintf('<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />',
+                    $cdn_url . $file . $ext, $emoji_char);
 
                 $content = str_replace($emojum, $entity, $content);
             }
@@ -6184,14 +6264,14 @@ function wp_staticize_emoji($text)
 /**
  * Converts emoji in emails into static images.
  *
- * @since 4.2.0
- *
  * @param array $mail The email data array.
  * @return array The email data array, with emoji in the message staticized.
+ * @since 4.2.0
+ *
  */
 function wp_staticize_emoji_for_email($mail)
 {
-    if (! isset($mail['message'])) {
+    if (!isset($mail['message'])) {
         return $mail;
     }
 
@@ -6212,7 +6292,7 @@ function wp_staticize_emoji_for_email($mail)
     }
 
     foreach ($headers as $header) {
-        if (! str_contains($header, ':')) {
+        if (!str_contains($header, ':')) {
             continue;
         }
 
@@ -6220,13 +6300,13 @@ function wp_staticize_emoji_for_email($mail)
         [$name, $content] = explode(':', trim($header), 2);
 
         // Cleanup crew.
-        $name    = trim($name);
+        $name = trim($name);
         $content = trim($content);
 
         if ('content-type' === strtolower($name)) {
             if (str_contains($content, ';')) {
                 [$type, $charset] = explode(';', $content);
-                $content_type     = trim($type);
+                $content_type = trim($type);
             } else {
                 $content_type = trim($content);
             }
@@ -6235,7 +6315,7 @@ function wp_staticize_emoji_for_email($mail)
     }
 
     // Set Content-Type if we don't have a content-type from the input headers.
-    if (! isset($content_type)) {
+    if (!isset($content_type)) {
         $content_type = 'text/plain';
     }
 
@@ -6255,19 +6335,5163 @@ function wp_staticize_emoji_for_email($mail)
  * These arrays are automatically built from the regex in twemoji.js - if they need to be updated,
  * you should update the regex there, then run the `npm run grunt precommit:emoji` job.
  *
+ * @param string $type Optional. Which array type to return. Accepts 'partials' or 'entities', default 'entities'.
+ * @return array An array to match all emoji that waggypuppy recognises.
  * @since 4.9.0
  * @access private
  *
- * @param string $type Optional. Which array type to return. Accepts 'partials' or 'entities', default 'entities'.
- * @return array An array to match all emoji that waggypuppy recognises.
  */
 function _wp_emoji_list($type = 'entities')
 {
     // Do not remove the START/END comments - they're used to find where to insert the arrays.
 
     // START: emoji arrays
-    $entities = ['&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f468;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;', '&#x1f469;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;', '&#x1f469;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;', '&#x1f3f4;&#xe0067;&#xe0062;&#xe0065;&#xe006e;&#xe0067;&#xe007f;', '&#x1f3f4;&#xe0067;&#xe0062;&#xe0073;&#xe0063;&#xe0074;&#xe007f;', '&#x1f3f4;&#xe0067;&#xe0062;&#xe0077;&#xe006c;&#xe0073;&#xe007f;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3ff;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fe;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;', '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f466;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f467;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f467;&#x200d;&#x1f467;', '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f466;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f467;', '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f466;&#x200d;&#x1f466;', '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f466;', '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f467;', '&#x1f468;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;', '&#x1f469;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;', '&#x1f469;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;', '&#x1faf1;&#x1f3fb;&#x200d;&#x1faf2;&#x1f3fc;', '&#x1faf1;&#x1f3fb;&#x200d;&#x1faf2;&#x1f3fd;', '&#x1faf1;&#x1f3fb;&#x200d;&#x1faf2;&#x1f3fe;', '&#x1faf1;&#x1f3fb;&#x200d;&#x1faf2;&#x1f3ff;', '&#x1faf1;&#x1f3fc;&#x200d;&#x1faf2;&#x1f3fb;', '&#x1faf1;&#x1f3fc;&#x200d;&#x1faf2;&#x1f3fd;', '&#x1faf1;&#x1f3fc;&#x200d;&#x1faf2;&#x1f3fe;', '&#x1faf1;&#x1f3fc;&#x200d;&#x1faf2;&#x1f3ff;', '&#x1faf1;&#x1f3fd;&#x200d;&#x1faf2;&#x1f3fb;', '&#x1faf1;&#x1f3fd;&#x200d;&#x1faf2;&#x1f3fc;', '&#x1faf1;&#x1f3fd;&#x200d;&#x1faf2;&#x1f3fe;', '&#x1faf1;&#x1f3fd;&#x200d;&#x1faf2;&#x1f3ff;', '&#x1faf1;&#x1f3fe;&#x200d;&#x1faf2;&#x1f3fb;', '&#x1faf1;&#x1f3fe;&#x200d;&#x1faf2;&#x1f3fc;', '&#x1faf1;&#x1f3fe;&#x200d;&#x1faf2;&#x1f3fd;', '&#x1faf1;&#x1f3fe;&#x200d;&#x1faf2;&#x1f3ff;', '&#x1faf1;&#x1f3ff;&#x200d;&#x1faf2;&#x1f3fb;', '&#x1faf1;&#x1f3ff;&#x200d;&#x1faf2;&#x1f3fc;', '&#x1faf1;&#x1f3ff;&#x200d;&#x1faf2;&#x1f3fd;', '&#x1faf1;&#x1f3ff;&#x200d;&#x1faf2;&#x1f3fe;', '&#x1f468;&#x200d;&#x1f466;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f467;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f467;&#x200d;&#x1f467;', '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f467;', '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f467;', '&#x1f469;&#x200d;&#x1f466;&#x200d;&#x1f466;', '&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f466;', '&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f467;', '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f466;', '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f467;', '&#x1f9d1;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;', '&#x1f3c3;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c3;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c3;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c3;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c3;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c3;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c3;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c3;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c3;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c3;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c4;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c4;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c4;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c4;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c4;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c4;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c4;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c4;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c4;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c4;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f3ca;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f3ca;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f3ca;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f3ca;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f3ca;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f3ca;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f3ca;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f3ca;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f3ca;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f3ca;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cb;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cb;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cb;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cb;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cb;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cb;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cb;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cb;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cb;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cb;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cc;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cc;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cc;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cc;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cc;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cc;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cc;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cc;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cc;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cc;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f468;&#x1f3fb;&#x200d;&#x2695;&#xfe0f;', '&#x1f468;&#x1f3fb;&#x200d;&#x2696;&#xfe0f;', '&#x1f468;&#x1f3fb;&#x200d;&#x2708;&#xfe0f;', '&#x1f468;&#x1f3fc;&#x200d;&#x2695;&#xfe0f;', '&#x1f468;&#x1f3fc;&#x200d;&#x2696;&#xfe0f;', '&#x1f468;&#x1f3fc;&#x200d;&#x2708;&#xfe0f;', '&#x1f468;&#x1f3fd;&#x200d;&#x2695;&#xfe0f;', '&#x1f468;&#x1f3fd;&#x200d;&#x2696;&#xfe0f;', '&#x1f468;&#x1f3fd;&#x200d;&#x2708;&#xfe0f;', '&#x1f468;&#x1f3fe;&#x200d;&#x2695;&#xfe0f;', '&#x1f468;&#x1f3fe;&#x200d;&#x2696;&#xfe0f;', '&#x1f468;&#x1f3fe;&#x200d;&#x2708;&#xfe0f;', '&#x1f468;&#x1f3ff;&#x200d;&#x2695;&#xfe0f;', '&#x1f468;&#x1f3ff;&#x200d;&#x2696;&#xfe0f;', '&#x1f468;&#x1f3ff;&#x200d;&#x2708;&#xfe0f;', '&#x1f469;&#x1f3fb;&#x200d;&#x2695;&#xfe0f;', '&#x1f469;&#x1f3fb;&#x200d;&#x2696;&#xfe0f;', '&#x1f469;&#x1f3fb;&#x200d;&#x2708;&#xfe0f;', '&#x1f469;&#x1f3fc;&#x200d;&#x2695;&#xfe0f;', '&#x1f469;&#x1f3fc;&#x200d;&#x2696;&#xfe0f;', '&#x1f469;&#x1f3fc;&#x200d;&#x2708;&#xfe0f;', '&#x1f469;&#x1f3fd;&#x200d;&#x2695;&#xfe0f;', '&#x1f469;&#x1f3fd;&#x200d;&#x2696;&#xfe0f;', '&#x1f469;&#x1f3fd;&#x200d;&#x2708;&#xfe0f;', '&#x1f469;&#x1f3fe;&#x200d;&#x2695;&#xfe0f;', '&#x1f469;&#x1f3fe;&#x200d;&#x2696;&#xfe0f;', '&#x1f469;&#x1f3fe;&#x200d;&#x2708;&#xfe0f;', '&#x1f469;&#x1f3ff;&#x200d;&#x2695;&#xfe0f;', '&#x1f469;&#x1f3ff;&#x200d;&#x2696;&#xfe0f;', '&#x1f469;&#x1f3ff;&#x200d;&#x2708;&#xfe0f;', '&#x1f46e;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f46e;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f46e;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f46e;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f46e;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f46e;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f46e;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f46e;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f46e;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f46e;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f470;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f470;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f470;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f470;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f470;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f470;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f470;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f470;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f470;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f470;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f471;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f471;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f471;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f471;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f471;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f471;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f471;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f471;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f471;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f471;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f473;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f473;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f473;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f473;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f473;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f473;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f473;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f473;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f473;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f473;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f477;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f477;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f477;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f477;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f477;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f477;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f477;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f477;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f477;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f477;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f481;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f481;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f481;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f481;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f481;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f481;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f481;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f481;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f481;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f481;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f482;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f482;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f482;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f482;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f482;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f482;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f482;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f482;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f482;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f482;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f486;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f486;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f486;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f486;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f486;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f486;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f486;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f486;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f486;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f486;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f487;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f487;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f487;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f487;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f487;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f487;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f487;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f487;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f487;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f487;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f574;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f574;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f574;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f574;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f574;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f574;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f574;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f574;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f574;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f574;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f575;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f575;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f575;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f575;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f575;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f575;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f575;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f575;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f575;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f575;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f645;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f645;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f645;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f645;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f645;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f645;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f645;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f645;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f645;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f645;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f646;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f646;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f646;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f646;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f646;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f646;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f646;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f646;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f646;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f646;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f647;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f647;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f647;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f647;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f647;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f647;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f647;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f647;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f647;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f647;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f64b;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f64b;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f64b;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f64b;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f64b;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f64b;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f64b;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f64b;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f64b;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f64b;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f64d;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f64d;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f64d;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f64d;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f64d;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f64d;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f64d;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f64d;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f64d;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f64d;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f64e;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f64e;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f64e;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f64e;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f64e;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f64e;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f64e;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f64e;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f64e;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f64e;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f6a3;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f6a3;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f6a3;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f6a3;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f6a3;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f6a3;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f6a3;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f6a3;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f6a3;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f6a3;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b4;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b4;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b4;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b4;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b4;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b4;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b4;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b4;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b4;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b4;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b5;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b5;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b5;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b5;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b5;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b5;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b5;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b5;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b5;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b5;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b6;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b6;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b6;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b6;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b6;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b6;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b6;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b6;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b6;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b6;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f926;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f926;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f926;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f926;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f926;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f926;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f926;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f926;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f926;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f926;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f935;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f935;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f935;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f935;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f935;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f935;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f935;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f935;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f935;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f935;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f937;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f937;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f937;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f937;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f937;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f937;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f937;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f937;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f937;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f937;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f938;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f938;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f938;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f938;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f938;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f938;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f938;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f938;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f938;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f938;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f939;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f939;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f939;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f939;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f939;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f939;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f939;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f939;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f939;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f939;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f93d;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f93d;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f93d;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f93d;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f93d;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f93d;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f93d;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f93d;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f93d;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f93d;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f93e;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f93e;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f93e;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f93e;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f93e;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f93e;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f93e;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f93e;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f93e;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f93e;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b8;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b8;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b8;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b8;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b8;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b8;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b8;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b8;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b8;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b8;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b9;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b9;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b9;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b9;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b9;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b9;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b9;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b9;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b9;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b9;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cd;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cd;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cd;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cd;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cd;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cd;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cd;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cd;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cd;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cd;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9ce;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9ce;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9ce;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9ce;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9ce;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9ce;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9ce;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9ce;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9ce;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9ce;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cf;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cf;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cf;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cf;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cf;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cf;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cf;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cf;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cf;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cf;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2695;&#xfe0f;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2696;&#xfe0f;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x2708;&#xfe0f;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2695;&#xfe0f;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2696;&#xfe0f;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x2708;&#xfe0f;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2695;&#xfe0f;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2696;&#xfe0f;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x2708;&#xfe0f;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2695;&#xfe0f;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2696;&#xfe0f;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x2708;&#xfe0f;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2695;&#xfe0f;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2696;&#xfe0f;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x2708;&#xfe0f;', '&#x1f9d4;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d4;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d4;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d4;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d4;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d4;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d4;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d4;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d4;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d4;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d6;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d6;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d6;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d6;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d6;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d6;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d6;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d6;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d6;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d6;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d7;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d7;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d7;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d7;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d7;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d7;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d7;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d7;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d7;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d7;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d8;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d8;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d8;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d8;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d8;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d8;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d8;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d8;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d8;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d8;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d9;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d9;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d9;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d9;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d9;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d9;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d9;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d9;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d9;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d9;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9da;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9da;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9da;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9da;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9da;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9da;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9da;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9da;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9da;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9da;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9db;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9db;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9db;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9db;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9db;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9db;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9db;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9db;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9db;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9db;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dc;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dc;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dc;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dc;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dc;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dc;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dc;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dc;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dc;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dc;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dd;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dd;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dd;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dd;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dd;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dd;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dd;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dd;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dd;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dd;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cb;&#xfe0f;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cb;&#xfe0f;&#x200d;&#x2642;&#xfe0f;', '&#x1f3cc;&#xfe0f;&#x200d;&#x2640;&#xfe0f;', '&#x1f3cc;&#xfe0f;&#x200d;&#x2642;&#xfe0f;', '&#x1f3f3;&#xfe0f;&#x200d;&#x26a7;&#xfe0f;', '&#x1f574;&#xfe0f;&#x200d;&#x2640;&#xfe0f;', '&#x1f574;&#xfe0f;&#x200d;&#x2642;&#xfe0f;', '&#x1f575;&#xfe0f;&#x200d;&#x2640;&#xfe0f;', '&#x1f575;&#xfe0f;&#x200d;&#x2642;&#xfe0f;', '&#x26f9;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;', '&#x26f9;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;', '&#x26f9;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;', '&#x26f9;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;', '&#x26f9;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;', '&#x26f9;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;', '&#x26f9;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;', '&#x26f9;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;', '&#x26f9;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;', '&#x26f9;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;', '&#x26f9;&#xfe0f;&#x200d;&#x2640;&#xfe0f;', '&#x26f9;&#xfe0f;&#x200d;&#x2642;&#xfe0f;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f33e;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f373;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f37c;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f384;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f393;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f3a4;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f3a8;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f3eb;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f3ed;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f4bb;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f4bc;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f527;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f52c;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f680;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f692;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f9af;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f9b0;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f9b1;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f9b2;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f9b3;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f9bc;', '&#x1f468;&#x1f3fb;&#x200d;&#x1f9bd;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f33e;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f373;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f37c;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f384;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f393;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f3a4;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f3a8;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f3eb;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f3ed;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f4bb;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f4bc;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f527;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f52c;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f680;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f692;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f9af;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f9b0;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f9b1;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f9b2;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f9b3;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f9bc;', '&#x1f468;&#x1f3fc;&#x200d;&#x1f9bd;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f33e;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f373;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f37c;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f384;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f393;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f3a4;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f3a8;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f3eb;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f3ed;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f4bb;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f4bc;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f527;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f52c;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f680;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f692;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f9af;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f9b0;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f9b1;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f9b2;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f9b3;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f9bc;', '&#x1f468;&#x1f3fd;&#x200d;&#x1f9bd;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f33e;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f373;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f37c;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f384;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f393;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f3a4;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f3a8;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f3eb;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f3ed;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f4bb;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f4bc;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f527;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f52c;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f680;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f692;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f9af;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f9b0;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f9b1;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f9b2;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f9b3;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f9bc;', '&#x1f468;&#x1f3fe;&#x200d;&#x1f9bd;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f33e;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f373;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f37c;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f384;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f393;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f3a4;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f3a8;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f3eb;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f3ed;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f4bb;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f4bc;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f527;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f52c;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f680;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f692;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f9af;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f9b0;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f9b1;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f9b2;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f9b3;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f9bc;', '&#x1f468;&#x1f3ff;&#x200d;&#x1f9bd;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f33e;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f373;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f37c;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f384;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f393;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f3a4;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f3a8;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f3eb;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f3ed;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f4bb;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f4bc;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f527;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f52c;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f680;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f692;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f9af;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f9b0;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f9b1;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f9b2;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f9b3;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f9bc;', '&#x1f469;&#x1f3fb;&#x200d;&#x1f9bd;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f33e;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f373;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f37c;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f384;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f393;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f3a4;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f3a8;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f3eb;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f3ed;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f4bb;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f4bc;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f527;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f52c;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f680;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f692;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f9af;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f9b0;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f9b1;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f9b2;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f9b3;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f9bc;', '&#x1f469;&#x1f3fc;&#x200d;&#x1f9bd;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f33e;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f373;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f37c;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f384;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f393;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f3a4;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f3a8;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f3eb;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f3ed;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f4bb;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f4bc;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f527;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f52c;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f680;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f692;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f9af;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f9b0;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f9b1;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f9b2;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f9b3;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f9bc;', '&#x1f469;&#x1f3fd;&#x200d;&#x1f9bd;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f33e;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f373;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f37c;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f384;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f393;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f3a4;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f3a8;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f3eb;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f3ed;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f4bb;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f4bc;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f527;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f52c;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f680;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f692;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f9af;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f9b0;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f9b1;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f9b2;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f9b3;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f9bc;', '&#x1f469;&#x1f3fe;&#x200d;&#x1f9bd;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f33e;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f373;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f37c;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f384;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f393;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f3a4;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f3a8;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f3eb;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f3ed;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f4bb;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f4bc;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f527;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f52c;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f680;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f692;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f9af;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f9b0;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f9b1;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f9b2;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f9b3;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f9bc;', '&#x1f469;&#x1f3ff;&#x200d;&#x1f9bd;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f33e;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f373;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f37c;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f384;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f393;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f3a4;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f3a8;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f3eb;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f3ed;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f4bb;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f4bc;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f527;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f52c;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f680;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f692;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9af;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9b0;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9b1;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9b2;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9b3;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9bc;', '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9bd;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f33e;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f373;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f37c;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f384;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f393;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f3a4;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f3a8;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f3eb;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f3ed;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f4bb;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f4bc;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f527;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f52c;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f680;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f692;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9af;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9b0;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9b1;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9b2;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9b3;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9bc;', '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9bd;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f33e;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f373;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f37c;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f384;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f393;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f3a4;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f3a8;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f3eb;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f3ed;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f4bb;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f4bc;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f527;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f52c;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f680;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f692;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9af;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9b0;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9b1;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9b2;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9b3;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9bc;', '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9bd;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f33e;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f373;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f37c;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f384;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f393;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f3a4;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f3a8;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f3eb;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f3ed;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f4bb;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f4bc;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f527;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f52c;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f680;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f692;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9af;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9b0;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9b1;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9b2;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9b3;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9bc;', '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9bd;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f33e;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f373;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f37c;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f384;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f393;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f3a4;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f3a8;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f3eb;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f3ed;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f4bb;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f4bc;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f527;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f52c;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f680;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f692;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9af;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9b0;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9b1;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9b2;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9b3;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9bc;', '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9bd;', '&#x1f3f3;&#xfe0f;&#x200d;&#x1f308;', '&#x1f636;&#x200d;&#x1f32b;&#xfe0f;', '&#x1f3c3;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c3;&#x200d;&#x2642;&#xfe0f;', '&#x1f3c4;&#x200d;&#x2640;&#xfe0f;', '&#x1f3c4;&#x200d;&#x2642;&#xfe0f;', '&#x1f3ca;&#x200d;&#x2640;&#xfe0f;', '&#x1f3ca;&#x200d;&#x2642;&#xfe0f;', '&#x1f3f4;&#x200d;&#x2620;&#xfe0f;', '&#x1f43b;&#x200d;&#x2744;&#xfe0f;', '&#x1f468;&#x200d;&#x2695;&#xfe0f;', '&#x1f468;&#x200d;&#x2696;&#xfe0f;', '&#x1f468;&#x200d;&#x2708;&#xfe0f;', '&#x1f469;&#x200d;&#x2695;&#xfe0f;', '&#x1f469;&#x200d;&#x2696;&#xfe0f;', '&#x1f469;&#x200d;&#x2708;&#xfe0f;', '&#x1f46e;&#x200d;&#x2640;&#xfe0f;', '&#x1f46e;&#x200d;&#x2642;&#xfe0f;', '&#x1f46f;&#x200d;&#x2640;&#xfe0f;', '&#x1f46f;&#x200d;&#x2642;&#xfe0f;', '&#x1f470;&#x200d;&#x2640;&#xfe0f;', '&#x1f470;&#x200d;&#x2642;&#xfe0f;', '&#x1f471;&#x200d;&#x2640;&#xfe0f;', '&#x1f471;&#x200d;&#x2642;&#xfe0f;', '&#x1f473;&#x200d;&#x2640;&#xfe0f;', '&#x1f473;&#x200d;&#x2642;&#xfe0f;', '&#x1f477;&#x200d;&#x2640;&#xfe0f;', '&#x1f477;&#x200d;&#x2642;&#xfe0f;', '&#x1f481;&#x200d;&#x2640;&#xfe0f;', '&#x1f481;&#x200d;&#x2642;&#xfe0f;', '&#x1f482;&#x200d;&#x2640;&#xfe0f;', '&#x1f482;&#x200d;&#x2642;&#xfe0f;', '&#x1f486;&#x200d;&#x2640;&#xfe0f;', '&#x1f486;&#x200d;&#x2642;&#xfe0f;', '&#x1f487;&#x200d;&#x2640;&#xfe0f;', '&#x1f487;&#x200d;&#x2642;&#xfe0f;', '&#x1f645;&#x200d;&#x2640;&#xfe0f;', '&#x1f645;&#x200d;&#x2642;&#xfe0f;', '&#x1f646;&#x200d;&#x2640;&#xfe0f;', '&#x1f646;&#x200d;&#x2642;&#xfe0f;', '&#x1f647;&#x200d;&#x2640;&#xfe0f;', '&#x1f647;&#x200d;&#x2642;&#xfe0f;', '&#x1f64b;&#x200d;&#x2640;&#xfe0f;', '&#x1f64b;&#x200d;&#x2642;&#xfe0f;', '&#x1f64d;&#x200d;&#x2640;&#xfe0f;', '&#x1f64d;&#x200d;&#x2642;&#xfe0f;', '&#x1f64e;&#x200d;&#x2640;&#xfe0f;', '&#x1f64e;&#x200d;&#x2642;&#xfe0f;', '&#x1f6a3;&#x200d;&#x2640;&#xfe0f;', '&#x1f6a3;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b4;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b4;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b5;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b5;&#x200d;&#x2642;&#xfe0f;', '&#x1f6b6;&#x200d;&#x2640;&#xfe0f;', '&#x1f6b6;&#x200d;&#x2642;&#xfe0f;', '&#x1f926;&#x200d;&#x2640;&#xfe0f;', '&#x1f926;&#x200d;&#x2642;&#xfe0f;', '&#x1f935;&#x200d;&#x2640;&#xfe0f;', '&#x1f935;&#x200d;&#x2642;&#xfe0f;', '&#x1f937;&#x200d;&#x2640;&#xfe0f;', '&#x1f937;&#x200d;&#x2642;&#xfe0f;', '&#x1f938;&#x200d;&#x2640;&#xfe0f;', '&#x1f938;&#x200d;&#x2642;&#xfe0f;', '&#x1f939;&#x200d;&#x2640;&#xfe0f;', '&#x1f939;&#x200d;&#x2642;&#xfe0f;', '&#x1f93c;&#x200d;&#x2640;&#xfe0f;', '&#x1f93c;&#x200d;&#x2642;&#xfe0f;', '&#x1f93d;&#x200d;&#x2640;&#xfe0f;', '&#x1f93d;&#x200d;&#x2642;&#xfe0f;', '&#x1f93e;&#x200d;&#x2640;&#xfe0f;', '&#x1f93e;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b8;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b8;&#x200d;&#x2642;&#xfe0f;', '&#x1f9b9;&#x200d;&#x2640;&#xfe0f;', '&#x1f9b9;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9ce;&#x200d;&#x2640;&#xfe0f;', '&#x1f9ce;&#x200d;&#x2642;&#xfe0f;', '&#x1f9cf;&#x200d;&#x2640;&#xfe0f;', '&#x1f9cf;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d1;&#x200d;&#x2695;&#xfe0f;', '&#x1f9d1;&#x200d;&#x2696;&#xfe0f;', '&#x1f9d1;&#x200d;&#x2708;&#xfe0f;', '&#x1f9d4;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d4;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d6;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d6;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d7;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d7;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d8;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d8;&#x200d;&#x2642;&#xfe0f;', '&#x1f9d9;&#x200d;&#x2640;&#xfe0f;', '&#x1f9d9;&#x200d;&#x2642;&#xfe0f;', '&#x1f9da;&#x200d;&#x2640;&#xfe0f;', '&#x1f9da;&#x200d;&#x2642;&#xfe0f;', '&#x1f9db;&#x200d;&#x2640;&#xfe0f;', '&#x1f9db;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dc;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dc;&#x200d;&#x2642;&#xfe0f;', '&#x1f9dd;&#x200d;&#x2640;&#xfe0f;', '&#x1f9dd;&#x200d;&#x2642;&#xfe0f;', '&#x1f9de;&#x200d;&#x2640;&#xfe0f;', '&#x1f9de;&#x200d;&#x2642;&#xfe0f;', '&#x1f9df;&#x200d;&#x2640;&#xfe0f;', '&#x1f9df;&#x200d;&#x2642;&#xfe0f;', '&#x2764;&#xfe0f;&#x200d;&#x1f525;', '&#x2764;&#xfe0f;&#x200d;&#x1fa79;', '&#x1f415;&#x200d;&#x1f9ba;', '&#x1f441;&#x200d;&#x1f5e8;', '&#x1f468;&#x200d;&#x1f33e;', '&#x1f468;&#x200d;&#x1f373;', '&#x1f468;&#x200d;&#x1f37c;', '&#x1f468;&#x200d;&#x1f384;', '&#x1f468;&#x200d;&#x1f393;', '&#x1f468;&#x200d;&#x1f3a4;', '&#x1f468;&#x200d;&#x1f3a8;', '&#x1f468;&#x200d;&#x1f3eb;', '&#x1f468;&#x200d;&#x1f3ed;', '&#x1f468;&#x200d;&#x1f466;', '&#x1f468;&#x200d;&#x1f467;', '&#x1f468;&#x200d;&#x1f4bb;', '&#x1f468;&#x200d;&#x1f4bc;', '&#x1f468;&#x200d;&#x1f527;', '&#x1f468;&#x200d;&#x1f52c;', '&#x1f468;&#x200d;&#x1f680;', '&#x1f468;&#x200d;&#x1f692;', '&#x1f468;&#x200d;&#x1f9af;', '&#x1f468;&#x200d;&#x1f9b0;', '&#x1f468;&#x200d;&#x1f9b1;', '&#x1f468;&#x200d;&#x1f9b2;', '&#x1f468;&#x200d;&#x1f9b3;', '&#x1f468;&#x200d;&#x1f9bc;', '&#x1f468;&#x200d;&#x1f9bd;', '&#x1f469;&#x200d;&#x1f33e;', '&#x1f469;&#x200d;&#x1f373;', '&#x1f469;&#x200d;&#x1f37c;', '&#x1f469;&#x200d;&#x1f384;', '&#x1f469;&#x200d;&#x1f393;', '&#x1f469;&#x200d;&#x1f3a4;', '&#x1f469;&#x200d;&#x1f3a8;', '&#x1f469;&#x200d;&#x1f3eb;', '&#x1f469;&#x200d;&#x1f3ed;', '&#x1f469;&#x200d;&#x1f466;', '&#x1f469;&#x200d;&#x1f467;', '&#x1f469;&#x200d;&#x1f4bb;', '&#x1f469;&#x200d;&#x1f4bc;', '&#x1f469;&#x200d;&#x1f527;', '&#x1f469;&#x200d;&#x1f52c;', '&#x1f469;&#x200d;&#x1f680;', '&#x1f469;&#x200d;&#x1f692;', '&#x1f469;&#x200d;&#x1f9af;', '&#x1f469;&#x200d;&#x1f9b0;', '&#x1f469;&#x200d;&#x1f9b1;', '&#x1f469;&#x200d;&#x1f9b2;', '&#x1f469;&#x200d;&#x1f9b3;', '&#x1f469;&#x200d;&#x1f9bc;', '&#x1f469;&#x200d;&#x1f9bd;', '&#x1f62e;&#x200d;&#x1f4a8;', '&#x1f635;&#x200d;&#x1f4ab;', '&#x1f9d1;&#x200d;&#x1f33e;', '&#x1f9d1;&#x200d;&#x1f373;', '&#x1f9d1;&#x200d;&#x1f37c;', '&#x1f9d1;&#x200d;&#x1f384;', '&#x1f9d1;&#x200d;&#x1f393;', '&#x1f9d1;&#x200d;&#x1f3a4;', '&#x1f9d1;&#x200d;&#x1f3a8;', '&#x1f9d1;&#x200d;&#x1f3eb;', '&#x1f9d1;&#x200d;&#x1f3ed;', '&#x1f9d1;&#x200d;&#x1f4bb;', '&#x1f9d1;&#x200d;&#x1f4bc;', '&#x1f9d1;&#x200d;&#x1f527;', '&#x1f9d1;&#x200d;&#x1f52c;', '&#x1f9d1;&#x200d;&#x1f680;', '&#x1f9d1;&#x200d;&#x1f692;', '&#x1f9d1;&#x200d;&#x1f9af;', '&#x1f9d1;&#x200d;&#x1f9b0;', '&#x1f9d1;&#x200d;&#x1f9b1;', '&#x1f9d1;&#x200d;&#x1f9b2;', '&#x1f9d1;&#x200d;&#x1f9b3;', '&#x1f9d1;&#x200d;&#x1f9bc;', '&#x1f9d1;&#x200d;&#x1f9bd;', '&#x1f408;&#x200d;&#x2b1b;', '&#x1f426;&#x200d;&#x2b1b;', '&#x1f1e6;&#x1f1e8;', '&#x1f1e6;&#x1f1e9;', '&#x1f1e6;&#x1f1ea;', '&#x1f1e6;&#x1f1eb;', '&#x1f1e6;&#x1f1ec;', '&#x1f1e6;&#x1f1ee;', '&#x1f1e6;&#x1f1f1;', '&#x1f1e6;&#x1f1f2;', '&#x1f1e6;&#x1f1f4;', '&#x1f1e6;&#x1f1f6;', '&#x1f1e6;&#x1f1f7;', '&#x1f1e6;&#x1f1f8;', '&#x1f1e6;&#x1f1f9;', '&#x1f1e6;&#x1f1fa;', '&#x1f1e6;&#x1f1fc;', '&#x1f1e6;&#x1f1fd;', '&#x1f1e6;&#x1f1ff;', '&#x1f1e7;&#x1f1e6;', '&#x1f1e7;&#x1f1e7;', '&#x1f1e7;&#x1f1e9;', '&#x1f1e7;&#x1f1ea;', '&#x1f1e7;&#x1f1eb;', '&#x1f1e7;&#x1f1ec;', '&#x1f1e7;&#x1f1ed;', '&#x1f1e7;&#x1f1ee;', '&#x1f1e7;&#x1f1ef;', '&#x1f1e7;&#x1f1f1;', '&#x1f1e7;&#x1f1f2;', '&#x1f1e7;&#x1f1f3;', '&#x1f1e7;&#x1f1f4;', '&#x1f1e7;&#x1f1f6;', '&#x1f1e7;&#x1f1f7;', '&#x1f1e7;&#x1f1f8;', '&#x1f1e7;&#x1f1f9;', '&#x1f1e7;&#x1f1fb;', '&#x1f1e7;&#x1f1fc;', '&#x1f1e7;&#x1f1fe;', '&#x1f1e7;&#x1f1ff;', '&#x1f1e8;&#x1f1e6;', '&#x1f1e8;&#x1f1e8;', '&#x1f1e8;&#x1f1e9;', '&#x1f1e8;&#x1f1eb;', '&#x1f1e8;&#x1f1ec;', '&#x1f1e8;&#x1f1ed;', '&#x1f1e8;&#x1f1ee;', '&#x1f1e8;&#x1f1f0;', '&#x1f1e8;&#x1f1f1;', '&#x1f1e8;&#x1f1f2;', '&#x1f1e8;&#x1f1f3;', '&#x1f1e8;&#x1f1f4;', '&#x1f1e8;&#x1f1f5;', '&#x1f1e8;&#x1f1f7;', '&#x1f1e8;&#x1f1fa;', '&#x1f1e8;&#x1f1fb;', '&#x1f1e8;&#x1f1fc;', '&#x1f1e8;&#x1f1fd;', '&#x1f1e8;&#x1f1fe;', '&#x1f1e8;&#x1f1ff;', '&#x1f1e9;&#x1f1ea;', '&#x1f1e9;&#x1f1ec;', '&#x1f1e9;&#x1f1ef;', '&#x1f1e9;&#x1f1f0;', '&#x1f1e9;&#x1f1f2;', '&#x1f1e9;&#x1f1f4;', '&#x1f1e9;&#x1f1ff;', '&#x1f1ea;&#x1f1e6;', '&#x1f1ea;&#x1f1e8;', '&#x1f1ea;&#x1f1ea;', '&#x1f1ea;&#x1f1ec;', '&#x1f1ea;&#x1f1ed;', '&#x1f1ea;&#x1f1f7;', '&#x1f1ea;&#x1f1f8;', '&#x1f1ea;&#x1f1f9;', '&#x1f1ea;&#x1f1fa;', '&#x1f1eb;&#x1f1ee;', '&#x1f1eb;&#x1f1ef;', '&#x1f1eb;&#x1f1f0;', '&#x1f1eb;&#x1f1f2;', '&#x1f1eb;&#x1f1f4;', '&#x1f1eb;&#x1f1f7;', '&#x1f1ec;&#x1f1e6;', '&#x1f1ec;&#x1f1e7;', '&#x1f1ec;&#x1f1e9;', '&#x1f1ec;&#x1f1ea;', '&#x1f1ec;&#x1f1eb;', '&#x1f1ec;&#x1f1ec;', '&#x1f1ec;&#x1f1ed;', '&#x1f1ec;&#x1f1ee;', '&#x1f1ec;&#x1f1f1;', '&#x1f1ec;&#x1f1f2;', '&#x1f1ec;&#x1f1f3;', '&#x1f1ec;&#x1f1f5;', '&#x1f1ec;&#x1f1f6;', '&#x1f1ec;&#x1f1f7;', '&#x1f1ec;&#x1f1f8;', '&#x1f1ec;&#x1f1f9;', '&#x1f1ec;&#x1f1fa;', '&#x1f1ec;&#x1f1fc;', '&#x1f1ec;&#x1f1fe;', '&#x1f1ed;&#x1f1f0;', '&#x1f1ed;&#x1f1f2;', '&#x1f1ed;&#x1f1f3;', '&#x1f1ed;&#x1f1f7;', '&#x1f1ed;&#x1f1f9;', '&#x1f1ed;&#x1f1fa;', '&#x1f1ee;&#x1f1e8;', '&#x1f1ee;&#x1f1e9;', '&#x1f1ee;&#x1f1ea;', '&#x1f1ee;&#x1f1f1;', '&#x1f1ee;&#x1f1f2;', '&#x1f1ee;&#x1f1f3;', '&#x1f1ee;&#x1f1f4;', '&#x1f1ee;&#x1f1f6;', '&#x1f1ee;&#x1f1f7;', '&#x1f1ee;&#x1f1f8;', '&#x1f1ee;&#x1f1f9;', '&#x1f1ef;&#x1f1ea;', '&#x1f1ef;&#x1f1f2;', '&#x1f1ef;&#x1f1f4;', '&#x1f1ef;&#x1f1f5;', '&#x1f1f0;&#x1f1ea;', '&#x1f1f0;&#x1f1ec;', '&#x1f1f0;&#x1f1ed;', '&#x1f1f0;&#x1f1ee;', '&#x1f1f0;&#x1f1f2;', '&#x1f1f0;&#x1f1f3;', '&#x1f1f0;&#x1f1f5;', '&#x1f1f0;&#x1f1f7;', '&#x1f1f0;&#x1f1fc;', '&#x1f1f0;&#x1f1fe;', '&#x1f1f0;&#x1f1ff;', '&#x1f1f1;&#x1f1e6;', '&#x1f1f1;&#x1f1e7;', '&#x1f1f1;&#x1f1e8;', '&#x1f1f1;&#x1f1ee;', '&#x1f1f1;&#x1f1f0;', '&#x1f1f1;&#x1f1f7;', '&#x1f1f1;&#x1f1f8;', '&#x1f1f1;&#x1f1f9;', '&#x1f1f1;&#x1f1fa;', '&#x1f1f1;&#x1f1fb;', '&#x1f1f1;&#x1f1fe;', '&#x1f1f2;&#x1f1e6;', '&#x1f1f2;&#x1f1e8;', '&#x1f1f2;&#x1f1e9;', '&#x1f1f2;&#x1f1ea;', '&#x1f1f2;&#x1f1eb;', '&#x1f1f2;&#x1f1ec;', '&#x1f1f2;&#x1f1ed;', '&#x1f1f2;&#x1f1f0;', '&#x1f1f2;&#x1f1f1;', '&#x1f1f2;&#x1f1f2;', '&#x1f1f2;&#x1f1f3;', '&#x1f1f2;&#x1f1f4;', '&#x1f1f2;&#x1f1f5;', '&#x1f1f2;&#x1f1f6;', '&#x1f1f2;&#x1f1f7;', '&#x1f1f2;&#x1f1f8;', '&#x1f1f2;&#x1f1f9;', '&#x1f1f2;&#x1f1fa;', '&#x1f1f2;&#x1f1fb;', '&#x1f1f2;&#x1f1fc;', '&#x1f1f2;&#x1f1fd;', '&#x1f1f2;&#x1f1fe;', '&#x1f1f2;&#x1f1ff;', '&#x1f1f3;&#x1f1e6;', '&#x1f1f3;&#x1f1e8;', '&#x1f1f3;&#x1f1ea;', '&#x1f1f3;&#x1f1eb;', '&#x1f1f3;&#x1f1ec;', '&#x1f1f3;&#x1f1ee;', '&#x1f1f3;&#x1f1f1;', '&#x1f1f3;&#x1f1f4;', '&#x1f1f3;&#x1f1f5;', '&#x1f1f3;&#x1f1f7;', '&#x1f1f3;&#x1f1fa;', '&#x1f1f3;&#x1f1ff;', '&#x1f1f4;&#x1f1f2;', '&#x1f1f5;&#x1f1e6;', '&#x1f1f5;&#x1f1ea;', '&#x1f1f5;&#x1f1eb;', '&#x1f1f5;&#x1f1ec;', '&#x1f1f5;&#x1f1ed;', '&#x1f1f5;&#x1f1f0;', '&#x1f1f5;&#x1f1f1;', '&#x1f1f5;&#x1f1f2;', '&#x1f1f5;&#x1f1f3;', '&#x1f1f5;&#x1f1f7;', '&#x1f1f5;&#x1f1f8;', '&#x1f1f5;&#x1f1f9;', '&#x1f1f5;&#x1f1fc;', '&#x1f1f5;&#x1f1fe;', '&#x1f1f6;&#x1f1e6;', '&#x1f1f7;&#x1f1ea;', '&#x1f1f7;&#x1f1f4;', '&#x1f1f7;&#x1f1f8;', '&#x1f1f7;&#x1f1fa;', '&#x1f1f7;&#x1f1fc;', '&#x1f1f8;&#x1f1e6;', '&#x1f1f8;&#x1f1e7;', '&#x1f1f8;&#x1f1e8;', '&#x1f1f8;&#x1f1e9;', '&#x1f1f8;&#x1f1ea;', '&#x1f1f8;&#x1f1ec;', '&#x1f1f8;&#x1f1ed;', '&#x1f1f8;&#x1f1ee;', '&#x1f1f8;&#x1f1ef;', '&#x1f1f8;&#x1f1f0;', '&#x1f1f8;&#x1f1f1;', '&#x1f1f8;&#x1f1f2;', '&#x1f1f8;&#x1f1f3;', '&#x1f1f8;&#x1f1f4;', '&#x1f1f8;&#x1f1f7;', '&#x1f1f8;&#x1f1f8;', '&#x1f1f8;&#x1f1f9;', '&#x1f1f8;&#x1f1fb;', '&#x1f1f8;&#x1f1fd;', '&#x1f1f8;&#x1f1fe;', '&#x1f1f8;&#x1f1ff;', '&#x1f1f9;&#x1f1e6;', '&#x1f1f9;&#x1f1e8;', '&#x1f1f9;&#x1f1e9;', '&#x1f1f9;&#x1f1eb;', '&#x1f1f9;&#x1f1ec;', '&#x1f1f9;&#x1f1ed;', '&#x1f1f9;&#x1f1ef;', '&#x1f1f9;&#x1f1f0;', '&#x1f1f9;&#x1f1f1;', '&#x1f1f9;&#x1f1f2;', '&#x1f1f9;&#x1f1f3;', '&#x1f1f9;&#x1f1f4;', '&#x1f1f9;&#x1f1f7;', '&#x1f1f9;&#x1f1f9;', '&#x1f1f9;&#x1f1fb;', '&#x1f1f9;&#x1f1fc;', '&#x1f1f9;&#x1f1ff;', '&#x1f1fa;&#x1f1e6;', '&#x1f1fa;&#x1f1ec;', '&#x1f1fa;&#x1f1f2;', '&#x1f1fa;&#x1f1f3;', '&#x1f1fa;&#x1f1f8;', '&#x1f1fa;&#x1f1fe;', '&#x1f1fa;&#x1f1ff;', '&#x1f1fb;&#x1f1e6;', '&#x1f1fb;&#x1f1e8;', '&#x1f1fb;&#x1f1ea;', '&#x1f1fb;&#x1f1ec;', '&#x1f1fb;&#x1f1ee;', '&#x1f1fb;&#x1f1f3;', '&#x1f1fb;&#x1f1fa;', '&#x1f1fc;&#x1f1eb;', '&#x1f1fc;&#x1f1f8;', '&#x1f1fd;&#x1f1f0;', '&#x1f1fe;&#x1f1ea;', '&#x1f1fe;&#x1f1f9;', '&#x1f1ff;&#x1f1e6;', '&#x1f1ff;&#x1f1f2;', '&#x1f1ff;&#x1f1fc;', '&#x1f385;&#x1f3fb;', '&#x1f385;&#x1f3fc;', '&#x1f385;&#x1f3fd;', '&#x1f385;&#x1f3fe;', '&#x1f385;&#x1f3ff;', '&#x1f3c2;&#x1f3fb;', '&#x1f3c2;&#x1f3fc;', '&#x1f3c2;&#x1f3fd;', '&#x1f3c2;&#x1f3fe;', '&#x1f3c2;&#x1f3ff;', '&#x1f3c3;&#x1f3fb;', '&#x1f3c3;&#x1f3fc;', '&#x1f3c3;&#x1f3fd;', '&#x1f3c3;&#x1f3fe;', '&#x1f3c3;&#x1f3ff;', '&#x1f3c4;&#x1f3fb;', '&#x1f3c4;&#x1f3fc;', '&#x1f3c4;&#x1f3fd;', '&#x1f3c4;&#x1f3fe;', '&#x1f3c4;&#x1f3ff;', '&#x1f3c7;&#x1f3fb;', '&#x1f3c7;&#x1f3fc;', '&#x1f3c7;&#x1f3fd;', '&#x1f3c7;&#x1f3fe;', '&#x1f3c7;&#x1f3ff;', '&#x1f3ca;&#x1f3fb;', '&#x1f3ca;&#x1f3fc;', '&#x1f3ca;&#x1f3fd;', '&#x1f3ca;&#x1f3fe;', '&#x1f3ca;&#x1f3ff;', '&#x1f3cb;&#x1f3fb;', '&#x1f3cb;&#x1f3fc;', '&#x1f3cb;&#x1f3fd;', '&#x1f3cb;&#x1f3fe;', '&#x1f3cb;&#x1f3ff;', '&#x1f3cc;&#x1f3fb;', '&#x1f3cc;&#x1f3fc;', '&#x1f3cc;&#x1f3fd;', '&#x1f3cc;&#x1f3fe;', '&#x1f3cc;&#x1f3ff;', '&#x1f442;&#x1f3fb;', '&#x1f442;&#x1f3fc;', '&#x1f442;&#x1f3fd;', '&#x1f442;&#x1f3fe;', '&#x1f442;&#x1f3ff;', '&#x1f443;&#x1f3fb;', '&#x1f443;&#x1f3fc;', '&#x1f443;&#x1f3fd;', '&#x1f443;&#x1f3fe;', '&#x1f443;&#x1f3ff;', '&#x1f446;&#x1f3fb;', '&#x1f446;&#x1f3fc;', '&#x1f446;&#x1f3fd;', '&#x1f446;&#x1f3fe;', '&#x1f446;&#x1f3ff;', '&#x1f447;&#x1f3fb;', '&#x1f447;&#x1f3fc;', '&#x1f447;&#x1f3fd;', '&#x1f447;&#x1f3fe;', '&#x1f447;&#x1f3ff;', '&#x1f448;&#x1f3fb;', '&#x1f448;&#x1f3fc;', '&#x1f448;&#x1f3fd;', '&#x1f448;&#x1f3fe;', '&#x1f448;&#x1f3ff;', '&#x1f449;&#x1f3fb;', '&#x1f449;&#x1f3fc;', '&#x1f449;&#x1f3fd;', '&#x1f449;&#x1f3fe;', '&#x1f449;&#x1f3ff;', '&#x1f44a;&#x1f3fb;', '&#x1f44a;&#x1f3fc;', '&#x1f44a;&#x1f3fd;', '&#x1f44a;&#x1f3fe;', '&#x1f44a;&#x1f3ff;', '&#x1f44b;&#x1f3fb;', '&#x1f44b;&#x1f3fc;', '&#x1f44b;&#x1f3fd;', '&#x1f44b;&#x1f3fe;', '&#x1f44b;&#x1f3ff;', '&#x1f44c;&#x1f3fb;', '&#x1f44c;&#x1f3fc;', '&#x1f44c;&#x1f3fd;', '&#x1f44c;&#x1f3fe;', '&#x1f44c;&#x1f3ff;', '&#x1f44d;&#x1f3fb;', '&#x1f44d;&#x1f3fc;', '&#x1f44d;&#x1f3fd;', '&#x1f44d;&#x1f3fe;', '&#x1f44d;&#x1f3ff;', '&#x1f44e;&#x1f3fb;', '&#x1f44e;&#x1f3fc;', '&#x1f44e;&#x1f3fd;', '&#x1f44e;&#x1f3fe;', '&#x1f44e;&#x1f3ff;', '&#x1f44f;&#x1f3fb;', '&#x1f44f;&#x1f3fc;', '&#x1f44f;&#x1f3fd;', '&#x1f44f;&#x1f3fe;', '&#x1f44f;&#x1f3ff;', '&#x1f450;&#x1f3fb;', '&#x1f450;&#x1f3fc;', '&#x1f450;&#x1f3fd;', '&#x1f450;&#x1f3fe;', '&#x1f450;&#x1f3ff;', '&#x1f466;&#x1f3fb;', '&#x1f466;&#x1f3fc;', '&#x1f466;&#x1f3fd;', '&#x1f466;&#x1f3fe;', '&#x1f466;&#x1f3ff;', '&#x1f467;&#x1f3fb;', '&#x1f467;&#x1f3fc;', '&#x1f467;&#x1f3fd;', '&#x1f467;&#x1f3fe;', '&#x1f467;&#x1f3ff;', '&#x1f468;&#x1f3fb;', '&#x1f468;&#x1f3fc;', '&#x1f468;&#x1f3fd;', '&#x1f468;&#x1f3fe;', '&#x1f468;&#x1f3ff;', '&#x1f469;&#x1f3fb;', '&#x1f469;&#x1f3fc;', '&#x1f469;&#x1f3fd;', '&#x1f469;&#x1f3fe;', '&#x1f469;&#x1f3ff;', '&#x1f46b;&#x1f3fb;', '&#x1f46b;&#x1f3fc;', '&#x1f46b;&#x1f3fd;', '&#x1f46b;&#x1f3fe;', '&#x1f46b;&#x1f3ff;', '&#x1f46c;&#x1f3fb;', '&#x1f46c;&#x1f3fc;', '&#x1f46c;&#x1f3fd;', '&#x1f46c;&#x1f3fe;', '&#x1f46c;&#x1f3ff;', '&#x1f46d;&#x1f3fb;', '&#x1f46d;&#x1f3fc;', '&#x1f46d;&#x1f3fd;', '&#x1f46d;&#x1f3fe;', '&#x1f46d;&#x1f3ff;', '&#x1f46e;&#x1f3fb;', '&#x1f46e;&#x1f3fc;', '&#x1f46e;&#x1f3fd;', '&#x1f46e;&#x1f3fe;', '&#x1f46e;&#x1f3ff;', '&#x1f470;&#x1f3fb;', '&#x1f470;&#x1f3fc;', '&#x1f470;&#x1f3fd;', '&#x1f470;&#x1f3fe;', '&#x1f470;&#x1f3ff;', '&#x1f471;&#x1f3fb;', '&#x1f471;&#x1f3fc;', '&#x1f471;&#x1f3fd;', '&#x1f471;&#x1f3fe;', '&#x1f471;&#x1f3ff;', '&#x1f472;&#x1f3fb;', '&#x1f472;&#x1f3fc;', '&#x1f472;&#x1f3fd;', '&#x1f472;&#x1f3fe;', '&#x1f472;&#x1f3ff;', '&#x1f473;&#x1f3fb;', '&#x1f473;&#x1f3fc;', '&#x1f473;&#x1f3fd;', '&#x1f473;&#x1f3fe;', '&#x1f473;&#x1f3ff;', '&#x1f474;&#x1f3fb;', '&#x1f474;&#x1f3fc;', '&#x1f474;&#x1f3fd;', '&#x1f474;&#x1f3fe;', '&#x1f474;&#x1f3ff;', '&#x1f475;&#x1f3fb;', '&#x1f475;&#x1f3fc;', '&#x1f475;&#x1f3fd;', '&#x1f475;&#x1f3fe;', '&#x1f475;&#x1f3ff;', '&#x1f476;&#x1f3fb;', '&#x1f476;&#x1f3fc;', '&#x1f476;&#x1f3fd;', '&#x1f476;&#x1f3fe;', '&#x1f476;&#x1f3ff;', '&#x1f477;&#x1f3fb;', '&#x1f477;&#x1f3fc;', '&#x1f477;&#x1f3fd;', '&#x1f477;&#x1f3fe;', '&#x1f477;&#x1f3ff;', '&#x1f478;&#x1f3fb;', '&#x1f478;&#x1f3fc;', '&#x1f478;&#x1f3fd;', '&#x1f478;&#x1f3fe;', '&#x1f478;&#x1f3ff;', '&#x1f47c;&#x1f3fb;', '&#x1f47c;&#x1f3fc;', '&#x1f47c;&#x1f3fd;', '&#x1f47c;&#x1f3fe;', '&#x1f47c;&#x1f3ff;', '&#x1f481;&#x1f3fb;', '&#x1f481;&#x1f3fc;', '&#x1f481;&#x1f3fd;', '&#x1f481;&#x1f3fe;', '&#x1f481;&#x1f3ff;', '&#x1f482;&#x1f3fb;', '&#x1f482;&#x1f3fc;', '&#x1f482;&#x1f3fd;', '&#x1f482;&#x1f3fe;', '&#x1f482;&#x1f3ff;', '&#x1f483;&#x1f3fb;', '&#x1f483;&#x1f3fc;', '&#x1f483;&#x1f3fd;', '&#x1f483;&#x1f3fe;', '&#x1f483;&#x1f3ff;', '&#x1f485;&#x1f3fb;', '&#x1f485;&#x1f3fc;', '&#x1f485;&#x1f3fd;', '&#x1f485;&#x1f3fe;', '&#x1f485;&#x1f3ff;', '&#x1f486;&#x1f3fb;', '&#x1f486;&#x1f3fc;', '&#x1f486;&#x1f3fd;', '&#x1f486;&#x1f3fe;', '&#x1f486;&#x1f3ff;', '&#x1f487;&#x1f3fb;', '&#x1f487;&#x1f3fc;', '&#x1f487;&#x1f3fd;', '&#x1f487;&#x1f3fe;', '&#x1f487;&#x1f3ff;', '&#x1f48f;&#x1f3fb;', '&#x1f48f;&#x1f3fc;', '&#x1f48f;&#x1f3fd;', '&#x1f48f;&#x1f3fe;', '&#x1f48f;&#x1f3ff;', '&#x1f491;&#x1f3fb;', '&#x1f491;&#x1f3fc;', '&#x1f491;&#x1f3fd;', '&#x1f491;&#x1f3fe;', '&#x1f491;&#x1f3ff;', '&#x1f4aa;&#x1f3fb;', '&#x1f4aa;&#x1f3fc;', '&#x1f4aa;&#x1f3fd;', '&#x1f4aa;&#x1f3fe;', '&#x1f4aa;&#x1f3ff;', '&#x1f574;&#x1f3fb;', '&#x1f574;&#x1f3fc;', '&#x1f574;&#x1f3fd;', '&#x1f574;&#x1f3fe;', '&#x1f574;&#x1f3ff;', '&#x1f575;&#x1f3fb;', '&#x1f575;&#x1f3fc;', '&#x1f575;&#x1f3fd;', '&#x1f575;&#x1f3fe;', '&#x1f575;&#x1f3ff;', '&#x1f57a;&#x1f3fb;', '&#x1f57a;&#x1f3fc;', '&#x1f57a;&#x1f3fd;', '&#x1f57a;&#x1f3fe;', '&#x1f57a;&#x1f3ff;', '&#x1f590;&#x1f3fb;', '&#x1f590;&#x1f3fc;', '&#x1f590;&#x1f3fd;', '&#x1f590;&#x1f3fe;', '&#x1f590;&#x1f3ff;', '&#x1f595;&#x1f3fb;', '&#x1f595;&#x1f3fc;', '&#x1f595;&#x1f3fd;', '&#x1f595;&#x1f3fe;', '&#x1f595;&#x1f3ff;', '&#x1f596;&#x1f3fb;', '&#x1f596;&#x1f3fc;', '&#x1f596;&#x1f3fd;', '&#x1f596;&#x1f3fe;', '&#x1f596;&#x1f3ff;', '&#x1f645;&#x1f3fb;', '&#x1f645;&#x1f3fc;', '&#x1f645;&#x1f3fd;', '&#x1f645;&#x1f3fe;', '&#x1f645;&#x1f3ff;', '&#x1f646;&#x1f3fb;', '&#x1f646;&#x1f3fc;', '&#x1f646;&#x1f3fd;', '&#x1f646;&#x1f3fe;', '&#x1f646;&#x1f3ff;', '&#x1f647;&#x1f3fb;', '&#x1f647;&#x1f3fc;', '&#x1f647;&#x1f3fd;', '&#x1f647;&#x1f3fe;', '&#x1f647;&#x1f3ff;', '&#x1f64b;&#x1f3fb;', '&#x1f64b;&#x1f3fc;', '&#x1f64b;&#x1f3fd;', '&#x1f64b;&#x1f3fe;', '&#x1f64b;&#x1f3ff;', '&#x1f64c;&#x1f3fb;', '&#x1f64c;&#x1f3fc;', '&#x1f64c;&#x1f3fd;', '&#x1f64c;&#x1f3fe;', '&#x1f64c;&#x1f3ff;', '&#x1f64d;&#x1f3fb;', '&#x1f64d;&#x1f3fc;', '&#x1f64d;&#x1f3fd;', '&#x1f64d;&#x1f3fe;', '&#x1f64d;&#x1f3ff;', '&#x1f64e;&#x1f3fb;', '&#x1f64e;&#x1f3fc;', '&#x1f64e;&#x1f3fd;', '&#x1f64e;&#x1f3fe;', '&#x1f64e;&#x1f3ff;', '&#x1f64f;&#x1f3fb;', '&#x1f64f;&#x1f3fc;', '&#x1f64f;&#x1f3fd;', '&#x1f64f;&#x1f3fe;', '&#x1f64f;&#x1f3ff;', '&#x1f6a3;&#x1f3fb;', '&#x1f6a3;&#x1f3fc;', '&#x1f6a3;&#x1f3fd;', '&#x1f6a3;&#x1f3fe;', '&#x1f6a3;&#x1f3ff;', '&#x1f6b4;&#x1f3fb;', '&#x1f6b4;&#x1f3fc;', '&#x1f6b4;&#x1f3fd;', '&#x1f6b4;&#x1f3fe;', '&#x1f6b4;&#x1f3ff;', '&#x1f6b5;&#x1f3fb;', '&#x1f6b5;&#x1f3fc;', '&#x1f6b5;&#x1f3fd;', '&#x1f6b5;&#x1f3fe;', '&#x1f6b5;&#x1f3ff;', '&#x1f6b6;&#x1f3fb;', '&#x1f6b6;&#x1f3fc;', '&#x1f6b6;&#x1f3fd;', '&#x1f6b6;&#x1f3fe;', '&#x1f6b6;&#x1f3ff;', '&#x1f6c0;&#x1f3fb;', '&#x1f6c0;&#x1f3fc;', '&#x1f6c0;&#x1f3fd;', '&#x1f6c0;&#x1f3fe;', '&#x1f6c0;&#x1f3ff;', '&#x1f6cc;&#x1f3fb;', '&#x1f6cc;&#x1f3fc;', '&#x1f6cc;&#x1f3fd;', '&#x1f6cc;&#x1f3fe;', '&#x1f6cc;&#x1f3ff;', '&#x1f90c;&#x1f3fb;', '&#x1f90c;&#x1f3fc;', '&#x1f90c;&#x1f3fd;', '&#x1f90c;&#x1f3fe;', '&#x1f90c;&#x1f3ff;', '&#x1f90f;&#x1f3fb;', '&#x1f90f;&#x1f3fc;', '&#x1f90f;&#x1f3fd;', '&#x1f90f;&#x1f3fe;', '&#x1f90f;&#x1f3ff;', '&#x1f918;&#x1f3fb;', '&#x1f918;&#x1f3fc;', '&#x1f918;&#x1f3fd;', '&#x1f918;&#x1f3fe;', '&#x1f918;&#x1f3ff;', '&#x1f919;&#x1f3fb;', '&#x1f919;&#x1f3fc;', '&#x1f919;&#x1f3fd;', '&#x1f919;&#x1f3fe;', '&#x1f919;&#x1f3ff;', '&#x1f91a;&#x1f3fb;', '&#x1f91a;&#x1f3fc;', '&#x1f91a;&#x1f3fd;', '&#x1f91a;&#x1f3fe;', '&#x1f91a;&#x1f3ff;', '&#x1f91b;&#x1f3fb;', '&#x1f91b;&#x1f3fc;', '&#x1f91b;&#x1f3fd;', '&#x1f91b;&#x1f3fe;', '&#x1f91b;&#x1f3ff;', '&#x1f91c;&#x1f3fb;', '&#x1f91c;&#x1f3fc;', '&#x1f91c;&#x1f3fd;', '&#x1f91c;&#x1f3fe;', '&#x1f91c;&#x1f3ff;', '&#x1f91d;&#x1f3fb;', '&#x1f91d;&#x1f3fc;', '&#x1f91d;&#x1f3fd;', '&#x1f91d;&#x1f3fe;', '&#x1f91d;&#x1f3ff;', '&#x1f91e;&#x1f3fb;', '&#x1f91e;&#x1f3fc;', '&#x1f91e;&#x1f3fd;', '&#x1f91e;&#x1f3fe;', '&#x1f91e;&#x1f3ff;', '&#x1f91f;&#x1f3fb;', '&#x1f91f;&#x1f3fc;', '&#x1f91f;&#x1f3fd;', '&#x1f91f;&#x1f3fe;', '&#x1f91f;&#x1f3ff;', '&#x1f926;&#x1f3fb;', '&#x1f926;&#x1f3fc;', '&#x1f926;&#x1f3fd;', '&#x1f926;&#x1f3fe;', '&#x1f926;&#x1f3ff;', '&#x1f930;&#x1f3fb;', '&#x1f930;&#x1f3fc;', '&#x1f930;&#x1f3fd;', '&#x1f930;&#x1f3fe;', '&#x1f930;&#x1f3ff;', '&#x1f931;&#x1f3fb;', '&#x1f931;&#x1f3fc;', '&#x1f931;&#x1f3fd;', '&#x1f931;&#x1f3fe;', '&#x1f931;&#x1f3ff;', '&#x1f932;&#x1f3fb;', '&#x1f932;&#x1f3fc;', '&#x1f932;&#x1f3fd;', '&#x1f932;&#x1f3fe;', '&#x1f932;&#x1f3ff;', '&#x1f933;&#x1f3fb;', '&#x1f933;&#x1f3fc;', '&#x1f933;&#x1f3fd;', '&#x1f933;&#x1f3fe;', '&#x1f933;&#x1f3ff;', '&#x1f934;&#x1f3fb;', '&#x1f934;&#x1f3fc;', '&#x1f934;&#x1f3fd;', '&#x1f934;&#x1f3fe;', '&#x1f934;&#x1f3ff;', '&#x1f935;&#x1f3fb;', '&#x1f935;&#x1f3fc;', '&#x1f935;&#x1f3fd;', '&#x1f935;&#x1f3fe;', '&#x1f935;&#x1f3ff;', '&#x1f936;&#x1f3fb;', '&#x1f936;&#x1f3fc;', '&#x1f936;&#x1f3fd;', '&#x1f936;&#x1f3fe;', '&#x1f936;&#x1f3ff;', '&#x1f937;&#x1f3fb;', '&#x1f937;&#x1f3fc;', '&#x1f937;&#x1f3fd;', '&#x1f937;&#x1f3fe;', '&#x1f937;&#x1f3ff;', '&#x1f938;&#x1f3fb;', '&#x1f938;&#x1f3fc;', '&#x1f938;&#x1f3fd;', '&#x1f938;&#x1f3fe;', '&#x1f938;&#x1f3ff;', '&#x1f939;&#x1f3fb;', '&#x1f939;&#x1f3fc;', '&#x1f939;&#x1f3fd;', '&#x1f939;&#x1f3fe;', '&#x1f939;&#x1f3ff;', '&#x1f93d;&#x1f3fb;', '&#x1f93d;&#x1f3fc;', '&#x1f93d;&#x1f3fd;', '&#x1f93d;&#x1f3fe;', '&#x1f93d;&#x1f3ff;', '&#x1f93e;&#x1f3fb;', '&#x1f93e;&#x1f3fc;', '&#x1f93e;&#x1f3fd;', '&#x1f93e;&#x1f3fe;', '&#x1f93e;&#x1f3ff;', '&#x1f977;&#x1f3fb;', '&#x1f977;&#x1f3fc;', '&#x1f977;&#x1f3fd;', '&#x1f977;&#x1f3fe;', '&#x1f977;&#x1f3ff;', '&#x1f9b5;&#x1f3fb;', '&#x1f9b5;&#x1f3fc;', '&#x1f9b5;&#x1f3fd;', '&#x1f9b5;&#x1f3fe;', '&#x1f9b5;&#x1f3ff;', '&#x1f9b6;&#x1f3fb;', '&#x1f9b6;&#x1f3fc;', '&#x1f9b6;&#x1f3fd;', '&#x1f9b6;&#x1f3fe;', '&#x1f9b6;&#x1f3ff;', '&#x1f9b8;&#x1f3fb;', '&#x1f9b8;&#x1f3fc;', '&#x1f9b8;&#x1f3fd;', '&#x1f9b8;&#x1f3fe;', '&#x1f9b8;&#x1f3ff;', '&#x1f9b9;&#x1f3fb;', '&#x1f9b9;&#x1f3fc;', '&#x1f9b9;&#x1f3fd;', '&#x1f9b9;&#x1f3fe;', '&#x1f9b9;&#x1f3ff;', '&#x1f9bb;&#x1f3fb;', '&#x1f9bb;&#x1f3fc;', '&#x1f9bb;&#x1f3fd;', '&#x1f9bb;&#x1f3fe;', '&#x1f9bb;&#x1f3ff;', '&#x1f9cd;&#x1f3fb;', '&#x1f9cd;&#x1f3fc;', '&#x1f9cd;&#x1f3fd;', '&#x1f9cd;&#x1f3fe;', '&#x1f9cd;&#x1f3ff;', '&#x1f9ce;&#x1f3fb;', '&#x1f9ce;&#x1f3fc;', '&#x1f9ce;&#x1f3fd;', '&#x1f9ce;&#x1f3fe;', '&#x1f9ce;&#x1f3ff;', '&#x1f9cf;&#x1f3fb;', '&#x1f9cf;&#x1f3fc;', '&#x1f9cf;&#x1f3fd;', '&#x1f9cf;&#x1f3fe;', '&#x1f9cf;&#x1f3ff;', '&#x1f9d1;&#x1f3fb;', '&#x1f9d1;&#x1f3fc;', '&#x1f9d1;&#x1f3fd;', '&#x1f9d1;&#x1f3fe;', '&#x1f9d1;&#x1f3ff;', '&#x1f9d2;&#x1f3fb;', '&#x1f9d2;&#x1f3fc;', '&#x1f9d2;&#x1f3fd;', '&#x1f9d2;&#x1f3fe;', '&#x1f9d2;&#x1f3ff;', '&#x1f9d3;&#x1f3fb;', '&#x1f9d3;&#x1f3fc;', '&#x1f9d3;&#x1f3fd;', '&#x1f9d3;&#x1f3fe;', '&#x1f9d3;&#x1f3ff;', '&#x1f9d4;&#x1f3fb;', '&#x1f9d4;&#x1f3fc;', '&#x1f9d4;&#x1f3fd;', '&#x1f9d4;&#x1f3fe;', '&#x1f9d4;&#x1f3ff;', '&#x1f9d5;&#x1f3fb;', '&#x1f9d5;&#x1f3fc;', '&#x1f9d5;&#x1f3fd;', '&#x1f9d5;&#x1f3fe;', '&#x1f9d5;&#x1f3ff;', '&#x1f9d6;&#x1f3fb;', '&#x1f9d6;&#x1f3fc;', '&#x1f9d6;&#x1f3fd;', '&#x1f9d6;&#x1f3fe;', '&#x1f9d6;&#x1f3ff;', '&#x1f9d7;&#x1f3fb;', '&#x1f9d7;&#x1f3fc;', '&#x1f9d7;&#x1f3fd;', '&#x1f9d7;&#x1f3fe;', '&#x1f9d7;&#x1f3ff;', '&#x1f9d8;&#x1f3fb;', '&#x1f9d8;&#x1f3fc;', '&#x1f9d8;&#x1f3fd;', '&#x1f9d8;&#x1f3fe;', '&#x1f9d8;&#x1f3ff;', '&#x1f9d9;&#x1f3fb;', '&#x1f9d9;&#x1f3fc;', '&#x1f9d9;&#x1f3fd;', '&#x1f9d9;&#x1f3fe;', '&#x1f9d9;&#x1f3ff;', '&#x1f9da;&#x1f3fb;', '&#x1f9da;&#x1f3fc;', '&#x1f9da;&#x1f3fd;', '&#x1f9da;&#x1f3fe;', '&#x1f9da;&#x1f3ff;', '&#x1f9db;&#x1f3fb;', '&#x1f9db;&#x1f3fc;', '&#x1f9db;&#x1f3fd;', '&#x1f9db;&#x1f3fe;', '&#x1f9db;&#x1f3ff;', '&#x1f9dc;&#x1f3fb;', '&#x1f9dc;&#x1f3fc;', '&#x1f9dc;&#x1f3fd;', '&#x1f9dc;&#x1f3fe;', '&#x1f9dc;&#x1f3ff;', '&#x1f9dd;&#x1f3fb;', '&#x1f9dd;&#x1f3fc;', '&#x1f9dd;&#x1f3fd;', '&#x1f9dd;&#x1f3fe;', '&#x1f9dd;&#x1f3ff;', '&#x1fac3;&#x1f3fb;', '&#x1fac3;&#x1f3fc;', '&#x1fac3;&#x1f3fd;', '&#x1fac3;&#x1f3fe;', '&#x1fac3;&#x1f3ff;', '&#x1fac4;&#x1f3fb;', '&#x1fac4;&#x1f3fc;', '&#x1fac4;&#x1f3fd;', '&#x1fac4;&#x1f3fe;', '&#x1fac4;&#x1f3ff;', '&#x1fac5;&#x1f3fb;', '&#x1fac5;&#x1f3fc;', '&#x1fac5;&#x1f3fd;', '&#x1fac5;&#x1f3fe;', '&#x1fac5;&#x1f3ff;', '&#x1faf0;&#x1f3fb;', '&#x1faf0;&#x1f3fc;', '&#x1faf0;&#x1f3fd;', '&#x1faf0;&#x1f3fe;', '&#x1faf0;&#x1f3ff;', '&#x1faf1;&#x1f3fb;', '&#x1faf1;&#x1f3fc;', '&#x1faf1;&#x1f3fd;', '&#x1faf1;&#x1f3fe;', '&#x1faf1;&#x1f3ff;', '&#x1faf2;&#x1f3fb;', '&#x1faf2;&#x1f3fc;', '&#x1faf2;&#x1f3fd;', '&#x1faf2;&#x1f3fe;', '&#x1faf2;&#x1f3ff;', '&#x1faf3;&#x1f3fb;', '&#x1faf3;&#x1f3fc;', '&#x1faf3;&#x1f3fd;', '&#x1faf3;&#x1f3fe;', '&#x1faf3;&#x1f3ff;', '&#x1faf4;&#x1f3fb;', '&#x1faf4;&#x1f3fc;', '&#x1faf4;&#x1f3fd;', '&#x1faf4;&#x1f3fe;', '&#x1faf4;&#x1f3ff;', '&#x1faf5;&#x1f3fb;', '&#x1faf5;&#x1f3fc;', '&#x1faf5;&#x1f3fd;', '&#x1faf5;&#x1f3fe;', '&#x1faf5;&#x1f3ff;', '&#x1faf6;&#x1f3fb;', '&#x1faf6;&#x1f3fc;', '&#x1faf6;&#x1f3fd;', '&#x1faf6;&#x1f3fe;', '&#x1faf6;&#x1f3ff;', '&#x1faf7;&#x1f3fb;', '&#x1faf7;&#x1f3fc;', '&#x1faf7;&#x1f3fd;', '&#x1faf7;&#x1f3fe;', '&#x1faf7;&#x1f3ff;', '&#x1faf8;&#x1f3fb;', '&#x1faf8;&#x1f3fc;', '&#x1faf8;&#x1f3fd;', '&#x1faf8;&#x1f3fe;', '&#x1faf8;&#x1f3ff;', '&#x261d;&#x1f3fb;', '&#x261d;&#x1f3fc;', '&#x261d;&#x1f3fd;', '&#x261d;&#x1f3fe;', '&#x261d;&#x1f3ff;', '&#x26f7;&#x1f3fb;', '&#x26f7;&#x1f3fc;', '&#x26f7;&#x1f3fd;', '&#x26f7;&#x1f3fe;', '&#x26f7;&#x1f3ff;', '&#x26f9;&#x1f3fb;', '&#x26f9;&#x1f3fc;', '&#x26f9;&#x1f3fd;', '&#x26f9;&#x1f3fe;', '&#x26f9;&#x1f3ff;', '&#x270a;&#x1f3fb;', '&#x270a;&#x1f3fc;', '&#x270a;&#x1f3fd;', '&#x270a;&#x1f3fe;', '&#x270a;&#x1f3ff;', '&#x270b;&#x1f3fb;', '&#x270b;&#x1f3fc;', '&#x270b;&#x1f3fd;', '&#x270b;&#x1f3fe;', '&#x270b;&#x1f3ff;', '&#x270c;&#x1f3fb;', '&#x270c;&#x1f3fc;', '&#x270c;&#x1f3fd;', '&#x270c;&#x1f3fe;', '&#x270c;&#x1f3ff;', '&#x270d;&#x1f3fb;', '&#x270d;&#x1f3fc;', '&#x270d;&#x1f3fd;', '&#x270d;&#x1f3fe;', '&#x270d;&#x1f3ff;', '&#x23;&#x20e3;', '&#x2a;&#x20e3;', '&#x30;&#x20e3;', '&#x31;&#x20e3;', '&#x32;&#x20e3;', '&#x33;&#x20e3;', '&#x34;&#x20e3;', '&#x35;&#x20e3;', '&#x36;&#x20e3;', '&#x37;&#x20e3;', '&#x38;&#x20e3;', '&#x39;&#x20e3;', '&#x1f004;', '&#x1f0cf;', '&#x1f170;', '&#x1f171;', '&#x1f17e;', '&#x1f17f;', '&#x1f18e;', '&#x1f191;', '&#x1f192;', '&#x1f193;', '&#x1f194;', '&#x1f195;', '&#x1f196;', '&#x1f197;', '&#x1f198;', '&#x1f199;', '&#x1f19a;', '&#x1f1e6;', '&#x1f1e7;', '&#x1f1e8;', '&#x1f1e9;', '&#x1f1ea;', '&#x1f1eb;', '&#x1f1ec;', '&#x1f1ed;', '&#x1f1ee;', '&#x1f1ef;', '&#x1f1f0;', '&#x1f1f1;', '&#x1f1f2;', '&#x1f1f3;', '&#x1f1f4;', '&#x1f1f5;', '&#x1f1f6;', '&#x1f1f7;', '&#x1f1f8;', '&#x1f1f9;', '&#x1f1fa;', '&#x1f1fb;', '&#x1f1fc;', '&#x1f1fd;', '&#x1f1fe;', '&#x1f1ff;', '&#x1f201;', '&#x1f202;', '&#x1f21a;', '&#x1f22f;', '&#x1f232;', '&#x1f233;', '&#x1f234;', '&#x1f235;', '&#x1f236;', '&#x1f237;', '&#x1f238;', '&#x1f239;', '&#x1f23a;', '&#x1f250;', '&#x1f251;', '&#x1f300;', '&#x1f301;', '&#x1f302;', '&#x1f303;', '&#x1f304;', '&#x1f305;', '&#x1f306;', '&#x1f307;', '&#x1f308;', '&#x1f309;', '&#x1f30a;', '&#x1f30b;', '&#x1f30c;', '&#x1f30d;', '&#x1f30e;', '&#x1f30f;', '&#x1f310;', '&#x1f311;', '&#x1f312;', '&#x1f313;', '&#x1f314;', '&#x1f315;', '&#x1f316;', '&#x1f317;', '&#x1f318;', '&#x1f319;', '&#x1f31a;', '&#x1f31b;', '&#x1f31c;', '&#x1f31d;', '&#x1f31e;', '&#x1f31f;', '&#x1f320;', '&#x1f321;', '&#x1f324;', '&#x1f325;', '&#x1f326;', '&#x1f327;', '&#x1f328;', '&#x1f329;', '&#x1f32a;', '&#x1f32b;', '&#x1f32c;', '&#x1f32d;', '&#x1f32e;', '&#x1f32f;', '&#x1f330;', '&#x1f331;', '&#x1f332;', '&#x1f333;', '&#x1f334;', '&#x1f335;', '&#x1f336;', '&#x1f337;', '&#x1f338;', '&#x1f339;', '&#x1f33a;', '&#x1f33b;', '&#x1f33c;', '&#x1f33d;', '&#x1f33e;', '&#x1f33f;', '&#x1f340;', '&#x1f341;', '&#x1f342;', '&#x1f343;', '&#x1f344;', '&#x1f345;', '&#x1f346;', '&#x1f347;', '&#x1f348;', '&#x1f349;', '&#x1f34a;', '&#x1f34b;', '&#x1f34c;', '&#x1f34d;', '&#x1f34e;', '&#x1f34f;', '&#x1f350;', '&#x1f351;', '&#x1f352;', '&#x1f353;', '&#x1f354;', '&#x1f355;', '&#x1f356;', '&#x1f357;', '&#x1f358;', '&#x1f359;', '&#x1f35a;', '&#x1f35b;', '&#x1f35c;', '&#x1f35d;', '&#x1f35e;', '&#x1f35f;', '&#x1f360;', '&#x1f361;', '&#x1f362;', '&#x1f363;', '&#x1f364;', '&#x1f365;', '&#x1f366;', '&#x1f367;', '&#x1f368;', '&#x1f369;', '&#x1f36a;', '&#x1f36b;', '&#x1f36c;', '&#x1f36d;', '&#x1f36e;', '&#x1f36f;', '&#x1f370;', '&#x1f371;', '&#x1f372;', '&#x1f373;', '&#x1f374;', '&#x1f375;', '&#x1f376;', '&#x1f377;', '&#x1f378;', '&#x1f379;', '&#x1f37a;', '&#x1f37b;', '&#x1f37c;', '&#x1f37d;', '&#x1f37e;', '&#x1f37f;', '&#x1f380;', '&#x1f381;', '&#x1f382;', '&#x1f383;', '&#x1f384;', '&#x1f385;', '&#x1f386;', '&#x1f387;', '&#x1f388;', '&#x1f389;', '&#x1f38a;', '&#x1f38b;', '&#x1f38c;', '&#x1f38d;', '&#x1f38e;', '&#x1f38f;', '&#x1f390;', '&#x1f391;', '&#x1f392;', '&#x1f393;', '&#x1f396;', '&#x1f397;', '&#x1f399;', '&#x1f39a;', '&#x1f39b;', '&#x1f39e;', '&#x1f39f;', '&#x1f3a0;', '&#x1f3a1;', '&#x1f3a2;', '&#x1f3a3;', '&#x1f3a4;', '&#x1f3a5;', '&#x1f3a6;', '&#x1f3a7;', '&#x1f3a8;', '&#x1f3a9;', '&#x1f3aa;', '&#x1f3ab;', '&#x1f3ac;', '&#x1f3ad;', '&#x1f3ae;', '&#x1f3af;', '&#x1f3b0;', '&#x1f3b1;', '&#x1f3b2;', '&#x1f3b3;', '&#x1f3b4;', '&#x1f3b5;', '&#x1f3b6;', '&#x1f3b7;', '&#x1f3b8;', '&#x1f3b9;', '&#x1f3ba;', '&#x1f3bb;', '&#x1f3bc;', '&#x1f3bd;', '&#x1f3be;', '&#x1f3bf;', '&#x1f3c0;', '&#x1f3c1;', '&#x1f3c2;', '&#x1f3c3;', '&#x1f3c4;', '&#x1f3c5;', '&#x1f3c6;', '&#x1f3c7;', '&#x1f3c8;', '&#x1f3c9;', '&#x1f3ca;', '&#x1f3cb;', '&#x1f3cc;', '&#x1f3cd;', '&#x1f3ce;', '&#x1f3cf;', '&#x1f3d0;', '&#x1f3d1;', '&#x1f3d2;', '&#x1f3d3;', '&#x1f3d4;', '&#x1f3d5;', '&#x1f3d6;', '&#x1f3d7;', '&#x1f3d8;', '&#x1f3d9;', '&#x1f3da;', '&#x1f3db;', '&#x1f3dc;', '&#x1f3dd;', '&#x1f3de;', '&#x1f3df;', '&#x1f3e0;', '&#x1f3e1;', '&#x1f3e2;', '&#x1f3e3;', '&#x1f3e4;', '&#x1f3e5;', '&#x1f3e6;', '&#x1f3e7;', '&#x1f3e8;', '&#x1f3e9;', '&#x1f3ea;', '&#x1f3eb;', '&#x1f3ec;', '&#x1f3ed;', '&#x1f3ee;', '&#x1f3ef;', '&#x1f3f0;', '&#x1f3f3;', '&#x1f3f4;', '&#x1f3f5;', '&#x1f3f7;', '&#x1f3f8;', '&#x1f3f9;', '&#x1f3fa;', '&#x1f3fb;', '&#x1f3fc;', '&#x1f3fd;', '&#x1f3fe;', '&#x1f3ff;', '&#x1f400;', '&#x1f401;', '&#x1f402;', '&#x1f403;', '&#x1f404;', '&#x1f405;', '&#x1f406;', '&#x1f407;', '&#x1f408;', '&#x1f409;', '&#x1f40a;', '&#x1f40b;', '&#x1f40c;', '&#x1f40d;', '&#x1f40e;', '&#x1f40f;', '&#x1f410;', '&#x1f411;', '&#x1f412;', '&#x1f413;', '&#x1f414;', '&#x1f415;', '&#x1f416;', '&#x1f417;', '&#x1f418;', '&#x1f419;', '&#x1f41a;', '&#x1f41b;', '&#x1f41c;', '&#x1f41d;', '&#x1f41e;', '&#x1f41f;', '&#x1f420;', '&#x1f421;', '&#x1f422;', '&#x1f423;', '&#x1f424;', '&#x1f425;', '&#x1f426;', '&#x1f427;', '&#x1f428;', '&#x1f429;', '&#x1f42a;', '&#x1f42b;', '&#x1f42c;', '&#x1f42d;', '&#x1f42e;', '&#x1f42f;', '&#x1f430;', '&#x1f431;', '&#x1f432;', '&#x1f433;', '&#x1f434;', '&#x1f435;', '&#x1f436;', '&#x1f437;', '&#x1f438;', '&#x1f439;', '&#x1f43a;', '&#x1f43b;', '&#x1f43c;', '&#x1f43d;', '&#x1f43e;', '&#x1f43f;', '&#x1f440;', '&#x1f441;', '&#x1f442;', '&#x1f443;', '&#x1f444;', '&#x1f445;', '&#x1f446;', '&#x1f447;', '&#x1f448;', '&#x1f449;', '&#x1f44a;', '&#x1f44b;', '&#x1f44c;', '&#x1f44d;', '&#x1f44e;', '&#x1f44f;', '&#x1f450;', '&#x1f451;', '&#x1f452;', '&#x1f453;', '&#x1f454;', '&#x1f455;', '&#x1f456;', '&#x1f457;', '&#x1f458;', '&#x1f459;', '&#x1f45a;', '&#x1f45b;', '&#x1f45c;', '&#x1f45d;', '&#x1f45e;', '&#x1f45f;', '&#x1f460;', '&#x1f461;', '&#x1f462;', '&#x1f463;', '&#x1f464;', '&#x1f465;', '&#x1f466;', '&#x1f467;', '&#x1f468;', '&#x1f469;', '&#x1f46a;', '&#x1f46b;', '&#x1f46c;', '&#x1f46d;', '&#x1f46e;', '&#x1f46f;', '&#x1f470;', '&#x1f471;', '&#x1f472;', '&#x1f473;', '&#x1f474;', '&#x1f475;', '&#x1f476;', '&#x1f477;', '&#x1f478;', '&#x1f479;', '&#x1f47a;', '&#x1f47b;', '&#x1f47c;', '&#x1f47d;', '&#x1f47e;', '&#x1f47f;', '&#x1f480;', '&#x1f481;', '&#x1f482;', '&#x1f483;', '&#x1f484;', '&#x1f485;', '&#x1f486;', '&#x1f487;', '&#x1f488;', '&#x1f489;', '&#x1f48a;', '&#x1f48b;', '&#x1f48c;', '&#x1f48d;', '&#x1f48e;', '&#x1f48f;', '&#x1f490;', '&#x1f491;', '&#x1f492;', '&#x1f493;', '&#x1f494;', '&#x1f495;', '&#x1f496;', '&#x1f497;', '&#x1f498;', '&#x1f499;', '&#x1f49a;', '&#x1f49b;', '&#x1f49c;', '&#x1f49d;', '&#x1f49e;', '&#x1f49f;', '&#x1f4a0;', '&#x1f4a1;', '&#x1f4a2;', '&#x1f4a3;', '&#x1f4a4;', '&#x1f4a5;', '&#x1f4a6;', '&#x1f4a7;', '&#x1f4a8;', '&#x1f4a9;', '&#x1f4aa;', '&#x1f4ab;', '&#x1f4ac;', '&#x1f4ad;', '&#x1f4ae;', '&#x1f4af;', '&#x1f4b0;', '&#x1f4b1;', '&#x1f4b2;', '&#x1f4b3;', '&#x1f4b4;', '&#x1f4b5;', '&#x1f4b6;', '&#x1f4b7;', '&#x1f4b8;', '&#x1f4b9;', '&#x1f4ba;', '&#x1f4bb;', '&#x1f4bc;', '&#x1f4bd;', '&#x1f4be;', '&#x1f4bf;', '&#x1f4c0;', '&#x1f4c1;', '&#x1f4c2;', '&#x1f4c3;', '&#x1f4c4;', '&#x1f4c5;', '&#x1f4c6;', '&#x1f4c7;', '&#x1f4c8;', '&#x1f4c9;', '&#x1f4ca;', '&#x1f4cb;', '&#x1f4cc;', '&#x1f4cd;', '&#x1f4ce;', '&#x1f4cf;', '&#x1f4d0;', '&#x1f4d1;', '&#x1f4d2;', '&#x1f4d3;', '&#x1f4d4;', '&#x1f4d5;', '&#x1f4d6;', '&#x1f4d7;', '&#x1f4d8;', '&#x1f4d9;', '&#x1f4da;', '&#x1f4db;', '&#x1f4dc;', '&#x1f4dd;', '&#x1f4de;', '&#x1f4df;', '&#x1f4e0;', '&#x1f4e1;', '&#x1f4e2;', '&#x1f4e3;', '&#x1f4e4;', '&#x1f4e5;', '&#x1f4e6;', '&#x1f4e7;', '&#x1f4e8;', '&#x1f4e9;', '&#x1f4ea;', '&#x1f4eb;', '&#x1f4ec;', '&#x1f4ed;', '&#x1f4ee;', '&#x1f4ef;', '&#x1f4f0;', '&#x1f4f1;', '&#x1f4f2;', '&#x1f4f3;', '&#x1f4f4;', '&#x1f4f5;', '&#x1f4f6;', '&#x1f4f7;', '&#x1f4f8;', '&#x1f4f9;', '&#x1f4fa;', '&#x1f4fb;', '&#x1f4fc;', '&#x1f4fd;', '&#x1f4ff;', '&#x1f500;', '&#x1f501;', '&#x1f502;', '&#x1f503;', '&#x1f504;', '&#x1f505;', '&#x1f506;', '&#x1f507;', '&#x1f508;', '&#x1f509;', '&#x1f50a;', '&#x1f50b;', '&#x1f50c;', '&#x1f50d;', '&#x1f50e;', '&#x1f50f;', '&#x1f510;', '&#x1f511;', '&#x1f512;', '&#x1f513;', '&#x1f514;', '&#x1f515;', '&#x1f516;', '&#x1f517;', '&#x1f518;', '&#x1f519;', '&#x1f51a;', '&#x1f51b;', '&#x1f51c;', '&#x1f51d;', '&#x1f51e;', '&#x1f51f;', '&#x1f520;', '&#x1f521;', '&#x1f522;', '&#x1f523;', '&#x1f524;', '&#x1f525;', '&#x1f526;', '&#x1f527;', '&#x1f528;', '&#x1f529;', '&#x1f52a;', '&#x1f52b;', '&#x1f52c;', '&#x1f52d;', '&#x1f52e;', '&#x1f52f;', '&#x1f530;', '&#x1f531;', '&#x1f532;', '&#x1f533;', '&#x1f534;', '&#x1f535;', '&#x1f536;', '&#x1f537;', '&#x1f538;', '&#x1f539;', '&#x1f53a;', '&#x1f53b;', '&#x1f53c;', '&#x1f53d;', '&#x1f549;', '&#x1f54a;', '&#x1f54b;', '&#x1f54c;', '&#x1f54d;', '&#x1f54e;', '&#x1f550;', '&#x1f551;', '&#x1f552;', '&#x1f553;', '&#x1f554;', '&#x1f555;', '&#x1f556;', '&#x1f557;', '&#x1f558;', '&#x1f559;', '&#x1f55a;', '&#x1f55b;', '&#x1f55c;', '&#x1f55d;', '&#x1f55e;', '&#x1f55f;', '&#x1f560;', '&#x1f561;', '&#x1f562;', '&#x1f563;', '&#x1f564;', '&#x1f565;', '&#x1f566;', '&#x1f567;', '&#x1f56f;', '&#x1f570;', '&#x1f573;', '&#x1f574;', '&#x1f575;', '&#x1f576;', '&#x1f577;', '&#x1f578;', '&#x1f579;', '&#x1f57a;', '&#x1f587;', '&#x1f58a;', '&#x1f58b;', '&#x1f58c;', '&#x1f58d;', '&#x1f590;', '&#x1f595;', '&#x1f596;', '&#x1f5a4;', '&#x1f5a5;', '&#x1f5a8;', '&#x1f5b1;', '&#x1f5b2;', '&#x1f5bc;', '&#x1f5c2;', '&#x1f5c3;', '&#x1f5c4;', '&#x1f5d1;', '&#x1f5d2;', '&#x1f5d3;', '&#x1f5dc;', '&#x1f5dd;', '&#x1f5de;', '&#x1f5e1;', '&#x1f5e3;', '&#x1f5e8;', '&#x1f5ef;', '&#x1f5f3;', '&#x1f5fa;', '&#x1f5fb;', '&#x1f5fc;', '&#x1f5fd;', '&#x1f5fe;', '&#x1f5ff;', '&#x1f600;', '&#x1f601;', '&#x1f602;', '&#x1f603;', '&#x1f604;', '&#x1f605;', '&#x1f606;', '&#x1f607;', '&#x1f608;', '&#x1f609;', '&#x1f60a;', '&#x1f60b;', '&#x1f60c;', '&#x1f60d;', '&#x1f60e;', '&#x1f60f;', '&#x1f610;', '&#x1f611;', '&#x1f612;', '&#x1f613;', '&#x1f614;', '&#x1f615;', '&#x1f616;', '&#x1f617;', '&#x1f618;', '&#x1f619;', '&#x1f61a;', '&#x1f61b;', '&#x1f61c;', '&#x1f61d;', '&#x1f61e;', '&#x1f61f;', '&#x1f620;', '&#x1f621;', '&#x1f622;', '&#x1f623;', '&#x1f624;', '&#x1f625;', '&#x1f626;', '&#x1f627;', '&#x1f628;', '&#x1f629;', '&#x1f62a;', '&#x1f62b;', '&#x1f62c;', '&#x1f62d;', '&#x1f62e;', '&#x1f62f;', '&#x1f630;', '&#x1f631;', '&#x1f632;', '&#x1f633;', '&#x1f634;', '&#x1f635;', '&#x1f636;', '&#x1f637;', '&#x1f638;', '&#x1f639;', '&#x1f63a;', '&#x1f63b;', '&#x1f63c;', '&#x1f63d;', '&#x1f63e;', '&#x1f63f;', '&#x1f640;', '&#x1f641;', '&#x1f642;', '&#x1f643;', '&#x1f644;', '&#x1f645;', '&#x1f646;', '&#x1f647;', '&#x1f648;', '&#x1f649;', '&#x1f64a;', '&#x1f64b;', '&#x1f64c;', '&#x1f64d;', '&#x1f64e;', '&#x1f64f;', '&#x1f680;', '&#x1f681;', '&#x1f682;', '&#x1f683;', '&#x1f684;', '&#x1f685;', '&#x1f686;', '&#x1f687;', '&#x1f688;', '&#x1f689;', '&#x1f68a;', '&#x1f68b;', '&#x1f68c;', '&#x1f68d;', '&#x1f68e;', '&#x1f68f;', '&#x1f690;', '&#x1f691;', '&#x1f692;', '&#x1f693;', '&#x1f694;', '&#x1f695;', '&#x1f696;', '&#x1f697;', '&#x1f698;', '&#x1f699;', '&#x1f69a;', '&#x1f69b;', '&#x1f69c;', '&#x1f69d;', '&#x1f69e;', '&#x1f69f;', '&#x1f6a0;', '&#x1f6a1;', '&#x1f6a2;', '&#x1f6a3;', '&#x1f6a4;', '&#x1f6a5;', '&#x1f6a6;', '&#x1f6a7;', '&#x1f6a8;', '&#x1f6a9;', '&#x1f6aa;', '&#x1f6ab;', '&#x1f6ac;', '&#x1f6ad;', '&#x1f6ae;', '&#x1f6af;', '&#x1f6b0;', '&#x1f6b1;', '&#x1f6b2;', '&#x1f6b3;', '&#x1f6b4;', '&#x1f6b5;', '&#x1f6b6;', '&#x1f6b7;', '&#x1f6b8;', '&#x1f6b9;', '&#x1f6ba;', '&#x1f6bb;', '&#x1f6bc;', '&#x1f6bd;', '&#x1f6be;', '&#x1f6bf;', '&#x1f6c0;', '&#x1f6c1;', '&#x1f6c2;', '&#x1f6c3;', '&#x1f6c4;', '&#x1f6c5;', '&#x1f6cb;', '&#x1f6cc;', '&#x1f6cd;', '&#x1f6ce;', '&#x1f6cf;', '&#x1f6d0;', '&#x1f6d1;', '&#x1f6d2;', '&#x1f6d5;', '&#x1f6d6;', '&#x1f6d7;', '&#x1f6dc;', '&#x1f6dd;', '&#x1f6de;', '&#x1f6df;', '&#x1f6e0;', '&#x1f6e1;', '&#x1f6e2;', '&#x1f6e3;', '&#x1f6e4;', '&#x1f6e5;', '&#x1f6e9;', '&#x1f6eb;', '&#x1f6ec;', '&#x1f6f0;', '&#x1f6f3;', '&#x1f6f4;', '&#x1f6f5;', '&#x1f6f6;', '&#x1f6f7;', '&#x1f6f8;', '&#x1f6f9;', '&#x1f6fa;', '&#x1f6fb;', '&#x1f6fc;', '&#x1f7e0;', '&#x1f7e1;', '&#x1f7e2;', '&#x1f7e3;', '&#x1f7e4;', '&#x1f7e5;', '&#x1f7e6;', '&#x1f7e7;', '&#x1f7e8;', '&#x1f7e9;', '&#x1f7ea;', '&#x1f7eb;', '&#x1f7f0;', '&#x1f90c;', '&#x1f90d;', '&#x1f90e;', '&#x1f90f;', '&#x1f910;', '&#x1f911;', '&#x1f912;', '&#x1f913;', '&#x1f914;', '&#x1f915;', '&#x1f916;', '&#x1f917;', '&#x1f918;', '&#x1f919;', '&#x1f91a;', '&#x1f91b;', '&#x1f91c;', '&#x1f91d;', '&#x1f91e;', '&#x1f91f;', '&#x1f920;', '&#x1f921;', '&#x1f922;', '&#x1f923;', '&#x1f924;', '&#x1f925;', '&#x1f926;', '&#x1f927;', '&#x1f928;', '&#x1f929;', '&#x1f92a;', '&#x1f92b;', '&#x1f92c;', '&#x1f92d;', '&#x1f92e;', '&#x1f92f;', '&#x1f930;', '&#x1f931;', '&#x1f932;', '&#x1f933;', '&#x1f934;', '&#x1f935;', '&#x1f936;', '&#x1f937;', '&#x1f938;', '&#x1f939;', '&#x1f93a;', '&#x1f93c;', '&#x1f93d;', '&#x1f93e;', '&#x1f93f;', '&#x1f940;', '&#x1f941;', '&#x1f942;', '&#x1f943;', '&#x1f944;', '&#x1f945;', '&#x1f947;', '&#x1f948;', '&#x1f949;', '&#x1f94a;', '&#x1f94b;', '&#x1f94c;', '&#x1f94d;', '&#x1f94e;', '&#x1f94f;', '&#x1f950;', '&#x1f951;', '&#x1f952;', '&#x1f953;', '&#x1f954;', '&#x1f955;', '&#x1f956;', '&#x1f957;', '&#x1f958;', '&#x1f959;', '&#x1f95a;', '&#x1f95b;', '&#x1f95c;', '&#x1f95d;', '&#x1f95e;', '&#x1f95f;', '&#x1f960;', '&#x1f961;', '&#x1f962;', '&#x1f963;', '&#x1f964;', '&#x1f965;', '&#x1f966;', '&#x1f967;', '&#x1f968;', '&#x1f969;', '&#x1f96a;', '&#x1f96b;', '&#x1f96c;', '&#x1f96d;', '&#x1f96e;', '&#x1f96f;', '&#x1f970;', '&#x1f971;', '&#x1f972;', '&#x1f973;', '&#x1f974;', '&#x1f975;', '&#x1f976;', '&#x1f977;', '&#x1f978;', '&#x1f979;', '&#x1f97a;', '&#x1f97b;', '&#x1f97c;', '&#x1f97d;', '&#x1f97e;', '&#x1f97f;', '&#x1f980;', '&#x1f981;', '&#x1f982;', '&#x1f983;', '&#x1f984;', '&#x1f985;', '&#x1f986;', '&#x1f987;', '&#x1f988;', '&#x1f989;', '&#x1f98a;', '&#x1f98b;', '&#x1f98c;', '&#x1f98d;', '&#x1f98e;', '&#x1f98f;', '&#x1f990;', '&#x1f991;', '&#x1f992;', '&#x1f993;', '&#x1f994;', '&#x1f995;', '&#x1f996;', '&#x1f997;', '&#x1f998;', '&#x1f999;', '&#x1f99a;', '&#x1f99b;', '&#x1f99c;', '&#x1f99d;', '&#x1f99e;', '&#x1f99f;', '&#x1f9a0;', '&#x1f9a1;', '&#x1f9a2;', '&#x1f9a3;', '&#x1f9a4;', '&#x1f9a5;', '&#x1f9a6;', '&#x1f9a7;', '&#x1f9a8;', '&#x1f9a9;', '&#x1f9aa;', '&#x1f9ab;', '&#x1f9ac;', '&#x1f9ad;', '&#x1f9ae;', '&#x1f9af;', '&#x1f9b0;', '&#x1f9b1;', '&#x1f9b2;', '&#x1f9b3;', '&#x1f9b4;', '&#x1f9b5;', '&#x1f9b6;', '&#x1f9b7;', '&#x1f9b8;', '&#x1f9b9;', '&#x1f9ba;', '&#x1f9bb;', '&#x1f9bc;', '&#x1f9bd;', '&#x1f9be;', '&#x1f9bf;', '&#x1f9c0;', '&#x1f9c1;', '&#x1f9c2;', '&#x1f9c3;', '&#x1f9c4;', '&#x1f9c5;', '&#x1f9c6;', '&#x1f9c7;', '&#x1f9c8;', '&#x1f9c9;', '&#x1f9ca;', '&#x1f9cb;', '&#x1f9cc;', '&#x1f9cd;', '&#x1f9ce;', '&#x1f9cf;', '&#x1f9d0;', '&#x1f9d1;', '&#x1f9d2;', '&#x1f9d3;', '&#x1f9d4;', '&#x1f9d5;', '&#x1f9d6;', '&#x1f9d7;', '&#x1f9d8;', '&#x1f9d9;', '&#x1f9da;', '&#x1f9db;', '&#x1f9dc;', '&#x1f9dd;', '&#x1f9de;', '&#x1f9df;', '&#x1f9e0;', '&#x1f9e1;', '&#x1f9e2;', '&#x1f9e3;', '&#x1f9e4;', '&#x1f9e5;', '&#x1f9e6;', '&#x1f9e7;', '&#x1f9e8;', '&#x1f9e9;', '&#x1f9ea;', '&#x1f9eb;', '&#x1f9ec;', '&#x1f9ed;', '&#x1f9ee;', '&#x1f9ef;', '&#x1f9f0;', '&#x1f9f1;', '&#x1f9f2;', '&#x1f9f3;', '&#x1f9f4;', '&#x1f9f5;', '&#x1f9f6;', '&#x1f9f7;', '&#x1f9f8;', '&#x1f9f9;', '&#x1f9fa;', '&#x1f9fb;', '&#x1f9fc;', '&#x1f9fd;', '&#x1f9fe;', '&#x1f9ff;', '&#x1fa70;', '&#x1fa71;', '&#x1fa72;', '&#x1fa73;', '&#x1fa74;', '&#x1fa75;', '&#x1fa76;', '&#x1fa77;', '&#x1fa78;', '&#x1fa79;', '&#x1fa7a;', '&#x1fa7b;', '&#x1fa7c;', '&#x1fa80;', '&#x1fa81;', '&#x1fa82;', '&#x1fa83;', '&#x1fa84;', '&#x1fa85;', '&#x1fa86;', '&#x1fa87;', '&#x1fa88;', '&#x1fa90;', '&#x1fa91;', '&#x1fa92;', '&#x1fa93;', '&#x1fa94;', '&#x1fa95;', '&#x1fa96;', '&#x1fa97;', '&#x1fa98;', '&#x1fa99;', '&#x1fa9a;', '&#x1fa9b;', '&#x1fa9c;', '&#x1fa9d;', '&#x1fa9e;', '&#x1fa9f;', '&#x1faa0;', '&#x1faa1;', '&#x1faa2;', '&#x1faa3;', '&#x1faa4;', '&#x1faa5;', '&#x1faa6;', '&#x1faa7;', '&#x1faa8;', '&#x1faa9;', '&#x1faaa;', '&#x1faab;', '&#x1faac;', '&#x1faad;', '&#x1faae;', '&#x1faaf;', '&#x1fab0;', '&#x1fab1;', '&#x1fab2;', '&#x1fab3;', '&#x1fab4;', '&#x1fab5;', '&#x1fab6;', '&#x1fab7;', '&#x1fab8;', '&#x1fab9;', '&#x1faba;', '&#x1fabb;', '&#x1fabc;', '&#x1fabd;', '&#x1fabf;', '&#x1fac0;', '&#x1fac1;', '&#x1fac2;', '&#x1fac3;', '&#x1fac4;', '&#x1fac5;', '&#x1face;', '&#x1facf;', '&#x1fad0;', '&#x1fad1;', '&#x1fad2;', '&#x1fad3;', '&#x1fad4;', '&#x1fad5;', '&#x1fad6;', '&#x1fad7;', '&#x1fad8;', '&#x1fad9;', '&#x1fada;', '&#x1fadb;', '&#x1fae0;', '&#x1fae1;', '&#x1fae2;', '&#x1fae3;', '&#x1fae4;', '&#x1fae5;', '&#x1fae6;', '&#x1fae7;', '&#x1fae8;', '&#x1faf0;', '&#x1faf1;', '&#x1faf2;', '&#x1faf3;', '&#x1faf4;', '&#x1faf5;', '&#x1faf6;', '&#x1faf7;', '&#x1faf8;', '&#x203c;', '&#x2049;', '&#x2122;', '&#x2139;', '&#x2194;', '&#x2195;', '&#x2196;', '&#x2197;', '&#x2198;', '&#x2199;', '&#x21a9;', '&#x21aa;', '&#x231a;', '&#x231b;', '&#x2328;', '&#x23cf;', '&#x23e9;', '&#x23ea;', '&#x23eb;', '&#x23ec;', '&#x23ed;', '&#x23ee;', '&#x23ef;', '&#x23f0;', '&#x23f1;', '&#x23f2;', '&#x23f3;', '&#x23f8;', '&#x23f9;', '&#x23fa;', '&#x24c2;', '&#x25aa;', '&#x25ab;', '&#x25b6;', '&#x25c0;', '&#x25fb;', '&#x25fc;', '&#x25fd;', '&#x25fe;', '&#x2600;', '&#x2601;', '&#x2602;', '&#x2603;', '&#x2604;', '&#x260e;', '&#x2611;', '&#x2614;', '&#x2615;', '&#x2618;', '&#x261d;', '&#x2620;', '&#x2622;', '&#x2623;', '&#x2626;', '&#x262a;', '&#x262e;', '&#x262f;', '&#x2638;', '&#x2639;', '&#x263a;', '&#x2640;', '&#x2642;', '&#x2648;', '&#x2649;', '&#x264a;', '&#x264b;', '&#x264c;', '&#x264d;', '&#x264e;', '&#x264f;', '&#x2650;', '&#x2651;', '&#x2652;', '&#x2653;', '&#x265f;', '&#x2660;', '&#x2663;', '&#x2665;', '&#x2666;', '&#x2668;', '&#x267b;', '&#x267e;', '&#x267f;', '&#x2692;', '&#x2693;', '&#x2694;', '&#x2695;', '&#x2696;', '&#x2697;', '&#x2699;', '&#x269b;', '&#x269c;', '&#x26a0;', '&#x26a1;', '&#x26a7;', '&#x26aa;', '&#x26ab;', '&#x26b0;', '&#x26b1;', '&#x26bd;', '&#x26be;', '&#x26c4;', '&#x26c5;', '&#x26c8;', '&#x26ce;', '&#x26cf;', '&#x26d1;', '&#x26d3;', '&#x26d4;', '&#x26e9;', '&#x26ea;', '&#x26f0;', '&#x26f1;', '&#x26f2;', '&#x26f3;', '&#x26f4;', '&#x26f5;', '&#x26f7;', '&#x26f8;', '&#x26f9;', '&#x26fa;', '&#x26fd;', '&#x2702;', '&#x2705;', '&#x2708;', '&#x2709;', '&#x270a;', '&#x270b;', '&#x270c;', '&#x270d;', '&#x270f;', '&#x2712;', '&#x2714;', '&#x2716;', '&#x271d;', '&#x2721;', '&#x2728;', '&#x2733;', '&#x2734;', '&#x2744;', '&#x2747;', '&#x274c;', '&#x274e;', '&#x2753;', '&#x2754;', '&#x2755;', '&#x2757;', '&#x2763;', '&#x2764;', '&#x2795;', '&#x2796;', '&#x2797;', '&#x27a1;', '&#x27b0;', '&#x27bf;', '&#x2934;', '&#x2935;', '&#x2b05;', '&#x2b06;', '&#x2b07;', '&#x2b1b;', '&#x2b1c;', '&#x2b50;', '&#x2b55;', '&#x3030;', '&#x303d;', '&#x3297;', '&#x3299;', '&#xe50a;'];
-    $partials = ['&#x1f004;', '&#x1f0cf;', '&#x1f170;', '&#x1f171;', '&#x1f17e;', '&#x1f17f;', '&#x1f18e;', '&#x1f191;', '&#x1f192;', '&#x1f193;', '&#x1f194;', '&#x1f195;', '&#x1f196;', '&#x1f197;', '&#x1f198;', '&#x1f199;', '&#x1f19a;', '&#x1f1e6;', '&#x1f1e8;', '&#x1f1e9;', '&#x1f1ea;', '&#x1f1eb;', '&#x1f1ec;', '&#x1f1ee;', '&#x1f1f1;', '&#x1f1f2;', '&#x1f1f4;', '&#x1f1f6;', '&#x1f1f7;', '&#x1f1f8;', '&#x1f1f9;', '&#x1f1fa;', '&#x1f1fc;', '&#x1f1fd;', '&#x1f1ff;', '&#x1f1e7;', '&#x1f1ed;', '&#x1f1ef;', '&#x1f1f3;', '&#x1f1fb;', '&#x1f1fe;', '&#x1f1f0;', '&#x1f1f5;', '&#x1f201;', '&#x1f202;', '&#x1f21a;', '&#x1f22f;', '&#x1f232;', '&#x1f233;', '&#x1f234;', '&#x1f235;', '&#x1f236;', '&#x1f237;', '&#x1f238;', '&#x1f239;', '&#x1f23a;', '&#x1f250;', '&#x1f251;', '&#x1f300;', '&#x1f301;', '&#x1f302;', '&#x1f303;', '&#x1f304;', '&#x1f305;', '&#x1f306;', '&#x1f307;', '&#x1f308;', '&#x1f309;', '&#x1f30a;', '&#x1f30b;', '&#x1f30c;', '&#x1f30d;', '&#x1f30e;', '&#x1f30f;', '&#x1f310;', '&#x1f311;', '&#x1f312;', '&#x1f313;', '&#x1f314;', '&#x1f315;', '&#x1f316;', '&#x1f317;', '&#x1f318;', '&#x1f319;', '&#x1f31a;', '&#x1f31b;', '&#x1f31c;', '&#x1f31d;', '&#x1f31e;', '&#x1f31f;', '&#x1f320;', '&#x1f321;', '&#x1f324;', '&#x1f325;', '&#x1f326;', '&#x1f327;', '&#x1f328;', '&#x1f329;', '&#x1f32a;', '&#x1f32b;', '&#x1f32c;', '&#x1f32d;', '&#x1f32e;', '&#x1f32f;', '&#x1f330;', '&#x1f331;', '&#x1f332;', '&#x1f333;', '&#x1f334;', '&#x1f335;', '&#x1f336;', '&#x1f337;', '&#x1f338;', '&#x1f339;', '&#x1f33a;', '&#x1f33b;', '&#x1f33c;', '&#x1f33d;', '&#x1f33e;', '&#x1f33f;', '&#x1f340;', '&#x1f341;', '&#x1f342;', '&#x1f343;', '&#x1f344;', '&#x1f345;', '&#x1f346;', '&#x1f347;', '&#x1f348;', '&#x1f349;', '&#x1f34a;', '&#x1f34b;', '&#x1f34c;', '&#x1f34d;', '&#x1f34e;', '&#x1f34f;', '&#x1f350;', '&#x1f351;', '&#x1f352;', '&#x1f353;', '&#x1f354;', '&#x1f355;', '&#x1f356;', '&#x1f357;', '&#x1f358;', '&#x1f359;', '&#x1f35a;', '&#x1f35b;', '&#x1f35c;', '&#x1f35d;', '&#x1f35e;', '&#x1f35f;', '&#x1f360;', '&#x1f361;', '&#x1f362;', '&#x1f363;', '&#x1f364;', '&#x1f365;', '&#x1f366;', '&#x1f367;', '&#x1f368;', '&#x1f369;', '&#x1f36a;', '&#x1f36b;', '&#x1f36c;', '&#x1f36d;', '&#x1f36e;', '&#x1f36f;', '&#x1f370;', '&#x1f371;', '&#x1f372;', '&#x1f373;', '&#x1f374;', '&#x1f375;', '&#x1f376;', '&#x1f377;', '&#x1f378;', '&#x1f379;', '&#x1f37a;', '&#x1f37b;', '&#x1f37c;', '&#x1f37d;', '&#x1f37e;', '&#x1f37f;', '&#x1f380;', '&#x1f381;', '&#x1f382;', '&#x1f383;', '&#x1f384;', '&#x1f385;', '&#x1f3fb;', '&#x1f3fc;', '&#x1f3fd;', '&#x1f3fe;', '&#x1f3ff;', '&#x1f386;', '&#x1f387;', '&#x1f388;', '&#x1f389;', '&#x1f38a;', '&#x1f38b;', '&#x1f38c;', '&#x1f38d;', '&#x1f38e;', '&#x1f38f;', '&#x1f390;', '&#x1f391;', '&#x1f392;', '&#x1f393;', '&#x1f396;', '&#x1f397;', '&#x1f399;', '&#x1f39a;', '&#x1f39b;', '&#x1f39e;', '&#x1f39f;', '&#x1f3a0;', '&#x1f3a1;', '&#x1f3a2;', '&#x1f3a3;', '&#x1f3a4;', '&#x1f3a5;', '&#x1f3a6;', '&#x1f3a7;', '&#x1f3a8;', '&#x1f3a9;', '&#x1f3aa;', '&#x1f3ab;', '&#x1f3ac;', '&#x1f3ad;', '&#x1f3ae;', '&#x1f3af;', '&#x1f3b0;', '&#x1f3b1;', '&#x1f3b2;', '&#x1f3b3;', '&#x1f3b4;', '&#x1f3b5;', '&#x1f3b6;', '&#x1f3b7;', '&#x1f3b8;', '&#x1f3b9;', '&#x1f3ba;', '&#x1f3bb;', '&#x1f3bc;', '&#x1f3bd;', '&#x1f3be;', '&#x1f3bf;', '&#x1f3c0;', '&#x1f3c1;', '&#x1f3c2;', '&#x1f3c3;', '&#x200d;', '&#x2640;', '&#xfe0f;', '&#x2642;', '&#x1f3c4;', '&#x1f3c5;', '&#x1f3c6;', '&#x1f3c7;', '&#x1f3c8;', '&#x1f3c9;', '&#x1f3ca;', '&#x1f3cb;', '&#x1f3cc;', '&#x1f3cd;', '&#x1f3ce;', '&#x1f3cf;', '&#x1f3d0;', '&#x1f3d1;', '&#x1f3d2;', '&#x1f3d3;', '&#x1f3d4;', '&#x1f3d5;', '&#x1f3d6;', '&#x1f3d7;', '&#x1f3d8;', '&#x1f3d9;', '&#x1f3da;', '&#x1f3db;', '&#x1f3dc;', '&#x1f3dd;', '&#x1f3de;', '&#x1f3df;', '&#x1f3e0;', '&#x1f3e1;', '&#x1f3e2;', '&#x1f3e3;', '&#x1f3e4;', '&#x1f3e5;', '&#x1f3e6;', '&#x1f3e7;', '&#x1f3e8;', '&#x1f3e9;', '&#x1f3ea;', '&#x1f3eb;', '&#x1f3ec;', '&#x1f3ed;', '&#x1f3ee;', '&#x1f3ef;', '&#x1f3f0;', '&#x1f3f3;', '&#x26a7;', '&#x1f3f4;', '&#x2620;', '&#xe0067;', '&#xe0062;', '&#xe0065;', '&#xe006e;', '&#xe007f;', '&#xe0073;', '&#xe0063;', '&#xe0074;', '&#xe0077;', '&#xe006c;', '&#x1f3f5;', '&#x1f3f7;', '&#x1f3f8;', '&#x1f3f9;', '&#x1f3fa;', '&#x1f400;', '&#x1f401;', '&#x1f402;', '&#x1f403;', '&#x1f404;', '&#x1f405;', '&#x1f406;', '&#x1f407;', '&#x1f408;', '&#x2b1b;', '&#x1f409;', '&#x1f40a;', '&#x1f40b;', '&#x1f40c;', '&#x1f40d;', '&#x1f40e;', '&#x1f40f;', '&#x1f410;', '&#x1f411;', '&#x1f412;', '&#x1f413;', '&#x1f414;', '&#x1f415;', '&#x1f9ba;', '&#x1f416;', '&#x1f417;', '&#x1f418;', '&#x1f419;', '&#x1f41a;', '&#x1f41b;', '&#x1f41c;', '&#x1f41d;', '&#x1f41e;', '&#x1f41f;', '&#x1f420;', '&#x1f421;', '&#x1f422;', '&#x1f423;', '&#x1f424;', '&#x1f425;', '&#x1f426;', '&#x1f427;', '&#x1f428;', '&#x1f429;', '&#x1f42a;', '&#x1f42b;', '&#x1f42c;', '&#x1f42d;', '&#x1f42e;', '&#x1f42f;', '&#x1f430;', '&#x1f431;', '&#x1f432;', '&#x1f433;', '&#x1f434;', '&#x1f435;', '&#x1f436;', '&#x1f437;', '&#x1f438;', '&#x1f439;', '&#x1f43a;', '&#x1f43b;', '&#x2744;', '&#x1f43c;', '&#x1f43d;', '&#x1f43e;', '&#x1f43f;', '&#x1f440;', '&#x1f441;', '&#x1f5e8;', '&#x1f442;', '&#x1f443;', '&#x1f444;', '&#x1f445;', '&#x1f446;', '&#x1f447;', '&#x1f448;', '&#x1f449;', '&#x1f44a;', '&#x1f44b;', '&#x1f44c;', '&#x1f44d;', '&#x1f44e;', '&#x1f44f;', '&#x1f450;', '&#x1f451;', '&#x1f452;', '&#x1f453;', '&#x1f454;', '&#x1f455;', '&#x1f456;', '&#x1f457;', '&#x1f458;', '&#x1f459;', '&#x1f45a;', '&#x1f45b;', '&#x1f45c;', '&#x1f45d;', '&#x1f45e;', '&#x1f45f;', '&#x1f460;', '&#x1f461;', '&#x1f462;', '&#x1f463;', '&#x1f464;', '&#x1f465;', '&#x1f466;', '&#x1f467;', '&#x1f468;', '&#x1f4bb;', '&#x1f4bc;', '&#x1f527;', '&#x1f52c;', '&#x1f680;', '&#x1f692;', '&#x1f91d;', '&#x1f9af;', '&#x1f9b0;', '&#x1f9b1;', '&#x1f9b2;', '&#x1f9b3;', '&#x1f9bc;', '&#x1f9bd;', '&#x2695;', '&#x2696;', '&#x2708;', '&#x2764;', '&#x1f48b;', '&#x1f469;', '&#x1f46a;', '&#x1f46b;', '&#x1f46c;', '&#x1f46d;', '&#x1f46e;', '&#x1f46f;', '&#x1f470;', '&#x1f471;', '&#x1f472;', '&#x1f473;', '&#x1f474;', '&#x1f475;', '&#x1f476;', '&#x1f477;', '&#x1f478;', '&#x1f479;', '&#x1f47a;', '&#x1f47b;', '&#x1f47c;', '&#x1f47d;', '&#x1f47e;', '&#x1f47f;', '&#x1f480;', '&#x1f481;', '&#x1f482;', '&#x1f483;', '&#x1f484;', '&#x1f485;', '&#x1f486;', '&#x1f487;', '&#x1f488;', '&#x1f489;', '&#x1f48a;', '&#x1f48c;', '&#x1f48d;', '&#x1f48e;', '&#x1f48f;', '&#x1f490;', '&#x1f491;', '&#x1f492;', '&#x1f493;', '&#x1f494;', '&#x1f495;', '&#x1f496;', '&#x1f497;', '&#x1f498;', '&#x1f499;', '&#x1f49a;', '&#x1f49b;', '&#x1f49c;', '&#x1f49d;', '&#x1f49e;', '&#x1f49f;', '&#x1f4a0;', '&#x1f4a1;', '&#x1f4a2;', '&#x1f4a3;', '&#x1f4a4;', '&#x1f4a5;', '&#x1f4a6;', '&#x1f4a7;', '&#x1f4a8;', '&#x1f4a9;', '&#x1f4aa;', '&#x1f4ab;', '&#x1f4ac;', '&#x1f4ad;', '&#x1f4ae;', '&#x1f4af;', '&#x1f4b0;', '&#x1f4b1;', '&#x1f4b2;', '&#x1f4b3;', '&#x1f4b4;', '&#x1f4b5;', '&#x1f4b6;', '&#x1f4b7;', '&#x1f4b8;', '&#x1f4b9;', '&#x1f4ba;', '&#x1f4bd;', '&#x1f4be;', '&#x1f4bf;', '&#x1f4c0;', '&#x1f4c1;', '&#x1f4c2;', '&#x1f4c3;', '&#x1f4c4;', '&#x1f4c5;', '&#x1f4c6;', '&#x1f4c7;', '&#x1f4c8;', '&#x1f4c9;', '&#x1f4ca;', '&#x1f4cb;', '&#x1f4cc;', '&#x1f4cd;', '&#x1f4ce;', '&#x1f4cf;', '&#x1f4d0;', '&#x1f4d1;', '&#x1f4d2;', '&#x1f4d3;', '&#x1f4d4;', '&#x1f4d5;', '&#x1f4d6;', '&#x1f4d7;', '&#x1f4d8;', '&#x1f4d9;', '&#x1f4da;', '&#x1f4db;', '&#x1f4dc;', '&#x1f4dd;', '&#x1f4de;', '&#x1f4df;', '&#x1f4e0;', '&#x1f4e1;', '&#x1f4e2;', '&#x1f4e3;', '&#x1f4e4;', '&#x1f4e5;', '&#x1f4e6;', '&#x1f4e7;', '&#x1f4e8;', '&#x1f4e9;', '&#x1f4ea;', '&#x1f4eb;', '&#x1f4ec;', '&#x1f4ed;', '&#x1f4ee;', '&#x1f4ef;', '&#x1f4f0;', '&#x1f4f1;', '&#x1f4f2;', '&#x1f4f3;', '&#x1f4f4;', '&#x1f4f5;', '&#x1f4f6;', '&#x1f4f7;', '&#x1f4f8;', '&#x1f4f9;', '&#x1f4fa;', '&#x1f4fb;', '&#x1f4fc;', '&#x1f4fd;', '&#x1f4ff;', '&#x1f500;', '&#x1f501;', '&#x1f502;', '&#x1f503;', '&#x1f504;', '&#x1f505;', '&#x1f506;', '&#x1f507;', '&#x1f508;', '&#x1f509;', '&#x1f50a;', '&#x1f50b;', '&#x1f50c;', '&#x1f50d;', '&#x1f50e;', '&#x1f50f;', '&#x1f510;', '&#x1f511;', '&#x1f512;', '&#x1f513;', '&#x1f514;', '&#x1f515;', '&#x1f516;', '&#x1f517;', '&#x1f518;', '&#x1f519;', '&#x1f51a;', '&#x1f51b;', '&#x1f51c;', '&#x1f51d;', '&#x1f51e;', '&#x1f51f;', '&#x1f520;', '&#x1f521;', '&#x1f522;', '&#x1f523;', '&#x1f524;', '&#x1f525;', '&#x1f526;', '&#x1f528;', '&#x1f529;', '&#x1f52a;', '&#x1f52b;', '&#x1f52d;', '&#x1f52e;', '&#x1f52f;', '&#x1f530;', '&#x1f531;', '&#x1f532;', '&#x1f533;', '&#x1f534;', '&#x1f535;', '&#x1f536;', '&#x1f537;', '&#x1f538;', '&#x1f539;', '&#x1f53a;', '&#x1f53b;', '&#x1f53c;', '&#x1f53d;', '&#x1f549;', '&#x1f54a;', '&#x1f54b;', '&#x1f54c;', '&#x1f54d;', '&#x1f54e;', '&#x1f550;', '&#x1f551;', '&#x1f552;', '&#x1f553;', '&#x1f554;', '&#x1f555;', '&#x1f556;', '&#x1f557;', '&#x1f558;', '&#x1f559;', '&#x1f55a;', '&#x1f55b;', '&#x1f55c;', '&#x1f55d;', '&#x1f55e;', '&#x1f55f;', '&#x1f560;', '&#x1f561;', '&#x1f562;', '&#x1f563;', '&#x1f564;', '&#x1f565;', '&#x1f566;', '&#x1f567;', '&#x1f56f;', '&#x1f570;', '&#x1f573;', '&#x1f574;', '&#x1f575;', '&#x1f576;', '&#x1f577;', '&#x1f578;', '&#x1f579;', '&#x1f57a;', '&#x1f587;', '&#x1f58a;', '&#x1f58b;', '&#x1f58c;', '&#x1f58d;', '&#x1f590;', '&#x1f595;', '&#x1f596;', '&#x1f5a4;', '&#x1f5a5;', '&#x1f5a8;', '&#x1f5b1;', '&#x1f5b2;', '&#x1f5bc;', '&#x1f5c2;', '&#x1f5c3;', '&#x1f5c4;', '&#x1f5d1;', '&#x1f5d2;', '&#x1f5d3;', '&#x1f5dc;', '&#x1f5dd;', '&#x1f5de;', '&#x1f5e1;', '&#x1f5e3;', '&#x1f5ef;', '&#x1f5f3;', '&#x1f5fa;', '&#x1f5fb;', '&#x1f5fc;', '&#x1f5fd;', '&#x1f5fe;', '&#x1f5ff;', '&#x1f600;', '&#x1f601;', '&#x1f602;', '&#x1f603;', '&#x1f604;', '&#x1f605;', '&#x1f606;', '&#x1f607;', '&#x1f608;', '&#x1f609;', '&#x1f60a;', '&#x1f60b;', '&#x1f60c;', '&#x1f60d;', '&#x1f60e;', '&#x1f60f;', '&#x1f610;', '&#x1f611;', '&#x1f612;', '&#x1f613;', '&#x1f614;', '&#x1f615;', '&#x1f616;', '&#x1f617;', '&#x1f618;', '&#x1f619;', '&#x1f61a;', '&#x1f61b;', '&#x1f61c;', '&#x1f61d;', '&#x1f61e;', '&#x1f61f;', '&#x1f620;', '&#x1f621;', '&#x1f622;', '&#x1f623;', '&#x1f624;', '&#x1f625;', '&#x1f626;', '&#x1f627;', '&#x1f628;', '&#x1f629;', '&#x1f62a;', '&#x1f62b;', '&#x1f62c;', '&#x1f62d;', '&#x1f62e;', '&#x1f62f;', '&#x1f630;', '&#x1f631;', '&#x1f632;', '&#x1f633;', '&#x1f634;', '&#x1f635;', '&#x1f636;', '&#x1f637;', '&#x1f638;', '&#x1f639;', '&#x1f63a;', '&#x1f63b;', '&#x1f63c;', '&#x1f63d;', '&#x1f63e;', '&#x1f63f;', '&#x1f640;', '&#x1f641;', '&#x1f642;', '&#x1f643;', '&#x1f644;', '&#x1f645;', '&#x1f646;', '&#x1f647;', '&#x1f648;', '&#x1f649;', '&#x1f64a;', '&#x1f64b;', '&#x1f64c;', '&#x1f64d;', '&#x1f64e;', '&#x1f64f;', '&#x1f681;', '&#x1f682;', '&#x1f683;', '&#x1f684;', '&#x1f685;', '&#x1f686;', '&#x1f687;', '&#x1f688;', '&#x1f689;', '&#x1f68a;', '&#x1f68b;', '&#x1f68c;', '&#x1f68d;', '&#x1f68e;', '&#x1f68f;', '&#x1f690;', '&#x1f691;', '&#x1f693;', '&#x1f694;', '&#x1f695;', '&#x1f696;', '&#x1f697;', '&#x1f698;', '&#x1f699;', '&#x1f69a;', '&#x1f69b;', '&#x1f69c;', '&#x1f69d;', '&#x1f69e;', '&#x1f69f;', '&#x1f6a0;', '&#x1f6a1;', '&#x1f6a2;', '&#x1f6a3;', '&#x1f6a4;', '&#x1f6a5;', '&#x1f6a6;', '&#x1f6a7;', '&#x1f6a8;', '&#x1f6a9;', '&#x1f6aa;', '&#x1f6ab;', '&#x1f6ac;', '&#x1f6ad;', '&#x1f6ae;', '&#x1f6af;', '&#x1f6b0;', '&#x1f6b1;', '&#x1f6b2;', '&#x1f6b3;', '&#x1f6b4;', '&#x1f6b5;', '&#x1f6b6;', '&#x1f6b7;', '&#x1f6b8;', '&#x1f6b9;', '&#x1f6ba;', '&#x1f6bb;', '&#x1f6bc;', '&#x1f6bd;', '&#x1f6be;', '&#x1f6bf;', '&#x1f6c0;', '&#x1f6c1;', '&#x1f6c2;', '&#x1f6c3;', '&#x1f6c4;', '&#x1f6c5;', '&#x1f6cb;', '&#x1f6cc;', '&#x1f6cd;', '&#x1f6ce;', '&#x1f6cf;', '&#x1f6d0;', '&#x1f6d1;', '&#x1f6d2;', '&#x1f6d5;', '&#x1f6d6;', '&#x1f6d7;', '&#x1f6dc;', '&#x1f6dd;', '&#x1f6de;', '&#x1f6df;', '&#x1f6e0;', '&#x1f6e1;', '&#x1f6e2;', '&#x1f6e3;', '&#x1f6e4;', '&#x1f6e5;', '&#x1f6e9;', '&#x1f6eb;', '&#x1f6ec;', '&#x1f6f0;', '&#x1f6f3;', '&#x1f6f4;', '&#x1f6f5;', '&#x1f6f6;', '&#x1f6f7;', '&#x1f6f8;', '&#x1f6f9;', '&#x1f6fa;', '&#x1f6fb;', '&#x1f6fc;', '&#x1f7e0;', '&#x1f7e1;', '&#x1f7e2;', '&#x1f7e3;', '&#x1f7e4;', '&#x1f7e5;', '&#x1f7e6;', '&#x1f7e7;', '&#x1f7e8;', '&#x1f7e9;', '&#x1f7ea;', '&#x1f7eb;', '&#x1f7f0;', '&#x1f90c;', '&#x1f90d;', '&#x1f90e;', '&#x1f90f;', '&#x1f910;', '&#x1f911;', '&#x1f912;', '&#x1f913;', '&#x1f914;', '&#x1f915;', '&#x1f916;', '&#x1f917;', '&#x1f918;', '&#x1f919;', '&#x1f91a;', '&#x1f91b;', '&#x1f91c;', '&#x1f91e;', '&#x1f91f;', '&#x1f920;', '&#x1f921;', '&#x1f922;', '&#x1f923;', '&#x1f924;', '&#x1f925;', '&#x1f926;', '&#x1f927;', '&#x1f928;', '&#x1f929;', '&#x1f92a;', '&#x1f92b;', '&#x1f92c;', '&#x1f92d;', '&#x1f92e;', '&#x1f92f;', '&#x1f930;', '&#x1f931;', '&#x1f932;', '&#x1f933;', '&#x1f934;', '&#x1f935;', '&#x1f936;', '&#x1f937;', '&#x1f938;', '&#x1f939;', '&#x1f93a;', '&#x1f93c;', '&#x1f93d;', '&#x1f93e;', '&#x1f93f;', '&#x1f940;', '&#x1f941;', '&#x1f942;', '&#x1f943;', '&#x1f944;', '&#x1f945;', '&#x1f947;', '&#x1f948;', '&#x1f949;', '&#x1f94a;', '&#x1f94b;', '&#x1f94c;', '&#x1f94d;', '&#x1f94e;', '&#x1f94f;', '&#x1f950;', '&#x1f951;', '&#x1f952;', '&#x1f953;', '&#x1f954;', '&#x1f955;', '&#x1f956;', '&#x1f957;', '&#x1f958;', '&#x1f959;', '&#x1f95a;', '&#x1f95b;', '&#x1f95c;', '&#x1f95d;', '&#x1f95e;', '&#x1f95f;', '&#x1f960;', '&#x1f961;', '&#x1f962;', '&#x1f963;', '&#x1f964;', '&#x1f965;', '&#x1f966;', '&#x1f967;', '&#x1f968;', '&#x1f969;', '&#x1f96a;', '&#x1f96b;', '&#x1f96c;', '&#x1f96d;', '&#x1f96e;', '&#x1f96f;', '&#x1f970;', '&#x1f971;', '&#x1f972;', '&#x1f973;', '&#x1f974;', '&#x1f975;', '&#x1f976;', '&#x1f977;', '&#x1f978;', '&#x1f979;', '&#x1f97a;', '&#x1f97b;', '&#x1f97c;', '&#x1f97d;', '&#x1f97e;', '&#x1f97f;', '&#x1f980;', '&#x1f981;', '&#x1f982;', '&#x1f983;', '&#x1f984;', '&#x1f985;', '&#x1f986;', '&#x1f987;', '&#x1f988;', '&#x1f989;', '&#x1f98a;', '&#x1f98b;', '&#x1f98c;', '&#x1f98d;', '&#x1f98e;', '&#x1f98f;', '&#x1f990;', '&#x1f991;', '&#x1f992;', '&#x1f993;', '&#x1f994;', '&#x1f995;', '&#x1f996;', '&#x1f997;', '&#x1f998;', '&#x1f999;', '&#x1f99a;', '&#x1f99b;', '&#x1f99c;', '&#x1f99d;', '&#x1f99e;', '&#x1f99f;', '&#x1f9a0;', '&#x1f9a1;', '&#x1f9a2;', '&#x1f9a3;', '&#x1f9a4;', '&#x1f9a5;', '&#x1f9a6;', '&#x1f9a7;', '&#x1f9a8;', '&#x1f9a9;', '&#x1f9aa;', '&#x1f9ab;', '&#x1f9ac;', '&#x1f9ad;', '&#x1f9ae;', '&#x1f9b4;', '&#x1f9b5;', '&#x1f9b6;', '&#x1f9b7;', '&#x1f9b8;', '&#x1f9b9;', '&#x1f9bb;', '&#x1f9be;', '&#x1f9bf;', '&#x1f9c0;', '&#x1f9c1;', '&#x1f9c2;', '&#x1f9c3;', '&#x1f9c4;', '&#x1f9c5;', '&#x1f9c6;', '&#x1f9c7;', '&#x1f9c8;', '&#x1f9c9;', '&#x1f9ca;', '&#x1f9cb;', '&#x1f9cc;', '&#x1f9cd;', '&#x1f9ce;', '&#x1f9cf;', '&#x1f9d0;', '&#x1f9d1;', '&#x1f9d2;', '&#x1f9d3;', '&#x1f9d4;', '&#x1f9d5;', '&#x1f9d6;', '&#x1f9d7;', '&#x1f9d8;', '&#x1f9d9;', '&#x1f9da;', '&#x1f9db;', '&#x1f9dc;', '&#x1f9dd;', '&#x1f9de;', '&#x1f9df;', '&#x1f9e0;', '&#x1f9e1;', '&#x1f9e2;', '&#x1f9e3;', '&#x1f9e4;', '&#x1f9e5;', '&#x1f9e6;', '&#x1f9e7;', '&#x1f9e8;', '&#x1f9e9;', '&#x1f9ea;', '&#x1f9eb;', '&#x1f9ec;', '&#x1f9ed;', '&#x1f9ee;', '&#x1f9ef;', '&#x1f9f0;', '&#x1f9f1;', '&#x1f9f2;', '&#x1f9f3;', '&#x1f9f4;', '&#x1f9f5;', '&#x1f9f6;', '&#x1f9f7;', '&#x1f9f8;', '&#x1f9f9;', '&#x1f9fa;', '&#x1f9fb;', '&#x1f9fc;', '&#x1f9fd;', '&#x1f9fe;', '&#x1f9ff;', '&#x1fa70;', '&#x1fa71;', '&#x1fa72;', '&#x1fa73;', '&#x1fa74;', '&#x1fa75;', '&#x1fa76;', '&#x1fa77;', '&#x1fa78;', '&#x1fa79;', '&#x1fa7a;', '&#x1fa7b;', '&#x1fa7c;', '&#x1fa80;', '&#x1fa81;', '&#x1fa82;', '&#x1fa83;', '&#x1fa84;', '&#x1fa85;', '&#x1fa86;', '&#x1fa87;', '&#x1fa88;', '&#x1fa90;', '&#x1fa91;', '&#x1fa92;', '&#x1fa93;', '&#x1fa94;', '&#x1fa95;', '&#x1fa96;', '&#x1fa97;', '&#x1fa98;', '&#x1fa99;', '&#x1fa9a;', '&#x1fa9b;', '&#x1fa9c;', '&#x1fa9d;', '&#x1fa9e;', '&#x1fa9f;', '&#x1faa0;', '&#x1faa1;', '&#x1faa2;', '&#x1faa3;', '&#x1faa4;', '&#x1faa5;', '&#x1faa6;', '&#x1faa7;', '&#x1faa8;', '&#x1faa9;', '&#x1faaa;', '&#x1faab;', '&#x1faac;', '&#x1faad;', '&#x1faae;', '&#x1faaf;', '&#x1fab0;', '&#x1fab1;', '&#x1fab2;', '&#x1fab3;', '&#x1fab4;', '&#x1fab5;', '&#x1fab6;', '&#x1fab7;', '&#x1fab8;', '&#x1fab9;', '&#x1faba;', '&#x1fabb;', '&#x1fabc;', '&#x1fabd;', '&#x1fabf;', '&#x1fac0;', '&#x1fac1;', '&#x1fac2;', '&#x1fac3;', '&#x1fac4;', '&#x1fac5;', '&#x1face;', '&#x1facf;', '&#x1fad0;', '&#x1fad1;', '&#x1fad2;', '&#x1fad3;', '&#x1fad4;', '&#x1fad5;', '&#x1fad6;', '&#x1fad7;', '&#x1fad8;', '&#x1fad9;', '&#x1fada;', '&#x1fadb;', '&#x1fae0;', '&#x1fae1;', '&#x1fae2;', '&#x1fae3;', '&#x1fae4;', '&#x1fae5;', '&#x1fae6;', '&#x1fae7;', '&#x1fae8;', '&#x1faf0;', '&#x1faf1;', '&#x1faf2;', '&#x1faf3;', '&#x1faf4;', '&#x1faf5;', '&#x1faf6;', '&#x1faf7;', '&#x1faf8;', '&#x203c;', '&#x2049;', '&#x2122;', '&#x2139;', '&#x2194;', '&#x2195;', '&#x2196;', '&#x2197;', '&#x2198;', '&#x2199;', '&#x21a9;', '&#x21aa;', '&#x20e3;', '&#x231a;', '&#x231b;', '&#x2328;', '&#x23cf;', '&#x23e9;', '&#x23ea;', '&#x23eb;', '&#x23ec;', '&#x23ed;', '&#x23ee;', '&#x23ef;', '&#x23f0;', '&#x23f1;', '&#x23f2;', '&#x23f3;', '&#x23f8;', '&#x23f9;', '&#x23fa;', '&#x24c2;', '&#x25aa;', '&#x25ab;', '&#x25b6;', '&#x25c0;', '&#x25fb;', '&#x25fc;', '&#x25fd;', '&#x25fe;', '&#x2600;', '&#x2601;', '&#x2602;', '&#x2603;', '&#x2604;', '&#x260e;', '&#x2611;', '&#x2614;', '&#x2615;', '&#x2618;', '&#x261d;', '&#x2622;', '&#x2623;', '&#x2626;', '&#x262a;', '&#x262e;', '&#x262f;', '&#x2638;', '&#x2639;', '&#x263a;', '&#x2648;', '&#x2649;', '&#x264a;', '&#x264b;', '&#x264c;', '&#x264d;', '&#x264e;', '&#x264f;', '&#x2650;', '&#x2651;', '&#x2652;', '&#x2653;', '&#x265f;', '&#x2660;', '&#x2663;', '&#x2665;', '&#x2666;', '&#x2668;', '&#x267b;', '&#x267e;', '&#x267f;', '&#x2692;', '&#x2693;', '&#x2694;', '&#x2697;', '&#x2699;', '&#x269b;', '&#x269c;', '&#x26a0;', '&#x26a1;', '&#x26aa;', '&#x26ab;', '&#x26b0;', '&#x26b1;', '&#x26bd;', '&#x26be;', '&#x26c4;', '&#x26c5;', '&#x26c8;', '&#x26ce;', '&#x26cf;', '&#x26d1;', '&#x26d3;', '&#x26d4;', '&#x26e9;', '&#x26ea;', '&#x26f0;', '&#x26f1;', '&#x26f2;', '&#x26f3;', '&#x26f4;', '&#x26f5;', '&#x26f7;', '&#x26f8;', '&#x26f9;', '&#x26fa;', '&#x26fd;', '&#x2702;', '&#x2705;', '&#x2709;', '&#x270a;', '&#x270b;', '&#x270c;', '&#x270d;', '&#x270f;', '&#x2712;', '&#x2714;', '&#x2716;', '&#x271d;', '&#x2721;', '&#x2728;', '&#x2733;', '&#x2734;', '&#x2747;', '&#x274c;', '&#x274e;', '&#x2753;', '&#x2754;', '&#x2755;', '&#x2757;', '&#x2763;', '&#x2795;', '&#x2796;', '&#x2797;', '&#x27a1;', '&#x27b0;', '&#x27bf;', '&#x2934;', '&#x2935;', '&#x2b05;', '&#x2b06;', '&#x2b07;', '&#x2b1c;', '&#x2b50;', '&#x2b55;', '&#x3030;', '&#x303d;', '&#x3297;', '&#x3299;', '&#xe50a;'];
+    $entities = [
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f468;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;',
+        '&#x1f469;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f468;',
+        '&#x1f469;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f48b;&#x200d;&#x1f469;',
+        '&#x1f3f4;&#xe0067;&#xe0062;&#xe0065;&#xe006e;&#xe0067;&#xe007f;',
+        '&#x1f3f4;&#xe0067;&#xe0062;&#xe0073;&#xe0063;&#xe0074;&#xe007f;',
+        '&#x1f3f4;&#xe0067;&#xe0062;&#xe0077;&#xe006c;&#xe0073;&#xe007f;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3ff;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fb;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fc;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fd;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f468;&#x1f3fe;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f469;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;&#x1f3ff;',
+        '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f466;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f467;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f467;&#x200d;&#x1f467;',
+        '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f466;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f467;',
+        '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f466;&#x200d;&#x1f466;',
+        '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f466;',
+        '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f467;',
+        '&#x1f468;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;',
+        '&#x1f469;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f468;',
+        '&#x1f469;&#x200d;&#x2764;&#xfe0f;&#x200d;&#x1f469;',
+        '&#x1faf1;&#x1f3fb;&#x200d;&#x1faf2;&#x1f3fc;',
+        '&#x1faf1;&#x1f3fb;&#x200d;&#x1faf2;&#x1f3fd;',
+        '&#x1faf1;&#x1f3fb;&#x200d;&#x1faf2;&#x1f3fe;',
+        '&#x1faf1;&#x1f3fb;&#x200d;&#x1faf2;&#x1f3ff;',
+        '&#x1faf1;&#x1f3fc;&#x200d;&#x1faf2;&#x1f3fb;',
+        '&#x1faf1;&#x1f3fc;&#x200d;&#x1faf2;&#x1f3fd;',
+        '&#x1faf1;&#x1f3fc;&#x200d;&#x1faf2;&#x1f3fe;',
+        '&#x1faf1;&#x1f3fc;&#x200d;&#x1faf2;&#x1f3ff;',
+        '&#x1faf1;&#x1f3fd;&#x200d;&#x1faf2;&#x1f3fb;',
+        '&#x1faf1;&#x1f3fd;&#x200d;&#x1faf2;&#x1f3fc;',
+        '&#x1faf1;&#x1f3fd;&#x200d;&#x1faf2;&#x1f3fe;',
+        '&#x1faf1;&#x1f3fd;&#x200d;&#x1faf2;&#x1f3ff;',
+        '&#x1faf1;&#x1f3fe;&#x200d;&#x1faf2;&#x1f3fb;',
+        '&#x1faf1;&#x1f3fe;&#x200d;&#x1faf2;&#x1f3fc;',
+        '&#x1faf1;&#x1f3fe;&#x200d;&#x1faf2;&#x1f3fd;',
+        '&#x1faf1;&#x1f3fe;&#x200d;&#x1faf2;&#x1f3ff;',
+        '&#x1faf1;&#x1f3ff;&#x200d;&#x1faf2;&#x1f3fb;',
+        '&#x1faf1;&#x1f3ff;&#x200d;&#x1faf2;&#x1f3fc;',
+        '&#x1faf1;&#x1f3ff;&#x200d;&#x1faf2;&#x1f3fd;',
+        '&#x1faf1;&#x1f3ff;&#x200d;&#x1faf2;&#x1f3fe;',
+        '&#x1f468;&#x200d;&#x1f466;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f467;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f467;&#x200d;&#x1f467;',
+        '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f468;&#x200d;&#x1f467;',
+        '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f469;&#x200d;&#x1f467;',
+        '&#x1f469;&#x200d;&#x1f466;&#x200d;&#x1f466;',
+        '&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f466;',
+        '&#x1f469;&#x200d;&#x1f467;&#x200d;&#x1f467;',
+        '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f466;',
+        '&#x1f469;&#x200d;&#x1f469;&#x200d;&#x1f467;',
+        '&#x1f9d1;&#x200d;&#x1f91d;&#x200d;&#x1f9d1;',
+        '&#x1f3c3;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c3;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c3;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c3;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c3;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c3;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c3;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c3;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c3;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c3;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c4;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c4;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c4;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c4;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c4;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c4;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c4;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c4;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c4;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c4;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3ca;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3ca;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3ca;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3ca;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3ca;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3ca;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3ca;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3ca;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3ca;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3ca;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cb;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cb;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cb;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cb;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cb;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cb;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cb;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cb;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cb;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cb;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cc;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cc;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cc;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cc;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cc;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cc;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cc;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cc;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cc;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cc;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f46e;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f46e;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f46e;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f46e;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f46e;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f46e;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f46e;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f46e;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f46e;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f46e;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f470;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f470;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f470;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f470;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f470;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f470;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f470;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f470;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f470;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f470;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f471;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f471;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f471;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f471;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f471;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f471;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f471;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f471;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f471;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f471;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f473;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f473;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f473;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f473;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f473;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f473;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f473;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f473;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f473;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f473;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f477;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f477;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f477;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f477;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f477;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f477;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f477;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f477;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f477;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f477;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f481;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f481;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f481;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f481;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f481;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f481;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f481;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f481;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f481;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f481;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f482;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f482;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f482;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f482;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f482;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f482;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f482;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f482;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f482;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f482;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f486;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f486;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f486;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f486;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f486;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f486;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f486;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f486;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f486;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f486;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f487;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f487;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f487;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f487;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f487;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f487;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f487;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f487;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f487;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f487;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f574;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f574;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f574;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f574;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f574;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f574;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f574;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f574;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f574;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f574;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f575;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f575;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f575;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f575;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f575;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f575;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f575;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f575;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f575;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f575;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f645;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f645;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f645;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f645;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f645;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f645;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f645;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f645;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f645;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f645;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f646;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f646;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f646;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f646;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f646;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f646;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f646;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f646;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f646;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f646;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f647;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f647;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f647;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f647;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f647;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f647;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f647;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f647;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f647;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f647;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64b;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64b;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64b;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64b;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64b;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64b;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64b;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64b;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64b;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64b;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64d;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64d;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64d;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64d;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64d;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64d;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64d;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64d;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64d;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64d;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64e;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64e;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64e;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64e;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64e;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64e;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64e;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64e;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64e;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64e;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6a3;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6a3;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6a3;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6a3;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6a3;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6a3;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6a3;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6a3;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6a3;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6a3;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b4;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b4;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b4;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b4;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b4;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b4;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b4;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b4;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b4;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b4;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b5;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b5;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b5;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b5;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b5;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b5;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b5;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b5;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b5;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b5;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b6;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b6;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b6;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b6;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b6;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b6;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b6;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b6;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b6;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b6;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f926;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f926;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f926;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f926;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f926;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f926;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f926;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f926;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f926;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f926;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f935;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f935;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f935;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f935;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f935;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f935;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f935;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f935;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f935;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f935;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f937;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f937;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f937;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f937;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f937;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f937;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f937;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f937;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f937;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f937;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f938;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f938;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f938;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f938;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f938;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f938;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f938;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f938;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f938;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f938;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f939;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f939;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f939;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f939;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f939;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f939;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f939;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f939;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f939;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f939;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93d;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93d;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93d;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93d;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93d;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93d;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93d;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93d;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93d;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93d;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93e;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93e;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93e;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93e;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93e;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93e;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93e;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93e;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93e;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93e;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b8;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b8;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b8;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b8;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b8;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b8;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b8;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b8;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b8;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b8;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b9;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b9;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b9;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b9;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b9;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b9;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b9;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b9;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b9;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b9;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cd;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cd;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cd;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cd;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cd;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cd;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cd;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cd;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cd;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cd;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9ce;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9ce;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9ce;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9ce;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9ce;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9ce;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9ce;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9ce;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9ce;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9ce;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cf;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cf;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cf;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cf;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cf;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cf;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cf;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cf;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cf;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cf;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f9d4;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d4;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d4;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d4;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d4;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d4;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d4;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d4;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d4;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d4;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d6;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d6;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d6;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d6;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d6;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d6;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d6;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d6;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d6;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d6;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d7;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d7;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d7;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d7;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d7;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d7;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d7;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d7;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d7;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d7;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d8;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d8;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d8;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d8;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d8;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d8;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d8;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d8;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d8;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d8;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d9;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d9;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d9;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d9;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d9;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d9;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d9;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d9;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d9;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d9;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9da;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9da;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9da;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9da;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9da;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9da;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9da;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9da;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9da;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9da;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9db;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9db;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9db;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9db;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9db;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9db;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9db;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9db;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9db;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9db;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dc;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dc;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dc;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dc;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dc;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dc;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dc;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dc;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dc;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dc;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dd;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dd;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dd;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dd;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dd;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dd;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dd;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dd;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dd;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dd;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cb;&#xfe0f;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cb;&#xfe0f;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3cc;&#xfe0f;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3cc;&#xfe0f;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3f3;&#xfe0f;&#x200d;&#x26a7;&#xfe0f;',
+        '&#x1f574;&#xfe0f;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f574;&#xfe0f;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f575;&#xfe0f;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f575;&#xfe0f;&#x200d;&#x2642;&#xfe0f;',
+        '&#x26f9;&#x1f3fb;&#x200d;&#x2640;&#xfe0f;',
+        '&#x26f9;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;',
+        '&#x26f9;&#x1f3fc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x26f9;&#x1f3fc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x26f9;&#x1f3fd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x26f9;&#x1f3fd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x26f9;&#x1f3fe;&#x200d;&#x2640;&#xfe0f;',
+        '&#x26f9;&#x1f3fe;&#x200d;&#x2642;&#xfe0f;',
+        '&#x26f9;&#x1f3ff;&#x200d;&#x2640;&#xfe0f;',
+        '&#x26f9;&#x1f3ff;&#x200d;&#x2642;&#xfe0f;',
+        '&#x26f9;&#xfe0f;&#x200d;&#x2640;&#xfe0f;',
+        '&#x26f9;&#xfe0f;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f33e;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f373;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f37c;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f384;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f393;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f3a4;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f3a8;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f3eb;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f3ed;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f4bb;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f4bc;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f527;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f52c;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f680;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f692;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f9af;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f9b0;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f9b1;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f9b2;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f9b3;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f9bc;',
+        '&#x1f468;&#x1f3fb;&#x200d;&#x1f9bd;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f33e;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f373;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f37c;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f384;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f393;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f3a4;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f3a8;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f3eb;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f3ed;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f4bb;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f4bc;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f527;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f52c;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f680;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f692;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f9af;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f9b0;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f9b1;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f9b2;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f9b3;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f9bc;',
+        '&#x1f468;&#x1f3fc;&#x200d;&#x1f9bd;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f33e;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f373;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f37c;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f384;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f393;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f3a4;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f3a8;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f3eb;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f3ed;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f4bb;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f4bc;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f527;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f52c;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f680;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f692;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f9af;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f9b0;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f9b1;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f9b2;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f9b3;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f9bc;',
+        '&#x1f468;&#x1f3fd;&#x200d;&#x1f9bd;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f33e;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f373;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f37c;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f384;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f393;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f3a4;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f3a8;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f3eb;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f3ed;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f4bb;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f4bc;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f527;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f52c;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f680;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f692;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f9af;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f9b0;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f9b1;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f9b2;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f9b3;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f9bc;',
+        '&#x1f468;&#x1f3fe;&#x200d;&#x1f9bd;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f33e;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f373;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f37c;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f384;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f393;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f3a4;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f3a8;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f3eb;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f3ed;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f4bb;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f4bc;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f527;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f52c;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f680;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f692;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f9af;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f9b0;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f9b1;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f9b2;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f9b3;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f9bc;',
+        '&#x1f468;&#x1f3ff;&#x200d;&#x1f9bd;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f33e;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f373;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f37c;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f384;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f393;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f3a4;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f3a8;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f3eb;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f3ed;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f4bb;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f4bc;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f527;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f52c;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f680;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f692;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f9af;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f9b0;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f9b1;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f9b2;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f9b3;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f9bc;',
+        '&#x1f469;&#x1f3fb;&#x200d;&#x1f9bd;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f33e;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f373;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f37c;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f384;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f393;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f3a4;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f3a8;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f3eb;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f3ed;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f4bb;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f4bc;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f527;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f52c;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f680;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f692;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f9af;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f9b0;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f9b1;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f9b2;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f9b3;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f9bc;',
+        '&#x1f469;&#x1f3fc;&#x200d;&#x1f9bd;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f33e;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f373;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f37c;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f384;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f393;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f3a4;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f3a8;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f3eb;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f3ed;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f4bb;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f4bc;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f527;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f52c;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f680;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f692;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f9af;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f9b0;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f9b1;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f9b2;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f9b3;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f9bc;',
+        '&#x1f469;&#x1f3fd;&#x200d;&#x1f9bd;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f33e;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f373;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f37c;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f384;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f393;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f3a4;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f3a8;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f3eb;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f3ed;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f4bb;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f4bc;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f527;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f52c;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f680;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f692;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f9af;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f9b0;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f9b1;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f9b2;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f9b3;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f9bc;',
+        '&#x1f469;&#x1f3fe;&#x200d;&#x1f9bd;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f33e;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f373;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f37c;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f384;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f393;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f3a4;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f3a8;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f3eb;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f3ed;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f4bb;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f4bc;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f527;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f52c;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f680;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f692;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f9af;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f9b0;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f9b1;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f9b2;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f9b3;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f9bc;',
+        '&#x1f469;&#x1f3ff;&#x200d;&#x1f9bd;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f33e;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f373;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f37c;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f384;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f393;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f3a4;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f3a8;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f3eb;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f3ed;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f4bb;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f4bc;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f527;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f52c;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f680;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f692;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9af;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9b0;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9b1;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9b2;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9b3;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9bc;',
+        '&#x1f9d1;&#x1f3fb;&#x200d;&#x1f9bd;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f33e;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f373;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f37c;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f384;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f393;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f3a4;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f3a8;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f3eb;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f3ed;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f4bb;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f4bc;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f527;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f52c;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f680;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f692;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9af;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9b0;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9b1;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9b2;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9b3;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9bc;',
+        '&#x1f9d1;&#x1f3fc;&#x200d;&#x1f9bd;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f33e;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f373;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f37c;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f384;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f393;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f3a4;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f3a8;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f3eb;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f3ed;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f4bb;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f4bc;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f527;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f52c;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f680;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f692;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9af;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9b0;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9b1;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9b2;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9b3;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9bc;',
+        '&#x1f9d1;&#x1f3fd;&#x200d;&#x1f9bd;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f33e;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f373;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f37c;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f384;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f393;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f3a4;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f3a8;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f3eb;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f3ed;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f4bb;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f4bc;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f527;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f52c;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f680;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f692;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9af;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9b0;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9b1;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9b2;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9b3;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9bc;',
+        '&#x1f9d1;&#x1f3fe;&#x200d;&#x1f9bd;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f33e;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f373;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f37c;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f384;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f393;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f3a4;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f3a8;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f3eb;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f3ed;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f4bb;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f4bc;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f527;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f52c;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f680;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f692;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9af;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9b0;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9b1;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9b2;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9b3;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9bc;',
+        '&#x1f9d1;&#x1f3ff;&#x200d;&#x1f9bd;',
+        '&#x1f3f3;&#xfe0f;&#x200d;&#x1f308;',
+        '&#x1f636;&#x200d;&#x1f32b;&#xfe0f;',
+        '&#x1f3c3;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c3;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3c4;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3c4;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3ca;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f3ca;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f3f4;&#x200d;&#x2620;&#xfe0f;',
+        '&#x1f43b;&#x200d;&#x2744;&#xfe0f;',
+        '&#x1f468;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f468;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f468;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f469;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f469;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f469;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f46e;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f46e;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f46f;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f46f;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f470;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f470;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f471;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f471;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f473;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f473;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f477;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f477;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f481;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f481;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f482;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f482;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f486;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f486;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f487;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f487;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f645;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f645;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f646;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f646;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f647;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f647;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64b;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64b;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64d;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64d;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f64e;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f64e;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6a3;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6a3;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b4;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b4;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b5;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b5;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f6b6;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f6b6;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f926;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f926;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f935;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f935;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f937;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f937;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f938;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f938;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f939;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f939;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93c;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93c;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93d;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93d;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f93e;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f93e;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b8;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b8;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9b9;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9b9;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9ce;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9ce;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9cf;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9cf;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d1;&#x200d;&#x2695;&#xfe0f;',
+        '&#x1f9d1;&#x200d;&#x2696;&#xfe0f;',
+        '&#x1f9d1;&#x200d;&#x2708;&#xfe0f;',
+        '&#x1f9d4;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d4;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d6;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d6;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d7;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d7;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d8;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d8;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9d9;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9d9;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9da;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9da;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9db;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9db;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dc;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dc;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9dd;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9dd;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9de;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9de;&#x200d;&#x2642;&#xfe0f;',
+        '&#x1f9df;&#x200d;&#x2640;&#xfe0f;',
+        '&#x1f9df;&#x200d;&#x2642;&#xfe0f;',
+        '&#x2764;&#xfe0f;&#x200d;&#x1f525;',
+        '&#x2764;&#xfe0f;&#x200d;&#x1fa79;',
+        '&#x1f415;&#x200d;&#x1f9ba;',
+        '&#x1f441;&#x200d;&#x1f5e8;',
+        '&#x1f468;&#x200d;&#x1f33e;',
+        '&#x1f468;&#x200d;&#x1f373;',
+        '&#x1f468;&#x200d;&#x1f37c;',
+        '&#x1f468;&#x200d;&#x1f384;',
+        '&#x1f468;&#x200d;&#x1f393;',
+        '&#x1f468;&#x200d;&#x1f3a4;',
+        '&#x1f468;&#x200d;&#x1f3a8;',
+        '&#x1f468;&#x200d;&#x1f3eb;',
+        '&#x1f468;&#x200d;&#x1f3ed;',
+        '&#x1f468;&#x200d;&#x1f466;',
+        '&#x1f468;&#x200d;&#x1f467;',
+        '&#x1f468;&#x200d;&#x1f4bb;',
+        '&#x1f468;&#x200d;&#x1f4bc;',
+        '&#x1f468;&#x200d;&#x1f527;',
+        '&#x1f468;&#x200d;&#x1f52c;',
+        '&#x1f468;&#x200d;&#x1f680;',
+        '&#x1f468;&#x200d;&#x1f692;',
+        '&#x1f468;&#x200d;&#x1f9af;',
+        '&#x1f468;&#x200d;&#x1f9b0;',
+        '&#x1f468;&#x200d;&#x1f9b1;',
+        '&#x1f468;&#x200d;&#x1f9b2;',
+        '&#x1f468;&#x200d;&#x1f9b3;',
+        '&#x1f468;&#x200d;&#x1f9bc;',
+        '&#x1f468;&#x200d;&#x1f9bd;',
+        '&#x1f469;&#x200d;&#x1f33e;',
+        '&#x1f469;&#x200d;&#x1f373;',
+        '&#x1f469;&#x200d;&#x1f37c;',
+        '&#x1f469;&#x200d;&#x1f384;',
+        '&#x1f469;&#x200d;&#x1f393;',
+        '&#x1f469;&#x200d;&#x1f3a4;',
+        '&#x1f469;&#x200d;&#x1f3a8;',
+        '&#x1f469;&#x200d;&#x1f3eb;',
+        '&#x1f469;&#x200d;&#x1f3ed;',
+        '&#x1f469;&#x200d;&#x1f466;',
+        '&#x1f469;&#x200d;&#x1f467;',
+        '&#x1f469;&#x200d;&#x1f4bb;',
+        '&#x1f469;&#x200d;&#x1f4bc;',
+        '&#x1f469;&#x200d;&#x1f527;',
+        '&#x1f469;&#x200d;&#x1f52c;',
+        '&#x1f469;&#x200d;&#x1f680;',
+        '&#x1f469;&#x200d;&#x1f692;',
+        '&#x1f469;&#x200d;&#x1f9af;',
+        '&#x1f469;&#x200d;&#x1f9b0;',
+        '&#x1f469;&#x200d;&#x1f9b1;',
+        '&#x1f469;&#x200d;&#x1f9b2;',
+        '&#x1f469;&#x200d;&#x1f9b3;',
+        '&#x1f469;&#x200d;&#x1f9bc;',
+        '&#x1f469;&#x200d;&#x1f9bd;',
+        '&#x1f62e;&#x200d;&#x1f4a8;',
+        '&#x1f635;&#x200d;&#x1f4ab;',
+        '&#x1f9d1;&#x200d;&#x1f33e;',
+        '&#x1f9d1;&#x200d;&#x1f373;',
+        '&#x1f9d1;&#x200d;&#x1f37c;',
+        '&#x1f9d1;&#x200d;&#x1f384;',
+        '&#x1f9d1;&#x200d;&#x1f393;',
+        '&#x1f9d1;&#x200d;&#x1f3a4;',
+        '&#x1f9d1;&#x200d;&#x1f3a8;',
+        '&#x1f9d1;&#x200d;&#x1f3eb;',
+        '&#x1f9d1;&#x200d;&#x1f3ed;',
+        '&#x1f9d1;&#x200d;&#x1f4bb;',
+        '&#x1f9d1;&#x200d;&#x1f4bc;',
+        '&#x1f9d1;&#x200d;&#x1f527;',
+        '&#x1f9d1;&#x200d;&#x1f52c;',
+        '&#x1f9d1;&#x200d;&#x1f680;',
+        '&#x1f9d1;&#x200d;&#x1f692;',
+        '&#x1f9d1;&#x200d;&#x1f9af;',
+        '&#x1f9d1;&#x200d;&#x1f9b0;',
+        '&#x1f9d1;&#x200d;&#x1f9b1;',
+        '&#x1f9d1;&#x200d;&#x1f9b2;',
+        '&#x1f9d1;&#x200d;&#x1f9b3;',
+        '&#x1f9d1;&#x200d;&#x1f9bc;',
+        '&#x1f9d1;&#x200d;&#x1f9bd;',
+        '&#x1f408;&#x200d;&#x2b1b;',
+        '&#x1f426;&#x200d;&#x2b1b;',
+        '&#x1f1e6;&#x1f1e8;',
+        '&#x1f1e6;&#x1f1e9;',
+        '&#x1f1e6;&#x1f1ea;',
+        '&#x1f1e6;&#x1f1eb;',
+        '&#x1f1e6;&#x1f1ec;',
+        '&#x1f1e6;&#x1f1ee;',
+        '&#x1f1e6;&#x1f1f1;',
+        '&#x1f1e6;&#x1f1f2;',
+        '&#x1f1e6;&#x1f1f4;',
+        '&#x1f1e6;&#x1f1f6;',
+        '&#x1f1e6;&#x1f1f7;',
+        '&#x1f1e6;&#x1f1f8;',
+        '&#x1f1e6;&#x1f1f9;',
+        '&#x1f1e6;&#x1f1fa;',
+        '&#x1f1e6;&#x1f1fc;',
+        '&#x1f1e6;&#x1f1fd;',
+        '&#x1f1e6;&#x1f1ff;',
+        '&#x1f1e7;&#x1f1e6;',
+        '&#x1f1e7;&#x1f1e7;',
+        '&#x1f1e7;&#x1f1e9;',
+        '&#x1f1e7;&#x1f1ea;',
+        '&#x1f1e7;&#x1f1eb;',
+        '&#x1f1e7;&#x1f1ec;',
+        '&#x1f1e7;&#x1f1ed;',
+        '&#x1f1e7;&#x1f1ee;',
+        '&#x1f1e7;&#x1f1ef;',
+        '&#x1f1e7;&#x1f1f1;',
+        '&#x1f1e7;&#x1f1f2;',
+        '&#x1f1e7;&#x1f1f3;',
+        '&#x1f1e7;&#x1f1f4;',
+        '&#x1f1e7;&#x1f1f6;',
+        '&#x1f1e7;&#x1f1f7;',
+        '&#x1f1e7;&#x1f1f8;',
+        '&#x1f1e7;&#x1f1f9;',
+        '&#x1f1e7;&#x1f1fb;',
+        '&#x1f1e7;&#x1f1fc;',
+        '&#x1f1e7;&#x1f1fe;',
+        '&#x1f1e7;&#x1f1ff;',
+        '&#x1f1e8;&#x1f1e6;',
+        '&#x1f1e8;&#x1f1e8;',
+        '&#x1f1e8;&#x1f1e9;',
+        '&#x1f1e8;&#x1f1eb;',
+        '&#x1f1e8;&#x1f1ec;',
+        '&#x1f1e8;&#x1f1ed;',
+        '&#x1f1e8;&#x1f1ee;',
+        '&#x1f1e8;&#x1f1f0;',
+        '&#x1f1e8;&#x1f1f1;',
+        '&#x1f1e8;&#x1f1f2;',
+        '&#x1f1e8;&#x1f1f3;',
+        '&#x1f1e8;&#x1f1f4;',
+        '&#x1f1e8;&#x1f1f5;',
+        '&#x1f1e8;&#x1f1f7;',
+        '&#x1f1e8;&#x1f1fa;',
+        '&#x1f1e8;&#x1f1fb;',
+        '&#x1f1e8;&#x1f1fc;',
+        '&#x1f1e8;&#x1f1fd;',
+        '&#x1f1e8;&#x1f1fe;',
+        '&#x1f1e8;&#x1f1ff;',
+        '&#x1f1e9;&#x1f1ea;',
+        '&#x1f1e9;&#x1f1ec;',
+        '&#x1f1e9;&#x1f1ef;',
+        '&#x1f1e9;&#x1f1f0;',
+        '&#x1f1e9;&#x1f1f2;',
+        '&#x1f1e9;&#x1f1f4;',
+        '&#x1f1e9;&#x1f1ff;',
+        '&#x1f1ea;&#x1f1e6;',
+        '&#x1f1ea;&#x1f1e8;',
+        '&#x1f1ea;&#x1f1ea;',
+        '&#x1f1ea;&#x1f1ec;',
+        '&#x1f1ea;&#x1f1ed;',
+        '&#x1f1ea;&#x1f1f7;',
+        '&#x1f1ea;&#x1f1f8;',
+        '&#x1f1ea;&#x1f1f9;',
+        '&#x1f1ea;&#x1f1fa;',
+        '&#x1f1eb;&#x1f1ee;',
+        '&#x1f1eb;&#x1f1ef;',
+        '&#x1f1eb;&#x1f1f0;',
+        '&#x1f1eb;&#x1f1f2;',
+        '&#x1f1eb;&#x1f1f4;',
+        '&#x1f1eb;&#x1f1f7;',
+        '&#x1f1ec;&#x1f1e6;',
+        '&#x1f1ec;&#x1f1e7;',
+        '&#x1f1ec;&#x1f1e9;',
+        '&#x1f1ec;&#x1f1ea;',
+        '&#x1f1ec;&#x1f1eb;',
+        '&#x1f1ec;&#x1f1ec;',
+        '&#x1f1ec;&#x1f1ed;',
+        '&#x1f1ec;&#x1f1ee;',
+        '&#x1f1ec;&#x1f1f1;',
+        '&#x1f1ec;&#x1f1f2;',
+        '&#x1f1ec;&#x1f1f3;',
+        '&#x1f1ec;&#x1f1f5;',
+        '&#x1f1ec;&#x1f1f6;',
+        '&#x1f1ec;&#x1f1f7;',
+        '&#x1f1ec;&#x1f1f8;',
+        '&#x1f1ec;&#x1f1f9;',
+        '&#x1f1ec;&#x1f1fa;',
+        '&#x1f1ec;&#x1f1fc;',
+        '&#x1f1ec;&#x1f1fe;',
+        '&#x1f1ed;&#x1f1f0;',
+        '&#x1f1ed;&#x1f1f2;',
+        '&#x1f1ed;&#x1f1f3;',
+        '&#x1f1ed;&#x1f1f7;',
+        '&#x1f1ed;&#x1f1f9;',
+        '&#x1f1ed;&#x1f1fa;',
+        '&#x1f1ee;&#x1f1e8;',
+        '&#x1f1ee;&#x1f1e9;',
+        '&#x1f1ee;&#x1f1ea;',
+        '&#x1f1ee;&#x1f1f1;',
+        '&#x1f1ee;&#x1f1f2;',
+        '&#x1f1ee;&#x1f1f3;',
+        '&#x1f1ee;&#x1f1f4;',
+        '&#x1f1ee;&#x1f1f6;',
+        '&#x1f1ee;&#x1f1f7;',
+        '&#x1f1ee;&#x1f1f8;',
+        '&#x1f1ee;&#x1f1f9;',
+        '&#x1f1ef;&#x1f1ea;',
+        '&#x1f1ef;&#x1f1f2;',
+        '&#x1f1ef;&#x1f1f4;',
+        '&#x1f1ef;&#x1f1f5;',
+        '&#x1f1f0;&#x1f1ea;',
+        '&#x1f1f0;&#x1f1ec;',
+        '&#x1f1f0;&#x1f1ed;',
+        '&#x1f1f0;&#x1f1ee;',
+        '&#x1f1f0;&#x1f1f2;',
+        '&#x1f1f0;&#x1f1f3;',
+        '&#x1f1f0;&#x1f1f5;',
+        '&#x1f1f0;&#x1f1f7;',
+        '&#x1f1f0;&#x1f1fc;',
+        '&#x1f1f0;&#x1f1fe;',
+        '&#x1f1f0;&#x1f1ff;',
+        '&#x1f1f1;&#x1f1e6;',
+        '&#x1f1f1;&#x1f1e7;',
+        '&#x1f1f1;&#x1f1e8;',
+        '&#x1f1f1;&#x1f1ee;',
+        '&#x1f1f1;&#x1f1f0;',
+        '&#x1f1f1;&#x1f1f7;',
+        '&#x1f1f1;&#x1f1f8;',
+        '&#x1f1f1;&#x1f1f9;',
+        '&#x1f1f1;&#x1f1fa;',
+        '&#x1f1f1;&#x1f1fb;',
+        '&#x1f1f1;&#x1f1fe;',
+        '&#x1f1f2;&#x1f1e6;',
+        '&#x1f1f2;&#x1f1e8;',
+        '&#x1f1f2;&#x1f1e9;',
+        '&#x1f1f2;&#x1f1ea;',
+        '&#x1f1f2;&#x1f1eb;',
+        '&#x1f1f2;&#x1f1ec;',
+        '&#x1f1f2;&#x1f1ed;',
+        '&#x1f1f2;&#x1f1f0;',
+        '&#x1f1f2;&#x1f1f1;',
+        '&#x1f1f2;&#x1f1f2;',
+        '&#x1f1f2;&#x1f1f3;',
+        '&#x1f1f2;&#x1f1f4;',
+        '&#x1f1f2;&#x1f1f5;',
+        '&#x1f1f2;&#x1f1f6;',
+        '&#x1f1f2;&#x1f1f7;',
+        '&#x1f1f2;&#x1f1f8;',
+        '&#x1f1f2;&#x1f1f9;',
+        '&#x1f1f2;&#x1f1fa;',
+        '&#x1f1f2;&#x1f1fb;',
+        '&#x1f1f2;&#x1f1fc;',
+        '&#x1f1f2;&#x1f1fd;',
+        '&#x1f1f2;&#x1f1fe;',
+        '&#x1f1f2;&#x1f1ff;',
+        '&#x1f1f3;&#x1f1e6;',
+        '&#x1f1f3;&#x1f1e8;',
+        '&#x1f1f3;&#x1f1ea;',
+        '&#x1f1f3;&#x1f1eb;',
+        '&#x1f1f3;&#x1f1ec;',
+        '&#x1f1f3;&#x1f1ee;',
+        '&#x1f1f3;&#x1f1f1;',
+        '&#x1f1f3;&#x1f1f4;',
+        '&#x1f1f3;&#x1f1f5;',
+        '&#x1f1f3;&#x1f1f7;',
+        '&#x1f1f3;&#x1f1fa;',
+        '&#x1f1f3;&#x1f1ff;',
+        '&#x1f1f4;&#x1f1f2;',
+        '&#x1f1f5;&#x1f1e6;',
+        '&#x1f1f5;&#x1f1ea;',
+        '&#x1f1f5;&#x1f1eb;',
+        '&#x1f1f5;&#x1f1ec;',
+        '&#x1f1f5;&#x1f1ed;',
+        '&#x1f1f5;&#x1f1f0;',
+        '&#x1f1f5;&#x1f1f1;',
+        '&#x1f1f5;&#x1f1f2;',
+        '&#x1f1f5;&#x1f1f3;',
+        '&#x1f1f5;&#x1f1f7;',
+        '&#x1f1f5;&#x1f1f8;',
+        '&#x1f1f5;&#x1f1f9;',
+        '&#x1f1f5;&#x1f1fc;',
+        '&#x1f1f5;&#x1f1fe;',
+        '&#x1f1f6;&#x1f1e6;',
+        '&#x1f1f7;&#x1f1ea;',
+        '&#x1f1f7;&#x1f1f4;',
+        '&#x1f1f7;&#x1f1f8;',
+        '&#x1f1f7;&#x1f1fa;',
+        '&#x1f1f7;&#x1f1fc;',
+        '&#x1f1f8;&#x1f1e6;',
+        '&#x1f1f8;&#x1f1e7;',
+        '&#x1f1f8;&#x1f1e8;',
+        '&#x1f1f8;&#x1f1e9;',
+        '&#x1f1f8;&#x1f1ea;',
+        '&#x1f1f8;&#x1f1ec;',
+        '&#x1f1f8;&#x1f1ed;',
+        '&#x1f1f8;&#x1f1ee;',
+        '&#x1f1f8;&#x1f1ef;',
+        '&#x1f1f8;&#x1f1f0;',
+        '&#x1f1f8;&#x1f1f1;',
+        '&#x1f1f8;&#x1f1f2;',
+        '&#x1f1f8;&#x1f1f3;',
+        '&#x1f1f8;&#x1f1f4;',
+        '&#x1f1f8;&#x1f1f7;',
+        '&#x1f1f8;&#x1f1f8;',
+        '&#x1f1f8;&#x1f1f9;',
+        '&#x1f1f8;&#x1f1fb;',
+        '&#x1f1f8;&#x1f1fd;',
+        '&#x1f1f8;&#x1f1fe;',
+        '&#x1f1f8;&#x1f1ff;',
+        '&#x1f1f9;&#x1f1e6;',
+        '&#x1f1f9;&#x1f1e8;',
+        '&#x1f1f9;&#x1f1e9;',
+        '&#x1f1f9;&#x1f1eb;',
+        '&#x1f1f9;&#x1f1ec;',
+        '&#x1f1f9;&#x1f1ed;',
+        '&#x1f1f9;&#x1f1ef;',
+        '&#x1f1f9;&#x1f1f0;',
+        '&#x1f1f9;&#x1f1f1;',
+        '&#x1f1f9;&#x1f1f2;',
+        '&#x1f1f9;&#x1f1f3;',
+        '&#x1f1f9;&#x1f1f4;',
+        '&#x1f1f9;&#x1f1f7;',
+        '&#x1f1f9;&#x1f1f9;',
+        '&#x1f1f9;&#x1f1fb;',
+        '&#x1f1f9;&#x1f1fc;',
+        '&#x1f1f9;&#x1f1ff;',
+        '&#x1f1fa;&#x1f1e6;',
+        '&#x1f1fa;&#x1f1ec;',
+        '&#x1f1fa;&#x1f1f2;',
+        '&#x1f1fa;&#x1f1f3;',
+        '&#x1f1fa;&#x1f1f8;',
+        '&#x1f1fa;&#x1f1fe;',
+        '&#x1f1fa;&#x1f1ff;',
+        '&#x1f1fb;&#x1f1e6;',
+        '&#x1f1fb;&#x1f1e8;',
+        '&#x1f1fb;&#x1f1ea;',
+        '&#x1f1fb;&#x1f1ec;',
+        '&#x1f1fb;&#x1f1ee;',
+        '&#x1f1fb;&#x1f1f3;',
+        '&#x1f1fb;&#x1f1fa;',
+        '&#x1f1fc;&#x1f1eb;',
+        '&#x1f1fc;&#x1f1f8;',
+        '&#x1f1fd;&#x1f1f0;',
+        '&#x1f1fe;&#x1f1ea;',
+        '&#x1f1fe;&#x1f1f9;',
+        '&#x1f1ff;&#x1f1e6;',
+        '&#x1f1ff;&#x1f1f2;',
+        '&#x1f1ff;&#x1f1fc;',
+        '&#x1f385;&#x1f3fb;',
+        '&#x1f385;&#x1f3fc;',
+        '&#x1f385;&#x1f3fd;',
+        '&#x1f385;&#x1f3fe;',
+        '&#x1f385;&#x1f3ff;',
+        '&#x1f3c2;&#x1f3fb;',
+        '&#x1f3c2;&#x1f3fc;',
+        '&#x1f3c2;&#x1f3fd;',
+        '&#x1f3c2;&#x1f3fe;',
+        '&#x1f3c2;&#x1f3ff;',
+        '&#x1f3c3;&#x1f3fb;',
+        '&#x1f3c3;&#x1f3fc;',
+        '&#x1f3c3;&#x1f3fd;',
+        '&#x1f3c3;&#x1f3fe;',
+        '&#x1f3c3;&#x1f3ff;',
+        '&#x1f3c4;&#x1f3fb;',
+        '&#x1f3c4;&#x1f3fc;',
+        '&#x1f3c4;&#x1f3fd;',
+        '&#x1f3c4;&#x1f3fe;',
+        '&#x1f3c4;&#x1f3ff;',
+        '&#x1f3c7;&#x1f3fb;',
+        '&#x1f3c7;&#x1f3fc;',
+        '&#x1f3c7;&#x1f3fd;',
+        '&#x1f3c7;&#x1f3fe;',
+        '&#x1f3c7;&#x1f3ff;',
+        '&#x1f3ca;&#x1f3fb;',
+        '&#x1f3ca;&#x1f3fc;',
+        '&#x1f3ca;&#x1f3fd;',
+        '&#x1f3ca;&#x1f3fe;',
+        '&#x1f3ca;&#x1f3ff;',
+        '&#x1f3cb;&#x1f3fb;',
+        '&#x1f3cb;&#x1f3fc;',
+        '&#x1f3cb;&#x1f3fd;',
+        '&#x1f3cb;&#x1f3fe;',
+        '&#x1f3cb;&#x1f3ff;',
+        '&#x1f3cc;&#x1f3fb;',
+        '&#x1f3cc;&#x1f3fc;',
+        '&#x1f3cc;&#x1f3fd;',
+        '&#x1f3cc;&#x1f3fe;',
+        '&#x1f3cc;&#x1f3ff;',
+        '&#x1f442;&#x1f3fb;',
+        '&#x1f442;&#x1f3fc;',
+        '&#x1f442;&#x1f3fd;',
+        '&#x1f442;&#x1f3fe;',
+        '&#x1f442;&#x1f3ff;',
+        '&#x1f443;&#x1f3fb;',
+        '&#x1f443;&#x1f3fc;',
+        '&#x1f443;&#x1f3fd;',
+        '&#x1f443;&#x1f3fe;',
+        '&#x1f443;&#x1f3ff;',
+        '&#x1f446;&#x1f3fb;',
+        '&#x1f446;&#x1f3fc;',
+        '&#x1f446;&#x1f3fd;',
+        '&#x1f446;&#x1f3fe;',
+        '&#x1f446;&#x1f3ff;',
+        '&#x1f447;&#x1f3fb;',
+        '&#x1f447;&#x1f3fc;',
+        '&#x1f447;&#x1f3fd;',
+        '&#x1f447;&#x1f3fe;',
+        '&#x1f447;&#x1f3ff;',
+        '&#x1f448;&#x1f3fb;',
+        '&#x1f448;&#x1f3fc;',
+        '&#x1f448;&#x1f3fd;',
+        '&#x1f448;&#x1f3fe;',
+        '&#x1f448;&#x1f3ff;',
+        '&#x1f449;&#x1f3fb;',
+        '&#x1f449;&#x1f3fc;',
+        '&#x1f449;&#x1f3fd;',
+        '&#x1f449;&#x1f3fe;',
+        '&#x1f449;&#x1f3ff;',
+        '&#x1f44a;&#x1f3fb;',
+        '&#x1f44a;&#x1f3fc;',
+        '&#x1f44a;&#x1f3fd;',
+        '&#x1f44a;&#x1f3fe;',
+        '&#x1f44a;&#x1f3ff;',
+        '&#x1f44b;&#x1f3fb;',
+        '&#x1f44b;&#x1f3fc;',
+        '&#x1f44b;&#x1f3fd;',
+        '&#x1f44b;&#x1f3fe;',
+        '&#x1f44b;&#x1f3ff;',
+        '&#x1f44c;&#x1f3fb;',
+        '&#x1f44c;&#x1f3fc;',
+        '&#x1f44c;&#x1f3fd;',
+        '&#x1f44c;&#x1f3fe;',
+        '&#x1f44c;&#x1f3ff;',
+        '&#x1f44d;&#x1f3fb;',
+        '&#x1f44d;&#x1f3fc;',
+        '&#x1f44d;&#x1f3fd;',
+        '&#x1f44d;&#x1f3fe;',
+        '&#x1f44d;&#x1f3ff;',
+        '&#x1f44e;&#x1f3fb;',
+        '&#x1f44e;&#x1f3fc;',
+        '&#x1f44e;&#x1f3fd;',
+        '&#x1f44e;&#x1f3fe;',
+        '&#x1f44e;&#x1f3ff;',
+        '&#x1f44f;&#x1f3fb;',
+        '&#x1f44f;&#x1f3fc;',
+        '&#x1f44f;&#x1f3fd;',
+        '&#x1f44f;&#x1f3fe;',
+        '&#x1f44f;&#x1f3ff;',
+        '&#x1f450;&#x1f3fb;',
+        '&#x1f450;&#x1f3fc;',
+        '&#x1f450;&#x1f3fd;',
+        '&#x1f450;&#x1f3fe;',
+        '&#x1f450;&#x1f3ff;',
+        '&#x1f466;&#x1f3fb;',
+        '&#x1f466;&#x1f3fc;',
+        '&#x1f466;&#x1f3fd;',
+        '&#x1f466;&#x1f3fe;',
+        '&#x1f466;&#x1f3ff;',
+        '&#x1f467;&#x1f3fb;',
+        '&#x1f467;&#x1f3fc;',
+        '&#x1f467;&#x1f3fd;',
+        '&#x1f467;&#x1f3fe;',
+        '&#x1f467;&#x1f3ff;',
+        '&#x1f468;&#x1f3fb;',
+        '&#x1f468;&#x1f3fc;',
+        '&#x1f468;&#x1f3fd;',
+        '&#x1f468;&#x1f3fe;',
+        '&#x1f468;&#x1f3ff;',
+        '&#x1f469;&#x1f3fb;',
+        '&#x1f469;&#x1f3fc;',
+        '&#x1f469;&#x1f3fd;',
+        '&#x1f469;&#x1f3fe;',
+        '&#x1f469;&#x1f3ff;',
+        '&#x1f46b;&#x1f3fb;',
+        '&#x1f46b;&#x1f3fc;',
+        '&#x1f46b;&#x1f3fd;',
+        '&#x1f46b;&#x1f3fe;',
+        '&#x1f46b;&#x1f3ff;',
+        '&#x1f46c;&#x1f3fb;',
+        '&#x1f46c;&#x1f3fc;',
+        '&#x1f46c;&#x1f3fd;',
+        '&#x1f46c;&#x1f3fe;',
+        '&#x1f46c;&#x1f3ff;',
+        '&#x1f46d;&#x1f3fb;',
+        '&#x1f46d;&#x1f3fc;',
+        '&#x1f46d;&#x1f3fd;',
+        '&#x1f46d;&#x1f3fe;',
+        '&#x1f46d;&#x1f3ff;',
+        '&#x1f46e;&#x1f3fb;',
+        '&#x1f46e;&#x1f3fc;',
+        '&#x1f46e;&#x1f3fd;',
+        '&#x1f46e;&#x1f3fe;',
+        '&#x1f46e;&#x1f3ff;',
+        '&#x1f470;&#x1f3fb;',
+        '&#x1f470;&#x1f3fc;',
+        '&#x1f470;&#x1f3fd;',
+        '&#x1f470;&#x1f3fe;',
+        '&#x1f470;&#x1f3ff;',
+        '&#x1f471;&#x1f3fb;',
+        '&#x1f471;&#x1f3fc;',
+        '&#x1f471;&#x1f3fd;',
+        '&#x1f471;&#x1f3fe;',
+        '&#x1f471;&#x1f3ff;',
+        '&#x1f472;&#x1f3fb;',
+        '&#x1f472;&#x1f3fc;',
+        '&#x1f472;&#x1f3fd;',
+        '&#x1f472;&#x1f3fe;',
+        '&#x1f472;&#x1f3ff;',
+        '&#x1f473;&#x1f3fb;',
+        '&#x1f473;&#x1f3fc;',
+        '&#x1f473;&#x1f3fd;',
+        '&#x1f473;&#x1f3fe;',
+        '&#x1f473;&#x1f3ff;',
+        '&#x1f474;&#x1f3fb;',
+        '&#x1f474;&#x1f3fc;',
+        '&#x1f474;&#x1f3fd;',
+        '&#x1f474;&#x1f3fe;',
+        '&#x1f474;&#x1f3ff;',
+        '&#x1f475;&#x1f3fb;',
+        '&#x1f475;&#x1f3fc;',
+        '&#x1f475;&#x1f3fd;',
+        '&#x1f475;&#x1f3fe;',
+        '&#x1f475;&#x1f3ff;',
+        '&#x1f476;&#x1f3fb;',
+        '&#x1f476;&#x1f3fc;',
+        '&#x1f476;&#x1f3fd;',
+        '&#x1f476;&#x1f3fe;',
+        '&#x1f476;&#x1f3ff;',
+        '&#x1f477;&#x1f3fb;',
+        '&#x1f477;&#x1f3fc;',
+        '&#x1f477;&#x1f3fd;',
+        '&#x1f477;&#x1f3fe;',
+        '&#x1f477;&#x1f3ff;',
+        '&#x1f478;&#x1f3fb;',
+        '&#x1f478;&#x1f3fc;',
+        '&#x1f478;&#x1f3fd;',
+        '&#x1f478;&#x1f3fe;',
+        '&#x1f478;&#x1f3ff;',
+        '&#x1f47c;&#x1f3fb;',
+        '&#x1f47c;&#x1f3fc;',
+        '&#x1f47c;&#x1f3fd;',
+        '&#x1f47c;&#x1f3fe;',
+        '&#x1f47c;&#x1f3ff;',
+        '&#x1f481;&#x1f3fb;',
+        '&#x1f481;&#x1f3fc;',
+        '&#x1f481;&#x1f3fd;',
+        '&#x1f481;&#x1f3fe;',
+        '&#x1f481;&#x1f3ff;',
+        '&#x1f482;&#x1f3fb;',
+        '&#x1f482;&#x1f3fc;',
+        '&#x1f482;&#x1f3fd;',
+        '&#x1f482;&#x1f3fe;',
+        '&#x1f482;&#x1f3ff;',
+        '&#x1f483;&#x1f3fb;',
+        '&#x1f483;&#x1f3fc;',
+        '&#x1f483;&#x1f3fd;',
+        '&#x1f483;&#x1f3fe;',
+        '&#x1f483;&#x1f3ff;',
+        '&#x1f485;&#x1f3fb;',
+        '&#x1f485;&#x1f3fc;',
+        '&#x1f485;&#x1f3fd;',
+        '&#x1f485;&#x1f3fe;',
+        '&#x1f485;&#x1f3ff;',
+        '&#x1f486;&#x1f3fb;',
+        '&#x1f486;&#x1f3fc;',
+        '&#x1f486;&#x1f3fd;',
+        '&#x1f486;&#x1f3fe;',
+        '&#x1f486;&#x1f3ff;',
+        '&#x1f487;&#x1f3fb;',
+        '&#x1f487;&#x1f3fc;',
+        '&#x1f487;&#x1f3fd;',
+        '&#x1f487;&#x1f3fe;',
+        '&#x1f487;&#x1f3ff;',
+        '&#x1f48f;&#x1f3fb;',
+        '&#x1f48f;&#x1f3fc;',
+        '&#x1f48f;&#x1f3fd;',
+        '&#x1f48f;&#x1f3fe;',
+        '&#x1f48f;&#x1f3ff;',
+        '&#x1f491;&#x1f3fb;',
+        '&#x1f491;&#x1f3fc;',
+        '&#x1f491;&#x1f3fd;',
+        '&#x1f491;&#x1f3fe;',
+        '&#x1f491;&#x1f3ff;',
+        '&#x1f4aa;&#x1f3fb;',
+        '&#x1f4aa;&#x1f3fc;',
+        '&#x1f4aa;&#x1f3fd;',
+        '&#x1f4aa;&#x1f3fe;',
+        '&#x1f4aa;&#x1f3ff;',
+        '&#x1f574;&#x1f3fb;',
+        '&#x1f574;&#x1f3fc;',
+        '&#x1f574;&#x1f3fd;',
+        '&#x1f574;&#x1f3fe;',
+        '&#x1f574;&#x1f3ff;',
+        '&#x1f575;&#x1f3fb;',
+        '&#x1f575;&#x1f3fc;',
+        '&#x1f575;&#x1f3fd;',
+        '&#x1f575;&#x1f3fe;',
+        '&#x1f575;&#x1f3ff;',
+        '&#x1f57a;&#x1f3fb;',
+        '&#x1f57a;&#x1f3fc;',
+        '&#x1f57a;&#x1f3fd;',
+        '&#x1f57a;&#x1f3fe;',
+        '&#x1f57a;&#x1f3ff;',
+        '&#x1f590;&#x1f3fb;',
+        '&#x1f590;&#x1f3fc;',
+        '&#x1f590;&#x1f3fd;',
+        '&#x1f590;&#x1f3fe;',
+        '&#x1f590;&#x1f3ff;',
+        '&#x1f595;&#x1f3fb;',
+        '&#x1f595;&#x1f3fc;',
+        '&#x1f595;&#x1f3fd;',
+        '&#x1f595;&#x1f3fe;',
+        '&#x1f595;&#x1f3ff;',
+        '&#x1f596;&#x1f3fb;',
+        '&#x1f596;&#x1f3fc;',
+        '&#x1f596;&#x1f3fd;',
+        '&#x1f596;&#x1f3fe;',
+        '&#x1f596;&#x1f3ff;',
+        '&#x1f645;&#x1f3fb;',
+        '&#x1f645;&#x1f3fc;',
+        '&#x1f645;&#x1f3fd;',
+        '&#x1f645;&#x1f3fe;',
+        '&#x1f645;&#x1f3ff;',
+        '&#x1f646;&#x1f3fb;',
+        '&#x1f646;&#x1f3fc;',
+        '&#x1f646;&#x1f3fd;',
+        '&#x1f646;&#x1f3fe;',
+        '&#x1f646;&#x1f3ff;',
+        '&#x1f647;&#x1f3fb;',
+        '&#x1f647;&#x1f3fc;',
+        '&#x1f647;&#x1f3fd;',
+        '&#x1f647;&#x1f3fe;',
+        '&#x1f647;&#x1f3ff;',
+        '&#x1f64b;&#x1f3fb;',
+        '&#x1f64b;&#x1f3fc;',
+        '&#x1f64b;&#x1f3fd;',
+        '&#x1f64b;&#x1f3fe;',
+        '&#x1f64b;&#x1f3ff;',
+        '&#x1f64c;&#x1f3fb;',
+        '&#x1f64c;&#x1f3fc;',
+        '&#x1f64c;&#x1f3fd;',
+        '&#x1f64c;&#x1f3fe;',
+        '&#x1f64c;&#x1f3ff;',
+        '&#x1f64d;&#x1f3fb;',
+        '&#x1f64d;&#x1f3fc;',
+        '&#x1f64d;&#x1f3fd;',
+        '&#x1f64d;&#x1f3fe;',
+        '&#x1f64d;&#x1f3ff;',
+        '&#x1f64e;&#x1f3fb;',
+        '&#x1f64e;&#x1f3fc;',
+        '&#x1f64e;&#x1f3fd;',
+        '&#x1f64e;&#x1f3fe;',
+        '&#x1f64e;&#x1f3ff;',
+        '&#x1f64f;&#x1f3fb;',
+        '&#x1f64f;&#x1f3fc;',
+        '&#x1f64f;&#x1f3fd;',
+        '&#x1f64f;&#x1f3fe;',
+        '&#x1f64f;&#x1f3ff;',
+        '&#x1f6a3;&#x1f3fb;',
+        '&#x1f6a3;&#x1f3fc;',
+        '&#x1f6a3;&#x1f3fd;',
+        '&#x1f6a3;&#x1f3fe;',
+        '&#x1f6a3;&#x1f3ff;',
+        '&#x1f6b4;&#x1f3fb;',
+        '&#x1f6b4;&#x1f3fc;',
+        '&#x1f6b4;&#x1f3fd;',
+        '&#x1f6b4;&#x1f3fe;',
+        '&#x1f6b4;&#x1f3ff;',
+        '&#x1f6b5;&#x1f3fb;',
+        '&#x1f6b5;&#x1f3fc;',
+        '&#x1f6b5;&#x1f3fd;',
+        '&#x1f6b5;&#x1f3fe;',
+        '&#x1f6b5;&#x1f3ff;',
+        '&#x1f6b6;&#x1f3fb;',
+        '&#x1f6b6;&#x1f3fc;',
+        '&#x1f6b6;&#x1f3fd;',
+        '&#x1f6b6;&#x1f3fe;',
+        '&#x1f6b6;&#x1f3ff;',
+        '&#x1f6c0;&#x1f3fb;',
+        '&#x1f6c0;&#x1f3fc;',
+        '&#x1f6c0;&#x1f3fd;',
+        '&#x1f6c0;&#x1f3fe;',
+        '&#x1f6c0;&#x1f3ff;',
+        '&#x1f6cc;&#x1f3fb;',
+        '&#x1f6cc;&#x1f3fc;',
+        '&#x1f6cc;&#x1f3fd;',
+        '&#x1f6cc;&#x1f3fe;',
+        '&#x1f6cc;&#x1f3ff;',
+        '&#x1f90c;&#x1f3fb;',
+        '&#x1f90c;&#x1f3fc;',
+        '&#x1f90c;&#x1f3fd;',
+        '&#x1f90c;&#x1f3fe;',
+        '&#x1f90c;&#x1f3ff;',
+        '&#x1f90f;&#x1f3fb;',
+        '&#x1f90f;&#x1f3fc;',
+        '&#x1f90f;&#x1f3fd;',
+        '&#x1f90f;&#x1f3fe;',
+        '&#x1f90f;&#x1f3ff;',
+        '&#x1f918;&#x1f3fb;',
+        '&#x1f918;&#x1f3fc;',
+        '&#x1f918;&#x1f3fd;',
+        '&#x1f918;&#x1f3fe;',
+        '&#x1f918;&#x1f3ff;',
+        '&#x1f919;&#x1f3fb;',
+        '&#x1f919;&#x1f3fc;',
+        '&#x1f919;&#x1f3fd;',
+        '&#x1f919;&#x1f3fe;',
+        '&#x1f919;&#x1f3ff;',
+        '&#x1f91a;&#x1f3fb;',
+        '&#x1f91a;&#x1f3fc;',
+        '&#x1f91a;&#x1f3fd;',
+        '&#x1f91a;&#x1f3fe;',
+        '&#x1f91a;&#x1f3ff;',
+        '&#x1f91b;&#x1f3fb;',
+        '&#x1f91b;&#x1f3fc;',
+        '&#x1f91b;&#x1f3fd;',
+        '&#x1f91b;&#x1f3fe;',
+        '&#x1f91b;&#x1f3ff;',
+        '&#x1f91c;&#x1f3fb;',
+        '&#x1f91c;&#x1f3fc;',
+        '&#x1f91c;&#x1f3fd;',
+        '&#x1f91c;&#x1f3fe;',
+        '&#x1f91c;&#x1f3ff;',
+        '&#x1f91d;&#x1f3fb;',
+        '&#x1f91d;&#x1f3fc;',
+        '&#x1f91d;&#x1f3fd;',
+        '&#x1f91d;&#x1f3fe;',
+        '&#x1f91d;&#x1f3ff;',
+        '&#x1f91e;&#x1f3fb;',
+        '&#x1f91e;&#x1f3fc;',
+        '&#x1f91e;&#x1f3fd;',
+        '&#x1f91e;&#x1f3fe;',
+        '&#x1f91e;&#x1f3ff;',
+        '&#x1f91f;&#x1f3fb;',
+        '&#x1f91f;&#x1f3fc;',
+        '&#x1f91f;&#x1f3fd;',
+        '&#x1f91f;&#x1f3fe;',
+        '&#x1f91f;&#x1f3ff;',
+        '&#x1f926;&#x1f3fb;',
+        '&#x1f926;&#x1f3fc;',
+        '&#x1f926;&#x1f3fd;',
+        '&#x1f926;&#x1f3fe;',
+        '&#x1f926;&#x1f3ff;',
+        '&#x1f930;&#x1f3fb;',
+        '&#x1f930;&#x1f3fc;',
+        '&#x1f930;&#x1f3fd;',
+        '&#x1f930;&#x1f3fe;',
+        '&#x1f930;&#x1f3ff;',
+        '&#x1f931;&#x1f3fb;',
+        '&#x1f931;&#x1f3fc;',
+        '&#x1f931;&#x1f3fd;',
+        '&#x1f931;&#x1f3fe;',
+        '&#x1f931;&#x1f3ff;',
+        '&#x1f932;&#x1f3fb;',
+        '&#x1f932;&#x1f3fc;',
+        '&#x1f932;&#x1f3fd;',
+        '&#x1f932;&#x1f3fe;',
+        '&#x1f932;&#x1f3ff;',
+        '&#x1f933;&#x1f3fb;',
+        '&#x1f933;&#x1f3fc;',
+        '&#x1f933;&#x1f3fd;',
+        '&#x1f933;&#x1f3fe;',
+        '&#x1f933;&#x1f3ff;',
+        '&#x1f934;&#x1f3fb;',
+        '&#x1f934;&#x1f3fc;',
+        '&#x1f934;&#x1f3fd;',
+        '&#x1f934;&#x1f3fe;',
+        '&#x1f934;&#x1f3ff;',
+        '&#x1f935;&#x1f3fb;',
+        '&#x1f935;&#x1f3fc;',
+        '&#x1f935;&#x1f3fd;',
+        '&#x1f935;&#x1f3fe;',
+        '&#x1f935;&#x1f3ff;',
+        '&#x1f936;&#x1f3fb;',
+        '&#x1f936;&#x1f3fc;',
+        '&#x1f936;&#x1f3fd;',
+        '&#x1f936;&#x1f3fe;',
+        '&#x1f936;&#x1f3ff;',
+        '&#x1f937;&#x1f3fb;',
+        '&#x1f937;&#x1f3fc;',
+        '&#x1f937;&#x1f3fd;',
+        '&#x1f937;&#x1f3fe;',
+        '&#x1f937;&#x1f3ff;',
+        '&#x1f938;&#x1f3fb;',
+        '&#x1f938;&#x1f3fc;',
+        '&#x1f938;&#x1f3fd;',
+        '&#x1f938;&#x1f3fe;',
+        '&#x1f938;&#x1f3ff;',
+        '&#x1f939;&#x1f3fb;',
+        '&#x1f939;&#x1f3fc;',
+        '&#x1f939;&#x1f3fd;',
+        '&#x1f939;&#x1f3fe;',
+        '&#x1f939;&#x1f3ff;',
+        '&#x1f93d;&#x1f3fb;',
+        '&#x1f93d;&#x1f3fc;',
+        '&#x1f93d;&#x1f3fd;',
+        '&#x1f93d;&#x1f3fe;',
+        '&#x1f93d;&#x1f3ff;',
+        '&#x1f93e;&#x1f3fb;',
+        '&#x1f93e;&#x1f3fc;',
+        '&#x1f93e;&#x1f3fd;',
+        '&#x1f93e;&#x1f3fe;',
+        '&#x1f93e;&#x1f3ff;',
+        '&#x1f977;&#x1f3fb;',
+        '&#x1f977;&#x1f3fc;',
+        '&#x1f977;&#x1f3fd;',
+        '&#x1f977;&#x1f3fe;',
+        '&#x1f977;&#x1f3ff;',
+        '&#x1f9b5;&#x1f3fb;',
+        '&#x1f9b5;&#x1f3fc;',
+        '&#x1f9b5;&#x1f3fd;',
+        '&#x1f9b5;&#x1f3fe;',
+        '&#x1f9b5;&#x1f3ff;',
+        '&#x1f9b6;&#x1f3fb;',
+        '&#x1f9b6;&#x1f3fc;',
+        '&#x1f9b6;&#x1f3fd;',
+        '&#x1f9b6;&#x1f3fe;',
+        '&#x1f9b6;&#x1f3ff;',
+        '&#x1f9b8;&#x1f3fb;',
+        '&#x1f9b8;&#x1f3fc;',
+        '&#x1f9b8;&#x1f3fd;',
+        '&#x1f9b8;&#x1f3fe;',
+        '&#x1f9b8;&#x1f3ff;',
+        '&#x1f9b9;&#x1f3fb;',
+        '&#x1f9b9;&#x1f3fc;',
+        '&#x1f9b9;&#x1f3fd;',
+        '&#x1f9b9;&#x1f3fe;',
+        '&#x1f9b9;&#x1f3ff;',
+        '&#x1f9bb;&#x1f3fb;',
+        '&#x1f9bb;&#x1f3fc;',
+        '&#x1f9bb;&#x1f3fd;',
+        '&#x1f9bb;&#x1f3fe;',
+        '&#x1f9bb;&#x1f3ff;',
+        '&#x1f9cd;&#x1f3fb;',
+        '&#x1f9cd;&#x1f3fc;',
+        '&#x1f9cd;&#x1f3fd;',
+        '&#x1f9cd;&#x1f3fe;',
+        '&#x1f9cd;&#x1f3ff;',
+        '&#x1f9ce;&#x1f3fb;',
+        '&#x1f9ce;&#x1f3fc;',
+        '&#x1f9ce;&#x1f3fd;',
+        '&#x1f9ce;&#x1f3fe;',
+        '&#x1f9ce;&#x1f3ff;',
+        '&#x1f9cf;&#x1f3fb;',
+        '&#x1f9cf;&#x1f3fc;',
+        '&#x1f9cf;&#x1f3fd;',
+        '&#x1f9cf;&#x1f3fe;',
+        '&#x1f9cf;&#x1f3ff;',
+        '&#x1f9d1;&#x1f3fb;',
+        '&#x1f9d1;&#x1f3fc;',
+        '&#x1f9d1;&#x1f3fd;',
+        '&#x1f9d1;&#x1f3fe;',
+        '&#x1f9d1;&#x1f3ff;',
+        '&#x1f9d2;&#x1f3fb;',
+        '&#x1f9d2;&#x1f3fc;',
+        '&#x1f9d2;&#x1f3fd;',
+        '&#x1f9d2;&#x1f3fe;',
+        '&#x1f9d2;&#x1f3ff;',
+        '&#x1f9d3;&#x1f3fb;',
+        '&#x1f9d3;&#x1f3fc;',
+        '&#x1f9d3;&#x1f3fd;',
+        '&#x1f9d3;&#x1f3fe;',
+        '&#x1f9d3;&#x1f3ff;',
+        '&#x1f9d4;&#x1f3fb;',
+        '&#x1f9d4;&#x1f3fc;',
+        '&#x1f9d4;&#x1f3fd;',
+        '&#x1f9d4;&#x1f3fe;',
+        '&#x1f9d4;&#x1f3ff;',
+        '&#x1f9d5;&#x1f3fb;',
+        '&#x1f9d5;&#x1f3fc;',
+        '&#x1f9d5;&#x1f3fd;',
+        '&#x1f9d5;&#x1f3fe;',
+        '&#x1f9d5;&#x1f3ff;',
+        '&#x1f9d6;&#x1f3fb;',
+        '&#x1f9d6;&#x1f3fc;',
+        '&#x1f9d6;&#x1f3fd;',
+        '&#x1f9d6;&#x1f3fe;',
+        '&#x1f9d6;&#x1f3ff;',
+        '&#x1f9d7;&#x1f3fb;',
+        '&#x1f9d7;&#x1f3fc;',
+        '&#x1f9d7;&#x1f3fd;',
+        '&#x1f9d7;&#x1f3fe;',
+        '&#x1f9d7;&#x1f3ff;',
+        '&#x1f9d8;&#x1f3fb;',
+        '&#x1f9d8;&#x1f3fc;',
+        '&#x1f9d8;&#x1f3fd;',
+        '&#x1f9d8;&#x1f3fe;',
+        '&#x1f9d8;&#x1f3ff;',
+        '&#x1f9d9;&#x1f3fb;',
+        '&#x1f9d9;&#x1f3fc;',
+        '&#x1f9d9;&#x1f3fd;',
+        '&#x1f9d9;&#x1f3fe;',
+        '&#x1f9d9;&#x1f3ff;',
+        '&#x1f9da;&#x1f3fb;',
+        '&#x1f9da;&#x1f3fc;',
+        '&#x1f9da;&#x1f3fd;',
+        '&#x1f9da;&#x1f3fe;',
+        '&#x1f9da;&#x1f3ff;',
+        '&#x1f9db;&#x1f3fb;',
+        '&#x1f9db;&#x1f3fc;',
+        '&#x1f9db;&#x1f3fd;',
+        '&#x1f9db;&#x1f3fe;',
+        '&#x1f9db;&#x1f3ff;',
+        '&#x1f9dc;&#x1f3fb;',
+        '&#x1f9dc;&#x1f3fc;',
+        '&#x1f9dc;&#x1f3fd;',
+        '&#x1f9dc;&#x1f3fe;',
+        '&#x1f9dc;&#x1f3ff;',
+        '&#x1f9dd;&#x1f3fb;',
+        '&#x1f9dd;&#x1f3fc;',
+        '&#x1f9dd;&#x1f3fd;',
+        '&#x1f9dd;&#x1f3fe;',
+        '&#x1f9dd;&#x1f3ff;',
+        '&#x1fac3;&#x1f3fb;',
+        '&#x1fac3;&#x1f3fc;',
+        '&#x1fac3;&#x1f3fd;',
+        '&#x1fac3;&#x1f3fe;',
+        '&#x1fac3;&#x1f3ff;',
+        '&#x1fac4;&#x1f3fb;',
+        '&#x1fac4;&#x1f3fc;',
+        '&#x1fac4;&#x1f3fd;',
+        '&#x1fac4;&#x1f3fe;',
+        '&#x1fac4;&#x1f3ff;',
+        '&#x1fac5;&#x1f3fb;',
+        '&#x1fac5;&#x1f3fc;',
+        '&#x1fac5;&#x1f3fd;',
+        '&#x1fac5;&#x1f3fe;',
+        '&#x1fac5;&#x1f3ff;',
+        '&#x1faf0;&#x1f3fb;',
+        '&#x1faf0;&#x1f3fc;',
+        '&#x1faf0;&#x1f3fd;',
+        '&#x1faf0;&#x1f3fe;',
+        '&#x1faf0;&#x1f3ff;',
+        '&#x1faf1;&#x1f3fb;',
+        '&#x1faf1;&#x1f3fc;',
+        '&#x1faf1;&#x1f3fd;',
+        '&#x1faf1;&#x1f3fe;',
+        '&#x1faf1;&#x1f3ff;',
+        '&#x1faf2;&#x1f3fb;',
+        '&#x1faf2;&#x1f3fc;',
+        '&#x1faf2;&#x1f3fd;',
+        '&#x1faf2;&#x1f3fe;',
+        '&#x1faf2;&#x1f3ff;',
+        '&#x1faf3;&#x1f3fb;',
+        '&#x1faf3;&#x1f3fc;',
+        '&#x1faf3;&#x1f3fd;',
+        '&#x1faf3;&#x1f3fe;',
+        '&#x1faf3;&#x1f3ff;',
+        '&#x1faf4;&#x1f3fb;',
+        '&#x1faf4;&#x1f3fc;',
+        '&#x1faf4;&#x1f3fd;',
+        '&#x1faf4;&#x1f3fe;',
+        '&#x1faf4;&#x1f3ff;',
+        '&#x1faf5;&#x1f3fb;',
+        '&#x1faf5;&#x1f3fc;',
+        '&#x1faf5;&#x1f3fd;',
+        '&#x1faf5;&#x1f3fe;',
+        '&#x1faf5;&#x1f3ff;',
+        '&#x1faf6;&#x1f3fb;',
+        '&#x1faf6;&#x1f3fc;',
+        '&#x1faf6;&#x1f3fd;',
+        '&#x1faf6;&#x1f3fe;',
+        '&#x1faf6;&#x1f3ff;',
+        '&#x1faf7;&#x1f3fb;',
+        '&#x1faf7;&#x1f3fc;',
+        '&#x1faf7;&#x1f3fd;',
+        '&#x1faf7;&#x1f3fe;',
+        '&#x1faf7;&#x1f3ff;',
+        '&#x1faf8;&#x1f3fb;',
+        '&#x1faf8;&#x1f3fc;',
+        '&#x1faf8;&#x1f3fd;',
+        '&#x1faf8;&#x1f3fe;',
+        '&#x1faf8;&#x1f3ff;',
+        '&#x261d;&#x1f3fb;',
+        '&#x261d;&#x1f3fc;',
+        '&#x261d;&#x1f3fd;',
+        '&#x261d;&#x1f3fe;',
+        '&#x261d;&#x1f3ff;',
+        '&#x26f7;&#x1f3fb;',
+        '&#x26f7;&#x1f3fc;',
+        '&#x26f7;&#x1f3fd;',
+        '&#x26f7;&#x1f3fe;',
+        '&#x26f7;&#x1f3ff;',
+        '&#x26f9;&#x1f3fb;',
+        '&#x26f9;&#x1f3fc;',
+        '&#x26f9;&#x1f3fd;',
+        '&#x26f9;&#x1f3fe;',
+        '&#x26f9;&#x1f3ff;',
+        '&#x270a;&#x1f3fb;',
+        '&#x270a;&#x1f3fc;',
+        '&#x270a;&#x1f3fd;',
+        '&#x270a;&#x1f3fe;',
+        '&#x270a;&#x1f3ff;',
+        '&#x270b;&#x1f3fb;',
+        '&#x270b;&#x1f3fc;',
+        '&#x270b;&#x1f3fd;',
+        '&#x270b;&#x1f3fe;',
+        '&#x270b;&#x1f3ff;',
+        '&#x270c;&#x1f3fb;',
+        '&#x270c;&#x1f3fc;',
+        '&#x270c;&#x1f3fd;',
+        '&#x270c;&#x1f3fe;',
+        '&#x270c;&#x1f3ff;',
+        '&#x270d;&#x1f3fb;',
+        '&#x270d;&#x1f3fc;',
+        '&#x270d;&#x1f3fd;',
+        '&#x270d;&#x1f3fe;',
+        '&#x270d;&#x1f3ff;',
+        '&#x23;&#x20e3;',
+        '&#x2a;&#x20e3;',
+        '&#x30;&#x20e3;',
+        '&#x31;&#x20e3;',
+        '&#x32;&#x20e3;',
+        '&#x33;&#x20e3;',
+        '&#x34;&#x20e3;',
+        '&#x35;&#x20e3;',
+        '&#x36;&#x20e3;',
+        '&#x37;&#x20e3;',
+        '&#x38;&#x20e3;',
+        '&#x39;&#x20e3;',
+        '&#x1f004;',
+        '&#x1f0cf;',
+        '&#x1f170;',
+        '&#x1f171;',
+        '&#x1f17e;',
+        '&#x1f17f;',
+        '&#x1f18e;',
+        '&#x1f191;',
+        '&#x1f192;',
+        '&#x1f193;',
+        '&#x1f194;',
+        '&#x1f195;',
+        '&#x1f196;',
+        '&#x1f197;',
+        '&#x1f198;',
+        '&#x1f199;',
+        '&#x1f19a;',
+        '&#x1f1e6;',
+        '&#x1f1e7;',
+        '&#x1f1e8;',
+        '&#x1f1e9;',
+        '&#x1f1ea;',
+        '&#x1f1eb;',
+        '&#x1f1ec;',
+        '&#x1f1ed;',
+        '&#x1f1ee;',
+        '&#x1f1ef;',
+        '&#x1f1f0;',
+        '&#x1f1f1;',
+        '&#x1f1f2;',
+        '&#x1f1f3;',
+        '&#x1f1f4;',
+        '&#x1f1f5;',
+        '&#x1f1f6;',
+        '&#x1f1f7;',
+        '&#x1f1f8;',
+        '&#x1f1f9;',
+        '&#x1f1fa;',
+        '&#x1f1fb;',
+        '&#x1f1fc;',
+        '&#x1f1fd;',
+        '&#x1f1fe;',
+        '&#x1f1ff;',
+        '&#x1f201;',
+        '&#x1f202;',
+        '&#x1f21a;',
+        '&#x1f22f;',
+        '&#x1f232;',
+        '&#x1f233;',
+        '&#x1f234;',
+        '&#x1f235;',
+        '&#x1f236;',
+        '&#x1f237;',
+        '&#x1f238;',
+        '&#x1f239;',
+        '&#x1f23a;',
+        '&#x1f250;',
+        '&#x1f251;',
+        '&#x1f300;',
+        '&#x1f301;',
+        '&#x1f302;',
+        '&#x1f303;',
+        '&#x1f304;',
+        '&#x1f305;',
+        '&#x1f306;',
+        '&#x1f307;',
+        '&#x1f308;',
+        '&#x1f309;',
+        '&#x1f30a;',
+        '&#x1f30b;',
+        '&#x1f30c;',
+        '&#x1f30d;',
+        '&#x1f30e;',
+        '&#x1f30f;',
+        '&#x1f310;',
+        '&#x1f311;',
+        '&#x1f312;',
+        '&#x1f313;',
+        '&#x1f314;',
+        '&#x1f315;',
+        '&#x1f316;',
+        '&#x1f317;',
+        '&#x1f318;',
+        '&#x1f319;',
+        '&#x1f31a;',
+        '&#x1f31b;',
+        '&#x1f31c;',
+        '&#x1f31d;',
+        '&#x1f31e;',
+        '&#x1f31f;',
+        '&#x1f320;',
+        '&#x1f321;',
+        '&#x1f324;',
+        '&#x1f325;',
+        '&#x1f326;',
+        '&#x1f327;',
+        '&#x1f328;',
+        '&#x1f329;',
+        '&#x1f32a;',
+        '&#x1f32b;',
+        '&#x1f32c;',
+        '&#x1f32d;',
+        '&#x1f32e;',
+        '&#x1f32f;',
+        '&#x1f330;',
+        '&#x1f331;',
+        '&#x1f332;',
+        '&#x1f333;',
+        '&#x1f334;',
+        '&#x1f335;',
+        '&#x1f336;',
+        '&#x1f337;',
+        '&#x1f338;',
+        '&#x1f339;',
+        '&#x1f33a;',
+        '&#x1f33b;',
+        '&#x1f33c;',
+        '&#x1f33d;',
+        '&#x1f33e;',
+        '&#x1f33f;',
+        '&#x1f340;',
+        '&#x1f341;',
+        '&#x1f342;',
+        '&#x1f343;',
+        '&#x1f344;',
+        '&#x1f345;',
+        '&#x1f346;',
+        '&#x1f347;',
+        '&#x1f348;',
+        '&#x1f349;',
+        '&#x1f34a;',
+        '&#x1f34b;',
+        '&#x1f34c;',
+        '&#x1f34d;',
+        '&#x1f34e;',
+        '&#x1f34f;',
+        '&#x1f350;',
+        '&#x1f351;',
+        '&#x1f352;',
+        '&#x1f353;',
+        '&#x1f354;',
+        '&#x1f355;',
+        '&#x1f356;',
+        '&#x1f357;',
+        '&#x1f358;',
+        '&#x1f359;',
+        '&#x1f35a;',
+        '&#x1f35b;',
+        '&#x1f35c;',
+        '&#x1f35d;',
+        '&#x1f35e;',
+        '&#x1f35f;',
+        '&#x1f360;',
+        '&#x1f361;',
+        '&#x1f362;',
+        '&#x1f363;',
+        '&#x1f364;',
+        '&#x1f365;',
+        '&#x1f366;',
+        '&#x1f367;',
+        '&#x1f368;',
+        '&#x1f369;',
+        '&#x1f36a;',
+        '&#x1f36b;',
+        '&#x1f36c;',
+        '&#x1f36d;',
+        '&#x1f36e;',
+        '&#x1f36f;',
+        '&#x1f370;',
+        '&#x1f371;',
+        '&#x1f372;',
+        '&#x1f373;',
+        '&#x1f374;',
+        '&#x1f375;',
+        '&#x1f376;',
+        '&#x1f377;',
+        '&#x1f378;',
+        '&#x1f379;',
+        '&#x1f37a;',
+        '&#x1f37b;',
+        '&#x1f37c;',
+        '&#x1f37d;',
+        '&#x1f37e;',
+        '&#x1f37f;',
+        '&#x1f380;',
+        '&#x1f381;',
+        '&#x1f382;',
+        '&#x1f383;',
+        '&#x1f384;',
+        '&#x1f385;',
+        '&#x1f386;',
+        '&#x1f387;',
+        '&#x1f388;',
+        '&#x1f389;',
+        '&#x1f38a;',
+        '&#x1f38b;',
+        '&#x1f38c;',
+        '&#x1f38d;',
+        '&#x1f38e;',
+        '&#x1f38f;',
+        '&#x1f390;',
+        '&#x1f391;',
+        '&#x1f392;',
+        '&#x1f393;',
+        '&#x1f396;',
+        '&#x1f397;',
+        '&#x1f399;',
+        '&#x1f39a;',
+        '&#x1f39b;',
+        '&#x1f39e;',
+        '&#x1f39f;',
+        '&#x1f3a0;',
+        '&#x1f3a1;',
+        '&#x1f3a2;',
+        '&#x1f3a3;',
+        '&#x1f3a4;',
+        '&#x1f3a5;',
+        '&#x1f3a6;',
+        '&#x1f3a7;',
+        '&#x1f3a8;',
+        '&#x1f3a9;',
+        '&#x1f3aa;',
+        '&#x1f3ab;',
+        '&#x1f3ac;',
+        '&#x1f3ad;',
+        '&#x1f3ae;',
+        '&#x1f3af;',
+        '&#x1f3b0;',
+        '&#x1f3b1;',
+        '&#x1f3b2;',
+        '&#x1f3b3;',
+        '&#x1f3b4;',
+        '&#x1f3b5;',
+        '&#x1f3b6;',
+        '&#x1f3b7;',
+        '&#x1f3b8;',
+        '&#x1f3b9;',
+        '&#x1f3ba;',
+        '&#x1f3bb;',
+        '&#x1f3bc;',
+        '&#x1f3bd;',
+        '&#x1f3be;',
+        '&#x1f3bf;',
+        '&#x1f3c0;',
+        '&#x1f3c1;',
+        '&#x1f3c2;',
+        '&#x1f3c3;',
+        '&#x1f3c4;',
+        '&#x1f3c5;',
+        '&#x1f3c6;',
+        '&#x1f3c7;',
+        '&#x1f3c8;',
+        '&#x1f3c9;',
+        '&#x1f3ca;',
+        '&#x1f3cb;',
+        '&#x1f3cc;',
+        '&#x1f3cd;',
+        '&#x1f3ce;',
+        '&#x1f3cf;',
+        '&#x1f3d0;',
+        '&#x1f3d1;',
+        '&#x1f3d2;',
+        '&#x1f3d3;',
+        '&#x1f3d4;',
+        '&#x1f3d5;',
+        '&#x1f3d6;',
+        '&#x1f3d7;',
+        '&#x1f3d8;',
+        '&#x1f3d9;',
+        '&#x1f3da;',
+        '&#x1f3db;',
+        '&#x1f3dc;',
+        '&#x1f3dd;',
+        '&#x1f3de;',
+        '&#x1f3df;',
+        '&#x1f3e0;',
+        '&#x1f3e1;',
+        '&#x1f3e2;',
+        '&#x1f3e3;',
+        '&#x1f3e4;',
+        '&#x1f3e5;',
+        '&#x1f3e6;',
+        '&#x1f3e7;',
+        '&#x1f3e8;',
+        '&#x1f3e9;',
+        '&#x1f3ea;',
+        '&#x1f3eb;',
+        '&#x1f3ec;',
+        '&#x1f3ed;',
+        '&#x1f3ee;',
+        '&#x1f3ef;',
+        '&#x1f3f0;',
+        '&#x1f3f3;',
+        '&#x1f3f4;',
+        '&#x1f3f5;',
+        '&#x1f3f7;',
+        '&#x1f3f8;',
+        '&#x1f3f9;',
+        '&#x1f3fa;',
+        '&#x1f3fb;',
+        '&#x1f3fc;',
+        '&#x1f3fd;',
+        '&#x1f3fe;',
+        '&#x1f3ff;',
+        '&#x1f400;',
+        '&#x1f401;',
+        '&#x1f402;',
+        '&#x1f403;',
+        '&#x1f404;',
+        '&#x1f405;',
+        '&#x1f406;',
+        '&#x1f407;',
+        '&#x1f408;',
+        '&#x1f409;',
+        '&#x1f40a;',
+        '&#x1f40b;',
+        '&#x1f40c;',
+        '&#x1f40d;',
+        '&#x1f40e;',
+        '&#x1f40f;',
+        '&#x1f410;',
+        '&#x1f411;',
+        '&#x1f412;',
+        '&#x1f413;',
+        '&#x1f414;',
+        '&#x1f415;',
+        '&#x1f416;',
+        '&#x1f417;',
+        '&#x1f418;',
+        '&#x1f419;',
+        '&#x1f41a;',
+        '&#x1f41b;',
+        '&#x1f41c;',
+        '&#x1f41d;',
+        '&#x1f41e;',
+        '&#x1f41f;',
+        '&#x1f420;',
+        '&#x1f421;',
+        '&#x1f422;',
+        '&#x1f423;',
+        '&#x1f424;',
+        '&#x1f425;',
+        '&#x1f426;',
+        '&#x1f427;',
+        '&#x1f428;',
+        '&#x1f429;',
+        '&#x1f42a;',
+        '&#x1f42b;',
+        '&#x1f42c;',
+        '&#x1f42d;',
+        '&#x1f42e;',
+        '&#x1f42f;',
+        '&#x1f430;',
+        '&#x1f431;',
+        '&#x1f432;',
+        '&#x1f433;',
+        '&#x1f434;',
+        '&#x1f435;',
+        '&#x1f436;',
+        '&#x1f437;',
+        '&#x1f438;',
+        '&#x1f439;',
+        '&#x1f43a;',
+        '&#x1f43b;',
+        '&#x1f43c;',
+        '&#x1f43d;',
+        '&#x1f43e;',
+        '&#x1f43f;',
+        '&#x1f440;',
+        '&#x1f441;',
+        '&#x1f442;',
+        '&#x1f443;',
+        '&#x1f444;',
+        '&#x1f445;',
+        '&#x1f446;',
+        '&#x1f447;',
+        '&#x1f448;',
+        '&#x1f449;',
+        '&#x1f44a;',
+        '&#x1f44b;',
+        '&#x1f44c;',
+        '&#x1f44d;',
+        '&#x1f44e;',
+        '&#x1f44f;',
+        '&#x1f450;',
+        '&#x1f451;',
+        '&#x1f452;',
+        '&#x1f453;',
+        '&#x1f454;',
+        '&#x1f455;',
+        '&#x1f456;',
+        '&#x1f457;',
+        '&#x1f458;',
+        '&#x1f459;',
+        '&#x1f45a;',
+        '&#x1f45b;',
+        '&#x1f45c;',
+        '&#x1f45d;',
+        '&#x1f45e;',
+        '&#x1f45f;',
+        '&#x1f460;',
+        '&#x1f461;',
+        '&#x1f462;',
+        '&#x1f463;',
+        '&#x1f464;',
+        '&#x1f465;',
+        '&#x1f466;',
+        '&#x1f467;',
+        '&#x1f468;',
+        '&#x1f469;',
+        '&#x1f46a;',
+        '&#x1f46b;',
+        '&#x1f46c;',
+        '&#x1f46d;',
+        '&#x1f46e;',
+        '&#x1f46f;',
+        '&#x1f470;',
+        '&#x1f471;',
+        '&#x1f472;',
+        '&#x1f473;',
+        '&#x1f474;',
+        '&#x1f475;',
+        '&#x1f476;',
+        '&#x1f477;',
+        '&#x1f478;',
+        '&#x1f479;',
+        '&#x1f47a;',
+        '&#x1f47b;',
+        '&#x1f47c;',
+        '&#x1f47d;',
+        '&#x1f47e;',
+        '&#x1f47f;',
+        '&#x1f480;',
+        '&#x1f481;',
+        '&#x1f482;',
+        '&#x1f483;',
+        '&#x1f484;',
+        '&#x1f485;',
+        '&#x1f486;',
+        '&#x1f487;',
+        '&#x1f488;',
+        '&#x1f489;',
+        '&#x1f48a;',
+        '&#x1f48b;',
+        '&#x1f48c;',
+        '&#x1f48d;',
+        '&#x1f48e;',
+        '&#x1f48f;',
+        '&#x1f490;',
+        '&#x1f491;',
+        '&#x1f492;',
+        '&#x1f493;',
+        '&#x1f494;',
+        '&#x1f495;',
+        '&#x1f496;',
+        '&#x1f497;',
+        '&#x1f498;',
+        '&#x1f499;',
+        '&#x1f49a;',
+        '&#x1f49b;',
+        '&#x1f49c;',
+        '&#x1f49d;',
+        '&#x1f49e;',
+        '&#x1f49f;',
+        '&#x1f4a0;',
+        '&#x1f4a1;',
+        '&#x1f4a2;',
+        '&#x1f4a3;',
+        '&#x1f4a4;',
+        '&#x1f4a5;',
+        '&#x1f4a6;',
+        '&#x1f4a7;',
+        '&#x1f4a8;',
+        '&#x1f4a9;',
+        '&#x1f4aa;',
+        '&#x1f4ab;',
+        '&#x1f4ac;',
+        '&#x1f4ad;',
+        '&#x1f4ae;',
+        '&#x1f4af;',
+        '&#x1f4b0;',
+        '&#x1f4b1;',
+        '&#x1f4b2;',
+        '&#x1f4b3;',
+        '&#x1f4b4;',
+        '&#x1f4b5;',
+        '&#x1f4b6;',
+        '&#x1f4b7;',
+        '&#x1f4b8;',
+        '&#x1f4b9;',
+        '&#x1f4ba;',
+        '&#x1f4bb;',
+        '&#x1f4bc;',
+        '&#x1f4bd;',
+        '&#x1f4be;',
+        '&#x1f4bf;',
+        '&#x1f4c0;',
+        '&#x1f4c1;',
+        '&#x1f4c2;',
+        '&#x1f4c3;',
+        '&#x1f4c4;',
+        '&#x1f4c5;',
+        '&#x1f4c6;',
+        '&#x1f4c7;',
+        '&#x1f4c8;',
+        '&#x1f4c9;',
+        '&#x1f4ca;',
+        '&#x1f4cb;',
+        '&#x1f4cc;',
+        '&#x1f4cd;',
+        '&#x1f4ce;',
+        '&#x1f4cf;',
+        '&#x1f4d0;',
+        '&#x1f4d1;',
+        '&#x1f4d2;',
+        '&#x1f4d3;',
+        '&#x1f4d4;',
+        '&#x1f4d5;',
+        '&#x1f4d6;',
+        '&#x1f4d7;',
+        '&#x1f4d8;',
+        '&#x1f4d9;',
+        '&#x1f4da;',
+        '&#x1f4db;',
+        '&#x1f4dc;',
+        '&#x1f4dd;',
+        '&#x1f4de;',
+        '&#x1f4df;',
+        '&#x1f4e0;',
+        '&#x1f4e1;',
+        '&#x1f4e2;',
+        '&#x1f4e3;',
+        '&#x1f4e4;',
+        '&#x1f4e5;',
+        '&#x1f4e6;',
+        '&#x1f4e7;',
+        '&#x1f4e8;',
+        '&#x1f4e9;',
+        '&#x1f4ea;',
+        '&#x1f4eb;',
+        '&#x1f4ec;',
+        '&#x1f4ed;',
+        '&#x1f4ee;',
+        '&#x1f4ef;',
+        '&#x1f4f0;',
+        '&#x1f4f1;',
+        '&#x1f4f2;',
+        '&#x1f4f3;',
+        '&#x1f4f4;',
+        '&#x1f4f5;',
+        '&#x1f4f6;',
+        '&#x1f4f7;',
+        '&#x1f4f8;',
+        '&#x1f4f9;',
+        '&#x1f4fa;',
+        '&#x1f4fb;',
+        '&#x1f4fc;',
+        '&#x1f4fd;',
+        '&#x1f4ff;',
+        '&#x1f500;',
+        '&#x1f501;',
+        '&#x1f502;',
+        '&#x1f503;',
+        '&#x1f504;',
+        '&#x1f505;',
+        '&#x1f506;',
+        '&#x1f507;',
+        '&#x1f508;',
+        '&#x1f509;',
+        '&#x1f50a;',
+        '&#x1f50b;',
+        '&#x1f50c;',
+        '&#x1f50d;',
+        '&#x1f50e;',
+        '&#x1f50f;',
+        '&#x1f510;',
+        '&#x1f511;',
+        '&#x1f512;',
+        '&#x1f513;',
+        '&#x1f514;',
+        '&#x1f515;',
+        '&#x1f516;',
+        '&#x1f517;',
+        '&#x1f518;',
+        '&#x1f519;',
+        '&#x1f51a;',
+        '&#x1f51b;',
+        '&#x1f51c;',
+        '&#x1f51d;',
+        '&#x1f51e;',
+        '&#x1f51f;',
+        '&#x1f520;',
+        '&#x1f521;',
+        '&#x1f522;',
+        '&#x1f523;',
+        '&#x1f524;',
+        '&#x1f525;',
+        '&#x1f526;',
+        '&#x1f527;',
+        '&#x1f528;',
+        '&#x1f529;',
+        '&#x1f52a;',
+        '&#x1f52b;',
+        '&#x1f52c;',
+        '&#x1f52d;',
+        '&#x1f52e;',
+        '&#x1f52f;',
+        '&#x1f530;',
+        '&#x1f531;',
+        '&#x1f532;',
+        '&#x1f533;',
+        '&#x1f534;',
+        '&#x1f535;',
+        '&#x1f536;',
+        '&#x1f537;',
+        '&#x1f538;',
+        '&#x1f539;',
+        '&#x1f53a;',
+        '&#x1f53b;',
+        '&#x1f53c;',
+        '&#x1f53d;',
+        '&#x1f549;',
+        '&#x1f54a;',
+        '&#x1f54b;',
+        '&#x1f54c;',
+        '&#x1f54d;',
+        '&#x1f54e;',
+        '&#x1f550;',
+        '&#x1f551;',
+        '&#x1f552;',
+        '&#x1f553;',
+        '&#x1f554;',
+        '&#x1f555;',
+        '&#x1f556;',
+        '&#x1f557;',
+        '&#x1f558;',
+        '&#x1f559;',
+        '&#x1f55a;',
+        '&#x1f55b;',
+        '&#x1f55c;',
+        '&#x1f55d;',
+        '&#x1f55e;',
+        '&#x1f55f;',
+        '&#x1f560;',
+        '&#x1f561;',
+        '&#x1f562;',
+        '&#x1f563;',
+        '&#x1f564;',
+        '&#x1f565;',
+        '&#x1f566;',
+        '&#x1f567;',
+        '&#x1f56f;',
+        '&#x1f570;',
+        '&#x1f573;',
+        '&#x1f574;',
+        '&#x1f575;',
+        '&#x1f576;',
+        '&#x1f577;',
+        '&#x1f578;',
+        '&#x1f579;',
+        '&#x1f57a;',
+        '&#x1f587;',
+        '&#x1f58a;',
+        '&#x1f58b;',
+        '&#x1f58c;',
+        '&#x1f58d;',
+        '&#x1f590;',
+        '&#x1f595;',
+        '&#x1f596;',
+        '&#x1f5a4;',
+        '&#x1f5a5;',
+        '&#x1f5a8;',
+        '&#x1f5b1;',
+        '&#x1f5b2;',
+        '&#x1f5bc;',
+        '&#x1f5c2;',
+        '&#x1f5c3;',
+        '&#x1f5c4;',
+        '&#x1f5d1;',
+        '&#x1f5d2;',
+        '&#x1f5d3;',
+        '&#x1f5dc;',
+        '&#x1f5dd;',
+        '&#x1f5de;',
+        '&#x1f5e1;',
+        '&#x1f5e3;',
+        '&#x1f5e8;',
+        '&#x1f5ef;',
+        '&#x1f5f3;',
+        '&#x1f5fa;',
+        '&#x1f5fb;',
+        '&#x1f5fc;',
+        '&#x1f5fd;',
+        '&#x1f5fe;',
+        '&#x1f5ff;',
+        '&#x1f600;',
+        '&#x1f601;',
+        '&#x1f602;',
+        '&#x1f603;',
+        '&#x1f604;',
+        '&#x1f605;',
+        '&#x1f606;',
+        '&#x1f607;',
+        '&#x1f608;',
+        '&#x1f609;',
+        '&#x1f60a;',
+        '&#x1f60b;',
+        '&#x1f60c;',
+        '&#x1f60d;',
+        '&#x1f60e;',
+        '&#x1f60f;',
+        '&#x1f610;',
+        '&#x1f611;',
+        '&#x1f612;',
+        '&#x1f613;',
+        '&#x1f614;',
+        '&#x1f615;',
+        '&#x1f616;',
+        '&#x1f617;',
+        '&#x1f618;',
+        '&#x1f619;',
+        '&#x1f61a;',
+        '&#x1f61b;',
+        '&#x1f61c;',
+        '&#x1f61d;',
+        '&#x1f61e;',
+        '&#x1f61f;',
+        '&#x1f620;',
+        '&#x1f621;',
+        '&#x1f622;',
+        '&#x1f623;',
+        '&#x1f624;',
+        '&#x1f625;',
+        '&#x1f626;',
+        '&#x1f627;',
+        '&#x1f628;',
+        '&#x1f629;',
+        '&#x1f62a;',
+        '&#x1f62b;',
+        '&#x1f62c;',
+        '&#x1f62d;',
+        '&#x1f62e;',
+        '&#x1f62f;',
+        '&#x1f630;',
+        '&#x1f631;',
+        '&#x1f632;',
+        '&#x1f633;',
+        '&#x1f634;',
+        '&#x1f635;',
+        '&#x1f636;',
+        '&#x1f637;',
+        '&#x1f638;',
+        '&#x1f639;',
+        '&#x1f63a;',
+        '&#x1f63b;',
+        '&#x1f63c;',
+        '&#x1f63d;',
+        '&#x1f63e;',
+        '&#x1f63f;',
+        '&#x1f640;',
+        '&#x1f641;',
+        '&#x1f642;',
+        '&#x1f643;',
+        '&#x1f644;',
+        '&#x1f645;',
+        '&#x1f646;',
+        '&#x1f647;',
+        '&#x1f648;',
+        '&#x1f649;',
+        '&#x1f64a;',
+        '&#x1f64b;',
+        '&#x1f64c;',
+        '&#x1f64d;',
+        '&#x1f64e;',
+        '&#x1f64f;',
+        '&#x1f680;',
+        '&#x1f681;',
+        '&#x1f682;',
+        '&#x1f683;',
+        '&#x1f684;',
+        '&#x1f685;',
+        '&#x1f686;',
+        '&#x1f687;',
+        '&#x1f688;',
+        '&#x1f689;',
+        '&#x1f68a;',
+        '&#x1f68b;',
+        '&#x1f68c;',
+        '&#x1f68d;',
+        '&#x1f68e;',
+        '&#x1f68f;',
+        '&#x1f690;',
+        '&#x1f691;',
+        '&#x1f692;',
+        '&#x1f693;',
+        '&#x1f694;',
+        '&#x1f695;',
+        '&#x1f696;',
+        '&#x1f697;',
+        '&#x1f698;',
+        '&#x1f699;',
+        '&#x1f69a;',
+        '&#x1f69b;',
+        '&#x1f69c;',
+        '&#x1f69d;',
+        '&#x1f69e;',
+        '&#x1f69f;',
+        '&#x1f6a0;',
+        '&#x1f6a1;',
+        '&#x1f6a2;',
+        '&#x1f6a3;',
+        '&#x1f6a4;',
+        '&#x1f6a5;',
+        '&#x1f6a6;',
+        '&#x1f6a7;',
+        '&#x1f6a8;',
+        '&#x1f6a9;',
+        '&#x1f6aa;',
+        '&#x1f6ab;',
+        '&#x1f6ac;',
+        '&#x1f6ad;',
+        '&#x1f6ae;',
+        '&#x1f6af;',
+        '&#x1f6b0;',
+        '&#x1f6b1;',
+        '&#x1f6b2;',
+        '&#x1f6b3;',
+        '&#x1f6b4;',
+        '&#x1f6b5;',
+        '&#x1f6b6;',
+        '&#x1f6b7;',
+        '&#x1f6b8;',
+        '&#x1f6b9;',
+        '&#x1f6ba;',
+        '&#x1f6bb;',
+        '&#x1f6bc;',
+        '&#x1f6bd;',
+        '&#x1f6be;',
+        '&#x1f6bf;',
+        '&#x1f6c0;',
+        '&#x1f6c1;',
+        '&#x1f6c2;',
+        '&#x1f6c3;',
+        '&#x1f6c4;',
+        '&#x1f6c5;',
+        '&#x1f6cb;',
+        '&#x1f6cc;',
+        '&#x1f6cd;',
+        '&#x1f6ce;',
+        '&#x1f6cf;',
+        '&#x1f6d0;',
+        '&#x1f6d1;',
+        '&#x1f6d2;',
+        '&#x1f6d5;',
+        '&#x1f6d6;',
+        '&#x1f6d7;',
+        '&#x1f6dc;',
+        '&#x1f6dd;',
+        '&#x1f6de;',
+        '&#x1f6df;',
+        '&#x1f6e0;',
+        '&#x1f6e1;',
+        '&#x1f6e2;',
+        '&#x1f6e3;',
+        '&#x1f6e4;',
+        '&#x1f6e5;',
+        '&#x1f6e9;',
+        '&#x1f6eb;',
+        '&#x1f6ec;',
+        '&#x1f6f0;',
+        '&#x1f6f3;',
+        '&#x1f6f4;',
+        '&#x1f6f5;',
+        '&#x1f6f6;',
+        '&#x1f6f7;',
+        '&#x1f6f8;',
+        '&#x1f6f9;',
+        '&#x1f6fa;',
+        '&#x1f6fb;',
+        '&#x1f6fc;',
+        '&#x1f7e0;',
+        '&#x1f7e1;',
+        '&#x1f7e2;',
+        '&#x1f7e3;',
+        '&#x1f7e4;',
+        '&#x1f7e5;',
+        '&#x1f7e6;',
+        '&#x1f7e7;',
+        '&#x1f7e8;',
+        '&#x1f7e9;',
+        '&#x1f7ea;',
+        '&#x1f7eb;',
+        '&#x1f7f0;',
+        '&#x1f90c;',
+        '&#x1f90d;',
+        '&#x1f90e;',
+        '&#x1f90f;',
+        '&#x1f910;',
+        '&#x1f911;',
+        '&#x1f912;',
+        '&#x1f913;',
+        '&#x1f914;',
+        '&#x1f915;',
+        '&#x1f916;',
+        '&#x1f917;',
+        '&#x1f918;',
+        '&#x1f919;',
+        '&#x1f91a;',
+        '&#x1f91b;',
+        '&#x1f91c;',
+        '&#x1f91d;',
+        '&#x1f91e;',
+        '&#x1f91f;',
+        '&#x1f920;',
+        '&#x1f921;',
+        '&#x1f922;',
+        '&#x1f923;',
+        '&#x1f924;',
+        '&#x1f925;',
+        '&#x1f926;',
+        '&#x1f927;',
+        '&#x1f928;',
+        '&#x1f929;',
+        '&#x1f92a;',
+        '&#x1f92b;',
+        '&#x1f92c;',
+        '&#x1f92d;',
+        '&#x1f92e;',
+        '&#x1f92f;',
+        '&#x1f930;',
+        '&#x1f931;',
+        '&#x1f932;',
+        '&#x1f933;',
+        '&#x1f934;',
+        '&#x1f935;',
+        '&#x1f936;',
+        '&#x1f937;',
+        '&#x1f938;',
+        '&#x1f939;',
+        '&#x1f93a;',
+        '&#x1f93c;',
+        '&#x1f93d;',
+        '&#x1f93e;',
+        '&#x1f93f;',
+        '&#x1f940;',
+        '&#x1f941;',
+        '&#x1f942;',
+        '&#x1f943;',
+        '&#x1f944;',
+        '&#x1f945;',
+        '&#x1f947;',
+        '&#x1f948;',
+        '&#x1f949;',
+        '&#x1f94a;',
+        '&#x1f94b;',
+        '&#x1f94c;',
+        '&#x1f94d;',
+        '&#x1f94e;',
+        '&#x1f94f;',
+        '&#x1f950;',
+        '&#x1f951;',
+        '&#x1f952;',
+        '&#x1f953;',
+        '&#x1f954;',
+        '&#x1f955;',
+        '&#x1f956;',
+        '&#x1f957;',
+        '&#x1f958;',
+        '&#x1f959;',
+        '&#x1f95a;',
+        '&#x1f95b;',
+        '&#x1f95c;',
+        '&#x1f95d;',
+        '&#x1f95e;',
+        '&#x1f95f;',
+        '&#x1f960;',
+        '&#x1f961;',
+        '&#x1f962;',
+        '&#x1f963;',
+        '&#x1f964;',
+        '&#x1f965;',
+        '&#x1f966;',
+        '&#x1f967;',
+        '&#x1f968;',
+        '&#x1f969;',
+        '&#x1f96a;',
+        '&#x1f96b;',
+        '&#x1f96c;',
+        '&#x1f96d;',
+        '&#x1f96e;',
+        '&#x1f96f;',
+        '&#x1f970;',
+        '&#x1f971;',
+        '&#x1f972;',
+        '&#x1f973;',
+        '&#x1f974;',
+        '&#x1f975;',
+        '&#x1f976;',
+        '&#x1f977;',
+        '&#x1f978;',
+        '&#x1f979;',
+        '&#x1f97a;',
+        '&#x1f97b;',
+        '&#x1f97c;',
+        '&#x1f97d;',
+        '&#x1f97e;',
+        '&#x1f97f;',
+        '&#x1f980;',
+        '&#x1f981;',
+        '&#x1f982;',
+        '&#x1f983;',
+        '&#x1f984;',
+        '&#x1f985;',
+        '&#x1f986;',
+        '&#x1f987;',
+        '&#x1f988;',
+        '&#x1f989;',
+        '&#x1f98a;',
+        '&#x1f98b;',
+        '&#x1f98c;',
+        '&#x1f98d;',
+        '&#x1f98e;',
+        '&#x1f98f;',
+        '&#x1f990;',
+        '&#x1f991;',
+        '&#x1f992;',
+        '&#x1f993;',
+        '&#x1f994;',
+        '&#x1f995;',
+        '&#x1f996;',
+        '&#x1f997;',
+        '&#x1f998;',
+        '&#x1f999;',
+        '&#x1f99a;',
+        '&#x1f99b;',
+        '&#x1f99c;',
+        '&#x1f99d;',
+        '&#x1f99e;',
+        '&#x1f99f;',
+        '&#x1f9a0;',
+        '&#x1f9a1;',
+        '&#x1f9a2;',
+        '&#x1f9a3;',
+        '&#x1f9a4;',
+        '&#x1f9a5;',
+        '&#x1f9a6;',
+        '&#x1f9a7;',
+        '&#x1f9a8;',
+        '&#x1f9a9;',
+        '&#x1f9aa;',
+        '&#x1f9ab;',
+        '&#x1f9ac;',
+        '&#x1f9ad;',
+        '&#x1f9ae;',
+        '&#x1f9af;',
+        '&#x1f9b0;',
+        '&#x1f9b1;',
+        '&#x1f9b2;',
+        '&#x1f9b3;',
+        '&#x1f9b4;',
+        '&#x1f9b5;',
+        '&#x1f9b6;',
+        '&#x1f9b7;',
+        '&#x1f9b8;',
+        '&#x1f9b9;',
+        '&#x1f9ba;',
+        '&#x1f9bb;',
+        '&#x1f9bc;',
+        '&#x1f9bd;',
+        '&#x1f9be;',
+        '&#x1f9bf;',
+        '&#x1f9c0;',
+        '&#x1f9c1;',
+        '&#x1f9c2;',
+        '&#x1f9c3;',
+        '&#x1f9c4;',
+        '&#x1f9c5;',
+        '&#x1f9c6;',
+        '&#x1f9c7;',
+        '&#x1f9c8;',
+        '&#x1f9c9;',
+        '&#x1f9ca;',
+        '&#x1f9cb;',
+        '&#x1f9cc;',
+        '&#x1f9cd;',
+        '&#x1f9ce;',
+        '&#x1f9cf;',
+        '&#x1f9d0;',
+        '&#x1f9d1;',
+        '&#x1f9d2;',
+        '&#x1f9d3;',
+        '&#x1f9d4;',
+        '&#x1f9d5;',
+        '&#x1f9d6;',
+        '&#x1f9d7;',
+        '&#x1f9d8;',
+        '&#x1f9d9;',
+        '&#x1f9da;',
+        '&#x1f9db;',
+        '&#x1f9dc;',
+        '&#x1f9dd;',
+        '&#x1f9de;',
+        '&#x1f9df;',
+        '&#x1f9e0;',
+        '&#x1f9e1;',
+        '&#x1f9e2;',
+        '&#x1f9e3;',
+        '&#x1f9e4;',
+        '&#x1f9e5;',
+        '&#x1f9e6;',
+        '&#x1f9e7;',
+        '&#x1f9e8;',
+        '&#x1f9e9;',
+        '&#x1f9ea;',
+        '&#x1f9eb;',
+        '&#x1f9ec;',
+        '&#x1f9ed;',
+        '&#x1f9ee;',
+        '&#x1f9ef;',
+        '&#x1f9f0;',
+        '&#x1f9f1;',
+        '&#x1f9f2;',
+        '&#x1f9f3;',
+        '&#x1f9f4;',
+        '&#x1f9f5;',
+        '&#x1f9f6;',
+        '&#x1f9f7;',
+        '&#x1f9f8;',
+        '&#x1f9f9;',
+        '&#x1f9fa;',
+        '&#x1f9fb;',
+        '&#x1f9fc;',
+        '&#x1f9fd;',
+        '&#x1f9fe;',
+        '&#x1f9ff;',
+        '&#x1fa70;',
+        '&#x1fa71;',
+        '&#x1fa72;',
+        '&#x1fa73;',
+        '&#x1fa74;',
+        '&#x1fa75;',
+        '&#x1fa76;',
+        '&#x1fa77;',
+        '&#x1fa78;',
+        '&#x1fa79;',
+        '&#x1fa7a;',
+        '&#x1fa7b;',
+        '&#x1fa7c;',
+        '&#x1fa80;',
+        '&#x1fa81;',
+        '&#x1fa82;',
+        '&#x1fa83;',
+        '&#x1fa84;',
+        '&#x1fa85;',
+        '&#x1fa86;',
+        '&#x1fa87;',
+        '&#x1fa88;',
+        '&#x1fa90;',
+        '&#x1fa91;',
+        '&#x1fa92;',
+        '&#x1fa93;',
+        '&#x1fa94;',
+        '&#x1fa95;',
+        '&#x1fa96;',
+        '&#x1fa97;',
+        '&#x1fa98;',
+        '&#x1fa99;',
+        '&#x1fa9a;',
+        '&#x1fa9b;',
+        '&#x1fa9c;',
+        '&#x1fa9d;',
+        '&#x1fa9e;',
+        '&#x1fa9f;',
+        '&#x1faa0;',
+        '&#x1faa1;',
+        '&#x1faa2;',
+        '&#x1faa3;',
+        '&#x1faa4;',
+        '&#x1faa5;',
+        '&#x1faa6;',
+        '&#x1faa7;',
+        '&#x1faa8;',
+        '&#x1faa9;',
+        '&#x1faaa;',
+        '&#x1faab;',
+        '&#x1faac;',
+        '&#x1faad;',
+        '&#x1faae;',
+        '&#x1faaf;',
+        '&#x1fab0;',
+        '&#x1fab1;',
+        '&#x1fab2;',
+        '&#x1fab3;',
+        '&#x1fab4;',
+        '&#x1fab5;',
+        '&#x1fab6;',
+        '&#x1fab7;',
+        '&#x1fab8;',
+        '&#x1fab9;',
+        '&#x1faba;',
+        '&#x1fabb;',
+        '&#x1fabc;',
+        '&#x1fabd;',
+        '&#x1fabf;',
+        '&#x1fac0;',
+        '&#x1fac1;',
+        '&#x1fac2;',
+        '&#x1fac3;',
+        '&#x1fac4;',
+        '&#x1fac5;',
+        '&#x1face;',
+        '&#x1facf;',
+        '&#x1fad0;',
+        '&#x1fad1;',
+        '&#x1fad2;',
+        '&#x1fad3;',
+        '&#x1fad4;',
+        '&#x1fad5;',
+        '&#x1fad6;',
+        '&#x1fad7;',
+        '&#x1fad8;',
+        '&#x1fad9;',
+        '&#x1fada;',
+        '&#x1fadb;',
+        '&#x1fae0;',
+        '&#x1fae1;',
+        '&#x1fae2;',
+        '&#x1fae3;',
+        '&#x1fae4;',
+        '&#x1fae5;',
+        '&#x1fae6;',
+        '&#x1fae7;',
+        '&#x1fae8;',
+        '&#x1faf0;',
+        '&#x1faf1;',
+        '&#x1faf2;',
+        '&#x1faf3;',
+        '&#x1faf4;',
+        '&#x1faf5;',
+        '&#x1faf6;',
+        '&#x1faf7;',
+        '&#x1faf8;',
+        '&#x203c;',
+        '&#x2049;',
+        '&#x2122;',
+        '&#x2139;',
+        '&#x2194;',
+        '&#x2195;',
+        '&#x2196;',
+        '&#x2197;',
+        '&#x2198;',
+        '&#x2199;',
+        '&#x21a9;',
+        '&#x21aa;',
+        '&#x231a;',
+        '&#x231b;',
+        '&#x2328;',
+        '&#x23cf;',
+        '&#x23e9;',
+        '&#x23ea;',
+        '&#x23eb;',
+        '&#x23ec;',
+        '&#x23ed;',
+        '&#x23ee;',
+        '&#x23ef;',
+        '&#x23f0;',
+        '&#x23f1;',
+        '&#x23f2;',
+        '&#x23f3;',
+        '&#x23f8;',
+        '&#x23f9;',
+        '&#x23fa;',
+        '&#x24c2;',
+        '&#x25aa;',
+        '&#x25ab;',
+        '&#x25b6;',
+        '&#x25c0;',
+        '&#x25fb;',
+        '&#x25fc;',
+        '&#x25fd;',
+        '&#x25fe;',
+        '&#x2600;',
+        '&#x2601;',
+        '&#x2602;',
+        '&#x2603;',
+        '&#x2604;',
+        '&#x260e;',
+        '&#x2611;',
+        '&#x2614;',
+        '&#x2615;',
+        '&#x2618;',
+        '&#x261d;',
+        '&#x2620;',
+        '&#x2622;',
+        '&#x2623;',
+        '&#x2626;',
+        '&#x262a;',
+        '&#x262e;',
+        '&#x262f;',
+        '&#x2638;',
+        '&#x2639;',
+        '&#x263a;',
+        '&#x2640;',
+        '&#x2642;',
+        '&#x2648;',
+        '&#x2649;',
+        '&#x264a;',
+        '&#x264b;',
+        '&#x264c;',
+        '&#x264d;',
+        '&#x264e;',
+        '&#x264f;',
+        '&#x2650;',
+        '&#x2651;',
+        '&#x2652;',
+        '&#x2653;',
+        '&#x265f;',
+        '&#x2660;',
+        '&#x2663;',
+        '&#x2665;',
+        '&#x2666;',
+        '&#x2668;',
+        '&#x267b;',
+        '&#x267e;',
+        '&#x267f;',
+        '&#x2692;',
+        '&#x2693;',
+        '&#x2694;',
+        '&#x2695;',
+        '&#x2696;',
+        '&#x2697;',
+        '&#x2699;',
+        '&#x269b;',
+        '&#x269c;',
+        '&#x26a0;',
+        '&#x26a1;',
+        '&#x26a7;',
+        '&#x26aa;',
+        '&#x26ab;',
+        '&#x26b0;',
+        '&#x26b1;',
+        '&#x26bd;',
+        '&#x26be;',
+        '&#x26c4;',
+        '&#x26c5;',
+        '&#x26c8;',
+        '&#x26ce;',
+        '&#x26cf;',
+        '&#x26d1;',
+        '&#x26d3;',
+        '&#x26d4;',
+        '&#x26e9;',
+        '&#x26ea;',
+        '&#x26f0;',
+        '&#x26f1;',
+        '&#x26f2;',
+        '&#x26f3;',
+        '&#x26f4;',
+        '&#x26f5;',
+        '&#x26f7;',
+        '&#x26f8;',
+        '&#x26f9;',
+        '&#x26fa;',
+        '&#x26fd;',
+        '&#x2702;',
+        '&#x2705;',
+        '&#x2708;',
+        '&#x2709;',
+        '&#x270a;',
+        '&#x270b;',
+        '&#x270c;',
+        '&#x270d;',
+        '&#x270f;',
+        '&#x2712;',
+        '&#x2714;',
+        '&#x2716;',
+        '&#x271d;',
+        '&#x2721;',
+        '&#x2728;',
+        '&#x2733;',
+        '&#x2734;',
+        '&#x2744;',
+        '&#x2747;',
+        '&#x274c;',
+        '&#x274e;',
+        '&#x2753;',
+        '&#x2754;',
+        '&#x2755;',
+        '&#x2757;',
+        '&#x2763;',
+        '&#x2764;',
+        '&#x2795;',
+        '&#x2796;',
+        '&#x2797;',
+        '&#x27a1;',
+        '&#x27b0;',
+        '&#x27bf;',
+        '&#x2934;',
+        '&#x2935;',
+        '&#x2b05;',
+        '&#x2b06;',
+        '&#x2b07;',
+        '&#x2b1b;',
+        '&#x2b1c;',
+        '&#x2b50;',
+        '&#x2b55;',
+        '&#x3030;',
+        '&#x303d;',
+        '&#x3297;',
+        '&#x3299;',
+        '&#xe50a;',
+    ];
+    $partials = [
+        '&#x1f004;',
+        '&#x1f0cf;',
+        '&#x1f170;',
+        '&#x1f171;',
+        '&#x1f17e;',
+        '&#x1f17f;',
+        '&#x1f18e;',
+        '&#x1f191;',
+        '&#x1f192;',
+        '&#x1f193;',
+        '&#x1f194;',
+        '&#x1f195;',
+        '&#x1f196;',
+        '&#x1f197;',
+        '&#x1f198;',
+        '&#x1f199;',
+        '&#x1f19a;',
+        '&#x1f1e6;',
+        '&#x1f1e8;',
+        '&#x1f1e9;',
+        '&#x1f1ea;',
+        '&#x1f1eb;',
+        '&#x1f1ec;',
+        '&#x1f1ee;',
+        '&#x1f1f1;',
+        '&#x1f1f2;',
+        '&#x1f1f4;',
+        '&#x1f1f6;',
+        '&#x1f1f7;',
+        '&#x1f1f8;',
+        '&#x1f1f9;',
+        '&#x1f1fa;',
+        '&#x1f1fc;',
+        '&#x1f1fd;',
+        '&#x1f1ff;',
+        '&#x1f1e7;',
+        '&#x1f1ed;',
+        '&#x1f1ef;',
+        '&#x1f1f3;',
+        '&#x1f1fb;',
+        '&#x1f1fe;',
+        '&#x1f1f0;',
+        '&#x1f1f5;',
+        '&#x1f201;',
+        '&#x1f202;',
+        '&#x1f21a;',
+        '&#x1f22f;',
+        '&#x1f232;',
+        '&#x1f233;',
+        '&#x1f234;',
+        '&#x1f235;',
+        '&#x1f236;',
+        '&#x1f237;',
+        '&#x1f238;',
+        '&#x1f239;',
+        '&#x1f23a;',
+        '&#x1f250;',
+        '&#x1f251;',
+        '&#x1f300;',
+        '&#x1f301;',
+        '&#x1f302;',
+        '&#x1f303;',
+        '&#x1f304;',
+        '&#x1f305;',
+        '&#x1f306;',
+        '&#x1f307;',
+        '&#x1f308;',
+        '&#x1f309;',
+        '&#x1f30a;',
+        '&#x1f30b;',
+        '&#x1f30c;',
+        '&#x1f30d;',
+        '&#x1f30e;',
+        '&#x1f30f;',
+        '&#x1f310;',
+        '&#x1f311;',
+        '&#x1f312;',
+        '&#x1f313;',
+        '&#x1f314;',
+        '&#x1f315;',
+        '&#x1f316;',
+        '&#x1f317;',
+        '&#x1f318;',
+        '&#x1f319;',
+        '&#x1f31a;',
+        '&#x1f31b;',
+        '&#x1f31c;',
+        '&#x1f31d;',
+        '&#x1f31e;',
+        '&#x1f31f;',
+        '&#x1f320;',
+        '&#x1f321;',
+        '&#x1f324;',
+        '&#x1f325;',
+        '&#x1f326;',
+        '&#x1f327;',
+        '&#x1f328;',
+        '&#x1f329;',
+        '&#x1f32a;',
+        '&#x1f32b;',
+        '&#x1f32c;',
+        '&#x1f32d;',
+        '&#x1f32e;',
+        '&#x1f32f;',
+        '&#x1f330;',
+        '&#x1f331;',
+        '&#x1f332;',
+        '&#x1f333;',
+        '&#x1f334;',
+        '&#x1f335;',
+        '&#x1f336;',
+        '&#x1f337;',
+        '&#x1f338;',
+        '&#x1f339;',
+        '&#x1f33a;',
+        '&#x1f33b;',
+        '&#x1f33c;',
+        '&#x1f33d;',
+        '&#x1f33e;',
+        '&#x1f33f;',
+        '&#x1f340;',
+        '&#x1f341;',
+        '&#x1f342;',
+        '&#x1f343;',
+        '&#x1f344;',
+        '&#x1f345;',
+        '&#x1f346;',
+        '&#x1f347;',
+        '&#x1f348;',
+        '&#x1f349;',
+        '&#x1f34a;',
+        '&#x1f34b;',
+        '&#x1f34c;',
+        '&#x1f34d;',
+        '&#x1f34e;',
+        '&#x1f34f;',
+        '&#x1f350;',
+        '&#x1f351;',
+        '&#x1f352;',
+        '&#x1f353;',
+        '&#x1f354;',
+        '&#x1f355;',
+        '&#x1f356;',
+        '&#x1f357;',
+        '&#x1f358;',
+        '&#x1f359;',
+        '&#x1f35a;',
+        '&#x1f35b;',
+        '&#x1f35c;',
+        '&#x1f35d;',
+        '&#x1f35e;',
+        '&#x1f35f;',
+        '&#x1f360;',
+        '&#x1f361;',
+        '&#x1f362;',
+        '&#x1f363;',
+        '&#x1f364;',
+        '&#x1f365;',
+        '&#x1f366;',
+        '&#x1f367;',
+        '&#x1f368;',
+        '&#x1f369;',
+        '&#x1f36a;',
+        '&#x1f36b;',
+        '&#x1f36c;',
+        '&#x1f36d;',
+        '&#x1f36e;',
+        '&#x1f36f;',
+        '&#x1f370;',
+        '&#x1f371;',
+        '&#x1f372;',
+        '&#x1f373;',
+        '&#x1f374;',
+        '&#x1f375;',
+        '&#x1f376;',
+        '&#x1f377;',
+        '&#x1f378;',
+        '&#x1f379;',
+        '&#x1f37a;',
+        '&#x1f37b;',
+        '&#x1f37c;',
+        '&#x1f37d;',
+        '&#x1f37e;',
+        '&#x1f37f;',
+        '&#x1f380;',
+        '&#x1f381;',
+        '&#x1f382;',
+        '&#x1f383;',
+        '&#x1f384;',
+        '&#x1f385;',
+        '&#x1f3fb;',
+        '&#x1f3fc;',
+        '&#x1f3fd;',
+        '&#x1f3fe;',
+        '&#x1f3ff;',
+        '&#x1f386;',
+        '&#x1f387;',
+        '&#x1f388;',
+        '&#x1f389;',
+        '&#x1f38a;',
+        '&#x1f38b;',
+        '&#x1f38c;',
+        '&#x1f38d;',
+        '&#x1f38e;',
+        '&#x1f38f;',
+        '&#x1f390;',
+        '&#x1f391;',
+        '&#x1f392;',
+        '&#x1f393;',
+        '&#x1f396;',
+        '&#x1f397;',
+        '&#x1f399;',
+        '&#x1f39a;',
+        '&#x1f39b;',
+        '&#x1f39e;',
+        '&#x1f39f;',
+        '&#x1f3a0;',
+        '&#x1f3a1;',
+        '&#x1f3a2;',
+        '&#x1f3a3;',
+        '&#x1f3a4;',
+        '&#x1f3a5;',
+        '&#x1f3a6;',
+        '&#x1f3a7;',
+        '&#x1f3a8;',
+        '&#x1f3a9;',
+        '&#x1f3aa;',
+        '&#x1f3ab;',
+        '&#x1f3ac;',
+        '&#x1f3ad;',
+        '&#x1f3ae;',
+        '&#x1f3af;',
+        '&#x1f3b0;',
+        '&#x1f3b1;',
+        '&#x1f3b2;',
+        '&#x1f3b3;',
+        '&#x1f3b4;',
+        '&#x1f3b5;',
+        '&#x1f3b6;',
+        '&#x1f3b7;',
+        '&#x1f3b8;',
+        '&#x1f3b9;',
+        '&#x1f3ba;',
+        '&#x1f3bb;',
+        '&#x1f3bc;',
+        '&#x1f3bd;',
+        '&#x1f3be;',
+        '&#x1f3bf;',
+        '&#x1f3c0;',
+        '&#x1f3c1;',
+        '&#x1f3c2;',
+        '&#x1f3c3;',
+        '&#x200d;',
+        '&#x2640;',
+        '&#xfe0f;',
+        '&#x2642;',
+        '&#x1f3c4;',
+        '&#x1f3c5;',
+        '&#x1f3c6;',
+        '&#x1f3c7;',
+        '&#x1f3c8;',
+        '&#x1f3c9;',
+        '&#x1f3ca;',
+        '&#x1f3cb;',
+        '&#x1f3cc;',
+        '&#x1f3cd;',
+        '&#x1f3ce;',
+        '&#x1f3cf;',
+        '&#x1f3d0;',
+        '&#x1f3d1;',
+        '&#x1f3d2;',
+        '&#x1f3d3;',
+        '&#x1f3d4;',
+        '&#x1f3d5;',
+        '&#x1f3d6;',
+        '&#x1f3d7;',
+        '&#x1f3d8;',
+        '&#x1f3d9;',
+        '&#x1f3da;',
+        '&#x1f3db;',
+        '&#x1f3dc;',
+        '&#x1f3dd;',
+        '&#x1f3de;',
+        '&#x1f3df;',
+        '&#x1f3e0;',
+        '&#x1f3e1;',
+        '&#x1f3e2;',
+        '&#x1f3e3;',
+        '&#x1f3e4;',
+        '&#x1f3e5;',
+        '&#x1f3e6;',
+        '&#x1f3e7;',
+        '&#x1f3e8;',
+        '&#x1f3e9;',
+        '&#x1f3ea;',
+        '&#x1f3eb;',
+        '&#x1f3ec;',
+        '&#x1f3ed;',
+        '&#x1f3ee;',
+        '&#x1f3ef;',
+        '&#x1f3f0;',
+        '&#x1f3f3;',
+        '&#x26a7;',
+        '&#x1f3f4;',
+        '&#x2620;',
+        '&#xe0067;',
+        '&#xe0062;',
+        '&#xe0065;',
+        '&#xe006e;',
+        '&#xe007f;',
+        '&#xe0073;',
+        '&#xe0063;',
+        '&#xe0074;',
+        '&#xe0077;',
+        '&#xe006c;',
+        '&#x1f3f5;',
+        '&#x1f3f7;',
+        '&#x1f3f8;',
+        '&#x1f3f9;',
+        '&#x1f3fa;',
+        '&#x1f400;',
+        '&#x1f401;',
+        '&#x1f402;',
+        '&#x1f403;',
+        '&#x1f404;',
+        '&#x1f405;',
+        '&#x1f406;',
+        '&#x1f407;',
+        '&#x1f408;',
+        '&#x2b1b;',
+        '&#x1f409;',
+        '&#x1f40a;',
+        '&#x1f40b;',
+        '&#x1f40c;',
+        '&#x1f40d;',
+        '&#x1f40e;',
+        '&#x1f40f;',
+        '&#x1f410;',
+        '&#x1f411;',
+        '&#x1f412;',
+        '&#x1f413;',
+        '&#x1f414;',
+        '&#x1f415;',
+        '&#x1f9ba;',
+        '&#x1f416;',
+        '&#x1f417;',
+        '&#x1f418;',
+        '&#x1f419;',
+        '&#x1f41a;',
+        '&#x1f41b;',
+        '&#x1f41c;',
+        '&#x1f41d;',
+        '&#x1f41e;',
+        '&#x1f41f;',
+        '&#x1f420;',
+        '&#x1f421;',
+        '&#x1f422;',
+        '&#x1f423;',
+        '&#x1f424;',
+        '&#x1f425;',
+        '&#x1f426;',
+        '&#x1f427;',
+        '&#x1f428;',
+        '&#x1f429;',
+        '&#x1f42a;',
+        '&#x1f42b;',
+        '&#x1f42c;',
+        '&#x1f42d;',
+        '&#x1f42e;',
+        '&#x1f42f;',
+        '&#x1f430;',
+        '&#x1f431;',
+        '&#x1f432;',
+        '&#x1f433;',
+        '&#x1f434;',
+        '&#x1f435;',
+        '&#x1f436;',
+        '&#x1f437;',
+        '&#x1f438;',
+        '&#x1f439;',
+        '&#x1f43a;',
+        '&#x1f43b;',
+        '&#x2744;',
+        '&#x1f43c;',
+        '&#x1f43d;',
+        '&#x1f43e;',
+        '&#x1f43f;',
+        '&#x1f440;',
+        '&#x1f441;',
+        '&#x1f5e8;',
+        '&#x1f442;',
+        '&#x1f443;',
+        '&#x1f444;',
+        '&#x1f445;',
+        '&#x1f446;',
+        '&#x1f447;',
+        '&#x1f448;',
+        '&#x1f449;',
+        '&#x1f44a;',
+        '&#x1f44b;',
+        '&#x1f44c;',
+        '&#x1f44d;',
+        '&#x1f44e;',
+        '&#x1f44f;',
+        '&#x1f450;',
+        '&#x1f451;',
+        '&#x1f452;',
+        '&#x1f453;',
+        '&#x1f454;',
+        '&#x1f455;',
+        '&#x1f456;',
+        '&#x1f457;',
+        '&#x1f458;',
+        '&#x1f459;',
+        '&#x1f45a;',
+        '&#x1f45b;',
+        '&#x1f45c;',
+        '&#x1f45d;',
+        '&#x1f45e;',
+        '&#x1f45f;',
+        '&#x1f460;',
+        '&#x1f461;',
+        '&#x1f462;',
+        '&#x1f463;',
+        '&#x1f464;',
+        '&#x1f465;',
+        '&#x1f466;',
+        '&#x1f467;',
+        '&#x1f468;',
+        '&#x1f4bb;',
+        '&#x1f4bc;',
+        '&#x1f527;',
+        '&#x1f52c;',
+        '&#x1f680;',
+        '&#x1f692;',
+        '&#x1f91d;',
+        '&#x1f9af;',
+        '&#x1f9b0;',
+        '&#x1f9b1;',
+        '&#x1f9b2;',
+        '&#x1f9b3;',
+        '&#x1f9bc;',
+        '&#x1f9bd;',
+        '&#x2695;',
+        '&#x2696;',
+        '&#x2708;',
+        '&#x2764;',
+        '&#x1f48b;',
+        '&#x1f469;',
+        '&#x1f46a;',
+        '&#x1f46b;',
+        '&#x1f46c;',
+        '&#x1f46d;',
+        '&#x1f46e;',
+        '&#x1f46f;',
+        '&#x1f470;',
+        '&#x1f471;',
+        '&#x1f472;',
+        '&#x1f473;',
+        '&#x1f474;',
+        '&#x1f475;',
+        '&#x1f476;',
+        '&#x1f477;',
+        '&#x1f478;',
+        '&#x1f479;',
+        '&#x1f47a;',
+        '&#x1f47b;',
+        '&#x1f47c;',
+        '&#x1f47d;',
+        '&#x1f47e;',
+        '&#x1f47f;',
+        '&#x1f480;',
+        '&#x1f481;',
+        '&#x1f482;',
+        '&#x1f483;',
+        '&#x1f484;',
+        '&#x1f485;',
+        '&#x1f486;',
+        '&#x1f487;',
+        '&#x1f488;',
+        '&#x1f489;',
+        '&#x1f48a;',
+        '&#x1f48c;',
+        '&#x1f48d;',
+        '&#x1f48e;',
+        '&#x1f48f;',
+        '&#x1f490;',
+        '&#x1f491;',
+        '&#x1f492;',
+        '&#x1f493;',
+        '&#x1f494;',
+        '&#x1f495;',
+        '&#x1f496;',
+        '&#x1f497;',
+        '&#x1f498;',
+        '&#x1f499;',
+        '&#x1f49a;',
+        '&#x1f49b;',
+        '&#x1f49c;',
+        '&#x1f49d;',
+        '&#x1f49e;',
+        '&#x1f49f;',
+        '&#x1f4a0;',
+        '&#x1f4a1;',
+        '&#x1f4a2;',
+        '&#x1f4a3;',
+        '&#x1f4a4;',
+        '&#x1f4a5;',
+        '&#x1f4a6;',
+        '&#x1f4a7;',
+        '&#x1f4a8;',
+        '&#x1f4a9;',
+        '&#x1f4aa;',
+        '&#x1f4ab;',
+        '&#x1f4ac;',
+        '&#x1f4ad;',
+        '&#x1f4ae;',
+        '&#x1f4af;',
+        '&#x1f4b0;',
+        '&#x1f4b1;',
+        '&#x1f4b2;',
+        '&#x1f4b3;',
+        '&#x1f4b4;',
+        '&#x1f4b5;',
+        '&#x1f4b6;',
+        '&#x1f4b7;',
+        '&#x1f4b8;',
+        '&#x1f4b9;',
+        '&#x1f4ba;',
+        '&#x1f4bd;',
+        '&#x1f4be;',
+        '&#x1f4bf;',
+        '&#x1f4c0;',
+        '&#x1f4c1;',
+        '&#x1f4c2;',
+        '&#x1f4c3;',
+        '&#x1f4c4;',
+        '&#x1f4c5;',
+        '&#x1f4c6;',
+        '&#x1f4c7;',
+        '&#x1f4c8;',
+        '&#x1f4c9;',
+        '&#x1f4ca;',
+        '&#x1f4cb;',
+        '&#x1f4cc;',
+        '&#x1f4cd;',
+        '&#x1f4ce;',
+        '&#x1f4cf;',
+        '&#x1f4d0;',
+        '&#x1f4d1;',
+        '&#x1f4d2;',
+        '&#x1f4d3;',
+        '&#x1f4d4;',
+        '&#x1f4d5;',
+        '&#x1f4d6;',
+        '&#x1f4d7;',
+        '&#x1f4d8;',
+        '&#x1f4d9;',
+        '&#x1f4da;',
+        '&#x1f4db;',
+        '&#x1f4dc;',
+        '&#x1f4dd;',
+        '&#x1f4de;',
+        '&#x1f4df;',
+        '&#x1f4e0;',
+        '&#x1f4e1;',
+        '&#x1f4e2;',
+        '&#x1f4e3;',
+        '&#x1f4e4;',
+        '&#x1f4e5;',
+        '&#x1f4e6;',
+        '&#x1f4e7;',
+        '&#x1f4e8;',
+        '&#x1f4e9;',
+        '&#x1f4ea;',
+        '&#x1f4eb;',
+        '&#x1f4ec;',
+        '&#x1f4ed;',
+        '&#x1f4ee;',
+        '&#x1f4ef;',
+        '&#x1f4f0;',
+        '&#x1f4f1;',
+        '&#x1f4f2;',
+        '&#x1f4f3;',
+        '&#x1f4f4;',
+        '&#x1f4f5;',
+        '&#x1f4f6;',
+        '&#x1f4f7;',
+        '&#x1f4f8;',
+        '&#x1f4f9;',
+        '&#x1f4fa;',
+        '&#x1f4fb;',
+        '&#x1f4fc;',
+        '&#x1f4fd;',
+        '&#x1f4ff;',
+        '&#x1f500;',
+        '&#x1f501;',
+        '&#x1f502;',
+        '&#x1f503;',
+        '&#x1f504;',
+        '&#x1f505;',
+        '&#x1f506;',
+        '&#x1f507;',
+        '&#x1f508;',
+        '&#x1f509;',
+        '&#x1f50a;',
+        '&#x1f50b;',
+        '&#x1f50c;',
+        '&#x1f50d;',
+        '&#x1f50e;',
+        '&#x1f50f;',
+        '&#x1f510;',
+        '&#x1f511;',
+        '&#x1f512;',
+        '&#x1f513;',
+        '&#x1f514;',
+        '&#x1f515;',
+        '&#x1f516;',
+        '&#x1f517;',
+        '&#x1f518;',
+        '&#x1f519;',
+        '&#x1f51a;',
+        '&#x1f51b;',
+        '&#x1f51c;',
+        '&#x1f51d;',
+        '&#x1f51e;',
+        '&#x1f51f;',
+        '&#x1f520;',
+        '&#x1f521;',
+        '&#x1f522;',
+        '&#x1f523;',
+        '&#x1f524;',
+        '&#x1f525;',
+        '&#x1f526;',
+        '&#x1f528;',
+        '&#x1f529;',
+        '&#x1f52a;',
+        '&#x1f52b;',
+        '&#x1f52d;',
+        '&#x1f52e;',
+        '&#x1f52f;',
+        '&#x1f530;',
+        '&#x1f531;',
+        '&#x1f532;',
+        '&#x1f533;',
+        '&#x1f534;',
+        '&#x1f535;',
+        '&#x1f536;',
+        '&#x1f537;',
+        '&#x1f538;',
+        '&#x1f539;',
+        '&#x1f53a;',
+        '&#x1f53b;',
+        '&#x1f53c;',
+        '&#x1f53d;',
+        '&#x1f549;',
+        '&#x1f54a;',
+        '&#x1f54b;',
+        '&#x1f54c;',
+        '&#x1f54d;',
+        '&#x1f54e;',
+        '&#x1f550;',
+        '&#x1f551;',
+        '&#x1f552;',
+        '&#x1f553;',
+        '&#x1f554;',
+        '&#x1f555;',
+        '&#x1f556;',
+        '&#x1f557;',
+        '&#x1f558;',
+        '&#x1f559;',
+        '&#x1f55a;',
+        '&#x1f55b;',
+        '&#x1f55c;',
+        '&#x1f55d;',
+        '&#x1f55e;',
+        '&#x1f55f;',
+        '&#x1f560;',
+        '&#x1f561;',
+        '&#x1f562;',
+        '&#x1f563;',
+        '&#x1f564;',
+        '&#x1f565;',
+        '&#x1f566;',
+        '&#x1f567;',
+        '&#x1f56f;',
+        '&#x1f570;',
+        '&#x1f573;',
+        '&#x1f574;',
+        '&#x1f575;',
+        '&#x1f576;',
+        '&#x1f577;',
+        '&#x1f578;',
+        '&#x1f579;',
+        '&#x1f57a;',
+        '&#x1f587;',
+        '&#x1f58a;',
+        '&#x1f58b;',
+        '&#x1f58c;',
+        '&#x1f58d;',
+        '&#x1f590;',
+        '&#x1f595;',
+        '&#x1f596;',
+        '&#x1f5a4;',
+        '&#x1f5a5;',
+        '&#x1f5a8;',
+        '&#x1f5b1;',
+        '&#x1f5b2;',
+        '&#x1f5bc;',
+        '&#x1f5c2;',
+        '&#x1f5c3;',
+        '&#x1f5c4;',
+        '&#x1f5d1;',
+        '&#x1f5d2;',
+        '&#x1f5d3;',
+        '&#x1f5dc;',
+        '&#x1f5dd;',
+        '&#x1f5de;',
+        '&#x1f5e1;',
+        '&#x1f5e3;',
+        '&#x1f5ef;',
+        '&#x1f5f3;',
+        '&#x1f5fa;',
+        '&#x1f5fb;',
+        '&#x1f5fc;',
+        '&#x1f5fd;',
+        '&#x1f5fe;',
+        '&#x1f5ff;',
+        '&#x1f600;',
+        '&#x1f601;',
+        '&#x1f602;',
+        '&#x1f603;',
+        '&#x1f604;',
+        '&#x1f605;',
+        '&#x1f606;',
+        '&#x1f607;',
+        '&#x1f608;',
+        '&#x1f609;',
+        '&#x1f60a;',
+        '&#x1f60b;',
+        '&#x1f60c;',
+        '&#x1f60d;',
+        '&#x1f60e;',
+        '&#x1f60f;',
+        '&#x1f610;',
+        '&#x1f611;',
+        '&#x1f612;',
+        '&#x1f613;',
+        '&#x1f614;',
+        '&#x1f615;',
+        '&#x1f616;',
+        '&#x1f617;',
+        '&#x1f618;',
+        '&#x1f619;',
+        '&#x1f61a;',
+        '&#x1f61b;',
+        '&#x1f61c;',
+        '&#x1f61d;',
+        '&#x1f61e;',
+        '&#x1f61f;',
+        '&#x1f620;',
+        '&#x1f621;',
+        '&#x1f622;',
+        '&#x1f623;',
+        '&#x1f624;',
+        '&#x1f625;',
+        '&#x1f626;',
+        '&#x1f627;',
+        '&#x1f628;',
+        '&#x1f629;',
+        '&#x1f62a;',
+        '&#x1f62b;',
+        '&#x1f62c;',
+        '&#x1f62d;',
+        '&#x1f62e;',
+        '&#x1f62f;',
+        '&#x1f630;',
+        '&#x1f631;',
+        '&#x1f632;',
+        '&#x1f633;',
+        '&#x1f634;',
+        '&#x1f635;',
+        '&#x1f636;',
+        '&#x1f637;',
+        '&#x1f638;',
+        '&#x1f639;',
+        '&#x1f63a;',
+        '&#x1f63b;',
+        '&#x1f63c;',
+        '&#x1f63d;',
+        '&#x1f63e;',
+        '&#x1f63f;',
+        '&#x1f640;',
+        '&#x1f641;',
+        '&#x1f642;',
+        '&#x1f643;',
+        '&#x1f644;',
+        '&#x1f645;',
+        '&#x1f646;',
+        '&#x1f647;',
+        '&#x1f648;',
+        '&#x1f649;',
+        '&#x1f64a;',
+        '&#x1f64b;',
+        '&#x1f64c;',
+        '&#x1f64d;',
+        '&#x1f64e;',
+        '&#x1f64f;',
+        '&#x1f681;',
+        '&#x1f682;',
+        '&#x1f683;',
+        '&#x1f684;',
+        '&#x1f685;',
+        '&#x1f686;',
+        '&#x1f687;',
+        '&#x1f688;',
+        '&#x1f689;',
+        '&#x1f68a;',
+        '&#x1f68b;',
+        '&#x1f68c;',
+        '&#x1f68d;',
+        '&#x1f68e;',
+        '&#x1f68f;',
+        '&#x1f690;',
+        '&#x1f691;',
+        '&#x1f693;',
+        '&#x1f694;',
+        '&#x1f695;',
+        '&#x1f696;',
+        '&#x1f697;',
+        '&#x1f698;',
+        '&#x1f699;',
+        '&#x1f69a;',
+        '&#x1f69b;',
+        '&#x1f69c;',
+        '&#x1f69d;',
+        '&#x1f69e;',
+        '&#x1f69f;',
+        '&#x1f6a0;',
+        '&#x1f6a1;',
+        '&#x1f6a2;',
+        '&#x1f6a3;',
+        '&#x1f6a4;',
+        '&#x1f6a5;',
+        '&#x1f6a6;',
+        '&#x1f6a7;',
+        '&#x1f6a8;',
+        '&#x1f6a9;',
+        '&#x1f6aa;',
+        '&#x1f6ab;',
+        '&#x1f6ac;',
+        '&#x1f6ad;',
+        '&#x1f6ae;',
+        '&#x1f6af;',
+        '&#x1f6b0;',
+        '&#x1f6b1;',
+        '&#x1f6b2;',
+        '&#x1f6b3;',
+        '&#x1f6b4;',
+        '&#x1f6b5;',
+        '&#x1f6b6;',
+        '&#x1f6b7;',
+        '&#x1f6b8;',
+        '&#x1f6b9;',
+        '&#x1f6ba;',
+        '&#x1f6bb;',
+        '&#x1f6bc;',
+        '&#x1f6bd;',
+        '&#x1f6be;',
+        '&#x1f6bf;',
+        '&#x1f6c0;',
+        '&#x1f6c1;',
+        '&#x1f6c2;',
+        '&#x1f6c3;',
+        '&#x1f6c4;',
+        '&#x1f6c5;',
+        '&#x1f6cb;',
+        '&#x1f6cc;',
+        '&#x1f6cd;',
+        '&#x1f6ce;',
+        '&#x1f6cf;',
+        '&#x1f6d0;',
+        '&#x1f6d1;',
+        '&#x1f6d2;',
+        '&#x1f6d5;',
+        '&#x1f6d6;',
+        '&#x1f6d7;',
+        '&#x1f6dc;',
+        '&#x1f6dd;',
+        '&#x1f6de;',
+        '&#x1f6df;',
+        '&#x1f6e0;',
+        '&#x1f6e1;',
+        '&#x1f6e2;',
+        '&#x1f6e3;',
+        '&#x1f6e4;',
+        '&#x1f6e5;',
+        '&#x1f6e9;',
+        '&#x1f6eb;',
+        '&#x1f6ec;',
+        '&#x1f6f0;',
+        '&#x1f6f3;',
+        '&#x1f6f4;',
+        '&#x1f6f5;',
+        '&#x1f6f6;',
+        '&#x1f6f7;',
+        '&#x1f6f8;',
+        '&#x1f6f9;',
+        '&#x1f6fa;',
+        '&#x1f6fb;',
+        '&#x1f6fc;',
+        '&#x1f7e0;',
+        '&#x1f7e1;',
+        '&#x1f7e2;',
+        '&#x1f7e3;',
+        '&#x1f7e4;',
+        '&#x1f7e5;',
+        '&#x1f7e6;',
+        '&#x1f7e7;',
+        '&#x1f7e8;',
+        '&#x1f7e9;',
+        '&#x1f7ea;',
+        '&#x1f7eb;',
+        '&#x1f7f0;',
+        '&#x1f90c;',
+        '&#x1f90d;',
+        '&#x1f90e;',
+        '&#x1f90f;',
+        '&#x1f910;',
+        '&#x1f911;',
+        '&#x1f912;',
+        '&#x1f913;',
+        '&#x1f914;',
+        '&#x1f915;',
+        '&#x1f916;',
+        '&#x1f917;',
+        '&#x1f918;',
+        '&#x1f919;',
+        '&#x1f91a;',
+        '&#x1f91b;',
+        '&#x1f91c;',
+        '&#x1f91e;',
+        '&#x1f91f;',
+        '&#x1f920;',
+        '&#x1f921;',
+        '&#x1f922;',
+        '&#x1f923;',
+        '&#x1f924;',
+        '&#x1f925;',
+        '&#x1f926;',
+        '&#x1f927;',
+        '&#x1f928;',
+        '&#x1f929;',
+        '&#x1f92a;',
+        '&#x1f92b;',
+        '&#x1f92c;',
+        '&#x1f92d;',
+        '&#x1f92e;',
+        '&#x1f92f;',
+        '&#x1f930;',
+        '&#x1f931;',
+        '&#x1f932;',
+        '&#x1f933;',
+        '&#x1f934;',
+        '&#x1f935;',
+        '&#x1f936;',
+        '&#x1f937;',
+        '&#x1f938;',
+        '&#x1f939;',
+        '&#x1f93a;',
+        '&#x1f93c;',
+        '&#x1f93d;',
+        '&#x1f93e;',
+        '&#x1f93f;',
+        '&#x1f940;',
+        '&#x1f941;',
+        '&#x1f942;',
+        '&#x1f943;',
+        '&#x1f944;',
+        '&#x1f945;',
+        '&#x1f947;',
+        '&#x1f948;',
+        '&#x1f949;',
+        '&#x1f94a;',
+        '&#x1f94b;',
+        '&#x1f94c;',
+        '&#x1f94d;',
+        '&#x1f94e;',
+        '&#x1f94f;',
+        '&#x1f950;',
+        '&#x1f951;',
+        '&#x1f952;',
+        '&#x1f953;',
+        '&#x1f954;',
+        '&#x1f955;',
+        '&#x1f956;',
+        '&#x1f957;',
+        '&#x1f958;',
+        '&#x1f959;',
+        '&#x1f95a;',
+        '&#x1f95b;',
+        '&#x1f95c;',
+        '&#x1f95d;',
+        '&#x1f95e;',
+        '&#x1f95f;',
+        '&#x1f960;',
+        '&#x1f961;',
+        '&#x1f962;',
+        '&#x1f963;',
+        '&#x1f964;',
+        '&#x1f965;',
+        '&#x1f966;',
+        '&#x1f967;',
+        '&#x1f968;',
+        '&#x1f969;',
+        '&#x1f96a;',
+        '&#x1f96b;',
+        '&#x1f96c;',
+        '&#x1f96d;',
+        '&#x1f96e;',
+        '&#x1f96f;',
+        '&#x1f970;',
+        '&#x1f971;',
+        '&#x1f972;',
+        '&#x1f973;',
+        '&#x1f974;',
+        '&#x1f975;',
+        '&#x1f976;',
+        '&#x1f977;',
+        '&#x1f978;',
+        '&#x1f979;',
+        '&#x1f97a;',
+        '&#x1f97b;',
+        '&#x1f97c;',
+        '&#x1f97d;',
+        '&#x1f97e;',
+        '&#x1f97f;',
+        '&#x1f980;',
+        '&#x1f981;',
+        '&#x1f982;',
+        '&#x1f983;',
+        '&#x1f984;',
+        '&#x1f985;',
+        '&#x1f986;',
+        '&#x1f987;',
+        '&#x1f988;',
+        '&#x1f989;',
+        '&#x1f98a;',
+        '&#x1f98b;',
+        '&#x1f98c;',
+        '&#x1f98d;',
+        '&#x1f98e;',
+        '&#x1f98f;',
+        '&#x1f990;',
+        '&#x1f991;',
+        '&#x1f992;',
+        '&#x1f993;',
+        '&#x1f994;',
+        '&#x1f995;',
+        '&#x1f996;',
+        '&#x1f997;',
+        '&#x1f998;',
+        '&#x1f999;',
+        '&#x1f99a;',
+        '&#x1f99b;',
+        '&#x1f99c;',
+        '&#x1f99d;',
+        '&#x1f99e;',
+        '&#x1f99f;',
+        '&#x1f9a0;',
+        '&#x1f9a1;',
+        '&#x1f9a2;',
+        '&#x1f9a3;',
+        '&#x1f9a4;',
+        '&#x1f9a5;',
+        '&#x1f9a6;',
+        '&#x1f9a7;',
+        '&#x1f9a8;',
+        '&#x1f9a9;',
+        '&#x1f9aa;',
+        '&#x1f9ab;',
+        '&#x1f9ac;',
+        '&#x1f9ad;',
+        '&#x1f9ae;',
+        '&#x1f9b4;',
+        '&#x1f9b5;',
+        '&#x1f9b6;',
+        '&#x1f9b7;',
+        '&#x1f9b8;',
+        '&#x1f9b9;',
+        '&#x1f9bb;',
+        '&#x1f9be;',
+        '&#x1f9bf;',
+        '&#x1f9c0;',
+        '&#x1f9c1;',
+        '&#x1f9c2;',
+        '&#x1f9c3;',
+        '&#x1f9c4;',
+        '&#x1f9c5;',
+        '&#x1f9c6;',
+        '&#x1f9c7;',
+        '&#x1f9c8;',
+        '&#x1f9c9;',
+        '&#x1f9ca;',
+        '&#x1f9cb;',
+        '&#x1f9cc;',
+        '&#x1f9cd;',
+        '&#x1f9ce;',
+        '&#x1f9cf;',
+        '&#x1f9d0;',
+        '&#x1f9d1;',
+        '&#x1f9d2;',
+        '&#x1f9d3;',
+        '&#x1f9d4;',
+        '&#x1f9d5;',
+        '&#x1f9d6;',
+        '&#x1f9d7;',
+        '&#x1f9d8;',
+        '&#x1f9d9;',
+        '&#x1f9da;',
+        '&#x1f9db;',
+        '&#x1f9dc;',
+        '&#x1f9dd;',
+        '&#x1f9de;',
+        '&#x1f9df;',
+        '&#x1f9e0;',
+        '&#x1f9e1;',
+        '&#x1f9e2;',
+        '&#x1f9e3;',
+        '&#x1f9e4;',
+        '&#x1f9e5;',
+        '&#x1f9e6;',
+        '&#x1f9e7;',
+        '&#x1f9e8;',
+        '&#x1f9e9;',
+        '&#x1f9ea;',
+        '&#x1f9eb;',
+        '&#x1f9ec;',
+        '&#x1f9ed;',
+        '&#x1f9ee;',
+        '&#x1f9ef;',
+        '&#x1f9f0;',
+        '&#x1f9f1;',
+        '&#x1f9f2;',
+        '&#x1f9f3;',
+        '&#x1f9f4;',
+        '&#x1f9f5;',
+        '&#x1f9f6;',
+        '&#x1f9f7;',
+        '&#x1f9f8;',
+        '&#x1f9f9;',
+        '&#x1f9fa;',
+        '&#x1f9fb;',
+        '&#x1f9fc;',
+        '&#x1f9fd;',
+        '&#x1f9fe;',
+        '&#x1f9ff;',
+        '&#x1fa70;',
+        '&#x1fa71;',
+        '&#x1fa72;',
+        '&#x1fa73;',
+        '&#x1fa74;',
+        '&#x1fa75;',
+        '&#x1fa76;',
+        '&#x1fa77;',
+        '&#x1fa78;',
+        '&#x1fa79;',
+        '&#x1fa7a;',
+        '&#x1fa7b;',
+        '&#x1fa7c;',
+        '&#x1fa80;',
+        '&#x1fa81;',
+        '&#x1fa82;',
+        '&#x1fa83;',
+        '&#x1fa84;',
+        '&#x1fa85;',
+        '&#x1fa86;',
+        '&#x1fa87;',
+        '&#x1fa88;',
+        '&#x1fa90;',
+        '&#x1fa91;',
+        '&#x1fa92;',
+        '&#x1fa93;',
+        '&#x1fa94;',
+        '&#x1fa95;',
+        '&#x1fa96;',
+        '&#x1fa97;',
+        '&#x1fa98;',
+        '&#x1fa99;',
+        '&#x1fa9a;',
+        '&#x1fa9b;',
+        '&#x1fa9c;',
+        '&#x1fa9d;',
+        '&#x1fa9e;',
+        '&#x1fa9f;',
+        '&#x1faa0;',
+        '&#x1faa1;',
+        '&#x1faa2;',
+        '&#x1faa3;',
+        '&#x1faa4;',
+        '&#x1faa5;',
+        '&#x1faa6;',
+        '&#x1faa7;',
+        '&#x1faa8;',
+        '&#x1faa9;',
+        '&#x1faaa;',
+        '&#x1faab;',
+        '&#x1faac;',
+        '&#x1faad;',
+        '&#x1faae;',
+        '&#x1faaf;',
+        '&#x1fab0;',
+        '&#x1fab1;',
+        '&#x1fab2;',
+        '&#x1fab3;',
+        '&#x1fab4;',
+        '&#x1fab5;',
+        '&#x1fab6;',
+        '&#x1fab7;',
+        '&#x1fab8;',
+        '&#x1fab9;',
+        '&#x1faba;',
+        '&#x1fabb;',
+        '&#x1fabc;',
+        '&#x1fabd;',
+        '&#x1fabf;',
+        '&#x1fac0;',
+        '&#x1fac1;',
+        '&#x1fac2;',
+        '&#x1fac3;',
+        '&#x1fac4;',
+        '&#x1fac5;',
+        '&#x1face;',
+        '&#x1facf;',
+        '&#x1fad0;',
+        '&#x1fad1;',
+        '&#x1fad2;',
+        '&#x1fad3;',
+        '&#x1fad4;',
+        '&#x1fad5;',
+        '&#x1fad6;',
+        '&#x1fad7;',
+        '&#x1fad8;',
+        '&#x1fad9;',
+        '&#x1fada;',
+        '&#x1fadb;',
+        '&#x1fae0;',
+        '&#x1fae1;',
+        '&#x1fae2;',
+        '&#x1fae3;',
+        '&#x1fae4;',
+        '&#x1fae5;',
+        '&#x1fae6;',
+        '&#x1fae7;',
+        '&#x1fae8;',
+        '&#x1faf0;',
+        '&#x1faf1;',
+        '&#x1faf2;',
+        '&#x1faf3;',
+        '&#x1faf4;',
+        '&#x1faf5;',
+        '&#x1faf6;',
+        '&#x1faf7;',
+        '&#x1faf8;',
+        '&#x203c;',
+        '&#x2049;',
+        '&#x2122;',
+        '&#x2139;',
+        '&#x2194;',
+        '&#x2195;',
+        '&#x2196;',
+        '&#x2197;',
+        '&#x2198;',
+        '&#x2199;',
+        '&#x21a9;',
+        '&#x21aa;',
+        '&#x20e3;',
+        '&#x231a;',
+        '&#x231b;',
+        '&#x2328;',
+        '&#x23cf;',
+        '&#x23e9;',
+        '&#x23ea;',
+        '&#x23eb;',
+        '&#x23ec;',
+        '&#x23ed;',
+        '&#x23ee;',
+        '&#x23ef;',
+        '&#x23f0;',
+        '&#x23f1;',
+        '&#x23f2;',
+        '&#x23f3;',
+        '&#x23f8;',
+        '&#x23f9;',
+        '&#x23fa;',
+        '&#x24c2;',
+        '&#x25aa;',
+        '&#x25ab;',
+        '&#x25b6;',
+        '&#x25c0;',
+        '&#x25fb;',
+        '&#x25fc;',
+        '&#x25fd;',
+        '&#x25fe;',
+        '&#x2600;',
+        '&#x2601;',
+        '&#x2602;',
+        '&#x2603;',
+        '&#x2604;',
+        '&#x260e;',
+        '&#x2611;',
+        '&#x2614;',
+        '&#x2615;',
+        '&#x2618;',
+        '&#x261d;',
+        '&#x2622;',
+        '&#x2623;',
+        '&#x2626;',
+        '&#x262a;',
+        '&#x262e;',
+        '&#x262f;',
+        '&#x2638;',
+        '&#x2639;',
+        '&#x263a;',
+        '&#x2648;',
+        '&#x2649;',
+        '&#x264a;',
+        '&#x264b;',
+        '&#x264c;',
+        '&#x264d;',
+        '&#x264e;',
+        '&#x264f;',
+        '&#x2650;',
+        '&#x2651;',
+        '&#x2652;',
+        '&#x2653;',
+        '&#x265f;',
+        '&#x2660;',
+        '&#x2663;',
+        '&#x2665;',
+        '&#x2666;',
+        '&#x2668;',
+        '&#x267b;',
+        '&#x267e;',
+        '&#x267f;',
+        '&#x2692;',
+        '&#x2693;',
+        '&#x2694;',
+        '&#x2697;',
+        '&#x2699;',
+        '&#x269b;',
+        '&#x269c;',
+        '&#x26a0;',
+        '&#x26a1;',
+        '&#x26aa;',
+        '&#x26ab;',
+        '&#x26b0;',
+        '&#x26b1;',
+        '&#x26bd;',
+        '&#x26be;',
+        '&#x26c4;',
+        '&#x26c5;',
+        '&#x26c8;',
+        '&#x26ce;',
+        '&#x26cf;',
+        '&#x26d1;',
+        '&#x26d3;',
+        '&#x26d4;',
+        '&#x26e9;',
+        '&#x26ea;',
+        '&#x26f0;',
+        '&#x26f1;',
+        '&#x26f2;',
+        '&#x26f3;',
+        '&#x26f4;',
+        '&#x26f5;',
+        '&#x26f7;',
+        '&#x26f8;',
+        '&#x26f9;',
+        '&#x26fa;',
+        '&#x26fd;',
+        '&#x2702;',
+        '&#x2705;',
+        '&#x2709;',
+        '&#x270a;',
+        '&#x270b;',
+        '&#x270c;',
+        '&#x270d;',
+        '&#x270f;',
+        '&#x2712;',
+        '&#x2714;',
+        '&#x2716;',
+        '&#x271d;',
+        '&#x2721;',
+        '&#x2728;',
+        '&#x2733;',
+        '&#x2734;',
+        '&#x2747;',
+        '&#x274c;',
+        '&#x274e;',
+        '&#x2753;',
+        '&#x2754;',
+        '&#x2755;',
+        '&#x2757;',
+        '&#x2763;',
+        '&#x2795;',
+        '&#x2796;',
+        '&#x2797;',
+        '&#x27a1;',
+        '&#x27b0;',
+        '&#x27bf;',
+        '&#x2934;',
+        '&#x2935;',
+        '&#x2b05;',
+        '&#x2b06;',
+        '&#x2b07;',
+        '&#x2b1c;',
+        '&#x2b50;',
+        '&#x2b55;',
+        '&#x3030;',
+        '&#x303d;',
+        '&#x3297;',
+        '&#x3299;',
+        '&#xe50a;',
+    ];
     // END: emoji arrays
 
     if ('entities' === $type) {
@@ -6280,16 +11504,16 @@ function _wp_emoji_list($type = 'entities')
 /**
  * Shortens a URL, to be used as link text.
  *
- * @since 1.2.0
+ * @param string $url URL to shorten.
+ * @param int $length Optional. Maximum length of the shortened URL. Default 35 characters.
+ * @return string Shortened URL.
  * @since 4.4.0 Moved to wp-includes/formatting.php from wp-admin/includes/misc.php and added $length param.
  *
- * @param string $url    URL to shorten.
- * @param int    $length Optional. Maximum length of the shortened URL. Default 35 characters.
- * @return string Shortened URL.
+ * @since 1.2.0
  */
 function url_shorten($url, $length = 35)
 {
-    $stripped  = str_replace(['https://', 'http://', 'www.'], '', $url);
+    $stripped = str_replace(['https://', 'http://', 'www.'], '', $url);
     $short_url = untrailingslashit($stripped);
 
     if (strlen($short_url) > $length) {
@@ -6304,10 +11528,10 @@ function url_shorten($url, $length = 35)
  * Returns either '', a 3 or 6 digit hex color (with #), or nothing.
  * For sanitizing values without a #, see sanitize_hex_color_no_hash().
  *
- * @since 3.4.0
- *
  * @param string $color
  * @return string|void
+ * @since 3.4.0
+ *
  */
 function sanitize_hex_color($color)
 {
@@ -6330,10 +11554,10 @@ function sanitize_hex_color($color)
  *
  * Returns either '', a 3 or 6 digit hex color (without a #), or null.
  *
- * @since 3.4.0
- *
  * @param string $color
  * @return string|null
+ * @since 3.4.0
+ *
  */
 function sanitize_hex_color_no_hash($color)
 {
@@ -6352,10 +11576,10 @@ function sanitize_hex_color_no_hash($color)
  *
  * This method should only be necessary if using sanitize_hex_color_no_hash().
  *
- * @since 3.4.0
- *
  * @param string $color
  * @return string
+ * @since 3.4.0
+ *
  */
 function maybe_hash_hex_color($color)
 {

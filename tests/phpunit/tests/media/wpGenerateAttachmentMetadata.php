@@ -61,7 +61,8 @@ class Tests_Media_wpGenerateAttachmentMetadata extends WP_UnitTestCase
      */
     public function test_wp_generate_attachment_metadata_includes_filesize_in_pdf_meta()
     {
-        $attachment = $this->factory->attachment->create_upload_object(DIR_TESTDATA . '/images/wordpress-gsoc-flyer.pdf');
+        $attachment = $this->factory->attachment->create_upload_object(DIR_TESTDATA
+            . '/images/wordpress-gsoc-flyer.pdf');
 
         $metadata = wp_get_attachment_metadata($attachment);
 
@@ -82,7 +83,7 @@ class Tests_Media_wpGenerateAttachmentMetadata extends WP_UnitTestCase
                 static function ($mimes) {
                     $mimes['psd'] = 'application/octet-stream';
                     return $mimes;
-                }
+                },
             );
         }
 

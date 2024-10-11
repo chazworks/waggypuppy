@@ -16,8 +16,8 @@ class Tests_Load_wpConvertHrToBytes extends WP_UnitTestCase
      *
      * @dataProvider data_wp_convert_hr_to_bytes
      *
-     * @param int|string $value    The value passed to wp_convert_hr_to_bytes().
-     * @param int        $expected The expected output of wp_convert_hr_to_bytes().
+     * @param int|string $value The value passed to wp_convert_hr_to_bytes().
+     * @param int $expected The expected output of wp_convert_hr_to_bytes().
      */
     public function test_wp_convert_hr_to_bytes($value, $expected)
     {
@@ -28,9 +28,9 @@ class Tests_Load_wpConvertHrToBytes extends WP_UnitTestCase
      * Data provider for test_wp_convert_hr_to_bytes().
      *
      * @return array {
-     *     @type array {
-     *         @type int|string $value    The value passed to wp_convert_hr_to_bytes().
-     *         @type int        $expected The expected output of wp_convert_hr_to_bytes().
+     * @type array {
+     * @type int|string $value The value passed to wp_convert_hr_to_bytes().
+     * @type int $expected The expected output of wp_convert_hr_to_bytes().
      *     }
      * }
      */

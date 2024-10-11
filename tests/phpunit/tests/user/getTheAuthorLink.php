@@ -9,28 +9,28 @@
 class Tests_User_GetTheAuthorLink extends WP_UnitTestCase
 {
     protected static $author_id = 0;
-    protected static $post_id   = 0;
+    protected static $post_id = 0;
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$author_id = $factory->user->create(
             [
-                'role'         => 'author',
-                'user_login'   => 'test_author',
+                'role' => 'author',
+                'user_login' => 'test_author',
                 'display_name' => 'Test Author',
-                'description'  => 'test_author',
-                'user_url'     => 'http://example.com',
-            ]
+                'description' => 'test_author',
+                'user_url' => 'http://example.com',
+            ],
         );
 
         self::$post_id = $factory->post->create(
             [
-                'post_author'  => self::$author_id,
-                'post_status'  => 'publish',
+                'post_author' => self::$author_id,
+                'post_status' => 'publish',
                 'post_content' => 'content',
-                'post_title'   => 'title',
-                'post_type'    => 'post',
-            ]
+                'post_title' => 'title',
+                'post_type' => 'post',
+            ],
         );
     }
 
@@ -48,13 +48,14 @@ class Tests_User_GetTheAuthorLink extends WP_UnitTestCase
      */
     public function test_get_the_author_link()
     {
-        $author_url          = get_the_author_meta('url');
+        $author_url = get_the_author_meta('url');
         $author_display_name = get_the_author();
 
         $link = get_the_author_link();
 
         $this->assertStringContainsString($author_url, $link, 'The link does not contain the author URL');
-        $this->assertStringContainsString($author_display_name, $link, 'The link does not contain the author display name');
+        $this->assertStringContainsString($author_display_name, $link,
+            'The link does not contain the author display name');
     }
 
     /**

@@ -200,13 +200,13 @@ final class WP_Screen
     /**
      * Fetches a screen object.
      *
+     * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
+     *                                    Defaults to the current $hook_suffix global.
+     * @return WP_Screen Screen object.
      * @since 3.3.0
      *
      * @global string $hook_suffix
      *
-     * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
-     *                                    Defaults to the current $hook_suffix global.
-     * @return WP_Screen Screen object.
      */
     public static function get($hook_name = '')
     {
@@ -214,40 +214,40 @@ final class WP_Screen
             return $hook_name;
         }
 
-        $id              = '';
-        $post_type       = null;
-        $taxonomy        = null;
-        $in_admin        = false;
-        $action          = '';
+        $id = '';
+        $post_type = null;
+        $taxonomy = null;
+        $in_admin = false;
+        $action = '';
         $is_block_editor = false;
 
         if ($hook_name) {
             $id = $hook_name;
-        } elseif (! empty($GLOBALS['hook_suffix'])) {
+        } elseif (!empty($GLOBALS['hook_suffix'])) {
             $id = $GLOBALS['hook_suffix'];
         }
 
         // For those pesky meta boxes.
         if ($hook_name && post_type_exists($hook_name)) {
             $post_type = $id;
-            $id        = 'post'; // Changes later. Ends up being $base.
+            $id = 'post'; // Changes later. Ends up being $base.
         } else {
             if (str_ends_with($id, '.php')) {
                 $id = substr($id, 0, -4);
             }
 
             if (in_array($id, ['post-new', 'link-add', 'media-new', 'user-new'], true)) {
-                $id     = substr($id, 0, -4);
+                $id = substr($id, 0, -4);
                 $action = 'add';
             }
         }
 
-        if (! $post_type && $hook_name) {
+        if (!$post_type && $hook_name) {
             if (str_ends_with($id, '-network')) {
-                $id       = substr($id, 0, -8);
+                $id = substr($id, 0, -8);
                 $in_admin = 'network';
             } elseif (str_ends_with($id, '-user')) {
-                $id       = substr($id, 0, -5);
+                $id = substr($id, 0, -5);
                 $in_admin = 'user';
             }
 
@@ -255,15 +255,15 @@ final class WP_Screen
             if ('edit-comments' !== $id && 'edit-tags' !== $id && str_starts_with($id, 'edit-')) {
                 $maybe = substr($id, 5);
                 if (taxonomy_exists($maybe)) {
-                    $id       = 'edit-tags';
+                    $id = 'edit-tags';
                     $taxonomy = $maybe;
                 } elseif (post_type_exists($maybe)) {
-                    $id        = 'edit';
+                    $id = 'edit';
                     $post_type = $maybe;
                 }
             }
 
-            if (! $in_admin) {
+            if (!$in_admin) {
                 $in_admin = 'site';
             }
         } else {
@@ -285,7 +285,7 @@ final class WP_Screen
         $base = $id;
 
         // If this is the current screen, see if we can be more accurate for post types and taxonomies.
-        if (! $hook_name) {
+        if (!$hook_name) {
             if (isset($_REQUEST['post_type'])) {
                 $post_type = post_type_exists($_REQUEST['post_type']) ? $_REQUEST['post_type'] : false;
             }
@@ -295,12 +295,15 @@ final class WP_Screen
 
             switch ($base) {
                 case 'post':
-                    if (isset($_GET['post']) && isset($_POST['post_ID']) && (int) $_GET['post'] !== (int) $_POST['post_ID']) {
-                        wp_die(__('A post ID mismatch has been detected.'), __('Sorry, you are not allowed to edit this item.'), 400);
+                    if (isset($_GET['post']) && isset($_POST['post_ID'])
+                        && (int)$_GET['post']
+                        !== (int)$_POST['post_ID']) {
+                        wp_die(__('A post ID mismatch has been detected.'),
+                            __('Sorry, you are not allowed to edit this item.'), 400);
                     } elseif (isset($_GET['post'])) {
-                        $post_id = (int) $_GET['post'];
+                        $post_id = (int)$_GET['post'];
                     } elseif (isset($_POST['post_ID'])) {
-                        $post_id = (int) $_POST['post_ID'];
+                        $post_id = (int)$_POST['post_ID'];
                     } else {
                         $post_id = 0;
                     }
@@ -313,7 +316,7 @@ final class WP_Screen
                             /** This filter is documented in wp-admin/post.php */
                             $replace_editor = apply_filters('replace_editor', false, $post);
 
-                            if (! $replace_editor) {
+                            if (!$replace_editor) {
                                 $is_block_editor = use_block_editor_for_post($post);
                             }
                         }
@@ -368,10 +371,10 @@ final class WP_Screen
         }
 
         if ('network' === $in_admin) {
-            $id   .= '-network';
+            $id .= '-network';
             $base .= '-network';
         } elseif ('user' === $in_admin) {
-            $id   .= '-user';
+            $id .= '-user';
             $base .= '-user';
         }
 
@@ -381,17 +384,17 @@ final class WP_Screen
                 return $screen;
             }
         } else {
-            $screen     = new self();
+            $screen = new self();
             $screen->id = $id;
         }
 
-        $screen->base            = $base;
-        $screen->action          = $action;
-        $screen->post_type       = (string) $post_type;
-        $screen->taxonomy        = (string) $taxonomy;
-        $screen->is_user         = ('user' === $in_admin);
-        $screen->is_network      = ('network' === $in_admin);
-        $screen->in_admin        = $in_admin;
+        $screen->base = $base;
+        $screen->action = $action;
+        $screen->post_type = (string)$post_type;
+        $screen->taxonomy = (string)$taxonomy;
+        $screen->is_user = ('user' === $in_admin);
+        $screen->is_network = ('network' === $in_admin);
+        $screen->in_admin = $in_admin;
         $screen->is_block_editor = $is_block_editor;
 
         self::$_registry[$id] = $screen;
@@ -406,23 +409,23 @@ final class WP_Screen
      * @since 3.3.0
      *
      * @global WP_Screen $current_screen waggypuppy current screen object.
-     * @global string    $typenow        The post type of the current screen.
-     * @global string    $taxnow         The taxonomy of the current screen.
+     * @global string $typenow The post type of the current screen.
+     * @global string $taxnow The taxonomy of the current screen.
      */
     public function set_current_screen()
     {
         global $current_screen, $taxnow, $typenow;
 
         $current_screen = $this;
-        $typenow        = $this->post_type;
-        $taxnow         = $this->taxonomy;
+        $typenow = $this->post_type;
+        $taxnow = $this->taxonomy;
 
         /**
          * Fires after the current screen has been set.
          *
+         * @param WP_Screen $current_screen Current WP_Screen object.
          * @since 3.0.0
          *
-         * @param WP_Screen $current_screen Current WP_Screen object.
          */
         do_action('current_screen', $current_screen);
     }
@@ -432,22 +435,21 @@ final class WP_Screen
      *
      * @since 3.3.0
      */
-    private function __construct()
-    {}
+    private function __construct() {}
 
     /**
      * Indicates whether the screen is in a particular admin.
      *
-     * @since 3.5.0
-     *
      * @param string $admin The admin to check against (network | user | site).
      *                      If empty any of the three admins will result in true.
      * @return bool True if the screen is in the indicated admin, false otherwise.
+     * @since 3.5.0
+     *
      */
     public function in_admin($admin = null)
     {
         if (empty($admin)) {
-            return (bool) $this->in_admin;
+            return (bool)$this->in_admin;
         }
 
         return ($admin === $this->in_admin);
@@ -456,15 +458,15 @@ final class WP_Screen
     /**
      * Sets or returns whether the block editor is loading on the current screen.
      *
-     * @since 5.0.0
-     *
      * @param bool $set Optional. Sets whether the block editor is loading on the current screen or not.
      * @return bool True if the block editor is being loaded, false otherwise.
+     * @since 5.0.0
+     *
      */
     public function is_block_editor($set = null)
     {
         if (null !== $set) {
-            $this->is_block_editor = (bool) $set;
+            $this->is_block_editor = (bool)$set;
         }
 
         return $this->is_block_editor;
@@ -473,10 +475,10 @@ final class WP_Screen
     /**
      * Sets the old string-based contextual help for the screen for backward compatibility.
      *
+     * @param WP_Screen $screen A screen object.
+     * @param string $help Help text.
      * @since 3.3.0
      *
-     * @param WP_Screen $screen A screen object.
-     * @param string    $help   Help text.
      */
     public static function add_old_compat_help($screen, $help)
     {
@@ -488,15 +490,15 @@ final class WP_Screen
      *
      * This is called in admin-header.php after the menu parent for the screen has been determined.
      *
+     * @param string $parent_file The parent file of the screen. Typically the $parent_file global.
      * @since 3.3.0
      *
-     * @param string $parent_file The parent file of the screen. Typically the $parent_file global.
      */
     public function set_parentage($parent_file)
     {
-        $this->parent_file   = $parent_file;
+        $this->parent_file = $parent_file;
         [$this->parent_base] = explode('?', $parent_file);
-        $this->parent_base   = str_replace('.php', '', $this->parent_base);
+        $this->parent_base = str_replace('.php', '', $this->parent_base);
     }
 
     /**
@@ -505,10 +507,10 @@ final class WP_Screen
      * Call this in template files after admin.php is loaded and before admin-header.php is loaded
      * to add screen options.
      *
+     * @param string $option Option ID.
+     * @param mixed $args Option-dependent arguments.
      * @since 3.3.0
      *
-     * @param string $option Option ID.
-     * @param mixed  $args   Option-dependent arguments.
      */
     public function add_option($option, $args = [])
     {
@@ -518,9 +520,9 @@ final class WP_Screen
     /**
      * Removes an option from the screen.
      *
+     * @param string $option Option ID.
      * @since 3.8.0
      *
-     * @param string $option Option ID.
      */
     public function remove_option($option)
     {
@@ -540,9 +542,9 @@ final class WP_Screen
     /**
      * Gets the options registered for the screen.
      *
+     * @return array Options with arguments.
      * @since 3.8.0
      *
-     * @return array Options with arguments.
      */
     public function get_options()
     {
@@ -552,16 +554,16 @@ final class WP_Screen
     /**
      * Gets the arguments for an option for the screen.
      *
-     * @since 3.3.0
-     *
-     * @param string       $option Option name.
-     * @param string|false $key    Optional. Specific array key for when the option is an array.
+     * @param string $option Option name.
+     * @param string|false $key Optional. Specific array key for when the option is an array.
      *                             Default false.
      * @return string The option value if set, null otherwise.
+     * @since 3.3.0
+     *
      */
     public function get_option($option, $key = false)
     {
-        if (! isset($this->_options[$option])) {
+        if (!isset($this->_options[$option])) {
             return null;
         }
         if ($key) {
@@ -576,10 +578,10 @@ final class WP_Screen
     /**
      * Gets the help tabs registered for the screen.
      *
-     * @since 3.4.0
+     * @return array Help tabs with arguments.
      * @since 4.4.0 Help tabs are ordered by their priority.
      *
-     * @return array Help tabs with arguments.
+     * @since 3.4.0
      */
     public function get_help_tabs()
     {
@@ -609,14 +611,14 @@ final class WP_Screen
     /**
      * Gets the arguments for a help tab.
      *
-     * @since 3.4.0
-     *
      * @param string $id Help Tab ID.
      * @return array Help tab arguments.
+     * @since 3.4.0
+     *
      */
     public function get_help_tab($id)
     {
-        if (! isset($this->_help_tabs[$id])) {
+        if (!isset($this->_help_tabs[$id])) {
             return null;
         }
         return $this->_help_tabs[$id];
@@ -632,35 +634,35 @@ final class WP_Screen
      * You may need to filter `$current_screen` using an if or switch statement
      * to prevent new help tabs from being added to ALL admin screens.
      *
-     * @since 3.3.0
-     * @since 4.4.0 The `$priority` argument was added.
-     *
      * @param array $args {
      *     Array of arguments used to display the help tab.
      *
-     *     @type string   $title    Title for the tab. Default false.
-     *     @type string   $id       Tab ID. Must be HTML-safe and should be unique for this menu.
+     * @type string $title Title for the tab. Default false.
+     * @type string $id Tab ID. Must be HTML-safe and should be unique for this menu.
      *                              It is NOT allowed to contain any empty spaces. Default false.
-     *     @type string   $content  Optional. Help tab content in plain text or HTML. Default empty string.
-     *     @type callable $callback Optional. A callback to generate the tab content. Default false.
-     *     @type int      $priority Optional. The priority of the tab, used for ordering. Default 10.
+     * @type string $content Optional. Help tab content in plain text or HTML. Default empty string.
+     * @type callable $callback Optional. A callback to generate the tab content. Default false.
+     * @type int $priority Optional. The priority of the tab, used for ordering. Default 10.
      * }
+     * @since 4.4.0 The `$priority` argument was added.
+     *
+     * @since 3.3.0
      */
     public function add_help_tab($args)
     {
         $defaults = [
-            'title'    => false,
-            'id'       => false,
-            'content'  => '',
+            'title' => false,
+            'id' => false,
+            'content' => '',
             'callback' => false,
             'priority' => 10,
         ];
-        $args     = wp_parse_args($args, $defaults);
+        $args = wp_parse_args($args, $defaults);
 
         $args['id'] = sanitize_html_class($args['id']);
 
         // Ensure we have an ID and title.
-        if (! $args['id'] || ! $args['title']) {
+        if (!$args['id'] || !$args['title']) {
             return;
         }
 
@@ -671,9 +673,9 @@ final class WP_Screen
     /**
      * Removes a help tab from the contextual help for the screen.
      *
+     * @param string $id The help tab ID.
      * @since 3.3.0
      *
-     * @param string $id The help tab ID.
      */
     public function remove_help_tab($id)
     {
@@ -693,9 +695,9 @@ final class WP_Screen
     /**
      * Gets the content from a contextual help sidebar.
      *
+     * @return string Contents of the help sidebar.
      * @since 3.4.0
      *
-     * @return string Contents of the help sidebar.
      */
     public function get_help_sidebar()
     {
@@ -708,9 +710,9 @@ final class WP_Screen
      * Call this in template files after admin.php is loaded and before admin-header.php is loaded
      * to add a sidebar to the contextual help.
      *
+     * @param string $content Sidebar content in plain text or HTML.
      * @since 3.3.0
      *
-     * @param string $content Sidebar content in plain text or HTML.
      */
     public function set_help_sidebar($content)
     {
@@ -726,9 +728,9 @@ final class WP_Screen
      * provisioned in layout_columns is returned. If the screen does not support
      * selecting the number of layout columns, 0 is returned.
      *
+     * @return int Number of columns to display.
      * @since 3.4.0
      *
-     * @return int Number of columns to display.
      */
     public function get_columns()
     {
@@ -738,11 +740,11 @@ final class WP_Screen
     /**
      * Gets the accessible hidden headings and text used in the screen.
      *
-     * @since 4.4.0
-     *
+     * @return string[] An associative array of screen reader text strings.
      * @see set_screen_reader_content() For more information on the array format.
      *
-     * @return string[] An associative array of screen reader text strings.
+     * @since 4.4.0
+     *
      */
     public function get_screen_reader_content()
     {
@@ -752,14 +754,14 @@ final class WP_Screen
     /**
      * Gets a screen reader text string.
      *
-     * @since 4.4.0
-     *
      * @param string $key Screen reader text array named key.
      * @return string Screen reader text string.
+     * @since 4.4.0
+     *
      */
     public function get_screen_reader_text($key)
     {
-        if (! isset($this->_screen_reader_content[$key])) {
+        if (!isset($this->_screen_reader_content[$key])) {
             return null;
         }
         return $this->_screen_reader_content[$key];
@@ -768,27 +770,27 @@ final class WP_Screen
     /**
      * Adds accessible hidden headings and text for the screen.
      *
-     * @since 4.4.0
-     *
      * @param array $content {
      *     An associative array of screen reader text strings.
      *
-     *     @type string $heading_views      Screen reader text for the filter links heading.
+     * @type string $heading_views Screen reader text for the filter links heading.
      *                                      Default 'Filter items list'.
-     *     @type string $heading_pagination Screen reader text for the pagination heading.
+     * @type string $heading_pagination Screen reader text for the pagination heading.
      *                                      Default 'Items list navigation'.
-     *     @type string $heading_list       Screen reader text for the items list heading.
+     * @type string $heading_list Screen reader text for the items list heading.
      *                                      Default 'Items list'.
      * }
+     * @since 4.4.0
+     *
      */
     public function set_screen_reader_content($content = [])
     {
         $defaults = [
-            'heading_views'      => __('Filter items list'),
+            'heading_views' => __('Filter items list'),
             'heading_pagination' => __('Items list navigation'),
-            'heading_list'       => __('Items list'),
+            'heading_list' => __('Items list'),
         ];
-        $content  = wp_parse_args($content, $defaults);
+        $content = wp_parse_args($content, $defaults);
 
         $this->_screen_reader_content = $content;
     }
@@ -814,22 +816,21 @@ final class WP_Screen
      */
     public function render_screen_meta()
     {
-
         /**
          * Filters the legacy contextual help list.
          *
+         * @param array $old_compat_help Old contextual help.
+         * @param WP_Screen $screen Current WP_Screen instance.
          * @since 2.7.0
          * @deprecated 3.3.0 Use {@see get_current_screen()->add_help_tab()} or
          *                   {@see get_current_screen()->remove_help_tab()} instead.
          *
-         * @param array     $old_compat_help Old contextual help.
-         * @param WP_Screen $screen          Current WP_Screen instance.
          */
         self::$_old_compat_help = apply_filters_deprecated(
             'contextual_help_list',
             [self::$_old_compat_help, $this],
             '3.3.0',
-            'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
+            'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()',
         );
 
         $old_help = isset(self::$_old_compat_help[$this->id]) ? self::$_old_compat_help[$this->id] : '';
@@ -837,38 +838,37 @@ final class WP_Screen
         /**
          * Filters the legacy contextual help text.
          *
-         * @since 2.7.0
+         * @param string $old_help Help text that appears on the screen.
+         * @param string $screen_id Screen ID.
+         * @param WP_Screen $screen Current WP_Screen instance.
          * @deprecated 3.3.0 Use {@see get_current_screen()->add_help_tab()} or
          *                   {@see get_current_screen()->remove_help_tab()} instead.
          *
-         * @param string    $old_help  Help text that appears on the screen.
-         * @param string    $screen_id Screen ID.
-         * @param WP_Screen $screen    Current WP_Screen instance.
+         * @since 2.7.0
          */
         $old_help = apply_filters_deprecated(
             'contextual_help',
             [$old_help, $this->id, $this],
             '3.3.0',
-            'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
+            'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()',
         );
 
         // Default help only if there is no old-style block of text and no new-style help tabs.
-        if (empty($old_help) && ! $this->get_help_tabs()) {
-
+        if (empty($old_help) && !$this->get_help_tabs()) {
             /**
              * Filters the default legacy contextual help text.
              *
-             * @since 2.8.0
+             * @param string $old_help_default Default contextual help text.
              * @deprecated 3.3.0 Use {@see get_current_screen()->add_help_tab()} or
              *                   {@see get_current_screen()->remove_help_tab()} instead.
              *
-             * @param string $old_help_default Default contextual help text.
+             * @since 2.8.0
              */
             $default_help = apply_filters_deprecated(
                 'default_contextual_help',
                 [''],
                 '3.3.0',
-                'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()'
+                'get_current_screen()->add_help_tab(), get_current_screen()->remove_help_tab()',
             );
             if ($default_help) {
                 $old_help = '<p>' . $default_help . '</p>';
@@ -878,17 +878,17 @@ final class WP_Screen
         if ($old_help) {
             $this->add_help_tab(
                 [
-                    'id'      => 'old-contextual-help',
-                    'title'   => __('Overview'),
+                    'id' => 'old-contextual-help',
+                    'title' => __('Overview'),
                     'content' => $old_help,
-                ]
+                ],
             );
         }
 
         $help_sidebar = $this->get_help_sidebar();
 
         $help_class = 'hidden';
-        if (! $help_sidebar) {
+        if (!$help_sidebar) {
             $help_class .= ' no-sidebar';
         }
 
@@ -896,34 +896,36 @@ final class WP_Screen
         ?>
         <div id="screen-meta" class="metabox-prefs">
 
-            <div id="contextual-help-wrap" class="<?php echo esc_attr($help_class); ?>" tabindex="-1" aria-label="<?php esc_attr_e('Contextual Help Tab'); ?>">
+            <div id="contextual-help-wrap" class="<?php echo esc_attr($help_class); ?>" tabindex="-1"
+                 aria-label="<?php esc_attr_e('Contextual Help Tab'); ?>">
                 <div id="contextual-help-back"></div>
                 <div id="contextual-help-columns">
                     <div class="contextual-help-tabs">
                         <ul>
-                        <?php
-                        $class = ' class="active"';
-                        foreach ($this->get_help_tabs() as $tab) :
-                            $link_id  = "tab-link-{$tab['id']}";
-                            $panel_id = "tab-panel-{$tab['id']}";
-                            ?>
-
-                            <li id="<?php echo esc_attr($link_id); ?>"<?php echo $class; ?>>
-                                <a href="<?php echo esc_url("#$panel_id"); ?>" aria-controls="<?php echo esc_attr($panel_id); ?>">
-                                    <?php echo esc_html($tab['title']); ?>
-                                </a>
-                            </li>
                             <?php
-                            $class = '';
-                        endforeach;
-                        ?>
+                            $class = ' class="active"';
+                            foreach ($this->get_help_tabs() as $tab) :
+                                $link_id = "tab-link-{$tab['id']}";
+                                $panel_id = "tab-panel-{$tab['id']}";
+                                ?>
+
+                                <li id="<?php echo esc_attr($link_id); ?>"<?php echo $class; ?>>
+                                    <a href="<?php echo esc_url("#$panel_id"); ?>"
+                                       aria-controls="<?php echo esc_attr($panel_id); ?>">
+                                        <?php echo esc_html($tab['title']); ?>
+                                    </a>
+                                </li>
+                                <?php
+                                $class = '';
+                            endforeach;
+                            ?>
                         </ul>
                     </div>
 
                     <?php if ($help_sidebar) : ?>
-                    <div class="contextual-help-sidebar">
-                        <?php echo $help_sidebar; ?>
-                    </div>
+                        <div class="contextual-help-sidebar">
+                            <?php echo $help_sidebar; ?>
+                        </div>
                     <?php endif; ?>
 
                     <div class="contextual-help-tabs-wrap">
@@ -939,7 +941,7 @@ final class WP_Screen
                                 echo $tab['content'];
 
                                 // If it exists, fire tab callback.
-                                if (! empty($tab['callback'])) {
+                                if (!empty($tab['callback'])) {
                                     call_user_func_array($tab['callback'], [$this, $tab]);
                                 }
                                 ?>
@@ -951,68 +953,71 @@ final class WP_Screen
                     </div>
                 </div>
             </div>
-        <?php
-        // Setup layout columns.
+            <?php
+            // Setup layout columns.
 
-        /**
-         * Filters the array of screen layout columns.
-         *
-         * This hook provides back-compat for plugins using the back-compat
-         * Filters instead of add_screen_option().
-         *
-         * @since 2.8.0
-         *
-         * @param array     $empty_columns Empty array.
-         * @param string    $screen_id     Screen ID.
-         * @param WP_Screen $screen        Current WP_Screen instance.
-         */
-        $columns = apply_filters('screen_layout_columns', [], $this->id, $this);
+            /**
+             * Filters the array of screen layout columns.
+             *
+             * This hook provides back-compat for plugins using the back-compat
+             * Filters instead of add_screen_option().
+             *
+             * @param array $empty_columns Empty array.
+             * @param string $screen_id Screen ID.
+             * @param WP_Screen $screen Current WP_Screen instance.
+             * @since 2.8.0
+             *
+             */
+            $columns = apply_filters('screen_layout_columns', [], $this->id, $this);
 
-        if (! empty($columns) && isset($columns[$this->id])) {
-            $this->add_option('layout_columns', ['max' => $columns[$this->id]]);
-        }
-
-        if ($this->get_option('layout_columns')) {
-            $this->columns = (int) get_user_option("screen_layout_$this->id");
-
-            if (! $this->columns && $this->get_option('layout_columns', 'default')) {
-                $this->columns = $this->get_option('layout_columns', 'default');
+            if (!empty($columns) && isset($columns[$this->id])) {
+                $this->add_option('layout_columns', ['max' => $columns[$this->id]]);
             }
-        }
-        $GLOBALS['screen_layout_columns'] = $this->columns; // Set the global for back-compat.
 
-        // Add screen options.
-        if ($this->show_screen_options()) {
-            $this->render_screen_options();
-        }
-        ?>
+            if ($this->get_option('layout_columns')) {
+                $this->columns = (int)get_user_option("screen_layout_$this->id");
+
+                if (!$this->columns && $this->get_option('layout_columns', 'default')) {
+                    $this->columns = $this->get_option('layout_columns', 'default');
+                }
+            }
+            $GLOBALS['screen_layout_columns'] = $this->columns; // Set the global for back-compat.
+
+            // Add screen options.
+            if ($this->show_screen_options()) {
+                $this->render_screen_options();
+            }
+            ?>
         </div>
         <?php
-        if (! $this->get_help_tabs() && ! $this->show_screen_options()) {
+        if (!$this->get_help_tabs() && !$this->show_screen_options()) {
             return;
         }
         ?>
         <div id="screen-meta-links">
-        <?php if ($this->show_screen_options()) : ?>
-            <div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
-            <button type="button" id="show-settings-link" class="button show-settings" aria-controls="screen-options-wrap" aria-expanded="false"><?php _e('Screen Options'); ?></button>
-            </div>
+            <?php if ($this->show_screen_options()) : ?>
+                <div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
+                    <button type="button" id="show-settings-link" class="button show-settings"
+                            aria-controls="screen-options-wrap"
+                            aria-expanded="false"><?php _e('Screen Options'); ?></button>
+                </div>
             <?php
-        endif;
-        if ($this->get_help_tabs()) :
-            ?>
-            <div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
-            <button type="button" id="contextual-help-link" class="button show-settings" aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e('Help'); ?></button>
-            </div>
-        <?php endif; ?>
+            endif;
+            if ($this->get_help_tabs()) :
+                ?>
+                <div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
+                    <button type="button" id="contextual-help-link" class="button show-settings"
+                            aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e('Help'); ?></button>
+                </div>
+            <?php endif; ?>
         </div>
         <?php
     }
 
     /**
+     * @return bool
      * @global array $wp_meta_boxes Global meta box state.
      *
-     * @return bool
      */
     public function show_screen_options()
     {
@@ -1024,24 +1029,27 @@ final class WP_Screen
 
         $columns = get_column_headers($this);
 
-        $show_screen = ! empty($wp_meta_boxes[$this->id]) || $columns || $this->get_option('per_page');
+        $show_screen = !empty($wp_meta_boxes[$this->id]) || $columns || $this->get_option('per_page');
 
         $this->_screen_settings = '';
 
         if ('post' === $this->base) {
-            $expand                 = '<fieldset class="editor-expand hidden"><legend>' . __('Additional settings') . '</legend><label for="editor-expand-toggle">';
-            $expand                .= '<input type="checkbox" id="editor-expand-toggle"' . checked(get_user_setting('editor_expand', 'on'), 'on', false) . ' />';
-            $expand                .= __('Enable full-height editor and distraction-free functionality.') . '</label></fieldset>';
+            $expand = '<fieldset class="editor-expand hidden"><legend>'
+                . __('Additional settings')
+                . '</legend><label for="editor-expand-toggle">';
+            $expand .= '<input type="checkbox" id="editor-expand-toggle"' . checked(get_user_setting('editor_expand',
+                    'on'), 'on', false) . ' />';
+            $expand .= __('Enable full-height editor and distraction-free functionality.') . '</label></fieldset>';
             $this->_screen_settings = $expand;
         }
 
         /**
          * Filters the screen settings text displayed in the Screen Options tab.
          *
+         * @param string $screen_settings Screen settings.
+         * @param WP_Screen $screen WP_Screen object.
          * @since 3.0.0
          *
-         * @param string    $screen_settings Screen settings.
-         * @param WP_Screen $screen          WP_Screen object.
          */
         $this->_screen_settings = apply_filters('screen_settings', $this->_screen_settings, $this);
 
@@ -1052,11 +1060,11 @@ final class WP_Screen
         /**
          * Filters whether to show the Screen Options tab.
          *
+         * @param bool $show_screen Whether to show Screen Options tab.
+         *                               Default true.
+         * @param WP_Screen $screen Current WP_Screen instance.
          * @since 3.2.0
          *
-         * @param bool      $show_screen Whether to show Screen Options tab.
-         *                               Default true.
-         * @param WP_Screen $screen      Current WP_Screen instance.
          */
         $this->_show_screen_options = apply_filters('screen_options_show_screen', $show_screen, $this);
         return $this->_show_screen_options;
@@ -1065,13 +1073,13 @@ final class WP_Screen
     /**
      * Renders the screen options tab.
      *
-     * @since 3.3.0
-     *
      * @param array $options {
      *     Options for the tab.
      *
-     *     @type bool $wrap Whether the screen-options-wrap div will be included. Defaults to true.
+     * @type bool $wrap Whether the screen-options-wrap div will be included. Defaults to true.
      * }
+     * @since 3.3.0
+     *
      */
     public function render_screen_options($options = [])
     {
@@ -1079,24 +1087,28 @@ final class WP_Screen
             $options,
             [
                 'wrap' => true,
-            ]
+            ],
         );
 
         $wrapper_start = '';
-        $wrapper_end   = '';
-        $form_start    = '';
-        $form_end      = '';
+        $wrapper_end = '';
+        $form_start = '';
+        $form_end = '';
 
         // Output optional wrapper.
         if ($options['wrap']) {
-            $wrapper_start = '<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="' . esc_attr__('Screen Options Tab') . '">';
-            $wrapper_end   = '</div>';
+            $wrapper_start = '<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="'
+                . esc_attr__('Screen Options Tab')
+                . '">';
+            $wrapper_end = '</div>';
         }
 
         // Don't output the form and nonce for the widgets accessibility mode links.
         if ('widgets' !== $this->base) {
             $form_start = "\n<form id='adv-settings' method='post'>\n";
-            $form_end   = "\n" . wp_nonce_field('screen-options-nonce', 'screenoptionnonce', false, false) . "\n</form>\n";
+            $form_end = "\n"
+                . wp_nonce_field('screen-options-nonce', 'screenoptionnonce', false, false)
+                . "\n</form>\n";
         }
 
         echo $wrapper_start . $form_start;
@@ -1111,11 +1123,11 @@ final class WP_Screen
         /**
          * Filters whether to show the Screen Options submit button.
          *
+         * @param bool $show_button Whether to show Screen Options submit button.
+         *                               Default false.
+         * @param WP_Screen $screen Current WP_Screen instance.
          * @since 4.4.0
          *
-         * @param bool      $show_button Whether to show Screen Options submit button.
-         *                               Default false.
-         * @param WP_Screen $screen      Current WP_Screen instance.
          */
         $show_button = apply_filters('screen_options_show_submit', false, $this);
 
@@ -1137,37 +1149,40 @@ final class WP_Screen
     {
         global $wp_meta_boxes;
 
-        if (! isset($wp_meta_boxes[$this->id])) {
+        if (!isset($wp_meta_boxes[$this->id])) {
             return;
         }
         ?>
         <fieldset class="metabox-prefs">
-        <legend><?php _e('Screen elements'); ?></legend>
-        <p>
-            <?php _e('Some screen elements can be shown or hidden by using the checkboxes.'); ?>
-            <?php _e('Expand or collapse the elements by clicking on their headings, and arrange them by dragging their headings or by clicking on the up and down arrows.'); ?>
-        </p>
-        <div class="metabox-prefs-container">
-        <?php
+            <legend><?php _e('Screen elements'); ?></legend>
+            <p>
+                <?php _e('Some screen elements can be shown or hidden by using the checkboxes.'); ?>
+                <?php _e('Expand or collapse the elements by clicking on their headings, and arrange them by dragging their headings or by clicking on the up and down arrows.'); ?>
+            </p>
+            <div class="metabox-prefs-container">
+                <?php
 
-        meta_box_prefs($this);
+                meta_box_prefs($this);
 
-        if ('dashboard' === $this->id && has_action('welcome_panel') && current_user_can('edit_theme_options')) {
-            if (isset($_GET['welcome'])) {
-                $welcome_checked = empty($_GET['welcome']) ? 0 : 1;
-                update_user_meta(get_current_user_id(), 'show_welcome_panel', $welcome_checked);
-            } else {
-                $welcome_checked = (int) get_user_meta(get_current_user_id(), 'show_welcome_panel', true);
-                if (2 === $welcome_checked && wp_get_current_user()->user_email !== get_option('admin_email')) {
-                    $welcome_checked = false;
+                if ('dashboard' === $this->id
+                    && has_action('welcome_panel')
+                    && current_user_can('edit_theme_options')) {
+                    if (isset($_GET['welcome'])) {
+                        $welcome_checked = empty($_GET['welcome']) ? 0 : 1;
+                        update_user_meta(get_current_user_id(), 'show_welcome_panel', $welcome_checked);
+                    } else {
+                        $welcome_checked = (int)get_user_meta(get_current_user_id(), 'show_welcome_panel', true);
+                        if (2 === $welcome_checked && wp_get_current_user()->user_email !== get_option('admin_email')) {
+                            $welcome_checked = false;
+                        }
+                    }
+                    echo '<label for="wp_welcome_panel-hide">';
+                    echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked((bool)$welcome_checked, true,
+                            false) . ' />';
+                    echo _x('Welcome', 'Welcome panel') . "</label>\n";
                 }
-            }
-            echo '<label for="wp_welcome_panel-hide">';
-            echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked((bool) $welcome_checked, true, false) . ' />';
-            echo _x('Welcome', 'Welcome panel') . "</label>\n";
-        }
-        ?>
-        </div>
+                ?>
+            </div>
         </fieldset>
         <?php
     }
@@ -1179,44 +1194,51 @@ final class WP_Screen
      */
     public function render_list_table_columns_preferences()
     {
-
         $columns = get_column_headers($this);
-        $hidden  = get_hidden_columns($this);
+        $hidden = get_hidden_columns($this);
 
-        if (! $columns) {
+        if (!$columns) {
             return;
         }
 
-        $legend = ! empty($columns['_title']) ? $columns['_title'] : __('Columns');
+        $legend = !empty($columns['_title']) ? $columns['_title'] : __('Columns');
         ?>
         <fieldset class="metabox-prefs">
-        <legend><?php echo $legend; ?></legend>
-        <?php
-        $special = ['_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname'];
+            <legend><?php echo $legend; ?></legend>
+            <?php
+            $special = ['_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname'];
 
-        foreach ($columns as $column => $title) {
-            // Can't hide these for they are special.
-            if (in_array($column, $special, true)) {
-                continue;
+            foreach ($columns as $column => $title) {
+                // Can't hide these for they are special.
+                if (in_array($column, $special, true)) {
+                    continue;
+                }
+
+                if (empty($title)) {
+                    continue;
+                }
+
+                /*
+                 * The Comments column uses HTML in the display name with some screen
+                 * reader text. Make sure to strip tags from the Comments column
+                 * title and any other custom column title plugins might add.
+                 */
+                $title = wp_strip_all_tags($title);
+
+                $id = "$column-hide";
+                echo '<label>';
+                echo '<input class="hide-column-tog" name="'
+                    . $id
+                    . '" type="checkbox" id="'
+                    . $id
+                    . '" value="'
+                    . $column
+                    . '"'
+                    . checked(!in_array($column, $hidden, true), true, false)
+                    . ' />';
+                echo "$title</label>\n";
             }
-
-            if (empty($title)) {
-                continue;
-            }
-
-            /*
-             * The Comments column uses HTML in the display name with some screen
-             * reader text. Make sure to strip tags from the Comments column
-             * title and any other custom column title plugins might add.
-             */
-            $title = wp_strip_all_tags($title);
-
-            $id = "$column-hide";
-            echo '<label>';
-            echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked(! in_array($column, $hidden, true), true, false) . ' />';
-            echo "$title</label>\n";
-        }
-        ?>
+            ?>
         </fieldset>
         <?php
     }
@@ -1228,28 +1250,29 @@ final class WP_Screen
      */
     public function render_screen_layout()
     {
-        if (! $this->get_option('layout_columns')) {
+        if (!$this->get_option('layout_columns')) {
             return;
         }
 
         $screen_layout_columns = $this->get_columns();
-        $num                   = $this->get_option('layout_columns', 'max');
+        $num = $this->get_option('layout_columns', 'max');
 
         ?>
         <fieldset class='columns-prefs'>
-        <legend class="screen-layout"><?php _e('Layout'); ?></legend>
-        <?php for ($i = 1; $i <= $num; ++$i) : ?>
-            <label class="columns-prefs-<?php echo $i; ?>">
-            <input type='radio' name='screen_columns' value='<?php echo esc_attr($i); ?>' <?php checked($screen_layout_columns, $i); ?> />
-            <?php
-                printf(
+            <legend class="screen-layout"><?php _e('Layout'); ?></legend>
+            <?php for ($i = 1; $i <= $num; ++$i) : ?>
+                <label class="columns-prefs-<?php echo $i; ?>">
+                    <input type='radio' name='screen_columns'
+                           value='<?php echo esc_attr($i); ?>' <?php checked($screen_layout_columns, $i); ?> />
+                    <?php
+                    printf(
                     /* translators: %s: Number of columns on the page. */
-                    _n('%s column', '%s columns', $i),
-                    number_format_i18n($i)
-                );
-            ?>
-            </label>
-        <?php endfor; ?>
+                        _n('%s column', '%s columns', $i),
+                        number_format_i18n($i),
+                    );
+                    ?>
+                </label>
+            <?php endfor; ?>
         </fieldset>
         <?php
     }
@@ -1271,14 +1294,14 @@ final class WP_Screen
         }
 
         $option = $this->get_option('per_page', 'option');
-        if (! $option) {
+        if (!$option) {
             $option = str_replace('-', '_', "{$this->id}_per_page");
         }
 
-        $per_page = (int) get_user_option($option);
+        $per_page = (int)get_user_option($option);
         if (empty($per_page) || $per_page < 1) {
             $per_page = $this->get_option('per_page', 'default');
-            if (! $per_page) {
+            if (!$per_page) {
                 $per_page = 20;
             }
         }
@@ -1307,14 +1330,14 @@ final class WP_Screen
 
         ?>
         <fieldset class="screen-options">
-        <legend><?php _e('Pagination'); ?></legend>
+            <legend><?php _e('Pagination'); ?></legend>
             <?php if ($per_page_label) : ?>
                 <label for="<?php echo esc_attr($option); ?>"><?php echo $per_page_label; ?></label>
                 <input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]"
-                    id="<?php echo esc_attr($option); ?>"
-                    value="<?php echo esc_attr($per_page); ?>" />
+                       id="<?php echo esc_attr($option); ?>"
+                       value="<?php echo esc_attr($per_page); ?>"/>
             <?php endif; ?>
-                <input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr($option); ?>" />
+            <input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr($option); ?>"/>
         </fieldset>
         <?php
     }
@@ -1342,18 +1365,18 @@ final class WP_Screen
         /**
          * Filters the post types that have different view mode options.
          *
-         * @since 4.4.0
-         *
          * @param string[] $view_mode_post_types Array of post types that can change view modes.
          *                                       Default post types with show_ui on.
+         * @since 4.4.0
+         *
          */
         $view_mode_post_types = apply_filters('view_mode_post_types', $view_mode_post_types);
 
-        if ('edit' === $screen->base && ! in_array($this->post_type, $view_mode_post_types, true)) {
+        if ('edit' === $screen->base && !in_array($this->post_type, $view_mode_post_types, true)) {
             return;
         }
 
-        if (! isset($mode)) {
+        if (!isset($mode)) {
             $mode = get_user_setting('posts_list_mode', 'list');
         }
 
@@ -1367,7 +1390,8 @@ final class WP_Screen
                 <?php _e('Compact view'); ?>
             </label>
             <label for="excerpt-view-mode">
-                <input id="excerpt-view-mode" type="radio" name="mode" value="excerpt" <?php checked('excerpt', $mode); ?> />
+                <input id="excerpt-view-mode" type="radio" name="mode" value="excerpt" <?php checked('excerpt',
+                    $mode); ?> />
                 <?php _e('Extended view'); ?>
             </label>
         </fieldset>
@@ -1377,15 +1401,14 @@ final class WP_Screen
     /**
      * Renders screen reader text.
      *
-     * @since 4.4.0
-     *
      * @param string $key The screen reader text array named key.
      * @param string $tag Optional. The HTML tag to wrap the screen reader text. Default h2.
+     * @since 4.4.0
+     *
      */
     public function render_screen_reader_content($key = '', $tag = 'h2')
     {
-
-        if (! isset($this->_screen_reader_content[$key])) {
+        if (!isset($this->_screen_reader_content[$key])) {
             return;
         }
         echo "<$tag class='screen-reader-text'>" . $this->_screen_reader_content[$key] . "</$tag>";

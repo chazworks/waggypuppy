@@ -9,11 +9,11 @@
 /**
  * Gets the elements class names.
  *
+ * @param array $block Block object.
+ * @return string The unique class name.
  * @since 6.0.0
  * @access private
  *
- * @param array $block Block object.
- * @return string The unique class name.
  */
 function wp_get_elements_class_name($block)
 {
@@ -23,37 +23,37 @@ function wp_get_elements_class_name($block)
 /**
  * Determines whether an elements class name should be added to the block.
  *
+ * @param array $block Block object.
+ * @param array $options Per element type options e.g. whether to skip serialization.
+ * @return boolean Whether the block needs an elements class name.
  * @since 6.6.0
  * @access private
  *
- * @param  array $block   Block object.
- * @param  array $options Per element type options e.g. whether to skip serialization.
- * @return boolean Whether the block needs an elements class name.
  */
 function wp_should_add_elements_class_name($block, $options)
 {
-    if (! isset($block['attrs']['style']['elements'])) {
+    if (!isset($block['attrs']['style']['elements'])) {
         return false;
     }
 
     $element_color_properties = [
-        'button'  => [
-            'skip'  => isset($options['button']['skip']) ? $options['button']['skip'] : false,
+        'button' => [
+            'skip' => isset($options['button']['skip']) ? $options['button']['skip'] : false,
             'paths' => [
                 ['button', 'color', 'text'],
                 ['button', 'color', 'background'],
                 ['button', 'color', 'gradient'],
             ],
         ],
-        'link'    => [
-            'skip'  => isset($options['link']['skip']) ? $options['link']['skip'] : false,
+        'link' => [
+            'skip' => isset($options['link']['skip']) ? $options['link']['skip'] : false,
             'paths' => [
                 ['link', 'color', 'text'],
                 ['link', ':hover', 'color', 'text'],
             ],
         ],
         'heading' => [
-            'skip'  => isset($options['heading']['skip']) ? $options['heading']['skip'] : false,
+            'skip' => isset($options['heading']['skip']) ? $options['heading']['skip'] : false,
             'paths' => [
                 ['heading', 'color', 'text'],
                 ['heading', 'color', 'background'],
@@ -104,13 +104,13 @@ function wp_should_add_elements_class_name($block, $options)
  * This solves the issue of an element (e.g.: link color) being styled in both the parent and a descendant:
  * we want the descendant style to take priority, and this is done by loading it after, in DOM order.
  *
- * @since 6.0.0
- * @since 6.1.0 Implemented the style engine to generate CSS and classnames.
+ * @param array $parsed_block The parsed block.
+ * @return array The same parsed block with elements classname added if appropriate.
  * @since 6.6.0 Element block support class and styles are generated via the `render_block_data` filter instead of `pre_render_block`.
  * @access private
  *
- * @param array $parsed_block The parsed block.
- * @return array The same parsed block with elements classname added if appropriate.
+ * @since 6.0.0
+ * @since 6.1.0 Implemented the style engine to generate CSS and classnames.
  */
 function wp_render_elements_support_styles($parsed_block)
 {
@@ -128,57 +128,59 @@ function wp_render_elements_support_styles($parsed_block)
         _deprecated_argument(
             __FUNCTION__,
             '6.6.0',
-            __('Use as a `pre_render_block` filter is deprecated. Use with `render_block_data` instead.')
+            __('Use as a `pre_render_block` filter is deprecated. Use with `render_block_data` instead.'),
         );
     }
 
-    $block_type           = WP_Block_Type_Registry::get_instance()->get_registered($parsed_block['blockName']);
-    $element_block_styles = isset($parsed_block['attrs']['style']['elements']) ? $parsed_block['attrs']['style']['elements'] : null;
+    $block_type = WP_Block_Type_Registry::get_instance()->get_registered($parsed_block['blockName']);
+    $element_block_styles = isset($parsed_block['attrs']['style']['elements'])
+        ? $parsed_block['attrs']['style']['elements'] : null;
 
-    if (! $element_block_styles) {
+    if (!$element_block_styles) {
         return $parsed_block;
     }
 
-    $skip_link_color_serialization         = wp_should_skip_block_supports_serialization($block_type, 'color', 'link');
-    $skip_heading_color_serialization      = wp_should_skip_block_supports_serialization($block_type, 'color', 'heading');
-    $skip_button_color_serialization       = wp_should_skip_block_supports_serialization($block_type, 'color', 'button');
-    $skips_all_element_color_serialization = $skip_link_color_serialization &&
-        $skip_heading_color_serialization &&
-        $skip_button_color_serialization;
+    $skip_link_color_serialization = wp_should_skip_block_supports_serialization($block_type, 'color', 'link');
+    $skip_heading_color_serialization = wp_should_skip_block_supports_serialization($block_type, 'color', 'heading');
+    $skip_button_color_serialization = wp_should_skip_block_supports_serialization($block_type, 'color', 'button');
+    $skips_all_element_color_serialization = $skip_link_color_serialization
+        && $skip_heading_color_serialization
+        && $skip_button_color_serialization;
 
     if ($skips_all_element_color_serialization) {
         return $parsed_block;
     }
 
     $options = [
-        'button'  => ['skip' => $skip_button_color_serialization],
-        'link'    => ['skip' => $skip_link_color_serialization],
+        'button' => ['skip' => $skip_button_color_serialization],
+        'link' => ['skip' => $skip_link_color_serialization],
         'heading' => ['skip' => $skip_heading_color_serialization],
     ];
 
-    if (! wp_should_add_elements_class_name($parsed_block, $options)) {
+    if (!wp_should_add_elements_class_name($parsed_block, $options)) {
         return $parsed_block;
     }
 
-    $class_name         = wp_get_elements_class_name($parsed_block);
-    $updated_class_name = isset($parsed_block['attrs']['className']) ? $parsed_block['attrs']['className'] . " $class_name" : $class_name;
+    $class_name = wp_get_elements_class_name($parsed_block);
+    $updated_class_name = isset($parsed_block['attrs']['className']) ? $parsed_block['attrs']['className']
+        . " $class_name" : $class_name;
 
     _wp_array_set($parsed_block, ['attrs', 'className'], $updated_class_name);
 
     // Generate element styles based on selector and store in style engine for enqueuing.
     $element_types = [
-        'button'  => [
+        'button' => [
             'selector' => ".$class_name .wp-element-button, .$class_name .wp-block-button__link",
-            'skip'     => $skip_button_color_serialization,
+            'skip' => $skip_button_color_serialization,
         ],
-        'link'    => [
-            'selector'       => ".$class_name a:where(:not(.wp-element-button))",
+        'link' => [
+            'selector' => ".$class_name a:where(:not(.wp-element-button))",
             'hover_selector' => ".$class_name a:where(:not(.wp-element-button)):hover",
-            'skip'           => $skip_link_color_serialization,
+            'skip' => $skip_link_color_serialization,
         ],
         'heading' => [
             'selector' => ".$class_name h1, .$class_name h2, .$class_name h3, .$class_name h4, .$class_name h5, .$class_name h6",
-            'skip'     => $skip_heading_color_serialization,
+            'skip' => $skip_heading_color_serialization,
             'elements' => ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
         ],
     ];
@@ -188,7 +190,8 @@ function wp_render_elements_support_styles($parsed_block)
             continue;
         }
 
-        $element_style_object = isset($element_block_styles[$element_type]) ? $element_block_styles[$element_type] : null;
+        $element_style_object = isset($element_block_styles[$element_type]) ? $element_block_styles[$element_type]
+            : null;
 
         // Process primary element type styles.
         if ($element_style_object) {
@@ -196,8 +199,8 @@ function wp_render_elements_support_styles($parsed_block)
                 $element_style_object,
                 [
                     'selector' => $element_config['selector'],
-                    'context'  => 'block-supports',
-                ]
+                    'context' => 'block-supports',
+                ],
             );
 
             if (isset($element_style_object[':hover'])) {
@@ -205,8 +208,8 @@ function wp_render_elements_support_styles($parsed_block)
                     $element_style_object[':hover'],
                     [
                         'selector' => $element_config['hover_selector'],
-                        'context'  => 'block-supports',
-                    ]
+                        'context' => 'block-supports',
+                    ],
                 );
             }
         }
@@ -223,8 +226,8 @@ function wp_render_elements_support_styles($parsed_block)
                         $element_style_object,
                         [
                             'selector' => ".$class_name $element",
-                            'context'  => 'block-supports',
-                        ]
+                            'context' => 'block-supports',
+                        ],
                     );
                 }
             }
@@ -239,12 +242,12 @@ function wp_render_elements_support_styles($parsed_block)
  * block attributes, in the `render_block_data` filter gets applied to the
  * block's markup.
  *
- * @see wp_render_elements_support_styles
+ * @param string $block_content Rendered block content.
+ * @param array $block Block object.
+ * @return string                Filtered block content.
  * @since 6.6.0
  *
- * @param  string $block_content Rendered block content.
- * @param  array  $block         Block object.
- * @return string                Filtered block content.
+ * @see wp_render_elements_support_styles
  */
 function wp_render_elements_class_name($block_content, $block)
 {

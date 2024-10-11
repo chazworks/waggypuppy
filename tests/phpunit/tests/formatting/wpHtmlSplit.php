@@ -49,7 +49,7 @@ class Tests_Formatting_wpHtmlSplit extends WP_UnitTestCase
      */
     public function test_pcre_performance($input)
     {
-        $regex  = get_html_split_regex();
+        $regex = get_html_split_regex();
         $result = benchmark_pcre_backtracking($regex, $input, 'split');
         return $this->assertLessThan(200, $result);
     }

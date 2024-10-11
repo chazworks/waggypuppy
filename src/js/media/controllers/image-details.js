@@ -29,34 +29,39 @@ var State = wp.media.controller.State,
  * @todo This state inherits some defaults from media.controller.Library.prototype.defaults,
  *       however this may not do anything.
  */
-ImageDetails = State.extend(/** @lends wp.media.controller.ImageDetails.prototype */{
-	defaults: _.defaults({
-		id:       'image-details',
-		title:    l10n.imageDetailsTitle,
-		content:  'image-details',
-		menu:     false,
-		router:   false,
-		toolbar:  'image-details',
-		editing:  false,
-		priority: 60
-	}, Library.prototype.defaults ),
+ImageDetails = State.extend(
+	/** @lends wp.media.controller.ImageDetails.prototype */ {
+		defaults: _.defaults(
+			{
+				id: 'image-details',
+				title: l10n.imageDetailsTitle,
+				content: 'image-details',
+				menu: false,
+				router: false,
+				toolbar: 'image-details',
+				editing: false,
+				priority: 60,
+			},
+			Library.prototype.defaults
+		),
 
-	/**
-	 * @since 3.9.0
-	 *
-	 * @param options Attributes
-	 */
-	initialize: function( options ) {
-		this.image = options.image;
-		State.prototype.initialize.apply( this, arguments );
-	},
+		/**
+		 * @since 3.9.0
+		 *
+		 * @param options Attributes
+		 */
+		initialize: function ( options ) {
+			this.image = options.image;
+			State.prototype.initialize.apply( this, arguments );
+		},
 
-	/**
-	 * @since 3.9.0
-	 */
-	activate: function() {
-		this.frame.modal.$el.addClass('image-details');
+		/**
+		 * @since 3.9.0
+		 */
+		activate: function () {
+			this.frame.modal.$el.addClass( 'image-details' );
+		},
 	}
-});
+);
 
 module.exports = ImageDetails;

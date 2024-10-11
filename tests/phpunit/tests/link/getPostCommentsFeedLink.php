@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group link
  * @covers ::get_post_comments_feed_link
@@ -10,13 +11,13 @@ class Tests_Link_GetPostCommentsFeedLink extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create();
 
-        $link     = get_post_comments_feed_link($post_id);
+        $link = get_post_comments_feed_link($post_id);
         $expected = add_query_arg(
             [
                 'feed' => get_default_feed(),
-                'p'    => $post_id,
+                'p' => $post_id,
             ],
-            home_url('/')
+            home_url('/'),
         );
 
         $this->assertSame($expected, $link);
@@ -28,7 +29,7 @@ class Tests_Link_GetPostCommentsFeedLink extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create();
 
-        $link     = get_post_comments_feed_link($post_id);
+        $link = get_post_comments_feed_link($post_id);
         $expected = get_permalink($post_id) . 'feed/';
 
         $this->assertSame($expected, $link);
@@ -36,23 +37,23 @@ class Tests_Link_GetPostCommentsFeedLink extends WP_UnitTestCase
 
     public function test_attachment_link()
     {
-        $post_id       = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
-        $link     = get_post_comments_feed_link($attachment_id);
+        $link = get_post_comments_feed_link($attachment_id);
         $expected = add_query_arg(
             [
                 'feed' => get_default_feed(),
-                'p'    => $attachment_id,
+                'p' => $attachment_id,
             ],
-            home_url('/')
+            home_url('/'),
         );
 
         $this->assertSame($expected, $link);
@@ -62,24 +63,24 @@ class Tests_Link_GetPostCommentsFeedLink extends WP_UnitTestCase
     {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
-        $post_id       = self::factory()->post->create(
+        $post_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-            ]
+            ],
         );
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-                'post_title'     => 'Burrito',
-            ]
+                'post_type' => 'attachment',
+                'post_title' => 'Burrito',
+            ],
         );
 
         $p = get_post($post_id);
 
-        $link     = get_post_comments_feed_link($attachment_id);
+        $link = get_post_comments_feed_link($attachment_id);
         $expected = get_permalink($post_id) . 'burrito/feed/';
 
         $this->assertSame($expected, $link);
@@ -89,17 +90,17 @@ class Tests_Link_GetPostCommentsFeedLink extends WP_UnitTestCase
     {
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
-        $post_id       = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $attachment_id = self::factory()->attachment->create_object(
             'image.jpg',
             $post_id,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
-        $link     = get_post_comments_feed_link($attachment_id);
+        $link = get_post_comments_feed_link($attachment_id);
         $expected = get_permalink($post_id) . 'attachment/' . $attachment_id . '/feed/';
 
         $this->assertSame($expected, $link);
@@ -112,17 +113,17 @@ class Tests_Link_GetPostCommentsFeedLink extends WP_UnitTestCase
             0,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
-        $link     = get_post_comments_feed_link($attachment_id);
+        $link = get_post_comments_feed_link($attachment_id);
         $expected = add_query_arg(
             [
-                'feed'          => get_default_feed(),
+                'feed' => get_default_feed(),
                 'attachment_id' => $attachment_id,
             ],
-            home_url('/')
+            home_url('/'),
         );
 
         $this->assertSame($expected, $link);
@@ -137,11 +138,11 @@ class Tests_Link_GetPostCommentsFeedLink extends WP_UnitTestCase
             0,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_type'      => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
-        $link     = get_post_comments_feed_link($attachment_id);
+        $link = get_post_comments_feed_link($attachment_id);
         $expected = add_query_arg('attachment_id', $attachment_id, home_url('/feed/'));
 
         $this->assertSame($expected, $link);
@@ -156,7 +157,7 @@ class Tests_Link_GetPostCommentsFeedLink extends WP_UnitTestCase
 
         // Use the largest integer to ensure the post does not exist.
         $post_id = PHP_INT_MAX;
-        $link    = get_post_comments_feed_link($post_id);
+        $link = get_post_comments_feed_link($post_id);
 
         $this->assertEmpty($link);
     }

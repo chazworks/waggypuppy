@@ -34,18 +34,18 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Gets columns to show in the list table.
      *
+     * @return string[] Array of column titles keyed by their column name.
      * @since 4.9.6
      *
-     * @return string[] Array of column titles keyed by their column name.
      */
     public function get_columns()
     {
         $columns = [
-            'cb'                => '<input type="checkbox" />',
-            'email'             => __('Requester'),
-            'status'            => __('Status'),
+            'cb' => '<input type="checkbox" />',
+            'email' => __('Requester'),
+            'status' => __('Status'),
             'created_timestamp' => __('Requested'),
-            'next_steps'        => __('Next steps'),
+            'next_steps' => __('Next steps'),
         ];
         return $columns;
     }
@@ -53,9 +53,9 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Normalizes the admin URL to the current page (by request_type).
      *
+     * @return string URL to the current admin page.
      * @since 5.3.0
      *
-     * @return string URL to the current admin page.
      */
     protected function get_admin_url()
     {
@@ -71,9 +71,9 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Gets a list of sortable columns.
      *
+     * @return array Default sortable columns.
      * @since 4.9.6
      *
-     * @return array Default sortable columns.
      */
     protected function get_sortable_columns()
     {
@@ -85,7 +85,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
         $desc_first = isset($_GET['orderby']);
 
         return [
-            'email'             => 'requester',
+            'email' => 'requester',
             'created_timestamp' => ['requested', $desc_first],
         ];
     }
@@ -93,9 +93,9 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Returns the default primary column.
      *
+     * @return string Default primary column name.
      * @since 4.9.6
      *
-     * @return string Default primary column name.
      */
     protected function get_default_primary_column_name()
     {
@@ -105,18 +105,18 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Counts the number of requests for each status.
      *
-     * @since 4.9.6
-     *
+     * @return object Number of posts for each status.
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @return object Number of posts for each status.
+     * @since 4.9.6
+     *
      */
     protected function get_request_counts()
     {
         global $wpdb;
 
         $cache_key = $this->post_type . '-' . $this->request_type;
-        $counts    = wp_cache_get($cache_key, 'counts');
+        $counts = wp_cache_get($cache_key, 'counts');
 
         if (false !== $counts) {
             return $counts;
@@ -129,14 +129,14 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
 			AND post_name = %s
 			GROUP BY post_status";
 
-        $results = (array) $wpdb->get_results($wpdb->prepare($query, $this->post_type, $this->request_type), ARRAY_A);
-        $counts  = array_fill_keys(get_post_stati(), 0);
+        $results = (array)$wpdb->get_results($wpdb->prepare($query, $this->post_type, $this->request_type), ARRAY_A);
+        $counts = array_fill_keys(get_post_stati(), 0);
 
         foreach ($results as $row) {
             $counts[$row['post_status']] = $row['num_posts'];
         }
 
-        $counts = (object) $counts;
+        $counts = (object)$counts;
         wp_cache_set($cache_key, $counts, 'counts');
 
         return $counts;
@@ -145,60 +145,60 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Gets an associative array ( id => link ) with the list of views available on this table.
      *
+     * @return string[] An array of HTML links keyed by their view.
      * @since 4.9.6
      *
-     * @return string[] An array of HTML links keyed by their view.
      */
     protected function get_views()
     {
         $current_status = isset($_REQUEST['filter-status']) ? sanitize_text_field($_REQUEST['filter-status']) : '';
-        $statuses       = _wp_privacy_statuses();
-        $views          = [];
-        $counts         = $this->get_request_counts();
-        $total_requests = absint(array_sum((array) $counts));
+        $statuses = _wp_privacy_statuses();
+        $views = [];
+        $counts = $this->get_request_counts();
+        $total_requests = absint(array_sum((array)$counts));
 
         // Normalized admin URL.
         $admin_url = $this->get_admin_url();
 
         $status_label = sprintf(
-            /* translators: %s: Number of requests. */
+        /* translators: %s: Number of requests. */
             _nx(
                 'All <span class="count">(%s)</span>',
                 'All <span class="count">(%s)</span>',
                 $total_requests,
-                'requests'
+                'requests',
             ),
-            number_format_i18n($total_requests)
+            number_format_i18n($total_requests),
         );
 
         $views['all'] = [
-            'url'     => esc_url($admin_url),
-            'label'   => $status_label,
+            'url' => esc_url($admin_url),
+            'label' => $status_label,
             'current' => empty($current_status),
         ];
 
         foreach ($statuses as $status => $label) {
             $post_status = get_post_status_object($status);
-            if (! $post_status) {
+            if (!$post_status) {
                 continue;
             }
 
             $total_status_requests = absint($counts->{$status});
 
-            if (! $total_status_requests) {
+            if (!$total_status_requests) {
                 continue;
             }
 
             $status_label = sprintf(
                 translate_nooped_plural($post_status->label_count, $total_status_requests),
-                number_format_i18n($total_status_requests)
+                number_format_i18n($total_status_requests),
             );
 
             $status_link = add_query_arg('filter-status', $status, $admin_url);
 
             $views[$status] = [
-                'url'     => esc_url($status_link),
-                'label'   => $status_label,
+                'url' => esc_url($status_link),
+                'label' => $status_label,
                 'current' => $status === $current_status,
             ];
         }
@@ -209,16 +209,16 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Gets bulk actions.
      *
+     * @return array Array of bulk action labels keyed by their action.
      * @since 4.9.6
      *
-     * @return array Array of bulk action labels keyed by their action.
      */
     protected function get_bulk_actions()
     {
         return [
-            'resend'   => __('Resend confirmation requests'),
+            'resend' => __('Resend confirmation requests'),
             'complete' => __('Mark requests as completed'),
-            'delete'   => __('Delete requests'),
+            'delete' => __('Delete requests'),
         ];
     }
 
@@ -230,14 +230,14 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
      */
     public function process_bulk_action()
     {
-        $action      = $this->current_action();
+        $action = $this->current_action();
         $request_ids = isset($_REQUEST['request_id']) ? wp_parse_id_list(wp_unslash($_REQUEST['request_id'])) : [];
 
         if (empty($request_ids)) {
             return;
         }
 
-        $count    = 0;
+        $count = 0;
         $failures = 0;
 
         check_admin_referer('bulk-privacy_requests');
@@ -247,7 +247,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
                 foreach ($request_ids as $request_id) {
                     $resend = _wp_privacy_resend_request($request_id);
 
-                    if ($resend && ! is_wp_error($resend)) {
+                    if ($resend && !is_wp_error($resend)) {
                         ++$count;
                     } else {
                         ++$failures;
@@ -259,15 +259,15 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
                         'bulk_action',
                         'bulk_action',
                         sprintf(
-                            /* translators: %d: Number of requests. */
+                        /* translators: %d: Number of requests. */
                             _n(
                                 '%d confirmation request failed to resend.',
                                 '%d confirmation requests failed to resend.',
-                                $failures
+                                $failures,
                             ),
-                            $failures
+                            $failures,
                         ),
-                        'error'
+                        'error',
                     );
                 }
 
@@ -276,15 +276,15 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
                         'bulk_action',
                         'bulk_action',
                         sprintf(
-                            /* translators: %d: Number of requests. */
+                        /* translators: %d: Number of requests. */
                             _n(
                                 '%d confirmation request re-sent successfully.',
                                 '%d confirmation requests re-sent successfully.',
-                                $count
+                                $count,
                             ),
-                            $count
+                            $count,
                         ),
-                        'success'
+                        'success',
                     );
                 }
 
@@ -294,7 +294,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
                 foreach ($request_ids as $request_id) {
                     $result = _wp_privacy_completed_request($request_id);
 
-                    if ($result && ! is_wp_error($result)) {
+                    if ($result && !is_wp_error($result)) {
                         ++$count;
                     }
                 }
@@ -303,15 +303,15 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
                     'bulk_action',
                     'bulk_action',
                     sprintf(
-                        /* translators: %d: Number of requests. */
+                    /* translators: %d: Number of requests. */
                         _n(
                             '%d request marked as complete.',
                             '%d requests marked as complete.',
-                            $count
+                            $count,
                         ),
-                        $count
+                        $count,
                     ),
-                    'success'
+                    'success',
                 );
                 break;
 
@@ -329,15 +329,15 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
                         'bulk_action',
                         'bulk_action',
                         sprintf(
-                            /* translators: %d: Number of requests. */
+                        /* translators: %d: Number of requests. */
                             _n(
                                 '%d request failed to delete.',
                                 '%d requests failed to delete.',
-                                $failures
+                                $failures,
                             ),
-                            $failures
+                            $failures,
                         ),
-                        'error'
+                        'error',
                     );
                 }
 
@@ -346,15 +346,15 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
                         'bulk_action',
                         'bulk_action',
                         sprintf(
-                            /* translators: %d: Number of requests. */
+                        /* translators: %d: Number of requests. */
                             _n(
                                 '%d request deleted successfully.',
                                 '%d requests deleted successfully.',
-                                $count
+                                $count,
                             ),
-                            $count
+                            $count,
                         ),
-                        'success'
+                        'success',
                     );
                 }
 
@@ -370,15 +370,15 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
      */
     public function prepare_items()
     {
-        $this->items    = [];
+        $this->items = [];
         $posts_per_page = $this->get_items_per_page($this->request_type . '_requests_per_page');
-        $args           = [
-            'post_type'      => $this->post_type,
-            'post_name__in'  => [$this->request_type],
+        $args = [
+            'post_type' => $this->post_type,
+            'post_name__in' => [$this->request_type],
             'posts_per_page' => $posts_per_page,
-            'offset'         => isset($_REQUEST['paged']) ? max(0, absint($_REQUEST['paged']) - 1) * $posts_per_page : 0,
-            'post_status'    => 'any',
-            's'              => isset($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '',
+            'offset' => isset($_REQUEST['paged']) ? max(0, absint($_REQUEST['paged']) - 1) * $posts_per_page : 0,
+            'post_status' => 'any',
+            's' => isset($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '',
         ];
 
         $orderby_mapping = [
@@ -394,13 +394,13 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
             $args['order'] = strtoupper($_REQUEST['order']);
         }
 
-        if (! empty($_REQUEST['filter-status'])) {
-            $filter_status       = isset($_REQUEST['filter-status']) ? sanitize_text_field($_REQUEST['filter-status']) : '';
+        if (!empty($_REQUEST['filter-status'])) {
+            $filter_status = isset($_REQUEST['filter-status']) ? sanitize_text_field($_REQUEST['filter-status']) : '';
             $args['post_status'] = $filter_status;
         }
 
         $requests_query = new WP_Query($args);
-        $requests       = $requests_query->posts;
+        $requests = $requests_query->posts;
 
         foreach ($requests as $request) {
             $this->items[] = wp_get_user_request($request->ID);
@@ -411,18 +411,18 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
         $this->set_pagination_args(
             [
                 'total_items' => $requests_query->found_posts,
-                'per_page'    => $posts_per_page,
-            ]
+                'per_page' => $posts_per_page,
+            ],
         );
     }
 
     /**
      * Returns the markup for the Checkbox column.
      *
-     * @since 4.9.6
-     *
      * @param WP_User_Request $item Item being shown.
      * @return string Checkbox column markup.
+     * @since 4.9.6
+     *
      */
     public function column_cb($item)
     {
@@ -431,24 +431,24 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
             '<label for="requester_%1$s"><span class="screen-reader-text">%2$s</span></label><span class="spinner"></span>',
             esc_attr($item->ID),
             /* translators: Hidden accessibility text. %s: Email address. */
-            sprintf(__('Select %s'), $item->email)
+            sprintf(__('Select %s'), $item->email),
         );
     }
 
     /**
      * Status column.
      *
-     * @since 4.9.6
-     *
      * @param WP_User_Request $item Item being shown.
      * @return string Status column markup.
+     * @since 4.9.6
+     *
      */
     public function column_status($item)
     {
-        $status        = get_post_status($item->ID);
+        $status = get_post_status($item->ID);
         $status_object = get_post_status_object($status);
 
-        if (! $status_object || empty($status_object->label)) {
+        if (!$status_object || empty($status_object->label)) {
             return '-';
         }
 
@@ -476,10 +476,10 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Converts a timestamp for display.
      *
-     * @since 4.9.6
-     *
      * @param int $timestamp Event timestamp.
      * @return string Human readable date.
+     * @since 4.9.6
+     *
      */
     protected function get_timestamp_as_date($timestamp)
     {
@@ -500,11 +500,11 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Handles the default column.
      *
+     * @param WP_User_Request $item Item being shown.
+     * @param string $column_name Name of column being shown.
      * @since 4.9.6
      * @since 5.7.0 Added `manage_{$this->screen->id}_custom_column` action.
      *
-     * @param WP_User_Request $item        Item being shown.
-     * @param string          $column_name Name of column being shown.
      */
     public function column_default($item, $column_name)
     {
@@ -514,10 +514,10 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
          * Custom columns are registered using the {@see 'manage_export-personal-data_columns'}
          * and the {@see 'manage_erase-personal-data_columns'} filters.
          *
+         * @param string $column_name The name of the column to display.
+         * @param WP_User_Request $item The item being shown.
          * @since 5.7.0
          *
-         * @param string          $column_name The name of the column to display.
-         * @param WP_User_Request $item        The item being shown.
          */
         do_action("manage_{$this->screen->id}_custom_column", $column_name, $item);
     }
@@ -525,10 +525,10 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Returns the markup for the Created timestamp column. Overridden by children.
      *
-     * @since 5.7.0
-     *
      * @param WP_User_Request $item Item being shown.
      * @return string Human readable date.
+     * @since 5.7.0
+     *
      */
     public function column_created_timestamp($item)
     {
@@ -538,32 +538,32 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
     /**
      * Actions column. Overridden by children.
      *
-     * @since 4.9.6
-     *
      * @param WP_User_Request $item Item being shown.
      * @return string Email column markup.
+     * @since 4.9.6
+     *
      */
     public function column_email($item)
     {
-        return sprintf('<a href="%1$s">%2$s</a> %3$s', esc_url('mailto:' . $item->email), $item->email, $this->row_actions([]));
+        return sprintf('<a href="%1$s">%2$s</a> %3$s', esc_url('mailto:' . $item->email), $item->email,
+            $this->row_actions([]));
     }
 
     /**
      * Returns the markup for the next steps column. Overridden by children.
      *
+     * @param WP_User_Request $item Item being shown.
      * @since 4.9.6
      *
-     * @param WP_User_Request $item Item being shown.
      */
-    public function column_next_steps($item)
-    {}
+    public function column_next_steps($item) {}
 
     /**
      * Generates content for a single row of the table,
      *
+     * @param WP_User_Request $item The current item.
      * @since 4.9.6
      *
-     * @param WP_User_Request $item The current item.
      */
     public function single_row($item)
     {
@@ -579,6 +579,5 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table
      *
      * @since 4.9.6
      */
-    public function embed_scripts()
-    {}
+    public function embed_scripts() {}
 }

@@ -16,8 +16,8 @@ class Tests_Terms_GetTermsParentsList extends WP_UnitTestCase
         self::$c2 = $factory->term->create_and_get(
             [
                 'taxonomy' => 'wptests_tax',
-                'parent'   => self::$c1->term_id,
-            ]
+                'parent' => self::$c1->term_id,
+            ],
         );
     }
 
@@ -50,8 +50,16 @@ class Tests_Terms_GetTermsParentsList extends WP_UnitTestCase
 
     public function test_with_default_parameters()
     {
-        $expected = '<a href="' . get_term_link(self::$c1->term_id) . '">' . self::$c1->name . '</a>/<a href="' . get_term_link(self::$c2->term_id) . '">' . self::$c2->name . '</a>/';
-        $found    = get_term_parents_list(self::$c2->term_id, 'wptests_tax');
+        $expected = '<a href="'
+            . get_term_link(self::$c1->term_id)
+            . '">'
+            . self::$c1->name
+            . '</a>/<a href="'
+            . get_term_link(self::$c2->term_id)
+            . '">'
+            . self::$c2->name
+            . '</a>/';
+        $found = get_term_parents_list(self::$c2->term_id, 'wptests_tax');
         $this->assertSame($expected, $found);
     }
 
@@ -59,55 +67,55 @@ class Tests_Terms_GetTermsParentsList extends WP_UnitTestCase
     {
         $args = [
             'separator' => ' --- ',
-            'link'      => false,
-            'format'    => 'slug',
+            'link' => false,
+            'format' => 'slug',
             'inclusive' => false,
         ];
 
         $expected = self::$c1->slug . ' --- ';
-        $found    = get_term_parents_list(self::$c2->term_id, 'wptests_tax', $args);
+        $found = get_term_parents_list(self::$c2->term_id, 'wptests_tax', $args);
         $this->assertSame($expected, $found);
     }
 
     public function test_link_false()
     {
         $expected = self::$c1->name . '/' . self::$c2->name . '/';
-        $found    = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'link=false');
+        $found = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'link=false');
         $this->assertSame($expected, $found);
     }
 
     public function test_separator()
     {
         $expected = self::$c1->name . ' --- ' . self::$c2->name . ' --- ';
-        $found    = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'link=false&separator= --- ');
+        $found = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'link=false&separator= --- ');
         $this->assertSame($expected, $found);
     }
 
     public function test_format_name()
     {
         $expected = self::$c1->name . '/' . self::$c2->name . '/';
-        $found    = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'link=false&format=name');
+        $found = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'link=false&format=name');
         $this->assertSame($expected, $found);
     }
 
     public function test_format_slug()
     {
         $expected = self::$c1->slug . '/' . self::$c2->slug . '/';
-        $found    = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'link=false&format=slug');
+        $found = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'link=false&format=slug');
         $this->assertSame($expected, $found);
     }
 
     public function test_inclusive_false()
     {
         $expected = '<a href="' . get_term_link(self::$c1->term_id) . '">' . self::$c1->name . '</a>/';
-        $found    = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'inclusive=false');
+        $found = get_term_parents_list(self::$c2->term_id, 'wptests_tax', 'inclusive=false');
         $this->assertSame($expected, $found);
     }
 
     public function test_term_without_parents()
     {
         $expected = '<a href="' . get_term_link(self::$c1->term_id) . '">' . self::$c1->name . '</a>/';
-        $found    = get_term_parents_list(self::$c1->term_id, 'wptests_tax');
+        $found = get_term_parents_list(self::$c1->term_id, 'wptests_tax');
         $this->assertSame($expected, $found);
     }
 
@@ -116,19 +124,19 @@ class Tests_Terms_GetTermsParentsList extends WP_UnitTestCase
         $c3 = self::factory()->term->create_and_get(
             [
                 'taxonomy' => 'wptests_tax',
-                'parent'   => self::$c2->term_id,
-            ]
+                'parent' => self::$c2->term_id,
+            ],
         );
 
         $expected = self::$c1->name . '/' . self::$c2->name . '/' . $c3->name . '/';
-        $found    = get_term_parents_list($c3->term_id, 'wptests_tax', ['link' => false]);
+        $found = get_term_parents_list($c3->term_id, 'wptests_tax', ['link' => false]);
         $this->assertSame($expected, $found);
     }
 
     public function test_should_accept_term_object()
     {
         $expected = self::$c1->name . '/' . self::$c2->name . '/';
-        $found    = get_term_parents_list(self::$c2, 'wptests_tax', ['link' => false]);
+        $found = get_term_parents_list(self::$c2, 'wptests_tax', ['link' => false]);
         $this->assertSame($expected, $found);
     }
 }

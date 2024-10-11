@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for WP_Block_Type.
  *
@@ -45,21 +46,21 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         self::$editor_user_id = $factory->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
 
         self::$post_with_blocks = $factory->post->create(
             [
-                'post_title'   => 'Example',
+                'post_title' => 'Example',
                 'post_content' => "<!-- wp:core/text {\"dropCap\":true} -->\n<p class=\"has-drop-cap\">Tester</p>\n<!-- /wp:core/text -->",
-            ]
+            ],
         );
 
         self::$post_without_blocks = $factory->post->create(
             [
-                'post_title'   => 'Example',
+                'post_title' => 'Example',
                 'post_content' => 'Tester',
-            ]
+            ],
         );
     }
 
@@ -71,7 +72,7 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $name = 'core/fake';
         $args = [
             'render_callback' => [$this, 'render_fake_block'],
-            'foo'             => 'bar',
+            'foo' => 'bar',
         ];
 
         $block_type = new WP_Block_Type($name, $args);
@@ -92,10 +93,10 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
 
         $this->assertSameSetsWithIndex(
             [
-                'lock'     => ['type' => 'object'],
+                'lock' => ['type' => 'object'],
                 'metadata' => ['type' => 'object'],
             ],
-            $block_type->attributes
+            $block_type->attributes,
         );
     }
 
@@ -110,23 +111,23 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
             'core/fake',
             [
                 'attributes' => [
-                    'lock'     => [
+                    'lock' => [
                         'type' => 'string',
                     ],
                     'metadata' => [
                         'type' => 'number',
                     ],
                 ],
-            ]
+            ],
         );
 
         // Backward compatibility: Don't override attributes with the same name.
         $this->assertSameSetsWithIndex(
             [
-                'lock'     => ['type' => 'string'],
+                'lock' => ['type' => 'string'],
                 'metadata' => ['type' => 'number'],
             ],
-            $block_type->attributes
+            $block_type->attributes,
         );
     }
 
@@ -144,9 +145,9 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
             'core/fake',
             [
                 'render_callback' => [$this, 'render_fake_block'],
-            ]
+            ],
         );
-        $output     = $block_type->render($attributes);
+        $output = $block_type->render($attributes);
         $this->assertSame($attributes, json_decode($output, true));
     }
 
@@ -168,9 +169,9 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
             'core/fake',
             [
                 'render_callback' => [$this, 'render_fake_block_with_content'],
-            ]
+            ],
         );
-        $output     = $block_type->render($attributes, $content);
+        $output = $block_type->render($attributes, $content);
         $this->assertSame($expected, json_decode($output, true));
     }
 
@@ -180,7 +181,7 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
     public function test_render_for_static_block()
     {
         $block_type = new WP_Block_Type('core/fake', []);
-        $output     = $block_type->render();
+        $output = $block_type->render();
 
         $this->assertSame('', $output);
     }
@@ -204,7 +205,7 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
             'core/fake',
             [
                 'render_callback' => [$this, 'render_fake_block'],
-            ]
+            ],
         );
 
         $this->assertTrue($block_type->is_dynamic());
@@ -216,52 +217,52 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
     public function test_prepare_attributes()
     {
         $attributes = [
-            'correct'            => 'include',
-            'wrongType'          => 5,
+            'correct' => 'include',
+            'wrongType' => 5,
             'wrongTypeDefaulted' => 5,
             /* missingDefaulted */
-            'undefined'          => 'include',
-            'intendedNull'       => null,
+            'undefined' => 'include',
+            'intendedNull' => null,
         ];
 
         $block_type = new WP_Block_Type(
             'core/fake',
             [
                 'attributes' => [
-                    'correct'            => [
+                    'correct' => [
                         'type' => 'string',
                     ],
-                    'wrongType'          => [
+                    'wrongType' => [
                         'type' => 'string',
                     ],
                     'wrongTypeDefaulted' => [
-                        'type'    => 'string',
+                        'type' => 'string',
                         'default' => 'defaulted',
                     ],
-                    'missingDefaulted'   => [
-                        'type'    => 'string',
+                    'missingDefaulted' => [
+                        'type' => 'string',
                         'default' => 'define',
                     ],
-                    'intendedNull'       => [
-                        'type'    => ['string', 'null'],
+                    'intendedNull' => [
+                        'type' => ['string', 'null'],
                         'default' => 'wrong',
                     ],
                 ],
-            ]
+            ],
         );
 
         $prepared_attributes = $block_type->prepare_attributes_for_render($attributes);
 
         $this->assertSameSetsWithIndex(
             [
-                'correct'            => 'include',
+                'correct' => 'include',
                 /* wrongType */
                 'wrongTypeDefaulted' => 'defaulted',
-                'missingDefaulted'   => 'define',
-                'undefined'          => 'include',
-                'intendedNull'       => null,
+                'missingDefaulted' => 'define',
+                'undefined' => 'include',
+                'intendedNull' => null,
             ],
-            $prepared_attributes
+            $prepared_attributes,
         );
     }
 
@@ -285,15 +286,15 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
     public function test_has_block_with_mixed_content()
     {
         $mixed_post_content = 'before' .
-        '<!-- wp:core/fake --><!-- /wp:core/fake -->' .
-        '<!-- wp:core/fake_atts {"value":"b1"} --><!-- /wp:core/fake_atts -->' .
-        '<!-- wp:core/fake-child -->
+            '<!-- wp:core/fake --><!-- /wp:core/fake -->' .
+            '<!-- wp:core/fake_atts {"value":"b1"} --><!-- /wp:core/fake_atts -->' .
+            '<!-- wp:core/fake-child -->
 		<p>testing the test</p>
 		<!-- /wp:core/fake-child -->' .
-        'between' .
-        '<!-- wp:core/self-close-fake /-->' .
-        '<!-- wp:custom/fake {"value":"b2"} /-->' .
-        'after';
+            'between' .
+            '<!-- wp:core/self-close-fake /-->' .
+            '<!-- wp:custom/fake {"value":"b2"} /-->' .
+            'after';
 
         $this->assertTrue(has_block('core/fake', $mixed_post_content));
 
@@ -322,11 +323,11 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
     {
         // some content with invalid HTML comments and a single valid block.
         $invalid_content = 'before' .
-        '<!- - wp:core/weird-space --><!-- /wp:core/weird-space -->' .
-        '<!--wp:core/untrimmed-left --><!-- /wp:core/untrimmed -->' .
-        '<!-- wp:core/fake --><!-- /wp:core/fake -->' .
-        '<!-- wp:core/untrimmed-right--><!-- /wp:core/untrimmed2 -->' .
-        'after';
+            '<!- - wp:core/weird-space --><!-- /wp:core/weird-space -->' .
+            '<!--wp:core/untrimmed-left --><!-- /wp:core/untrimmed -->' .
+            '<!-- wp:core/fake --><!-- /wp:core/fake -->' .
+            '<!-- wp:core/untrimmed-right--><!-- /wp:core/untrimmed2 -->' .
+            'after';
 
         $this->assertFalse(has_block('core/text', self::$post_without_blocks));
 
@@ -382,10 +383,10 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
     /**
      * Renders a test block without content.
      *
-     * @since 5.0.0
-     *
      * @param array $attributes Block attributes. Default empty array.
      * @return string JSON encoded list of attributes.
+     * @since 5.0.0
+     *
      */
     public function render_fake_block($attributes)
     {
@@ -395,11 +396,11 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
     /**
      * Renders a test block with content.
      *
+     * @param array $attributes Block attributes. Default empty array.
+     * @param string $content Block content. Default empty string.
+     * @return string JSON encoded list of attributes.
      * @since 5.0.0
      *
-     * @param array  $attributes Block attributes. Default empty array.
-     * @param string $content    Block content. Default empty string.
-     * @return string JSON encoded list of attributes.
      */
     public function render_fake_block_with_content($attributes, $content)
     {
@@ -416,15 +417,15 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $block_type = new WP_Block_Type(
             'core/fake',
             [
-                'title'       => 'Test title',
-                'category'    => 'Test category',
-                'parent'      => ['core/third-party'],
-                'icon'        => 'icon.png',
+                'title' => 'Test title',
+                'category' => 'Test category',
+                'parent' => ['core/third-party'],
+                'icon' => 'icon.png',
                 'description' => 'test description',
-                'keywords'    => ['test keyword'],
-                'textdomain'  => 'test_domain',
-                'supports'    => ['alignment' => true],
-            ]
+                'keywords' => ['test keyword'],
+                'textdomain' => 'test_domain',
+                'supports' => ['alignment' => true],
+            ],
         );
 
         $this->assertSame('Test title', $block_type->title);
@@ -444,8 +445,8 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
      *
      * @dataProvider data_block_version
      *
-     * @param string|null $content  Content.
-     * @param int         $expected Expected block version.
+     * @param string|null $content Content.
+     * @param int $expected Expected block version.
      */
     public function test_block_version($content, $expected)
     {
@@ -455,14 +456,14 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
     /**
      * Test cases for test_block_version().
      *
-     * @since 5.0.0
-     *
      * @return array {
-     *     @type array {
-     *         @type string|null Content.
-     *         @type int         Expected block version.
+     * @type array {
+     * @type string|null Content.
+     * @type int         Expected block version.
      *     }
      * }
+     * @since 5.0.0
+     *
      */
     public function data_block_version()
     {
@@ -490,9 +491,9 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $block_type = new WP_Block_Type(
             'test/block',
             [
-                'title'              => 'Test title',
+                'title' => 'Test title',
                 'variation_callback' => [$this, 'mock_variation_callback'],
-            ]
+            ],
         );
 
         $this->assertSameSets($this->mock_variation_callback(), $block_type->variations);
@@ -507,9 +508,9 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $block_type = new WP_Block_Type(
             'test/block',
             [
-                'title'              => 'Test title',
+                'title' => 'Test title',
                 'variation_callback' => [$this, 'mock_variation_callback'],
-            ]
+            ],
         );
 
         $this->assertSameSets($this->mock_variation_callback(), $block_type->get_variations());
@@ -525,10 +526,10 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $block_type = new WP_Block_Type(
             'test/block',
             [
-                'title'              => 'Test title',
-                'variations'         => $test_variations,
+                'title' => 'Test title',
+                'variations' => $test_variations,
                 'variation_callback' => [$this, 'mock_variation_callback'],
-            ]
+            ],
         );
 
         // If the variations are defined, the callback should not be used.
@@ -545,15 +546,16 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $block_type = new WP_Block_Type(
             'test/block',
             [
-                'title'              => 'Test title',
+                'title' => 'Test title',
                 'variation_callback' => function () use (&$callback_called) {
                     $callback_called = true;
                     return $this->mock_variation_callback();
                 },
-            ]
+            ],
         );
 
-        $this->assertSame(false, $callback_called, 'The callback should not be called before the variations are accessed.');
+        $this->assertSame(false, $callback_called,
+            'The callback should not be called before the variations are accessed.');
         $block_type->variations; // access the variations.
         $this->assertSame(true, $callback_called, 'The callback should be called when the variations are accessed.');
     }
@@ -567,15 +569,15 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $test_variations = ['name' => 'test1'];
         $callback_called = false;
 
-        $block_type             = new WP_Block_Type(
+        $block_type = new WP_Block_Type(
             'test/block',
             [
-                'title'              => 'Test title',
+                'title' => 'Test title',
                 'variation_callback' => function () use (&$callback_called) {
                     $callback_called = true;
                     return $this->mock_variation_callback();
                 },
-            ]
+            ],
         );
         $block_type->variations = $test_variations;
 
@@ -595,12 +597,12 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $block_type = new WP_Block_Type(
             'test/block',
             [
-                'title'              => 'Test title',
+                'title' => 'Test title',
                 'variation_callback' => function () use (&$callback_count) {
                     $callback_count++;
                     return $this->mock_variation_callback();
                 },
-            ]
+            ],
         );
 
         $this->assertSame(0, $callback_count, 'The callback should not be called before the variations are accessed.');
@@ -633,21 +635,22 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $expected_variations = [['name' => 'test1']];
 
         $callback_called = false;
-        $block_type      = new WP_Block_Type(
+        $block_type = new WP_Block_Type(
             'test/block',
             [
-                'title'              => 'Test title',
+                'title' => 'Test title',
                 'variation_callback' => function () use (&$callback_called) {
                     $callback_called = true;
                     return $this->mock_variation_callback();
                 },
-            ]
+            ],
         );
 
         $obtained_variations = $block_type->variations; // access the variations.
 
         $this->assertSame(true, $callback_called, 'The callback should be called when the variations are accessed.');
-        $this->assertSameSets($obtained_variations, $expected_variations, 'The variations obtained from the callback should be filtered.');
+        $this->assertSameSets($obtained_variations, $expected_variations,
+            'The variations obtained from the callback should be filtered.');
     }
 
     /**
@@ -662,13 +665,14 @@ class Tests_Blocks_wpBlockType extends WP_UnitTestCase
         $block_type = new WP_Block_Type(
             'test/block',
             [
-                'title'      => 'Test title',
+                'title' => 'Test title',
                 'variations' => $this->mock_variation_callback(),
-            ]
+            ],
         );
 
         $obtained_variations = $block_type->variations; // access the variations.
-        $this->assertSameSets($obtained_variations, $expected_variations, 'The variations that was initially set should be filtered.');
+        $this->assertSameSets($obtained_variations, $expected_variations,
+            'The variations that was initially set should be filtered.');
     }
 
     /**

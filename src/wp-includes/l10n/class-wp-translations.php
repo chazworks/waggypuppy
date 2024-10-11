@@ -36,10 +36,10 @@ class WP_Translations
     /**
      * Constructor.
      *
+     * @param WP_Translation_Controller $controller I18N controller.
+     * @param string $textdomain Optional. Text domain. Default 'default'.
      * @since 6.5.0
      *
-     * @param WP_Translation_Controller $controller I18N controller.
-     * @param string                    $textdomain Optional. Text domain. Default 'default'.
      */
     public function __construct(WP_Translation_Controller $controller, string $textdomain = 'default')
     {
@@ -50,10 +50,10 @@ class WP_Translations
     /**
      * Magic getter for backward compatibility.
      *
-     * @since 6.5.0
-     *
      * @param string $name Property name.
      * @return mixed
+     * @since 6.5.0
+     *
      */
     public function __get(string $name)
     {
@@ -79,14 +79,14 @@ class WP_Translations
     /**
      * Builds a Translation_Entry from original string and translation strings.
      *
-     * @see MO::make_entry()
-     *
-     * @since 6.5.0
-     *
-     * @param string $original     Original string to translate from MO file. Might contain
+     * @param string $original Original string to translate from MO file. Might contain
      *                             0x04 as context separator or 0x00 as singular/plural separator.
      * @param string $translations Translation strings from MO file.
      * @return Translation_Entry Entry instance.
+     * @since 6.5.0
+     *
+     * @see MO::make_entry()
+     *
      */
     private function make_entry($original, $translations): Translation_Entry
     {
@@ -95,13 +95,13 @@ class WP_Translations
         // Look for context, separated by \4.
         $parts = explode("\4", $original);
         if (isset($parts[1])) {
-            $original       = $parts[1];
+            $original = $parts[1];
             $entry->context = $parts[0];
         }
 
-        $entry->singular     = $original;
+        $entry->singular = $original;
         $entry->translations = explode("\0", $translations);
-        $entry->is_plural    = count($entry->translations) > 1;
+        $entry->is_plural = count($entry->translations) > 1;
 
         return $entry;
     }
@@ -109,13 +109,13 @@ class WP_Translations
     /**
      * Translates a plural string.
      *
+     * @param string|null $singular Singular string.
+     * @param string|null $plural Plural string.
+     * @param int|float $count Count. Should be an integer, but some plugins pass floats.
+     * @param string|null $context Context.
+     * @return string|null Translation if it exists, or the unchanged singular string.
      * @since 6.5.0
      *
-     * @param string|null $singular Singular string.
-     * @param string|null $plural   Plural string.
-     * @param int|float   $count    Count. Should be an integer, but some plugins pass floats.
-     * @param string|null $context  Context.
-     * @return string|null Translation if it exists, or the unchanged singular string.
      */
     public function translate_plural($singular, $plural, $count = 1, $context = '')
     {
@@ -123,7 +123,8 @@ class WP_Translations
             return $singular;
         }
 
-        $translation = $this->controller->translate_plural([$singular, $plural], (int) $count, (string) $context, $this->textdomain);
+        $translation = $this->controller->translate_plural([$singular, $plural], (int)$count, (string)$context,
+            $this->textdomain);
         if (false !== $translation) {
             return $translation;
         }
@@ -135,11 +136,11 @@ class WP_Translations
     /**
      * Translates a singular string.
      *
+     * @param string|null $singular Singular string.
+     * @param string|null $context Context.
+     * @return string|null Translation if it exists, or the unchanged singular string
      * @since 6.5.0
      *
-     * @param string|null $singular Singular string.
-     * @param string|null $context  Context.
-     * @return string|null Translation if it exists, or the unchanged singular string
      */
     public function translate($singular, $context = '')
     {
@@ -147,7 +148,7 @@ class WP_Translations
             return null;
         }
 
-        $translation = $this->controller->translate($singular, (string) $context, $this->textdomain);
+        $translation = $this->controller->translate($singular, (string)$context, $this->textdomain);
         if (false !== $translation) {
             return $translation;
         }

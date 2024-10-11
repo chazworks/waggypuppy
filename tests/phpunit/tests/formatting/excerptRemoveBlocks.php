@@ -24,7 +24,7 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase
 	<!-- wp:column -->
 	<div class="wp-block-column">
 		<!-- wp:archives {"displayAsDropdown":false,"showPostCounts":false} /-->
-		
+
 		<!-- wp:paragraph -->
 		<p>paragraph inside column</p>
 		<!-- /wp:paragraph -->
@@ -42,15 +42,15 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase
 
 
 		<p>paragraph inside column</p>
-		
+
 ';
 
     /**
      * Fake block rendering function.
      *
+     * @return string Block output.
      * @since 5.2.0
      *
-     * @return string Block output.
      */
     public function render_fake_block()
     {
@@ -69,13 +69,13 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase
             [
                 'post_excerpt' => '', // Empty excerpt, so it has to be generated.
                 'post_content' => '<!-- wp:core/fake /-->',
-            ]
+            ],
         );
         register_block_type(
             'core/fake',
             [
                 'render_callback' => [$this, 'render_fake_block'],
-            ]
+            ],
         );
     }
 
@@ -130,7 +130,7 @@ class Tests_Formatting_ExcerptRemoveBlocks extends WP_UnitTestCase
         $query = new WP_Query(
             [
                 'post__in' => [self::$post_id],
-            ]
+            ],
         );
         $query->the_post();
         $this->assertEmpty(do_blocks('<!-- wp:core/fake /-->'));

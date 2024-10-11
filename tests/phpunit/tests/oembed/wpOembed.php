@@ -36,7 +36,7 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
 
     public function test_wp_filter_pre_oembed_result_prevents_http_request_for_internal_permalinks()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
         add_filter('pre_oembed_result', [$this, '_filter_pre_oembed_result']);
@@ -49,7 +49,7 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
 
     public function test_wp_filter_pre_oembed_result_prevents_http_request_when_viewing_the_post()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
         $this->go_to($permalink);
@@ -65,7 +65,7 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
 
     public function test_wp_filter_pre_oembed_result_non_existent_post()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
         $this->go_to($permalink);
@@ -86,7 +86,7 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
      */
     public function test_wp_filter_pre_oembed_result_multisite_root_root()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
         add_filter('pre_oembed_result', [$this, '_filter_pre_oembed_result']);
@@ -109,12 +109,12 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
         $blog_id = self::factory()->blog->create(
             [
                 'user_id' => $user_id,
-            ]
+            ],
         );
 
         switch_to_blog($blog_id);
 
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
         add_filter('pre_oembed_result', [$this, '_filter_pre_oembed_result']);
@@ -139,18 +139,18 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
         $blog_id = self::factory()->blog->create(
             [
                 'user_id' => $user_id,
-            ]
+            ],
         );
 
         switch_to_blog($blog_id);
 
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
         $blog_id = self::factory()->blog->create(
             [
                 'user_id' => $user_id,
-            ]
+            ],
         );
 
         switch_to_blog($blog_id);
@@ -172,13 +172,13 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
      */
     public function test_wp_filter_pre_oembed_result_multisite_sub_main()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
-        $user_id   = self::factory()->user->create();
-        $blog_id   = self::factory()->blog->create(
+        $user_id = self::factory()->user->create();
+        $blog_id = self::factory()->blog->create(
             [
                 'user_id' => $user_id,
-            ]
+            ],
         );
 
         switch_to_blog($blog_id);
@@ -207,7 +207,7 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
 
         $expected_stack = $GLOBALS['_wp_switched_stack'];
 
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
 
         add_filter('pre_oembed_result', [$this, '_filter_pre_oembed_result']);
@@ -236,7 +236,7 @@ class Tests_WP_oEmbed extends WP_UnitTestCase
         $blog_id = self::factory()->blog->create(
             [
                 'user_id' => $user_id,
-            ]
+            ],
         );
 
         $permalink = get_home_url($blog_id, '/foo/');

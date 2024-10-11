@@ -24,13 +24,13 @@ wp.media.mixin = {
 	 *
 	 * @return {void}
 	 */
-	removeAllPlayers: function() {
+	removeAllPlayers: function () {
 		var p;
 
 		if ( window.mejs && window.mejs.players ) {
 			for ( p in window.mejs.players ) {
-				window.mejs.players[p].pause();
-				this.removePlayer( window.mejs.players[p] );
+				window.mejs.players[ p ].pause();
+				this.removePlayer( window.mejs.players[ p ] );
 			}
 		}
 	},
@@ -46,7 +46,7 @@ wp.media.mixin = {
 	 *
 	 * @return {void}
 	 */
-	removePlayer: function(t) {
+	removePlayer: function ( t ) {
 		var featureIndex, feature;
 
 		if ( ! t.options ) {
@@ -55,11 +55,11 @@ wp.media.mixin = {
 
 		// Invoke features cleanup.
 		for ( featureIndex in t.options.features ) {
-			feature = t.options.features[featureIndex];
-			if ( t['clean' + feature] ) {
+			feature = t.options.features[ featureIndex ];
+			if ( t[ 'clean' + feature ] ) {
 				try {
-					t['clean' + feature](t);
-				} catch (e) {}
+					t[ 'clean' + feature ]( t );
+				} catch ( e ) {}
 			}
 		}
 
@@ -71,12 +71,12 @@ wp.media.mixin = {
 			t.media.remove();
 		}
 
-		delete window.mejs.players[t.id];
+		delete window.mejs.players[ t.id ];
 
 		t.container.remove();
-		t.globalUnbind('resize', t.globalResizeCallback);
-		t.globalUnbind('keydown', t.globalKeydownCallback);
-		t.globalUnbind('click', t.globalClickCallback);
+		t.globalUnbind( 'resize', t.globalResizeCallback );
+		t.globalUnbind( 'keydown', t.globalKeydownCallback );
+		t.globalUnbind( 'click', t.globalClickCallback );
 		delete t.media.player;
 	},
 
@@ -91,15 +91,15 @@ wp.media.mixin = {
 	 *
 	 * @since 4.2.0
 	 */
-	unsetPlayers : function() {
+	unsetPlayers: function () {
 		if ( this.players && this.players.length ) {
-			_.each( this.players, function (player) {
+			_.each( this.players, function ( player ) {
 				player.pause();
 				wp.media.mixin.removePlayer( player );
 			} );
 			this.players = [];
 		}
-	}
+	},
 };
 
 /**
@@ -107,19 +107,19 @@ wp.media.mixin = {
  *
  * @since 4.2.0
  */
-wp.media.playlist = new wp.media.collection({
+wp.media.playlist = new wp.media.collection( {
 	tag: 'playlist',
-	editTitle : l10n.editPlaylistTitle,
-	defaults : {
+	editTitle: l10n.editPlaylistTitle,
+	defaults: {
 		id: wp.media.view.settings.post.id,
 		style: 'light',
 		tracklist: true,
 		tracknumbers: true,
 		images: true,
 		artists: true,
-		type: 'audio'
-	}
-});
+		type: 'audio',
+	},
+} );
 
 /**
  * Shortcode modeling for audio.
@@ -132,15 +132,15 @@ wp.media.playlist = new wp.media.collection({
  * @since 4.2.0
  */
 wp.media.audio = {
-	coerce : wp.media.coerce,
+	coerce: wp.media.coerce,
 
-	defaults : {
-		id : wp.media.view.settings.post.id,
-		src : '',
-		loop : false,
-		autoplay : false,
-		preload : 'none',
-		width : 400
+	defaults: {
+		id: wp.media.view.settings.post.id,
+		src: '',
+		loop: false,
+		autoplay: false,
+		preload: 'none',
+		width: 400,
 	},
 
 	/**
@@ -151,14 +151,15 @@ wp.media.audio = {
 	 * @param {string} data The text to apply the shortcode on.
 	 * @return {wp.media} The media object.
 	 */
-	edit : function( data ) {
-		var frame, shortcode = wp.shortcode.next( 'audio', data ).shortcode;
+	edit: function ( data ) {
+		var frame,
+			shortcode = wp.shortcode.next( 'audio', data ).shortcode;
 
-		frame = wp.media({
+		frame = wp.media( {
 			frame: 'audio',
 			state: 'audio-details',
-			metadata: _.defaults( shortcode.attrs.named, this.defaults )
-		});
+			metadata: _.defaults( shortcode.attrs.named, this.defaults ),
+		} );
 
 		return frame;
 	},
@@ -171,26 +172,30 @@ wp.media.audio = {
 	 * @param {Array} model Array with attributes for the shortcode.
 	 * @return {wp.shortcode} The audio shortcode object.
 	 */
-	shortcode : function( model ) {
+	shortcode: function ( model ) {
 		var content;
 
-		_.each( this.defaults, function( value, key ) {
-			model[ key ] = this.coerce( model, key );
+		_.each(
+			this.defaults,
+			function ( value, key ) {
+				model[ key ] = this.coerce( model, key );
 
-			if ( value === model[ key ] ) {
-				delete model[ key ];
-			}
-		}, this );
+				if ( value === model[ key ] ) {
+					delete model[ key ];
+				}
+			},
+			this
+		);
 
 		content = model.content;
 		delete model.content;
 
-		return new wp.shortcode({
+		return new wp.shortcode( {
 			tag: 'audio',
 			attrs: model,
-			content: content
-		});
-	}
+			content: content,
+		} );
+	},
 };
 
 /**
@@ -204,18 +209,18 @@ wp.media.audio = {
  * @namespace
  */
 wp.media.video = {
-	coerce : wp.media.coerce,
+	coerce: wp.media.coerce,
 
-	defaults : {
-		id : wp.media.view.settings.post.id,
-		src : '',
-		poster : '',
-		loop : false,
-		autoplay : false,
-		preload : 'metadata',
-		content : '',
-		width : 640,
-		height : 360
+	defaults: {
+		id: wp.media.view.settings.post.id,
+		src: '',
+		poster: '',
+		loop: false,
+		autoplay: false,
+		preload: 'metadata',
+		content: '',
+		width: 640,
+		height: 360,
 	},
 
 	/**
@@ -226,7 +231,7 @@ wp.media.video = {
 	 * @param {string} data The text to apply the shortcode on.
 	 * @return {wp.media} The media object.
 	 */
-	edit : function( data ) {
+	edit: function ( data ) {
 		var frame,
 			shortcode = wp.shortcode.next( 'video', data ).shortcode,
 			attrs;
@@ -234,11 +239,11 @@ wp.media.video = {
 		attrs = shortcode.attrs.named;
 		attrs.content = shortcode.content;
 
-		frame = wp.media({
+		frame = wp.media( {
 			frame: 'video',
 			state: 'video-details',
-			metadata: _.defaults( attrs, this.defaults )
-		});
+			metadata: _.defaults( attrs, this.defaults ),
+		} );
 
 		return frame;
 	},
@@ -251,26 +256,30 @@ wp.media.video = {
 	 * @param {Array} model Array with attributes for the shortcode.
 	 * @return {wp.shortcode} The video shortcode object.
 	 */
-	shortcode : function( model ) {
+	shortcode: function ( model ) {
 		var content;
 
-		_.each( this.defaults, function( value, key ) {
-			model[ key ] = this.coerce( model, key );
+		_.each(
+			this.defaults,
+			function ( value, key ) {
+				model[ key ] = this.coerce( model, key );
 
-			if ( value === model[ key ] ) {
-				delete model[ key ];
-			}
-		}, this );
+				if ( value === model[ key ] ) {
+					delete model[ key ];
+				}
+			},
+			this
+		);
 
 		content = model.content;
 		delete model.content;
 
-		return new wp.shortcode({
+		return new wp.shortcode( {
 			tag: 'video',
 			attrs: model,
-			content: content
-		});
-	}
+			content: content,
+		} );
+	},
 };
 
 media.model.PostMedia = require( '../../../media/models/post-media.js' );

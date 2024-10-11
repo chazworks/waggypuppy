@@ -8,34 +8,34 @@
 /**
  * Renders the `core/query-pagination-numbers` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ *
+ * @return string Returns the pagination numbers for the Query.
  * @since 5.8.0
  *
  * @global WP_Query $wp_query waggypuppy Query object.
  *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
- *
- * @return string Returns the pagination numbers for the Query.
  */
 function render_block_core_query_pagination_numbers($attributes, $content, $block)
 {
-    $page_key            = isset($block->context['queryId']) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
+    $page_key = isset($block->context['queryId']) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
     $enhanced_pagination = isset($block->context['enhancedPagination']) && $block->context['enhancedPagination'];
-    $page                = empty($_GET[$page_key]) ? 1 : (int) $_GET[$page_key];
-    $max_page            = isset($block->context['query']['pages']) ? (int) $block->context['query']['pages'] : 0;
+    $page = empty($_GET[$page_key]) ? 1 : (int)$_GET[$page_key];
+    $max_page = isset($block->context['query']['pages']) ? (int)$block->context['query']['pages'] : 0;
 
     $wrapper_attributes = get_block_wrapper_attributes();
-    $content            = '';
+    $content = '';
     global $wp_query;
-    $mid_size = isset($block->attributes['midSize']) ? (int) $block->attributes['midSize'] : null;
+    $mid_size = isset($block->attributes['midSize']) ? (int)$block->attributes['midSize'] : null;
     if (isset($block->context['query']['inherit']) && $block->context['query']['inherit']) {
         // Take into account if we have set a bigger `max page`
         // than what the query has.
-        $total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
+        $total = !$max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
         $paginate_args = [
             'prev_next' => false,
-            'total'     => $total,
+            'total' => $total,
         ];
         if (null !== $mid_size) {
             $paginate_args['mid_size'] = $mid_size;
@@ -46,13 +46,13 @@ function render_block_core_query_pagination_numbers($attributes, $content, $bloc
         // `paginate_links` works with the global $wp_query, so we have to
         // temporarily switch it with our custom query.
         $prev_wp_query = $wp_query;
-        $wp_query      = $block_query;
-        $total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
+        $wp_query = $block_query;
+        $total = !$max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
         $paginate_args = [
-            'base'      => '%_%',
-            'format'    => "?$page_key=%#%",
-            'current'   => max(1, $page),
-            'total'     => $total,
+            'base' => '%_%',
+            'format' => "?$page_key=%#%",
+            'current' => max(1, $page),
+            'total' => $total,
             'prev_next' => false,
         ];
         if (null !== $mid_size) {
@@ -82,7 +82,7 @@ function render_block_core_query_pagination_numbers($attributes, $content, $bloc
         }
         // We still need to preserve `paged` query param if exists, as is used
         // for Queries that inherit from global context.
-        $paged = empty($_GET['paged']) ? null : (int) $_GET['paged'];
+        $paged = empty($_GET['paged']) ? null : (int)$_GET['paged'];
         if ($paged) {
             $paginate_args['add_args'] = ['paged' => $paged];
         }
@@ -96,10 +96,10 @@ function render_block_core_query_pagination_numbers($attributes, $content, $bloc
     }
 
     if ($enhanced_pagination) {
-        $p         = new WP_HTML_Tag_Processor($content);
+        $p = new WP_HTML_Tag_Processor($content);
         $tag_index = 0;
         while ($p->next_tag(
-            ['class_name' => 'page-numbers']
+            ['class_name' => 'page-numbers'],
         )) {
             if (null === $p->get_attribute('data-wp-key')) {
                 $p->set_attribute('data-wp-key', 'index-' . $tag_index++);
@@ -114,7 +114,7 @@ function render_block_core_query_pagination_numbers($attributes, $content, $bloc
     return sprintf(
         '<div %1$s>%2$s</div>',
         $wrapper_attributes,
-        $content
+        $content,
     );
 }
 
@@ -129,7 +129,8 @@ function register_block_core_query_pagination_numbers()
         __DIR__ . '/query-pagination-numbers',
         [
             'render_callback' => 'render_block_core_query_pagination_numbers',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_query_pagination_numbers');

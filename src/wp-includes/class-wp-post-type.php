@@ -453,14 +453,14 @@ final class WP_Post_Type
      * Will populate object properties from the provided arguments and assign other
      * default properties based on that information.
      *
+     * @param string $post_type Post type key.
+     * @param array|string $args Optional. Array or string of arguments for registering a post type.
+     *                                See register_post_type() for information on accepted arguments.
+     *                                Default empty array.
      * @since 4.6.0
      *
      * @see register_post_type()
      *
-     * @param string       $post_type Post type key.
-     * @param array|string $args      Optional. Array or string of arguments for registering a post type.
-     *                                See register_post_type() for information on accepted arguments.
-     *                                Default empty array.
      */
     public function __construct($post_type, $args = [])
     {
@@ -474,9 +474,9 @@ final class WP_Post_Type
      *
      * See the register_post_type() function for accepted arguments for `$args`.
      *
+     * @param array|string $args Array or string of arguments for registering a post type.
      * @since 4.6.0
      *
-     * @param array|string $args Array or string of arguments for registering a post type.
      */
     public function set_props($args)
     {
@@ -485,11 +485,11 @@ final class WP_Post_Type
         /**
          * Filters the arguments for registering a post type.
          *
-         * @since 4.4.0
-         *
-         * @param array  $args      Array of arguments for registering a post type.
+         * @param array $args Array of arguments for registering a post type.
          *                          See the register_post_type() function for accepted arguments.
          * @param string $post_type Post type key.
+         * @since 4.4.0
+         *
          */
         $args = apply_filters('register_post_type_args', $args, $this->name);
 
@@ -505,53 +505,53 @@ final class WP_Post_Type
          *  - `register_post_post_type_args`
          *  - `register_page_post_type_args`
          *
+         * @param array $args Array of arguments for registering a post type.
+         *                          See the register_post_type() function for accepted arguments.
+         * @param string $post_type Post type key.
          * @since 6.0.0
          * @since 6.4.0 Added `late_route_registration`, `autosave_rest_controller_class` and `revisions_rest_controller_class` arguments.
          *
-         * @param array  $args      Array of arguments for registering a post type.
-         *                          See the register_post_type() function for accepted arguments.
-         * @param string $post_type Post type key.
          */
         $args = apply_filters("register_{$post_type}_post_type_args", $args, $this->name);
 
-        $has_edit_link = ! empty($args['_edit_link']);
+        $has_edit_link = !empty($args['_edit_link']);
 
         // Args prefixed with an underscore are reserved for internal use.
         $defaults = [
-            'labels'                          => [],
-            'description'                     => '',
-            'public'                          => false,
-            'hierarchical'                    => false,
-            'exclude_from_search'             => null,
-            'publicly_queryable'              => null,
-            'show_ui'                         => null,
-            'show_in_menu'                    => null,
-            'show_in_nav_menus'               => null,
-            'show_in_admin_bar'               => null,
-            'menu_position'                   => null,
-            'menu_icon'                       => null,
-            'capability_type'                 => 'post',
-            'capabilities'                    => [],
-            'map_meta_cap'                    => null,
-            'supports'                        => [],
-            'register_meta_box_cb'            => null,
-            'taxonomies'                      => [],
-            'has_archive'                     => false,
-            'rewrite'                         => true,
-            'query_var'                       => true,
-            'can_export'                      => true,
-            'delete_with_user'                => null,
-            'show_in_rest'                    => false,
-            'rest_base'                       => false,
-            'rest_namespace'                  => false,
-            'rest_controller_class'           => false,
-            'autosave_rest_controller_class'  => false,
+            'labels' => [],
+            'description' => '',
+            'public' => false,
+            'hierarchical' => false,
+            'exclude_from_search' => null,
+            'publicly_queryable' => null,
+            'show_ui' => null,
+            'show_in_menu' => null,
+            'show_in_nav_menus' => null,
+            'show_in_admin_bar' => null,
+            'menu_position' => null,
+            'menu_icon' => null,
+            'capability_type' => 'post',
+            'capabilities' => [],
+            'map_meta_cap' => null,
+            'supports' => [],
+            'register_meta_box_cb' => null,
+            'taxonomies' => [],
+            'has_archive' => false,
+            'rewrite' => true,
+            'query_var' => true,
+            'can_export' => true,
+            'delete_with_user' => null,
+            'show_in_rest' => false,
+            'rest_base' => false,
+            'rest_namespace' => false,
+            'rest_controller_class' => false,
+            'autosave_rest_controller_class' => false,
             'revisions_rest_controller_class' => false,
-            'late_route_registration'         => false,
-            'template'                        => [],
-            'template_lock'                   => false,
-            '_builtin'                        => false,
-            '_edit_link'                      => 'post.php?post=%d',
+            'late_route_registration' => false,
+            'template' => [],
+            'template_lock' => false,
+            '_builtin' => false,
+            '_edit_link' => 'post.php?post=%d',
         ];
 
         $args = array_merge($defaults, $args);
@@ -569,18 +569,18 @@ final class WP_Post_Type
         }
 
         // If not set, default rest_namespace to wp/v2 if show_in_rest is true.
-        if (false === $args['rest_namespace'] && ! empty($args['show_in_rest'])) {
+        if (false === $args['rest_namespace'] && !empty($args['show_in_rest'])) {
             $args['rest_namespace'] = 'wp/v2';
         }
 
         // If not set, default to the setting for 'show_ui'.
-        if (null === $args['show_in_menu'] || ! $args['show_ui']) {
+        if (null === $args['show_in_menu'] || !$args['show_ui']) {
             $args['show_in_menu'] = $args['show_ui'];
         }
 
         // If not set, default to the setting for 'show_in_menu'.
         if (null === $args['show_in_admin_bar']) {
-            $args['show_in_admin_bar'] = (bool) $args['show_in_menu'];
+            $args['show_in_admin_bar'] = (bool)$args['show_in_menu'];
         }
 
         // If not set, default to the setting for 'public'.
@@ -590,12 +590,13 @@ final class WP_Post_Type
 
         // If not set, default to true if not public, false if public.
         if (null === $args['exclude_from_search']) {
-            $args['exclude_from_search'] = ! $args['public'];
+            $args['exclude_from_search'] = !$args['public'];
         }
 
         // Back compat with quirky handling in version 3.0. #14122.
         if (empty($args['capabilities'])
-            && null === $args['map_meta_cap'] && in_array($args['capability_type'], ['post', 'page'], true)
+            && null === $args['map_meta_cap']
+            && in_array($args['capability_type'], ['post', 'page'], true)
         ) {
             $args['map_meta_cap'] = true;
         }
@@ -606,11 +607,11 @@ final class WP_Post_Type
         }
 
         // If there's no specified edit link and no UI, remove the edit link.
-        if (! $args['show_ui'] && ! $has_edit_link) {
+        if (!$args['show_ui'] && !$has_edit_link) {
             $args['_edit_link'] = '';
         }
 
-        $this->cap = get_post_type_capabilities((object) $args);
+        $this->cap = get_post_type_capabilities((object)$args);
         unset($args['capabilities']);
 
         if (is_array($args['capability_type'])) {
@@ -626,22 +627,22 @@ final class WP_Post_Type
         }
 
         if (false !== $args['rewrite'] && (is_admin() || get_option('permalink_structure'))) {
-            if (! is_array($args['rewrite'])) {
+            if (!is_array($args['rewrite'])) {
                 $args['rewrite'] = [];
             }
             if (empty($args['rewrite']['slug'])) {
                 $args['rewrite']['slug'] = $this->name;
             }
-            if (! isset($args['rewrite']['with_front'])) {
+            if (!isset($args['rewrite']['with_front'])) {
                 $args['rewrite']['with_front'] = true;
             }
-            if (! isset($args['rewrite']['pages'])) {
+            if (!isset($args['rewrite']['pages'])) {
                 $args['rewrite']['pages'] = true;
             }
-            if (! isset($args['rewrite']['feeds']) || ! $args['has_archive']) {
-                $args['rewrite']['feeds'] = (bool) $args['has_archive'];
+            if (!isset($args['rewrite']['feeds']) || !$args['has_archive']) {
+                $args['rewrite']['feeds'] = (bool)$args['has_archive'];
             }
-            if (! isset($args['rewrite']['ep_mask'])) {
+            if (!isset($args['rewrite']['ep_mask'])) {
                 if (isset($args['permalink_epmask'])) {
                     $args['rewrite']['ep_mask'] = $args['permalink_epmask'];
                 } else {
@@ -655,7 +656,7 @@ final class WP_Post_Type
         }
 
         $this->labels = get_post_type_labels($this);
-        $this->label  = $this->labels->name;
+        $this->label = $this->labels->name;
     }
 
     /**
@@ -665,7 +666,7 @@ final class WP_Post_Type
      */
     public function add_supports()
     {
-        if (! empty($this->supports)) {
+        if (!empty($this->supports)) {
             foreach ($this->supports as $feature => $args) {
                 if (is_array($args)) {
                     add_post_type_support($this->name, $feature, $args);
@@ -679,8 +680,8 @@ final class WP_Post_Type
              * 'editor' support implies 'autosave' support for backward compatibility.
              * 'autosave' support needs to be explicitly removed if not desired.
              */
-            if (post_type_supports($this->name, 'editor') &&
-                ! post_type_supports($this->name, 'autosave')
+            if (post_type_supports($this->name, 'editor')
+                && !post_type_supports($this->name, 'autosave')
             ) {
                 add_post_type_support($this->name, 'autosave');
             }
@@ -696,7 +697,7 @@ final class WP_Post_Type
      * @since 4.6.0
      *
      * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
-     * @global WP         $wp         Current waggypuppy environment instance.
+     * @global WP $wp Current waggypuppy environment instance.
      */
     public function add_rewrite_rules()
     {
@@ -708,9 +709,11 @@ final class WP_Post_Type
 
         if (false !== $this->rewrite && (is_admin() || get_option('permalink_structure'))) {
             if ($this->hierarchical) {
-                add_rewrite_tag("%$this->name%", '(.+?)', $this->query_var ? "{$this->query_var}=" : "post_type=$this->name&pagename=");
+                add_rewrite_tag("%$this->name%", '(.+?)',
+                    $this->query_var ? "{$this->query_var}=" : "post_type=$this->name&pagename=");
             } else {
-                add_rewrite_tag("%$this->name%", '([^/]+)', $this->query_var ? "{$this->query_var}=" : "post_type=$this->name&name=");
+                add_rewrite_tag("%$this->name%", '([^/]+)',
+                    $this->query_var ? "{$this->query_var}=" : "post_type=$this->name&name=");
             }
 
             if ($this->has_archive) {
@@ -724,15 +727,18 @@ final class WP_Post_Type
                 add_rewrite_rule("{$archive_slug}/?$", "index.php?post_type=$this->name", 'top');
                 if ($this->rewrite['feeds'] && $wp_rewrite->feeds) {
                     $feeds = '(' . trim(implode('|', $wp_rewrite->feeds)) . ')';
-                    add_rewrite_rule("{$archive_slug}/feed/$feeds/?$", "index.php?post_type=$this->name" . '&feed=$matches[1]', 'top');
-                    add_rewrite_rule("{$archive_slug}/$feeds/?$", "index.php?post_type=$this->name" . '&feed=$matches[1]', 'top');
+                    add_rewrite_rule("{$archive_slug}/feed/$feeds/?$",
+                        "index.php?post_type=$this->name" . '&feed=$matches[1]', 'top');
+                    add_rewrite_rule("{$archive_slug}/$feeds/?$",
+                        "index.php?post_type=$this->name" . '&feed=$matches[1]', 'top');
                 }
                 if ($this->rewrite['pages']) {
-                    add_rewrite_rule("{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$", "index.php?post_type=$this->name" . '&paged=$matches[1]', 'top');
+                    add_rewrite_rule("{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$",
+                        "index.php?post_type=$this->name" . '&paged=$matches[1]', 'top');
                 }
             }
 
-            $permastruct_args         = $this->rewrite;
+            $permastruct_args = $this->rewrite;
             $permastruct_args['feed'] = $permastruct_args['feeds'];
             add_permastruct($this->name, "{$this->rewrite['slug']}/%$this->name%", $permastruct_args);
         }
@@ -791,9 +797,9 @@ final class WP_Post_Type
      *
      * @since 4.6.0
      *
-     * @global WP_Rewrite $wp_rewrite          waggypuppy rewrite component.
-     * @global WP         $wp                  Current waggypuppy environment instance.
-     * @global array      $post_type_meta_caps Used to remove meta capabilities.
+     * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
+     * @global WP $wp Current waggypuppy environment instance.
+     * @global array $post_type_meta_caps Used to remove meta capabilities.
      */
     public function remove_rewrite_rules()
     {
@@ -860,32 +866,32 @@ final class WP_Post_Type
      *
      * Will only instantiate the controller class once per request.
      *
-     * @since 5.3.0
-     *
      * @return WP_REST_Controller|null The controller instance, or null if the post type
      *                                 is set not to show in rest.
+     * @since 5.3.0
+     *
      */
     public function get_rest_controller()
     {
-        if (! $this->show_in_rest) {
+        if (!$this->show_in_rest) {
             return null;
         }
 
         $class = $this->rest_controller_class ? $this->rest_controller_class : WP_REST_Posts_Controller::class;
 
-        if (! class_exists($class)) {
+        if (!class_exists($class)) {
             return null;
         }
 
-        if (! is_subclass_of($class, WP_REST_Controller::class)) {
+        if (!is_subclass_of($class, WP_REST_Controller::class)) {
             return null;
         }
 
-        if (! $this->rest_controller) {
+        if (!$this->rest_controller) {
             $this->rest_controller = new $class($this->name);
         }
 
-        if (! ($this->rest_controller instanceof $class)) {
+        if (!($this->rest_controller instanceof $class)) {
             return null;
         }
 
@@ -897,35 +903,36 @@ final class WP_Post_Type
      *
      * Will only instantiate the controller class once per request.
      *
-     * @since 6.4.0
-     *
      * @return WP_REST_Controller|null The controller instance, or null if the post type
      *                                 is set not to show in rest.
+     * @since 6.4.0
+     *
      */
     public function get_revisions_rest_controller()
     {
-        if (! $this->show_in_rest) {
+        if (!$this->show_in_rest) {
             return null;
         }
 
-        if (! post_type_supports($this->name, 'revisions')) {
+        if (!post_type_supports($this->name, 'revisions')) {
             return null;
         }
 
-        $class = $this->revisions_rest_controller_class ? $this->revisions_rest_controller_class : WP_REST_Revisions_Controller::class;
-        if (! class_exists($class)) {
+        $class = $this->revisions_rest_controller_class ? $this->revisions_rest_controller_class
+            : WP_REST_Revisions_Controller::class;
+        if (!class_exists($class)) {
             return null;
         }
 
-        if (! is_subclass_of($class, WP_REST_Controller::class)) {
+        if (!is_subclass_of($class, WP_REST_Controller::class)) {
             return null;
         }
 
-        if (! $this->revisions_rest_controller) {
+        if (!$this->revisions_rest_controller) {
             $this->revisions_rest_controller = new $class($this->name);
         }
 
-        if (! ($this->revisions_rest_controller instanceof $class)) {
+        if (!($this->revisions_rest_controller instanceof $class)) {
             return null;
         }
 
@@ -937,36 +944,37 @@ final class WP_Post_Type
      *
      * Will only instantiate the controller class once per request.
      *
-     * @since 6.4.0
-     *
      * @return WP_REST_Controller|null The controller instance, or null if the post type
      *                                 is set not to show in rest.
+     * @since 6.4.0
+     *
      */
     public function get_autosave_rest_controller()
     {
-        if (! $this->show_in_rest) {
+        if (!$this->show_in_rest) {
             return null;
         }
 
-        if (! post_type_supports($this->name, 'autosave')) {
+        if (!post_type_supports($this->name, 'autosave')) {
             return null;
         }
 
-        $class = $this->autosave_rest_controller_class ? $this->autosave_rest_controller_class : WP_REST_Autosaves_Controller::class;
+        $class = $this->autosave_rest_controller_class ? $this->autosave_rest_controller_class
+            : WP_REST_Autosaves_Controller::class;
 
-        if (! class_exists($class)) {
+        if (!class_exists($class)) {
             return null;
         }
 
-        if (! is_subclass_of($class, WP_REST_Controller::class)) {
+        if (!is_subclass_of($class, WP_REST_Controller::class)) {
             return null;
         }
 
-        if (! $this->autosave_rest_controller) {
+        if (!$this->autosave_rest_controller) {
             $this->autosave_rest_controller = new $class($this->name);
         }
 
-        if (! ($this->autosave_rest_controller instanceof $class)) {
+        if (!($this->autosave_rest_controller instanceof $class)) {
             return null;
         }
 
@@ -976,53 +984,53 @@ final class WP_Post_Type
     /**
      * Returns the default labels for post types.
      *
+     * @return (string|null)[][] The default labels for post types.
      * @since 6.0.0
      *
-     * @return (string|null)[][] The default labels for post types.
      */
     public static function get_default_labels()
     {
-        if (! empty(self::$default_labels)) {
+        if (!empty(self::$default_labels)) {
             return self::$default_labels;
         }
 
         self::$default_labels = [
-            'name'                     => [_x('Posts', 'post type general name'), _x('Pages', 'post type general name')],
-            'singular_name'            => [_x('Post', 'post type singular name'), _x('Page', 'post type singular name')],
-            'add_new'                  => [__('Add New'), __('Add New')],
-            'add_new_item'             => [__('Add New Post'), __('Add New Page')],
-            'edit_item'                => [__('Edit Post'), __('Edit Page')],
-            'new_item'                 => [__('New Post'), __('New Page')],
-            'view_item'                => [__('View Post'), __('View Page')],
-            'view_items'               => [__('View Posts'), __('View Pages')],
-            'search_items'             => [__('Search Posts'), __('Search Pages')],
-            'not_found'                => [__('No posts found.'), __('No pages found.')],
-            'not_found_in_trash'       => [__('No posts found in Trash.'), __('No pages found in Trash.')],
-            'parent_item_colon'        => [null, __('Parent Page:')],
-            'all_items'                => [__('All Posts'), __('All Pages')],
-            'archives'                 => [__('Post Archives'), __('Page Archives')],
-            'attributes'               => [__('Post Attributes'), __('Page Attributes')],
-            'insert_into_item'         => [__('Insert into post'), __('Insert into page')],
-            'uploaded_to_this_item'    => [__('Uploaded to this post'), __('Uploaded to this page')],
-            'featured_image'           => [_x('Featured image', 'post'), _x('Featured image', 'page')],
-            'set_featured_image'       => [_x('Set featured image', 'post'), _x('Set featured image', 'page')],
-            'remove_featured_image'    => [_x('Remove featured image', 'post'), _x('Remove featured image', 'page')],
-            'use_featured_image'       => [_x('Use as featured image', 'post'), _x('Use as featured image', 'page')],
-            'filter_items_list'        => [__('Filter posts list'), __('Filter pages list')],
-            'filter_by_date'           => [__('Filter by date'), __('Filter by date')],
-            'items_list_navigation'    => [__('Posts list navigation'), __('Pages list navigation')],
-            'items_list'               => [__('Posts list'), __('Pages list')],
-            'item_published'           => [__('Post published.'), __('Page published.')],
+            'name' => [_x('Posts', 'post type general name'), _x('Pages', 'post type general name')],
+            'singular_name' => [_x('Post', 'post type singular name'), _x('Page', 'post type singular name')],
+            'add_new' => [__('Add New'), __('Add New')],
+            'add_new_item' => [__('Add New Post'), __('Add New Page')],
+            'edit_item' => [__('Edit Post'), __('Edit Page')],
+            'new_item' => [__('New Post'), __('New Page')],
+            'view_item' => [__('View Post'), __('View Page')],
+            'view_items' => [__('View Posts'), __('View Pages')],
+            'search_items' => [__('Search Posts'), __('Search Pages')],
+            'not_found' => [__('No posts found.'), __('No pages found.')],
+            'not_found_in_trash' => [__('No posts found in Trash.'), __('No pages found in Trash.')],
+            'parent_item_colon' => [null, __('Parent Page:')],
+            'all_items' => [__('All Posts'), __('All Pages')],
+            'archives' => [__('Post Archives'), __('Page Archives')],
+            'attributes' => [__('Post Attributes'), __('Page Attributes')],
+            'insert_into_item' => [__('Insert into post'), __('Insert into page')],
+            'uploaded_to_this_item' => [__('Uploaded to this post'), __('Uploaded to this page')],
+            'featured_image' => [_x('Featured image', 'post'), _x('Featured image', 'page')],
+            'set_featured_image' => [_x('Set featured image', 'post'), _x('Set featured image', 'page')],
+            'remove_featured_image' => [_x('Remove featured image', 'post'), _x('Remove featured image', 'page')],
+            'use_featured_image' => [_x('Use as featured image', 'post'), _x('Use as featured image', 'page')],
+            'filter_items_list' => [__('Filter posts list'), __('Filter pages list')],
+            'filter_by_date' => [__('Filter by date'), __('Filter by date')],
+            'items_list_navigation' => [__('Posts list navigation'), __('Pages list navigation')],
+            'items_list' => [__('Posts list'), __('Pages list')],
+            'item_published' => [__('Post published.'), __('Page published.')],
             'item_published_privately' => [__('Post published privately.'), __('Page published privately.')],
-            'item_reverted_to_draft'   => [__('Post reverted to draft.'), __('Page reverted to draft.')],
-            'item_trashed'             => [__('Post trashed.'), __('Page trashed.')],
-            'item_scheduled'           => [__('Post scheduled.'), __('Page scheduled.')],
-            'item_updated'             => [__('Post updated.'), __('Page updated.')],
-            'item_link'                => [
+            'item_reverted_to_draft' => [__('Post reverted to draft.'), __('Page reverted to draft.')],
+            'item_trashed' => [__('Post trashed.'), __('Page trashed.')],
+            'item_scheduled' => [__('Post scheduled.'), __('Page scheduled.')],
+            'item_updated' => [__('Post updated.'), __('Page updated.')],
+            'item_link' => [
                 _x('Post Link', 'navigation link block title'),
                 _x('Page Link', 'navigation link block title'),
             ],
-            'item_link_description'    => [
+            'item_link_description' => [
                 _x('A link to a post.', 'navigation link block description'),
                 _x('A link to a page.', 'navigation link block description'),
             ],

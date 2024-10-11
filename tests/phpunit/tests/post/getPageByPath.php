@@ -15,20 +15,20 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
         $attachment = self::factory()->post->create_and_get(
             [
                 'post_title' => 'some-page',
-                'post_type'  => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
-        $page       = self::factory()->post->create_and_get(
+        $page = self::factory()->post->create_and_get(
             [
                 'post_title' => 'some-page',
-                'post_type'  => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
-        $other_att  = self::factory()->post->create_and_get(
+        $other_att = self::factory()->post->create_and_get(
             [
                 'post_title' => 'some-other-page',
-                'post_type'  => 'attachment',
-            ]
+                'post_type' => 'attachment',
+            ],
         );
 
         $wpdb->update($wpdb->posts, ['post_name' => 'some-page'], ['ID' => $page->ID]);
@@ -52,7 +52,7 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = get_page_by_path('foo');
@@ -68,7 +68,7 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'wptests_pt',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $found = get_page_by_path('foo');
@@ -84,23 +84,23 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $p2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'bar',
+                'post_type' => 'page',
+                'post_name' => 'bar',
                 'post_parent' => $p1,
-            ]
+            ],
         );
 
         $p3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'baz',
+                'post_type' => 'page',
+                'post_name' => 'baz',
                 'post_parent' => $p2,
-            ]
+            ],
         );
 
         $found = get_page_by_path('foo/bar/baz');
@@ -119,29 +119,29 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $p2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'bar',
+                'post_type' => 'page',
+                'post_name' => 'bar',
                 'post_parent' => $p1,
-            ]
+            ],
         );
 
         $p3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'baz',
+                'post_type' => 'page',
+                'post_name' => 'baz',
                 'post_parent' => $p2,
-            ]
+            ],
         );
 
         $queries_before = get_num_queries();
-        $found          = get_page_by_path('foo/bar/baz');
-        $queries_after  = get_num_queries();
-        $cached_post    = wp_cache_get($p1, 'posts');
+        $found = get_page_by_path('foo/bar/baz');
+        $queries_after = get_num_queries();
+        $cached_post = wp_cache_get($p1, 'posts');
 
         $this->assertSame(1, $queries_after - $queries_before, 'Only one query should run');
         $this->assertSame($p3, $found->ID, 'Check to see if the result is correct');
@@ -157,32 +157,32 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
     {
         $p1 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'foo',
+                'post_type' => 'page',
+                'post_name' => 'foo',
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         $p2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'bar',
+                'post_type' => 'page',
+                'post_name' => 'bar',
                 'post_parent' => $p1,
-            ]
+            ],
         );
 
         $p3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'baz',
+                'post_type' => 'page',
+                'post_name' => 'baz',
                 'post_parent' => $p2,
-            ]
+            ],
         );
 
         $queries_before = get_num_queries();
-        $found          = get_page_by_path('foo/bar/baz');
-        $queries_after  = get_num_queries();
-        $cached_post    = wp_cache_get($p1, 'posts');
+        $found = get_page_by_path('foo/bar/baz');
+        $queries_after = get_num_queries();
+        $cached_post = wp_cache_get($p1, 'posts');
 
         $this->assertSame(1, $queries_after - $queries_before, 'Only one query should run');
         $this->assertSame($p3, $found->ID, 'Check to see if the result is correct');
@@ -197,9 +197,9 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
     public function test_should_return_null_for_invalid_path()
     {
         $queries_before = get_num_queries();
-        $get_1          = get_page_by_path('should/return/null/for/an/invalid/path');
-        $get_2          = get_page_by_path('should/return/null/for/an/invalid/path');
-        $queries_after  = get_num_queries();
+        $get_1 = get_page_by_path('should/return/null/for/an/invalid/path');
+        $get_2 = get_page_by_path('should/return/null/for/an/invalid/path');
+        $queries_after = get_num_queries();
 
         $this->assertNull($get_1, 'Invalid path should return null.');
         $this->assertSame(1, $queries_after - $queries_before, 'Only one query should run.');
@@ -212,23 +212,23 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $p2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'bar',
+                'post_type' => 'page',
+                'post_name' => 'bar',
                 'post_parent' => $p1,
-            ]
+            ],
         );
 
         $p3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'baz',
+                'post_type' => 'page',
+                'post_name' => 'baz',
                 'post_parent' => $p2,
-            ]
+            ],
         );
 
         $found = get_page_by_path('bar/baz');
@@ -242,23 +242,23 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $p2 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'bar',
+                'post_type' => 'page',
+                'post_name' => 'bar',
                 'post_parent' => $p1,
-            ]
+            ],
         );
 
         $p3 = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_name'   => 'baz',
+                'post_type' => 'page',
+                'post_name' => 'baz',
                 'post_parent' => $p2,
-            ]
+            ],
         );
 
         $found = get_page_by_path('bar/foo/baz');
@@ -275,7 +275,7 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         // Prime cache.
@@ -339,14 +339,14 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         $p2 = self::factory()->post->create(
             [
                 'post_type' => 'wptests_pt',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         // Prime cache for the page.
@@ -370,7 +370,7 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         // Prime cache.
@@ -379,9 +379,9 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
 
         wp_update_post(
             [
-                'ID'        => $page,
+                'ID' => $page,
                 'post_name' => 'bar',
-            ]
+            ],
         );
 
         $num_queries = get_num_queries();
@@ -401,7 +401,7 @@ class Tests_Post_GetPageByPath extends WP_UnitTestCase
             [
                 'post_type' => 'page',
                 'post_name' => 'foo',
-            ]
+            ],
         );
 
         // Prime cache.

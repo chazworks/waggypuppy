@@ -66,7 +66,7 @@ if (is_multisite()) :
                     ['bar.com', 'foo.co'],
                     'test@bar.com',
                 ],
-                'subdomain_1'        => [
+                'subdomain_1' => [
                     ['bar.com', 'foo.co'],
                     'test@foo.bar.com',
                 ],
@@ -74,7 +74,7 @@ if (is_multisite()) :
                     ['bar.com', 'foo.co'],
                     'test@foo.co',
                 ],
-                'subdomain_2'        => [
+                'subdomain_2' => [
                     ['bar.com', 'foo.co'],
                     'test@subdomain.foo.co',
                 ],

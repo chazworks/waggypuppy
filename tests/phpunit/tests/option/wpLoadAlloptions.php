@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test wp_load_alloptions().
  *
@@ -173,13 +174,13 @@ class Tests_Option_wpLoadAlloptions extends WP_UnitTestCase
         $this->assertSame(
             1,
             $filter->get_call_count(),
-            'The filter was not called 1 time.'
+            'The filter was not called 1 time.',
         );
 
         $this->assertSame(
             ['pre_wp_load_alloptions'],
             $filter->get_hook_names(),
-            'The hook name was incorrect.'
+            'The hook name was incorrect.',
         );
     }
 }

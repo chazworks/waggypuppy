@@ -10,13 +10,13 @@
  */
 
 // Adds theme support for post formats.
-if (! function_exists('twentytwentyfive_post_format_setup')) :
+if (!function_exists('twentytwentyfive_post_format_setup')) :
     /**
      * Adds theme support for post formats.
      *
+     * @return void
      * @since Twenty Twenty-Five 1.0
      *
-     * @return void
      */
     function twentytwentyfive_post_format_setup()
     {
@@ -26,13 +26,13 @@ endif;
 add_action('after_setup_theme', 'twentytwentyfive_post_format_setup');
 
 // Enqueues editor-style.css in the editors.
-if (! function_exists('twentytwentyfive_editor_style')) :
+if (!function_exists('twentytwentyfive_editor_style')) :
     /**
      * Enqueues editor-style.css in the editors.
      *
+     * @return void
      * @since Twenty Twenty-Five 1.0
      *
-     * @return void
      */
     function twentytwentyfive_editor_style()
     {
@@ -42,13 +42,13 @@ endif;
 add_action('after_setup_theme', 'twentytwentyfive_editor_style');
 
 // Enqueues style.css on the front.
-if (! function_exists('twentytwentyfive_enqueue_styles')) :
+if (!function_exists('twentytwentyfive_enqueue_styles')) :
     /**
      * Enqueues style.css on the front.
      *
+     * @return void
      * @since Twenty Twenty-Five 1.0
      *
-     * @return void
      */
     function twentytwentyfive_enqueue_styles()
     {
@@ -56,28 +56,28 @@ if (! function_exists('twentytwentyfive_enqueue_styles')) :
             'twentytwentyfive-style',
             get_parent_theme_file_uri('style.css'),
             [],
-            wp_get_theme()->get('Version')
+            wp_get_theme()->get('Version'),
         );
     }
 endif;
 add_action('wp_enqueue_scripts', 'twentytwentyfive_enqueue_styles');
 
 // Registers custom block styles.
-if (! function_exists('twentytwentyfive_block_styles')) :
+if (!function_exists('twentytwentyfive_block_styles')) :
     /**
      * Registers custom block styles.
      *
+     * @return void
      * @since Twenty Twenty-Five 1.0
      *
-     * @return void
      */
     function twentytwentyfive_block_styles()
     {
         register_block_style(
             'core/list',
             [
-                'name'         => 'checkmark-list',
-                'label'        => __('Checkmark', 'twentytwentyfive'),
+                'name' => 'checkmark-list',
+                'label' => __('Checkmark', 'twentytwentyfive'),
                 'inline_style' => '
 				ul.is-style-checkmark-list {
 					list-style-type: "\2713";
@@ -86,80 +86,79 @@ if (! function_exists('twentytwentyfive_block_styles')) :
 				ul.is-style-checkmark-list li {
 					padding-inline-start: 1ch;
 				}',
-            ]
+            ],
         );
     }
 endif;
 add_action('init', 'twentytwentyfive_block_styles');
 
 // Registers pattern categories.
-if (! function_exists('twentytwentyfive_pattern_categories')) :
+if (!function_exists('twentytwentyfive_pattern_categories')) :
     /**
      * Registers pattern categories.
      *
+     * @return void
      * @since Twenty Twenty-Five 1.0
      *
-     * @return void
      */
     function twentytwentyfive_pattern_categories()
     {
-
         register_block_pattern_category(
             'twentytwentyfive_page',
             [
-                'label'       => __('Pages', 'twentytwentyfive'),
+                'label' => __('Pages', 'twentytwentyfive'),
                 'description' => __('A collection of full page layouts.', 'twentytwentyfive'),
-            ]
+            ],
         );
 
         register_block_pattern_category(
             'twentytwentyfive_post-format',
             [
-                'label'       => __('Post format', 'twentytwentyfive'),
+                'label' => __('Post format', 'twentytwentyfive'),
                 'description' => __('A collection of post format patterns.', 'twentytwentyfive'),
-            ]
+            ],
         );
     }
 endif;
 add_action('init', 'twentytwentyfive_pattern_categories');
 
 // Registers block binding sources.
-if (! function_exists('twentytwentyfive_register_block_bindings')) :
+if (!function_exists('twentytwentyfive_register_block_bindings')) :
     /**
      * Registers the copyright block binding source.
      *
+     * @return void
      * @since Twenty Twenty-Five 1.0
      *
-     * @return void
      */
     function twentytwentyfive_register_block_bindings()
     {
         register_block_bindings_source(
             'twentytwentyfive/copyright',
             [
-                'label'              => _x('&copy; YEAR', 'Label for the copyright placeholder in the editor', 'twentytwentyfive'),
+                'label' => _x('&copy; YEAR', 'Label for the copyright placeholder in the editor', 'twentytwentyfive'),
                 'get_value_callback' => 'twentytwentyfive_copyright_binding',
-            ]
+            ],
         );
     }
 endif;
 
 // Registers block binding callback function for the copyright.
-if (! function_exists('twentytwentyfive_copyright_binding')) :
+if (!function_exists('twentytwentyfive_copyright_binding')) :
     /**
      * Callback function for the copyright block binding source.
      *
+     * @return string Copyright text.
      * @since Twenty Twenty-Five 1.0
      *
-     * @return string Copyright text.
      */
     function twentytwentyfive_copyright_binding()
     {
         $copyright_text = sprintf(
-            /* translators: 1: Copyright symbol or word, 2: Year */
+        /* translators: 1: Copyright symbol or word, 2: Year */
             esc_html__('%1$s %2$s', 'twentytwentyfive'),
             '&copy;',
-            wp_date('Y')
+            wp_date('Y'),
         );
 
         return $copyright_text;

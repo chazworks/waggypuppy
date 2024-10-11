@@ -16,23 +16,23 @@ class Tests_XMLRPC_wp_getComment extends WP_XMLRPC_UnitTestCase
         self::$post_id = $factory->post->create();
 
         self::$parent_comment_data = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Test commenter',
-            'comment_author_url'   => 'http://example.com/',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Test commenter',
+            'comment_author_url' => 'http://example.com/',
             'comment_author_email' => 'example@example.com',
-            'comment_content'      => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'comment_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         ];
-        self::$parent_comment_id   = wp_insert_comment(self::$parent_comment_data);
+        self::$parent_comment_id = wp_insert_comment(self::$parent_comment_data);
 
         self::$child_comment_data = [
-            'comment_post_ID'      => self::$post_id,
-            'comment_author'       => 'Test commenter 2',
-            'comment_author_url'   => 'http://example.org/',
+            'comment_post_ID' => self::$post_id,
+            'comment_author' => 'Test commenter 2',
+            'comment_author_url' => 'http://example.org/',
             'comment_author_email' => 'example@example.org',
-            'comment_parent'       => self::$parent_comment_id,
-            'comment_content'      => 'Duis non neque cursus, commodo massa in, bibendum nisl.',
+            'comment_parent' => self::$parent_comment_id,
+            'comment_content' => 'Duis non neque cursus, commodo massa in, bibendum nisl.',
         ];
-        self::$child_comment_id   = wp_insert_comment(self::$child_comment_data);
+        self::$child_comment_id = wp_insert_comment(self::$child_comment_data);
     }
 
     public function test_invalid_username_password()

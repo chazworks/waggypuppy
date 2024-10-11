@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test cases for the `wp_send_user_request()` function.
  *
@@ -33,24 +34,24 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
     /**
      * Create users for tests.
      *
+     * @param WP_UnitTest_Factory $factory Test fixture factory.
      * @since 4.9.9
      *
-     * @param WP_UnitTest_Factory $factory Test fixture factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$admin_user = $factory->user->create_and_get(
             [
                 'user_email' => 'admin@local.dev',
-                'role'       => 'administrator',
-            ]
+                'role' => 'administrator',
+            ],
         );
 
         self::$test_user = $factory->user->create_and_get(
             [
                 'user_email' => 'export-user@local.dev',
-                'role'       => 'subscriber',
-            ]
+                'role' => 'subscriber',
+            ],
         );
     }
 
@@ -191,10 +192,10 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
     /**
      * Filter callback to modify the subject of the email sent when an account action is attempted.
      *
-     * @since 4.9.9
-     *
      * @param string $subject The email subject.
      * @return string Filtered email subject.
+     * @since 4.9.9
+     *
      */
     public function modify_email_subject($subject)
     {
@@ -221,10 +222,10 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
     /**
      * Filter callback to modify the content of the email sent when an account action is attempted.
      *
-     * @since 4.9.9
-     *
      * @param string $email_text Confirmation email text.
      * @return string Filtered email text.
+     * @since 4.9.9
+     *
      */
     public function modify_email_content($email_text)
     {
@@ -253,10 +254,10 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
     /**
      * Filter callback to modify the headers of the email sent when an account action is attempted.
      *
-     * @since 5.4.0
-     *
      * @param string|array $headers The email headers.
      * @return array The new email headers.
+     * @since 5.4.0
+     *
      */
     public function modify_email_headers($headers)
     {
@@ -274,7 +275,8 @@ class Tests_User_wpSendUserRequest extends WP_UnitTestCase
      */
     public function test_return_wp_error_when_sending_fails()
     {
-        $request_id = wp_create_user_request('erase.request.from.unregistered.user@example.com', 'remove_personal_data');
+        $request_id = wp_create_user_request('erase.request.from.unregistered.user@example.com',
+            'remove_personal_data');
 
         add_filter('wp_mail_from', '__return_empty_string'); // Cause `wp_mail()` to return false.
         $result = wp_send_user_request($request_id);

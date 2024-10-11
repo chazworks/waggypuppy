@@ -22,7 +22,7 @@ abstract class WP_Theme_UnitTestCase extends WP_UnitTestCase
         parent::set_up();
 
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
-        $this->theme_root     = realpath(DIR_TESTDATA . '/themedir1');
+        $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
         $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', $this->theme_root];

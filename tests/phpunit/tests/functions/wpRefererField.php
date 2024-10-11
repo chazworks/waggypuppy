@@ -57,12 +57,12 @@ class Tests_Functions_wpRefererField extends WP_UnitTestCase
     public function data_wp_referer_field_should_respect_display_arg()
     {
         return [
-            'true'         => [true],
-            '(int) 1'      => [1],
+            'true' => [true],
+            '(int) 1' => [1],
             '(string) "1"' => ['1'],
-            'false'        => [false],
-            'null'         => [null],
-            '(int) 0'      => [0],
+            'false' => [false],
+            'null' => [null],
+            '(int) 0' => [0],
             '(string) "0"' => ['0'],
         ];
     }
@@ -72,7 +72,7 @@ class Tests_Functions_wpRefererField extends WP_UnitTestCase
      */
     public function test_wp_referer_field_with_referer()
     {
-        $old_request_uri        = $_SERVER['REQUEST_URI'];
+        $old_request_uri = $_SERVER['REQUEST_URI'];
         $_SERVER['REQUEST_URI'] = 'edit.php?_wp_http_referer=edit.php';
 
         $actual = wp_referer_field(false);

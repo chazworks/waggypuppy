@@ -52,11 +52,11 @@ class WP_Widget_Factory
     /**
      * Registers a widget subclass.
      *
-     * @since 2.8.0
+     * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
      * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
      *              instead of simply a `WP_Widget` subclass name.
      *
-     * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
+     * @since 2.8.0
      */
     public function register($widget)
     {
@@ -70,11 +70,11 @@ class WP_Widget_Factory
     /**
      * Un-registers a widget subclass.
      *
-     * @since 2.8.0
+     * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
      * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
      *              instead of simply a `WP_Widget` subclass name.
      *
-     * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
+     * @since 2.8.0
      */
     public function unregister($widget)
     {
@@ -95,7 +95,7 @@ class WP_Widget_Factory
     public function _register_widgets()
     {
         global $wp_registered_widgets;
-        $keys       = array_keys($this->widgets);
+        $keys = array_keys($this->widgets);
         $registered = array_keys($wp_registered_widgets);
         $registered = array_map('_get_widget_id_base', $registered);
 
@@ -113,10 +113,10 @@ class WP_Widget_Factory
     /**
      * Returns the registered WP_Widget object for the given widget type.
      *
-     * @since 5.8.0
-     *
      * @param string $id_base Widget type ID.
      * @return WP_Widget|null
+     * @since 5.8.0
+     *
      */
     public function get_widget_object($id_base)
     {
@@ -131,10 +131,10 @@ class WP_Widget_Factory
     /**
      * Returns the registered key for the given widget type.
      *
-     * @since 5.8.0
-     *
      * @param string $id_base Widget type ID.
      * @return string
+     * @since 5.8.0
+     *
      */
     public function get_widget_key($id_base)
     {

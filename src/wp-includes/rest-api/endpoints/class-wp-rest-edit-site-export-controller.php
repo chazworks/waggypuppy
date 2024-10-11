@@ -40,20 +40,20 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'export'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'export'],
                     'permission_callback' => [$this, 'permissions_check'],
                 ],
-            ]
+            ],
         );
     }
 
     /**
      * Checks whether a given request has permission to export.
      *
+     * @return true|WP_Error True if the request has access, or WP_Error object.
      * @since 5.9.0
      *
-     * @return true|WP_Error True if the request has access, or WP_Error object.
      */
     public function permissions_check()
     {
@@ -64,7 +64,7 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller
         return new WP_Error(
             'rest_cannot_export_templates',
             __('Sorry, you are not allowed to export templates and template parts.'),
-            ['status' => rest_authorization_required_code()]
+            ['status' => rest_authorization_required_code()],
         );
     }
 
@@ -72,9 +72,9 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller
      * Output a ZIP file with an export of the current templates
      * and template parts from the site editor, and close the connection.
      *
+     * @return void|WP_Error
      * @since 5.9.0
      *
-     * @return void|WP_Error
      */
     public function export()
     {

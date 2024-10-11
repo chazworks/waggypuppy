@@ -24,15 +24,15 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase
     protected function _import_wp($filename, $users = [], $fetch_files = true)
     {
         $importer = new WP_Import();
-        $file     = realpath($filename);
+        $file = realpath($filename);
 
         $this->assertNotEmpty($file, 'Path to import file is empty.');
         $this->assertTrue(is_file($file), 'Import file is not a file.');
 
         $authors = [];
         $mapping = [];
-        $new     = [];
-        $i       = 0;
+        $new = [];
+        $i = 0;
 
         // Each user is either mapped to a given ID, mapped to a new user
         // with given login or imported using details in WXR file.
@@ -49,8 +49,8 @@ abstract class WP_Import_UnitTestCase extends WP_UnitTestCase
 
         $_POST = [
             'imported_authors' => $authors,
-            'user_map'         => $mapping,
-            'user_new'         => $new,
+            'user_map' => $mapping,
+            'user_new' => $new,
         ];
 
         ob_start();

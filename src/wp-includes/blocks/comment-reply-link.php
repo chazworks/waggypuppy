@@ -8,21 +8,21 @@
 /**
  * Renders the `core/comment-reply-link` block on the server.
  *
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
+ * @return string Return the post comment's reply link.
  * @since 6.0.0
  *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
- * @return string Return the post comment's reply link.
  */
 function render_block_core_comment_reply_link($attributes, $content, $block)
 {
-    if (! isset($block->context['commentId'])) {
+    if (!isset($block->context['commentId'])) {
         return '';
     }
 
     $thread_comments = get_option('thread_comments');
-    if (! $thread_comments) {
+    if (!$thread_comments) {
         return '';
     }
 
@@ -31,22 +31,22 @@ function render_block_core_comment_reply_link($attributes, $content, $block)
         return '';
     }
 
-    $depth     = 1;
+    $depth = 1;
     $max_depth = get_option('thread_comments_depth');
     $parent_id = $comment->comment_parent;
 
     // Compute comment's depth iterating over its ancestors.
-    while (! empty($parent_id)) {
+    while (!empty($parent_id)) {
         ++$depth;
         $parent_id = get_comment($parent_id)->comment_parent;
     }
 
     $comment_reply_link = get_comment_reply_link(
         [
-            'depth'     => $depth,
+            'depth' => $depth,
             'max_depth' => $max_depth,
         ],
-        $comment
+        $comment,
     );
 
     // Render nothing if the generated reply link is empty.
@@ -67,7 +67,7 @@ function render_block_core_comment_reply_link($attributes, $content, $block)
     return sprintf(
         '<div %1$s>%2$s</div>',
         $wrapper_attributes,
-        $comment_reply_link
+        $comment_reply_link,
     );
 }
 
@@ -82,7 +82,7 @@ function register_block_core_comment_reply_link()
         __DIR__ . '/comment-reply-link',
         [
             'render_callback' => 'render_block_core_comment_reply_link',
-        ]
+        ],
     );
 }
 

@@ -9,20 +9,20 @@
 /**
  * Registers the align block attribute for block types that support it.
  *
+ * @param WP_Block_Type $block_type Block Type.
  * @since 5.6.0
  * @access private
  *
- * @param WP_Block_Type $block_type Block Type.
  */
 function wp_register_alignment_support($block_type)
 {
     $has_align_support = block_has_support($block_type, 'align', false);
     if ($has_align_support) {
-        if (! $block_type->attributes) {
+        if (!$block_type->attributes) {
             $block_type->attributes = [];
         }
 
-        if (! array_key_exists('align', $block_type->attributes)) {
+        if (!array_key_exists('align', $block_type->attributes)) {
             $block_type->attributes['align'] = [
                 'type' => 'string',
                 'enum' => ['left', 'center', 'right', 'wide', 'full', ''],
@@ -35,16 +35,16 @@ function wp_register_alignment_support($block_type)
  * Adds CSS classes for block alignment to the incoming attributes array.
  * This will be applied to the block markup in the front-end.
  *
+ * @param WP_Block_Type $block_type Block Type.
+ * @param array $block_attributes Block attributes.
+ * @return array Block alignment CSS classes and inline styles.
  * @since 5.6.0
  * @access private
  *
- * @param WP_Block_Type $block_type       Block Type.
- * @param array         $block_attributes Block attributes.
- * @return array Block alignment CSS classes and inline styles.
  */
 function wp_apply_alignment_support($block_type, $block_attributes)
 {
-    $attributes        = [];
+    $attributes = [];
     $has_align_support = block_has_support($block_type, 'align', false);
     if ($has_align_support) {
         $has_block_alignment = array_key_exists('align', $block_attributes);
@@ -62,6 +62,6 @@ WP_Block_Supports::get_instance()->register(
     'align',
     [
         'register_attribute' => 'wp_register_alignment_support',
-        'apply'              => 'wp_apply_alignment_support',
-    ]
+        'apply' => 'wp_apply_alignment_support',
+    ],
 );

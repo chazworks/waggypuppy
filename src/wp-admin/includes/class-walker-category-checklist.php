@@ -21,57 +21,57 @@ class Walker_Category_Checklist extends Walker
     public $tree_type = 'category';
     public $db_fields = [
         'parent' => 'parent',
-        'id'     => 'term_id',
+        'id' => 'term_id',
     ]; // TODO: Decouple this.
 
     /**
      * Starts the list before the elements are added.
      *
-     * @see Walker:start_lvl()
-     *
+     * @param string $output Used to append additional content (passed by reference).
+     * @param int $depth Depth of category. Used for tab indentation.
+     * @param array $args An array of arguments. See {@see wp_terms_checklist()}.
      * @since 2.5.1
      *
-     * @param string $output Used to append additional content (passed by reference).
-     * @param int    $depth  Depth of category. Used for tab indentation.
-     * @param array  $args   An array of arguments. See {@see wp_terms_checklist()}.
+     * @see Walker:start_lvl()
+     *
      */
     public function start_lvl(&$output, $depth = 0, $args = [])
     {
-        $indent  = str_repeat("\t", $depth);
+        $indent = str_repeat("\t", $depth);
         $output .= "$indent<ul class='children'>\n";
     }
 
     /**
      * Ends the list of after the elements are added.
      *
-     * @see Walker::end_lvl()
-     *
+     * @param string $output Used to append additional content (passed by reference).
+     * @param int $depth Depth of category. Used for tab indentation.
+     * @param array $args An array of arguments. See {@see wp_terms_checklist()}.
      * @since 2.5.1
      *
-     * @param string $output Used to append additional content (passed by reference).
-     * @param int    $depth  Depth of category. Used for tab indentation.
-     * @param array  $args   An array of arguments. See {@see wp_terms_checklist()}.
+     * @see Walker::end_lvl()
+     *
      */
     public function end_lvl(&$output, $depth = 0, $args = [])
     {
-        $indent  = str_repeat("\t", $depth);
+        $indent = str_repeat("\t", $depth);
         $output .= "$indent</ul>\n";
     }
 
     /**
      * Start the element output.
      *
-     * @see Walker::start_el()
-     *
-     * @since 2.5.1
+     * @param string $output Used to append additional content (passed by reference).
+     * @param WP_Term $data_object The current term object.
+     * @param int $depth Depth of the term in reference to parents. Default 0.
+     * @param array $args An array of arguments. See {@see wp_terms_checklist()}.
+     * @param int $current_object_id Optional. ID of the current term. Default 0.
      * @since 5.9.0 Renamed `$category` to `$data_object` and `$id` to `$current_object_id`
      *              to match parent class for PHP 8 named parameter support.
      *
-     * @param string  $output            Used to append additional content (passed by reference).
-     * @param WP_Term $data_object       The current term object.
-     * @param int     $depth             Depth of the term in reference to parents. Default 0.
-     * @param array   $args              An array of arguments. See {@see wp_terms_checklist()}.
-     * @param int     $current_object_id Optional. ID of the current term. Default 0.
+     * @see Walker::start_el()
+     *
+     * @since 2.5.1
      */
     public function start_el(&$output, $data_object, $depth = 0, $args = [], $current_object_id = 0)
     {
@@ -90,15 +90,15 @@ class Walker_Category_Checklist extends Walker
             $name = 'tax_input[' . $taxonomy . ']';
         }
 
-        $args['popular_cats'] = ! empty($args['popular_cats']) ? array_map('intval', $args['popular_cats']) : [];
+        $args['popular_cats'] = !empty($args['popular_cats']) ? array_map('intval', $args['popular_cats']) : [];
 
         $class = in_array($category->term_id, $args['popular_cats'], true) ? ' class="popular-category"' : '';
 
-        $args['selected_cats'] = ! empty($args['selected_cats']) ? array_map('intval', $args['selected_cats']) : [];
+        $args['selected_cats'] = !empty($args['selected_cats']) ? array_map('intval', $args['selected_cats']) : [];
 
-        if (! empty($args['list_only'])) {
+        if (!empty($args['list_only'])) {
             $aria_checked = 'false';
-            $inner_class  = 'category';
+            $inner_class = 'category';
 
             if (in_array($category->term_id, $args['selected_cats'], true)) {
                 $inner_class .= ' selected';
@@ -111,32 +111,46 @@ class Walker_Category_Checklist extends Walker
                 /** This filter is documented in wp-includes/category-template.php */
                 esc_html(apply_filters('the_category', $category->name, '', '')) . '</div>';
         } else {
-            $is_selected         = in_array($category->term_id, $args['selected_cats'], true);
-            $is_disabled         = ! empty($args['disabled']);
-            $li_element_id       = wp_unique_prefixed_id("in-{$taxonomy}-{$category->term_id}-");
+            $is_selected = in_array($category->term_id, $args['selected_cats'], true);
+            $is_disabled = !empty($args['disabled']);
+            $li_element_id = wp_unique_prefixed_id("in-{$taxonomy}-{$category->term_id}-");
             $checkbox_element_id = wp_unique_prefixed_id("in-{$taxonomy}-{$category->term_id}-");
 
-            $output .= "\n<li id='" . esc_attr($li_element_id) . "'$class>" .
-                '<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="' . $name . '[]" id="' . esc_attr($checkbox_element_id) . '"' .
-                checked($is_selected, true, false) .
-                disabled($is_disabled, true, false) . ' /> ' .
+            $output .= "\n<li id='"
+                . esc_attr($li_element_id)
+                . "'$class>"
+                .
+                '<label class="selectit"><input value="'
+                . $category->term_id
+                . '" type="checkbox" name="'
+                . $name
+                . '[]" id="'
+                . esc_attr($checkbox_element_id)
+                . '"'
+                .
+                checked($is_selected, true, false)
+                .
+                disabled($is_disabled, true, false)
+                . ' /> '
+                .
                 /** This filter is documented in wp-includes/category-template.php */
-                esc_html(apply_filters('the_category', $category->name, '', '')) . '</label>';
+                esc_html(apply_filters('the_category', $category->name, '', ''))
+                . '</label>';
         }
     }
 
     /**
      * Ends the element output, if needed.
      *
-     * @see Walker::end_el()
-     *
+     * @param string $output Used to append additional content (passed by reference).
+     * @param WP_Term $data_object The current term object.
+     * @param int $depth Depth of the term in reference to parents. Default 0.
+     * @param array $args An array of arguments. See {@see wp_terms_checklist()}.
      * @since 2.5.1
      * @since 5.9.0 Renamed `$category` to `$data_object` to match parent class for PHP 8 named parameter support.
      *
-     * @param string  $output      Used to append additional content (passed by reference).
-     * @param WP_Term $data_object The current term object.
-     * @param int     $depth       Depth of the term in reference to parents. Default 0.
-     * @param array   $args        An array of arguments. See {@see wp_terms_checklist()}.
+     * @see Walker::end_el()
+     *
      */
     public function end_el(&$output, $data_object, $depth = 0, $args = [])
     {

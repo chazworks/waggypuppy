@@ -22,9 +22,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
         $this->assertSame(
             _wp_array_get(
                 null,
-                ['a']
+                ['a'],
             ),
-            null
+            null,
         );
 
         $this->assertSame(
@@ -32,19 +32,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                 [
                     'key' => 4,
                 ],
-                null
+                null,
             ),
-            null
-        );
-
-        $this->assertSame(
-            _wp_array_get(
-                [
-                    'key' => 4,
-                ],
-                []
-            ),
-            null
+            null,
         );
 
         $this->assertSame(
@@ -53,9 +43,19 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                     'key' => 4,
                 ],
                 [],
-                true
             ),
-            true
+            null,
+        );
+
+        $this->assertSame(
+            _wp_array_get(
+                [
+                    'key' => 4,
+                ],
+                [],
+                true,
+            ),
+            true,
         );
     }
 
@@ -72,9 +72,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                 [
                     'key' => 4,
                 ],
-                ['key']
+                ['key'],
             ),
-            4
+            4,
         );
 
         // Simple non-subtree not found.
@@ -83,9 +83,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                 [
                     'key' => 4,
                 ],
-                ['invalid']
+                ['invalid'],
             ),
-            null
+            null,
         );
 
         // Simple non-subtree not found with a default.
@@ -95,9 +95,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                     'key' => 4,
                 ],
                 ['invalid'],
-                1
+                1,
             ),
-            1
+            1,
         );
 
         // Simple non-subtree integer path.
@@ -108,9 +108,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                     'b',
                     'c',
                 ],
-                [1]
+                [1],
             ),
-            'b'
+            'b',
         );
     }
 
@@ -130,9 +130,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                ['a', 'b']
+                ['a', 'b'],
             ),
-            ['c' => 1]
+            ['c' => 1],
         );
 
         $this->assertSame(
@@ -144,9 +144,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                ['a', 'b', 'c']
+                ['a', 'b', 'c'],
             ),
-            1
+            1,
         );
 
         $this->assertSame(
@@ -158,9 +158,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                ['a', 'b', 'c', 'd']
+                ['a', 'b', 'c', 'd'],
             ),
-            null
+            null,
         );
     }
 
@@ -175,44 +175,44 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
             _wp_array_get(
                 [
                     '-0' => 'a',
-                    '0'  => 'b',
+                    '0' => 'b',
                 ],
-                [0]
+                [0],
             ),
-            'b'
+            'b',
         );
 
         $this->assertSame(
             _wp_array_get(
                 [
                     '-0' => 'a',
-                    '0'  => 'b',
+                    '0' => 'b',
                 ],
-                [-0]
+                [-0],
             ),
-            'b'
+            'b',
         );
 
         $this->assertSame(
             _wp_array_get(
                 [
                     '-0' => 'a',
-                    '0'  => 'b',
+                    '0' => 'b',
                 ],
-                ['-0']
+                ['-0'],
             ),
-            'a'
+            'a',
         );
 
         $this->assertSame(
             _wp_array_get(
                 [
                     '-0' => 'a',
-                    '0'  => 'b',
+                    '0' => 'b',
                 ],
-                ['0']
+                ['0'],
             ),
-            'b'
+            'b',
         );
     }
 
@@ -229,9 +229,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                     'key' => null,
                 ],
                 ['key'],
-                true
+                true,
             ),
-            null
+            null,
         );
 
         $this->assertSame(
@@ -240,9 +240,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                     'key' => null,
                 ],
                 ['key', 'subkey'],
-                true
+                true,
             ),
-            true
+            true,
         );
 
         $this->assertSame(
@@ -253,9 +253,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                     ],
                 ],
                 ['key', null],
-                true
+                true,
             ),
-            4
+            4,
         );
     }
 
@@ -271,9 +271,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                 [
                     'a' => 4,
                 ],
-                []
+                [],
             ),
-            null
+            null,
         );
 
         $this->assertSame(
@@ -285,9 +285,9 @@ class Tests_Functions_wpArrayGet extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                ['a', 'b', []]
+                ['a', 'b', []],
             ),
-            null
+            null,
         );
     }
 }

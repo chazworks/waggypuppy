@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering the `data_wp_router_region` processor functionality of
  * the WP_Interactivity_API class.
@@ -44,11 +45,11 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase
         // Removes all hooks set for `wp_footer`.
         global $wp_filter;
         $this->original_wp_footer = $wp_filter['wp_footer'];
-        $wp_filter['wp_footer']   = new WP_Hook();
+        $wp_filter['wp_footer'] = new WP_Hook();
 
         // Removes all registered styles.
         $this->original_wp_styles = isset($GLOBALS['wp_styles']) ? $GLOBALS['wp_styles'] : null;
-        $GLOBALS['wp_styles']     = new WP_Styles();
+        $GLOBALS['wp_styles'] = new WP_Styles();
         remove_action('wp_default_styles', 'wp_default_styles');
         remove_action('wp_print_styles', 'print_emoji_styles');
     }
@@ -90,9 +91,9 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase
      */
     public function test_wp_router_region_missing()
     {
-        $html     = '<div>Nothing here</div>';
+        $html = '<div>Nothing here</div>';
         $new_html = $this->interactivity->process_directives($html);
-        $footer   = $this->render_wp_footer();
+        $footer = $this->render_wp_footer();
         $this->assertSame($html, $new_html);
         $this->assertSame('', $footer);
         $this->assertSame('', get_echo('wp_print_styles'));
@@ -109,7 +110,7 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase
      */
     public function test_wp_router_region_adds_loading_bar_region_only_once()
     {
-        $html     = '
+        $html = '
 			<div data-wp-router-region="region A">Interactive region</div>
 			<div data-wp-router-region="region B">Another interactive region</div>
 		';
@@ -118,8 +119,8 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase
 
         // Check that the style is loaded, but only once.
         $styles = get_echo('wp_print_styles');
-        $query  = ['tag_name' => 'style'];
-        $p      = new WP_HTML_Tag_Processor($styles);
+        $query = ['tag_name' => 'style'];
+        $p = new WP_HTML_Tag_Processor($styles);
         $this->assertTrue($p->next_tag($query));
         $this->assertSame('wp-interactivity-router-animations-inline-css', $p->get_attribute('id'));
         $this->assertStringContainsString('.wp-interactivity-router-loading-bar', $styles);
@@ -127,8 +128,8 @@ class Tests_WP_Interactivity_API_WP_Router_Region extends WP_UnitTestCase
 
         // Check that the markup is loaded, but only once.
         $footer = $this->render_wp_footer();
-        $query  = ['class_name' => 'wp-interactivity-router-loading-bar'];
-        $p      = new WP_HTML_Tag_Processor($footer);
+        $query = ['class_name' => 'wp-interactivity-router-loading-bar'];
+        $p = new WP_HTML_Tag_Processor($footer);
         $this->assertTrue($p->next_tag($query));
         $this->assertFalse($p->next_tag($query));
     }

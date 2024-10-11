@@ -15,40 +15,40 @@ class Tests_User_CountUsers extends WP_UnitTestCase
     public function test_count_users_is_accurate($strategy)
     {
         // Setup users.
-        $admin       = self::factory()->user->create(
+        $admin = self::factory()->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
-        $editor      = self::factory()->user->create(
+        $editor = self::factory()->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
-        $author      = self::factory()->user->create(
+        $author = self::factory()->user->create(
             [
                 'role' => 'author',
-            ]
+            ],
         );
         $contributor = self::factory()->user->create(
             [
                 'role' => 'contributor',
-            ]
+            ],
         );
-        $subscriber  = self::factory()->user->create(
+        $subscriber = self::factory()->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
-        $none        = self::factory()->user->create(
+        $none = self::factory()->user->create(
             [
                 'role' => '',
-            ]
+            ],
         );
-        $nobody      = self::factory()->user->create(
+        $nobody = self::factory()->user->create(
             [
                 'role' => '',
-            ]
+            ],
         );
 
         // Test user counts.
@@ -58,13 +58,13 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             [
                 'administrator' => 2,
-                'editor'        => 1,
-                'author'        => 1,
-                'contributor'   => 1,
-                'subscriber'    => 1,
-                'none'          => 2,
+                'editor' => 1,
+                'author' => 1,
+                'contributor' => 1,
+                'subscriber' => 1,
+                'none' => 2,
             ],
-            $count['avail_roles']
+            $count['avail_roles'],
         );
     }
 
@@ -79,52 +79,52 @@ class Tests_User_CountUsers extends WP_UnitTestCase
     public function test_count_users_multisite_is_accurate($strategy)
     {
         // Setup users.
-        $admin       = self::factory()->user->create(
+        $admin = self::factory()->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
-        $editor      = self::factory()->user->create(
+        $editor = self::factory()->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
-        $author      = self::factory()->user->create(
+        $author = self::factory()->user->create(
             [
                 'role' => 'author',
-            ]
+            ],
         );
         $contributor = self::factory()->user->create(
             [
                 'role' => 'contributor',
-            ]
+            ],
         );
-        $subscriber  = self::factory()->user->create(
+        $subscriber = self::factory()->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
-        $none        = self::factory()->user->create(
+        $none = self::factory()->user->create(
             [
                 'role' => '',
-            ]
+            ],
         );
-        $nobody      = self::factory()->user->create(
+        $nobody = self::factory()->user->create(
             [
                 'role' => '',
-            ]
+            ],
         );
 
         // Setup blogs.
-        $blog_1 = (int) self::factory()->blog->create(
+        $blog_1 = (int)self::factory()->blog->create(
             [
                 'user_id' => $editor,
-            ]
+            ],
         );
-        $blog_2 = (int) self::factory()->blog->create(
+        $blog_2 = (int)self::factory()->blog->create(
             [
                 'user_id' => $author,
-            ]
+            ],
         );
 
         // Add users to blogs.
@@ -138,13 +138,13 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             [
                 'administrator' => 2,
-                'editor'        => 1,
-                'author'        => 1,
-                'contributor'   => 1,
-                'subscriber'    => 1,
-                'none'          => 2,
+                'editor' => 1,
+                'author' => 1,
+                'contributor' => 1,
+                'subscriber' => 1,
+                'none' => 2,
             ],
-            $count['avail_roles']
+            $count['avail_roles'],
         );
 
         // Test users counts on blog 1.
@@ -156,10 +156,10 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             [
                 'administrator' => 1,
-                'editor'        => 1,
-                'none'          => 0,
+                'editor' => 1,
+                'none' => 0,
             ],
-            $count['avail_roles']
+            $count['avail_roles'],
         );
 
         // Test users counts on blog 2.
@@ -171,10 +171,10 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             [
                 'administrator' => 1,
-                'contributor'   => 1,
-                'none'          => 0,
+                'contributor' => 1,
+                'none' => 0,
             ],
-            $count['avail_roles']
+            $count['avail_roles'],
         );
     }
 
@@ -187,14 +187,14 @@ class Tests_User_CountUsers extends WP_UnitTestCase
      */
     public function test_count_users_multisite_queries_correct_roles($strategy)
     {
-        $site_id = (int) self::factory()->blog->create();
+        $site_id = (int)self::factory()->blog->create();
 
         switch_to_blog($site_id);
         wp_roles()->add_role('tester', 'Tester', ['test' => true]);
         $user_id = self::factory()->user->create(
             [
                 'role' => 'tester',
-            ]
+            ],
         );
         restore_current_blog();
 
@@ -202,9 +202,9 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             [
                 'tester' => 1,
-                'none'   => 0,
+                'none' => 0,
             ],
-            $count['avail_roles']
+            $count['avail_roles'],
         );
     }
 
@@ -215,17 +215,16 @@ class Tests_User_CountUsers extends WP_UnitTestCase
      */
     public function test_count_users_is_accurate_with_multiple_roles($strategy)
     {
-
         // Setup users.
-        $admin  = self::factory()->user->create(
+        $admin = self::factory()->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
         $editor = self::factory()->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
 
         get_userdata($editor)->add_role('author');
@@ -235,7 +234,7 @@ class Tests_User_CountUsers extends WP_UnitTestCase
                 'editor',
                 'author',
             ],
-            get_userdata($editor)->roles
+            get_userdata($editor)->roles,
         );
 
         // Test user counts.
@@ -245,11 +244,11 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             [
                 'administrator' => 2,
-                'editor'        => 1,
-                'author'        => 1,
-                'none'          => 0,
+                'editor' => 1,
+                'author' => 1,
+                'none' => 0,
             ],
-            $count['avail_roles']
+            $count['avail_roles'],
         );
     }
 
@@ -268,7 +267,7 @@ class Tests_User_CountUsers extends WP_UnitTestCase
         $u = self::factory()->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
 
         // Manually delete the user, but leave the capabilities usermeta.
@@ -276,7 +275,7 @@ class Tests_User_CountUsers extends WP_UnitTestCase
             $wpdb->users,
             [
                 'ID' => $u,
-            ]
+            ],
         );
 
         $count2 = count_users($strategy);

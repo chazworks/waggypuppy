@@ -37,19 +37,19 @@ class WP_Translations_Tests extends WP_UnitTestCase
             [
                 new Translation_Entry(
                     [
-                        'singular'     => 'baba',
+                        'singular' => 'baba',
                         'translations' => ['dyado'],
-                    ]
+                    ],
                 ),
                 new Translation_Entry(
                     [
-                        'singular'     => "kuku\nruku",
+                        'singular' => "kuku\nruku",
                         'translations' => ['yes'],
-                    ]
+                    ],
                 ),
             ],
             $entries,
-            'Actual translation entries do not match expected ones'
+            'Actual translation entries do not match expected ones',
         );
     }
 
@@ -75,8 +75,8 @@ class WP_Translations_Tests extends WP_UnitTestCase
             [
                 new Translation_Entry(
                     [
-                        'is_plural'    => true,
-                        'singular'     => 'one dragon',
+                        'is_plural' => true,
+                        'singular' => 'one dragon',
                         'translations' => [
                             'oney dragoney',
                             'twoey dragoney',
@@ -84,11 +84,11 @@ class WP_Translations_Tests extends WP_UnitTestCase
                             'manyeyey dragoney',
                             'manyeyeyey dragoney',
                         ],
-                    ]
+                    ],
                 ),
             ],
             $entries,
-            'Actual translation entries do not match expected ones'
+            'Actual translation entries do not match expected ones',
         );
     }
 
@@ -115,26 +115,26 @@ class WP_Translations_Tests extends WP_UnitTestCase
             [
                 new Translation_Entry(
                     [
-                        'context'      => 'not so dragon',
-                        'singular'     => 'one dragon',
+                        'context' => 'not so dragon',
+                        'singular' => 'one dragon',
                         'translations' => ['oney dragoney'],
-                    ]
+                    ],
                 ),
                 new Translation_Entry(
                     [
-                        'is_plural'    => true,
-                        'singular'     => 'one dragon',
-                        'context'      => 'dragonland',
+                        'is_plural' => true,
+                        'singular' => 'one dragon',
+                        'context' => 'dragonland',
                         'translations' => [
                             'oney dragoney',
                             'twoey dragoney',
                             'manyey dragoney',
                         ],
-                    ]
+                    ],
                 ),
             ],
             $entries,
-            'Actual translation entries do not match expected ones'
+            'Actual translation entries do not match expected ones',
         );
     }
 
@@ -158,11 +158,11 @@ class WP_Translations_Tests extends WP_UnitTestCase
         $this->assertTrue($unload_successful, 'Text domain not successfully unloaded');
         $this->assertEqualSetsWithIndex(
             [
-                'Project-Id-Version'   => 'WordPress 2.6-bleeding',
+                'Project-Id-Version' => 'WordPress 2.6-bleeding',
                 'Report-Msgid-Bugs-To' => 'wp-polyglots@lists.automattic.com',
             ],
             $headers,
-            'Actual translation headers do not match expected ones'
+            'Actual translation headers do not match expected ones',
         );
     }
 
@@ -193,14 +193,15 @@ class WP_Translations_Tests extends WP_UnitTestCase
 
         $compat_instance = $l10n['wp-tests-domain'] ?? null;
 
-        $translation         = $compat_instance ? $compat_instance->translate('baba') : false;
+        $translation = $compat_instance ? $compat_instance->translate('baba') : false;
         $translation_missing = $compat_instance ? $compat_instance->translate('does not exist') : false;
 
         $unload_successful = unload_textdomain('wp-tests-domain');
 
         $this->assertInstanceOf(WP_Translations::class, $compat_instance, 'No compat provider instance used');
         $this->assertSame('dyado', $translation, 'Actual translation does not match expected one');
-        $this->assertSame('does not exist', $translation_missing, 'Actual translation fallback does not match expected one');
+        $this->assertSame('does not exist', $translation_missing,
+            'Actual translation fallback does not match expected one');
         $this->assertTrue($unload_successful, 'Text domain not successfully unloaded');
     }
 
@@ -215,9 +216,10 @@ class WP_Translations_Tests extends WP_UnitTestCase
 
         $compat_instance = $l10n['wp-tests-domain'] ?? null;
 
-        $translation_1       = $compat_instance ? $compat_instance->translate_plural('one dragon', '%d dragons', 1) : false;
-        $translation_2       = $compat_instance ? $compat_instance->translate_plural('one dragon', '%d dragons', 2) : false;
-        $translation_minus_8 = $compat_instance ? $compat_instance->translate_plural('one dragon', '%d dragons', -8) : false;
+        $translation_1 = $compat_instance ? $compat_instance->translate_plural('one dragon', '%d dragons', 1) : false;
+        $translation_2 = $compat_instance ? $compat_instance->translate_plural('one dragon', '%d dragons', 2) : false;
+        $translation_minus_8 = $compat_instance ? $compat_instance->translate_plural('one dragon', '%d dragons', -8)
+            : false;
 
         $unload_successful = unload_textdomain('wp-tests-domain');
 
@@ -236,10 +238,14 @@ class WP_Translations_Tests extends WP_UnitTestCase
     {
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/l10n/plural-complex.mo');
 
-        $this->assertSame('%s razpoložljiva posodobitev', _n('%s update available', '%s updates available', 101, 'wp-tests-domain')); // 1, 101, 201
-        $this->assertSame('%s razpoložljivi posodobitvi', _n('%s update available', '%s updates available', 102, 'wp-tests-domain')); // 2, 102, 202
-        $this->assertSame('%s razpoložljive posodobitve', _n('%s update available', '%s updates available', 103, 'wp-tests-domain')); // 3, 4, 103
-        $this->assertSame('%s razpoložljivih posodobitev', _n('%s update available', '%s updates available', 5, 'wp-tests-domain')); // 0, 5, 6
+        $this->assertSame('%s razpoložljiva posodobitev',
+            _n('%s update available', '%s updates available', 101, 'wp-tests-domain')); // 1, 101, 201
+        $this->assertSame('%s razpoložljivi posodobitvi',
+            _n('%s update available', '%s updates available', 102, 'wp-tests-domain')); // 2, 102, 202
+        $this->assertSame('%s razpoložljive posodobitve',
+            _n('%s update available', '%s updates available', 103, 'wp-tests-domain')); // 3, 4, 103
+        $this->assertSame('%s razpoložljivih posodobitev',
+            _n('%s update available', '%s updates available', 5, 'wp-tests-domain')); // 0, 5, 6
     }
 
     /**
@@ -250,10 +256,14 @@ class WP_Translations_Tests extends WP_UnitTestCase
     {
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/l10n/plural-complex.php');
 
-        $this->assertSame('%s razpoložljiva posodobitev', _n('%s update available', '%s updates available', 101, 'wp-tests-domain')); // 1, 101, 201
-        $this->assertSame('%s razpoložljivi posodobitvi', _n('%s update available', '%s updates available', 102, 'wp-tests-domain')); // 2, 102, 202
-        $this->assertSame('%s razpoložljive posodobitve', _n('%s update available', '%s updates available', 103, 'wp-tests-domain')); // 3, 4, 103
-        $this->assertSame('%s razpoložljivih posodobitev', _n('%s update available', '%s updates available', 5, 'wp-tests-domain')); // 0, 5, 6
+        $this->assertSame('%s razpoložljiva posodobitev',
+            _n('%s update available', '%s updates available', 101, 'wp-tests-domain')); // 1, 101, 201
+        $this->assertSame('%s razpoložljivi posodobitvi',
+            _n('%s update available', '%s updates available', 102, 'wp-tests-domain')); // 2, 102, 202
+        $this->assertSame('%s razpoložljive posodobitve',
+            _n('%s update available', '%s updates available', 103, 'wp-tests-domain')); // 3, 4, 103
+        $this->assertSame('%s razpoložljivih posodobitev',
+            _n('%s update available', '%s updates available', 5, 'wp-tests-domain')); // 0, 5, 6
     }
 
     /**
@@ -309,14 +319,14 @@ class WP_Translations_Tests extends WP_UnitTestCase
     {
         load_textdomain('wp-tests-domain', DIR_TESTDATA . '/pomo/simple.mo');
 
-		// phpcs:disable waggypuppy.WP.I18n
-        $null_string   = __(null, 'wp-tests-domain');
+
+        $null_string = __(null, 'wp-tests-domain');
         $null_singular = _n(null, 'plural', 1, 'wp-tests-domain');
-        $null_plural   = _n('singular', null, 1, 'wp-tests-domain');
-        $null_both     = _n(null, null, 1, 'wp-tests-domain');
-        $null_context  = _x('foo', null, 'wp-tests-domain');
-        $float_number  = _n('%d house', '%d houses', 7.5, 'wp-tests-domain');
-		// phpcs:enable waggypuppy.WP.I18n
+        $null_plural = _n('singular', null, 1, 'wp-tests-domain');
+        $null_both = _n(null, null, 1, 'wp-tests-domain');
+        $null_context = _x('foo', null, 'wp-tests-domain');
+        $float_number = _n('%d house', '%d houses', 7.5, 'wp-tests-domain');
+
 
         unload_textdomain('wp-tests-domain');
 

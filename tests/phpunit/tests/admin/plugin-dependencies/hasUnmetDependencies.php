@@ -36,12 +36,12 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     {
         $this->set_property_value(
             'dependencies',
-            ['dependent/dependent.php' => ['dependency']]
+            ['dependent/dependent.php' => ['dependency']],
         );
 
         $this->set_property_value(
             'dependency_filepaths',
-            ['dependency' => 'dependency/dependency.php']
+            ['dependency' => 'dependency/dependency.php'],
         );
 
         update_option('active_plugins', ['dependency/dependency.php']);
@@ -59,7 +59,7 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
         self::$instance::initialize();
         $this->set_property_value(
             'dependencies',
-            ['dependent/dependent.php' => ['dependency']]
+            ['dependent/dependent.php' => ['dependency']],
         );
 
         $this->assertTrue(self::$instance::has_unmet_dependencies('dependent/dependent.php'));
@@ -74,12 +74,12 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     {
         $this->set_property_value(
             'dependencies',
-            ['dependent/dependent.php' => ['dependency']]
+            ['dependent/dependent.php' => ['dependency']],
         );
 
         $this->set_property_value(
             'dependency_filepaths',
-            ['dependency' => 'dependency/dependency.php']
+            ['dependency' => 'dependency/dependency.php'],
         );
 
         $this->assertTrue(self::$instance::has_unmet_dependencies('dependent/dependent.php'));
@@ -94,15 +94,15 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     {
         $this->set_property_value(
             'dependencies',
-            ['dependent/dependent.php' => ['dependency', 'dependency2']]
+            ['dependent/dependent.php' => ['dependency', 'dependency2']],
         );
 
         $this->set_property_value(
             'dependency_filepaths',
             [
-                'dependency'  => 'dependency/dependency.php',
+                'dependency' => 'dependency/dependency.php',
                 'dependency2' => 'dependency2/dependency2.php',
-            ]
+            ],
         );
 
         update_option('active_plugins', ['dependency/dependency.php']);
@@ -119,12 +119,12 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     {
         $this->set_property_value(
             'dependencies',
-            ['dependent/dependent.php' => ['dependency', 'dependency2']]
+            ['dependent/dependent.php' => ['dependency', 'dependency2']],
         );
 
         $this->set_property_value(
             'dependency_filepaths',
-            ['dependency' => 'dependency/dependency.php']
+            ['dependency' => 'dependency/dependency.php'],
         );
 
         update_option('active_plugins', ['dependency/dependency.php']);
@@ -141,12 +141,12 @@ class Tests_Admin_WPPluginDependencies_HasUnmetDependencies extends WP_PluginDep
     {
         $this->set_property_value(
             'dependencies',
-            ['dependent/dependent.php' => ['dependency', 'dependency2']]
+            ['dependent/dependent.php' => ['dependency', 'dependency2']],
         );
 
         $this->set_property_value(
             'dependency_filepaths',
-            ['dependency' => 'dependency/dependency.php']
+            ['dependency' => 'dependency/dependency.php'],
         );
 
         $this->assertTrue(self::$instance::has_unmet_dependencies('dependent/dependent.php'));

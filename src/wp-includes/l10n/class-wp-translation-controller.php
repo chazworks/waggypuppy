@@ -55,9 +55,9 @@ final class WP_Translation_Controller
      *
      * The instance will be created if it does not exist yet.
      *
+     * @return WP_Translation_Controller
      * @since 6.5.0
      *
-     * @return WP_Translation_Controller
      */
     public static function get_instance(): WP_Translation_Controller
     {
@@ -71,9 +71,9 @@ final class WP_Translation_Controller
     /**
      * Returns the current locale.
      *
+     * @return string Locale.
      * @since 6.5.0
      *
-     * @return string Locale.
      */
     public function get_locale(): string
     {
@@ -83,9 +83,9 @@ final class WP_Translation_Controller
     /**
      * Sets the current locale.
      *
+     * @param string $locale Locale.
      * @since 6.5.0
      *
-     * @param string $locale Locale.
      */
     public function set_locale(string $locale)
     {
@@ -95,12 +95,12 @@ final class WP_Translation_Controller
     /**
      * Loads a translation file for a given text domain.
      *
+     * @param string $translation_file Translation file.
+     * @param string $textdomain Optional. Text domain. Default 'default'.
+     * @param string $locale Optional. Locale. Default current locale.
+     * @return bool True on success, false otherwise.
      * @since 6.5.0
      *
-     * @param string $translation_file Translation file.
-     * @param string $textdomain       Optional. Text domain. Default 'default'.
-     * @param string $locale           Optional. Locale. Default current locale.
-     * @return bool True on success, false otherwise.
      */
     public function load_file(string $translation_file, string $textdomain = 'default', ?string $locale = null): bool
     {
@@ -114,14 +114,16 @@ final class WP_Translation_Controller
             return false;
         }
 
-        if (isset($this->loaded_files[$translation_file][$locale][$textdomain]) &&
-            false !== $this->loaded_files[$translation_file][$locale][$textdomain]
+        if (isset($this->loaded_files[$translation_file][$locale][$textdomain])
+            && false
+            !== $this->loaded_files[$translation_file][$locale][$textdomain]
         ) {
             return null === $this->loaded_files[$translation_file][$locale][$textdomain]->error();
         }
 
-        if (isset($this->loaded_files[$translation_file][$locale]) &&
-            [] !== $this->loaded_files[$translation_file][$locale]
+        if (isset($this->loaded_files[$translation_file][$locale])
+            && []
+            !== $this->loaded_files[$translation_file][$locale]
         ) {
             $moe = reset($this->loaded_files[$translation_file][$locale]);
         } else {
@@ -133,11 +135,11 @@ final class WP_Translation_Controller
 
         $this->loaded_files[$translation_file][$locale][$textdomain] = $moe;
 
-        if (! $moe instanceof WP_Translation_File) {
+        if (!$moe instanceof WP_Translation_File) {
             return false;
         }
 
-        if (! isset($this->loaded_translations[$locale][$textdomain])) {
+        if (!isset($this->loaded_translations[$locale][$textdomain])) {
             $this->loaded_translations[$locale][$textdomain] = [];
         }
 
@@ -149,12 +151,12 @@ final class WP_Translation_Controller
     /**
      * Unloads a translation file for a given text domain.
      *
+     * @param WP_Translation_File|string $file Translation file instance or file name.
+     * @param string $textdomain Optional. Text domain. Default 'default'.
+     * @param string $locale Optional. Locale. Defaults to all locales.
+     * @return bool True on success, false otherwise.
      * @since 6.5.0
      *
-     * @param WP_Translation_File|string $file       Translation file instance or file name.
-     * @param string                     $textdomain Optional. Text domain. Default 'default'.
-     * @param string                     $locale     Optional. Locale. Defaults to all locales.
-     * @return bool True on success, false otherwise.
      */
     public function unload_file($file, string $textdomain = 'default', ?string $locale = null): bool
     {
@@ -177,7 +179,7 @@ final class WP_Translation_Controller
         }
 
         foreach ($this->loaded_translations as $l => $domains) {
-            if (! isset($domains[$textdomain])) {
+            if (!isset($domains[$textdomain])) {
                 continue;
             }
 
@@ -196,11 +198,11 @@ final class WP_Translation_Controller
     /**
      * Unloads all translation files for a given text domain.
      *
+     * @param string $textdomain Optional. Text domain. Default 'default'.
+     * @param string $locale Optional. Locale. Defaults to all locales.
+     * @return bool True on success, false otherwise.
      * @since 6.5.0
      *
-     * @param string $textdomain Optional. Text domain. Default 'default'.
-     * @param string $locale     Optional. Locale. Defaults to all locales.
-     * @return bool True on success, false otherwise.
      */
     public function unload_textdomain(string $textdomain = 'default', ?string $locale = null): bool
     {
@@ -220,7 +222,7 @@ final class WP_Translation_Controller
         }
 
         foreach ($this->loaded_translations as $l => $domains) {
-            if (! isset($domains[$textdomain])) {
+            if (!isset($domains[$textdomain])) {
                 continue;
             }
 
@@ -239,11 +241,11 @@ final class WP_Translation_Controller
     /**
      * Determines whether translations are loaded for a given text domain.
      *
+     * @param string $textdomain Optional. Text domain. Default 'default'.
+     * @param string $locale Optional. Locale. Default current locale.
+     * @return bool True if there are any loaded translations, false otherwise.
      * @since 6.5.0
      *
-     * @param string $textdomain Optional. Text domain. Default 'default'.
-     * @param string $locale     Optional. Locale. Default current locale.
-     * @return bool True if there are any loaded translations, false otherwise.
      */
     public function is_textdomain_loaded(string $textdomain = 'default', ?string $locale = null): bool
     {
@@ -251,23 +253,28 @@ final class WP_Translation_Controller
             $locale = $this->current_locale;
         }
 
-        return isset($this->loaded_translations[$locale][$textdomain]) &&
-            [] !== $this->loaded_translations[$locale][$textdomain];
+        return isset($this->loaded_translations[$locale][$textdomain])
+            && []
+            !== $this->loaded_translations[$locale][$textdomain];
     }
 
     /**
      * Translates a singular string.
      *
+     * @param string $text Text to translate.
+     * @param string $context Optional. Context for the string. Default empty string.
+     * @param string $textdomain Optional. Text domain. Default 'default'.
+     * @param string $locale Optional. Locale. Default current locale.
+     * @return string|false Translation on success, false otherwise.
      * @since 6.5.0
      *
-     * @param string $text       Text to translate.
-     * @param string $context    Optional. Context for the string. Default empty string.
-     * @param string $textdomain Optional. Text domain. Default 'default'.
-     * @param string $locale     Optional. Locale. Default current locale.
-     * @return string|false Translation on success, false otherwise.
      */
-    public function translate(string $text, string $context = '', string $textdomain = 'default', ?string $locale = null)
-    {
+    public function translate(
+        string $text,
+        string $context = '',
+        string $textdomain = 'default',
+        ?string $locale = null,
+    ) {
         if ('' !== $context) {
             $context .= "\4";
         }
@@ -287,31 +294,36 @@ final class WP_Translation_Controller
      * Checks both singular+plural combinations as well as just singulars,
      * in case the translation file does not store the plural.
      *
-     * @since 6.5.0
-     *
-     * @param array       $plurals {
+     * @param array $plurals {
      *     Pair of singular and plural translations.
      *
-     *     @type string $0 Singular translation.
-     *     @type string $1 Plural translation.
+     * @type string $0 Singular translation.
+     * @type string $1 Plural translation.
      * }
-     * @param int         $number     Number of items.
-     * @param string      $context    Optional. Context for the string. Default empty string.
-     * @param string      $textdomain Optional. Text domain. Default 'default'.
-     * @param string|null $locale     Optional. Locale. Default current locale.
+     * @param int $number Number of items.
+     * @param string $context Optional. Context for the string. Default empty string.
+     * @param string $textdomain Optional. Text domain. Default 'default'.
+     * @param string|null $locale Optional. Locale. Default current locale.
      * @return string|false Translation on success, false otherwise.
+     * @since 6.5.0
+     *
      */
-    public function translate_plural(array $plurals, int $number, string $context = '', string $textdomain = 'default', ?string $locale = null)
-    {
+    public function translate_plural(
+        array $plurals,
+        int $number,
+        string $context = '',
+        string $textdomain = 'default',
+        ?string $locale = null,
+    ) {
         if ('' !== $context) {
             $context .= "\4";
         }
 
-        $text        = implode("\0", $plurals);
+        $text = implode("\0", $plurals);
         $translation = $this->locate_translation("{$context}{$text}", $textdomain, $locale);
 
         if (false === $translation) {
-            $text        = $plurals[0];
+            $text = $plurals[0];
             $translation = $this->locate_translation("{$context}{$text}", $textdomain, $locale);
 
             if (false === $translation) {
@@ -321,7 +333,7 @@ final class WP_Translation_Controller
 
         /** @var WP_Translation_File $source */
         $source = $translation['source'];
-        $num    = $source->get_plural_form($number);
+        $num = $source->get_plural_form($number);
 
         // See \Translations::translate_plural().
         return $translation['entries'][$num] ?? $translation['entries'][0];
@@ -330,10 +342,10 @@ final class WP_Translation_Controller
     /**
      * Returns all existing headers for a given text domain.
      *
-     * @since 6.5.0
-     *
      * @param string $textdomain Optional. Text domain. Default 'default'.
      * @return array<string, string> Headers.
+     * @since 6.5.0
+     *
      */
     public function get_headers(string $textdomain = 'default'): array
     {
@@ -355,10 +367,10 @@ final class WP_Translation_Controller
     /**
      * Normalizes header names to be capitalized.
      *
-     * @since 6.5.0
-     *
      * @param string $header Header name.
      * @return string Normalized header name.
+     * @since 6.5.0
+     *
      */
     protected function normalize_header(string $header): string
     {
@@ -370,10 +382,10 @@ final class WP_Translation_Controller
     /**
      * Returns all entries for a given text domain.
      *
-     * @since 6.5.0
-     *
      * @param string $textdomain Optional. Text domain. Default 'default'.
      * @return array<string, string> Entries.
+     * @since 6.5.0
+     *
      */
     public function get_entries(string $textdomain = 'default'): array
     {
@@ -393,17 +405,17 @@ final class WP_Translation_Controller
     /**
      * Locates translation for a given string and text domain.
      *
-     * @since 6.5.0
-     *
-     * @param string $singular   Singular translation.
+     * @param string $singular Singular translation.
      * @param string $textdomain Optional. Text domain. Default 'default'.
-     * @param string $locale     Optional. Locale. Default current locale.
+     * @param string $locale Optional. Locale. Default current locale.
      * @return array{source: WP_Translation_File, entries: string[]}|false {
      *     Translations on success, false otherwise.
      *
-     *     @type WP_Translation_File $source Translation file instance.
-     *     @type string[]            $entries Array of translation entries.
+     * @type WP_Translation_File $source Translation file instance.
+     * @type string[] $entries Array of translation entries.
      * }
+     * @since 6.5.0
+     *
      */
     protected function locate_translation(string $singular, string $textdomain = 'default', ?string $locale = null)
     {
@@ -417,7 +429,7 @@ final class WP_Translation_Controller
             if (false !== $translation) {
                 return [
                     'entries' => explode("\0", $translation),
-                    'source'  => $moe,
+                    'source' => $moe,
                 ];
             }
             if (null !== $moe->error()) {
@@ -433,11 +445,11 @@ final class WP_Translation_Controller
     /**
      * Returns all translation files for a given text domain.
      *
+     * @param string $textdomain Optional. Text domain. Default 'default'.
+     * @param string $locale Optional. Locale. Default current locale.
+     * @return WP_Translation_File[] List of translation files.
      * @since 6.5.0
      *
-     * @param string $textdomain Optional. Text domain. Default 'default'.
-     * @param string $locale     Optional. Locale. Default current locale.
-     * @return WP_Translation_File[] List of translation files.
      */
     protected function get_files(string $textdomain = 'default', ?string $locale = null): array
     {
@@ -451,12 +463,12 @@ final class WP_Translation_Controller
     /**
      * Returns a boolean to indicate whether a translation exists for a given string with optional text domain and locale.
      *
+     * @param string $singular Singular translation to check.
+     * @param string $textdomain Optional. Text domain. Default 'default'.
+     * @param ?string $locale Optional. Locale. Default current locale.
+     * @return bool  True if the translation exists, false otherwise.
      * @since 6.7.0
      *
-     * @param string  $singular   Singular translation to check.
-     * @param string  $textdomain Optional. Text domain. Default 'default'.
-     * @param ?string $locale     Optional. Locale. Default current locale.
-     * @return bool  True if the translation exists, false otherwise.
      */
     public function has_translation(string $singular, string $textdomain = 'default', ?string $locale = null): bool
     {

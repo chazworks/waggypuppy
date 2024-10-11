@@ -41,33 +41,33 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
             $this->namespace,
             '/' . $this->rest_base . '/(?P<name>[a-z0-9-]+/[a-z0-9-]+)',
             [
-                'args'   => [
+                'args' => [
                     'name' => [
                         'description' => __('Unique registered name for the block.'),
-                        'type'        => 'string',
+                        'type' => 'string',
                     ],
                 ],
                 [
-                    'methods'             => [WP_REST_Server::READABLE, WP_REST_Server::CREATABLE],
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => [WP_REST_Server::READABLE, WP_REST_Server::CREATABLE],
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
-                    'args'                => [
-                        'context'    => $this->get_context_param(['default' => 'view']),
+                    'args' => [
+                        'context' => $this->get_context_param(['default' => 'view']),
                         'attributes' => [
-                            'description'       => __('Attributes for the block.'),
-                            'type'              => 'object',
-                            'default'           => [],
+                            'description' => __('Attributes for the block.'),
+                            'type' => 'object',
+                            'default' => [],
                             'validate_callback' => static function ($value, $request) {
                                 $block = WP_Block_Type_Registry::get_instance()->get_registered($request['name']);
 
-                                if (! $block) {
+                                if (!$block) {
                                     // This will get rejected in ::get_item().
                                     return true;
                                 }
 
                                 $schema = [
-                                    'type'                 => 'object',
-                                    'properties'           => $block->get_attributes(),
+                                    'type' => 'object',
+                                    'properties' => $block->get_attributes(),
                                     'additionalProperties' => false,
                                 ];
 
@@ -76,67 +76,67 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
                             'sanitize_callback' => static function ($value, $request) {
                                 $block = WP_Block_Type_Registry::get_instance()->get_registered($request['name']);
 
-                                if (! $block) {
+                                if (!$block) {
                                     // This will get rejected in ::get_item().
                                     return true;
                                 }
 
                                 $schema = [
-                                    'type'                 => 'object',
-                                    'properties'           => $block->get_attributes(),
+                                    'type' => 'object',
+                                    'properties' => $block->get_attributes(),
                                     'additionalProperties' => false,
                                 ];
 
                                 return rest_sanitize_value_from_schema($value, $schema);
                             },
                         ],
-                        'post_id'    => [
+                        'post_id' => [
                             'description' => __('ID of the post context.'),
-                            'type'        => 'integer',
+                            'type' => 'integer',
                         ],
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Checks if a given request has access to read blocks.
      *
+     * @param WP_REST_Request $request Request.
+     * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      * @since 5.0.0
      *
      * @global WP_Post $post Global post object.
      *
-     * @param WP_REST_Request $request Request.
-     * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
      */
     public function get_item_permissions_check($request)
     {
         global $post;
 
-        $post_id = isset($request['post_id']) ? (int) $request['post_id'] : 0;
+        $post_id = isset($request['post_id']) ? (int)$request['post_id'] : 0;
 
         if ($post_id > 0) {
             $post = get_post($post_id);
 
-            if (! $post || ! current_user_can('edit_post', $post->ID)) {
+            if (!$post || !current_user_can('edit_post', $post->ID)) {
                 return new WP_Error(
                     'block_cannot_read',
                     __('Sorry, you are not allowed to read blocks of this post.'),
                     [
                         'status' => rest_authorization_required_code(),
-                    ]
+                    ],
                 );
             }
         } else {
-            if (! current_user_can('edit_posts')) {
+            if (!current_user_can('edit_posts')) {
                 return new WP_Error(
                     'block_cannot_read',
                     __('Sorry, you are not allowed to read blocks as this user.'),
                     [
                         'status' => rest_authorization_required_code(),
-                    ]
+                    ],
                 );
             }
         }
@@ -147,18 +147,18 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
     /**
      * Returns block output from block's registered render_callback.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      * @since 5.0.0
      *
      * @global WP_Post $post Global post object.
      *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function get_item($request)
     {
         global $post;
 
-        $post_id = isset($request['post_id']) ? (int) $request['post_id'] : 0;
+        $post_id = isset($request['post_id']) ? (int)$request['post_id'] : 0;
 
         if ($post_id > 0) {
             $post = get_post($post_id);
@@ -167,16 +167,16 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
             setup_postdata($post);
         }
 
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $registered = $registry->get_registered($request['name']);
 
-        if (null === $registered || ! $registered->is_dynamic()) {
+        if (null === $registered || !$registered->is_dynamic()) {
             return new WP_Error(
                 'block_invalid',
                 __('Invalid block.'),
                 [
                     'status' => 404,
-                ]
+                ],
             );
         }
 
@@ -184,9 +184,9 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
 
         // Create an array representation simulating the output of parse_blocks.
         $block = [
-            'blockName'    => $request['name'],
-            'attrs'        => $attributes,
-            'innerHTML'    => '',
+            'blockName' => $request['name'],
+            'attrs' => $attributes,
+            'innerHTML' => '',
             'innerContent' => [],
         ];
 
@@ -201,9 +201,9 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
     /**
      * Retrieves block's output schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.0.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -212,15 +212,15 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller
         }
 
         $this->schema = [
-            '$schema'    => 'http://json-schema.org/schema#',
-            'title'      => 'rendered-block',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/schema#',
+            'title' => 'rendered-block',
+            'type' => 'object',
             'properties' => [
                 'rendered' => [
                     'description' => __('The rendered block.'),
-                    'type'        => 'string',
-                    'required'    => true,
-                    'context'     => ['edit'],
+                    'type' => 'string',
+                    'required' => true,
+                    'context' => ['edit'],
                 ],
             ],
         ];

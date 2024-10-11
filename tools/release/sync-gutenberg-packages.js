@@ -2,16 +2,16 @@
 /**
  * External dependencies
  */
-const fs = require( 'fs' );
-const spawn = require( 'cross-spawn' );
-const { zip, uniq, identity, groupBy } = require( 'lodash' );
+const fs = require('fs');
+const spawn = require('cross-spawn');
+const {zip, uniq, identity, groupBy} = require('lodash');
 
 /**
  * Constants
  */
 const WORDPRESS_PACKAGES_PREFIX = '@wordpress/';
-const { getArgFromCLI } = require( `../../node_modules/@wordpress/scripts/utils` );
-const distTag = getArgFromCLI( '--dist-tag' ) || 'latest';
+const {getArgFromCLI} = require(`../../node_modules/@wordpress/scripts/utils`);
+const distTag = getArgFromCLI('--dist-tag') || 'latest';
 
 /**
  * The main function of this task.
@@ -21,41 +21,41 @@ const distTag = getArgFromCLI( '--dist-tag' ) || 'latest';
  * updated react from 16.0.4 to 17.0.2 and install the latter.
  */
 function main() {
-	const initialPackageJSON = readJSONFile( `package.json` );
+  const initialPackageJSON = readJSONFile(`package.json`);
 
-	// Install any missing waggypuppy packages:
-	const missingWPPackages = getMissingWPPackages();
-	if ( missingWPPackages.length ) {
-		console.log( "The following @wordpress dependencies are missing: " );
-		console.log( missingWPPackages );
-		console.log( "Installing via npm..." );
-		installPackages( missingWPPackages.map( name => [name, distTag] ) );
-	}
+  // Install any missing waggypuppy packages:
+  const missingWPPackages = getMissingWPPackages();
+  if (missingWPPackages.length) {
+    console.log("The following @wordpress dependencies are missing: ");
+    console.log(missingWPPackages);
+    console.log("Installing via npm...");
+    installPackages(missingWPPackages.map(name => [name, distTag]));
+  }
 
-	// Update any outdated non-waggypuppy packages:
-	const versionMismatches = getMismatchedNonWPDependencies();
-	if ( versionMismatches.length ) {
-		console.log( "The following dependencies are outdated: " );
-		console.log( versionMismatches );
-		console.log( "Updating via npm..." );
-		const requiredPackages = versionMismatches.map( ( { name, required } ) => [name, required] );
-		installPackages( requiredPackages );
-	}
+  // Update any outdated non-waggypuppy packages:
+  const versionMismatches = getMismatchedNonWPDependencies();
+  if (versionMismatches.length) {
+    console.log("The following dependencies are outdated: ");
+    console.log(versionMismatches);
+    console.log("Updating via npm...");
+    const requiredPackages = versionMismatches.map(({name, required}) => [name, required]);
+    installPackages(requiredPackages);
+  }
 
-	const finalPackageJSON = readJSONFile( "package.json" );
-	outputPackageDiffReport(
-		getPackageVersionDiff( initialPackageJSON, finalPackageJSON ),
-	);
-	process.exit( 0 );
+  const finalPackageJSON = readJSONFile("package.json");
+  outputPackageDiffReport(
+    getPackageVersionDiff(initialPackageJSON, finalPackageJSON),
+  );
+  process.exit(0);
 }
 
 /**
  * @param {string} fileName File to read.
  * @return {Object} Parsed data.
  */
-function readJSONFile( fileName ) {
-	const data = fs.readFileSync( fileName, 'utf8' );
-	return JSON.parse( data );
+function readJSONFile(fileName) {
+  const data = fs.readFileSync(fileName, 'utf8');
+  return JSON.parse(data);
 }
 
 /**
@@ -64,13 +64,13 @@ function readJSONFile( fileName ) {
  * @param {Array} packages List of tuples [packageName, version] to install.
  * @return {string} CLI output.
  */
-function installPackages( packages ) {
-	const packagesWithVersion = packages.map(
-		( [packageName, version] ) => `${ packageName }@${ version }`,
-	);
-	return spawn.sync( 'npm', ['install', ...packagesWithVersion, '--save'], {
-		stdio: 'inherit',
-	} );
+function installPackages(packages) {
+  const packagesWithVersion = packages.map(
+    ([packageName, version]) => `${packageName}@${version}`,
+  );
+  return spawn.sync('npm', ['install', ...packagesWithVersion, '--save'], {
+    stdio: 'inherit',
+  });
 }
 
 /**
@@ -80,17 +80,17 @@ function installPackages( packages ) {
  * @return {Array} List of tuples [packageName, version].
  */
 function getMissingWPPackages() {
-	const perPackageDeps = getPerPackageDeps();
-	const currentPackages = perPackageDeps.map( ( [name] ) => name );
+  const perPackageDeps = getPerPackageDeps();
+  const currentPackages = perPackageDeps.map(([name]) => name);
 
-	const requiredWpPackages = uniq( perPackageDeps
-		// Capture the @wordpress dependencies of our dependencies into a flat list.
-		.flatMap( ( [, dependencies] ) => getWPPackages( { dependencies } ) )
-		.sort(),
-	);
+  const requiredWpPackages = uniq(perPackageDeps
+    // Capture the @wordpress dependencies of our dependencies into a flat list.
+    .flatMap(([, dependencies]) => getWPPackages({dependencies}))
+    .sort(),
+  );
 
-	return requiredWpPackages.filter(
-		packageName => !currentPackages.includes( packageName ) );
+  return requiredWpPackages.filter(
+    packageName => !currentPackages.includes(packageName));
 }
 
 /**
@@ -102,34 +102,34 @@ function getMissingWPPackages() {
  * @return {Array} List of objects {name, required, actual} describing version mismatches.
  */
 function getMismatchedNonWPDependencies() {
-	// Get the installed dependencies from package-lock.json
-	const currentPackageJSON = readJSONFile( "package.json" );
-	const currentPackages = getWPPackages( currentPackageJSON );
+  // Get the installed dependencies from package-lock.json
+  const currentPackageJSON = readJSONFile("package.json");
+  const currentPackages = getWPPackages(currentPackageJSON);
 
-	const packageLock = readJSONFile( "package-lock.json" );
-	const versionConflicts = Object.entries( packageLock.dependencies )
-		.filter( ( [packageName] ) => currentPackages.includes( packageName ) )
-		.flatMap( ( [, { dependencies }] ) => Object.entries( dependencies || {} ) )
-		.filter( identity )
-		.map( ( [name, { version }] ) => ( {
-			name,
-			required: version,
-			actual: packageLock.dependencies[ name ].version,
-		} ) )
-		.filter( ( { required, actual } ) => required !== actual )
-	;
+  const packageLock = readJSONFile("package-lock.json");
+  const versionConflicts = Object.entries(packageLock.dependencies)
+    .filter(([packageName]) => currentPackages.includes(packageName))
+    .flatMap(([, {dependencies}]) => Object.entries(dependencies || {}))
+    .filter(identity)
+    .map(([name, {version}]) => ({
+      name,
+      required: version,
+      actual: packageLock.dependencies[name].version,
+    }))
+    .filter(({required, actual}) => required !== actual)
+  ;
 
-	// Ensure that all the conflicts can be resolved with the same version
-	const unresolvableConflicts = Object.entries( groupBy( versionConflicts, ( {name} ) => name ) )
-		.map( ( [name, group] ) => [name, uniq( group.map( ( { required } ) => required ) )] )
-		.filter( ( [, group] ) => group.length > 1 );
-	if ( unresolvableConflicts.length > 0 ) {
-		console.error( "Can't resolve some conflicts automatically." );
-		console.error( "Multiple required versions of the following packages were detected:" );
-		console.error( unresolvableConflicts );
-		process.exit( 1 );
-	}
-	return versionConflicts;
+  // Ensure that all the conflicts can be resolved with the same version
+  const unresolvableConflicts = Object.entries(groupBy(versionConflicts, ({name}) => name))
+    .map(([name, group]) => [name, uniq(group.map(({required}) => required))])
+    .filter(([, group]) => group.length > 1);
+  if (unresolvableConflicts.length > 0) {
+    console.error("Can't resolve some conflicts automatically.");
+    console.error("Multiple required versions of the following packages were detected:");
+    console.error(unresolvableConflicts);
+    process.exit(1);
+  }
+  return versionConflicts;
 }
 
 /**
@@ -138,15 +138,15 @@ function getMismatchedNonWPDependencies() {
  * @return {Object} An object of shape {packageName: [[packageName, version]]}.
  */
 function getPerPackageDeps() {
-	// Get the dependencies currently listed in the wordpress-develop package.json
-	const currentPackageJSON = readJSONFile( "package.json" );
-	const currentPackages = getWPPackages( currentPackageJSON );
+  // Get the dependencies currently listed in the wordpress-develop package.json
+  const currentPackageJSON = readJSONFile("package.json");
+  const currentPackages = getWPPackages(currentPackageJSON);
 
-	// Get the dependencies that the above dependencies list in their package.json.
-	const deps = currentPackages
-		.map( ( packageName ) => `node_modules/${ packageName }/package.json` )
-		.map( ( jsonPath ) => readJSONFile( jsonPath ).dependencies );
-	return zip( currentPackages, deps );
+  // Get the dependencies that the above dependencies list in their package.json.
+  const deps = currentPackages
+    .map((packageName) => `node_modules/${packageName}/package.json`)
+    .map((jsonPath) => readJSONFile(jsonPath).dependencies);
+  return zip(currentPackages, deps);
 }
 
 /**
@@ -155,9 +155,9 @@ function getPerPackageDeps() {
  * @param {Object} dependencies unserialized package.json data.
  * @return {string[]} a list of @wordpress dependencies.
  */
-function getWPPackages( { dependencies = {} } ) {
-	return Object.keys( dependencies )
-		.filter( isWPPackage );
+function getWPPackages({dependencies = {}}) {
+  return Object.keys(dependencies)
+    .filter(isWPPackage);
 }
 
 /**
@@ -166,8 +166,8 @@ function getWPPackages( { dependencies = {} } ) {
  * @param {string} packageName Package name to test.
  * @return {boolean} Is it a @wodpress package?
  */
-function isWPPackage( packageName ) {
-	return packageName.startsWith( WORDPRESS_PACKAGES_PREFIX );
+function isWPPackage(packageName) {
+  return packageName.startsWith(WORDPRESS_PACKAGES_PREFIX);
 }
 
 /**
@@ -178,24 +178,24 @@ function isWPPackage( packageName ) {
  * @param {Object} finalPackageJSON Final package JSON data.
  * @return {Object} Delta.
  */
-function getPackageVersionDiff( initialPackageJSON, finalPackageJSON ) {
-	const diff = ['dependencies', 'devDependencies'].reduce(
-		( result, keyPackageJSON ) => {
-			return Object.keys(
-				finalPackageJSON[ keyPackageJSON ] || {},
-			).reduce( ( _result, dependency ) => {
-				const initial =
-					initialPackageJSON[ keyPackageJSON ][ dependency ];
-				const final = finalPackageJSON[ keyPackageJSON ][ dependency ];
-				if ( initial !== final ) {
-					_result.push( { dependency, initial, final } );
-				}
-				return _result;
-			}, result );
-		},
-		[],
-	);
-	return diff.sort( ( a, b ) => a.dependency.localeCompare( b.dependency ) );
+function getPackageVersionDiff(initialPackageJSON, finalPackageJSON) {
+  const diff = ['dependencies', 'devDependencies'].reduce(
+    (result, keyPackageJSON) => {
+      return Object.keys(
+        finalPackageJSON[keyPackageJSON] || {},
+      ).reduce((_result, dependency) => {
+        const initial =
+          initialPackageJSON[keyPackageJSON][dependency];
+        const final = finalPackageJSON[keyPackageJSON][dependency];
+        if (initial !== final) {
+          _result.push({dependency, initial, final});
+        }
+        return _result;
+      }, result);
+    },
+    [],
+  );
+  return diff.sort((a, b) => a.dependency.localeCompare(b.dependency));
 }
 
 /**
@@ -203,23 +203,23 @@ function getPackageVersionDiff( initialPackageJSON, finalPackageJSON ) {
  *
  * @param {Object} packageDiff Delta.
  */
-function outputPackageDiffReport( packageDiff ) {
-	const readableDiff =
-		packageDiff
-			.map( ( { dependency, initial, final } ) => {
-				return `${ dependency }: ${ initial } -> ${ final }`;
-			} )
-			.filter( identity );
-	if ( !readableDiff.length ) {
-		console.log( 'No changes detected' );
-		return;
-	}
-	console.log(
-		[
-			'The following package versions were changed:',
-			...readableDiff,
-		].join( '\n' ),
-	);
+function outputPackageDiffReport(packageDiff) {
+  const readableDiff =
+    packageDiff
+      .map(({dependency, initial, final}) => {
+        return `${dependency}: ${initial} -> ${final}`;
+      })
+      .filter(identity);
+  if (!readableDiff.length) {
+    console.log('No changes detected');
+    return;
+  }
+  console.log(
+    [
+      'The following package versions were changed:',
+      ...readableDiff,
+    ].join('\n'),
+  );
 }
 
 main();

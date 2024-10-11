@@ -169,33 +169,56 @@ final class WP_Comment
      * @since 4.4.0
      * @var array
      */
-    protected $post_fields = ['post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_content_filtered', 'post_parent', 'guid', 'menu_order', 'post_type', 'post_mime_type', 'comment_count'];
+    protected $post_fields = [
+        'post_author',
+        'post_date',
+        'post_date_gmt',
+        'post_content',
+        'post_title',
+        'post_excerpt',
+        'post_status',
+        'comment_status',
+        'ping_status',
+        'post_name',
+        'to_ping',
+        'pinged',
+        'post_modified',
+        'post_modified_gmt',
+        'post_content_filtered',
+        'post_parent',
+        'guid',
+        'menu_order',
+        'post_type',
+        'post_mime_type',
+        'comment_count',
+    ];
 
     /**
      * Retrieves a WP_Comment instance.
      *
+     * @param int $id Comment ID.
+     * @return WP_Comment|false Comment object, otherwise false.
      * @since 4.4.0
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param int $id Comment ID.
-     * @return WP_Comment|false Comment object, otherwise false.
      */
     public static function get_instance($id)
     {
         global $wpdb;
 
-        $comment_id = (int) $id;
-        if (! $comment_id) {
+        $comment_id = (int)$id;
+        if (!$comment_id) {
             return false;
         }
 
         $_comment = wp_cache_get($comment_id, 'comment');
 
-        if (! $_comment) {
-            $_comment = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1", $comment_id));
+        if (!$_comment) {
+            $_comment = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_ID = %d LIMIT 1",
+                $comment_id));
 
-            if (! $_comment) {
+            if (!$_comment) {
                 return false;
             }
 
@@ -210,9 +233,9 @@ final class WP_Comment
      *
      * Populates properties with object vars.
      *
+     * @param WP_Comment $comment Comment object.
      * @since 4.4.0
      *
-     * @param WP_Comment $comment Comment object.
      */
     public function __construct($comment)
     {
@@ -224,9 +247,9 @@ final class WP_Comment
     /**
      * Converts object to array.
      *
+     * @return array Object as array.
      * @since 4.4.0
      *
-     * @return array Object as array.
      */
     public function to_array()
     {
@@ -236,24 +259,22 @@ final class WP_Comment
     /**
      * Gets the children of a comment.
      *
-     * @since 4.4.0
-     *
      * @param array $args {
      *     Array of arguments used to pass to get_comments() and determine format.
      *
-     *     @type string $format        Return value format. 'tree' for a hierarchical tree, 'flat' for a flattened array.
+     * @type string $format Return value format. 'tree' for a hierarchical tree, 'flat' for a flattened array.
      *                                 Default 'tree'.
-     *     @type string $status        Comment status to limit results by. Accepts 'hold' (`comment_status=0`),
+     * @type string $status Comment status to limit results by. Accepts 'hold' (`comment_status=0`),
      *                                 'approve' (`comment_status=1`), 'all', or a custom comment status.
      *                                 Default 'all'.
-     *     @type string $hierarchical  Whether to include comment descendants in the results.
+     * @type string $hierarchical Whether to include comment descendants in the results.
      *                                 'threaded' returns a tree, with each comment's children
      *                                 stored in a `children` property on the `WP_Comment` object.
      *                                 'flat' returns a flat array of found comments plus their children.
      *                                 Pass `false` to leave out descendants.
      *                                 The parameter is ignored (forced to `false`) when `$fields` is 'ids' or 'counts'.
      *                                 Accepts 'threaded', 'flat', or false. Default: 'threaded'.
-     *     @type string|array $orderby Comment status or array of statuses. To use 'meta_value'
+     * @type string|array $orderby Comment status or array of statuses. To use 'meta_value'
      *                                 or 'meta_value_num', `$meta_key` must also be defined.
      *                                 To sort by a specific `$meta_query` clause, use that
      *                                 clause's array key. Accepts 'comment_agent',
@@ -268,17 +289,19 @@ final class WP_Comment
      *                                 'none' to disable `ORDER BY` clause.
      * }
      * @return WP_Comment[] Array of `WP_Comment` objects.
+     * @since 4.4.0
+     *
      */
     public function get_children($args = [])
     {
         $defaults = [
-            'format'       => 'tree',
-            'status'       => 'all',
+            'format' => 'tree',
+            'status' => 'all',
             'hierarchical' => 'threaded',
-            'orderby'      => '',
+            'orderby' => '',
         ];
 
-        $_args           = wp_parse_args($args, $defaults);
+        $_args = wp_parse_args($args, $defaults);
         $_args['parent'] = $this->comment_ID;
 
         if (is_null($this->children)) {
@@ -292,7 +315,7 @@ final class WP_Comment
         if ('flat' === $_args['format']) {
             $children = [];
             foreach ($this->children as $child) {
-                $child_args           = $_args;
+                $child_args = $_args;
                 $child_args['format'] = 'flat';
                 // get_children() resets this value automatically.
                 unset($child_args['parent']);
@@ -311,9 +334,9 @@ final class WP_Comment
      *
      * Used by `WP_Comment_Query` when bulk-filling descendants.
      *
+     * @param WP_Comment $child Child comment.
      * @since 4.4.0
      *
-     * @param WP_Comment $child Child comment.
      */
     public function add_child(WP_Comment $child)
     {
@@ -323,10 +346,10 @@ final class WP_Comment
     /**
      * Gets a child comment by ID.
      *
-     * @since 4.4.0
-     *
      * @param int $child_id ID of the child.
      * @return WP_Comment|false Returns the comment object if found, otherwise false.
+     * @since 4.4.0
+     *
      */
     public function get_child($child_id)
     {
@@ -343,13 +366,13 @@ final class WP_Comment
      * This flag is important for ensuring that calling `get_children()` on a childless comment will not trigger
      * unneeded database queries.
      *
+     * @param bool $set Whether the comment's children have already been populated.
      * @since 4.4.0
      *
-     * @param bool $set Whether the comment's children have already been populated.
      */
     public function populated_children($set)
     {
-        $this->populated_children = (bool) $set;
+        $this->populated_children = (bool)$set;
     }
 
     /**
@@ -357,14 +380,14 @@ final class WP_Comment
      *
      * If `$name` matches a post field, the comment post will be loaded and the post's value checked.
      *
-     * @since 4.4.0
-     *
      * @param string $name Property name.
      * @return bool
+     * @since 4.4.0
+     *
      */
     public function __isset($name)
     {
-        if (in_array($name, $this->post_fields, true) && 0 !== (int) $this->comment_post_ID) {
+        if (in_array($name, $this->post_fields, true) && 0 !== (int)$this->comment_post_ID) {
             $post = get_post($this->comment_post_ID);
             return property_exists($post, $name);
         }
@@ -375,10 +398,10 @@ final class WP_Comment
      *
      * If `$name` matches a post field, the comment post will be loaded and the post's value returned.
      *
-     * @since 4.4.0
-     *
      * @param string $name Property name.
      * @return mixed
+     * @since 4.4.0
+     *
      */
     public function __get($name)
     {

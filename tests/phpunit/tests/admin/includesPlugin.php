@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group plugins
  * @group admin
@@ -20,15 +21,15 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         $data = get_plugin_data(DIR_TESTDATA . '/plugins/hello.php');
 
         $default_headers = [
-            'Name'        => 'Hello Dolly',
-            'Title'       => '<a href="http://wp.org/#">Hello Dolly</a>',
-            'PluginURI'   => 'http://wp.org/#',
+            'Name' => 'Hello Dolly',
+            'Title' => '<a href="http://wp.org/#">Hello Dolly</a>',
+            'PluginURI' => 'http://wp.org/#',
             'Description' => 'This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from Hello, Dolly in the upper right of your admin screen on every page. <cite>By <a href="http://ma.tt/">Matt Mullenweg</a>.</cite>',
-            'Author'      => '<a href="http://ma.tt/">Matt Mullenweg</a>',
-            'AuthorURI'   => 'http://ma.tt/',
-            'Version'     => '1.7.2',
-            'TextDomain'  => 'hello-dolly',
-            'DomainPath'  => '',
+            'Author' => '<a href="http://ma.tt/">Matt Mullenweg</a>',
+            'AuthorURI' => 'http://ma.tt/',
+            'Version' => '1.7.2',
+            'TextDomain' => 'hello-dolly',
+            'DomainPath' => '',
         ];
 
         $this->assertIsArray($data);
@@ -51,19 +52,21 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         add_options_page('Test Settings', 'Test Settings', 'manage_options', 'testsettings', 'mt_settings_page');
         add_management_page('Test Tools', 'Test Tools', 'manage_options', 'testtools', 'mt_tools_page');
         add_menu_page('Test Toplevel', 'Test Toplevel', 'manage_options', 'mt-top-level-handle', 'mt_toplevel_page');
-        add_submenu_page('mt-top-level-handle', 'Test Sublevel', 'Test Sublevel', 'manage_options', 'sub-page', 'mt_sublevel_page');
-        add_submenu_page('mt-top-level-handle', 'Test Sublevel 2', 'Test Sublevel 2', 'manage_options', 'sub-page2', 'mt_sublevel_page2');
+        add_submenu_page('mt-top-level-handle', 'Test Sublevel', 'Test Sublevel', 'manage_options', 'sub-page',
+            'mt_sublevel_page');
+        add_submenu_page('mt-top-level-handle', 'Test Sublevel 2', 'Test Sublevel 2', 'manage_options', 'sub-page2',
+            'mt_sublevel_page2');
         add_theme_page('With Spaces', 'With Spaces', 'manage_options', 'With Spaces', 'mt_tools_page');
         add_pages_page('Appending Query Arg', 'Test Pages', 'edit_pages', 'testpages', 'mt_pages_page');
 
-        $expected['testsettings']        = 'http://example.com/wp-admin/options-general.php?page=testsettings';
-        $expected['testtools']           = 'http://example.com/wp-admin/tools.php?page=testtools';
+        $expected['testsettings'] = 'http://example.com/wp-admin/options-general.php?page=testsettings';
+        $expected['testtools'] = 'http://example.com/wp-admin/tools.php?page=testtools';
         $expected['mt-top-level-handle'] = 'http://example.com/wp-admin/admin.php?page=mt-top-level-handle';
-        $expected['sub-page']            = 'http://example.com/wp-admin/admin.php?page=sub-page';
-        $expected['sub-page2']           = 'http://example.com/wp-admin/admin.php?page=sub-page2';
-        $expected['not_registered']      = '';
-        $expected['With Spaces']         = 'http://example.com/wp-admin/themes.php?page=With%20Spaces';
-        $expected['testpages']           = 'http://example.com/wp-admin/edit.php?post_type=page&#038;page=testpages';
+        $expected['sub-page'] = 'http://example.com/wp-admin/admin.php?page=sub-page';
+        $expected['sub-page2'] = 'http://example.com/wp-admin/admin.php?page=sub-page2';
+        $expected['not_registered'] = '';
+        $expected['With Spaces'] = 'http://example.com/wp-admin/themes.php?page=With%20Spaces';
+        $expected['testpages'] = 'http://example.com/wp-admin/edit.php?post_type=page&#038;page=testpages';
 
         foreach ($expected as $name => $value) {
             $this->assertSame($value, menu_page_url($name, false));
@@ -79,7 +82,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
      *
      * @covers ::add_submenu_page
      *
-     * @param int $position          The position passed for the new item.
+     * @param int $position The position passed for the new item.
      * @param int $expected_position Where the new item is expected to appear.
      *
      * @dataProvider data_submenu_position
@@ -89,14 +92,16 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         global $submenu;
         global $menu;
         $current_user = get_current_user_id();
-        $admin_user   = self::factory()->user->create(['role' => 'administrator']);
+        $admin_user = self::factory()->user->create(['role' => 'administrator']);
         wp_set_current_user($admin_user);
         set_current_screen('dashboard');
 
         // Setup a menu with some items.
-        $parent = add_menu_page('Test Toplevel', 'Test Toplevel', 'manage_options', 'mt-top-level-handle', 'mt_toplevel_page');
+        $parent = add_menu_page('Test Toplevel', 'Test Toplevel', 'manage_options', 'mt-top-level-handle',
+            'mt_toplevel_page');
         foreach ($this->submenus_to_add() as $menu_to_add) {
-            add_submenu_page($parent, $menu_to_add[0], $menu_to_add[1], $menu_to_add[2], $menu_to_add[3], $menu_to_add[4]);
+            add_submenu_page($parent, $menu_to_add[0], $menu_to_add[1], $menu_to_add[2], $menu_to_add[3],
+                $menu_to_add[4]);
         }
 
         // Insert the new page.
@@ -128,7 +133,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
      * @covers ::add_pages_page
      * @covers ::add_comments_page
      *
-     * @param int $position          The position passed for the new item.
+     * @param int $position The position passed for the new item.
      * @param int $expected_position Where the new item is expected to appear.
      *
      * @dataProvider data_submenu_position
@@ -140,57 +145,57 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
 
         // Reset menus.
         $submenu = [];
-        $menu    = [];
+        $menu = [];
 
         $current_user = get_current_user_id();
-        $admin_user   = self::factory()->user->create(['role' => 'administrator']);
+        $admin_user = self::factory()->user->create(['role' => 'administrator']);
         wp_set_current_user($admin_user);
         set_current_screen('dashboard');
 
         // Test the helper functions that use `add_submenu_page`. Each helper adds to a specific menu root.
         $helper_functions = [
             [
-                'callback'  => 'add_management_page',
+                'callback' => 'add_management_page',
                 'menu_root' => 'tools.php',
             ],
             [
-                'callback'  => 'add_options_page',
+                'callback' => 'add_options_page',
                 'menu_root' => 'options-general.php',
             ],
             [
-                'callback'  => 'add_theme_page',
+                'callback' => 'add_theme_page',
                 'menu_root' => 'themes.php',
             ],
             [
-                'callback'  => 'add_plugins_page',
+                'callback' => 'add_plugins_page',
                 'menu_root' => 'plugins.php',
             ],
             [
-                'callback'  => 'add_users_page',
+                'callback' => 'add_users_page',
                 'menu_root' => 'users.php',
             ],
             [
-                'callback'  => 'add_dashboard_page',
+                'callback' => 'add_dashboard_page',
                 'menu_root' => 'index.php',
             ],
             [
-                'callback'  => 'add_posts_page',
+                'callback' => 'add_posts_page',
                 'menu_root' => 'edit.php',
             ],
             [
-                'callback'  => 'add_media_page',
+                'callback' => 'add_media_page',
                 'menu_root' => 'upload.php',
             ],
             [
-                'callback'  => 'add_links_page',
+                'callback' => 'add_links_page',
                 'menu_root' => 'link-manager.php',
             ],
             [
-                'callback'  => 'add_pages_page',
+                'callback' => 'add_pages_page',
                 'menu_root' => 'edit.php?post_type=page',
             ],
             [
-                'callback'  => 'add_comments_page',
+                'callback' => 'add_comments_page',
                 'menu_root' => 'edit-comments.php',
             ],
         ];
@@ -198,16 +203,17 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         $actual_positions = [];
 
         foreach ($helper_functions as $helper_function) {
-
             // Build up demo pages on the menu root.
             foreach ($this->submenus_to_add() as $menu_to_add) {
-                add_menu_page($menu_to_add[0], $menu_to_add[1], $menu_to_add[2], $helper_function['menu_root'], $helper_function['menu_root']);
+                add_menu_page($menu_to_add[0], $menu_to_add[1], $menu_to_add[2], $helper_function['menu_root'],
+                    $helper_function['menu_root']);
             }
 
             $test = 'test_' . $helper_function['callback'];
 
             // Call the helper function, passing the desired position.
-            call_user_func_array($helper_function['callback'], [$test, $test, 'manage_options', 'custom-position', '', $position]);
+            call_user_func_array($helper_function['callback'],
+                [$test, $test, 'manage_options', 'custom-position', '', $position]);
 
             $actual_positions[$test] = $submenu[$helper_function['menu_root']][$expected_position][2];
         }
@@ -217,24 +223,25 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
 
         foreach ($actual_positions as $test => $actual_position) {
             // Verify the menu was inserted at the expected position.
-            $this->assertSame('custom-position', $actual_position, 'Menu not inserted at the expected position with ' . $test);
+            $this->assertSame('custom-position', $actual_position,
+                'Menu not inserted at the expected position with ' . $test);
         }
     }
 
     /**
      * Helper to store the menus that are to be added, so getting the length is programmatically done.
      *
-     * @since 5.3.0
-     *
      * @return array {
-     *     @type array {
-     *         @type string Page title.
-     *         @type string Menu_title.
-     *         @type string Capability.
-     *         @type string Menu slug.
-     *         @type string Function.
+     * @type array {
+     * @type string Page title.
+     * @type string Menu_title.
+     * @type string Capability.
+     * @type string Menu slug.
+     * @type string Function.
      *     }
      * }
+     * @since 5.3.0
+     *
      */
     private function submenus_to_add()
     {
@@ -250,14 +257,14 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
     /**
      * Data provider for test_submenu_helpers_position().
      *
-     * @since 5.3.0
-     *
      * @return array {
-     *     @type array {
-     *         @type int|null Passed position.
-     *         @type int      Expected position.
+     * @type array {
+     * @type int|null Passed position.
+     * @type int      Expected position.
      *     }
      * }
+     * @since 5.3.0
+     *
      */
     public function data_submenu_position()
     {
@@ -292,18 +299,20 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         global $submenu, $menu;
 
         // Reset menus.
-        $submenu      = [];
-        $menu         = [];
+        $submenu = [];
+        $menu = [];
         $current_user = get_current_user_id();
-        $admin_user   = self::factory()->user->create(['role' => 'administrator']);
+        $admin_user = self::factory()->user->create(['role' => 'administrator']);
         wp_set_current_user($admin_user);
         set_current_screen('dashboard');
 
         // Setup a menu with some items.
         add_menu_page('Main Menu', 'Main Menu', 'manage_options', 'main_slug', 'main_page_callback');
         add_submenu_page('main_slug', 'SubMenu 1', 'SubMenu 1', 'manage_options', 'main_slug', 'submenu_callback_1', 1);
-        add_submenu_page('main_slug', 'SubMenu 2', 'SubMenu 2', 'manage_options', 'submenu_page2', 'submenu_callback_2', 2);
-        add_submenu_page('main_slug', 'SubMenu 3', 'SubMenu 3', 'manage_options', 'submenu_page3', 'submenu_callback_3', 3);
+        add_submenu_page('main_slug', 'SubMenu 2', 'SubMenu 2', 'manage_options', 'submenu_page2', 'submenu_callback_2',
+            2);
+        add_submenu_page('main_slug', 'SubMenu 3', 'SubMenu 3', 'manage_options', 'submenu_page3', 'submenu_callback_3',
+            3);
 
         // Clean up the temporary user.
         wp_set_current_user($current_user);
@@ -326,16 +335,17 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         global $submenu, $menu;
 
         // Reset menus.
-        $submenu      = [];
-        $menu         = [];
+        $submenu = [];
+        $menu = [];
         $current_user = get_current_user_id();
-        $admin_user   = self::factory()->user->create(['role' => 'administrator']);
+        $admin_user = self::factory()->user->create(['role' => 'administrator']);
         wp_set_current_user($admin_user);
         set_current_screen('dashboard');
 
         // Setup a menu with some items.
         add_menu_page('Main Menu', 'Main Menu', 'manage_options', 'main_slug', 'main_page_callback');
-        add_submenu_page('main_slug', 'SubMenu 1', 'SubMenu 1', 'manage_options', 'submenu_page_1', 'submenu_callback_1', 'First');
+        add_submenu_page('main_slug', 'SubMenu 1', 'SubMenu 1', 'manage_options', 'submenu_page_1',
+            'submenu_callback_1', 'First');
 
         // Clean up the temporary user.
         wp_set_current_user($current_user);
@@ -355,17 +365,20 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         global $submenu, $menu;
 
         // Reset menus.
-        $submenu      = [];
-        $menu         = [];
+        $submenu = [];
+        $menu = [];
         $current_user = get_current_user_id();
-        $admin_user   = self::factory()->user->create(['role' => 'administrator']);
+        $admin_user = self::factory()->user->create(['role' => 'administrator']);
         wp_set_current_user($admin_user);
         set_current_screen('dashboard');
 
         // Setup a menu with some items.
-        add_menu_page('Main Menu 1', 'Main Menu 1', 'manage_options', 'main_slug_1', 'main_page_callback_1', 'icon_url_1', 1);
-        add_menu_page('Main Menu 2', 'Main Menu 2', 'manage_options', 'main_slug_2', 'main_page_callback_2', 'icon_url_2', 2);
-        add_menu_page('Main Menu 1.5', 'Main Menu 1.5', 'manage_options', 'main_slug_15', 'main_page_callback_15', 'icon_url_15', 1.5);
+        add_menu_page('Main Menu 1', 'Main Menu 1', 'manage_options', 'main_slug_1', 'main_page_callback_1',
+            'icon_url_1', 1);
+        add_menu_page('Main Menu 2', 'Main Menu 2', 'manage_options', 'main_slug_2', 'main_page_callback_2',
+            'icon_url_2', 2);
+        add_menu_page('Main Menu 1.5', 'Main Menu 1.5', 'manage_options', 'main_slug_15', 'main_page_callback_15',
+            'icon_url_15', 1.5);
 
         // Clean up the temporary user.
         wp_set_current_user($current_user);
@@ -433,7 +446,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
         file_put_contents($sub_dir . '/subfile.php', '<?php // Silence.');
 
         $plugin_files = get_plugin_files(plugin_basename($plugin[1]));
-        $expected     = [
+        $expected = [
             'list_files_test_plugin/list_files_test_plugin.php',
             'list_files_test_plugin/subdir/subfile.php',
         ];
@@ -646,7 +659,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
     {
         $plugin = $this->_create_plugin();
 
-        $uninstallable_plugins             = (array) get_option('uninstall_plugins');
+        $uninstallable_plugins = (array)get_option('uninstall_plugins');
         $uninstallable_plugins[$plugin[0]] = true;
         update_option('uninstall_plugins', $uninstallable_plugins);
 
@@ -665,14 +678,14 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
      *
      * This creates a single-file plugin.
      *
+     * @param string $data Optional. Data for the plugin file. Default is a dummy plugin header.
+     * @param string $filename Optional. Filename for the plugin file. Default is a random string.
+     * @param string $dir_path Optional. Path for directory where the plugin should live.
+     * @return array Two-membered array of filename and full plugin path.
      * @since 4.2.0
      *
      * @access private
      *
-     * @param string $data     Optional. Data for the plugin file. Default is a dummy plugin header.
-     * @param string $filename Optional. Filename for the plugin file. Default is a random string.
-     * @param string $dir_path Optional. Path for directory where the plugin should live.
-     * @return array Two-membered array of filename and full plugin path.
      */
     private function _create_plugin($data = "<?php\n/*\nPlugin Name: Test\n*/", $filename = false, $dir_path = false)
     {
@@ -684,7 +697,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
             $dir_path = WP_PLUGIN_DIR;
         }
 
-        $filename  = wp_unique_filename($dir_path, $filename);
+        $filename = wp_unique_filename($dir_path, $filename);
         $full_name = $dir_path . '/' . $filename;
 
         $file = fopen($full_name, 'w');
@@ -739,7 +752,7 @@ class Tests_Admin_IncludesPlugin extends WP_UnitTestCase
     private function _back_up_drop_ins()
     {
         $di_bu_dir = WP_CONTENT_DIR . '/drop-ins-backup';
-        if (! is_dir($di_bu_dir)) {
+        if (!is_dir($di_bu_dir)) {
             mkdir($di_bu_dir);
         }
 

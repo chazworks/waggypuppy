@@ -20,7 +20,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
         $this->assertSame(mysql_to_rfc3339($post->post_date), $data['date']);
 
         if ('0000-00-00 00:00:00' === $post->post_modified_gmt) {
-            $post_modified_gmt = gmdate('Y-m-d H:i:s', strtotime($post->post_modified) - (get_option('gmt_offset') * 3600));
+            $post_modified_gmt = gmdate('Y-m-d H:i:s',
+                strtotime($post->post_modified) - (get_option('gmt_offset') * 3600));
             $this->assertSame(mysql_to_rfc3339($post_modified_gmt), $data['modified_gmt']);
         } else {
             $this->assertSame(mysql_to_rfc3339($post->post_modified_gmt), $data['modified_gmt']);
@@ -79,16 +80,16 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
             $this->assertSame(get_page_template_slug($post->ID), $data['template']);
         }
 
-        if (post_type_supports($post->post_type, 'thumbnail') ||
-            (
-                'attachment' === $post->post_type &&
-                (
-                    post_type_supports('attachment:audio', 'thumbnail') ||
-                    post_type_supports('attachment:video', 'thumbnail')
+        if (post_type_supports($post->post_type, 'thumbnail')
+            || (
+                'attachment' === $post->post_type
+                && (
+                    post_type_supports('attachment:audio', 'thumbnail')
+                    || post_type_supports('attachment:video', 'thumbnail')
                 )
             )
         ) {
-            $this->assertSame((int) get_post_thumbnail_id($post->ID), $data['featured_media']);
+            $this->assertSame((int)get_post_thumbnail_id($post->ID), $data['featured_media']);
         } else {
             $this->assertArrayNotHasKey('featured_media', $data);
         }
@@ -123,7 +124,7 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
 
         if (post_type_supports($post->post_type, 'editor')) {
             // TODO: Apply content filter for more accurate testing.
-            if (! $post->post_password) {
+            if (!$post->post_password) {
                 $this->assertSame(wpautop($post->post_content), $data['content']['rendered']);
             }
 
@@ -170,10 +171,10 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
 
         // Test links.
         if ($links) {
-
-            $links     = test_rest_expand_compact_links($links);
+            $links = test_rest_expand_compact_links($links);
             $post_type = get_post_type_object($data['type']);
-            $this->assertSame($links['self'][0]['href'], rest_url('wp/v2/' . $post_type->rest_base . '/' . $data['id']));
+            $this->assertSame($links['self'][0]['href'],
+                rest_url('wp/v2/' . $post_type->rest_base . '/' . $data['id']));
             $this->assertSame($links['collection'][0]['href'], rest_url('wp/v2/' . $post_type->rest_base));
             $this->assertSame($links['about'][0]['href'], rest_url('wp/v2/types/' . $data['type']));
 
@@ -182,29 +183,35 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
             }
 
             if (post_type_supports($post->post_type, 'comments')) {
-                $this->assertSame($links['replies'][0]['href'], add_query_arg('post', $data['id'], rest_url('wp/v2/comments')));
+                $this->assertSame($links['replies'][0]['href'],
+                    add_query_arg('post', $data['id'], rest_url('wp/v2/comments')));
             }
 
             if (post_type_supports($post->post_type, 'revisions')) {
-                $this->assertSame($links['version-history'][0]['href'], rest_url('wp/v2/' . $post_type->rest_base . '/' . $data['id'] . '/revisions'));
+                $this->assertSame($links['version-history'][0]['href'],
+                    rest_url('wp/v2/' . $post_type->rest_base . '/' . $data['id'] . '/revisions'));
             }
 
-            if ($post_type->hierarchical && ! empty($data['parent'])) {
-                $this->assertSame($links['up'][0]['href'], rest_url('wp/v2/' . $post_type->rest_base . '/' . $data['parent']));
+            if ($post_type->hierarchical && !empty($data['parent'])) {
+                $this->assertSame($links['up'][0]['href'],
+                    rest_url('wp/v2/' . $post_type->rest_base . '/' . $data['parent']));
             }
 
-            if (! in_array($data['type'], ['attachment', 'nav_menu_item', 'revision'], true)) {
-                $this->assertSame($links['https://api.w.org/attachment'][0]['href'], add_query_arg('parent', $data['id'], rest_url('wp/v2/media')));
+            if (!in_array($data['type'], ['attachment', 'nav_menu_item', 'revision'], true)) {
+                $this->assertSame($links['https://api.w.org/attachment'][0]['href'],
+                    add_query_arg('parent', $data['id'], rest_url('wp/v2/media')));
             }
 
-            if (! empty($data['featured_media'])) {
-                $this->assertSame($links['https://api.w.org/featuredmedia'][0]['href'], rest_url('wp/v2/media/' . $data['featured_media']));
+            if (!empty($data['featured_media'])) {
+                $this->assertSame($links['https://api.w.org/featuredmedia'][0]['href'],
+                    rest_url('wp/v2/media/' . $data['featured_media']));
             }
 
             $num = 0;
             foreach ($taxonomies as $key => $taxonomy) {
                 $this->assertSame($taxonomy->name, $links['https://api.w.org/term'][$num]['attributes']['taxonomy']);
-                $this->assertSame(add_query_arg('post', $data['id'], rest_url('wp/v2/' . $taxonomy->rest_base)), $links['https://api.w.org/term'][$num]['href']);
+                $this->assertSame(add_query_arg('post', $data['id'], rest_url('wp/v2/' . $taxonomy->rest_base)),
+                    $links['https://api.w.org/term'][$num]['href']);
                 ++$num;
             }
         }
@@ -228,14 +235,14 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
             $links = $data['_links'];
             foreach ($links as &$links_array) {
                 foreach ($links_array as &$link) {
-                    $attributes         = array_diff_key(
+                    $attributes = array_diff_key(
                         $link,
                         [
                             'href' => 1,
                             'name' => 1,
-                        ]
+                        ],
                     );
-                    $link               = array_diff_key($link, $attributes);
+                    $link = array_diff_key($link, $attributes);
                     $link['attributes'] = $attributes;
                 }
             }
@@ -286,13 +293,13 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
     protected function set_post_data($args = [])
     {
         $defaults = [
-            'title'   => 'Post Title',
+            'title' => 'Post Title',
             'content' => 'Post content',
             'excerpt' => 'Post excerpt',
-            'name'    => 'test',
-            'status'  => 'publish',
-            'author'  => get_current_user_id(),
-            'type'    => 'post',
+            'name' => 'test',
+            'status' => 'publish',
+            'author' => get_current_user_id(),
+            'type' => 'post',
         ];
 
         return wp_parse_args($args, $defaults);
@@ -304,7 +311,7 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
             $args,
             $this->set_post_data(
                 [
-                    'title'   => [
+                    'title' => [
                         'raw' => 'Post Title',
                     ],
                     'content' => [
@@ -313,8 +320,8 @@ abstract class WP_Test_REST_Post_Type_Controller_Testcase extends WP_Test_REST_C
                     'excerpt' => [
                         'raw' => 'Post excerpt',
                     ],
-                ]
-            )
+                ],
+            ),
         );
     }
 

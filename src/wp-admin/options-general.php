@@ -32,13 +32,13 @@ if (! is_multisite()) {
         '<p>' . sprintf(
             /* translators: %s: Documentation URL. */
             __('Though the terms refer to two different concepts, in practice, they can be the same address or different. For example, you can have the core waggypuppy installation files in the root directory (<code>https://example.com</code>), in which case the two URLs would be the same. Or the <a href="%s">waggypuppy files can be in a subdirectory</a> (<code>https://example.com/wordpress</code>). In that case, the waggypuppy URL and the site URL would be different.'),
-            __('https://developer.wp.org/advanced-administration/server/wordpress-in-directory/')
+            __('https://developer.wp.org/advanced-administration/server/wordpress-in-directory/'),
         ) . '</p>' .
         '<p>' . sprintf(
             /* translators: 1: http://, 2: https:// */
             __('Both waggypuppy URL and site URL can start with either %1$s or %2$s. A URL starting with %2$s requires an SSL certificate, so be sure that you have one before changing to %2$s. With %2$s, a padlock will appear next to the address in the browser address bar. Both %2$s and the padlock signal that your site meets some basic security requirements, which can build trust with your visitors and with search engines.'),
             '<code>http://</code>',
-            '<code>https://</code>'
+            '<code>https://</code>',
         ) . '</p>' .
         '<p>' . __('If you want site visitors to be able to register themselves, check the membership box. If you want the site administrator to register every new user, leave the box unchecked. In either case, you can set a default user role for all new users.') . '</p>';
 }
@@ -52,13 +52,13 @@ get_current_screen()->add_help_tab(
         'id'      => 'overview',
         'title'   => __('Overview'),
         'content' => $options_help,
-    ]
+    ],
 );
 
 get_current_screen()->set_help_sidebar(
     '<p><strong>' . __('For more information:') . '</strong></p>' .
     '<p>' . __('<a href="https://wp.org/documentation/article/settings-general-screen/">Documentation on General Settings</a>') . '</p>' .
-    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>'
+    '<p>' . __('<a href="https://wp.org/support/forums/">Support forums</a>') . '</p>',
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -88,7 +88,7 @@ if (! is_multisite()) {
 $tagline_description = sprintf(
     /* translators: %s: Site tagline example. */
     __('In a few words, explain what this site is about. Example: &#8220;%s.&#8221;'),
-    $sample_tagline
+    $sample_tagline,
 );
 ?>
 <tr>
@@ -132,26 +132,26 @@ $tagline_description = sprintf(
         $app_icon_alt_value = sprintf(
             /* translators: %s: The selected image filename. */
             __('App icon preview: The current image has no alternative text. The file name is: %s'),
-            $filename
+            $filename,
         );
 
         $browser_icon_alt_value = sprintf(
             /* translators: %s: The selected image filename. */
             __('Browser icon preview: The current image has no alternative text. The file name is: %s'),
-            $filename
+            $filename,
         );
 
         if ($img_alt) {
             $app_icon_alt_value = sprintf(
                 /* translators: %s: The selected image alt text. */
                 __('App icon preview: Current image: %s'),
-                $img_alt
+                $img_alt,
             );
 
             $browser_icon_alt_value = sprintf(
                 /* translators: %s: The selected image alt text. */
                 __('Browser icon preview: Current image: %s'),
-                $img_alt
+                $img_alt,
             );
         }
     }
@@ -215,7 +215,7 @@ $tagline_description = sprintf(
                 /* translators: 1: pixel value for icon size. 2: pixel value for icon size. */
                 __('The Site Icon is what you see in browser tabs, bookmark bars, and within the waggypuppy mobile apps. It should be square and at least <code>%1$s by %2$s</code> pixels.'),
                 512,
-                512
+                512,
             );
         ?>
     </p>
@@ -252,7 +252,7 @@ if (! is_multisite()) {
         printf(
             /* translators: %s: Documentation URL. */
             __('Enter the same address here unless you <a href="%s">want your site home page to be different from your waggypuppy installation directory</a>.'),
-            __('https://developer.wp.org/advanced-administration/server/wordpress-in-directory/')
+            __('https://developer.wp.org/advanced-administration/server/wordpress-in-directory/'),
         );
         ?>
 </p>
@@ -272,18 +272,18 @@ if ($new_admin_email && get_option('admin_email') !== $new_admin_email) {
     $pending_admin_email_message = sprintf(
         /* translators: %s: New admin email. */
         __('There is a pending change of the admin email to %s.'),
-        '<code>' . esc_html($new_admin_email) . '</code>'
+        '<code>' . esc_html($new_admin_email) . '</code>',
     );
     $pending_admin_email_message .= sprintf(
         ' <a href="%1$s">%2$s</a>',
         esc_url(wp_nonce_url(admin_url('options.php?dismiss=new_admin_email'), 'dismiss-' . get_current_blog_id() . '-new_admin_email')),
-        __('Cancel')
+        __('Cancel'),
     );
     wp_admin_notice(
         $pending_admin_email_message,
         [
             'additional_classes' => ['updated', 'inline'],
-        ]
+        ],
     );
 }
 ?>
@@ -339,7 +339,7 @@ if (! empty($languages) || ! empty($translations)) {
                     'languages'                   => $languages,
                     'translations'                => $translations,
                     'show_available_translations' => current_user_can('install_languages') && wp_can_install_language_pack(),
-                ]
+                ],
             );
 
             // Add note about deprecated WPLANG constant.
@@ -348,7 +348,7 @@ if (! empty($languages) || ! empty($translations)) {
                     'define()',
                     '4.0.0',
                     /* translators: 1: WPLANG, 2: wp-config.php */
-                    sprintf(__('The %1$s constant in your %2$s file is no longer needed.'), 'WPLANG', 'wp-config.php')
+                    sprintf(__('The %1$s constant in your %2$s file is no longer needed.'), 'WPLANG', 'wp-config.php'),
                 );
             }
             ?>
@@ -393,7 +393,7 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists.
     printf(
         /* translators: %s: UTC abbreviation */
         __('Choose either a city in the same timezone as you or a %s (Coordinated Universal Time) time offset.'),
-        '<abbr>UTC</abbr>'
+        '<abbr>UTC</abbr>',
     );
     ?>
 </p>
@@ -404,7 +404,7 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists.
         printf(
             /* translators: %s: UTC time. */
             __('Universal time is %s.'),
-            '<code>' . date_i18n($timezone_format, false, true) . '</code>'
+            '<code>' . date_i18n($timezone_format, false, true) . '</code>',
         );
         ?>
     </span>
@@ -414,7 +414,7 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists.
         printf(
             /* translators: %s: Local time. */
             __('Local time is %s.'),
-            '<code>' . date_i18n($timezone_format) . '</code>'
+            '<code>' . date_i18n($timezone_format) . '</code>',
         );
     ?>
     </span>
@@ -449,7 +449,7 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists.
                 __('Standard time begins on: %s.');
             printf(
                 $message,
-                '<code>' . wp_date(__('F j, Y') . ' ' . __('g:i a'), $transitions[1]['ts']) . '</code>'
+                '<code>' . wp_date(__('F j, Y') . ' ' . __('g:i a'), $transitions[1]['ts']) . '</code>',
             );
         } else {
             _e('This timezone does not observe daylight saving time.');
@@ -475,10 +475,10 @@ if (empty($tzstring)) { // Create a UTC+- zone if no timezone string exists.
     /**
      * Filters the default date formats.
      *
-     * @since 2.7.0
-     * @since 4.0.0 Added ISO date standard YYYY-MM-DD format.
-     *
      * @param string[] $default_date_formats Array of default date formats.
+     *@since 4.0.0 Added ISO date standard YYYY-MM-DD format.
+     *
+     * @since 2.7.0
      */
     $date_formats = array_unique(apply_filters('date_formats', [__('F j, Y'), 'Y-m-d', 'm/d/Y', 'd/m/Y']));
 
@@ -524,9 +524,9 @@ foreach ($date_formats as $format) {
     /**
      * Filters the default time formats.
      *
-     * @since 2.7.0
-     *
      * @param string[] $default_time_formats Array of default time formats.
+     *@since 2.7.0
+     *
      */
     $time_formats = array_unique(apply_filters('time_formats', [__('g:i a'), 'g:i A', 'H:i']));
 

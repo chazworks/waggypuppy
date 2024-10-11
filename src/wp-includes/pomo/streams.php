@@ -8,7 +8,7 @@
  * @subpackage streams
  */
 
-if (! class_exists('POMO_Reader', false)) :
+if (!class_exists('POMO_Reader', false)) :
     #[AllowDynamicProperties]
     class POMO_Reader
     {
@@ -23,7 +23,7 @@ if (! class_exists('POMO_Reader', false)) :
         public function __construct()
         {
             if (function_exists('mb_substr')
-                && ((int) ini_get('mbstring.func_overload') & 2) // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
+                && ((int)ini_get('mbstring.func_overload') & 2)
             ) {
                 $this->is_overloaded = true;
             } else {
@@ -51,7 +51,7 @@ if (! class_exists('POMO_Reader', false)) :
          *
          * @param string $endian Set the endianness of the file. Accepts 'big', or 'little'.
          */
-        public function setEndian($endian)  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+        public function setEndian($endian)
         {
             $this->endian = $endian;
         }
@@ -69,7 +69,7 @@ if (! class_exists('POMO_Reader', false)) :
                 return false;
             }
             $endian_letter = ('big' === $this->endian) ? 'N' : 'V';
-            $int           = unpack($endian_letter, $bytes);
+            $int = unpack($endian_letter, $bytes);
             return reset($int);
         }
 
@@ -92,8 +92,8 @@ if (! class_exists('POMO_Reader', false)) :
 
         /**
          * @param string $input_string
-         * @param int    $start
-         * @param int    $length
+         * @param int $start
+         * @param int $length
          * @return string
          */
         public function substr($input_string, $start, $length)
@@ -120,14 +120,14 @@ if (! class_exists('POMO_Reader', false)) :
 
         /**
          * @param string $input_string
-         * @param int    $chunk_size
+         * @param int $chunk_size
          * @return array
          */
         public function str_split($input_string, $chunk_size)
         {
-            if (! function_exists('str_split')) {
+            if (!function_exists('str_split')) {
                 $length = $this->strlen($input_string);
-                $out    = [];
+                $out = [];
                 for ($i = 0; $i < $length; $i += $chunk_size) {
                     $out[] = $this->substr($input_string, $i, $chunk_size);
                 }
@@ -163,7 +163,7 @@ if (! class_exists('POMO_Reader', false)) :
     }
 endif;
 
-if (! class_exists('POMO_FileReader', false)) :
+if (!class_exists('POMO_FileReader', false)) :
     class POMO_FileReader extends POMO_Reader
     {
 
@@ -252,7 +252,7 @@ if (! class_exists('POMO_FileReader', false)) :
     }
 endif;
 
-if (! class_exists('POMO_StringReader', false)) :
+if (!class_exists('POMO_StringReader', false)) :
     /**
      * Provides file-like methods for manipulating a string instead
      * of a physical file.
@@ -291,7 +291,7 @@ if (! class_exists('POMO_StringReader', false)) :
          */
         public function read($bytes)
         {
-            $data        = $this->substr($this->_str, $this->_pos, $bytes);
+            $data = $this->substr($this->_str, $this->_pos, $bytes);
             $this->_pos += $bytes;
             if ($this->strlen($this->_str) < $this->_pos) {
                 $this->_pos = $this->strlen($this->_str);
@@ -330,7 +330,7 @@ if (! class_exists('POMO_StringReader', false)) :
     }
 endif;
 
-if (! class_exists('POMO_CachedFileReader', false)) :
+if (!class_exists('POMO_CachedFileReader', false)) :
     /**
      * Reads the contents of the file in the beginning.
      */
@@ -364,7 +364,7 @@ if (! class_exists('POMO_CachedFileReader', false)) :
     }
 endif;
 
-if (! class_exists('POMO_CachedIntFileReader', false)) :
+if (!class_exists('POMO_CachedIntFileReader', false)) :
     /**
      * Reads the contents of the file in the beginning.
      */

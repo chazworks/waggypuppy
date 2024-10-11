@@ -25,9 +25,9 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      */
     public function test_should_overwrite_an_existing_file_when_overwriting_is_enabled()
     {
-        $source      = self::$file_structure['visible_file']['path'];
+        $source = self::$file_structure['visible_file']['path'];
         $destination = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.dest';
-        $actual      = self::$filesystem->move($source, $destination, true);
+        $actual = self::$filesystem->move($source, $destination, true);
 
         rename($destination, $source);
 
@@ -42,9 +42,9 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      */
     public function test_should_not_overwrite_an_existing_file_when_overwriting_is_disabled()
     {
-        $source      = self::$file_structure['visible_file']['path'];
+        $source = self::$file_structure['visible_file']['path'];
         $destination = self::$file_structure['subfile']['path'];
-        $actual      = self::$filesystem->move($source, $destination);
+        $actual = self::$filesystem->move($source, $destination);
 
         $this->assertFalse($actual);
     }
@@ -56,11 +56,11 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      */
     public function test_should_move_directories()
     {
-        $source      = self::$file_structure['test_dir']['path'];
+        $source = self::$file_structure['test_dir']['path'];
         $destination = untrailingslashit(self::$file_structure['test_dir']['path']) . '-dest';
-        $actual      = self::$filesystem->move($source, $destination, true);
+        $actual = self::$filesystem->move($source, $destination, true);
 
-        $source_exists      = is_dir($source);
+        $source_exists = is_dir($source);
         $destination_exists = is_dir($destination);
 
         if ($actual) {
@@ -81,7 +81,7 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
      */
     public function test_should_return_false_for_invalid_destination()
     {
-        $source      = self::$file_structure['test_dir']['path'];
+        $source = self::$file_structure['test_dir']['path'];
         $destination = 'http://example.org';
 
         $this->assertFalse(self::$filesystem->move($source, $destination, true));
@@ -100,10 +100,10 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
 
         // Force failure conditions.
         $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')
-                                // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-                                ->setMethods(['exists', 'delete'])
-                                ->setConstructorArgs([null])
-                                ->getMock();
+            // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
+            ->setMethods(['exists', 'delete'])
+            ->setConstructorArgs([null])
+            ->getMock();
 
         $filesystem_mock->expects($this->once())->method('exists')->willReturn(true);
         $filesystem_mock->expects($this->once())->method('delete')->willReturn(false);
@@ -112,7 +112,7 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
         $actual = $wp_filesystem->move(
             self::$file_structure['test_dir']['path'],
             self::$file_structure['subdir']['path'],
-            true
+            true,
         );
 
         // Restore the filesystem.
@@ -131,15 +131,15 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
     {
         global $wp_filesystem;
 
-        $source      = self::$file_structure['test_dir']['path'] . 'a_file_that_does_not_exist.txt';
+        $source = self::$file_structure['test_dir']['path'] . 'a_file_that_does_not_exist.txt';
         $destination = self::$file_structure['test_dir']['path'] . 'another_file_that_does_not_exist.txt';
 
         // Set up mock filesystem.
         $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')
-                                ->setConstructorArgs([null])
-                                // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-                                ->setMethods(['exists', 'delete', 'is_file', 'copy'])
-                                ->getMock();
+            ->setConstructorArgs([null])
+            // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
+            ->setMethods(['exists', 'delete', 'is_file', 'copy'])
+            ->getMock();
 
         $filesystem_mock->expects($this->exactly(2))->method('exists')->willReturn([true, true]);
         $filesystem_mock->expects($this->exactly(2))->method('delete')->willReturn([true, false]);
@@ -147,9 +147,9 @@ class Tests_Filesystem_WpFilesystemDirect_Move extends WP_Filesystem_Direct_Unit
         $filesystem_mock->expects($this->once())->method('copy')->willReturn(true);
 
         $wp_filesystem_backup = $wp_filesystem;
-        $wp_filesystem        = $filesystem_mock;
+        $wp_filesystem = $filesystem_mock;
 
-        $actual        = $filesystem_mock->move($source, $destination, true);
+        $actual = $filesystem_mock->move($source, $destination, true);
         $wp_filesystem = $wp_filesystem_backup;
 
         $this->assertTrue($actual);

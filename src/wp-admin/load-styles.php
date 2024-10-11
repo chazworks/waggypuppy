@@ -15,7 +15,7 @@ if (function_exists('error_reporting')) {
 }
 
 // Set ABSPATH for execution.
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     define('ABSPATH', dirname(__DIR__) . '/');
 }
 
@@ -30,7 +30,7 @@ require ABSPATH . WPINC . '/script-loader.php';
 require ABSPATH . WPINC . '/version.php';
 
 $protocol = $_SERVER['SERVER_PROTOCOL'];
-if (! in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {
+if (!in_array($protocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'], true)) {
     $protocol = 'HTTP/1.0';
 }
 
@@ -48,9 +48,9 @@ if (empty($load)) {
     exit;
 }
 
-$rtl            = (isset($_GET['dir']) && 'rtl' === $_GET['dir']);
+$rtl = (isset($_GET['dir']) && 'rtl' === $_GET['dir']);
 $expires_offset = 31536000; // 1 year.
-$out            = '';
+$out = '';
 
 $wp_styles = new WP_Styles();
 wp_default_styles($wp_styles);
@@ -63,7 +63,7 @@ if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && stripslashes($_SERVER['HTTP_IF_NONE
 }
 
 foreach ($load as $handle) {
-    if (! array_key_exists($handle, $wp_styles->registered)) {
+    if (!array_key_exists($handle, $wp_styles->registered)) {
         continue;
     }
 
@@ -75,7 +75,7 @@ foreach ($load as $handle) {
 
     $path = ABSPATH . $style->src;
 
-    if ($rtl && ! empty($style->extra['rtl'])) {
+    if ($rtl && !empty($style->extra['rtl'])) {
         // All default styles have fully independent RTL files.
         $path = str_replace('.min.css', '-rtl.min.css', $path);
     }
@@ -87,7 +87,7 @@ foreach ($load as $handle) {
         $content = str_replace('../images/', '../' . WPINC . '/images/', $content);
         $content = str_replace('../js/tinymce/', '../' . WPINC . '/js/tinymce/', $content);
         $content = str_replace('../fonts/', '../' . WPINC . '/fonts/', $content);
-        $out    .= $content;
+        $out .= $content;
     } else {
         $out .= str_replace('../images/', 'images/', $content);
     }

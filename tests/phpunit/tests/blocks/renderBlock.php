@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for render block functions.
  *
@@ -62,34 +63,34 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
         register_block_type(
             'tests/context-provider',
             [
-                'attributes'       => [
-                    'contextWithAssigned'   => [
+                'attributes' => [
+                    'contextWithAssigned' => [
                         'type' => 'number',
                     ],
-                    'contextWithDefault'    => [
-                        'type'    => 'number',
+                    'contextWithDefault' => [
+                        'type' => 'number',
                         'default' => 0,
                     ],
                     'contextWithoutDefault' => [
                         'type' => 'number',
                     ],
-                    'contextNotRequested'   => [
+                    'contextNotRequested' => [
                         'type' => 'number',
                     ],
                 ],
                 'provides_context' => [
-                    'tests/contextWithAssigned'   => 'contextWithAssigned',
-                    'tests/contextWithDefault'    => 'contextWithDefault',
+                    'tests/contextWithAssigned' => 'contextWithAssigned',
+                    'tests/contextWithDefault' => 'contextWithDefault',
                     'tests/contextWithoutDefault' => 'contextWithoutDefault',
-                    'tests/contextNotRequested'   => 'contextNotRequested',
+                    'tests/contextNotRequested' => 'contextNotRequested',
                 ],
-            ]
+            ],
         );
 
         register_block_type(
             'tests/context-consumer',
             [
-                'uses_context'    => [
+                'uses_context' => [
                     'tests/contextWithDefault',
                     'tests/contextWithAssigned',
                     'tests/contextWithoutDefault',
@@ -99,23 +100,23 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
 
                     return '';
                 },
-            ]
+            ],
         );
 
         $parsed_blocks = parse_blocks(
             '<!-- wp:tests/context-provider {"contextWithAssigned":10} -->' .
             '<!-- wp:tests/context-consumer /-->' .
-            '<!-- /wp:tests/context-provider -->'
+            '<!-- /wp:tests/context-provider -->',
         );
 
         render_block($parsed_blocks[0]);
 
         $this->assertSame(
             [
-                'tests/contextWithDefault'  => 0,
+                'tests/contextWithDefault' => 0,
                 'tests/contextWithAssigned' => 10,
             ],
-            $provided_context[0]
+            $provided_context[0],
         );
     }
 
@@ -137,13 +138,13 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
         register_block_type(
             'tests/context-consumer',
             [
-                'uses_context'    => ['postId', 'postType'],
+                'uses_context' => ['postId', 'postType'],
                 'render_callback' => static function ($attributes, $content, $block) use (&$provided_context) {
                     $provided_context[] = $block->context;
 
                     return '';
                 },
-            ]
+            ],
         );
 
         $parsed_blocks = parse_blocks('<!-- wp:tests/context-consumer /-->');
@@ -152,10 +153,10 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
 
         $this->assertSame(
             [
-                'postId'   => $post->ID,
+                'postId' => $post->ID,
                 'postType' => $post->post_type,
             ],
-            $provided_context[0]
+            $provided_context[0],
         );
     }
 
@@ -174,13 +175,13 @@ class Tests_Blocks_RenderBlock extends WP_UnitTestCase
         register_block_type(
             'tests/context-consumer',
             [
-                'uses_context'    => ['example'],
+                'uses_context' => ['example'],
                 'render_callback' => static function ($attributes, $content, $block) use (&$provided_context) {
                     $provided_context[] = $block->context;
 
                     return '';
                 },
-            ]
+            ],
         );
 
         $filter_block_context = static function ($context) {

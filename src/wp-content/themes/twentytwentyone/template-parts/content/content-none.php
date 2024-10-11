@@ -18,9 +18,9 @@
             <h1 class="page-title">
                 <?php
                 printf(
-                    /* translators: %s: Search term. */
+                /* translators: %s: Search term. */
                     esc_html__('Results for "%s"', 'twentytwentyone'),
-                    '<span class="page-description search-term">' . esc_html(get_search_query()) . '</span>'
+                    '<span class="page-description search-term">' . esc_html(get_search_query()) . '</span>',
                 );
                 ?>
             </h1>
@@ -39,26 +39,28 @@
             <?php
             printf(
                 '<p>' . wp_kses(
-                    /* translators: %s: Link to WP admin new post page. */
+                /* translators: %s: Link to WP admin new post page. */
                     __('Ready to publish your first post? <a href="%s">Get started here</a>.', 'twentytwentyone'),
                     [
                         'a' => [
                             'href' => [],
                         ],
-                    ]
+                    ],
                 ) . '</p>',
-                esc_url(admin_url('post-new.php'))
+                esc_url(admin_url('post-new.php')),
             );
             ?>
 
         <?php elseif (is_search()) : ?>
 
-            <p><?php esc_html_e('Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'twentytwentyone'); ?></p>
+            <p><?php esc_html_e('Sorry, but nothing matched your search terms. Please try again with some different keywords.',
+                    'twentytwentyone'); ?></p>
             <?php get_search_form(); ?>
 
         <?php else : ?>
 
-            <p><?php esc_html_e('It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'twentytwentyone'); ?></p>
+            <p><?php esc_html_e('It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.',
+                    'twentytwentyone'); ?></p>
             <?php get_search_form(); ?>
 
         <?php endif; ?>

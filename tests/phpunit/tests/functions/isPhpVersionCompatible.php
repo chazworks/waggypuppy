@@ -17,7 +17,7 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase
      * @ticket 54257
      *
      * @param mixed $required The minimum required PHP version.
-     * @param bool  $expected The expected result.
+     * @param bool $expected The expected result.
      */
     public function test_is_php_version_compatible($required, $expected)
     {
@@ -33,24 +33,24 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase
     {
         $php_version = PHP_VERSION;
 
-        $version_parts  = explode('.', $php_version);
-        $lower_version  = $version_parts;
+        $version_parts = explode('.', $php_version);
+        $lower_version = $version_parts;
         $higher_version = $version_parts;
 
         // Adjust the major version numbers.
         --$lower_version[0];
         ++$higher_version[0];
 
-        $lower_version  = implode('.', $lower_version);
+        $lower_version = implode('.', $lower_version);
         $higher_version = implode('.', $higher_version);
 
         return [
             // Happy paths.
-            'a lower required version'  => [
+            'a lower required version' => [
                 'required' => $lower_version,
                 'expected' => true,
             ],
-            'the same version'          => [
+            'the same version' => [
                 'required' => $php_version,
                 'expected' => true,
             ],
@@ -60,31 +60,31 @@ class Tests_Functions_IsPhpVersionCompatible extends WP_UnitTestCase
             ],
 
             // Falsey values.
-            'false'                     => [
+            'false' => [
                 'required' => false,
                 'expected' => true,
             ],
-            'null'                      => [
+            'null' => [
                 'required' => null,
                 'expected' => true,
             ],
-            '0 int'                     => [
+            '0 int' => [
                 'required' => 0,
                 'expected' => true,
             ],
-            '0.0 float'                 => [
+            '0.0 float' => [
                 'required' => 0.0,
                 'expected' => true,
             ],
-            '0 string'                  => [
+            '0 string' => [
                 'required' => '0',
                 'expected' => true,
             ],
-            'empty string'              => [
+            'empty string' => [
                 'required' => '',
                 'expected' => true,
             ],
-            'empty array'               => [
+            'empty array' => [
                 'required' => [],
                 'expected' => true,
             ],

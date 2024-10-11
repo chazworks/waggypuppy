@@ -18,7 +18,7 @@ class Tests_Comment_GetCommentAuthorLink extends WP_UnitTestCase
         self::$comment = self::factory()->comment->create_and_get(
             [
                 'comment_post_ID' => 0,
-            ]
+            ],
         );
     }
 
@@ -41,12 +41,12 @@ class Tests_Comment_GetCommentAuthorLink extends WP_UnitTestCase
     {
         add_filter('get_comment_author_link', [$this, 'get_comment_author_link_filter'], 99, 3);
 
-        get_comment_author_link((int) self::$comment->comment_ID);
+        get_comment_author_link((int)self::$comment->comment_ID);
     }
 
     public function get_comment_author_link_filter_non_existent_id($comment_author_link, $comment_author, $comment_id)
     {
-        $this->assertSame($comment_id, (string) self::$non_existent_comment_id, 'Comment IDs do not match.');
+        $this->assertSame($comment_id, (string)self::$non_existent_comment_id, 'Comment IDs do not match.');
         $this->assertIsString($comment_id, '$comment_id parameter is not a string.');
 
         return $comment_author_link;
@@ -71,13 +71,16 @@ class Tests_Comment_GetCommentAuthorLink extends WP_UnitTestCase
      * @dataProvider data_should_return_author_when_given_object_without_comment_id
      *
      * @param stdClass $comment_props Comment properties test data.
-     * @param string   $expected      The expected result.
-     * @param array    $user_data     Optional. User data for creating an author. Default empty array.
+     * @param string $expected The expected result.
+     * @param array $user_data Optional. User data for creating an author. Default empty array.
      */
-    public function test_should_return_author_when_given_object_without_comment_id($comment_props, $expected, $user_data = [])
-    {
-        if (! empty($comment_props->user_id)) {
-            $user                   = self::factory()->user->create_and_get($user_data);
+    public function test_should_return_author_when_given_object_without_comment_id(
+        $comment_props,
+        $expected,
+        $user_data = [],
+    ) {
+        if (!empty($comment_props->user_id)) {
+            $user = self::factory()->user->create_and_get($user_data);
             $comment_props->user_id = $user->ID;
         }
 
@@ -94,29 +97,29 @@ class Tests_Comment_GetCommentAuthorLink extends WP_UnitTestCase
     public function data_should_return_author_when_given_object_without_comment_id()
     {
         return [
-            'with no author'             => [
+            'with no author' => [
                 'comment_props' => new stdClass(),
-                'expected'      => 'Anonymous',
+                'expected' => 'Anonymous',
             ],
-            'with author name'           => [
-                'comment_props' => (object) [
+            'with author name' => [
+                'comment_props' => (object)[
                     'comment_author' => 'tester1',
                 ],
-                'expected'      => 'tester1',
+                'expected' => 'tester1',
             ],
             'with author name, empty ID' => [
-                'comment_props' => (object) [
+                'comment_props' => (object)[
                     'comment_author' => 'tester2',
-                    'comment_ID'     => '',
+                    'comment_ID' => '',
                 ],
-                'expected'      => 'tester2',
+                'expected' => 'tester2',
             ],
-            'with author ID'             => [
-                'comment_props' => (object) [
+            'with author ID' => [
+                'comment_props' => (object)[
                     'user_id' => 1, // Populates in the test with an actual user ID.
                 ],
-                'expected'      => 'Tester3',
-                'user_data'     => [
+                'expected' => 'Tester3',
+                'user_data' => [
                     'display_name' => 'Tester3',
                 ],
             ],

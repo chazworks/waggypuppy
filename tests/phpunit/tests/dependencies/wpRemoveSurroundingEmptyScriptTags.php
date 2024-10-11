@@ -20,12 +20,12 @@ class Tests_Functions_wpRemoveSurroundingEmptyScriptTags extends WP_UnitTestCase
     {
         $error_js = 'console.error("Function wp_remove_surrounding_empty_script_tags() used incorrectly in PHP. Expected string to start with script tag (without attributes) and end with script tag, with optional whitespace.")';
         return [
-            'basic_case'            => [
+            'basic_case' => [
                 '<script>alert("hello")</script>',
                 'alert("hello")',
                 false,
             ],
-            'BASIC_CASE'            => [
+            'BASIC_CASE' => [
                 '<SCRIPT>alert("hello")</SCRIPT>',
                 'alert("hello")',
                 false,
@@ -35,22 +35,22 @@ class Tests_Functions_wpRemoveSurroundingEmptyScriptTags extends WP_UnitTestCase
                 'alert("hello")',
                 false,
             ],
-            'missing_tags'          => [
+            'missing_tags' => [
                 'alert("hello")',
                 $error_js,
                 true,
             ],
-            'missing_start_tag'     => [
+            'missing_start_tag' => [
                 'alert("hello")</script>',
                 $error_js,
                 true,
             ],
-            'missing_end_tag'       => [
+            'missing_end_tag' => [
                 '<script>alert("hello")',
                 $error_js,
                 true,
             ],
-            'erroneous attributes'  => [
+            'erroneous attributes' => [
                 '<script type="text/javascript">alert("hello")</script>',
                 $error_js,
                 true,
@@ -63,9 +63,9 @@ class Tests_Functions_wpRemoveSurroundingEmptyScriptTags extends WP_UnitTestCase
      *
      * @dataProvider get_data_to_test_wp_remove_surrounding_empty_script_tags
      *
-     * @param string $input                 Input.
-     * @param string $expected              Expected.
-     * @param bool   $expect_doing_it_wrong Whether input is _doing_it_wrong().
+     * @param string $input Input.
+     * @param string $expected Expected.
+     * @param bool $expect_doing_it_wrong Whether input is _doing_it_wrong().
      */
     public function test_wp_remove_surrounding_empty_script_tags($input, $expected, $expect_doing_it_wrong)
     {
@@ -75,7 +75,7 @@ class Tests_Functions_wpRemoveSurroundingEmptyScriptTags extends WP_UnitTestCase
 
         $this->assertSame(
             $expected,
-            wp_remove_surrounding_empty_script_tags($input)
+            wp_remove_surrounding_empty_script_tags($input),
         );
     }
 }

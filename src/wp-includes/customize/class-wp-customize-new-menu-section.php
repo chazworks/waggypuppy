@@ -34,12 +34,12 @@ class WP_Customize_New_Menu_Section extends WP_Customize_Section
      *
      * Any supplied $args override class property defaults.
      *
-     * @since 4.9.0
+     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+     * @param string $id A specific ID of the section.
+     * @param array $args Section arguments.
      * @deprecated 4.9.0
      *
-     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-     * @param string               $id      A specific ID of the section.
-     * @param array                $args    Section arguments.
+     * @since 4.9.0
      */
     public function __construct(WP_Customize_Manager $manager, $id, array $args = [])
     {

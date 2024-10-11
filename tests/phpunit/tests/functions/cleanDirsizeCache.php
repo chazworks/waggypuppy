@@ -17,7 +17,7 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase
      *
      * @dataProvider data_clean_dirsize_cache_with_invalid_inputs
      *
-     * @param mixed  $path             Path input to use in the test.
+     * @param mixed $path Path input to use in the test.
      * @param string $expected_message Expected notice message.
      */
     public function test_clean_dirsize_cache_with_invalid_inputs($path, $expected_message)
@@ -36,20 +36,20 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase
     public function data_clean_dirsize_cache_with_invalid_inputs()
     {
         return [
-            'null'         => [
-                'path'             => null,
+            'null' => [
+                'path' => null,
                 'expected_message' => '<code>clean_dirsize_cache()</code> only accepts a non-empty path string, received <code>NULL</code>.',
             ],
-            'bool false'   => [
-                'path'             => false,
+            'bool false' => [
+                'path' => false,
                 'expected_message' => '<code>clean_dirsize_cache()</code> only accepts a non-empty path string, received <code>boolean</code>.',
             ],
             'empty string' => [
-                'path'             => '',
+                'path' => '',
                 'expected_message' => '<code>clean_dirsize_cache()</code> only accepts a non-empty path string, received <code>string</code>.',
             ],
-            'array'        => [
-                'path'             => ['.', './second/path/'],
+            'array' => [
+                'path' => ['.', './second/path/'],
                 'expected_message' => '<code>clean_dirsize_cache()</code> only accepts a non-empty path string, received <code>array</code>.',
             ],
         ];
@@ -62,8 +62,8 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase
      *
      * @dataProvider data_clean_dirsize_cache_with_non_path_string
      *
-     * @param string $path           Path input to use in the test.
-     * @param int    $expected_count Expected number of paths in the cache after cleaning.
+     * @param string $path Path input to use in the test.
+     * @param int $expected_count Expected number of paths in the cache after cleaning.
      */
     public function test_clean_dirsize_cache_with_non_path_string($path, $expected_count)
     {
@@ -85,16 +85,16 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase
     public function data_clean_dirsize_cache_with_non_path_string()
     {
         return [
-            'single dot'                        => [
-                'path'           => '.',
+            'single dot' => [
+                'path' => '.',
                 'expected_count' => 1,
             ],
-            'non-path'                          => [
-                'path'           => 'string',
+            'non-path' => [
+                'path' => 'string',
                 'expected_count' => 1,
             ],
             'non-existent string, but non-path' => [
-                'path'           => 'doesnotexist',
+                'path' => 'doesnotexist',
                 'expected_count' => 2,
             ],
         ];
@@ -103,7 +103,7 @@ class Tests_Functions_CleanDirsizeCache extends WP_UnitTestCase
     private function mock_dirsize_cache_with_non_path_string()
     {
         return [
-            '.'      => ['size' => 50],
+            '.' => ['size' => 50],
             'string' => ['size' => 42],
         ];
     }

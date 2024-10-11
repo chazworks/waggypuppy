@@ -29,28 +29,28 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
         $this->subtypes = array_values(
             get_taxonomies(
                 [
-                    'public'       => true,
+                    'public' => true,
                     'show_in_rest' => true,
                 ],
-                'names'
-            )
+                'names',
+            ),
         );
     }
 
     /**
      * Searches terms for a given search request.
      *
-     * @since 5.6.0
-     *
      * @param WP_REST_Request $request Full REST request.
      * @return array {
      *     Associative array containing found IDs and total count for the matching search results.
      *
-     *     @type int[]               $ids   Found term IDs.
-     *     @type string|int|WP_Error $total Numeric string containing the number of terms in that
+     * @type int[] $ids Found term IDs.
+     * @type string|int|WP_Error $total Numeric string containing the number of terms in that
      *                                      taxonomy, 0 if there are no results, or WP_Error if
      *                                      the requested taxonomy does not exist.
      * }
+     * @since 5.6.0
+     *
      */
     public function search_items(WP_REST_Request $request)
     {
@@ -59,25 +59,25 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
             $taxonomies = $this->subtypes;
         }
 
-        $page     = (int) $request['page'];
-        $per_page = (int) $request['per_page'];
+        $page = (int)$request['page'];
+        $per_page = (int)$request['per_page'];
 
         $query_args = [
-            'taxonomy'   => $taxonomies,
+            'taxonomy' => $taxonomies,
             'hide_empty' => false,
-            'offset'     => ($page - 1) * $per_page,
-            'number'     => $per_page,
+            'offset' => ($page - 1) * $per_page,
+            'number' => $per_page,
         ];
 
-        if (! empty($request['search'])) {
+        if (!empty($request['search'])) {
             $query_args['search'] = $request['search'];
         }
 
-        if (! empty($request['exclude'])) {
+        if (!empty($request['exclude'])) {
             $query_args['exclude'] = $request['exclude'];
         }
 
-        if (! empty($request['include'])) {
+        if (!empty($request['include'])) {
             $query_args['include'] = $request['include'];
         }
 
@@ -86,28 +86,28 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
          *
          * Enables adding extra arguments or setting defaults for a term search request.
          *
+         * @param array $query_args Key value array of query var to query value.
+         * @param WP_REST_Request $request The request used.
          * @since 5.6.0
          *
-         * @param array           $query_args Key value array of query var to query value.
-         * @param WP_REST_Request $request    The request used.
          */
         $query_args = apply_filters('rest_term_search_query', $query_args, $request);
 
-        $query       = new WP_Term_Query();
+        $query = new WP_Term_Query();
         $found_terms = $query->query($query_args);
-        $found_ids   = wp_list_pluck($found_terms, 'term_id');
+        $found_ids = wp_list_pluck($found_terms, 'term_id');
 
         unset($query_args['offset'], $query_args['number']);
 
         $total = wp_count_terms($query_args);
 
         // wp_count_terms() can return a falsey value when the term has no children.
-        if (! $total) {
+        if (!$total) {
             $total = 0;
         }
 
         return [
-            self::RESULT_IDS   => $found_ids,
+            self::RESULT_IDS => $found_ids,
             self::RESULT_TOTAL => $total,
         ];
     }
@@ -115,18 +115,18 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
     /**
      * Prepares the search result for a given term ID.
      *
-     * @since 5.6.0
-     *
-     * @param int   $id     Term ID.
+     * @param int $id Term ID.
      * @param array $fields Fields to include for the term.
      * @return array {
      *     Associative array containing fields for the term based on the `$fields` parameter.
      *
-     *     @type int    $id    Optional. Term ID.
-     *     @type string $title Optional. Term name.
-     *     @type string $url   Optional. Term permalink URL.
-     *     @type string $type  Optional. Term taxonomy name.
+     * @type int $id Optional. Term ID.
+     * @type string $title Optional. Term name.
+     * @type string $url Optional. Term permalink URL.
+     * @type string $type Optional. Term taxonomy name.
      * }
+     * @since 5.6.0
+     *
      */
     public function prepare_item($id, array $fields)
     {
@@ -135,7 +135,7 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
         $data = [];
 
         if (in_array(WP_REST_Search_Controller::PROP_ID, $fields, true)) {
-            $data[WP_REST_Search_Controller::PROP_ID] = (int) $id;
+            $data[WP_REST_Search_Controller::PROP_ID] = (int)$id;
         }
         if (in_array(WP_REST_Search_Controller::PROP_TITLE, $fields, true)) {
             $data[WP_REST_Search_Controller::PROP_TITLE] = $term->name;
@@ -153,10 +153,10 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
     /**
      * Prepares links for the search result of a given ID.
      *
-     * @since 5.6.0
-     *
      * @param int $id Item ID.
      * @return array[] Array of link arrays for the given item.
+     * @since 5.6.0
+     *
      */
     public function prepare_item_links($id)
     {
@@ -167,7 +167,7 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler
         $item_route = rest_get_route_for_term($term);
         if ($item_route) {
             $links['self'] = [
-                'href'       => rest_url($item_route),
+                'href' => rest_url($item_route),
                 'embeddable' => true,
             ];
         }

@@ -8,13 +8,13 @@
 /**
  * Renders the `core/comments-pagination-next` block on the server.
  *
- * @since 6.0.0
- *
- * @param array    $attributes Block attributes.
- * @param string   $content    Block default content.
- * @param WP_Block $block      Block instance.
+ * @param array $attributes Block attributes.
+ * @param string $content Block default content.
+ * @param WP_Block $block Block instance.
  *
  * @return string Returns the next comments link for the query pagination.
+ * @since 6.0.0
+ *
  */
 function render_block_core_comments_pagination_next($attributes, $content, $block)
 {
@@ -23,10 +23,10 @@ function render_block_core_comments_pagination_next($attributes, $content, $bloc
         return '';
     }
 
-    $comment_vars     = build_comment_query_vars_from_block($block);
-    $max_page         = (new WP_Comment_Query($comment_vars))->max_num_pages;
-    $default_label    = __('Newer Comments');
-    $label            = isset($attributes['label']) && ! empty($attributes['label']) ? $attributes['label'] : $default_label;
+    $comment_vars = build_comment_query_vars_from_block($block);
+    $max_page = (new WP_Comment_Query($comment_vars))->max_num_pages;
+    $default_label = __('Newer Comments');
+    $label = isset($attributes['label']) && !empty($attributes['label']) ? $attributes['label'] : $default_label;
     $pagination_arrow = get_comments_pagination_arrow($block, 'next');
 
     $filter_link_attributes = static function () {
@@ -42,7 +42,7 @@ function render_block_core_comments_pagination_next($attributes, $content, $bloc
 
     remove_filter('next_posts_link_attributes', $filter_link_attributes);
 
-    if (! isset($next_comments_link)) {
+    if (!isset($next_comments_link)) {
         return '';
     }
     return $next_comments_link;
@@ -60,7 +60,8 @@ function register_block_core_comments_pagination_next()
         __DIR__ . '/comments-pagination-next',
         [
             'render_callback' => 'render_block_core_comments_pagination_next',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_comments_pagination_next');

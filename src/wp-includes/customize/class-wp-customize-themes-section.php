@@ -51,13 +51,13 @@ class WP_Customize_Themes_Section extends WP_Customize_Section
     /**
      * Gets section parameters for JS.
      *
-     * @since 4.9.0
      * @return array Exported parameters.
+     * @since 4.9.0
      */
     public function json()
     {
-        $exported                = parent::json();
-        $exported['action']      = $this->action;
+        $exported = parent::json();
+        $exported['action'] = $this->action;
         $exported['filter_type'] = $this->filter_type;
 
         return $exported;
@@ -74,11 +74,13 @@ class WP_Customize_Themes_Section extends WP_Customize_Section
     {
         ?>
         <li id="accordion-section-{{ data.id }}" class="theme-section">
-            <button type="button" class="customize-themes-section-title themes-section-{{ data.id }}">{{ data.title }}</button>
+            <button type="button" class="customize-themes-section-title themes-section-{{ data.id }}">{{ data.title }}
+            </button>
             <?php if (current_user_can('install_themes') || is_multisite()) : // @todo Upload support. ?>
             <?php endif; ?>
             <div class="customize-themes-section themes-section-{{ data.id }} control-section-content themes-php">
-                <div class="theme-overlay" tabindex="0" role="dialog" aria-label="<?php esc_attr_e('Theme Details'); ?>"></div>
+                <div class="theme-overlay" tabindex="0" role="dialog"
+                     aria-label="<?php esc_attr_e('Theme Details'); ?>"></div>
                 <div class="theme-browser rendered">
                     <div class="customize-preview-header themes-filter-bar">
                         <?php $this->filter_bar_content_template(); ?>
@@ -88,9 +90,9 @@ class WP_Customize_Themes_Section extends WP_Customize_Section
                         <p>
                             <?php
                             printf(
-                                /* translators: %s: Support forums URL. */
+                            /* translators: %s: Support forums URL. */
                                 __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
-                                __('https://wp.org/support/forums/')
+                                __('https://wp.org/support/forums/'),
                             );
                             ?>
                         </p>
@@ -101,9 +103,10 @@ class WP_Customize_Themes_Section extends WP_Customize_Section
                     <p class="no-themes-local">
                         <?php
                         printf(
-                            /* translators: %s: "Search wp.org themes" button text. */
+                        /* translators: %s: "Search wp.org themes" button text. */
                             __('No themes found. Try a different search, or %s.'),
-                            sprintf('<button type="button" class="button-link search-dotorg-themes">%s</button>', __('Search wp.org themes'))
+                            sprintf('<button type="button" class="button-link search-dotorg-themes">%s</button>',
+                                __('Search wp.org themes')),
                         );
                         ?>
                     </p>
@@ -125,35 +128,38 @@ class WP_Customize_Themes_Section extends WP_Customize_Section
     protected function filter_bar_content_template()
     {
         ?>
-        <button type="button" class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e('Go to theme sources'); ?></button>
+        <button type="button"
+                class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e('Go to theme sources'); ?></button>
         <# if ( 'wporg' === data.action ) { #>
-            <div class="search-form">
-                <label for="wp-filter-search-input-{{ data.id }}"><?php _e('Search themes'); ?></label>
-                <div class="search-form-input">
-                    <input type="search" id="wp-filter-search-input-{{ data.id }}" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search">
-                    <div class="search-icon" aria-hidden="true"></div>
-                    <span id="{{ data.id }}-live-search-desc" class="screen-reader-text">
+        <div class="search-form">
+            <label for="wp-filter-search-input-{{ data.id }}"><?php _e('Search themes'); ?></label>
+            <div class="search-form-input">
+                <input type="search" id="wp-filter-search-input-{{ data.id }}"
+                       aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search">
+                <div class="search-icon" aria-hidden="true"></div>
+                <span id="{{ data.id }}-live-search-desc" class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
                         _e('The search results will be updated as you type.');
                         ?>
                     </span>
-                </div>
             </div>
+        </div>
         <# } else { #>
-            <div class="themes-filter-container">
-                <label for="{{ data.id }}-themes-filter"><?php _e('Search themes'); ?></label>
-                <div class="search-form-input">
-                    <input type="search" id="{{ data.id }}-themes-filter" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search wp-filter-search-themes" />
-                    <div class="search-icon" aria-hidden="true"></div>
-                    <span id="{{ data.id }}-live-search-desc" class="screen-reader-text">
+        <div class="themes-filter-container">
+            <label for="{{ data.id }}-themes-filter"><?php _e('Search themes'); ?></label>
+            <div class="search-form-input">
+                <input type="search" id="{{ data.id }}-themes-filter" aria-describedby="{{ data.id }}-live-search-desc"
+                       class="wp-filter-search wp-filter-search-themes"/>
+                <div class="search-icon" aria-hidden="true"></div>
+                <span id="{{ data.id }}-live-search-desc" class="screen-reader-text">
                         <?php
                         /* translators: Hidden accessibility text. */
                         _e('The search results will be updated as you type.');
                         ?>
                     </span>
-                </div>
             </div>
+        </div>
         <# } #>
         <div class="filter-themes-wrapper">
             <# if ( 'wporg' === data.action ) { #>
@@ -194,19 +200,21 @@ class WP_Customize_Themes_Section extends WP_Customize_Section
         $feature_list = get_theme_feature_list(false);
         ?>
         <# if ( 'wporg' === data.action ) { #>
-            <div class="filter-drawer filter-details">
-                <?php foreach ($feature_list as $feature_name => $features) : ?>
-                    <fieldset class="filter-group">
-                        <legend><?php echo esc_html($feature_name); ?></legend>
-                        <div class="filter-group-feature">
-                            <?php foreach ($features as $feature => $feature_name) : ?>
-                                <input type="checkbox" id="filter-id-<?php echo esc_attr($feature); ?>" value="<?php echo esc_attr($feature); ?>" />
-                                <label for="filter-id-<?php echo esc_attr($feature); ?>"><?php echo esc_html($feature_name); ?></label>
-                            <?php endforeach; ?>
-                        </div>
-                    </fieldset>
-                <?php endforeach; ?>
-            </div>
+        <div class="filter-drawer filter-details">
+            <?php foreach ($feature_list as $feature_name => $features) : ?>
+                <fieldset class="filter-group">
+                    <legend><?php echo esc_html($feature_name); ?></legend>
+                    <div class="filter-group-feature">
+                        <?php foreach ($features as $feature => $feature_name) : ?>
+                            <input type="checkbox" id="filter-id-<?php echo esc_attr($feature); ?>"
+                                   value="<?php echo esc_attr($feature); ?>"/>
+                            <label
+                                for="filter-id-<?php echo esc_attr($feature); ?>"><?php echo esc_html($feature_name); ?></label>
+                        <?php endforeach; ?>
+                    </div>
+                </fieldset>
+            <?php endforeach; ?>
+        </div>
         <# } #>
         <?php
     }

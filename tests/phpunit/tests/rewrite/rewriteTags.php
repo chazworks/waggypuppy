@@ -17,15 +17,15 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
         $wp_rewrite = new WP_Rewrite();
         $wp_rewrite->init();
 
-        $this->rewritecode    = $wp_rewrite->rewritecode;
+        $this->rewritecode = $wp_rewrite->rewritecode;
         $this->rewritereplace = $wp_rewrite->rewritereplace;
-        $this->queryreplace   = $wp_rewrite->queryreplace;
+        $this->queryreplace = $wp_rewrite->queryreplace;
     }
 
     /**
      * @dataProvider data_add_rewrite_tag_invalid
      *
-     * @param string $tag   Rewrite tag.
+     * @param string $tag Rewrite tag.
      * @param string $regex Regex.
      */
     public function test_add_rewrite_tag_invalid($tag, $regex)
@@ -54,7 +54,7 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
     {
         global $wp_rewrite;
 
-        $rewritecode   = $wp_rewrite->rewritecode;
+        $rewritecode = $wp_rewrite->rewritecode;
         $rewritecode[] = '%foo%';
         add_rewrite_tag('%foo%', 'bar');
 
@@ -67,7 +67,7 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
     {
         global $wp_rewrite;
 
-        $rewritecode   = $wp_rewrite->rewritecode;
+        $rewritecode = $wp_rewrite->rewritecode;
         $rewritecode[] = '%foo%';
         add_rewrite_tag('%foo%', 'bar', 'baz=');
 
@@ -92,7 +92,7 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
     {
         global $wp_rewrite;
 
-        $rewritecode   = $wp_rewrite->rewritecode;
+        $rewritecode = $wp_rewrite->rewritecode;
         $rewritecode[] = '%foo%';
         add_rewrite_tag('%foo%', 'bar', 'baz=');
         $this->assertSameSets($rewritecode, $wp_rewrite->rewritecode);
@@ -124,9 +124,9 @@ class Tests_Rewrite_Tags extends WP_UnitTestCase
     {
         global $wp_rewrite;
 
-        $rewritecode      = $wp_rewrite->rewritecode;
-        $rewritecode[]    = '%foo%';
-        $rewritereplace   = $wp_rewrite->rewritereplace;
+        $rewritecode = $wp_rewrite->rewritecode;
+        $rewritecode[] = '%foo%';
+        $rewritereplace = $wp_rewrite->rewritereplace;
         $rewritereplace[] = '([0-9]{1,2})';
         add_rewrite_tag('%foo%', '([0-9]{1,2})', 'post_type=foo&name=');
         $this->assertSameSets($rewritecode, $wp_rewrite->rewritecode);

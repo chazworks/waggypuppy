@@ -34,20 +34,20 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a given request has access to font families.
      *
-     * @since 6.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 6.5.0
+     *
      */
     public function get_items_permissions_check($request)
     {
         $post_type = get_post_type_object($this->post_type);
 
-        if (! current_user_can($post_type->cap->read)) {
+        if (!current_user_can($post_type->cap->read)) {
             return new WP_Error(
                 'rest_cannot_read',
                 __('Sorry, you are not allowed to access font families.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -57,10 +57,10 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Checks if a given request has access to a font family.
      *
-     * @since 6.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 6.5.0
+     *
      */
     public function get_item_permissions_check($request)
     {
@@ -69,11 +69,11 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
             return $post;
         }
 
-        if (! current_user_can('read_post', $post->ID)) {
+        if (!current_user_can('read_post', $post->ID)) {
             return new WP_Error(
                 'rest_cannot_read',
                 __('Sorry, you are not allowed to access this font family.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -83,11 +83,11 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Validates settings when creating or updating a font family.
      *
-     * @since 6.5.0
-     *
-     * @param string          $value   Encoded JSON string of font family settings.
+     * @param string $value Encoded JSON string of font family settings.
      * @param WP_REST_Request $request Request object.
      * @return true|WP_Error True if the settings are valid, otherwise a WP_Error object.
+     * @since 6.5.0
+     *
      */
     public function validate_font_family_settings($value, $request)
     {
@@ -99,11 +99,11 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
                 'rest_invalid_param',
                 /* translators: %s: Parameter name: "font_family_settings". */
                 sprintf(__('%s parameter must be a valid JSON string.'), 'font_family_settings'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 
-        $schema   = $this->get_item_schema()['properties']['font_family_settings'];
+        $schema = $this->get_item_schema()['properties']['font_family_settings'];
         $required = $schema['required'];
 
         if (isset($request['id'])) {
@@ -116,7 +116,7 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
                     'rest_invalid_param',
                     /* translators: %s: Name of parameter being updated: font_family_settings[slug]". */
                     sprintf(__('%s cannot be updated.'), 'font_family_settings[slug]'),
-                    ['status' => 400]
+                    ['status' => 400],
                 );
             }
         }
@@ -131,12 +131,12 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
 
         // Check that none of the required settings are empty values.
         foreach ($required as $key) {
-            if (isset($settings[$key]) && ! $settings[$key]) {
+            if (isset($settings[$key]) && !$settings[$key]) {
                 return new WP_Error(
                     'rest_invalid_param',
                     /* translators: %s: Name of the empty font family setting parameter, e.g. "font_family_settings[slug]". */
                     sprintf(__('%s cannot be empty.'), "font_family_settings[ $key ]"),
-                    ['status' => 400]
+                    ['status' => 400],
                 );
             }
         }
@@ -147,21 +147,21 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Sanitizes the font family settings when creating or updating a font family.
      *
-     * @since 6.5.0
-     *
      * @param string $value Encoded JSON string of font family settings.
      * @return array Decoded array of font family settings.
+     * @since 6.5.0
+     *
      */
     public function sanitize_font_family_settings($value)
     {
         // Settings arrive as stringified JSON, since this is a multipart/form-data request.
         $settings = json_decode($value, true);
-        $schema   = $this->get_item_schema()['properties']['font_family_settings']['properties'];
+        $schema = $this->get_item_schema()['properties']['font_family_settings']['properties'];
 
         // Sanitize settings based on callbacks in the schema.
         foreach ($settings as $key => $value) {
             $sanitize_callback = $schema[$key]['arg_options']['sanitize_callback'];
-            $settings[$key]    = call_user_func($sanitize_callback, $value);
+            $settings[$key] = call_user_func($sanitize_callback, $value);
         }
 
         return $settings;
@@ -170,10 +170,10 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Creates a single font family.
      *
-     * @since 6.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 6.5.0
+     *
      */
     public function create_item($request)
     {
@@ -182,19 +182,19 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
         // Check that the font family slug is unique.
         $query = new WP_Query(
             [
-                'post_type'              => $this->post_type,
-                'posts_per_page'         => 1,
-                'name'                   => $settings['slug'],
+                'post_type' => $this->post_type,
+                'posts_per_page' => 1,
+                'name' => $settings['slug'],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-            ]
+            ],
         );
-        if (! empty($query->posts)) {
+        if (!empty($query->posts)) {
             return new WP_Error(
                 'rest_duplicate_font_family',
                 /* translators: %s: Font family slug. */
                 sprintf(__('A font family with slug "%s" already exists.'), $settings['slug']),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 
@@ -204,22 +204,22 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Deletes a single font family.
      *
-     * @since 6.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 6.5.0
+     *
      */
     public function delete_item($request)
     {
-        $force = isset($request['force']) ? (bool) $request['force'] : false;
+        $force = isset($request['force']) ? (bool)$request['force'] : false;
 
         // We don't support trashing for font families.
-        if (! $force) {
+        if (!$force) {
             return new WP_Error(
                 'rest_trash_not_supported',
                 /* translators: %s: force=true */
                 sprintf(__('Font faces do not support trashing. Set "%s" to delete.'), 'force=true'),
-                ['status' => 501]
+                ['status' => 501],
             );
         }
 
@@ -229,16 +229,16 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Prepares a single font family output for response.
      *
-     * @since 6.5.0
-     *
-     * @param WP_Post         $item    Post object.
+     * @param WP_Post $item Post object.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response Response object.
+     * @since 6.5.0
+     *
      */
     public function prepare_item_for_response($item, $request)
     {
         $fields = $this->get_fields_for_response($request);
-        $data   = [];
+        $data = [];
 
         if (rest_is_field_included('id', $fields)) {
             $data['id'] = $item->ID;
@@ -256,9 +256,9 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
             $data['font_family_settings'] = $this->get_settings_from_post($item);
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
 
         $response = rest_ensure_response($data);
 
@@ -270,11 +270,11 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
         /**
          * Filters the font family data for a REST API response.
          *
+         * @param WP_REST_Response $response The response object.
+         * @param WP_Post $post Font family post object.
+         * @param WP_REST_Request $request Request object.
          * @since 6.5.0
          *
-         * @param WP_REST_Response $response The response object.
-         * @param WP_Post          $post     Font family post object.
-         * @param WP_REST_Request  $request  Request object.
          */
         return apply_filters('rest_prepare_wp_font_family', $response, $item, $request);
     }
@@ -282,9 +282,9 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Retrieves the post's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 6.5.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -293,72 +293,72 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
         }
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => $this->post_type,
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => $this->post_type,
+            'type' => 'object',
             // Base properties for every Post.
             'properties' => [
-                'id'                   => [
+                'id' => [
                     'description' => __('Unique identifier for the post.', 'default'),
-                    'type'        => 'integer',
-                    'context'     => ['view', 'edit', 'embed'],
-                    'readonly'    => true,
+                    'type' => 'integer',
+                    'context' => ['view', 'edit', 'embed'],
+                    'readonly' => true,
                 ],
-                'theme_json_version'   => [
+                'theme_json_version' => [
                     'description' => __('Version of the theme.json schema used for the typography settings.'),
-                    'type'        => 'integer',
-                    'default'     => static::LATEST_THEME_JSON_VERSION_SUPPORTED,
-                    'minimum'     => 2,
-                    'maximum'     => static::LATEST_THEME_JSON_VERSION_SUPPORTED,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'integer',
+                    'default' => static::LATEST_THEME_JSON_VERSION_SUPPORTED,
+                    'minimum' => 2,
+                    'maximum' => static::LATEST_THEME_JSON_VERSION_SUPPORTED,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'font_faces'           => [
+                'font_faces' => [
                     'description' => __('The IDs of the child font faces in the font family.'),
-                    'type'        => 'array',
-                    'context'     => ['view', 'edit', 'embed'],
-                    'items'       => [
+                    'type' => 'array',
+                    'context' => ['view', 'edit', 'embed'],
+                    'items' => [
                         'type' => 'integer',
                     ],
                 ],
                 // Font family settings come directly from theme.json schema
                 // See https://schemas.wp.org/trunk/theme.json
                 'font_family_settings' => [
-                    'description'          => __('font-face definition in theme.json format.'),
-                    'type'                 => 'object',
-                    'context'              => ['view', 'edit', 'embed'],
-                    'properties'           => [
-                        'name'       => [
+                    'description' => __('font-face definition in theme.json format.'),
+                    'type' => 'object',
+                    'context' => ['view', 'edit', 'embed'],
+                    'properties' => [
+                        'name' => [
                             'description' => __('Name of the font family preset, translatable.'),
-                            'type'        => 'string',
+                            'type' => 'string',
                             'arg_options' => [
                                 'sanitize_callback' => 'sanitize_text_field',
                             ],
                         ],
-                        'slug'       => [
+                        'slug' => [
                             'description' => __('Kebab-case unique identifier for the font family preset.'),
-                            'type'        => 'string',
+                            'type' => 'string',
                             'arg_options' => [
                                 'sanitize_callback' => 'sanitize_title',
                             ],
                         ],
                         'fontFamily' => [
                             'description' => __('CSS font-family value.'),
-                            'type'        => 'string',
+                            'type' => 'string',
                             'arg_options' => [
                                 'sanitize_callback' => ['WP_Font_Utils', 'sanitize_font_family'],
                             ],
                         ],
-                        'preview'    => [
+                        'preview' => [
                             'description' => __('URL to a preview image of the font family.'),
-                            'type'        => 'string',
-                            'format'      => 'uri',
-                            'default'     => '',
+                            'type' => 'string',
+                            'format' => 'uri',
+                            'default' => '',
                             'arg_options' => [
                                 'sanitize_callback' => 'sanitize_url',
                             ],
                         ],
                     ],
-                    'required'             => ['name', 'slug', 'fontFamily'],
+                    'required' => ['name', 'slug', 'fontFamily'],
                     'additionalProperties' => false,
                 ],
             ],
@@ -372,13 +372,12 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Retrieves the item's schema for display / public consumption purposes.
      *
+     * @return array Public item schema data.
      * @since 6.5.0
      *
-     * @return array Public item schema data.
      */
     public function get_public_item_schema()
     {
-
         $schema = parent::get_public_item_schema();
 
         // Also remove `arg_options' from child font_family_settings properties, since the parent
@@ -393,9 +392,9 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Retrieves the query params for the font family collection.
      *
+     * @return array Collection parameters.
      * @since 6.5.0
      *
-     * @return array Collection parameters.
      */
     public function get_collection_params()
     {
@@ -409,18 +408,18 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
             $query_params['modified_before'],
             $query_params['search'],
             $query_params['search_columns'],
-            $query_params['status']
+            $query_params['status'],
         );
 
         $query_params['orderby']['default'] = 'id';
-        $query_params['orderby']['enum']    = ['id', 'include'];
+        $query_params['orderby']['enum'] = ['id', 'include'];
 
         /**
          * Filters collection parameters for the font family controller.
          *
+         * @param array $query_params JSON Schema-formatted collection parameters.
          * @since 6.5.0
          *
-         * @param array $query_params JSON Schema-formatted collection parameters.
          */
         return apply_filters('rest_wp_font_family_collection_params', $query_params);
     }
@@ -428,22 +427,22 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Get the arguments used when creating or updating a font family.
      *
+     * @return array Font family create/edit arguments.
      * @since 6.5.0
      *
-     * @return array Font family create/edit arguments.
      */
     public function get_endpoint_args_for_item_schema($method = WP_REST_Server::CREATABLE)
     {
         if (WP_REST_Server::CREATABLE === $method || WP_REST_Server::EDITABLE === $method) {
             $properties = $this->get_item_schema()['properties'];
             return [
-                'theme_json_version'   => $properties['theme_json_version'],
+                'theme_json_version' => $properties['theme_json_version'],
                 // When creating or updating, font_family_settings is stringified JSON, to work with multipart/form-data.
                 // Font families don't currently support file uploads, but may accept preview files in the future.
                 'font_family_settings' => [
-                    'description'       => __('font-family declaration in theme.json format, encoded as a string.'),
-                    'type'              => 'string',
-                    'required'          => true,
+                    'description' => __('font-family declaration in theme.json format, encoded as a string.'),
+                    'type' => 'string',
+                    'required' => true,
                     'validate_callback' => [$this, 'validate_font_family_settings'],
                     'sanitize_callback' => [$this, 'sanitize_font_family_settings'],
                 ],
@@ -456,24 +455,24 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Get the child font face post IDs.
      *
-     * @since 6.5.0
-     *
      * @param int $font_family_id Font family post ID.
      * @return int[] Array of child font face post IDs.
+     * @since 6.5.0
+     *
      */
     protected function get_font_face_ids($font_family_id)
     {
         $query = new WP_Query(
             [
-                'fields'                 => 'ids',
-                'post_parent'            => $font_family_id,
-                'post_type'              => 'wp_font_face',
-                'posts_per_page'         => 99,
-                'order'                  => 'ASC',
-                'orderby'                => 'id',
+                'fields' => 'ids',
+                'post_parent' => $font_family_id,
+                'post_type' => 'wp_font_face',
+                'posts_per_page' => 99,
+                'order' => 'ASC',
+                'orderby' => 'id',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-            ]
+            ],
         );
 
         return $query->posts;
@@ -482,10 +481,10 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Prepares font family links for the request.
      *
-     * @since 6.5.0
-     *
      * @param WP_Post $post Post object.
      * @return array Links for the given post.
+     * @since 6.5.0
+     *
      */
     protected function prepare_links($post)
     {
@@ -493,7 +492,7 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
         $links = parent::prepare_links($post);
 
         return [
-            'self'       => $links['self'],
+            'self' => $links['self'],
             'collection' => $links['collection'],
             'font_faces' => $this->prepare_font_face_links($post->ID),
         ];
@@ -508,11 +507,12 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     protected function prepare_font_face_links($font_family_id)
     {
         $font_face_ids = $this->get_font_face_ids($font_family_id);
-        $links         = [];
+        $links = [];
         foreach ($font_face_ids as $font_face_id) {
             $links[] = [
                 'embeddable' => true,
-                'href'       => rest_url(sprintf('%s/%s/%s/font-faces/%s', $this->namespace, $this->rest_base, $font_family_id, $font_face_id)),
+                'href' => rest_url(sprintf('%s/%s/%s/font-faces/%s', $this->namespace, $this->rest_base,
+                    $font_family_id, $font_face_id)),
             ];
         }
         return $links;
@@ -521,10 +521,10 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Prepares a single font family post for create or update.
      *
-     * @since 6.5.0
-     *
      * @param WP_REST_Request $request Request object.
      * @return stdClass|WP_Error Post object or WP_Error.
+     * @since 6.5.0
+     *
      */
     protected function prepare_item_for_database($request)
     {
@@ -541,13 +541,13 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
 
             $prepared_post->ID = $existing_post->ID;
             $existing_settings = $this->get_settings_from_post($existing_post);
-            $settings          = array_merge($existing_settings, $settings);
+            $settings = array_merge($existing_settings, $settings);
         }
 
-        $prepared_post->post_type   = $this->post_type;
+        $prepared_post->post_type = $this->post_type;
         $prepared_post->post_status = 'publish';
-        $prepared_post->post_title  = $settings['name'];
-        $prepared_post->post_name   = sanitize_title($settings['slug']);
+        $prepared_post->post_title = $settings['name'];
+        $prepared_post->post_name = sanitize_title($settings['slug']);
 
         // Remove duplicate information from settings.
         unset($settings['name']);
@@ -561,10 +561,10 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
     /**
      * Gets the font family's settings from the post.
      *
-     * @since 6.5.0
-     *
      * @param WP_Post $post Font family post object.
      * @return array Font family settings array.
+     * @since 6.5.0
+     *
      */
     protected function get_settings_from_post($post)
     {
@@ -572,10 +572,11 @@ class WP_REST_Font_Families_Controller extends WP_REST_Posts_Controller
 
         // Default to empty strings if the settings are missing.
         return [
-            'name'       => isset($post->post_title) && $post->post_title ? $post->post_title : '',
-            'slug'       => isset($post->post_name) && $post->post_name ? $post->post_name : '',
-            'fontFamily' => isset($settings_json['fontFamily']) && $settings_json['fontFamily'] ? $settings_json['fontFamily'] : '',
-            'preview'    => isset($settings_json['preview']) && $settings_json['preview'] ? $settings_json['preview'] : '',
+            'name' => isset($post->post_title) && $post->post_title ? $post->post_title : '',
+            'slug' => isset($post->post_name) && $post->post_name ? $post->post_name : '',
+            'fontFamily' => isset($settings_json['fontFamily']) && $settings_json['fontFamily']
+                ? $settings_json['fontFamily'] : '',
+            'preview' => isset($settings_json['preview']) && $settings_json['preview'] ? $settings_json['preview'] : '',
         ];
     }
 }

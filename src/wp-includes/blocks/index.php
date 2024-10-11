@@ -6,7 +6,7 @@
  */
 
 // Don't load directly.
-if (! defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     die('-1');
 }
 
@@ -30,31 +30,31 @@ function register_core_block_style_handles()
 {
     $wp_version = wp_get_wp_version();
 
-    if (! wp_should_load_separate_core_block_assets()) {
+    if (!wp_should_load_separate_core_block_assets()) {
         return;
     }
 
-    $blocks_url   = includes_url('blocks/');
-    $suffix       = wp_scripts_get_suffix();
-    $wp_styles    = wp_styles();
+    $blocks_url = includes_url('blocks/');
+    $suffix = wp_scripts_get_suffix();
+    $wp_styles = wp_styles();
     $style_fields = [
-        'style'       => 'style',
+        'style' => 'style',
         'editorStyle' => 'editor',
     ];
 
     static $core_blocks_meta;
-    if (! $core_blocks_meta) {
+    if (!$core_blocks_meta) {
         $core_blocks_meta = require BLOCKS_PATH . 'blocks-json.php';
     }
 
-    $files          = false;
+    $files = false;
     $transient_name = 'wp_core_block_css_files';
 
     /*
      * Ignore transient cache when the development mode is set to 'core'. Why? To avoid interfering with
      * the core developer's workflow.
      */
-    $can_use_cached = ! wp_is_development_mode('core');
+    $can_use_cached = !wp_is_development_mode('core');
 
     if ($can_use_cached) {
         $cached_files = get_transient($transient_name);
@@ -69,7 +69,7 @@ function register_core_block_style_handles()
         }
     }
 
-    if (! $files) {
+    if (!$files) {
         $files = glob(wp_normalize_path(BLOCKS_PATH . '**/**.css'));
 
         // Normalize BLOCKS_PATH prior to substitution for Windows environments.
@@ -79,7 +79,7 @@ function register_core_block_style_handles()
             static function ($file) use ($normalized_blocks_path) {
                 return str_replace($normalized_blocks_path, '', $file);
             },
-            $files
+            $files,
         );
 
         // Save core block style paths in cache when not in development mode.
@@ -88,20 +88,20 @@ function register_core_block_style_handles()
                 $transient_name,
                 [
                     'version' => $wp_version,
-                    'files'   => $files,
-                ]
+                    'files' => $files,
+                ],
             );
         }
     }
 
     $register_style = static function ($name, $filename, $style_handle) use ($blocks_url, $suffix, $wp_styles, $files) {
         $style_path = "{$name}/{$filename}{$suffix}.css";
-        $path       = wp_normalize_path(BLOCKS_PATH . $style_path);
+        $path = wp_normalize_path(BLOCKS_PATH . $style_path);
 
-        if (! in_array($style_path, $files, true)) {
+        if (!in_array($style_path, $files, true)) {
             $wp_styles->add(
                 $style_handle,
-                false
+                false,
             );
             return;
         }
@@ -122,10 +122,10 @@ function register_core_block_style_handles()
         $schema = apply_filters('block_type_metadata', $schema);
 
         // Backfill these properties similar to `register_block_type_from_metadata()`.
-        if (! isset($schema['style'])) {
+        if (!isset($schema['style'])) {
             $schema['style'] = "wp-block-{$name}";
         }
-        if (! isset($schema['editorStyle'])) {
+        if (!isset($schema['editorStyle'])) {
             $schema['editorStyle'] = "wp-block-{$name}-editor";
         }
 
@@ -141,6 +141,7 @@ function register_core_block_style_handles()
         }
     }
 }
+
 add_action('init', 'register_core_block_style_handles', 9);
 
 /**
@@ -154,10 +155,11 @@ function register_core_block_types_from_metadata()
     $block_folders = require BLOCKS_PATH . 'require-static-blocks.php';
     foreach ($block_folders as $block_folder) {
         register_block_type_from_metadata(
-            BLOCKS_PATH . $block_folder
+            BLOCKS_PATH . $block_folder,
         );
     }
 }
+
 add_action('init', 'register_core_block_types_from_metadata');
 
 /**
@@ -173,7 +175,8 @@ function wp_register_core_block_metadata_collection()
 {
     wp_register_block_metadata_collection(
         BLOCKS_PATH,
-        BLOCKS_PATH . 'blocks-json.php'
+        BLOCKS_PATH . 'blocks-json.php',
     );
 }
+
 add_action('init', 'wp_register_core_block_metadata_collection', 9);

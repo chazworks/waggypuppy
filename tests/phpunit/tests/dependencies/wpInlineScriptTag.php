@@ -28,13 +28,13 @@ class Tests_Functions_wpInlineScriptTag extends WP_UnitTestCase
     }
 
     private $event_handler = <<<'JS'
-document.addEventListener( 'DOMContentLoaded', function () {
-	document.getElementById( 'elementID' )
-			.addEventListener( 'click', function( event ) {
-				event.preventDefault();
-			});
-});
-JS;
+                document.addEventListener( 'DOMContentLoaded', function () {
+                	document.getElementById( 'elementID' )
+                			.addEventListener( 'click', function( event ) {
+                				event.preventDefault();
+                			});
+                });
+                JS;
 
     public function get_inline_script_tag_type_set()
     {
@@ -45,11 +45,11 @@ JS;
             wp_get_inline_script_tag(
                 $this->event_handler,
                 [
-                    'type'     => 'application/javascript',
-                    'async'    => false,
+                    'type' => 'application/javascript',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -59,11 +59,11 @@ JS;
             wp_get_inline_script_tag(
                 $this->event_handler,
                 [
-                    'type'     => 'application/javascript',
-                    'async'    => false,
+                    'type' => 'application/javascript',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -76,10 +76,10 @@ JS;
             wp_get_inline_script_tag(
                 $this->event_handler,
                 [
-                    'async'    => false,
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -91,7 +91,7 @@ JS;
 
         $this->assertSame(
             "<script>\n{$this->event_handler}\n</script>\n",
-            wp_get_inline_script_tag($this->event_handler)
+            wp_get_inline_script_tag($this->event_handler),
         );
 
         remove_theme_support('html5');
@@ -106,13 +106,13 @@ JS;
                     $attributes['async'] = true;
                 }
                 return $attributes;
-            }
+            },
         );
 
         add_theme_support('html5', ['script']);
 
         $attributes = [
-            'id'       => 'utils-js-before',
+            'id' => 'utils-js-before',
             'nomodule' => true,
         ];
 
@@ -123,8 +123,8 @@ JS;
                 [
                     $this->event_handler,
                     $attributes,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -136,8 +136,8 @@ JS;
                 [
                     $this->event_handler,
                     $attributes,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -152,56 +152,56 @@ JS;
 
         $this->assertSame(
             "<script type=\"text/javascript\">\n/* <![CDATA[ */\n/* <![CDATA[ */ console.log( 'Hello World!' ); /* ]]]]><![CDATA[> */\n/* ]]> */\n</script>\n",
-            wp_get_inline_script_tag("/* <![CDATA[ */ console.log( 'Hello World!' ); /* ]]> */")
+            wp_get_inline_script_tag("/* <![CDATA[ */ console.log( 'Hello World!' ); /* ]]> */"),
         );
     }
 
     public function data_provider_to_test_cdata_wrapper_omitted_for_non_javascript_scripts()
     {
         return [
-            'no-type'     => [
-                'type'           => null,
-                'data'           => 'alert("hello")',
+            'no-type' => [
+                'type' => null,
+                'data' => 'alert("hello")',
                 'expected_cdata' => true,
             ],
-            'js-type'     => [
-                'type'           => 'text/javascript',
-                'data'           => 'alert("hello")',
+            'js-type' => [
+                'type' => 'text/javascript',
+                'data' => 'alert("hello")',
                 'expected_cdata' => true,
             ],
             'js-alt-type' => [
-                'type'           => 'application/javascript',
-                'data'           => 'alert("hello")',
+                'type' => 'application/javascript',
+                'data' => 'alert("hello")',
                 'expected_cdata' => true,
             ],
-            'module'      => [
-                'type'           => 'module',
-                'data'           => 'alert("hello")',
+            'module' => [
+                'type' => 'module',
+                'data' => 'alert("hello")',
                 'expected_cdata' => true,
             ],
-            'importmap'   => [
-                'type'           => 'importmap',
-                'data'           => '{"imports":{"bar":"http:\/\/localhost:10023\/bar.js?ver=6.5-alpha-57321"}}',
+            'importmap' => [
+                'type' => 'importmap',
+                'data' => '{"imports":{"bar":"http:\/\/localhost:10023\/bar.js?ver=6.5-alpha-57321"}}',
                 'expected_cdata' => false,
             ],
-            'html'        => [
-                'type'           => 'text/html',
-                'data'           => '<div>template code</div>',
+            'html' => [
+                'type' => 'text/html',
+                'data' => '<div>template code</div>',
                 'expected_cdata' => false,
             ],
-            'json'        => [
-                'type'           => 'application/json',
-                'data'           => '{}',
+            'json' => [
+                'type' => 'application/json',
+                'data' => '{}',
                 'expected_cdata' => false,
             ],
-            'ld'          => [
-                'type'           => 'application/ld+json',
-                'data'           => '{}',
+            'ld' => [
+                'type' => 'application/ld+json',
+                'data' => '{}',
                 'expected_cdata' => false,
             ],
-            'specrules'   => [
-                'type'           => 'speculationrules',
-                'data'           => '{}',
+            'specrules' => [
+                'type' => 'speculationrules',
+                'data' => '{}',
                 'expected_cdata' => false,
             ],
         ];

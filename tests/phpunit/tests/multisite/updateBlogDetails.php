@@ -36,8 +36,8 @@ if (is_multisite()) :
                 $blog_id,
                 [
                     'domain' => 'example.com',
-                    'path'   => 'my_path/',
-                ]
+                    'path' => 'my_path/',
+                ],
             );
 
             $this->assertTrue($result);
@@ -54,9 +54,9 @@ if (is_multisite()) :
          * the flag and flag value being set. Each action should fire once and should not
          * fire if a flag is already set for the given flag value.
          *
-         * @param string $flag       The name of the flag being set or unset on a site.
+         * @param string $flag The name of the flag being set or unset on a site.
          * @param string $flag_value '0' or '1'. The value of the flag being set.
-         * @param string $action     The hook expected to fire for the flag name and flag combination.
+         * @param string $action The hook expected to fire for the flag name and flag combination.
          *
          * @dataProvider data_flag_hooks
          */

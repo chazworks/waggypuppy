@@ -18,12 +18,12 @@ class Tests_Functions_wpSanitizeScriptAttributes extends WP_UnitTestCase
             ' type="application/javascript" src="https://DOMAIN.TLD/PATH/FILE.js" nomodule',
             wp_sanitize_script_attributes(
                 [
-                    'type'     => 'application/javascript',
-                    'src'      => 'https://DOMAIN.TLD/PATH/FILE.js',
-                    'async'    => false,
+                    'type' => 'application/javascript',
+                    'src' => 'https://DOMAIN.TLD/PATH/FILE.js',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -32,12 +32,12 @@ class Tests_Functions_wpSanitizeScriptAttributes extends WP_UnitTestCase
             ' src="https://DOMAIN.TLD/PATH/FILE.js" type="application/javascript" nomodule="nomodule"',
             wp_sanitize_script_attributes(
                 [
-                    'src'      => 'https://DOMAIN.TLD/PATH/FILE.js',
-                    'type'     => 'application/javascript',
-                    'async'    => false,
+                    'src' => 'https://DOMAIN.TLD/PATH/FILE.js',
+                    'type' => 'application/javascript',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -49,11 +49,11 @@ class Tests_Functions_wpSanitizeScriptAttributes extends WP_UnitTestCase
             ' src="https://DOMAIN.TLD/PATH/FILE.js" nomodule',
             wp_sanitize_script_attributes(
                 [
-                    'src'      => 'https://DOMAIN.TLD/PATH/FILE.js',
-                    'async'    => false,
+                    'src' => 'https://DOMAIN.TLD/PATH/FILE.js',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -62,11 +62,11 @@ class Tests_Functions_wpSanitizeScriptAttributes extends WP_UnitTestCase
             ' src="https://DOMAIN.TLD/PATH/FILE.js" nomodule="nomodule"',
             wp_sanitize_script_attributes(
                 [
-                    'src'      => 'https://DOMAIN.TLD/PATH/FILE.js',
-                    'async'    => false,
+                    'src' => 'https://DOMAIN.TLD/PATH/FILE.js',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -77,7 +77,7 @@ class Tests_Functions_wpSanitizeScriptAttributes extends WP_UnitTestCase
 
         $this->assertSame(
             '',
-            wp_sanitize_script_attributes([])
+            wp_sanitize_script_attributes([]),
         );
 
         remove_theme_support('html5');
@@ -91,11 +91,11 @@ class Tests_Functions_wpSanitizeScriptAttributes extends WP_UnitTestCase
             ' src="PATH/FILE.js" nomodule',
             wp_sanitize_script_attributes(
                 [
-                    'src'      => 'PATH/FILE.js',
-                    'async'    => false,
+                    'src' => 'PATH/FILE.js',
+                    'async' => false,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -110,10 +110,10 @@ class Tests_Functions_wpSanitizeScriptAttributes extends WP_UnitTestCase
             '',
             wp_sanitize_script_attributes(
                 [
-                    'async'    => false,
+                    'async' => false,
                     'nomodule' => false,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');
@@ -127,10 +127,10 @@ class Tests_Functions_wpSanitizeScriptAttributes extends WP_UnitTestCase
             ' async nomodule',
             wp_sanitize_script_attributes(
                 [
-                    'async'    => true,
+                    'async' => true,
                     'nomodule' => true,
-                ]
-            )
+                ],
+            ),
         );
 
         remove_theme_support('html5');

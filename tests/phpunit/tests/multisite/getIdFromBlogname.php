@@ -16,13 +16,13 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$network_ids = [
-                'wp.org/'     => [
+                'wp.org/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
                 'www.wordpress.net/' => [
                     'domain' => 'www.wordpress.net',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
             ];
 
@@ -32,34 +32,34 @@ if (is_multisite()) :
             unset($id);
 
             self::$site_ids = [
-                'wp.org/'         => [
-                    'domain'     => 'wp.org',
-                    'path'       => '/',
+                'wp.org/' => [
+                    'domain' => 'wp.org',
+                    'path' => '/',
                     'network_id' => self::$network_ids['wp.org/'],
                 ],
-                'foo.wp.org/'     => [
-                    'domain'     => 'foo.wp.org',
-                    'path'       => '/',
+                'foo.wp.org/' => [
+                    'domain' => 'foo.wp.org',
+                    'path' => '/',
                     'network_id' => self::$network_ids['wp.org/'],
                 ],
-                'wp.org/foo/'     => [
-                    'domain'     => 'wp.org',
-                    'path'       => '/foo/',
+                'wp.org/foo/' => [
+                    'domain' => 'wp.org',
+                    'path' => '/foo/',
                     'network_id' => self::$network_ids['wp.org/'],
                 ],
-                'www.wordpress.net/'     => [
-                    'domain'     => 'www.wordpress.net',
-                    'path'       => '/',
+                'www.wordpress.net/' => [
+                    'domain' => 'www.wordpress.net',
+                    'path' => '/',
                     'network_id' => self::$network_ids['www.wordpress.net/'],
                 ],
-                'foo.wordpress.net/'     => [
-                    'domain'     => 'foo.wordpress.net',
-                    'path'       => '/',
+                'foo.wordpress.net/' => [
+                    'domain' => 'foo.wordpress.net',
+                    'path' => '/',
                     'network_id' => self::$network_ids['www.wordpress.net/'],
                 ],
                 'www.wordpress.net/foo/' => [
-                    'domain'     => 'www.wordpress.net',
-                    'path'       => '/foo/',
+                    'domain' => 'www.wordpress.net',
+                    'path' => '/foo/',
                     'network_id' => self::$network_ids['www.wordpress.net/'],
                 ],
             ];
@@ -94,7 +94,7 @@ if (is_multisite()) :
             global $current_site;
 
             $original_network = $current_site;
-            $current_site     = get_network(self::$network_ids['wp.org/']);
+            $current_site = get_network(self::$network_ids['wp.org/']);
 
             if (is_subdomain_install()) {
                 $expected = self::$site_ids['foo.wp.org/'];
@@ -102,7 +102,7 @@ if (is_multisite()) :
                 $expected = self::$site_ids['wp.org/foo/'];
             }
 
-            $result       = get_id_from_blogname('foo');
+            $result = get_id_from_blogname('foo');
             $current_site = $original_network;
 
             $this->assertSame($expected, $result);
@@ -116,7 +116,7 @@ if (is_multisite()) :
             global $current_site;
 
             $original_network = $current_site;
-            $current_site     = get_network(self::$network_ids['www.wordpress.net/']);
+            $current_site = get_network(self::$network_ids['www.wordpress.net/']);
 
             if (is_subdomain_install()) {
                 $expected = self::$site_ids['foo.wordpress.net/'];
@@ -124,7 +124,7 @@ if (is_multisite()) :
                 $expected = self::$site_ids['www.wordpress.net/foo/'];
             }
 
-            $result       = get_id_from_blogname('foo');
+            $result = get_id_from_blogname('foo');
             $current_site = $original_network;
 
             $this->assertSame($expected, $result);
@@ -135,9 +135,9 @@ if (is_multisite()) :
             global $current_site;
 
             $original_network = $current_site;
-            $current_site     = get_network(self::$network_ids['wp.org/']);
+            $current_site = get_network(self::$network_ids['wp.org/']);
 
-            $result       = get_id_from_blogname('bar');
+            $result = get_id_from_blogname('bar');
             $current_site = $original_network;
 
             $this->assertNull($result);

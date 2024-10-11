@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for WP_Block_Parser.
  *
@@ -27,21 +28,21 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
 
         $fixture_filenames = array_merge(
             glob(self::$fixtures_dir . '/*.json'),
-            glob(self::$fixtures_dir . '/*.html')
+            glob(self::$fixtures_dir . '/*.html'),
         );
 
         $fixture_filenames = array_values(
             array_unique(
                 array_map(
                     [$this, 'clean_fixture_filename'],
-                    $fixture_filenames
-                )
-            )
+                    $fixture_filenames,
+                ),
+            ),
         );
 
         return array_map(
             [$this, 'pass_parser_fixture_filenames'],
-            $fixture_filenames
+            $fixture_filenames,
         );
     }
 
@@ -51,16 +52,16 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
      */
     public function test_default_parser_output($html_filename, $parsed_json_filename)
     {
-        $html_path        = self::$fixtures_dir . '/' . $html_filename;
+        $html_path = self::$fixtures_dir . '/' . $html_filename;
         $parsed_json_path = self::$fixtures_dir . '/' . $parsed_json_filename;
 
         foreach ([$html_path, $parsed_json_path] as $filename) {
-            if (! file_exists($filename)) {
+            if (!file_exists($filename)) {
                 throw new Exception("Missing fixture file: '$filename'");
             }
         }
 
-        $html            = self::strip_r(file_get_contents($html_path));
+        $html = self::strip_r(file_get_contents($html_path));
         $expected_parsed = json_decode(self::strip_r(file_get_contents($parsed_json_path)), true);
 
         $parser = new WP_Block_Parser();
@@ -69,17 +70,17 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
         $this->assertSame(
             $expected_parsed,
             $result,
-            "File '$parsed_json_filename' does not match expected value"
+            "File '$parsed_json_filename' does not match expected value",
         );
     }
 
     /**
      * Helper function to remove relative paths and extension from a filename, leaving just the fixture name.
      *
-     * @since 5.0.0
-     *
      * @param string $filename The filename to clean.
      * @return string The cleaned fixture name.
+     * @since 5.0.0
+     *
      */
     protected function clean_fixture_filename($filename)
     {
@@ -91,10 +92,10 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
     /**
      * Helper function to return the filenames needed to test the parser output.
      *
-     * @since 5.0.0
-     *
      * @param string $filename The cleaned fixture name.
      * @return array The input and expected output filenames for that fixture.
+     * @since 5.0.0
+     *
      */
     protected function pass_parser_fixture_filenames($filename)
     {
@@ -107,10 +108,10 @@ class Tests_Blocks_wpBlockParser extends WP_UnitTestCase
     /**
      * Helper function to remove '\r' characters from a string.
      *
-     * @since 5.0.0
-     *
      * @param string $input The string to remove '\r' from.
      * @return string The input string, with '\r' characters removed.
+     * @since 5.0.0
+     *
      */
     protected function strip_r($input)
     {

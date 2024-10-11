@@ -38,12 +38,12 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
      */
     public function test_filter_button_should_be_shown_if_there_are_comments()
     {
-        $post_id    = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $comment_id = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $post_id,
+                'comment_post_ID' => $post_id,
                 'comment_approved' => '1',
-            ]
+            ],
         );
 
         $this->table->prepare_items();
@@ -62,12 +62,12 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
      */
     public function test_filter_comment_type_dropdown_should_be_shown_if_there_are_comments()
     {
-        $post_id    = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $comment_id = self::factory()->comment->create(
             [
-                'comment_post_ID'  => $post_id,
+                'comment_post_ID' => $post_id,
                 'comment_approved' => '1',
-            ]
+            ],
         );
 
         $this->table->prepare_items();
@@ -105,13 +105,13 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
             'bulk_actions-edit-comments',
             static function () {
                 return [
-                    'delete'       => 'Delete',
+                    'delete' => 'Delete',
                     'Change State' => [
                         'feature' => 'Featured',
-                        'sale'    => 'On Sale',
+                        'sale' => 'On Sale',
                     ],
                 ];
-            }
+            },
         );
 
         ob_start();
@@ -119,12 +119,12 @@ class Tests_Admin_wpCommentsListTable extends WP_UnitTestCase
         $output = ob_get_clean();
 
         $expected = <<<'OPTIONS'
-<option value="delete">Delete</option>
-	<optgroup label="Change State">
-		<option value="feature">Featured</option>
-		<option value="sale">On Sale</option>
-	</optgroup>
-OPTIONS;
+            <option value="delete">Delete</option>
+            	<optgroup label="Change State">
+            		<option value="feature">Featured</option>
+            		<option value="sale">On Sale</option>
+            	</optgroup>
+            OPTIONS;
         $expected = str_replace("\r\n", "\n", $expected);
 
         $this->assertStringContainsString($expected, $output);
@@ -138,9 +138,9 @@ OPTIONS;
     public function test_sortable_columns()
     {
         $override_sortable_columns = [
-            'author'   => ['comment_author', true],
+            'author' => ['comment_author', true],
             'response' => 'comment_post_ID',
-            'date'     => ['comment_date', 'dEsC'], // The ordering support should be case-insensitive.
+            'date' => ['comment_date', 'dEsC'], // The ordering support should be case-insensitive.
         ];
 
         // Stub the get_sortable_columns() method.
@@ -155,14 +155,20 @@ OPTIONS;
 
         $output = get_echo([$object, 'print_column_headers']);
 
-        $this->assertStringContainsString('?orderby=comment_author&#038;order=desc', $output, 'Mismatch of the default link ordering for comment author column. Should be desc.');
-        $this->assertStringContainsString('column-author sortable asc', $output, 'Mismatch of CSS classes for the comment author column.');
+        $this->assertStringContainsString('?orderby=comment_author&#038;order=desc', $output,
+            'Mismatch of the default link ordering for comment author column. Should be desc.');
+        $this->assertStringContainsString('column-author sortable asc', $output,
+            'Mismatch of CSS classes for the comment author column.');
 
-        $this->assertStringContainsString('?orderby=comment_post_ID&#038;order=asc', $output, 'Mismatch of the default link ordering for comment response column. Should be asc.');
-        $this->assertStringContainsString('column-response sortable desc', $output, 'Mismatch of CSS classes for the comment post ID column.');
+        $this->assertStringContainsString('?orderby=comment_post_ID&#038;order=asc', $output,
+            'Mismatch of the default link ordering for comment response column. Should be asc.');
+        $this->assertStringContainsString('column-response sortable desc', $output,
+            'Mismatch of CSS classes for the comment post ID column.');
 
-        $this->assertStringContainsString('?orderby=comment_date&#038;order=desc', $output, 'Mismatch of the default link ordering for comment date column. Should be asc.');
-        $this->assertStringContainsString('column-date sortable asc', $output, 'Mismatch of CSS classes for the comment date column.');
+        $this->assertStringContainsString('?orderby=comment_date&#038;order=desc', $output,
+            'Mismatch of the default link ordering for comment date column. Should be asc.');
+        $this->assertStringContainsString('column-date sortable asc', $output,
+            'Mismatch of CSS classes for the comment date column.');
     }
 
     /**
@@ -173,14 +179,14 @@ OPTIONS;
     public function test_sortable_columns_with_current_ordering()
     {
         $override_sortable_columns = [
-            'author'   => ['comment_author', false],
+            'author' => ['comment_author', false],
             'response' => 'comment_post_ID',
-            'date'     => ['comment_date', 'asc'], // We will override this with current ordering.
+            'date' => ['comment_date', 'asc'], // We will override this with current ordering.
         ];
 
         // Current ordering.
         $_GET['orderby'] = 'comment_date';
-        $_GET['order']   = 'desc';
+        $_GET['order'] = 'desc';
 
         // Stub the get_sortable_columns() method.
         $object = $this->getMockBuilder('WP_Comments_List_Table')
@@ -194,14 +200,20 @@ OPTIONS;
 
         $output = get_echo([$object, 'print_column_headers']);
 
-        $this->assertStringContainsString('?orderby=comment_author&#038;order=asc', $output, 'Mismatch of the default link ordering for comment author column. Should be asc.');
-        $this->assertStringContainsString('column-author sortable desc', $output, 'Mismatch of CSS classes for the comment author column.');
+        $this->assertStringContainsString('?orderby=comment_author&#038;order=asc', $output,
+            'Mismatch of the default link ordering for comment author column. Should be asc.');
+        $this->assertStringContainsString('column-author sortable desc', $output,
+            'Mismatch of CSS classes for the comment author column.');
 
-        $this->assertStringContainsString('?orderby=comment_post_ID&#038;order=asc', $output, 'Mismatch of the default link ordering for comment response column. Should be asc.');
-        $this->assertStringContainsString('column-response sortable desc', $output, 'Mismatch of CSS classes for the comment post ID column.');
+        $this->assertStringContainsString('?orderby=comment_post_ID&#038;order=asc', $output,
+            'Mismatch of the default link ordering for comment response column. Should be asc.');
+        $this->assertStringContainsString('column-response sortable desc', $output,
+            'Mismatch of CSS classes for the comment post ID column.');
 
-        $this->assertStringContainsString('?orderby=comment_date&#038;order=asc', $output, 'Mismatch of the current link ordering for comment date column. Should be asc.');
-        $this->assertStringContainsString('column-date sorted desc', $output, 'Mismatch of CSS classes for the comment date column.');
+        $this->assertStringContainsString('?orderby=comment_date&#038;order=asc', $output,
+            'Mismatch of the current link ordering for comment date column. Should be asc.');
+        $this->assertStringContainsString('column-date sorted desc', $output,
+            'Mismatch of CSS classes for the comment date column.');
     }
 
     /**
@@ -214,12 +226,24 @@ OPTIONS;
         $this->table->prepare_items();
 
         $expected = [
-            'all'       => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=all" class="current" aria-current="page">All <span class="count">(<span class="all-count">0</span>)</span></a>',
-            'mine'      => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=mine&#038;user_id=0">Mine <span class="count">(<span class="mine-count">0</span>)</span></a>',
-            'moderated' => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=moderated">Pending <span class="count">(<span class="pending-count">0</span>)</span></a>',
-            'approved'  => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=approved">Approved <span class="count">(<span class="approved-count">0</span>)</span></a>',
-            'spam'      => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=spam">Spam <span class="count">(<span class="spam-count">0</span>)</span></a>',
-            'trash'     => '<a href="http://' . WP_TESTS_DOMAIN . '/wp-admin/edit-comments.php?comment_status=trash">Trash <span class="count">(<span class="trash-count">0</span>)</span></a>',
+            'all' => '<a href="http://'
+                . WP_TESTS_DOMAIN
+                . '/wp-admin/edit-comments.php?comment_status=all" class="current" aria-current="page">All <span class="count">(<span class="all-count">0</span>)</span></a>',
+            'mine' => '<a href="http://'
+                . WP_TESTS_DOMAIN
+                . '/wp-admin/edit-comments.php?comment_status=mine&#038;user_id=0">Mine <span class="count">(<span class="mine-count">0</span>)</span></a>',
+            'moderated' => '<a href="http://'
+                . WP_TESTS_DOMAIN
+                . '/wp-admin/edit-comments.php?comment_status=moderated">Pending <span class="count">(<span class="pending-count">0</span>)</span></a>',
+            'approved' => '<a href="http://'
+                . WP_TESTS_DOMAIN
+                . '/wp-admin/edit-comments.php?comment_status=approved">Approved <span class="count">(<span class="approved-count">0</span>)</span></a>',
+            'spam' => '<a href="http://'
+                . WP_TESTS_DOMAIN
+                . '/wp-admin/edit-comments.php?comment_status=spam">Spam <span class="count">(<span class="spam-count">0</span>)</span></a>',
+            'trash' => '<a href="http://'
+                . WP_TESTS_DOMAIN
+                . '/wp-admin/edit-comments.php?comment_status=trash">Trash <span class="count">(<span class="trash-count">0</span>)</span></a>',
         ];
         $this->assertSame($expected, $this->table->get_views());
     }

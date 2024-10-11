@@ -17,7 +17,7 @@ class Tests_Comment_GetCommentAuthorUrl extends WP_UnitTestCase
         self::$comment = self::factory()->comment->create_and_get(
             [
                 'comment_post_ID' => 0,
-            ]
+            ],
         );
     }
 

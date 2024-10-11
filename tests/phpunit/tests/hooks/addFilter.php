@@ -31,10 +31,10 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     public function test_add_filter_with_function()
     {
-        $callback      = '__return_null';
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $callback = '__return_null';
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
@@ -47,11 +47,11 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     public function test_add_filter_with_object()
     {
-        $a             = new MockAction();
-        $callback      = [$a, 'action'];
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $a = new MockAction();
+        $callback = [$a, 'action'];
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
@@ -64,10 +64,10 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     public function test_add_filter_with_static_method()
     {
-        $callback      = ['MockAction', 'action'];
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $callback = ['MockAction', 'action'];
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
@@ -80,11 +80,11 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     public function test_add_two_filters_with_same_priority()
     {
-        $callback_one  = '__return_null';
-        $callback_two  = '__return_false';
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $callback_one = '__return_null';
+        $callback_two = '__return_false';
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback_one, $priority, $accepted_args);
@@ -97,11 +97,11 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     public function test_add_two_filters_with_different_priority()
     {
-        $callback_one  = '__return_null';
-        $callback_two  = '__return_false';
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $callback_one = '__return_null';
+        $callback_two = '__return_false';
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback_one, $priority, $accepted_args);
@@ -116,10 +116,10 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     public function test_readd_filter()
     {
-        $callback      = '__return_null';
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $callback = '__return_null';
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
@@ -132,10 +132,10 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     public function test_readd_filter_with_different_priority()
     {
-        $callback      = '__return_null';
-        $hook          = new WP_Hook();
-        $hook_name     = __FUNCTION__;
-        $priority      = 1;
+        $callback = '__return_null';
+        $hook = new WP_Hook();
+        $hook_name = __FUNCTION__;
+        $priority = 1;
         $accepted_args = 2;
 
         $hook->add_filter($hook_name, $callback, $priority, $accepted_args);
@@ -150,10 +150,10 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     public function test_sort_after_add_filter()
     {
-        $a         = new MockAction();
-        $b         = new MockAction();
-        $c         = new MockAction();
-        $hook      = new WP_Hook();
+        $a = new MockAction();
+        $b = new MockAction();
+        $c = new MockAction();
+        $hook = new WP_Hook();
         $hook_name = __FUNCTION__;
 
         $hook->add_filter($hook_name, [$a, 'action'], 10, 1);
@@ -175,7 +175,8 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
         $this->check_priority_exists($this->hook, 12);
         $value = $this->hook->apply_filters('', []);
 
-        $this->assertSameSets([10, 11, 12], $this->get_priorities($this->hook), 'The priorities should match this array');
+        $this->assertSameSets([10, 11, 12], $this->get_priorities($this->hook),
+            'The priorities should match this array');
 
         $this->assertSame('24', $value);
     }
@@ -192,7 +193,8 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
         $this->check_priority_exists($this->hook, 12);
         $value = $this->hook->apply_filters('', []);
 
-        $this->assertSameSets([10, 11, 12], $this->get_priorities($this->hook), 'The priorities should match this array');
+        $this->assertSameSets([10, 11, 12], $this->get_priorities($this->hook),
+            'The priorities should match this array');
 
         $this->assertSame('12', $value);
     }
@@ -209,7 +211,8 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
         $this->hook->add_filter('remove_and_add', [$this, '_filter_remove_and_add4'], 12, 1);
 
-        $this->assertSameSets([10, 11, 12], $this->get_priorities($this->hook), 'The priorities should match this array');
+        $this->assertSameSets([10, 11, 12], $this->get_priorities($this->hook),
+            'The priorities should match this array');
 
         $value = $this->hook->apply_filters('', []);
 
@@ -342,7 +345,7 @@ class Tests_Hooks_AddFilter extends WP_UnitTestCase
 
     protected function get_priorities($hook)
     {
-        $reflection          = new ReflectionClass($hook);
+        $reflection = new ReflectionClass($hook);
         $reflection_property = $reflection->getProperty('priorities');
         $reflection_property->setAccessible(true);
 

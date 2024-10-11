@@ -9,8 +9,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
     protected static $user_ids = [
         'administrator' => null,
-        'editor'        => null,
-        'contributor'   => null,
+        'editor' => null,
+        'contributor' => null,
     ];
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
@@ -19,17 +19,17 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
             'administrator' => $factory->user->create(
                 [
                     'role' => 'administrator',
-                ]
+                ],
             ),
-            'editor'        => $factory->user->create(
+            'editor' => $factory->user->create(
                 [
                     'role' => 'editor',
-                ]
+                ],
             ),
-            'contributor'   => $factory->user->create(
+            'contributor' => $factory->user->create(
                 [
                     'role' => 'contributor',
-                ]
+                ],
             ),
         ];
 
@@ -55,24 +55,24 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
             'mapped_meta_caps',
             [
                 'capability_type' => ['mapped_meta_cap', 'mapped_meta_caps'],
-                'map_meta_cap'    => true,
-            ]
+                'map_meta_cap' => true,
+            ],
         );
 
         register_post_type(
             'unmapped_meta_caps',
             [
                 'capability_type' => ['unmapped_meta_cap', 'unmapped_meta_caps'],
-                'map_meta_cap'    => false,
-            ]
+                'map_meta_cap' => false,
+            ],
         );
 
         register_post_type(
             'no_admin_caps',
             [
                 'capability_type' => ['no_admin_cap', 'no_admin_caps'],
-                'map_meta_cap'    => false,
-            ]
+                'map_meta_cap' => false,
+            ],
         );
     }
 
@@ -81,7 +81,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
      */
     private function next_schedule_for_post($hook, $post_id)
     {
-        return wp_next_scheduled('publish_future_post', [0 => (int) $post_id]);
+        return wp_next_scheduled('publish_future_post', [0 => (int)$post_id]);
     }
 
     /**
@@ -92,7 +92,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         global $current_user, $user_ID;
 
         $current_user = null;
-        $user_ID      = null;
+        $user_ID = null;
     }
 
     /**
@@ -106,22 +106,22 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
             'cpt',
             [
                 'taxonomies' => ['post_tag', 'ctax'],
-            ]
+            ],
         );
         register_taxonomy('ctax', 'cpt');
 
         wp_set_current_user(self::$user_ids['editor']);
 
         $data = [
-            'post_author'  => self::$user_ids['editor'],
-            'post_status'  => 'publish',
+            'post_author' => self::$user_ids['editor'],
+            'post_status' => 'publish',
             'post_content' => "{$post_type}_content",
-            'post_title'   => "{$post_type}_title",
-            'tax_input'    => [
+            'post_title' => "{$post_type}_title",
+            'tax_input' => [
                 'post_tag' => 'tag1,tag2',
-                'ctax'     => 'cterm1,cterm2',
+                'ctax' => 'cterm1,cterm2',
             ],
-            'post_type'    => $post_type,
+            'post_type' => $post_type,
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -135,7 +135,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $this->assertSame($data['post_content'], $post->post_content);
         $this->assertSame($data['post_title'], $post->post_title);
         $this->assertSame($data['post_status'], $post->post_status);
-        $this->assertSame((string) $data['post_author'], $post->post_author);
+        $this->assertSame((string)$data['post_author'], $post->post_author);
 
         // Test cache state.
         $post_cache = wp_cache_get($post_id, 'posts');
@@ -179,10 +179,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date = strtotime('+1 day');
 
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => date_format(date_create("@{$future_date}"), 'Y-m-d H:i:s'),
+            'post_title' => 'title',
+            'post_date' => date_format(date_create("@{$future_date}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -212,10 +212,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date_2 = strtotime('Jan 11th +1 year');
 
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
+            'post_title' => 'title',
+            'post_date' => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -230,8 +230,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $this->assertSame($future_date_1, $this->next_schedule_for_post('publish_future_post', $post_id));
 
         // Now save it again with a date further in the future.
-        $data['ID']            = $post_id;
-        $data['post_date']     = date_format(date_create("@{$future_date_2}"), 'Y-m-d H:i:s');
+        $data['ID'] = $post_id;
+        $data['post_date'] = date_format(date_create("@{$future_date_2}"), 'Y-m-d H:i:s');
         $data['post_date_gmt'] = null;
         wp_update_post($data);
 
@@ -255,10 +255,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date_2 = strtotime('+2 day');
 
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
+            'post_title' => 'title',
+            'post_date' => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -273,8 +273,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $this->assertSame($future_date_1, $this->next_schedule_for_post('publish_future_post', $post_id));
 
         // Now save it again with a date further in the future.
-        $data['ID']            = $post_id;
-        $data['post_date']     = date_format(date_create("@{$future_date_2}"), 'Y-m-d H:i:s');
+        $data['ID'] = $post_id;
+        $data['post_date'] = date_format(date_create("@{$future_date_2}"), 'Y-m-d H:i:s');
         $data['post_date_gmt'] = null;
         wp_update_post($data);
 
@@ -295,10 +295,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date = strtotime('+1 day');
 
         $data = [
-            'post_status'  => 'draft',
+            'post_status' => 'draft',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => date_format(date_create("@{$future_date}"), 'Y-m-d H:i:s'),
+            'post_title' => 'title',
+            'post_date' => date_format(date_create("@{$future_date}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -326,10 +326,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date_1 = strtotime('+1 day');
 
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
+            'post_title' => 'title',
+            'post_date' => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -344,7 +344,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $this->assertSame($future_date_1, $this->next_schedule_for_post('publish_future_post', $post_id));
 
         // Now save it again with status set to draft.
-        $data['ID']          = $post_id;
+        $data['ID'] = $post_id;
         $data['post_status'] = 'draft';
         wp_update_post($data);
 
@@ -367,10 +367,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date_1 = strtotime('+1 day');
 
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => "{$status}_content",
-            'post_title'   => "{$status}_title",
-            'post_date'    => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
+            'post_title' => "{$status}_title",
+            'post_date' => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -385,7 +385,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $this->assertSame($future_date_1, $this->next_schedule_for_post('publish_future_post', $post_id));
 
         // Now save it again with status changed.
-        $data['ID']          = $post_id;
+        $data['ID'] = $post_id;
         $data['post_status'] = $status;
         wp_update_post($data);
 
@@ -420,10 +420,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date = strtotime('+1 day');
 
         $data = [
-            'post_status'  => 'private',
+            'post_status' => 'private',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => date_format(date_create("@{$future_date}"), 'Y-m-d H:i:s'),
+            'post_title' => 'title',
+            'post_date' => date_format(date_create("@{$future_date}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -451,10 +451,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     public function test_vb_insert_invalid_date()
     {
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => '2012-02-30 00:00:00',
+            'post_title' => 'title',
+            'post_date' => '2012-02-30 00:00:00',
         ];
 
         // Test both return paths with or without WP_Error.
@@ -474,10 +474,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date_1 = strtotime('+1 day');
 
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
+            'post_title' => 'title',
+            'post_date' => date_format(date_create("@{$future_date_1}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -492,7 +492,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $this->assertSame($future_date_1, $this->next_schedule_for_post('publish_future_post', $post_id));
 
         // Now save it again with status set to draft.
-        $data['ID']          = $post_id;
+        $data['ID'] = $post_id;
         $data['post_status'] = 'private';
         wp_update_post($data);
 
@@ -508,17 +508,18 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     /**
      * @ticket 5305
      */
-    public function test_wp_insert_post_should_not_allow_a_bare_numeric_slug_that_might_conflict_with_a_date_archive_when_generating_from_an_empty_post_title()
+    public function test_wp_insert_post_should_not_allow_a_bare_numeric_slug_that_might_conflict_with_a_date_archive_when_generating_from_an_empty_post_title(
+    )
     {
         $this->set_permalink_structure('/%postname%/');
 
         $post_id = wp_insert_post(
             [
-                'post_title'   => '',
+                'post_title' => '',
                 'post_content' => 'test',
-                'post_status'  => 'publish',
-                'post_type'    => 'post',
-            ]
+                'post_status' => 'publish',
+                'post_type' => 'post',
+            ],
         );
 
         $post = get_post($post_id);
@@ -530,16 +531,17 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
      * @ticket 5305
      * @ticket 33392
      */
-    public function test_wp_insert_post_should_invalidate_post_cache_before_generating_guid_when_post_name_is_empty_and_is_generated_from_the_post_ID()
+    public function test_wp_insert_post_should_invalidate_post_cache_before_generating_guid_when_post_name_is_empty_and_is_generated_from_the_post_ID(
+    )
     {
         register_post_type('wptests_pt');
 
         $post_id = wp_insert_post(
             [
-                'post_title'  => '',
-                'post_type'   => 'wptests_pt',
+                'post_title' => '',
+                'post_type' => 'wptests_pt',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $post = get_post($post_id);
@@ -555,10 +557,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     {
         $post_id = wp_insert_post(
             [
-                'post_title'  => 'title',
-                'post_type'   => 'unknown',
+                'post_title' => 'title',
+                'post_type' => 'unknown',
                 'post_status' => 'pending',
-            ]
+            ],
         );
 
         $this->assertIsInt($post_id);
@@ -572,15 +574,15 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     {
         $post_id = wp_insert_post(
             [
-                'post_title'   => '',
+                'post_title' => '',
                 'post_content' => 'test',
-                'post_status'  => 'publish',
-                'post_type'    => 'post',
-                'meta_input'   => [
+                'post_status' => 'publish',
+                'post_type' => 'post',
+                'meta_input' => [
                     'hello' => 'world',
-                    'foo'   => 'bar',
+                    'foo' => 'bar',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame('world', get_post_meta($post_id, 'hello', true));
@@ -598,10 +600,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $future_date = strtotime('+1 day');
 
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => 'title',
-            'post_date'    => date_format(date_create("@{$future_date}"), 'Y-m-d H:i:s'),
+            'post_title' => 'title',
+            'post_date' => date_format(date_create("@{$future_date}"), 'Y-m-d H:i:s'),
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -628,10 +630,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
 
         $data = [
-            'post_status'  => 'publish',
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => '',
-            'post_date'    => '2007-10-31 06:15:00',
+            'post_title' => '',
+            'post_date' => '2007-10-31 06:15:00',
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -650,10 +652,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         global $post;
 
         $parent_id = self::factory()->post->create();
-        $post      = self::factory()->post->create_and_get(
+        $post = self::factory()->post->create_and_get(
             [
                 'post_parent' => $parent_id,
-            ]
+            ],
         );
 
         $this->assertSame([$parent_id], get_post_ancestors(0));
@@ -666,7 +668,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     public function test_update_invalid_post_id()
     {
         $post_id = self::factory()->post->create();
-        $post    = get_post($post_id, ARRAY_A);
+        $post = get_post($post_id, ARRAY_A);
 
         $post['ID'] = 123456789;
 
@@ -687,12 +689,12 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         register_taxonomy('test_tax', 'post');
 
         $title = 'title';
-        $data  = [
-            'post_author'  => self::$user_ids['editor'],
-            'post_status'  => 'publish',
+        $data = [
+            'post_author' => self::$user_ids['editor'],
+            'post_status' => 'publish',
             'post_content' => 'content',
-            'post_title'   => $title,
-            'tax_input'    => [
+            'post_title' => $title,
+            'tax_input' => [
                 'test_tax' => ['term', 'term2', 'term3'],
             ],
         ];
@@ -702,7 +704,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $this->assertGreaterThan(0, $post_id);
 
         $post = get_post($post_id);
-        $this->assertSame((string) self::$user_ids['editor'], $post->post_author);
+        $this->assertSame((string)self::$user_ids['editor'], $post->post_author);
         $this->assertSame($title, $post->post_title);
     }
 
@@ -714,9 +716,9 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $this->assertSame('open', $post->comment_status);
         $this->assertSame('open', $post->ping_status);
@@ -730,10 +732,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         $this->assertSame('closed', $post->comment_status);
         $this->assertSame('closed', $post->ping_status);
@@ -748,16 +750,16 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
             'cpt',
             [
                 'supports' => ['comments', 'trackbacks'],
-            ]
+            ],
         );
 
         $post_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'cpt',
-            ]
+                'post_type' => 'cpt',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         _unregister_post_type('cpt');
 
@@ -775,10 +777,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'cpt',
-            ]
+                'post_type' => 'cpt',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
 
         _unregister_post_type('cpt');
 
@@ -796,13 +798,13 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     {
         $post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Stuff',
+                'post_title' => 'Stuff',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $data = [
-            'ID'         => $post_id,
+            'ID' => $post_id,
             'post_title' => 'Stuff and Things',
         ];
 
@@ -832,7 +834,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(['post_author' => null]);
 
-        $this->assertSame((string) self::$user_ids['editor'], get_post($post_id)->post_author);
+        $this->assertSame((string)self::$user_ids['editor'], get_post($post_id)->post_author);
     }
 
     /**
@@ -841,9 +843,9 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     public function test_wp_insert_post_should_respect_post_date_gmt()
     {
         $data = [
-            'post_status'   => 'publish',
-            'post_content'  => 'content',
-            'post_title'    => 'title',
+            'post_status' => 'publish',
+            'post_content' => 'content',
+            'post_title' => 'title',
             'post_date_gmt' => '2014-01-01 12:00:00',
         ];
 
@@ -876,13 +878,13 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         wp_set_current_user(self::$user_ids['contributor']);
 
-        $uuid    = wp_generate_uuid4();
+        $uuid = wp_generate_uuid4();
         $post_id = wp_insert_post(
             [
-                'post_type'    => 'customize_changeset',
-                'post_name'    => strtoupper($uuid),
+                'post_type' => 'customize_changeset',
+                'post_name' => strtoupper($uuid),
                 'post_content' => wp_json_encode($changeset_data),
-            ]
+            ],
         );
         $this->assertSame($uuid, get_post($post_id)->post_name, 'Expected lower-case UUID4 to be inserted.');
         $this->assertSame($changeset_data, json_decode(get_post($post_id)->post_content, true));
@@ -890,23 +892,25 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $changeset_data['blogname']['value'] = 'Hola Mundo';
         wp_update_post(
             [
-                'ID'           => $post_id,
-                'post_status'  => 'draft',
+                'ID' => $post_id,
+                'post_status' => 'draft',
                 'post_content' => wp_json_encode($changeset_data),
-            ]
+            ],
         );
-        $this->assertSame($uuid, get_post($post_id)->post_name, 'Expected post_name to not have been dropped for drafts.');
+        $this->assertSame($uuid, get_post($post_id)->post_name,
+            'Expected post_name to not have been dropped for drafts.');
         $this->assertSame($changeset_data, json_decode(get_post($post_id)->post_content, true));
 
         $changeset_data['blogname']['value'] = 'Hallo Welt';
         wp_update_post(
             [
-                'ID'           => $post_id,
-                'post_status'  => 'pending',
+                'ID' => $post_id,
+                'post_status' => 'pending',
                 'post_content' => wp_json_encode($changeset_data),
-            ]
+            ],
         );
-        $this->assertSame($uuid, get_post($post_id)->post_name, 'Expected post_name to not have been dropped for pending.');
+        $this->assertSame($uuid, get_post($post_id)->post_name,
+            'Expected post_name to not have been dropped for pending.');
         $this->assertSame($changeset_data, json_decode(get_post($post_id)->post_content, true));
     }
 
@@ -918,18 +922,18 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         // Create a category and attach it to a new post.
         $term_id = self::factory()->term->create(
             [
-                'name'     => 'Term',
+                'name' => 'Term',
                 'taxonomy' => 'category',
-            ]
+            ],
         );
 
         $post_id = self::factory()->post->create(
             [
-                'post_type'     => 'post',
-                'post_title'    => 'Post with categories',
-                'post_status'   => 'publish',
+                'post_type' => 'post',
+                'post_title' => 'Post with categories',
+                'post_status' => 'publish',
                 'post_category' => [$term_id],
-            ]
+            ],
         );
 
         // Validate that the term got assigned.
@@ -953,7 +957,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         // Validate that the post has had the default category assigned again.
         $this->assertCount(1, $assigned_terms);
-        $this->assertSame((int) get_option('default_category'), $assigned_terms[0]->term_id);
+        $this->assertSame((int)get_option('default_category'), $assigned_terms[0]->term_id);
     }
 
     /**
@@ -965,10 +969,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_status'   => 'floating',
-                'post_date'     => null,
+                'post_status' => 'floating',
+                'post_date' => null,
                 'post_date_gmt' => null,
-            ]
+            ],
         );
 
         $post = get_post($post_id);
@@ -984,10 +988,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_status'   => 'floating',
-                'post_date'     => null,
+                'post_status' => 'floating',
+                'post_date' => null,
                 'post_date_gmt' => null,
-            ]
+            ],
         );
 
         $post = get_post($post_id);
@@ -995,7 +999,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
             strtotime(gmdate('Y-m-d H:i:s')),
             strtotime($post->post_date_gmt),
             2,
-            'The dates should be equal'
+            'The dates should be equal',
         );
     }
 
@@ -1018,7 +1022,7 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'tags_input' => [$tag_1['term_id'], $tag_2['term_id']],
-            ]
+            ],
         );
 
         $post = get_post($post_id);
@@ -1033,9 +1037,9 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         wp_update_post(
             [
-                'ID'         => $post->ID,
+                'ID' => $post->ID,
                 'tags_input' => [$tag_2['term_id'], $tag_3['term_id']],
-            ]
+            ],
         );
 
         $tags = wp_get_post_tags($post->ID, ['fields' => 'ids']);
@@ -1048,35 +1052,35 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     public function test_insert_empty_post_date()
     {
         $post_date_gmt = '2020-12-29 10:11:45';
-        $invalid_date  = '2020-12-41 14:15:27';
+        $invalid_date = '2020-12-41 14:15:27';
 
         // Empty post_date_gmt with floating status
         $post_id = self::factory()->post->create(
             [
                 'post_status' => 'draft',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertEqualsWithDelta(
             strtotime(gmdate('Y-m-d H:i:s')),
             strtotime($post->post_date),
             2,
-            'The dates should be equal'
+            'The dates should be equal',
         );
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
 
         $post_id = self::factory()->post->create(
             [
                 'post_date_gmt' => '0000-00-00 00:00:00',
-                'post_status'   => 'draft',
-            ]
+                'post_status' => 'draft',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertEqualsWithDelta(
             strtotime(gmdate('Y-m-d H:i:s')),
             strtotime($post->post_date),
             2,
-            'The dates should be equal'
+            'The dates should be equal',
         );
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
 
@@ -1084,49 +1088,49 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertEqualsWithDelta(
             strtotime(gmdate('Y-m-d H:i:s')),
             strtotime($post->post_date),
             2,
-            'The dates should be equal'
+            'The dates should be equal',
         );
         $this->assertEqualsWithDelta(
             strtotime(gmdate('Y-m-d H:i:s')),
             strtotime(get_gmt_from_date($post->post_date)),
             2,
-            'The dates should be equal'
+            'The dates should be equal',
         );
 
         $post_id = self::factory()->post->create(
             [
                 'post_date_gmt' => '0000-00-00 00:00:00',
-                'post_status'   => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertEqualsWithDelta(
             strtotime(gmdate('Y-m-d H:i:s')),
             strtotime($post->post_date),
             2,
-            'The dates should be equal'
+            'The dates should be equal',
         );
         $this->assertEqualsWithDelta(
             strtotime(gmdate('Y-m-d H:i:s')),
             strtotime(get_gmt_from_date($post->post_date)),
             2,
-            'The dates should be equal'
+            'The dates should be equal',
         );
 
         // Valid post_date_gmt
         $post_id = self::factory()->post->create(
             [
                 'post_date_gmt' => $post_date_gmt,
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame(get_date_from_gmt($post_date_gmt), $post->post_date);
         $this->assertSame($post_date_gmt, $post->post_date_gmt);
 
@@ -1134,9 +1138,9 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_date_gmt' => $invalid_date,
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame('1970-01-01 00:00:00', $post->post_date);
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
     }
@@ -1146,73 +1150,73 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
      */
     public function test_insert_valid_post_date()
     {
-        $post_date     = '2020-12-28 11:26:35';
+        $post_date = '2020-12-28 11:26:35';
         $post_date_gmt = '2020-12-29 10:11:45';
-        $invalid_date  = '2020-12-41 14:15:27';
+        $invalid_date = '2020-12-41 14:15:27';
 
         // Empty post_date_gmt with floating status
         $post_id = self::factory()->post->create(
             [
-                'post_date'   => $post_date,
+                'post_date' => $post_date,
                 'post_status' => 'draft',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame($post_date, $post->post_date);
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
 
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $post_date,
+                'post_date' => $post_date,
                 'post_date_gmt' => '0000-00-00 00:00:00',
-                'post_status'   => 'draft',
-            ]
+                'post_status' => 'draft',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame($post_date, $post->post_date);
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
 
         // Empty post_date_gmt without floating status
         $post_id = self::factory()->post->create(
             [
-                'post_date'   => $post_date,
+                'post_date' => $post_date,
                 'post_status' => 'publish',
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame($post_date, $post->post_date);
         $this->assertSame(get_gmt_from_date($post_date), $post->post_date_gmt);
 
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $post_date,
+                'post_date' => $post_date,
                 'post_date_gmt' => '0000-00-00 00:00:00',
-                'post_status'   => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame($post_date, $post->post_date);
         $this->assertSame(get_gmt_from_date($post_date), $post->post_date_gmt);
 
         // Valid post_date_gmt
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $post_date,
+                'post_date' => $post_date,
                 'post_date_gmt' => $post_date_gmt,
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame($post_date, $post->post_date);
         $this->assertSame($post_date_gmt, $post->post_date_gmt);
 
         // Invalid post_date_gmt
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $post_date,
+                'post_date' => $post_date,
                 'post_date_gmt' => $invalid_date,
-            ]
+            ],
         );
-        $post    = get_post($post_id);
+        $post = get_post($post_id);
         $this->assertSame($post_date, $post->post_date);
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
     }
@@ -1222,61 +1226,61 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
      */
     public function test_insert_invalid_post_date()
     {
-        $post_date     = '2020-12-28 11:26:35';
+        $post_date = '2020-12-28 11:26:35';
         $post_date_gmt = '2020-12-29 10:11:45';
-        $invalid_date  = '2020-12-41 14:15:27';
+        $invalid_date = '2020-12-41 14:15:27';
 
         // Empty post_date_gmt with floating status
         $post_id = self::factory()->post->create(
             [
-                'post_date'   => $invalid_date,
+                'post_date' => $invalid_date,
                 'post_status' => 'draft',
-            ]
+            ],
         );
         $this->assertWPError($post_id);
 
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $invalid_date,
+                'post_date' => $invalid_date,
                 'post_date_gmt' => '0000-00-00 00:00:00',
-                'post_status'   => 'draft',
-            ]
+                'post_status' => 'draft',
+            ],
         );
         $this->assertWPError($post_id);
 
         // Empty post_date_gmt without floating status
         $post_id = self::factory()->post->create(
             [
-                'post_date'   => $invalid_date,
+                'post_date' => $invalid_date,
                 'post_status' => 'publish',
-            ]
+            ],
         );
         $this->assertWPError($post_id);
 
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $invalid_date,
+                'post_date' => $invalid_date,
                 'post_date_gmt' => '0000-00-00 00:00:00',
-                'post_status'   => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
         $this->assertWPError($post_id);
 
         // Valid post_date_gmt
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $invalid_date,
+                'post_date' => $invalid_date,
                 'post_date_gmt' => $post_date_gmt,
-            ]
+            ],
         );
         $this->assertWPError($post_id);
 
         // Invalid post_date_gmt
         $post_id = self::factory()->post->create(
             [
-                'post_date'     => $invalid_date,
+                'post_date' => $invalid_date,
                 'post_date_gmt' => $invalid_date,
-            ]
+            ],
         );
         $this->assertWPError($post_id);
     }
@@ -1288,10 +1292,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     {
         $trashed_about_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_title'  => 'About',
+                'post_type' => 'page',
+                'post_title' => 'About',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         wp_trash_post($trashed_about_page_id);
         $this->assertSame('about__trashed', get_post($trashed_about_page_id)->post_name);
@@ -1304,11 +1308,11 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     {
         $trashed_about_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_title'  => 'About',
+                'post_type' => 'page',
+                'post_title' => 'About',
                 'post_status' => 'publish',
-                'post_name'   => 'foo__trashed__foo',
-            ]
+                'post_name' => 'foo__trashed__foo',
+            ],
         );
         wp_trash_post($trashed_about_page_id);
         $this->assertSame('foo__trashed__foo__trashed', get_post($trashed_about_page_id)->post_name);
@@ -1321,10 +1325,10 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     {
         $about_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_title'  => 'About',
+                'post_type' => 'page',
+                'post_title' => 'About',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         wp_trash_post($about_page_id);
 
@@ -1335,22 +1339,23 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     /**
      * @ticket 11863
      */
-    public function test_creating_a_new_post_should_add_trashed_suffix_to_post_name_of_trashed_posts_with_the_desired_slug()
+    public function test_creating_a_new_post_should_add_trashed_suffix_to_post_name_of_trashed_posts_with_the_desired_slug(
+    )
     {
         $trashed_about_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_title'  => 'About',
+                'post_type' => 'page',
+                'post_title' => 'About',
                 'post_status' => 'trash',
-            ]
+            ],
         );
 
         $about_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_title'  => 'About',
+                'post_type' => 'page',
+                'post_title' => 'About',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $this->assertSame('about__trashed', get_post($trashed_about_page_id)->post_name);
@@ -1360,31 +1365,32 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     /**
      * @ticket 11863
      */
-    public function test_untrashing_a_post_with_a_stored_desired_post_name_should_get_its_post_name_suffixed_if_another_post_has_taken_the_desired_post_name()
+    public function test_untrashing_a_post_with_a_stored_desired_post_name_should_get_its_post_name_suffixed_if_another_post_has_taken_the_desired_post_name(
+    )
     {
         $about_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_title'  => 'About',
+                'post_type' => 'page',
+                'post_title' => 'About',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         wp_trash_post($about_page_id);
 
         $another_about_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
-                'post_title'  => 'About',
+                'post_type' => 'page',
+                'post_title' => 'About',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         wp_untrash_post($about_page_id);
         wp_update_post(
             [
-                'ID'          => $about_page_id,
+                'ID' => $about_page_id,
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $this->assertSame('about', get_post($another_about_page_id)->post_name);
@@ -1399,9 +1405,9 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
     {
         $page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => $post_status,
-            ]
+            ],
         );
 
         wp_trash_post($page_id);
@@ -1420,9 +1426,9 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         $page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_status' => $post_status,
-            ]
+            ],
         );
 
         wp_trash_post($page_id);
@@ -1478,30 +1484,30 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Jefferson claim: nice to have Washington on your side.',
+                'post_title' => 'Jefferson claim: nice to have Washington on your side.',
                 'post_content' => "I’m in the cabinet. I am complicit in watching him grabbin’ at power and kiss it.\n\nIf Washington isn’t gon’ listen to disciplined dissidents, this is the difference: this kid is out!",
-                'post_type'    => $post_type,
-                'post_name'    => 'new-washington',
-                'post_status'  => 'pending',
-            ]
+                'post_type' => $post_type,
+                'post_name' => 'new-washington',
+                'post_status' => 'pending',
+            ],
         );
 
         $expected = '';
-        $actual   = get_post_field('post_name', $post_id);
+        $actual = get_post_field('post_name', $post_id);
 
         $this->assertSame($expected, $actual);
 
         // Now update the post.
         wp_update_post(
             [
-                'ID'         => $post_id,
+                'ID' => $post_id,
                 'post_title' => 'Hamilton has Washington on side: Jefferson',
-                'post_name'  => 'edited-washington',
-            ]
+                'post_name' => 'edited-washington',
+            ],
         );
 
         $expected = '';
-        $actual   = get_post_field('post_name', $post_id);
+        $actual = get_post_field('post_name', $post_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -1518,30 +1524,30 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'What is the Conner Project?',
+                'post_title' => 'What is the Conner Project?',
                 'post_content' => 'Evan Hansen’s last link to his friend Conner is a signature on his broken arm.',
-                'post_type'    => $post_type,
-                'post_name'    => 'dear-evan-hansen-explainer',
-                'post_status'  => 'pending',
-            ]
+                'post_type' => $post_type,
+                'post_name' => 'dear-evan-hansen-explainer',
+                'post_status' => 'pending',
+            ],
         );
 
         $expected = 'dear-evan-hansen-explainer';
-        $actual   = get_post_field('post_name', $post_id);
+        $actual = get_post_field('post_name', $post_id);
 
         $this->assertSame($expected, $actual);
 
         // Now update the post.
         wp_update_post(
             [
-                'ID'         => $post_id,
+                'ID' => $post_id,
                 'post_title' => 'Conner Project to close',
-                'post_name'  => 'dear-evan-hansen-spoiler',
-            ]
+                'post_name' => 'dear-evan-hansen-spoiler',
+            ],
         );
 
         $expected = 'dear-evan-hansen-spoiler';
-        $actual   = get_post_field('post_name', $post_id);
+        $actual = get_post_field('post_name', $post_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -1560,30 +1566,30 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
 
         $post_id = self::factory()->post->create(
             [
-                'post_title'   => 'Everything is legal in New Jersey',
+                'post_title' => 'Everything is legal in New Jersey',
                 'post_content' => 'Shortly before his death, Philip Hamilton was heard to claim everything was legal in the garden state.',
-                'post_type'    => 'no_admin_caps',
-                'post_name'    => 'yet-another-duel',
-                'post_status'  => 'pending',
-            ]
+                'post_type' => 'no_admin_caps',
+                'post_name' => 'yet-another-duel',
+                'post_status' => 'pending',
+            ],
         );
 
         $expected = '';
-        $actual   = get_post_field('post_name', $post_id);
+        $actual = get_post_field('post_name', $post_id);
 
         $this->assertSame($expected, $actual);
 
         // Now update the post.
         wp_update_post(
             [
-                'ID'         => $post_id,
+                'ID' => $post_id,
                 'post_title' => 'Ten things illegal in New Jersey',
-                'post_name'  => 'foreshadowing-in-nj',
-            ]
+                'post_name' => 'foreshadowing-in-nj',
+            ],
         );
 
         $expected = '';
-        $actual   = get_post_field('post_name', $post_id);
+        $actual = get_post_field('post_name', $post_id);
 
         $this->assertSame($expected, $actual);
     }
@@ -1593,14 +1599,13 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
      */
     public function test_scheduled_post_with_a_past_date_should_be_published()
     {
-
         $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
 
         $post_id = self::factory()->post->create(
             [
                 'post_date_gmt' => $now->modify('-1 year')->format('Y-m-d H:i:s'),
-                'post_status'   => 'future',
-            ]
+                'post_status' => 'future',
+            ],
         );
 
         $this->assertSame('publish', get_post_status($post_id));
@@ -1608,8 +1613,8 @@ class Tests_Post_wpInsertPost extends WP_UnitTestCase
         $post_id = self::factory()->post->create(
             [
                 'post_date_gmt' => $now->modify('+50 years')->format('Y-m-d H:i:s'),
-                'post_status'   => 'future',
-            ]
+                'post_status' => 'future',
+            ],
         );
 
         $this->assertSame('future', get_post_status($post_id));

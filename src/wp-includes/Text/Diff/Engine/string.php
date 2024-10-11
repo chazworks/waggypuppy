@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Parses unified or context diffs output from eg. the diff utility.
  *
@@ -20,7 +21,8 @@
  * @package Text_Diff
  * @since   0.2.0
  */
-class Text_Diff_Engine_string {
+class Text_Diff_Engine_string
+{
 
     /**
      * Parses a unified or context diff.
@@ -29,8 +31,8 @@ class Text_Diff_Engine_string {
      * a specific diff type. If the second parameter is 'autodetect', the
      * diff will be examined to find out which type of diff this is.
      *
-     * @param string $diff  The diff content.
-     * @param string $mode  The diff mode of the content in $diff. One of
+     * @param string $diff The diff content.
+     * @param string $mode The diff mode of the content in $diff. One of
      *                      'context', 'unified', or 'autodetect'.
      *
      * @return array  List of all diff operations.
@@ -68,8 +70,8 @@ class Text_Diff_Engine_string {
 
         // Split by new line and remove the diff header, if there is one.
         $diff = explode($lnbr, $diff);
-        if (($mode == 'context' && strpos($diff[0], '***') === 0) ||
-            ($mode == 'unified' && strpos($diff[0], '---') === 0)) {
+        if (($mode == 'context' && strpos($diff[0], '***') === 0)
+            || ($mode == 'unified' && strpos($diff[0], '---') === 0)) {
             array_shift($diff);
             array_shift($diff);
         }
@@ -84,52 +86,52 @@ class Text_Diff_Engine_string {
     /**
      * Parses an array containing the unified diff.
      *
-     * @param array $diff  Array of lines.
+     * @param array $diff Array of lines.
      *
      * @return array  List of all diff operations.
      */
     function parseUnifiedDiff($diff)
     {
-        $edits = array();
+        $edits = [];
         $end = count($diff) - 1;
         for ($i = 0; $i < $end;) {
-            $diff1 = array();
+            $diff1 = [];
             switch (substr($diff[$i], 0, 1)) {
-            case ' ':
-                do {
-                    $diff1[] = substr($diff[$i], 1);
-                } while (++$i < $end && substr($diff[$i], 0, 1) == ' ');
-                $edits[] = new Text_Diff_Op_copy($diff1);
-                break;
+                case ' ':
+                    do {
+                        $diff1[] = substr($diff[$i], 1);
+                    } while (++$i < $end && substr($diff[$i], 0, 1) == ' ');
+                    $edits[] = new Text_Diff_Op_copy($diff1);
+                    break;
 
-            case '+':
-                // get all new lines
-                do {
-                    $diff1[] = substr($diff[$i], 1);
-                } while (++$i < $end && substr($diff[$i], 0, 1) == '+');
-                $edits[] = new Text_Diff_Op_add($diff1);
-                break;
+                case '+':
+                    // get all new lines
+                    do {
+                        $diff1[] = substr($diff[$i], 1);
+                    } while (++$i < $end && substr($diff[$i], 0, 1) == '+');
+                    $edits[] = new Text_Diff_Op_add($diff1);
+                    break;
 
-            case '-':
-                // get changed or removed lines
-                $diff2 = array();
-                do {
-                    $diff1[] = substr($diff[$i], 1);
-                } while (++$i < $end && substr($diff[$i], 0, 1) == '-');
+                case '-':
+                    // get changed or removed lines
+                    $diff2 = [];
+                    do {
+                        $diff1[] = substr($diff[$i], 1);
+                    } while (++$i < $end && substr($diff[$i], 0, 1) == '-');
 
-                while ($i < $end && substr($diff[$i], 0, 1) == '+') {
-                    $diff2[] = substr($diff[$i++], 1);
-                }
-                if (count($diff2) == 0) {
-                    $edits[] = new Text_Diff_Op_delete($diff1);
-                } else {
-                    $edits[] = new Text_Diff_Op_change($diff1, $diff2);
-                }
-                break;
+                    while ($i < $end && substr($diff[$i], 0, 1) == '+') {
+                        $diff2[] = substr($diff[$i++], 1);
+                    }
+                    if (count($diff2) == 0) {
+                        $edits[] = new Text_Diff_Op_delete($diff1);
+                    } else {
+                        $edits[] = new Text_Diff_Op_change($diff1, $diff2);
+                    }
+                    break;
 
-            default:
-                $i++;
-                break;
+                default:
+                    $i++;
+                    break;
             }
         }
 
@@ -139,13 +141,13 @@ class Text_Diff_Engine_string {
     /**
      * Parses an array containing the context diff.
      *
-     * @param array $diff  Array of lines.
+     * @param array $diff Array of lines.
      *
      * @return array  List of all diff operations.
      */
     function parseContextDiff(&$diff)
     {
-        $edits = array();
+        $edits = [];
         $i = $max_i = $j = $max_j = 0;
         $end = count($diff) - 1;
         while ($i < $end && $j < $end) {
@@ -153,36 +155,44 @@ class Text_Diff_Engine_string {
                 // Find the boundaries of the diff output of the two files
                 for ($i = $j;
                      $i < $end && substr($diff[$i], 0, 3) == '***';
-                     $i++);
+                     $i++) {
+                    ;
+                }
                 for ($max_i = $i;
                      $max_i < $end && substr($diff[$max_i], 0, 3) != '---';
-                     $max_i++);
+                     $max_i++) {
+                    ;
+                }
                 for ($j = $max_i;
                      $j < $end && substr($diff[$j], 0, 3) == '---';
-                     $j++);
+                     $j++) {
+                    ;
+                }
                 for ($max_j = $j;
                      $max_j < $end && substr($diff[$max_j], 0, 3) != '***';
-                     $max_j++);
+                     $max_j++) {
+                    ;
+                }
             }
 
             // find what hasn't been changed
-            $array = array();
-            while ($i < $max_i &&
-                   $j < $max_j &&
-                   strcmp($diff[$i], $diff[$j]) == 0) {
+            $array = [];
+            while ($i < $max_i
+                && $j < $max_j
+                && strcmp($diff[$i], $diff[$j]) == 0) {
                 $array[] = substr($diff[$i], 2);
                 $i++;
                 $j++;
             }
 
-            while ($i < $max_i && ($max_j-$j) <= 1) {
+            while ($i < $max_i && ($max_j - $j) <= 1) {
                 if ($diff[$i] != '' && substr($diff[$i], 0, 1) != ' ') {
                     break;
                 }
                 $array[] = substr($diff[$i++], 2);
             }
 
-            while ($j < $max_j && ($max_i-$i) <= 1) {
+            while ($j < $max_j && ($max_i - $i) <= 1) {
                 if ($diff[$j] != '' && substr($diff[$j], 0, 1) != ' ') {
                     break;
                 }
@@ -193,51 +203,51 @@ class Text_Diff_Engine_string {
             }
 
             if ($i < $max_i) {
-                $diff1 = array();
+                $diff1 = [];
                 switch (substr($diff[$i], 0, 1)) {
-                case '!':
-                    $diff2 = array();
-                    do {
-                        $diff1[] = substr($diff[$i], 2);
-                        if ($j < $max_j && substr($diff[$j], 0, 1) == '!') {
-                            $diff2[] = substr($diff[$j++], 2);
-                        }
-                    } while (++$i < $max_i && substr($diff[$i], 0, 1) == '!');
-                    $edits[] = new Text_Diff_Op_change($diff1, $diff2);
-                    break;
+                    case '!':
+                        $diff2 = [];
+                        do {
+                            $diff1[] = substr($diff[$i], 2);
+                            if ($j < $max_j && substr($diff[$j], 0, 1) == '!') {
+                                $diff2[] = substr($diff[$j++], 2);
+                            }
+                        } while (++$i < $max_i && substr($diff[$i], 0, 1) == '!');
+                        $edits[] = new Text_Diff_Op_change($diff1, $diff2);
+                        break;
 
-                case '+':
-                    do {
-                        $diff1[] = substr($diff[$i], 2);
-                    } while (++$i < $max_i && substr($diff[$i], 0, 1) == '+');
-                    $edits[] = new Text_Diff_Op_add($diff1);
-                    break;
+                    case '+':
+                        do {
+                            $diff1[] = substr($diff[$i], 2);
+                        } while (++$i < $max_i && substr($diff[$i], 0, 1) == '+');
+                        $edits[] = new Text_Diff_Op_add($diff1);
+                        break;
 
-                case '-':
-                    do {
-                        $diff1[] = substr($diff[$i], 2);
-                    } while (++$i < $max_i && substr($diff[$i], 0, 1) == '-');
-                    $edits[] = new Text_Diff_Op_delete($diff1);
-                    break;
+                    case '-':
+                        do {
+                            $diff1[] = substr($diff[$i], 2);
+                        } while (++$i < $max_i && substr($diff[$i], 0, 1) == '-');
+                        $edits[] = new Text_Diff_Op_delete($diff1);
+                        break;
                 }
             }
 
             if ($j < $max_j) {
-                $diff2 = array();
+                $diff2 = [];
                 switch (substr($diff[$j], 0, 1)) {
-                case '+':
-                    do {
-                        $diff2[] = substr($diff[$j++], 2);
-                    } while ($j < $max_j && substr($diff[$j], 0, 1) == '+');
-                    $edits[] = new Text_Diff_Op_add($diff2);
-                    break;
+                    case '+':
+                        do {
+                            $diff2[] = substr($diff[$j++], 2);
+                        } while ($j < $max_j && substr($diff[$j], 0, 1) == '+');
+                        $edits[] = new Text_Diff_Op_add($diff2);
+                        break;
 
-                case '-':
-                    do {
-                        $diff2[] = substr($diff[$j++], 2);
-                    } while ($j < $max_j && substr($diff[$j], 0, 1) == '-');
-                    $edits[] = new Text_Diff_Op_delete($diff2);
-                    break;
+                    case '-':
+                        do {
+                            $diff2[] = substr($diff[$j++], 2);
+                        } while ($j < $max_j && substr($diff[$j], 0, 1) == '-');
+                        $edits[] = new Text_Diff_Op_delete($diff2);
+                        break;
                 }
             }
         }

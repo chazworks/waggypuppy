@@ -67,29 +67,29 @@
  *     <p>Fallback text that gets replaced.</p>
  *     <!-- /wp:paragraph -->
  *
- * @since 6.5.0
- *
- * @param string $source_name       The name of the source. It must be a string containing a namespace prefix, i.e.
+ * @param string $source_name The name of the source. It must be a string containing a namespace prefix, i.e.
  *                                  `my-plugin/my-custom-source`. It must only contain lowercase alphanumeric
  *                                  characters, the forward slash `/` and dashes.
- * @param array  $source_properties {
+ * @param array $source_properties {
  *     The array of arguments that are used to register a source.
  *
- *     @type string   $label              The label of the source.
- *     @type callable $get_value_callback A callback executed when the source is processed during block rendering.
+ * @type string $label The label of the source.
+ * @type callable $get_value_callback A callback executed when the source is processed during block rendering.
  *                                        The callback should have the following signature:
  *
  *                                        `function( $source_args, $block_instance, $attribute_name ): mixed`
- *                                            - @param array    $source_args    Array containing source arguments
+ *                                            - @param array $source_args Array containing source arguments
  *                                                                              used to look up the override value,
  *                                                                              i.e. {"key": "foo"}.
  *                                            - @param WP_Block $block_instance The block instance.
- *                                            - @param string   $attribute_name The name of an attribute.
+ *                                            - @param string $attribute_name The name of an attribute.
  *                                        The callback has a mixed return type; it may return a string to override
  *                                        the block's original value, null, false to remove an attribute, etc.
- *     @type string[] $uses_context       Optional. Array of values to add to block `uses_context` needed by the source.
+ * @type string[] $uses_context Optional. Array of values to add to block `uses_context` needed by the source.
  * }
  * @return WP_Block_Bindings_Source|false Source when the registration was successful, or `false` on failure.
+ * @since 6.5.0
+ *
  */
 function register_block_bindings_source(string $source_name, array $source_properties)
 {
@@ -99,10 +99,10 @@ function register_block_bindings_source(string $source_name, array $source_prope
 /**
  * Unregisters a block bindings source.
  *
- * @since 6.5.0
- *
  * @param string $source_name Block bindings source name including namespace.
  * @return WP_Block_Bindings_Source|false The unregistered block bindings source on success and `false` otherwise.
+ * @since 6.5.0
+ *
  */
 function unregister_block_bindings_source(string $source_name)
 {
@@ -112,9 +112,9 @@ function unregister_block_bindings_source(string $source_name)
 /**
  * Retrieves the list of all registered block bindings sources.
  *
+ * @return WP_Block_Bindings_Source[] The array of registered block bindings sources.
  * @since 6.5.0
  *
- * @return WP_Block_Bindings_Source[] The array of registered block bindings sources.
  */
 function get_all_registered_block_bindings_sources()
 {
@@ -124,10 +124,10 @@ function get_all_registered_block_bindings_sources()
 /**
  * Retrieves a registered block bindings source.
  *
- * @since 6.5.0
- *
  * @param string $source_name The name of the source.
  * @return WP_Block_Bindings_Source|null The registered block bindings source, or `null` if it is not registered.
+ * @since 6.5.0
+ *
  */
 function get_block_bindings_source(string $source_name)
 {

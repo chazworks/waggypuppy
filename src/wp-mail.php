@@ -11,7 +11,7 @@
 require __DIR__ . '/wp-load.php';
 
 /** This filter is documented in wp-admin/options.php */
-if (! apply_filters('enable_post_by_email_configuration', true)) {
+if (!apply_filters('enable_post_by_email_configuration', true)) {
     wp_die(__('This action has been disabled by the administrator.'), 403);
 }
 
@@ -26,13 +26,13 @@ if ('mail.example.com' === $mailserver_url || empty($mailserver_url)) {
  *
  * @since 2.9.0
  */
-do_action('wp-mail.php'); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+do_action('wp-mail.php');
 
 /** Get the POP3 class with which to access the mailbox. */
 require_once ABSPATH . WPINC . '/class-pop3.php';
 
 /** Only check at this interval for new messages. */
-if (! defined('WP_MAIL_INTERVAL')) {
+if (!defined('WP_MAIL_INTERVAL')) {
     define('WP_MAIL_INTERVAL', 5 * MINUTE_IN_SECONDS);
 }
 
@@ -44,13 +44,14 @@ if ($last_checked) {
 
 set_transient('mailserver_last_checked', true, WP_MAIL_INTERVAL);
 
-$time_difference = (int) ((float) get_option('gmt_offset') * HOUR_IN_SECONDS);
+$time_difference = (int)((float)get_option('gmt_offset') * HOUR_IN_SECONDS);
 
 $phone_delim = '::';
 
 $pop3 = new POP3();
 
-if (! $pop3->connect(get_option('mailserver_url'), get_option('mailserver_port')) || ! $pop3->user(get_option('mailserver_login'))) {
+if (!$pop3->connect(get_option('mailserver_url'), get_option('mailserver_port'))
+    || !$pop3->user(get_option('mailserver_login'))) {
     wp_die(esc_html($pop3->ERROR));
 }
 
@@ -69,19 +70,18 @@ if (0 === $count) {
 wp_set_current_user(0);
 
 for ($i = 1; $i <= $count; $i++) {
-
     $message = $pop3->get($i);
 
-    $bodysignal                = false;
-    $boundary                  = '';
-    $charset                   = '';
-    $content                   = '';
-    $content_type              = '';
+    $bodysignal = false;
+    $boundary = '';
+    $charset = '';
+    $content = '';
+    $content_type = '';
     $content_transfer_encoding = '';
-    $post_author               = 1;
-    $author_found              = false;
-    $post_date                 = null;
-    $post_date_gmt             = null;
+    $post_author = 1;
+    $author_found = false;
+    $post_date = null;
+    $post_date_gmt = null;
 
     foreach ($message as $line) {
         // Body signal.
@@ -95,15 +95,16 @@ for ($i = 1; $i <= $count; $i++) {
                 $content_type = trim($line);
                 $content_type = substr($content_type, 14, strlen($content_type) - 14);
                 $content_type = explode(';', $content_type);
-                if (! empty($content_type[1])) {
+                if (!empty($content_type[1])) {
                     $charset = explode('=', $content_type[1]);
-                    $charset = (! empty($charset[1])) ? trim($charset[1]) : '';
+                    $charset = (!empty($charset[1])) ? trim($charset[1]) : '';
                 }
                 $content_type = $content_type[0];
             }
             if (preg_match('/Content-Transfer-Encoding: /i', $line)) {
                 $content_transfer_encoding = trim($line);
-                $content_transfer_encoding = substr($content_transfer_encoding, 27, strlen($content_transfer_encoding) - 27);
+                $content_transfer_encoding = substr($content_transfer_encoding, 27,
+                    strlen($content_transfer_encoding) - 27);
                 $content_transfer_encoding = explode(';', $content_transfer_encoding);
                 $content_transfer_encoding = $content_transfer_encoding[0];
             }
@@ -129,7 +130,7 @@ for ($i = 1; $i <= $count; $i++) {
              * Set the author using the email address (From or Reply-To, the last used)
              * otherwise use the site admin.
              */
-            if (! $author_found && preg_match('/^(From|Reply-To): /', $line)) {
+            if (!$author_found && preg_match('/^(From|Reply-To): /', $line)) {
                 if (preg_match('|[a-z0-9_.-]+@[a-z0-9_.-]+(?!.*<)|i', $line, $matches)) {
                     $author = $matches[0];
                 } else {
@@ -138,8 +139,8 @@ for ($i = 1; $i <= $count; $i++) {
                 $author = sanitize_email($author);
                 if (is_email($author)) {
                     $userdata = get_user_by('email', $author);
-                    if (! empty($userdata)) {
-                        $post_author  = $userdata->ID;
+                    if (!empty($userdata)) {
+                        $post_author = $userdata->ID;
                         $author_found = true;
                     }
                 }
@@ -148,17 +149,17 @@ for ($i = 1; $i <= $count; $i++) {
             if (preg_match('/Date: /i', $line)) { // Of the form '20 Mar 2002 20:32:37 +0100'.
                 $ddate = str_replace('Date: ', '', trim($line));
                 // Remove parenthesized timezone string if it exists, as this confuses strtotime().
-                $ddate           = preg_replace('!\s*\(.+\)\s*$!', '', $ddate);
+                $ddate = preg_replace('!\s*\(.+\)\s*$!', '', $ddate);
                 $ddate_timestamp = strtotime($ddate);
-                $post_date       = gmdate('Y-m-d H:i:s', $ddate_timestamp + $time_difference);
-                $post_date_gmt   = gmdate('Y-m-d H:i:s', $ddate_timestamp);
+                $post_date = gmdate('Y-m-d H:i:s', $ddate_timestamp + $time_difference);
+                $post_date_gmt = gmdate('Y-m-d H:i:s', $ddate_timestamp);
             }
         }
     }
 
     // Set $post_status based on $author_found and on author's publish_posts capability.
     if ($author_found) {
-        $user        = new WP_User($post_author);
+        $user = new WP_User($post_author);
         $post_status = ($user->has_cap('publish_posts')) ? 'publish' : 'pending';
     } else {
         // Author not found in DB, set status to pending. Author already set to admin.
@@ -186,9 +187,9 @@ for ($i = 1; $i <= $count; $i++) {
      * Give Post-By-Email extending plugins full access to the content, either
      * the raw content, or the content of the last quoted-printable section.
      *
+     * @param string $content The original email content.
      * @since 2.8.0
      *
-     * @param string $content The original email content.
      */
     $content = apply_filters('wp_mail_original_content', $content);
 
@@ -196,7 +197,7 @@ for ($i = 1; $i <= $count; $i++) {
         $content = quoted_printable_decode($content);
     }
 
-    if (function_exists('iconv') && ! empty($charset)) {
+    if (function_exists('iconv') && !empty($charset)) {
         $content = iconv($charset, get_option('blog_charset'), $content);
     }
 
@@ -209,9 +210,9 @@ for ($i = 1; $i <= $count; $i++) {
     /**
      * Filters the content of the post submitted by email before saving.
      *
+     * @param string $content The email content.
      * @since 1.2.0
      *
-     * @param string $content The email content.
      */
     $post_content = apply_filters('phone_content', $content);
 
@@ -223,7 +224,8 @@ for ($i = 1; $i <= $count; $i++) {
 
     $post_category = [get_option('default_email_category')];
 
-    $post_data = compact('post_content', 'post_title', 'post_date', 'post_date_gmt', 'post_author', 'post_category', 'post_status');
+    $post_data = compact('post_content', 'post_title', 'post_date', 'post_date_gmt', 'post_author', 'post_category',
+        'post_status');
     $post_data = wp_slash($post_data);
 
     $post_ID = wp_insert_post($post_data);
@@ -239,29 +241,29 @@ for ($i = 1; $i <= $count; $i++) {
     /**
      * Fires after a post submitted by email is published.
      *
+     * @param int $post_ID The post ID.
      * @since 1.2.0
      *
-     * @param int $post_ID The post ID.
      */
     do_action('publish_phone', $post_ID);
 
     echo "\n<p><strong>" . __('Author:') . '</strong> ' . esc_html($post_author) . '</p>';
     echo "\n<p><strong>" . __('Posted title:') . '</strong> ' . esc_html($post_title) . '</p>';
 
-    if (! $pop3->delete($i)) {
+    if (!$pop3->delete($i)) {
         echo '<p>' . sprintf(
             /* translators: %s: POP3 error. */
-            __('Oops: %s'),
-            esc_html($pop3->ERROR)
-        ) . '</p>';
+                __('Oops: %s'),
+                esc_html($pop3->ERROR),
+            ) . '</p>';
         $pop3->reset();
         exit;
     } else {
         echo '<p>' . sprintf(
             /* translators: %s: The message ID. */
-            __('Mission complete. Message %s deleted.'),
-            '<strong>' . $i . '</strong>'
-        ) . '</p>';
+                __('Mission complete. Message %s deleted.'),
+                '<strong>' . $i . '</strong>',
+            ) . '</p>';
     }
 }
 

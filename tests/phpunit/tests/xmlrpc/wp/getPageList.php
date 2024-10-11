@@ -11,16 +11,16 @@ class Tests_XMLRPC_wp_getPageList extends WP_XMLRPC_UnitTestCase
     {
         self::$post_id = $factory->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_author' => $factory->user->create(
                     [
                         'user_login' => 'author',
-                        'user_pass'  => 'author',
-                        'role'       => 'author',
-                    ]
+                        'user_pass' => 'author',
+                        'role' => 'author',
+                    ],
                 ),
-                'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            ]
+                'post_date' => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
+            ],
         );
     }
 
@@ -48,7 +48,7 @@ class Tests_XMLRPC_wp_getPageList extends WP_XMLRPC_UnitTestCase
         $this->assertNotIXRError($results);
 
         foreach ($results as $result) {
-            $page     = get_post($result->page_id);
+            $page = get_post($result->page_id);
             $date_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $page->post_date, false), 'Ymd\TH:i:s'));
 
             $this->assertInstanceOf('IXR_Date', $result->dateCreated);

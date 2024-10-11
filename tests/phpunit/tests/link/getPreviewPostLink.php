@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group link
  * @covers ::get_preview_post_link
@@ -19,11 +20,11 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase
 
         $expected = add_query_arg(
             [
-                'foo'     => 'bar',
-                'bar'     => 'baz',
+                'foo' => 'bar',
+                'bar' => 'baz',
                 'preview' => 'true',
             ],
-            get_permalink($post)
+            get_permalink($post),
         );
 
         $this->assertSame(
@@ -33,8 +34,8 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase
                 [
                     'foo' => 'bar',
                     'bar' => 'baz',
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -52,8 +53,8 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase
                     'foo' => 'bar',
                     'bar' => 'baz',
                 ],
-                'https://google.com/'
-            )
+                'https://google.com/',
+            ),
         );
     }
 
@@ -79,13 +80,13 @@ class Tests_Link_GetPreviewPostLink extends WP_UnitTestCase
             'non_viewable_cpt',
             [
                 'public' => false,
-            ]
+            ],
         );
 
         $post = self::factory()->post->create(
             [
                 'post_type' => $post_type->name,
-            ]
+            ],
         );
 
         $this->assertSame('', get_preview_post_link($post));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for WP_Block_List.
  *
@@ -45,8 +46,8 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase
     public function test_array_access()
     {
         $parsed_blocks = parse_blocks('<!-- wp:example /-->');
-        $context       = [];
-        $blocks        = new WP_Block_List($parsed_blocks, $context, $this->registry);
+        $context = [];
+        $blocks = new WP_Block_List($parsed_blocks, $context, $this->registry);
 
         // Test "offsetExists".
         $this->assertArrayHasKey(0, $blocks);
@@ -56,7 +57,7 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase
 
         // Test "offsetSet".
         $parsed_blocks[0]['blockName'] = 'core/updated';
-        $blocks[0]                     = new WP_Block($parsed_blocks[0], $context, $this->registry);
+        $blocks[0] = new WP_Block($parsed_blocks[0], $context, $this->registry);
         $this->assertSame('core/updated', $blocks[0]->name);
 
         // Test "offsetUnset".
@@ -70,9 +71,9 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase
     public function test_iterable()
     {
         $parsed_blocks = parse_blocks('<!-- wp:example --><!-- wp:example /--><!-- /wp:example -->');
-        $context       = [];
-        $blocks        = new WP_Block_List($parsed_blocks, $context, $this->registry);
-        $assertions    = 0;
+        $context = [];
+        $blocks = new WP_Block_List($parsed_blocks, $context, $this->registry);
+        $assertions = 0;
 
         foreach ($blocks as $block) {
             $this->assertSame('core/example', $block->name);
@@ -85,7 +86,7 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase
 
         $blocks->rewind();
         while ($blocks->valid()) {
-            $key   = $blocks->key();
+            $key = $blocks->key();
             $block = $blocks->current();
             $this->assertSame(0, $key);
             ++$assertions;
@@ -103,8 +104,8 @@ class Tests_Blocks_wpBlockList extends WP_UnitTestCase
     public function test_countable()
     {
         $parsed_blocks = parse_blocks('<!-- wp:example /-->');
-        $context       = [];
-        $blocks        = new WP_Block_List($parsed_blocks, $context, $this->registry);
+        $context = [];
+        $blocks = new WP_Block_List($parsed_blocks, $context, $this->registry);
 
         $this->assertCount(1, $blocks);
     }

@@ -11,9 +11,9 @@
 /**
  * Whether a subdomain configuration is enabled.
  *
+ * @return bool True if subdomain configuration is enabled, false otherwise.
  * @since 3.0.0
  *
- * @return bool True if subdomain configuration is enabled, false otherwise.
  */
 function is_subdomain_install()
 {
@@ -31,26 +31,26 @@ function is_subdomain_install()
  * manually, define `WP_PLUGIN_DIR` and `WP_PLUGIN_URL` in `wp-config.php`.
  *
  * @access private
+ * @return string[] Array of absolute paths to files to include.
  * @since 3.1.0
  *
- * @return string[] Array of absolute paths to files to include.
  */
 function wp_get_active_network_plugins()
 {
-    $active_plugins = (array) get_site_option('active_sitewide_plugins', []);
+    $active_plugins = (array)get_site_option('active_sitewide_plugins', []);
     if (empty($active_plugins)) {
         return [];
     }
 
-    $plugins        = [];
+    $plugins = [];
     $active_plugins = array_keys($active_plugins);
     sort($active_plugins);
 
     foreach ($active_plugins as $plugin) {
-        if (! validate_file($plugin)                     // $plugin must validate as file.
+        if (!validate_file($plugin)                     // $plugin must validate as file.
             && str_ends_with($plugin, '.php')             // $plugin must end with '.php'.
             && file_exists(WP_PLUGIN_DIR . '/' . $plugin) // $plugin must exist.
-            ) {
+        ) {
             $plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
         }
     }
@@ -69,19 +69,18 @@ function wp_get_active_network_plugins()
  * use the wp-content/blog-deleted.php, blog-inactive.php and
  * blog-suspended.php drop-ins.
  *
+ * @return true|string Returns true on success, or drop-in file to include.
  * @since 3.0.0
  *
- * @return true|string Returns true on success, or drop-in file to include.
  */
 function ms_site_check()
 {
-
     /**
      * Filters checking the status of the current blog.
      *
+     * @param bool|null $check Whether to skip the blog status check. Default null.
      * @since 3.0.0
      *
-     * @param bool|null $check Whether to skip the blog status check. Default null.
      */
     $check = apply_filters('ms_site_check', null);
     if (null !== $check) {
@@ -110,10 +109,10 @@ function ms_site_check()
             $admin_email = str_replace('@', ' AT ', get_site_option('admin_email', 'support@' . get_network()->domain));
             wp_die(
                 sprintf(
-                    /* translators: %s: Admin email link. */
+                /* translators: %s: Admin email link. */
                     __('This site has not been activated yet. If you are having problems activating your site, please contact %s.'),
-                    sprintf('<a href="mailto:%1$s">%1$s</a>', $admin_email)
-                )
+                    sprintf('<a href="mailto:%1$s">%1$s</a>', $admin_email),
+                ),
             );
         }
     }
@@ -132,14 +131,14 @@ function ms_site_check()
 /**
  * Retrieves the closest matching network for a domain and path.
  *
+ * @param string $domain Domain to check.
+ * @param string $path Path to check.
+ * @param int|null $segments Path segments to use. Defaults to null, or the full path.
+ * @return WP_Network|false Network object if successful. False when no network is found.
  * @since 3.9.0
  *
  * @internal In 4.4.0, converted to a wrapper for WP_Network::get_by_path()
  *
- * @param string   $domain   Domain to check.
- * @param string   $path     Path to check.
- * @param int|null $segments Path segments to use. Defaults to null, or the full path.
- * @return WP_Network|false Network object if successful. False when no network is found.
  */
 function get_network_by_path($domain, $path, $segments = null)
 {
@@ -156,13 +155,13 @@ function get_network_by_path($domain, $path, $segments = null)
  * The intent of this method is to match a site object during bootstrap for a
  * requested site address
  *
+ * @param string $domain Domain to check.
+ * @param string $path Path to check.
+ * @param int|null $segments Path segments to use. Defaults to null, or the full path.
+ * @return WP_Site|false Site object if successful. False when no site is found.
  * @since 3.9.0
  * @since 4.7.0 Updated to always return a `WP_Site` object.
  *
- * @param string   $domain   Domain to check.
- * @param string   $path     Path to check.
- * @param int|null $segments Path segments to use. Defaults to null, or the full path.
- * @return WP_Site|false Site object if successful. False when no site is found.
  */
 function get_site_by_path($domain, $path, $segments = null)
 {
@@ -171,13 +170,13 @@ function get_site_by_path($domain, $path, $segments = null)
     /**
      * Filters the number of path segments to consider when searching for a site.
      *
-     * @since 3.9.0
-     *
      * @param int|null $segments The number of path segments to consider. waggypuppy by default looks at
      *                           one path segment following the network path. The function default of
      *                           null only makes sense when you know the requested path should match a site.
-     * @param string   $domain   The requested domain.
-     * @param string   $path     The requested path, in full.
+     * @param string $domain The requested domain.
+     * @param string $path The requested path, in full.
+     * @since 3.9.0
+     *
      */
     $segments = apply_filters('site_by_path_segments_count', $segments, $domain, $path);
 
@@ -204,19 +203,19 @@ function get_site_by_path($domain, $path, $segments = null)
      * can be found at the requested domain and path. Otherwise, return
      * a site object.
      *
+     * @param null|false|WP_Site $site Site value to return by path. Default null
+     *                                     to continue retrieving the site.
+     * @param string $domain The requested domain.
+     * @param string $path The requested path, in full.
+     * @param int|null $segments The suggested number of paths to consult.
+     *                                     Default null, meaning the entire path was to be consulted.
+     * @param string[] $paths The paths to search for, based on $path and $segments.
      * @since 3.9.0
      *
-     * @param null|false|WP_Site $site     Site value to return by path. Default null
-     *                                     to continue retrieving the site.
-     * @param string             $domain   The requested domain.
-     * @param string             $path     The requested path, in full.
-     * @param int|null           $segments The suggested number of paths to consult.
-     *                                     Default null, meaning the entire path was to be consulted.
-     * @param string[]           $paths    The paths to search for, based on $path and $segments.
      */
     $pre = apply_filters('pre_get_site_by_path', null, $domain, $path, $segments, $paths);
     if (null !== $pre) {
-        if (false !== $pre && ! $pre instanceof WP_Site) {
+        if (false !== $pre && !$pre instanceof WP_Site) {
             $pre = new WP_Site($pre);
         }
         return $pre;
@@ -241,26 +240,26 @@ function get_site_by_path($domain, $path, $segments = null)
     }
 
     $args = [
-        'number'                 => 1,
+        'number' => 1,
         'update_site_meta_cache' => false,
     ];
 
     if (count($domains) > 1) {
-        $args['domain__in']               = $domains;
+        $args['domain__in'] = $domains;
         $args['orderby']['domain_length'] = 'DESC';
     } else {
         $args['domain'] = array_shift($domains);
     }
 
     if (count($paths) > 1) {
-        $args['path__in']               = $paths;
+        $args['path__in'] = $paths;
         $args['orderby']['path_length'] = 'DESC';
     } else {
         $args['path'] = array_shift($paths);
     }
 
     $result = get_sites($args);
-    $site   = array_shift($result);
+    $site = array_shift($result);
 
     if ($site) {
         return $site;
@@ -285,19 +284,19 @@ function get_site_by_path($domain, $path, $segments = null)
  * If neither a network or site is found, `false` or a URL string will be returned
  * so that either an error can be shown or a redirect can occur.
  *
- * @since 4.6.0
- * @access private
- *
- * @global WP_Network $current_site The current network.
- * @global WP_Site    $current_blog The current site.
- *
- * @param string $domain    The requested domain.
- * @param string $path      The requested path.
- * @param bool   $subdomain Optional. Whether a subdomain (true) or subdirectory (false) configuration.
+ * @param string $domain The requested domain.
+ * @param string $path The requested path.
+ * @param bool $subdomain Optional. Whether a subdomain (true) or subdirectory (false) configuration.
  *                          Default false.
  * @return bool|string True if bootstrap successfully populated `$current_blog` and `$current_site`.
  *                     False if bootstrap could not be properly completed.
  *                     Redirect URL if parts exist, but the request as a whole can not be fulfilled.
+ * @global WP_Network $current_site The current network.
+ * @global WP_Site $current_blog The current site.
+ *
+ * @since 4.6.0
+ * @access private
+ *
  */
 function ms_load_current_site_and_network($domain, $path, $subdomain = false)
 {
@@ -305,10 +304,10 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
 
     // If the network is defined in wp-config.php, we can simply use that.
     if (defined('DOMAIN_CURRENT_SITE') && defined('PATH_CURRENT_SITE')) {
-        $current_site         = new stdClass();
-        $current_site->id     = defined('SITE_ID_CURRENT_SITE') ? SITE_ID_CURRENT_SITE : 1;
+        $current_site = new stdClass();
+        $current_site->id = defined('SITE_ID_CURRENT_SITE') ? SITE_ID_CURRENT_SITE : 1;
         $current_site->domain = DOMAIN_CURRENT_SITE;
-        $current_site->path   = PATH_CURRENT_SITE;
+        $current_site->path = PATH_CURRENT_SITE;
         if (defined('BLOG_ID_CURRENT_SITE')) {
             $current_site->blog_id = BLOG_ID_CURRENT_SITE;
         } elseif (defined('BLOGID_CURRENT_SITE')) { // Deprecated.
@@ -317,7 +316,9 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
 
         if (0 === strcasecmp($current_site->domain, $domain) && 0 === strcasecmp($current_site->path, $path)) {
             $current_blog = get_site_by_path($domain, $path);
-        } elseif ('/' !== $current_site->path && 0 === strcasecmp($current_site->domain, $domain) && 0 === stripos($path, $current_site->path)) {
+        } elseif ('/' !== $current_site->path && 0 === strcasecmp($current_site->domain, $domain)
+            && 0
+            === stripos($path, $current_site->path)) {
             /*
              * If the current network has a path and also matches the domain and path of the request,
              * we need to look for a site using the first path segment following the network's path.
@@ -327,14 +328,14 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
             // Otherwise, use the first path segment (as usual).
             $current_blog = get_site_by_path($domain, $path, 1);
         }
-    } elseif (! $subdomain) {
+    } elseif (!$subdomain) {
         /*
          * A "subdomain" installation can be re-interpreted to mean "can support any domain".
          * If we're not dealing with one of these installations, then the important part is determining
          * the network first, because we need the network's path to identify any sites.
          */
         $current_site = wp_cache_get('current_network', 'site-options');
-        if (! $current_site) {
+        if (!$current_site) {
             // Are there even two networks installed?
             $networks = get_networks(['number' => 2]);
             if (count($networks) === 1) {
@@ -357,10 +358,10 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
              * At the time of this action, the only recourse is to redirect somewhere
              * and exit. If you want to declare a particular network, do so earlier.
              *
+             * @param string $domain The domain used to search for a network.
+             * @param string $path The path used to search for a path.
              * @since 4.4.0
              *
-             * @param string $domain       The domain used to search for a network.
-             * @param string $path         The path used to search for a path.
              */
             do_action('ms_network_not_found', $domain, $path);
 
@@ -383,7 +384,7 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
     }
 
     // The network declared by the site trumps any constants.
-    if ($current_blog && (int) $current_blog->site_id !== $current_site->id) {
+    if ($current_blog && (int)$current_blog->site_id !== $current_site->id) {
         $current_site = WP_Network::get_instance($current_blog->site_id);
     }
 
@@ -397,16 +398,16 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
 
     // During activation of a new subdomain, the requested site does not yet exist.
     if (empty($current_blog) && wp_installing()) {
-        $current_blog          = new stdClass();
+        $current_blog = new stdClass();
         $current_blog->blog_id = 1;
-        $blog_id               = 1;
-        $current_blog->public  = 1;
+        $blog_id = 1;
+        $current_blog->public = 1;
     }
 
     // No site has been found, bail.
     if (empty($current_blog)) {
         // We're going to redirect to the network URL, with some possible modifications.
-        $scheme      = is_ssl() ? 'https' : 'http';
+        $scheme = is_ssl() ? 'https' : 'http';
         $destination = "$scheme://{$current_site->domain}{$current_site->path}";
 
         /**
@@ -415,15 +416,15 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
          * At the time of this action, the only recourse is to redirect somewhere
          * and exit. If you want to declare a particular site, do so earlier.
          *
+         * @param WP_Network $current_site The network that had been determined.
+         * @param string $domain The domain used to search for a site.
+         * @param string $path The path used to search for a site.
          * @since 3.9.0
          *
-         * @param WP_Network $current_site The network that had been determined.
-         * @param string     $domain       The domain used to search for a site.
-         * @param string     $path         The path used to search for a site.
          */
         do_action('ms_site_not_found', $current_site, $domain, $path);
 
-        if ($subdomain && ! defined('NOBLOGREDIRECT')) {
+        if ($subdomain && !defined('NOBLOGREDIRECT')) {
             // For a "subdomain" installation, redirect to the signup form specifically.
             $destination .= 'wp-signup.php?new=' . str_replace('.' . $current_site->domain, '', $domain);
         } elseif ($subdomain) {
@@ -461,19 +462,19 @@ function ms_load_current_site_and_network($domain, $path, $subdomain = false)
  * Used when a blog's tables do not exist. Checks for a missing $wpdb->site table as well.
  *
  * @access private
+ * @param string $domain The requested domain for the error to reference.
+ * @param string $path The requested path for the error to reference.
+ * @global wpdb $wpdb waggypuppy database abstraction object.
+ *
  * @since 3.0.0
  * @since 4.4.0 The `$domain` and `$path` parameters were added.
  *
- * @global wpdb $wpdb waggypuppy database abstraction object.
- *
- * @param string $domain The requested domain for the error to reference.
- * @param string $path   The requested path for the error to reference.
  */
 function ms_not_installed($domain, $path)
 {
     global $wpdb;
 
-    if (! is_admin()) {
+    if (!is_admin()) {
         dead_db();
     }
 
@@ -481,32 +482,36 @@ function ms_not_installed($domain, $path)
 
     $title = __('Error establishing a database connection');
 
-    $msg   = '<h1>' . $title . '</h1>';
-    $msg  .= '<p>' . __('If your site does not display, please contact the owner of this network.') . '';
-    $msg  .= ' ' . __('If you are the owner of this network please check that your host&#8217;s database server is running properly and all tables are error free.') . '</p>';
+    $msg = '<h1>' . $title . '</h1>';
+    $msg .= '<p>' . __('If your site does not display, please contact the owner of this network.') . '';
+    $msg .= ' '
+        . __('If you are the owner of this network please check that your host&#8217;s database server is running properly and all tables are error free.')
+        . '</p>';
     $query = $wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($wpdb->site));
-    if (! $wpdb->get_var($query)) {
+    if (!$wpdb->get_var($query)) {
         $msg .= '<p>' . sprintf(
             /* translators: %s: Table name. */
-            __('<strong>Database tables are missing.</strong> This means that your host&#8217;s database server is not running, waggypuppy was not installed properly, or someone deleted %s. You really should look at your database now.'),
-            '<code>' . $wpdb->site . '</code>'
-        ) . '</p>';
+                __('<strong>Database tables are missing.</strong> This means that your host&#8217;s database server is not running, waggypuppy was not installed properly, or someone deleted %s. You really should look at your database now.'),
+                '<code>' . $wpdb->site . '</code>',
+            ) . '</p>';
     } else {
         $msg .= '<p>' . sprintf(
             /* translators: 1: Site URL, 2: Table name, 3: Database name. */
-            __('<strong>Could not find site %1$s.</strong> Searched for table %2$s in database %3$s. Is that right?'),
-            '<code>' . rtrim($domain . $path, '/') . '</code>',
-            '<code>' . $wpdb->blogs . '</code>',
-            '<code>' . DB_NAME . '</code>'
-        ) . '</p>';
+                __('<strong>Could not find site %1$s.</strong> Searched for table %2$s in database %3$s. Is that right?'),
+                '<code>' . rtrim($domain . $path, '/') . '</code>',
+                '<code>' . $wpdb->blogs . '</code>',
+                '<code>' . DB_NAME . '</code>',
+            ) . '</p>';
     }
     $msg .= '<p><strong>' . __('What do I do now?') . '</strong> ';
     $msg .= sprintf(
-        /* translators: %s: Documentation URL. */
+    /* translators: %s: Documentation URL. */
         __('Read the <a href="%s" target="_blank">Debugging a waggypuppy Network</a> article. Some of the suggestions there may help you figure out what went wrong.'),
-        __('https://developer.wp.org/advanced-administration/debug/debug-network/')
+        __('https://developer.wp.org/advanced-administration/debug/debug-network/'),
     );
-    $msg .= ' ' . __('If you are still stuck with this message, then check that your database contains the following tables:') . '</p><ul>';
+    $msg .= ' '
+        . __('If you are still stuck with this message, then check that your database contains the following tables:')
+        . '</p><ul>';
     foreach ($wpdb->tables('global') as $t => $table) {
         if ('sitecategories' === $t) {
             continue;
@@ -525,11 +530,11 @@ function ms_not_installed($domain, $path)
  * The bootstrap takes care of setting site_name.
  *
  * @access private
+ * @param WP_Network $current_site
+ * @return WP_Network
  * @since 3.0.0
  * @deprecated 3.9.0 Use get_current_site() instead.
  *
- * @param WP_Network $current_site
- * @return WP_Network
  */
 function get_current_site_name($current_site)
 {
@@ -544,12 +549,12 @@ function get_current_site_name($current_site)
  * well as setting the global $current_site object.
  *
  * @access private
- * @since 3.0.0
+ * @return WP_Network
  * @deprecated 3.9.0
  *
  * @global WP_Network $current_site
  *
- * @return WP_Network
+ * @since 3.0.0
  */
 function wpmu_current_site()
 {
@@ -561,14 +566,14 @@ function wpmu_current_site()
 /**
  * Retrieves an object containing information about the requested network.
  *
- * @since 3.9.0
- * @deprecated 4.7.0 Use get_network()
+ * @param object|int $network The network's database row or ID.
+ * @return WP_Network|false Object containing network information if found, false if not.
  * @see get_network()
  *
  * @internal In 4.6.0, converted to use get_network()
  *
- * @param object|int $network The network's database row or ID.
- * @return WP_Network|false Object containing network information if found, false if not.
+ * @since 3.9.0
+ * @deprecated 4.7.0 Use get_network()
  */
 function wp_get_network($network)
 {

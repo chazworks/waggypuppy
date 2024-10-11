@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group option
  * @group user
@@ -14,7 +15,7 @@ class Tests_Option_UserSettings extends WP_UnitTestCase
         $this->user_id = self::factory()->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
 
         wp_set_current_user($this->user_id);
@@ -78,7 +79,7 @@ class Tests_Option_UserSettings extends WP_UnitTestCase
     // set_user_setting() bails if `headers_sent()` is true.
     private function set_user_setting($name, $value)
     {
-        $all_user_settings        = get_all_user_settings();
+        $all_user_settings = get_all_user_settings();
         $all_user_settings[$name] = $value;
 
         return wp_set_all_user_settings($all_user_settings);

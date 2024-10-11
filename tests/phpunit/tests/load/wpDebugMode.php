@@ -42,7 +42,7 @@ class Test_WP_Debug_Mode extends WP_UnitTestCase
         // `display_errors` should be _on_ because of `WP_DEBUG_DISPLAY`.
         wp_debug_mode();
 
-        $this->assertSame(E_ALL, (int) ini_get('error_reporting'));
+        $this->assertSame(E_ALL, (int)ini_get('error_reporting'));
         $this->assertSame('1', ini_get('display_errors'));
         $this->assertSame('1', ini_get('log_errors'));
         $this->assertStringContainsString('debug.log', ini_get('error_log'));
@@ -51,7 +51,7 @@ class Test_WP_Debug_Mode extends WP_UnitTestCase
         define('MS_FILES_REQUEST', true);
         wp_debug_mode();
 
-        $this->assertSame(E_ALL, (int) ini_get('error_reporting'));
+        $this->assertSame(E_ALL, (int)ini_get('error_reporting'));
         $this->assertSame('0', ini_get('display_errors'));
         $this->assertSame('1', ini_get('log_errors'));
         $this->assertStringContainsString('debug.log', ini_get('error_log'));

@@ -30,8 +30,8 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase
     {
         parent::set_up();
         $this->test_block_name = null;
-        $this->theme_root      = realpath(DIR_TESTDATA . '/themedir1');
-        $this->orig_theme_dir  = $GLOBALS['wp_theme_directories'];
+        $this->theme_root = realpath(DIR_TESTDATA . '/themedir1');
+        $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
         $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', $this->theme_root];
@@ -77,15 +77,21 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase
      *
      * @dataProvider data_position_block_support
      *
-     * @param string $theme_name        The theme to switch to.
-     * @param string $block_name        The test block name to register.
-     * @param mixed  $position_settings The position block support settings.
-     * @param mixed  $position_style    The position styles within the block attributes.
-     * @param string $expected_wrapper  Expected markup for the block wrapper.
-     * @param string $expected_styles   Expected styles enqueued by the style engine.
+     * @param string $theme_name The theme to switch to.
+     * @param string $block_name The test block name to register.
+     * @param mixed $position_settings The position block support settings.
+     * @param mixed $position_style The position styles within the block attributes.
+     * @param string $expected_wrapper Expected markup for the block wrapper.
+     * @param string $expected_styles Expected styles enqueued by the style engine.
      */
-    public function test_position_block_support($theme_name, $block_name, $position_settings, $position_style, $expected_wrapper, $expected_styles)
-    {
+    public function test_position_block_support(
+        $theme_name,
+        $block_name,
+        $position_settings,
+        $position_style,
+        $expected_wrapper,
+        $expected_styles,
+    ) {
         switch_theme($theme_name);
         $this->test_block_name = $block_name;
 
@@ -93,20 +99,20 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'position' => $position_settings,
                 ],
-            ]
+            ],
         );
 
         $block = [
             'blockName' => 'test/position-rules-are-output',
-            'attrs'     => [
+            'attrs' => [
                 'style' => [
                     'position' => $position_style,
                 ],
@@ -118,20 +124,20 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase
         $this->assertMatchesRegularExpression(
             $expected_wrapper,
             $actual,
-            'Position block wrapper markup should be correct'
+            'Position block wrapper markup should be correct',
         );
 
         $actual_stylesheet = wp_style_engine_get_stylesheet_from_context(
             'block-supports',
             [
                 'prettify' => false,
-            ]
+            ],
         );
 
         $this->assertMatchesRegularExpression(
             $expected_styles,
             $actual_stylesheet,
-            'Position style rules output should be correct'
+            'Position style rules output should be correct',
         );
     }
 
@@ -144,48 +150,50 @@ class Tests_Block_Supports_WpRenderPositionSupport extends WP_UnitTestCase
     {
         return [
             'sticky position style is applied' => [
-                'theme_name'        => 'block-theme-child-with-fluid-typography',
-                'block_name'        => 'test/position-rules-are-output',
+                'theme_name' => 'block-theme-child-with-fluid-typography',
+                'block_name' => 'test/position-rules-are-output',
                 'position_settings' => true,
-                'position_style'    => [
+                'position_style' => [
                     'type' => 'sticky',
-                    'top'  => '0px',
+                    'top' => '0px',
                 ],
-                'expected_wrapper'  => '/^<div class="wp-container-\d+ is-position-sticky">Content<\/div>$/',
-                'expected_styles'   => '/^.wp-container-\d+' . preg_quote('{top:calc(0px + var(--wp-admin--admin-bar--position-offset, 0px));position:sticky;z-index:10;}') . '$/',
+                'expected_wrapper' => '/^<div class="wp-container-\d+ is-position-sticky">Content<\/div>$/',
+                'expected_styles' => '/^.wp-container-\d+'
+                    . preg_quote('{top:calc(0px + var(--wp-admin--admin-bar--position-offset, 0px));position:sticky;z-index:10;}')
+                    . '$/',
             ],
             'sticky position style is not applied if theme does not support it' => [
-                'theme_name'        => 'default',
-                'block_name'        => 'test/position-rules-without-theme-support',
+                'theme_name' => 'default',
+                'block_name' => 'test/position-rules-without-theme-support',
                 'position_settings' => true,
-                'position_style'    => [
+                'position_style' => [
                     'type' => 'sticky',
-                    'top'  => '0px',
+                    'top' => '0px',
                 ],
-                'expected_wrapper'  => '/^<div>Content<\/div>$/',
-                'expected_styles'   => '/^$/',
+                'expected_wrapper' => '/^<div>Content<\/div>$/',
+                'expected_styles' => '/^$/',
             ],
             'sticky position style is not applied if block does not support it' => [
-                'theme_name'        => 'block-theme-child-with-fluid-typography',
-                'block_name'        => 'test/position-rules-without-block-support',
+                'theme_name' => 'block-theme-child-with-fluid-typography',
+                'block_name' => 'test/position-rules-without-block-support',
                 'position_settings' => false,
-                'position_style'    => [
+                'position_style' => [
                     'type' => 'sticky',
-                    'top'  => '0px',
+                    'top' => '0px',
                 ],
-                'expected_wrapper'  => '/^<div>Content<\/div>$/',
-                'expected_styles'   => '/^$/',
+                'expected_wrapper' => '/^<div>Content<\/div>$/',
+                'expected_styles' => '/^$/',
             ],
             'sticky position style is not applied if type is not valid' => [
-                'theme_name'        => 'block-theme-child-with-fluid-typography',
-                'block_name'        => 'test/position-rules-with-valid-type',
+                'theme_name' => 'block-theme-child-with-fluid-typography',
+                'block_name' => 'test/position-rules-with-valid-type',
                 'position_settings' => true,
-                'position_style'    => [
+                'position_style' => [
                     'type' => 'illegal-type',
-                    'top'  => '0px',
+                    'top' => '0px',
                 ],
-                'expected_wrapper'  => '/^<div>Content<\/div>$/',
-                'expected_styles'   => '/^$/',
+                'expected_wrapper' => '/^<div>Content<\/div>$/',
+                'expected_styles' => '/^$/',
             ],
         ];
     }

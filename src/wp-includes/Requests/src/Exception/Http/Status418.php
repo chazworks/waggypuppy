@@ -18,18 +18,19 @@ use WpOrg\Requests\Exception\Http;
  *
  * @package Requests\Exceptions
  */
-final class Status418 extends Http {
-	/**
-	 * HTTP status code
-	 *
-	 * @var integer
-	 */
-	protected $code = 418;
+final class Status418 extends Http
+{
+    /**
+     * HTTP status code
+     *
+     * @var integer
+     */
+    protected $code = 418;
 
-	/**
-	 * Reason phrase
-	 *
-	 * @var string
-	 */
-	protected $reason = "I'm A Teapot";
+    /**
+     * Reason phrase
+     *
+     * @var string
+     */
+    protected $reason = "I'm A Teapot";
 }

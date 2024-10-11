@@ -25,8 +25,8 @@ class Tests_Canonical_StripFragmentFromUrl extends WP_UnitTestCase
      * @return array[] {
      *     Data to test with.
      *
-     *     @type string $0 The test URL.
-     *     @type string $1 The expected canonical URL.
+     * @type string $0 The test URL.
+     * @type string $1 The expected canonical URL.
      * }
      */
     public function data_strip_fragment_from_url()

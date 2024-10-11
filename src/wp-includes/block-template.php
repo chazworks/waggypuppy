@@ -23,22 +23,22 @@ function _add_template_loader_filters()
  *
  * Internally, this communicates the block content that needs to be used by the template canvas through a global variable.
  *
+ * @param string $template Path to the template. See locate_template().
+ * @param string $type Sanitized filename without extension.
+ * @param string[] $templates A list of template candidates, in descending order of priority.
+ * @return string The path to the Site Editor template canvas file, or the fallback PHP template.
  * @since 5.8.0
  * @since 6.3.0 Added `$_wp_current_template_id` global for editing of current template directly from the admin bar.
  *
  * @global string $_wp_current_template_content
  * @global string $_wp_current_template_id
  *
- * @param string   $template  Path to the template. See locate_template().
- * @param string   $type      Sanitized filename without extension.
- * @param string[] $templates A list of template candidates, in descending order of priority.
- * @return string The path to the Site Editor template canvas file, or the fallback PHP template.
  */
 function locate_block_template($template, $type, array $templates)
 {
     global $_wp_current_template_content, $_wp_current_template_id;
 
-    if (! current_theme_supports('block-templates')) {
+    if (!current_theme_supports('block-templates')) {
         return $template;
     }
 
@@ -56,9 +56,9 @@ function locate_block_template($template, $type, array $templates)
         $relative_template_path = str_replace(
             [get_stylesheet_directory() . '/', get_template_directory() . '/'],
             '',
-            $template
+            $template,
         );
-        $index                  = array_search($relative_template_path, $templates, true);
+        $index = array_search($relative_template_path, $templates, true);
 
         // If the template hierarchy algorithm has successfully located a PHP template file,
         // we will only consider block templates with higher or equal specificity.
@@ -72,12 +72,12 @@ function locate_block_template($template, $type, array $templates)
 
         if (empty($block_template->content) && is_user_logged_in()) {
             $_wp_current_template_content =
-            sprintf(
+                sprintf(
                 /* translators: %s: Template title */
-                __('Empty template: %s'),
-                $block_template->title
-            );
-        } elseif (! empty($block_template->content)) {
+                    __('Empty template: %s'),
+                    $block_template->title,
+                );
+        } elseif (!empty($block_template->content)) {
             $_wp_current_template_content = $block_template->content;
         }
         if (isset($_GET['_wp-find-template'])) {
@@ -113,17 +113,17 @@ function locate_block_template($template, $type, array $templates)
  * Returns the correct 'wp_template' to render for the request template type.
  *
  * @access private
+ * @param string $template_type The current template type.
+ * @param string[] $template_hierarchy The current template hierarchy, ordered by priority.
+ * @param string $fallback_template A PHP fallback template to use if no matching block template is found.
+ * @return WP_Block_Template|null template A template object, or null if none could be found.
  * @since 5.8.0
  * @since 5.9.0 Added the `$fallback_template` parameter.
  *
- * @param string   $template_type      The current template type.
- * @param string[] $template_hierarchy The current template hierarchy, ordered by priority.
- * @param string   $fallback_template  A PHP fallback template to use if no matching block template is found.
- * @return WP_Block_Template|null template A template object, or null if none could be found.
  */
 function resolve_block_template($template_type, $template_hierarchy, $fallback_template)
 {
-    if (! $template_type) {
+    if (!$template_type) {
         return null;
     }
 
@@ -133,11 +133,11 @@ function resolve_block_template($template_type, $template_hierarchy, $fallback_t
 
     $slugs = array_map(
         '_strip_template_file_suffix',
-        $template_hierarchy
+        $template_hierarchy,
     );
 
     // Find all potential templates 'wp_template' post matching the hierarchy.
-    $query     = [
+    $query = [
         'slug__in' => $slugs,
     ];
     $templates = get_block_templates($query);
@@ -150,28 +150,28 @@ function resolve_block_template($template_type, $template_hierarchy, $fallback_t
         $templates,
         static function ($template_a, $template_b) use ($slug_priorities) {
             return $slug_priorities[$template_a->slug] - $slug_priorities[$template_b->slug];
-        }
+        },
     );
 
-    $theme_base_path        = get_stylesheet_directory() . DIRECTORY_SEPARATOR;
+    $theme_base_path = get_stylesheet_directory() . DIRECTORY_SEPARATOR;
     $parent_theme_base_path = get_template_directory() . DIRECTORY_SEPARATOR;
 
     // Is the active theme a child theme, and is the PHP fallback template part of it?
-    if (str_starts_with($fallback_template, $theme_base_path) &&
-        ! str_contains($fallback_template, $parent_theme_base_path)
+    if (str_starts_with($fallback_template, $theme_base_path)
+        && !str_contains($fallback_template, $parent_theme_base_path)
     ) {
         $fallback_template_slug = substr(
             $fallback_template,
             // Starting position of slug.
             strpos($fallback_template, $theme_base_path) + strlen($theme_base_path),
             // Remove '.php' suffix.
-            -4
+            -4,
         );
 
         // Is our candidate block template's slug identical to our PHP fallback template's?
-        if (count($templates) &&
-            $fallback_template_slug === $templates[0]->slug &&
-            'theme' === $templates[0]->source
+        if (count($templates)
+            && $fallback_template_slug === $templates[0]->slug
+            && 'theme' === $templates[0]->source
         ) {
             // Unfortunately, we cannot trust $templates[0]->theme, since it will always
             // be set to the active theme's slug by _build_block_template_result_from_file(),
@@ -208,20 +208,20 @@ function _block_template_render_title_tag()
  * Returns the markup for the current template.
  *
  * @access private
+ * @return string Block template markup.
+ * @global string $_wp_current_template_id
+ * @global string $_wp_current_template_content
+ * @global WP_Embed $wp_embed waggypuppy Embed object.
+ * @global WP_Query $wp_query waggypuppy Query object.
+ *
  * @since 5.8.0
  *
- * @global string   $_wp_current_template_id
- * @global string   $_wp_current_template_content
- * @global WP_Embed $wp_embed                     waggypuppy Embed object.
- * @global WP_Query $wp_query                     waggypuppy Query object.
- *
- * @return string Block template markup.
  */
 function get_the_block_template_html()
 {
     global $_wp_current_template_id, $_wp_current_template_content, $wp_embed, $wp_query;
 
-    if (! $_wp_current_template_content) {
+    if (!$_wp_current_template_content) {
         if (is_user_logged_in()) {
             return '<h1>' . esc_html__('No matching template found') . '</h1>';
         }
@@ -251,11 +251,11 @@ function get_the_block_template_html()
      * it has been injected by a plugin by hijacking the block template loader mechanism. In that case, entirely custom
      * logic may be applied which is unpredictable and therefore safer to omit this special handling on.
      */
-    if ($_wp_current_template_id &&
-        str_starts_with($_wp_current_template_id, get_stylesheet() . '//') &&
-        is_singular() &&
-        1 === $wp_query->post_count &&
-        have_posts()
+    if ($_wp_current_template_id
+        && str_starts_with($_wp_current_template_id, get_stylesheet() . '//')
+        && is_singular()
+        && 1 === $wp_query->post_count
+        && have_posts()
     ) {
         while (have_posts()) {
             the_post();
@@ -292,10 +292,10 @@ function _block_template_viewport_meta_tag()
  * Strips .php or .html suffix from template file names.
  *
  * @access private
- * @since 5.8.0
- *
  * @param string $template_file Template file name.
  * @return string Template file name without extension.
+ * @since 5.8.0
+ *
  */
 function _strip_template_file_suffix($template_file)
 {
@@ -306,11 +306,11 @@ function _strip_template_file_suffix($template_file)
  * Removes post details from block context when rendering a block template.
  *
  * @access private
- * @since 5.8.0
- *
  * @param array $context Default context.
  *
  * @return array Filtered context.
+ * @since 5.8.0
+ *
  */
 function _block_template_render_without_post_block_context($context)
 {
@@ -335,13 +335,13 @@ function _block_template_render_without_post_block_context($context)
  * return an auto-draft post for template resolution when editing a new post.
  *
  * @access private
+ * @param WP_Query $wp_query Current WP_Query instance, passed by reference.
  * @since 5.9.0
  *
- * @param WP_Query $wp_query Current WP_Query instance, passed by reference.
  */
 function _resolve_template_for_new_post($wp_query)
 {
-    if (! $wp_query->is_main_query()) {
+    if (!$wp_query->is_main_query()) {
         return;
     }
 
@@ -354,11 +354,11 @@ function _resolve_template_for_new_post($wp_query)
     $p = isset($wp_query->query['p']) ? $wp_query->query['p'] : null;
 
     $post_id = $page_id ? $page_id : $p;
-    $post    = get_post($post_id);
+    $post = get_post($post_id);
 
-    if ($post &&
-        'auto-draft' === $post->post_status &&
-        current_user_can('edit_post', $post->ID)
+    if ($post
+        && 'auto-draft' === $post->post_status
+        && current_user_can('edit_post', $post->ID)
     ) {
         $wp_query->set('post_status', 'auto-draft');
     }
@@ -367,20 +367,20 @@ function _resolve_template_for_new_post($wp_query)
 /**
  * Register a block template.
  *
- * @since 6.7.0
- *
- * @param string       $template_name  Template name in the form of `plugin_uri//template_name`.
- * @param array|string $args           {
- *     @type string        $title                 Optional. Title of the template as it will be shown in the Site Editor
+ * @param string $template_name Template name in the form of `plugin_uri//template_name`.
+ * @param array|string $args {
+ * @type string $title Optional. Title of the template as it will be shown in the Site Editor
  *                                                and other UI elements.
- *     @type string        $description           Optional. Description of the template as it will be shown in the Site
+ * @type string $description Optional. Description of the template as it will be shown in the Site
  *                                                Editor.
- *     @type string        $content               Optional. Default content of the template that will be used when the
+ * @type string $content Optional. Default content of the template that will be used when the
  *                                                template is rendered or edited in the editor.
- *     @type string[]      $post_types            Optional. Array of post types to which the template should be available.
- *     @type string        $plugin                Optional. Slug of the plugin that registers the template.
+ * @type string[] $post_types Optional. Array of post types to which the template should be available.
+ * @type string $plugin Optional. Slug of the plugin that registers the template.
  * }
  * @return WP_Block_Template|WP_Error The registered template object on success, WP_Error object on failure.
+ * @since 6.7.0
+ *
  */
 function wp_register_block_template($template_name, $args = [])
 {
@@ -390,11 +390,11 @@ function wp_register_block_template($template_name, $args = [])
 /**
  * Unregister a block template.
  *
- * @since 6.7.0
- *
  * @param string $template_name Template name in the form of `plugin_uri//template_name`.
  * @return WP_Block_Template|WP_Error The unregistered template object on success, WP_Error object on failure or if the
  *                                    template doesn't exist.
+ * @since 6.7.0
+ *
  */
 function wp_unregister_block_template($template_name)
 {

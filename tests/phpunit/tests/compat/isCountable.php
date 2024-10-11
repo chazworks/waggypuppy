@@ -25,8 +25,8 @@ class Tests_Compat_isCountable extends WP_UnitTestCase
      *
      * @dataProvider data_is_countable_functionality
      *
-     * @param mixed $variable     Variable to check.
-     * @param bool  $is_countable The expected return value of PHP 7.3 is_countable() function.
+     * @param mixed $variable Variable to check.
+     * @param bool $is_countable The expected return value of PHP 7.3 is_countable() function.
      */
     public function test_is_countable_functionality($variable, $is_countable)
     {
@@ -39,49 +39,49 @@ class Tests_Compat_isCountable extends WP_UnitTestCase
      * @ticket 43583
      *
      * @return array {
-     *     @type array {
-     *         @type mixed $variable     Variable to check.
-     *         @type bool  $is_countable The expected return value of PHP 7.3 is_countable() function.
+     * @type array {
+     * @type mixed $variable Variable to check.
+     * @type bool $is_countable The expected return value of PHP 7.3 is_countable() function.
      *     }
      * }
      */
     public function data_is_countable_functionality()
     {
         return [
-            'boolean true'                     => [
-                'variable'     => true,
+            'boolean true' => [
+                'variable' => true,
                 'is_countable' => false,
             ],
-            'plain stdClass object'            => [
-                'variable'     => new stdClass(),
+            'plain stdClass object' => [
+                'variable' => new stdClass(),
                 'is_countable' => false,
             ],
-            'Array iterator object'            => [
-                'variable'     => new ArrayIteratorFakeForIsCountable(),
+            'Array iterator object' => [
+                'variable' => new ArrayIteratorFakeForIsCountable(),
                 'is_countable' => true,
             ],
-            'Countable object'                 => [
-                'variable'     => new CountableFakeForIsCountable(),
+            'Countable object' => [
+                'variable' => new CountableFakeForIsCountable(),
                 'is_countable' => true,
             ],
-            'integer 16'                       => [
-                'variable'     => 16,
+            'integer 16' => [
+                'variable' => 16,
                 'is_countable' => false,
             ],
-            'null'                             => [
-                'variable'     => null,
+            'null' => [
+                'variable' => null,
                 'is_countable' => false,
             ],
-            'non-empty array, 3 items'         => [
-                'variable'     => [1, 2, 3],
+            'non-empty array, 3 items' => [
+                'variable' => [1, 2, 3],
                 'is_countable' => true,
             ],
             'non-empty array, 1 item via cast' => [
-                'variable'     => (array) 1,
+                'variable' => (array)1,
                 'is_countable' => true,
             ],
-            'array cast to object'             => [
-                'variable'     => (object) ['foo', 'bar', 'baz'],
+            'array cast to object' => [
+                'variable' => (object)['foo', 'bar', 'baz'],
                 'is_countable' => false,
             ],
         ];
@@ -112,9 +112,7 @@ class Tests_Compat_isCountable extends WP_UnitTestCase
     }
 }
 
-class ArrayIteratorFakeForIsCountable extends ArrayIterator
-{
-}
+class ArrayIteratorFakeForIsCountable extends ArrayIterator {}
 
 class CountableFakeForIsCountable implements Countable
 {

@@ -36,7 +36,7 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
      *
      * @dataProvider data_set_cron_array_input_validation
      *
-     * @param mixed $input    Cron "array".
+     * @param mixed $input Cron "array".
      * @param array $expected Expected array entry count of the cron option after update.
      */
     public function test_set_cron_array_input_validation($input, $expected)
@@ -58,27 +58,27 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
     public function data_set_cron_array_input_validation()
     {
         return [
-            'null'        => [
-                'input'    => null,
+            'null' => [
+                'input' => null,
                 'expected' => 1,
             ],
             // Function _get_cron_array() may return `false`, so this is the PHP 8.1 "problem" test.
-            'false'       => [
-                'input'    => false,
+            'false' => [
+                'input' => false,
                 'expected' => 1,
             ],
             'empty array' => [
-                'input'    => [],
+                'input' => [],
                 'expected' => 1,
             ],
-            'cron array'  => [
-                'input'    => [
+            'cron array' => [
+                'input' => [
                     'version' => 2,
-                    time()    => [
+                    time() => [
                         'hookname' => [
                             'event key' => [
                                 'schedule' => 'schedule',
-                                'args'     => 'args',
+                                'args' => 'args',
                                 'interval' => 'interval',
                             ],
                         ],
@@ -94,7 +94,7 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
      *
      * @dataProvider data_set_cron_array_returns_false_when_not_updated
      *
-     * @param array $input    Cron array.
+     * @param array $input Cron array.
      * @param mixed $wp_error Value to use for $wp_error.
      */
     public function test_set_cron_array_returns_false_when_not_updated($input, $wp_error)
@@ -111,11 +111,11 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
     {
         return [
             'empty array' => [
-                'input'    => [],
+                'input' => [],
                 'wp_error' => false,
             ],
-            'cron array'  => [
-                'input'    => [
+            'cron array' => [
+                'input' => [
                     'version' => 2,
                 ],
                 'wp_error' => 0,
@@ -128,14 +128,15 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
      *
      * @dataProvider data_set_cron_array_returns_WP_Error_when_not_updated
      *
-     * @param array $input    Cron array.
+     * @param array $input Cron array.
      * @param mixed $wp_error Value to use for $wp_error.
      */
     public function test_set_cron_array_returns_WP_Error_when_not_updated($input, $wp_error)
     {
         $result = _set_cron_array($input, $wp_error);
         $this->assertWPError($result, 'Return value is not an instance of WP_Error.');
-        $this->assertSame('could_not_set', $result->get_error_code(), 'WP_Error error code does not match expected code.');
+        $this->assertSame('could_not_set', $result->get_error_code(),
+            'WP_Error error code does not match expected code.');
     }
 
     /**
@@ -147,11 +148,11 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
     {
         return [
             'empty array' => [
-                'input'    => [],
+                'input' => [],
                 'wp_error' => true,
             ],
-            'cron array'  => [
-                'input'    => [
+            'cron array' => [
+                'input' => [
                     'version' => 2,
                 ],
                 'wp_error' => 1,
@@ -167,17 +168,17 @@ class Tests_Cron_setCronArray extends WP_UnitTestCase
         $result = _set_cron_array(
             [
                 'version' => 2,
-                time()    => [
+                time() => [
                     'hookname' => [
                         'event key' => [
                             'schedule' => 'schedule',
-                            'args'     => 'args',
+                            'args' => 'args',
                             'interval' => 'interval',
                         ],
                     ],
                 ],
             ],
-            true
+            true,
         );
 
         $this->assertTrue($result);

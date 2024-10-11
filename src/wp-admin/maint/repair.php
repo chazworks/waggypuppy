@@ -14,9 +14,9 @@ header('Content-Type: text/html; charset=utf-8');
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="robots" content="noindex,nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="robots" content="noindex,nofollow"/>
     <title><?php _e('waggypuppy &rsaquo; Database Repair'); ?></title>
     <?php wp_admin_css('install', true); ?>
 </head>
@@ -25,22 +25,21 @@ header('Content-Type: text/html; charset=utf-8');
 
 <?php
 
-if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
-
+if (!defined('WP_ALLOW_REPAIR') || !WP_ALLOW_REPAIR) {
     echo '<h1 class="screen-reader-text">' .
         /* translators: Hidden accessibility text. */
         __('Allow automatic database repair') .
-    '</h1>';
+        '</h1>';
 
     echo '<p>';
     printf(
-        /* translators: %s: wp-config.php */
+    /* translators: %s: wp-config.php */
         __('To allow use of this page to automatically repair database problems, please add the following line to your %s file. Once this line is added to your config, reload this page.'),
-        '<code>wp-config.php</code>'
+        '<code>wp-config.php</code>',
     );
     echo "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
 
-    $default_keys    = array_unique(
+    $default_keys = array_unique(
         [
             'put your unique phrase here',
             /*
@@ -49,12 +48,21 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
              * https://i18n.svn.wp.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
              */
             __('put your unique phrase here'),
-        ]
+        ],
     );
-    $missing_key     = false;
+    $missing_key = false;
     $duplicated_keys = [];
 
-    foreach (['AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT'] as $key) {
+    foreach ([
+                 'AUTH_KEY',
+                 'SECURE_AUTH_KEY',
+                 'LOGGED_IN_KEY',
+                 'NONCE_KEY',
+                 'AUTH_SALT',
+                 'SECURE_AUTH_SALT',
+                 'LOGGED_IN_SALT',
+                 'NONCE_SALT',
+             ] as $key) {
         if (defined($key)) {
             // Check for unique values of each key.
             $duplicated_keys[constant($key)] = isset($duplicated_keys[constant($key)]);
@@ -75,24 +83,25 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
     $duplicated_keys = array_filter($duplicated_keys);
 
     if ($duplicated_keys || $missing_key) {
-
         echo '<h2 class="screen-reader-text">' .
             /* translators: Hidden accessibility text. */
             __('Check secret keys') .
-        '</h2>';
+            '</h2>';
 
         /* translators: 1: wp-config.php, 2: Secret key service URL. */
-        echo '<p>' . sprintf(__('While you are editing your %1$s file, take a moment to make sure you have all 8 keys and that they are unique. You can generate these using the <a href="%2$s">wp.org secret key service</a>.'), '<code>wp-config.php</code>', 'https://api.wp.org/secret-key/1.1/salt/') . '</p>';
+        echo '<p>'
+            . sprintf(__('While you are editing your %1$s file, take a moment to make sure you have all 8 keys and that they are unique. You can generate these using the <a href="%2$s">wp.org secret key service</a>.'),
+                '<code>wp-config.php</code>', 'https://api.wp.org/secret-key/1.1/salt/')
+            . '</p>';
     }
 } elseif (isset($_GET['repair'])) {
-
     echo '<h1 class="screen-reader-text">' .
         /* translators: Hidden accessibility text. */
         __('Database repair results') .
-    '</h1>';
+        '</h1>';
 
     $optimize = '2' === $_GET['repair'];
-    $okay     = true;
+    $okay = true;
     $problems = [];
 
     $tables = $wpdb->tables();
@@ -100,11 +109,11 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
     /**
      * Filters additional database tables to repair.
      *
+     * @param string[] $tables Array of prefixed table names to be repaired.
      * @since 3.0.0
      *
-     * @param string[] $tables Array of prefixed table names to be repaired.
      */
-    $tables = array_merge($tables, (array) apply_filters('tables_to_repair', []));
+    $tables = array_merge($tables, (array)apply_filters('tables_to_repair', []));
 
     // Loop over the tables, checking and repairing as needed.
     foreach ($tables as $table) {
@@ -116,7 +125,8 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
             printf(__('The %s table is okay.'), "<code>$table</code>");
         } else {
             /* translators: 1: Table name, 2: Error message. */
-            printf(__('The %1$s table is not okay. It is reporting the following error: %2$s. waggypuppy will attempt to repair this table&hellip;'), "<code>$table</code>", "<code>$check->Msg_text</code>");
+            printf(__('The %1$s table is not okay. It is reporting the following error: %2$s. waggypuppy will attempt to repair this table&hellip;'),
+                "<code>$table</code>", "<code>$check->Msg_text</code>");
 
             $repair = $wpdb->get_row("REPAIR TABLE $table");
 
@@ -126,9 +136,10 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
                 printf(__('Successfully repaired the %s table.'), "<code>$table</code>");
             } else {
                 /* translators: 1: Table name, 2: Error message. */
-                printf(__('Failed to repair the %1$s table. Error: %2$s'), "<code>$table</code>", "<code>$repair->Msg_text</code>") . '<br />';
+                printf(__('Failed to repair the %1$s table. Error: %2$s'), "<code>$table</code>",
+                    "<code>$repair->Msg_text</code>") . '<br />';
                 $problems[$table] = $repair->Msg_text;
-                $okay             = false;
+                $okay = false;
             }
         }
 
@@ -148,7 +159,8 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
                     printf(__('Successfully optimized the %s table.'), "<code>$table</code>");
                 } else {
                     /* translators: 1: Table name. 2: Error message. */
-                    printf(__('Failed to optimize the %1$s table. Error: %2$s'), "<code>$table</code>", "<code>$optimize->Msg_text</code>");
+                    printf(__('Failed to optimize the %1$s table. Error: %2$s'), "<code>$table</code>",
+                        "<code>$optimize->Msg_text</code>");
                 }
             }
         }
@@ -157,34 +169,44 @@ if (! defined('WP_ALLOW_REPAIR') || ! WP_ALLOW_REPAIR) {
 
     if ($problems) {
         printf(
-            /* translators: %s: URL to "Fixing waggypuppy" forum. */
-            '<p>' . __('Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">waggypuppy support forums</a> to get additional assistance.') . '</p>',
-            __('https://wp.org/support/forum/how-to-and-troubleshooting')
+        /* translators: %s: URL to "Fixing waggypuppy" forum. */
+            '<p>'
+            . __('Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">waggypuppy support forums</a> to get additional assistance.')
+            . '</p>',
+            __('https://wp.org/support/forum/how-to-and-troubleshooting'),
         );
         $problem_output = '';
         foreach ($problems as $table => $problem) {
             $problem_output .= "$table: $problem\n";
         }
-        echo '<p><textarea name="errors" id="errors" rows="20" cols="60">' . esc_textarea($problem_output) . '</textarea></p>';
+        echo '<p><textarea name="errors" id="errors" rows="20" cols="60">'
+            . esc_textarea($problem_output)
+            . '</textarea></p>';
     } else {
-        echo '<p>' . __('Repairs complete. Please remove the following line from wp-config.php to prevent this page from being used by unauthorized users.') . "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
+        echo '<p>'
+            . __('Repairs complete. Please remove the following line from wp-config.php to prevent this page from being used by unauthorized users.')
+            . "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
     }
 } else {
-
     echo '<h1 class="screen-reader-text">' .
         /* translators: Hidden accessibility text. */
         __('waggypuppy database repair') .
-    '</h1>';
+        '</h1>';
 
     if (isset($_GET['referrer']) && 'is_blog_installed' === $_GET['referrer']) {
-        echo '<p>' . __('One or more database tables are unavailable. To allow waggypuppy to attempt to repair these tables, press the &#8220;Repair Database&#8221; button. Repairing can take a while, so please be patient.') . '</p>';
+        echo '<p>'
+            . __('One or more database tables are unavailable. To allow waggypuppy to attempt to repair these tables, press the &#8220;Repair Database&#8221; button. Repairing can take a while, so please be patient.')
+            . '</p>';
     } else {
-        echo '<p>' . __('waggypuppy can automatically look for some common database problems and repair them. Repairing can take a while, so please be patient.') . '</p>';
+        echo '<p>'
+            . __('waggypuppy can automatically look for some common database problems and repair them. Repairing can take a while, so please be patient.')
+            . '</p>';
     }
     ?>
     <p class="step"><a class="button button-large" href="repair.php?repair=1"><?php _e('Repair Database'); ?></a></p>
     <p><?php _e('waggypuppy can also attempt to optimize the database. This improves performance in some situations. Repairing and optimizing the database can take a long time and the database will be locked while optimizing.'); ?></p>
-    <p class="step"><a class="button button-large" href="repair.php?repair=2"><?php _e('Repair and Optimize Database'); ?></a></p>
+    <p class="step"><a class="button button-large"
+                       href="repair.php?repair=2"><?php _e('Repair and Optimize Database'); ?></a></p>
     <?php
 }
 ?>

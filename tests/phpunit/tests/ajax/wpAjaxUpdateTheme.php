@@ -20,7 +20,7 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
     {
         parent::set_up();
 
-        $this->theme_root     = DIR_TESTDATA . '/themedir1';
+        $this->theme_root = DIR_TESTDATA . '/themedir1';
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
@@ -70,9 +70,9 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
 
         $expected = [
             'success' => false,
-            'data'    => [
-                'slug'         => '',
-                'errorCode'    => 'no_theme_specified',
+            'data' => [
+                'slug' => '',
+                'errorCode' => 'no_theme_specified',
                 'errorMessage' => 'No theme specified.',
             ],
         ];
@@ -83,7 +83,7 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
     public function test_missing_capability()
     {
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
-        $_POST['slug']        = 'foo';
+        $_POST['slug'] = 'foo';
 
         // Make the request.
         try {
@@ -97,11 +97,11 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
 
         $expected = [
             'success' => false,
-            'data'    => [
-                'update'       => 'theme',
-                'slug'         => 'foo',
-                'oldVersion'   => '',
-                'newVersion'   => '',
+            'data' => [
+                'update' => 'theme',
+                'slug' => 'foo',
+                'oldVersion' => '',
+                'newVersion' => '',
                 'errorMessage' => 'Sorry, you are not allowed to update themes for this site.',
             ],
         ];
@@ -117,7 +117,7 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
-        $_POST['slug']        = 'twentyten';
+        $_POST['slug'] = 'twentyten';
 
         // Prevent wp_update_themes() from running.
         wp_installing(true);
@@ -134,15 +134,15 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
         // Get the response.
         $response = json_decode($this->_last_response, true);
 
-        $theme    = wp_get_theme('twentyten');
+        $theme = wp_get_theme('twentyten');
         $expected = [
             'success' => false,
-            'data'    => [
-                'update'       => 'theme',
-                'slug'         => 'twentyten',
-                'oldVersion'   => $theme->get('Version'),
-                'newVersion'   => '',
-                'debug'        => ['The theme is at the latest version.'],
+            'data' => [
+                'update' => 'theme',
+                'slug' => 'twentyten',
+                'oldVersion' => $theme->get('Version'),
+                'newVersion' => '',
+                'debug' => ['The theme is at the latest version.'],
                 'errorMessage' => 'The theme is at the latest version.',
             ],
         ];
@@ -158,7 +158,7 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
         $this->_setRole('administrator');
 
         $_POST['_ajax_nonce'] = wp_create_nonce('updates');
-        $_POST['slug']        = 'camelCase';
+        $_POST['slug'] = 'camelCase';
 
         // Prevent wp_update_themes() from running.
         wp_installing(true);
@@ -177,12 +177,12 @@ class Tests_Ajax_wpAjaxUpdateTheme extends WP_Ajax_UnitTestCase
 
         $expected = [
             'success' => false,
-            'data'    => [
-                'update'       => 'theme',
-                'slug'         => 'camelCase',
-                'oldVersion'   => '1.0',
-                'newVersion'   => '',
-                'debug'        => ['The theme is at the latest version.'],
+            'data' => [
+                'update' => 'theme',
+                'slug' => 'camelCase',
+                'oldVersion' => '1.0',
+                'newVersion' => '',
+                'debug' => ['The theme is at the latest version.'],
                 'errorMessage' => 'The theme is at the latest version.',
             ],
         ];

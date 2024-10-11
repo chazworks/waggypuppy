@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Block_Types_Controller functionality.
  *
@@ -35,24 +36,24 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     /**
      * Create fake data before our tests run.
      *
+     * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      * @since 5.5.0
      *
-     * @param WP_UnitTest_Factory $factory Helper that lets us create fake data.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$admin_id      = $factory->user->create(
+        self::$admin_id = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
         self::$subscriber_id = $factory->user->create(
             [
                 'role' => 'subscriber',
-            ]
+            ],
         );
 
-        $name     = 'fake/test';
+        $name = 'fake/test';
         $settings = [
             'icon' => 'text',
         ];
@@ -89,15 +90,15 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/block-types');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-types');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/block-types/fake/test');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-types/fake/test');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
     }
@@ -109,9 +110,9 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $block_name = 'fake/test';
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/fake');
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/fake');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered($block_name);
         $this->check_block_type_object($block_type, $data[0], $data[0]['_links']);
@@ -124,8 +125,8 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $block_name = 'fake/test';
         wp_set_current_user(self::$admin_id);
-        $request    = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_name);
-        $response   = rest_get_server()->dispatch($request);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_name);
+        $response = rest_get_server()->dispatch($request);
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered($block_name);
         $this->check_block_type_object($block_type, $response->get_data(), $response->get_links());
     }
@@ -135,18 +136,18 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
      */
     public function test_get_item_with_styles()
     {
-        $block_name   = 'fake/styles';
+        $block_name = 'fake/styles';
         $block_styles = [
-            'name'         => 'fancy-quote',
-            'label'        => 'Fancy Quote',
+            'name' => 'fancy-quote',
+            'label' => 'Fancy Quote',
             'style_handle' => 'myguten-style',
         ];
         register_block_type($block_name);
         register_block_style($block_name, $block_styles);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_name);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_name);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSameSets([$block_styles], $data['styles']);
     }
 
@@ -155,17 +156,17 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
      */
     public function test_get_item_with_styles_merge()
     {
-        $block_name   = 'fake/styles2';
+        $block_name = 'fake/styles2';
         $block_styles = [
-            'name'         => 'fancy-quote',
-            'label'        => 'Fancy Quote',
+            'name' => 'fancy-quote',
+            'label' => 'Fancy Quote',
             'style_handle' => 'myguten-style',
         ];
-        $settings     = [
+        $settings = [
             'styles' => [
                 [
-                    'name'         => 'blue-quote',
-                    'label'        => 'Blue Quote',
+                    'name' => 'blue-quote',
+                    'label' => 'Blue Quote',
                     'style_handle' => 'myguten-style',
                 ],
             ],
@@ -173,18 +174,18 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
         register_block_type($block_name, $settings);
         register_block_style($block_name, $block_styles);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_name);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_name);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $expected = [
             [
-                'name'         => 'fancy-quote',
-                'label'        => 'Fancy Quote',
+                'name' => 'fancy-quote',
+                'label' => 'Fancy Quote',
                 'style_handle' => 'myguten-style',
             ],
             [
-                'name'         => 'blue-quote',
-                'label'        => 'Blue Quote',
+                'name' => 'blue-quote',
+                'label' => 'Blue Quote',
                 'style_handle' => 'myguten-style',
             ],
         ];
@@ -198,7 +199,7 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $block_type = 'fake/block';
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_block_type_invalid', $response, 404);
@@ -213,37 +214,37 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_item_invalid()
     {
         $block_type = 'fake/invalid';
-        $settings   = [
-            'title'            => true,
-            'category'         => true,
-            'parent'           => 'invalid_parent',
-            'ancestor'         => 'invalid_ancestor',
-            'allowed_blocks'   => 'invalid_allowed_blocks',
-            'icon'             => true,
-            'description'      => true,
-            'keywords'         => 'invalid_keywords',
-            'textdomain'       => true,
-            'attributes'       => 'invalid_attributes',
+        $settings = [
+            'title' => true,
+            'category' => true,
+            'parent' => 'invalid_parent',
+            'ancestor' => 'invalid_ancestor',
+            'allowed_blocks' => 'invalid_allowed_blocks',
+            'icon' => true,
+            'description' => true,
+            'keywords' => 'invalid_keywords',
+            'textdomain' => true,
+            'attributes' => 'invalid_attributes',
             'provides_context' => 'invalid_provides_context',
-            'uses_context'     => 'invalid_uses_context',
-            'selectors'        => 'invalid_selectors',
-            'supports'         => 'invalid_supports',
-            'styles'           => [],
-            'example'          => 'invalid_example',
-            'variations'       => 'invalid_variations',
-            'block_hooks'      => 'invalid_block_hooks',
-            'render_callback'  => 'invalid_callback',
-            'editor_script'    => true,
-            'script'           => true,
-            'view_script'      => true,
-            'editor_style'     => true,
-            'style'            => true,
+            'uses_context' => 'invalid_uses_context',
+            'selectors' => 'invalid_selectors',
+            'supports' => 'invalid_supports',
+            'styles' => [],
+            'example' => 'invalid_example',
+            'variations' => 'invalid_variations',
+            'block_hooks' => 'invalid_block_hooks',
+            'render_callback' => 'invalid_callback',
+            'editor_script' => true,
+            'script' => true,
+            'view_script' => true,
+            'editor_style' => true,
+            'style' => true,
         ];
         register_block_type($block_type, $settings);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame($block_type, $data['name']);
         $this->assertSame('1', $data['title']);
         $this->assertNull($data['category']);
@@ -256,10 +257,10 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->assertNull($data['textdomain']);
         $this->assertSameSetsWithIndex(
             [
-                'lock'     => ['type' => 'object'],
+                'lock' => ['type' => 'object'],
                 'metadata' => ['type' => 'object'],
             ],
-            $data['attributes']
+            $data['attributes'],
         );
         $this->assertSameSets(['invalid_uses_context'], $data['uses_context']);
         $this->assertSameSets([], $data['provides_context']);
@@ -293,37 +294,37 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_item_defaults()
     {
         $block_type = 'fake/false';
-        $settings   = [
-            'title'            => false,
-            'category'         => false,
-            'parent'           => false,
-            'ancestor'         => false,
-            'allowed_blocks'   => false,
-            'icon'             => false,
-            'description'      => false,
-            'keywords'         => false,
-            'textdomain'       => false,
-            'attributes'       => false,
+        $settings = [
+            'title' => false,
+            'category' => false,
+            'parent' => false,
+            'ancestor' => false,
+            'allowed_blocks' => false,
+            'icon' => false,
+            'description' => false,
+            'keywords' => false,
+            'textdomain' => false,
+            'attributes' => false,
             'provides_context' => false,
-            'uses_context'     => false,
-            'selectors'        => false,
-            'supports'         => false,
-            'styles'           => false,
-            'example'          => false,
-            'variations'       => false,
-            'block_hooks'      => false,
-            'editor_script'    => false,
-            'script'           => false,
-            'view_script'      => false,
-            'editor_style'     => false,
-            'style'            => false,
-            'render_callback'  => false,
+            'uses_context' => false,
+            'selectors' => false,
+            'supports' => false,
+            'styles' => false,
+            'example' => false,
+            'variations' => false,
+            'block_hooks' => false,
+            'editor_script' => false,
+            'script' => false,
+            'view_script' => false,
+            'editor_style' => false,
+            'style' => false,
+            'render_callback' => false,
         ];
         register_block_type($block_type, $settings);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame($block_type, $data['name']);
         $this->assertSame('', $data['title']);
         $this->assertNull($data['category']);
@@ -336,10 +337,10 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->assertNull($data['textdomain']);
         $this->assertSameSetsWithIndex(
             [
-                'lock'     => ['type' => 'object'],
+                'lock' => ['type' => 'object'],
                 'metadata' => ['type' => 'object'],
             ],
-            $data['attributes']
+            $data['attributes'],
         );
         $this->assertSameSets([], $data['provides_context']);
         $this->assertSameSets([], $data['uses_context']);
@@ -370,68 +371,68 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_item_deprecated()
     {
         $block_type = 'fake/deprecated';
-        $settings   = [
+        $settings = [
             'editor_script' => 'hello_world',
-            'script'        => 'gutenberg',
-            'view_script'   => 'foo_bar',
-            'editor_style'  => 'guten_tag',
-            'style'         => 'out_of_style',
+            'script' => 'gutenberg',
+            'view_script' => 'foo_bar',
+            'editor_style' => 'guten_tag',
+            'style' => 'out_of_style',
         ];
         register_block_type($block_type, $settings);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSameSets(
             ['hello_world'],
             $data['editor_script_handles'],
-            "Endpoint doesn't return correct array for editor_script_handles."
+            "Endpoint doesn't return correct array for editor_script_handles.",
         );
         $this->assertSameSets(
             ['gutenberg'],
             $data['script_handles'],
-            "Endpoint doesn't return correct array for script_handles."
+            "Endpoint doesn't return correct array for script_handles.",
         );
         $this->assertSameSets(
             ['foo_bar'],
             $data['view_script_handles'],
-            "Endpoint doesn't return correct array for view_script_handles."
+            "Endpoint doesn't return correct array for view_script_handles.",
         );
         $this->assertSameSets(
             ['guten_tag'],
             $data['editor_style_handles'],
-            "Endpoint doesn't return correct array for editor_style_handles."
+            "Endpoint doesn't return correct array for editor_style_handles.",
         );
         $this->assertSameSets(
             ['out_of_style'],
             $data['style_handles'],
-            "Endpoint doesn't return correct array for style_handles."
+            "Endpoint doesn't return correct array for style_handles.",
         );
         // Deprecated properties.
         $this->assertSame(
             'hello_world',
             $data['editor_script'],
-            "Endpoint doesn't return correct string for editor_script."
+            "Endpoint doesn't return correct string for editor_script.",
         );
         $this->assertSame(
             'gutenberg',
             $data['script'],
-            "Endpoint doesn't return correct string for script."
+            "Endpoint doesn't return correct string for script.",
         );
         $this->assertSame(
             'foo_bar',
             $data['view_script'],
-            "Endpoint doesn't return correct string for view_script."
+            "Endpoint doesn't return correct string for view_script.",
         );
         $this->assertSame(
             'guten_tag',
             $data['editor_style'],
-            "Endpoint doesn't return correct string for editor_style."
+            "Endpoint doesn't return correct string for editor_style.",
         );
         $this->assertSame(
             'out_of_style',
             $data['style'],
-            "Endpoint doesn't return correct string for style."
+            "Endpoint doesn't return correct string for style.",
         );
     }
 
@@ -441,42 +442,42 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_item_deprecated_with_arrays()
     {
         $block_type = 'fake/deprecated-with-arrays';
-        $settings   = [
+        $settings = [
             'editor_script' => ['hello', 'world'],
-            'script'        => ['gutenberg'],
-            'view_script'   => ['foo', 'bar'],
-            'editor_style'  => ['guten', 'tag'],
-            'style'         => ['out', 'of', 'style'],
+            'script' => ['gutenberg'],
+            'view_script' => ['foo', 'bar'],
+            'editor_style' => ['guten', 'tag'],
+            'style' => ['out', 'of', 'style'],
         ];
         register_block_type($block_type, $settings);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSameSets(
             $settings['editor_script'],
             $data['editor_script_handles'],
-            "Endpoint doesn't return correct array for editor_script_handles."
+            "Endpoint doesn't return correct array for editor_script_handles.",
         );
         $this->assertSameSets(
             $settings['script'],
             $data['script_handles'],
-            "Endpoint doesn't return correct array for script_handles."
+            "Endpoint doesn't return correct array for script_handles.",
         );
         $this->assertSameSets(
             $settings['view_script'],
             $data['view_script_handles'],
-            "Endpoint doesn't return correct array for view_script_handles."
+            "Endpoint doesn't return correct array for view_script_handles.",
         );
         $this->assertSameSets(
             $settings['editor_style'],
             $data['editor_style_handles'],
-            "Endpoint doesn't return correct array for editor_style_handles."
+            "Endpoint doesn't return correct array for editor_style_handles.",
         );
         $this->assertSameSets(
             $settings['style'],
             $data['style_handles'],
-            "Endpoint doesn't return correct array for style_handles."
+            "Endpoint doesn't return correct array for style_handles.",
         );
         // Deprecated properties.
         // Since the schema only allows strings or null (but no arrays), we return the first array item.
@@ -484,52 +485,52 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->assertSame(
             'hello',
             $data['editor_script'],
-            "Endpoint doesn't return first array element for editor_script."
+            "Endpoint doesn't return first array element for editor_script.",
         );
         $this->assertSame(
             'gutenberg',
             $data['script'],
-            "Endpoint doesn't return first array element for script."
+            "Endpoint doesn't return first array element for script.",
         );
         $this->assertSame(
             'foo',
             $data['view_script'],
-            "Endpoint doesn't return first array element for view_script."
+            "Endpoint doesn't return first array element for view_script.",
         );
         $this->assertSame(
             'guten',
             $data['editor_style'],
-            "Endpoint doesn't return first array element for editor_style."
+            "Endpoint doesn't return first array element for editor_style.",
         );
         $this->assertSame(
             'out',
             $data['style'],
-            "Endpoint doesn't return first array element for style."
+            "Endpoint doesn't return first array element for style.",
         );
     }
 
     public function test_get_variation()
     {
         $block_type = 'fake/variations';
-        $settings   = [
-            'title'       => 'variations block test',
+        $settings = [
+            'title' => 'variations block test',
             'description' => 'a variations block test',
-            'attributes'  => ['kind' => ['type' => 'string']],
-            'variations'  => [
+            'attributes' => ['kind' => ['type' => 'string']],
+            'variations' => [
                 [
-                    'name'        => 'variation',
-                    'title'       => 'variation title',
+                    'name' => 'variation',
+                    'title' => 'variation title',
                     'description' => 'variation description',
-                    'category'    => 'media',
-                    'icon'        => 'checkmark',
-                    'attributes'  => ['kind' => 'foo'],
-                    'isDefault'   => true,
-                    'example'     => ['attributes' => ['kind' => 'example']],
-                    'scope'       => ['inserter', 'block'],
-                    'keywords'    => ['dogs', 'cats', 'mice'],
+                    'category' => 'media',
+                    'icon' => 'checkmark',
+                    'attributes' => ['kind' => 'foo'],
+                    'isDefault' => true,
+                    'example' => ['attributes' => ['kind' => 'example']],
+                    'scope' => ['inserter', 'block'],
+                    'keywords' => ['dogs', 'cats', 'mice'],
                     'innerBlocks' => [
                         [
-                            'name'       => 'fake/bar',
+                            'name' => 'fake/bar',
                             'attributes' => ['label' => 'hi'],
                         ],
                     ],
@@ -538,9 +539,9 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
         ];
         register_block_type($block_type, $settings);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame($block_type, $data['name']);
         $this->assertArrayHasKey('variations', $data);
         $this->assertCount(1, $data['variations']);
@@ -555,15 +556,15 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->assertSameSets(
             [
                 [
-                    'name'       => 'fake/bar',
+                    'name' => 'fake/bar',
                     'attributes' => ['label' => 'hi'],
                 ],
             ],
-            $variation['innerBlocks']
+            $variation['innerBlocks'],
         );
         $this->assertSameSets(
             ['kind' => 'foo'],
-            $variation['attributes']
+            $variation['attributes'],
         );
     }
 
@@ -576,9 +577,9 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_item_schema()
     {
         wp_set_current_user(self::$admin_id);
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/block-types');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/block-types');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
         $this->assertCount(33, $properties);
         $this->assertArrayHasKey('api_version', $properties);
@@ -623,7 +624,7 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_items_wrong_permission()
     {
         wp_set_current_user(self::$subscriber_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types');
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_block_type_cannot_view', $response, 403);
     }
@@ -634,7 +635,7 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_item_wrong_permission()
     {
         wp_set_current_user(self::$subscriber_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/fake/test');
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/fake/test');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_block_type_cannot_view', $response, 403);
     }
@@ -645,7 +646,7 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_items_no_permission()
     {
         wp_set_current_user(0);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types');
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_block_type_cannot_view', $response, 401);
     }
@@ -656,7 +657,7 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_get_item_no_permission()
     {
         wp_set_current_user(0);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/fake/test');
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/fake/test');
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_block_type_cannot_view', $response, 401);
     }
@@ -668,13 +669,13 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $registry = new WP_Block_Type_Registry();
         $settings = [
-            'icon'            => 'text',
+            'icon' => 'text',
             'render_callback' => '__return_null',
         ];
         $registry->register('fake/line', $settings);
         $block_type = $registry->get_registered('fake/line');
-        $endpoint   = new WP_REST_Block_Types_Controller();
-        $request    = new WP_REST_Request();
+        $endpoint = new WP_REST_Block_Types_Controller();
+        $request = new WP_REST_Request();
         $request->set_param('context', 'edit');
         $response = $endpoint->prepare_item_for_response($block_type, $request);
         $this->check_block_type_object($block_type, $response->get_data(), $response->get_links());
@@ -687,13 +688,13 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     {
         $registry = new WP_Block_Type_Registry();
         $settings = [
-            'icon'            => 'text',
+            'icon' => 'text',
             'render_callback' => '__return_null',
         ];
         $registry->register('fake/line', $settings);
         $block_type = $registry->get_registered('fake/line');
-        $request    = new WP_REST_Request();
-        $endpoint   = new WP_REST_Block_Types_Controller();
+        $request = new WP_REST_Request();
+        $endpoint = new WP_REST_Block_Types_Controller();
         $request->set_param('context', 'edit');
         $request->set_param('_fields', 'name');
         $response = $endpoint->prepare_item_for_response($block_type, $request);
@@ -701,19 +702,19 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
             [
                 'name',
             ],
-            array_keys($response->get_data())
+            array_keys($response->get_data()),
         );
     }
 
     /**
      * Util check block type object against.
      *
-     * @since 5.5.0
+     * @param WP_Block_Type $block_type Sample block type.
+     * @param array $data Data to compare against.
+     * @param array $links Links to compare again.
      * @since 6.4.0 Added the `block_hooks` extra field.
      *
-     * @param WP_Block_Type $block_type Sample block type.
-     * @param array         $data Data to compare against.
-     * @param array         $links Links to compare again.
+     * @since 5.5.0
      */
     protected function check_block_type_object($block_type, $data, $links)
     {
@@ -775,15 +776,15 @@ class REST_Block_Type_Controller_Test extends WP_Test_REST_Controller_Testcase
     public function test_variation_callback()
     {
         $block_type = 'test/block';
-        $settings   = [
-            'title'              => true,
+        $settings = [
+            'title' => true,
             'variation_callback' => [$this, 'mock_variation_callback'],
         ];
         register_block_type($block_type, $settings);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
+        $request = new WP_REST_Request('GET', '/wp/v2/block-types/' . $block_type);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSameSets($this->mock_variation_callback(), $data['variations']);
     }
 

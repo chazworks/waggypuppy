@@ -41,15 +41,15 @@ class WP_Customize_Color_Control extends WP_Customize_Control
     /**
      * Constructor.
      *
-     * @since 3.4.0
-     *
-     * @see WP_Customize_Control::__construct()
-     *
      * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-     * @param string               $id      Control ID.
-     * @param array                $args    Optional. Arguments to override class property defaults.
+     * @param string $id Control ID.
+     * @param array $args Optional. Arguments to override class property defaults.
      *                                      See WP_Customize_Control::__construct() for information
      *                                      on accepted arguments. Default empty array.
+     * @see WP_Customize_Control::__construct()
+     *
+     * @since 3.4.0
+     *
      */
     public function __construct($manager, $id, $args = [])
     {
@@ -77,9 +77,9 @@ class WP_Customize_Color_Control extends WP_Customize_Control
     public function to_json()
     {
         parent::to_json();
-        $this->json['statuses']     = $this->statuses;
+        $this->json['statuses'] = $this->statuses;
         $this->json['defaultValue'] = $this->setting->default;
-        $this->json['mode']         = $this->mode;
+        $this->json['mode'] = $this->mode;
     }
 
     /**
@@ -87,8 +87,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control
      *
      * @since 3.4.0
      */
-    public function render_content()
-    {}
+    public function render_content() {}
 
     /**
      * Render a JS template for the content of the color picker control.
@@ -99,28 +98,29 @@ class WP_Customize_Color_Control extends WP_Customize_Control
     {
         ?>
         <# var defaultValue = '#RRGGBB', defaultValueAttr = '',
-            isHueSlider = data.mode === 'hue';
+        isHueSlider = data.mode === 'hue';
         if ( data.defaultValue && _.isString( data.defaultValue ) && ! isHueSlider ) {
-            if ( '#' !== data.defaultValue.substring( 0, 1 ) ) {
-                defaultValue = '#' + data.defaultValue;
-            } else {
-                defaultValue = data.defaultValue;
-            }
-            defaultValueAttr = ' data-default-color=' + defaultValue; // Quotes added automatically.
+        if ( '#' !== data.defaultValue.substring( 0, 1 ) ) {
+        defaultValue = '#' + data.defaultValue;
+        } else {
+        defaultValue = data.defaultValue;
+        }
+        defaultValueAttr = ' data-default-color=' + defaultValue; // Quotes added automatically.
         } #>
         <# if ( data.label ) { #>
-            <span class="customize-control-title">{{{ data.label }}}</span>
+        <span class="customize-control-title">{{{ data.label }}}</span>
         <# } #>
         <# if ( data.description ) { #>
-            <span class="description customize-control-description">{{{ data.description }}}</span>
+        <span class="description customize-control-description">{{{ data.description }}}</span>
         <# } #>
         <div class="customize-control-content">
             <label><span class="screen-reader-text">{{{ data.label }}}</span>
-            <# if ( isHueSlider ) { #>
-                <input class="color-picker-hue" type="text" data-type="hue" />
-            <# } else { #>
-                <input class="color-picker-hex" type="text" maxlength="7" placeholder="{{ defaultValue }}" {{ defaultValueAttr }} />
-            <# } #>
+                <# if ( isHueSlider ) { #>
+                <input class="color-picker-hue" type="text" data-type="hue"/>
+                <# } else { #>
+                <input class="color-picker-hex" type="text" maxlength="7" placeholder="{{ defaultValue }}" {{
+                       defaultValueAttr }}/>
+                <# } #>
             </label>
         </div>
         <?php

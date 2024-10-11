@@ -13,9 +13,9 @@
  * add frontend filters to replace insecure site URLs that may be present in older database content. The
  * {@see 'wp_should_replace_insecure_home_url'} filter can be used to modify that behavior.
  *
+ * @return bool True if insecure URLs should replaced, false otherwise.
  * @since 5.7.0
  *
- * @return bool True if insecure URLs should replaced, false otherwise.
  */
 function wp_should_replace_insecure_home_url()
 {
@@ -31,9 +31,9 @@ function wp_should_replace_insecure_home_url()
      * If a waggypuppy site had its URL changed from HTTP to HTTPS, by default this will return `true`. This filter can
      * be used to disable that behavior, e.g. after having replaced URLs manually in the database.
      *
+     * @param bool $should_replace_insecure_home_url Whether insecure HTTP URLs to the site should be replaced.
      * @since 5.7.0
      *
-     * @param bool $should_replace_insecure_home_url Whether insecure HTTP URLs to the site should be replaced.
      */
     return apply_filters('wp_should_replace_insecure_home_url', $should_replace_insecure_home_url);
 }
@@ -44,23 +44,23 @@ function wp_should_replace_insecure_home_url()
  * This function replaces all occurrences of the HTTP version of the site's URL with its HTTPS counterpart, if
  * determined via {@see wp_should_replace_insecure_home_url()}.
  *
- * @since 5.7.0
- *
  * @param string $content Content to replace URLs in.
  * @return string Filtered content.
+ * @since 5.7.0
+ *
  */
 function wp_replace_insecure_home_url($content)
 {
-    if (! wp_should_replace_insecure_home_url()) {
+    if (!wp_should_replace_insecure_home_url()) {
         return $content;
     }
 
     $https_url = home_url('', 'https');
-    $http_url  = str_replace('https://', 'http://', $https_url);
+    $http_url = str_replace('https://', 'http://', $https_url);
 
     // Also replace potentially escaped URL.
     $escaped_https_url = str_replace('/', '\/', $https_url);
-    $escaped_http_url  = str_replace('/', '\/', $http_url);
+    $escaped_http_url = str_replace('/', '\/', $http_url);
 
     return str_replace(
         [
@@ -71,7 +71,7 @@ function wp_replace_insecure_home_url($content)
             $https_url,
             $escaped_https_url,
         ],
-        $content
+        $content,
     );
 }
 
@@ -81,25 +81,25 @@ function wp_replace_insecure_home_url($content)
  * If this update does not result in waggypuppy recognizing that the site is now using HTTPS (e.g. due to constants
  * overriding the URLs used), the changes will be reverted. In such a case the function will return false.
  *
+ * @return bool True on success, false on failure.
  * @since 5.7.0
  *
- * @return bool True on success, false on failure.
  */
 function wp_update_urls_to_https()
 {
     // Get current URL options.
-    $orig_home    = get_option('home');
+    $orig_home = get_option('home');
     $orig_siteurl = get_option('siteurl');
 
     // Get current URL options, replacing HTTP with HTTPS.
-    $home    = str_replace('http://', 'https://', $orig_home);
+    $home = str_replace('http://', 'https://', $orig_home);
     $siteurl = str_replace('http://', 'https://', $orig_siteurl);
 
     // Update the options.
     update_option('home', $home);
     update_option('siteurl', $siteurl);
 
-    if (! wp_is_using_https()) {
+    if (!wp_is_using_https()) {
         /*
          * If this did not result in the site recognizing HTTPS as being used,
          * revert the change and return false.
@@ -120,11 +120,11 @@ function wp_update_urls_to_https()
  *
  * This is hooked into the {@see 'update_option_home'} action.
  *
+ * @param mixed $old_url Previous value of the URL option.
+ * @param mixed $new_url New value of the URL option.
  * @since 5.7.0
  * @access private
  *
- * @param mixed $old_url Previous value of the URL option.
- * @param mixed $new_url New value of the URL option.
  */
 function wp_update_https_migration_required($old_url, $new_url)
 {
@@ -134,7 +134,8 @@ function wp_update_https_migration_required($old_url, $new_url)
     }
 
     // Delete/reset the option if the new URL is not the HTTPS version of the old URL.
-    if (untrailingslashit((string) $old_url) !== str_replace('https://', 'http://', untrailingslashit((string) $new_url))) {
+    if (untrailingslashit((string)$old_url) !== str_replace('https://', 'http://',
+            untrailingslashit((string)$new_url))) {
         delete_option('https_migration_required');
         return;
     }

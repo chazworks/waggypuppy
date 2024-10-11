@@ -29,10 +29,10 @@ class Tests_Diff_WpTextDiffRendererTable extends WP_UnitTestCase
      * @dataProvider data_compat_fields
      * @ticket 58898
      *
-     * @covers WP_Text_Diff_Renderer_Table::__get()
+     * @covers       WP_Text_Diff_Renderer_Table::__get()
      *
      * @param string $property_name Property name to get.
-     * @param mixed $expected       Expected value.
+     * @param mixed $expected Expected value.
      */
     public function test_should_get_compat_fields($property_name, $expected)
     {
@@ -50,22 +50,23 @@ class Tests_Diff_WpTextDiffRendererTable extends WP_UnitTestCase
         $this->expectDeprecationMessage(
             'WP_Text_Diff_Renderer_Table::__get(): ' .
             'The property `undeclared_property` is not declared. Getting a dynamic property is ' .
-            'deprecated since version 6.4.0! Instead, declare the property on the class.'
+            'deprecated since version 6.4.0! Instead, declare the property on the class.',
         );
-        $this->assertNull($this->diff_renderer_table->undeclared_property, 'Getting a dynamic property should return null from WP_Text_Diff_Renderer_Table::__get()');
+        $this->assertNull($this->diff_renderer_table->undeclared_property,
+            'Getting a dynamic property should return null from WP_Text_Diff_Renderer_Table::__get()');
     }
 
     /**
      * @dataProvider data_compat_fields
      * @ticket 58898
      *
-     * @covers WP_Text_Diff_Renderer_Table::__set()
+     * @covers       WP_Text_Diff_Renderer_Table::__set()
      *
      * @param string $property_name Property name to set.
      */
     public function test_should_set_compat_fields($property_name)
     {
-        $value                                     = uniqid();
+        $value = uniqid();
         $this->diff_renderer_table->$property_name = $value;
 
         $this->assertSame($value, $this->diff_renderer_table->$property_name);
@@ -82,7 +83,7 @@ class Tests_Diff_WpTextDiffRendererTable extends WP_UnitTestCase
         $this->expectDeprecationMessage(
             'WP_Text_Diff_Renderer_Table::__set(): ' .
             'The property `undeclared_property` is not declared. Setting a dynamic property is ' .
-            'deprecated since version 6.4.0! Instead, declare the property on the class.'
+            'deprecated since version 6.4.0! Instead, declare the property on the class.',
         );
         $this->diff_renderer_table->undeclared_property = 'some value';
     }
@@ -91,10 +92,10 @@ class Tests_Diff_WpTextDiffRendererTable extends WP_UnitTestCase
      * @dataProvider data_compat_fields
      * @ticket 58898
      *
-     * @covers WP_Text_Diff_Renderer_Table::__isset()
+     * @covers       WP_Text_Diff_Renderer_Table::__isset()
      *
      * @param string $property_name Property name to check.
-     * @param mixed $expected       Expected value.
+     * @param mixed $expected Expected value.
      */
     public function test_should_isset_compat_fields($property_name, $expected)
     {
@@ -117,16 +118,17 @@ class Tests_Diff_WpTextDiffRendererTable extends WP_UnitTestCase
         $this->expectDeprecationMessage(
             'WP_Text_Diff_Renderer_Table::__isset(): ' .
             'The property `undeclared_property` is not declared. Checking `isset()` on a dynamic property ' .
-            'is deprecated since version 6.4.0! Instead, declare the property on the class.'
+            'is deprecated since version 6.4.0! Instead, declare the property on the class.',
         );
-        $this->assertFalse(isset($this->diff_renderer_table->undeclared_property), 'Checking a dynamic property should return false from WP_Text_Diff_Renderer_Table::__isset()');
+        $this->assertFalse(isset($this->diff_renderer_table->undeclared_property),
+            'Checking a dynamic property should return false from WP_Text_Diff_Renderer_Table::__isset()');
     }
 
     /**
      * @dataProvider data_compat_fields
      * @ticket 58898
      *
-     * @covers WP_Text_Diff_Renderer_Table::__unset()
+     * @covers       WP_Text_Diff_Renderer_Table::__unset()
      *
      * @param string $property_name Property name to unset.
      */
@@ -147,7 +149,7 @@ class Tests_Diff_WpTextDiffRendererTable extends WP_UnitTestCase
         $this->expectDeprecationMessage(
             'WP_Text_Diff_Renderer_Table::__unset(): ' .
             'A property `undeclared_property` is not declared. Unsetting a dynamic property is ' .
-            'deprecated since version 6.4.0! Instead, declare the property on the class.'
+            'deprecated since version 6.4.0! Instead, declare the property on the class.',
         );
         unset($this->diff_renderer_table->undeclared_property);
     }
@@ -160,17 +162,17 @@ class Tests_Diff_WpTextDiffRendererTable extends WP_UnitTestCase
     public function data_compat_fields()
     {
         return [
-            '_show_split_view'     => [
+            '_show_split_view' => [
                 'property_name' => '_show_split_view',
-                'expected'      => true,
+                'expected' => true,
             ],
             'inline_diff_renderer' => [
                 'property_name' => 'inline_diff_renderer',
-                'expected'      => 'WP_Text_Diff_Renderer_inline',
+                'expected' => 'WP_Text_Diff_Renderer_inline',
             ],
-            '_diff_threshold'      => [
+            '_diff_threshold' => [
                 'property_name' => '_diff_threshold',
-                'expected'      => 0.6,
+                'expected' => 0.6,
             ],
         ];
     }

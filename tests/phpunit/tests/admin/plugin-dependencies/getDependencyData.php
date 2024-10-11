@@ -94,22 +94,22 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
             'plugins_api',
             static function ($bypass, $action, $args) {
                 if ('plugin_information' === $action && isset($args->slug) && 'dependency' === $args->slug) {
-                    $bypass = (object) ['name' => 'Dependency 1'];
+                    $bypass = (object)['name' => 'Dependency 1'];
                 }
                 return $bypass;
             },
             10,
-            3
+            3,
         );
 
         $this->set_property_value(
             'plugins',
             [
                 'dependent/dependent.php' => [
-                    'Name'            => 'Dependent',
+                    'Name' => 'Dependent',
                     'RequiresPlugins' => 'dependency',
                 ],
-            ]
+            ],
         );
 
         self::$instance->initialize();
@@ -122,12 +122,12 @@ class Tests_Admin_WPPluginDependencies_GetDependencyData extends WP_PluginDepend
         $this->assertSame(
             [
                 'dependency' => [
-                    'name'     => 'Dependency 1',
+                    'name' => 'Dependency 1',
                     'external' => true,
-                    'Name'     => 'Dependency 1',
+                    'Name' => 'Dependency 1',
                 ],
             ],
-            $actual
+            $actual,
         );
     }
 }

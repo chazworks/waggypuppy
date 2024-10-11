@@ -16,21 +16,21 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$network_ids = [
-                'wp.org/'      => [
+                'wp.org/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
                 'make.wp.org/' => [
                     'domain' => 'make.wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'www.wordpress.net/'  => [
+                'www.wordpress.net/' => [
                     'domain' => 'www.wordpress.net',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'www.w.org/foo/'      => [
+                'www.w.org/foo/' => [
                     'domain' => 'www.w.org',
-                    'path'   => '/foo/',
+                    'path' => '/foo/',
                 ],
             ];
 
@@ -52,12 +52,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_number()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
                     'fields' => 'ids',
                     'number' => 3,
-                ]
+                ],
             );
 
             $this->assertCount(3, $found);
@@ -67,23 +67,23 @@ if (is_multisite()) :
         {
             $expected = [self::$network_ids['wp.org/'], self::$network_ids['make.wp.org/']];
 
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'      => 'ids',
+                    'fields' => 'ids',
                     'network__in' => $expected,
-                    'order'       => 'ASC',
-                ]
+                    'order' => 'ASC',
+                ],
             );
 
             $this->assertSame($expected, $found);
 
             $found = $q->query(
                 [
-                    'fields'      => 'ids',
+                    'fields' => 'ids',
                     'network__in' => $expected,
-                    'order'       => 'DESC',
-                ]
+                    'order' => 'DESC',
+                ],
             );
 
             $this->assertSame(array_reverse($expected), $found);
@@ -93,12 +93,12 @@ if (is_multisite()) :
         {
             $expected = [self::$network_ids['wp.org/']];
 
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'      => 'ids',
+                    'fields' => 'ids',
                     'network__in' => $expected,
-                ]
+                ],
             );
 
             $this->assertSameSets($expected, $found);
@@ -108,12 +108,12 @@ if (is_multisite()) :
         {
             $expected = [self::$network_ids['wp.org/'], self::$network_ids['www.wordpress.net/']];
 
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'      => 'ids',
+                    'fields' => 'ids',
                     'network__in' => $expected,
-                ]
+                ],
             );
 
             $this->assertSameSets($expected, $found);
@@ -123,13 +123,13 @@ if (is_multisite()) :
         {
             $expected = [self::$network_ids['wp.org/'], self::$network_ids['make.wp.org/']];
 
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'      => 'ids',
-                    'count'       => true,
+                    'fields' => 'ids',
+                    'count' => true,
                     'network__in' => $expected,
-                ]
+                ],
             );
 
             $this->assertSame(2, $found);
@@ -143,12 +143,12 @@ if (is_multisite()) :
             // Exclude main network since we don't have control over it here.
             $excluded[] = 1;
 
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'          => 'ids',
+                    'fields' => 'ids',
                     'network__not_in' => $excluded,
-                ]
+                ],
             );
 
             $this->assertSameSets($expected, $found);
@@ -162,12 +162,12 @@ if (is_multisite()) :
             // Exclude main network since we don't have control over it here.
             $excluded[] = 1;
 
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'          => 'ids',
+                    'fields' => 'ids',
                     'network__not_in' => $excluded,
-                ]
+                ],
             );
 
             $this->assertSameSets($expected, $found);
@@ -175,12 +175,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
                     'fields' => 'ids',
                     'domain' => 'www.w.org',
-                ]
+                ],
             );
 
             $expected = [
@@ -192,12 +192,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain__in_with_single_domain()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'     => 'ids',
+                    'fields' => 'ids',
                     'domain__in' => ['make.wp.org'],
-                ]
+                ],
             );
 
             $expected = [
@@ -209,12 +209,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain__in_with_multiple_domains()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'     => 'ids',
+                    'fields' => 'ids',
                     'domain__in' => ['wp.org', 'make.wp.org'],
-                ]
+                ],
             );
 
             $expected = [
@@ -227,13 +227,13 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain__in_with_multiple_domains_and_number()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'     => 'ids',
-                    'number'     => 1,
+                    'fields' => 'ids',
+                    'number' => 1,
                     'domain__in' => ['wp.org', 'make.wp.org'],
-                ]
+                ],
             );
 
             $expected = [
@@ -245,14 +245,14 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain__in_with_multiple_domains_and_number_and_offset()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'     => 'ids',
-                    'number'     => 1,
-                    'offset'     => 1,
+                    'fields' => 'ids',
+                    'number' => 1,
+                    'offset' => 1,
                     'domain__in' => ['wp.org', 'make.wp.org'],
-                ]
+                ],
             );
 
             $expected = [
@@ -264,12 +264,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain__not_in_with_single_domain()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'         => 'ids',
+                    'fields' => 'ids',
                     'domain__not_in' => ['www.w.org'],
-                ]
+                ],
             );
 
             $expected = [
@@ -284,12 +284,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain__not_in_with_multiple_domains()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'         => 'ids',
+                    'fields' => 'ids',
                     'domain__not_in' => ['wp.org', 'www.w.org'],
-                ]
+                ],
             );
 
             $expected = [
@@ -303,13 +303,13 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain__not_in_with_multiple_domains_and_number()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'         => 'ids',
-                    'number'         => 2,
+                    'fields' => 'ids',
+                    'number' => 2,
                     'domain__not_in' => ['wp.org', 'www.w.org'],
-                ]
+                ],
             );
 
             $expected = [
@@ -322,14 +322,14 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_domain__not_in_with_multiple_domains_and_number_and_offset()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'         => 'ids',
-                    'number'         => 2,
-                    'offset'         => 1,
+                    'fields' => 'ids',
+                    'number' => 2,
+                    'offset' => 1,
                     'domain__not_in' => ['wp.org', 'www.w.org'],
-                ]
+                ],
             );
 
             $expected = [
@@ -342,13 +342,13 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_path_with_expected_results()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'          => 'ids',
-                    'path'            => '/',
+                    'fields' => 'ids',
+                    'path' => '/',
                     'network__not_in' => get_current_site()->id, // Exclude the initial network added by the test suite.
-                ]
+                ],
             );
 
             $expected = [
@@ -362,15 +362,15 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_path_and_number_and_offset_with_expected_results()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'          => 'ids',
-                    'number'          => 1,
-                    'offset'          => 2,
-                    'path'            => '/',
+                    'fields' => 'ids',
+                    'number' => 1,
+                    'offset' => 2,
+                    'path' => '/',
                     'network__not_in' => get_current_site()->id, // Exclude the initial network added by the test suite.
-                ]
+                ],
             );
 
             $expected = [
@@ -382,12 +382,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_path_with_no_expected_results()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
                     'fields' => 'ids',
-                    'path'   => '/bar/',
-                ]
+                    'path' => '/bar/',
+                ],
             );
 
             $this->assertEmpty($found);
@@ -395,12 +395,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_search_with_text_in_domain()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
                     'fields' => 'ids',
                     'search' => 'ww.word',
-                ]
+                ],
             );
 
             $expected = [
@@ -412,12 +412,12 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_search_with_text_in_path()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
                     'fields' => 'ids',
                     'search' => 'foo',
-                ]
+                ],
             );
 
             $expected = [
@@ -429,15 +429,15 @@ if (is_multisite()) :
 
         public function test_wp_network_query_by_path_order_by_domain_desc()
         {
-            $q     = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $found = $q->query(
                 [
-                    'fields'          => 'ids',
-                    'path'            => '/',
+                    'fields' => 'ids',
+                    'path' => '/',
                     'network__not_in' => get_current_site()->id, // Exclude the initial network added by the test suite.
-                    'order'           => 'DESC',
-                    'orderby'         => 'domain',
-                ]
+                    'order' => 'DESC',
+                    'orderby' => 'domain',
+                ],
             );
 
             $expected = [
@@ -454,13 +454,13 @@ if (is_multisite()) :
          */
         public function test_wp_network_query_cache_with_different_fields_no_count()
         {
-            $q                 = new WP_Network_Query();
-            $query_1           = $q->query(
+            $q = new WP_Network_Query();
+            $query_1 = $q->query(
                 [
                     'fields' => 'all',
                     'number' => 3,
-                    'order'  => 'ASC',
-                ]
+                    'order' => 'ASC',
+                ],
             );
             $number_of_queries = get_num_queries();
 
@@ -468,8 +468,8 @@ if (is_multisite()) :
                 [
                     'fields' => 'ids',
                     'number' => 3,
-                    'order'  => 'ASC',
-                ]
+                    'order' => 'ASC',
+                ],
             );
 
             $this->assertSame($number_of_queries, get_num_queries());
@@ -482,13 +482,13 @@ if (is_multisite()) :
         {
             $q = new WP_Network_Query();
 
-            $query_1           = $q->query(
+            $query_1 = $q->query(
                 [
                     'fields' => 'all',
                     'number' => 3,
-                    'order'  => 'ASC',
-                    'count'  => true,
-                ]
+                    'order' => 'ASC',
+                    'count' => true,
+                ],
             );
             $number_of_queries = get_num_queries();
 
@@ -496,9 +496,9 @@ if (is_multisite()) :
                 [
                     'fields' => 'ids',
                     'number' => 3,
-                    'order'  => 'ASC',
-                    'count'  => true,
-                ]
+                    'order' => 'ASC',
+                    'count' => true,
+                ],
             );
             $this->assertSame($number_of_queries, get_num_queries());
         }
@@ -514,8 +514,8 @@ if (is_multisite()) :
                 [
                     'fields' => 'ids',
                     'number' => 3,
-                    'order'  => 'ASC',
-                ]
+                    'order' => 'ASC',
+                ],
             );
 
             $number_of_queries = get_num_queries();
@@ -524,9 +524,9 @@ if (is_multisite()) :
                 [
                     'fields' => 'ids',
                     'number' => 3,
-                    'order'  => 'ASC',
-                    'count'  => true,
-                ]
+                    'order' => 'ASC',
+                    'count' => true,
+                ],
             );
             $this->assertSame($number_of_queries + 1, get_num_queries());
         }
@@ -536,24 +536,24 @@ if (is_multisite()) :
          */
         public function test_wp_network_query_cache_with_same_fields_same_cache_field()
         {
-            $q                 = new WP_Network_Query();
-            $query_1           = $q->query(
+            $q = new WP_Network_Query();
+            $query_1 = $q->query(
                 [
-                    'fields'               => 'all',
-                    'number'               => 3,
-                    'order'                => 'ASC',
+                    'fields' => 'all',
+                    'number' => 3,
+                    'order' => 'ASC',
                     'update_network_cache' => true,
-                ]
+                ],
             );
             $number_of_queries = get_num_queries();
 
             $query_2 = $q->query(
                 [
-                    'fields'               => 'all',
-                    'number'               => 3,
-                    'order'                => 'ASC',
+                    'fields' => 'all',
+                    'number' => 3,
+                    'order' => 'ASC',
                     'update_network_cache' => true,
-                ]
+                ],
             );
 
             $this->assertSame($number_of_queries, get_num_queries());
@@ -564,24 +564,24 @@ if (is_multisite()) :
          */
         public function test_wp_network_query_cache_with_same_fields_different_cache_field()
         {
-            $q                 = new WP_Network_Query();
-            $query_1           = $q->query(
+            $q = new WP_Network_Query();
+            $query_1 = $q->query(
                 [
-                    'fields'               => 'all',
-                    'number'               => 3,
-                    'order'                => 'ASC',
+                    'fields' => 'all',
+                    'number' => 3,
+                    'order' => 'ASC',
                     'update_network_cache' => true,
-                ]
+                ],
             );
             $number_of_queries = get_num_queries();
 
             $query_2 = $q->query(
                 [
-                    'fields'               => 'all',
-                    'number'               => 3,
-                    'order'                => 'ASC',
+                    'fields' => 'all',
+                    'number' => 3,
+                    'order' => 'ASC',
                     'update_network_cache' => false,
-                ]
+                ],
             );
 
             $this->assertSame($number_of_queries, get_num_queries());
@@ -597,7 +597,7 @@ if (is_multisite()) :
 
             $num_queries = get_num_queries();
 
-            $q       = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $results = $q->query([]);
 
             remove_filter('networks_pre_query', [__CLASS__, 'filter_networks_pre_query'], 10, 2);
@@ -626,7 +626,7 @@ if (is_multisite()) :
         {
             add_filter('networks_pre_query', [__CLASS__, 'filter_networks_pre_query_and_set_networks'], 10, 2);
 
-            $q       = new WP_Network_Query();
+            $q = new WP_Network_Query();
             $results = $q->query([]);
 
             remove_filter('networks_pre_query', [__CLASS__, 'filter_networks_pre_query_and_set_networks'], 10);
@@ -651,11 +651,11 @@ if (is_multisite()) :
             $q = new WP_Network_Query();
             $q->query(
                 [
-                    'fields'               => 'all',
-                    'number'               => 3,
-                    'order'                => 'ASC',
+                    'fields' => 'all',
+                    'number' => 3,
+                    'order' => 'ASC',
                     'update_network_cache' => true,
-                ]
+                ],
             );
 
             $this->assertSame(ltrim($q->request), $q->request, 'The query has leading whitespace');

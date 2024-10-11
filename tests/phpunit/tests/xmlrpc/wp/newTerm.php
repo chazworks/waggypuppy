@@ -13,7 +13,7 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
         self::$parent_term_id = $factory->term->create(
             [
                 'taxonomy' => 'category',
-            ]
+            ],
         );
     }
 
@@ -65,9 +65,9 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 [
                     'taxonomy' => 'category',
-                    'name'     => '',
+                    'name' => '',
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
@@ -85,10 +85,10 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 [
                     'taxonomy' => 'post_tag',
-                    'parent'   => self::$parent_term_id,
-                    'name'     => 'test',
+                    'parent' => self::$parent_term_id,
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
@@ -106,10 +106,10 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 [
                     'taxonomy' => 'category',
-                    'parent'   => 'dasda',
-                    'name'     => 'test',
+                    'parent' => 'dasda',
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(500, $result->code);
@@ -126,10 +126,10 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 [
                     'taxonomy' => 'category',
-                    'parent'   => 9999,
-                    'name'     => 'test',
+                    'parent' => 9999,
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result);
         $this->assertSame(403, $result->code);
@@ -148,9 +148,9 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 [
                     'taxonomy' => 'category',
-                    'name'     => 'test',
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
         $this->assertNotIXRError($result);
         $this->assertStringMatchesFormat('%d', $result);
@@ -167,10 +167,10 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 [
                     'taxonomy' => 'category',
-                    'parent'   => self::$parent_term_id,
-                    'name'     => 'test',
+                    'parent' => self::$parent_term_id,
+                    'name' => 'test',
                 ],
-            ]
+            ],
         );
         $this->assertNotIXRError($result);
         $this->assertStringMatchesFormat('%d', $result);
@@ -181,13 +181,13 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
 
         $taxonomy = [
-            'taxonomy'    => 'category',
-            'parent'      => self::$parent_term_id,
-            'name'        => 'test_all',
+            'taxonomy' => 'category',
+            'parent' => self::$parent_term_id,
+            'name' => 'test_all',
             'description' => 'Test all',
-            'slug'        => 'test_all',
+            'slug' => 'test_all',
         ];
-        $result   = $this->myxmlrpcserver->wp_newTerm([1, 'editor', 'editor', $taxonomy]);
+        $result = $this->myxmlrpcserver->wp_newTerm([1, 'editor', 'editor', $taxonomy]);
         $this->assertNotIXRError($result);
         $this->assertStringMatchesFormat('%d', $result);
     }
@@ -204,16 +204,16 @@ class Tests_XMLRPC_wp_newTerm extends WP_XMLRPC_UnitTestCase
                 'editor',
                 'editor',
                 [
-                    'taxonomy'      => 'category',
-                    'name'          => 'Test meta',
+                    'taxonomy' => 'category',
+                    'name' => 'Test meta',
                     'custom_fields' => [
                         [
-                            'key'   => 'key1',
+                            'key' => 'key1',
                             'value' => 'value1',
                         ],
                     ],
                 ],
-            ]
+            ],
         );
         $this->assertNotIXRError($result);
         $this->assertStringMatchesFormat('%d', $result);

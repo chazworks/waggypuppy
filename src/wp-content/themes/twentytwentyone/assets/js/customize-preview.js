@@ -1,12 +1,16 @@
 /* global twentytwentyoneGetHexLum, jQuery */
-( function() {
+( function () {
 	// Add listener for the "background_color" control.
-	wp.customize( 'background_color', function( value ) {
-		value.bind( function( to ) {
+	wp.customize( 'background_color', function ( value ) {
+		value.bind( function ( to ) {
 			var lum = twentytwentyoneGetHexLum( to ),
 				isDark = 127 > lum,
-				textColor = ! isDark ? 'var(--global--color-dark-gray)' : 'var(--global--color-light-gray)',
-				tableColor = ! isDark ? 'var(--global--color-light-gray)' : 'var(--global--color-dark-gray)',
+				textColor = ! isDark
+					? 'var(--global--color-dark-gray)'
+					: 'var(--global--color-light-gray)',
+				tableColor = ! isDark
+					? 'var(--global--color-light-gray)'
+					: 'var(--global--color-dark-gray)',
 				stylesheetID = 'twentytwentyone-customizer-inline-styles',
 				stylesheet,
 				styles;
@@ -17,14 +21,18 @@
 				document.documentElement.classList.add( 'is-dark-theme' );
 				document.body.classList.remove( 'is-light-theme' );
 				document.documentElement.classList.remove( 'is-light-theme' );
-				document.documentElement.classList.remove( 'respect-color-scheme-preference' );
+				document.documentElement.classList.remove(
+					'respect-color-scheme-preference'
+				);
 			} else {
 				document.body.classList.remove( 'is-dark-theme' );
 				document.documentElement.classList.remove( 'is-dark-theme' );
 				document.body.classList.add( 'is-light-theme' );
 				document.documentElement.classList.add( 'is-light-theme' );
 				if ( wp.customize( 'respect_user_color_preference' ).get() ) {
-					document.documentElement.classList.add( 'respect-color-scheme-preference' );
+					document.documentElement.classList.add(
+						'respect-color-scheme-preference'
+					);
 				}
 			}
 
@@ -39,7 +47,9 @@
 			styles = '';
 			// If the stylesheet doesn't exist, create it and append it to <head>.
 			if ( ! stylesheet.length ) {
-				jQuery( '#twenty-twenty-one-style-inline-css' ).after( '<style id="' + stylesheetID + '"></style>' );
+				jQuery( '#twenty-twenty-one-style-inline-css' ).after(
+					'<style id="' + stylesheetID + '"></style>'
+				);
 				stylesheet = jQuery( '#' + stylesheetID );
 			}
 
@@ -59,4 +69,4 @@
 			stylesheet.html( ':root{' + styles + '}' );
 		} );
 	} );
-}() );
+} )();

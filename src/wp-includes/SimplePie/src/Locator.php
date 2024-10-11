@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -70,8 +70,14 @@ class Locator implements RegistryAware
     public $dom;
     protected $registry;
 
-    public function __construct(\SimplePie\File $file, $timeout = 10, $useragent = null, $max_checked_feeds = 10, $force_fsockopen = false, $curl_options = [])
-    {
+    public function __construct(
+        \SimplePie\File $file,
+        $timeout = 10,
+        $useragent = null,
+        $max_checked_feeds = 10,
+        $force_fsockopen = false,
+        $curl_options = [],
+    ) {
         $this->file = $file;
         $this->useragent = $useragent;
         $this->timeout = $timeout;
@@ -120,7 +126,11 @@ class Locator implements RegistryAware
             return $working[0];
         }
 
-        if ($type & (\SimplePie\SimplePie::LOCATOR_LOCAL_EXTENSION | \SimplePie\SimplePie::LOCATOR_LOCAL_BODY | \SimplePie\SimplePie::LOCATOR_REMOTE_EXTENSION | \SimplePie\SimplePie::LOCATOR_REMOTE_BODY) && $this->get_links()) {
+        if ($type & (\SimplePie\SimplePie::LOCATOR_LOCAL_EXTENSION
+                | \SimplePie\SimplePie::LOCATOR_LOCAL_BODY
+                | \SimplePie\SimplePie::LOCATOR_REMOTE_EXTENSION
+                | \SimplePie\SimplePie::LOCATOR_REMOTE_BODY)
+            && $this->get_links()) {
             if ($type & \SimplePie\SimplePie::LOCATOR_LOCAL_EXTENSION && $working = $this->extension($this->local)) {
                 return $working[0];
             }
@@ -129,7 +139,8 @@ class Locator implements RegistryAware
                 return $working[0];
             }
 
-            if ($type & \SimplePie\SimplePie::LOCATOR_REMOTE_EXTENSION && $working = $this->extension($this->elsewhere)) {
+            if ($type & \SimplePie\SimplePie::LOCATOR_REMOTE_EXTENSION
+                && $working = $this->extension($this->elsewhere)) {
                 return $working[0];
             }
 
@@ -145,9 +156,15 @@ class Locator implements RegistryAware
         if ($file->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE) {
             $sniffer = $this->registry->create(Content\Type\Sniffer::class, [$file]);
             $sniffed = $sniffer->get_type();
-            $mime_types = ['application/rss+xml', 'application/rdf+xml',
-                                'text/rdf', 'application/atom+xml', 'text/xml',
-                                'application/xml', 'application/x-rss+xml'];
+            $mime_types = [
+                'application/rss+xml',
+                'application/rdf+xml',
+                'text/rdf',
+                'application/atom+xml',
+                'text/xml',
+                'application/xml',
+                'application/x-rss+xml',
+            ];
             if ($check_html) {
                 $mime_types[] = 'text/html';
             }
@@ -170,7 +187,8 @@ class Locator implements RegistryAware
         $elements = $this->dom->getElementsByTagName('base');
         foreach ($elements as $element) {
             if ($element->hasAttribute('href')) {
-                $base = $this->registry->call(Misc::class, 'absolutize_url', [trim($element->getAttribute('href')), $this->http_base]);
+                $base = $this->registry->call(Misc::class, 'absolutize_url',
+                    [trim($element->getAttribute('href')), $this->http_base]);
                 if ($base === false) {
                     continue;
                 }
@@ -208,25 +226,46 @@ class Locator implements RegistryAware
                 break;
             }
             if ($link->hasAttribute('href') && $link->hasAttribute('rel')) {
-                $rel = array_unique($this->registry->call(Misc::class, 'space_separated_tokens', [strtolower($link->getAttribute('rel'))]));
+                $rel = array_unique($this->registry->call(Misc::class, 'space_separated_tokens',
+                    [strtolower($link->getAttribute('rel'))]));
                 $line = method_exists($link, 'getLineNo') ? $link->getLineNo() : 1;
 
                 if ($this->base_location < $line) {
-                    $href = $this->registry->call(Misc::class, 'absolutize_url', [trim($link->getAttribute('href')), $this->base]);
+                    $href = $this->registry->call(Misc::class, 'absolutize_url',
+                        [trim($link->getAttribute('href')), $this->base]);
                 } else {
-                    $href = $this->registry->call(Misc::class, 'absolutize_url', [trim($link->getAttribute('href')), $this->http_base]);
+                    $href = $this->registry->call(Misc::class, 'absolutize_url',
+                        [trim($link->getAttribute('href')), $this->http_base]);
                 }
                 if ($href === false) {
                     continue;
                 }
 
-                if (!in_array($href, $done) && in_array('feed', $rel) || (in_array('alternate', $rel) && !in_array('stylesheet', $rel) && $link->hasAttribute('type') && in_array(strtolower($this->registry->call(Misc::class, 'parse_mime', [$link->getAttribute('type')])), ['text/html', 'application/rss+xml', 'application/atom+xml'])) && !isset($feeds[$href])) {
+                if (!in_array($href, $done) && in_array('feed', $rel)
+                    || (in_array('alternate', $rel)
+                        && !in_array('stylesheet', $rel)
+                        && $link->hasAttribute('type')
+                        && in_array(strtolower($this->registry->call(Misc::class, 'parse_mime',
+                            [$link->getAttribute('type')])),
+                            ['text/html', 'application/rss+xml', 'application/atom+xml']))
+                    && !isset($feeds[$href])) {
                     $this->checked_feeds++;
                     $headers = [
                         'Accept' => 'application/atom+xml, application/rss+xml, application/rdf+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.8, text/html;q=0.7, unknown/unknown;q=0.1, application/unknown;q=0.1, */*;q=0.1',
                     ];
-                    $feed = $this->registry->create(File::class, [$href, $this->timeout, 5, $headers, $this->useragent, $this->force_fsockopen, $this->curl_options]);
-                    if ($feed->success && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0 || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300)) && $this->is_feed($feed, true)) {
+                    $feed = $this->registry->create(File::class, [
+                        $href,
+                        $this->timeout,
+                        5,
+                        $headers,
+                        $this->useragent,
+                        $this->force_fsockopen,
+                        $this->curl_options,
+                    ]);
+                    if ($feed->success
+                        && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0
+                            || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300))
+                        && $this->is_feed($feed, true)) {
                         $feeds[$href] = $feed;
                     }
                 }
@@ -250,9 +289,11 @@ class Locator implements RegistryAware
                 $parsed = $this->registry->call(Misc::class, 'parse_url', [$href]);
                 if ($parsed['scheme'] === '' || preg_match('/^(https?|feed)?$/i', $parsed['scheme'])) {
                     if (method_exists($link, 'getLineNo') && $this->base_location < $link->getLineNo()) {
-                        $href = $this->registry->call(Misc::class, 'absolutize_url', [trim($link->getAttribute('href')), $this->base]);
+                        $href = $this->registry->call(Misc::class, 'absolutize_url',
+                            [trim($link->getAttribute('href')), $this->base]);
                     } else {
-                        $href = $this->registry->call(Misc::class, 'absolutize_url', [trim($link->getAttribute('href')), $this->http_base]);
+                        $href = $this->registry->call(Misc::class, 'absolutize_url',
+                            [trim($link->getAttribute('href')), $this->http_base]);
                     }
                     if ($href === false) {
                         continue;
@@ -279,12 +320,12 @@ class Locator implements RegistryAware
     public function get_rel_link($rel)
     {
         if ($this->dom === null) {
-            throw new \SimplePie\Exception('DOMDocument not found, unable to use '.
-                                          'locator');
+            throw new \SimplePie\Exception('DOMDocument not found, unable to use ' .
+                'locator');
         }
         if (!class_exists('DOMXpath')) {
-            throw new \SimplePie\Exception('DOMXpath not found, unable to use '.
-                                          'get_rel_link');
+            throw new \SimplePie\Exception('DOMXpath not found, unable to use ' .
+                'get_rel_link');
         }
 
         $xpath = new \DOMXpath($this->dom);
@@ -292,20 +333,18 @@ class Locator implements RegistryAware
         foreach ($xpath->query($query) as $link) {
             $href = trim($link->getAttribute('href'));
             $parsed = $this->registry->call(Misc::class, 'parse_url', [$href]);
-            if ($parsed['scheme'] === '' ||
-                preg_match('/^https?$/i', $parsed['scheme'])) {
-                if (method_exists($link, 'getLineNo') &&
-                    $this->base_location < $link->getLineNo()) {
+            if ($parsed['scheme'] === '' || preg_match('/^https?$/i', $parsed['scheme'])) {
+                if (method_exists($link, 'getLineNo') && $this->base_location < $link->getLineNo()) {
                     $href = $this->registry->call(
                         Misc::class,
                         'absolutize_url',
-                        [trim($link->getAttribute('href')), $this->base]
+                        [trim($link->getAttribute('href')), $this->base],
                     );
                 } else {
                     $href = $this->registry->call(
                         Misc::class,
                         'absolutize_url',
-                        [trim($link->getAttribute('href')), $this->http_base]
+                        [trim($link->getAttribute('href')), $this->http_base],
                     );
                 }
                 if ($href === false) {
@@ -332,8 +371,19 @@ class Locator implements RegistryAware
                 $headers = [
                     'Accept' => 'application/atom+xml, application/rss+xml, application/rdf+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.8, text/html;q=0.7, unknown/unknown;q=0.1, application/unknown;q=0.1, */*;q=0.1',
                 ];
-                $feed = $this->registry->create(File::class, [$value, $this->timeout, 5, $headers, $this->useragent, $this->force_fsockopen, $this->curl_options]);
-                if ($feed->success && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0 || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300)) && $this->is_feed($feed)) {
+                $feed = $this->registry->create(File::class, [
+                    $value,
+                    $this->timeout,
+                    5,
+                    $headers,
+                    $this->useragent,
+                    $this->force_fsockopen,
+                    $this->curl_options,
+                ]);
+                if ($feed->success
+                    && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0
+                        || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300))
+                    && $this->is_feed($feed)) {
                     return [$feed];
                 } else {
                     unset($array[$key]);
@@ -354,8 +404,12 @@ class Locator implements RegistryAware
                 $headers = [
                     'Accept' => 'application/atom+xml, application/rss+xml, application/rdf+xml;q=0.9, application/xml;q=0.8, text/xml;q=0.8, text/html;q=0.7, unknown/unknown;q=0.1, application/unknown;q=0.1, */*;q=0.1',
                 ];
-                $feed = $this->registry->create(File::class, [$value, $this->timeout, 5, null, $this->useragent, $this->force_fsockopen, $this->curl_options]);
-                if ($feed->success && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0 || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300)) && $this->is_feed($feed)) {
+                $feed = $this->registry->create(File::class,
+                    [$value, $this->timeout, 5, null, $this->useragent, $this->force_fsockopen, $this->curl_options]);
+                if ($feed->success
+                    && ($feed->method & \SimplePie\SimplePie::FILE_SOURCE_REMOTE === 0
+                        || ($feed->status_code === 200 || $feed->status_code > 206 && $feed->status_code < 300))
+                    && $this->is_feed($feed)) {
                     return [$feed];
                 } else {
                     unset($array[$key]);

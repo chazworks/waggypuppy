@@ -22,7 +22,7 @@ class Tests_Post_wpGetPostParentId extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$parent_post_id = $factory->post->create();
-        self::$post_id        = $factory->post->create(['post_parent' => self::$parent_post_id]);
+        self::$post_id = $factory->post->create(['post_parent' => self::$parent_post_id]);
     }
 
     public function test_wp_get_post_parent_id_with_post_object()

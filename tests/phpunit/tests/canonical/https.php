@@ -29,7 +29,7 @@ class Tests_Canonical_HTTPS extends WP_Canonical_UnitTestCase
         $this->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
         create_initial_taxonomies();
 
-        $this->http  = set_url_scheme(home_url('sample-page/'), 'http');
+        $this->http = set_url_scheme(home_url('sample-page/'), 'http');
         $this->https = set_url_scheme(home_url('sample-page/'), 'https');
     }
 

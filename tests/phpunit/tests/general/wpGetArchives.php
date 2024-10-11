@@ -30,7 +30,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'monthly',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $time1 = wp_cache_get('last_changed', 'posts');
@@ -44,7 +44,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'monthly',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -53,10 +53,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
         // Change args, resulting in a different query string. Cache is not primed, expect 1 query.
         $result = wp_get_archives(
             [
-                'type'  => 'monthly',
-                'echo'  => false,
+                'type' => 'monthly',
+                'echo' => false,
                 'order' => 'ASC',
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -67,10 +67,10 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
         // Cache is primed, expect no queries.
         $result = wp_get_archives(
             [
-                'type'  => 'monthly',
-                'echo'  => false,
+                'type' => 'monthly',
+                'echo' => false,
                 'order' => 'ASC',
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -83,7 +83,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'yearly',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -96,7 +96,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'yearly',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -107,7 +107,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'daily',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -120,7 +120,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'daily',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -131,7 +131,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'weekly',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -144,7 +144,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'weekly',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -155,7 +155,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'postbypost',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));
@@ -168,7 +168,7 @@ class Tests_General_wpGetArchives extends WP_UnitTestCase
             [
                 'type' => 'postbypost',
                 'echo' => false,
-            ]
+            ],
         );
         $this->assertIsString($result);
         $this->assertSame($time1, wp_cache_get('last_changed', 'posts'));

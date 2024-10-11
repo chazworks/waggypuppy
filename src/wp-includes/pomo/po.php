@@ -9,7 +9,7 @@
 
 require_once __DIR__ . '/translations.php';
 
-if (! defined('PO_MAX_LINE_LEN')) {
+if (!defined('PO_MAX_LINE_LEN')) {
     define('PO_MAX_LINE_LEN', 79);
 }
 
@@ -21,12 +21,12 @@ if (! defined('PO_MAX_LINE_LEN')) {
  * which still use the old MacOS standalone `\r` as a line ending.
  * This fix should be revisited when PHP 9.0 is in alpha/beta.
  */
-@ini_set('auto_detect_line_endings', 1); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+@ini_set('auto_detect_line_endings', 1);
 
 /**
  * Routines for working with PO files
  */
-if (! class_exists('PO', false)) :
+if (!class_exists('PO', false)) :
     class PO extends Gettext_Translations
     {
 
@@ -83,8 +83,8 @@ if (! class_exists('PO', false)) :
         /**
          * Same as {@link export}, but writes the result to a file
          *
-         * @param string $filename        Where to write the PO string.
-         * @param bool   $include_headers Whether to include the headers in the export.
+         * @param string $filename Where to write the PO string.
+         * @param bool $include_headers Whether to include the headers in the export.
          * @return bool true on success, false on error
          */
         public function export_to_file($filename, $include_headers = true)
@@ -94,7 +94,7 @@ if (! class_exists('PO', false)) :
                 return false;
             }
             $export = $this->export($include_headers);
-            $res    = fwrite($fh, $export);
+            $res = fwrite($fh, $export);
             if (false === $res) {
                 return false;
             }
@@ -121,22 +121,24 @@ if (! class_exists('PO', false)) :
          */
         public static function poify($input_string)
         {
-            $quote   = '"';
-            $slash   = '\\';
+            $quote = '"';
+            $slash = '\\';
             $newline = "\n";
 
             $replaces = [
                 "$slash" => "$slash$slash",
                 "$quote" => "$slash$quote",
-                "\t"     => '\t',
+                "\t" => '\t',
             ];
 
             $input_string = str_replace(array_keys($replaces), array_values($replaces), $input_string);
 
             $po = $quote . implode("{$slash}n{$quote}{$newline}{$quote}", explode($newline, $input_string)) . $quote;
             // Add empty string on first line for readability.
-            if (str_contains($input_string, $newline) &&
-                (substr_count($input_string, $newline) > 1 || substr($input_string, -strlen($newline)) !== $newline)) {
+            if (str_contains($input_string, $newline)
+                && (substr_count($input_string, $newline) > 1
+                    || substr($input_string, -strlen($newline))
+                    !== $newline)) {
                 $po = "$quote$quote$newline$po";
             }
             // Remove empty strings.
@@ -152,21 +154,21 @@ if (! class_exists('PO', false)) :
          */
         public static function unpoify($input_string)
         {
-            $escapes               = [
-                't'  => "\t",
-                'n'  => "\n",
-                'r'  => "\r",
+            $escapes = [
+                't' => "\t",
+                'n' => "\n",
+                'r' => "\r",
                 '\\' => '\\',
             ];
-            $lines                 = array_map('trim', explode("\n", $input_string));
-            $lines                 = array_map(['PO', 'trim_quotes'], $lines);
-            $unpoified             = '';
+            $lines = array_map('trim', explode("\n", $input_string));
+            $lines = array_map(['PO', 'trim_quotes'], $lines);
+            $unpoified = '';
             $previous_is_backslash = false;
             foreach ($lines as $line) {
                 preg_match_all('/./u', $line, $chars);
                 $chars = $chars[0];
                 foreach ($chars as $char) {
-                    if (! $previous_is_backslash) {
+                    if (!$previous_is_backslash) {
                         if ('\\' === $char) {
                             $previous_is_backslash = true;
                         } else {
@@ -174,7 +176,7 @@ if (! class_exists('PO', false)) :
                         }
                     } else {
                         $previous_is_backslash = false;
-                        $unpoified            .= isset($escapes[$char]) ? $escapes[$char] : $char;
+                        $unpoified .= isset($escapes[$char]) ? $escapes[$char] : $char;
                     }
                 }
             }
@@ -190,11 +192,11 @@ if (! class_exists('PO', false)) :
          * returns the modified string
          *
          * @param string $input_string prepend lines in this string
-         * @param string $with         prepend lines with this string
+         * @param string $with prepend lines with this string
          */
         public static function prepend_each_line($input_string, $with)
         {
-            $lines  = explode("\n", $input_string);
+            $lines = explode("\n", $input_string);
             $append = '';
             if ("\n" === substr($input_string, -1) && '' === end($lines)) {
                 /*
@@ -240,32 +242,32 @@ if (! class_exists('PO', false)) :
                 return false;
             }
             $po = [];
-            if (! empty($entry->translator_comments)) {
+            if (!empty($entry->translator_comments)) {
                 $po[] = PO::comment_block($entry->translator_comments);
             }
-            if (! empty($entry->extracted_comments)) {
+            if (!empty($entry->extracted_comments)) {
                 $po[] = PO::comment_block($entry->extracted_comments, '.');
             }
-            if (! empty($entry->references)) {
+            if (!empty($entry->references)) {
                 $po[] = PO::comment_block(implode(' ', $entry->references), ':');
             }
-            if (! empty($entry->flags)) {
+            if (!empty($entry->flags)) {
                 $po[] = PO::comment_block(implode(', ', $entry->flags), ',');
             }
             if ($entry->context) {
                 $po[] = 'msgctxt ' . PO::poify($entry->context);
             }
             $po[] = 'msgid ' . PO::poify($entry->singular);
-            if (! $entry->is_plural) {
+            if (!$entry->is_plural) {
                 $translation = empty($entry->translations) ? '' : $entry->translations[0];
                 $translation = PO::match_begin_and_end_newlines($translation, $entry->singular);
-                $po[]        = 'msgstr ' . PO::poify($translation);
+                $po[] = 'msgstr ' . PO::poify($translation);
             } else {
-                $po[]         = 'msgid_plural ' . PO::poify($entry->plural);
+                $po[] = 'msgid_plural ' . PO::poify($entry->plural);
                 $translations = empty($entry->translations) ? ['', ''] : $entry->translations;
                 foreach ($translations as $i => $translation) {
                     $translation = PO::match_begin_and_end_newlines($translation, $entry->plural);
-                    $po[]        = "msgstr[$i] " . PO::poify($translation);
+                    $po[] = "msgstr[$i] " . PO::poify($translation);
                 }
             }
             return implode("\n", $po);
@@ -277,13 +279,13 @@ if (! class_exists('PO', false)) :
                 return $translation;
             }
 
-            $original_begin    = "\n" === substr($original, 0, 1);
-            $original_end      = "\n" === substr($original, -1);
+            $original_begin = "\n" === substr($original, 0, 1);
+            $original_end = "\n" === substr($original, -1);
             $translation_begin = "\n" === substr($translation, 0, 1);
-            $translation_end   = "\n" === substr($translation, -1);
+            $translation_end = "\n" === substr($translation, -1);
 
             if ($original_begin) {
-                if (! $translation_begin) {
+                if (!$translation_begin) {
                     $translation = "\n" . $translation;
                 }
             } elseif ($translation_begin) {
@@ -291,7 +293,7 @@ if (! class_exists('PO', false)) :
             }
 
             if ($original_end) {
-                if (! $translation_end) {
+                if (!$translation_end) {
                     $translation .= "\n";
                 }
             } elseif ($translation_end) {
@@ -308,13 +310,13 @@ if (! class_exists('PO', false)) :
         public function import_from_file($filename)
         {
             $f = fopen($filename, 'r');
-            if (! $f) {
+            if (!$f) {
                 return false;
             }
             $lineno = 0;
             while (true) {
                 $res = $this->read_entry($f, $lineno);
-                if (! $res) {
+                if (!$res) {
                     break;
                 }
                 if ('' === $res['entry']->singular) {
@@ -327,7 +329,7 @@ if (! class_exists('PO', false)) :
             if (false === $res) {
                 return false;
             }
-            if (! $this->headers && ! $this->entries) {
+            if (!$this->headers && !$this->entries) {
                 return false;
             }
             return true;
@@ -346,7 +348,7 @@ if (! class_exists('PO', false)) :
 
         /**
          * @param resource $f
-         * @param int      $lineno
+         * @param int $lineno
          * @return null|false|array
          */
         public function read_entry($f, $lineno = 0)
@@ -354,16 +356,16 @@ if (! class_exists('PO', false)) :
             $entry = new Translation_Entry();
             // Where were we in the last step.
             // Can be: comment, msgctxt, msgid, msgid_plural, msgstr, msgstr_plural.
-            $context      = '';
+            $context = '';
             $msgstr_index = 0;
             while (true) {
                 ++$lineno;
                 $line = PO::read_line($f);
-                if (! $line) {
+                if (!$line) {
                     if (feof($f)) {
                         if (self::is_final($context)) {
                             break;
-                        } elseif (! $context) { // We haven't read a line and EOF came.
+                        } elseif (!$context) { // We haven't read a line and EOF came.
                             return null;
                         } else {
                             return false;
@@ -398,7 +400,7 @@ if (! class_exists('PO', false)) :
                     if ($context && 'comment' !== $context) {
                         return false;
                     }
-                    $context         = 'msgctxt';
+                    $context = 'msgctxt';
                     $entry->context .= PO::unpoify($m[1]);
                 } elseif (preg_match('/^msgid\s+(".*")/', $line, $m)) {
                     if (self::is_final($context)) {
@@ -409,27 +411,27 @@ if (! class_exists('PO', false)) :
                     if ($context && 'msgctxt' !== $context && 'comment' !== $context) {
                         return false;
                     }
-                    $context          = 'msgid';
+                    $context = 'msgid';
                     $entry->singular .= PO::unpoify($m[1]);
                 } elseif (preg_match('/^msgid_plural\s+(".*")/', $line, $m)) {
                     if ('msgid' !== $context) {
                         return false;
                     }
-                    $context          = 'msgid_plural';
+                    $context = 'msgid_plural';
                     $entry->is_plural = true;
-                    $entry->plural   .= PO::unpoify($m[1]);
+                    $entry->plural .= PO::unpoify($m[1]);
                 } elseif (preg_match('/^msgstr\s+(".*")/', $line, $m)) {
                     if ('msgid' !== $context) {
                         return false;
                     }
-                    $context             = 'msgstr';
+                    $context = 'msgstr';
                     $entry->translations = [PO::unpoify($m[1])];
                 } elseif (preg_match('/^msgstr\[(\d+)\]\s+(".*")/', $line, $m)) {
                     if ('msgid_plural' !== $context && 'msgstr_plural' !== $context) {
                         return false;
                     }
-                    $context                    = 'msgstr_plural';
-                    $msgstr_index               = $m[1];
+                    $context = 'msgstr_plural';
+                    $msgstr_index = $m[1];
                     $entry->translations[$m[1]] = PO::unpoify($m[2]);
                 } elseif (preg_match('/^".*"$/', $line)) {
                     $unpoified = PO::unpoify($line);
@@ -469,19 +471,19 @@ if (! class_exists('PO', false)) :
             }
 
             return [
-                'entry'  => $entry,
+                'entry' => $entry,
                 'lineno' => $lineno,
             ];
         }
 
         /**
          * @param resource $f
-         * @param string   $action
+         * @param string $action
          * @return bool
          */
         public function read_line($f, $action = 'read')
         {
-            static $last_line     = '';
+            static $last_line = '';
             static $use_last_line = false;
             if ('clear' === $action) {
                 $last_line = '';
@@ -491,21 +493,21 @@ if (! class_exists('PO', false)) :
                 $use_last_line = true;
                 return true;
             }
-            $line          = $use_last_line ? $last_line : fgets($f);
-            $line          = ("\r\n" === substr($line, -2)) ? rtrim($line, "\r\n") . "\n" : $line;
-            $last_line     = $line;
+            $line = $use_last_line ? $last_line : fgets($f);
+            $line = ("\r\n" === substr($line, -2)) ? rtrim($line, "\r\n") . "\n" : $line;
+            $last_line = $line;
             $use_last_line = false;
             return $line;
         }
 
         /**
          * @param Translation_Entry $entry
-         * @param string            $po_comment_line
+         * @param string $po_comment_line
          */
         public function add_comment_to_entry(&$entry, $po_comment_line)
         {
             $first_two = substr($po_comment_line, 0, 2);
-            $comment   = trim(substr($po_comment_line, 2));
+            $comment = trim(substr($po_comment_line, 2));
             if ('#:' === $first_two) {
                 $entry->references = array_merge($entry->references, preg_split('/\s+/', $comment));
             } elseif ('#.' === $first_two) {

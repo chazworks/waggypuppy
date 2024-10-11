@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group meta
  */
@@ -12,10 +13,10 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$post_id    = $factory->post->create(['post_type' => 'page']);
-        self::$term_id    = $factory->term->create(['taxonomy' => 'category']);
+        self::$post_id = $factory->post->create(['post_type' => 'page']);
+        self::$term_id = $factory->term->create(['taxonomy' => 'category']);
         self::$comment_id = $factory->comment->create();
-        self::$user_id    = $factory->user->create();
+        self::$user_id = $factory->user->create();
     }
 
     public static function wpTearDownAfterClass()
@@ -46,7 +47,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
         return $allowed;
     }
 
-    public function test_register_meta_back_compat_with_auth_callback_and_no_sanitize_callback_has_old_style_auth_filter()
+    public function test_register_meta_back_compat_with_auth_callback_and_no_sanitize_callback_has_old_style_auth_filter(
+    )
     {
         register_meta('post', 'flight_number', null, [$this, '_old_auth_meta_cb']);
         $has_filter = has_filter('auth_post_meta_flight_number', [$this, '_old_auth_meta_cb']);
@@ -56,7 +58,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
         $this->assertSame(10, $has_filter);
     }
 
-    public function test_register_meta_back_compat_with_sanitize_callback_and_no_auth_callback_has_old_style_sanitize_filter()
+    public function test_register_meta_back_compat_with_sanitize_callback_and_no_auth_callback_has_old_style_sanitize_filter(
+    )
     {
         register_meta('post', 'flight_number', [$this, '_old_sanitize_meta_cb']);
         $has_filter = has_filter('sanitize_post_meta_flight_number', [$this, '_old_sanitize_meta_cb']);
@@ -68,18 +71,18 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
     public function test_register_meta_back_compat_with_auth_and_sanitize_callback_has_old_style_filters()
     {
         register_meta('post', 'flight_number', [$this, '_old_sanitize_meta_cb'], [$this, '_old_auth_meta_cb']);
-        $has_filters             = [];
-        $has_filters['auth']     = has_filter('auth_post_meta_flight_number', [$this, '_old_auth_meta_cb']);
+        $has_filters = [];
+        $has_filters['auth'] = has_filter('auth_post_meta_flight_number', [$this, '_old_auth_meta_cb']);
         $has_filters['sanitize'] = has_filter('sanitize_post_meta_flight_number', [$this, '_old_sanitize_meta_cb']);
         remove_filter('auth_post_meta_flight_number', [$this, '_old_auth_meta_cb']);
         remove_filter('sanitize_post_meta_flight_number', [$this, '_old_sanitize_meta_cb']);
 
         $this->assertSame(
             [
-                'auth'     => 10,
+                'auth' => 10,
                 'sanitize' => 10,
             ],
-            $has_filters
+            $has_filters,
         );
     }
 
@@ -103,13 +106,13 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             'post' => [
                 '' => [
                     'flight_number' => [
-                        'type'              => 'string',
-                        'label'             => '',
-                        'description'       => '',
-                        'single'            => false,
+                        'type' => 'string',
+                        'label' => '',
+                        'description' => '',
+                        'single' => false,
                         'sanitize_callback' => null,
-                        'auth_callback'     => '__return_true',
-                        'show_in_rest'      => false,
+                        'auth_callback' => '__return_true',
+                        'show_in_rest' => false,
                         'revisions_enabled' => false,
                     ],
                 ],
@@ -130,13 +133,13 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             'term' => [
                 '' => [
                     'category_icon' => [
-                        'type'              => 'string',
-                        'label'             => '',
-                        'description'       => '',
-                        'single'            => false,
+                        'type' => 'string',
+                        'label' => '',
+                        'description' => '',
+                        'single' => false,
                         'sanitize_callback' => null,
-                        'auth_callback'     => '__return_true',
-                        'show_in_rest'      => false,
+                        'auth_callback' => '__return_true',
+                        'show_in_rest' => false,
                         'revisions_enabled' => false,
                     ],
                 ],
@@ -190,13 +193,13 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             'post' => [
                 '' => [
                     'flight_number' => [
-                        'type'              => 'string',
-                        'label'             => '',
-                        'description'       => '',
-                        'single'            => false,
+                        'type' => 'string',
+                        'label' => '',
+                        'description' => '',
+                        'single' => false,
                         'sanitize_callback' => [$this, '_new_sanitize_meta_cb'],
-                        'auth_callback'     => '__return_true',
-                        'show_in_rest'      => false,
+                        'auth_callback' => '__return_true',
+                        'show_in_rest' => false,
                         'revisions_enabled' => false,
                     ],
                 ],
@@ -389,13 +392,13 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             $type => [
                 $subtype => [
                     'flight_number' => [
-                        'type'              => 'string',
-                        'label'             => '',
-                        'description'       => '',
-                        'single'            => false,
+                        'type' => 'string',
+                        'label' => '',
+                        'description' => '',
+                        'single' => false,
                         'sanitize_callback' => null,
-                        'auth_callback'     => '__return_true',
-                        'show_in_rest'      => false,
+                        'auth_callback' => '__return_true',
+                        'show_in_rest' => false,
                         'revisions_enabled' => false,
                     ],
                 ],
@@ -446,13 +449,13 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             $type => [
                 $subtype => [
                     'flight_number' => [
-                        'type'              => 'string',
-                        'label'             => '',
-                        'description'       => '',
-                        'single'            => false,
+                        'type' => 'string',
+                        'label' => '',
+                        'description' => '',
+                        'single' => false,
                         'sanitize_callback' => null,
-                        'auth_callback'     => '__return_true',
-                        'show_in_rest'      => false,
+                        'auth_callback' => '__return_true',
+                        'show_in_rest' => false,
                         'revisions_enabled' => false,
                     ],
                 ],
@@ -497,8 +500,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             'registered_key1',
             [
                 'object_subtype' => $subtype,
-                'single'         => true,
-            ]
+                'single' => true,
+            ],
         );
 
         // For testing with $single => false.
@@ -507,7 +510,7 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             'registered_key2',
             [
                 'object_subtype' => $subtype,
-            ]
+            ],
         );
 
         // Register another meta key for a different subtype.
@@ -516,11 +519,11 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             'registered_key3',
             [
                 'object_subtype' => 'other_subtype',
-            ]
+            ],
         );
 
         $object_property_name = $type . '_id';
-        $object_id            = self::$$object_property_name;
+        $object_id = self::$$object_property_name;
 
         add_metadata($type, $object_id, 'registered_key1', 'value1');
         add_metadata($type, $object_id, 'registered_key2', 'value2');
@@ -548,7 +551,7 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
     public function test_get_object_subtype($type, $expected_subtype)
     {
         $object_property_name = $type . '_id';
-        $object_id            = self::$$object_property_name;
+        $object_id = self::$$object_property_name;
 
         $this->assertSame($expected_subtype, get_object_subtype($type, $object_id));
     }
@@ -573,18 +576,17 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
      */
     public function test_get_default_value($args, $single, $expected)
     {
-
         $object_type = 'post';
-        $meta_key    = 'registered_key1';
+        $meta_key = 'registered_key1';
         register_meta(
             $object_type,
             $meta_key,
-            $args
+            $args,
         );
 
         $object_property_name = $object_type . '_id';
-        $object_id            = self::$$object_property_name;
-        $default_value        = get_metadata_default($object_type, $object_id, $meta_key, $single);
+        $object_id = self::$$object_property_name;
+        $default_value = get_metadata_default($object_type, $object_id, $meta_key, $single);
         $this->assertSame($expected, $default_value);
 
         // Check for default value.
@@ -604,8 +606,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
 
         // Set other meta key, to make sure other keys are not effects.
         $meta_value = 'hibble';
-        $meta_key   = 'unregistered_key1';
-        $value      = get_metadata($object_type, $object_id, $meta_key, true);
+        $meta_key = 'unregistered_key1';
+        $value = get_metadata($object_type, $object_id, $meta_key, true);
         $this->assertSame($value, '');
         update_metadata($object_type, $object_id, $meta_key, $meta_value);
         $value = get_metadata($object_type, $object_id, $meta_key, true);
@@ -620,18 +622,18 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
     {
         $this->setExpectedIncorrectUsage('register_meta');
         $object_type = 'post';
-        $meta_key    = 'registered_key1';
-        $register    = register_meta(
+        $meta_key = 'registered_key1';
+        $register = register_meta(
             $object_type,
             $meta_key,
-            $args
+            $args,
         );
 
         $this->assertFalse($register);
 
         $object_property_name = $object_type . '_id';
-        $object_id            = self::$$object_property_name;
-        $default_value        = get_metadata_default($object_type, $object_id, $meta_key, $single);
+        $object_id = self::$$object_property_name;
+        $default_value = get_metadata_default($object_type, $object_id, $meta_key, $single);
         $this->assertSame($expected, $default_value);
     }
 
@@ -647,98 +649,98 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
     public function data_get_default_data()
     {
         return [
-            'single string key with single ask '          => [
+            'single string key with single ask ' => [
                 [
-                    'single'  => true,
+                    'single' => true,
                     'default' => 'wibble',
                 ],
                 true,
                 'wibble',
             ],
-            'single string key with multiple ask'         => [
+            'single string key with multiple ask' => [
                 [
-                    'single'  => true,
+                    'single' => true,
                     'default' => 'wibble',
                 ],
                 false,
                 ['wibble'],
             ],
-            'multiple string key with single ask'         => [
+            'multiple string key with single ask' => [
                 [
-                    'single'  => false,
+                    'single' => false,
                     'default' => 'wibble',
                 ],
                 true,
                 'wibble',
             ],
-            'multiple string key with multiple ask'       => [
+            'multiple string key with multiple ask' => [
                 [
-                    'single'  => false,
+                    'single' => false,
                     'default' => 'wibble',
                 ],
                 false,
                 ['wibble'],
             ],
-            'single array key with multiple ask'          => [
+            'single array key with multiple ask' => [
                 [
-                    'single'       => true,
-                    'type'         => 'array',
+                    'single' => true,
+                    'type' => 'array',
                     'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
-                    'default'      => ['wibble'],
+                    'default' => ['wibble'],
                 ],
                 false,
                 [['wibble']],
             ],
             'single string key with single ask for sub type' => [
                 [
-                    'single'         => true,
+                    'single' => true,
                     'object_subtype' => 'page',
-                    'default'        => 'wibble',
+                    'default' => 'wibble',
                 ],
                 true,
                 'wibble',
             ],
             'single string key with multiple ask for sub type' => [
                 [
-                    'single'         => true,
+                    'single' => true,
                     'object_subtype' => 'page',
-                    'default'        => 'wibble',
+                    'default' => 'wibble',
                 ],
                 false,
                 ['wibble'],
             ],
             'single array key with multiple ask for sub type' => [
                 [
-                    'single'         => true,
+                    'single' => true,
                     'object_subtype' => 'page',
-                    'show_in_rest'   => [
+                    'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
-                    'default'        => ['wibble'],
+                    'default' => ['wibble'],
                 ],
                 false,
                 [['wibble']],
             ],
 
             // Types.
-            'single object key with single ask'           => [
+            'single object key with single ask' => [
                 [
-                    'single'       => true,
+                    'single' => true,
                     'show_in_rest' => [
                         'schema' => [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'wibble' => [
                                     'type' => 'string',
@@ -746,18 +748,18 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
                             ],
                         ],
                     ],
-                    'type'         => 'object',
-                    'default'      => ['wibble' => 'dibble'],
+                    'type' => 'object',
+                    'default' => ['wibble' => 'dibble'],
                 ],
                 true,
                 ['wibble' => 'dibble'],
             ],
-            'single object key with multiple ask'         => [
+            'single object key with multiple ask' => [
                 [
-                    'single'       => true,
+                    'single' => true,
                     'show_in_rest' => [
                         'schema' => [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'wibble' => [
                                     'type' => 'string',
@@ -765,17 +767,17 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
                             ],
                         ],
                     ],
-                    'type'         => 'object',
-                    'default'      => ['wibble' => 'dibble'],
+                    'type' => 'object',
+                    'default' => ['wibble' => 'dibble'],
                 ],
                 false,
                 [['wibble' => 'dibble']],
             ],
-            'multiple object key with single ask'         => [
+            'multiple object key with single ask' => [
                 [
                     'show_in_rest' => [
                         'schema' => [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'wibble' => [
                                     'type' => 'string',
@@ -783,18 +785,18 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
                             ],
                         ],
                     ],
-                    'type'         => 'object',
-                    'single'       => false,
-                    'default'      => ['wibble' => 'dibble'],
+                    'type' => 'object',
+                    'single' => false,
+                    'default' => ['wibble' => 'dibble'],
                 ],
                 true,
                 ['wibble' => 'dibble'],
             ],
-            'multiple object key with multiple ask'       => [
+            'multiple object key with multiple ask' => [
                 [
                     'show_in_rest' => [
                         'schema' => [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
                                 'wibble' => [
                                     'type' => 'string',
@@ -802,9 +804,9 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
                             ],
                         ],
                     ],
-                    'type'         => 'object',
-                    'single'       => false,
-                    'default'      => ['wibble' => 'dibble'],
+                    'type' => 'object',
+                    'single' => false,
+                    'default' => ['wibble' => 'dibble'],
                 ],
                 false,
                 [['wibble' => 'dibble']],
@@ -813,154 +815,154 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
                 [
                     'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
-                    'single'       => true,
-                    'type'         => 'array',
-                    'default'      => ['dibble'],
+                    'single' => true,
+                    'type' => 'array',
+                    'default' => ['dibble'],
                 ],
                 false,
                 [['dibble']],
             ],
-            'multiple array with multiple ask'            => [
+            'multiple array with multiple ask' => [
                 [
                     'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
-                    'single'       => false,
-                    'type'         => 'array',
-                    'default'      => ['dibble'],
+                    'single' => false,
+                    'type' => 'array',
+                    'default' => ['dibble'],
                 ],
                 false,
                 [['dibble']],
             ],
-            'single array with single ask'                => [
+            'single array with single ask' => [
                 [
                     'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
-                    'single'       => true,
-                    'type'         => 'array',
-                    'default'      => ['dibble'],
+                    'single' => true,
+                    'type' => 'array',
+                    'default' => ['dibble'],
                 ],
                 true,
                 ['dibble'],
             ],
 
-            'multiple array with single ask'              => [
+            'multiple array with single ask' => [
                 [
                     'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
-                    'single'       => false,
-                    'type'         => 'array',
-                    'default'      => ['dibble'],
+                    'single' => false,
+                    'type' => 'array',
+                    'default' => ['dibble'],
                 ],
                 true,
                 ['dibble'],
             ],
 
-            'single boolean with single ask'              => [
+            'single boolean with single ask' => [
                 [
-                    'single'  => true,
-                    'type'    => 'boolean',
+                    'single' => true,
+                    'type' => 'boolean',
                     'default' => true,
                 ],
                 true,
                 true,
             ],
-            'multiple boolean with single ask'            => [
+            'multiple boolean with single ask' => [
                 [
-                    'single'  => false,
-                    'type'    => 'boolean',
+                    'single' => false,
+                    'type' => 'boolean',
                     'default' => true,
                 ],
                 true,
                 true,
             ],
-            'single boolean with multiple ask'            => [
+            'single boolean with multiple ask' => [
                 [
-                    'single'  => true,
-                    'type'    => 'boolean',
+                    'single' => true,
+                    'type' => 'boolean',
                     'default' => true,
                 ],
                 false,
                 [true],
             ],
-            'multiple boolean with multiple ask'          => [
+            'multiple boolean with multiple ask' => [
                 [
-                    'single'  => false,
-                    'type'    => 'boolean',
+                    'single' => false,
+                    'type' => 'boolean',
                     'default' => true,
                 ],
                 false,
                 [true],
             ],
 
-            'single integer with single ask'              => [
+            'single integer with single ask' => [
                 [
-                    'single'  => true,
-                    'type'    => 'integer',
+                    'single' => true,
+                    'type' => 'integer',
                     'default' => 123,
                 ],
                 true,
                 123,
             ],
-            'multiple integer with single ask'            => [
+            'multiple integer with single ask' => [
                 [
-                    'single'  => false,
-                    'type'    => 'integer',
+                    'single' => false,
+                    'type' => 'integer',
                     'default' => 123,
                 ],
                 true,
                 123,
             ],
-            'single integer with multiple ask'            => [
+            'single integer with multiple ask' => [
                 [
-                    'single'  => true,
-                    'type'    => 'integer',
+                    'single' => true,
+                    'type' => 'integer',
                     'default' => 123,
                 ],
                 false,
                 [123],
             ],
-            'multiple integer with multiple ask'          => [
+            'multiple integer with multiple ask' => [
                 [
-                    'single'  => false,
-                    'type'    => 'integer',
+                    'single' => false,
+                    'type' => 'integer',
                     'default' => 123,
                 ],
                 false,
                 [123],
             ],
-            'single array of objects with multiple ask'   => [
+            'single array of objects with multiple ask' => [
                 [
-                    'type'         => 'array',
-                    'single'       => true,
+                    'type' => 'array',
+                    'single' => true,
                     'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
-                                'type'       => 'object',
+                                'type' => 'object',
                                 'properties' => [
                                     'name' => [
                                         'type' => 'string',
@@ -969,7 +971,7 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
                             ],
                         ],
                     ],
-                    'default'      => [
+                    'default' => [
                         [
                             'name' => 'Kirk',
                         ],
@@ -992,8 +994,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
         return [
             [
                 [
-                    'single'  => true,
-                    'type'    => 'boolean',
+                    'single' => true,
+                    'type' => 'boolean',
                     'default' => 123,
                 ],
                 true,
@@ -1001,8 +1003,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'  => false,
-                    'type'    => 'boolean',
+                    'single' => false,
+                    'type' => 'boolean',
                     'default' => 123,
                 ],
                 true,
@@ -1010,8 +1012,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'  => true,
-                    'type'    => 'boolean',
+                    'single' => true,
+                    'type' => 'boolean',
                     'default' => 123,
                 ],
                 false,
@@ -1019,8 +1021,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'  => false,
-                    'type'    => 'boolean',
+                    'single' => false,
+                    'type' => 'boolean',
                     'default' => 123,
                 ],
                 false,
@@ -1029,8 +1031,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
 
             [
                 [
-                    'single'  => true,
-                    'type'    => 'integer',
+                    'single' => true,
+                    'type' => 'integer',
                     'default' => 'wibble',
                 ],
                 true,
@@ -1038,8 +1040,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'  => false,
-                    'type'    => 'integer',
+                    'single' => false,
+                    'type' => 'integer',
                     'default' => 'wibble',
                 ],
                 true,
@@ -1047,8 +1049,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'  => true,
-                    'type'    => 'integer',
+                    'single' => true,
+                    'type' => 'integer',
                     'default' => 'wibble',
                 ],
                 false,
@@ -1056,8 +1058,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'  => false,
-                    'type'    => 'integer',
+                    'single' => false,
+                    'type' => 'integer',
                     'default' => 'wibble',
                 ],
                 false,
@@ -1065,8 +1067,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'  => false,
-                    'type'    => 'integer',
+                    'single' => false,
+                    'type' => 'integer',
                     'default' => [123, 'wibble'],
                 ],
                 false,
@@ -1074,8 +1076,8 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'  => false,
-                    'type'    => 'integer',
+                    'single' => false,
+                    'type' => 'integer',
                     'default' => [123, []],
                 ],
                 false,
@@ -1083,34 +1085,34 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             ],
             [
                 [
-                    'single'       => false,
-                    'type'         => 'array',
+                    'single' => false,
+                    'type' => 'array',
                     'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
-                    'default'      => [[123, 456], ['string']],
+                    'default' => [[123, 456], ['string']],
                 ],
                 false,
                 [],
             ],
             [
                 [
-                    'single'       => true,
-                    'type'         => 'array',
+                    'single' => true,
+                    'type' => 'array',
                     'show_in_rest' => [
                         'schema' => [
-                            'type'  => 'array',
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
-                    'default'      => [[123, 456], ['string']],
+                    'default' => [[123, 456], ['string']],
                 ],
                 true,
                 '',
@@ -1119,21 +1121,21 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
                 [
                     'show_in_rest' => [
                         'schema' => [
-                            'type'       => 'object',
+                            'type' => 'object',
                             'properties' => [
-                                'my_prop'          => [
+                                'my_prop' => [
                                     'type' => 'string',
                                 ],
                                 'my_required_prop' => [
                                     'type' => 'string',
                                 ],
                             ],
-                            'required'   => ['my_required_prop'],
+                            'required' => ['my_required_prop'],
                         ],
                     ],
-                    'type'         => 'object',
-                    'single'       => true,
-                    'default'      => ['my_prop' => 'hibble'],
+                    'type' => 'object',
+                    'single' => true,
+                    'default' => ['my_prop' => 'hibble'],
                 ],
                 true,
                 '',
@@ -1166,18 +1168,18 @@ class Tests_Meta_Register_Meta extends WP_UnitTestCase
             'test_post_type',
             [
                 'supports' => ['title', 'editor'],
-            ]
+            ],
         );
 
         $meta_key = 'registered_key1';
-        $args     = [
+        $args = [
             'revisions_enabled' => true,
         ];
 
         $register = register_meta(
             'test_post_type',
             $meta_key,
-            $args
+            $args,
         );
 
         $this->assertFalse($register);

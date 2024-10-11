@@ -25,57 +25,57 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$site_ids = [
-            'wp.org/'          => [
+            'wp.org/' => [
                 'domain' => 'wp.org',
-                'path'   => '/',
+                'path' => '/',
             ],
-            'wp.org/foo/'      => [
+            'wp.org/foo/' => [
                 'domain' => 'wp.org',
-                'path'   => '/foo/',
+                'path' => '/foo/',
             ],
-            'wp.org/foo/bar/'  => [
+            'wp.org/foo/bar/' => [
                 'domain' => 'wp.org',
-                'path'   => '/foo/bar/',
+                'path' => '/foo/bar/',
             ],
-            'wp.org/afoo/'     => [
+            'wp.org/afoo/' => [
                 'domain' => 'wp.org',
-                'path'   => '/afoo/',
+                'path' => '/afoo/',
             ],
-            'make.wp.org/'     => [
+            'make.wp.org/' => [
                 'domain' => 'make.wp.org',
-                'path'   => '/',
+                'path' => '/',
             ],
             'make.wp.org/foo/' => [
                 'domain' => 'make.wp.org',
-                'path'   => '/foo/',
+                'path' => '/foo/',
             ],
-            'www.w.org/'              => [
+            'www.w.org/' => [
                 'domain' => 'www.w.org',
-                'path'   => '/',
+                'path' => '/',
             ],
-            'www.w.org/foo/'          => [
+            'www.w.org/foo/' => [
                 'domain' => 'www.w.org',
-                'path'   => '/foo/',
+                'path' => '/foo/',
             ],
-            'www.w.org/foo/bar/'      => [
+            'www.w.org/foo/bar/' => [
                 'domain' => 'www.w.org',
-                'path'   => '/foo/bar/',
+                'path' => '/foo/bar/',
             ],
-            'test.example.org/'       => [
+            'test.example.org/' => [
                 'domain' => 'test.example.org',
-                'path'   => '/',
+                'path' => '/',
             ],
-            'test2.example.org/'      => [
+            'test2.example.org/' => [
                 'domain' => 'test2.example.org',
-                'path'   => '/',
+                'path' => '/',
             ],
-            'test3.example.org/zig/'  => [
+            'test3.example.org/zig/' => [
                 'domain' => 'test3.example.org',
-                'path'   => '/zig/',
+                'path' => '/zig/',
             ],
-            'atest.example.org/'      => [
+            'atest.example.org/' => [
                 'domain' => 'atest.example.org',
-                'path'   => '/',
+                'path' => '/',
             ],
         ];
 
@@ -102,23 +102,23 @@ class Tests_Multisite_wpMsThemesListTable extends WP_UnitTestCase
         global $totals;
 
         $totals_backup = $totals;
-        $totals        = [
-            'all'                  => 21,
-            'enabled'              => 1,
-            'disabled'             => 2,
-            'upgrade'              => 3,
-            'broken'               => 4,
-            'auto-update-enabled'  => 5,
+        $totals = [
+            'all' => 21,
+            'enabled' => 1,
+            'disabled' => 2,
+            'upgrade' => 3,
+            'broken' => 4,
+            'auto-update-enabled' => 5,
             'auto-update-disabled' => 6,
         ];
 
         $expected = [
-            'all'                  => '<a href="themes.php?theme_status=all" class="current" aria-current="page">All <span class="count">(21)</span></a>',
-            'enabled'              => '<a href="themes.php?theme_status=enabled">Enabled <span class="count">(1)</span></a>',
-            'disabled'             => '<a href="themes.php?theme_status=disabled">Disabled <span class="count">(2)</span></a>',
-            'upgrade'              => '<a href="themes.php?theme_status=upgrade">Update Available <span class="count">(3)</span></a>',
-            'broken'               => '<a href="themes.php?theme_status=broken">Broken <span class="count">(4)</span></a>',
-            'auto-update-enabled'  => '<a href="themes.php?theme_status=auto-update-enabled">Auto-updates Enabled <span class="count">(5)</span></a>',
+            'all' => '<a href="themes.php?theme_status=all" class="current" aria-current="page">All <span class="count">(21)</span></a>',
+            'enabled' => '<a href="themes.php?theme_status=enabled">Enabled <span class="count">(1)</span></a>',
+            'disabled' => '<a href="themes.php?theme_status=disabled">Disabled <span class="count">(2)</span></a>',
+            'upgrade' => '<a href="themes.php?theme_status=upgrade">Update Available <span class="count">(3)</span></a>',
+            'broken' => '<a href="themes.php?theme_status=broken">Broken <span class="count">(4)</span></a>',
+            'auto-update-enabled' => '<a href="themes.php?theme_status=auto-update-enabled">Auto-updates Enabled <span class="count">(5)</span></a>',
             'auto-update-disabled' => '<a href="themes.php?theme_status=auto-update-disabled">Auto-updates Disabled <span class="count">(6)</span></a>',
         ];
 

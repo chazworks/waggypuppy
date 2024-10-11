@@ -13,7 +13,7 @@ class Tests_Functions_NumberFormatI18n extends WP_UnitTestCase
 
     public function test_should_fall_back_to_number_format_when_wp_locale_is_not_set()
     {
-        $locale               = clone $GLOBALS['wp_locale'];
+        $locale = clone $GLOBALS['wp_locale'];
         $GLOBALS['wp_locale'] = null;
 
         $actual_1 = number_format_i18n(123456.789, 0);

@@ -59,11 +59,11 @@ class Tests_Query_Date extends WP_UnitTestCase
         $args = wp_parse_args(
             $args,
             [
-                'post_status'    => 'any', // For the future post.
+                'post_status' => 'any', // For the future post.
                 'posts_per_page' => '-1',  // To make sure results are accurate.
-                'orderby'        => 'ID',  // Same order they were created.
-                'order'          => 'ASC',
-            ]
+                'orderby' => 'ID',  // Same order they were created.
+                'order' => 'ASC',
+            ],
         );
 
         return $this->q->query($args);
@@ -74,7 +74,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'year' => 2008,
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -91,7 +91,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'year' => 2000,
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -102,7 +102,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '2007',
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -119,7 +119,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '1999',
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -130,7 +130,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '202504',
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -146,7 +146,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '202502',
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -157,7 +157,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '20250420',
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -173,7 +173,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '20250419',
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -184,7 +184,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '2025042010',
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -200,7 +200,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '2025042009',
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -214,7 +214,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '202504201013',
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -233,7 +233,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '202504201012',
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -247,7 +247,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '20250420101301',
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -265,7 +265,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '20250420101302',
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -279,7 +279,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => '2025-04-20 10:13:00',
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -297,7 +297,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'm' => 'alpha2025-04-20 10:13:00',
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -313,10 +313,10 @@ class Tests_Query_Date extends WP_UnitTestCase
     public function test_non_scalar_m_should_be_discarded()
     {
         $expected = $this->_get_query_result();
-        $posts    = $this->_get_query_result(
+        $posts = $this->_get_query_result(
             [
                 'm' => ['1234'], // Ignored.
-            ]
+            ],
         );
 
         $this->assertEqualSets($expected, $posts);
@@ -327,7 +327,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'monthnum' => 5,
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -346,7 +346,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'monthnum' => 8,
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -357,7 +357,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'w' => 24,
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -374,7 +374,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'w' => 2,
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -385,7 +385,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'day' => 22,
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -401,7 +401,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'day' => 30,
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -412,7 +412,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'hour' => 21,
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -427,7 +427,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'hour' => 2,
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -438,7 +438,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'minute' => 32,
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -454,7 +454,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'minute' => 1,
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);
@@ -465,7 +465,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'second' => 30,
-            ]
+            ],
         );
 
         $expected_dates = [
@@ -480,7 +480,7 @@ class Tests_Query_Date extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'second' => 50,
-            ]
+            ],
         );
 
         $this->assertCount(0, $posts);

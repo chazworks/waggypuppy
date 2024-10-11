@@ -24,16 +24,17 @@ while (have_posts()) {
                 /**
                  * Filter the default image attachment size.
                  *
+                 * @param string $image_size Image size. Default 'full'.
                  * @since Twenty Twenty-One 1.0
                  *
-                 * @param string $image_size Image size. Default 'full'.
                  */
                 $image_size = apply_filters('twenty_twenty_one_attachment_size', 'full');
                 echo wp_get_attachment_image(get_the_ID(), $image_size);
                 ?>
 
                 <?php if (wp_get_attachment_caption()) : ?>
-                    <figcaption class="wp-caption-text"><?php echo wp_kses_post(wp_get_attachment_caption()); ?></figcaption>
+                    <figcaption
+                        class="wp-caption-text"><?php echo wp_kses_post(wp_get_attachment_caption()); ?></figcaption>
                 <?php endif; ?>
             </figure><!-- .wp-block-image -->
 
@@ -42,11 +43,11 @@ while (have_posts()) {
 
             wp_link_pages(
                 [
-                    'before'   => '<nav class="page-links" aria-label="' . esc_attr__('Page', 'twentytwentyone') . '">',
-                    'after'    => '</nav>',
+                    'before' => '<nav class="page-links" aria-label="' . esc_attr__('Page', 'twentytwentyone') . '">',
+                    'after' => '</nav>',
                     /* translators: %: Page number. */
                     'pagelink' => esc_html__('Page %', 'twentytwentyone'),
-                ]
+                ],
             );
             ?>
         </div><!-- .entry-content -->
@@ -57,21 +58,25 @@ while (have_posts()) {
             if (wp_get_post_parent_id($post)) {
                 echo '<span class="posted-on">';
                 printf(
-                    /* translators: %s: Parent post. */
+                /* translators: %s: Parent post. */
                     esc_html__('Published in %s', 'twentytwentyone'),
-                    '<a href="' . esc_url(get_the_permalink(wp_get_post_parent_id($post))) . '">' . esc_html(get_the_title(wp_get_post_parent_id($post))) . '</a>'
+                    '<a href="'
+                    . esc_url(get_the_permalink(wp_get_post_parent_id($post)))
+                    . '">'
+                    . esc_html(get_the_title(wp_get_post_parent_id($post)))
+                    . '</a>',
                 );
                 echo '</span>';
             } else {
                 // Edit post link.
                 edit_post_link(
                     sprintf(
-                        /* translators: %s: Post title. Only visible to screen readers. */
+                    /* translators: %s: Post title. Only visible to screen readers. */
                         esc_html__('Edit %s', 'twentytwentyone'),
-                        '<span class="screen-reader-text">' . get_the_title() . '</span>'
+                        '<span class="screen-reader-text">' . get_the_title() . '</span>',
                     ),
                     '<span class="edit-link">',
-                    '</span>'
+                    '</span>',
                 );
             }
 
@@ -81,10 +86,10 @@ while (have_posts()) {
                 printf(
                     '<span class="full-size-link"><span class="screen-reader-text">%1$s</span><a href="%2$s">%3$s &times; %4$s</a></span>',
                     /* translators: Hidden accessibility text. */
-                    esc_html_x('Full size', 'Used before full size attachment link.', 'twentytwentyone'), // phpcs:ignore WordPress.Security.EscapeOutput
+                    esc_html_x('Full size', 'Used before full size attachment link.', 'twentytwentyone'),
                     esc_url(wp_get_attachment_url()),
                     absint($metadata['width']),
-                    absint($metadata['height'])
+                    absint($metadata['height']),
                 );
             }
 
@@ -92,12 +97,12 @@ while (have_posts()) {
                 // Edit post link.
                 edit_post_link(
                     sprintf(
-                        /* translators: %s: Post title. Only visible to screen readers. */
+                    /* translators: %s: Post title. Only visible to screen readers. */
                         esc_html__('Edit %s', 'twentytwentyone'),
-                        '<span class="screen-reader-text">' . get_the_title() . '</span>'
+                        '<span class="screen-reader-text">' . get_the_title() . '</span>',
                     ),
                     '<span class="edit-link">',
-                    '</span><br>'
+                    '</span><br>',
                 );
             }
             ?>

@@ -18,20 +18,20 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase
         self::factory()->post->create_many(
             3,
             [
-                'post_type'    => 'page',
+                'post_type' => 'page',
                 'post_content' => 'foo',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_type'    => 'page',
+                'post_type' => 'page',
                 'post_content' => 'bar',
-            ]
+            ],
         );
 
         $request = [
-            'type'            => 'quick-search-posttype-page',
-            'q'               => 'foo',
+            'type' => 'quick-search-posttype-page',
+            'q' => 'foo',
             'response-format' => 'json',
         ];
 
@@ -56,43 +56,43 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase
 
         self::factory()->post->create(
             [
-                'post_type'    => 'post',
-                'post_status'  => 'publish',
-                'post_title'   => 'Publish',
+                'post_type' => 'post',
+                'post_status' => 'publish',
+                'post_title' => 'Publish',
                 'post_content' => 'FOO',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_type'    => 'post',
-                'post_status'  => 'draft',
-                'post_title'   => 'Draft',
+                'post_type' => 'post',
+                'post_status' => 'draft',
+                'post_title' => 'Draft',
                 'post_content' => 'FOO',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_type'    => 'post',
-                'post_status'  => 'pending',
-                'post_title'   => 'Pending',
+                'post_type' => 'post',
+                'post_status' => 'pending',
+                'post_title' => 'Pending',
                 'post_content' => 'FOO',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_type'    => 'post',
-                'post_status'  => 'future',
-                'post_title'   => 'Future',
+                'post_type' => 'post',
+                'post_status' => 'future',
+                'post_title' => 'Future',
                 'post_content' => 'FOO',
-                'post_date'    => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
-            ]
+                'post_date' => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
+            ],
         );
 
         $request = [
             'type' => 'quick-search-posttype-post',
-            'q'    => 'FOO',
+            'q' => 'FOO',
         ];
-        $output  = get_echo('_wp_ajax_menu_quick_search', [$request]);
+        $output = get_echo('_wp_ajax_menu_quick_search', [$request]);
 
         $this->assertNotEmpty($output);
         $results = explode("\n", trim($output));
@@ -111,15 +111,15 @@ class Tests_Menu_WpAjaxMenuQuickSearch extends WP_UnitTestCase
         self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'foobar',
-            ]
+                'name' => 'foobar',
+            ],
         );
 
         $request = [
             'type' => 'quick-search-taxonomy-wptests_tax',
-            'q'    => 'foobar',
+            'q' => 'foobar',
         ];
-        $output  = get_echo('_wp_ajax_menu_quick_search', [$request]);
+        $output = get_echo('_wp_ajax_menu_quick_search', [$request]);
 
         $this->assertNotEmpty($output);
         $results = explode("\n", trim($output));

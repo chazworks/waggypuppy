@@ -14,7 +14,7 @@ class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
     {
         unset($GLOBALS['comment']);
 
-        $comment_ids    = $factory->comment->create_post_comments(0, 1);
+        $comment_ids = $factory->comment->create_post_comments(0, 1);
         self::$comments = array_map('get_comment', $comment_ids);
     }
 
@@ -26,7 +26,7 @@ class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
         return sprintf(
             '<a href="%s" rel="external">%s</a>',
             $comment->comment_author_url,
-            $linktext
+            $linktext,
         );
     }
 
@@ -39,11 +39,11 @@ class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
 
     public function test_global_comment()
     {
-        $comment            = reset(self::$comments);
+        $comment = reset(self::$comments);
         $GLOBALS['comment'] = $comment;
 
         $url_link = get_comment_author_url_link();
-        $link     = $this->parseCommentAuthorUrl($comment);
+        $link = $this->parseCommentAuthorUrl($comment);
         $this->assertSame($link, $url_link);
     }
 
@@ -52,7 +52,7 @@ class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
         $comment = reset(self::$comments);
 
         $url_link = get_comment_author_url_link('', '', '', $comment);
-        $link     = $this->parseCommentAuthorUrl($comment);
+        $link = $this->parseCommentAuthorUrl($comment);
         $this->assertSame($link, $url_link);
     }
 
@@ -61,7 +61,7 @@ class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
         $comment = reset(self::$comments);
 
         $url_link = get_comment_author_url_link('Burrito', '', '', $comment);
-        $link     = $this->parseCommentAuthorUrl($comment, 'Burrito');
+        $link = $this->parseCommentAuthorUrl($comment, 'Burrito');
         $this->assertSame($link, $url_link);
     }
 
@@ -70,7 +70,7 @@ class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
         $comment = reset(self::$comments);
 
         $url_link = get_comment_author_url_link('Burrito', 'I would love a ', '', $comment);
-        $link     = 'I would love a ' . $this->parseCommentAuthorUrl($comment, 'Burrito');
+        $link = 'I would love a ' . $this->parseCommentAuthorUrl($comment, 'Burrito');
         $this->assertSame($link, $url_link);
     }
 
@@ -79,7 +79,7 @@ class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
         $comment = reset(self::$comments);
 
         $url_link = get_comment_author_url_link('Burrito', '', ' is my favorite word.', $comment);
-        $link     = $this->parseCommentAuthorUrl($comment, 'Burrito') . ' is my favorite word.';
+        $link = $this->parseCommentAuthorUrl($comment, 'Burrito') . ' is my favorite word.';
         $this->assertSame($link, $url_link);
     }
 
@@ -88,7 +88,7 @@ class Tests_Comment_GetCommentAuthorUrlLink extends WP_UnitTestCase
         $comment = reset(self::$comments);
 
         $url_link = get_comment_author_url_link('Burrito', 'I would love a ', ' right now.', $comment);
-        $link     = 'I would love a ' . $this->parseCommentAuthorUrl($comment, 'Burrito') . ' right now.';
+        $link = 'I would love a ' . $this->parseCommentAuthorUrl($comment, 'Burrito') . ' right now.';
         $this->assertSame($link, $url_link);
     }
 }

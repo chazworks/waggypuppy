@@ -27,9 +27,9 @@ class WP_UnitTest_Generator_Sequence
     /**
      * Get the incrementor.
      *
+     * @return int
      * @since 4.6.0
      *
-     * @return int
      */
     public function get_incr()
     {
@@ -39,9 +39,9 @@ class WP_UnitTest_Generator_Sequence
     /**
      * Get the template string.
      *
+     * @return string
      * @since 4.6.0
      *
-     * @return string
      */
     public function get_template_string()
     {

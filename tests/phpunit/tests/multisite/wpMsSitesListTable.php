@@ -24,57 +24,57 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$site_ids = [
-                'wp.org/'          => [
+                'wp.org/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'wp.org/foo/'      => [
+                'wp.org/foo/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/foo/',
+                    'path' => '/foo/',
                 ],
-                'wp.org/foo/bar/'  => [
+                'wp.org/foo/bar/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/foo/bar/',
+                    'path' => '/foo/bar/',
                 ],
-                'wp.org/afoo/'     => [
+                'wp.org/afoo/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/afoo/',
+                    'path' => '/afoo/',
                 ],
-                'make.wp.org/'     => [
+                'make.wp.org/' => [
                     'domain' => 'make.wp.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
                 'make.wp.org/foo/' => [
                     'domain' => 'make.wp.org',
-                    'path'   => '/foo/',
+                    'path' => '/foo/',
                 ],
-                'www.w.org/'              => [
+                'www.w.org/' => [
                     'domain' => 'www.w.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'www.w.org/foo/'          => [
+                'www.w.org/foo/' => [
                     'domain' => 'www.w.org',
-                    'path'   => '/foo/',
+                    'path' => '/foo/',
                 ],
-                'www.w.org/foo/bar/'      => [
+                'www.w.org/foo/bar/' => [
                     'domain' => 'www.w.org',
-                    'path'   => '/foo/bar/',
+                    'path' => '/foo/bar/',
                 ],
-                'test.example.org/'       => [
+                'test.example.org/' => [
                     'domain' => 'test.example.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'test2.example.org/'      => [
+                'test2.example.org/' => [
                     'domain' => 'test2.example.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
-                'test3.example.org/zig/'  => [
+                'test3.example.org/zig/' => [
                     'domain' => 'test3.example.org',
-                    'path'   => '/zig/',
+                    'path' => '/zig/',
                 ],
-                'atest.example.org/'      => [
+                'atest.example.org/' => [
                     'domain' => 'atest.example.org',
-                    'path'   => '/',
+                    'path' => '/',
                 ],
             ];
 
@@ -167,7 +167,7 @@ if (is_multisite()) :
 
         public function test_ms_sites_list_table_subdomain_domain_search_items()
         {
-            if (! is_subdomain_install()) {
+            if (!is_subdomain_install()) {
                 $this->markTestSkipped('Domain search is not available for subdirectory configurations.');
             }
 
@@ -192,7 +192,7 @@ if (is_multisite()) :
 
         public function test_ms_sites_list_table_subdomain_domain_search_items_with_trailing_wildcard()
         {
-            if (! is_subdomain_install()) {
+            if (!is_subdomain_install()) {
                 $this->markTestSkipped('Domain search is not available for subdirectory configurations.');
             }
 
@@ -248,7 +248,7 @@ if (is_multisite()) :
         public function test_get_views_should_return_views_by_default()
         {
             $expected = [
-                'all'    => '<a href="sites.php" class="current" aria-current="page">All <span class="count">(14)</span></a>',
+                'all' => '<a href="sites.php" class="current" aria-current="page">All <span class="count">(14)</span></a>',
                 'public' => '<a href="sites.php?status=public">Public <span class="count">(14)</span></a>',
             ];
 

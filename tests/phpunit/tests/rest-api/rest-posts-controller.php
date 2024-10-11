@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Posts_Controller functionality.
  *
@@ -18,10 +19,10 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     protected static $private_reader_id;
 
     protected static $supported_formats;
-    protected static $post_ids    = [];
-    protected static $terms       = [];
+    protected static $post_ids = [];
+    protected static $terms = [];
     protected static $total_posts = 30;
-    protected static $per_page    = 50;
+    protected static $per_page = 50;
 
     protected $forbidden_cat;
     protected $posts_clauses;
@@ -31,35 +32,35 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$post_id = $factory->post->create();
-        self::$terms   = $factory->term->create_many(15, ['taxonomy' => 'category']);
+        self::$terms = $factory->term->create_many(15, ['taxonomy' => 'category']);
         wp_set_object_terms(self::$post_id, self::$terms, 'category');
 
-        self::$superadmin_id  = $factory->user->create(
+        self::$superadmin_id = $factory->user->create(
             [
-                'role'       => 'administrator',
+                'role' => 'administrator',
                 'user_login' => 'superadmin',
-            ]
+            ],
         );
-        self::$editor_id      = $factory->user->create(
+        self::$editor_id = $factory->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
-        self::$author_id      = $factory->user->create(
+        self::$author_id = $factory->user->create(
             [
                 'role' => 'author',
-            ]
+            ],
         );
         self::$contributor_id = $factory->user->create(
             [
                 'role' => 'contributor',
-            ]
+            ],
         );
 
         self::$private_reader_id = $factory->user->create(
             [
                 'role' => 'private_reader',
-            ]
+            ],
         );
 
         if (is_multisite()) {
@@ -75,7 +76,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
             self::$post_ids[] = $factory->post->create(
                 [
                     'post_title' => "Post {$i}",
-                ]
+                ],
             );
         }
     }
@@ -109,9 +110,9 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         register_post_type(
             'youseeme',
             [
-                'supports'     => [],
+                'supports' => [],
                 'show_in_rest' => true,
-            ]
+            ],
         );
 
         add_role('private_reader', 'Private Reader');
@@ -177,16 +178,16 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         // Single.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/posts/' . self::$post_id);
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/posts/' . self::$post_id);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(['v1' => true], $data['endpoints'][0]['allow_batch']);
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
@@ -194,10 +195,10 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_registered_query_params()
     {
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $keys     = array_keys($data['endpoints'][0]['args']);
+        $data = $response->get_data();
+        $keys = array_keys($data['endpoints'][0]['args']);
         sort($keys);
         $this->assertSame(
             [
@@ -228,16 +229,16 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
                 'tags_exclude',
                 'tax_relation',
             ],
-            $keys
+            $keys,
         );
     }
 
     public function test_registered_get_item_params()
     {
-        $request  = new WP_REST_Request('OPTIONS', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('OPTIONS', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $keys     = array_keys($data['endpoints'][0]['args']);
+        $data = $response->get_data();
+        $keys = array_keys($data['endpoints'][0]['args']);
         $this->assertEqualSets(['context', 'id', 'password', 'excerpt_length'], $keys);
     }
 
@@ -249,7 +250,8 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $response = rest_get_server()->response_to_data($response, true);
         $this->assertArrayHasKey('_embedded', $response[0], 'The _embedded key must exist');
         $this->assertArrayHasKey('wp:term', $response[0]['_embedded'], 'The wp:term key must exist');
-        $this->assertCount(15, $response[0]['_embedded']['wp:term'][0], 'Should should be 15 terms and not the default 10');
+        $this->assertCount(15, $response[0]['_embedded']['wp:term'][0],
+            'Should should be 15 terms and not the default 10');
         $i = 0;
         foreach ($response[0]['_embedded']['wp:term'][0] as $term) {
             $this->assertSame(self::$terms[$i], $term['id'], 'Check term id existing in response');
@@ -262,20 +264,20 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      */
     public function test_allow_header_sent_on_options_request()
     {
-        $request  = new WP_REST_Request('OPTIONS', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('OPTIONS', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
         $response = apply_filters('rest_post_dispatch', $response, rest_get_server(), $request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
 
         $this->assertNotEmpty($headers['Allow']);
         $this->assertSame($headers['Allow'], 'GET');
 
         wp_set_current_user(self::$editor_id);
 
-        $request  = new WP_REST_Request('OPTIONS', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('OPTIONS', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
         $response = apply_filters('rest_post_dispatch', $response, rest_get_server(), $request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
 
         $this->assertNotEmpty($headers['Allow']);
         $this->assertSame($headers['Allow'], 'GET, POST, PUT, PATCH, DELETE');
@@ -283,7 +285,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_items()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/posts');
+        $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $response = rest_get_server()->dispatch($request);
 
         $this->check_get_posts_response($response);
@@ -300,7 +302,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_query_params(
             [
                 'author' => REST_TESTS_IMPOSSIBLY_HIGH_NUMBER,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -389,14 +391,14 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_date'   => '2001-02-03 04:05:06',
-            ]
+                'post_date' => '2001-02-03 04:05:06',
+            ],
         );
         $id2 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_date'   => '2001-02-03 04:05:07',
-            ]
+                'post_date' => '2001-02-03 04:05:07',
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -404,7 +406,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         // Order defaults to date descending.
         $request->set_param('include', [$id1, $id2]);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
         $this->assertSame($id2, $data[0]['id']);
         $this->assertPostsOrderedBy('{posts}.post_date DESC');
@@ -412,7 +414,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         // 'orderby' => 'include'.
         $request->set_param('orderby', 'include');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
         $this->assertSame($id1, $data[0]['id']);
         $this->assertPostsOrderedBy("FIELD({posts}.ID,$id1,$id2)");
@@ -430,19 +432,19 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
             [
                 'post_status' => 'publish',
                 'post_author' => self::$editor_id,
-            ]
+            ],
         );
         $id3 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
                 'post_author' => self::$editor_id,
-            ]
+            ],
         );
         $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
                 'post_author' => self::$author_id,
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -450,7 +452,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('orderby', 'author');
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
         $this->assertSame(self::$author_id, $data[0]['author']);
@@ -475,7 +477,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('orderby', 'modified');
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
         $this->assertSame($id1, $data[0]['id']);
@@ -490,21 +492,21 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $id2 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $id3 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $id1,
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/pages');
@@ -512,7 +514,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('orderby', 'parent');
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
         $this->assertSame($id3, $data[0]['id']);
@@ -529,24 +531,24 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $id1 = self::factory()->post->create(['post_status' => 'publish']);
         $id2 = self::factory()->post->create(['post_status' => 'publish']);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/posts');
+        $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $ids      = wp_list_pluck($data, 'id');
+        $data = $response->get_data();
+        $ids = wp_list_pluck($data, 'id');
         $this->assertContains($id1, $ids);
         $this->assertContains($id2, $ids);
 
         $request->set_param('exclude', [$id2]);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $ids      = wp_list_pluck($data, 'id');
+        $data = $response->get_data();
+        $ids = wp_list_pluck($data, 'id');
         $this->assertContains($id1, $ids);
         $this->assertNotContains($id2, $ids);
 
-        $request->set_param('exclude', (string) $id2);
+        $request->set_param('exclude', (string)$id2);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $ids      = wp_list_pluck($data, 'id');
+        $data = $response->get_data();
+        $ids = wp_list_pluck($data, 'id');
         $this->assertContains($id1, $ids);
         $this->assertNotContains($id2, $ids);
 
@@ -559,9 +561,9 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         self::factory()->post->create(
             [
-                'post_title'  => 'Search Result',
+                'post_title' => 'Search Result',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         $total_posts = self::$total_posts + 1;
 
@@ -573,7 +575,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $request->set_param('search', 'Search Result');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame('Search Result', $data[0]['title']['rendered']);
     }
@@ -582,15 +584,15 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         self::factory()->post->create(
             [
-                'post_title'  => 'Apple',
+                'post_title' => 'Apple',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_title'  => 'Banana',
+                'post_title' => 'Banana',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -606,21 +608,21 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         self::factory()->post->create(
             [
-                'post_title'  => 'Apple',
+                'post_title' => 'Apple',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_title'  => 'Banana',
+                'post_title' => 'Banana',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_title'  => 'Peach',
+                'post_title' => 'Peach',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -641,21 +643,21 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         self::factory()->post->create(
             [
-                'post_title'  => 'Apple',
+                'post_title' => 'Apple',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_title'  => 'Banana',
+                'post_title' => 'Banana',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_title'  => 'Peach',
+                'post_title' => 'Peach',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -787,12 +789,12 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $draft_id = self::factory()->post->create(
             [
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         wp_set_current_user(0);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/posts');
+        $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $response = rest_get_server()->dispatch($request);
 
         $this->assertSame(200, $response->get_status());
@@ -808,27 +810,27 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      *
      * @dataProvider data_get_items_exact_search
      *
-     * @param string $search_term  The search term.
-     * @param bool   $exact_search Whether the search is an exact or general search.
-     * @param int    $expected     The expected number of matching posts.
+     * @param string $search_term The search term.
+     * @param bool $exact_search Whether the search is an exact or general search.
+     * @param int $expected The expected number of matching posts.
      */
     public function test_get_items_exact_search($search_term, $exact_search, $expected)
     {
         self::factory()->post->create(
             [
-                'post_title'   => 'Rye',
+                'post_title' => 'Rye',
                 'post_content' => 'This is a post about Rye Bread',
-            ]
+            ],
         );
 
         self::factory()->post->create(
             [
-                'post_title'   => 'Types of Bread',
+                'post_title' => 'Types of Bread',
                 'post_content' => 'Types of bread are White and Rye Bread',
-            ]
+            ],
         );
 
-        $request           = new WP_REST_Request('GET', '/wp/v2/posts');
+        $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $request['search'] = $search_term;
         if ($exact_search) {
             $request['search_semantics'] = 'exact';
@@ -846,19 +848,19 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         return [
             'general search, one exact match and one partial match' => [
-                'search_term'  => 'Rye',
+                'search_term' => 'Rye',
                 'exact_search' => false,
-                'expected'     => 2,
+                'expected' => 2,
             ],
             'exact search, one exact match and one partial match' => [
-                'search_term'  => 'Rye',
+                'search_term' => 'Rye',
                 'exact_search' => true,
-                'expected'     => 1,
+                'expected' => 1,
             ],
             'exact search, no match and one partial match' => [
-                'search_term'  => 'Rye Bread',
+                'search_term' => 'Rye Bread',
                 'exact_search' => true,
-                'expected'     => 0,
+                'expected' => 0,
             ],
         ];
     }
@@ -867,27 +869,27 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         self::factory()->post->create(
             [
-                'post_title'  => 'Apple Pie',
+                'post_title' => 'Apple Pie',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_title'  => 'Apple Sauce',
+                'post_title' => 'Apple Sauce',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_title'  => 'Apple Cobbler',
+                'post_title' => 'Apple Cobbler',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         self::factory()->post->create(
             [
-                'post_title'  => 'Apple Coffee Cake',
+                'post_title' => 'Apple Coffee Cake',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -896,14 +898,14 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         // Order defaults to 'desc'.
         $request->set_param('orderby', 'title');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('Apple Sauce', $data[0]['title']['rendered']);
         $this->assertPostsOrderedBy('{posts}.post_title DESC');
 
         // 'order' => 'asc'.
         $request->set_param('order', 'asc');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('Apple Cobbler', $data[0]['title']['rendered']);
         $this->assertPostsOrderedBy('{posts}.post_title ASC');
 
@@ -936,20 +938,20 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $id1 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_date'   => '2016-01-13 02:26:48',
-            ]
+                'post_date' => '2016-01-13 02:26:48',
+            ],
         );
         $id2 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_date'   => '2016-01-12 02:26:48',
-            ]
+                'post_date' => '2016-01-12 02:26:48',
+            ],
         );
         $id3 = self::factory()->post->create(
             [
                 'post_status' => 'publish',
-                'post_date'   => '2016-01-11 02:26:48',
-            ]
+                'post_date' => '2016-01-11 02:26:48',
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -957,7 +959,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('include', [$id1, $id2, $id3]);
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         // Default ORDER is DESC.
         $this->assertSame($id3, $data[0]['id']);
@@ -970,17 +972,17 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         $id1 = self::factory()->post->create(
             [
-                'post_title'  => 'ABC',
-                'post_name'   => 'xyz',
+                'post_title' => 'ABC',
+                'post_name' => 'xyz',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         $id2 = self::factory()->post->create(
             [
-                'post_title'  => 'XYZ',
-                'post_name'   => 'abc',
+                'post_title' => 'XYZ',
+                'post_name' => 'abc',
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -988,7 +990,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('include', [$id1, $id2]);
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         // Default ORDER is DESC.
         $this->assertSame('xyz', $data[0]['slug']);
@@ -1002,10 +1004,10 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         foreach ($slugs as $slug) {
             self::factory()->post->create(
                 [
-                    'post_title'  => $slug,
-                    'post_name'   => $slug,
+                    'post_title' => $slug,
+                    'post_name' => $slug,
                     'post_status' => 'publish',
-                ]
+                ],
             );
         }
 
@@ -1014,7 +1016,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('slug', ['taco', 'chalupa', 'burrito']);
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame('taco', $data[0]['slug']);
         $this->assertSame('chalupa', $data[1]['slug']);
@@ -1025,17 +1027,17 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         $id1 = self::factory()->post->create(
             [
-                'post_title'   => 'Title is more relevant',
+                'post_title' => 'Title is more relevant',
                 'post_content' => 'Content is',
-                'post_status'  => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
         $id2 = self::factory()->post->create(
             [
-                'post_title'   => 'Title is',
+                'post_title' => 'Title is',
                 'post_content' => 'Content is less relevant',
-                'post_status'  => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -1054,17 +1056,17 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         $id1 = self::factory()->post->create(
             [
-                'post_title'   => 'Title is more relevant',
+                'post_title' => 'Title is more relevant',
                 'post_content' => 'Content is',
-                'post_status'  => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
         $id2 = self::factory()->post->create(
             [
-                'post_title'   => 'Title is',
+                'post_title' => 'Title is',
                 'post_content' => 'Content is less relevant',
-                'post_status'  => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -1122,7 +1124,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('tags', [$tag['term_id']]);
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($id1, $data[0]['id']);
     }
@@ -1144,7 +1146,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('tags_exclude', [$tag['term_id']]);
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount($total_posts - 1, $data);
         $this->assertSame($id4, $data[0]['id']);
         $this->assertSame($id3, $data[1]['id']);
@@ -1153,9 +1155,9 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_items_tags_and_categories_query()
     {
-        $id1      = self::$post_id;
-        $id2      = self::factory()->post->create(['post_status' => 'publish']);
-        $tag      = wp_insert_term('My Tag', 'post_tag');
+        $id1 = self::$post_id;
+        $id2 = self::factory()->post->create(['post_status' => 'publish']);
+        $tag = wp_insert_term('My Tag', 'post_tag');
         $category = wp_insert_term('My Category', 'category');
 
         wp_set_object_terms($id1, [$tag['term_id']], 'post_tag');
@@ -1179,9 +1181,9 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      */
     public function test_get_items_tags_or_categories_query()
     {
-        $id1      = self::$post_id;
-        $id2      = self::factory()->post->create(['post_status' => 'publish']);
-        $tag      = wp_insert_term('My Tag', 'post_tag');
+        $id1 = self::$post_id;
+        $id2 = self::factory()->post->create(['post_status' => 'publish']);
+        $tag = wp_insert_term('My Tag', 'post_tag');
         $category = wp_insert_term('My Category', 'category');
 
         wp_set_object_terms($id1, [$tag['term_id']], 'post_tag');
@@ -1194,7 +1196,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('orderby', 'id');
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(2, $data);
         $this->assertSame($id2, $data[0]['id']);
         $this->assertSame($id1, $data[1]['id']);
@@ -1202,9 +1204,9 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_items_tags_and_categories_exclude_query()
     {
-        $id1      = self::$post_id;
-        $id2      = self::factory()->post->create(['post_status' => 'publish']);
-        $tag      = wp_insert_term('My Tag', 'post_tag');
+        $id1 = self::$post_id;
+        $id2 = self::factory()->post->create(['post_status' => 'publish']);
+        $tag = wp_insert_term('My Tag', 'post_tag');
         $category = wp_insert_term('My Category', 'category');
 
         wp_set_object_terms($id1, [$tag['term_id']], 'post_tag');
@@ -1216,7 +1218,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('categories_exclude', [$category['term_id']]);
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($id2, $data[0]['id']);
 
@@ -1230,11 +1232,11 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      */
     public function test_get_items_tags_or_categories_exclude_query()
     {
-        $id1      = end(self::$post_ids);
-        $id2      = self::factory()->post->create(['post_status' => 'publish']);
-        $id3      = self::factory()->post->create(['post_status' => 'publish']);
-        $id4      = self::factory()->post->create(['post_status' => 'publish']);
-        $tag      = wp_insert_term('My Tag', 'post_tag');
+        $id1 = end(self::$post_ids);
+        $id2 = self::factory()->post->create(['post_status' => 'publish']);
+        $id3 = self::factory()->post->create(['post_status' => 'publish']);
+        $id4 = self::factory()->post->create(['post_status' => 'publish']);
+        $tag = wp_insert_term('My Tag', 'post_tag');
         $category = wp_insert_term('My Category', 'category');
 
         $total_posts = self::$total_posts + 3;
@@ -1252,7 +1254,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('orderby', 'id');
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount($total_posts - 1, $data);
         $this->assertSame($id4, $data[0]['id']);
         $this->assertSame($id2, $data[1]['id']);
@@ -1270,22 +1272,22 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $cat2 = static::factory()->term->create(
             [
                 'taxonomy' => $taxonomy->name,
-                'parent'   => $cat1,
-            ]
+                'parent' => $cat1,
+            ],
         );
 
         $post_ids = [
             static::factory()->post->create(
                 [
-                    'post_status'   => 'publish',
+                    'post_status' => 'publish',
                     'post_category' => [$cat1],
-                ]
+                ],
             ),
             static::factory()->post->create(
                 [
-                    'post_status'   => 'publish',
+                    'post_status' => 'publish',
                     'post_category' => [$cat2],
-                ]
+                ],
             ),
         ];
 
@@ -1293,12 +1295,12 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param(
             $taxonomy->rest_base,
             [
-                'terms'            => [$cat1],
+                'terms' => [$cat1],
                 'include_children' => true,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSameSets($post_ids, array_column($data, 'id'));
     }
@@ -1314,22 +1316,22 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $cat2 = static::factory()->term->create(
             [
                 'taxonomy' => $taxonomy->name,
-                'parent'   => $cat1,
-            ]
+                'parent' => $cat1,
+            ],
         );
 
         $post_ids = [
             static::factory()->post->create(
                 [
-                    'post_status'   => 'publish',
+                    'post_status' => 'publish',
                     'post_category' => [$cat1],
-                ]
+                ],
             ),
             static::factory()->post->create(
                 [
-                    'post_status'   => 'publish',
+                    'post_status' => 'publish',
                     'post_category' => [$cat2],
-                ]
+                ],
             ),
         ];
 
@@ -1337,12 +1339,12 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param(
             $taxonomy->rest_base,
             [
-                'terms'            => [$cat1],
+                'terms' => [$cat1],
                 'include_children' => false,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertCount(1, $data);
         $this->assertSame($post_ids[0], $data[0]['id']);
@@ -1359,22 +1361,22 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $cat2 = static::factory()->term->create(
             [
                 'taxonomy' => $taxonomy->name,
-                'parent'   => $cat1,
-            ]
+                'parent' => $cat1,
+            ],
         );
 
         $post_ids = [
             static::factory()->post->create(
                 [
-                    'post_status'   => 'publish',
+                    'post_status' => 'publish',
                     'post_category' => [$cat1],
-                ]
+                ],
             ),
             static::factory()->post->create(
                 [
-                    'post_status'   => 'publish',
+                    'post_status' => 'publish',
                     'post_category' => [$cat2],
-                ]
+                ],
             ),
         ];
 
@@ -1382,18 +1384,18 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param(
             $taxonomy->rest_base . '_exclude',
             [
-                'terms'            => [$cat1],
+                'terms' => [$cat1],
                 'include_children' => true,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertEmpty(
             array_intersect(
                 $post_ids,
-                array_column($data, 'id')
-            )
+                array_column($data, 'id'),
+            ),
         );
     }
 
@@ -1408,33 +1410,33 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $cat2 = static::factory()->term->create(
             [
                 'taxonomy' => $taxonomy->name,
-                'parent'   => $cat1,
-            ]
+                'parent' => $cat1,
+            ],
         );
 
         $p1 = static::factory()->post->create(
             [
-                'post_status'   => 'publish',
+                'post_status' => 'publish',
                 'post_category' => [$cat1],
-            ]
+            ],
         );
         $p2 = static::factory()->post->create(
             [
-                'post_status'   => 'publish',
+                'post_status' => 'publish',
                 'post_category' => [$cat2],
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $request->set_param(
             $taxonomy->rest_base . '_exclude',
             [
-                'terms'            => [$cat1],
+                'terms' => [$cat1],
                 'include_children' => false,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $found_ids = array_column($data, 'id');
 
@@ -1447,38 +1449,38 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      */
     public function test_get_items_with_all_categories()
     {
-        $taxonomy   = get_taxonomy('category');
+        $taxonomy = get_taxonomy('category');
         $categories = static::factory()->term->create_many(2, ['taxonomy' => $taxonomy->name]);
 
         $p1 = static::factory()->post->create(
             [
-                'post_status'   => 'publish',
+                'post_status' => 'publish',
                 'post_category' => [$categories[0]],
-            ]
+            ],
         );
         $p2 = static::factory()->post->create(
             [
-                'post_status'   => 'publish',
+                'post_status' => 'publish',
                 'post_category' => [$categories[1]],
-            ]
+            ],
         );
         $p3 = static::factory()->post->create(
             [
-                'post_status'   => 'publish',
+                'post_status' => 'publish',
                 'post_category' => $categories,
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $request->set_param(
             $taxonomy->rest_base,
             [
-                'terms'    => $categories,
+                'terms' => $categories,
                 'operator' => 'AND',
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertCount(1, $data);
         $this->assertSame($p3, $data[0]['id']);
@@ -1513,7 +1515,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertCount(1, $response->get_data());
 
         $posts = $response->get_data();
-        $post  = $posts[0];
+        $post = $posts[0];
         $this->assertSame($id2, $post['id']);
 
         $request->set_param('sticky', 'nothanks');
@@ -1551,7 +1553,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertCount(1, $response->get_data());
 
         $posts = $response->get_data();
-        $post  = $posts[0];
+        $post = $posts[0];
         $this->assertSame($id1, $post['id']);
 
         $this->assertPostsWhere(" AND {posts}.ID IN ($id1) AND {posts}.post_type = 'post' AND (({posts}.post_status = 'publish'))");
@@ -1609,7 +1611,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertCount($total_posts - 1, $response->get_data());
 
         $posts = $response->get_data();
-        $post  = $posts[0];
+        $post = $posts[0];
         $this->assertSame($id1, $post['id']);
 
         $this->assertPostsWhere(" AND {posts}.ID NOT IN ($id2) AND {posts}.post_type = 'post' AND (({posts}.post_status = 'publish'))");
@@ -1634,7 +1636,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertCount($total_posts - 2, $response->get_data());
 
         $posts = $response->get_data();
-        $ids   = wp_list_pluck($posts, 'id');
+        $ids = wp_list_pluck($posts, 'id');
         $this->assertContains($id1, $ids);
         $this->assertNotContains($id2, $ids);
         $this->assertNotContains($id3, $ids);
@@ -1661,7 +1663,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $this->assertCount($total_posts - 1, $response->get_data());
 
         $posts = $response->get_data();
-        $ids   = wp_list_pluck($posts, 'id');
+        $ids = wp_list_pluck($posts, 'id');
         $this->assertContains($id1, $ids);
         $this->assertContains($id2, $ids);
         $this->assertNotContains($id3, $ids);
@@ -1679,17 +1681,17 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     {
         $id1 = self::factory()->post->create(
             [
-                'post_title'   => 'Title contain foo and bar',
+                'post_title' => 'Title contain foo and bar',
                 'post_content' => 'Content contain bar',
                 'post_excerpt' => 'Excerpt contain baz',
-            ]
+            ],
         );
         $id2 = self::factory()->post->create(
             [
-                'post_title'   => 'Title contain baz',
+                'post_title' => 'Title contain baz',
                 'post_content' => 'Content contain foo and bar',
                 'post_excerpt' => 'Excerpt contain foo, bar and baz',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
@@ -1710,17 +1712,17 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      */
     public function test_get_items_primes_thumbnail_cache_for_featured_media()
     {
-        $file           = DIR_TESTDATA . '/images/canola.jpg';
+        $file = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_ids = [];
-        $post_ids       = [];
+        $post_ids = [];
         for ($i = 0; $i < 3; $i++) {
-            $post_ids[$i]       = self::factory()->post->create(['post_status' => 'publish']);
+            $post_ids[$i] = self::factory()->post->create(['post_status' => 'publish']);
             $attachment_ids[$i] = self::factory()->attachment->create_object(
                 $file,
                 $post_ids[$i],
                 [
                     'post_mime_type' => 'image/jpeg',
-                ]
+                ],
             );
             set_post_thumbnail($post_ids[$i], $attachment_ids[$i]);
         }
@@ -1749,17 +1751,17 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      */
     public function test_get_items_primes_parent_post_caches()
     {
-        $parent_id1       = self::$post_ids[0];
-        $parent_id2       = self::$post_ids[1];
-        $parent_ids       = [$parent_id1, $parent_id2];
-        $attachment_ids   = [];
+        $parent_id1 = self::$post_ids[0];
+        $parent_id2 = self::$post_ids[1];
+        $parent_ids = [$parent_id1, $parent_id2];
+        $attachment_ids = [];
         $attachment_ids[] = self::factory()->attachment->create_object(
             DIR_TESTDATA . '/images/canola.jpg',
             $parent_id1,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_excerpt'   => 'A sample caption 1',
-            ]
+                'post_excerpt' => 'A sample caption 1',
+            ],
         );
 
         $attachment_ids[] = self::factory()->attachment->create_object(
@@ -1767,8 +1769,8 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
             $parent_id2,
             [
                 'post_mime_type' => 'image/jpeg',
-                'post_excerpt'   => 'A sample caption 2',
-            ]
+                'post_excerpt' => 'A sample caption 2',
+            ],
         );
 
         // Attachment creation warms parent IDs. Needs clean up for test.
@@ -1790,19 +1792,19 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
     public function test_get_items_pagination_headers()
     {
         $total_posts = self::$total_posts;
-        $total_pages = (int) ceil($total_posts / 10);
+        $total_pages = (int)ceil($total_posts / 10);
 
         // Start of the index.
-        $request  = new WP_REST_Request('GET', '/wp/v2/posts');
+        $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame($total_posts, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $next_link = add_query_arg(
             [
                 'page' => 2,
             ],
-            rest_url('/wp/v2/posts')
+            rest_url('/wp/v2/posts'),
         );
         $this->assertStringNotContainsString('rel="prev"', $headers['Link']);
         $this->assertStringContainsString('<' . $next_link . '>; rel="next"', $headers['Link']);
@@ -1814,21 +1816,21 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $request->set_param('page', 3);
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame($total_posts, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $prev_link = add_query_arg(
             [
                 'page' => 2,
             ],
-            rest_url('/wp/v2/posts')
+            rest_url('/wp/v2/posts'),
         );
         $this->assertStringContainsString('<' . $prev_link . '>; rel="prev"', $headers['Link']);
         $next_link = add_query_arg(
             [
                 'page' => 4,
             ],
-            rest_url('/wp/v2/posts')
+            rest_url('/wp/v2/posts'),
         );
         $this->assertStringContainsString('<' . $next_link . '>; rel="next"', $headers['Link']);
 
@@ -1836,14 +1838,14 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $request->set_param('page', $total_pages);
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame($total_posts, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $prev_link = add_query_arg(
             [
                 'page' => $total_pages - 1,
             ],
-            rest_url('/wp/v2/posts')
+            rest_url('/wp/v2/posts'),
         );
         $this->assertStringContainsString('<' . $prev_link . '>; rel="prev"', $headers['Link']);
         $this->assertStringNotContainsString('rel="next"', $headers['Link']);
@@ -1852,36 +1854,36 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $request->set_param('page', 100);
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertErrorResponse('rest_post_invalid_page_number', $response, 400);
 
         // With query params.
-        $total_pages = (int) ceil($total_posts / 5);
-        $request     = new WP_REST_Request('GET', '/wp/v2/posts');
+        $total_pages = (int)ceil($total_posts / 5);
+        $request = new WP_REST_Request('GET', '/wp/v2/posts');
         $request->set_query_params(
             [
                 'per_page' => 5,
-                'page'     => 2,
-            ]
+                'page' => 2,
+            ],
         );
         $response = rest_get_server()->dispatch($request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertSame($total_posts, $headers['X-WP-Total']);
         $this->assertSame($total_pages, $headers['X-WP-TotalPages']);
         $prev_link = add_query_arg(
             [
                 'per_page' => 5,
-                'page'     => 1,
+                'page' => 1,
             ],
-            rest_url('/wp/v2/posts')
+            rest_url('/wp/v2/posts'),
         );
         $this->assertStringContainsString('<' . $prev_link . '>; rel="prev"', $headers['Link']);
         $next_link = add_query_arg(
             [
                 'per_page' => 5,
-                'page'     => 3,
+                'page' => 3,
             ],
-            rest_url('/wp/v2/posts')
+            rest_url('/wp/v2/posts'),
         );
         $this->assertStringContainsString('<' . $next_link . '>; rel="next"', $headers['Link']);
     }
@@ -1910,7 +1912,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         wp_set_current_user(self::$editor_id);
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame($draft_id, $data[0]['id']);
     }
 
@@ -1934,7 +1936,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('status', 'private');
 
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(200, $response->get_status());
         $this->assertCount(1, $data);
         $this->assertSame($private_post_id, $data[0]['id']);
@@ -1987,7 +1989,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('after', '2016-01-15T00:00:00Z');
         $request->set_param('before', '2016-01-17T00:00:00Z');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($post2, $data[0]['id']);
     }
@@ -2019,16 +2021,16 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_param('modified_after', '2016-01-15T00:00:00Z');
         $request->set_param('modified_before', '2016-01-17T00:00:00Z');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame($post2, $data[0]['id']);
     }
 
     public function test_get_items_all_post_formats()
     {
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $formats = array_values(get_post_format_slugs());
 
@@ -2037,7 +2039,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_item()
     {
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
 
         $this->check_get_post_response($response, 'view');
@@ -2045,7 +2047,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_item_links()
     {
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
 
         $links = $response->get_links();
@@ -2060,7 +2062,8 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $replies_url = add_query_arg('post', self::$post_id, $replies_url);
         $this->assertSame($replies_url, $links['replies'][0]['href']);
 
-        $this->assertSame(rest_url('/wp/v2/posts/' . self::$post_id . '/revisions'), $links['version-history'][0]['href']);
+        $this->assertSame(rest_url('/wp/v2/posts/' . self::$post_id . '/revisions'),
+            $links['version-history'][0]['href']);
         $this->assertSame(0, $links['version-history'][0]['attributes']['count']);
         $this->assertArrayNotHasKey('predecessor-version', $links);
 
@@ -2068,9 +2071,9 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $attachments_url = add_query_arg('parent', self::$post_id, $attachments_url);
         $this->assertSame($attachments_url, $links['https://api.w.org/attachment'][0]['href']);
 
-        $term_links  = $links['https://api.w.org/term'];
-        $tag_link    = null;
-        $cat_link    = null;
+        $term_links = $links['https://api.w.org/term'];
+        $tag_link = null;
+        $cat_link = null;
         $format_link = null;
         foreach ($term_links as $link) {
             if ('post_tag' === $link['attributes']['taxonomy']) {
@@ -2097,39 +2100,41 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         wp_update_post(
             [
                 'post_content' => 'This content is marvelous.',
-                'ID'           => self::$post_id,
-            ]
+                'ID' => self::$post_id,
+            ],
         );
-        $revisions  = wp_get_post_revisions(self::$post_id);
+        $revisions = wp_get_post_revisions(self::$post_id);
         $revision_1 = array_pop($revisions);
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
 
         $links = $response->get_links();
 
-        $this->assertSame(rest_url('/wp/v2/posts/' . self::$post_id . '/revisions'), $links['version-history'][0]['href']);
+        $this->assertSame(rest_url('/wp/v2/posts/' . self::$post_id . '/revisions'),
+            $links['version-history'][0]['href']);
         $this->assertSame(1, $links['version-history'][0]['attributes']['count']);
 
-        $this->assertSame(rest_url('/wp/v2/posts/' . self::$post_id . '/revisions/' . $revision_1->ID), $links['predecessor-version'][0]['href']);
+        $this->assertSame(rest_url('/wp/v2/posts/' . self::$post_id . '/revisions/' . $revision_1->ID),
+            $links['predecessor-version'][0]['href']);
         $this->assertSame($revision_1->ID, $links['predecessor-version'][0]['attributes']['id']);
     }
 
     public function test_get_item_links_no_author()
     {
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
         $this->assertArrayNotHasKey('author', $links);
         wp_update_post(
             [
-                'ID'          => self::$post_id,
+                'ID' => self::$post_id,
                 'post_author' => self::$author_id,
-            ]
+            ],
         );
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
         $this->assertSame(rest_url('/wp/v2/users/' . self::$author_id), $links['author'][0]['href']);
     }
 
@@ -2138,12 +2143,12 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $draft_id = self::factory()->post->create(
             [
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         wp_set_current_user(0);
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $draft_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $draft_id));
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_forbidden', $response, 401);
@@ -2160,21 +2165,21 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         // Create a password protected post as an Editor.
         self::factory()->post->create(
             [
-                'post_title'    => 'Hola',
+                'post_title' => 'Hola',
                 'post_password' => 'password',
-                'post_content'  => $post_content,
-                'post_excerpt'  => $post_content,
-                'post_author'   => self::$editor_id,
-            ]
+                'post_content' => $post_content,
+                'post_excerpt' => $post_content,
+                'post_author' => self::$editor_id,
+            ],
         );
 
         // Create a draft with the Latest Posts block as a Contributor.
         $draft_id = self::factory()->post->create(
             [
-                'post_status'  => 'draft',
-                'post_author'  => self::$contributor_id,
+                'post_status' => 'draft',
+                'post_author' => self::$contributor_id,
                 'post_content' => '<!-- wp:latest-posts {"displayPostContent":true} /--> <!-- wp:latest-posts {"displayPostContent":true,"displayPostContentRadio":"full_post"} /-->',
-            ]
+            ],
         );
 
         // Set the current user to Contributor and request the draft for editing.
@@ -2182,7 +2187,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $draft_id));
         $request->set_param('context', 'edit');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         /*
          * Verify that the content of a password protected post created by an Editor
@@ -2193,7 +2198,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 
     public function test_get_post_invalid_id()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/posts/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
+        $request = new WP_REST_Request('GET', '/wp/v2/posts/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_post_invalid_id', $response, 404);
@@ -2205,7 +2210,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_query_params(
             [
                 'context' => 'edit',
-            ]
+            ],
         );
 
         wp_set_current_user(self::$editor_id);
@@ -2223,7 +2228,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_query_params(
             [
                 'context' => 'edit',
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -2238,7 +2243,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_query_params(
             [
                 'context' => 'edit',
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -2250,10 +2255,10 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $post_id = self::factory()->post->create(
             [
                 'post_password' => '$inthebananastand',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
         $response = rest_get_server()->dispatch($request);
 
         $this->check_get_post_response($response, 'view');
@@ -2270,9 +2275,9 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $post_id = self::factory()->post->create(
             [
                 'post_password' => '$inthebananastand',
-                'post_content'  => 'Some secret content.',
-                'post_excerpt'  => 'Some secret excerpt.',
-            ]
+                'post_content' => 'Some secret content.',
+                'post_excerpt' => 'Some secret excerpt.',
+            ],
         );
 
         $post = get_post($post_id);
@@ -2295,7 +2300,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $post_id = self::factory()->post->create(
             [
                 'post_password' => '$inthebananastand',
-            ]
+            ],
         );
 
         $post = get_post($post_id);
@@ -2312,14 +2317,14 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $post_id = self::factory()->post->create(
             [
                 'post_password' => '$inthebananastand',
-                'post_content'  => 'Some secret content.',
-                'post_excerpt'  => 'Some secret excerpt.',
-            ]
+                'post_content' => 'Some secret content.',
+                'post_excerpt' => 'Some secret excerpt.',
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->check_get_post_response($response, 'view');
         $this->assertSame('', $data['content']['rendered']);
         $this->assertTrue($data['content']['protected']);
@@ -2339,10 +2344,10 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_body_params(
             $this->set_post_data(
                 [
-                    'id'       => self::$post_id,
+                    'id' => self::$post_id,
                     'password' => '123',
-                ]
-            )
+                ],
+            ),
         );
         $permission = $endpoint->get_item_permissions_check($request);
 
@@ -2363,14 +2368,15 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $request->set_body_params(
             $this->set_post_data(
                 [
-                    'id'       => self::$post_id,
+                    'id' => self::$post_id,
                     'password' => 123,
-                ]
-            )
+                ],
+            ),
         );
         $permission = $endpoint->get_item_permissions_check($request);
 
-        $this->assertNotWPError($permission, 'Password in post body should be ignored by permissions check even when it is an invalid type.');
+        $this->assertNotWPError($permission,
+            'Password in post body should be ignored by permissions check even when it is an invalid type.');
         $this->assertTrue($permission);
     }
 
@@ -2384,12 +2390,12 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $post_id = self::factory()->post->create(
             [
                 'post_content' => '<!-- wp:core/separator -->',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertArrayNotHasKey('block_version', $data['content']);
     }
 
@@ -2405,13 +2411,13 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $post_id = self::factory()->post->create(
             [
                 'post_content' => '<!-- wp:core/separator -->',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
         $request->set_param('context', 'edit');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(1, $data['content']['block_version']);
     }
 
@@ -2427,13 +2433,13 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         $post_id = self::factory()->post->create(
             [
                 'post_content' => '<hr />',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
         $request->set_param('context', 'edit');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(0, $data['content']['block_version']);
     }
 
@@ -2445,24 +2451,24 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         // Public status.
         wp_update_post(
             [
-                'ID'          => self::$post_id,
+                'ID' => self::$post_id,
                 'post_status' => 'testpubstatus',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status());
 
         // Private status.
         wp_update_post(
             [
-                'ID'          => self::$post_id,
+                'ID' => self::$post_id,
                 'post_status' => 'testprivtatus',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(401, $response->get_status());
     }
@@ -2483,17 +2489,17 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         wp_set_current_user(self::$editor_id);
 
         $endpoint = new WP_REST_Posts_Controller('post');
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $request->set_param('context', 'edit');
         $request->set_param('_fields', 'id,slug');
-        $obj      = get_post(self::$post_id);
+        $obj = get_post(self::$post_id);
         $response = $endpoint->prepare_item_for_response($obj, $request);
         $this->assertSame(
             [
                 'id',
                 'slug',
             ],
-            array_keys($response->get_data())
+            array_keys($response->get_data()),
         );
     }
 
@@ -2502,7 +2508,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      */
     public function test_prepare_item_filters_content_when_needed()
     {
-        $filter_count   = 0;
+        $filter_count = 0;
         $filter_content = static function () use (&$filter_count) {
             ++$filter_count;
             return '<p>Filtered content.</p>';
@@ -2512,24 +2518,24 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         wp_set_current_user(self::$editor_id);
 
         $endpoint = new WP_REST_Posts_Controller('post');
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
 
         $request->set_param('context', 'edit');
         $request->set_param('_fields', 'content.rendered');
 
-        $post     = get_post(self::$post_id);
+        $post = get_post(self::$post_id);
         $response = $endpoint->prepare_item_for_response($post, $request);
 
         remove_filter('the_content', $filter_content);
 
         $this->assertSame(
             [
-                'id'      => self::$post_id,
+                'id' => self::$post_id,
                 'content' => [
                     'rendered' => '<p>Filtered content.</p>',
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
         $this->assertSame(1, $filter_count);
     }
@@ -2539,7 +2545,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
      */
     public function test_prepare_item_skips_content_filter_if_not_needed()
     {
-        $filter_count   = 0;
+        $filter_count = 0;
         $filter_content = static function () use (&$filter_count) {
             ++$filter_count;
             return '<p>Filtered content.</p>';
@@ -2549,24 +2555,24 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
         wp_set_current_user(self::$editor_id);
 
         $endpoint = new WP_REST_Posts_Controller('post');
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
 
         $request->set_param('context', 'edit');
         $request->set_param('_fields', 'content.raw');
 
-        $post     = get_post(self::$post_id);
+        $post = get_post(self::$post_id);
         $response = $endpoint->prepare_item_for_response($post, $request);
 
         remove_filter('the_content', $filter_content);
 
         $this->assertSame(
             [
-                'id'      => $post->ID,
+                'id' => $post->ID,
                 'content' => [
                     'raw' => $post->post_content,
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
         $this->assertSame(0, $filter_count);
     }
@@ -2588,23 +2594,23 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 Brisket shank rump, tongue beef ribs swine fatback turducken capicola meatball picanha chicken cupim meatloaf turkey. Bacon biltong shoulder tail frankfurter boudin cupim turkey drumstick. Porchetta pig shoulder, jerky flank pork tail meatball hamburger. Doner ham hock ribeye tail jerky swine. Leberkas ribeye pancetta, tenderloin capicola doner turducken chicken venison ground round boudin pork chop. Tail pork loin pig spare ribs, biltong ribeye brisket pork chop cupim. Short loin leberkas spare ribs jowl landjaeger tongue kevin flank bacon prosciutto.
 
 Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket bacon pork chop. Cupim hamburger pork loin short loin. Boudin ball tip cupim ground round ham shoulder. Sausage rump cow tongue bresaola pork pancetta biltong tail chicken turkey hamburger. Kevin flank pork loin salami biltong. Alcatra landjaeger pastrami andouille kielbasa ham tenderloin drumstick sausage turducken tongue corned beef.',
-            ]
+            ],
         );
 
         $endpoint = new WP_REST_Posts_Controller('post');
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
         $request->set_param('context', 'edit');
         $request->set_param('_fields', 'excerpt');
         $request->set_param('excerpt_length', 43);
         $response = $endpoint->prepare_item_for_response(get_post($post_id), $request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertArrayHasKey('excerpt', $data, 'Response must contain an "excerpt" key.');
 
         // 43 words plus the ellipsis added via the 'excerpt_more' filter.
         $this->assertCount(
             44,
             explode(' ', $data['excerpt']['rendered']),
-            'Incorrect word count in the excerpt. Expected the excerpt to contain 44 words (43 words plus an ellipsis), but a different word count was found.'
+            'Incorrect word count in the excerpt. Expected the excerpt to contain 44 words (43 words plus an ellipsis), but a different word count was found.',
         );
     }
 
@@ -2632,47 +2638,47 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         ];
 
         $cases_short = [
-            'set date without timezone'     => [
+            'set date without timezone' => [
                 'statuses' => $all_statuses,
-                'params'   => [
+                'params' => [
                     'timezone_string' => 'America/New_York',
-                    'date'            => '2016-12-12T14:00:00',
+                    'date' => '2016-12-12T14:00:00',
                 ],
-                'results'  => [
-                    'date'     => '2016-12-12T14:00:00',
+                'results' => [
+                    'date' => '2016-12-12T14:00:00',
                     'date_gmt' => '2016-12-12T19:00:00',
                 ],
             ],
             'set date_gmt without timezone' => [
                 'statuses' => $all_statuses,
-                'params'   => [
+                'params' => [
                     'timezone_string' => 'America/New_York',
-                    'date_gmt'        => '2016-12-12T19:00:00',
+                    'date_gmt' => '2016-12-12T19:00:00',
                 ],
-                'results'  => [
-                    'date'     => '2016-12-12T14:00:00',
+                'results' => [
+                    'date' => '2016-12-12T14:00:00',
                     'date_gmt' => '2016-12-12T19:00:00',
                 ],
             ],
-            'set date with timezone'        => [
+            'set date with timezone' => [
                 'statuses' => ['draft', 'publish'],
-                'params'   => [
+                'params' => [
                     'timezone_string' => 'America/New_York',
-                    'date'            => '2016-12-12T18:00:00-01:00',
+                    'date' => '2016-12-12T18:00:00-01:00',
                 ],
-                'results'  => [
-                    'date'     => '2016-12-12T14:00:00',
+                'results' => [
+                    'date' => '2016-12-12T14:00:00',
                     'date_gmt' => '2016-12-12T19:00:00',
                 ],
             ],
-            'set date_gmt with timezone'    => [
+            'set date_gmt with timezone' => [
                 'statuses' => ['draft', 'publish'],
-                'params'   => [
+                'params' => [
                     'timezone_string' => 'America/New_York',
-                    'date_gmt'        => '2016-12-12T18:00:00-01:00',
+                    'date_gmt' => '2016-12-12T18:00:00-01:00',
                 ],
-                'results'  => [
-                    'date'     => '2016-12-12T14:00:00',
+                'results' => [
+                    'date' => '2016-12-12T14:00:00',
                     'date_gmt' => '2016-12-12T19:00:00',
                 ],
             ],
@@ -2738,20 +2744,20 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         // Re-register the route as we now have a template available.
         $GLOBALS['wp_rest_server']->override_by_default = true;
-        $controller                                     = new WP_REST_Posts_Controller('post');
+        $controller = new WP_REST_Posts_Controller('post');
         $controller->register_routes();
         $GLOBALS['wp_rest_server']->override_by_default = false;
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'template' => 'post-my-test-template.php',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data          = $response->get_data();
+        $data = $response->get_data();
         $post_template = get_page_template_slug(get_post($data['id']));
 
         remove_filter('theme_post_templates', [$this, 'filter_theme_post_templates']);
@@ -2768,10 +2774,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'template' => 'post-my-test-template.php',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -2790,15 +2796,15 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         update_post_meta(self::$post_id, '_wp_page_template', 'post-my-test-template.php');
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'template' => '',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data          = $response->get_data();
+        $data = $response->get_data();
         $post_template = get_page_template_slug(get_post($data['id']));
 
         $this->assertSame('', $data['template']);
@@ -2823,10 +2829,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'id' => '3',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -2841,12 +2847,12 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         update_option('timezone_string', 'America/Chicago');
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 // This results in a special `post_date_gmt` value
                 // of '0000-00-00 00:00:00'. See #38883.
                 'status' => 'pending',
-            ]
+            ],
         );
 
         $request->set_body_params($params);
@@ -2868,10 +2874,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'sticky' => true,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -2887,11 +2893,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$contributor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'sticky' => true,
                 'status' => 'pending',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -2904,10 +2910,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$author_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'author' => self::$editor_id,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -2920,10 +2926,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(0);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'status' => 'draft',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -2936,21 +2942,22 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'status' => 'draft',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame('draft', $data['status']);
         $this->assertSame('draft', $new_post->post_status);
         // Confirm dates are shimmed for gmt_offset.
-        $post_modified_gmt = gmdate('Y-m-d H:i:s', strtotime($new_post->post_modified) + (get_option('gmt_offset') * 3600));
-        $post_date_gmt     = gmdate('Y-m-d H:i:s', strtotime($new_post->post_date) + (get_option('gmt_offset') * 3600));
+        $post_modified_gmt = gmdate('Y-m-d H:i:s',
+            strtotime($new_post->post_modified) + (get_option('gmt_offset') * 3600));
+        $post_date_gmt = gmdate('Y-m-d H:i:s', strtotime($new_post->post_date) + (get_option('gmt_offset') * 3600));
 
         $this->assertSame(mysql_to_rfc3339($post_modified_gmt), $data['modified_gmt']);
         $this->assertSame(mysql_to_rfc3339($post_date_gmt), $data['date_gmt']);
@@ -2961,15 +2968,15 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'status' => 'private',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame('private', $data['status']);
         $this->assertSame('private', $new_post->post_status);
@@ -2986,11 +2993,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $user->update_user_level_from_caps();
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'status' => 'private',
                 'author' => self::$author_id,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3009,10 +3016,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $user->update_user_level_from_caps();
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'status' => 'publish',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3025,10 +3032,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'status' => 'teststatus',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3041,15 +3048,15 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'format' => 'gallery',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame('gallery', $data['format']);
         $this->assertSame('gallery', get_post_format($new_post->ID));
@@ -3060,15 +3067,15 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'format' => 'standard',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame('standard', $data['format']);
         $this->assertFalse(get_post_format($new_post->ID));
@@ -3079,10 +3086,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'format' => 'testformat',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3100,10 +3107,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'format' => 'link',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3115,15 +3122,14 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
     public function test_create_update_post_with_featured_media()
     {
-
-        $file          = DIR_TESTDATA . '/images/canola.jpg';
+        $file = DIR_TESTDATA . '/images/canola.jpg';
         $attachment_id = self::factory()->attachment->create_object(
             $file,
             0,
             [
                 'post_mime_type' => 'image/jpeg',
-                'menu_order'     => 1,
-            ]
+                'menu_order' => 1,
+            ],
         );
 
         $this->attachments_created = true;
@@ -3131,29 +3137,29 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'featured_media' => $attachment_id,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame($attachment_id, $data['featured_media']);
-        $this->assertSame($attachment_id, (int) get_post_thumbnail_id($new_post->ID));
+        $this->assertSame($attachment_id, (int)get_post_thumbnail_id($new_post->ID));
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts/' . $new_post->ID);
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'featured_media' => 0,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(0, $data['featured_media']);
-        $this->assertSame(0, (int) get_post_thumbnail_id($new_post->ID));
+        $this->assertSame(0, (int)get_post_thumbnail_id($new_post->ID));
     }
 
     public function test_create_post_invalid_author()
@@ -3161,10 +3167,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'author' => -1,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3177,10 +3183,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$author_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'author' => self::$editor_id,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3193,10 +3199,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'password' => 'testing',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3210,10 +3216,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'password' => '0',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3227,11 +3233,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'password' => '',
-                'sticky'   => true,
-            ]
+                'sticky' => true,
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3246,11 +3252,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'password' => '123',
-                'sticky'   => true,
-            ]
+                'sticky' => true,
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3263,17 +3269,17 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'date' => '2010-01-01T02:00:00Z',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
-        $time     = gmmktime(2, 0, 0, 1, 1, 2010);
+        $time = gmmktime(2, 0, 0, 1, 1, 2010);
         $this->assertSame('2010-01-01T02:00:00', $data['date']);
         $this->assertSame($time, strtotime($new_post->post_date));
     }
@@ -3283,17 +3289,17 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'date' => '2010-01-01T02:00:00-10:00',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
-        $time     = gmmktime(12, 0, 0, 1, 1, 2010);
+        $time = gmmktime(12, 0, 0, 1, 1, 2010);
 
         $this->assertSame('2010-01-01T12:00:00', $data['date']);
         $this->assertSame('2010-01-01T12:00:00', $data['modified']);
@@ -3307,7 +3313,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data([]);
+        $params = $this->set_post_data([]);
         $request->set_body_params($params);
 
         /**
@@ -3330,10 +3336,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'date' => '2010-60-01T02:00:00Z',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3346,10 +3352,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'date_gmt' => '2010-60-01T02:00:00',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3362,10 +3368,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'title' => "Rob O'Rourke's Diary",
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3381,13 +3387,13 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $category = wp_insert_term('Test Category', 'category');
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
-                'password'   => 'testing',
+                'password' => 'testing',
                 'categories' => [
                     $category['term_id'],
                 ],
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3400,14 +3406,14 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         wp_set_current_user(self::$editor_id);
 
-        $category  = wp_insert_term('Chicken', 'category');
+        $category = wp_insert_term('Chicken', 'category');
         $category2 = wp_insert_term('Ribs', 'category');
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'categories' => $category['term_id'] . ',' . $category2['term_id'],
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3421,13 +3427,13 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
-                'password'   => 'testing',
+                'password' => 'testing',
                 'categories' => [
                     REST_TESTS_IMPOSSIBLY_HIGH_NUMBER,
                 ],
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3441,17 +3447,17 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
      */
     public function test_create_post_with_categories_that_cannot_be_assigned_by_current_user()
     {
-        $cats                = self::factory()->category->create_many(2);
+        $cats = self::factory()->category->create_many(2);
         $this->forbidden_cat = $cats[1];
 
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('POST', '/wp/v2/posts');
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
-                'password'   => 'testing',
+                'password' => 'testing',
                 'categories' => $cats,
-            ]
+            ],
         );
         $request->set_body_params($params);
 
@@ -3554,10 +3560,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $params = $this->set_post_data(
             [
                 'date_gmt' => $future_date,
-                'date'     => $future_date,
-                'title'    => 'update',
-                'status'   => 'draft',
-            ]
+                'date' => $future_date,
+                'title' => 'update',
+                'status' => 'draft',
+            ],
         );
         $request->set_body(wp_json_encode($params));
         $response = rest_get_server()->dispatch($request);
@@ -3576,9 +3582,9 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $params = $this->set_post_data(
             [
                 'date_gmt' => null,
-                'title'    => 'test',
-                'status'   => 'draft',
-            ]
+                'title' => 'test',
+                'status' => 'draft',
+            ],
         );
         $request->set_body(wp_json_encode($params));
         $response = rest_get_server()->dispatch($request);
@@ -3622,7 +3628,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data();
+        $params = $this->set_post_data();
         unset($params['type']);
         unset($params['name']);
         unset($params['author']);
@@ -3644,7 +3650,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $user->update_user_level_from_caps();
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data();
+        $params = $this->set_post_data();
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
@@ -3656,11 +3662,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$contributor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'sticky' => true,
                 'status' => 'pending',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3672,7 +3678,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         wp_set_current_user(self::$editor_id);
 
-        $request  = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER));
+        $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER));
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_post_invalid_id', $response, 404);
@@ -3682,7 +3688,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         wp_set_current_user(self::$editor_id);
 
-        $request  = new WP_REST_Request('PUT', sprintf('/wp/v2/pages/%d', self::$post_id));
+        $request = new WP_REST_Request('PUT', sprintf('/wp/v2/pages/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_post_invalid_id', $response, 404);
@@ -3693,15 +3699,15 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'format' => 'gallery',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame('gallery', $data['format']);
         $this->assertSame('gallery', get_post_format($new_post->ID));
@@ -3712,15 +3718,15 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'format' => 'standard',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
         $this->assertSame('standard', $data['format']);
         $this->assertFalse(get_post_format($new_post->ID));
@@ -3731,10 +3737,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'format' => 'testformat',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3752,10 +3758,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'format' => 'link',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3769,29 +3775,31 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         wp_set_current_user(self::$editor_id);
 
-        $new_content       = 'foo bar baz';
+        $new_content = 'foo bar baz';
         $expected_modified = current_time('mysql');
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'modified' => '2010-06-01T02:00:00Z',
-                'content'  => $new_content,
-            ]
+                'content' => $new_content,
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
         // The readonly modified param should be ignored, request should be a success.
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $new_post = get_post($data['id']);
 
         $this->assertSame($new_content, $data['content']['raw']);
         $this->assertSame($new_content, $new_post->post_content);
 
         // The modified date should equal the current time.
-        $this->assertSame(gmdate('Y-m-d', strtotime(mysql_to_rfc3339($expected_modified))), gmdate('Y-m-d', strtotime($data['modified'])));
-        $this->assertSame(gmdate('Y-m-d', strtotime($expected_modified)), gmdate('Y-m-d', strtotime($new_post->post_modified)));
+        $this->assertSame(gmdate('Y-m-d', strtotime(mysql_to_rfc3339($expected_modified))),
+            gmdate('Y-m-d', strtotime($data['modified'])));
+        $this->assertSame(gmdate('Y-m-d', strtotime($expected_modified)),
+            gmdate('Y-m-d', strtotime($new_post->post_modified)));
     }
 
     /**
@@ -3834,10 +3842,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'date' => 'foo',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3850,10 +3858,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'date_gmt' => 'foo',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3875,14 +3883,14 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $wpdb->update(
             $wpdb->posts,
             [
-                'post_date'     => '2016-02-23 12:00:00',
+                'post_date' => '2016-02-23 12:00:00',
                 'post_date_gmt' => '0000-00-00 00:00:00',
             ],
             [
                 'ID' => $post_id,
             ],
             ['%s', '%s'],
-            ['%d']
+            ['%d'],
         );
         wp_cache_delete($post_id, 'posts');
 
@@ -3890,7 +3898,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $this->assertSame($post->post_date, '2016-02-23 12:00:00');
         $this->assertSame($post->post_date_gmt, '0000-00-00 00:00:00');
 
-        $request  = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
+        $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', $post_id));
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
@@ -3919,10 +3927,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'slug' => 'sample-slug',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3938,10 +3946,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'slug' => 'tęst-acceńted-chäræcters',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3957,10 +3965,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'sticky' => true,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3972,10 +3980,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         // Updating another field shouldn't change sticky status.
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'title' => 'This should not reset sticky',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -3994,7 +4002,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_body_params(
             [
                 'excerpt' => 'An Excerpt',
-            ]
+            ],
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -4010,7 +4018,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_body_params(
             [
                 'excerpt' => '',
-            ]
+            ],
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -4026,7 +4034,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_body_params(
             [
                 'content' => 'Some Content',
-            ]
+            ],
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -4042,7 +4050,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_body_params(
             [
                 'content' => '',
-            ]
+            ],
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -4056,20 +4064,20 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         wp_update_post(
             [
-                'ID'            => self::$post_id,
+                'ID' => self::$post_id,
                 'post_password' => 'foo',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'password' => '',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('', $data['password']);
     }
 
@@ -4078,11 +4086,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'password' => '123',
-                'sticky'   => true,
-            ]
+                'sticky' => true,
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -4097,10 +4105,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         stick_post(self::$post_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'password' => '123',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -4114,16 +4122,16 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         wp_update_post(
             [
-                'ID'            => self::$post_id,
+                'ID' => self::$post_id,
                 'post_password' => '123',
-            ]
+            ],
         );
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'sticky' => true,
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -4136,10 +4144,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'title' => "Rob O'Rourke's Diary",
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -4154,20 +4162,20 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $category = wp_insert_term('Test Category', 'category');
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
-                'title'      => 'Tester',
+                'title' => 'Tester',
                 'categories' => [
                     $category['term_id'],
                 ],
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
         $new_data = $response->get_data();
         $this->assertSame([$category['term_id']], $new_data['categories']);
         $categories_path = '';
-        $links           = $response->get_links();
+        $links = $response->get_links();
         foreach ($links['https://api.w.org/term'] as $link) {
             if ('category' === $link['attributes']['taxonomy']) {
                 $categories_path = $link['href'];
@@ -4180,7 +4188,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         unset($args['rest_route']);
         $request->set_query_params($args);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(1, $data);
         $this->assertSame('Test Category', $data[0]['name']);
     }
@@ -4193,11 +4201,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         wp_set_object_terms(self::$post_id, $category['term_id'], 'category');
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
-                'title'      => 'Tester',
+                'title' => 'Tester',
                 'categories' => [],
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -4210,17 +4218,17 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
      */
     public function test_update_post_with_categories_that_cannot_be_assigned_by_current_user()
     {
-        $cats                = self::factory()->category->create_many(2);
+        $cats = self::factory()->category->create_many(2);
         $this->forbidden_cat = $cats[1];
 
         wp_set_current_user(self::$editor_id);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
-                'password'   => 'testing',
+                'password' => 'testing',
                 'categories' => $cats,
-            ]
+            ],
         );
         $request->set_body_params($params);
 
@@ -4242,20 +4250,20 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         // reregister the route as we now have a template available.
         $GLOBALS['wp_rest_server']->override_by_default = true;
-        $controller                                     = new WP_REST_Posts_Controller('post');
+        $controller = new WP_REST_Posts_Controller('post');
         $controller->register_routes();
         $GLOBALS['wp_rest_server']->override_by_default = false;
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'template' => 'post-my-test-template.php',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data          = $response->get_data();
+        $data = $response->get_data();
         $post_template = get_page_template_slug(get_post($data['id']));
 
         $this->assertSame('post-my-test-template.php', $data['template']);
@@ -4274,20 +4282,20 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         // reregister the route as we now have a template available.
         $GLOBALS['wp_rest_server']->override_by_default = true;
-        $controller                                     = new WP_REST_Posts_Controller('post');
+        $controller = new WP_REST_Posts_Controller('post');
         $controller->register_routes();
         $GLOBALS['wp_rest_server']->override_by_default = false;
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'template' => '',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
-        $data          = $response->get_data();
+        $data = $response->get_data();
         $post_template = get_page_template_slug(get_post($data['id']));
 
         $this->assertSame('', $data['template']);
@@ -4307,17 +4315,17 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         update_post_meta(self::$post_id, '_wp_page_template', 'post-my-invalid-template.php');
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'template' => 'post-my-invalid-template.php',
-            ]
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
 
         $this->assertSame(200, $response->get_status());
 
-        $data          = $response->get_data();
+        $data = $response->get_data();
         $post_template = get_page_template_slug(get_post($data['id']));
 
         $this->assertSame('post-my-invalid-template.php', $post_template);
@@ -4390,22 +4398,22 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             [
                 // Raw values.
                 [
-                    'title'   => '\o/ ¯\_(ツ)_/¯',
+                    'title' => '\o/ ¯\_(ツ)_/¯',
                     'content' => '\o/ ¯\_(ツ)_/¯',
                     'excerpt' => '\o/ ¯\_(ツ)_/¯',
                 ],
                 // Expected returned values.
                 [
-                    'title'   => [
-                        'raw'      => '\o/ ¯\_(ツ)_/¯',
+                    'title' => [
+                        'raw' => '\o/ ¯\_(ツ)_/¯',
                         'rendered' => '\o/ ¯\_(ツ)_/¯',
                     ],
                     'content' => [
-                        'raw'      => '\o/ ¯\_(ツ)_/¯',
+                        'raw' => '\o/ ¯\_(ツ)_/¯',
                         'rendered' => '<p>\o/ ¯\_(ツ)_/¯</p>',
                     ],
                     'excerpt' => [
-                        'raw'      => '\o/ ¯\_(ツ)_/¯',
+                        'raw' => '\o/ ¯\_(ツ)_/¯',
                         'rendered' => '<p>\o/ ¯\_(ツ)_/¯</p>',
                     ],
                 ],
@@ -4413,22 +4421,22 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             [
                 // Raw values.
                 [
-                    'title'   => '\\\&\\\ &amp; &invalid; < &lt; &amp;lt;',
+                    'title' => '\\\&\\\ &amp; &invalid; < &lt; &amp;lt;',
                     'content' => '\\\&\\\ &amp; &invalid; < &lt; &amp;lt;',
                     'excerpt' => '\\\&\\\ &amp; &invalid; < &lt; &amp;lt;',
                 ],
                 // Expected returned values.
                 [
-                    'title'   => [
-                        'raw'      => '\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;',
+                    'title' => [
+                        'raw' => '\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;',
                         'rendered' => '\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;',
                     ],
                     'content' => [
-                        'raw'      => '\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;',
+                        'raw' => '\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;',
                         'rendered' => '<p>\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;</p>',
                     ],
                     'excerpt' => [
-                        'raw'      => '\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;',
+                        'raw' => '\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;',
                         'rendered' => '<p>\\\&amp;\\\ &amp; &amp;invalid; &lt; &lt; &amp;lt;</p>',
                     ],
                 ],
@@ -4436,22 +4444,22 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             [
                 // Raw values.
                 [
-                    'title'   => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                    'title' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'content' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'excerpt' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                 ],
                 // Expected returned values.
                 [
-                    'title'   => [
-                        'raw'      => 'div <strong>strong</strong> oh noes',
+                    'title' => [
+                        'raw' => 'div <strong>strong</strong> oh noes',
                         'rendered' => 'div <strong>strong</strong> oh noes',
                     ],
                     'content' => [
-                        'raw'      => '<div>div</div> <strong>strong</strong> oh noes',
+                        'raw' => '<div>div</div> <strong>strong</strong> oh noes',
                         'rendered' => "<div>div</div>\n<p> <strong>strong</strong> oh noes</p>",
                     ],
                     'excerpt' => [
-                        'raw'      => '<div>div</div> <strong>strong</strong> oh noes',
+                        'raw' => '<div>div</div> <strong>strong</strong> oh noes',
                         'rendered' => "<div>div</div>\n<p> <strong>strong</strong> oh noes</p>",
                     ],
                 ],
@@ -4459,22 +4467,22 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             [
                 // Raw values.
                 [
-                    'title'   => '<a href="#" target="_blank" unfiltered=true>link</a>',
+                    'title' => '<a href="#" target="_blank" unfiltered=true>link</a>',
                     'content' => '<a href="#" target="_blank" unfiltered=true>link</a>',
                     'excerpt' => '<a href="#" target="_blank" unfiltered=true>link</a>',
                 ],
                 // Expected returned values.
                 [
-                    'title'   => [
-                        'raw'      => '<a href="#">link</a>',
+                    'title' => [
+                        'raw' => '<a href="#">link</a>',
                         'rendered' => '<a href="#">link</a>',
                     ],
                     'content' => [
-                        'raw'      => '<a href="#" target="_blank">link</a>',
+                        'raw' => '<a href="#" target="_blank">link</a>',
                         'rendered' => '<p><a href="#" target="_blank">link</a></p>',
                     ],
                     'excerpt' => [
-                        'raw'      => '<a href="#" target="_blank">link</a>',
+                        'raw' => '<a href="#" target="_blank">link</a>',
                         'rendered' => '<p><a href="#" target="_blank">link</a></p>',
                     ],
                 ],
@@ -4490,47 +4498,47 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             $this->assertFalse(current_user_can('unfiltered_html'));
             $this->verify_post_roundtrip(
                 [
-                    'title'   => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                    'title' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'content' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'excerpt' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                 ],
                 [
-                    'title'   => [
-                        'raw'      => 'div <strong>strong</strong> oh noes',
+                    'title' => [
+                        'raw' => 'div <strong>strong</strong> oh noes',
                         'rendered' => 'div <strong>strong</strong> oh noes',
                     ],
                     'content' => [
-                        'raw'      => '<div>div</div> <strong>strong</strong> oh noes',
+                        'raw' => '<div>div</div> <strong>strong</strong> oh noes',
                         'rendered' => "<div>div</div>\n<p> <strong>strong</strong> oh noes</p>",
                     ],
                     'excerpt' => [
-                        'raw'      => '<div>div</div> <strong>strong</strong> oh noes',
+                        'raw' => '<div>div</div> <strong>strong</strong> oh noes',
                         'rendered' => "<div>div</div>\n<p> <strong>strong</strong> oh noes</p>",
                     ],
-                ]
+                ],
             );
         } else {
             $this->assertTrue(current_user_can('unfiltered_html'));
             $this->verify_post_roundtrip(
                 [
-                    'title'   => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                    'title' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'content' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'excerpt' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                 ],
                 [
-                    'title'   => [
-                        'raw'      => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                    'title' => [
+                        'raw' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                         'rendered' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     ],
                     'content' => [
-                        'raw'      => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                        'raw' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                         'rendered' => "<div>div</div>\n<p> <strong>strong</strong> <script>oh noes</script></p>",
                     ],
                     'excerpt' => [
-                        'raw'      => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                        'raw' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                         'rendered' => "<div>div</div>\n<p> <strong>strong</strong> <script>oh noes</script></p>",
                     ],
-                ]
+                ],
             );
         }
     }
@@ -4542,24 +4550,24 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $this->assertTrue(current_user_can('unfiltered_html'));
         $this->verify_post_roundtrip(
             [
-                'title'   => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                'title' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                 'content' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                 'excerpt' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
             ],
             [
-                'title'   => [
-                    'raw'      => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                'title' => [
+                    'raw' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'rendered' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                 ],
                 'content' => [
-                    'raw'      => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                    'raw' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'rendered' => "<div>div</div>\n<p> <strong>strong</strong> <script>oh noes</script></p>",
                 ],
                 'excerpt' => [
-                    'raw'      => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
+                    'raw' => '<div>div</div> <strong>strong</strong> <script>oh noes</script>',
                     'rendered' => "<div>div</div>\n<p> <strong>strong</strong> <script>oh noes</script></p>",
                 ],
-            ]
+            ],
         );
     }
 
@@ -4585,9 +4593,9 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         wp_set_current_user(self::$editor_id);
 
-        $request          = new WP_REST_Request('DELETE', sprintf('/wp/v2/posts/%d', $post_id));
+        $request = new WP_REST_Request('DELETE', sprintf('/wp/v2/posts/%d', $post_id));
         $request['force'] = true;
-        $response         = rest_get_server()->dispatch($request);
+        $response = rest_get_server()->dispatch($request);
 
         $this->assertSame(200, $response->get_status());
         $data = $response->get_data();
@@ -4601,7 +4609,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         wp_set_current_user(self::$editor_id);
 
-        $request  = new WP_REST_Request('DELETE', sprintf('/wp/v2/posts/%d', $post_id));
+        $request = new WP_REST_Request('DELETE', sprintf('/wp/v2/posts/%d', $post_id));
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(200, $response->get_status());
         $response = rest_get_server()->dispatch($request);
@@ -4612,7 +4620,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         wp_set_current_user(self::$editor_id);
 
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/posts/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
+        $request = new WP_REST_Request('DELETE', '/wp/v2/posts/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER);
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_post_invalid_id', $response, 404);
@@ -4624,7 +4632,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         wp_set_current_user(self::$editor_id);
 
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/posts/' . $page_id);
+        $request = new WP_REST_Request('DELETE', '/wp/v2/posts/' . $page_id);
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_post_invalid_id', $response, 404);
@@ -4634,7 +4642,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         wp_set_current_user(self::$author_id);
 
-        $request  = new WP_REST_Request('DELETE', sprintf('/wp/v2/posts/%d', self::$post_id));
+        $request = new WP_REST_Request('DELETE', sprintf('/wp/v2/posts/%d', self::$post_id));
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_cannot_delete', $response, 403);
@@ -4642,13 +4650,12 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
     public function test_register_post_type_invalid_controller()
     {
-
         register_post_type(
             'invalid-controller',
             [
-                'show_in_rest'          => true,
+                'show_in_rest' => true,
                 'rest_controller_class' => 'Fake_Class_Baba',
-            ]
+            ],
         );
         create_initial_rest_routes();
         $routes = rest_get_server()->get_routes();
@@ -4658,9 +4665,9 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
     public function test_get_item_schema()
     {
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
         $this->assertCount(27, $properties);
         $this->assertArrayHasKey('author', $properties);
@@ -4715,7 +4722,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $request->set_param('context', 'view');
         $response = rest_get_server()->dispatch($request);
-        $keys     = array_keys($response->get_data());
+        $keys = array_keys($response->get_data());
         sort($keys);
 
         $expected_keys = [
@@ -4755,7 +4762,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $request->set_param('context', 'edit');
         $response = rest_get_server()->dispatch($request);
-        $keys     = array_keys($response->get_data());
+        $keys = array_keys($response->get_data());
         sort($keys);
 
         $expected_keys = [
@@ -4796,7 +4803,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request = new WP_REST_Request('GET', sprintf('/wp/v2/posts/%d', self::$post_id));
         $request->set_param('context', 'embed');
         $response = rest_get_server()->dispatch($request);
-        $keys     = array_keys($response->get_data());
+        $keys = array_keys($response->get_data());
         sort($keys);
 
         $expected_keys = [
@@ -4816,11 +4823,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
     public function test_status_array_enum_args()
     {
-        $request         = new WP_REST_Request('GET', '/wp/v2');
-        $response        = rest_get_server()->dispatch($request);
-        $data            = $response->get_data();
+        $request = new WP_REST_Request('GET', '/wp/v2');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $list_posts_args = $data['routes']['/wp/v2/posts']['endpoints'][0]['args'];
-        $status_arg      = $list_posts_args['status'];
+        $status_arg = $list_posts_args['status'];
         $this->assertSame('array', $status_arg['type']);
         $this->assertSame(
             [
@@ -4841,33 +4848,32 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
                 ],
                 'type' => 'string',
             ],
-            $status_arg['items']
+            $status_arg['items'],
         );
     }
 
     public function test_get_additional_field_registration()
     {
-
         $schema = [
-            'type'        => 'integer',
+            'type' => 'integer',
             'description' => 'Some integer of mine',
-            'enum'        => [1, 2, 3, 4],
-            'context'     => ['view', 'edit'],
+            'enum' => [1, 2, 3, 4],
+            'context' => ['view', 'edit'],
         ];
 
         register_rest_field(
             'post',
             'my_custom_int',
             [
-                'schema'          => $schema,
-                'get_callback'    => [$this, 'additional_field_get_callback'],
+                'schema' => $schema,
+                'get_callback' => [$this, 'additional_field_get_callback'],
                 'update_callback' => [$this, 'additional_field_update_callback'],
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertArrayHasKey('my_custom_int', $data['schema']['properties']);
         $this->assertSame($schema, $data['schema']['properties']['my_custom_int']);
@@ -4876,7 +4882,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         $post_id = self::factory()->post->create();
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
         $response = rest_get_server()->dispatch($request);
         $this->assertArrayHasKey('my_custom_int', $response->data);
 
@@ -4884,7 +4890,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_body_params(
             [
                 'my_custom_int' => 123,
-            ]
+            ],
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -4894,8 +4900,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_body_params(
             [
                 'my_custom_int' => 123,
-                'title'         => 'hello',
-            ]
+                'title' => 'hello',
+            ],
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -4915,15 +4921,15 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             'post',
             'my_custom_int',
             [
-                'schema'          => null,
-                'get_callback'    => [$this, 'additional_field_get_callback'],
+                'schema' => null,
+                'get_callback' => [$this, 'additional_field_get_callback'],
                 'update_callback' => null,
-            ]
+            ],
         );
         $post_id = self::factory()->post->create();
 
         // 'my_custom_int' should appear because ?_fields= isn't set.
-        $request  = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
+        $request = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
         $response = rest_get_server()->dispatch($request);
         $this->assertArrayHasKey('my_custom_int', $response->data);
 
@@ -4946,20 +4952,20 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_additional_field_update_errors()
     {
         $schema = [
-            'type'        => 'integer',
+            'type' => 'integer',
             'description' => 'Some integer of mine',
-            'enum'        => [1, 2, 3, 4],
-            'context'     => ['view', 'edit'],
+            'enum' => [1, 2, 3, 4],
+            'context' => ['view', 'edit'],
         ];
 
         register_rest_field(
             'post',
             'my_custom_int',
             [
-                'schema'          => $schema,
-                'get_callback'    => [$this, 'additional_field_get_callback'],
+                'schema' => $schema,
+                'get_callback' => [$this, 'additional_field_get_callback'],
                 'update_callback' => [$this, 'additional_field_update_callback'],
-            ]
+            ],
         );
 
         wp_set_current_user(self::$editor_id);
@@ -4969,7 +4975,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_body_params(
             [
                 'my_custom_int' => 'returnError',
-            ]
+            ],
         );
 
         $response = rest_get_server()->dispatch($request);
@@ -4996,8 +5002,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_publish_action_ldo_registered()
     {
         $response = rest_get_server()->dispatch(new WP_REST_Request('OPTIONS', '/wp/v2/posts'));
-        $data     = $response->get_data();
-        $schema   = $data['schema'];
+        $data = $response->get_data();
+        $schema = $data['schema'];
 
         $this->assertArrayHasKey('links', $schema);
         $publish = wp_list_filter($schema['links'], ['rel' => 'https://api.w.org/action-publish']);
@@ -5008,8 +5014,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_sticky_action_ldo_registered_for_posts()
     {
         $response = rest_get_server()->dispatch(new WP_REST_Request('OPTIONS', '/wp/v2/posts'));
-        $data     = $response->get_data();
-        $schema   = $data['schema'];
+        $data = $response->get_data();
+        $schema = $data['schema'];
 
         $this->assertArrayHasKey('links', $schema);
         $publish = wp_list_filter($schema['links'], ['rel' => 'https://api.w.org/action-sticky']);
@@ -5020,8 +5026,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_sticky_action_ldo_not_registered_for_non_posts()
     {
         $response = rest_get_server()->dispatch(new WP_REST_Request('OPTIONS', '/wp/v2/pages'));
-        $data     = $response->get_data();
-        $schema   = $data['schema'];
+        $data = $response->get_data();
+        $schema = $data['schema'];
 
         $this->assertArrayHasKey('links', $schema);
         $publish = wp_list_filter($schema['links'], ['rel' => 'https://api.w.org/action-sticky']);
@@ -5032,8 +5038,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_author_action_ldo_registered_for_post_types_with_author_support()
     {
         $response = rest_get_server()->dispatch(new WP_REST_Request('OPTIONS', '/wp/v2/posts'));
-        $data     = $response->get_data();
-        $schema   = $data['schema'];
+        $data = $response->get_data();
+        $schema = $data['schema'];
 
         $this->assertArrayHasKey('links', $schema);
         $publish = wp_list_filter($schema['links'], ['rel' => 'https://api.w.org/action-assign-author']);
@@ -5047,13 +5053,13 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         // Re-initialize the controller to cache-bust schemas from prior test runs.
         $GLOBALS['wp_rest_server']->override_by_default = true;
-        $controller                                     = new WP_REST_Posts_Controller('post');
+        $controller = new WP_REST_Posts_Controller('post');
         $controller->register_routes();
         $GLOBALS['wp_rest_server']->override_by_default = false;
 
         $response = rest_get_server()->dispatch(new WP_REST_Request('OPTIONS', '/wp/v2/posts'));
-        $data     = $response->get_data();
-        $schema   = $data['schema'];
+        $data = $response->get_data();
+        $schema = $data['schema'];
 
         $this->assertArrayHasKey('links', $schema);
         $publish = wp_list_filter($schema['links'], ['rel' => 'https://api.w.org/action-assign-author']);
@@ -5064,8 +5070,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_term_action_ldos_registered()
     {
         $response = rest_get_server()->dispatch(new WP_REST_Request('OPTIONS', '/wp/v2/posts'));
-        $data     = $response->get_data();
-        $schema   = $data['schema'];
+        $data = $response->get_data();
+        $schema = $data['schema'];
 
         $this->assertArrayHasKey('links', $schema);
         $rels = array_flip(wp_list_pluck($schema['links'], 'rel'));
@@ -5092,7 +5098,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'view']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayNotHasKey('https://api.w.org/action-publish', $links);
     }
@@ -5108,7 +5114,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayHasKey('https://api.w.org/action-publish', $links);
     }
@@ -5124,7 +5130,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayNotHasKey('https://api.w.org/action-publish', $links);
     }
@@ -5140,7 +5146,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayHasKey('https://api.w.org/action-sticky', $links);
     }
@@ -5156,7 +5162,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayNotHasKey('https://api.w.org/action-sticky', $links);
     }
@@ -5168,8 +5174,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $post = self::factory()->post->create(
             [
                 'post_author' => self::$author_id,
-                'post_type'   => 'page',
-            ]
+                'post_type' => 'page',
+            ],
         );
         $this->assertGreaterThan(0, $post);
 
@@ -5177,7 +5183,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayNotHasKey('https://api.w.org/action-sticky', $links);
     }
@@ -5194,7 +5200,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayHasKey('https://api.w.org/action-assign-author', $links);
     }
@@ -5210,7 +5216,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayNotHasKey('https://api.w.org/action-assign-author', $links);
     }
@@ -5228,7 +5234,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayNotHasKey('https://api.w.org/action-assign-author', $links);
     }
@@ -5244,7 +5250,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayHasKey('https://api.w.org/action-create-categories', $links);
         $this->assertArrayHasKey('https://api.w.org/action-create-tags', $links);
@@ -5262,7 +5268,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayHasKey('https://api.w.org/action-create-tags', $links);
     }
@@ -5278,7 +5284,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayNotHasKey('https://api.w.org/action-create-categories', $links);
     }
@@ -5291,7 +5297,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             [
                 'post_author' => self::$contributor_id,
                 'post_status' => 'draft',
-            ]
+            ],
         );
         $this->assertGreaterThan(0, $post);
 
@@ -5299,7 +5305,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request->set_query_params(['context' => 'edit']);
 
         $response = rest_get_server()->dispatch($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
 
         $this->assertArrayHasKey('https://api.w.org/action-assign-categories', $links);
         $this->assertArrayHasKey('https://api.w.org/action-assign-tags', $links);
@@ -5314,7 +5320,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
         $request->set_param('context', 'edit');
         $response = rest_do_request($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
         $this->assertArrayHasKey('https://api.w.org/action-unfiltered-html', $links);
     }
 
@@ -5327,7 +5333,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
         $request->set_param('context', 'edit');
         $response = rest_do_request($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
         // Editors can only unfiltered html on single site.
         if (is_multisite()) {
             $this->assertArrayNotHasKey('https://api.w.org/action-unfiltered-html', $links);
@@ -5345,7 +5351,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
         $request->set_param('context', 'edit');
         $response = rest_do_request($request);
-        $links    = $response->get_links();
+        $links = $response->get_links();
         // Authors can't ever unfiltered html.
         $this->assertArrayNotHasKey('https://api.w.org/action-unfiltered-html', $links);
     }
@@ -5355,13 +5361,13 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         register_post_type(
             'private-post',
             [
-                'label'              => 'Private Posts',
-                'supports'           => ['title', 'editor', 'author'],
-                'show_in_rest'       => true,
+                'label' => 'Private Posts',
+                'supports' => ['title', 'editor', 'author'],
+                'show_in_rest' => true,
                 'publicly_queryable' => false,
-                'public'             => true,
-                'rest_base'          => 'private-post',
-            ]
+                'public' => true,
+                'rest_base' => 'private-post',
+            ],
         );
         create_initial_rest_routes();
 
@@ -5369,17 +5375,17 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         $post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Permalink Template',
-                'post_type'   => 'private-post',
+                'post_title' => 'Permalink Template',
+                'post_type' => 'private-post',
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         // Neither 'permalink_template' and 'generated_slug' are expected for this post type.
         $request = new WP_REST_Request('GET', '/wp/v2/private-post/' . $post_id);
         $request->set_param('context', 'edit');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(200, $response->get_status());
         $this->assertArrayNotHasKey('permalink_template', $data);
         $this->assertArrayNotHasKey('generated_slug', $data);
@@ -5394,17 +5400,17 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         $post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Permalink Template',
-                'post_type'   => 'post',
+                'post_title' => 'Permalink Template',
+                'post_type' => 'post',
                 'post_status' => 'draft',
-            ]
+            ],
         );
 
         // Both 'permalink_template' and 'generated_slug' are expected for context=edit.
         $request = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
         $request->set_param('context', 'edit');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(200, $response->get_status());
         $this->assertSame($expected_permalink_template, $data['permalink_template']);
         $this->assertSame('permalink-template', $data['generated_slug']);
@@ -5413,7 +5419,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $request = new WP_REST_Request('GET', '/wp/v2/posts/' . $post_id);
         $request->set_param('context', 'view');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(200, $response->get_status());
         $this->assertArrayNotHasKey('permalink_template', $data);
         $this->assertArrayNotHasKey('generated_slug', $data);
@@ -5431,8 +5437,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $post = self::factory()->post->create_and_get(
             [
                 'post_status' => 'draft',
-                'post_date'   => $time,
-            ]
+                'post_date' => $time,
+            ],
         );
 
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
@@ -5440,17 +5446,19 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $get = new WP_REST_Request('GET', "/wp/v2/posts/{$post->ID}");
         $get->set_query_params(['context' => 'edit']);
 
-        $get      = rest_get_server()->dispatch($get);
+        $get = rest_get_server()->dispatch($get);
         $get_body = $get->get_data();
 
         $put = new WP_REST_Request('PUT', "/wp/v2/posts/{$post->ID}");
         $put->set_body_params($get_body);
 
         $response = rest_get_server()->dispatch($put);
-        $body     = $response->get_data();
+        $body = $response->get_data();
 
-        $this->assertEqualsWithDelta(strtotime($get_body['date']), strtotime($body['date']), 2, 'The dates should be equal');
-        $this->assertEqualsWithDelta(strtotime($get_body['date_gmt']), strtotime($body['date_gmt']), 2, 'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime($get_body['date']), strtotime($body['date']), 2,
+            'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime($get_body['date_gmt']), strtotime($body['date_gmt']), 2,
+            'The dates should be equal');
 
         $this->assertSame('0000-00-00 00:00:00', get_post($post->ID)->post_date_gmt);
     }
@@ -5462,14 +5470,14 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         wp_set_current_user(self::$superadmin_id);
 
-        $time     = gmdate('Y-m-d H:i:s');
+        $time = gmdate('Y-m-d H:i:s');
         $new_time = gmdate('Y-m-d H:i:s', strtotime('+1 week'));
 
         $post = self::factory()->post->create_and_get(
             [
                 'post_status' => 'draft',
-                'post_date'   => $time,
-            ]
+                'post_date' => $time,
+            ],
         );
 
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
@@ -5477,7 +5485,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $get = new WP_REST_Request('GET', "/wp/v2/posts/{$post->ID}");
         $get->set_query_params(['context' => 'edit']);
 
-        $get      = rest_get_server()->dispatch($get);
+        $get = rest_get_server()->dispatch($get);
         $get_body = $get->get_data();
 
         $put = new WP_REST_Request('PUT', "/wp/v2/posts/{$post->ID}");
@@ -5486,14 +5494,15 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
                 $get_body,
                 [
                     'date' => mysql_to_rfc3339($new_time),
-                ]
-            )
+                ],
+            ),
         );
 
         $response = rest_get_server()->dispatch($put);
-        $body     = $response->get_data();
+        $body = $response->get_data();
 
-        $this->assertEqualsWithDelta(strtotime(mysql_to_rfc3339($new_time)), strtotime($body['date']), 2, 'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime(mysql_to_rfc3339($new_time)), strtotime($body['date']), 2,
+            'The dates should be equal');
 
         $this->assertNotEquals('0000-00-00 00:00:00', get_post($post->ID)->post_date_gmt);
     }
@@ -5510,8 +5519,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $post = self::factory()->post->create_and_get(
             [
                 'post_status' => 'draft',
-                'post_date'   => $time,
-            ]
+                'post_date' => $time,
+            ],
         );
 
         $this->assertSame('0000-00-00 00:00:00', $post->post_date_gmt);
@@ -5519,7 +5528,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $get = new WP_REST_Request('GET', "/wp/v2/posts/{$post->ID}");
         $get->set_query_params(['context' => 'edit']);
 
-        $get      = rest_get_server()->dispatch($get);
+        $get = rest_get_server()->dispatch($get);
         $get_body = $get->get_data();
 
         $put = new WP_REST_Request('PUT', "/wp/v2/posts/{$post->ID}");
@@ -5528,15 +5537,17 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
                 $get_body,
                 [
                     'status' => 'publish',
-                ]
-            )
+                ],
+            ),
         );
 
         $response = rest_get_server()->dispatch($put);
-        $body     = $response->get_data();
+        $body = $response->get_data();
 
-        $this->assertEqualsWithDelta(strtotime($get_body['date']), strtotime($body['date']), 2, 'The dates should be equal');
-        $this->assertEqualsWithDelta(strtotime($get_body['date_gmt']), strtotime($body['date_gmt']), 2, 'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime($get_body['date']), strtotime($body['date']), 2,
+            'The dates should be equal');
+        $this->assertEqualsWithDelta(strtotime($get_body['date_gmt']), strtotime($body['date_gmt']), 2,
+            'The dates should be equal');
 
         $this->assertNotEquals('0000-00-00 00:00:00', get_post($post->ID)->post_date_gmt);
     }
@@ -5548,7 +5559,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         $this->assertSame(
             get_post_type_object('post')->get_rest_controller(),
-            get_post_type_object('post')->get_rest_controller()
+            get_post_type_object('post')->get_rest_controller(),
         );
     }
 
@@ -5561,7 +5572,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             'not_in_rest',
             [
                 'show_in_rest' => false,
-            ]
+            ],
         );
 
         $this->assertNull(get_post_type_object('not_in_rest')->get_rest_controller());
@@ -5575,9 +5586,9 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         register_post_type(
             'class_not_found',
             [
-                'show_in_rest'          => true,
+                'show_in_rest' => true,
                 'rest_controller_class' => 'Class_That_Does_Not_Exist',
-            ]
+            ],
         );
 
         $this->assertNull(get_post_type_object('class_not_found')->get_rest_controller());
@@ -5591,9 +5602,9 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         register_post_type(
             'invalid_class',
             [
-                'show_in_rest'          => true,
+                'show_in_rest' => true,
                 'rest_controller_class' => 'WP_Post',
-            ]
+            ],
         );
 
         $this->assertNull(get_post_type_object('invalid_class')->get_rest_controller());
@@ -5608,12 +5619,12 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
             'test',
             [
                 'show_in_rest' => true,
-            ]
+            ],
         );
 
         $this->assertInstanceOf(
             WP_REST_Posts_Controller::class,
-            get_post_type_object('test')->get_rest_controller()
+            get_post_type_object('test')->get_rest_controller(),
         );
     }
 
@@ -5624,7 +5635,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         $this->assertInstanceOf(
             WP_REST_Blocks_Controller::class,
-            get_post_type_object('wp_block')->get_rest_controller()
+            get_post_type_object('wp_block')->get_rest_controller(),
         );
     }
 
@@ -5636,9 +5647,9 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         register_post_type(
             'test',
             [
-                'show_in_rest'    => true,
+                'show_in_rest' => true,
                 'rest_controller' => new \stdClass(),
-            ]
+            ],
         );
 
         $this->assertNull(get_post_type_object('test')->get_rest_controller());
@@ -5652,10 +5663,10 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         register_post_type(
             'test',
             [
-                'show_in_rest'          => true,
+                'show_in_rest' => true,
                 'rest_controller_class' => WP_REST_Posts_Controller::class,
-                'rest_controller'       => new WP_REST_Terms_Controller('category'),
-            ]
+                'rest_controller' => new WP_REST_Terms_Controller('category'),
+            ],
         );
 
         $this->assertNull(get_post_type_object('test')->get_rest_controller());
@@ -5670,13 +5681,13 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         // Re-initialize the controller to cache-bust schemas from prior test runs.
         $GLOBALS['wp_rest_server']->override_by_default = true;
-        $controller                                     = new WP_REST_Posts_Controller('post');
+        $controller = new WP_REST_Posts_Controller('post');
         $controller->register_routes();
         $GLOBALS['wp_rest_server']->override_by_default = false;
 
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/posts');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties']['content']['properties'];
 
         $this->assertArrayHasKey('new_prop', $properties);
@@ -5693,7 +5704,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
 
         // Re-initialize the controller to cache-bust schemas from prior test runs.
         $GLOBALS['wp_rest_server']->override_by_default = true;
-        $controller                                     = new WP_REST_Posts_Controller('post');
+        $controller = new WP_REST_Posts_Controller('post');
         $controller->register_routes();
         $GLOBALS['wp_rest_server']->override_by_default = false;
     }
@@ -5709,11 +5720,11 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         self::factory()->post->create(['post_name' => 'sample-slug']);
 
         $request = new WP_REST_Request('PUT', sprintf('/wp/v2/posts/%d', self::$post_id));
-        $params  = $this->set_post_data(
+        $params = $this->set_post_data(
             [
                 'status' => 'draft',
-                'slug'   => 'sample-slug',
-            ]
+                'slug' => 'sample-slug',
+            ],
         );
         $request->set_body_params($params);
         $response = rest_get_server()->dispatch($request);
@@ -5722,7 +5733,7 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $this->assertSame(
             'sample-slug-2',
             $new_data['slug'],
-            'The slug from the REST response did not match'
+            'The slug from the REST response did not match',
         );
 
         $post = get_post($new_data['id']);
@@ -5730,13 +5741,13 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         $this->assertSame(
             'draft',
             $post->post_status,
-            'The post status is not draft'
+            'The post status is not draft',
         );
 
         $this->assertSame(
             'sample-slug-2',
             $post->post_name,
-            'The post slug was not set to "sample-slug-2"'
+            'The post slug was not set to "sample-slug-2"',
         );
     }
 
@@ -5750,13 +5761,14 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_standard_post_format_support()
     {
         $initial_theme_support = get_theme_support('post-formats');
-        add_theme_support('post-formats', ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat']);
+        add_theme_support('post-formats',
+            ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat']);
 
         $post_id = self::factory()->post->create(
             [
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         set_post_format($post_id, 'aside');
 
@@ -5791,13 +5803,14 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_post_format_support()
     {
         $initial_theme_support = get_theme_support('post-formats');
-        add_theme_support('post-formats', ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat']);
+        add_theme_support('post-formats',
+            ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat']);
 
         $post_id = self::factory()->post->create(
             [
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         set_post_format($post_id, 'aside');
 
@@ -5822,7 +5835,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
         }
 
         $this->assertCount(1, $response_aside->get_data(), 'Only one post is expected to be returned.');
-        $this->assertErrorResponse('rest_invalid_param', $response_invalid, 400, 'An invalid post format should return an error');
+        $this->assertErrorResponse('rest_invalid_param', $response_invalid, 400,
+            'An invalid post format should return an error');
     }
 
     /**
@@ -5835,21 +5849,22 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     public function test_multiple_post_format_support()
     {
         $initial_theme_support = get_theme_support('post-formats');
-        add_theme_support('post-formats', ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat']);
+        add_theme_support('post-formats',
+            ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat']);
 
         $post_id = self::factory()->post->create(
             [
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         set_post_format($post_id, 'aside');
 
         $post_id_2 = self::factory()->post->create(
             [
-                'post_type'   => 'post',
+                'post_type' => 'post',
                 'post_status' => 'publish',
-            ]
+            ],
         );
         set_post_format($post_id_2, 'gallery');
 
@@ -5896,8 +5911,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         $schema['properties']['content']['properties']['new_prop'] = [
             'description' => __('A new prop added with a the rest_post_item_schema filter.'),
-            'type'        => 'string',
-            'context'     => ['new_context'],
+            'type' => 'string',
+            'context' => ['new_context'],
         ];
         return $schema;
     }
@@ -5906,8 +5921,8 @@ Shankle pork chop prosciutto ribeye ham hock pastrami. T-bone shank brisket baco
     {
         $schema['properties']['something_entirely_new'] = [
             'description' => __('A new prop added with a the rest_post_item_schema filter.'),
-            'type'        => 'string',
-            'context'     => ['new_context'],
+            'type' => 'string',
+            'context' => ['new_context'],
         ];
         return $schema;
     }

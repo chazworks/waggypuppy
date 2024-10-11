@@ -17,12 +17,12 @@ class Tests_Dependencies_jQuery extends WP_UnitTestCase
 
         if (SCRIPT_DEBUG) {
             $jquery_scripts = [
-                'jquery-core'    => '/wp-includes/js/jquery/jquery.js',
+                'jquery-core' => '/wp-includes/js/jquery/jquery.js',
                 'jquery-migrate' => '/wp-includes/js/jquery/jquery-migrate.js',
             ];
         } else {
             $jquery_scripts = [
-                'jquery-core'    => '/wp-includes/js/jquery/jquery.min.js',
+                'jquery-core' => '/wp-includes/js/jquery/jquery.min.js',
                 'jquery-migrate' => '/wp-includes/js/jquery/jquery-migrate.min.js',
             ];
         }

@@ -22,14 +22,14 @@ function tests_get_phpunit_version()
 /**
  * Resets various `$_SERVER` variables that can get altered during tests.
  */
-function tests_reset__SERVER()  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function tests_reset__SERVER()
 {
-    $_SERVER['HTTP_HOST']       = WP_TESTS_DOMAIN;
-    $_SERVER['REMOTE_ADDR']     = '127.0.0.1';
-    $_SERVER['REQUEST_METHOD']  = 'GET';
-    $_SERVER['REQUEST_URI']     = '';
-    $_SERVER['SERVER_NAME']     = WP_TESTS_DOMAIN;
-    $_SERVER['SERVER_PORT']     = '80';
+    $_SERVER['HTTP_HOST'] = WP_TESTS_DOMAIN;
+    $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+    $_SERVER['REQUEST_METHOD'] = 'GET';
+    $_SERVER['REQUEST_URI'] = '';
+    $_SERVER['SERVER_NAME'] = WP_TESTS_DOMAIN;
+    $_SERVER['SERVER_PORT'] = '80';
     $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 
     unset($_SERVER['HTTP_REFERER']);
@@ -39,20 +39,20 @@ function tests_reset__SERVER()  // phpcs:ignore WordPress.NamingConventions.Vali
 /**
  * Adds hooks before loading WP.
  *
- * @since UT (3.7.0)
- *
- * @see add_filter()
- * @global WP_Hook[] $wp_filter A multidimensional array of all hooks and the callbacks hooked to them.
- *
- * @param string   $hook_name     The name of the filter to add the callback to.
- * @param callable $callback      The callback to be run when the filter is applied.
- * @param int      $priority      Optional. Used to specify the order in which the functions
+ * @param string $hook_name The name of the filter to add the callback to.
+ * @param callable $callback The callback to be run when the filter is applied.
+ * @param int $priority Optional. Used to specify the order in which the functions
  *                                associated with a particular action are executed.
  *                                Lower numbers correspond with earlier execution,
  *                                and functions with the same priority are executed
  *                                in the order in which they were added to the action. Default 10.
- * @param int      $accepted_args Optional. The number of arguments the function accepts. Default 1.
+ * @param int $accepted_args Optional. The number of arguments the function accepts. Default 1.
  * @return true Always returns true.
+ * @global WP_Hook[] $wp_filter A multidimensional array of all hooks and the callbacks hooked to them.
+ *
+ * @since UT (3.7.0)
+ *
+ * @see add_filter()
  */
 function tests_add_filter($hook_name, $callback, $priority = 10, $accepted_args = 1)
 {
@@ -64,7 +64,7 @@ function tests_add_filter($hook_name, $callback, $priority = 10, $accepted_args 
         $idx = _test_filter_build_unique_id($hook_name, $callback, $priority);
 
         $wp_filter[$hook_name][$priority][$idx] = [
-            'function'      => $callback,
+            'function' => $callback,
             'accepted_args' => $accepted_args,
         ];
     }
@@ -75,16 +75,16 @@ function tests_add_filter($hook_name, $callback, $priority = 10, $accepted_args 
 /**
  * Generates a unique function ID based on the given arguments.
  *
+ * @param string $hook_name Unused. The name of the filter to build ID for.
+ * @param callable|string|array $callback The callback to generate ID for. The callback may
+ *                                         or may not exist.
+ * @param int $priority Unused. The order in which the functions
+ *                                         associated with a particular action are executed.
+ * @return string Unique function ID for usage as array key.
  * @since UT (3.7.0)
  *
  * @see _wp_filter_build_unique_id()
  *
- * @param string                $hook_name Unused. The name of the filter to build ID for.
- * @param callable|string|array $callback  The callback to generate ID for. The callback may
- *                                         or may not exist.
- * @param int                   $priority  Unused. The order in which the functions
- *                                         associated with a particular action are executed.
- * @return string Unique function ID for usage as array key.
  */
 function _test_filter_build_unique_id($hook_name, $callback, $priority)
 {
@@ -96,7 +96,7 @@ function _test_filter_build_unique_id($hook_name, $callback, $priority)
         // Closures are currently implemented as objects.
         $callback = [$callback, ''];
     } else {
-        $callback = (array) $callback;
+        $callback = (array)$callback;
     }
 
     if (is_object($callback[0])) {
@@ -116,22 +116,20 @@ function _delete_all_data()
     global $wpdb;
 
     foreach ([
-        $wpdb->posts,
-        $wpdb->postmeta,
-        $wpdb->comments,
-        $wpdb->commentmeta,
-        $wpdb->term_relationships,
-        $wpdb->termmeta,
-    ] as $table) {
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+                 $wpdb->posts,
+                 $wpdb->postmeta,
+                 $wpdb->comments,
+                 $wpdb->commentmeta,
+                 $wpdb->term_relationships,
+                 $wpdb->termmeta,
+             ] as $table) {
         $wpdb->query("DELETE FROM {$table}");
     }
 
     foreach ([
-        $wpdb->terms,
-        $wpdb->term_taxonomy,
-    ] as $table) {
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+                 $wpdb->terms,
+                 $wpdb->term_taxonomy,
+             ] as $table) {
         $wpdb->query("DELETE FROM {$table} WHERE term_id != 1");
     }
 
@@ -149,7 +147,7 @@ function _delete_all_posts()
     global $wpdb;
 
     $all_posts = $wpdb->get_results("SELECT ID, post_type from {$wpdb->posts}", ARRAY_A);
-    if (! $all_posts) {
+    if (!$all_posts) {
         return;
     }
 
@@ -165,16 +163,16 @@ function _delete_all_posts()
 /**
  * Handles the WP die handler by outputting the given values as text.
  *
- * @since UT (3.7.0)
+ * @param string|WP_Error $message Error message or WP_Error object.
+ * @param string $title Error title.
+ * @param array $args Arguments passed to wp_die().
  * @since 6.1.0 The `$message` parameter can accept a `WP_Error` object.
  *
- * @param string|WP_Error $message Error message or WP_Error object.
- * @param string          $title   Error title.
- * @param array           $args    Arguments passed to wp_die().
+ * @since UT (3.7.0)
  */
 function _wp_die_handler($message, $title = '', $args = [])
 {
-    if (! $GLOBALS['_wp_die_disabled']) {
+    if (!$GLOBALS['_wp_die_disabled']) {
         _wp_die_handler_txt($message, $title, $args);
     } else {
         // Ignore at our peril.
@@ -204,9 +202,9 @@ function _enable_wp_die()
 /**
  * Returns the die handler.
  *
+ * @return string The die handler.
  * @since UT (3.7.0)
  *
- * @return string The die handler.
  */
 function _wp_die_handler_filter()
 {
@@ -216,9 +214,9 @@ function _wp_die_handler_filter()
 /**
  * Returns the die handler.
  *
+ * @return string The die handler.
  * @since 4.9.0
  *
- * @return string The die handler.
  */
 function _wp_die_handler_filter_exit()
 {
@@ -228,12 +226,12 @@ function _wp_die_handler_filter_exit()
 /**
  * Dies without an exit.
  *
- * @since 4.0.0
+ * @param string|WP_Error $message Error message or WP_Error object.
+ * @param string $title Error title.
+ * @param array $args Arguments passed to wp_die().
  * @since 6.1.0 The `$message` parameter can accept a `WP_Error` object.
  *
- * @param string|WP_Error $message Error message or WP_Error object.
- * @param string          $title   Error title.
- * @param array           $args    Arguments passed to wp_die().
+ * @since 4.0.0
  */
 function _wp_die_handler_txt($message, $title, $args)
 {
@@ -242,14 +240,14 @@ function _wp_die_handler_txt($message, $title, $args)
     echo "\nwp_die() called\n";
     echo "Message: $message\n";
 
-    if (! empty($title)) {
+    if (!empty($title)) {
         echo "Title: $title\n";
     }
 
-    if (! empty($args)) {
+    if (!empty($args)) {
         echo "Args:\n";
         foreach ($args as $key => $value) {
-            if (! is_scalar($value)) {
+            if (!is_scalar($value)) {
                 $value = var_export($value, true);
             }
 
@@ -261,12 +259,12 @@ function _wp_die_handler_txt($message, $title, $args)
 /**
  * Dies with an exit.
  *
- * @since 4.9.0
+ * @param string|WP_Error $message Error message or WP_Error object.
+ * @param string $title Error title.
+ * @param array $args Arguments passed to wp_die().
  * @since 6.1.0 The `$message` parameter can accept a `WP_Error` object.
  *
- * @param string|WP_Error $message Error message or WP_Error object.
- * @param string          $title   Error title.
- * @param array           $args    Arguments passed to wp_die().
+ * @since 4.9.0
  */
 function _wp_die_handler_exit($message, $title, $args)
 {
@@ -275,14 +273,14 @@ function _wp_die_handler_exit($message, $title, $args)
     echo "\nwp_die() called\n";
     echo "Message: $message\n";
 
-    if (! empty($title)) {
+    if (!empty($title)) {
         echo "Title: $title\n";
     }
 
-    if (! empty($args)) {
+    if (!empty($args)) {
         echo "Args:\n";
         foreach ($args as $key => $value) {
-            if (! is_scalar($value)) {
+            if (!is_scalar($value)) {
                 $value = var_export($value, true);
             }
 
@@ -316,8 +314,8 @@ function _upload_dir_no_subdir($uploads)
     $subdir = $uploads['subdir'];
 
     $uploads['subdir'] = '';
-    $uploads['path']   = str_replace($subdir, '', $uploads['path']);
-    $uploads['url']    = str_replace($subdir, '', $uploads['url']);
+    $uploads['path'] = str_replace($subdir, '', $uploads['path']);
+    $uploads['url'] = str_replace($subdir, '', $uploads['url']);
 
     return $uploads;
 }
@@ -329,7 +327,7 @@ function _upload_dir_no_subdir($uploads)
  */
 function _upload_dir_https($uploads)
 {
-    $uploads['url']     = str_replace('http://', 'https://', $uploads['url']);
+    $uploads['url'] = str_replace('http://', 'https://', $uploads['url']);
     $uploads['baseurl'] = str_replace('http://', 'https://', $uploads['baseurl']);
 
     return $uploads;
@@ -368,6 +366,7 @@ function _unhook_block_registration()
     remove_action('init', '_register_block_bindings_pattern_overrides_source');
     remove_action('init', '_register_block_bindings_post_meta_source');
 }
+
 tests_add_filter('init', '_unhook_block_registration', 1000);
 
 /**
@@ -380,4 +379,5 @@ function _unhook_font_registration()
 {
     remove_action('init', '_wp_register_default_font_collections');
 }
+
 tests_add_filter('init', '_unhook_font_registration', 1000);

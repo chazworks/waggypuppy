@@ -15,29 +15,29 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase
     {
         parent::set_up();
         $this->old_wp_scripts = isset($GLOBALS['wp_scripts']) ? $GLOBALS['wp_scripts'] : null;
-        $this->old_wp_styles  = isset($GLOBALS['wp_styles']) ? $GLOBALS['wp_styles'] : null;
+        $this->old_wp_styles = isset($GLOBALS['wp_styles']) ? $GLOBALS['wp_styles'] : null;
 
         remove_action('wp_default_scripts', 'wp_default_scripts');
         remove_action('wp_default_styles', 'wp_default_styles');
 
-        $GLOBALS['wp_scripts']                  = new WP_Scripts();
+        $GLOBALS['wp_scripts'] = new WP_Scripts();
         $GLOBALS['wp_scripts']->default_version = get_bloginfo('version');
-        $GLOBALS['wp_styles']                   = new WP_Styles();
-        $GLOBALS['wp_styles']->default_version  = get_bloginfo('version');
+        $GLOBALS['wp_styles'] = new WP_Styles();
+        $GLOBALS['wp_styles']->default_version = get_bloginfo('version');
     }
 
     public function tear_down()
     {
         $GLOBALS['wp_scripts'] = $this->old_wp_scripts;
-        $GLOBALS['wp_styles']  = $this->old_wp_styles;
+        $GLOBALS['wp_styles'] = $this->old_wp_styles;
         parent::tear_down();
     }
 
     public function test_dns_prefetching()
     {
         $expected = "<link rel='dns-prefetch' href='//wp.org' />\n" .
-                    "<link rel='dns-prefetch' href='//google.com' />\n" .
-                    "<link rel='dns-prefetch' href='//make.wp.org' />\n";
+            "<link rel='dns-prefetch' href='//google.com' />\n" .
+            "<link rel='dns-prefetch' href='//make.wp.org' />\n";
 
         add_filter('wp_resource_hints', [$this, 'add_dns_prefetch_domains'], 10, 2);
 
@@ -68,9 +68,9 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase
     public function test_preconnect()
     {
         $expected = "<link rel='preconnect' href='//wp.org' />\n" .
-                    "<link rel='preconnect' href='https://make.wp.org' />\n" .
-                    "<link rel='preconnect' href='http://google.com' />\n" .
-                    "<link rel='preconnect' href='http://w.org' />\n";
+            "<link rel='preconnect' href='https://make.wp.org' />\n" .
+            "<link rel='preconnect' href='http://google.com' />\n" .
+            "<link rel='preconnect' href='http://w.org' />\n";
 
         add_filter('wp_resource_hints', [$this, 'add_preconnect_domains'], 10, 2);
 
@@ -97,8 +97,8 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase
     public function test_prerender()
     {
         $expected = "<link rel='prerender' href='https://make.wp.org/great-again' />\n" .
-                    "<link rel='prerender' href='http://jobs.wordpress.net' />\n" .
-                    "<link rel='prerender' href='//core.trac.wp.org' />\n";
+            "<link rel='prerender' href='http://jobs.wordpress.net' />\n" .
+            "<link rel='prerender' href='//core.trac.wp.org' />\n";
 
         add_filter('wp_resource_hints', [$this, 'add_prerender_urls'], 10, 2);
 
@@ -184,7 +184,7 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase
      */
     public function test_dns_prefetch_scripts_does_not_include_registered_only()
     {
-        $expected   = '';
+        $expected = '';
         $unexpected = "<link rel='dns-prefetch' href='//wp.org' />\n";
 
         wp_register_script('jquery-elsewhere', 'https://wp.org/wp-includes/js/jquery/jquery.js');
@@ -255,9 +255,9 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase
     public function test_custom_attributes()
     {
         $expected = "<link rel='preconnect' href='https://make.wp.org' />\n" .
-                    "<link crossorigin as='image' pr='0.5' href='https://example.com/foo.jpeg' rel='prefetch' />\n" .
-                    "<link crossorigin='use-credentials' as='style' href='https://example.com/foo.css' rel='prefetch' />\n" .
-                    "<link href='http://wp.org' rel='prerender' />\n";
+            "<link crossorigin as='image' pr='0.5' href='https://example.com/foo.jpeg' rel='prefetch' />\n" .
+            "<link crossorigin='use-credentials' as='style' href='https://example.com/foo.css' rel='prefetch' />\n" .
+            "<link href='http://wp.org' rel='prerender' />\n";
 
         add_filter('wp_resource_hints', [$this, 'add_url_with_attributes'], 10, 2);
 
@@ -278,26 +278,26 @@ class Tests_General_wpResourceHints extends WP_UnitTestCase
         if ('preconnect' === $method) {
             // Should ignore rel attributes.
             $hints[] = [
-                'rel'  => 'foo',
+                'rel' => 'foo',
                 'href' => 'https://make.wp.org/great-again',
             ];
         } elseif ('prefetch' === $method) {
             $hints[] = [
                 'crossorigin',
-                'as'   => 'image',
-                'pr'   => 0.5,
+                'as' => 'image',
+                'pr' => 0.5,
                 'href' => 'https://example.com/foo.jpeg',
             ];
             $hints[] = [
                 'crossorigin' => 'use-credentials',
-                'as'          => 'style',
-                'href'        => 'https://example.com/foo.css',
+                'as' => 'style',
+                'href' => 'https://example.com/foo.css',
             ];
         } elseif ('prerender' === $method) {
             // Ignore invalid attributes.
             $hints[] = [
-                'foo'  => 'bar',
-                'bar'  => 'baz',
+                'foo' => 'bar',
+                'bar' => 'baz',
                 'href' => 'http://wp.org',
             ];
         }

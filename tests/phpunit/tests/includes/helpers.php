@@ -207,6 +207,7 @@ class Tests_TestHelpers extends WP_UnitTestCase
             ],
         ];
     }
+
     /**
      * @dataProvider data_assertSameSetsWithIndex
      * @ticket 30522
@@ -308,17 +309,17 @@ class Tests_TestHelpers extends WP_UnitTestCase
     {
         $defaults = [
             'message' => '',
-            'title'   => '',
-            'args'    => [],
+            'title' => '',
+            'args' => [],
         ];
 
-        $input    = wp_parse_args(
+        $input = wp_parse_args(
             $input,
-            $defaults
+            $defaults,
         );
         $expected = wp_parse_args(
             $expected,
-            $defaults
+            $defaults,
         );
 
         [$message, $title, $args] = _wp_die_process_input($input['message'], $input['title'], $input['args']);
@@ -339,10 +340,10 @@ class Tests_TestHelpers extends WP_UnitTestCase
                 ],
                 [
                     'message' => 'Broken.',
-                    'title'   => 'waggypuppy &rsaquo; Error',
-                    'args'    => [
-                        'response'       => 500,
-                        'code'           => 'wp_die',
+                    'title' => 'waggypuppy &rsaquo; Error',
+                    'args' => [
+                        'response' => 500,
+                        'code' => 'wp_die',
                         'text_direction' => 'ltr',
                     ],
                 ],
@@ -350,15 +351,15 @@ class Tests_TestHelpers extends WP_UnitTestCase
             [
                 [
                     'message' => 'Broken.',
-                    'title'   => 'Fatal Error',
-                    'args'    => [
+                    'title' => 'Fatal Error',
+                    'args' => [
                         'response' => null,
                     ],
                 ],
                 [
                     'message' => 'Broken.',
-                    'title'   => 'Fatal Error',
-                    'args'    => [
+                    'title' => 'Fatal Error',
+                    'args' => [
                         'response' => 500,
                     ],
                 ],
@@ -366,18 +367,18 @@ class Tests_TestHelpers extends WP_UnitTestCase
             [
                 [
                     'message' => 'More breakage.',
-                    'args'    => [
-                        'response'       => 400,
-                        'code'           => 'custom_code',
+                    'args' => [
+                        'response' => 400,
+                        'code' => 'custom_code',
                         'text_direction' => 'rtl',
                     ],
                 ],
                 [
                     'message' => 'More breakage.',
-                    'title'   => 'waggypuppy &rsaquo; Error',
-                    'args'    => [
-                        'response'       => 400,
-                        'code'           => 'custom_code',
+                    'title' => 'waggypuppy &rsaquo; Error',
+                    'args' => [
+                        'response' => 400,
+                        'code' => 'custom_code',
                         'text_direction' => 'rtl',
                     ],
                 ],
@@ -389,16 +390,16 @@ class Tests_TestHelpers extends WP_UnitTestCase
                         'You do not have access.',
                         [
                             'status' => 403,
-                            'title'  => 'Permission Error',
-                        ]
+                            'title' => 'Permission Error',
+                        ],
                     ),
                 ],
                 [
                     'message' => 'You do not have access.',
-                    'title'   => 'Permission Error',
-                    'args'    => [
+                    'title' => 'Permission Error',
+                    'args' => [
                         'response' => 403,
-                        'code'     => 'no_access',
+                        'code' => 'no_access',
                     ],
                 ],
             ],
@@ -412,7 +413,7 @@ class Tests_TestHelpers extends WP_UnitTestCase
      */
     public function test_setup_postdata_globals_should_be_reset_on_teardown__setup()
     {
-        $post                = self::factory()->post->create_and_get();
+        $post = self::factory()->post->create_and_get();
         $GLOBALS['wp_query'] = new WP_Query();
         $GLOBALS['wp_query']->setup_postdata($post);
         $this->assertNotEmpty($post);
@@ -423,10 +424,21 @@ class Tests_TestHelpers extends WP_UnitTestCase
      */
     public function test_setup_postdata_globals_should_be_reset_on_teardown()
     {
-        $globals = ['post', 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages'];
+        $globals = [
+            'post',
+            'id',
+            'authordata',
+            'currentday',
+            'currentmonth',
+            'page',
+            'pages',
+            'multipage',
+            'more',
+            'numpages',
+        ];
 
         foreach ($globals as $global) {
-            $this->assertTrue(! isset($GLOBALS[$global]), $global);
+            $this->assertTrue(!isset($GLOBALS[$global]), $global);
         }
     }
 }

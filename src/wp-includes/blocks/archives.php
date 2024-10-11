@@ -8,36 +8,35 @@
 /**
  * Renders the `core/archives` block on server.
  *
+ * @param array $attributes The block attributes.
+ *
+ * @return string Returns the post content with archives added.
  * @since 5.0.0
  *
  * @see WP_Widget_Archives
  *
- * @param array $attributes The block attributes.
- *
- * @return string Returns the post content with archives added.
  */
 function render_block_core_archives($attributes)
 {
-    $show_post_count = ! empty($attributes['showPostCounts']);
-    $type            = isset($attributes['type']) ? $attributes['type'] : 'monthly';
+    $show_post_count = !empty($attributes['showPostCounts']);
+    $type = isset($attributes['type']) ? $attributes['type'] : 'monthly';
 
     $class = 'wp-block-archives-list';
 
-    if (! empty($attributes['displayAsDropdown'])) {
-
+    if (!empty($attributes['displayAsDropdown'])) {
         $class = 'wp-block-archives-dropdown';
 
         $dropdown_id = wp_unique_id('wp-block-archives-');
-        $title       = __('Archives');
+        $title = __('Archives');
 
         /** This filter is documented in wp-includes/widgets/class-wp-widget-archives.php */
         $dropdown_args = apply_filters(
             'widget_archives_dropdown_args',
             [
-                'type'            => $type,
-                'format'          => 'option',
+                'type' => $type,
+                'format' => 'option',
                 'show_post_count' => $show_post_count,
-            ]
+            ],
         );
 
         $dropdown_args['echo'] = 0;
@@ -66,14 +65,26 @@ function render_block_core_archives($attributes)
 
         $show_label = empty($attributes['showLabel']) ? ' screen-reader-text' : '';
 
-        $block_content = '<label for="' . $dropdown_id . '" class="wp-block-archives__label' . $show_label . '">' . esc_html($title) . '</label>
-		<select id="' . $dropdown_id . '" name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">
-		<option value="">' . esc_html($label) . '</option>' . $archives . '</select>';
+        $block_content = '<label for="'
+            . $dropdown_id
+            . '" class="wp-block-archives__label'
+            . $show_label
+            . '">'
+            . esc_html($title)
+            . '</label>
+		<select id="'
+            . $dropdown_id
+            . '" name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">
+		<option value="">'
+            . esc_html($label)
+            . '</option>'
+            . $archives
+            . '</select>';
 
         return sprintf(
             '<div %1$s>%2$s</div>',
             $wrapper_attributes,
-            $block_content
+            $block_content,
         );
     }
 
@@ -81,9 +92,9 @@ function render_block_core_archives($attributes)
     $archives_args = apply_filters(
         'widget_archives_args',
         [
-            'type'            => $type,
+            'type' => $type,
             'show_post_count' => $show_post_count,
-        ]
+        ],
     );
 
     $archives_args['echo'] = 0;
@@ -96,14 +107,14 @@ function render_block_core_archives($attributes)
         return sprintf(
             '<div %1$s>%2$s</div>',
             $wrapper_attributes,
-            __('No archives to show.')
+            __('No archives to show.'),
         );
     }
 
     return sprintf(
         '<ul %1$s>%2$s</ul>',
         $wrapper_attributes,
-        $archives
+        $archives,
     );
 }
 
@@ -118,7 +129,8 @@ function register_block_core_archives()
         __DIR__ . '/archives',
         [
             'render_callback' => 'render_block_core_archives',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_archives');

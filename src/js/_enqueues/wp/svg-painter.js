@@ -6,18 +6,19 @@
 
 window.wp = window.wp || {};
 
-wp.svgPainter = ( function( $, window, document, undefined ) {
+wp.svgPainter = ( function ( $, window, document, undefined ) {
 	'use strict';
-	var selector, painter,
+	var selector,
+		painter,
 		colorscheme = {},
 		elements = [];
 
-	$( function() {
+	$( function () {
 		wp.svgPainter.init();
-	});
+	} );
 
 	return {
-		init: function() {
+		init: function () {
 			painter = this;
 			selector = $( '#adminmenu .wp-menu-image, #wpadminbar .ab-item' );
 
@@ -26,32 +27,48 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 			painter.paint();
 		},
 
-		setColors: function( colors ) {
-			if ( typeof colors === 'undefined' && typeof window._wpColorScheme !== 'undefined' ) {
+		setColors: function ( colors ) {
+			if (
+				typeof colors === 'undefined' &&
+				typeof window._wpColorScheme !== 'undefined'
+			) {
 				colors = window._wpColorScheme;
 			}
 
-			if ( colors && colors.icons && colors.icons.base && colors.icons.current && colors.icons.focus ) {
+			if (
+				colors &&
+				colors.icons &&
+				colors.icons.base &&
+				colors.icons.current &&
+				colors.icons.focus
+			) {
 				colorscheme = colors.icons;
 			}
 		},
 
-		findElements: function() {
-			selector.each( function() {
-				var $this = $(this), bgImage = $this.css( 'background-image' );
+		findElements: function () {
+			selector.each( function () {
+				var $this = $( this ),
+					bgImage = $this.css( 'background-image' );
 
-				if ( bgImage && bgImage.indexOf( 'data:image/svg+xml;base64' ) != -1 ) {
+				if (
+					bgImage &&
+					bgImage.indexOf( 'data:image/svg+xml;base64' ) != -1
+				) {
 					elements.push( $this );
 				}
-			});
+			} );
 		},
 
-		paint: function() {
+		paint: function () {
 			// Loop through all elements.
-			$.each( elements, function( index, $element ) {
+			$.each( elements, function ( index, $element ) {
 				var $menuitem = $element.parent().parent();
 
-				if ( $menuitem.hasClass( 'current' ) || $menuitem.hasClass( 'wp-has-current-submenu' ) ) {
+				if (
+					$menuitem.hasClass( 'current' ) ||
+					$menuitem.hasClass( 'wp-has-current-submenu' )
+				) {
 					// Paint icon in 'current' color.
 					painter.paintElement( $element, 'current' );
 				} else {
@@ -59,19 +76,21 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 					painter.paintElement( $element, 'base' );
 
 					// Set hover callbacks.
-					$menuitem.on( 'mouseenter', function() {
-						painter.paintElement( $element, 'focus' );
-					} ).on( 'mouseleave', function() {
-						// Match the delay from hoverIntent.
-						window.setTimeout( function() {
-							painter.paintElement( $element, 'base' );
-						}, 100 );
-					} );
+					$menuitem
+						.on( 'mouseenter', function () {
+							painter.paintElement( $element, 'focus' );
+						} )
+						.on( 'mouseleave', function () {
+							// Match the delay from hoverIntent.
+							window.setTimeout( function () {
+								painter.paintElement( $element, 'base' );
+							}, 100 );
+						} );
 				}
-			});
+			} );
 		},
 
-		paintElement: function( $element, colorType ) {
+		paintElement: function ( $element, colorType ) {
 			var xml, encoded, color;
 
 			if ( ! colorType || ! colorscheme.hasOwnProperty( colorType ) ) {
@@ -92,26 +111,36 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 			}
 
 			if ( ! xml ) {
-				encoded = $element.css( 'background-image' ).match( /.+data:image\/svg\+xml;base64,([A-Za-z0-9\+\/\=]+)/ );
+				encoded = $element
+					.css( 'background-image' )
+					.match(
+						/.+data:image\/svg\+xml;base64,([A-Za-z0-9\+\/\=]+)/
+					);
 
-				if ( ! encoded || ! encoded[1] ) {
+				if ( ! encoded || ! encoded[ 1 ] ) {
 					$element.data( 'wp-ui-svg-' + color, 'none' );
 					return;
 				}
 
 				try {
-					xml = window.atob( encoded[1] );
+					xml = window.atob( encoded[ 1 ] );
 				} catch ( error ) {}
 
 				if ( xml ) {
 					// Replace `fill` attributes.
-					xml = xml.replace( /fill="(.+?)"/g, 'fill="' + color + '"');
+					xml = xml.replace(
+						/fill="(.+?)"/g,
+						'fill="' + color + '"'
+					);
 
 					// Replace `style` attributes.
-					xml = xml.replace( /style="(.+?)"/g, 'style="fill:' + color + '"');
+					xml = xml.replace(
+						/style="(.+?)"/g,
+						'style="fill:' + color + '"'
+					);
 
 					// Replace `fill` properties in `<style>` tags.
-					xml = xml.replace( /fill:.*?;/g, 'fill: ' + color + ';');
+					xml = xml.replace( /fill:.*?;/g, 'fill: ' + color + ';' );
 
 					xml = window.btoa( xml );
 
@@ -122,8 +151,12 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 				}
 			}
 
-			$element.attr( 'style', 'background-image: url("data:image/svg+xml;base64,' + xml + '") !important;' );
-		}
+			$element.attr(
+				'style',
+				'background-image: url("data:image/svg+xml;base64,' +
+					xml +
+					'") !important;'
+			);
+		},
 	};
-
-})( jQuery, window, document );
+} )( jQuery, window, document );

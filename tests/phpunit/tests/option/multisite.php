@@ -21,9 +21,9 @@ if (is_multisite()) :
          */
         public function test_from_same_site()
         {
-            $key    = __FUNCTION__ . '_1';
-            $key2   = __FUNCTION__ . '_2';
-            $value  = __FUNCTION__ . '_val1';
+            $key = __FUNCTION__ . '_1';
+            $key2 = __FUNCTION__ . '_2';
+            $value = __FUNCTION__ . '_val1';
             $value2 = __FUNCTION__ . '_val2';
 
             $this->assertFalse(get_blog_option(1, 'doesnotexist'));
@@ -66,9 +66,9 @@ if (is_multisite()) :
          */
         public function test_from_same_site_with_null_blog_id()
         {
-            $key    = __FUNCTION__ . '_1';
-            $key2   = __FUNCTION__ . '_2';
-            $value  = __FUNCTION__ . '_val1';
+            $key = __FUNCTION__ . '_1';
+            $key2 = __FUNCTION__ . '_2';
+            $value = __FUNCTION__ . '_val1';
             $value2 = __FUNCTION__ . '_val2';
 
             $this->assertFalse(get_blog_option(null, 'doesnotexist'));
@@ -116,14 +116,14 @@ if (is_multisite()) :
             $blog_id = self::factory()->blog->create(
                 [
                     'user_id' => $user_id,
-                    'public'  => 1,
-                ]
+                    'public' => 1,
+                ],
             );
             $this->assertIsInt($blog_id);
 
-            $key    = __FUNCTION__ . '_key1';
-            $key2   = __FUNCTION__ . '_key2';
-            $value  = __FUNCTION__ . '_val1';
+            $key = __FUNCTION__ . '_key1';
+            $key2 = __FUNCTION__ . '_key2';
+            $value = __FUNCTION__ . '_val1';
             $value2 = __FUNCTION__ . '_val2';
 
             $this->assertFalse(get_blog_option($blog_id, 'doesnotexist'));
@@ -132,7 +132,7 @@ if (is_multisite()) :
             $this->assertTrue(add_blog_option($blog_id, $key, $value));
             // Assert all values of $blog_id that means the current or main blog (the same here).
             $this->assertSame($value, get_blog_option($blog_id, $key));
-            $this->assertSame($value, get_blog_option((string) $blog_id, $key));
+            $this->assertSame($value, get_blog_option((string)$blog_id, $key));
             // $this->assertSame( $value, get_option( $key ) );                // Check get_option().
 
             $this->assertFalse(add_blog_option($blog_id, $key, $value));     // Already exists.
@@ -163,7 +163,7 @@ if (is_multisite()) :
          */
         public function test_site_notoptions()
         {
-            $network_id     = get_current_network_id();
+            $network_id = get_current_network_id();
             $notoptions_key = "{$network_id}:notoptions";
 
             $_notoptions = wp_cache_get('notoptions', 'site-options');
@@ -185,7 +185,6 @@ if (is_multisite()) :
          */
         public function test_users_can_register_signup_filter()
         {
-
             get_site_option('registration');
             $this->assertFalse(users_can_register_signup_filter());
 

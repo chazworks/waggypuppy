@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -69,8 +69,8 @@ interface DataCache
      * public function get(string $key, mixed $default = null): mixed;
      * </code>
      *
-     * @param string   $key     The unique key of this item in the cache.
-     * @param mixed    $default Default value to return if the key does not exist.
+     * @param string $key The unique key of this item in the cache.
+     * @param mixed $default Default value to return if the key does not exist.
      *
      * @return array|mixed The value of the item from the cache, or $default in case of cache miss.
      *
@@ -87,9 +87,9 @@ interface DataCache
      * public function set(string $key, mixed $value, null|int|\DateInterval $ttl = null): bool;
      * </code>
      *
-     * @param string   $key   The key of the item to store.
-     * @param array    $value The value of the item to store, must be serializable.
-     * @param null|int $ttl   Optional. The TTL value of this item. If no value is sent and
+     * @param string $key The key of the item to store.
+     * @param array $value The value of the item to store, must be serializable.
+     * @param null|int $ttl Optional. The TTL value of this item. If no value is sent and
      *                                      the driver supports TTL then the library may set a default value
      *                                      for it or let the driver take care of that.
      *

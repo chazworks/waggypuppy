@@ -35,7 +35,7 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
         self::$filesystem = new WP_Filesystem_Direct(null);
 
         $filesystem_data_dir = wp_normalize_path(DIR_TESTDATA . '/filesystem/');
-        if (! file_exists($filesystem_data_dir)) {
+        if (!file_exists($filesystem_data_dir)) {
             mkdir($filesystem_data_dir);
         }
 
@@ -44,7 +44,7 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
          * during testing, either intentionally or accidentally as a result of test failure.
          */
         $test_data_root_dir = $filesystem_data_dir . 'filesystem_api/';
-        $test_data_dir      = $test_data_root_dir . 'wpFilesystemDirect/';
+        $test_data_dir = $test_data_root_dir . 'wpFilesystemDirect/';
 
         self::$file_structure = [
             // Directories first.
@@ -52,29 +52,29 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
                 'type' => 'd',
                 'path' => $test_data_root_dir,
             ],
-            'test_dir'      => [
+            'test_dir' => [
                 'type' => 'd',
                 'path' => $test_data_dir,
             ],
-            'subdir'        => [
+            'subdir' => [
                 'type' => 'd',
                 'path' => $test_data_dir . 'subdir/',
             ],
 
             // Then files.
-            'visible_file'  => [
-                'type'     => 'f',
-                'path'     => $test_data_dir . 'a_file_that_exists.txt',
+            'visible_file' => [
+                'type' => 'f',
+                'path' => $test_data_dir . 'a_file_that_exists.txt',
                 'contents' => "Contents of a file.\r\nNext line of a file.\r\n",
             ],
-            'hidden_file'   => [
-                'type'     => 'f',
-                'path'     => $test_data_dir . '.a_hidden_file',
+            'hidden_file' => [
+                'type' => 'f',
+                'path' => $test_data_dir . '.a_hidden_file',
                 'contents' => "A hidden file.\r\n",
             ],
-            'subfile'       => [
-                'type'     => 'f',
-                'path'     => $test_data_dir . 'subdir/subfile.txt',
+            'subfile' => [
+                'type' => 'f',
+                'path' => $test_data_dir . 'subdir/subfile.txt',
                 'contents' => "A file in a subdirectory.\r\n",
             ],
         ];
@@ -93,7 +93,7 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
             } elseif ('f' === $entry['type']) {
                 $this->create_file_if_needed(
                     $entry['path'],
-                    isset($entry['contents']) ? $entry['contents'] : ''
+                    isset($entry['contents']) ? $entry['contents'] : '',
                 );
             }
         }
@@ -105,7 +105,7 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
     public function tear_down()
     {
         foreach (array_reverse(self::$file_structure) as $entry) {
-            if (! file_exists($entry['path'])) {
+            if (!file_exists($entry['path'])) {
                 continue;
             }
 
@@ -122,9 +122,9 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
     /**
      * Creates a directory if it doesn't already exist.
      *
+     * @param string $path The path to the directory.
      * @throws Exception If the path already exists as a file.
      *
-     * @param string $path The path to the directory.
      */
     public function create_directory_if_needed($path)
     {
@@ -142,10 +142,10 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
     /**
      * Creates a file if it doesn't already exist.
      *
+     * @param string $path The path to the file.
+     * @param string $contents Optional. The contents of the file. Default empty string.
      * @throws Exception If the path already exists as a directory.
      *
-     * @param string $path     The path to the file.
-     * @param string $contents Optional. The contents of the file. Default empty string.
      */
     public function create_file_if_needed($path, $contents = '')
     {
@@ -178,7 +178,7 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
     public function data_paths_that_exist()
     {
         return [
-            'a file that exists'      => [
+            'a file that exists' => [
                 'path' => 'a_file_that_exists.txt',
             ],
             'a directory that exists' => [
@@ -195,7 +195,7 @@ abstract class WP_Filesystem_Direct_UnitTestCase extends WP_UnitTestCase
     public function data_paths_that_do_not_exist()
     {
         return [
-            'a file that does not exist'      => [
+            'a file that does not exist' => [
                 'path' => 'a_file_that_does_not_exist.txt',
             ],
             'a directory that does not exist' => [

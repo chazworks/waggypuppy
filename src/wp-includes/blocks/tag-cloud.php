@@ -8,25 +8,25 @@
 /**
  * Renders the `core/tag-cloud` block on server.
  *
- * @since 5.2.0
- *
  * @param array $attributes The block attributes.
  *
  * @return string Returns the tag cloud for selected taxonomy.
+ * @since 5.2.0
+ *
  */
 function render_block_core_tag_cloud($attributes)
 {
     $smallest_font_size = $attributes['smallestFontSize'];
-    $unit               = (preg_match('/^[0-9.]+(?P<unit>[a-z%]+)$/i', $smallest_font_size, $m) ? $m['unit'] : 'pt');
+    $unit = (preg_match('/^[0-9.]+(?P<unit>[a-z%]+)$/i', $smallest_font_size, $m) ? $m['unit'] : 'pt');
 
-    $args      = [
-        'echo'       => false,
-        'unit'       => $unit,
-        'taxonomy'   => $attributes['taxonomy'],
+    $args = [
+        'echo' => false,
+        'unit' => $unit,
+        'taxonomy' => $attributes['taxonomy'],
         'show_count' => $attributes['showTagCounts'],
-        'number'     => $attributes['numberOfTags'],
-        'smallest'   => floatVal($attributes['smallestFontSize']),
-        'largest'    => floatVal($attributes['largestFontSize']),
+        'number' => $attributes['numberOfTags'],
+        'smallest' => floatVal($attributes['smallestFontSize']),
+        'largest' => floatVal($attributes['largestFontSize']),
     ];
     $tag_cloud = wp_tag_cloud($args);
 
@@ -44,7 +44,7 @@ function render_block_core_tag_cloud($attributes)
     return sprintf(
         '<p %1$s>%2$s</p>',
         $wrapper_attributes,
-        $tag_cloud
+        $tag_cloud,
     );
 }
 
@@ -59,7 +59,8 @@ function register_block_core_tag_cloud()
         __DIR__ . '/tag-cloud',
         [
             'render_callback' => 'render_block_core_tag_cloud',
-        ]
+        ],
     );
 }
+
 add_action('init', 'register_block_core_tag_cloud');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the apply_block_hooks_to_content function.
  *
@@ -27,7 +28,7 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
                 'block_hooks' => [
                     'tests/anchor-block' => 'after',
                 ],
-            ]
+            ],
         );
 
         register_block_type(
@@ -36,10 +37,10 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
                 'block_hooks' => [
                     'tests/other-anchor-block' => 'after',
                 ],
-                'supports'    => [
+                'supports' => [
                     'multiple' => false,
                 ],
-            ]
+            ],
         );
 
         register_block_type(
@@ -48,7 +49,7 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
                 'supports' => [
                     'multiple' => false,
                 ],
-            ]
+            ],
         );
     }
 
@@ -71,13 +72,13 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
      */
     public function test_apply_block_hooks_to_content_sets_theme_attribute_on_template_part_block()
     {
-        $context          = new WP_Block_Template();
+        $context = new WP_Block_Template();
         $context->content = '<!-- wp:template-part /-->';
 
         $actual = apply_block_hooks_to_content($context->content, $context, 'insert_hooked_blocks');
         $this->assertSame(
             sprintf('<!-- wp:template-part {"theme":"%s"} /-->', get_stylesheet()),
-            $actual
+            $actual,
         );
     }
 
@@ -86,13 +87,13 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
      */
     public function test_apply_block_hooks_to_content_inserts_hooked_block()
     {
-        $context          = new WP_Block_Template();
+        $context = new WP_Block_Template();
         $context->content = '<!-- wp:tests/anchor-block /-->';
 
         $actual = apply_block_hooks_to_content($context->content, $context, 'insert_hooked_blocks');
         $this->assertSame(
             '<!-- wp:tests/anchor-block /--><!-- wp:tests/hooked-block /-->',
-            $actual
+            $actual,
         );
     }
 
@@ -101,13 +102,13 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
      */
     public function test_apply_block_hooks_to_content_respect_multiple_false()
     {
-        $context          = new WP_Block_Template();
+        $context = new WP_Block_Template();
         $context->content = '<!-- wp:tests/hooked-block-with-multiple-false /--><!-- wp:tests/other-anchor-block /-->';
 
         $actual = apply_block_hooks_to_content($context->content, $context, 'insert_hooked_blocks');
         $this->assertSame(
             '<!-- wp:tests/hooked-block-with-multiple-false /--><!-- wp:tests/other-anchor-block /-->',
-            $actual
+            $actual,
         );
     }
 
@@ -116,13 +117,13 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
      */
     public function test_apply_block_hooks_to_content_respect_multiple_false_after_inserting_once()
     {
-        $context          = new WP_Block_Template();
+        $context = new WP_Block_Template();
         $context->content = '<!-- wp:tests/other-anchor-block /--><!-- wp:tests/other-block /--><!-- wp:tests/other-anchor-block /-->';
 
         $actual = apply_block_hooks_to_content($context->content, $context, 'insert_hooked_blocks');
         $this->assertSame(
             '<!-- wp:tests/other-anchor-block /--><!-- wp:tests/hooked-block-with-multiple-false /--><!-- wp:tests/other-block /--><!-- wp:tests/other-anchor-block /-->',
-            $actual
+            $actual,
         );
     }
 
@@ -139,7 +140,7 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
             return $hooked_block_types;
         };
 
-        $context          = new WP_Block_Template();
+        $context = new WP_Block_Template();
         $context->content = '<!-- wp:tests/dynamically-hooked-block-with-multiple-false /--><!-- wp:tests/yet-another-anchor-block /-->';
 
         add_filter('hooked_block_types', $filter, 10, 3);
@@ -148,7 +149,7 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
 
         $this->assertSame(
             '<!-- wp:tests/dynamically-hooked-block-with-multiple-false /--><!-- wp:tests/yet-another-anchor-block /-->',
-            $actual
+            $actual,
         );
     }
 
@@ -165,7 +166,7 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
             return $hooked_block_types;
         };
 
-        $context          = new WP_Block_Template();
+        $context = new WP_Block_Template();
         $context->content = '<!-- wp:tests/yet-another-anchor-block /--><!-- wp:tests/other-block /--><!-- wp:tests/yet-another-anchor-block /-->';
 
         add_filter('hooked_block_types', $filter, 10, 3);
@@ -174,7 +175,7 @@ class Tests_Blocks_ApplyBlockHooksToContent extends WP_UnitTestCase
 
         $this->assertSame(
             '<!-- wp:tests/yet-another-anchor-block /--><!-- wp:tests/dynamically-hooked-block-with-multiple-false /--><!-- wp:tests/other-block /--><!-- wp:tests/yet-another-anchor-block /-->',
-            $actual
+            $actual,
         );
     }
 }

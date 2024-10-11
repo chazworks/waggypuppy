@@ -12,7 +12,7 @@ class Tests_HTTP_wpRemoteRetrieveHeaders extends WP_UnitTestCase
      */
     public function test_remote_retrieve_headers_valid_response()
     {
-        $headers  = 'headers_data';
+        $headers = 'headers_data';
         $response = ['headers' => $headers];
 
         $result = wp_remote_retrieve_headers($response);

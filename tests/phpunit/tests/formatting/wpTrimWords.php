@@ -37,7 +37,7 @@ class Tests_Formatting_wpTrimWords extends WP_UnitTestCase
 
     public function test_strips_tags_before_trimming()
     {
-        $text    = 'This text contains a <a href="http://wp.org"> link </a> to wp.org!';
+        $text = 'This text contains a <a href="http://wp.org"> link </a> to wp.org!';
         $trimmed = 'This text contains a link&hellip;';
         $this->assertSame($trimmed, wp_trim_words($text, 5));
     }
@@ -69,7 +69,7 @@ class Tests_Formatting_wpTrimWords extends WP_UnitTestCase
     {
         switch_to_locale('ja_JP');
         $expected = substr($this->long_text, 0, 20) . '&hellip;';
-        $actual   = wp_trim_words($this->long_text, 20);
+        $actual = wp_trim_words($this->long_text, 20);
         restore_previous_locale();
         $this->assertSame($expected, $actual);
     }
@@ -80,9 +80,9 @@ class Tests_Formatting_wpTrimWords extends WP_UnitTestCase
     public function test_trims_to_20_counted_by_chars_with_double_width_chars()
     {
         switch_to_locale('ja_JP');
-        $text     = str_repeat('あ', 100);
+        $text = str_repeat('あ', 100);
         $expected = str_repeat('あ', 19) . '&hellip;';
-        $actual   = wp_trim_words($text, 19);
+        $actual = wp_trim_words($text, 19);
         restore_previous_locale();
         $this->assertSame($expected, $actual);
     }

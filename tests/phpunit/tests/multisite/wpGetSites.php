@@ -14,26 +14,26 @@ if (is_multisite()) :
         public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
         {
             self::$site_ids = [
-                'w.org/'      => [
-                    'domain'     => 'w.org',
-                    'path'       => '/',
+                'w.org/' => [
+                    'domain' => 'w.org',
+                    'path' => '/',
                     'network_id' => 2,
                 ],
-                'wp.org/'     => [
-                    'domain'     => 'wp.org',
-                    'path'       => '/',
+                'wp.org/' => [
+                    'domain' => 'wp.org',
+                    'path' => '/',
                     'network_id' => 2,
-                    'public'     => 0,
+                    'public' => 0,
                 ],
                 'wp.org/foo/' => [
-                    'domain'     => 'wp.org',
-                    'path'       => '/foo/',
+                    'domain' => 'wp.org',
+                    'path' => '/foo/',
                     'network_id' => 1,
-                    'public'     => 0,
+                    'public' => 0,
                 ],
                 'wp.org/oof/' => [
                     'domain' => 'wp.org',
-                    'path'   => '/oof/',
+                    'path' => '/oof/',
                 ],
             ];
 
@@ -57,8 +57,7 @@ if (is_multisite()) :
          */
         public function test_wp_get_sites_site_is_expected_array()
         {
-
-            $keys  = [
+            $keys = [
                 'blog_id',
                 'site_id',
                 'domain',
@@ -102,11 +101,15 @@ if (is_multisite()) :
                 [0, ['network_id' => 999], 'No sites should match a query with an invalid network ID.'],
                 [5, ['network_id' => null], 'A network ID of null should return all sites on all networks.'],
                 [2, ['network_id' => 2], 'Only sites on a specified network ID should be returned.'],
-                [5, ['network_id' => [1, 2]], 'If multiple network IDs are specified, sites from both should be returned.'],
+                [
+                    5,
+                    ['network_id' => [1, 2]],
+                    'If multiple network IDs are specified, sites from both should be returned.',
+                ],
                 [
                     3,
                     [
-                        'public'     => 1,
+                        'public' => 1,
                         'network_id' => null,
                     ],
                     'Public sites on all networks.',
@@ -114,7 +117,7 @@ if (is_multisite()) :
                 [
                     2,
                     [
-                        'public'     => 0,
+                        'public' => 0,
                         'network_id' => null,
                     ],
                     'Non public sites on all networks.',
@@ -122,7 +125,7 @@ if (is_multisite()) :
                 [
                     2,
                     [
-                        'public'     => 1,
+                        'public' => 1,
                         'network_id' => 1,
                     ],
                     'Public sites on a single network.',
@@ -130,7 +133,7 @@ if (is_multisite()) :
                 [
                     1,
                     [
-                        'public'     => 1,
+                        'public' => 1,
                         'network_id' => 2,
                     ],
                     'Public sites on a second network.',
@@ -139,7 +142,7 @@ if (is_multisite()) :
                 [
                     1,
                     [
-                        'limit'  => 2,
+                        'limit' => 2,
                         'offset' => 2,
                     ],
                     'Provide both limit and offset arguments.',

@@ -29,16 +29,16 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
      */
     const SKIP_TESTS = [
         'noscript01/line0014' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests14/line0022'    => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests14/line0055'    => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests19/line0488'    => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests19/line0500'    => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests19/line1079'    => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests2/line0207'     => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests2/line0686'     => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests2/line0697'     => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'tests2/line0709'     => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
-        'webkit01/line0231'   => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests14/line0022' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests14/line0055' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests19/line0488' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests19/line0500' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests19/line1079' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests2/line0207' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests2/line0686' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests2/line0697' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'tests2/line0709' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
+        'webkit01/line0231' => 'Unimplemented: This parser does not add missing attributes to existing HTML or BODY tags.',
     ];
 
     /**
@@ -50,8 +50,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
      * @dataProvider data_external_html5lib_tests
      *
      * @param string|null $fragment_context Context element in which to parse HTML, such as BODY or SVG.
-     * @param string      $html             Given test HTML.
-     * @param string      $expected_tree    Tree structure of parsed HTML.
+     * @param string $html Given test HTML.
+     * @param string $expected_tree Tree structure of parsed HTML.
      */
     public function test_parse(?string $fragment_context, string $html, string $expected_tree)
     {
@@ -74,9 +74,10 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
          * HTML tree construction will always produce these tags, the HTML API does not at this time.
          */
         $auto_generated_html_head_body = "<html>\n  <head>\n  <body>\n\n";
-        $auto_generated_head_body      = "  <head>\n  <body>\n\n";
-        $auto_generated_body           = "  <body>\n\n";
-        if (str_ends_with($expected_tree, $auto_generated_html_head_body) && ! str_ends_with($processed_tree, $auto_generated_html_head_body)) {
+        $auto_generated_head_body = "  <head>\n  <body>\n\n";
+        $auto_generated_body = "  <body>\n\n";
+        if (str_ends_with($expected_tree, $auto_generated_html_head_body)
+            && !str_ends_with($processed_tree, $auto_generated_html_head_body)) {
             if (str_ends_with($processed_tree, "<html>\n  <head>\n\n")) {
                 $processed_tree = substr_replace($processed_tree, "  <body>\n\n", -1);
             } elseif (str_ends_with($processed_tree, "<html>\n\n")) {
@@ -84,17 +85,20 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
             } else {
                 $processed_tree = substr_replace($processed_tree, $auto_generated_html_head_body, -1);
             }
-        } elseif (str_ends_with($expected_tree, $auto_generated_head_body) && ! str_ends_with($processed_tree, $auto_generated_head_body)) {
+        } elseif (str_ends_with($expected_tree, $auto_generated_head_body)
+            && !str_ends_with($processed_tree, $auto_generated_head_body)) {
             if (str_ends_with($processed_tree, "<head>\n\n")) {
                 $processed_tree = substr_replace($processed_tree, "  <body>\n\n", -1);
             } else {
                 $processed_tree = substr_replace($processed_tree, $auto_generated_head_body, -1);
             }
-        } elseif (str_ends_with($expected_tree, $auto_generated_body) && ! str_ends_with($processed_tree, $auto_generated_body)) {
+        } elseif (str_ends_with($expected_tree, $auto_generated_body)
+            && !str_ends_with($processed_tree, $auto_generated_body)) {
             $processed_tree = substr_replace($processed_tree, $auto_generated_body, -1);
         }
 
-        $this->assertSame($expected_tree, $processed_tree, "HTML was not processed correctly{$fragment_detail}:\n{$html}");
+        $this->assertSame($expected_tree, $processed_tree,
+            "HTML was not processed correctly{$fragment_detail}:\n{$html}");
     }
 
     /**
@@ -110,15 +114,15 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
 
         $handle = opendir($test_dir);
         while (false !== ($entry = readdir($handle))) {
-            if (! stripos($entry, '.dat')) {
+            if (!stripos($entry, '.dat')) {
                 continue;
             }
 
             foreach (self::parse_html5_dat_testfile($test_dir . $entry) as $k => $test) {
                 // strip .dat extension from filename
                 $test_suite = substr($entry, 0, -4);
-                $line       = str_pad(strval($test[0]), 4, '0', STR_PAD_LEFT);
-                $test_name  = "{$test_suite}/line{$line}";
+                $line = str_pad(strval($test[0]), 4, '0', STR_PAD_LEFT);
+                $test_name = "{$test_suite}/line{$line}";
 
                 $test_context_element = $test[1];
 
@@ -135,7 +139,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
     /**
      * Determines whether a test case should be skipped.
      *
-     * @param string $test_name     Test name.
+     * @param string $test_name Test name.
      * @param string $expected_tree Expected HTML tree structure.
      *
      * @return bool True if the test case should be skipped. False otherwise.
@@ -157,7 +161,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
      * Generates the tree-like structure represented in the Html5lib tests.
      *
      * @param string|null $fragment_context Context element in which to parse HTML, such as BODY or SVG.
-     * @param string      $html             Given test HTML.
+     * @param string $html Given test HTML.
      * @return string|null Tree structure of parsed HTML, if supported, else null.
      */
     private static function build_tree_representation(?string $fragment_context, string $html)
@@ -166,7 +170,8 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
             ? WP_HTML_Processor::create_fragment($html, "<{$fragment_context}>")
             : WP_HTML_Processor::create_full_parser($html);
         if (null === $processor) {
-            throw new WP_HTML_Unsupported_Exception("Could not create a parser with the given fragment context: {$fragment_context}.", '', 0, '', [], []);
+            throw new WP_HTML_Unsupported_Exception("Could not create a parser with the given fragment context: {$fragment_context}.",
+                '', 0, '', [], []);
         }
 
         /*
@@ -174,10 +179,10 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
          * and requires adjustment to initial parameters.
          * The full parser will not.
          */
-        $output       = '';
+        $output = '';
         $indent_level = 0;
-        $was_text     = null;
-        $text_node    = '';
+        $was_text = null;
+        $text_node = '';
 
         while ($processor->next_token()) {
             if (null !== $processor->get_last_error()) {
@@ -186,13 +191,13 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
 
             $token_name = $processor->get_token_name();
             $token_type = $processor->get_token_type();
-            $is_closer  = $processor->is_tag_closer();
+            $is_closer = $processor->is_tag_closer();
 
             if ($was_text && '#text' !== $token_name) {
                 if ('' !== $text_node) {
                     $output .= "{$text_node}\"\n";
                 }
-                $was_text  = false;
+                $was_text = false;
                 $text_node = '';
             }
 
@@ -208,7 +213,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
 
                 case '#tag':
                     $namespace = $processor->get_namespace();
-                    $tag_name  = 'html' === $namespace
+                    $tag_name = 'html' === $namespace
                         ? strtolower($processor->get_tag())
                         : "{$namespace} {$processor->get_qualified_tag_name()}";
 
@@ -269,7 +274,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
                                 }
 
                                 return $a <=> $b;
-                            }
+                            },
                         );
 
                         foreach ($sorted_attributes as $attribute_name => $display_name) {
@@ -313,12 +318,14 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
 
                 case '#funky-comment':
                     // Comments must be "<" then "!-- " then the data then " -->".
-                    $output .= str_repeat(self::TREE_INDENT, $indent_level) . "<!-- {$processor->get_modifiable_text()} -->\n";
+                    $output .= str_repeat(self::TREE_INDENT, $indent_level)
+                        . "<!-- {$processor->get_modifiable_text()} -->\n";
                     break;
 
                 case '#comment':
                     // Comments must be "<" then "!-- " then the data then " -->".
-                    $output .= str_repeat(self::TREE_INDENT, $indent_level) . "<!-- {$processor->get_full_comment_text()} -->\n";
+                    $output .= str_repeat(self::TREE_INDENT, $indent_level)
+                        . "<!-- {$processor->get_full_comment_text()} -->\n";
                     break;
 
                 default:
@@ -366,12 +373,12 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
          */
         $state = null;
 
-        $line_number          = 0;
-        $test_html            = '';
-        $test_dom             = '';
+        $line_number = 0;
+        $test_html = '';
+        $test_dom = '';
         $test_context_element = null;
-        $test_script_flag     = false;
-        $test_line_number     = 0;
+        $test_script_flag = false;
+        $test_line_number = 0;
 
         while (false !== ($line = fgets($handle))) {
             ++$line_number;
@@ -384,7 +391,7 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
                      * Do not yield tests with the scripting flag enabled. The scripting flag
                      * is always disabled in the HTML API.
                      */
-                    if ($state && ! $test_script_flag) {
+                    if ($state && !$test_script_flag) {
                         yield [
                             $test_line_number,
                             $test_context_element,
@@ -395,11 +402,11 @@ class Tests_HtmlApi_Html5lib extends WP_UnitTestCase
                     }
 
                     // Finish previous test.
-                    $test_line_number     = $line_number;
-                    $test_html            = '';
-                    $test_dom             = '';
+                    $test_line_number = $line_number;
+                    $test_html = '';
+                    $test_dom = '';
                     $test_context_element = null;
-                    $test_script_flag     = false;
+                    $test_script_flag = false;
                 }
                 if ("#script-on\n" === $line) {
                     $test_script_flag = true;

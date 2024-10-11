@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group taxonomy
  * @group category
@@ -13,19 +14,18 @@ class Tests_Category_GetCategoryBySlug extends WP_UnitTestCase
      */
     public function test_get_category_by_slug()
     {
-
         // Create test categories.
-        $testcat  = self::factory()->category->create_and_get(
+        $testcat = self::factory()->category->create_and_get(
             [
                 'slug' => 'testcat',
                 'name' => 'Test Category 1',
-            ]
+            ],
         );
         $testcat2 = self::factory()->category->create_and_get(
             [
                 'slug' => 'testcat2',
                 'name' => 'Test Category 2',
-            ]
+            ],
         );
 
         // Validate category is returned by slug.

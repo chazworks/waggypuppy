@@ -14,6 +14,4 @@ trigger_error(__FILE__ . ' is deprecated since version 5.0.0 with no alternative
  *
  * @since 4.0.0
  */
-class Basic_Subclass extends Basic_Object
-{
-}
+class Basic_Subclass extends Basic_Object {}

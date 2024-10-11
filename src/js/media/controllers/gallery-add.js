@@ -38,70 +38,79 @@ var Selection = wp.media.model.Selection,
  * @param {boolean}                    [attributes.syncSelection=false]     Whether the Attachments selection should be persisted from the last state.
  *                                                                          Defaults to false because for this state, because the library of the Edit Gallery state is the selection.
  */
-GalleryAdd = Library.extend(/** @lends wp.media.controller.GalleryAdd.prototype */{
-	defaults: _.defaults({
-		id:            'gallery-library',
-		title:         l10n.addToGalleryTitle,
-		multiple:      'add',
-		filterable:    'uploaded',
-		menu:          'gallery',
-		toolbar:       'gallery-add',
-		priority:      100,
-		syncSelection: false
-	}, Library.prototype.defaults ),
+GalleryAdd = Library.extend(
+	/** @lends wp.media.controller.GalleryAdd.prototype */ {
+		defaults: _.defaults(
+			{
+				id: 'gallery-library',
+				title: l10n.addToGalleryTitle,
+				multiple: 'add',
+				filterable: 'uploaded',
+				menu: 'gallery',
+				toolbar: 'gallery-add',
+				priority: 100,
+				syncSelection: false,
+			},
+			Library.prototype.defaults
+		),
 
-	/**
-	 * Initializes the library. Creates a library of images if a library isn't supplied.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @return {void}
-	 */
-	initialize: function() {
-		if ( ! this.get('library') ) {
-			this.set( 'library', wp.media.query({ type: 'image' }) );
-		}
-
-		Library.prototype.initialize.apply( this, arguments );
-	},
-
-	/**
-	 * Activates the library.
-	 *
-	 * Removes all event listeners if in edit mode. Creates a validator to check an attachment.
-	 * Resets library and re-enables event listeners. Activates edit mode. Calls the parent's activate method.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @return {void}
-	 */
-	activate: function() {
-		var library = this.get('library'),
-			edit    = this.frame.state('gallery-edit').get('library');
-
-		if ( this.editLibrary && this.editLibrary !== edit ) {
-			library.unobserve( this.editLibrary );
-		}
-
-		/*
-		 * Accept attachments that exist in the original library but
-		 * that do not exist in gallery's library yet.
+		/**
+		 * Initializes the library. Creates a library of images if a library isn't supplied.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @return {void}
 		 */
-		library.validator = function( attachment ) {
-			return !! this.mirroring.get( attachment.cid ) && ! edit.get( attachment.cid ) && Selection.prototype.validator.apply( this, arguments );
-		};
+		initialize: function () {
+			if ( ! this.get( 'library' ) ) {
+				this.set( 'library', wp.media.query( { type: 'image' } ) );
+			}
 
-		/*
-		 * Reset the library to ensure that all attachments are re-added
-		 * to the collection. Do so silently, as calling `observe` will
-		 * trigger the `reset` event.
+			Library.prototype.initialize.apply( this, arguments );
+		},
+
+		/**
+		 * Activates the library.
+		 *
+		 * Removes all event listeners if in edit mode. Creates a validator to check an attachment.
+		 * Resets library and re-enables event listeners. Activates edit mode. Calls the parent's activate method.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @return {void}
 		 */
-		library.reset( library.mirroring.models, { silent: true });
-		library.observe( edit );
-		this.editLibrary = edit;
+		activate: function () {
+			var library = this.get( 'library' ),
+				edit = this.frame.state( 'gallery-edit' ).get( 'library' );
 
-		Library.prototype.activate.apply( this, arguments );
+			if ( this.editLibrary && this.editLibrary !== edit ) {
+				library.unobserve( this.editLibrary );
+			}
+
+			/*
+			 * Accept attachments that exist in the original library but
+			 * that do not exist in gallery's library yet.
+			 */
+			library.validator = function ( attachment ) {
+				return (
+					!! this.mirroring.get( attachment.cid ) &&
+					! edit.get( attachment.cid ) &&
+					Selection.prototype.validator.apply( this, arguments )
+				);
+			};
+
+			/*
+			 * Reset the library to ensure that all attachments are re-added
+			 * to the collection. Do so silently, as calling `observe` will
+			 * trigger the `reset` event.
+			 */
+			library.reset( library.mirroring.models, { silent: true } );
+			library.observe( edit );
+			this.editLibrary = edit;
+
+			Library.prototype.activate.apply( this, arguments );
+		},
 	}
-});
+);
 
 module.exports = GalleryAdd;

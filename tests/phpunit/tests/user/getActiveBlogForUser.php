@@ -48,8 +48,8 @@ if (is_multisite()) :
             $site_id_one = self::factory()->blog->create(['user_id' => self::$user_id]);
             $site_id_two = self::factory()->blog->create(['user_id' => self::$user_id]);
 
-            $sites           = get_blogs_of_user(self::$user_id);
-            $site_ids        = array_keys($sites);
+            $sites = get_blogs_of_user(self::$user_id);
+            $site_ids = array_keys($sites);
             $primary_site_id = $site_ids[1];
 
             update_user_meta(self::$user_id, 'primary_blog', $primary_site_id);
@@ -67,8 +67,8 @@ if (is_multisite()) :
          */
         public function test_get_active_blog_for_user_without_primary_site()
         {
-            $sites           = get_blogs_of_user(self::$user_id);
-            $site_ids        = array_keys($sites);
+            $sites = get_blogs_of_user(self::$user_id);
+            $site_ids = array_keys($sites);
             $primary_site_id = $site_ids[0];
 
             delete_user_meta(self::$user_id, 'primary_blog');
@@ -90,8 +90,8 @@ if (is_multisite()) :
             $site_id = self::factory()->blog->create(
                 [
                     'user_id' => self::$user_id,
-                    'spam'    => 1,
-                ]
+                    'spam' => 1,
+                ],
             );
 
             add_user_to_blog($site_id, self::$user_id, 'subscriber');

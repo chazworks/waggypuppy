@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group taxonomy
  * @group category
@@ -13,48 +14,47 @@ class Tests_Category_GetCategoryByPath extends WP_UnitTestCase
      */
     public function test_get_category_by_path()
     {
-
         // Create test categories.
-        $root_id           = self::factory()->category->create(
+        $root_id = self::factory()->category->create(
             [
                 'slug' => 'root',
-            ]
+            ],
         );
-        $root_cat_id       = self::factory()->category->create(
+        $root_cat_id = self::factory()->category->create(
             [
-                'slug'   => 'cat',
+                'slug' => 'cat',
                 'parent' => $root_id,
-            ]
+            ],
         );
-        $root_cat_cat_id   = self::factory()->category->create(
+        $root_cat_cat_id = self::factory()->category->create(
             [
-                'slug'   => 'cat', // Note this is modified on create.
+                'slug' => 'cat', // Note this is modified on create.
                 'parent' => $root_cat_id,
-            ]
+            ],
         );
-        $root_path_id      = self::factory()->category->create(
+        $root_path_id = self::factory()->category->create(
             [
-                'slug'   => 'path',
+                'slug' => 'path',
                 'parent' => $root_id,
-            ]
+            ],
         );
-        $root_path_cat_id  = self::factory()->category->create(
+        $root_path_cat_id = self::factory()->category->create(
             [
-                'slug'   => 'cat', // Note this is modified on create.
+                'slug' => 'cat', // Note this is modified on create.
                 'parent' => $root_path_id,
-            ]
+            ],
         );
-        $root_level_id     = self::factory()->category->create(
+        $root_level_id = self::factory()->category->create(
             [
-                'slug'   => 'level-1',
+                'slug' => 'level-1',
                 'parent' => $root_id,
-            ]
+            ],
         );
         $root_level_cat_id = self::factory()->category->create(
             [
-                'slug'   => 'cat', // Note this is modified on create.
+                'slug' => 'cat', // Note this is modified on create.
                 'parent' => $root_level_id,
-            ]
+            ],
         );
 
         // Validate full match.

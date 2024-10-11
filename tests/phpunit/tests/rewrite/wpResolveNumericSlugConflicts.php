@@ -20,7 +20,7 @@ class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase
             [
                 'post_date' => '2020-01-05 12:00:00',
                 'post_name' => 'post-with-date',
-            ]
+            ],
         );
     }
 
@@ -29,7 +29,7 @@ class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase
      * @dataProvider data_should_not_throw_warning_for_malformed_date_queries
      *
      * @param string $permalink_structure Permalink structure.
-     * @param array  $query_vars          Query string parameters.
+     * @param array $query_vars Query string parameters.
      */
     public function test_should_not_throw_warning_for_malformed_date_queries($permalink_structure, $query_vars)
     {
@@ -50,24 +50,24 @@ class Tests_Rewrite_wpResolveNumericSlugConflicts extends WP_UnitTestCase
     public function data_should_not_throw_warning_for_malformed_date_queries()
     {
         return [
-            '/%postname%/ with missing year'         => [
+            '/%postname%/ with missing year' => [
                 'permalink_structure' => '/%postname%/',
-                'query'               => [
+                'query' => [
                     'monthnum' => 1,
-                    'day'      => 15,
+                    'day' => 15,
                 ],
             ],
-            '/%postname%/ with month only'           => [
+            '/%postname%/ with month only' => [
                 'permalink_structure' => '/%postname%/',
-                'query'               => [
+                'query' => [
                     'monthnum' => 1,
                 ],
             ],
             '/%year%/%postname%/ with missing month' => [
                 'permalink_structure' => '/%year%/%postname%/',
-                'query'               => [
+                'query' => [
                     'year' => 2020,
-                    'day'  => 15,
+                    'day' => 15,
                 ],
             ],
         ];

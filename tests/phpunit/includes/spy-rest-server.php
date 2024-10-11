@@ -3,11 +3,11 @@
 class Spy_REST_Server extends WP_REST_Server
 {
 
-    public $sent_headers        = [];
-    public $sent_body           = '';
-    public $last_request        = null;
+    public $sent_headers = [];
+    public $sent_body = '';
+    public $last_request = null;
     public $override_by_default = false;
-    public $status              = null;
+    public $status = null;
 
     /**
      * Gets the raw $endpoints data from the server.
@@ -23,12 +23,12 @@ class Spy_REST_Server extends WP_REST_Server
      * Allow calling protected methods from tests.
      *
      * @param string $method Method to call.
-     * @param array  $args   Arguments to pass to the method.
+     * @param array $args Arguments to pass to the method.
      * @return mixed
      */
     public function __call($method, $args)
     {
-        if (! method_exists($this, $method)) {
+        if (!method_exists($this, $method)) {
             throw new Error(sprintf('Call to undefined method %s::%s()', get_class($this), $method));
         }
 
@@ -39,7 +39,7 @@ class Spy_REST_Server extends WP_REST_Server
      * Adds a header to the list of sent headers.
      *
      * @param string $header Header name.
-     * @param string $value  Header value.
+     * @param string $value Header value.
      */
     public function send_header($header, $value)
     {
@@ -69,7 +69,7 @@ class Spy_REST_Server extends WP_REST_Server
     /**
      * Overrides the dispatch method so we can get a handle on the request object.
      *
-     * @param  WP_REST_Request $request Request to attempt dispatching.
+     * @param WP_REST_Request $request Request to attempt dispatching.
      * @return WP_REST_Response Response returned by the callback.
      */
     public function dispatch($request)
@@ -82,9 +82,9 @@ class Spy_REST_Server extends WP_REST_Server
      * Overrides the register_route method so we can re-register routes internally if needed.
      *
      * @param string $route_namespace Namespace.
-     * @param string $route           The REST route.
-     * @param array  $route_args      Route arguments.
-     * @param bool   $override        Optional. Whether the route should be overridden if it already exists.
+     * @param string $route The REST route.
+     * @param array $route_args Route arguments.
+     * @param bool $override Optional. Whether the route should be overridden if it already exists.
      *                                Default false. Also set `$GLOBALS['wp_rest_server']->override_by_default = true`
      *                                to set overrides when you don't have access to the caller context.
      */
@@ -102,9 +102,8 @@ class Spy_REST_Server extends WP_REST_Server
      */
     public function serve_request($path = null)
     {
-
         ob_start();
-        $result          = parent::serve_request($path);
+        $result = parent::serve_request($path);
         $this->sent_body = ob_get_clean();
         return $result;
     }

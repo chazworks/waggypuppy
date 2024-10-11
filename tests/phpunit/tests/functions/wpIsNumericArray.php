@@ -13,7 +13,7 @@ class Tests_Functions_wpIsNumericArray extends WP_UnitTestCase
      *
      * @ticket 53971
      *
-     * @param mixed $input    Input to test.
+     * @param mixed $input Input to test.
      * @param array $expected Expected result.
      */
     public function test_wp_is_numeric_array($input, $expected)
@@ -29,45 +29,45 @@ class Tests_Functions_wpIsNumericArray extends WP_UnitTestCase
     public function data_wp_is_numeric_array()
     {
         return [
-            'no index'             => [
+            'no index' => [
                 'test_array' => ['www', 'eee'],
-                'expected'   => true,
+                'expected' => true,
             ],
-            'text index'           => [
+            'text index' => [
                 'test_array' => ['www' => 'eee'],
-                'expected'   => false,
+                'expected' => false,
             ],
-            'numeric index'        => [
+            'numeric index' => [
                 'test_array' => [99 => 'eee'],
-                'expected'   => true,
+                'expected' => true,
             ],
-            '- numeric index'      => [
+            '- numeric index' => [
                 'test_array' => [-11 => 'eee'],
-                'expected'   => true,
+                'expected' => true,
             ],
             'numeric string index' => [
                 'test_array' => ['11' => 'eee'],
-                'expected'   => true,
+                'expected' => true,
             ],
-            'nested number index'  => [
+            'nested number index' => [
                 'test_array' => [
                     'next' => [
                         11 => 'vvv',
                     ],
                 ],
-                'expected'   => false,
+                'expected' => false,
             ],
-            'nested string index'  => [
+            'nested string index' => [
                 'test_array' => [
                     '11' => [
                         'eee' => 'vvv',
                     ],
                 ],
-                'expected'   => true,
+                'expected' => true,
             ],
-            'not an array'         => [
+            'not an array' => [
                 'test_array' => null,
-                'expected'   => false,
+                'expected' => false,
             ],
         ];
     }

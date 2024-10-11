@@ -28,49 +28,49 @@ class Tests_Functions_wpParseList extends WP_UnitTestCase
     public function data_wp_parse_list()
     {
         return [
-            'ids only'           => [
+            'ids only' => [
                 'input_list' => '1,2,3,4',
-                'expected'   => ['1', '2', '3', '4'],
+                'expected' => ['1', '2', '3', '4'],
             ],
-            'slugs only'         => [
+            'slugs only' => [
                 'input_list' => 'apple,banana,carrot,dog',
-                'expected'   => ['apple', 'banana', 'carrot', 'dog'],
+                'expected' => ['apple', 'banana', 'carrot', 'dog'],
             ],
-            'ids and slugs'      => [
+            'ids and slugs' => [
                 'input_list' => '1,2,apple,banana',
-                'expected'   => ['1', '2', 'apple', 'banana'],
+                'expected' => ['1', '2', 'apple', 'banana'],
             ],
-            'space after comma'  => [
+            'space after comma' => [
                 'input_list' => '1, 2,apple,banana',
-                'expected'   => ['1', '2', 'apple', 'banana'],
+                'expected' => ['1', '2', 'apple', 'banana'],
             ],
-            'double comma'       => [
+            'double comma' => [
                 'input_list' => '1,2,apple,,banana',
-                'expected'   => ['1', '2', 'apple', 'banana'],
+                'expected' => ['1', '2', 'apple', 'banana'],
             ],
-            'leading comma'      => [
+            'leading comma' => [
                 'input_list' => ',1,2,apple,banana',
-                'expected'   => ['1', '2', 'apple', 'banana'],
+                'expected' => ['1', '2', 'apple', 'banana'],
             ],
-            'trailing comma'     => [
+            'trailing comma' => [
                 'input_list' => '1,2,apple,banana,',
-                'expected'   => ['1', '2', 'apple', 'banana'],
+                'expected' => ['1', '2', 'apple', 'banana'],
             ],
             'space before comma' => [
                 'input_list' => '1,2 ,apple,banana',
-                'expected'   => ['1', '2', 'apple', 'banana'],
+                'expected' => ['1', '2', 'apple', 'banana'],
             ],
-            'empty string'       => [
+            'empty string' => [
                 'input_list' => '',
-                'expected'   => [],
+                'expected' => [],
             ],
-            'comma only'         => [
+            'comma only' => [
                 'input_list' => ',',
-                'expected'   => [],
+                'expected' => [],
             ],
-            'double comma only'  => [
+            'double comma only' => [
                 'input_list' => ',,',
-                'expected'   => [],
+                'expected' => [],
             ],
         ];
     }

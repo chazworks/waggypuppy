@@ -10,10 +10,12 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var EditSelection = wp.media.view.Attachment.Selection.extend(/** @lends wp.media.view.Attachment.EditSelection.prototype */{
-	buttons: {
-		close: true
+var EditSelection = wp.media.view.Attachment.Selection.extend(
+	/** @lends wp.media.view.Attachment.EditSelection.prototype */ {
+		buttons: {
+			close: true,
+		},
 	}
-});
+);
 
 module.exports = EditSelection;

@@ -73,7 +73,7 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
 
         // Create a taxonomy and some terms for it.
-        $tax_name  = 'wp_getTerms_custom_taxonomy';
+        $tax_name = 'wp_getTerms_custom_taxonomy';
         $num_terms = 12;
         register_taxonomy($tax_name, 'post');
         for ($i = 0; $i < $num_terms; $i++) {
@@ -90,20 +90,20 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase
         }
 
         // Test paged results.
-        $filter   = ['number' => 5];
+        $filter = ['number' => 5];
         $results2 = $this->myxmlrpcserver->wp_getTerms([1, 'editor', 'editor', $tax_name, $filter]);
         $this->assertNotIXRError($results);
         $this->assertCount(5, $results2);
         $this->assertSame($results[1]['term_id'], $results2[1]['term_id']); // Check one of the terms.
 
         $filter['offset'] = 10;
-        $results3         = $this->myxmlrpcserver->wp_getTerms([1, 'editor', 'editor', $tax_name, $filter]);
+        $results3 = $this->myxmlrpcserver->wp_getTerms([1, 'editor', 'editor', $tax_name, $filter]);
         $this->assertNotIXRError($results3);
         $this->assertCount($num_terms - 10, $results3);
         $this->assertSame($results[11]['term_id'], $results3[1]['term_id']);
 
         // Test hide_empty (since none have been attached to posts yet, all should be hidden.
-        $filter   = ['hide_empty' => true];
+        $filter = ['hide_empty' => true];
         $results4 = $this->myxmlrpcserver->wp_getTerms([1, 'editor', 'editor', $tax_name, $filter]);
         $this->assertNotIXRError($results4);
         $this->assertCount(0, $results4);
@@ -121,9 +121,9 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase
         self::factory()->post->create_many(5, ['post_category' => [$cat1]]);
         self::factory()->post->create_many(3, ['post_category' => [$cat2]]);
 
-        $filter  = [
+        $filter = [
             'orderby' => 'count',
-            'order'   => 'DESC',
+            'order' => 'DESC',
         ];
         $results = $this->myxmlrpcserver->wp_getTerms([1, 'editor', 'editor', 'category', $filter]);
         $this->assertNotIXRError($results);
@@ -142,11 +142,11 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $name    = __FUNCTION__;
+        $name = __FUNCTION__;
         $name_id = wp_create_category($name);
 
         // Search by full name.
-        $filter  = ['search' => $name];
+        $filter = ['search' => $name];
         $results = $this->myxmlrpcserver->wp_getTerms([1, 'editor', 'editor', 'category', $filter]);
         $this->assertNotIXRError($results);
         $this->assertCount(1, $results);
@@ -154,7 +154,7 @@ class Tests_XMLRPC_wp_getTerms extends WP_XMLRPC_UnitTestCase
         $this->assertEquals($name_id, $results[0]['term_id']);
 
         // Search by partial name.
-        $filter   = ['search' => substr($name, 0, 10)];
+        $filter = ['search' => substr($name, 0, 10)];
         $results2 = $this->myxmlrpcserver->wp_getTerms([1, 'editor', 'editor', 'category', $filter]);
         $this->assertNotIXRError($results2);
         $this->assertCount(1, $results2);

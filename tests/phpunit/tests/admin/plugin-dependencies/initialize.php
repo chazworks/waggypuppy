@@ -29,14 +29,14 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
     {
         $this->assertFalse(
             $this->get_property_value('initialized'),
-            'Plugin Dependencies has already been initialized.'
+            'Plugin Dependencies has already been initialized.',
         );
 
         self::$instance->initialize();
 
         $this->assertTrue(
             $this->get_property_value('initialized'),
-            '"initialized" was not set to true during initialization.'
+            '"initialized" was not set to true during initialization.',
         );
 
         $default_value = self::$static_properties[$property_name];
@@ -44,7 +44,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
         $this->assertNotSame(
             $default_value,
             $this->get_property_value($property_name),
-            "\"{$property_name}\" was not set during initialization."
+            "\"{$property_name}\" was not set during initialization.",
         );
 
         // Reset it to its default.
@@ -55,7 +55,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
         $this->assertSame(
             $default_value,
             $this->get_property_value($property_name),
-            "\"{$property_name}\" was set during the second initialization attempt."
+            "\"{$property_name}\" was set during the second initialization attempt.",
         );
     }
 
@@ -76,7 +76,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
                 'dependencies',
                 'dependency_slugs',
                 'dependent_slugs',
-            ]
+            ],
         );
     }
 
@@ -85,14 +85,14 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @ticket 22316
      *
-     * @covers WP_Plugin_Dependencies::get_dependency_api_data
-     * @covers WP_Plugin_Dependencies::get_plugins
+     * @covers       WP_Plugin_Dependencies::get_dependency_api_data
+     * @covers       WP_Plugin_Dependencies::get_plugins
      *
      * @dataProvider data_screens
      *
+     * @param string $screen The screen file.
      * @global string $pagenow The filename of the current screen.
      *
-     * @param string $screen The screen file.
      */
     public function test_should_set_dependency_api_data_on_certain_screens($screen)
     {
@@ -124,7 +124,7 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
     public function data_screens()
     {
         return [
-            'plugins.php'        => [
+            'plugins.php' => [
                 'screen' => 'plugins.php',
             ],
             'plugin-install.php' => [
@@ -154,16 +154,18 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
      *
      * @ticket 22316
      *
-     * @covers WP_Plugin_Dependencies::read_dependencies_from_plugin_headers
-     * @covers WP_Plugin_Dependencies::sanitize_dependency_slugs
+     * @covers       WP_Plugin_Dependencies::read_dependencies_from_plugin_headers
+     * @covers       WP_Plugin_Dependencies::sanitize_dependency_slugs
      *
      * @dataProvider data_should_sanitize_slugs
      *
      * @param string $requires_plugins The unsanitized dependency slug(s).
-     * @param array  $expected         Optional. The sanitized dependency slug(s). Default empty array.
+     * @param array $expected Optional. The sanitized dependency slug(s). Default empty array.
      */
-    public function test_initialize_should_load_and_sanitize_dependency_slugs_from_plugin_headers($requires_plugins, $expected = [])
-    {
+    public function test_initialize_should_load_and_sanitize_dependency_slugs_from_plugin_headers(
+        $requires_plugins,
+        $expected = [],
+    ) {
         $this->set_property_value('plugins', ['dependent/dependent.php' => ['RequiresPlugins' => $requires_plugins]]);
         self::$instance->initialize();
         $this->assertSame($expected, $this->get_property_value('dependency_slugs'));
@@ -178,98 +180,98 @@ class Tests_Admin_WPPluginDependencies_Initialize extends WP_PluginDependencies_
     {
         return [
             // Valid slugs.
-            'one dependency'                         => [
+            'one dependency' => [
                 'requires_plugins' => 'hello-dolly',
-                'expected'         => ['hello-dolly'],
+                'expected' => ['hello-dolly'],
             ],
             'two dependencies in alphabetical order' => [
                 'requires_plugins' => 'hello-dolly, woocommerce',
-                'expected'         => [
+                'expected' => [
                     'hello-dolly',
                     'woocommerce',
                 ],
             ],
             'two dependencies in reverse alphabetical order' => [
                 'requires_plugins' => 'woocommerce, hello-dolly',
-                'expected'         => [
+                'expected' => [
                     'hello-dolly',
                     'woocommerce',
                 ],
             ],
-            'two dependencies with a space'          => [
+            'two dependencies with a space' => [
                 'requires_plugins' => 'hello-dolly , woocommerce',
-                'expected'         => [
+                'expected' => [
                     'hello-dolly',
                     'woocommerce',
                 ],
             ],
-            'a repeated dependency'                  => [
+            'a repeated dependency' => [
                 'requires_plugins' => 'hello-dolly, woocommerce, hello-dolly',
-                'expected'         => [
+                'expected' => [
                     'hello-dolly',
                     'woocommerce',
                 ],
             ],
-            'a dependency with multiple dashes'      => [
+            'a dependency with multiple dashes' => [
                 'requires_plugins' => 'this-is-a-valid-slug',
-                'expected'         => ['this-is-a-valid-slug'],
+                'expected' => ['this-is-a-valid-slug'],
             ],
-            'a dependency starting with numbers'     => [
+            'a dependency starting with numbers' => [
                 'requires_plugins' => '123slug',
-                'expected'         => ['123slug'],
+                'expected' => ['123slug'],
             ],
-            'a dependency with a trailing comma'     => [
+            'a dependency with a trailing comma' => [
                 'requires_plugins' => 'hello-dolly,',
-                'expected'         => ['hello-dolly'],
+                'expected' => ['hello-dolly'],
             ],
-            'a dependency with a leading comma'      => [
+            'a dependency with a leading comma' => [
                 'requires_plugins' => ',hello-dolly',
-                'expected'         => ['hello-dolly'],
+                'expected' => ['hello-dolly'],
             ],
             'a dependency with leading and trailing commas' => [
                 'requires_plugins' => ',hello-dolly,',
-                'expected'         => ['hello-dolly'],
+                'expected' => ['hello-dolly'],
             ],
             'a dependency with a trailing comma and a space' => [
                 'requires_plugins' => 'hello-dolly, ',
-                'expected'         => ['hello-dolly'],
+                'expected' => ['hello-dolly'],
             ],
 
             // Invalid or empty slugs.
-            'no dependencies'                        => [
+            'no dependencies' => [
                 'requires_plugins' => '',
             ],
-            'a dependency with an underscore'        => [
+            'a dependency with an underscore' => [
                 'requires_plugins' => 'hello_dolly',
             ],
-            'a dependency with a space'              => [
+            'a dependency with a space' => [
                 'requires_plugins' => 'hello dolly',
             ],
-            'a dependency in quotes'                 => [
+            'a dependency in quotes' => [
                 'requires_plugins' => '"hello-dolly"',
             ],
-            'two dependencies in quotes'             => [
+            'two dependencies in quotes' => [
                 'requires_plugins' => '"hello-dolly, woocommerce"',
             ],
-            'a dependency with trailing dash'        => [
+            'a dependency with trailing dash' => [
                 'requires_plugins' => 'ending-dash-',
             ],
-            'a dependency with leading dash'         => [
+            'a dependency with leading dash' => [
                 'requires_plugins' => '-slug',
             ],
-            'a dependency with double dashes'        => [
+            'a dependency with double dashes' => [
                 'requires_plugins' => 'abc--123',
             ],
-            'cyrillic dependencies'                  => [
+            'cyrillic dependencies' => [
                 'requires_plugins' => 'я-делюсь',
             ],
-            'arabic dependencies'                    => [
+            'arabic dependencies' => [
                 'requires_plugins' => 'لينوكس-ويكى',
             ],
-            'chinese dependencies'                   => [
+            'chinese dependencies' => [
                 'requires_plugins' => '唐诗宋词chinese-poem,社交登录,腾讯微博一键登录,豆瓣秀-for-wordpress',
             ],
-            'symbol dependencies'                    => [
+            'symbol dependencies' => [
                 'requires_plugins' => '★-wpsymbols-★',
             ],
         ];

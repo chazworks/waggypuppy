@@ -41,7 +41,7 @@ class Tests_Media_Wp_Is_Rest_Endpoint extends WP_UnitTestCase
             function ($result) use (&$result_within_request) {
                 $result_within_request = wp_is_rest_endpoint();
                 return $result;
-            }
+            },
         );
 
         /*

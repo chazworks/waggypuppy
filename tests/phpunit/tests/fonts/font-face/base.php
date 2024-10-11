@@ -7,6 +7,7 @@
  */
 
 require_once __DIR__ . '/wp-font-face-tests-dataset.php';
+
 /**
  * Abstracts the common tasks for the Font Face tests.
  */

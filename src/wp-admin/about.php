@@ -24,16 +24,17 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                 <h1>
                     <?php
                     printf(
-                        /* translators: %s: Version number. */
+                    /* translators: %s: Version number. */
                         __('waggypuppy %s'),
-                        $display_version
+                        $display_version,
                     );
                     ?>
                 </h1>
             </div>
         </div>
 
-        <nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e('Secondary menu'); ?>">
+        <nav class="about__header-navigation nav-tab-wrapper wp-clearfix"
+             aria-label="<?php esc_attr_e('Secondary menu'); ?>">
             <a href="about.php" class="nav-tab nav-tab-active" aria-current="page"><?php _e('What&#8217;s New'); ?></a>
             <a href="credits.php" class="nav-tab"><?php _e('Credits'); ?></a>
             <a href="freedoms.php" class="nav-tab"><?php _e('Freedoms'); ?></a>
@@ -46,9 +47,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                 <h2>
                     <?php
                     printf(
-                        /* translators: %s: Version number. */
+                    /* translators: %s: Version number. */
                         __('Welcome to waggypuppy %s'),
-                        $display_version
+                        $display_version,
                     );
                     ?>
                 </h2>
@@ -58,13 +59,13 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
             </div>
         </div>
 
-        <hr class="is-invisible is-large" />
+        <hr class="is-invisible is-large"/>
 
-        <hr class="is-invisible is-large" style="margin-bottom:calc(2 * var(--gap));" />
+        <hr class="is-invisible is-large" style="margin-bottom:calc(2 * var(--gap));"/>
 
-        <hr class="is-large" style="margin-top:calc(2 * var(--gap));" />
+        <hr class="is-large" style="margin-top:calc(2 * var(--gap));"/>
 
-        <hr class="is-large" />
+        <hr class="is-large"/>
 
         <div class="return-to-dashboard">
             <?php
@@ -72,14 +73,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                 printf(
                     '<a href="%1$s">%2$s</a> | ',
                     esc_url(self_admin_url('update-core.php')),
-                    is_multisite() ? __('Go to Updates') : __('Go to Dashboard &rarr; Updates')
+                    is_multisite() ? __('Go to Updates') : __('Go to Dashboard &rarr; Updates'),
                 );
             }
 
             printf(
                 '<a href="%1$s">%2$s</a>',
                 esc_url(self_admin_url()),
-                is_blog_admin() ? __('Go to Dashboard &rarr; Home') : __('Go to Dashboard')
+                is_blog_admin() ? __('Go to Dashboard &rarr; Home') : __('Go to Dashboard'),
             );
             ?>
         </div>
@@ -109,19 +110,19 @@ __('<strong>Version %s</strong> addressed some security issues.');
 /* translators: 1: waggypuppy version number, 2: Plural number of bugs. */
 _n_noop(
     '<strong>Version %1$s</strong> addressed %2$s bug.',
-    '<strong>Version %1$s</strong> addressed %2$s bugs.'
+    '<strong>Version %1$s</strong> addressed %2$s bugs.',
 );
 
 /* translators: 1: waggypuppy version number, 2: Plural number of bugs. Singular security issue. */
 _n_noop(
     '<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug.',
-    '<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs.'
+    '<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs.',
 );
 
 /* translators: 1: waggypuppy version number, 2: Plural number of bugs. More than one security issue. */
 _n_noop(
     '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
-    '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.'
+    '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.',
 );
 
 /* translators: %s: Documentation URL. */

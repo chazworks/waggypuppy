@@ -38,9 +38,9 @@ class WP_Sitemaps_Index
     /**
      * WP_Sitemaps_Index constructor.
      *
+     * @param WP_Sitemaps_Registry $registry Sitemap provider registry.
      * @since 5.5.0
      *
-     * @param WP_Sitemaps_Registry $registry Sitemap provider registry.
      */
     public function __construct(WP_Sitemaps_Registry $registry)
     {
@@ -50,9 +50,9 @@ class WP_Sitemaps_Index
     /**
      * Gets a sitemap list for the index.
      *
+     * @return array[] Array of all sitemaps.
      * @since 5.5.0
      *
-     * @return array[] Array of all sitemaps.
      */
     public function get_sitemap_list()
     {
@@ -64,7 +64,7 @@ class WP_Sitemaps_Index
             $sitemap_entries = $provider->get_sitemap_entries();
 
             // Prevent issues with array_push and empty arrays on PHP < 7.3.
-            if (! $sitemap_entries) {
+            if (!$sitemap_entries) {
                 continue;
             }
 
@@ -81,17 +81,17 @@ class WP_Sitemaps_Index
     /**
      * Builds the URL for the sitemap index.
      *
-     * @since 5.5.0
-     *
+     * @return string The sitemap index URL.
      * @global WP_Rewrite $wp_rewrite waggypuppy rewrite component.
      *
-     * @return string The sitemap index URL.
+     * @since 5.5.0
+     *
      */
     public function get_index_url()
     {
         global $wp_rewrite;
 
-        if (! $wp_rewrite->using_permalinks()) {
+        if (!$wp_rewrite->using_permalinks()) {
             return home_url('/?sitemap=index');
         }
 

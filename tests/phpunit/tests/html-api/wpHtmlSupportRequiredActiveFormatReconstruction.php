@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests for the HTML API ensuring proper handling of behaviors related to
  * active format reconstruction.
@@ -27,13 +28,13 @@ class Tests_HtmlApi_WpHtmlSupportRequiredActiveFormatReconstruction extends WP_U
         // The SOURCE element doesn't trigger reconstruction, and this test asserts that.
         $this->assertTrue(
             $processor->next_tag('SOURCE'),
-            'Should have found the first custom element.'
+            'Should have found the first custom element.',
         );
 
         $this->assertSame(
             ['HTML', 'BODY', 'P', 'SOURCE'],
             $processor->get_breadcrumbs(),
-            'Should have closed formatting element at first P element.'
+            'Should have closed formatting element at first P element.',
         );
 
         /*
@@ -59,13 +60,13 @@ class Tests_HtmlApi_WpHtmlSupportRequiredActiveFormatReconstruction extends WP_U
             $this->assertSame(
                 ['HTML', 'BODY', 'P', 'B', 'SOURCE'],
                 $processor->get_breadcrumbs(),
-                'Should have reconstructed the implicitly-closed B element.'
+                'Should have reconstructed the implicitly-closed B element.',
             );
         } else {
             $this->assertSame(
                 WP_HTML_Processor::ERROR_UNSUPPORTED,
                 $processor->get_last_error(),
-                'Should have aborted for incomplete active format reconstruction when encountering the second text node.'
+                'Should have aborted for incomplete active format reconstruction when encountering the second text node.',
             );
         }
     }

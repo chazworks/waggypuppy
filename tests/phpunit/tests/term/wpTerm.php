@@ -20,20 +20,20 @@ class Tests_Term_WpTerm extends WP_UnitTestCase
         register_taxonomy('wptests_tax', 'post');
 
         // Ensure that there is a term with ID 1.
-        if (! get_term(1)) {
+        if (!get_term(1)) {
             $wpdb->insert(
                 $wpdb->terms,
                 [
                     'term_id' => 1,
-                ]
+                ],
             );
 
             $wpdb->insert(
                 $wpdb->term_taxonomy,
                 [
-                    'term_id'  => 1,
+                    'term_id' => 1,
                     'taxonomy' => 'wptests_tax',
-                ]
+                ],
             );
 
             clean_term_cache(1, 'wptests_tax');
@@ -47,7 +47,7 @@ class Tests_Term_WpTerm extends WP_UnitTestCase
      */
     public function test_get_instance_should_work_for_numeric_string()
     {
-        $found = WP_Term::get_instance((string) self::$term_id);
+        $found = WP_Term::get_instance((string)self::$term_id);
 
         $this->assertSame(self::$term_id, $found->term_id);
     }

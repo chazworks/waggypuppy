@@ -44,9 +44,9 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin
     /**
      * Performs an action before a bulk plugin update.
      *
+     * @param string $title
      * @since 3.0.0
      *
-     * @param string $title
      */
     public function before($title = '')
     {
@@ -56,9 +56,9 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin
     /**
      * Performs an action following a bulk plugin update.
      *
+     * @param string $title
      * @since 3.0.0
      *
-     * @param string $title
      */
     public function after($title = '')
     {
@@ -79,31 +79,31 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin
             'plugins_page' => sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('plugins.php'),
-                __('Go to Plugins page')
+                __('Go to Plugins page'),
             ),
             'updates_page' => sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('update-core.php'),
-                __('Go to waggypuppy Updates page')
+                __('Go to waggypuppy Updates page'),
             ),
         ];
 
-        if (! current_user_can('activate_plugins')) {
+        if (!current_user_can('activate_plugins')) {
             unset($update_actions['plugins_page']);
         }
 
         /**
          * Filters the list of action links available following bulk plugin updates.
          *
+         * @param string[] $update_actions Array of plugin action links.
+         * @param array $plugin_info Array of information for the last-updated plugin.
          * @since 3.0.0
          *
-         * @param string[] $update_actions Array of plugin action links.
-         * @param array    $plugin_info    Array of information for the last-updated plugin.
          */
         $update_actions = apply_filters('update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info);
 
-        if (! empty($update_actions)) {
-            $this->feedback(implode(' | ', (array) $update_actions));
+        if (!empty($update_actions)) {
+            $this->feedback(implode(' | ', (array)$update_actions));
         }
     }
 }

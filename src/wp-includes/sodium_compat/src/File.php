@@ -3,6 +3,7 @@
 if (class_exists('ParagonIE_Sodium_File', false)) {
     return;
 }
+
 /**
  * Class ParagonIE_Sodium_File
  */
@@ -16,10 +17,10 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_box(), but produces
      * the same result.
      *
-     * @param string $inputFile  Absolute path to a file on the filesystem
+     * @param string $inputFile Absolute path to a file on the filesystem
      * @param string $outputFile Absolute path to a file on the filesystem
-     * @param string $nonce      Number to be used only once
-     * @param string $keyPair    ECDH secret key and ECDH public key concatenated
+     * @param string $nonce Number to be used only once
+     * @param string $keyPair ECDH secret key and ECDH public key concatenated
      *
      * @return bool
      * @throws SodiumException
@@ -30,7 +31,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $outputFile,
         $nonce,
         #[\SensitiveParameter]
-        $keyPair
+        $keyPair,
     ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
@@ -101,7 +102,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $outputFile,
         $nonce,
         #[\SensitiveParameter]
-        $keypair
+        $keypair,
     ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
@@ -163,9 +164,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_box_seal(), but produces
      * the same result.
      *
-     * @param string $inputFile  Absolute path to a file on the filesystem
+     * @param string $inputFile Absolute path to a file on the filesystem
      * @param string $outputFile Absolute path to a file on the filesystem
-     * @param string $publicKey  ECDH public key
+     * @param string $publicKey ECDH public key
      *
      * @return bool
      * @throws SodiumException
@@ -175,7 +176,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $inputFile,
         $outputFile,
         #[\SensitiveParameter]
-        $publicKey
+        $publicKey,
     ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
@@ -218,7 +219,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         /** @var string $msgKeypair */
         $msgKeypair = ParagonIE_Sodium_Compat::crypto_box_keypair_from_secretkey_and_publickey(
             ParagonIE_Sodium_Compat::crypto_box_secretkey($ephKeypair),
-            $publicKey
+            $publicKey,
         );
 
         /** @var string $ephemeralPK */
@@ -228,14 +229,14 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $nonce = ParagonIE_Sodium_Compat::crypto_generichash(
             $ephemeralPK . $publicKey,
             '',
-            24
+            24,
         );
 
         /** @var int $firstWrite */
         $firstWrite = fwrite(
             $ofp,
             $ephemeralPK,
-            ParagonIE_Sodium_Compat::CRYPTO_BOX_PUBLICKEYBYTES
+            ParagonIE_Sodium_Compat::CRYPTO_BOX_PUBLICKEYBYTES,
         );
         if (!is_int($firstWrite)) {
             fclose($ifp);
@@ -283,7 +284,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $inputFile,
         $outputFile,
         #[\SensitiveParameter]
-        $ecdhKeypair
+        $ecdhKeypair,
     ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
@@ -335,11 +336,11 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $nonce = ParagonIE_Sodium_Compat::crypto_generichash(
             $ephemeralPK . $publicKey,
             '',
-            24
+            24,
         );
         $msgKeypair = ParagonIE_Sodium_Compat::crypto_box_keypair_from_secretkey_and_publickey(
             ParagonIE_Sodium_Compat::crypto_box_secretkey($ecdhKeypair),
-            $ephemeralPK
+            $ephemeralPK,
         );
 
         $res = self::box_decrypt($ifp, $ofp, $size, $nonce, $msgKeypair);
@@ -359,9 +360,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     /**
      * Calculate the BLAKE2b hash of a file.
      *
-     * @param string      $filePath     Absolute path to a file on the filesystem
-     * @param string|null $key          BLAKE2b key
-     * @param int         $outputLength Length of hash output
+     * @param string $filePath Absolute path to a file on the filesystem
+     * @param string|null $key BLAKE2b key
+     * @param int $outputLength Length of hash output
      *
      * @return string                   BLAKE2b hash
      * @throws SodiumException
@@ -372,7 +373,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $filePath,
         #[\SensitiveParameter]
         $key = '',
-        $outputLength = 32
+        $outputLength = 32,
     ) {
         /* Type checks: */
         if (!is_string($filePath)) {
@@ -389,7 +390,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             if (!is_numeric($outputLength)) {
                 throw new TypeError('Argument 3 must be an integer, ' . gettype($outputLength) . ' given.');
             }
-            $outputLength = (int) $outputLength;
+            $outputLength = (int)$outputLength;
         }
 
         /* Input validation: */
@@ -441,10 +442,10 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_secretbox(), but produces
      * the same result.
      *
-     * @param string $inputFile  Absolute path to a file on the filesystem
+     * @param string $inputFile Absolute path to a file on the filesystem
      * @param string $outputFile Absolute path to a file on the filesystem
-     * @param string $nonce      Number to be used only once
-     * @param string $key        Encryption key
+     * @param string $nonce Number to be used only once
+     * @param string $key Encryption key
      *
      * @return bool
      * @throws SodiumException
@@ -455,7 +456,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $outputFile,
         $nonce,
         #[\SensitiveParameter]
-        $key
+        $key,
     ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
@@ -503,6 +504,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         fclose($ofp);
         return $res;
     }
+
     /**
      * Seal a file (rather than a string). Uses less memory than
      * ParagonIE_Sodium_Compat::crypto_secretbox_open(), but produces
@@ -525,7 +527,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $outputFile,
         $nonce,
         #[\SensitiveParameter]
-        $key
+        $key,
     ) {
         /* Type checks: */
         if (!is_string($inputFile)) {
@@ -585,7 +587,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_sign_detached(), but produces
      * the same result.
      *
-     * @param string $filePath  Absolute path to a file on the filesystem
+     * @param string $filePath Absolute path to a file on the filesystem
      * @param string $secretKey Secret signing key
      *
      * @return string           Ed25519 signature
@@ -595,7 +597,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     public static function sign(
         $filePath,
         #[\SensitiveParameter]
-        $secretKey
+        $secretKey,
     ) {
         /* Type checks: */
         if (!is_string($filePath)) {
@@ -647,7 +649,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
 
         /** @var string $sig */
         $sig = ParagonIE_Sodium_Core_Ed25519::ge_p3_tobytes(
-            ParagonIE_Sodium_Core_Ed25519::ge_scalarmult_base($nonce)
+            ParagonIE_Sodium_Core_Ed25519::ge_scalarmult_base($nonce),
         );
 
         $hs = hash_init('sha512');
@@ -682,8 +684,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_sign_verify_detached(), but
      * produces the same result.
      *
-     * @param string $sig       Ed25519 signature
-     * @param string $filePath  Absolute path to a file on the filesystem
+     * @param string $sig Ed25519 signature
+     * @param string $filePath Absolute path to a file on the filesystem
      * @param string $publicKey Signing public key
      *
      * @return bool
@@ -694,7 +696,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     public static function verify(
         $sig,
         $filePath,
-        $publicKey
+        $publicKey,
     ) {
         /* Type checks: */
         if (!is_string($sig)) {
@@ -725,8 +727,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         /* Security checks */
         if (
             (ParagonIE_Sodium_Core_Ed25519::chrToInt($sig[63]) & 240)
-                &&
-            ParagonIE_Sodium_Core_Ed25519::check_S_lt_L(self::substr($sig, 32, 32))
+            && ParagonIE_Sodium_Core_Ed25519::check_S_lt_L(self::substr($sig, 32, 32))
         ) {
             throw new SodiumException('S < L - Invalid signature');
         }
@@ -780,7 +781,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $R = ParagonIE_Sodium_Core_Ed25519::ge_double_scalarmult_vartime(
             $h,
             $A,
-            self::substr($sig, 32)
+            self::substr($sig, 32),
         );
 
         /** @var string $rcheck */
@@ -797,9 +798,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     /**
      * @param resource $ifp
      * @param resource $ofp
-     * @param int      $mlen
-     * @param string   $nonce
-     * @param string   $boxKeypair
+     * @param int $mlen
+     * @param string $nonce
+     * @param string $boxKeypair
      * @return bool
      * @throws SodiumException
      * @throws TypeError
@@ -814,8 +815,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
                 $nonce,
                 ParagonIE_Sodium_Crypto32::box_beforenm(
                     ParagonIE_Sodium_Crypto32::box_secretkey($boxKeypair),
-                    ParagonIE_Sodium_Crypto32::box_publickey($boxKeypair)
-                )
+                    ParagonIE_Sodium_Crypto32::box_publickey($boxKeypair),
+                ),
             );
         }
         return self::secretbox_encrypt(
@@ -825,8 +826,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             $nonce,
             ParagonIE_Sodium_Crypto::box_beforenm(
                 ParagonIE_Sodium_Crypto::box_secretkey($boxKeypair),
-                ParagonIE_Sodium_Crypto::box_publickey($boxKeypair)
-            )
+                ParagonIE_Sodium_Crypto::box_publickey($boxKeypair),
+            ),
         );
     }
 
@@ -834,9 +835,9 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
     /**
      * @param resource $ifp
      * @param resource $ofp
-     * @param int      $mlen
-     * @param string   $nonce
-     * @param string   $boxKeypair
+     * @param int $mlen
+     * @param string $nonce
+     * @param string $boxKeypair
      * @return bool
      * @throws SodiumException
      * @throws TypeError
@@ -851,8 +852,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
                 $nonce,
                 ParagonIE_Sodium_Crypto32::box_beforenm(
                     ParagonIE_Sodium_Crypto32::box_secretkey($boxKeypair),
-                    ParagonIE_Sodium_Crypto32::box_publickey($boxKeypair)
-                )
+                    ParagonIE_Sodium_Crypto32::box_publickey($boxKeypair),
+                ),
             );
         }
         return self::secretbox_decrypt(
@@ -862,8 +863,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             $nonce,
             ParagonIE_Sodium_Crypto::box_beforenm(
                 ParagonIE_Sodium_Crypto::box_secretkey($boxKeypair),
-                ParagonIE_Sodium_Crypto::box_publickey($boxKeypair)
-            )
+                ParagonIE_Sodium_Crypto::box_publickey($boxKeypair),
+            ),
         );
     }
 
@@ -911,15 +912,15 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $block0 = ParagonIE_Sodium_Core_Salsa20::salsa20_xor(
             $block0,
             $realNonce,
-            $subkey
+            $subkey,
         );
 
         $state = new ParagonIE_Sodium_Core_Poly1305_State(
             ParagonIE_Sodium_Core_Util::substr(
                 $block0,
                 0,
-                ParagonIE_Sodium_Crypto::onetimeauth_poly1305_KEYBYTES
-            )
+                ParagonIE_Sodium_Crypto::onetimeauth_poly1305_KEYBYTES,
+            ),
         );
 
         // Pre-write 16 blank bytes for the Poly1305 tag
@@ -929,7 +930,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         /** @var string $c */
         $cBlock = ParagonIE_Sodium_Core_Util::substr(
             $block0,
-            ParagonIE_Sodium_Crypto::secretbox_xsalsa20poly1305_ZEROBYTES
+            ParagonIE_Sodium_Crypto::secretbox_xsalsa20poly1305_ZEROBYTES,
         );
         $state->update($cBlock);
         fwrite($ofp, $cBlock);
@@ -959,7 +960,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
                 $plaintext,
                 $realNonce,
                 $iter,
-                $subkey
+                $subkey,
             );
             fwrite($ofp, $cBlock, $blockSize);
             $state->update($cBlock);
@@ -1020,7 +1021,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $block0 = ParagonIE_Sodium_Core_Salsa20::salsa20(
             64,
             ParagonIE_Sodium_Core_Util::substr($nonce, 16, 8),
-            $subkey
+            $subkey,
         );
 
         /* Verify the Poly1305 MAC -before- attempting to decrypt! */
@@ -1042,8 +1043,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             $ofp,
             self::xorStrings(
                 self::substr($block0, 32, $first32len),
-                self::substr($first32, 0, $first32len)
-            )
+                self::substr($first32, 0, $first32len),
+            ),
         );
         $mlen -= 32;
 
@@ -1066,7 +1067,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
                 $ciphertext,
                 $realNonce,
                 $iter,
-                $subkey
+                $subkey,
             );
             fwrite($ofp, $pBlock, $blockSize);
             $mlen -= $blockSize;
@@ -1088,7 +1089,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         ParagonIE_Sodium_Core_Poly1305_State $state,
         $ifp,
         $tag = '',
-        $mlen = 0
+        $mlen = 0,
     ) {
         /** @var int $pos */
         $pos = self::ftell($ifp);
@@ -1164,7 +1165,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
                 $fp,
                 ($size - $i) > self::BUFFER_SIZE
                     ? $size - $i
-                    : self::BUFFER_SIZE
+                    : self::BUFFER_SIZE,
             );
             if (!is_string($message)) {
                 throw new SodiumException('Unexpected error reading from file.');
@@ -1183,7 +1184,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_sign_detached(), but produces
      * the same result. (32-bit)
      *
-     * @param string $filePath  Absolute path to a file on the filesystem
+     * @param string $filePath Absolute path to a file on the filesystem
      * @param string $secretKey Secret signing key
      *
      * @return string           Ed25519 signature
@@ -1217,7 +1218,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $pk = self::substr($secretKey, 32, 32);
         $nonce = ParagonIE_Sodium_Core32_Ed25519::sc_reduce($nonceHash) . self::substr($nonceHash, 32);
         $sig = ParagonIE_Sodium_Core32_Ed25519::ge_p3_tobytes(
-            ParagonIE_Sodium_Core32_Ed25519::ge_scalarmult_base($nonce)
+            ParagonIE_Sodium_Core32_Ed25519::ge_scalarmult_base($nonce),
         );
 
         $hs = hash_init('sha512');
@@ -1250,8 +1251,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * ParagonIE_Sodium_Compat::crypto_sign_verify_detached(), but
      * produces the same result. (32-bit)
      *
-     * @param string $sig       Ed25519 signature
-     * @param string $filePath  Absolute path to a file on the filesystem
+     * @param string $sig Ed25519 signature
+     * @param string $filePath Absolute path to a file on the filesystem
      * @param string $publicKey Signing public key
      *
      * @return bool
@@ -1317,7 +1318,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $R = ParagonIE_Sodium_Core32_Ed25519::ge_double_scalarmult_vartime(
             $h,
             $A,
-            self::substr($sig, 32)
+            self::substr($sig, 32),
         );
 
         /** @var string $rcheck */
@@ -1371,15 +1372,15 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $block0 = ParagonIE_Sodium_Core32_Salsa20::salsa20_xor(
             $block0,
             $realNonce,
-            $subkey
+            $subkey,
         );
 
         $state = new ParagonIE_Sodium_Core32_Poly1305_State(
             ParagonIE_Sodium_Core32_Util::substr(
                 $block0,
                 0,
-                ParagonIE_Sodium_Crypto::onetimeauth_poly1305_KEYBYTES
-            )
+                ParagonIE_Sodium_Crypto::onetimeauth_poly1305_KEYBYTES,
+            ),
         );
 
         // Pre-write 16 blank bytes for the Poly1305 tag
@@ -1389,7 +1390,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         /** @var string $c */
         $cBlock = ParagonIE_Sodium_Core32_Util::substr(
             $block0,
-            ParagonIE_Sodium_Crypto::secretbox_xsalsa20poly1305_ZEROBYTES
+            ParagonIE_Sodium_Crypto::secretbox_xsalsa20poly1305_ZEROBYTES,
         );
         $state->update($cBlock);
         fwrite($ofp, $cBlock);
@@ -1419,7 +1420,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
                 $plaintext,
                 $realNonce,
                 $iter,
-                $subkey
+                $subkey,
             );
             fwrite($ofp, $cBlock, $blockSize);
             $state->update($cBlock);
@@ -1477,7 +1478,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $block0 = ParagonIE_Sodium_Core32_Salsa20::salsa20(
             64,
             ParagonIE_Sodium_Core32_Util::substr($nonce, 16, 8),
-            $subkey
+            $subkey,
         );
 
         /* Verify the Poly1305 MAC -before- attempting to decrypt! */
@@ -1499,8 +1500,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             $ofp,
             self::xorStrings(
                 self::substr($block0, 32, $first32len),
-                self::substr($first32, 0, $first32len)
-            )
+                self::substr($first32, 0, $first32len),
+            ),
         );
         $mlen -= 32;
 
@@ -1523,7 +1524,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
                 $ciphertext,
                 $realNonce,
                 $iter,
-                $subkey
+                $subkey,
             );
             fwrite($ofp, $pBlock, $blockSize);
             $mlen -= $blockSize;
@@ -1547,7 +1548,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         ParagonIE_Sodium_Core32_Poly1305_State $state,
         $ifp,
         $tag = '',
-        $mlen = 0
+        $mlen = 0,
     ) {
         /** @var int $pos */
         $pos = self::ftell($ifp);
@@ -1580,6 +1581,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         if (!is_int($return)) {
             throw new SodiumException('ftell() returned false');
         }
-        return (int) $return;
+        return (int)$return;
     }
 }

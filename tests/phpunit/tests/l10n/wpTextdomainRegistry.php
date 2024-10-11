@@ -41,20 +41,20 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase
 
         $this->assertTrue(
             $this->instance->has('foo'),
-            'Incorrect availability status for textdomain with custom path'
+            'Incorrect availability status for textdomain with custom path',
         );
         $this->assertFalse(
             $this->instance->get('foo', 'en_US'),
-            'Should not return custom path for textdomain and en_US locale'
+            'Should not return custom path for textdomain and en_US locale',
         );
         $this->assertSame(
             WP_LANG_DIR . '/bar/',
             $this->instance->get('foo', 'de_DE'),
-            'Custom path for textdomain not returned'
+            'Custom path for textdomain not returned',
         );
         $this->assertNotFalse(
             wp_cache_get(md5(WP_LANG_DIR . '/bar/'), 'translation_files'),
-            'List of files in custom path not cached'
+            'List of files in custom path not cached',
         );
     }
 
@@ -68,7 +68,7 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase
         $this->assertSame(
             $expected,
             $actual,
-            'Expected languages directory path not matching actual one'
+            'Expected languages directory path not matching actual one',
         );
     }
 
@@ -82,7 +82,7 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase
 
         $this->assertSame(
             '/foo/bar/',
-            $this->instance->get('foo-plugin', 'de_DE')
+            $this->instance->get('foo-plugin', 'de_DE'),
         );
     }
 
@@ -129,28 +129,28 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase
         $this->instance->invalidate_mo_files_cache(
             null,
             [
-                'type'         => 'translation',
+                'type' => 'translation',
                 'translations' => [
-                    (object) [
-                        'type'     => 'plugin',
-                        'slug'     => 'internationalized-plugin',
+                    (object)[
+                        'type' => 'plugin',
+                        'slug' => 'internationalized-plugin',
                         'language' => 'de_DE',
-                        'version'  => '99.9.9',
+                        'version' => '99.9.9',
                     ],
-                    (object) [
-                        'type'     => 'theme',
-                        'slug'     => 'internationalized-theme',
+                    (object)[
+                        'type' => 'theme',
+                        'slug' => 'internationalized-theme',
                         'language' => 'de_DE',
-                        'version'  => '99.9.9',
+                        'version' => '99.9.9',
                     ],
-                    (object) [
-                        'type'     => 'core',
-                        'slug'     => 'default',
+                    (object)[
+                        'type' => 'core',
+                        'slug' => 'default',
                         'language' => 'es_ES',
-                        'version'  => '99.9.9',
+                        'version' => '99.9.9',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertFalse(wp_cache_get(md5(WP_LANG_DIR . '/plugins/'), 'translation_files'));
@@ -161,32 +161,32 @@ class Tests_L10n_wpTextdomainRegistry extends WP_UnitTestCase
     public function data_domains_locales()
     {
         return [
-            'Non-existent plugin'                      => [
+            'Non-existent plugin' => [
                 'unknown-plugin',
                 'en_US',
                 false,
             ],
-            'Non-existent plugin with de_DE'           => [
+            'Non-existent plugin with de_DE' => [
                 'unknown-plugin',
                 'de_DE',
                 false,
             ],
-            'Available de_DE translations'             => [
+            'Available de_DE translations' => [
                 'internationalized-plugin',
                 'de_DE',
                 WP_LANG_DIR . '/plugins/',
             ],
-            'Available es_ES translations'             => [
+            'Available es_ES translations' => [
                 'internationalized-plugin',
                 'es_ES',
                 WP_LANG_DIR . '/plugins/',
             ],
-            'Unavailable fr_FR translations'           => [
+            'Unavailable fr_FR translations' => [
                 'internationalized-plugin',
                 'fr_FR',
                 false,
             ],
-            'Unavailable en_US translations'           => [
+            'Unavailable en_US translations' => [
                 'internationalized-plugin',
                 'en_US',
                 false,

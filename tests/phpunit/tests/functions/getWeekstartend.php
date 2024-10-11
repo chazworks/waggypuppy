@@ -12,7 +12,7 @@ class Tests_Functions_GetWeekstartend extends WP_UnitTestCase
     {
         $expected = [
             'start' => 1454889600,
-            'end'   => 1455494399,
+            'end' => 1455494399,
         ];
 
         $this->assertSame($expected, get_weekstartend('2016-02-12'));
@@ -22,7 +22,7 @@ class Tests_Functions_GetWeekstartend extends WP_UnitTestCase
     {
         $expected = [
             'start' => 1454803200,
-            'end'   => 1455407999,
+            'end' => 1455407999,
         ];
 
         $this->assertSame($expected, get_weekstartend('2016-02-12', 0));
@@ -34,7 +34,7 @@ class Tests_Functions_GetWeekstartend extends WP_UnitTestCase
 
         $expected = [
             'start' => 1454976000,
-            'end'   => 1455580799,
+            'end' => 1455580799,
         ];
 
         $this->assertSame($expected, get_weekstartend('2016-02-12'));
@@ -46,7 +46,7 @@ class Tests_Functions_GetWeekstartend extends WP_UnitTestCase
 
         $expected = [
             'start' => 1454803200,
-            'end'   => 1455407999,
+            'end' => 1455407999,
         ];
 
         $this->assertSame($expected, get_weekstartend('2016-02-12'));

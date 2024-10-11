@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_HTML_Processor functionality.
  *
@@ -20,8 +21,12 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase
      *
      * @dataProvider data_comments
      */
-    public function test_comment_processing($html, $expected_comment_type, $expected_modifiable_text, $expected_tag = null)
-    {
+    public function test_comment_processing(
+        $html,
+        $expected_comment_type,
+        $expected_modifiable_text,
+        $expected_tag = null,
+    ) {
         $processor = WP_HTML_Processor::create_fragment($html);
         $processor->next_token();
 
@@ -39,13 +44,35 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase
     public static function data_comments()
     {
         return [
-            'Normative comment'              => ['<!-- A comment. -->', WP_HTML_Processor::COMMENT_AS_HTML_COMMENT, ' A comment. '],
-            'Abruptly closed comment'        => ['<!-->', WP_HTML_Processor::COMMENT_AS_ABRUPTLY_CLOSED_COMMENT, ''],
-            'Invalid HTML comment !'         => ['<! Bang opener >', WP_HTML_Processor::COMMENT_AS_INVALID_HTML, ' Bang opener '],
-            'Invalid HTML comment ?'         => ['<? Question opener >', WP_HTML_Processor::COMMENT_AS_INVALID_HTML, ' Question opener '],
-            'CDATA comment'                  => ['<![CDATA[ cdata body ]]>', WP_HTML_Processor::COMMENT_AS_CDATA_LOOKALIKE, ' cdata body '],
-            'Processing instriction comment' => ['<?pi-target Instruction body. ?>', WP_HTML_Processor::COMMENT_AS_PI_NODE_LOOKALIKE, ' Instruction body. ', 'pi-target'],
-            'Processing instriction php'     => ['<?php const HTML_COMMENT = true; ?>', WP_HTML_Processor::COMMENT_AS_PI_NODE_LOOKALIKE, ' const HTML_COMMENT = true; ', 'php'],
+            'Normative comment' => ['<!-- A comment. -->', WP_HTML_Processor::COMMENT_AS_HTML_COMMENT, ' A comment. '],
+            'Abruptly closed comment' => ['<!-->', WP_HTML_Processor::COMMENT_AS_ABRUPTLY_CLOSED_COMMENT, ''],
+            'Invalid HTML comment !' => [
+                '<! Bang opener >',
+                WP_HTML_Processor::COMMENT_AS_INVALID_HTML,
+                ' Bang opener ',
+            ],
+            'Invalid HTML comment ?' => [
+                '<? Question opener >',
+                WP_HTML_Processor::COMMENT_AS_INVALID_HTML,
+                ' Question opener ',
+            ],
+            'CDATA comment' => [
+                '<![CDATA[ cdata body ]]>',
+                WP_HTML_Processor::COMMENT_AS_CDATA_LOOKALIKE,
+                ' cdata body ',
+            ],
+            'Processing instriction comment' => [
+                '<?pi-target Instruction body. ?>',
+                WP_HTML_Processor::COMMENT_AS_PI_NODE_LOOKALIKE,
+                ' Instruction body. ',
+                'pi-target',
+            ],
+            'Processing instriction php' => [
+                '<?php const HTML_COMMENT = true; ?>',
+                WP_HTML_Processor::COMMENT_AS_PI_NODE_LOOKALIKE,
+                ' const HTML_COMMENT = true; ',
+                'php',
+            ],
         ];
     }
 
@@ -74,8 +101,8 @@ class Tests_HtmlApi_WpHtmlProcessorComments extends WP_UnitTestCase
     {
         return [
             'Funky comment # (empty)' => ['</#>', '#'],
-            'Funky comment #'         => ['</# foo>', '# foo'],
-            'Funky comment •'         => ['</• bar>', '• bar'],
+            'Funky comment #' => ['</# foo>', '# foo'],
+            'Funky comment •' => ['</• bar>', '• bar'],
         ];
     }
 }

@@ -11,21 +11,21 @@ class Tests_Post_GetPosts extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2015-04-04 04:04:04',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2014-04-04 04:04:04',
-            ]
+            ],
         );
 
         $found = get_posts(
             [
                 'numberposts' => 1,
-                'orderby'     => 'date',
-                'order'       => 'DESC',
-                'fields'      => 'ids',
-            ]
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSame([$p1], $found);
@@ -36,22 +36,22 @@ class Tests_Post_GetPosts extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2015-04-04 04:04:04',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2014-04-04 04:04:04',
-            ]
+            ],
         );
 
         $found = get_posts(
             [
                 'numberposts' => 1,
-                'orderby'     => 'date',
-                'order'       => 'DESC',
-                'fields'      => 'ids',
-                'offset'      => 0,
-            ]
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'fields' => 'ids',
+                'offset' => 0,
+            ],
         );
 
         $this->assertSame([$p1], $found);
@@ -62,22 +62,22 @@ class Tests_Post_GetPosts extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2015-04-04 04:04:04',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2014-04-04 04:04:04',
-            ]
+            ],
         );
 
         $found = get_posts(
             [
                 'numberposts' => 1,
-                'orderby'     => 'date',
-                'order'       => 'DESC',
-                'fields'      => 'ids',
-                'offset'      => 1,
-            ]
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'fields' => 'ids',
+                'offset' => 1,
+            ],
         );
 
         $this->assertSame([$p2], $found);
@@ -91,22 +91,22 @@ class Tests_Post_GetPosts extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2015-04-04 04:04:04',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2014-04-04 04:04:04',
-            ]
+            ],
         );
 
         $found = get_posts(
             [
-                'orderby'        => 'date',
-                'order'          => 'DESC',
-                'fields'         => 'ids',
-                'paged'          => 2,
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'fields' => 'ids',
+                'paged' => 2,
                 'posts_per_page' => 1,
-            ]
+            ],
         );
 
         $this->assertSame([$p2], $found);
@@ -117,23 +117,23 @@ class Tests_Post_GetPosts extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2015-04-04 04:04:04',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2014-04-04 04:04:04',
-            ]
+            ],
         );
 
         $found = get_posts(
             [
-                'orderby'        => 'date',
-                'order'          => 'DESC',
-                'fields'         => 'ids',
-                'paged'          => 2,
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'fields' => 'ids',
+                'paged' => 2,
                 'posts_per_page' => 1,
-                'offset'         => 0,
-            ]
+                'offset' => 0,
+            ],
         );
 
         $this->assertSame([$p1], $found);
@@ -144,28 +144,28 @@ class Tests_Post_GetPosts extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2015-04-04 04:04:04',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2014-04-04 04:04:04',
-            ]
+            ],
         );
         $p3 = self::factory()->post->create(
             [
                 'post_date' => '2013-04-04 04:04:04',
-            ]
+            ],
         );
 
         $found = get_posts(
             [
-                'orderby'        => 'date',
-                'order'          => 'DESC',
-                'fields'         => 'ids',
-                'paged'          => 2,
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'fields' => 'ids',
+                'paged' => 2,
                 'posts_per_page' => 1,
-                'offset'         => 2,
-            ]
+                'offset' => 2,
+            ],
         );
 
         $this->assertSame([$p3], $found);

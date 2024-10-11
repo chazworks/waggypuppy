@@ -29,22 +29,22 @@ class Tests_Admin_WPPluginDependencies_GetDependentNames extends WP_PluginDepend
         $this->set_property_value(
             'plugins',
             [
-                'dependent/dependent.php'   => [
-                    'Name'            => 'Dependent 1',
+                'dependent/dependent.php' => [
+                    'Name' => 'Dependent 1',
                     'RequiresPlugins' => 'dependency',
                 ],
                 'dependent2/dependent2.php' => [
-                    'Name'            => 'Dependent 2',
+                    'Name' => 'Dependent 2',
                     'RequiresPlugins' => 'dependency',
                 ],
-            ]
+            ],
         );
 
         self::$instance::initialize();
 
         $this->assertSame(
             ['Dependent 1', 'Dependent 2'],
-            self::$instance::get_dependent_names('dependency/dependency.php')
+            self::$instance::get_dependent_names('dependency/dependency.php'),
         );
     }
 
@@ -59,21 +59,21 @@ class Tests_Admin_WPPluginDependencies_GetDependentNames extends WP_PluginDepend
             'plugins',
             [
                 'dependent2/dependent2.php' => [
-                    'Name'            => 'Dependent 2',
+                    'Name' => 'Dependent 2',
                     'RequiresPlugins' => 'dependency',
                 ],
-                'dependent/dependent.php'   => [
-                    'Name'            => 'Dependent 1',
+                'dependent/dependent.php' => [
+                    'Name' => 'Dependent 1',
                     'RequiresPlugins' => 'dependency',
                 ],
-            ]
+            ],
         );
 
         self::$instance::initialize();
 
         $this->assertSame(
             ['Dependent 1', 'Dependent 2'],
-            self::$instance::get_dependent_names('dependency/dependency.php')
+            self::$instance::get_dependent_names('dependency/dependency.php'),
         );
     }
 }

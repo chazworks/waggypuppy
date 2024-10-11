@@ -10,21 +10,20 @@
 /**
  * Generate CSS.
  *
+ * @param string $selector The CSS selector.
+ * @param string $style The CSS style.
+ * @param string $value The CSS value.
+ * @param string $prefix The CSS prefix.
+ * @param string $suffix The CSS suffix.
+ * @param bool $display Print the styles.
+ * @return string
  * @since Twenty Twenty-One 1.0
  *
- * @param string $selector The CSS selector.
- * @param string $style    The CSS style.
- * @param string $value    The CSS value.
- * @param string $prefix   The CSS prefix.
- * @param string $suffix   The CSS suffix.
- * @param bool   $display  Print the styles.
- * @return string
  */
 function twenty_twenty_one_generate_css($selector, $style, $value, $prefix = '', $suffix = '', $display = true)
 {
-
     // Bail early if there is no $selector elements or properties and $value.
-    if (! $value || ! $selector) {
+    if (!$value || !$selector) {
         return '';
     }
 
@@ -37,7 +36,7 @@ function twenty_twenty_one_generate_css($selector, $style, $value, $prefix = '',
          * Using wp_strip_all_tags() here is sufficient escaping to avoid
          * malicious attempts to close </style> and open a <script>.
          */
-        echo wp_strip_all_tags($css); // phpcs:ignore WordPress.Security.EscapeOutput
+        echo wp_strip_all_tags($css);
     }
     return $css;
 }

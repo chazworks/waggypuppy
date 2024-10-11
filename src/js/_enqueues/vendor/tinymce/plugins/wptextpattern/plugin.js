@@ -44,7 +44,7 @@
  * Note that setting this will override the default text patterns. You will need to include them
  * in your settings array if you want to keep them working.
  */
-( function( tinymce, setTimeout ) {
+( function ( tinymce, setTimeout ) {
 	if ( tinymce.Env.ie && tinymce.Env.ie < 9 ) {
 		return;
 	}
@@ -60,13 +60,13 @@
 		return string.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&' );
 	}
 
-	tinymce.PluginManager.add( 'wptextpattern', function( editor ) {
+	tinymce.PluginManager.add( 'wptextpattern', function ( editor ) {
 		var VK = tinymce.util.VK;
 		var settings = editor.settings.wptextpattern || {};
 
 		var spacePatterns = settings.space || [
 			{ regExp: /^[*-]\s/, cmd: 'InsertUnorderedList' },
-			{ regExp: /^1[.)]\s/, cmd: 'InsertOrderedList' }
+			{ regExp: /^1[.)]\s/, cmd: 'InsertOrderedList' },
 		];
 
 		var enterPatterns = settings.enter || [
@@ -76,39 +76,49 @@
 			{ start: '#####', format: 'h5' },
 			{ start: '######', format: 'h6' },
 			{ start: '>', format: 'blockquote' },
-			{ regExp: /^(-){3,}$/, element: 'hr' }
+			{ regExp: /^(-){3,}$/, element: 'hr' },
 		];
 
 		var inlinePatterns = settings.inline || [
-			{ delimiter: '`', format: 'code' }
+			{ delimiter: '`', format: 'code' },
 		];
 
 		var canUndo;
 
-		editor.on( 'selectionchange', function() {
+		editor.on( 'selectionchange', function () {
 			canUndo = null;
 		} );
 
-		editor.on( 'keydown', function( event ) {
-			if ( ( canUndo && event.keyCode === 27 /* ESCAPE */ ) || ( canUndo === 'space' && event.keyCode === VK.BACKSPACE ) ) {
-				editor.undoManager.undo();
-				event.preventDefault();
-				event.stopImmediatePropagation();
-			}
+		editor.on(
+			'keydown',
+			function ( event ) {
+				if (
+					( canUndo && event.keyCode === 27 ) /* ESCAPE */ ||
+					( canUndo === 'space' && event.keyCode === VK.BACKSPACE )
+				) {
+					editor.undoManager.undo();
+					event.preventDefault();
+					event.stopImmediatePropagation();
+				}
 
-			if ( VK.metaKeyPressed( event ) ) {
-				return;
-			}
+				if ( VK.metaKeyPressed( event ) ) {
+					return;
+				}
 
-			if ( event.keyCode === VK.ENTER ) {
-				enter();
-			// Wait for the browser to insert the character.
-			} else if ( event.keyCode === VK.SPACEBAR ) {
-				setTimeout( space );
-			} else if ( event.keyCode > 47 && ! ( event.keyCode >= 91 && event.keyCode <= 93 ) ) {
-				setTimeout( inline );
-			}
-		}, true );
+				if ( event.keyCode === VK.ENTER ) {
+					enter();
+					// Wait for the browser to insert the character.
+				} else if ( event.keyCode === VK.SPACEBAR ) {
+					setTimeout( space );
+				} else if (
+					event.keyCode > 47 &&
+					! ( event.keyCode >= 91 && event.keyCode <= 93 )
+				) {
+					setTimeout( inline );
+				}
+			},
+			true
+		);
 
 		function inline() {
 			var rng = editor.selection.getRng();
@@ -121,14 +131,19 @@
 			var zero;
 
 			// We need a non-empty text node with an offset greater than zero.
-			if ( ! node || node.nodeType !== 3 || ! node.data.length || ! offset ) {
+			if (
+				! node ||
+				node.nodeType !== 3 ||
+				! node.data.length ||
+				! offset
+			) {
 				return;
 			}
 
 			var string = node.data.slice( 0, offset );
 			var lastChar = node.data.charAt( offset - 1 );
 
-			tinymce.each( inlinePatterns, function( p ) {
+			tinymce.each( inlinePatterns, function ( p ) {
 				// Character before selection should be delimiter.
 				if ( lastChar !== p.delimiter.slice( -1 ) ) {
 					return;
@@ -136,14 +151,16 @@
 
 				var escDelimiter = escapeRegExp( p.delimiter );
 				var delimiterFirstChar = p.delimiter.charAt( 0 );
-				var regExp = new RegExp( '(.*)' + escDelimiter + '.+' + escDelimiter + '$' );
+				var regExp = new RegExp(
+					'(.*)' + escDelimiter + '.+' + escDelimiter + '$'
+				);
 				var match = string.match( regExp );
 
 				if ( ! match ) {
 					return;
 				}
 
-				startOffset = match[1].length;
+				startOffset = match[ 1 ].length;
 				endOffset = offset - p.delimiter.length;
 
 				var before = string.charAt( startOffset - 1 );
@@ -159,7 +176,11 @@
 				}
 
 				// Do not replace when only whitespace and delimiter characters.
-				if ( ( new RegExp( '^[\\s' + escapeRegExp( delimiterFirstChar ) + ']+$' ) ).test( string.slice( startOffset, endOffset ) ) ) {
+				if (
+					new RegExp(
+						'^[\\s' + escapeRegExp( delimiterFirstChar ) + ']+$'
+					).test( string.slice( startOffset, endOffset ) )
+				) {
 					return;
 				}
 
@@ -174,17 +195,20 @@
 
 			format = editor.formatter.get( pattern.format );
 
-			if ( format && format[0].inline ) {
+			if ( format && format[ 0 ].inline ) {
 				editor.undoManager.add();
 
-				editor.undoManager.transact( function() {
+				editor.undoManager.transact( function () {
 					node.insertData( offset, '\uFEFF' );
 
 					node = node.splitText( startOffset );
 					zero = node.splitText( offset - startOffset );
 
 					node.deleteData( 0, pattern.delimiter.length );
-					node.deleteData( node.data.length - pattern.delimiter.length, pattern.delimiter.length );
+					node.deleteData(
+						node.data.length - pattern.delimiter.length,
+						pattern.delimiter.length
+					);
 
 					editor.formatter.apply( pattern.format, {}, node );
 
@@ -192,10 +216,10 @@
 				} );
 
 				// We need to wait for native events to be triggered.
-				setTimeout( function() {
+				setTimeout( function () {
 					canUndo = 'space';
 
-					editor.once( 'selectionchange', function() {
+					editor.once( 'selectionchange', function () {
 						var offset;
 
 						if ( zero ) {
@@ -218,7 +242,7 @@
 				return;
 			}
 
-			while ( child = parent.firstChild ) {
+			while ( ( child = parent.firstChild ) ) {
 				if ( child.nodeType !== 3 ) {
 					parent = child;
 				} else {
@@ -254,17 +278,17 @@
 			parent = node.parentNode;
 			text = node.data;
 
-			tinymce.each( spacePatterns, function( pattern ) {
+			tinymce.each( spacePatterns, function ( pattern ) {
 				var match = text.match( pattern.regExp );
 
-				if ( ! match || rng.startOffset !== match[0].length ) {
+				if ( ! match || rng.startOffset !== match[ 0 ].length ) {
 					return;
 				}
 
 				editor.undoManager.add();
 
-				editor.undoManager.transact( function() {
-					node.deleteData( 0, match[0].length );
+				editor.undoManager.transact( function () {
+					node.deleteData( 0, match[ 0 ].length );
 
 					if ( ! parent.innerHTML ) {
 						parent.appendChild( document.createElement( 'br' ) );
@@ -275,7 +299,7 @@
 				} );
 
 				// We need to wait for native events to be triggered.
-				setTimeout( function() {
+				setTimeout( function () {
 					canUndo = 'space';
 				} );
 
@@ -288,7 +312,9 @@
 				start = rng.startContainer,
 				node = firstTextNode( start ),
 				i = enterPatterns.length,
-				text, pattern, parent;
+				text,
+				pattern,
+				parent;
 
 			if ( ! node ) {
 				return;
@@ -318,24 +344,31 @@
 				return;
 			}
 
-			editor.once( 'keyup', function() {
+			editor.once( 'keyup', function () {
 				editor.undoManager.add();
 
-				editor.undoManager.transact( function() {
+				editor.undoManager.transact( function () {
 					if ( pattern.format ) {
 						editor.formatter.apply( pattern.format, {}, node );
-						node.replaceData( 0, node.data.length, ltrim( node.data.slice( pattern.start.length ) ) );
+						node.replaceData(
+							0,
+							node.data.length,
+							ltrim( node.data.slice( pattern.start.length ) )
+						);
 					} else if ( pattern.element ) {
 						parent = node.parentNode && node.parentNode.parentNode;
 
 						if ( parent ) {
-							parent.replaceChild( document.createElement( pattern.element ), node.parentNode );
+							parent.replaceChild(
+								document.createElement( pattern.element ),
+								node.parentNode
+							);
 						}
 					}
 				} );
 
 				// We need to wait for native events to be triggered.
-				setTimeout( function() {
+				setTimeout( function () {
 					canUndo = 'enter';
 				} );
 			} );

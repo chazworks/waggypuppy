@@ -28,18 +28,18 @@ if (is_multisite()) :
 
             if (is_subdomain_install()) {
                 $domain = self::$existing_blog_name . '.' . preg_replace('|^www\.|', '', $network->domain);
-                $path   = $network->path;
+                $path = $network->path;
             } else {
                 $domain = $network->domain;
-                $path   = $network->path . self::$existing_blog_name . '/';
+                $path = $network->path . self::$existing_blog_name . '/';
             }
 
             self::$existing_blog_id = $factory->blog->create(
                 [
-                    'domain'     => $domain,
-                    'path'       => $path,
+                    'domain' => $domain,
+                    'path' => $path,
                     'network_id' => $network->id,
-                ]
+                ],
             );
         }
 
@@ -77,7 +77,7 @@ if (is_multisite()) :
             ];
 
             $illegal_names = get_site_option('illegal_names');
-            if (! empty($illegal_names)) {
+            if (!empty($illegal_names)) {
                 $data[] = [array_shift($illegal_names), 'Illegal site names are not allowed.'];
             } else {
                 $data[] = ['www', 'Illegal site names are not allowed.'];
@@ -94,7 +94,8 @@ if (is_multisite()) :
 
         public function test_validate_blogname_from_same_existing_user()
         {
-            $result = wpmu_validate_blog_signup(self::$existing_user_login, 'Foo Site Title', get_userdata(self::$existing_user_id));
+            $result = wpmu_validate_blog_signup(self::$existing_user_login, 'Foo Site Title',
+                get_userdata(self::$existing_user_id));
             $this->assertEmpty($result['errors']->get_error_codes());
         }
 
@@ -142,12 +143,12 @@ if (is_multisite()) :
          */
         public function test_signup_nonce_check()
         {
-            $original_php_self       = $_SERVER['PHP_SELF'];
-            $_SERVER['PHP_SELF']     = '/wp-signup.php';
+            $original_php_self = $_SERVER['PHP_SELF'];
+            $_SERVER['PHP_SELF'] = '/wp-signup.php';
             $_POST['signup_form_id'] = 'blog-signup-form';
-            $_POST['_signup_form']   = wp_create_nonce('signup_form_' . $_POST['signup_form_id']);
+            $_POST['_signup_form'] = wp_create_nonce('signup_form_' . $_POST['signup_form_id']);
 
-            $valid               = wpmu_validate_blog_signup('my-nonce-site', 'Site Title', get_userdata(self::$super_admin_id));
+            $valid = wpmu_validate_blog_signup('my-nonce-site', 'Site Title', get_userdata(self::$super_admin_id));
             $_SERVER['PHP_SELF'] = $original_php_self;
 
             $this->assertNotContains('invalid_nonce', $valid['errors']->get_error_codes());
@@ -158,12 +159,12 @@ if (is_multisite()) :
          */
         public function test_signup_nonce_check_invalid()
         {
-            $original_php_self       = $_SERVER['PHP_SELF'];
-            $_SERVER['PHP_SELF']     = '/wp-signup.php';
+            $original_php_self = $_SERVER['PHP_SELF'];
+            $_SERVER['PHP_SELF'] = '/wp-signup.php';
             $_POST['signup_form_id'] = 'blog-signup-form';
-            $_POST['_signup_form']   = wp_create_nonce('invalid');
+            $_POST['_signup_form'] = wp_create_nonce('invalid');
 
-            $valid               = wpmu_validate_blog_signup('my-nonce-site', 'Site Title', get_userdata(self::$super_admin_id));
+            $valid = wpmu_validate_blog_signup('my-nonce-site', 'Site Title', get_userdata(self::$super_admin_id));
             $_SERVER['PHP_SELF'] = $original_php_self;
 
             $this->assertContains('invalid_nonce', $valid['errors']->get_error_codes());

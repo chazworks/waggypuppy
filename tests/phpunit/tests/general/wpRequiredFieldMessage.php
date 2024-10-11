@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test wp_required_field_message().
  *
@@ -17,7 +18,7 @@ class Tests_General_wpRequiredFieldMessage extends WP_UnitTestCase
      */
     public function test_wp_required_field_message_should_return_default_value()
     {
-        $expected  = '<span class="required-field-message">';
+        $expected = '<span class="required-field-message">';
         $expected .= 'Required fields are marked <span class="required">*</span>';
         $expected .= '</span>';
         $this->assertSame($expected, wp_required_field_message());

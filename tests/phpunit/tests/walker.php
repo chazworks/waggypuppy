@@ -23,10 +23,9 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_single_item()
     {
-
-        $items  = [
-            (object) [
-                'id'     => 1,
+        $items = [
+            (object)[
+                'id' => 1,
                 'parent' => 0,
             ],
         ];
@@ -38,10 +37,9 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_single_item_flat()
     {
-
-        $items  = [
-            (object) [
-                'id'     => 1,
+        $items = [
+            (object)[
+                'id' => 1,
                 'parent' => 0,
             ],
         ];
@@ -53,10 +51,9 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_single_item_depth_1()
     {
-
-        $items  = [
-            (object) [
-                'id'     => 1,
+        $items = [
+            (object)[
+                'id' => 1,
                 'parent' => 0,
             ],
         ];
@@ -68,14 +65,13 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_multiple_items_single_level()
     {
-
         $items = [
-            (object) [
-                'id'     => 1,
+            (object)[
+                'id' => 1,
                 'parent' => 0,
             ],
-            (object) [
-                'id'     => 2,
+            (object)[
+                'id' => 2,
                 'parent' => 0,
             ],
         ];
@@ -88,14 +84,13 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_multiple_items_multiple_levels()
     {
-
         $items = [
-            (object) [
-                'id'     => 1,
+            (object)[
+                'id' => 1,
                 'parent' => 0,
             ],
-            (object) [
-                'id'     => 2,
+            (object)[
+                'id' => 2,
                 'parent' => 1,
             ],
         ];
@@ -108,14 +103,13 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_multiple_items_multiple_levels_flat()
     {
-
         $items = [
-            (object) [
-                'id'     => 1,
+            (object)[
+                'id' => 1,
                 'parent' => 0,
             ],
-            (object) [
-                'id'     => 2,
+            (object)[
+                'id' => 2,
                 'parent' => 1,
             ],
         ];
@@ -128,14 +122,13 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_multiple_items_multiple_levels_depth_1()
     {
-
         $items = [
-            (object) [
-                'id'     => 1,
+            (object)[
+                'id' => 1,
                 'parent' => 0,
             ],
-            (object) [
-                'id'     => 2,
+            (object)[
+                'id' => 2,
                 'parent' => 1,
             ],
         ];
@@ -148,18 +141,17 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_multiple_items_multiple_levels_depth_2()
     {
-
         $items = [
-            (object) [
-                'id'     => 1,
+            (object)[
+                'id' => 1,
                 'parent' => 0,
             ],
-            (object) [
-                'id'     => 2,
+            (object)[
+                'id' => 2,
                 'parent' => 1,
             ],
-            (object) [
-                'id'     => 3,
+            (object)[
+                'id' => 3,
                 'parent' => 2,
             ],
         ];
@@ -172,14 +164,13 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_multiple_items_recursive()
     {
-
         $items = [
-            (object) [
-                'id'     => 1,
+            (object)[
+                'id' => 1,
                 'parent' => 2,
             ],
-            (object) [
-                'id'     => 2,
+            (object)[
+                'id' => 2,
                 'parent' => 1,
             ],
         ];
@@ -192,10 +183,9 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_single_item_child()
     {
-
         $items = [
-            (object) [
-                'id'     => 1,
+            (object)[
+                'id' => 1,
                 'parent' => 3,
             ],
         ];
@@ -208,10 +198,9 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_single_item_missing_parent_depth_1()
     {
-
         $items = [
-            (object) [
-                'id'     => 1,
+            (object)[
+                'id' => 1,
                 'parent' => 3,
             ],
         ];
@@ -231,18 +220,17 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_multiple_items_missing_parents()
     {
-
         $items = [
-            (object) [
-                'id'     => 4,
+            (object)[
+                'id' => 4,
                 'parent' => 1,
             ],
-            (object) [
-                'id'     => 5,
+            (object)[
+                'id' => 5,
                 'parent' => 2,
             ],
-            (object) [
-                'id'     => 6,
+            (object)[
+                'id' => 6,
                 'parent' => 3,
             ],
         ];
@@ -255,18 +243,17 @@ class Tests_Walker extends WP_UnitTestCase
 
     public function test_multiple_items_missing_parents_depth_1()
     {
-
         $items = [
-            (object) [
-                'id'     => 4,
+            (object)[
+                'id' => 4,
                 'parent' => 1,
             ],
-            (object) [
-                'id'     => 5,
+            (object)[
+                'id' => 5,
                 'parent' => 2,
             ],
-            (object) [
-                'id'     => 6,
+            (object)[
+                'id' => 6,
                 'parent' => 3,
             ],
         ];
@@ -292,14 +279,13 @@ class Tests_Walker extends WP_UnitTestCase
      */
     public function test_multiple_items_non_numeric_parent()
     {
-
-        $items  = [
-            (object) [
-                'id'     => 1,
+        $items = [
+            (object)[
+                'id' => 1,
                 'parent' => '',
             ],
-            (object) [
-                'id'     => 2,
+            (object)[
+                'id' => 2,
                 'parent' => '',
             ],
         ];
@@ -324,7 +310,7 @@ class Walker_Test extends Walker
     public $tree_type = 'test';
     public $db_fields = [
         'parent' => 'parent',
-        'id'     => 'id',
+        'id' => 'id',
     ];
 
     public function start_lvl(&$output, $depth = 0, $args = [])

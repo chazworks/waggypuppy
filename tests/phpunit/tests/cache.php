@@ -24,7 +24,7 @@ class Tests_Cache extends WP_UnitTestCase
         global $wp_object_cache;
 
         $cache_class = get_class($wp_object_cache);
-        $cache       = new $cache_class();
+        $cache = new $cache_class();
 
         $cache->add_global_groups(['global-cache-test']);
 
@@ -34,7 +34,7 @@ class Tests_Cache extends WP_UnitTestCase
     /**
      * @ticket 56198
      *
-     * @covers WP_Object_Cache::is_valid_key
+     * @covers       WP_Object_Cache::is_valid_key
      * @dataProvider data_is_valid_key
      */
     public function test_is_valid_key($key, $valid)
@@ -46,11 +46,13 @@ class Tests_Cache extends WP_UnitTestCase
         $val = 'val';
 
         if ($valid) {
-            $this->assertTrue($this->cache->add($key, $val), 'WP_Object_Cache:add() should return true for valid keys.');
+            $this->assertTrue($this->cache->add($key, $val),
+                'WP_Object_Cache:add() should return true for valid keys.');
             $this->assertSame($val, $this->cache->get($key), 'The retrieved value should match the added value.');
         } else {
             $this->setExpectedIncorrectUsage('WP_Object_Cache::add');
-            $this->assertFalse($this->cache->add($key, $val), 'WP_Object_Cache:add() should return false for invalid keys.');
+            $this->assertFalse($this->cache->add($key, $val),
+                'WP_Object_Cache:add() should return false for invalid keys.');
         }
     }
 
@@ -58,25 +60,25 @@ class Tests_Cache extends WP_UnitTestCase
      * Data provider for test_is_valid_key().
      *
      * @return array[] Test parameters {
-     *     @type mixed $key   Cache key value.
-     *     @type bool  $valid Whether the key should be considered valid.
+     * @type mixed $key Cache key value.
+     * @type bool $valid Whether the key should be considered valid.
      * }
      */
     public function data_is_valid_key()
     {
         return [
-            'false'          => [false, false],
-            'null'           => [null, false],
-            'line break'     => ["\n", false],
+            'false' => [false, false],
+            'null' => [null, false],
+            'line break' => ["\n", false],
             'null character' => ["\0", false],
-            'empty string'   => ['', false],
-            'single space'   => [' ', false],
-            'two spaces'     => ['  ', false],
-            'float 0'        => [0.0, false],
-            'int 0'          => [0, true],
-            'int 1'          => [1, true],
-            'string 0'       => ['0', true],
-            'string'         => ['key', true],
+            'empty string' => ['', false],
+            'single space' => [' ', false],
+            'two spaces' => ['  ', false],
+            'float 0' => [0.0, false],
+            'int 0' => [0, true],
+            'int 1' => [1, true],
+            'string 0' => ['0', true],
+            'string' => ['key', true],
         ];
     }
 
@@ -132,7 +134,7 @@ class Tests_Cache extends WP_UnitTestCase
 
     public function test_add()
     {
-        $key  = __FUNCTION__;
+        $key = __FUNCTION__;
         $val1 = 'val1';
         $val2 = 'val2';
 
@@ -146,8 +148,8 @@ class Tests_Cache extends WP_UnitTestCase
 
     public function test_replace()
     {
-        $key  = __FUNCTION__;
-        $val  = 'val1';
+        $key = __FUNCTION__;
+        $val = 'val1';
         $val2 = 'val2';
 
         // memcached rejects replace() if the key does not exist.
@@ -161,7 +163,7 @@ class Tests_Cache extends WP_UnitTestCase
 
     public function test_wp_cache_replace()
     {
-        $key  = 'my-key';
+        $key = 'my-key';
         $val1 = 'first-val';
         $val2 = 'second-val';
 
@@ -184,7 +186,7 @@ class Tests_Cache extends WP_UnitTestCase
 
     public function test_set()
     {
-        $key  = __FUNCTION__;
+        $key = __FUNCTION__;
         $val1 = 'val1';
         $val2 = 'val2';
 
@@ -247,22 +249,22 @@ class Tests_Cache extends WP_UnitTestCase
     // Make sure objects are cloned going to and from the cache.
     public function test_object_refs()
     {
-        $key           = __FUNCTION__ . '_1';
-        $object_a      = new stdClass();
+        $key = __FUNCTION__ . '_1';
+        $object_a = new stdClass();
         $object_a->foo = 'alpha';
         $this->cache->set($key, $object_a);
         $object_a->foo = 'bravo';
-        $object_b      = $this->cache->get($key);
+        $object_b = $this->cache->get($key);
         $this->assertSame('alpha', $object_b->foo);
         $object_b->foo = 'charlie';
         $this->assertSame('bravo', $object_a->foo);
 
-        $key           = __FUNCTION__ . '_2';
-        $object_a      = new stdClass();
+        $key = __FUNCTION__ . '_2';
+        $object_a = new stdClass();
         $object_a->foo = 'alpha';
         $this->cache->add($key, $object_a);
         $object_a->foo = 'bravo';
-        $object_b      = $this->cache->get($key);
+        $object_b = $this->cache->get($key);
         $this->assertSame('alpha', $object_b->foo);
         $object_b->foo = 'charlie';
         $this->assertSame('bravo', $object_a->foo);
@@ -373,15 +375,15 @@ class Tests_Cache extends WP_UnitTestCase
 
     public function test_switch_to_blog()
     {
-        if (! method_exists($this->cache, 'switch_to_blog')) {
+        if (!method_exists($this->cache, 'switch_to_blog')) {
             $this->markTestSkipped('This test requires a switch_to_blog() method on the cache object.');
         }
 
-        $key  = __FUNCTION__;
-        $val  = 'val1';
+        $key = __FUNCTION__;
+        $val = 'val1';
         $val2 = 'val2';
 
-        if (! is_multisite()) {
+        if (!is_multisite()) {
             // Single site ignores switch_to_blog().
             $this->assertTrue($this->cache->set($key, $val));
             $this->assertSame($val, $this->cache->get($key));
@@ -444,7 +446,7 @@ class Tests_Cache extends WP_UnitTestCase
                 'foo2' => 'bar',
                 'foo3' => 'bar',
             ],
-            'group1'
+            'group1',
         );
 
         $expected = [
@@ -467,7 +469,7 @@ class Tests_Cache extends WP_UnitTestCase
                 'foo2' => 'bar',
                 'foo3' => 'bar',
             ],
-            'group1'
+            'group1',
         );
 
         $expected = [
@@ -510,7 +512,7 @@ class Tests_Cache extends WP_UnitTestCase
 
         $found = wp_cache_delete_multiple(
             ['foo1', 'foo2', 'foo3'],
-            'group1'
+            'group1',
         );
 
         $expected = [

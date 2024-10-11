@@ -4,10 +4,10 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
 {
     public static $old_current_user;
     public static $author_id;
-    public static $post_ids    = [];
+    public static $post_ids = [];
     public static $comment_ids = [];
-    public static $term_ids    = [];
-    public static $terms       = [];
+    public static $term_ids = [];
+    public static $terms = [];
     public static $old_options = [];
 
     /**
@@ -48,7 +48,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
     public static function generate_shared_fixtures(WP_UnitTest_Factory $factory)
     {
         self::$old_current_user = get_current_user_id();
-        self::$author_id        = $factory->user->create(['user_login' => 'canonical-author']);
+        self::$author_id = $factory->user->create(['user_login' => 'canonical-author']);
 
         /*
          * Also set in self::set_up(), but we must configure here to make sure that
@@ -61,61 +61,61 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
 
         self::$post_ids[] = $factory->post->create(
             [
-                'import_id'  => 587,
+                'import_id' => 587,
                 'post_title' => 'post-format-test-audio',
-                'post_date'  => '2008-06-02 00:00:00',
-            ]
+                'post_date' => '2008-06-02 00:00:00',
+            ],
         );
 
         $gallery_post_id = $factory->post->create(
             [
                 'post_title' => 'post-format-test-gallery',
-                'post_date'  => '2008-06-10 00:00:00',
-            ]
+                'post_date' => '2008-06-10 00:00:00',
+            ],
         );
 
         self::$post_ids[] = $gallery_post_id;
 
         self::$post_ids[] = $factory->post->create(
             [
-                'import_id'   => 611,
-                'post_type'   => 'attachment',
-                'post_title'  => 'canola2',
+                'import_id' => 611,
+                'post_type' => 'attachment',
+                'post_title' => 'canola2',
                 'post_parent' => $gallery_post_id,
-            ]
+            ],
         );
 
         self::$post_ids[] = $factory->post->create(
             [
                 'post_title' => 'images-test',
-                'post_date'  => '2008-09-03 00:00:00',
-            ]
+                'post_date' => '2008-09-03 00:00:00',
+            ],
         );
 
         self::$post_ids[] = $factory->post->create(
             [
-                'post_title'   => 'multipage-post-test',
-                'post_date'    => '2008-09-03 00:00:00',
+                'post_title' => 'multipage-post-test',
+                'post_date' => '2008-09-03 00:00:00',
                 'post_content' => 'Page 1 <!--nextpage--> Page 2 <!--nextpage--> Page 3',
-            ]
+            ],
         );
 
         self::$post_ids[] = $factory->post->create(
             [
                 'post_title' => 'non-paged-post-test',
-                'post_date'  => '2008-09-03 00:00:00',
-            ]
+                'post_date' => '2008-09-03 00:00:00',
+            ],
         );
 
         $comment_post_id = $factory->post->create(
             [
-                'import_id'  => 149,
+                'import_id' => 149,
                 'post_title' => 'comment-test',
-                'post_date'  => '2008-03-03 00:00:00',
-            ]
+                'post_date' => '2008-03-03 00:00:00',
+            ],
         );
 
-        self::$post_ids[]  = $comment_post_id;
+        self::$post_ids[] = $comment_post_id;
         self::$comment_ids = $factory->comment->create_post_comments($comment_post_id, 15);
 
         self::$post_ids[] = $factory->post->create(['post_date' => '2008-09-05 00:00:00']);
@@ -126,81 +126,81 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
 
         self::$post_ids[] = $factory->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => 'sample-page',
-            ]
+            ],
         );
 
         self::$post_ids[] = $factory->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => 'about',
-            ]
+            ],
         );
 
         $parent_page_id = $factory->post->create(
             [
-                'post_type'  => 'page',
+                'post_type' => 'page',
                 'post_title' => 'parent-page',
-            ]
+            ],
         );
 
         self::$post_ids[] = $parent_page_id;
 
         self::$post_ids[] = $factory->post->create(
             [
-                'import_id'   => 144,
-                'post_type'   => 'page',
-                'post_title'  => 'child-page-1',
+                'import_id' => 144,
+                'post_type' => 'page',
+                'post_title' => 'child-page-1',
                 'post_parent' => $parent_page_id,
-            ]
+            ],
         );
 
         $parent_page_id = $factory->post->create(
             [
                 'post_name' => 'parent',
                 'post_type' => 'page',
-            ]
+            ],
         );
 
         self::$post_ids[] = $parent_page_id;
 
         $child_id_1 = $factory->post->create(
             [
-                'post_name'   => 'child1',
-                'post_type'   => 'page',
+                'post_name' => 'child1',
+                'post_type' => 'page',
                 'post_parent' => $parent_page_id,
-            ]
+            ],
         );
 
         self::$post_ids[] = $child_id_1;
 
         $child_id_2 = $factory->post->create(
             [
-                'post_name'   => 'child2',
-                'post_type'   => 'page',
+                'post_name' => 'child2',
+                'post_type' => 'page',
                 'post_parent' => $parent_page_id,
-            ]
+            ],
         );
 
         self::$post_ids[] = $child_id_2;
 
         $grandchild_id_1 = $factory->post->create(
             [
-                'post_name'   => 'grandchild',
-                'post_type'   => 'page',
+                'post_name' => 'grandchild',
+                'post_type' => 'page',
                 'post_parent' => $child_id_1,
-            ]
+            ],
         );
 
         self::$post_ids[] = $grandchild_id_1;
 
         $grandchild_id_2 = $factory->post->create(
             [
-                'post_name'   => 'grandchild',
-                'post_type'   => 'page',
+                'post_name' => 'grandchild',
+                'post_type' => 'page',
                 'post_parent' => $child_id_2,
-            ]
+            ],
         );
 
         self::$post_ids[] = $grandchild_id_2;
@@ -208,8 +208,8 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
         $cat1 = $factory->term->create(
             [
                 'taxonomy' => 'category',
-                'name'     => 'parent',
-            ]
+                'name' => 'parent',
+            ],
         );
 
         self::$terms['/category/parent/'] = $cat1;
@@ -219,9 +219,9 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
         $cat2 = $factory->term->create(
             [
                 'taxonomy' => 'category',
-                'name'     => 'child-1',
-                'parent'   => self::$terms['/category/parent/'],
-            ]
+                'name' => 'child-1',
+                'parent' => self::$terms['/category/parent/'],
+            ],
         );
 
         self::$terms['/category/parent/child-1/'] = $cat2;
@@ -231,9 +231,9 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
         $cat3 = $factory->term->create(
             [
                 'taxonomy' => 'category',
-                'name'     => 'child-2',
-                'parent'   => self::$terms['/category/parent/child-1/'],
-            ]
+                'name' => 'child-2',
+                'parent' => self::$terms['/category/parent/child-1/'],
+            ],
         );
 
         self::$terms['/category/parent/child-1/child-2/'] = $cat3;
@@ -243,8 +243,8 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
         $cat4 = $factory->term->create(
             [
                 'taxonomy' => 'category',
-                'name'     => 'cat-a',
-            ]
+                'name' => 'cat-a',
+            ],
         );
 
         self::$term_ids[$cat4] = 'category';
@@ -252,8 +252,8 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
         $cat5 = $factory->term->create(
             [
                 'taxonomy' => 'category',
-                'name'     => 'cat-b',
-            ]
+                'name' => 'cat-b',
+            ],
         );
 
         self::$term_ids[$cat5] = 'category';
@@ -261,7 +261,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
         $tag1 = $factory->term->create(
             [
                 'name' => 'post-formats',
-            ]
+            ],
         );
 
         self::$term_ids[$tag1] = 'post_tag';
@@ -274,52 +274,54 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
      */
     public static function delete_shared_fixtures()
     {
-        self::$author_id   = null;
-        self::$post_ids    = [];
+        self::$author_id = null;
+        self::$post_ids = [];
         self::$comment_ids = [];
-        self::$term_ids    = [];
-        self::$terms       = [];
+        self::$term_ids = [];
+        self::$terms = [];
     }
 
     /**
      * Assert that a given URL is the same a the canonical URL generated by WP.
      *
+     * @param string $test_url Raw URL that will be run through redirect_canonical().
+     * @param string $expected Expected string.
+     * @param int $ticket Optional. Trac ticket number.
+     * @param array $expected_doing_it_wrong Array of class/function names expected to throw _doing_it_wrong() notices.
      * @since 4.1.0
      *
-     * @param string $test_url                Raw URL that will be run through redirect_canonical().
-     * @param string $expected                Expected string.
-     * @param int    $ticket                  Optional. Trac ticket number.
-     * @param array  $expected_doing_it_wrong Array of class/function names expected to throw _doing_it_wrong() notices.
      */
     public function assertCanonical($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = [])
     {
-        $this->expected_doing_it_wrong = array_merge($this->expected_doing_it_wrong, (array) $expected_doing_it_wrong);
+        $this->expected_doing_it_wrong = array_merge($this->expected_doing_it_wrong, (array)$expected_doing_it_wrong);
 
         $ticket_ref = ($ticket > 0) ? 'Ticket #' . $ticket : '';
 
         if (is_string($expected)) {
             $expected = ['url' => $expected];
-        } elseif (is_array($expected) && ! isset($expected['url']) && ! isset($expected['qv'])) {
+        } elseif (is_array($expected) && !isset($expected['url']) && !isset($expected['qv'])) {
             $expected = ['qv' => $expected];
         }
 
-        if (! isset($expected['url']) && ! isset($expected['qv'])) {
+        if (!isset($expected['url']) && !isset($expected['qv'])) {
             $this->fail('No valid expected output was provided');
         }
 
         $this->go_to(home_url($test_url));
 
         // Does the redirect match what's expected?
-        $can_url        = $this->get_canonical($test_url);
+        $can_url = $this->get_canonical($test_url);
         $parsed_can_url = parse_url($can_url);
 
         // Just test the path and query if present.
         if (isset($expected['url'])) {
-            $this->assertSame($expected['url'], $parsed_can_url['path'] . (! empty($parsed_can_url['query']) ? '?' . $parsed_can_url['query'] : ''), $ticket_ref);
+            $this->assertSame($expected['url'],
+                $parsed_can_url['path'] . (!empty($parsed_can_url['query']) ? '?' . $parsed_can_url['query'] : ''),
+                $ticket_ref);
         }
 
         // If the test data doesn't include expected query vars, then we're done here.
-        if (! isset($expected['qv'])) {
+        if (!isset($expected['qv'])) {
             return;
         }
 
@@ -330,12 +332,13 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
         global $wp;
 
         $query_vars = array_diff($wp->query_vars, $wp->extra_query_vars);
-        if (! empty($parsed_can_url['query'])) {
+        if (!empty($parsed_can_url['query'])) {
             parse_str($parsed_can_url['query'], $_qv);
 
             // $_qv should not contain any elements which are set in $query_vars already
             // (i.e. $_GET vars should not be present in the Rewrite).
-            $this->assertSame([], array_intersect($query_vars, $_qv), 'Query vars are duplicated from the Rewrite into $_GET; ' . $ticket_ref);
+            $this->assertSame([], array_intersect($query_vars, $_qv),
+                'Query vars are duplicated from the Rewrite into $_GET; ' . $ticket_ref);
 
             $query_vars = array_merge($query_vars, $_qv);
         }
@@ -356,7 +359,7 @@ abstract class WP_Canonical_UnitTestCase extends WP_UnitTestCase
         $test_url = home_url($test_url);
 
         $can_url = redirect_canonical($test_url, false);
-        if (! $can_url) {
+        if (!$can_url) {
             return $test_url; // No redirect will take place for this request.
         }
 

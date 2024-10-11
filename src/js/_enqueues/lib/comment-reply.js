@@ -8,26 +8,30 @@
  *
  * @type {Object}
  */
-window.addComment = ( function( window ) {
+window.addComment = ( function ( window ) {
 	// Avoid scope lookups on commonly used variables.
 	var document = window.document;
 
 	// Settings.
 	var config = {
-		commentReplyClass   : 'comment-reply-link',
-		commentReplyTitleId : 'reply-title',
-		cancelReplyId       : 'cancel-comment-reply-link',
-		commentFormId       : 'commentform',
-		temporaryFormId     : 'wp-temp-form-div',
-		parentIdFieldId     : 'comment_parent',
-		postIdFieldId       : 'comment_post_ID'
+		commentReplyClass: 'comment-reply-link',
+		commentReplyTitleId: 'reply-title',
+		cancelReplyId: 'cancel-comment-reply-link',
+		commentFormId: 'commentform',
+		temporaryFormId: 'wp-temp-form-div',
+		parentIdFieldId: 'comment_parent',
+		postIdFieldId: 'comment_post_ID',
 	};
 
 	// Cross browser MutationObserver.
-	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+	var MutationObserver =
+		window.MutationObserver ||
+		window.WebKitMutationObserver ||
+		window.MozMutationObserver;
 
 	// Check browser cuts the mustard.
-	var cutsTheMustard = 'querySelector' in document && 'addEventListener' in window;
+	var cutsTheMustard =
+		'querySelector' in document && 'addEventListener' in window;
 
 	/*
 	 * Check browser supports dataset.
@@ -94,12 +98,19 @@ window.addComment = ( function( window ) {
 		}
 
 		cancelElement.addEventListener( 'touchstart', cancelEvent );
-		cancelElement.addEventListener( 'click',      cancelEvent );
+		cancelElement.addEventListener( 'click', cancelEvent );
 
 		// Submit the comment form when the user types [Ctrl] or [Cmd] + [Enter].
-		var submitFormHandler = function( e ) {
-			if ( ( e.metaKey || e.ctrlKey ) && e.keyCode === 13 && document.activeElement.tagName.toLowerCase() !== 'a' ) {
-				commentFormElement.removeEventListener( 'keydown', submitFormHandler );
+		var submitFormHandler = function ( e ) {
+			if (
+				( e.metaKey || e.ctrlKey ) &&
+				e.keyCode === 13 &&
+				document.activeElement.tagName.toLowerCase() !== 'a'
+			) {
+				commentFormElement.removeEventListener(
+					'keydown',
+					submitFormHandler
+				);
 				e.preventDefault();
 				// The submit button ID is 'submit' so we can't call commentFormElement.submit(). Click it instead.
 				commentFormElement.submit.click();
@@ -115,10 +126,10 @@ window.addComment = ( function( window ) {
 		var element;
 
 		for ( var i = 0, l = links.length; i < l; i++ ) {
-			element = links[i];
+			element = links[ i ];
 
 			element.addEventListener( 'touchstart', clickEvent );
-			element.addEventListener( 'click',      clickEvent );
+			element.addEventListener( 'click', clickEvent );
 		}
 	}
 
@@ -143,8 +154,7 @@ window.addComment = ( function( window ) {
 		if ( document.getElementsByClassName ) {
 			// Fastest.
 			allReplyLinks = context.getElementsByClassName( selectorClass );
-		}
-		else {
+		} else {
 			// Fast.
 			allReplyLinks = context.querySelectorAll( '.' + selectorClass );
 		}
@@ -161,7 +171,7 @@ window.addComment = ( function( window ) {
 	 */
 	function cancelEvent( event ) {
 		var cancelLink = this;
-		var temporaryFormId  = config.temporaryFormId;
+		var temporaryFormId = config.temporaryFormId;
 		var temporaryElement = getElementById( temporaryFormId );
 
 		if ( ! temporaryElement || ! respondElement ) {
@@ -173,15 +183,28 @@ window.addComment = ( function( window ) {
 
 		// Move the respond form back in place of the temporary element.
 		var headingText = temporaryElement.textContent;
-		temporaryElement.parentNode.replaceChild( respondElement, temporaryElement );
+		temporaryElement.parentNode.replaceChild(
+			respondElement,
+			temporaryElement
+		);
 		cancelLink.style.display = 'none';
 
-		var replyHeadingElement  = getElementById( config.commentReplyTitleId );
-		var replyHeadingTextNode = replyHeadingElement && replyHeadingElement.firstChild;
-		var replyLinkToParent    = replyHeadingTextNode && replyHeadingTextNode.nextSibling;
+		var replyHeadingElement = getElementById( config.commentReplyTitleId );
+		var replyHeadingTextNode =
+			replyHeadingElement && replyHeadingElement.firstChild;
+		var replyLinkToParent =
+			replyHeadingTextNode && replyHeadingTextNode.nextSibling;
 
-		if ( replyHeadingTextNode && replyHeadingTextNode.nodeType === Node.TEXT_NODE && headingText ) {
-			if ( replyLinkToParent && 'A' === replyLinkToParent.nodeName && replyLinkToParent.id !== config.cancelReplyId ) {
+		if (
+			replyHeadingTextNode &&
+			replyHeadingTextNode.nodeType === Node.TEXT_NODE &&
+			headingText
+		) {
+			if (
+				replyLinkToParent &&
+				'A' === replyLinkToParent.nodeName &&
+				replyLinkToParent.id !== config.cancelReplyId
+			) {
 				replyLinkToParent.style.display = '';
 			}
 
@@ -202,11 +225,12 @@ window.addComment = ( function( window ) {
 		var replyNode = getElementById( config.commentReplyTitleId );
 		var defaultReplyHeading = replyNode && replyNode.firstChild.textContent;
 		var replyLink = this,
-			commId    = getDataAttribute( replyLink, 'belowelement' ),
-			parentId  = getDataAttribute( replyLink, 'commentid' ),
+			commId = getDataAttribute( replyLink, 'belowelement' ),
+			parentId = getDataAttribute( replyLink, 'commentid' ),
 			respondId = getDataAttribute( replyLink, 'respondelement' ),
-			postId    = getDataAttribute( replyLink, 'postid' ),
-			replyTo   = getDataAttribute( replyLink, 'replyto' ) || defaultReplyHeading,
+			postId = getDataAttribute( replyLink, 'postid' ),
+			replyTo =
+				getDataAttribute( replyLink, 'replyto' ) || defaultReplyHeading,
 			follow;
 
 		if ( ! commId || ! parentId || ! respondId || ! postId ) {
@@ -221,7 +245,13 @@ window.addComment = ( function( window ) {
 		 * Third party comments systems can hook into this function via the global scope,
 		 * therefore the click event needs to reference the global scope.
 		 */
-		follow = window.addComment.moveForm( commId, parentId, respondId, postId, replyTo );
+		follow = window.addComment.moveForm(
+			commId,
+			parentId,
+			respondId,
+			postId,
+			replyTo
+		);
 		if ( false === follow ) {
 			event.preventDefault();
 		}
@@ -239,7 +269,7 @@ window.addComment = ( function( window ) {
 
 		var observerOptions = {
 			childList: true,
-			subtree: true
+			subtree: true,
 		};
 
 		observer = new MutationObserver( handleChanges );
@@ -279,9 +309,8 @@ window.addComment = ( function( window ) {
 	 */
 	function getDataAttribute( element, attribute ) {
 		if ( supportsDataset ) {
-			return element.dataset[attribute];
-		}
-		else {
+			return element.dataset[ attribute ];
+		} else {
 			return element.getAttribute( 'data-' + attribute );
 		}
 	}
@@ -315,16 +344,17 @@ window.addComment = ( function( window ) {
 	function moveForm( addBelowId, commentId, respondId, postId, replyTo ) {
 		// Get elements based on their IDs.
 		var addBelowElement = getElementById( addBelowId );
-		respondElement  = getElementById( respondId );
+		respondElement = getElementById( respondId );
 
 		// Get the hidden fields.
-		var parentIdField   = getElementById( config.parentIdFieldId );
-		var postIdField     = getElementById( config.postIdFieldId );
+		var parentIdField = getElementById( config.parentIdFieldId );
+		var postIdField = getElementById( config.postIdFieldId );
 		var element, cssHidden, style;
 
-		var replyHeading         = getElementById( config.commentReplyTitleId );
+		var replyHeading = getElementById( config.commentReplyTitleId );
 		var replyHeadingTextNode = replyHeading && replyHeading.firstChild;
-		var replyLinkToParent    = replyHeadingTextNode && replyHeadingTextNode.nextSibling;
+		var replyLinkToParent =
+			replyHeadingTextNode && replyHeadingTextNode.nextSibling;
 
 		if ( ! addBelowElement || ! respondElement || ! parentIdField ) {
 			// Missing key elements, fail.
@@ -345,10 +375,20 @@ window.addComment = ( function( window ) {
 		parentIdField.value = commentId;
 
 		cancelElement.style.display = '';
-		addBelowElement.parentNode.insertBefore( respondElement, addBelowElement.nextSibling );
+		addBelowElement.parentNode.insertBefore(
+			respondElement,
+			addBelowElement.nextSibling
+		);
 
-		if ( replyHeadingTextNode && replyHeadingTextNode.nodeType === Node.TEXT_NODE ) {
-			if ( replyLinkToParent && 'A' === replyLinkToParent.nodeName && replyLinkToParent.id !== config.cancelReplyId ) {
+		if (
+			replyHeadingTextNode &&
+			replyHeadingTextNode.nodeType === Node.TEXT_NODE
+		) {
+			if (
+				replyLinkToParent &&
+				'A' === replyLinkToParent.nodeName &&
+				replyLinkToParent.id !== config.cancelReplyId
+			) {
 				replyLinkToParent.style.display = 'none';
 			}
 
@@ -359,14 +399,14 @@ window.addComment = ( function( window ) {
 		 * This is for backward compatibility with third party commenting systems
 		 * hooking into the event using older techniques.
 		 */
-		cancelElement.onclick = function() {
+		cancelElement.onclick = function () {
 			return false;
 		};
 
 		// Focus on the first field in the comment form.
 		try {
 			for ( var i = 0; i < commentFormElement.elements.length; i++ ) {
-				element = commentFormElement.elements[i];
+				element = commentFormElement.elements[ i ];
 				cssHidden = false;
 
 				// Get elements computed style.
@@ -384,12 +424,19 @@ window.addComment = ( function( window ) {
 				 * the job for us. In fact, the visibility computed style is the actual
 				 * computed value and already takes into account the element ancestors.
 				 */
-				if ( ( element.offsetWidth <= 0 && element.offsetHeight <= 0 ) || style.visibility === 'hidden' ) {
+				if (
+					( element.offsetWidth <= 0 && element.offsetHeight <= 0 ) ||
+					style.visibility === 'hidden'
+				) {
 					cssHidden = true;
 				}
 
 				// Skip form elements that are hidden or disabled.
-				if ( 'hidden' === element.type || element.disabled || cssHidden ) {
+				if (
+					'hidden' === element.type ||
+					element.disabled ||
+					cssHidden
+				) {
 					continue;
 				}
 
@@ -397,10 +444,7 @@ window.addComment = ( function( window ) {
 				// Stop after the first focusable element.
 				break;
 			}
-		}
-		catch(e) {
-
-		}
+		} catch ( e ) {}
 
 		/*
 		 * false is returned for backward compatibility with third party commenting systems
@@ -420,10 +464,12 @@ window.addComment = ( function( window ) {
 	 * @param {HTMLelement} respondElement the #respond element holding comment form.
 	 */
 	function addPlaceHolder( respondElement ) {
-		var temporaryFormId  = config.temporaryFormId;
+		var temporaryFormId = config.temporaryFormId;
 		var temporaryElement = getElementById( temporaryFormId );
 		var replyElement = getElementById( config.commentReplyTitleId );
-		var initialHeadingText = replyElement ? replyElement.firstChild.textContent : '';
+		var initialHeadingText = replyElement
+			? replyElement.firstChild.textContent
+			: '';
 
 		if ( temporaryElement ) {
 			// The element already exists, no need to recreate.
@@ -434,11 +480,14 @@ window.addComment = ( function( window ) {
 		temporaryElement.id = temporaryFormId;
 		temporaryElement.style.display = 'none';
 		temporaryElement.textContent = initialHeadingText;
-		respondElement.parentNode.insertBefore( temporaryElement, respondElement );
+		respondElement.parentNode.insertBefore(
+			temporaryElement,
+			respondElement
+		);
 	}
 
 	return {
 		init: init,
-		moveForm: moveForm
+		moveForm: moveForm,
 	};
-})( window );
+} )( window );

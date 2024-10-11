@@ -20,13 +20,13 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
                         'value' => 'bar',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1, $p2];
@@ -47,13 +47,13 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
                         'key' => 'oof',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p2, $p3];
@@ -71,14 +71,14 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1];
@@ -96,15 +96,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 'bar',
+                        'key' => 'foo',
+                        'value' => 'bar',
                         'compare' => '=',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1];
@@ -124,15 +124,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 'bar',
+                        'key' => 'foo',
+                        'value' => 'bar',
                         'compare' => '!=',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p2];
@@ -154,15 +154,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 2,
+                        'key' => 'foo',
+                        'value' => 2,
                         'compare' => '<',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1];
@@ -173,15 +173,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 2,
+                        'key' => 'foo',
+                        'value' => 2,
                         'compare' => '<=',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1, $p2];
@@ -192,15 +192,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 2,
+                        'key' => 'foo',
+                        'value' => 2,
                         'compare' => '>=',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p2, $p3];
@@ -211,15 +211,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 2,
+                        'key' => 'foo',
+                        'value' => 2,
                         'compare' => '>',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p3];
@@ -237,15 +237,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 'ba',
+                        'key' => 'foo',
+                        'value' => 'ba',
                         'compare' => 'LIKE',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1];
@@ -265,15 +265,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 'ba',
+                        'key' => 'foo',
+                        'value' => 'ba',
                         'compare' => 'NOT LIKE',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p2];
@@ -294,16 +294,16 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => [9, 12],
+                        'key' => 'foo',
+                        'value' => [9, 12],
                         'compare' => 'BETWEEN',
-                        'type'    => 'NUMERIC',
+                        'type' => 'NUMERIC',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p2];
@@ -313,16 +313,16 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => [9, 12],
+                        'key' => 'foo',
+                        'value' => [9, 12],
                         'compare' => 'NOT BETWEEN',
-                        'type'    => 'NUMERIC',
+                        'type' => 'NUMERIC',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1, $p3];
@@ -341,15 +341,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 'z$',
+                        'key' => 'foo',
+                        'value' => 'z$',
                         'compare' => 'REGEXP',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p2];
@@ -360,15 +360,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 'z$',
+                        'key' => 'foo',
+                        'value' => 'z$',
                         'compare' => 'RLIKE',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p2];
@@ -387,15 +387,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
-                        'value'   => 'z$',
+                        'key' => 'foo',
+                        'value' => 'z$',
                         'compare' => 'NOT REGEXP',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1];
@@ -417,18 +417,18 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'foo value 1',
                     ],
                     [
-                        'key'   => 'bar',
+                        'key' => 'bar',
                         'value' => 'bar value 1',
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1];
@@ -460,13 +460,13 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     [
                         'key' => 'foo',
                     ],
                     [
-                        'key'   => 'bar',
+                        'key' => 'bar',
                         'value' => 'bar_val_1',
                     ],
                     [
@@ -477,7 +477,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                     ],
                     'relation' => 'OR',
                 ],
-            ]
+            ],
         );
 
         $expected = [$post_id, $post_id2, $post_id3, $post_id4];
@@ -515,12 +515,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
                         'key' => 'foo',
                     ],
                     [
-                        'key'   => 'bar',
+                        'key' => 'bar',
                         'value' => 'val_2',
                     ],
                     [
@@ -533,8 +533,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$post_id7];
@@ -542,7 +542,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
                         'key' => 'foo',
                     ],
@@ -553,8 +553,8 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$post_id2, $post_id6, $post_id7];
@@ -572,14 +572,14 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
                         'compare' => 'EXISTS',
-                        'key'     => 'foo',
+                        'key' => 'foo',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$posts[0], $posts[2]], $query->posts);
@@ -596,15 +596,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
                         'compare' => 'EXISTS',
-                        'value'   => 'baz',
-                        'key'     => 'foo',
+                        'value' => 'baz',
+                        'key' => 'foo',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$posts[2]], $query->posts);
@@ -621,15 +621,15 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     [
                         'compare' => 'NOT EXISTS',
-                        'value'   => 'bar',
-                        'key'     => 'foo',
+                        'value' => 'bar',
+                        'key' => 'foo',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$posts[1]], $query->posts);
@@ -657,16 +657,16 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
+                        'key' => 'foo',
                         'compare' => 'NOT EXISTS',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$post_id2, $post_id3, $post_id4];
@@ -674,20 +674,20 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
+                        'key' => 'foo',
                         'compare' => 'NOT EXISTS',
                     ],
                     [
-                        'key'     => 'bar',
+                        'key' => 'bar',
                         'compare' => 'NOT EXISTS',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$post_id4];
@@ -695,24 +695,24 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'foo',
+                        'key' => 'foo',
                         'compare' => 'NOT EXISTS',
                     ],
                     [
-                        'key'     => 'bar',
+                        'key' => 'bar',
                         'compare' => 'NOT EXISTS',
                     ],
                     [
-                        'key'     => 'baz',
+                        'key' => 'baz',
                         'compare' => 'NOT EXISTS',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertCount(0, $query->posts);
@@ -736,21 +736,21 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'   => 'vegetable',
+                        'key' => 'vegetable',
                         'value' => 'onion',
                     ],
                     [
-                        'key'     => 'color',
+                        'key' => 'color',
                         'compare' => 'NOT EXISTS',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[1], $posts[2], $posts[3]];
@@ -770,23 +770,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'onion',
+                        'key' => 'vegetable',
+                        'value' => 'onion',
                         'compare' => '=',
                     ],
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'shallot',
+                        'key' => 'vegetable',
+                        'value' => 'shallot',
                         'compare' => '=',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[1], $posts[2]];
@@ -806,23 +806,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'onion',
+                        'key' => 'vegetable',
+                        'value' => 'onion',
                         'compare' => '=',
                     ],
                     [
-                        'key'     => 'color',
-                        'value'   => 'orange',
+                        'key' => 'color',
+                        'value' => 'orange',
                         'compare' => '=',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[0], $posts[1]];
@@ -842,23 +842,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'onion',
+                        'key' => 'vegetable',
+                        'value' => 'onion',
                         'compare' => '=',
                     ],
                     [
-                        'key'     => 'color',
-                        'value'   => ['orange', 'green'],
+                        'key' => 'color',
+                        'value' => ['orange', 'green'],
                         'compare' => 'IN',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[0], $posts[1]];
@@ -878,23 +878,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'onion',
+                        'key' => 'vegetable',
+                        'value' => 'onion',
                         'compare' => '=',
                     ],
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'hall',
+                        'key' => 'vegetable',
+                        'value' => 'hall',
                         'compare' => 'LIKE',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[1], $posts[2]];
@@ -914,24 +914,24 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'shallot',
+                        'key' => 'vegetable',
+                        'value' => 'shallot',
                         'compare' => '=',
                     ],
                     [
-                        'key'     => 'number_of_colors',
-                        'value'   => [1, 3],
+                        'key' => 'number_of_colors',
+                        'value' => [1, 3],
                         'compare' => 'BETWEEN',
-                        'type'    => 'SIGNED',
+                        'type' => 'SIGNED',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[0], $posts[2]];
@@ -953,23 +953,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'AND',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => ['onion', 'shallot'],
+                        'key' => 'vegetable',
+                        'value' => ['onion', 'shallot'],
                         'compare' => 'IN',
                     ],
                     [
-                        'key'     => 'vegetable',
-                        'value'   => ['banana'],
+                        'key' => 'vegetable',
+                        'value' => ['banana'],
                         'compare' => 'IN',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[3]];
@@ -991,23 +991,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'AND',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => ['onion', 'shallot'],
+                        'key' => 'vegetable',
+                        'value' => ['onion', 'shallot'],
                         'compare' => 'IN',
                     ],
                     [
-                        'key'     => 'color',
-                        'value'   => ['blue'],
+                        'key' => 'color',
+                        'value' => ['blue'],
                         'compare' => 'IN',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[1]];
@@ -1028,23 +1028,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'AND',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'onion',
+                        'key' => 'vegetable',
+                        'value' => 'onion',
                         'compare' => '!=',
                     ],
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'shallot',
+                        'key' => 'vegetable',
+                        'value' => 'shallot',
                         'compare' => '!=',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[3]];
@@ -1072,23 +1072,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'AND',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'shallot',
+                        'key' => 'vegetable',
+                        'value' => 'shallot',
                         'compare' => '!=',
                     ],
                     [
-                        'key'     => 'color',
-                        'value'   => 'orange',
+                        'key' => 'color',
+                        'value' => 'orange',
                         'compare' => '!=',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[2]];
@@ -1109,23 +1109,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'AND',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'onion',
+                        'key' => 'vegetable',
+                        'value' => 'onion',
                         'compare' => '!=',
                     ],
                     [
-                        'key'     => 'vegetable',
-                        'value'   => ['shallot'],
+                        'key' => 'vegetable',
+                        'value' => ['shallot'],
                         'compare' => 'NOT IN',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[3]];
@@ -1146,23 +1146,23 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     'relation' => 'AND',
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'onion',
+                        'key' => 'vegetable',
+                        'value' => 'onion',
                         'compare' => '!=',
                     ],
                     [
-                        'key'     => 'vegetable',
-                        'value'   => 'hall',
+                        'key' => 'vegetable',
+                        'value' => 'hall',
                         'compare' => 'NOT LIKE',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $expected = [$posts[3]];
@@ -1186,167 +1186,167 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => '.300',
+                        'key' => 'decimal_value',
+                        'value' => '.300',
                         'compare' => '=',
-                        'type'    => 'DECIMAL(10,2)',
+                        'type' => 'DECIMAL(10,2)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_3], $query->posts);
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => '0.35',
+                        'key' => 'decimal_value',
+                        'value' => '0.35',
                         'compare' => '>',
-                        'type'    => 'DECIMAL(10,2)',
+                        'type' => 'DECIMAL(10,2)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_4], $query->posts);
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => '0.3',
+                        'key' => 'decimal_value',
+                        'value' => '0.3',
                         'compare' => '>=',
-                        'type'    => 'DECIMAL(10,2)',
+                        'type' => 'DECIMAL(10,2)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_3, $post_4], $query->posts);
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => '0',
+                        'key' => 'decimal_value',
+                        'value' => '0',
                         'compare' => '<',
-                        'type'    => 'DECIMAL(10,2)',
+                        'type' => 'DECIMAL(10,2)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_1], $query->posts, 'ID');
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => '0.3',
+                        'key' => 'decimal_value',
+                        'value' => '0.3',
                         'compare' => '<=',
-                        'type'    => 'DECIMAL(10,2)',
+                        'type' => 'DECIMAL(10,2)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_1, $post_2, $post_3], $query->posts);
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => [0.23409845, .31],
+                        'key' => 'decimal_value',
+                        'value' => [0.23409845, .31],
                         'compare' => 'BETWEEN',
-                        'type'    => 'DECIMAL(10, 10)',
+                        'type' => 'DECIMAL(10, 10)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_3], $query->posts);
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => [0.23409845, .31],
+                        'key' => 'decimal_value',
+                        'value' => [0.23409845, .31],
                         'compare' => 'NOT BETWEEN',
-                        'type'    => 'DECIMAL(10,10)',
+                        'type' => 'DECIMAL(10,10)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_1, $post_2, $post_4], $query->posts);
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => '.3',
+                        'key' => 'decimal_value',
+                        'value' => '.3',
                         'compare' => 'LIKE',
-                        'type'    => 'DECIMAL(10,2)',
+                        'type' => 'DECIMAL(10,2)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_1, $post_3], $query->posts);
 
         $query = new WP_Query(
             [
-                'meta_query'             => [
+                'meta_query' => [
                     [
-                        'key'     => 'decimal_value',
-                        'value'   => '.3',
+                        'key' => 'decimal_value',
+                        'value' => '.3',
                         'compare' => 'NOT LIKE',
-                        'type'    => 'DECIMAL(10,2)',
+                        'type' => 'DECIMAL(10,2)',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_2, $post_4], $query->posts);
 
         $query = new WP_Query(
             [
-                'orderby'                => 'meta_value',
-                'order'                  => 'DESC',
-                'meta_key'               => 'decimal_value',
-                'meta_type'              => 'DECIMAL(10, 2)',
+                'orderby' => 'meta_value',
+                'order' => 'DESC',
+                'meta_key' => 'decimal_value',
+                'meta_type' => 'DECIMAL(10, 2)',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $this->assertSameSets([$post_4, $post_3, $post_2, $post_1], $query->posts);
     }
@@ -1355,11 +1355,11 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
     {
         $q = new WP_Query(
             [
-                'meta_key'     => 'foo',
-                'meta_value'   => '5',
+                'meta_key' => 'foo',
+                'meta_value' => '5',
                 'meta_compare' => '>',
-                'meta_type'    => 'SIGNED',
-            ]
+                'meta_type' => 'SIGNED',
+            ],
         );
 
         $this->assertSame('foo', $q->meta_query->queries[0]['key']);
@@ -1385,26 +1385,26 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'orderby'                => 'meta_value',
-                'order'                  => 'ASC',
-                'meta_key'               => 'foo',
-                'meta_query'             => [
+                'orderby' => 'meta_value',
+                'order' => 'ASC',
+                'meta_key' => 'foo',
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'     => 'bar1',
-                        'value'   => 'baz',
+                        'key' => 'bar1',
+                        'value' => 'baz',
                         'compare' => '=',
                     ],
                     [
-                        'key'     => 'bar2',
-                        'value'   => 'baz',
+                        'key' => 'bar2',
+                        'value' => 'baz',
                         'compare' => '=',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSame([$posts[2], $posts[0], $posts[1]], $query->posts);
@@ -1431,26 +1431,26 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $query = new WP_Query(
             [
-                'orderby'                => 'meta_value',
-                'order'                  => 'ASC',
-                'meta_key'               => 'foo',
-                'meta_query'             => [
+                'orderby' => 'meta_value',
+                'order' => 'ASC',
+                'meta_key' => 'foo',
+                'meta_query' => [
                     'relation' => 'AND',
                     [
-                        'key'     => 'bar1',
-                        'value'   => 'baz',
+                        'key' => 'bar1',
+                        'value' => 'baz',
                         'compare' => '=',
                     ],
                     [
-                        'key'     => 'bar2',
-                        'value'   => 'baz',
+                        'key' => 'bar2',
+                        'value' => 'baz',
                         'compare' => '=',
                     ],
                 ],
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'fields'                 => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSame([$posts[2], $posts[0], $posts[1]], $query->posts);
@@ -1474,26 +1474,26 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_term_meta_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                     [
                         'relation' => 'AND',
                         [
-                            'key'   => 'foo2',
+                            'key' => 'foo2',
                             'value' => 'bar',
                         ],
                         [
-                            'key'   => 'foo3',
+                            'key' => 'foo3',
                             'value' => 'bar',
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1, $p3];
@@ -1518,33 +1518,33 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
             [
                 'update_post_meta_cache' => false,
                 'update_term_meta_cache' => false,
-                'fields'                 => 'ids',
-                'meta_query'             => [
+                'fields' => 'ids',
+                'meta_query' => [
                     'relation' => 'OR',
                     [
-                        'key'   => 'foo',
+                        'key' => 'foo',
                         'value' => 'bar',
                     ],
                     [
                         'relation' => 'OR',
                         [
-                            'key'   => 'foo2',
+                            'key' => 'foo2',
                             'value' => 'bar',
                         ],
                         [
                             'relation' => 'AND',
                             [
-                                'key'   => 'foo3',
+                                'key' => 'foo3',
                                 'value' => 'bar',
                             ],
                             [
-                                'key'   => 'foo4',
+                                'key' => 'foo4',
                                 'value' => 'bar',
                             ],
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $expected = [$p1, $p3];
@@ -1565,9 +1565,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
         add_post_meta($post_id5, 'time', 1000);
 
         $args = [
-            'meta_key'     => 'time',
-            'meta_value'   => [1, 1000],
-            'meta_type'    => 'numeric',
+            'meta_key' => 'time',
+            'meta_value' => [1, 1000],
+            'meta_type' => 'numeric',
             'meta_compare' => 'NOT BETWEEN',
         ];
 
@@ -1581,9 +1581,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
         $this->assertSameSets([$post_id2, $post_id3], $posts);
 
         $args = [
-            'meta_key'     => 'time',
-            'meta_value'   => [1, 1000],
-            'meta_type'    => 'numeric',
+            'meta_key' => 'time',
+            'meta_value' => [1, 1000],
+            'meta_type' => 'numeric',
             'meta_compare' => 'BETWEEN',
         ];
 
@@ -1616,9 +1616,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $posts = get_posts(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => ['bar', 'baz'],
-            ]
+            ],
         );
 
         $this->assertCount(2, $posts);
@@ -1627,10 +1627,10 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $posts = get_posts(
             [
-                'meta_key'     => 'foo',
-                'meta_value'   => ['bar', 'baz'],
+                'meta_key' => 'foo',
+                'meta_value' => ['bar', 'baz'],
                 'meta_compare' => 'IN',
-            ]
+            ],
         );
 
         $this->assertCount(2, $posts);
@@ -1658,7 +1658,7 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
         $args = [
             'meta_query' => [
                 [
-                    'value'   => 'lorem',
+                    'value' => 'lorem',
                     'compare' => 'LIKE',
                 ],
             ],
@@ -1696,9 +1696,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'meta_key'   => 'foo',
+                'meta_key' => 'foo',
                 'meta_value' => '0',
-            ]
+            ],
         );
         $this->assertCount(1, $q->posts);
         foreach ($q->posts as $post) {
@@ -1709,9 +1709,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $posts = get_posts(
             [
-                'meta_key'   => 'bar',
+                'meta_key' => 'bar',
                 'meta_value' => '0',
-            ]
+            ],
         );
         $this->assertCount(2, $posts);
         foreach ($posts as $post) {
@@ -1723,9 +1723,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $posts = get_posts(
             [
-                'meta_key'   => 'bar',
+                'meta_key' => 'bar',
                 'meta_value' => 0,
-            ]
+            ],
         );
         $this->assertCount(2, $posts);
         foreach ($posts as $post) {
@@ -1766,16 +1766,16 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     'foo_key' => [
-                        'key'     => 'foo',
+                        'key' => 'foo',
                         'compare' => 'EXISTS',
                     ],
                 ],
-                'orderby'    => 'foo_key',
-                'order'      => 'DESC',
-            ]
+                'orderby' => 'foo_key',
+                'order' => 'DESC',
+            ],
         );
 
         $this->assertSame([$posts[1], $posts[2], $posts[0]], $q->posts);
@@ -1789,17 +1789,17 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2015-01-28 03:00:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2015-01-28 05:00:00',
-            ]
+            ],
         );
         $p3 = self::factory()->post->create(
             [
                 'post_date' => '2015-01-28 03:00:00',
-            ]
+            ],
         );
 
         add_post_meta($p1, 'foo', 'jjj');
@@ -1808,18 +1808,18 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     'foo_key' => [
-                        'key'     => 'foo',
+                        'key' => 'foo',
                         'compare' => 'EXISTS',
                     ],
                 ],
-                'orderby'    => [
+                'orderby' => [
                     'post_date' => 'asc',
-                    'foo_key'   => 'asc',
+                    'foo_key' => 'asc',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p3, $p1, $p2], $q->posts);
@@ -1841,22 +1841,22 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
 
         $q = new WP_Query(
             [
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     'foo_key' => [
-                        'key'     => 'foo',
+                        'key' => 'foo',
                         'compare' => 'EXISTS',
                     ],
                     'bar_key' => [
-                        'key'     => 'bar',
+                        'key' => 'bar',
                         'compare' => 'EXISTS',
                     ],
                 ],
-                'orderby'    => [
+                'orderby' => [
                     'foo_key' => 'asc',
                     'bar_key' => 'desc',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$posts[2], $posts[0], $posts[1]], $q->posts);
@@ -1869,26 +1869,26 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
     {
         $q = new WP_Query(
             [
-                'fields'     => 'ids',
+                'fields' => 'ids',
                 'meta_query' => [
                     'foo_key' => [
-                        'key'     => 'foo',
+                        'key' => 'foo',
                         'compare' => 'EXISTS',
                     ],
                     [
                         'foo_key' => [
-                            'key'     => 'bar',
+                            'key' => 'bar',
                             'compare' => 'EXISTS',
                         ],
                     ],
                     [
                         'foo_key' => [
-                            'key'     => 'baz',
+                            'key' => 'baz',
                             'compare' => 'EXISTS',
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets(['foo_key', 'foo_key-1', 'foo_key-2'], array_keys($q->meta_query->get_clauses()));
@@ -1910,11 +1910,11 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'LIKE',
-                        'key'         => 'aa_foo',
+                        'key' => 'aa_foo',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[0], $posts[2]], $q->posts);
@@ -1934,9 +1934,9 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
         $q = new WP_Query(
             [
                 'meta_compare_key' => 'LIKE',
-                'meta_key'         => 'aa_foo',
-                'fields'           => 'ids',
-            ]
+                'meta_key' => 'aa_foo',
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[0], $posts[2]], $q->posts);
@@ -1959,12 +1959,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                     'relation' => 'AND',
                     [
                         'compare_key' => 'LIKE',
-                        'key'         => 'bar',
-                        'compare'     => 'NOT EXISTS',
+                        'key' => 'bar',
+                        'compare' => 'NOT EXISTS',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[0]], $q->posts);
@@ -1987,12 +1987,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => '!=',
-                        'key'         => 'aaa_foo_bbb',
-                        'value'       => 'abc',
+                        'key' => 'aaa_foo_bbb',
+                        'value' => 'abc',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[0], $posts[1]], $q->posts);
@@ -2015,12 +2015,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'NOT LIKE',
-                        'key'         => 'aaa_bar',
-                        'value'       => 'abc',
+                        'key' => 'aaa_bar',
+                        'value' => 'abc',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[0], $posts[2]], $q->posts);
@@ -2042,11 +2042,11 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'IN',
-                        'key'         => ['aaa_foo_bbb', 'aaa_bar_aaa'],
+                        'key' => ['aaa_foo_bbb', 'aaa_bar_aaa'],
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[1], $posts[2]], $q->posts);
@@ -2070,11 +2070,11 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'NOT IN',
-                        'key'         => ['aaa_foo_bbb', 'aaa_foo_ddd'],
+                        'key' => ['aaa_foo_bbb', 'aaa_foo_ddd'],
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[1]], $q->posts);
@@ -2097,12 +2097,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'NOT EXISTS',
-                        'key'         => 'aaa_foo_bbb',
-                        'value'       => 'abc',
+                        'key' => 'aaa_foo_bbb',
+                        'value' => 'abc',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[0], $posts[1]], $q->posts);
@@ -2125,12 +2125,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'EXISTS',
-                        'key'         => 'aaa_foo_bbb',
-                        'value'       => 'abc',
+                        'key' => 'aaa_foo_bbb',
+                        'value' => 'abc',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[2]], $q->posts);
@@ -2153,11 +2153,11 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'REGEXP',
-                        'key'         => 'AAA_foo_.*',
+                        'key' => 'AAA_foo_.*',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[0], $posts[2]], $q->posts);
@@ -2167,12 +2167,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'RLIKE',
-                        'key'         => 'AAA_FOO_.*',
-                        'type_key'    => 'BINARY',
+                        'key' => 'AAA_FOO_.*',
+                        'type_key' => 'BINARY',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[0]], $q->posts);
@@ -2196,11 +2196,11 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'NOT REGEXP',
-                        'key'         => 'AAA_foo_.*',
+                        'key' => 'AAA_foo_.*',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[1]], $q->posts);
@@ -2210,12 +2210,12 @@ class Tests_Query_MetaQuery extends WP_UnitTestCase
                 'meta_query' => [
                     [
                         'compare_key' => 'NOT REGEXP',
-                        'key'         => 'AAA_FOO_.*',
-                        'type_key'    => 'BINARY',
+                        'key' => 'AAA_FOO_.*',
+                        'type_key' => 'BINARY',
                     ],
                 ],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$posts[1], $posts[2]], $q->posts);

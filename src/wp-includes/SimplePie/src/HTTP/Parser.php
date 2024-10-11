@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -199,7 +199,7 @@ class Parser
      */
     protected function has_data()
     {
-        return (bool) ($this->position < $this->data_length);
+        return (bool)($this->position < $this->data_length);
     }
 
     /**
@@ -209,7 +209,7 @@ class Parser
      */
     protected function is_linear_whitespace()
     {
-        return (bool) ($this->data[$this->position] === "\x09"
+        return (bool)($this->data[$this->position] === "\x09"
             || $this->data[$this->position] === "\x20"
             || ($this->data[$this->position] === "\x0A"
                 && isset($this->data[$this->position + 1])
@@ -226,7 +226,7 @@ class Parser
             $this->http_version = substr($this->data, 5, $len);
             $this->position += 5 + $len;
             if (substr_count($this->http_version, '.') <= 1) {
-                $this->http_version = (float) $this->http_version;
+                $this->http_version = (float)$this->http_version;
                 $this->position += strspn($this->data, "\x09\x20", $this->position);
                 $this->state = self::STATE_STATUS;
             } else {
@@ -243,7 +243,7 @@ class Parser
     protected function status()
     {
         if ($len = strspn($this->data, '0123456789', $this->position)) {
-            $this->status_code = (int) substr($this->data, $this->position, $len);
+            $this->status_code = (int)substr($this->data, $this->position, $len);
             $this->position += $len;
             $this->state = self::STATE_REASON;
         } else {
@@ -451,7 +451,7 @@ class Parser
         $encoded = $this->body;
 
         while (true) {
-            $is_chunked = (bool) preg_match('/^([0-9a-f]+)[^\r\n]*\r\n/i', $encoded, $matches);
+            $is_chunked = (bool)preg_match('/^([0-9a-f]+)[^\r\n]*\r\n/i', $encoded, $matches);
             if (!$is_chunked) {
                 // Looks like it's not chunked after all
                 $this->state = self::STATE_EMIT;
@@ -484,8 +484,8 @@ class Parser
     /**
      * Prepare headers (take care of proxies headers)
      *
-     * @param string  $headers Raw headers
-     * @param integer $count   Redirection count. Default to 1.
+     * @param string $headers Raw headers
+     * @param integer $count Redirection count. Default to 1.
      *
      * @return string
      */

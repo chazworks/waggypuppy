@@ -23,8 +23,8 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase
      *
      * @ticket 45055
      *
-     * @param bool  $expected The value of the key extracted to extracted from given array.
-     * @param array $arr      The array to get last key from.
+     * @param bool $expected The value of the key extracted to extracted from given array.
+     * @param array $arr The array to get last key from.
      */
     public function test_array_key_last($expected, $arr)
     {
@@ -39,34 +39,34 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase
     public function data_array_key_last()
     {
         return [
-            'string key'  => [
+            'string key' => [
                 'expected' => 'key2',
-                'arr'      => [
+                'arr' => [
                     'key1' => 'val1',
                     'key2' => 'val2',
                 ],
             ],
-            'int key'     => [
+            'int key' => [
                 'expected' => 1,
-                'arr'      => [
+                'arr' => [
                     99 => 'val1',
-                    1  => 'val2',
+                    1 => 'val2',
                 ],
             ],
-            'no key'      => [
+            'no key' => [
                 'expected' => 1,
-                'arr'      => ['val1', 'val2'],
+                'arr' => ['val1', 'val2'],
             ],
             'multi array' => [
                 'expected' => 1,
-                'arr'      => [
+                'arr' => [
                     99 => [22 => 'val1'],
-                    1  => 'val2',
+                    1 => 'val2',
                 ],
             ],
-            'mixed keys'  => [
+            'mixed keys' => [
                 'expected' => 1,
-                'arr'      => [
+                'arr' => [
                     'val1',
                     'key2' => 'val2',
                     'val3',
@@ -74,7 +74,7 @@ class Tests_Compat_ArrayKeyLast extends WP_UnitTestCase
             ],
             'empty array' => [
                 'expected' => null,
-                'arr'      => [],
+                'arr' => [],
             ],
         ];
     }

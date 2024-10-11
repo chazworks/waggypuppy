@@ -14,17 +14,17 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
             $_POST = [];
         }
 
-        $data                   = [];
-        $data[0]                = new StdClass();
-        $data[0]->name          = 'yesorno';
-        $data[0]->value         = 'yes';
+        $data = [];
+        $data[0] = new StdClass();
+        $data[0]->name = 'yesorno';
+        $data[0]->value = 'yes';
         $_POST['nav-menu-data'] = addslashes(json_encode($data));
 
         _wp_expand_nav_menu_post_data();
 
         $expected = [
             'nav-menu-data' => $_POST['nav-menu-data'],
-            'yesorno'       => 'yes',
+            'yesorno' => 'yes',
         ];
 
         $this->assertSame($expected, $_POST);
@@ -38,17 +38,17 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
             $_POST = [];
         }
 
-        $data                   = [];
-        $data[0]                = new StdClass();
-        $data[0]->name          = 'would[1][do][the][trick]';
-        $data[0]->value         = 'yes';
+        $data = [];
+        $data[0] = new StdClass();
+        $data[0]->name = 'would[1][do][the][trick]';
+        $data[0]->value = 'yes';
         $_POST['nav-menu-data'] = addslashes(json_encode($data));
 
         _wp_expand_nav_menu_post_data();
 
         $expected = [
             'nav-menu-data' => $_POST['nav-menu-data'],
-            'would'         => [
+            'would' => [
                 1 => [
                     'do' => [
                         'the' => [
@@ -69,23 +69,23 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
             $_POST = [];
         }
 
-        $data                   = [];
-        $data[0]                = new StdClass();
-        $data[0]->name          = 'would[1][do][the][trick]';
-        $data[0]->value         = 'yes';
-        $data[1]                = new StdClass();
-        $data[1]->name          = 'would[2][do][the][trick]';
-        $data[1]->value         = 'yes';
-        $data[2]                = new StdClass();
-        $data[2]->name          = 'would[2][do][the][job]';
-        $data[2]->value         = 'yes';
+        $data = [];
+        $data[0] = new StdClass();
+        $data[0]->name = 'would[1][do][the][trick]';
+        $data[0]->value = 'yes';
+        $data[1] = new StdClass();
+        $data[1]->name = 'would[2][do][the][trick]';
+        $data[1]->value = 'yes';
+        $data[2] = new StdClass();
+        $data[2]->name = 'would[2][do][the][job]';
+        $data[2]->value = 'yes';
         $_POST['nav-menu-data'] = addslashes(json_encode($data));
 
         _wp_expand_nav_menu_post_data();
 
         $expected = [
             'nav-menu-data' => $_POST['nav-menu-data'],
-            'would'         => [
+            'would' => [
                 1 => [
                     'do' => [
                         'the' => [
@@ -97,7 +97,7 @@ class Tests_Menu_WpExpandNavMenuPostData extends WP_UnitTestCase
                     'do' => [
                         'the' => [
                             'trick' => 'yes',
-                            'job'   => 'yes',
+                            'job' => 'yes',
                         ],
                     ],
                 ],

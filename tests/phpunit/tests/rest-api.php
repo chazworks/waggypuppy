@@ -103,10 +103,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => ['GET'],
-                'callback'            => '__return_null',
+                'methods' => ['GET'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
         // Check the route was registered correctly.
@@ -141,16 +141,16 @@ class Tests_REST_API extends WP_UnitTestCase
             '/test',
             [
                 [
-                    'methods'             => ['GET'],
-                    'callback'            => '__return_null',
+                    'methods' => ['GET'],
+                    'callback' => '__return_null',
                     'permission_callback' => '__return_true',
                 ],
                 [
-                    'methods'             => ['POST'],
-                    'callback'            => '__return_null',
+                    'methods' => ['POST'],
+                    'callback' => '__return_null',
                     'permission_callback' => '__return_true',
                 ],
-            ]
+            ],
         );
 
         // Check the route was registered correctly.
@@ -164,7 +164,7 @@ class Tests_REST_API extends WP_UnitTestCase
         $this->assertSame('test-ns', $endpoint['namespace']);
 
         $filtered_endpoints = $GLOBALS['wp_rest_server']->get_routes();
-        $endpoint           = $filtered_endpoints['/test-ns/test'];
+        $endpoint = $filtered_endpoints['/test-ns/test'];
         $this->assertCount(2, $endpoint);
 
         // Check for both methods.
@@ -184,24 +184,24 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => ['GET'],
-                'callback'            => '__return_null',
+                'methods' => ['GET'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
         register_rest_route(
             'test-ns',
             '/test',
             [
-                'methods'             => ['POST'],
-                'callback'            => '__return_null',
+                'methods' => ['POST'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
         // Check both routes exist.
         $endpoints = $GLOBALS['wp_rest_server']->get_routes();
-        $endpoint  = $endpoints['/test-ns/test'];
+        $endpoint = $endpoints['/test-ns/test'];
         $this->assertCount(2, $endpoint);
     }
 
@@ -214,27 +214,27 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => ['GET'],
-                'callback'            => '__return_null',
+                'methods' => ['GET'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-                'should_exist'        => false,
-            ]
+                'should_exist' => false,
+            ],
         );
         register_rest_route(
             'test-ns',
             '/test',
             [
-                'methods'             => ['POST'],
-                'callback'            => '__return_null',
+                'methods' => ['POST'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-                'should_exist'        => true,
+                'should_exist' => true,
             ],
-            true
+            true,
         );
 
         // Check we only have one route.
         $endpoints = $GLOBALS['wp_rest_server']->get_routes();
-        $endpoint  = $endpoints['/test-ns/test'];
+        $endpoint = $endpoints['/test-ns/test'];
         $this->assertCount(1, $endpoint);
 
         // Check it's the right one.
@@ -253,11 +253,11 @@ class Tests_REST_API extends WP_UnitTestCase
             '',
             '/test-empty-namespace',
             [
-                'methods'             => ['POST'],
-                'callback'            => '__return_null',
+                'methods' => ['POST'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
             ],
-            true
+            true,
         );
         $endpoints = $GLOBALS['wp_rest_server']->get_routes();
         $this->assertArrayNotHasKey('/test-empty-namespace', $endpoints);
@@ -274,11 +274,11 @@ class Tests_REST_API extends WP_UnitTestCase
             '/test-empty-route',
             '',
             [
-                'methods'             => ['POST'],
-                'callback'            => '__return_null',
+                'methods' => ['POST'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
             ],
-            true
+            true,
         );
         $endpoints = $GLOBALS['wp_rest_server']->get_routes();
         $this->assertArrayNotHasKey('/test-empty-route', $endpoints);
@@ -299,10 +299,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => ['GET'],
-                'callback'            => '__return_null',
+                'methods' => ['GET'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
@@ -319,10 +319,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => 'GET',
-                'callback'            => '__return_null',
+                'methods' => 'GET',
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
@@ -339,10 +339,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => ['GET', 'POST'],
-                'callback'            => '__return_null',
+                'methods' => ['GET', 'POST'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
@@ -350,9 +350,9 @@ class Tests_REST_API extends WP_UnitTestCase
         $this->assertSame(
             $routes['/test-ns/test'][0]['methods'],
             [
-                'GET'  => true,
+                'GET' => true,
                 'POST' => true,
-            ]
+            ],
         );
     }
 
@@ -365,10 +365,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => 'GET,POST',
-                'callback'            => '__return_null',
+                'methods' => 'GET,POST',
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
@@ -376,9 +376,9 @@ class Tests_REST_API extends WP_UnitTestCase
         $this->assertSame(
             $routes['/test-ns/test'][0]['methods'],
             [
-                'GET'  => true,
+                'GET' => true,
                 'POST' => true,
-            ]
+            ],
         );
     }
 
@@ -388,16 +388,16 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => 'GET,POST',
-                'callback'            => '__return_null',
+                'methods' => 'GET,POST',
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('OPTIONS', '/test-ns/test');
+        $request = new WP_REST_Request('OPTIONS', '/test-ns/test');
         $response = rest_handle_options_request(null, $GLOBALS['wp_rest_server'], $request);
         $response = rest_send_allow_header($response, $GLOBALS['wp_rest_server'], $request);
-        $headers  = $response->get_headers();
+        $headers = $response->get_headers();
         $this->assertArrayHasKey('Allow', $headers);
 
         $this->assertSame('GET, POST', $headers['Allow']);
@@ -412,13 +412,13 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => 'GET,POST',
-                'callback'            => '__return_true',
+                'methods' => 'GET,POST',
+                'callback' => '__return_true',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/test-ns/test');
+        $request = new WP_REST_Request('GET', '/test-ns/test');
         $response = rest_handle_options_request(null, $GLOBALS['wp_rest_server'], $request);
 
         $this->assertNull($response);
@@ -448,7 +448,7 @@ class Tests_REST_API extends WP_UnitTestCase
                 'a' => 0,
                 'b' => 1,
                 'c' => 2,
-            ]
+            ],
         );
         $request = [
             '_fields' => 'b',
@@ -472,7 +472,7 @@ class Tests_REST_API extends WP_UnitTestCase
                 'd' => 3,
                 'e' => 4,
                 'f' => 5,
-            ]
+            ],
         );
         $request = [
             '_fields' => 'b,c,e',
@@ -485,7 +485,7 @@ class Tests_REST_API extends WP_UnitTestCase
                 'c' => 2,
                 'e' => 4,
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -505,7 +505,7 @@ class Tests_REST_API extends WP_UnitTestCase
                 'd' => 3,
                 'e' => 4,
                 'f' => 5,
-            ]
+            ],
         );
         $request = [
             '_fields' => ['b', 'c', 'e'],
@@ -518,7 +518,7 @@ class Tests_REST_API extends WP_UnitTestCase
                 'c' => 2,
                 'e' => 4,
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -545,7 +545,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     'b' => 7,
                     'c' => 8,
                 ],
-            ]
+            ],
         );
         $request = [
             '_fields' => 'b,c',
@@ -567,7 +567,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     'c' => 8,
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -592,7 +592,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     '4' => 4,
                     '5' => 5,
                 ],
-            ]
+            ],
         );
         $request = [
             '_fields' => 'b.1,c,d.5',
@@ -609,7 +609,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     '5' => 5,
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -626,15 +626,15 @@ class Tests_REST_API extends WP_UnitTestCase
             [
                 'field' => [
                     'a' => [
-                        'i'  => 'value i',
+                        'i' => 'value i',
                         'ii' => 'value ii',
                     ],
                     'b' => [
                         'iii' => 'value iii',
-                        'iv'  => 'value iv',
+                        'iv' => 'value iv',
                     ],
                 ],
-            ]
+            ],
         );
         $request = [
             '_fields' => 'field.a.i,field.b.iv',
@@ -652,7 +652,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     ],
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -671,7 +671,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     'key1' => 1,
                     'key2' => 2,
                 ],
-            ]
+            ],
         );
         $request = [
             '_fields' => 'meta',
@@ -685,7 +685,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     'key2' => 2,
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -704,7 +704,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     'key1' => 1,
                     'key2' => 2,
                 ],
-            ]
+            ],
         );
         $request = [
             '_fields' => 'meta,meta.key1',
@@ -718,7 +718,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     'key2' => 2,
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -737,7 +737,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     'key1' => 1,
                     'key2' => 2,
                 ],
-            ]
+            ],
         );
         $request = [
             '_fields' => 'meta.key1,meta.key2',
@@ -751,7 +751,7 @@ class Tests_REST_API extends WP_UnitTestCase
                     'key2' => 2,
                 ],
             ],
-            $response->get_data()
+            $response->get_data(),
         );
     }
 
@@ -805,7 +805,7 @@ class Tests_REST_API extends WP_UnitTestCase
     public function test_rest_url_scheme()
     {
         $_SERVER['SERVER_NAME'] = parse_url(home_url(), PHP_URL_HOST);
-        $_siteurl               = get_option('siteurl');
+        $_siteurl = get_option('siteurl');
 
         set_current_screen('edit.php');
         $this->assertTrue(is_admin());
@@ -817,7 +817,7 @@ class Tests_REST_API extends WP_UnitTestCase
 
         // Test an HTTPS URL.
         $_SERVER['HTTPS'] = 'on';
-        $url              = get_rest_url();
+        $url = get_rest_url();
         $this->assertSame('https', parse_url($url, PHP_URL_SCHEME));
 
         // Switch to an admin request on a different domain name.
@@ -832,7 +832,7 @@ class Tests_REST_API extends WP_UnitTestCase
 
         // Test an HTTPS URL.
         $_SERVER['HTTPS'] = 'on';
-        $url              = get_rest_url();
+        $url = get_rest_url();
         $this->assertSame('https', parse_url($url, PHP_URL_SCHEME));
 
         // Reset.
@@ -971,10 +971,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'test-ns',
             '/test',
             [
-                'methods'             => ['GET'],
-                'callback'            => '__return_null',
+                'methods' => ['GET'],
+                'callback' => '__return_null',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
         $routes = $GLOBALS['wp_rest_server']->get_routes();
@@ -983,7 +983,7 @@ class Tests_REST_API extends WP_UnitTestCase
 
     public function test_rest_preload_api_request_with_method()
     {
-        $rest_server               = $GLOBALS['wp_rest_server'];
+        $rest_server = $GLOBALS['wp_rest_server'];
         $GLOBALS['wp_rest_server'] = null;
 
         $preload_paths = [
@@ -994,7 +994,7 @@ class Tests_REST_API extends WP_UnitTestCase
         $preload_data = array_reduce(
             $preload_paths,
             'rest_preload_api_request',
-            []
+            [],
         );
 
         $this->assertSame(array_keys($preload_data), ['/wp/v2/types', 'OPTIONS']);
@@ -1008,7 +1008,7 @@ class Tests_REST_API extends WP_UnitTestCase
      */
     public function test_rest_preload_api_request_removes_trailing_slashes()
     {
-        $rest_server               = $GLOBALS['wp_rest_server'];
+        $rest_server = $GLOBALS['wp_rest_server'];
         $GLOBALS['wp_rest_server'] = null;
 
         $preload_paths = [
@@ -1020,7 +1020,7 @@ class Tests_REST_API extends WP_UnitTestCase
         $preload_data = array_reduce(
             $preload_paths,
             'rest_preload_api_request',
-            []
+            [],
         );
 
         $this->assertSame(array_keys($preload_data), ['/wp/v2/types', 'OPTIONS', '/']);
@@ -1064,8 +1064,14 @@ class Tests_REST_API extends WP_UnitTestCase
             [['author'], ['author']],
             [['author', 'replies'], ['author', 'replies']],
             [['https://api.w.org/term'], 'https://api.w.org/term'],
-            [['https://api.w.org/term', 'https://api.w.org/attachment'], 'https://api.w.org/term,https://api.w.org/attachment'],
-            [['https://api.w.org/term', 'https://api.w.org/attachment'], ['https://api.w.org/term', 'https://api.w.org/attachment']],
+            [
+                ['https://api.w.org/term', 'https://api.w.org/attachment'],
+                'https://api.w.org/term,https://api.w.org/attachment',
+            ],
+            [
+                ['https://api.w.org/term', 'https://api.w.org/attachment'],
+                ['https://api.w.org/term', 'https://api.w.org/attachment'],
+            ],
         ];
     }
 
@@ -1090,9 +1096,9 @@ class Tests_REST_API extends WP_UnitTestCase
             '/my-namespace/v1/',
             '/my-route',
             [
-                'callback'            => '__return_true',
+                'callback' => '__return_true',
                 'permission_callback' => '__return_true',
-            ]
+            ],
         );
 
         $routes = rest_get_server()->get_routes('my-namespace/v1');
@@ -1113,7 +1119,7 @@ class Tests_REST_API extends WP_UnitTestCase
             '/my-route',
             [
                 'callback' => '__return_true',
-            ]
+            ],
         );
 
         $this->assertTrue($registered);
@@ -1133,7 +1139,7 @@ class Tests_REST_API extends WP_UnitTestCase
                 [
                     'callback' => '__return_true',
                 ],
-            ]
+            ],
         );
 
         $this->assertTrue($registered);
@@ -1155,10 +1161,10 @@ class Tests_REST_API extends WP_UnitTestCase
                     'callback' => '__return_true',
                 ],
                 [
-                    'callback'            => '__return_true',
+                    'callback' => '__return_true',
                     'permission_callback' => '__return_true',
                 ],
-            ]
+            ],
         );
 
         $this->assertTrue($registered);
@@ -1167,34 +1173,34 @@ class Tests_REST_API extends WP_UnitTestCase
     public function data_rest_filter_response_by_context()
     {
         return [
-            'default'                                      => [
+            'default' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
-                        'first'  => [
-                            'type'    => 'string',
+                        'first' => [
+                            'type' => 'string',
                             'context' => ['view', 'edit'],
                         ],
                         'second' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['edit'],
                         ],
                     ],
                 ],
                 [
-                    'first'  => 'a',
+                    'first' => 'a',
                     'second' => 'b',
                 ],
                 ['first' => 'a'],
             ],
-            'keeps missing context'                        => [
+            'keeps missing context' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
-                        'first'  => [
-                            'type'    => 'string',
+                        'first' => [
+                            'type' => 'string',
                             'context' => ['view', 'edit'],
                         ],
                         'second' => [
@@ -1203,50 +1209,50 @@ class Tests_REST_API extends WP_UnitTestCase
                     ],
                 ],
                 [
-                    'first'  => 'a',
+                    'first' => 'a',
                     'second' => 'b',
                 ],
                 [
-                    'first'  => 'a',
+                    'first' => 'a',
                     'second' => 'b',
                 ],
             ],
-            'removes empty context'                        => [
+            'removes empty context' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
-                        'first'  => [
-                            'type'    => 'string',
+                        'first' => [
+                            'type' => 'string',
                             'context' => ['view', 'edit'],
                         ],
                         'second' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => [],
                         ],
                     ],
                 ],
                 [
-                    'first'  => 'a',
+                    'first' => 'a',
                     'second' => 'b',
                 ],
                 ['first' => 'a'],
             ],
-            'nested properties'                            => [
+            'nested properties' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'parent' => [
-                            'type'       => 'object',
-                            'context'    => ['view', 'edit'],
+                            'type' => 'object',
+                            'context' => ['view', 'edit'],
                             'properties' => [
-                                'child'  => [
-                                    'type'    => 'string',
+                                'child' => [
+                                    'type' => 'string',
                                     'context' => ['view', 'edit'],
                                 ],
                                 'hidden' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['edit'],
                                 ],
                             ],
@@ -1255,31 +1261,31 @@ class Tests_REST_API extends WP_UnitTestCase
                 ],
                 [
                     'parent' => [
-                        'child'  => 'hi',
+                        'child' => 'hi',
                         'hidden' => 'there',
                     ],
                 ],
                 ['parent' => ['child' => 'hi']],
             ],
-            'grand child properties'                       => [
+            'grand child properties' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'parent' => [
-                            'type'       => 'object',
-                            'context'    => ['view', 'edit'],
+                            'type' => 'object',
+                            'context' => ['view', 'edit'],
                             'properties' => [
                                 'child' => [
-                                    'type'       => 'object',
-                                    'context'    => ['view', 'edit'],
+                                    'type' => 'object',
+                                    'context' => ['view', 'edit'],
                                     'properties' => [
-                                        'grand'  => [
-                                            'type'    => 'string',
+                                        'grand' => [
+                                            'type' => 'string',
                                             'context' => ['view', 'edit'],
                                         ],
                                         'hidden' => [
-                                            'type'    => 'string',
+                                            'type' => 'string',
                                             'context' => ['edit'],
                                         ],
                                     ],
@@ -1297,24 +1303,24 @@ class Tests_REST_API extends WP_UnitTestCase
                 ],
                 ['parent' => ['child' => ['grand' => 'hi']]],
             ],
-            'array'                                        => [
+            'array' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'arr' => [
-                            'type'    => 'array',
+                            'type' => 'array',
                             'context' => ['view', 'edit'],
-                            'items'   => [
-                                'type'       => 'object',
-                                'context'    => ['view', 'edit'],
+                            'items' => [
+                                'type' => 'object',
+                                'context' => ['view', 'edit'],
                                 'properties' => [
                                     'visible' => [
-                                        'type'    => 'string',
+                                        'type' => 'string',
                                         'context' => ['view', 'edit'],
                                     ],
-                                    'hidden'  => [
-                                        'type'    => 'string',
+                                    'hidden' => [
+                                        'type' => 'string',
                                         'context' => ['edit'],
                                     ],
                                 ],
@@ -1326,32 +1332,32 @@ class Tests_REST_API extends WP_UnitTestCase
                     'arr' => [
                         [
                             'visible' => 'hi',
-                            'hidden'  => 'there',
+                            'hidden' => 'there',
                         ],
                     ],
                 ],
                 ['arr' => [['visible' => 'hi']]],
             ],
-            'additional properties'                        => [
+            'additional properties' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'additional' => [
-                            'type'                 => 'object',
-                            'context'              => ['view', 'edit'],
-                            'properties'           => [
+                            'type' => 'object',
+                            'context' => ['view', 'edit'],
+                            'properties' => [
                                 'a' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['view', 'edit'],
                                 ],
                                 'b' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['edit'],
                                 ],
                             ],
                             'additionalProperties' => [
-                                'type'    => 'string',
+                                'type' => 'string',
                                 'context' => ['edit'],
                             ],
                         ],
@@ -1366,35 +1372,35 @@ class Tests_REST_API extends WP_UnitTestCase
                 ],
                 ['additional' => ['a' => '1']],
             ],
-            'pattern properties'                           => [
+            'pattern properties' => [
                 [
-                    '$schema'              => 'http://json-schema.org/draft-04/schema#',
-                    'type'                 => 'object',
-                    'properties'           => [
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
+                    'properties' => [
                         'a' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['view', 'edit'],
                         ],
                     ],
-                    'patternProperties'    => [
+                    'patternProperties' => [
                         '[0-9]' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['view', 'edit'],
                         ],
-                        'c.*'   => [
-                            'type'    => 'string',
+                        'c.*' => [
+                            'type' => 'string',
                             'context' => ['edit'],
                         ],
                     ],
                     'additionalProperties' => [
-                        'type'    => 'string',
+                        'type' => 'string',
                         'context' => ['edit'],
                     ],
                 ],
                 [
-                    'a'  => '1',
-                    'b'  => '2',
-                    '0'  => '3',
+                    'a' => '1',
+                    'b' => '2',
+                    '0' => '3',
                     'ca' => '4',
                 ],
                 [
@@ -1402,21 +1408,21 @@ class Tests_REST_API extends WP_UnitTestCase
                     '0' => '3',
                 ],
             ],
-            'multiple types object'                        => [
+            'multiple types object' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'multi' => [
-                            'type'       => ['object', 'string'],
-                            'context'    => ['view', 'edit'],
+                            'type' => ['object', 'string'],
+                            'context' => ['view', 'edit'],
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['view', 'edit'],
                                 ],
                                 'b' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['edit'],
                                 ],
                             ],
@@ -1431,24 +1437,24 @@ class Tests_REST_API extends WP_UnitTestCase
                 ],
                 ['multi' => ['a' => '1']],
             ],
-            'multiple types array'                         => [
+            'multiple types array' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'multi' => [
-                            'type'    => ['array', 'string'],
+                            'type' => ['array', 'string'],
                             'context' => ['view', 'edit'],
-                            'items'   => [
-                                'type'       => 'object',
-                                'context'    => ['view', 'edit'],
+                            'items' => [
+                                'type' => 'object',
+                                'context' => ['view', 'edit'],
                                 'properties' => [
                                     'visible' => [
-                                        'type'    => 'string',
+                                        'type' => 'string',
                                         'context' => ['view', 'edit'],
                                     ],
-                                    'hidden'  => [
-                                        'type'    => 'string',
+                                    'hidden' => [
+                                        'type' => 'string',
                                         'context' => ['edit'],
                                     ],
                                 ],
@@ -1460,30 +1466,30 @@ class Tests_REST_API extends WP_UnitTestCase
                     'multi' => [
                         [
                             'visible' => '1',
-                            'hidden'  => '2',
+                            'hidden' => '2',
                         ],
                     ],
                 ],
                 ['multi' => [['visible' => '1']]],
             ],
-            'does not traverse missing context'            => [
+            'does not traverse missing context' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'parent' => [
-                            'type'       => 'object',
-                            'context'    => ['view', 'edit'],
+                            'type' => 'object',
+                            'context' => ['view', 'edit'],
                             'properties' => [
                                 'child' => [
-                                    'type'       => 'object',
+                                    'type' => 'object',
                                     'properties' => [
-                                        'grand'  => [
-                                            'type'    => 'string',
+                                        'grand' => [
+                                            'type' => 'string',
                                             'context' => ['view', 'edit'],
                                         ],
                                         'hidden' => [
-                                            'type'    => 'string',
+                                            'type' => 'string',
                                             'context' => ['edit'],
                                         ],
                                     ],
@@ -1495,7 +1501,7 @@ class Tests_REST_API extends WP_UnitTestCase
                 [
                     'parent' => [
                         'child' => [
-                            'grand'  => 'hi',
+                            'grand' => 'hi',
                             'hidden' => 'there',
                         ],
                     ],
@@ -1503,23 +1509,23 @@ class Tests_REST_API extends WP_UnitTestCase
                 [
                     'parent' => [
                         'child' => [
-                            'grand'  => 'hi',
+                            'grand' => 'hi',
                             'hidden' => 'there',
                         ],
                     ],
                 ],
             ],
-            'object with no matching properties'           => [
+            'object with no matching properties' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'a' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['edit'],
                         ],
                         'b' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['edit'],
                         ],
                     ],
@@ -1530,16 +1536,16 @@ class Tests_REST_API extends WP_UnitTestCase
                 ],
                 [],
             ],
-            'array whose type does not match'              => [
+            'array whose type does not match' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'arr' => [
-                            'type'    => 'array',
+                            'type' => 'array',
                             'context' => ['view'],
-                            'items'   => [
-                                'type'    => 'string',
+                            'items' => [
+                                'type' => 'string',
                                 'context' => ['edit'],
                             ],
                         ],
@@ -1550,30 +1556,30 @@ class Tests_REST_API extends WP_UnitTestCase
                 ],
                 ['arr' => []],
             ],
-            'array and object type passed object'          => [
+            'array and object type passed object' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => ['array', 'object'],
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => ['array', 'object'],
                     'properties' => [
                         'a' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['view'],
                         ],
                         'b' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['view'],
                         ],
                     ],
-                    'items'      => [
-                        'type'       => 'object',
-                        'context'    => ['edit'],
+                    'items' => [
+                        'type' => 'object',
+                        'context' => ['edit'],
                         'properties' => [
                             'a' => [
-                                'type'    => 'string',
+                                'type' => 'string',
                                 'context' => ['view'],
                             ],
                             'b' => [
-                                'type'    => 'string',
+                                'type' => 'string',
                                 'context' => ['view'],
                             ],
                         ],
@@ -1588,30 +1594,30 @@ class Tests_REST_API extends WP_UnitTestCase
                     'b' => 'bar',
                 ],
             ],
-            'array and object type passed array'           => [
+            'array and object type passed array' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => ['array', 'object'],
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => ['array', 'object'],
                     'properties' => [
                         'a' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['view'],
                         ],
                         'b' => [
-                            'type'    => 'string',
+                            'type' => 'string',
                             'context' => ['view'],
                         ],
                     ],
-                    'items'      => [
-                        'type'       => 'object',
-                        'context'    => ['edit'],
+                    'items' => [
+                        'type' => 'object',
+                        'context' => ['edit'],
                         'properties' => [
                             'a' => [
-                                'type'    => 'string',
+                                'type' => 'string',
                                 'context' => ['view'],
                             ],
                             'b' => [
-                                'type'    => 'string',
+                                'type' => 'string',
                                 'context' => ['view'],
                             ],
                         ],
@@ -1629,19 +1635,19 @@ class Tests_REST_API extends WP_UnitTestCase
                 ],
                 [],
             ],
-            'anyOf applies the correct schema'             => [
+            'anyOf applies the correct schema' => [
                 [
                     '$schema' => 'http://json-schema.org/draft-04/schema#',
-                    'type'    => 'object',
-                    'anyOf'   => [
+                    'type' => 'object',
+                    'anyOf' => [
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['view'],
                                 ],
                                 'b' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['edit'],
                                 ],
                             ],
@@ -1649,11 +1655,11 @@ class Tests_REST_API extends WP_UnitTestCase
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['edit'],
                                 ],
                                 'b' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['view'],
                                 ],
                             ],
@@ -1671,16 +1677,16 @@ class Tests_REST_API extends WP_UnitTestCase
             'anyOf is ignored if no valid schema is found' => [
                 [
                     '$schema' => 'http://json-schema.org/draft-04/schema#',
-                    'type'    => 'object',
-                    'anyOf'   => [
+                    'type' => 'object',
+                    'anyOf' => [
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['view'],
                                 ],
                                 'b' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['edit'],
                                 ],
                             ],
@@ -1688,11 +1694,11 @@ class Tests_REST_API extends WP_UnitTestCase
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['edit'],
                                 ],
                                 'b' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['view'],
                                 ],
                             ],
@@ -1708,19 +1714,19 @@ class Tests_REST_API extends WP_UnitTestCase
                     'b' => false,
                 ],
             ],
-            'oneOf applies the correct schema'             => [
+            'oneOf applies the correct schema' => [
                 [
                     '$schema' => 'http://json-schema.org/draft-04/schema#',
-                    'type'    => 'object',
-                    'oneOf'   => [
+                    'type' => 'object',
+                    'oneOf' => [
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['view'],
                                 ],
                                 'b' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['edit'],
                                 ],
                             ],
@@ -1728,11 +1734,11 @@ class Tests_REST_API extends WP_UnitTestCase
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['edit'],
                                 ],
                                 'b' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['view'],
                                 ],
                             ],
@@ -1747,19 +1753,19 @@ class Tests_REST_API extends WP_UnitTestCase
                     'b' => 2,
                 ],
             ],
-            'oneOf ignored if no valid schema was found'   => [
+            'oneOf ignored if no valid schema was found' => [
                 [
                     '$schema' => 'http://json-schema.org/draft-04/schema#',
-                    'type'    => 'object',
-                    'anyOf'   => [
+                    'type' => 'object',
+                    'anyOf' => [
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['view'],
                                 ],
                                 'b' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['edit'],
                                 ],
                             ],
@@ -1767,11 +1773,11 @@ class Tests_REST_API extends WP_UnitTestCase
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['edit'],
                                 ],
                                 'b' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['view'],
                                 ],
                             ],
@@ -1787,25 +1793,25 @@ class Tests_REST_API extends WP_UnitTestCase
                     'b' => false,
                 ],
             ],
-            'oneOf combined with base'                     => [
+            'oneOf combined with base' => [
                 [
-                    '$schema'    => 'http://json-schema.org/draft-04/schema#',
-                    'type'       => 'object',
+                    '$schema' => 'http://json-schema.org/draft-04/schema#',
+                    'type' => 'object',
                     'properties' => [
                         'c' => [
-                            'type'    => 'integer',
+                            'type' => 'integer',
                             'context' => ['edit'],
                         ],
                     ],
-                    'oneOf'      => [
+                    'oneOf' => [
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['view'],
                                 ],
                                 'b' => [
-                                    'type'    => 'string',
+                                    'type' => 'string',
                                     'context' => ['edit'],
                                 ],
                             ],
@@ -1813,11 +1819,11 @@ class Tests_REST_API extends WP_UnitTestCase
                         [
                             'properties' => [
                                 'a' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['edit'],
                                 ],
                                 'b' => [
-                                    'type'    => 'integer',
+                                    'type' => 'integer',
                                     'context' => ['view'],
                                 ],
                             ],
@@ -1845,7 +1851,7 @@ class Tests_REST_API extends WP_UnitTestCase
     /**
      * @dataProvider data_rest_ensure_response_returns_instance_of_wp_rest_response
      *
-     * @param mixed $response      The response passed to rest_ensure_response().
+     * @param mixed $response The response passed to rest_ensure_response().
      * @param mixed $expected_data The expected data a response should include.
      */
     public function test_rest_ensure_response_returns_instance_of_wp_rest_response($response, $expected_data)
@@ -1901,10 +1907,10 @@ class Tests_REST_API extends WP_UnitTestCase
         register_post_type(
             'cpt',
             [
-                'show_in_rest'   => true,
-                'rest_base'      => 'cpt',
+                'show_in_rest' => true,
+                'rest_base' => 'cpt',
                 'rest_namespace' => 'wordpress/v1',
-            ]
+            ],
         );
         $post = self::factory()->post->create_and_get(['post_type' => 'cpt']);
 
@@ -1928,10 +1934,10 @@ class Tests_REST_API extends WP_UnitTestCase
         register_post_type(
             'cpt',
             [
-                'show_in_rest'   => true,
-                'rest_base'      => 'cpt',
+                'show_in_rest' => true,
+                'rest_base' => 'cpt',
                 'rest_namespace' => 'wordpress/v1',
-            ]
+            ],
         );
 
         $this->assertSame('/wordpress/v1/cpt', rest_get_route_for_post_type_items('cpt'));
@@ -2049,10 +2055,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'ct',
             'post',
             [
-                'show_in_rest'   => true,
-                'rest_base'      => 'ct',
+                'show_in_rest' => true,
+                'rest_base' => 'ct',
                 'rest_namespace' => 'wordpress/v1',
-            ]
+            ],
         );
         $term = self::factory()->term->create_and_get(['taxonomy' => 'ct']);
 
@@ -2077,10 +2083,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'ct',
             'post',
             [
-                'show_in_rest'   => true,
-                'rest_base'      => 'ct',
+                'show_in_rest' => true,
+                'rest_base' => 'ct',
                 'rest_namespace' => 'wordpress/v1',
-            ]
+            ],
         );
 
         $this->assertSame('/wordpress/v1/ct', rest_get_route_for_taxonomy_items('ct'));
@@ -2092,8 +2098,8 @@ class Tests_REST_API extends WP_UnitTestCase
      *
      * @dataProvider data_rest_is_object
      *
-     * @param bool  $expected Expected result of the check.
-     * @param mixed $value    The value to check.
+     * @param bool $expected Expected result of the check.
+     * @param mixed $value The value to check.
      */
     public function test_rest_is_object($expected, $value)
     {
@@ -2158,7 +2164,7 @@ class Tests_REST_API extends WP_UnitTestCase
      * @dataProvider data_rest_sanitize_object
      *
      * @param array $expected Expected sanitized version.
-     * @param mixed $value    The value to sanitize.
+     * @param mixed $value The value to sanitize.
      */
     public function test_rest_sanitize_object($expected, $value)
     {
@@ -2175,7 +2181,7 @@ class Tests_REST_API extends WP_UnitTestCase
             ],
             [
                 ['a' => '1'],
-                (object) ['a' => '1'],
+                (object)['a' => '1'],
             ],
             [
                 ['hi' => 'there'],
@@ -2217,8 +2223,8 @@ class Tests_REST_API extends WP_UnitTestCase
      *
      * @dataProvider data_rest_is_array
      *
-     * @param bool  $expected Expected result of the check.
-     * @param mixed $value    The value to check.
+     * @param bool $expected Expected result of the check.
+     * @param mixed $value The value to check.
      */
     public function test_rest_is_array($expected, $value)
     {
@@ -2291,7 +2297,7 @@ class Tests_REST_API extends WP_UnitTestCase
      * @dataProvider data_rest_sanitize_array
      *
      * @param array $expected Expected sanitized version.
-     * @param mixed $value    The value to sanitize.
+     * @param mixed $value The value to sanitize.
      */
     public function test_rest_sanitize_array($expected, $value)
     {
@@ -2362,8 +2368,8 @@ class Tests_REST_API extends WP_UnitTestCase
      *
      * @dataProvider data_rest_is_integer
      *
-     * @param bool  $expected Expected result of the check.
-     * @param mixed $value    The value to check.
+     * @param bool $expected Expected result of the check.
+     * @param mixed $value The value to check.
      */
     public function test_rest_is_integer($expected, $value)
     {
@@ -2428,8 +2434,8 @@ class Tests_REST_API extends WP_UnitTestCase
      * @dataProvider data_get_best_type_for_value
      *
      * @param string $expected The expected best type.
-     * @param mixed  $value    The value to test.
-     * @param array  $types    The list of available types.
+     * @param mixed $value The value to test.
+     * @param array $types The list of available types.
      */
     public function test_get_best_type_for_value($expected, $value, $types)
     {
@@ -2536,8 +2542,8 @@ class Tests_REST_API extends WP_UnitTestCase
      * @ticket 51722
      * @dataProvider data_rest_preload_api_request_embeds_links
      *
-     * @param string   $embed        The embed parameter.
-     * @param string[] $expected     The list of link relations that should be embedded.
+     * @param string $embed The embed parameter.
+     * @param string[] $expected The list of link relations that should be embedded.
      * @param string[] $not_expected The list of link relations that should not be embedded.
      */
     public function test_rest_preload_api_request_embeds_links($embed, $expected, $not_expected)
@@ -2546,13 +2552,13 @@ class Tests_REST_API extends WP_UnitTestCase
         $post_id = self::factory()->post->create();
         self::factory()->comment->create_post_comments($post_id);
 
-        $url           = sprintf('/wp/v2/posts/%d?%s', $post_id, $embed);
+        $url = sprintf('/wp/v2/posts/%d?%s', $post_id, $embed);
         $preload_paths = [$url];
 
         $preload_data = array_reduce(
             $preload_paths,
             'rest_preload_api_request',
-            []
+            [],
         );
 
         $this->assertSame(array_keys($preload_data), $preload_paths);
@@ -2599,7 +2605,7 @@ class Tests_REST_API extends WP_UnitTestCase
         $preload_data = array_reduce(
             $preload_paths,
             'rest_preload_api_request',
-            []
+            [],
         );
 
         $this->assertSame(array_keys($preload_data), ['/', '/?_fields=description']);
@@ -2611,7 +2617,7 @@ class Tests_REST_API extends WP_UnitTestCase
         // Filtered request only has the desired fields.
         $this->assertSame(
             array_keys($preload_data['/?_fields=description']['body']),
-            ['description']
+            ['description'],
         );
     }
 
@@ -2626,10 +2632,10 @@ class Tests_REST_API extends WP_UnitTestCase
             'my-ns/v1',
             '/my-route',
             [
-                'callback'            => '__return_true',
+                'callback' => '__return_true',
                 'permission_callback' => '__return_true',
-                'args'                => ['pattern'],
-            ]
+                'args' => ['pattern'],
+            ],
         );
 
         $this->assertTrue($registered);

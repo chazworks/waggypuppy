@@ -44,18 +44,22 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase
         $role_name = 'wp_get_plugin_action_button-test-role';
         add_role($role_name, 'Test Role');
 
-        self::$role        = get_role($role_name);
-        self::$user_id     = self::factory()->user->create(['role' => $role_name]);
-        self::$test_plugin = (object) [
-            'name'    => 'My Plugin',
-            'slug'    => 'my-plugin',
+        self::$role = get_role($role_name);
+        self::$user_id = self::factory()->user->create(['role' => $role_name]);
+        self::$test_plugin = (object)[
+            'name' => 'My Plugin',
+            'slug' => 'my-plugin',
             'version' => '1.0.0',
         ];
 
         mkdir(WP_PLUGIN_DIR . '/' . self::$test_plugin->slug);
         file_put_contents(
             WP_PLUGIN_DIR . '/' . self::$test_plugin->slug . '/my_plugin.php',
-            "<?php\n/**\n* Plugin Name: " . self::$test_plugin->name . "\n* Version: " . self::$test_plugin->version . "\n*/"
+            "<?php\n/**\n* Plugin Name: "
+            . self::$test_plugin->name
+            . "\n* Version: "
+            . self::$test_plugin->version
+            . "\n*/",
         );
     }
 
@@ -85,7 +89,7 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase
             self::$test_plugin->name,
             self::$test_plugin,
             true,
-            true
+            true,
         );
 
         $this->assertIsString($actual, 'A string should be returned.');
@@ -114,7 +118,7 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase
             self::$test_plugin->name,
             self::$test_plugin,
             true,
-            true
+            true,
         );
 
         self::$role->remove_cap($capability);
@@ -151,7 +155,7 @@ class Tests_Admin_Includes_WpGetPluginActionButton extends WP_UnitTestCase
             self::$test_plugin->name,
             self::$test_plugin,
             true,
-            true
+            true,
         );
 
         revoke_super_admin(self::$user_id);

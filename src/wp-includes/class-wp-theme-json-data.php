@@ -33,27 +33,27 @@ class WP_Theme_JSON_Data
     /**
      * Constructor.
      *
+     * @param array $data Array following the theme.json specification.
+     * @param string $origin The origin of the data: default, theme, user.
      * @since 6.1.0
      *
      * @link https://developer.wp.org/block-editor/reference-guides/theme-json-reference/
      *
-     * @param array  $data   Array following the theme.json specification.
-     * @param string $origin The origin of the data: default, theme, user.
      */
     public function __construct($data = ['version' => WP_Theme_JSON::LATEST_SCHEMA], $origin = 'theme')
     {
-        $this->origin     = $origin;
+        $this->origin = $origin;
         $this->theme_json = new WP_Theme_JSON($data, $this->origin);
     }
 
     /**
      * Updates the theme.json with the the given data.
      *
-     * @since 6.1.0
-     *
      * @param array $new_data Array following the theme.json specification.
      *
      * @return WP_Theme_JSON_Data The own instance with access to the modified data.
+     * @since 6.1.0
+     *
      */
     public function update_with($new_data)
     {
@@ -65,9 +65,9 @@ class WP_Theme_JSON_Data
      * Returns an array containing the underlying data
      * following the theme.json specification.
      *
+     * @return array
      * @since 6.1.0
      *
-     * @return array
      */
     public function get_data()
     {
@@ -77,9 +77,9 @@ class WP_Theme_JSON_Data
     /**
      * Returns theme JSON object.
      *
+     * @return WP_Theme_JSON The theme JSON structure stored in this data object.
      * @since 6.6.0
      *
-     * @return WP_Theme_JSON The theme JSON structure stored in this data object.
      */
     public function get_theme_json()
     {

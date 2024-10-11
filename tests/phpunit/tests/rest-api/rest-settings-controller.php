@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_Test_REST_Settings_Controller functionality.
  *
@@ -23,13 +24,13 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         self::$administrator = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
 
         self::$author = $factory->user->create(
             [
                 'role' => 'author',
-            ]
+            ],
         );
     }
 
@@ -75,7 +76,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
     {
         /** Individual settings can't be gotten */
         wp_set_current_user(self::$administrator);
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings/title');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings/title');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -90,7 +91,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
 
     public function test_get_item_is_not_public_not_authenticated()
     {
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(401, $response->get_status());
     }
@@ -98,7 +99,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
     public function test_get_item_is_not_public_no_permission()
     {
         wp_set_current_user(self::$author);
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(403, $response->get_status());
     }
@@ -106,10 +107,10 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
     public function test_get_items()
     {
         wp_set_current_user(self::$administrator);
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $actual   = array_keys($data);
+        $data = $response->get_data();
+        $actual = array_keys($data);
 
         $expected = [
             'title',
@@ -132,7 +133,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'site_icon', // Registered in wp-includes/blocks/site-logo.php
         ];
 
-        if (! is_multisite()) {
+        if (!is_multisite()) {
             $expected[] = 'url';
             $expected[] = 'email';
         }
@@ -148,9 +149,9 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
     {
         wp_set_current_user(self::$administrator);
         update_option('posts_per_page', 'invalid_number'); // This is cast to (int) 1.
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
         $this->assertSame(1, $data['posts_per_page']);
@@ -165,19 +166,19 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'mycustomsetting',
             [
                 'show_in_rest' => [
-                    'name'   => 'mycustomsettinginrest',
+                    'name' => 'mycustomsettinginrest',
                     'schema' => [
-                        'enum'    => ['validvalue1', 'validvalue2'],
+                        'enum' => ['validvalue1', 'validvalue2'],
                         'default' => 'validvalue1',
                     ],
                 ],
-                'type'         => 'string',
-            ]
+                'type' => 'string',
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
         $this->assertArrayHasKey('mycustomsettinginrest', $data);
@@ -185,9 +186,9 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
 
         update_option('mycustomsetting', 'validvalue2');
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('validvalue2', $data['mycustomsettinginrest']);
     }
 
@@ -201,42 +202,42 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'show_in_rest' => [
                     'schema' => [
-                        'type'  => 'array',
+                        'type' => 'array',
                         'items' => [
                             'type' => 'integer',
                         ],
                     ],
                 ],
-                'type'         => 'array',
-            ]
+                'type' => 'array',
+            ],
         );
 
         // Array is cast to correct types.
         update_option('mycustomsetting', ['1', '2']);
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame([1, 2], $data['mycustomsetting']);
 
         // Empty array works as expected.
         update_option('mycustomsetting', []);
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame([], $data['mycustomsetting']);
 
         // Invalid value.
         update_option('mycustomsetting', [[1]]);
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertNull($data['mycustomsetting']);
 
         // No option value.
         delete_option('mycustomsetting');
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertNull($data['mycustomsetting']);
     }
 
@@ -250,7 +251,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'show_in_rest' => [
                     'schema' => [
-                        'type'       => 'object',
+                        'type' => 'object',
                         'properties' => [
                             'a' => [
                                 'type' => 'integer',
@@ -258,8 +259,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
                         ],
                     ],
                 ],
-                'type'         => 'object',
-            ]
+                'type' => 'object',
+            ],
         );
 
         // We have to re-register the route, as the args changes based off registered settings.
@@ -268,16 +269,16 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
 
         // Object is cast to correct types.
         update_option('mycustomsetting', ['a' => '1']);
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(['a' => 1], $data['mycustomsetting']);
 
         // Empty array works as expected.
         update_option('mycustomsetting', []);
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame([], $data['mycustomsetting']);
 
         // Invalid value.
@@ -286,11 +287,11 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'a' => 1,
                 'b' => 2,
-            ]
+            ],
         );
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertNull($data['mycustomsetting']);
     }
 
@@ -316,8 +317,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
                 'show_in_rest' => [
                     'name' => 'mycustomsettinginrest1',
                 ],
-                'type'         => 'string',
-            ]
+                'type' => 'string',
+            ],
         );
 
         register_setting(
@@ -327,16 +328,16 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
                 'show_in_rest' => [
                     'name' => 'mycustomsettinginrest2',
                 ],
-                'type'         => 'string',
-            ]
+                'type' => 'string',
+            ],
         );
 
         update_option('mycustomsetting1', 'unfiltered1');
         update_option('mycustomsetting2', 'unfiltered2');
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
 
@@ -358,21 +359,21 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'mycustomsetting',
             [
                 'show_in_rest' => [
-                    'name'   => 'mycustomsettinginrest',
+                    'name' => 'mycustomsettinginrest',
                     'schema' => [
-                        'enum'    => ['validvalue1', 'validvalue2'],
+                        'enum' => ['validvalue1', 'validvalue2'],
                         'default' => 'validvalue1',
                     ],
                 ],
-                'type'         => 'string',
-            ]
+                'type' => 'string',
+            ],
         );
 
         update_option('mycustomsetting', ['A sneaky array!']);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertNull($data['mycustomsettinginrest']);
     }
 
@@ -385,21 +386,21 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'mycustomsetting',
             [
                 'show_in_rest' => [
-                    'name'   => 'mycustomsettinginrest',
+                    'name' => 'mycustomsettinginrest',
                     'schema' => [
-                        'enum'    => ['validvalue1', 'validvalue2'],
+                        'enum' => ['validvalue1', 'validvalue2'],
                         'default' => 'validvalue1',
                     ],
                 ],
-                'type'         => 'string',
-            ]
+                'type' => 'string',
+            ],
         );
 
-        update_option('mycustomsetting', (object) ['A sneaky array!']);
+        update_option('mycustomsetting', (object)['A sneaky array!']);
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/settings');
+        $request = new WP_REST_Request('GET', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertNull($data['mycustomsettinginrest']);
     }
 
@@ -417,7 +418,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('title', 'The new title!');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
         $this->assertSame('The new title!', $data['title']);
@@ -442,14 +443,14 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'show_in_rest' => [
                     'schema' => [
-                        'type'  => 'array',
+                        'type' => 'array',
                         'items' => [
                             'type' => 'integer',
                         ],
                     ],
                 ],
-                'type'         => 'array',
-            ]
+                'type' => 'array',
+            ],
         );
 
         // We have to re-register the route, as the args changes based off registered settings.
@@ -460,7 +461,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('mycustomsetting', ['1', '2']);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame([1, 2], $data['mycustomsetting']);
         $this->assertSame([1, 2], get_option('mycustomsetting'));
 
@@ -468,7 +469,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('mycustomsetting', []);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame([], $data['mycustomsetting']);
         $this->assertSame([], get_option('mycustomsetting'));
 
@@ -488,10 +489,10 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'show_in_rest' => [
                     'schema' => [
-                        'type'       => 'object',
+                        'type' => 'object',
                         'properties' => [
                             'a' => [
-                                'type'       => 'object',
+                                'type' => 'object',
                                 'properties' => [
                                     'b' => [
                                         'type' => 'number',
@@ -501,8 +502,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
                         ],
                     ],
                 ],
-                'type'         => 'object',
-            ]
+                'type' => 'object',
+            ],
         );
 
         // We have to re-register the route, as the args changes based off registered settings.
@@ -518,7 +519,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
                     'b' => 1,
                     'c' => 1,
                 ],
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_invalid_param', $response, 400);
@@ -532,7 +533,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'show_in_rest' => [
                     'schema' => [
-                        'type'       => 'object',
+                        'type' => 'object',
                         'properties' => [
                             'a' => [
                                 'type' => 'integer',
@@ -540,8 +541,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
                         ],
                     ],
                 ],
-                'type'         => 'object',
-            ]
+                'type' => 'object',
+            ],
         );
 
         // We have to re-register the route, as the args changes based off registered settings.
@@ -552,7 +553,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('mycustomsetting', ['a' => 1]);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(['a' => 1], $data['mycustomsetting']);
         $this->assertSame(['a' => 1], get_option('mycustomsetting'));
 
@@ -560,7 +561,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('mycustomsetting', []);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame([], $data['mycustomsetting']);
         $this->assertSame([], get_option('mycustomsetting'));
 
@@ -571,7 +572,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             [
                 'a' => 1,
                 'b' => 2,
-            ]
+            ],
         );
         $response = rest_get_server()->dispatch($request);
 
@@ -592,7 +593,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $request->set_param('title', 'The old title!');
         $request->set_param('description', 'The old description!');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame(200, $response->get_status());
         $this->assertSame('The old title!', $data['title']);
         $this->assertSame('The old description!', $data['description']);
@@ -605,7 +606,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $request->set_param('title', 'The new title!');
         $request->set_param('description', 'The new description!');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
         $this->assertSame('The old title!', $data['title']);
@@ -654,7 +655,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
         $request = new WP_REST_Request('PUT', '/wp/v2/settings');
         $request->set_param('posts_per_page', null);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertSame(200, $response->get_status());
         $this->assertSame(10, $data['posts_per_page']);
@@ -680,8 +681,8 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'mycustomsetting',
             [
                 'show_in_rest' => true,
-                'type'         => 'string',
-            ]
+                'type' => 'string',
+            ],
         );
         update_option('mycustomsetting', ['A sneaky array!']);
 
@@ -696,7 +697,7 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
     public function test_delete_item()
     {
         /** Settings can't be deleted */
-        $request  = new WP_REST_Request('DELETE', '/wp/v2/settings/title');
+        $request = new WP_REST_Request('DELETE', '/wp/v2/settings/title');
         $response = rest_get_server()->dispatch($request);
         $this->assertSame(404, $response->get_status());
     }
@@ -728,9 +729,9 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'somegroup',
             'mycustomarraysetting',
             [
-                'type'         => 'array',
+                'type' => 'array',
                 'show_in_rest' => true,
-            ]
+            ],
         );
     }
 
@@ -745,11 +746,11 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'somegroup',
             'mycustomarraysetting',
             [
-                'type'         => 'array',
+                'type' => 'array',
                 'show_in_rest' => [
                     'prepare_callback' => 'rest_sanitize_value_from_schema',
                 ],
-            ]
+            ],
         );
     }
 
@@ -764,13 +765,13 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'somegroup',
             'mycustomarraysetting',
             [
-                'type'         => 'array',
+                'type' => 'array',
                 'show_in_rest' => [
                     'schema' => [
                         'default' => ['Hi!'],
                     ],
                 ],
-            ]
+            ],
         );
     }
 
@@ -785,11 +786,11 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
             'somegroup',
             'mycustomsetting',
             [
-                'type'         => 'object',
+                'type' => 'object',
                 'show_in_rest' => [
                     'schema' => [
-                        'type'                 => 'object',
-                        'properties'           => [
+                        'type' => 'object',
+                        'properties' => [
                             'test1' => [
                                 'type' => 'string',
                             ],
@@ -799,10 +800,10 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
-        $data    = [
+        $data = [
             'mycustomsetting' => [
                 'test1' => 'my-string',
                 'test2' => '2',
@@ -826,10 +827,10 @@ class WP_Test_REST_Settings_Controller extends WP_Test_REST_Controller_Testcase
      */
     public function test_provides_setting_metadata_in_schema()
     {
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/settings');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/settings');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $title    = $data['schema']['properties']['title'];
+        $data = $response->get_data();
+        $title = $data['schema']['properties']['title'];
 
         $this->assertSame('string', $title['type']);
         $this->assertSame('Title', $title['title']);

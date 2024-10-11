@@ -119,9 +119,9 @@ class WP_Styles extends WP_Dependencies
      */
     public function __construct()
     {
-        if (function_exists('is_admin') && ! is_admin()
-        &&
-            function_exists('current_theme_supports') && ! current_theme_supports('html5', 'style')
+        if (function_exists('is_admin') && !is_admin()
+            && function_exists('current_theme_supports')
+            && !current_theme_supports('html5', 'style')
         ) {
             $this->type_attr = " type='text/css'";
         }
@@ -129,9 +129,9 @@ class WP_Styles extends WP_Dependencies
         /**
          * Fires when the WP_Styles instance is initialized.
          *
+         * @param WP_Styles $wp_styles WP_Styles instance (passed by reference).
          * @since 2.6.0
          *
-         * @param WP_Styles $wp_styles WP_Styles instance (passed by reference).
          */
         do_action_ref_array('wp_default_styles', [&$this]);
     }
@@ -139,19 +139,19 @@ class WP_Styles extends WP_Dependencies
     /**
      * Processes a style dependency.
      *
+     * @param string $handle The style's registered handle.
+     * @param int|false $group Optional. Group level: level (int), no groups (false).
+     *                          Default false.
+     * @return bool True on success, false on failure.
      * @since 2.6.0
      * @since 5.5.0 Added the `$group` parameter.
      *
      * @see WP_Dependencies::do_item()
      *
-     * @param string    $handle The style's registered handle.
-     * @param int|false $group  Optional. Group level: level (int), no groups (false).
-     *                          Default false.
-     * @return bool True on success, false on failure.
      */
     public function do_item($handle, $group = false)
     {
-        if (! parent::do_item($handle)) {
+        if (!parent::do_item($handle)) {
             return false;
         }
 
@@ -167,10 +167,10 @@ class WP_Styles extends WP_Dependencies
             $ver = $ver ? $ver . '&amp;' . $this->args[$handle] : $this->args[$handle];
         }
 
-        $src                   = $obj->src;
+        $src = $obj->src;
         $ie_conditional_prefix = '';
         $ie_conditional_suffix = '';
-        $conditional           = isset($obj->extra['conditional']) ? $obj->extra['conditional'] : '';
+        $conditional = isset($obj->extra['conditional']) ? $obj->extra['conditional'] : '';
 
         if ($conditional) {
             $ie_conditional_prefix = "<!--[if {$conditional}]>\n";
@@ -184,15 +184,15 @@ class WP_Styles extends WP_Dependencies
                 "<style id='%s-inline-css'%s>\n%s\n</style>\n",
                 esc_attr($handle),
                 $this->type_attr,
-                $inline_style
+                $inline_style,
             );
         } else {
             $inline_style_tag = '';
         }
 
         if ($this->do_concat) {
-            if ($this->in_default_dir($src) && ! $conditional && ! isset($obj->extra['alt'])) {
-                $this->concat         .= "$handle,";
+            if ($this->in_default_dir($src) && !$conditional && !isset($obj->extra['alt'])) {
+                $this->concat .= "$handle,";
                 $this->concat_version .= "$handle$ver";
 
                 $this->print_code .= $inline_style;
@@ -208,7 +208,7 @@ class WP_Styles extends WP_Dependencies
         }
 
         // A single item may alias a set of items, by having dependencies, but no source.
-        if (! $src) {
+        if (!$src) {
             if ($inline_style_tag) {
                 if ($this->do_concat) {
                     $this->print_html .= $inline_style_tag;
@@ -221,11 +221,11 @@ class WP_Styles extends WP_Dependencies
         }
 
         $href = $this->_css_href($src, $ver, $handle);
-        if (! $href) {
+        if (!$href) {
             return true;
         }
 
-        $rel   = isset($obj->extra['alt']) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
+        $rel = isset($obj->extra['alt']) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
         $title = isset($obj->extra['title']) ? sprintf(" title='%s'", esc_attr($obj->extra['title'])) : '';
 
         $tag = sprintf(
@@ -235,27 +235,28 @@ class WP_Styles extends WP_Dependencies
             $title,
             $href,
             $this->type_attr,
-            $media
+            $media,
         );
 
         /**
          * Filters the HTML link tag of an enqueued style.
          *
-         * @since 2.6.0
+         * @param string $tag The link tag for the enqueued style.
+         * @param string $handle The style's registered handle.
+         * @param string $href The stylesheet's source URL.
+         * @param string $media The stylesheet's media attribute.
          * @since 4.3.0 Introduced the `$href` parameter.
          * @since 4.5.0 Introduced the `$media` parameter.
          *
-         * @param string $tag    The link tag for the enqueued style.
-         * @param string $handle The style's registered handle.
-         * @param string $href   The stylesheet's source URL.
-         * @param string $media  The stylesheet's media attribute.
+         * @since 2.6.0
          */
         $tag = apply_filters('style_loader_tag', $tag, $handle, $href, $media);
 
         if ('rtl' === $this->text_direction && isset($obj->extra['rtl']) && $obj->extra['rtl']) {
             if (is_bool($obj->extra['rtl']) || 'replace' === $obj->extra['rtl']) {
-                $suffix   = isset($obj->extra['suffix']) ? $obj->extra['suffix'] : '';
-                $rtl_href = str_replace("{$suffix}.css", "-rtl{$suffix}.css", $this->_css_href($src, $ver, "$handle-rtl"));
+                $suffix = isset($obj->extra['suffix']) ? $obj->extra['suffix'] : '';
+                $rtl_href = str_replace("{$suffix}.css", "-rtl{$suffix}.css",
+                    $this->_css_href($src, $ver, "$handle-rtl"));
             } else {
                 $rtl_href = $this->_css_href($obj->extra['rtl'], $ver, "$handle-rtl");
             }
@@ -267,7 +268,7 @@ class WP_Styles extends WP_Dependencies
                 $title,
                 $rtl_href,
                 $this->type_attr,
-                $media
+                $media,
             );
 
             /** This filter is documented in wp-includes/class-wp-styles.php */
@@ -300,20 +301,20 @@ class WP_Styles extends WP_Dependencies
     /**
      * Adds extra CSS styles to a registered stylesheet.
      *
+     * @param string $handle The style's registered handle.
+     * @param string $code String containing the CSS styles to be added.
+     * @return bool True on success, false on failure.
      * @since 3.3.0
      *
-     * @param string $handle The style's registered handle.
-     * @param string $code   String containing the CSS styles to be added.
-     * @return bool True on success, false on failure.
      */
     public function add_inline_style($handle, $code)
     {
-        if (! $code) {
+        if (!$code) {
             return false;
         }
 
         $after = $this->get_data($handle, 'after');
-        if (! $after) {
+        if (!$after) {
             $after = [];
         }
 
@@ -325,13 +326,13 @@ class WP_Styles extends WP_Dependencies
     /**
      * Prints extra CSS styles of a registered stylesheet.
      *
-     * @since 3.3.0
-     *
-     * @param string $handle  The style's registered handle.
-     * @param bool   $display Optional. Whether to print the inline style
+     * @param string $handle The style's registered handle.
+     * @param bool $display Optional. Whether to print the inline style
      *                        instead of just returning it. Default true.
      * @return string|bool False if no data exists, inline styles if `$display` is true,
      *                     true otherwise.
+     * @since 3.3.0
+     *
      */
     public function print_inline_style($handle, $display = true)
     {
@@ -343,7 +344,7 @@ class WP_Styles extends WP_Dependencies
 
         $output = implode("\n", $output);
 
-        if (! $display) {
+        if (!$display) {
             return $output;
         }
 
@@ -351,7 +352,7 @@ class WP_Styles extends WP_Dependencies
             "<style id='%s-inline-css'%s>\n%s\n</style>\n",
             esc_attr($handle),
             $this->type_attr,
-            $output
+            $output,
         );
 
         return true;
@@ -360,27 +361,27 @@ class WP_Styles extends WP_Dependencies
     /**
      * Determines style dependencies.
      *
+     * @param string|string[] $handles Item handle (string) or item handles (array of strings).
+     * @param bool $recursion Optional. Internal flag that function is calling itself.
+     *                                   Default false.
+     * @param int|false $group Optional. Group level: level (int), no groups (false).
+     *                                   Default false.
+     * @return bool True on success, false on failure.
      * @since 2.6.0
      *
      * @see WP_Dependencies::all_deps()
      *
-     * @param string|string[] $handles   Item handle (string) or item handles (array of strings).
-     * @param bool            $recursion Optional. Internal flag that function is calling itself.
-     *                                   Default false.
-     * @param int|false       $group     Optional. Group level: level (int), no groups (false).
-     *                                   Default false.
-     * @return bool True on success, false on failure.
      */
     public function all_deps($handles, $recursion = false, $group = false)
     {
         $result = parent::all_deps($handles, $recursion, $group);
-        if (! $recursion) {
+        if (!$recursion) {
             /**
              * Filters the array of enqueued styles before processing for output.
              *
+             * @param string[] $to_do The list of enqueued style handles about to be processed.
              * @since 2.6.0
              *
-             * @param string[] $to_do The list of enqueued style handles about to be processed.
              */
             $this->to_do = apply_filters('print_styles_array', $this->to_do);
         }
@@ -390,30 +391,32 @@ class WP_Styles extends WP_Dependencies
     /**
      * Generates an enqueued style's fully-qualified URL.
      *
-     * @since 2.6.0
-     *
-     * @param string $src    The source of the enqueued style.
-     * @param string $ver    The version of the enqueued style.
+     * @param string $src The source of the enqueued style.
+     * @param string $ver The version of the enqueued style.
      * @param string $handle The style's registered handle.
      * @return string Style's fully-qualified URL.
+     * @since 2.6.0
+     *
      */
     public function _css_href($src, $ver, $handle)
     {
-        if (! is_bool($src) && ! preg_match('|^(https?:)?//|', $src) && ! ($this->content_url && str_starts_with($src, $this->content_url))) {
+        if (!is_bool($src) && !preg_match('|^(https?:)?//|', $src)
+            && !($this->content_url
+                && str_starts_with($src, $this->content_url))) {
             $src = $this->base_url . $src;
         }
 
-        if (! empty($ver)) {
+        if (!empty($ver)) {
             $src = add_query_arg('ver', $ver, $src);
         }
 
         /**
          * Filters an enqueued style's fully-qualified URL.
          *
+         * @param string $src The source URL of the enqueued style.
+         * @param string $handle The style's registered handle.
          * @since 2.6.0
          *
-         * @param string $src    The source URL of the enqueued style.
-         * @param string $handle The style's registered handle.
          */
         $src = apply_filters('style_loader_src', $src, $handle);
         return esc_url($src);
@@ -422,18 +425,18 @@ class WP_Styles extends WP_Dependencies
     /**
      * Whether a handle's source is in a default directory.
      *
-     * @since 2.8.0
-     *
      * @param string $src The source of the enqueued style.
      * @return bool True if found, false if not.
+     * @since 2.8.0
+     *
      */
     public function in_default_dir($src)
     {
-        if (! $this->default_dirs) {
+        if (!$this->default_dirs) {
             return true;
         }
 
-        foreach ((array) $this->default_dirs as $test) {
+        foreach ((array)$this->default_dirs as $test) {
             if (str_starts_with($src, $test)) {
                 return true;
             }
@@ -446,11 +449,11 @@ class WP_Styles extends WP_Dependencies
      *
      * HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
      *
-     * @since 3.3.0
-     *
+     * @return string[] Handles of items that have been processed.
      * @see WP_Dependencies::do_items()
      *
-     * @return string[] Handles of items that have been processed.
+     * @since 3.3.0
+     *
      */
     public function do_footer_items()
     {
@@ -465,9 +468,9 @@ class WP_Styles extends WP_Dependencies
      */
     public function reset()
     {
-        $this->do_concat      = false;
-        $this->concat         = '';
+        $this->do_concat = false;
+        $this->concat = '';
         $this->concat_version = '';
-        $this->print_html     = '';
+        $this->print_html = '';
     }
 }

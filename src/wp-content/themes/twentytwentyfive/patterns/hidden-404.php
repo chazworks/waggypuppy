@@ -18,7 +18,10 @@
         <div class="wp-block-column">
             <!-- wp:image {"scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
             <figure class="wp-block-image size-full">
-                <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/image-from-rawpixel-id-13029755.webp" alt="<?php echo esc_attr_x('Small totara tree on ridge above Long Point', 'image description', 'twentytwentyfive'); ?>" style="object-fit:cover" />
+                <img
+                    src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/image-from-rawpixel-id-13029755.webp"
+                    alt="<?php echo esc_attr_x('Small totara tree on ridge above Long Point', 'image description',
+                        'twentytwentyfive'); ?>" style="object-fit:cover"/>
             </figure>
             <!-- /wp:image -->
         </div>
@@ -33,7 +36,8 @@
                 </h1>
                 <!-- /wp:heading -->
                 <!-- wp:paragraph -->
-                <p><?php echo esc_html_x('The page you are looking for doesn\'t exist, or it has been moved. Please try searching using the form below.', '404 error message', 'twentytwentyfive'); ?></p>
+                <p><?php echo esc_html_x('The page you are looking for doesn\'t exist, or it has been moved. Please try searching using the form below.',
+                        '404 error message', 'twentytwentyfive'); ?></p>
                 <!-- /wp:paragraph -->
                 <!-- wp:pattern {"slug":"twentytwentyfive/hidden-search"} /-->
             </div>

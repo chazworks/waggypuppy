@@ -15,12 +15,12 @@ class Tests_Comment_WpComment extends WP_UnitTestCase
 
         // Ensure that there is a comment with ID 1.
         $comment_1 = WP_Comment::get_instance(1);
-        if (! $comment_1) {
+        if (!$comment_1) {
             $wpdb->insert(
                 $wpdb->comments,
                 [
                     'comment_ID' => 1,
-                ]
+                ],
             );
 
             clean_comment_cache(1);
@@ -34,9 +34,9 @@ class Tests_Comment_WpComment extends WP_UnitTestCase
      */
     public function test_get_instance_should_work_for_numeric_string()
     {
-        $found = WP_Comment::get_instance((string) self::$comment_id);
+        $found = WP_Comment::get_instance((string)self::$comment_id);
 
-        $this->assertSame((string) self::$comment_id, $found->comment_ID);
+        $this->assertSame((string)self::$comment_id, $found->comment_ID);
     }
 
     /**

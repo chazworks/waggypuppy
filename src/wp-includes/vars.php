@@ -16,8 +16,8 @@
  */
 
 global $pagenow,
-    $is_lynx, $is_gecko, $is_winIE, $is_macIE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone, $is_IE, $is_edge,
-    $is_apache, $is_IIS, $is_iis7, $is_nginx, $is_caddy;
+       $is_lynx, $is_gecko, $is_winIE, $is_macIE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone, $is_IE, $is_edge,
+       $is_apache, $is_IIS, $is_iis7, $is_nginx, $is_caddy;
 
 // On which page are we?
 if (is_admin()) {
@@ -30,7 +30,7 @@ if (is_admin()) {
         preg_match('#/wp-admin/?(.*?)$#i', $_SERVER['PHP_SELF'], $self_matches);
     }
 
-    $pagenow = ! empty($self_matches[1]) ? $self_matches[1] : '';
+    $pagenow = !empty($self_matches[1]) ? $self_matches[1] : '';
     $pagenow = trim($pagenow, '/');
     $pagenow = preg_replace('#\?.*?$#', '', $pagenow);
 
@@ -39,7 +39,7 @@ if (is_admin()) {
     } else {
         preg_match('#(.*?)(/|$)#', $pagenow, $self_matches);
         $pagenow = strtolower($self_matches[1]);
-        if (! str_ends_with($pagenow, '.php')) {
+        if (!str_ends_with($pagenow, '.php')) {
             $pagenow .= '.php'; // For `Options +Multiviews`: /wp-admin/themes/index.php (themes.php is queried).
         }
     }
@@ -53,16 +53,16 @@ if (is_admin()) {
 unset($self_matches);
 
 // Simple browser detection.
-$is_lynx   = false;
-$is_gecko  = false;
-$is_winIE  = false;
-$is_macIE  = false;
-$is_opera  = false;
-$is_NS4    = false;
+$is_lynx = false;
+$is_gecko = false;
+$is_winIE = false;
+$is_macIE = false;
+$is_opera = false;
+$is_NS4 = false;
 $is_safari = false;
 $is_chrome = false;
 $is_iphone = false;
-$is_edge   = false;
+$is_edge = false;
 
 if (isset($_SERVER['HTTP_USER_AGENT'])) {
     if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Lynx')) {
@@ -77,21 +77,22 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
             /**
              * Filters whether Google Chrome Frame should be used, if available.
              *
+             * @param bool $is_admin Whether to use the Google Chrome Frame. Default is the value of is_admin().
              * @since 3.2.0
              *
-             * @param bool $is_admin Whether to use the Google Chrome Frame. Default is the value of is_admin().
              */
             $is_chrome = apply_filters('use_google_chrome_frame', $is_admin);
             if ($is_chrome) {
                 header('X-UA-Compatible: chrome=1');
             }
-            $is_winIE = ! $is_chrome;
+            $is_winIE = !$is_chrome;
         } else {
             $is_chrome = true;
         }
     } elseif (stripos($_SERVER['HTTP_USER_AGENT'], 'safari') !== false) {
         $is_safari = true;
-    } elseif ((str_contains($_SERVER['HTTP_USER_AGENT'], 'MSIE') || str_contains($_SERVER['HTTP_USER_AGENT'], 'Trident'))
+    } elseif ((str_contains($_SERVER['HTTP_USER_AGENT'], 'MSIE')
+            || str_contains($_SERVER['HTTP_USER_AGENT'], 'Trident'))
         && str_contains($_SERVER['HTTP_USER_AGENT'], 'Win')
     ) {
         $is_winIE = true;
@@ -99,7 +100,8 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
         $is_macIE = true;
     } elseif (str_contains($_SERVER['HTTP_USER_AGENT'], 'Gecko')) {
         $is_gecko = true;
-    } elseif (str_contains($_SERVER['HTTP_USER_AGENT'], 'Nav') && str_contains($_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.')) {
+    } elseif (str_contains($_SERVER['HTTP_USER_AGENT'], 'Nav')
+        && str_contains($_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.')) {
         $is_NS4 = true;
     }
 }
@@ -117,7 +119,8 @@ $is_IE = ($is_macIE || $is_winIE);
  *
  * @global bool $is_apache
  */
-$is_apache = (str_contains($_SERVER['SERVER_SOFTWARE'], 'Apache') || str_contains($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed'));
+$is_apache = (str_contains($_SERVER['SERVER_SOFTWARE'], 'Apache')
+    || str_contains($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed'));
 
 /**
  * Whether the server software is Nginx or something else.
@@ -131,29 +134,33 @@ $is_nginx = (str_contains($_SERVER['SERVER_SOFTWARE'], 'nginx'));
  *
  * @global bool $is_caddy
  */
-$is_caddy = (str_contains($_SERVER['SERVER_SOFTWARE'], 'Caddy') || str_contains($_SERVER['SERVER_SOFTWARE'], 'FrankenPHP'));
+$is_caddy = (str_contains($_SERVER['SERVER_SOFTWARE'], 'Caddy')
+    || str_contains($_SERVER['SERVER_SOFTWARE'], 'FrankenPHP'));
 
 /**
  * Whether the server software is IIS or something else.
  *
  * @global bool $is_IIS
  */
-$is_IIS = ! $is_apache && (str_contains($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') || str_contains($_SERVER['SERVER_SOFTWARE'], 'ExpressionDevServer'));
+$is_IIS = !$is_apache
+    && (str_contains($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS')
+        || str_contains($_SERVER['SERVER_SOFTWARE'], 'ExpressionDevServer'));
 
 /**
  * Whether the server software is IIS 7.X or greater.
  *
  * @global bool $is_iis7
  */
-$is_iis7 = $is_IIS && (int) substr($_SERVER['SERVER_SOFTWARE'], strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS/') + 14) >= 7;
+$is_iis7 = $is_IIS
+    && (int)substr($_SERVER['SERVER_SOFTWARE'], strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS/') + 14) >= 7;
 
 /**
  * Test if the current browser runs on a mobile device (smart phone, tablet, etc.).
  *
- * @since 3.4.0
+ * @return bool
  * @since 6.4.0 Added checking for the Sec-CH-UA-Mobile request header.
  *
- * @return bool
+ * @since 3.4.0
  */
 function wp_is_mobile()
 {
@@ -170,7 +177,7 @@ function wp_is_mobile()
         || str_contains($_SERVER['HTTP_USER_AGENT'], 'BlackBerry')
         || str_contains($_SERVER['HTTP_USER_AGENT'], 'Opera Mini')
         || str_contains($_SERVER['HTTP_USER_AGENT'], 'Opera Mobi')) {
-            $is_mobile = true;
+        $is_mobile = true;
     } else {
         $is_mobile = false;
     }
@@ -178,9 +185,9 @@ function wp_is_mobile()
     /**
      * Filters whether the request should be treated as coming from a mobile device or not.
      *
+     * @param bool $is_mobile Whether the request is from a mobile device or not.
      * @since 4.9.0
      *
-     * @param bool $is_mobile Whether the request is from a mobile device or not.
      */
     return apply_filters('wp_is_mobile', $is_mobile);
 }

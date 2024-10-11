@@ -41,11 +41,11 @@ class Language_Pack_Upgrader extends WP_Upgrader
      *
      * Hooked to the {@see 'upgrader_process_complete'} action by default.
      *
-     * @since 3.7.0
-     *
      * @param false|WP_Upgrader $upgrader Optional. WP_Upgrader instance or false. If `$upgrader` is
      *                                    a Language_Pack_Upgrader instance, the method will bail to
      *                                    avoid recursion. Otherwise unused. Default false.
+     * @since 3.7.0
+     *
      */
     public static function async_upgrade($upgrader = false)
     {
@@ -56,7 +56,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
 
         // Nothing to do?
         $language_updates = wp_get_translation_updates();
-        if (! $language_updates) {
+        if (!$language_updates) {
             return;
         }
 
@@ -70,19 +70,19 @@ class Language_Pack_Upgrader extends WP_Upgrader
         }
 
         foreach ($language_updates as $key => $language_update) {
-            $update = ! empty($language_update->autoupdate);
+            $update = !empty($language_update->autoupdate);
 
             /**
              * Filters whether to asynchronously update translation for core, a plugin, or a theme.
              *
+             * @param bool $update Whether to update.
+             * @param object $language_update The update offer.
              * @since 4.0.0
              *
-             * @param bool   $update          Whether to update.
-             * @param object $language_update The update offer.
              */
             $update = apply_filters('async_update_translation', $update, $language_update);
 
-            if (! $update) {
+            if (!$update) {
                 unset($language_updates[$key]);
             }
         }
@@ -98,7 +98,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
             $skin = new Language_Pack_Upgrader_Skin(
                 [
                     'skip_header_footer' => true,
-                ]
+                ],
             );
         }
 
@@ -114,26 +114,27 @@ class Language_Pack_Upgrader extends WP_Upgrader
     public function upgrade_strings()
     {
         $this->strings['starting_upgrade'] = __('Some of your translations need updating. Sit tight for a few more seconds while they are updated as well.');
-        $this->strings['up_to_date']       = __('Your translations are all up to date.');
-        $this->strings['no_package']       = __('Update package not available.');
+        $this->strings['up_to_date'] = __('Your translations are all up to date.');
+        $this->strings['no_package'] = __('Update package not available.');
         /* translators: %s: Package URL. */
-        $this->strings['downloading_package'] = sprintf(__('Downloading translation from %s&#8230;'), '<span class="code pre">%s</span>');
-        $this->strings['unpack_package']      = __('Unpacking the update&#8230;');
-        $this->strings['process_failed']      = __('Translation update failed.');
-        $this->strings['process_success']     = __('Translation updated successfully.');
-        $this->strings['remove_old']          = __('Removing the old version of the translation&#8230;');
-        $this->strings['remove_old_failed']   = __('Could not remove the old translation.');
+        $this->strings['downloading_package'] = sprintf(__('Downloading translation from %s&#8230;'),
+            '<span class="code pre">%s</span>');
+        $this->strings['unpack_package'] = __('Unpacking the update&#8230;');
+        $this->strings['process_failed'] = __('Translation update failed.');
+        $this->strings['process_success'] = __('Translation updated successfully.');
+        $this->strings['remove_old'] = __('Removing the old version of the translation&#8230;');
+        $this->strings['remove_old_failed'] = __('Could not remove the old translation.');
     }
 
     /**
      * Upgrades a language pack.
      *
-     * @since 3.7.0
-     *
      * @param string|false $update Optional. Whether an update offer is available. Default false.
-     * @param array        $args   Optional. Other optional arguments, see
+     * @param array $args Optional. Other optional arguments, see
      *                             Language_Pack_Upgrader::bulk_upgrade(). Default empty array.
      * @return array|bool|WP_Error The result of the upgrade, or a WP_Error object instead.
+     * @since 3.7.0
+     *
      */
     public function upgrade($update = false, $args = [])
     {
@@ -143,7 +144,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
 
         $results = $this->bulk_upgrade($update, $args);
 
-        if (! is_array($results)) {
+        if (!is_array($results)) {
             return $results;
         }
 
@@ -153,26 +154,26 @@ class Language_Pack_Upgrader extends WP_Upgrader
     /**
      * Upgrades several language packs at once.
      *
-     * @since 3.7.0
-     *
-     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
-     *
      * @param object[] $language_updates Optional. Array of language packs to update. See {@see wp_get_translation_updates()}.
      *                                   Default empty array.
-     * @param array    $args {
+     * @param array $args {
      *     Other arguments for upgrading multiple language packs. Default empty array.
      *
-     *     @type bool $clear_update_cache Whether to clear the update cache when done.
+     * @type bool $clear_update_cache Whether to clear the update cache when done.
      *                                    Default true.
      * }
      * @return array|bool|WP_Error Will return an array of results, or true if there are no updates,
      *                             false or WP_Error for initial errors.
+     * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
+     *
+     * @since 3.7.0
+     *
      */
     public function bulk_upgrade($language_updates = [], $args = [])
     {
         global $wp_filesystem;
 
-        $defaults    = [
+        $defaults = [
             'clear_update_cache' => true,
         ];
         $parsed_args = wp_parse_args($args, $defaults);
@@ -180,7 +181,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
         $this->init();
         $this->upgrade_strings();
 
-        if (! $language_updates) {
+        if (!$language_updates) {
             $language_updates = wp_get_translation_updates();
         }
 
@@ -209,14 +210,14 @@ class Language_Pack_Upgrader extends WP_Upgrader
 
         // Connect to the filesystem first.
         $res = $this->fs_connect([WP_CONTENT_DIR, WP_LANG_DIR]);
-        if (! $res) {
+        if (!$res) {
             $this->skin->footer();
             return false;
         }
 
         $results = [];
 
-        $this->update_count   = count($language_updates);
+        $this->update_count = count($language_updates);
         $this->update_current = 0;
 
         /*
@@ -224,8 +225,8 @@ class Language_Pack_Upgrader extends WP_Upgrader
          * as we then may need to create a /plugins or /themes directory inside of it.
          */
         $remote_destination = $wp_filesystem->find_folder(WP_LANG_DIR);
-        if (! $wp_filesystem->exists($remote_destination)) {
-            if (! $wp_filesystem->mkdir($remote_destination, FS_CHMOD_DIR)) {
+        if (!$wp_filesystem->exists($remote_destination)) {
+            if (!$wp_filesystem->mkdir($remote_destination, FS_CHMOD_DIR)) {
                 return new WP_Error('mkdir_failed_lang_dir', $this->strings['mkdir_failed'], $remote_destination);
             }
         }
@@ -233,7 +234,6 @@ class Language_Pack_Upgrader extends WP_Upgrader
         $language_updates_results = [];
 
         foreach ($language_updates as $language_update) {
-
             $this->skin->language_update = $language_update;
 
             $destination = WP_LANG_DIR;
@@ -246,15 +246,15 @@ class Language_Pack_Upgrader extends WP_Upgrader
             ++$this->update_current;
 
             $options = [
-                'package'                     => $language_update->package,
-                'destination'                 => $destination,
-                'clear_destination'           => true,
+                'package' => $language_update->package,
+                'destination' => $destination,
+                'clear_destination' => true,
                 'abort_if_destination_exists' => false, // We expect the destination to exist.
-                'clear_working'               => true,
-                'is_multi'                    => true,
-                'hook_extra'                  => [
+                'clear_working' => true,
+                'is_multi' => true,
+                'hook_extra' => [
                     'language_update_type' => $language_update->type,
-                    'language_update'      => $language_update,
+                    'language_update' => $language_update,
                 ],
             ];
 
@@ -269,9 +269,9 @@ class Language_Pack_Upgrader extends WP_Upgrader
 
             $language_updates_results[] = [
                 'language' => $language_update->language,
-                'type'     => $language_update->type,
-                'slug'     => isset($language_update->slug) ? $language_update->slug : 'default',
-                'version'  => $language_update->version,
+                'type' => $language_update->type,
+                'slug' => isset($language_update->slug) ? $language_update->slug : 'default',
+                'version' => $language_update->version,
             ];
         }
 
@@ -286,11 +286,11 @@ class Language_Pack_Upgrader extends WP_Upgrader
             'upgrader_process_complete',
             $this,
             [
-                'action'       => 'update',
-                'type'         => 'translation',
-                'bulk'         => true,
+                'action' => 'update',
+                'type' => 'translation',
+                'bulk' => true,
                 'translations' => $language_updates_results,
-            ]
+            ],
         );
 
         // Re-add upgrade hooks.
@@ -319,13 +319,13 @@ class Language_Pack_Upgrader extends WP_Upgrader
      * Hooked to the {@see 'upgrader_source_selection'} filter by
      * Language_Pack_Upgrader::bulk_upgrade().
      *
-     * @since 3.7.0
-     *
+     * @param string|WP_Error $source The path to the downloaded package source.
+     * @param string $remote_source Remote file source location.
+     * @return string|WP_Error The source as passed, or a WP_Error object on failure.
      * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
-     * @param string|WP_Error $source        The path to the downloaded package source.
-     * @param string          $remote_source Remote file source location.
-     * @return string|WP_Error The source as passed, or a WP_Error object on failure.
+     * @since 3.7.0
+     *
      */
     public function check_package($source, $remote_source)
     {
@@ -339,10 +339,10 @@ class Language_Pack_Upgrader extends WP_Upgrader
         $files = $wp_filesystem->dirlist($remote_source);
 
         // Check to see if the expected files exist in the folder.
-        $po  = false;
-        $mo  = false;
+        $po = false;
+        $mo = false;
         $php = false;
-        foreach ((array) $files as $file => $filedata) {
+        foreach ((array)$files as $file => $filedata) {
             if (str_ends_with($file, '.po')) {
                 $po = true;
             } elseif (str_ends_with($file, '.mo')) {
@@ -356,17 +356,17 @@ class Language_Pack_Upgrader extends WP_Upgrader
             return $source;
         }
 
-        if (! $mo || ! $po) {
+        if (!$mo || !$po) {
             return new WP_Error(
                 'incompatible_archive_pomo',
                 $this->strings['incompatible_archive'],
                 sprintf(
-                    /* translators: 1: .po, 2: .mo, 3: .l10n.php */
+                /* translators: 1: .po, 2: .mo, 3: .l10n.php */
                     __('The language pack is missing either the %1$s, %2$s, or %3$s files.'),
                     '<code>.po</code>',
                     '<code>.mo</code>',
-                    '<code>.l10n.php</code>'
-                )
+                    '<code>.l10n.php</code>',
+                ),
             );
         }
 
@@ -376,10 +376,10 @@ class Language_Pack_Upgrader extends WP_Upgrader
     /**
      * Gets the name of an item being updated.
      *
-     * @since 3.7.0
-     *
      * @param object $update The data for an update.
      * @return string The name of the item being updated.
+     * @since 3.7.0
+     *
      */
     public function get_name_for_update($update)
     {
@@ -407,18 +407,18 @@ class Language_Pack_Upgrader extends WP_Upgrader
     /**
      * Clears existing translations where this item is going to be installed into.
      *
+     * @param string $remote_destination The location on the remote filesystem to be cleared.
+     * @return bool|WP_Error True upon success, WP_Error on failure.
      * @since 5.1.0
      *
      * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
-     * @param string $remote_destination The location on the remote filesystem to be cleared.
-     * @return bool|WP_Error True upon success, WP_Error on failure.
      */
     public function clear_destination($remote_destination)
     {
         global $wp_filesystem;
 
-        $language_update    = $this->skin->language_update;
+        $language_update = $this->skin->language_update;
         $language_directory = WP_LANG_DIR . '/'; // Local path for use with glob().
 
         if ('core' === $language_update->type) {
@@ -450,8 +450,12 @@ class Language_Pack_Upgrader extends WP_Upgrader
                 $remote_destination . $language_update->slug . '-' . $language_update->language . '.l10n.php',
             ];
 
-            $language_directory     = $language_directory . $language_update->type . 's/';
-            $json_translation_files = glob($language_directory . $language_update->slug . '-' . $language_update->language . '-*.json');
+            $language_directory = $language_directory . $language_update->type . 's/';
+            $json_translation_files = glob($language_directory
+                . $language_update->slug
+                . '-'
+                . $language_update->language
+                . '-*.json');
             if ($json_translation_files) {
                 foreach ($json_translation_files as $json_translation_file) {
                     $files[] = str_replace($language_directory, $remote_destination, $json_translation_file);
@@ -462,7 +466,7 @@ class Language_Pack_Upgrader extends WP_Upgrader
         $files = array_filter($files, [$wp_filesystem, 'exists']);
 
         // No files to delete.
-        if (! $files) {
+        if (!$files) {
             return true;
         }
 
@@ -471,21 +475,22 @@ class Language_Pack_Upgrader extends WP_Upgrader
 
         // Check writability.
         foreach ($files as $file) {
-            if (! $wp_filesystem->is_writable($file)) {
+            if (!$wp_filesystem->is_writable($file)) {
                 // Attempt to alter permissions to allow writes and try again.
                 $wp_filesystem->chmod($file, FS_CHMOD_FILE);
-                if (! $wp_filesystem->is_writable($file)) {
+                if (!$wp_filesystem->is_writable($file)) {
                     $unwritable_files[] = $file;
                 }
             }
         }
 
-        if (! empty($unwritable_files)) {
-            return new WP_Error('files_not_writable', $this->strings['files_not_writable'], implode(', ', $unwritable_files));
+        if (!empty($unwritable_files)) {
+            return new WP_Error('files_not_writable', $this->strings['files_not_writable'],
+                implode(', ', $unwritable_files));
         }
 
         foreach ($files as $file) {
-            if (! $wp_filesystem->delete($file)) {
+            if (!$wp_filesystem->delete($file)) {
                 return new WP_Error('remove_old_failed', $this->strings['remove_old_failed']);
             }
         }

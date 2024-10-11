@@ -6,10 +6,10 @@
  */
 
 return [
-    'title'      => _x('Grid', 'Block pattern title'),
+    'title' => _x('Grid', 'Block pattern title'),
     'blockTypes' => ['core/query'],
     'categories' => ['query'],
-    'content'    => '<!-- wp:query {"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"exclude","inherit":false},"displayLayout":{"type":"flex","columns":3}} -->
+    'content' => '<!-- wp:query {"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"exclude","inherit":false},"displayLayout":{"type":"flex","columns":3}} -->
 					<div class="wp-block-query">
 					<!-- wp:post-template -->
 					<!-- wp:group {"style":{"spacing":{"padding":{"top":"30px","right":"30px","bottom":"30px","left":"30px"}}},"layout":{"inherit":false}} -->

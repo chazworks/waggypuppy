@@ -30,24 +30,24 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler
     /**
      * Searches the post formats for a given search request.
      *
-     * @since 5.6.0
-     *
      * @param WP_REST_Request $request Full REST request.
      * @return array {
      *     Associative array containing found IDs and total count for the matching search results.
      *
-     *     @type string[] $ids   Array containing slugs for the matching post formats.
-     *     @type int      $total Total count for the matching search results.
+     * @type string[] $ids Array containing slugs for the matching post formats.
+     * @type int $total Total count for the matching search results.
      * }
+     * @since 5.6.0
+     *
      */
     public function search_items(WP_REST_Request $request)
     {
         $format_strings = get_post_format_strings();
-        $format_slugs   = array_keys($format_strings);
+        $format_slugs = array_keys($format_strings);
 
         $query_args = [];
 
-        if (! empty($request['search'])) {
+        if (!empty($request['search'])) {
             $query_args['search'] = $request['search'];
         }
 
@@ -56,20 +56,20 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler
          *
          * Enables adding extra arguments or setting defaults for a post format search request.
          *
+         * @param array $query_args Key value array of query var to query value.
+         * @param WP_REST_Request $request The request used.
          * @since 5.6.0
          *
-         * @param array           $query_args Key value array of query var to query value.
-         * @param WP_REST_Request $request    The request used.
          */
         $query_args = apply_filters('rest_post_format_search_query', $query_args, $request);
 
         $found_ids = [];
         foreach ($format_slugs as $format_slug) {
-            if (! empty($query_args['search'])) {
-                $format_string       = get_post_format_string($format_slug);
-                $format_slug_match   = stripos($format_slug, $query_args['search']) !== false;
+            if (!empty($query_args['search'])) {
+                $format_string = get_post_format_string($format_slug);
+                $format_slug_match = stripos($format_slug, $query_args['search']) !== false;
                 $format_string_match = stripos($format_string, $query_args['search']) !== false;
-                if (! $format_slug_match && ! $format_string_match) {
+                if (!$format_slug_match && !$format_string_match) {
                     continue;
                 }
             }
@@ -80,11 +80,11 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler
             }
         }
 
-        $page     = (int) $request['page'];
-        $per_page = (int) $request['per_page'];
+        $page = (int)$request['page'];
+        $per_page = (int)$request['per_page'];
 
         return [
-            self::RESULT_IDS   => array_slice($found_ids, ($page - 1) * $per_page, $per_page),
+            self::RESULT_IDS => array_slice($found_ids, ($page - 1) * $per_page, $per_page),
             self::RESULT_TOTAL => count($found_ids),
         ];
     }
@@ -92,18 +92,18 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler
     /**
      * Prepares the search result for a given post format.
      *
-     * @since 5.6.0
-     *
-     * @param string $id     Item ID, the post format slug.
-     * @param array  $fields Fields to include for the item.
+     * @param string $id Item ID, the post format slug.
+     * @param array $fields Fields to include for the item.
      * @return array {
      *     Associative array containing fields for the post format based on the `$fields` parameter.
      *
-     *     @type string $id    Optional. Post format slug.
-     *     @type string $title Optional. Post format name.
-     *     @type string $url   Optional. Post format permalink URL.
-     *     @type string $type  Optional. String 'post-format'.
+     * @type string $id Optional. Post format slug.
+     * @type string $title Optional. Post format name.
+     * @type string $url Optional. Post format permalink URL.
+     * @type string $type Optional. String 'post-format'.
      *}
+     * @since 5.6.0
+     *
      */
     public function prepare_item($id, array $fields)
     {
@@ -131,10 +131,10 @@ class WP_REST_Post_Format_Search_Handler extends WP_REST_Search_Handler
     /**
      * Prepares links for the search result.
      *
-     * @since 5.6.0
-     *
      * @param string $id Item ID, the post format slug.
      * @return array Links for the given item.
+     * @since 5.6.0
+     *
      */
     public function prepare_item_links($id)
     {

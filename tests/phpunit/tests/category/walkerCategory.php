@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group taxonomy
  * @group category
@@ -33,13 +34,13 @@ class Tests_Category_Walker_Category extends WP_UnitTestCase
      */
     public function test_start_el_with_empty_attributes($value, $expected)
     {
-        $output   = '';
+        $output = '';
         $category = self::factory()->category->create_and_get();
-        $link     = get_term_link($category);
+        $link = get_term_link($category);
 
         $args = [
             'use_desc_for_title' => 0,
-            'style'              => 'list',
+            'style' => 'list',
         ];
 
         add_filter(
@@ -47,7 +48,7 @@ class Tests_Category_Walker_Category extends WP_UnitTestCase
             static function ($atts) use ($value) {
                 $atts['data-test'] = $value;
                 return $atts;
-            }
+            },
         );
 
         $this->walker->start_el($output, $category, 0, $args);
@@ -56,7 +57,8 @@ class Tests_Category_Walker_Category extends WP_UnitTestCase
             $expected = sprintf(' data-test="%s"', $expected);
         }
 
-        $this->assertSame("<li class=\"cat-item cat-item-{$category->term_id}\"><a href=\"{$link}\"{$expected}>{$category->name}</a>", trim($output));
+        $this->assertSame("<li class=\"cat-item cat-item-{$category->term_id}\"><a href=\"{$link}\"{$expected}>{$category->name}</a>",
+            trim($output));
     }
 
     public function data_start_el_with_empty_attributes()

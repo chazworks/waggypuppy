@@ -21,7 +21,7 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
         /* @var WP $wp */
         global $wp;
 
-        $taxonomy        = 'taxonomy1';
+        $taxonomy = 'taxonomy1';
         $taxonomy_object = new WP_Taxonomy($taxonomy, 'post');
 
         $taxonomy_object->add_rewrite_rules();
@@ -35,15 +35,15 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
         /* @var WP $wp */
         global $wp;
 
-        $taxonomy        = 'taxonomy2';
+        $taxonomy = 'taxonomy2';
         $taxonomy_object = new WP_Taxonomy(
             $taxonomy,
             'post',
             [
-                'public'    => true,
-                'rewrite'   => false,
+                'public' => true,
+                'rewrite' => false,
                 'query_var' => 'foobar',
-            ]
+            ],
         );
 
         $taxonomy_object->add_rewrite_rules();
@@ -63,14 +63,14 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
         /* @var WP_Rewrite $wp_rewrite */
         global $wp_rewrite;
 
-        $taxonomy        = 'taxonomy3';
+        $taxonomy = 'taxonomy3';
         $taxonomy_object = new WP_Taxonomy(
             $taxonomy,
             'post',
             [
-                'public'  => true,
+                'public' => true,
                 'rewrite' => true,
-            ]
+            ],
         );
 
         $taxonomy_object->add_rewrite_rules();
@@ -85,14 +85,14 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
 
     public function test_adds_ajax_callback()
     {
-        $taxonomy        = 'taxonomy4';
+        $taxonomy = 'taxonomy4';
         $taxonomy_object = new WP_Taxonomy(
             $taxonomy,
             'post',
             [
-                'public'  => true,
+                'public' => true,
                 'rewrite' => true,
-            ]
+            ],
         );
 
         $taxonomy_object->add_hooks();
@@ -108,7 +108,7 @@ class Tests_WP_Taxonomy extends WP_UnitTestCase
     public function test_applies_registration_args_filters()
     {
         $taxonomy = 'taxonomy5';
-        $action   = new MockAction();
+        $action = new MockAction();
 
         add_filter('register_taxonomy_args', [$action, 'filter']);
         add_filter("register_{$taxonomy}_taxonomy_args", [$action, 'filter']);

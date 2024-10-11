@@ -19,8 +19,7 @@ class Tests_Lazy_Load_Comment_Meta extends WP_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-
-        self::$post_id     = $factory->post->create();
+        self::$post_id = $factory->post->create();
         self::$comment_ids = $factory->comment->create_post_comments(self::$post_id, 11);
     }
 
@@ -35,13 +34,13 @@ class Tests_Lazy_Load_Comment_Meta extends WP_UnitTestCase
     {
         $filter = new MockAction();
         add_filter('update_comment_metadata_cache', [$filter, 'filter'], 10, 2);
-        $comments   = array_map('get_comment', self::$comment_ids);
+        $comments = array_map('get_comment', self::$comment_ids);
         $comment_id = reset(self::$comment_ids);
         wp_queue_comments_for_comment_meta_lazyload($comments);
         get_comment_meta($comment_id);
 
-        $args             = $filter->get_args();
-        $first            = reset($args);
+        $args = $filter->get_args();
+        $first = reset($args);
         $comment_meta_ids = end($first);
         $this->assertSameSets(self::$comment_ids, $comment_meta_ids);
     }
@@ -57,17 +56,17 @@ class Tests_Lazy_Load_Comment_Meta extends WP_UnitTestCase
     {
         $filter = new MockAction();
         add_filter('update_comment_metadata_cache', [$filter, 'filter'], 10, 2);
-        $comments   = array_map('get_comment', self::$comment_ids);
+        $comments = array_map('get_comment', self::$comment_ids);
         $comment_id = self::factory()->comment->create(
             [
                 'comment_post_ID' => self::$post_id,
-            ]
+            ],
         );
         wp_queue_comments_for_comment_meta_lazyload($comments);
         get_comment_meta($comment_id);
 
-        $args             = $filter->get_args();
-        $first            = reset($args);
+        $args = $filter->get_args();
+        $first = reset($args);
         $comment_meta_ids = end($first);
         $this->assertContains($comment_id, $comment_meta_ids);
     }

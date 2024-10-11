@@ -10,18 +10,18 @@
  * Ensures that pre-existing list blocks use the class name on the front.
  * For example, <ol> is transformed to <ol class="wp-block-list">.
  *
- * @since 6.6.0
- *
- * @see https://github.com/WordPress/gutenberg/issues/12420
- *
- * @param array  $attributes Attributes of the block being rendered.
+ * @param array $attributes Attributes of the block being rendered.
  * @param string $content Content of the block being rendered.
  *
  * @return string The content of the block being rendered.
+ * @see https://github.com/WordPress/gutenberg/issues/12420
+ *
+ * @since 6.6.0
+ *
  */
 function block_core_list_render($attributes, $content)
 {
-    if (! $content) {
+    if (!$content) {
         return $content;
     }
 
@@ -49,7 +49,7 @@ function register_block_core_list()
         __DIR__ . '/list',
         [
             'render_callback' => 'block_core_list_render',
-        ]
+        ],
     );
 }
 

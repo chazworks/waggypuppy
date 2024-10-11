@@ -43,22 +43,22 @@ class WP_Fatal_Error_Handler
         try {
             // Bail if no error found.
             $error = $this->detect_error();
-            if (! $error) {
+            if (!$error) {
                 return;
             }
 
-            if (! isset($GLOBALS['wp_locale']) && function_exists('load_default_textdomain')) {
+            if (!isset($GLOBALS['wp_locale']) && function_exists('load_default_textdomain')) {
                 load_default_textdomain();
             }
 
             $handled = false;
 
-            if (! is_multisite() && wp_recovery_mode()->is_initialized()) {
+            if (!is_multisite() && wp_recovery_mode()->is_initialized()) {
                 $handled = wp_recovery_mode()->handle_error($error);
             }
 
             // Display the PHP error template if headers not sent.
-            if (is_admin() || ! headers_sent()) {
+            if (is_admin() || !headers_sent()) {
                 $this->display_error_template($error, $handled);
             }
         } catch (Exception $e) {
@@ -69,10 +69,10 @@ class WP_Fatal_Error_Handler
     /**
      * Detects the error causing the crash if it should be handled.
      *
-     * @since 5.2.0
-     *
      * @return array|null Error information returned by `error_get_last()`, or null
      *                    if none was recorded or the error should not be handled.
+     * @since 5.2.0
+     *
      */
     protected function detect_error()
     {
@@ -84,7 +84,7 @@ class WP_Fatal_Error_Handler
         }
 
         // Bail if this error should not be handled.
-        if (! $this->should_handle_error($error)) {
+        if (!$this->should_handle_error($error)) {
             return null;
         }
 
@@ -95,10 +95,10 @@ class WP_Fatal_Error_Handler
      * Determines whether we are dealing with an error that waggypuppy should handle
      * in order to protect the admin backend against WSODs.
      *
-     * @since 5.2.0
-     *
      * @param array $error Error information retrieved from `error_get_last()`.
      * @return bool Whether waggypuppy should handle this error.
+     * @since 5.2.0
+     *
      */
     protected function should_handle_error($error)
     {
@@ -121,12 +121,12 @@ class WP_Fatal_Error_Handler
          * it exclusively allows adding further rules for which errors should be handled, but not removing existing
          * ones.
          *
+         * @param bool $should_handle_error Whether the error should be handled by the fatal error handler.
+         * @param array $error Error information retrieved from `error_get_last()`.
          * @since 5.2.0
          *
-         * @param bool  $should_handle_error Whether the error should be handled by the fatal error handler.
-         * @param array $error               Error information retrieved from `error_get_last()`.
          */
-        return (bool) apply_filters('wp_should_handle_php_error', false, $error);
+        return (bool)apply_filters('wp_should_handle_php_error', false, $error);
     }
 
     /**
@@ -139,11 +139,11 @@ class WP_Fatal_Error_Handler
      *
      * If no such drop-in is available, this will call {@see WP_Fatal_Error_Handler::display_default_error_template()}.
      *
+     * @param array $error Error information retrieved from `error_get_last()`.
+     * @param true|WP_Error $handled Whether Recovery Mode handled the fatal error.
      * @since 5.2.0
      * @since 5.3.0 The `$handled` parameter was added.
      *
-     * @param array         $error   Error information retrieved from `error_get_last()`.
-     * @param true|WP_Error $handled Whether Recovery Mode handled the fatal error.
      */
     protected function display_error_template($error, $handled)
     {
@@ -170,23 +170,23 @@ class WP_Fatal_Error_Handler
      * login link to the admin backend. The {@see 'wp_php_error_message'} and {@see 'wp_php_error_args'} filters can
      * be used to modify these parameters.
      *
+     * @param array $error Error information retrieved from `error_get_last()`.
+     * @param true|WP_Error $handled Whether Recovery Mode handled the fatal error.
      * @since 5.2.0
      * @since 5.3.0 The `$handled` parameter was added.
      *
-     * @param array         $error   Error information retrieved from `error_get_last()`.
-     * @param true|WP_Error $handled Whether Recovery Mode handled the fatal error.
      */
     protected function display_default_error_template($error, $handled)
     {
-        if (! function_exists('__')) {
+        if (!function_exists('__')) {
             wp_load_translations_early();
         }
 
-        if (! function_exists('wp_die')) {
+        if (!function_exists('wp_die')) {
             require_once ABSPATH . WPINC . '/functions.php';
         }
 
-        if (! class_exists('WP_Error')) {
+        if (!class_exists('WP_Error')) {
             require_once ABSPATH . WPINC . '/class-wp-error.php';
         }
 
@@ -207,32 +207,32 @@ class WP_Fatal_Error_Handler
             $message,
             /* translators: Documentation about troubleshooting. */
             __('https://wp.org/documentation/article/faq-troubleshooting/'),
-            __('Learn more about troubleshooting waggypuppy.')
+            __('Learn more about troubleshooting waggypuppy.'),
         );
 
         $args = [
             'response' => 500,
-            'exit'     => false,
+            'exit' => false,
         ];
 
         /**
          * Filters the message that the default PHP error template displays.
          *
+         * @param string $message HTML error message to display.
+         * @param array $error Error information retrieved from `error_get_last()`.
          * @since 5.2.0
          *
-         * @param string $message HTML error message to display.
-         * @param array  $error   Error information retrieved from `error_get_last()`.
          */
         $message = apply_filters('wp_php_error_message', $message, $error);
 
         /**
          * Filters the arguments passed to {@see wp_die()} for the default PHP error template.
          *
-         * @since 5.2.0
-         *
          * @param array $args Associative array of arguments passed to `wp_die()`. By default these contain a
          *                    'response' key, and optionally 'link_url' and 'link_text' keys.
          * @param array $error Error information retrieved from `error_get_last()`.
+         * @since 5.2.0
+         *
          */
         $args = apply_filters('wp_php_error_args', $args, $error);
 
@@ -241,7 +241,7 @@ class WP_Fatal_Error_Handler
             $message,
             [
                 'error' => $error,
-            ]
+            ],
         );
 
         wp_die($wp_error, '', $args);

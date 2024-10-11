@@ -102,20 +102,20 @@ class Tests_Post_GetPostClass extends WP_UnitTestCase
         $term_id1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'Первая метка',
-            ]
+                'name' => 'Первая метка',
+            ],
         );
         $term_id2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'Вторая метка',
-            ]
+                'name' => 'Вторая метка',
+            ],
         );
         $term_id3 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => '25кадр',
-            ]
+                'name' => '25кадр',
+            ],
         );
         wp_set_post_terms($this->post_id, [$term_id1, $term_id2, $term_id3], 'wptests_tax');
 

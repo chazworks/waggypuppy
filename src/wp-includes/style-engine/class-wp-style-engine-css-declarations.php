@@ -33,11 +33,11 @@ class WP_Style_Engine_CSS_Declarations
      * If a `$declarations` array is passed, it will be used to populate
      * the initial `$declarations` prop of the object by calling add_declarations().
      *
-     * @since 6.1.0
-     *
      * @param string[] $declarations Optional. An associative array of CSS definitions,
      *                               e.g. `array( "$property" => "$value", "$property" => "$value" )`.
      *                               Default empty array.
+     * @since 6.1.0
+     *
      */
     public function __construct($declarations = [])
     {
@@ -47,11 +47,11 @@ class WP_Style_Engine_CSS_Declarations
     /**
      * Adds a single declaration.
      *
+     * @param string $property The CSS property.
+     * @param string $value The CSS value.
+     * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
      * @since 6.1.0
      *
-     * @param string $property The CSS property.
-     * @param string $value    The CSS value.
-     * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
      */
     public function add_declaration($property, $value)
     {
@@ -77,10 +77,10 @@ class WP_Style_Engine_CSS_Declarations
     /**
      * Removes a single declaration.
      *
-     * @since 6.1.0
-     *
      * @param string $property The CSS property.
      * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
+     * @since 6.1.0
+     *
      */
     public function remove_declaration($property)
     {
@@ -91,10 +91,10 @@ class WP_Style_Engine_CSS_Declarations
     /**
      * Adds multiple declarations.
      *
-     * @since 6.1.0
-     *
      * @param string[] $declarations An array of declarations.
      * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
+     * @since 6.1.0
+     *
      */
     public function add_declarations($declarations)
     {
@@ -107,10 +107,10 @@ class WP_Style_Engine_CSS_Declarations
     /**
      * Removes multiple declarations.
      *
-     * @since 6.1.0
-     *
      * @param string[] $properties Optional. An array of properties. Default empty array.
      * @return WP_Style_Engine_CSS_Declarations Returns the object to allow chaining methods.
+     * @since 6.1.0
+     *
      */
     public function remove_declarations($properties = [])
     {
@@ -123,9 +123,9 @@ class WP_Style_Engine_CSS_Declarations
     /**
      * Gets the declarations array.
      *
+     * @return string[] The declarations array.
      * @since 6.1.0
      *
-     * @return string[] The declarations array.
      */
     public function get_declarations()
     {
@@ -135,13 +135,13 @@ class WP_Style_Engine_CSS_Declarations
     /**
      * Filters a CSS property + value pair.
      *
-     * @since 6.1.0
-     *
      * @param string $property The CSS property.
-     * @param string $value    The value to be filtered.
-     * @param string $spacer   Optional. The spacer between the colon and the value.
+     * @param string $value The value to be filtered.
+     * @param string $spacer Optional. The spacer between the colon and the value.
      *                         Default empty string.
      * @return string The filtered declaration or an empty string.
+     * @since 6.1.0
+     *
      */
     protected static function filter_declaration($property, $value, $spacer = '')
     {
@@ -155,22 +155,22 @@ class WP_Style_Engine_CSS_Declarations
     /**
      * Filters and compiles the CSS declarations.
      *
-     * @since 6.1.0
-     *
      * @param bool $should_prettify Optional. Whether to add spacing, new lines and indents.
      *                              Default false.
-     * @param int  $indent_count    Optional. The number of tab indents to apply to the rule.
+     * @param int $indent_count Optional. The number of tab indents to apply to the rule.
      *                              Applies if `prettify` is `true`. Default 0.
      * @return string The CSS declarations.
+     * @since 6.1.0
+     *
      */
     public function get_declarations_string($should_prettify = false, $indent_count = 0)
     {
-        $declarations_array  = $this->get_declarations();
+        $declarations_array = $this->get_declarations();
         $declarations_output = '';
-        $indent              = $should_prettify ? str_repeat("\t", $indent_count) : '';
-        $suffix              = $should_prettify ? ' ' : '';
-        $suffix              = $should_prettify && $indent_count > 0 ? "\n" : $suffix;
-        $spacer              = $should_prettify ? ' ' : '';
+        $indent = $should_prettify ? str_repeat("\t", $indent_count) : '';
+        $suffix = $should_prettify ? ' ' : '';
+        $suffix = $should_prettify && $indent_count > 0 ? "\n" : $suffix;
+        $spacer = $should_prettify ? ' ' : '';
 
         foreach ($declarations_array as $property => $value) {
             $filtered_declaration = static::filter_declaration($property, $value, $spacer);
@@ -185,10 +185,10 @@ class WP_Style_Engine_CSS_Declarations
     /**
      * Sanitizes property names.
      *
-     * @since 6.1.0
-     *
      * @param string $property The CSS property.
      * @return string The sanitized property name.
+     * @since 6.1.0
+     *
      */
     protected function sanitize_property($property)
     {

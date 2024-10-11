@@ -19,14 +19,14 @@ Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, feature
  * https://github.com/WordPress/gutenberg/issues/42319
  */
 a {
-	text-decoration-thickness: 1px !important;
-	text-underline-offset: .1em;
+  text-decoration-thickness: 1px !important;
+  text-underline-offset: .1em;
 }
 
 /* Focus styles */
 :where(.wp-site-blocks *:focus) {
-	outline-width: 2px;
-	outline-style: solid;
+  outline-width: 2px;
+  outline-style: solid;
 }
 
 /*
@@ -34,5 +34,5 @@ a {
  * https://github.com/WordPress/gutenberg/issues/55190
  */
 h1, h2, h3, h4, h5, h6, blockquote, caption, figcaption, p {
-	text-wrap: pretty;
+  text-wrap: pretty;
 }

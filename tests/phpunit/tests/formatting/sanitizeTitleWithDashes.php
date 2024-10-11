@@ -9,7 +9,7 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
 {
     public function test_strips_html()
     {
-        $input    = 'Captain <strong>Awesome</strong>';
+        $input = 'Captain <strong>Awesome</strong>';
         $expected = 'captain-awesome';
         $this->assertSame($expected, sanitize_title_with_dashes($input));
     }
@@ -85,7 +85,8 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
      */
     public function test_replaces_nbsp_entities()
     {
-        $this->assertSame('dont-break-the-space', sanitize_title_with_dashes("don't&nbsp;break&#160;the&nbsp;space", '', 'save'));
+        $this->assertSame('dont-break-the-space',
+            sanitize_title_with_dashes("don't&nbsp;break&#160;the&nbsp;space", '', 'save'));
     }
 
     public function test_replaces_ndash_mdash()
@@ -145,11 +146,16 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
      */
     public function test_replaces_forward_slash()
     {
-        $this->assertSame('songs-by-lennon-mccartney', sanitize_title_with_dashes('songs by Lennon/McCartney', '', 'save'));
-        $this->assertSame('songs-by-lennon-mccartney', sanitize_title_with_dashes('songs by Lennon//McCartney', '', 'save'));
-        $this->assertSame('songs-by-lennon-mccartney', sanitize_title_with_dashes('songs by Lennon///McCartney', '', 'save'));
-        $this->assertSame('songs-by-lennon-mccartney', sanitize_title_with_dashes('songs by Lennon/-McCartney', '', 'save'));
-        $this->assertSame('songs-by-lennon-mccartney', sanitize_title_with_dashes('//songs by Lennon/McCartney', '', 'save'));
+        $this->assertSame('songs-by-lennon-mccartney',
+            sanitize_title_with_dashes('songs by Lennon/McCartney', '', 'save'));
+        $this->assertSame('songs-by-lennon-mccartney',
+            sanitize_title_with_dashes('songs by Lennon//McCartney', '', 'save'));
+        $this->assertSame('songs-by-lennon-mccartney',
+            sanitize_title_with_dashes('songs by Lennon///McCartney', '', 'save'));
+        $this->assertSame('songs-by-lennon-mccartney',
+            sanitize_title_with_dashes('songs by Lennon/-McCartney', '', 'save'));
+        $this->assertSame('songs-by-lennon-mccartney',
+            sanitize_title_with_dashes('//songs by Lennon/McCartney', '', 'save'));
     }
 
     /**
@@ -181,8 +187,8 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
      * @ticket 55117
      * @dataProvider data_removes_non_visible_characters_without_width
      *
-     * @param string $title     The title to be sanitized.
-     * @param string $expected  Expected sanitized title.
+     * @param string $title The title to be sanitized.
+     * @param string $expected Expected sanitized title.
      */
     public function test_removes_non_visible_characters_without_width($title, $expected = '')
     {
@@ -198,34 +204,34 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
     {
         return [
             // Only the non-visible characters.
-            'only %e2%80%8b'     => ['%e2%80%8b'],
-            'only %e2%80%8c'     => ['%e2%80%8c'],
-            'only %e2%80%8d'     => ['%e2%80%8d'],
-            'only %e2%80%8e'     => ['%e2%80%8e'],
-            'only %e2%80%8f'     => ['%e2%80%8f'],
-            'only %e2%80%aa'     => ['%e2%80%aa'],
-            'only %e2%80%ab'     => ['%e2%80%ab'],
-            'only %e2%80%ac'     => ['%e2%80%ac'],
-            'only %e2%80%ad'     => ['%e2%80%ad'],
-            'only %e2%80%ae'     => ['%e2%80%ae'],
-            'only %ef%bb%bf'     => ['%ef%bb%bf'],
-            'only %ef%bf%bc'     => ['%ef%bf%bc'],
+            'only %e2%80%8b' => ['%e2%80%8b'],
+            'only %e2%80%8c' => ['%e2%80%8c'],
+            'only %e2%80%8d' => ['%e2%80%8d'],
+            'only %e2%80%8e' => ['%e2%80%8e'],
+            'only %e2%80%8f' => ['%e2%80%8f'],
+            'only %e2%80%aa' => ['%e2%80%aa'],
+            'only %e2%80%ab' => ['%e2%80%ab'],
+            'only %e2%80%ac' => ['%e2%80%ac'],
+            'only %e2%80%ad' => ['%e2%80%ad'],
+            'only %e2%80%ae' => ['%e2%80%ae'],
+            'only %ef%bb%bf' => ['%ef%bb%bf'],
+            'only %ef%bf%bc' => ['%ef%bf%bc'],
 
             // Non-visible characters within the title.
             'in middle of title' => [
-                'title'    => 'Nonvisible %ef%bb%bfin middle of title',
+                'title' => 'Nonvisible %ef%bb%bfin middle of title',
                 'expected' => 'nonvisible-in-middle-of-title',
             ],
-            'at start of title'  => [
-                'title'    => '%e2%80%8bNonvisible at start of title',
+            'at start of title' => [
+                'title' => '%e2%80%8bNonvisible at start of title',
                 'expected' => 'nonvisible-at-start-of-title',
             ],
-            'at end of title'    => [
-                'title'    => 'Nonvisible at end of title %e2%80%8b',
+            'at end of title' => [
+                'title' => 'Nonvisible at end of title %e2%80%8b',
                 'expected' => 'nonvisible-at-end-of-title',
             ],
-            'randomly in title'  => [
-                'title'    => 'Nonvisible%ef%bb%bf %e2%80%aerandomly %e2%80%8ein the %e2%80%8e title%e2%80%8e',
+            'randomly in title' => [
+                'title' => 'Nonvisible%ef%bb%bf %e2%80%aerandomly %e2%80%8ein the %e2%80%8e title%e2%80%8e',
                 'expected' => 'nonvisible-randomly-in-the-title',
             ],
         ];
@@ -236,8 +242,8 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
      * @ticket 55117
      * @dataProvider data_non_visible_characters_without_width_when_not_save
      *
-     * @param string $title     The title to be sanitized.
-     * @param string $expected  Expected sanitized title.
+     * @param string $title The title to be sanitized.
+     * @param string $expected Expected sanitized title.
      */
     public function test_non_visible_characters_without_width_when_not_save($title, $expected = '')
     {
@@ -253,34 +259,34 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
     {
         return [
             // Just the non-visible characters.
-            'only %e2%80%8b'     => ['%e2%80%8b', '%e2%80%8b'],
-            'only %e2%80%8c'     => ['%e2%80%8c', '%e2%80%8c'],
-            'only %e2%80%8d'     => ['%e2%80%8d', '%e2%80%8d'],
-            'only %e2%80%8e'     => ['%e2%80%8e', '%e2%80%8e'],
-            'only %e2%80%8f'     => ['%e2%80%8f', '%e2%80%8f'],
-            'only %e2%80%aa'     => ['%e2%80%aa', '%e2%80%aa'],
-            'only %e2%80%ab'     => ['%e2%80%ab', '%e2%80%ab'],
-            'only %e2%80%ac'     => ['%e2%80%ac', '%e2%80%ac'],
-            'only %e2%80%ad'     => ['%e2%80%ad', '%e2%80%ad'],
-            'only %e2%80%ae'     => ['%e2%80%ae', '%e2%80%ae'],
-            'only %ef%bb%bf'     => ['%ef%bb%bf', '%ef%bb%bf'],
-            'only %ef%bf%bc'     => ['%ef%bf%bc', '%ef%bf%bc'],
+            'only %e2%80%8b' => ['%e2%80%8b', '%e2%80%8b'],
+            'only %e2%80%8c' => ['%e2%80%8c', '%e2%80%8c'],
+            'only %e2%80%8d' => ['%e2%80%8d', '%e2%80%8d'],
+            'only %e2%80%8e' => ['%e2%80%8e', '%e2%80%8e'],
+            'only %e2%80%8f' => ['%e2%80%8f', '%e2%80%8f'],
+            'only %e2%80%aa' => ['%e2%80%aa', '%e2%80%aa'],
+            'only %e2%80%ab' => ['%e2%80%ab', '%e2%80%ab'],
+            'only %e2%80%ac' => ['%e2%80%ac', '%e2%80%ac'],
+            'only %e2%80%ad' => ['%e2%80%ad', '%e2%80%ad'],
+            'only %e2%80%ae' => ['%e2%80%ae', '%e2%80%ae'],
+            'only %ef%bb%bf' => ['%ef%bb%bf', '%ef%bb%bf'],
+            'only %ef%bf%bc' => ['%ef%bf%bc', '%ef%bf%bc'],
 
             // Non-visible characters within the title.
             'in middle of title' => [
-                'title'    => 'Nonvisible %ef%bb%bfin middle of title',
+                'title' => 'Nonvisible %ef%bb%bfin middle of title',
                 'expected' => 'nonvisible-%ef%bb%bfin-middle-of-title',
             ],
-            'at start of title'  => [
-                'title'    => '%e2%80%8bNonvisible at start of title',
+            'at start of title' => [
+                'title' => '%e2%80%8bNonvisible at start of title',
                 'expected' => '%e2%80%8bnonvisible-at-start-of-title',
             ],
-            'at end of title'    => [
-                'title'    => 'Nonvisible at end of title %e2%80%8b',
+            'at end of title' => [
+                'title' => 'Nonvisible at end of title %e2%80%8b',
                 'expected' => 'nonvisible-at-end-of-title-%e2%80%8b',
             ],
-            'randomly in title'  => [
-                'title'    => 'Nonvisible%ef%bb%bf %e2%80%aerandomly %e2%80%8ein the %e2%80%8e title%e2%80%8e',
+            'randomly in title' => [
+                'title' => 'Nonvisible%ef%bb%bf %e2%80%aerandomly %e2%80%8ein the %e2%80%8e title%e2%80%8e',
                 'expected' => 'nonvisible%ef%bb%bf-%e2%80%aerandomly-%e2%80%8ein-the-%e2%80%8e-title%e2%80%8e',
             ],
         ];
@@ -290,8 +296,8 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
      * @ticket 47912
      * @dataProvider data_converts_non_visible_characters_with_width_to_hyphen
      *
-     * @param string $title     The title to be sanitized.
-     * @param string $expected  Expected sanitized title.
+     * @param string $title The title to be sanitized.
+     * @param string $expected Expected sanitized title.
      */
     public function test_converts_non_visible_characters_with_width_to_hyphen($title, $expected = '')
     {
@@ -307,40 +313,40 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
     {
         return [
             // Only the non-visible characters.
-            'only %e2%80%80'     => ['%e2%80%80'],
-            'only %e2%80%81'     => ['%e2%80%81'],
-            'only %e2%80%82'     => ['%e2%80%82'],
-            'only %e2%80%83'     => ['%e2%80%83'],
-            'only %e2%80%84'     => ['%e2%80%84'],
-            'only %e2%80%85'     => ['%e2%80%85'],
-            'only %e2%80%86'     => ['%e2%80%86'],
-            'only %e2%80%87'     => ['%e2%80%87'],
-            'only %e2%80%88'     => ['%e2%80%88'],
-            'only %e2%80%89'     => ['%e2%80%89'],
-            'only %e2%80%8a'     => ['%e2%80%8a'],
-            'only %e2%80%a8'     => ['%e2%80%a8'],
-            'only %e2%80%a9'     => ['%e2%80%a9'],
-            'only %e2%80%af'     => ['%e2%80%af'],
+            'only %e2%80%80' => ['%e2%80%80'],
+            'only %e2%80%81' => ['%e2%80%81'],
+            'only %e2%80%82' => ['%e2%80%82'],
+            'only %e2%80%83' => ['%e2%80%83'],
+            'only %e2%80%84' => ['%e2%80%84'],
+            'only %e2%80%85' => ['%e2%80%85'],
+            'only %e2%80%86' => ['%e2%80%86'],
+            'only %e2%80%87' => ['%e2%80%87'],
+            'only %e2%80%88' => ['%e2%80%88'],
+            'only %e2%80%89' => ['%e2%80%89'],
+            'only %e2%80%8a' => ['%e2%80%8a'],
+            'only %e2%80%a8' => ['%e2%80%a8'],
+            'only %e2%80%a9' => ['%e2%80%a9'],
+            'only %e2%80%af' => ['%e2%80%af'],
 
             // Non-visible characters within the title.
             'in middle of title' => [
-                'title'    => 'Nonvisible %e2%80%82 in middle of title',
+                'title' => 'Nonvisible %e2%80%82 in middle of title',
                 'expected' => 'nonvisible-in-middle-of-title',
             ],
-            'at start of title'  => [
-                'title'    => '%e2%80%83Nonvisible at start of title',
+            'at start of title' => [
+                'title' => '%e2%80%83Nonvisible at start of title',
                 'expected' => 'nonvisible-at-start-of-title',
             ],
-            'at end of title'    => [
-                'title'    => 'Nonvisible at end of title %e2%80%81',
+            'at end of title' => [
+                'title' => 'Nonvisible at end of title %e2%80%81',
                 'expected' => 'nonvisible-at-end-of-title',
             ],
-            'two end of title'   => [
-                'title'    => 'Nonvisible at end of title %e2%80%81 %e2%80%af',
+            'two end of title' => [
+                'title' => 'Nonvisible at end of title %e2%80%81 %e2%80%af',
                 'expected' => 'nonvisible-at-end-of-title',
             ],
-            'randomly in title'  => [
-                'title'    => 'Nonvisible%e2%80%80 %e2%80%a9randomly %e2%80%87in the %e2%80%a8 title%e2%80%af',
+            'randomly in title' => [
+                'title' => 'Nonvisible%e2%80%80 %e2%80%a9randomly %e2%80%87in the %e2%80%a8 title%e2%80%af',
                 'expected' => 'nonvisible-randomly-in-the-title',
             ],
         ];
@@ -350,8 +356,8 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
      * @ticket 47912
      * @dataProvider data_non_visible_characters_with_width_to_hyphen_when_not_save
      *
-     * @param string $title     The title to be sanitized.
-     * @param string $expected  Expected sanitized title.
+     * @param string $title The title to be sanitized.
+     * @param string $expected Expected sanitized title.
      */
     public function test_non_visible_characters_with_width_to_hyphen_when_not_save($title, $expected = '')
     {
@@ -367,33 +373,33 @@ class Tests_Formatting_SanitizeTitleWithDashes extends WP_UnitTestCase
     {
         return [
             // Just the non-visible characters.
-            'only %e2%80%8b'     => ['%e2%80%8b', '%e2%80%8b'],
-            'only %e2%80%8c'     => ['%e2%80%8c', '%e2%80%8c'],
-            'only %e2%80%8d'     => ['%e2%80%8d', '%e2%80%8d'],
-            'only %e2%80%8e'     => ['%e2%80%8e', '%e2%80%8e'],
-            'only %e2%80%8f'     => ['%e2%80%8f', '%e2%80%8f'],
-            'only %e2%80%aa'     => ['%e2%80%aa', '%e2%80%aa'],
-            'only %e2%80%ab'     => ['%e2%80%ab', '%e2%80%ab'],
-            'only %e2%80%ac'     => ['%e2%80%ac', '%e2%80%ac'],
-            'only %e2%80%ad'     => ['%e2%80%ad', '%e2%80%ad'],
-            'only %e2%80%ae'     => ['%e2%80%ae', '%e2%80%ae'],
-            'only %ef%bb%bf'     => ['%ef%bb%bf', '%ef%bb%bf'],
+            'only %e2%80%8b' => ['%e2%80%8b', '%e2%80%8b'],
+            'only %e2%80%8c' => ['%e2%80%8c', '%e2%80%8c'],
+            'only %e2%80%8d' => ['%e2%80%8d', '%e2%80%8d'],
+            'only %e2%80%8e' => ['%e2%80%8e', '%e2%80%8e'],
+            'only %e2%80%8f' => ['%e2%80%8f', '%e2%80%8f'],
+            'only %e2%80%aa' => ['%e2%80%aa', '%e2%80%aa'],
+            'only %e2%80%ab' => ['%e2%80%ab', '%e2%80%ab'],
+            'only %e2%80%ac' => ['%e2%80%ac', '%e2%80%ac'],
+            'only %e2%80%ad' => ['%e2%80%ad', '%e2%80%ad'],
+            'only %e2%80%ae' => ['%e2%80%ae', '%e2%80%ae'],
+            'only %ef%bb%bf' => ['%ef%bb%bf', '%ef%bb%bf'],
 
             // Non-visible characters within the title.
             'in middle of title' => [
-                'title'    => 'Nonvisible %e2%80%82 in middle of title',
+                'title' => 'Nonvisible %e2%80%82 in middle of title',
                 'expected' => 'nonvisible-%e2%80%82-in-middle-of-title',
             ],
-            'at start of title'  => [
-                'title'    => '%e2%80%83Nonvisible at start of title',
+            'at start of title' => [
+                'title' => '%e2%80%83Nonvisible at start of title',
                 'expected' => '%e2%80%83nonvisible-at-start-of-title',
             ],
-            'at end of title'    => [
-                'title'    => 'Nonvisible at end of title %e2%80%81',
+            'at end of title' => [
+                'title' => 'Nonvisible at end of title %e2%80%81',
                 'expected' => 'nonvisible-at-end-of-title-%e2%80%81',
             ],
-            'randomly in title'  => [
-                'title'    => 'Nonvisible%e2%80%80 %e2%80%aerandomly %e2%80%87in the %e2%80%a8 title%e2%80%af',
+            'randomly in title' => [
+                'title' => 'Nonvisible%e2%80%80 %e2%80%aerandomly %e2%80%87in the %e2%80%a8 title%e2%80%af',
                 'expected' => 'nonvisible%e2%80%80-%e2%80%aerandomly-%e2%80%87in-the-%e2%80%a8-title%e2%80%af',
             ],
         ];

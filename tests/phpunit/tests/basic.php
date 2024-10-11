@@ -19,7 +19,7 @@ class Tests_Basic extends WP_UnitTestCase
         $license = file_get_contents(ABSPATH . 'license.txt');
         preg_match('#Copyright 2011-(\d+) by the contributors#', $license, $matches);
         $license_year = trim($matches[1]);
-        $this_year    = gmdate('Y');
+        $this_year = gmdate('Y');
 
         $this->assertSame($this_year, $license_year, "license.txt's year needs to be updated to $this_year.");
     }
@@ -35,10 +35,11 @@ class Tests_Basic extends WP_UnitTestCase
         $security = file_get_contents(dirname(ABSPATH) . '/SECURITY.md');
         preg_match_all('#\d.\d.x#', $security, $matches);
         $supported_versions = $matches[0];
-        $current_version    = substr($GLOBALS['wp_version'], 0, 3);
-        $latest_stable      = number_format((float) $current_version - 0.1, 1) . '.x';
+        $current_version = substr($GLOBALS['wp_version'], 0, 3);
+        $latest_stable = number_format((float)$current_version - 0.1, 1) . '.x';
 
-        $this->assertContains($latest_stable, $supported_versions, "SECURITY.md's version needs to be updated to $latest_stable.");
+        $this->assertContains($latest_stable, $supported_versions,
+            "SECURITY.md's version needs to be updated to $latest_stable.");
     }
 
     /**
@@ -48,14 +49,15 @@ class Tests_Basic extends WP_UnitTestCase
     {
         $package_json = file_get_contents(dirname(ABSPATH) . '/package.json');
         $package_json = json_decode($package_json, true);
-        [$version]    = explode('-', $GLOBALS['wp_version']);
+        [$version] = explode('-', $GLOBALS['wp_version']);
 
         // package.json uses x.y.z, so fill cleaned $wp_version for .0 releases.
         if (1 === substr_count($version, '.')) {
             $version .= '.0';
         }
 
-        $this->assertSame($version, $package_json['version'], "package.json's version needs to be updated to $version.");
+        $this->assertSame($version, $package_json['version'],
+            "package.json's version needs to be updated to $version.");
 
         return $package_json;
     }

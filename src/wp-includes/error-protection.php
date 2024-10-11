@@ -41,15 +41,15 @@ function wp_paused_themes()
 /**
  * Get a human readable description of an extension's error.
  *
- * @since 5.2.0
- *
  * @param array $error Error details from `error_get_last()`.
  * @return string Formatted error description.
+ * @since 5.2.0
+ *
  */
 function wp_get_extension_error_description($error)
 {
-    $constants   = get_defined_constants(true);
-    $constants   = isset($constants['Core']) ? $constants['Core'] : $constants['internal'];
+    $constants = get_defined_constants(true);
+    $constants = isset($constants['Core']) ? $constants['Core'] : $constants['internal'];
     $core_errors = [];
 
     foreach ($constants as $constant => $value) {
@@ -70,7 +70,7 @@ function wp_get_extension_error_description($error)
         "<code>{$error['type']}</code>",
         "<code>{$error['line']}</code>",
         "<code>{$error['file']}</code>",
-        "<code>{$error['message']}</code>"
+        "<code>{$error['message']}</code>",
     );
 }
 
@@ -83,7 +83,7 @@ function wp_get_extension_error_description($error)
  */
 function wp_register_fatal_error_handler()
 {
-    if (! wp_is_fatal_error_handler_enabled()) {
+    if (!wp_is_fatal_error_handler_enabled()) {
         return;
     }
 
@@ -92,7 +92,7 @@ function wp_register_fatal_error_handler()
         $handler = include WP_CONTENT_DIR . '/fatal-error-handler.php';
     }
 
-    if (! is_object($handler) || ! is_callable([$handler, 'handle'])) {
+    if (!is_object($handler) || !is_callable([$handler, 'handle'])) {
         $handler = new WP_Fatal_Error_Handler();
     }
 
@@ -105,13 +105,13 @@ function wp_register_fatal_error_handler()
  * A constant `WP_DISABLE_FATAL_ERROR_HANDLER` can be set in `wp-config.php` to disable it, or alternatively the
  * {@see 'wp_fatal_error_handler_enabled'} filter can be used to modify the return value.
  *
+ * @return bool True if the fatal error handler is enabled, false otherwise.
  * @since 5.2.0
  *
- * @return bool True if the fatal error handler is enabled, false otherwise.
  */
 function wp_is_fatal_error_handler_enabled()
 {
-    $enabled = ! defined('WP_DISABLE_FATAL_ERROR_HANDLER') || ! WP_DISABLE_FATAL_ERROR_HANDLER;
+    $enabled = !defined('WP_DISABLE_FATAL_ERROR_HANDLER') || !WP_DISABLE_FATAL_ERROR_HANDLER;
 
     /**
      * Filters whether the fatal error handler is enabled.
@@ -137,9 +137,9 @@ function wp_is_fatal_error_handler_enabled()
      *
      * Alternatively you can use the `WP_DISABLE_FATAL_ERROR_HANDLER` constant.
      *
+     * @param bool $enabled True if the fatal error handler is enabled, false otherwise.
      * @since 5.2.0
      *
-     * @param bool $enabled True if the fatal error handler is enabled, false otherwise.
      */
     return apply_filters('wp_fatal_error_handler_enabled', $enabled);
 }
@@ -147,15 +147,15 @@ function wp_is_fatal_error_handler_enabled()
 /**
  * Access the waggypuppy Recovery Mode instance.
  *
+ * @return WP_Recovery_Mode
  * @since 5.2.0
  *
- * @return WP_Recovery_Mode
  */
 function wp_recovery_mode()
 {
     static $wp_recovery_mode;
 
-    if (! $wp_recovery_mode) {
+    if (!$wp_recovery_mode) {
         $wp_recovery_mode = new WP_Recovery_Mode();
     }
 

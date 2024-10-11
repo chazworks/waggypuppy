@@ -17,7 +17,7 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
         $this->assertSame([], get_blogs_of_user(0));
 
         $user_id = self::factory()->user->create(['role' => 'subscriber']);
-        $blogs   = get_blogs_of_user($user_id);
+        $blogs = get_blogs_of_user($user_id);
         $this->assertSame([1], array_keys($blogs));
 
         // Non-existent users don't have blogs.
@@ -59,14 +59,14 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
     public function test_delete_user()
     {
         $user_id = self::factory()->user->create(['role' => 'author']);
-        $user    = new WP_User($user_id);
+        $user = new WP_User($user_id);
 
         $post = [
-            'post_author'  => $user_id,
-            'post_status'  => 'publish',
+            'post_author' => $user_id,
+            'post_status' => 'publish',
             'post_content' => 'Post content',
-            'post_title'   => 'Post Title',
-            'post_type'    => 'post',
+            'post_title' => 'Post Title',
+            'post_type' => 'post',
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -78,11 +78,11 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
         $this->assertSame($post_id, $post->ID);
 
         $post = [
-            'post_author'  => $user_id,
-            'post_status'  => 'publish',
+            'post_author' => $user_id,
+            'post_status' => 'publish',
             'post_content' => 'Post content',
-            'post_title'   => 'Post Title',
-            'post_type'    => 'nav_menu_item',
+            'post_title' => 'Post Title',
+            'post_type' => 'nav_menu_item',
         ];
 
         // Insert a post and make sure the ID is OK.
@@ -117,9 +117,9 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
      */
     public function test_wp_delete_user_reassignment_clears_post_caches()
     {
-        $user_id  = self::factory()->user->create();
+        $user_id = self::factory()->user->create();
         $reassign = self::factory()->user->create();
-        $post_id  = self::factory()->post->create(['post_author' => $user_id]);
+        $post_id = self::factory()->post->create(['post_author' => $user_id]);
 
         get_post($post_id); // Ensure this post is in the cache.
 
@@ -136,7 +136,7 @@ class Tests_User_wpDeleteUser extends WP_UnitTestCase
     {
         $u = self::factory()->user->create();
 
-        $u_string = (string) $u;
+        $u_string = (string)$u;
         $this->assertTrue(wp_delete_user($u_string));
         $this->assertFalse(get_user_by('id', $u));
     }

@@ -8,9 +8,11 @@
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var UploaderStatusError = wp.media.View.extend(/** @lends wp.media.view.UploaderStatusError.prototype */{
-	className: 'upload-error',
-	template:  wp.template('uploader-status-error')
-});
+var UploaderStatusError = wp.media.View.extend(
+	/** @lends wp.media.view.UploaderStatusError.prototype */ {
+		className: 'upload-error',
+		template: wp.template( 'uploader-status-error' ),
+	}
+);
 
 module.exports = UploaderStatusError;

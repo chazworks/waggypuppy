@@ -4,10 +4,13 @@
 import { test, expect } from '@wordpress/e2e-test-utils-playwright';
 
 test.describe( 'Hello World', () => {
-	test( 'Should load properly', async ( { admin, page }) => {
+	test( 'Should load properly', async ( { admin, page } ) => {
 		await admin.visitAdminPage( '/' );
 		await expect(
-			page.getByRole('heading', { name: 'Welcome to waggypuppy', level: 2 })
+			page.getByRole( 'heading', {
+				name: 'Welcome to waggypuppy',
+				level: 2,
+			} )
 		).toBeVisible();
 	} );
 } );

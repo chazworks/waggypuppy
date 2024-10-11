@@ -38,7 +38,7 @@ class Tests_Post_Output extends WP_UnitTestCase
             [
                 'class' => 'graf',
             ],
-            $atts
+            $atts,
         );
 
         return "<p class='{$processed_atts['class']}'>$content</p>\n";
@@ -47,18 +47,18 @@ class Tests_Post_Output extends WP_UnitTestCase
     public function test_the_content()
     {
         $post_content = <<<EOF
-<i>This is the excerpt.</i>
-<!--more-->
-This is the <b>body</b>.
-EOF;
+            <i>This is the excerpt.</i>
+            <!--more-->
+            This is the <b>body</b>.
+            EOF;
 
         $post_id = self::factory()->post->create(compact('post_content'));
 
         $expected = <<<EOF
-<p><i>This is the excerpt.</i><br />
-<span id="more-{$post_id}"></span><br />
-This is the <b>body</b>.</p>
-EOF;
+            <p><i>This is the excerpt.</i><br />
+            <span id="more-{$post_id}"></span><br />
+            This is the <b>body</b>.</p>
+            EOF;
 
         $this->go_to(get_permalink($post_id));
         $this->assertTrue(is_single());
@@ -71,22 +71,20 @@ EOF;
     public function test_the_content_shortcode()
     {
         $post_content = <<<EOF
-[dumptag foo="bar" baz="123"]
+            [dumptag foo="bar" baz="123"]
 
-[dumptag foo=123 baz=bar]
+            [dumptag foo=123 baz=bar]
 
-[dumptag http://example.com]
-
-EOF;
+            [dumptag http://example.com]
+            EOF;
 
         $expected = <<<EOF
-foo = bar
-baz = 123
-foo = 123
-baz = bar
-0 = http://example.com
-
-EOF;
+            foo = bar
+            baz = 123
+            foo = 123
+            baz = bar
+            0 = http://example.com
+            EOF;
 
         $post_id = self::factory()->post->create(compact('post_content'));
         $this->go_to(get_permalink($post_id));
@@ -100,32 +98,30 @@ EOF;
     public function test_the_content_shortcode_paragraph()
     {
         $post_content = <<<EOF
-Graf by itself:
+            Graf by itself:
 
-[paragraph]my graf[/paragraph]
+            [paragraph]my graf[/paragraph]
 
-  [paragraph foo="bar"]another graf with whitespace[/paragraph]
+              [paragraph foo="bar"]another graf with whitespace[/paragraph]
 
-An [paragraph]inline graf[/paragraph], this does not make much sense.
+            An [paragraph]inline graf[/paragraph], this does not make much sense.
 
-A graf with a single EOL first:
-[paragraph]blah[/paragraph]
-
-EOF;
+            A graf with a single EOL first:
+            [paragraph]blah[/paragraph]
+            EOF;
 
         $expected = <<<EOF
-<p>Graf by itself:</p>
-<p class='graf'>my graf</p>
+            <p>Graf by itself:</p>
+            <p class='graf'>my graf</p>
 
-  <p class='graf'>another graf with whitespace</p>
+              <p class='graf'>another graf with whitespace</p>
 
-<p>An <p class='graf'>inline graf</p>
-, this does not make much sense.</p>
-<p>A graf with a single EOL first:<br />
-<p class='graf'>blah</p>
-</p>
-
-EOF;
+            <p>An <p class='graf'>inline graf</p>
+            , this does not make much sense.</p>
+            <p>A graf with a single EOL first:<br />
+            <p class='graf'>blah</p>
+            </p>
+            EOF;
 
         $post_id = self::factory()->post->create(compact('post_content'));
         $this->go_to(get_permalink($post_id));
@@ -143,12 +139,12 @@ EOF;
         // http://bpr3.org/?p=87
         // The title attribute should make it through unfiltered.
         $post_content = <<<EOF
-<span class="Z3988" title="ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.aulast=Mariat&rft.aufirst=Denis&rft. au=Denis+Mariat&rft.au=Sead+Taourit&rft.au=G%C3%A9rard+Gu%C3%A9rin& rft.title=Genetics+Selection+Evolution&rft.atitle=&rft.date=2003&rft. volume=35&rft.issue=1&rft.spage=119&rft.epage=133&rft.genre=article& rft.id=info:DOI/10.1051%2Fgse%3A2002039"></span>Mariat, D., Taourit, S., GuÃ©rin, G. (2003). . <span style="font-style: italic;">Genetics Selection Evolution, 35</span>(1), 119-133. DOI: <a rev="review" href= "http://dx.doi.org/10.1051/gse:2002039">10.1051/gse:2002039</a>
-EOF;
+            <span class="Z3988" title="ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&rft.aulast=Mariat&rft.aufirst=Denis&rft. au=Denis+Mariat&rft.au=Sead+Taourit&rft.au=G%C3%A9rard+Gu%C3%A9rin& rft.title=Genetics+Selection+Evolution&rft.atitle=&rft.date=2003&rft. volume=35&rft.issue=1&rft.spage=119&rft.epage=133&rft.genre=article& rft.id=info:DOI/10.1051%2Fgse%3A2002039"></span>Mariat, D., Taourit, S., GuÃ©rin, G. (2003). . <span style="font-style: italic;">Genetics Selection Evolution, 35</span>(1), 119-133. DOI: <a rev="review" href= "http://dx.doi.org/10.1051/gse:2002039">10.1051/gse:2002039</a>
+            EOF;
 
         $expected = <<<EOF
-<p><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.aulast=Mariat&amp;rft.aufirst=Denis&amp;rft. au=Denis+Mariat&amp;rft.au=Sead+Taourit&amp;rft.au=G%C3%A9rard+Gu%C3%A9rin&amp; rft.title=Genetics+Selection+Evolution&amp;rft.atitle=&amp;rft.date=2003&amp;rft. volume=35&amp;rft.issue=1&amp;rft.spage=119&amp;rft.epage=133&amp;rft.genre=article&amp; rft.id=info:DOI/10.1051%2Fgse%3A2002039"></span>Mariat, D., Taourit, S., GuÃ©rin, G. (2003). . <span style="font-style: italic">Genetics Selection Evolution, 35</span>(1), 119-133. DOI: <a rev="review" href="http://dx.doi.org/10.1051/gse:2002039">10.1051/gse:2002039</a></p>
-EOF;
+            <p><span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.aulast=Mariat&amp;rft.aufirst=Denis&amp;rft. au=Denis+Mariat&amp;rft.au=Sead+Taourit&amp;rft.au=G%C3%A9rard+Gu%C3%A9rin&amp; rft.title=Genetics+Selection+Evolution&amp;rft.atitle=&amp;rft.date=2003&amp;rft. volume=35&amp;rft.issue=1&amp;rft.spage=119&amp;rft.epage=133&amp;rft.genre=article&amp; rft.id=info:DOI/10.1051%2Fgse%3A2002039"></span>Mariat, D., Taourit, S., GuÃ©rin, G. (2003). . <span style="font-style: italic">Genetics Selection Evolution, 35</span>(1), 119-133. DOI: <a rev="review" href="http://dx.doi.org/10.1051/gse:2002039">10.1051/gse:2002039</a></p>
+            EOF;
 
         $post_id = self::factory()->post->create(compact('post_content'));
         $this->go_to(get_permalink($post_id));
@@ -168,12 +164,12 @@ EOF;
         // http://bpr3.org/?p=87
         // The title attribute should make it through unfiltered.
         $post_content = <<<EOF
-<span title="My friends: Alice, Bob and Carol">foo</span>
-EOF;
+            <span title="My friends: Alice, Bob and Carol">foo</span>
+            EOF;
 
         $expected = <<<EOF
-<p><span title="My friends: Alice, Bob and Carol">foo</span></p>
-EOF;
+            <p><span title="My friends: Alice, Bob and Carol">foo</span></p>
+            EOF;
 
         $post_id = self::factory()->post->create(compact('post_content'));
         $this->go_to(get_permalink($post_id));
@@ -196,31 +192,31 @@ EOF;
     public function test_the_content_should_handle_more_block_on_singular()
     {
         $post_content = <<<EOF
-<!-- wp:paragraph -->
-<p>Teaser part.</p>
-<!-- /wp:paragraph -->
+            <!-- wp:paragraph -->
+            <p>Teaser part.</p>
+            <!-- /wp:paragraph -->
 
-<!-- wp:more {"customText":"Read More"} -->
-<!--more Read More-->
-<!-- /wp:more -->
+            <!-- wp:more {"customText":"Read More"} -->
+            <!--more Read More-->
+            <!-- /wp:more -->
 
-<!-- wp:paragraph -->
-<p>Second block.</p>
-<!-- /wp:paragraph -->
-EOF;
+            <!-- wp:paragraph -->
+            <p>Second block.</p>
+            <!-- /wp:paragraph -->
+            EOF;
 
         $post_id = self::factory()->post->create(compact('post_content'));
 
         $expected_without_teaser = <<<EOF
-<span id="more-{$post_id}"></span>
-<p>Second block.</p>
-EOF;
+            <span id="more-{$post_id}"></span>
+            <p>Second block.</p>
+            EOF;
 
         $expected_with_teaser = <<<EOF
-<p>Teaser part.</p>
-<span id="more-{$post_id}"></span>
-<p>Second block.</p>
-EOF;
+            <p>Teaser part.</p>
+            <span id="more-{$post_id}"></span>
+            <p>Second block.</p>
+            EOF;
 
         $this->go_to(get_permalink($post_id));
         $this->assertTrue(is_singular());
@@ -246,27 +242,27 @@ EOF;
     public function test_the_content_should_handle_more_block_when_noteaser_on_singular()
     {
         $post_content = <<<EOF
-<!-- wp:paragraph -->
-<p>Teaser part.</p>
-<!-- /wp:paragraph -->
+            <!-- wp:paragraph -->
+            <p>Teaser part.</p>
+            <!-- /wp:paragraph -->
 
-<!-- wp:more -->
-<!--more-->
-<!--noteaser-->
-<!-- /wp:more -->
+            <!-- wp:more -->
+            <!--more-->
+            <!--noteaser-->
+            <!-- /wp:more -->
 
-<!-- wp:paragraph -->
-<p>Second block.</p>
-<!-- /wp:paragraph -->
-EOF;
+            <!-- wp:paragraph -->
+            <p>Second block.</p>
+            <!-- /wp:paragraph -->
+            EOF;
 
         $post_id = self::factory()->post->create(compact('post_content'));
 
         $expected = <<<EOF
-<span id="more-{$post_id}"></span>
-<!--noteaser-->
-<p>Second block.</p>
-EOF;
+            <span id="more-{$post_id}"></span>
+            <!--noteaser-->
+            <p>Second block.</p>
+            EOF;
 
         $this->go_to(get_permalink($post_id));
         $this->assertTrue(is_singular());
@@ -291,25 +287,25 @@ EOF;
     public function test_the_content_should_handle_more_block_when_non_singular()
     {
         $post_content = <<<EOF
-<!-- wp:paragraph -->
-<p>Teaser part.</p>
-<!-- /wp:paragraph -->
+            <!-- wp:paragraph -->
+            <p>Teaser part.</p>
+            <!-- /wp:paragraph -->
 
-<!-- wp:more {"customText":"Read More"} -->
-<!--more Read More-->
-<!-- /wp:more -->
+            <!-- wp:more {"customText":"Read More"} -->
+            <!--more Read More-->
+            <!-- /wp:more -->
 
-<!-- wp:paragraph -->
-<p>Second block.</p>
-<!-- /wp:paragraph -->
-EOF;
+            <!-- wp:paragraph -->
+            <p>Second block.</p>
+            <!-- /wp:paragraph -->
+            EOF;
 
         $post_id = self::factory()->post->create(compact('post_content'));
 
         $expected = <<<EOF
-<span id="more-{$post_id}"></span>
-<p>Second block.</p>
-EOF;
+            <span id="more-{$post_id}"></span>
+            <p>Second block.</p>
+            EOF;
 
         $this->go_to(home_url());
         $this->assertFalse(is_singular());
@@ -363,7 +359,8 @@ EOF;
             $this->assertStringContainsString('Teaser part', $actual);
             $this->assertStringContainsString('(more&hellip;)</span></a>', $actual);
             $this->assertStringNotContainsString('<!--more-->', $actual);
-            $this->assertStringNotContainsString('<!--noteaser-->', $actual); // We placed the noteaser tag below the more tag.
+            $this->assertStringNotContainsString('<!--noteaser-->',
+                $actual); // We placed the noteaser tag below the more tag.
             $this->assertStringNotContainsString('wp:more', $actual);
             $this->assertStringNotContainsString('wp:paragraph', $actual);
         }

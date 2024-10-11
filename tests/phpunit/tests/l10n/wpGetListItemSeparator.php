@@ -19,7 +19,7 @@ class Tests_L10n_wpGetListItemSeparator extends WP_UnitTestCase
         global $wp_locale;
 
         $original_locale = $wp_locale;
-        $wp_locale       = null;
+        $wp_locale = null;
 
         $actual = wp_get_list_item_separator();
 

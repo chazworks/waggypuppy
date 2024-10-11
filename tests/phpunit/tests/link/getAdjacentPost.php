@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group link
  * @covers ::get_adjacent_post
@@ -16,29 +17,29 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         $post_one = self::factory()->post->create_and_get(
             [
                 'post_title' => 'First',
-                'post_date'  => '2012-01-01 12:00:00',
-            ]
+                'post_date' => '2012-01-01 12:00:00',
+            ],
         );
 
         $post_two = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Second',
-                'post_date'  => '2012-02-01 12:00:00',
-            ]
+                'post_date' => '2012-02-01 12:00:00',
+            ],
         );
 
         $post_three = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Third',
-                'post_date'  => '2012-03-01 12:00:00',
-            ]
+                'post_date' => '2012-03-01 12:00:00',
+            ],
         );
 
         $post_four = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Fourth',
-                'post_date'  => '2012-04-01 12:00:00',
-            ]
+                'post_date' => '2012-04-01 12:00:00',
+            ],
         );
 
         // Assign some terms.
@@ -98,53 +99,53 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         $wpdb->insert(
             $wpdb->term_taxonomy,
             [
-                'taxonomy'    => 'foo',
-                'term_id'     => 12345,
+                'taxonomy' => 'foo',
+                'term_id' => 12345,
                 'description' => '',
-            ]
+            ],
         );
 
         $include = self::factory()->term->create(
             [
                 'taxonomy' => 'category',
-                'name'     => 'Include',
-            ]
+                'name' => 'Include',
+            ],
         );
         $exclude = self::factory()->category->create();
 
         $one = self::factory()->post->create_and_get(
             [
-                'post_date'     => '2012-01-01 12:00:00',
+                'post_date' => '2012-01-01 12:00:00',
                 'post_category' => [$include, $exclude],
-            ]
+            ],
         );
 
         $two = self::factory()->post->create_and_get(
             [
-                'post_date'     => '2012-01-02 12:00:00',
+                'post_date' => '2012-01-02 12:00:00',
                 'post_category' => [],
-            ]
+            ],
         );
 
         $three = self::factory()->post->create_and_get(
             [
-                'post_date'     => '2012-01-03 12:00:00',
+                'post_date' => '2012-01-03 12:00:00',
                 'post_category' => [$include, $exclude],
-            ]
+            ],
         );
 
         $four = self::factory()->post->create_and_get(
             [
-                'post_date'     => '2012-01-04 12:00:00',
+                'post_date' => '2012-01-04 12:00:00',
                 'post_category' => [$include],
-            ]
+            ],
         );
 
         $five = self::factory()->post->create_and_get(
             [
-                'post_date'     => '2012-01-05 12:00:00',
+                'post_date' => '2012-01-05 12:00:00',
                 'post_category' => [$include, $exclude],
-            ]
+            ],
         );
 
         // First post.
@@ -186,7 +187,7 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
@@ -196,12 +197,12 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         wp_set_post_terms($p2, [$t], 'wptests_tax');
 
         // Fake current page.
-        $_post           = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
+        $_post = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
         $GLOBALS['post'] = get_post($p1);
 
         $found = get_adjacent_post(false, [$t], true, 'wptests_tax');
 
-        if (! is_null($_post)) {
+        if (!is_null($_post)) {
             $GLOBALS['post'] = $_post;
         } else {
             unset($GLOBALS['post']);
@@ -221,7 +222,7 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         $t = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
@@ -234,12 +235,12 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         wp_delete_object_term_relationships($p3, 'category');
 
         // Fake current page.
-        $_post           = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
+        $_post = isset($GLOBALS['post']) ? $GLOBALS['post'] : null;
         $GLOBALS['post'] = get_post($p1);
 
         $found = get_adjacent_post(false, [$t], true, 'wptests_tax');
 
-        if (! is_null($_post)) {
+        if (!is_null($_post)) {
             $GLOBALS['post'] = $_post;
         } else {
             unset($GLOBALS['post']);
@@ -260,7 +261,7 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
             2,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
@@ -295,7 +296,7 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
             2,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
@@ -330,7 +331,7 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
             2,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $p1 = self::factory()->post->create(['post_date' => '2015-08-27 12:00:00']);
@@ -369,29 +370,29 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
         $post_one = self::factory()->post->create_and_get(
             [
                 'post_title' => 'First',
-                'post_date'  => '2012-01-01 12:00:00',
-            ]
+                'post_date' => '2012-01-01 12:00:00',
+            ],
         );
 
         $post_two = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Second',
-                'post_date'  => '2012-02-01 12:00:00',
-            ]
+                'post_date' => '2012-02-01 12:00:00',
+            ],
         );
 
         $post_three = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Third',
-                'post_date'  => '2012-03-01 12:00:00',
-            ]
+                'post_date' => '2012-03-01 12:00:00',
+            ],
         );
 
         $post_four = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Fourth',
-                'post_date'  => '2012-04-01 12:00:00',
-            ]
+                'post_date' => '2012-04-01 12:00:00',
+            ],
         );
 
         // Assign some terms.
@@ -411,31 +412,37 @@ class Tests_Link_GetAdjacentPost extends WP_UnitTestCase
 
         // Query count to test caching.
         $num_queries = get_num_queries();
-        $second_run  = get_adjacent_post(false, '', true);
+        $second_run = get_adjacent_post(false, '', true);
         $this->assertNotEquals($post_two, $second_run, 'Got second post when on second post on second run');
         $this->assertEquals($post_one, $second_run, 'Did not get first post when on second post on second run');
         $this->assertSame($num_queries, get_num_queries());
 
         // Test creating new post busts cache.
-        $post_five   = self::factory()->post->create_and_get(
+        $post_five = self::factory()->post->create_and_get(
             [
                 'post_title' => 'Five',
-                'post_date'  => '2012-04-01 12:00:00',
-            ]
+                'post_date' => '2012-04-01 12:00:00',
+            ],
         );
         $num_queries = get_num_queries();
 
-        $this->assertEquals($post_one, get_adjacent_post(false, '', true), 'Did not get first post after new post is added');
-        $this->assertSame(get_num_queries() - $num_queries, 1, 'Number of queries run was not one after new post is added');
+        $this->assertEquals($post_one, get_adjacent_post(false, '', true),
+            'Did not get first post after new post is added');
+        $this->assertSame(get_num_queries() - $num_queries, 1,
+            'Number of queries run was not one after new post is added');
 
-        $this->assertEquals($post_four, get_adjacent_post(true, '', false), 'Did not get forth post after new post is added');
+        $this->assertEquals($post_four, get_adjacent_post(true, '', false),
+            'Did not get forth post after new post is added');
         $num_queries = get_num_queries();
-        $this->assertEquals($post_four, get_adjacent_post(true, '', false), 'Did not get forth post after new post is added');
+        $this->assertEquals($post_four, get_adjacent_post(true, '', false),
+            'Did not get forth post after new post is added');
         $this->assertSame($num_queries, get_num_queries());
         wp_set_object_terms($post_four->ID, 'themes', 'post_tag', false);
 
         $num_queries = get_num_queries();
-        $this->assertEquals($post_four, get_adjacent_post(true, '', false), 'Result of function call is wrong after after adding new term');
-        $this->assertSame(get_num_queries() - $num_queries, 2, 'Number of queries run was not two after adding new term');
+        $this->assertEquals($post_four, get_adjacent_post(true, '', false),
+            'Result of function call is wrong after after adding new term');
+        $this->assertSame(get_num_queries() - $num_queries, 2,
+            'Number of queries run was not two after adding new term');
     }
 }

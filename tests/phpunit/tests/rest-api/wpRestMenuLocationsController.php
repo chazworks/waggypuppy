@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Menu_Locations_Controller functionality.
  *
@@ -28,7 +29,7 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
         self::$admin_id = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
     }
 
@@ -77,16 +78,16 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menu-locations');
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/menu-locations');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
         $menu = 'primary';
         $this->register_nav_menu_locations([$menu]);
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/menu-locations/' . $menu);
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/menu-locations/' . $menu);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame('view', $data['endpoints'][0]['args']['context']['default']);
         $this->assertSame(['view', 'embed', 'edit'], $data['endpoints'][0]['args']['context']['enum']);
     }
@@ -100,12 +101,12 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
         $menus = ['primary', 'secondary'];
         $this->register_nav_menu_locations(['primary', 'secondary']);
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menu-locations');
+        $request = new WP_REST_Request('GET', '/wp/v2/menu-locations');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
-        $data     = array_values($data);
+        $data = $response->get_data();
+        $data = array_values($data);
         $this->assertCount(2, $data);
-        $names        = wp_list_pluck($data, 'name');
+        $names = wp_list_pluck($data, 'name');
         $descriptions = wp_list_pluck($data, 'description');
         $this->assertSame($menus, $names);
         $menu_descriptions = array_map('ucfirst', $names);
@@ -122,9 +123,9 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
         $this->register_nav_menu_locations([$menu]);
 
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menu-locations/' . $menu);
+        $request = new WP_REST_Request('GET', '/wp/v2/menu-locations/' . $menu);
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertSame($menu, $data['name']);
     }
 
@@ -138,7 +139,7 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
         $this->register_nav_menu_locations([$menu]);
 
         wp_set_current_user(self::$admin_id);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menu-locations/invalid');
+        $request = new WP_REST_Request('GET', '/wp/v2/menu-locations/invalid');
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_menu_location_invalid', $response, 404);
@@ -191,9 +192,9 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
     public function test_get_item_schema()
     {
         wp_set_current_user(self::$admin_id);
-        $request    = new WP_REST_Request('OPTIONS', '/wp/v2/menu-locations');
-        $response   = rest_get_server()->dispatch($request);
-        $data       = $response->get_data();
+        $request = new WP_REST_Request('OPTIONS', '/wp/v2/menu-locations');
+        $response = rest_get_server()->dispatch($request);
+        $data = $response->get_data();
         $properties = $data['schema']['properties'];
         $this->assertCount(3, $properties);
         $this->assertArrayHasKey('name', $properties);
@@ -210,7 +211,7 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
     public function test_get_items_menu_location_context_without_permission()
     {
         wp_set_current_user(0);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menu-locations');
+        $request = new WP_REST_Request('GET', '/wp/v2/menu-locations');
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_cannot_view', $response, rest_authorization_required_code());
@@ -227,7 +228,7 @@ class Tests_REST_WpRestMenuLocationsController extends WP_Test_REST_Controller_T
         $this->register_nav_menu_locations([$menu]);
 
         wp_set_current_user(0);
-        $request  = new WP_REST_Request('GET', '/wp/v2/menu-locations/' . $menu);
+        $request = new WP_REST_Request('GET', '/wp/v2/menu-locations/' . $menu);
         $response = rest_get_server()->dispatch($request);
 
         $this->assertErrorResponse('rest_cannot_view', $response, rest_authorization_required_code());

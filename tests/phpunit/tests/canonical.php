@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests Canonical redirections.
  *
@@ -21,9 +22,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
         self::set_up_custom_post_types();
         self::$private_cpt_post = $factory->post->create(
             [
-                'post_type'  => 'wp_tests_private',
+                'post_type' => 'wp_tests_private',
                 'post_title' => 'private-cpt-post',
-            ]
+            ],
         );
     }
 
@@ -49,9 +50,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
         register_post_type(
             'wp_tests_private',
             [
-                'public'             => true,
+                'public' => true,
                 'publicly_queryable' => false,
-            ]
+            ],
         );
     }
 
@@ -60,7 +61,6 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
      */
     public function test_canonical($test_url, $expected, $ticket = 0, $expected_doing_it_wrong = [])
     {
-
         if (false !== strpos($test_url, '%d')) {
             if (false !== strpos($test_url, '/?author=%d')) {
                 $test_url = sprintf($test_url, self::$author_id);
@@ -92,21 +92,22 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
             // Categories.
             ['?cat=%d', ['url' => '/category/parent/'], 15256],
             ['?cat=%d', ['url' => '/category/parent/child-1/'], 15256],
-            ['?cat=%d', ['url' => '/category/parent/child-1/child-2/']], // No children.
+            ['?cat=%d', ['url' => '/category/parent/child-1/child-2/']],
+            // No children.
             [
                 '/category/uncategorized/',
                 [
                     'url' => '/category/uncategorized/',
-                    'qv'  => ['category_name' => 'uncategorized'],
+                    'qv' => ['category_name' => 'uncategorized'],
                 ],
             ],
             [
                 '/category/uncategorized/page/2/',
                 [
                     'url' => '/category/uncategorized/page/2/',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'uncategorized',
-                        'paged'         => 2,
+                        'paged' => 2,
                     ],
                 ],
             ],
@@ -114,9 +115,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
                 '/category/uncategorized/?paged=2',
                 [
                     'url' => '/category/uncategorized/page/2/',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'uncategorized',
-                        'paged'         => 2,
+                        'paged' => 2,
                     ],
                 ],
             ],
@@ -124,9 +125,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
                 '/category/uncategorized/?paged=2&category_name=uncategorized',
                 [
                     'url' => '/category/uncategorized/page/2/',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'uncategorized',
-                        'paged'         => 2,
+                        'paged' => 2,
                     ],
                 ],
                 17174,
@@ -137,9 +138,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
                 '/category/uncategorized/?tag=post-formats',
                 [
                     'url' => '/category/uncategorized/?tag=post-formats',
-                    'qv'  => [
+                    'qv' => [
                         'category_name' => 'uncategorized',
-                        'tag'           => 'post-formats',
+                        'tag' => 'post-formats',
                     ],
                 ],
             ],
@@ -147,21 +148,22 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
                 '/?category_name=cat-a,cat-b',
                 [
                     'url' => '/?category_name=cat-a,cat-b',
-                    'qv'  => ['category_name' => 'cat-a,cat-b'],
+                    'qv' => ['category_name' => 'cat-a,cat-b'],
                 ],
             ],
 
             // Taxonomies with extra query vars.
-            ['/category/cat-a/page/1/?test=one%20two', '/category/cat-a/?test=one%20two', 18086], // Extra query vars should stay encoded.
+            ['/category/cat-a/page/1/?test=one%20two', '/category/cat-a/?test=one%20two', 18086],
+            // Extra query vars should stay encoded.
 
             // Categories with dates.
             [
                 '/2008/04/?cat=1',
                 [
                     'url' => '/2008/04/?cat=1',
-                    'qv'  => [
-                        'cat'      => '1',
-                        'year'     => '2008',
+                    'qv' => [
+                        'cat' => '1',
+                        'year' => '2008',
                         'monthnum' => '04',
                     ],
                 ],
@@ -198,7 +200,8 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
             ['/2008/06/02/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
             ['/2008/06/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
             ['/2008/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
-            ['/2010/post-format-test-au/', '/2008/06/02/post-format-test-audio/'], // A year the post is not in.
+            ['/2010/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
+            // A year the post is not in.
             ['/post-format-test-au/', '/2008/06/02/post-format-test-audio/'],
 
             // Pagination.
@@ -206,12 +209,12 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
                 '/2008/09/03/multipage-post-test/3/',
                 [
                     'url' => '/2008/09/03/multipage-post-test/3/',
-                    'qv'  => [
-                        'name'     => 'multipage-post-test',
-                        'year'     => '2008',
+                    'qv' => [
+                        'name' => 'multipage-post-test',
+                        'year' => '2008',
                         'monthnum' => '09',
-                        'day'      => '03',
-                        'page'     => '3',
+                        'day' => '03',
+                        'page' => '3',
                     ],
                 ],
             ],
@@ -226,14 +229,18 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
 
             // Attachments.
             ['/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/'],
-            ['/2008/06/10/post-format-test-gallery/?attachment_id=611', '/2008/06/10/post-format-test-gallery/canola2/'],
+            [
+                '/2008/06/10/post-format-test-gallery/?attachment_id=611',
+                '/2008/06/10/post-format-test-gallery/canola2/',
+            ],
 
             // Dates.
             ['/?m=2008', '/2008/'],
             ['/?m=200809', '/2008/09/'],
             ['/?m=20080905', '/2008/09/05/'],
 
-            ['/2008/?day=05', '/2008/?day=05'], // No redirect.
+            ['/2008/?day=05', '/2008/?day=05'],
+            // No redirect.
             ['/2008/09/?day=05', '/2008/09/05/'],
             ['/2008/?monthnum=9', '/2008/09/'],
 
@@ -294,7 +301,7 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
             'pre_redirect_guess_404_permalink',
             static function () {
                 return 'wp';
-            }
+            },
         );
         $this->go_to('/child-page-1');
         $this->assertSame('wp', redirect_guess_404_permalink());
@@ -308,7 +315,7 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
         $post = self::factory()->post->create(
             [
                 'post_title' => 'strict-redirect-guess-404-permalink',
-            ]
+            ],
         );
 
         $this->go_to('strict-redirect');
@@ -335,9 +342,9 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
 
         $post = self::factory()->post->create(
             [
-                'post_title'  => 'custom-status-public-guess-404-permalink',
+                'post_title' => 'custom-status-public-guess-404-permalink',
                 'post_status' => 'custom',
-            ]
+            ],
         );
 
         $this->go_to('custom-status-public-guess-404-permalink');
@@ -358,28 +365,28 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
     public function data_redirect_guess_404_permalink_with_custom_statuses()
     {
         return [
-            'public status'                      => [
+            'public status' => [
                 'status_args' => ['public' => true],
-                'redirects'   => true,
+                'redirects' => true,
             ],
-            'private status'                     => [
+            'private status' => [
                 'status_args' => ['public' => false],
-                'redirects'   => false,
+                'redirects' => false,
             ],
-            'internal status'                    => [
+            'internal status' => [
                 'status_args' => ['internal' => true],
-                'redirects'   => false,
+                'redirects' => false,
             ],
-            'protected status'                   => [
+            'protected status' => [
                 'status_args' => ['protected' => true],
-                'redirects'   => false,
+                'redirects' => false,
             ],
             'protected status flagged as public' => [
                 'status_args' => [
                     'protected' => true,
-                    'public'    => true,
+                    'public' => true,
                 ],
-                'redirects'   => false,
+                'redirects' => false,
             ],
         ];
     }
@@ -410,21 +417,21 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
     public function data_redirect_guess_404_permalink_post_types()
     {
         return [
-            'single string formatted post type'    => [
+            'single string formatted post type' => [
                 'original_url' => '/?name=sample-pag&post_type=page',
-                'expected'     => '/sample-page/',
+                'expected' => '/sample-page/',
             ],
-            'single array formatted post type'     => [
+            'single array formatted post type' => [
                 'original_url' => '/?name=sample-pag&post_type[]=page',
-                'expected'     => '/sample-page/',
+                'expected' => '/sample-page/',
             ],
-            'multiple array formatted post type'   => [
+            'multiple array formatted post type' => [
                 'original_url' => '/?name=sample-pag&post_type[]=page&post_type[]=post',
-                'expected'     => '/sample-page/',
+                'expected' => '/sample-page/',
             ],
             'do not redirect to private post type' => [
                 'original_url' => '/?name=private-cpt-po&post_type[]=wp_tests_private',
-                'expected'     => '/?name=private-cpt-po&post_type[]=wp_tests_private',
+                'expected' => '/?name=private-cpt-po&post_type[]=wp_tests_private',
             ],
         ];
     }
@@ -437,7 +444,7 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
         $p = self::factory()->post->create(
             [
                 'post_type' => 'page',
-            ]
+            ],
         );
         update_option('show_on_front', 'page');
         update_option('page_on_front', $p);
@@ -459,7 +466,7 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
     public function test_feed_canonical_with_not_exists_query()
     {
         // Set a NOT EXISTS tax_query on the global query.
-        $global_query        = $GLOBALS['wp_query'];
+        $global_query = $GLOBALS['wp_query'];
         $GLOBALS['wp_query'] = new WP_Query(
             [
                 'post_type' => 'post',
@@ -469,7 +476,7 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
                         'operator' => 'NOT EXISTS',
                     ],
                 ],
-            ]
+            ],
         );
 
         $redirect = redirect_canonical(get_term_feed_link(self::$terms['/category/parent/']), false);
@@ -488,15 +495,18 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
      *
      * @dataProvider data_canonical_attachment_page_redirect_with_option_disabled
      */
-    public function test_canonical_attachment_page_redirect_with_option_disabled($expected, $user = null, $parent_post_status = '')
-    {
+    public function test_canonical_attachment_page_redirect_with_option_disabled(
+        $expected,
+        $user = null,
+        $parent_post_status = '',
+    ) {
         update_option('wp_attachment_pages_enabled', 0);
 
         if ('' !== $parent_post_status) {
             $parent_post_id = self::factory()->post->create(
                 [
                     'post_status' => $parent_post_status,
-                ]
+                ],
             );
         } else {
             $parent_post_id = 0;
@@ -504,10 +514,10 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
 
         $filename = DIR_TESTDATA . '/images/test-image.jpg';
         $contents = file_get_contents($filename);
-        $upload   = wp_upload_bits(wp_basename($filename), null, $contents);
+        $upload = wp_upload_bits(wp_basename($filename), null, $contents);
 
-        $attachment_id   = $this->_make_attachment($upload, $parent_post_id);
-        $attachment_url  = wp_get_attachment_url($attachment_id);
+        $attachment_id = $this->_make_attachment($upload, $parent_post_id);
+        $attachment_url = wp_get_attachment_url($attachment_id);
         $attachment_page = get_permalink($attachment_id);
 
         // Set as anonymous/logged out user.
@@ -533,11 +543,11 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
     public function data_canonical_attachment_page_redirect_with_option_disabled()
     {
         return [
-            'logged out user, no parent'      => [
+            'logged out user, no parent' => [
                 '%%attachment_url%%',
                 0,
             ],
-            'logged in user, no parent'       => [
+            'logged in user, no parent' => [
                 '%%attachment_url%%',
             ],
             'logged out user, private parent' => [
@@ -545,17 +555,17 @@ class Tests_Canonical extends WP_Canonical_UnitTestCase
                 0,
                 'private',
             ],
-            'logged in user, private parent'  => [
+            'logged in user, private parent' => [
                 '%%attachment_url%%',
                 null,
                 'private',
             ],
-            'logged out user, public parent'  => [
+            'logged out user, public parent' => [
                 '%%attachment_url%%',
                 0,
                 'publish',
             ],
-            'logged in user, public parent'   => [
+            'logged in user, public parent' => [
                 '%%attachment_url%%',
                 null,
                 'publish',

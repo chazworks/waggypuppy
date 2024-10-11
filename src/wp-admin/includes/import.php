@@ -9,10 +9,10 @@
 /**
  * Retrieves the list of importers.
  *
+ * @return array
+ * @global array $wp_importers
  * @since 2.0.0
  *
- * @global array $wp_importers
- * @return array
  */
 function get_importers()
 {
@@ -28,12 +28,12 @@ function get_importers()
  *
  * Used by uasort() as a callback, should not be used directly.
  *
- * @since 2.9.0
- * @access private
- *
  * @param array $a
  * @param array $b
  * @return int
+ * @since 2.9.0
+ * @access private
+ *
  */
 function _usort_by_first_member($a, $b)
 {
@@ -43,15 +43,15 @@ function _usort_by_first_member($a, $b)
 /**
  * Registers importer for waggypuppy.
  *
- * @since 2.0.0
- *
+ * @param string $id Importer tag. Used to uniquely identify importer.
+ * @param string $name Importer name and title.
+ * @param string $description Importer description.
+ * @param callable $callback Callback to run.
+ * @return void|WP_Error Void on success. WP_Error when $callback is WP_Error.
  * @global array $wp_importers
  *
- * @param string   $id          Importer tag. Used to uniquely identify importer.
- * @param string   $name        Importer name and title.
- * @param string   $description Importer description.
- * @param callable $callback    Callback to run.
- * @return void|WP_Error Void on success. WP_Error when $callback is WP_Error.
+ * @since 2.0.0
+ *
  */
 function register_importer($id, $name, $description, $callback)
 {
@@ -67,9 +67,9 @@ function register_importer($id, $name, $description, $callback)
  *
  * Removes attachment based on ID.
  *
+ * @param string $id Importer ID.
  * @since 2.0.0
  *
- * @param string $id Importer ID.
  */
 function wp_import_cleanup($id)
 {
@@ -79,30 +79,30 @@ function wp_import_cleanup($id)
 /**
  * Handles importer uploading and adds attachment.
  *
+ * @return array Uploaded file's details on success, error message on failure.
  * @since 2.0.0
  *
- * @return array Uploaded file's details on success, error message on failure.
  */
 function wp_import_handle_upload()
 {
-    if (! isset($_FILES['import'])) {
+    if (!isset($_FILES['import'])) {
         return [
             'error' => sprintf(
-                /* translators: 1: php.ini, 2: post_max_size, 3: upload_max_filesize */
+            /* translators: 1: php.ini, 2: post_max_size, 3: upload_max_filesize */
                 __('File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your %1$s file or by %2$s being defined as smaller than %3$s in %1$s.'),
                 'php.ini',
                 'post_max_size',
-                'upload_max_filesize'
+                'upload_max_filesize',
             ),
         ];
     }
 
-    $overrides                 = [
+    $overrides = [
         'test_form' => false,
         'test_type' => false,
     ];
     $_FILES['import']['name'] .= '.txt';
-    $upload                    = wp_handle_upload($_FILES['import'], $overrides);
+    $upload = wp_handle_upload($_FILES['import'], $overrides);
 
     if (isset($upload['error'])) {
         return $upload;
@@ -110,12 +110,12 @@ function wp_import_handle_upload()
 
     // Construct the attachment array.
     $attachment = [
-        'post_title'     => wp_basename($upload['file']),
-        'post_content'   => $upload['url'],
+        'post_title' => wp_basename($upload['file']),
+        'post_content' => $upload['url'],
         'post_mime_type' => $upload['type'],
-        'guid'           => $upload['url'],
-        'context'        => 'import',
-        'post_status'    => 'private',
+        'guid' => $upload['url'],
+        'context' => 'import',
+        'post_status' => 'private',
     ];
 
     // Save the data.
@@ -129,30 +129,30 @@ function wp_import_handle_upload()
 
     return [
         'file' => $upload['file'],
-        'id'   => $id,
+        'id' => $id,
     ];
 }
 
 /**
  * Returns a list from wp.org of popular importer plugins.
  *
+ * @return array Importers with metadata for each.
  * @since 3.5.0
  *
- * @return array Importers with metadata for each.
  */
 function wp_get_popular_importers()
 {
-    $locale            = get_user_locale();
-    $cache_key         = 'popular_importers_' . md5($locale . wp_get_wp_version());
+    $locale = get_user_locale();
+    $cache_key = 'popular_importers_' . md5($locale . wp_get_wp_version());
     $popular_importers = get_site_transient($cache_key);
 
-    if (! $popular_importers) {
-        $url     = add_query_arg(
+    if (!$popular_importers) {
+        $url = add_query_arg(
             [
-                'locale'  => $locale,
+                'locale' => $locale,
                 'version' => wp_get_wp_version(),
             ],
-            'http://api.wp.org/core/importers/1.1/'
+            'http://api.wp.org/core/importers/1.1/',
         );
         $options = ['user-agent' => 'WordPress/' . wp_get_wp_version() . '; ' . home_url('/')];
 
@@ -160,7 +160,7 @@ function wp_get_popular_importers()
             $url = set_url_scheme($url, 'https');
         }
 
-        $response          = wp_remote_get($url, $options);
+        $response = wp_remote_get($url, $options);
         $popular_importers = json_decode(wp_remote_retrieve_body($response), true);
 
         if (is_array($popular_importers)) {
@@ -177,10 +177,8 @@ function wp_get_popular_importers()
         }
 
         foreach ($popular_importers['importers'] as &$importer) {
-			// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
             $importer['description'] = translate($importer['description']);
             if ('waggypuppy' !== $importer['name']) {
-				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
                 $importer['name'] = translate($importer['name']);
             }
         }
@@ -189,44 +187,44 @@ function wp_get_popular_importers()
 
     return [
         // slug => name, description, plugin slug, and register_importer() slug.
-        'blogger'     => [
-            'name'        => __('Blogger'),
+        'blogger' => [
+            'name' => __('Blogger'),
             'description' => __('Import posts, comments, and users from a Blogger blog.'),
             'plugin-slug' => 'blogger-importer',
             'importer-id' => 'blogger',
         ],
-        'wpcat2tag'   => [
-            'name'        => __('Categories and Tags Converter'),
+        'wpcat2tag' => [
+            'name' => __('Categories and Tags Converter'),
             'description' => __('Convert existing categories to tags or tags to categories, selectively.'),
             'plugin-slug' => 'wpcat2tag-importer',
             'importer-id' => 'wp-cat2tag',
         ],
         'livejournal' => [
-            'name'        => __('LiveJournal'),
+            'name' => __('LiveJournal'),
             'description' => __('Import posts from LiveJournal using their API.'),
             'plugin-slug' => 'livejournal-importer',
             'importer-id' => 'livejournal',
         ],
         'movabletype' => [
-            'name'        => __('Movable Type and TypePad'),
+            'name' => __('Movable Type and TypePad'),
             'description' => __('Import posts and comments from a Movable Type or TypePad blog.'),
             'plugin-slug' => 'movabletype-importer',
             'importer-id' => 'mt',
         ],
-        'rss'         => [
-            'name'        => __('RSS'),
+        'rss' => [
+            'name' => __('RSS'),
             'description' => __('Import posts from an RSS feed.'),
             'plugin-slug' => 'rss-importer',
             'importer-id' => 'rss',
         ],
-        'tumblr'      => [
-            'name'        => __('Tumblr'),
+        'tumblr' => [
+            'name' => __('Tumblr'),
             'description' => __('Import posts &amp; media from Tumblr using their API.'),
             'plugin-slug' => 'tumblr-importer',
             'importer-id' => 'tumblr',
         ],
-        'wordpress'   => [
-            'name'        => 'waggypuppy',
+        'wordpress' => [
+            'name' => 'waggypuppy',
             'description' => __('Import posts, pages, comments, custom fields, categories, and tags from a waggypuppy export file.'),
             'plugin-slug' => 'wordpress-importer',
             'importer-id' => 'wordpress',

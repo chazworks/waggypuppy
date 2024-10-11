@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for the set_ignored_hooked_blocks_metadata function.
  *
@@ -17,13 +18,13 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
      */
     private static function create_block_template_object()
     {
-        $template              = new WP_Block_Template();
-        $template->type        = 'wp_template';
-        $template->theme       = 'test-theme';
-        $template->slug        = 'single';
-        $template->id          = $template->theme . '//' . $template->slug;
-        $template->title       = 'Single';
-        $template->content     = '<!-- wp:tests/anchor-block /-->';
+        $template = new WP_Block_Template();
+        $template->type = 'wp_template';
+        $template->theme = 'test-theme';
+        $template->slug = 'single';
+        $template->id = $template->theme . '//' . $template->slug;
+        $template->title = 'Single';
+        $template->content = '<!-- wp:tests/anchor-block /-->';
         $template->description = 'Description of my template';
 
         return $template;
@@ -59,7 +60,7 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
     {
         $anchor_block = [
             'blockName' => 'tests/anchor-block',
-            'attrs'     => [
+            'attrs' => [
                 'metadata' => [
                     'ignoredHookedBlocks' => ['tests/other-ignored-block'],
                 ],
@@ -75,7 +76,7 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
         set_ignored_hooked_blocks_metadata($anchor_block, 'after', $hooked_blocks, null);
         $this->assertSame(
             ['tests/other-ignored-block', 'tests/hooked-block'],
-            $anchor_block['attrs']['metadata']['ignoredHookedBlocks']
+            $anchor_block['attrs']['metadata']['ignoredHookedBlocks'],
         );
     }
 
@@ -88,7 +89,7 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
     {
         $anchor_block = [
             'blockName' => 'tests/anchor-block',
-            'attrs'     => [],
+            'attrs' => [],
         ];
 
         $hooked_blocks = [];
@@ -107,7 +108,7 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
 
         $this->assertSame(
             ['tests/hooked-block-added-by-filter'],
-            $anchor_block['attrs']['metadata']['ignoredHookedBlocks']
+            $anchor_block['attrs']['metadata']['ignoredHookedBlocks'],
         );
     }
 
@@ -120,13 +121,13 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
     {
         $anchor_block = [
             'blockName' => 'tests/anchor-block',
-            'attrs'     => [],
+            'attrs' => [],
         ];
 
         $filter = function ($hooked_block_types, $relative_position, $anchor_block_type, $context) {
-            if (! $context instanceof WP_Block_Template ||
-                ! property_exists($context, 'slug') ||
-                'single' !== $context->slug
+            if (!$context instanceof WP_Block_Template
+                || !property_exists($context, 'slug')
+                || 'single' !== $context->slug
             ) {
                 return $hooked_block_types;
             }
@@ -146,7 +147,7 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
 
         $this->assertSame(
             ['tests/hooked-block-added-by-filter'],
-            $anchor_block['attrs']['metadata']['ignoredHookedBlocks']
+            $anchor_block['attrs']['metadata']['ignoredHookedBlocks'],
         );
     }
 
@@ -159,7 +160,7 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
     {
         $anchor_block = [
             'blockName' => 'tests/anchor-block',
-            'attrs'     => [],
+            'attrs' => [],
         ];
 
         $hooked_blocks = [
@@ -169,9 +170,9 @@ class Tests_Blocks_SetIgnoredHookedBlocksMetadata extends WP_UnitTestCase
         ];
 
         $filter = function ($parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block) {
-            if ('tests/hooked-block-suppressed-by-filter' === $hooked_block_type &&
-                'after' === $relative_position &&
-                'tests/anchor-block' === $parsed_anchor_block['blockName']
+            if ('tests/hooked-block-suppressed-by-filter' === $hooked_block_type
+                && 'after' === $relative_position
+                && 'tests/anchor-block' === $parsed_anchor_block['blockName']
             ) {
                 return null;
             }

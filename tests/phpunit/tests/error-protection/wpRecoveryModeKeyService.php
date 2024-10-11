@@ -15,8 +15,8 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     public function test_generate_and_store_recovery_mode_key_returns_recovery_key()
     {
         $service = new WP_Recovery_Mode_Key_Service();
-        $token   = $service->generate_recovery_mode_token();
-        $key     = $service->generate_and_store_recovery_mode_key($token);
+        $token = $service->generate_recovery_mode_token();
+        $key = $service->generate_and_store_recovery_mode_key($token);
 
         $this->assertNotWPError($key);
     }
@@ -29,7 +29,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     public function test_validate_recovery_mode_key_returns_wp_error_if_no_key_set()
     {
         $service = new WP_Recovery_Mode_Key_Service();
-        $error   = $service->validate_recovery_mode_key('', 'abcd', HOUR_IN_SECONDS);
+        $error = $service->validate_recovery_mode_key('', 'abcd', HOUR_IN_SECONDS);
 
         $this->assertWPError($error);
         $this->assertSame('token_not_found', $error->get_error_code());
@@ -45,7 +45,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
         update_option('recovery_keys', 'gibberish');
 
         $service = new WP_Recovery_Mode_Key_Service();
-        $error   = $service->validate_recovery_mode_key('', 'abcd', HOUR_IN_SECONDS);
+        $error = $service->validate_recovery_mode_key('', 'abcd', HOUR_IN_SECONDS);
 
         $this->assertWPError($error);
         $this->assertSame('token_not_found', $error->get_error_code());
@@ -61,7 +61,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
         update_option('recovery_keys', ['token' => 'gibberish']);
 
         $service = new WP_Recovery_Mode_Key_Service();
-        $error   = $service->validate_recovery_mode_key('token', 'abcd', HOUR_IN_SECONDS);
+        $error = $service->validate_recovery_mode_key('token', 'abcd', HOUR_IN_SECONDS);
 
         $this->assertWPError($error);
         $this->assertSame('invalid_recovery_key_format', $error->get_error_code());
@@ -75,12 +75,11 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
      */
     public function test_validate_recovery_mode_key_returns_wp_error_if_stored_format_is_invalid()
     {
-
         $token = wp_generate_password(22, false);
         update_option('recovery_keys', [$token => 'gibberish']);
 
         $service = new WP_Recovery_Mode_Key_Service();
-        $error   = $service->validate_recovery_mode_key($token, 'abcd', HOUR_IN_SECONDS);
+        $error = $service->validate_recovery_mode_key($token, 'abcd', HOUR_IN_SECONDS);
 
         $this->assertWPError($error);
         $this->assertSame('invalid_recovery_key_format', $error->get_error_code());
@@ -94,7 +93,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     public function test_validate_recovery_mode_key_returns_wp_error_if_empty_key()
     {
         $service = new WP_Recovery_Mode_Key_Service();
-        $token   = $service->generate_recovery_mode_token();
+        $token = $service->generate_recovery_mode_token();
         $service->generate_and_store_recovery_mode_key($token);
         $error = $service->validate_recovery_mode_key($token, '', HOUR_IN_SECONDS);
 
@@ -110,7 +109,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     public function test_validate_recovery_mode_key_returns_wp_error_if_hash_mismatch()
     {
         $service = new WP_Recovery_Mode_Key_Service();
-        $token   = $service->generate_recovery_mode_token();
+        $token = $service->generate_recovery_mode_token();
         $service->generate_and_store_recovery_mode_key($token);
         $error = $service->validate_recovery_mode_key($token, 'abcd', HOUR_IN_SECONDS);
 
@@ -126,10 +125,10 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     public function test_validate_recovery_mode_key_returns_wp_error_if_expired()
     {
         $service = new WP_Recovery_Mode_Key_Service();
-        $token   = $service->generate_recovery_mode_token();
-        $key     = $service->generate_and_store_recovery_mode_key($token);
+        $token = $service->generate_recovery_mode_token();
+        $key = $service->generate_and_store_recovery_mode_key($token);
 
-        $records                       = get_option('recovery_keys');
+        $records = get_option('recovery_keys');
         $records[$token]['created_at'] = time() - HOUR_IN_SECONDS - 30;
         update_option('recovery_keys', $records);
 
@@ -147,8 +146,8 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     public function test_validate_recovery_mode_key_returns_true_for_valid_key()
     {
         $service = new WP_Recovery_Mode_Key_Service();
-        $token   = $service->generate_recovery_mode_token();
-        $key     = $service->generate_and_store_recovery_mode_key($token);
+        $token = $service->generate_recovery_mode_token();
+        $key = $service->generate_and_store_recovery_mode_key($token);
         $this->assertTrue($service->validate_recovery_mode_key($token, $key, HOUR_IN_SECONDS));
     }
 
@@ -160,8 +159,8 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     public function test_validate_recovery_mode_key_returns_error_if_token_used_more_than_once()
     {
         $service = new WP_Recovery_Mode_Key_Service();
-        $token   = $service->generate_recovery_mode_token();
-        $key     = $service->generate_and_store_recovery_mode_key($token);
+        $token = $service->generate_recovery_mode_token();
+        $key = $service->generate_and_store_recovery_mode_key($token);
 
         $this->assertTrue($service->validate_recovery_mode_key($token, $key, HOUR_IN_SECONDS));
 
@@ -188,7 +187,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
         $service->generate_and_store_recovery_mode_key($token);
 
         $token = $service->generate_recovery_mode_token();
-        $key   = $service->generate_and_store_recovery_mode_key($token);
+        $key = $service->generate_and_store_recovery_mode_key($token);
 
         $this->assertTrue($service->validate_recovery_mode_key($token, $key, HOUR_IN_SECONDS));
 
@@ -207,7 +206,7 @@ class Tests_Error_Protection_wpRecoveryModeKeyService extends WP_UnitTestCase
     public function test_clean_expired_keys()
     {
         $service = new WP_Recovery_Mode_Key_Service();
-        $token   = $service->generate_recovery_mode_token();
+        $token = $service->generate_recovery_mode_token();
         $service->generate_and_store_recovery_mode_key($token);
 
         $records = get_option('recovery_keys');

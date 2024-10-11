@@ -43,7 +43,7 @@ class Tests_Formatting_UrlencodeDeep extends WP_UnitTestCase
     {
         $data = $this->data_urlencode_deep();
 
-        $actual   = wp_list_pluck($data, 0);
+        $actual = wp_list_pluck($data, 0);
         $expected = wp_list_pluck($data, 1);
 
         $this->assertSame($expected, urlencode_deep($actual));

@@ -26,13 +26,13 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $args = wp_parse_args(
             $args,
             [
-                'post_status'            => 'any', // For the future post.
-                'posts_per_page'         => '-1',  // To make sure results are accurate.
-                'orderby'                => 'ID',  // Same order they were created.
-                'order'                  => 'ASC',
+                'post_status' => 'any', // For the future post.
+                'posts_per_page' => '-1',  // To make sure results are accurate.
+                'orderby' => 'ID',  // Same order they were created.
+                'order' => 'ASC',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-            ]
+            ],
         );
 
         return $this->q->query($args);
@@ -50,12 +50,12 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                 'date_query' => [
                     [
                         'before' => [
-                            'year'  => 2008,
+                            'year' => 2008,
                             'month' => 6,
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p1, $p2], wp_list_pluck($posts, 'ID'));
@@ -79,7 +79,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p1], wp_list_pluck($posts, 'ID'));
@@ -99,7 +99,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'before' => 'May 4th, 2008',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1, $p2], wp_list_pluck($posts, 'ID'));
@@ -116,13 +116,13 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                 'date_query' => [
                     [
                         'after' => [
-                            'year'  => 2009,
+                            'year' => 2009,
                             'month' => 12,
-                            'day'   => 31,
+                            'day' => 31,
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p3], wp_list_pluck($posts, 'ID'));
@@ -146,7 +146,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         ],
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2], wp_list_pluck($posts, 'ID'));
@@ -165,7 +165,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'after' => '2009-12-18 10:42:29',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p3], wp_list_pluck($posts, 'ID'));
@@ -181,11 +181,11 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
             [
                 'date_query' => [
                     [
-                        'after'     => '2009-12-18 10:42:29',
+                        'after' => '2009-12-18 10:42:29',
                         'inclusive' => true,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2, $p3], wp_list_pluck($posts, 'ID'));
@@ -205,17 +205,17 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'date_query' => [
-                    'after'     => [
-                        'year'  => 2007,
+                    'after' => [
+                        'year' => 2007,
                         'month' => 1,
                     ],
-                    'before'    => [
-                        'year'  => 2008,
+                    'before' => [
+                        'year' => 2008,
                         'month' => 12,
                     ],
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2, $p3, $p4], wp_list_pluck($posts, 'ID'));
@@ -229,34 +229,34 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 13:00:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2007-05-07 13:00:00',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'before' => '2008',
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'after' => '2007',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2], $before_posts);
@@ -271,36 +271,36 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 13:00:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2007-05-07 13:00:00',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'before'    => '2008',
+                'date_query' => [
+                    'before' => '2008',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'after'     => '2007',
+                'date_query' => [
+                    'after' => '2007',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p1, $p2], $before_posts);
@@ -315,34 +315,34 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 13:00:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-04-07 13:00:00',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'before' => '2008-05',
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'after' => '2008-04',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2], $before_posts);
@@ -357,36 +357,36 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 13:00:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-04-07 13:00:00',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'before'    => '2008-05',
+                'date_query' => [
+                    'before' => '2008-05',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'after'     => '2008-04',
+                'date_query' => [
+                    'after' => '2008-04',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p1, $p2], $before_posts);
@@ -401,34 +401,34 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 13:00:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-05 13:00:00',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'before' => '2008-05-06',
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'after' => '2008-05-05',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2], $before_posts);
@@ -443,36 +443,36 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 13:00:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-05 13:00:00',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'before'    => '2008-05-06',
+                'date_query' => [
+                    'before' => '2008-05-06',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'after'     => '2008-05-05',
+                'date_query' => [
+                    'after' => '2008-05-05',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p1, $p2], $before_posts);
@@ -487,34 +487,34 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:05:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:04:00',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'before' => '2008-05-06 14:05',
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'after' => '2008-05-06 14:04',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2], $before_posts);
@@ -529,36 +529,36 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:05:00',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:04:00',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'before'    => '2008-05-06 14:05',
+                'date_query' => [
+                    'before' => '2008-05-06 14:05',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'after'     => '2008-05-06 14:04',
+                'date_query' => [
+                    'after' => '2008-05-06 14:04',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p1, $p2], $before_posts);
@@ -573,34 +573,34 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:05:15',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:05:14',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'before' => '2008-05-06 14:05:15',
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'after' => '2008-05-06 14:05:14',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2], $before_posts);
@@ -615,36 +615,36 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:04:15',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:04:14',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'before'    => '2008-05-06 14:04:15',
+                'date_query' => [
+                    'before' => '2008-05-06 14:04:15',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
-                    'after'     => '2008-05-06 14:04:14',
+                'date_query' => [
+                    'after' => '2008-05-06 14:04:14',
                     'inclusive' => true,
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p1, $p2], $before_posts);
@@ -659,34 +659,34 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:05:15',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2008-05-06 14:05:14',
-            ]
+            ],
         );
 
         $before_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'before' => 'June 12, 2008',
                 ],
-            ]
+            ],
         );
 
         $after_posts = $this->_get_query_result(
             [
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'date_query'             => [
+                'date_query' => [
                     'after' => 'June 12, 2007',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1, $p2], $before_posts);
@@ -694,8 +694,8 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
 
     public function test_date_query_year()
     {
-        $p1    = self::factory()->post->create(['post_date' => '2009-12-19 10:42:29']);
-        $p2    = self::factory()->post->create(['post_date' => '2010-12-19 10:42:29']);
+        $p1 = self::factory()->post->create(['post_date' => '2009-12-19 10:42:29']);
+        $p2 = self::factory()->post->create(['post_date' => '2010-12-19 10:42:29']);
         $posts = $this->_get_query_result(
             [
                 'date_query' => [
@@ -703,7 +703,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'year' => 2009,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -711,8 +711,8 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
 
     public function test_date_query_month()
     {
-        $p1    = self::factory()->post->create(['post_date' => '2009-12-19 10:42:29']);
-        $p2    = self::factory()->post->create(['post_date' => '2010-11-19 10:42:29']);
+        $p1 = self::factory()->post->create(['post_date' => '2009-12-19 10:42:29']);
+        $p2 = self::factory()->post->create(['post_date' => '2010-11-19 10:42:29']);
         $posts = $this->_get_query_result(
             [
                 'date_query' => [
@@ -720,7 +720,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'month' => 12,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -728,8 +728,8 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
 
     public function test_date_query_week()
     {
-        $p1    = self::factory()->post->create(['post_date' => '2009-01-02 10:42:29']);
-        $p2    = self::factory()->post->create(['post_date' => '2010-03-19 10:42:29']);
+        $p1 = self::factory()->post->create(['post_date' => '2009-01-02 10:42:29']);
+        $p2 = self::factory()->post->create(['post_date' => '2010-03-19 10:42:29']);
         $posts = $this->_get_query_result(
             [
                 'date_query' => [
@@ -737,7 +737,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'week' => 1,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -755,7 +755,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'day' => 17,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -773,7 +773,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'dayofweek' => 3,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -794,7 +794,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'dayofweek_iso' => 5,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -812,7 +812,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'hour' => 13,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -828,12 +828,12 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
 
         $posts = $this->_get_query_result(
             [
-                'year'     => 2014,
+                'year' => 2014,
                 'monthnum' => 10,
-                'day'      => 21,
-                'hour'     => 0,
-                'minute'   => 42,
-            ]
+                'day' => 21,
+                'hour' => 0,
+                'minute' => 42,
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -851,7 +851,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'minute' => 56,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -869,7 +869,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'second' => 21,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -887,17 +887,17 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
             [
                 'date_query' => [
                     [
-                        'hour'    => 9,
-                        'minute'  => 0,
+                        'hour' => 9,
+                        'minute' => 0,
                         'compare' => '>=',
                     ],
                     [
-                        'hour'    => '17',
-                        'minute'  => '0',
+                        'hour' => '17',
+                        'minute' => '0',
                         'compare' => '<=',
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSameSets([$p2, $p3, $p4], wp_list_pluck($posts, 'ID'));
@@ -920,7 +920,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                     ],
                     'relation' => 'OR',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1, $p3], wp_list_pluck($posts, 'ID'));
@@ -937,12 +937,12 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
             [
                 'date_query' => [
                     [
-                        'hour'   => 14,
+                        'hour' => 14,
                         'minute' => 34,
                     ],
                     'compare' => '>=',
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2, $p3, $p4], wp_list_pluck($posts, 'ID'));
@@ -959,10 +959,10 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $posts = $this->_get_query_result(
             [
                 'date_query' => [
-                    'month'    => 5,
+                    'month' => 5,
                     'monthnum' => 9,
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p1], wp_list_pluck($posts, 'ID'));
@@ -983,9 +983,9 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
             [
                 'date_query' => [
                     'week' => 43,
-                    'w'    => 42,
+                    'w' => 42,
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2], wp_list_pluck($posts, 'ID'));
@@ -1002,12 +1002,12 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2013-04-27 01:01:01',
-            ]
+            ],
         );
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2013-03-21 01:01:01',
-            ]
+            ],
         );
 
         register_taxonomy('foo', 'post');
@@ -1018,14 +1018,14 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                 'date_query' => [
                     'year' => 2013,
                 ],
-                'tax_query'  => [
+                'tax_query' => [
                     [
                         'taxonomy' => 'foo',
-                        'terms'    => ['bar'],
-                        'field'    => 'name',
+                        'terms' => ['bar'],
+                        'field' => 'name',
                     ],
                 ],
-            ]
+            ],
         );
 
         _unregister_taxonomy('foo');
@@ -1038,10 +1038,10 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
      */
     public function test_date_query_one_nested_query()
     {
-        $p1    = self::factory()->post->create(['post_date' => '2004-10-01 13:42:29']);
-        $p2    = self::factory()->post->create(['post_date' => '2004-01-22 14:34:29']);
-        $p3    = self::factory()->post->create(['post_date' => '1984-10-15 14:34:29']);
-        $p4    = self::factory()->post->create(['post_date' => '1985-10-15 14:34:29']);
+        $p1 = self::factory()->post->create(['post_date' => '2004-10-01 13:42:29']);
+        $p2 = self::factory()->post->create(['post_date' => '2004-01-22 14:34:29']);
+        $p3 = self::factory()->post->create(['post_date' => '1984-10-15 14:34:29']);
+        $p4 = self::factory()->post->create(['post_date' => '1985-10-15 14:34:29']);
         $posts = $this->_get_query_result(
             [
                 'date_query' => [
@@ -1059,7 +1059,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         'year' => 1984,
                     ],
                 ],
-            ]
+            ],
         );
 
         $this->assertSame([$p2, $p3], wp_list_pluck($posts, 'ID'));
@@ -1073,34 +1073,34 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2012-03-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p1, '2014-11-03 14:43:00');
 
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2012-05-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p2, '2014-10-03 14:43:00');
 
         $p3 = self::factory()->post->create(
             [
                 'post_date' => '2013-05-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p3, '2014-10-03 14:43:00');
 
         $p4 = self::factory()->post->create(
             [
                 'post_date' => '2012-02-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p4, '2012-12-03 14:43:00');
 
         $q = new WP_Query(
             [
-                'date_query'             => [
+                'date_query' => [
                     'relation' => 'AND',
                     [
                         'column' => 'post_date',
@@ -1115,11 +1115,11 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'post_status'            => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
 
         $expected = [$p1, $p2];
@@ -1135,41 +1135,41 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
         $p1 = self::factory()->post->create(
             [
                 'post_date' => '2012-03-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p1, '2014-11-03 14:43:00');
 
         $p2 = self::factory()->post->create(
             [
                 'post_date' => '2012-05-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p2, '2014-10-03 14:43:00');
 
         $p3 = self::factory()->post->create(
             [
                 'post_date' => '2013-05-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p3, '2014-10-03 14:43:00');
 
         $p4 = self::factory()->post->create(
             [
                 'post_date' => '2012-02-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p4, '2012-12-03 14:43:00');
 
         $p5 = self::factory()->post->create(
             [
                 'post_date' => '2014-02-05 15:30:55',
-            ]
+            ],
         );
         $this->update_post_modified($p5, '2013-12-03 14:43:00');
 
         $q = new WP_Query(
             [
-                'date_query'             => [
+                'date_query' => [
                     'relation' => 'OR',
                     [
                         'relation' => 'AND',
@@ -1183,7 +1183,7 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                             'column' => 'post_date',
                             [
                                 'before' => [
-                                    'year'  => 2012,
+                                    'year' => 2012,
                                     'month' => 4,
                                 ],
                             ],
@@ -1196,11 +1196,11 @@ class Tests_Query_DateQuery extends WP_UnitTestCase
                         ],
                     ],
                 ],
-                'fields'                 => 'ids',
+                'fields' => 'ids',
                 'update_post_meta_cache' => false,
                 'update_post_term_cache' => false,
-                'post_status'            => 'publish',
-            ]
+                'post_status' => 'publish',
+            ],
         );
 
         $expected = [$p1, $p4, $p5];

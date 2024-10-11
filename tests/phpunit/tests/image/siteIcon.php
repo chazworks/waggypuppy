@@ -75,7 +75,7 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
             $sizes['site_icon-' . $size] = [
                 'width ' => $size,
                 'height' => $size,
-                'crop'   => true,
+                'crop' => true,
             ];
         }
 
@@ -92,7 +92,7 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
             $sizes['site_icon-' . $size] = [
                 'width ' => $size,
                 'height' => $size,
-                'crop'   => true,
+                'crop' => true,
             ];
         }
 
@@ -109,10 +109,10 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
     public function test_insert_cropped_attachment()
     {
         $attachment_id = $this->insert_attachment();
-        $parent_url    = get_post($attachment_id)->guid;
-        $cropped       = str_replace(wp_basename($parent_url), 'cropped-test-image.jpg', $parent_url);
+        $parent_url = get_post($attachment_id)->guid;
+        $cropped = str_replace(wp_basename($parent_url), 'cropped-test-image.jpg', $parent_url);
 
-        $object     = wp_copy_parent_attachment_properties($cropped, $attachment_id, 'site-icon');
+        $object = wp_copy_parent_attachment_properties($cropped, $attachment_id, 'site-icon');
         $cropped_id = $this->wp_site_icon->insert_attachment($object, $cropped);
 
         $this->assertIsInt($cropped_id);
@@ -141,7 +141,8 @@ class Tests_WP_Site_Icon extends WP_UnitTestCase
         $this->assertFalse(has_filter('intermediate_image_sizes', [$this->wp_site_icon, 'intermediate_image_sizes']));
 
         $this->wp_site_icon->get_post_metadata('', $attachment_id, '_wp_attachment_backup_sizes', true);
-        $this->assertSame(10, has_filter('intermediate_image_sizes', [$this->wp_site_icon, 'intermediate_image_sizes']));
+        $this->assertSame(10,
+            has_filter('intermediate_image_sizes', [$this->wp_site_icon, 'intermediate_image_sizes']));
 
         wp_delete_attachment($attachment_id, true);
     }

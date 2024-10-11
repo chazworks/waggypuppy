@@ -16,8 +16,8 @@ class Tests_Block_Supports_WpGetBlockStyleVariationNameFromClass extends WP_Unit
      *
      * @dataProvider data_block_style_variation_name_extraction
      *
-     * @param string     $class_string CSS class string.
-     * @param array|null $expected     Expected variation names.
+     * @param string $class_string CSS class string.
+     * @param array|null $expected Expected variation names.
      */
     public function test_block_style_variation_name_extraction($class_string, $expected)
     {
@@ -26,7 +26,7 @@ class Tests_Block_Supports_WpGetBlockStyleVariationNameFromClass extends WP_Unit
         $this->assertSame(
             $expected,
             $actual,
-            'Block style variation names extracted from CSS class string should match'
+            'Block style variation names extracted from CSS class string should match',
         );
     }
 
@@ -41,27 +41,27 @@ class Tests_Block_Supports_WpGetBlockStyleVariationNameFromClass extends WP_Unit
             // @ticket 61312
             'missing class string' => [
                 'class_string' => null,
-                'expected'     => null,
+                'expected' => null,
             ],
             // @ticket 61312
-            'empty class string'   => [
+            'empty class string' => [
                 'class_string' => '',
-                'expected'     => [],
+                'expected' => [],
             ],
             // @ticket 61312
-            'no variation'         => [
+            'no variation' => [
                 'class_string' => 'is-style no-variation',
-                'expected'     => [],
+                'expected' => [],
             ],
             // @ticket 61312
-            'single variation'     => [
+            'single variation' => [
                 'class_string' => 'custom-class is-style-outline',
-                'expected'     => ['outline'],
+                'expected' => ['outline'],
             ],
             // @ticket 61312
-            'multiple variations'  => [
+            'multiple variations' => [
                 'class_string' => 'is-style-light custom-class is-style-outline',
-                'expected'     => ['light', 'outline'],
+                'expected' => ['light', 'outline'],
             ],
         ];
     }

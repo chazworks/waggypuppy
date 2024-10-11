@@ -14,9 +14,9 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
     {
         self::$user_id = $factory->user->create(
             [
-                'role'   => 'administrator',
+                'role' => 'administrator',
                 'locale' => 'de_DE',
-            ]
+            ],
         );
     }
 
@@ -24,7 +24,7 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
     {
         parent::set_up();
 
-        $this->theme_root     = DIR_TESTDATA . '/themedir1';
+        $this->theme_root = DIR_TESTDATA . '/themedir1';
         $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
 
         // /themes is necessary as theme.php functions assume /themes is the root if there is only one root.
@@ -84,8 +84,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
 
         $is_textdomain_loaded_before = is_textdomain_loaded('internationalized-plugin');
-        $actual_output               = i18n_plugin_test();
-        $is_textdomain_loaded_after  = is_textdomain_loaded('internationalized-plugin');
+        $actual_output = i18n_plugin_test();
+        $is_textdomain_loaded_after = is_textdomain_loaded('internationalized-plugin');
 
         remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
@@ -106,8 +106,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin-2.php';
 
         $is_textdomain_loaded_before = is_textdomain_loaded('internationalized-plugin-2');
-        $actual_output               = i18n_plugin_2_test();
-        $is_textdomain_loaded_after  = is_textdomain_loaded('internationalized-plugin-2');
+        $actual_output = i18n_plugin_2_test();
+        $is_textdomain_loaded_after = is_textdomain_loaded('internationalized-plugin-2');
 
         remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
@@ -130,8 +130,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
         require_once get_stylesheet_directory() . '/functions.php';
 
         $is_textdomain_loaded_before = is_textdomain_loaded('internationalized-theme');
-        $actual_output               = i18n_theme_test();
-        $is_textdomain_loaded_after  = is_textdomain_loaded('internationalized-theme');
+        $actual_output = i18n_theme_test();
+        $is_textdomain_loaded_after = is_textdomain_loaded('internationalized-theme');
 
         remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
@@ -189,19 +189,19 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
 
         require_once DIR_TESTDATA . '/plugins/internationalized-plugin.php';
 
-        $actual_output_before        = i18n_plugin_test();
+        $actual_output_before = i18n_plugin_test();
         $is_textdomain_loaded_before = is_textdomain_loaded('internationalized-plugin');
 
         unload_textdomain('internationalized-plugin');
         remove_filter('locale', [$this, 'filter_set_locale_to_german']);
 
-        $actual_output_after        = i18n_plugin_test();
+        $actual_output_after = i18n_plugin_test();
         $is_textdomain_loaded_after = is_textdomain_loaded('internationalized-plugin');
 
         add_filter('locale', [$this, 'filter_set_locale_to_german']);
         load_textdomain('internationalized-plugin', WP_LANG_DIR . '/plugins/internationalized-plugin-de_DE.mo');
 
-        $actual_output_final        = i18n_plugin_test();
+        $actual_output_final = i18n_plugin_test();
         $is_textdomain_loaded_final = is_textdomain_loaded('internationalized-plugin');
 
         unload_textdomain('internationalized-plugin');
@@ -345,7 +345,8 @@ class Tests_L10n_LoadTextdomainJustInTime extends WP_UnitTestCase
      */
     public function test_get_locale_is_called_only_once_per_textdomain_with_custom_lang_dir()
     {
-        load_plugin_textdomain('custom-internationalized-plugin', false, dirname(plugin_basename(__FILE__)) . '/languages');
+        load_plugin_textdomain('custom-internationalized-plugin', false,
+            dirname(plugin_basename(__FILE__)) . '/languages');
 
         $textdomain = 'custom-internationalized-plugin';
 

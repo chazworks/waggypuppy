@@ -31,14 +31,18 @@ class Tests_Functions_ListFiles extends WP_UnitTestCase
      *
      * @dataProvider data_list_files_should_optionally_include_hidden_files
      *
-     * @param string   $filename       The name of the hidden file.
-     * @param bool     $include_hidden Whether to include hidden ("." prefixed) files.
-     * @param string[] $exclusions     List of folders and files to skip.
-     * @param bool     $expected       Whether the file should be included in the results.
+     * @param string $filename The name of the hidden file.
+     * @param bool $include_hidden Whether to include hidden ("." prefixed) files.
+     * @param string[] $exclusions List of folders and files to skip.
+     * @param bool $expected Whether the file should be included in the results.
      */
-    public function test_list_files_should_optionally_include_hidden_files($filename, $include_hidden, $exclusions, $expected)
-    {
-        $test_dir    = get_temp_dir() . 'test-list-files/';
+    public function test_list_files_should_optionally_include_hidden_files(
+        $filename,
+        $include_hidden,
+        $exclusions,
+        $expected,
+    ) {
+        $test_dir = get_temp_dir() . 'test-list-files/';
         $hidden_file = $test_dir . $filename;
 
         mkdir($test_dir);
@@ -65,22 +69,22 @@ class Tests_Functions_ListFiles extends WP_UnitTestCase
     {
         return [
             '$include_hidden = false and no exclusions' => [
-                'filename'       => '.hidden_file',
+                'filename' => '.hidden_file',
                 'include_hidden' => false,
-                'exclusions'     => [],
-                'expected'       => false,
+                'exclusions' => [],
+                'expected' => false,
             ],
-            '$include_hidden = true and no exclusions'  => [
-                'filename'       => '.hidden_file',
+            '$include_hidden = true and no exclusions' => [
+                'filename' => '.hidden_file',
                 'include_hidden' => true,
-                'exclusions'     => [],
-                'expected'       => true,
+                'exclusions' => [],
+                'expected' => true,
             ],
             '$include_hidden = true and an excluded filename' => [
-                'filename'       => '.hidden_file',
+                'filename' => '.hidden_file',
                 'include_hidden' => true,
-                'exclusions'     => ['.hidden_file'],
-                'expected'       => false,
+                'exclusions' => ['.hidden_file'],
+                'expected' => false,
             ],
         ];
     }

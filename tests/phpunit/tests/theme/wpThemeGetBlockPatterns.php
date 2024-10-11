@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for WP_Theme::get_block_patterns.
  *
@@ -83,11 +84,11 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
      * @dataProvider data_get_block_patterns
      *
      * @param string $theme_slug The theme's slug.
-     * @param array  $expected   The expected pattern data.
+     * @param array $expected The expected pattern data.
      */
     public function test_should_return_block_patterns($theme_slug, $expected)
     {
-        $theme    = wp_get_theme($theme_slug);
+        $theme = wp_get_theme($theme_slug);
         $patterns = $theme->get_block_patterns();
         $this->assertSameSets($expected, $patterns);
     }
@@ -108,19 +109,19 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 'cta.php' => [
-                    'title'       => 'Centered Call To Action',
-                    'slug'        => 'block-theme-patterns/cta',
+                    'title' => 'Centered Call To Action',
+                    'slug' => 'block-theme-patterns/cta',
                     'description' => '',
-                    'categories'  => ['call-to-action'],
+                    'categories' => ['call-to-action'],
                 ],
             ],
             $this->get_pattern_cache($theme),
-            'The cache for block theme patterns should match the expected.'
+            'The cache for block theme patterns should match the expected.',
         );
         $theme->delete_pattern_cache();
         $this->assertFalse(
             $this->get_pattern_cache($theme),
-            'The cache for block theme patterns should have been cleared.'
+            'The cache for block theme patterns should have been cleared.',
         );
     }
 
@@ -139,7 +140,7 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
         $this->assertSameSets(
             [],
             $this->get_pattern_cache($theme1),
-            'The cache for block theme should be empty.'
+            'The cache for block theme should be empty.',
         );
 
         switch_theme('block-theme-patterns');
@@ -147,22 +148,24 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
         $theme2 = wp_get_theme();
         $this->assertTrue($theme2->exists(), 'The block-theme-patterns test theme could not be found.');
 
-        $this->assertFalse($this->get_pattern_cache($theme1), 'Cache should not be set for block theme after switch theme.');
-        $this->assertFalse($this->get_pattern_cache($theme2), 'Cache should not be set for block theme patterns before being requested.');
+        $this->assertFalse($this->get_pattern_cache($theme1),
+            'Cache should not be set for block theme after switch theme.');
+        $this->assertFalse($this->get_pattern_cache($theme2),
+            'Cache should not be set for block theme patterns before being requested.');
 
         $theme2->get_block_patterns($theme2);
         $this->assertSameSets(
             [
                 'cta.php' => [
-                    'title'       => 'Centered Call To Action',
-                    'slug'        => 'block-theme-patterns/cta',
+                    'title' => 'Centered Call To Action',
+                    'slug' => 'block-theme-patterns/cta',
                     'description' => '',
-                    'categories'  => ['call-to-action'],
+                    'categories' => ['call-to-action'],
                 ],
 
             ],
             $this->get_pattern_cache($theme2),
-            'The cache for block theme patterns should match the expected.'
+            'The cache for block theme patterns should match the expected.',
         );
     }
 
@@ -175,30 +178,30 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
     {
         return [
             [
-                'theme'    => 'block-theme',
+                'theme' => 'block-theme',
                 'patterns' => [],
             ],
             [
-                'theme'    => 'block-theme-child',
+                'theme' => 'block-theme-child',
                 'patterns' => [],
             ],
             [
-                'theme'    => 'block-theme-patterns',
+                'theme' => 'block-theme-patterns',
                 'patterns' => [
                     'cta.php' => [
-                        'title'       => 'Centered Call To Action',
-                        'slug'        => 'block-theme-patterns/cta',
+                        'title' => 'Centered Call To Action',
+                        'slug' => 'block-theme-patterns/cta',
                         'description' => '',
-                        'categories'  => ['call-to-action'],
+                        'categories' => ['call-to-action'],
                     ],
                 ],
             ],
             [
-                'theme'    => 'broken-theme',
+                'theme' => 'broken-theme',
                 'patterns' => [],
             ],
             [
-                'theme'    => 'invalid',
+                'theme' => 'invalid',
                 'patterns' => [],
             ],
         ];
@@ -220,14 +223,14 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 'cta.php' => [
-                    'title'       => 'Centered Call To Action',
-                    'slug'        => 'block-theme-patterns/cta',
+                    'title' => 'Centered Call To Action',
+                    'slug' => 'block-theme-patterns/cta',
                     'description' => '',
-                    'categories'  => ['call-to-action'],
+                    'categories' => ['call-to-action'],
                 ],
             ],
             $this->get_pattern_cache($theme),
-            'The cache for block theme patterns should be set.'
+            'The cache for block theme patterns should be set.',
         );
 
         // Calling the function while in theme development mode should clear the cache.
@@ -236,7 +239,7 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
         unset($GLOBALS['_wp_tests_development_mode']); // Reset to not pollute other tests.
         $this->assertFalse(
             $this->get_pattern_cache($theme),
-            'The cache for block theme patterns should have been cleared due to theme development mode.'
+            'The cache for block theme patterns should have been cleared due to theme development mode.',
         );
     }
 
@@ -259,19 +262,19 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
         $this->assertSameSets(
             [
                 'cta.php' => [
-                    'title'       => 'Centered Call To Action',
-                    'slug'        => 'block-theme-patterns/cta',
+                    'title' => 'Centered Call To Action',
+                    'slug' => 'block-theme-patterns/cta',
                     'description' => '',
-                    'categories'  => ['call-to-action'],
+                    'categories' => ['call-to-action'],
                 ],
             ],
             $this->get_pattern_cache($theme),
-            'The cache for block theme patterns should match the expected.'
+            'The cache for block theme patterns should match the expected.',
         );
         $theme->delete_pattern_cache();
         $this->assertFalse(
             $this->get_pattern_cache($theme),
-            'The cache for block theme patterns should have been cleared.'
+            'The cache for block theme patterns should have been cleared.',
         );
     }
 
@@ -288,25 +291,25 @@ class Tests_Theme_WPThemeGetBlockPatterns extends WP_UnitTestCase
         $theme = wp_get_theme('block-theme-patterns');
         $theme->get_block_patterns();
 
-        $transient_key   = 'wp_theme_files_patterns-' . $this->get_cache_hash($theme);
+        $transient_key = 'wp_theme_files_patterns-' . $this->get_cache_hash($theme);
         $transient_value = get_site_transient($transient_key);
 
         $this->assertSameSets(
             [
                 'cta.php' => [
-                    'title'       => 'Centered Call To Action',
-                    'slug'        => 'block-theme-patterns/cta',
+                    'title' => 'Centered Call To Action',
+                    'slug' => 'block-theme-patterns/cta',
                     'description' => '',
-                    'categories'  => ['call-to-action'],
+                    'categories' => ['call-to-action'],
                 ],
             ],
             $transient_value['patterns'],
-            'The transient value should match the expected.'
+            'The transient value should match the expected.',
         );
 
         $this->assertNotEmpty(
             $this->get_pattern_cache($theme),
-            'The cache for block theme patterns is empty.'
+            'The cache for block theme patterns is empty.',
         );
     }
 }

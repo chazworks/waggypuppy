@@ -42,32 +42,37 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
-                    'args'                => $this->get_collection_params(),
+                    'args' => $this->get_collection_params(),
                 ],
                 [
-                    'methods'             => WP_REST_Server::CREATABLE,
-                    'callback'            => [$this, 'create_item'],
+                    'methods' => WP_REST_Server::CREATABLE,
+                    'callback' => [$this, 'create_item'],
                     'permission_callback' => [$this, 'create_item_permissions_check'],
-                    'args'                => [
-                        'slug'   => [
-                            'type'        => 'string',
-                            'required'    => true,
+                    'args' => [
+                        'slug' => [
+                            'type' => 'string',
+                            'required' => true,
                             'description' => __('wp.org plugin directory slug.'),
-                            'pattern'     => '[\w\-]+',
+                            'pattern' => '[\w\-]+',
                         ],
                         'status' => [
                             'description' => __('The plugin activation status.'),
-                            'type'        => 'string',
-                            'enum'        => is_multisite() ? ['inactive', 'active', 'network-active'] : ['inactive', 'active'],
-                            'default'     => 'inactive',
+                            'type' => 'string',
+                            'enum' => is_multisite()
+                                ? ['inactive', 'active', 'network-active']
+                                : [
+                                    'inactive',
+                                    'active',
+                                ],
+                            'default' => 'inactive',
                         ],
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -75,50 +80,50 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             '/' . $this->rest_base . '/(?P<plugin>' . self::PATTERN . ')',
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_item'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_item'],
                     'permission_callback' => [$this, 'get_item_permissions_check'],
                 ],
                 [
-                    'methods'             => WP_REST_Server::EDITABLE,
-                    'callback'            => [$this, 'update_item'],
+                    'methods' => WP_REST_Server::EDITABLE,
+                    'callback' => [$this, 'update_item'],
                     'permission_callback' => [$this, 'update_item_permissions_check'],
-                    'args'                => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
+                    'args' => $this->get_endpoint_args_for_item_schema(WP_REST_Server::EDITABLE),
                 ],
                 [
-                    'methods'             => WP_REST_Server::DELETABLE,
-                    'callback'            => [$this, 'delete_item'],
+                    'methods' => WP_REST_Server::DELETABLE,
+                    'callback' => [$this, 'delete_item'],
                     'permission_callback' => [$this, 'delete_item_permissions_check'],
                 ],
-                'args'   => [
+                'args' => [
                     'context' => $this->get_context_param(['default' => 'view']),
-                    'plugin'  => [
-                        'type'              => 'string',
-                        'pattern'           => self::PATTERN,
+                    'plugin' => [
+                        'type' => 'string',
+                        'pattern' => self::PATTERN,
                         'validate_callback' => [$this, 'validate_plugin_param'],
                         'sanitize_callback' => [$this, 'sanitize_plugin_param'],
                     ],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Checks if a given request has access to get plugins.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 5.5.0
+     *
      */
     public function get_items_permissions_check($request)
     {
-        if (! current_user_can('activate_plugins')) {
+        if (!current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_cannot_view_plugins',
                 __('Sorry, you are not allowed to manage plugins for this site.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -128,10 +133,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Retrieves a collection of plugins.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.5.0
+     *
      */
     public function get_items($request)
     {
@@ -146,7 +151,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
 
             $data['_file'] = $file;
 
-            if (! $this->does_plugin_match_request($request, $data)) {
+            if (!$this->does_plugin_match_request($request, $data)) {
                 continue;
             }
 
@@ -159,18 +164,18 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to get a specific plugin.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
+     * @since 5.5.0
+     *
      */
     public function get_item_permissions_check($request)
     {
-        if (! current_user_can('activate_plugins')) {
+        if (!current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_cannot_view_plugin',
                 __('Sorry, you are not allowed to manage plugins for this site.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -186,10 +191,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Retrieves one plugin from the site.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.5.0
+     *
      */
     public function get_item($request)
     {
@@ -210,59 +215,61 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
      * On multisite, this hides non-active network only plugins if the user does not have permission
      * to manage network plugins.
      *
-     * @since 5.5.0
-     *
      * @param string $plugin The plugin file to check.
      * @return true|WP_Error True if can read, a WP_Error instance otherwise.
+     * @since 5.5.0
+     *
      */
     protected function check_read_permission($plugin)
     {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        if (! $this->is_plugin_installed($plugin)) {
+        if (!$this->is_plugin_installed($plugin)) {
             return new WP_Error('rest_plugin_not_found', __('Plugin not found.'), ['status' => 404]);
         }
 
-        if (! is_multisite()) {
+        if (!is_multisite()) {
             return true;
         }
 
-        if (! is_network_only_plugin($plugin) || is_plugin_active($plugin) || current_user_can('manage_network_plugins')) {
+        if (!is_network_only_plugin($plugin)
+            || is_plugin_active($plugin)
+            || current_user_can('manage_network_plugins')) {
             return true;
         }
 
         return new WP_Error(
             'rest_cannot_view_plugin',
             __('Sorry, you are not allowed to manage this plugin.'),
-            ['status' => rest_authorization_required_code()]
+            ['status' => rest_authorization_required_code()],
         );
     }
 
     /**
      * Checks if a given request has access to upload plugins.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
+     * @since 5.5.0
+     *
      */
     public function create_item_permissions_check($request)
     {
-        if (! current_user_can('install_plugins')) {
+        if (!current_user_can('install_plugins')) {
             return new WP_Error(
                 'rest_cannot_install_plugin',
                 __('Sorry, you are not allowed to install plugins on this site.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
-        if ('inactive' !== $request['status'] && ! current_user_can('activate_plugins')) {
+        if ('inactive' !== $request['status'] && !current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_cannot_activate_plugin',
                 __('Sorry, you are not allowed to activate plugins.'),
                 [
                     'status' => rest_authorization_required_code(),
-                ]
+                ],
             );
         }
 
@@ -272,12 +279,12 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Uploads a plugin and optionally activates it.
      *
+     * @param WP_REST_Request $request Full details about the request.
+     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      * @since 5.5.0
      *
      * @global WP_Filesystem_Base $wp_filesystem waggypuppy filesystem subclass.
      *
-     * @param WP_REST_Request $request Full details about the request.
-     * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */
     public function create_item($request)
     {
@@ -299,12 +306,12 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         $api = plugins_api(
             'plugin_information',
             [
-                'slug'   => $slug,
+                'slug' => $slug,
                 'fields' => [
-                    'sections'       => false,
+                    'sections' => false,
                     'language_packs' => true,
                 ],
-            ]
+            ],
         );
 
         if (is_wp_error($api)) {
@@ -317,7 +324,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return $api;
         }
 
-        $skin     = new WP_Ajax_Upgrader_Skin();
+        $skin = new WP_Ajax_Upgrader_Skin();
         $upgrader = new Plugin_Upgrader($skin);
 
         $result = $upgrader->install($api->download_link);
@@ -345,29 +352,30 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         if (is_null($result)) {
             // Pass through the error from WP_Filesystem if one was raised.
             if ($wp_filesystem instanceof WP_Filesystem_Base
-                && is_wp_error($wp_filesystem->errors) && $wp_filesystem->errors->has_errors()
+                && is_wp_error($wp_filesystem->errors)
+                && $wp_filesystem->errors->has_errors()
             ) {
                 return new WP_Error(
                     'unable_to_connect_to_filesystem',
                     $wp_filesystem->errors->get_error_message(),
-                    ['status' => 500]
+                    ['status' => 500],
                 );
             }
 
             return new WP_Error(
                 'unable_to_connect_to_filesystem',
                 __('Unable to connect to the filesystem. Please confirm your credentials.'),
-                ['status' => 500]
+                ['status' => 500],
             );
         }
 
         $file = $upgrader->plugin_info();
 
-        if (! $file) {
+        if (!$file) {
             return new WP_Error(
                 'unable_to_determine_installed_plugin',
                 __('Unable to determine what plugin was installed.'),
-                ['status' => 500]
+                ['status' => 500],
             );
         }
 
@@ -392,16 +400,16 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
 
         $language_packs = array_map(
             static function ($item) {
-                return (object) $item;
+                return (object)$item;
             },
-            $api->language_packs
+            $api->language_packs,
         );
 
         $language_packs = array_filter(
             $language_packs,
             static function ($pack) use ($installed_locales) {
                 return in_array($pack->language, $installed_locales, true);
-            }
+            },
         );
 
         if ($language_packs) {
@@ -411,13 +419,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             $lp_upgrader->bulk_upgrade($language_packs);
         }
 
-        $path          = WP_PLUGIN_DIR . '/' . $file;
-        $data          = get_plugin_data($path, false, false);
+        $path = WP_PLUGIN_DIR . '/' . $file;
+        $data = get_plugin_data($path, false, false);
         $data['_file'] = $file;
 
         $response = $this->prepare_item_for_response($data, $request);
         $response->set_status(201);
-        $response->header('Location', rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, substr($file, 0, - 4))));
+        $response->header('Location',
+            rest_url(sprintf('%s/%s/%s', $this->namespace, $this->rest_base, substr($file, 0, -4))));
 
         return $response;
     }
@@ -425,20 +434,20 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to update a specific plugin.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to update the item, WP_Error object otherwise.
+     * @since 5.5.0
+     *
      */
     public function update_item_permissions_check($request)
     {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        if (! current_user_can('activate_plugins')) {
+        if (!current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_cannot_manage_plugins',
                 __('Sorry, you are not allowed to manage plugins for this site.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -464,10 +473,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Updates one plugin.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.5.0
+     *
      */
     public function update_item($request)
     {
@@ -499,26 +508,26 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Checks if a given request has access to delete a specific plugin.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
+     * @since 5.5.0
+     *
      */
     public function delete_item_permissions_check($request)
     {
-        if (! current_user_can('activate_plugins')) {
+        if (!current_user_can('activate_plugins')) {
             return new WP_Error(
                 'rest_cannot_manage_plugins',
                 __('Sorry, you are not allowed to manage plugins for this site.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
-        if (! current_user_can('delete_plugins')) {
+        if (!current_user_can('delete_plugins')) {
             return new WP_Error(
                 'rest_cannot_manage_plugins',
                 __('Sorry, you are not allowed to delete plugins for this site.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -534,10 +543,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Deletes one plugin from the site.
      *
-     * @since 5.5.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.5.0
+     *
      */
     public function delete_item($request)
     {
@@ -554,7 +563,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return new WP_Error(
                 'rest_cannot_delete_active_plugin',
                 __('Cannot delete an active plugin. Please deactivate it first.'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 
@@ -564,7 +573,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         }
 
         $prepared = $this->prepare_item_for_response($data, $request);
-        $deleted  = delete_plugins([$request['plugin']]);
+        $deleted = delete_plugins([$request['plugin']]);
 
         if (is_wp_error($deleted)) {
             $deleted->add_data(['status' => 500]);
@@ -574,44 +583,44 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
 
         return new WP_REST_Response(
             [
-                'deleted'  => true,
+                'deleted' => true,
                 'previous' => $prepared->get_data(),
-            ]
+            ],
         );
     }
 
     /**
      * Prepares the plugin for the REST response.
      *
-     * @since 5.5.0
-     *
-     * @param array           $item    Unmarked up and untranslated plugin data from {@see get_plugin_data()}.
+     * @param array $item Unmarked up and untranslated plugin data from {@see get_plugin_data()}.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 5.5.0
+     *
      */
     public function prepare_item_for_response($item, $request)
     {
         $fields = $this->get_fields_for_response($request);
 
-        $item   = _get_plugin_data_markup_translate($item['_file'], $item, false);
+        $item = _get_plugin_data_markup_translate($item['_file'], $item, false);
         $marked = _get_plugin_data_markup_translate($item['_file'], $item, true);
 
         $data = [
-            'plugin'       => substr($item['_file'], 0, - 4),
-            'status'       => $this->get_plugin_status($item['_file']),
-            'name'         => $item['Name'],
-            'plugin_uri'   => $item['PluginURI'],
-            'author'       => $item['Author'],
-            'author_uri'   => $item['AuthorURI'],
-            'description'  => [
-                'raw'      => $item['Description'],
+            'plugin' => substr($item['_file'], 0, -4),
+            'status' => $this->get_plugin_status($item['_file']),
+            'name' => $item['Name'],
+            'plugin_uri' => $item['PluginURI'],
+            'author' => $item['Author'],
+            'author_uri' => $item['AuthorURI'],
+            'description' => [
+                'raw' => $item['Description'],
                 'rendered' => $marked['Description'],
             ],
-            'version'      => $item['Version'],
+            'version' => $item['Version'],
             'network_only' => $item['Network'],
-            'requires_wp'  => $item['RequiresWP'],
+            'requires_wp' => $item['RequiresWP'],
             'requires_php' => $item['RequiresPHP'],
-            'textdomain'   => $item['TextDomain'],
+            'textdomain' => $item['TextDomain'],
         ];
 
         $data = $this->add_additional_fields_to_object($data, $request);
@@ -625,11 +634,11 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         /**
          * Filters plugin data for a REST API response.
          *
+         * @param WP_REST_Response $response The response object.
+         * @param array $item The plugin item from {@see get_plugin_data()}.
+         * @param WP_REST_Request $request The request object.
          * @since 5.5.0
          *
-         * @param WP_REST_Response $response The response object.
-         * @param array            $item     The plugin item from {@see get_plugin_data()}.
-         * @param WP_REST_Request  $request  The request object.
          */
         return apply_filters('rest_prepare_plugin', $response, $item, $request);
     }
@@ -637,10 +646,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Prepares links for the request.
      *
-     * @since 5.5.0
-     *
      * @param array $item The plugin item.
      * @return array[]
+     * @since 5.5.0
+     *
      */
     protected function prepare_links($item)
     {
@@ -651,8 +660,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
                         '%s/%s/%s',
                         $this->namespace,
                         $this->rest_base,
-                        substr($item['_file'], 0, - 4)
-                    )
+                        substr($item['_file'], 0, -4),
+                    ),
                 ),
             ],
         ];
@@ -661,20 +670,20 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Gets the plugin header data for a plugin.
      *
-     * @since 5.5.0
-     *
      * @param string $plugin The plugin file to get data for.
      * @return array|WP_Error The plugin data, or a WP_Error if the plugin is not installed.
+     * @since 5.5.0
+     *
      */
     protected function get_plugin_data($plugin)
     {
         $plugins = get_plugins();
 
-        if (! isset($plugins[$plugin])) {
+        if (!isset($plugins[$plugin])) {
             return new WP_Error('rest_plugin_not_found', __('Plugin not found.'), ['status' => 404]);
         }
 
-        $data          = $plugins[$plugin];
+        $data = $plugins[$plugin];
         $data['_file'] = $plugin;
 
         return $data;
@@ -683,10 +692,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Get's the activation status for a plugin.
      *
-     * @since 5.5.0
-     *
      * @param string $plugin The plugin file to check.
      * @return string Either 'network-active', 'active' or 'inactive'.
+     * @since 5.5.0
+     *
      */
     protected function get_plugin_status($plugin)
     {
@@ -704,36 +713,39 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Handle updating a plugin's status.
      *
-     * @since 5.5.0
-     *
-     * @param string $plugin         The plugin file to update.
-     * @param string $new_status     The plugin's new status.
+     * @param string $plugin The plugin file to update.
+     * @param string $new_status The plugin's new status.
      * @param string $current_status The plugin's current status.
      * @return true|WP_Error
+     * @since 5.5.0
+     *
      */
     protected function plugin_status_permission_check($plugin, $new_status, $current_status)
     {
-        if (is_multisite() && ('network-active' === $current_status || 'network-active' === $new_status) && ! current_user_can('manage_network_plugins')) {
+        if (is_multisite()
+            && ('network-active' === $current_status || 'network-active' === $new_status)
+            && !current_user_can('manage_network_plugins')) {
             return new WP_Error(
                 'rest_cannot_manage_network_plugins',
                 __('Sorry, you are not allowed to manage network plugins.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
-        if (('active' === $new_status || 'network-active' === $new_status) && ! current_user_can('activate_plugin', $plugin)) {
+        if (('active' === $new_status || 'network-active' === $new_status)
+            && !current_user_can('activate_plugin', $plugin)) {
             return new WP_Error(
                 'rest_cannot_activate_plugin',
                 __('Sorry, you are not allowed to activate this plugin.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
-        if ('inactive' === $new_status && ! current_user_can('deactivate_plugin', $plugin)) {
+        if ('inactive' === $new_status && !current_user_can('deactivate_plugin', $plugin)) {
             return new WP_Error(
                 'rest_cannot_deactivate_plugin',
                 __('Sorry, you are not allowed to deactivate this plugin.'),
-                ['status' => rest_authorization_required_code()]
+                ['status' => rest_authorization_required_code()],
             );
         }
 
@@ -743,12 +755,12 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Handle updating a plugin's status.
      *
-     * @since 5.5.0
-     *
-     * @param string $plugin         The plugin file to update.
-     * @param string $new_status     The plugin's new status.
+     * @param string $plugin The plugin file to update.
+     * @param string $new_status The plugin's new status.
      * @param string $current_status The plugin's current status.
      * @return true|WP_Error
+     * @since 5.5.0
+     *
      */
     protected function handle_plugin_status($plugin, $new_status, $current_status)
     {
@@ -764,11 +776,11 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
 
         $network_activate = 'network-active' === $new_status;
 
-        if (is_multisite() && ! $network_activate && is_network_only_plugin($plugin)) {
+        if (is_multisite() && !$network_activate && is_network_only_plugin($plugin)) {
             return new WP_Error(
                 'rest_network_only_plugin',
                 __('Network only plugin must be network activated.'),
-                ['status' => 400]
+                ['status' => 400],
             );
         }
 
@@ -786,14 +798,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Checks that the "plugin" parameter is a valid path.
      *
-     * @since 5.5.0
-     *
      * @param string $file The plugin file parameter.
      * @return bool
+     * @since 5.5.0
+     *
      */
     public function validate_plugin_param($file)
     {
-        if (! is_string($file) || ! preg_match('/' . self::PATTERN . '/u', $file)) {
+        if (!is_string($file) || !preg_match('/' . self::PATTERN . '/u', $file)) {
             return false;
         }
 
@@ -805,10 +817,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Sanitizes the "plugin" parameter to be a proper plugin file with ".php" appended.
      *
-     * @since 5.5.0
-     *
      * @param string $file The plugin file parameter.
      * @return string
+     * @since 5.5.0
+     *
      */
     public function sanitize_plugin_param($file)
     {
@@ -818,11 +830,11 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Checks if the plugin matches the requested parameters.
      *
+     * @param WP_REST_Request $request The request to require the plugin matches against.
+     * @param array $item The plugin item.
+     * @return bool
      * @since 5.5.0
      *
-     * @param WP_REST_Request $request The request to require the plugin matches against.
-     * @param array           $item    The plugin item.
-     * @return bool
      */
     protected function does_plugin_match_request($request, $item)
     {
@@ -838,14 +850,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
                 }
             }
 
-            if (! $matched_search) {
+            if (!$matched_search) {
                 return false;
             }
         }
 
         $status = $request['status'];
 
-        if ($status && ! in_array($this->get_plugin_status($item['_file']), $status, true)) {
+        if ($status && !in_array($this->get_plugin_status($item['_file']), $status, true)) {
             return false;
         }
 
@@ -855,10 +867,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Checks if the plugin is installed.
      *
-     * @since 5.5.0
-     *
      * @param string $plugin The plugin file.
      * @return bool
+     * @since 5.5.0
+     *
      */
     protected function is_plugin_installed($plugin)
     {
@@ -870,9 +882,9 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
      *
      * Only the 'Direct' filesystem transport, and SSH/FTP when credentials are stored are supported at present.
      *
+     * @return true|WP_Error True if filesystem is available, WP_Error otherwise.
      * @since 5.5.0
      *
-     * @return true|WP_Error True if filesystem is available, WP_Error otherwise.
      */
     protected function is_filesystem_available()
     {
@@ -890,15 +902,16 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
             return true;
         }
 
-        return new WP_Error('fs_unavailable', __('The filesystem is currently unavailable for managing plugins.'), ['status' => 500]);
+        return new WP_Error('fs_unavailable', __('The filesystem is currently unavailable for managing plugins.'),
+            ['status' => 500]);
     }
 
     /**
      * Retrieves the plugin's schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 5.5.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -907,94 +920,94 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
         }
 
         $this->schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'plugin',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'plugin',
+            'type' => 'object',
             'properties' => [
-                'plugin'       => [
+                'plugin' => [
                     'description' => __('The plugin file.'),
-                    'type'        => 'string',
-                    'pattern'     => self::PATTERN,
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'pattern' => self::PATTERN,
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'status'       => [
+                'status' => [
                     'description' => __('The plugin activation status.'),
-                    'type'        => 'string',
-                    'enum'        => is_multisite() ? ['inactive', 'active', 'network-active'] : ['inactive', 'active'],
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'enum' => is_multisite() ? ['inactive', 'active', 'network-active'] : ['inactive', 'active'],
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'name'         => [
+                'name' => [
                     'description' => __('The plugin name.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'plugin_uri'   => [
+                'plugin_uri' => [
                     'description' => __('The plugin\'s website address.'),
-                    'type'        => 'string',
-                    'format'      => 'uri',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit'],
+                    'type' => 'string',
+                    'format' => 'uri',
+                    'readonly' => true,
+                    'context' => ['view', 'edit'],
                 ],
-                'author'       => [
+                'author' => [
                     'description' => __('The plugin author.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit'],
                 ],
-                'author_uri'   => [
+                'author_uri' => [
                     'description' => __('Plugin author\'s website address.'),
-                    'type'        => 'string',
-                    'format'      => 'uri',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit'],
+                    'type' => 'string',
+                    'format' => 'uri',
+                    'readonly' => true,
+                    'context' => ['view', 'edit'],
                 ],
-                'description'  => [
+                'description' => [
                     'description' => __('The plugin description.'),
-                    'type'        => 'object',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit'],
-                    'properties'  => [
-                        'raw'      => [
+                    'type' => 'object',
+                    'readonly' => true,
+                    'context' => ['view', 'edit'],
+                    'properties' => [
+                        'raw' => [
                             'description' => __('The raw plugin description.'),
-                            'type'        => 'string',
+                            'type' => 'string',
                         ],
                         'rendered' => [
                             'description' => __('The plugin description formatted for display.'),
-                            'type'        => 'string',
+                            'type' => 'string',
                         ],
                     ],
                 ],
-                'version'      => [
+                'version' => [
                     'description' => __('The plugin version number.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit'],
                 ],
                 'network_only' => [
                     'description' => __('Whether the plugin can only be activated network-wide.'),
-                    'type'        => 'boolean',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'boolean',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'requires_wp'  => [
+                'requires_wp' => [
                     'description' => __('Minimum required version of waggypuppy.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
                 'requires_php' => [
                     'description' => __('Minimum required version of PHP.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'textdomain'   => [
+                'textdomain' => [
                     'description' => __('The plugin\'s text domain.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit'],
                 ],
             ],
         ];
@@ -1005,9 +1018,9 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
     /**
      * Retrieves the query params for the collections.
      *
+     * @return array Query parameters for the collection.
      * @since 5.5.0
      *
-     * @return array Query parameters for the collection.
      */
     public function get_collection_params()
     {
@@ -1017,8 +1030,8 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller
 
         $query_params['status'] = [
             'description' => __('Limits results to plugins with the given status.'),
-            'type'        => 'array',
-            'items'       => [
+            'type' => 'array',
+            'items' => [
                 'type' => 'string',
                 'enum' => is_multisite() ? ['inactive', 'active', 'network-active'] : ['inactive', 'active'],
             ],

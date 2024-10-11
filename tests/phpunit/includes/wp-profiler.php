@@ -25,7 +25,7 @@ class WPProfiler
      */
     public function __construct()
     {
-        $this->stack   = [];
+        $this->stack = [];
         $this->profile = [];
     }
 
@@ -33,7 +33,7 @@ class WPProfiler
     {
         $time = $this->microtime();
 
-        if (! $this->stack) {
+        if (!$this->stack) {
             // Log all actions and filters.
             add_filter('all', [$this, 'log_filter']);
         }
@@ -48,15 +48,15 @@ class WPProfiler
         global $wp_object_cache;
 
         $this->stack[] = [
-            'start'               => $time,
-            'name'                => $name,
-            'cache_cold_hits'     => $wp_object_cache->cold_cache_hits,
-            'cache_warm_hits'     => $wp_object_cache->warm_cache_hits,
-            'cache_misses'        => $wp_object_cache->cache_misses,
+            'start' => $time,
+            'name' => $name,
+            'cache_cold_hits' => $wp_object_cache->cold_cache_hits,
+            'cache_warm_hits' => $wp_object_cache->warm_cache_hits,
+            'cache_misses' => $wp_object_cache->cache_misses,
             'cache_dirty_objects' => $this->_dirty_objects_count($wp_object_cache->dirty_objects),
-            'actions'             => [],
-            'filters'             => [],
-            'queries'             => [],
+            'actions' => [],
+            'filters' => [],
+            'queries' => [],
         ];
     }
 
@@ -76,33 +76,34 @@ class WPProfiler
         if (isset($this->profile[$name])) {
             $this->profile[$name]['time'] += $time;
             ++$this->profile[$name]['calls'];
-            $this->profile[$name]['cache_cold_hits']    += ($wp_object_cache->cold_cache_hits - $item['cache_cold_hits']);
-            $this->profile[$name]['cache_warm_hits']    += ($wp_object_cache->warm_cache_hits - $item['cache_warm_hits']);
-            $this->profile[$name]['cache_misses']       += ($wp_object_cache->cache_misses - $item['cache_misses']);
-            $this->profile[$name]['cache_dirty_objects'] = array_add($this->profile[$name]['cache_dirty_objects'], $cache_dirty_delta);
-            $this->profile[$name]['actions']             = array_add($this->profile[$name]['actions'], $item['actions']);
-            $this->profile[$name]['filters']             = array_add($this->profile[$name]['filters'], $item['filters']);
-            $this->profile[$name]['queries']             = array_add($this->profile[$name]['queries'], $item['queries']);
+            $this->profile[$name]['cache_cold_hits'] += ($wp_object_cache->cold_cache_hits - $item['cache_cold_hits']);
+            $this->profile[$name]['cache_warm_hits'] += ($wp_object_cache->warm_cache_hits - $item['cache_warm_hits']);
+            $this->profile[$name]['cache_misses'] += ($wp_object_cache->cache_misses - $item['cache_misses']);
+            $this->profile[$name]['cache_dirty_objects'] = array_add($this->profile[$name]['cache_dirty_objects'],
+                $cache_dirty_delta);
+            $this->profile[$name]['actions'] = array_add($this->profile[$name]['actions'], $item['actions']);
+            $this->profile[$name]['filters'] = array_add($this->profile[$name]['filters'], $item['filters']);
+            $this->profile[$name]['queries'] = array_add($this->profile[$name]['queries'], $item['queries']);
             #$this->_query_summary($item['queries'], $this->profile[$name]['queries']);
 
         } else {
             $queries = [];
             $this->_query_summary($item['queries'], $queries);
             $this->profile[$name] = [
-                'time'                        => $time,
-                'calls'                       => 1,
-                'cache_cold_hits'             => ($wp_object_cache->cold_cache_hits - $item['cache_cold_hits']),
-                'cache_warm_hits'             => ($wp_object_cache->warm_cache_hits - $item['cache_warm_hits']),
-                'cache_misses'                => ($wp_object_cache->cache_misses - $item['cache_misses']),
-                'cache_dirty_objects'         => $cache_dirty_delta,
-                'actions'                     => $item['actions'],
-                'filters'                     => $item['filters'],
+                'time' => $time,
+                'calls' => 1,
+                'cache_cold_hits' => ($wp_object_cache->cold_cache_hits - $item['cache_cold_hits']),
+                'cache_warm_hits' => ($wp_object_cache->warm_cache_hits - $item['cache_warm_hits']),
+                'cache_misses' => ($wp_object_cache->cache_misses - $item['cache_misses']),
+                'cache_dirty_objects' => $cache_dirty_delta,
+                'actions' => $item['actions'],
+                'filters' => $item['filters'],
                 #               'queries' => $item['queries'],
-                                    'queries' => $queries,
+                'queries' => $queries,
             ];
         }
 
-        if (! $this->stack) {
+        if (!$this->stack) {
             remove_filter('all', [$this, 'log_filter']);
         }
     }
@@ -110,7 +111,7 @@ class WPProfiler
     public function microtime($since = 0.0)
     {
         [$usec, $sec] = explode(' ', microtime());
-        return (float) $sec + (float) $usec - $since;
+        return (float)$sec + (float)$usec - $since;
     }
 
     public function log_filter($tag)
@@ -210,7 +211,9 @@ class WPProfiler
 
         printf("\nname                      calls   time action filter   warm   cold misses  dirty\n");
         foreach ($results as $name => $stats) {
-            printf("%24.24s %6d %6.4f %6d %6d %6d %6d %6d %6d\n", $name, $stats['calls'], $stats['time'], array_sum($stats['actions']), array_sum($stats['filters']), $stats['cache_warm_hits'], $stats['cache_cold_hits'], $stats['cache_misses'], array_sum($stats['cache_dirty_objects']));
+            printf("%24.24s %6d %6.4f %6d %6d %6d %6d %6d %6d\n", $name, $stats['calls'], $stats['time'],
+                array_sum($stats['actions']), array_sum($stats['filters']), $stats['cache_warm_hits'],
+                $stats['cache_cold_hits'], $stats['cache_misses'], array_sum($stats['cache_dirty_objects']));
         }
     }
 }

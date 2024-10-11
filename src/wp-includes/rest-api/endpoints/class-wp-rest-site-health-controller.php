@@ -29,9 +29,9 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Site Health controller constructor.
      *
+     * @param WP_Site_Health $site_health An instance of the site health class.
      * @since 5.6.0
      *
-     * @param WP_Site_Health $site_health An instance of the site health class.
      */
     public function __construct($site_health)
     {
@@ -56,18 +56,18 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
             sprintf(
                 '/%s/%s',
                 $this->rest_base,
-                'background-updates'
+                'background-updates',
             ),
             [
                 [
-                    'methods'             => 'GET',
-                    'callback'            => [$this, 'test_background_updates'],
+                    'methods' => 'GET',
+                    'callback' => [$this, 'test_background_updates'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('background_updates');
                     },
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -75,18 +75,18 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
             sprintf(
                 '/%s/%s',
                 $this->rest_base,
-                'loopback-requests'
+                'loopback-requests',
             ),
             [
                 [
-                    'methods'             => 'GET',
-                    'callback'            => [$this, 'test_loopback_requests'],
+                    'methods' => 'GET',
+                    'callback' => [$this, 'test_loopback_requests'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('loopback_requests');
                     },
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -94,18 +94,18 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
             sprintf(
                 '/%s/%s',
                 $this->rest_base,
-                'https-status'
+                'https-status',
             ),
             [
                 [
-                    'methods'             => 'GET',
-                    'callback'            => [$this, 'test_https_status'],
+                    'methods' => 'GET',
+                    'callback' => [$this, 'test_https_status'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('https_status');
                     },
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -113,18 +113,18 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
             sprintf(
                 '/%s/%s',
                 $this->rest_base,
-                'dotorg-communication'
+                'dotorg-communication',
             ),
             [
                 [
-                    'methods'             => 'GET',
-                    'callback'            => [$this, 'test_dotorg_communication'],
+                    'methods' => 'GET',
+                    'callback' => [$this, 'test_dotorg_communication'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('dotorg_communication');
                     },
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
@@ -132,33 +132,33 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
             sprintf(
                 '/%s/%s',
                 $this->rest_base,
-                'authorization-header'
+                'authorization-header',
             ),
             [
                 [
-                    'methods'             => 'GET',
-                    'callback'            => [$this, 'test_authorization_header'],
+                    'methods' => 'GET',
+                    'callback' => [$this, 'test_authorization_header'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('authorization_header');
                     },
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
 
         register_rest_route(
             $this->namespace,
             sprintf(
                 '/%s',
-                'directory-sizes'
+                'directory-sizes',
             ),
             [
-                'methods'             => 'GET',
-                'callback'            => [$this, 'get_directory_sizes'],
+                'methods' => 'GET',
+                'callback' => [$this, 'get_directory_sizes'],
                 'permission_callback' => function () {
-                    return $this->validate_request_permission('directory_sizes') && ! is_multisite();
+                    return $this->validate_request_permission('directory_sizes') && !is_multisite();
                 },
-            ]
+            ],
         );
 
         register_rest_route(
@@ -166,27 +166,27 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
             sprintf(
                 '/%s/%s',
                 $this->rest_base,
-                'page-cache'
+                'page-cache',
             ),
             [
                 [
-                    'methods'             => 'GET',
-                    'callback'            => [$this, 'test_page_cache'],
+                    'methods' => 'GET',
+                    'callback' => [$this, 'test_page_cache'],
                     'permission_callback' => function () {
                         return $this->validate_request_permission('page_cache');
                     },
                 ],
-            ]
+            ],
         );
     }
 
     /**
      * Validates if the current user can request this REST endpoint.
      *
-     * @since 5.6.0
-     *
      * @param string $check The endpoint check being ran.
      * @return bool
+     * @since 5.6.0
+     *
      */
     protected function validate_request_permission($check)
     {
@@ -195,10 +195,10 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
         /**
          * Filters the capability needed to run a given Site Health check.
          *
+         * @param string $default_capability The default capability required for this check.
+         * @param string $check The Site Health check being performed.
          * @since 5.6.0
          *
-         * @param string $default_capability The default capability required for this check.
-         * @param string $check              The Site Health check being performed.
          */
         $capability = apply_filters("site_health_test_rest_capability_{$check}", $default_capability, $check);
 
@@ -208,9 +208,9 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Checks if background updates work as expected.
      *
+     * @return array
      * @since 5.6.0
      *
-     * @return array
      */
     public function test_background_updates()
     {
@@ -221,9 +221,9 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Checks that the site can reach the wp.org API.
      *
+     * @return array
      * @since 5.6.0
      *
-     * @return array
      */
     public function test_dotorg_communication()
     {
@@ -234,9 +234,9 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Checks that loopbacks can be performed.
      *
+     * @return array
      * @since 5.6.0
      *
-     * @return array
      */
     public function test_loopback_requests()
     {
@@ -247,9 +247,9 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Checks that the site's frontend can be accessed over HTTPS.
      *
+     * @return array
      * @since 5.7.0
      *
-     * @return array
      */
     public function test_https_status()
     {
@@ -260,9 +260,9 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Checks that the authorization header is valid.
      *
+     * @return array
      * @since 5.6.0
      *
-     * @return array
      */
     public function test_authorization_header()
     {
@@ -273,9 +273,9 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Checks that full page cache is active.
      *
+     * @return array The test result.
      * @since 6.1.0
      *
-     * @return array The test result.
      */
     public function test_page_cache()
     {
@@ -286,20 +286,20 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Gets the current directory sizes for this install.
      *
+     * @return array|WP_Error
      * @since 5.6.0
      *
-     * @return array|WP_Error
      */
     public function get_directory_sizes()
     {
-        if (! class_exists('WP_Debug_Data')) {
+        if (!class_exists('WP_Debug_Data')) {
             require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
         }
 
         $this->load_admin_textdomain();
 
         $sizes_data = WP_Debug_Data::get_sizes();
-        $all_sizes  = ['raw' => 0];
+        $all_sizes = ['raw' => 0];
 
         foreach ($sizes_data as $name => $value) {
             $name = sanitize_text_field($name);
@@ -309,7 +309,7 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 if (is_string($value['size'])) {
                     $data['size'] = sanitize_text_field($value['size']);
                 } else {
-                    $data['size'] = (int) $value['size'];
+                    $data['size'] = (int)$value['size'];
                 }
             }
 
@@ -317,12 +317,12 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
                 if (is_string($value['debug'])) {
                     $data['debug'] = sanitize_text_field($value['debug']);
                 } else {
-                    $data['debug'] = (int) $value['debug'];
+                    $data['debug'] = (int)$value['debug'];
                 }
             }
 
-            if (! empty($value['raw'])) {
-                $data['raw'] = (int) $value['raw'];
+            if (!empty($value['raw'])) {
+                $data['raw'] = (int)$value['raw'];
             }
 
             $all_sizes[$name] = $data;
@@ -346,7 +346,7 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     protected function load_admin_textdomain()
     {
         // Accounts for inner REST API requests in the admin.
-        if (! is_admin()) {
+        if (!is_admin()) {
             $locale = determine_locale();
             load_textdomain('default', WP_LANG_DIR . "/admin-$locale.mo", $locale);
         }
@@ -355,9 +355,9 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     /**
      * Gets the schema for each site health test.
      *
+     * @return array The test schema.
      * @since 5.6.0
      *
-     * @return array The test schema.
      */
     public function get_item_schema()
     {
@@ -366,51 +366,51 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
         }
 
         $this->schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'wp-site-health-test',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'wp-site-health-test',
+            'type' => 'object',
             'properties' => [
-                'test'        => [
-                    'type'        => 'string',
+                'test' => [
+                    'type' => 'string',
                     'description' => __('The name of the test being run.'),
-                    'readonly'    => true,
+                    'readonly' => true,
                 ],
-                'label'       => [
-                    'type'        => 'string',
+                'label' => [
+                    'type' => 'string',
                     'description' => __('A label describing the test.'),
-                    'readonly'    => true,
+                    'readonly' => true,
                 ],
-                'status'      => [
-                    'type'        => 'string',
+                'status' => [
+                    'type' => 'string',
                     'description' => __('The status of the test.'),
-                    'enum'        => ['good', 'recommended', 'critical'],
-                    'readonly'    => true,
+                    'enum' => ['good', 'recommended', 'critical'],
+                    'readonly' => true,
                 ],
-                'badge'       => [
-                    'type'        => 'object',
+                'badge' => [
+                    'type' => 'object',
                     'description' => __('The category this test is grouped in.'),
-                    'properties'  => [
+                    'properties' => [
                         'label' => [
-                            'type'     => 'string',
+                            'type' => 'string',
                             'readonly' => true,
                         ],
                         'color' => [
-                            'type'     => 'string',
-                            'enum'     => ['blue', 'orange', 'red', 'green', 'purple', 'gray'],
+                            'type' => 'string',
+                            'enum' => ['blue', 'orange', 'red', 'green', 'purple', 'gray'],
                             'readonly' => true,
                         ],
                     ],
-                    'readonly'    => true,
+                    'readonly' => true,
                 ],
                 'description' => [
-                    'type'        => 'string',
+                    'type' => 'string',
                     'description' => __('A more descriptive explanation of what the test looks for, and why it is important for the user.'),
-                    'readonly'    => true,
+                    'readonly' => true,
                 ],
-                'actions'     => [
-                    'type'        => 'string',
+                'actions' => [
+                    'type' => 'string',
                     'description' => __('HTML containing an action to direct the user to where they can resolve the issue.'),
-                    'readonly'    => true,
+                    'readonly' => true,
                 ],
             ],
         ];

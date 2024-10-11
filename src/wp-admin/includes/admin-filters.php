@@ -53,7 +53,7 @@ add_action('customize_controls_head', 'wp_admin_viewport_meta');
 add_filter('nav_menu_meta_box_object', '_wp_nav_menu_meta_box_object');
 
 // Prerendering.
-if (! is_customize_preview()) {
+if (!is_customize_preview()) {
     add_filter('admin_print_styles', 'wp_resource_hints', 1);
 }
 
@@ -61,7 +61,8 @@ add_action('admin_print_scripts', 'print_emoji_detection_script');
 add_action('admin_print_scripts', 'print_head_scripts', 20);
 add_action('admin_print_footer_scripts', '_wp_footer_scripts');
 add_action('admin_enqueue_scripts', 'wp_enqueue_emoji_styles');
-add_action('admin_print_styles', 'print_emoji_styles'); // Retained for backwards-compatibility. Unhooked by wp_enqueue_emoji_styles().
+add_action('admin_print_styles',
+    'print_emoji_styles'); // Retained for backwards-compatibility. Unhooked by wp_enqueue_emoji_styles().
 add_action('admin_print_styles', 'print_admin_styles', 20);
 
 add_action('admin_print_scripts-index.php', 'wp_localize_community_events');

@@ -7,16 +7,16 @@
  * This file is here for backward compatibility with old themes and will be removed in a future version
  */
 _deprecated_file(
-    /* translators: %s: Template name. */
+/* translators: %s: Template name. */
     sprintf(__('Theme without %s'), basename(__FILE__)),
     '3.0.0',
     null,
     /* translators: %s: Template name. */
-    sprintf(__('Please include a %s template in your theme.'), basename(__FILE__))
+    sprintf(__('Please include a %s template in your theme.'), basename(__FILE__)),
 );
 ?>
 
-<hr />
+<hr/>
 <div id="footer" role="contentinfo">
 </div>
 </div>
@@ -24,6 +24,6 @@ _deprecated_file(
 <!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/ -->
 <?php /* "Just what do you think you're doing Dave?" */ ?>
 
-        <?php wp_footer(); ?>
+<?php wp_footer(); ?>
 </body>
 </html>

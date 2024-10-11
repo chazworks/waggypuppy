@@ -25,10 +25,10 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
      */
     public function test_should_overwrite_an_existing_file_when_overwriting_is_enabled()
     {
-        $source      = self::$file_structure['visible_file']['path'];
+        $source = self::$file_structure['visible_file']['path'];
         $destination = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.dest';
 
-        if (! file_exists($destination)) {
+        if (!file_exists($destination)) {
             touch($destination);
         }
 
@@ -47,10 +47,10 @@ class Tests_Filesystem_WpFilesystemDirect_Copy extends WP_Filesystem_Direct_Unit
      */
     public function test_should_not_overwrite_an_existing_file_when_overwriting_is_disabled()
     {
-        $source      = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.txt';
+        $source = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.txt';
         $destination = self::$file_structure['test_dir']['path'] . 'a_file_that_exists.dest';
 
-        if (! file_exists($destination)) {
+        if (!file_exists($destination)) {
             touch($destination);
         }
 

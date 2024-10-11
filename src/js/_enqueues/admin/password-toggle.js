@@ -6,11 +6,16 @@
  */
 
 ( function () {
-	var toggleElements, status, input, icon, label, __ = wp.i18n.__;
+	var toggleElements,
+		status,
+		input,
+		icon,
+		label,
+		__ = wp.i18n.__;
 
 	toggleElements = document.querySelectorAll( '.pwd-toggle' );
 
-	toggleElements.forEach( function (toggle) {
+	toggleElements.forEach( function ( toggle ) {
 		toggle.classList.remove( 'hide-if-no-js' );
 		toggle.addEventListener( 'click', togglePassword );
 	} );

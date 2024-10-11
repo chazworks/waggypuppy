@@ -24,7 +24,8 @@ require_once dirname(dirname(__FILE__)) . '/Renderer.php';
  * @author  Ciprian Popovici
  * @package Text_Diff
  */
-class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
+class Text_Diff_Renderer_inline extends Text_Diff_Renderer
+{
 
     /**
      * Number of leading context "lines" to preserve.
@@ -103,7 +104,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
     function _lines($lines, $prefix = ' ', $encode = true)
     {
         if ($encode) {
-            array_walk($lines, array(&$this, '_encode'));
+            array_walk($lines, [&$this, '_encode']);
         }
 
         if ($this->_split_level == 'lines') {
@@ -115,7 +116,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
 
     function _added($lines)
     {
-        array_walk($lines, array(&$this, '_encode'));
+        array_walk($lines, [&$this, '_encode']);
         $lines[0] = $this->_ins_prefix . $lines[0];
         $lines[count($lines) - 1] .= $this->_ins_suffix;
         return $this->_lines($lines, ' ', false);
@@ -123,7 +124,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
 
     function _deleted($lines, $words = false)
     {
-        array_walk($lines, array(&$this, '_encode'));
+        array_walk($lines, [&$this, '_encode']);
         $lines[0] = $this->_del_prefix . $lines[0];
         $lines[count($lines) - 1] .= $this->_del_suffix;
         return $this->_lines($lines, ' ', false);
@@ -140,9 +141,9 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
         /* If we've already split on words, just display. */
         if ($this->_split_level == 'words') {
             $prefix = '';
-            while ($orig[0] !== false && $final[0] !== false &&
-                   substr($orig[0], 0, 1) == ' ' &&
-                   substr($final[0], 0, 1) == ' ') {
+            while ($orig[0] !== false && $final[0] !== false
+                && substr($orig[0], 0, 1) == ' '
+                && substr($final[0], 0, 1) == ' ') {
                 $prefix .= substr($orig[0], 0, 1);
                 $orig[0] = substr($orig[0], 1);
                 $final[0] = substr($final[0], 1);
@@ -158,21 +159,25 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
 
         if ($this->_split_characters) {
             $diff = new Text_Diff('native',
-                                  array(preg_split('//', $text1),
-                                        preg_split('//', $text2)));
+                [
+                    preg_split('//', $text1),
+                    preg_split('//', $text2),
+                ]);
         } else {
             /* We want to split on word boundaries, but we need to preserve
              * whitespace as well. Therefore we split on words, but include
              * all blocks of whitespace in the wordlist. */
             $diff = new Text_Diff('native',
-                                  array($this->_splitOnWords($text1, $nl),
-                                        $this->_splitOnWords($text2, $nl)));
+                [
+                    $this->_splitOnWords($text1, $nl),
+                    $this->_splitOnWords($text2, $nl),
+                ]);
         }
 
         /* Get the diff in inline format. */
         $renderer = new Text_Diff_Renderer_inline
-            (array_merge($this->getParams(),
-                         array('split_level' => $this->_split_characters ? 'characters' : 'words')));
+        (array_merge($this->getParams(),
+            ['split_level' => $this->_split_characters ? 'characters' : 'words']));
 
         /* Run the diff and get the output. */
         return str_replace($nl, "\n", $renderer->render($diff)) . "\n";
@@ -183,7 +188,7 @@ class Text_Diff_Renderer_inline extends Text_Diff_Renderer {
         // Ignore \0; otherwise the while loop will never finish.
         $string = str_replace("\0", '', $string);
 
-        $words = array();
+        $words = [];
         $length = strlen($string);
         $pos = 0;
 

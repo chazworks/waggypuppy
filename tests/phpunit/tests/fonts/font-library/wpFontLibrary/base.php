@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test Case for WP_Font_Library tests.
  *

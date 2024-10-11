@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group block-supports
  *
@@ -34,38 +35,38 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'spacing' => [
-                        'margin'   => true,
-                        'padding'  => true,
+                        'margin' => true,
+                        'padding' => true,
                         'blockGap' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = [
             'style' => [
                 'spacing' => [
-                    'margin'   => [
-                        'top'    => '1px',
-                        'right'  => '2px',
+                    'margin' => [
+                        'top' => '1px',
+                        'right' => '2px',
                         'bottom' => '3px',
-                        'left'   => '4px',
+                        'left' => '4px',
                     ],
-                    'padding'  => '111px',
+                    'padding' => '111px',
                     'blockGap' => '2em',
                 ],
             ],
         ];
 
-        $actual   = wp_apply_spacing_support($block_type, $block_atts);
+        $actual = wp_apply_spacing_support($block_type, $block_atts);
         $expected = [
             'style' => 'padding:111px;margin-top:1px;margin-right:2px;margin-bottom:3px;margin-left:4px;',
         ];
@@ -83,39 +84,39 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'spacing' => [
-                        'margin'                          => true,
-                        'padding'                         => true,
-                        'blockGap'                        => true,
+                        'margin' => true,
+                        'padding' => true,
+                        'blockGap' => true,
                         '__experimentalSkipSerialization' => true,
                     ],
                 ],
-            ]
+            ],
         );
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = [
             'style' => [
                 'spacing' => [
-                    'margin'   => [
-                        'top'    => '1px',
-                        'right'  => '2px',
+                    'margin' => [
+                        'top' => '1px',
+                        'right' => '2px',
                         'bottom' => '3px',
-                        'left'   => '4px',
+                        'left' => '4px',
                     ],
-                    'padding'  => '111px',
+                    'padding' => '111px',
                     'blockGap' => '2em',
                 ],
             ],
         ];
 
-        $actual   = wp_apply_spacing_support($block_type, $block_atts);
+        $actual = wp_apply_spacing_support($block_type, $block_atts);
         $expected = [];
 
         $this->assertSame($expected, $actual);
@@ -131,39 +132,39 @@ class Tests_Block_Supports_Spacing extends WP_UnitTestCase
             $this->test_block_name,
             [
                 'api_version' => 2,
-                'attributes'  => [
+                'attributes' => [
                     'style' => [
                         'type' => 'object',
                     ],
                 ],
-                'supports'    => [
+                'supports' => [
                     'spacing' => [
-                        'margin'                          => true,
-                        'padding'                         => true,
-                        'blockGap'                        => true,
+                        'margin' => true,
+                        'padding' => true,
+                        'blockGap' => true,
                         '__experimentalSkipSerialization' => ['margin'],
                     ],
                 ],
-            ]
+            ],
         );
-        $registry   = WP_Block_Type_Registry::get_instance();
+        $registry = WP_Block_Type_Registry::get_instance();
         $block_type = $registry->get_registered($this->test_block_name);
         $block_atts = [
             'style' => [
                 'spacing' => [
-                    'padding'  => [
-                        'top'    => '1px',
-                        'right'  => '2px',
+                    'padding' => [
+                        'top' => '1px',
+                        'right' => '2px',
                         'bottom' => '3px',
-                        'left'   => '4px',
+                        'left' => '4px',
                     ],
-                    'margin'   => '111px',
+                    'margin' => '111px',
                     'blockGap' => '2em',
                 ],
             ],
         ];
 
-        $actual   = wp_apply_spacing_support($block_type, $block_atts);
+        $actual = wp_apply_spacing_support($block_type, $block_atts);
         $expected = [
             'style' => 'padding-top:1px;padding-right:2px;padding-bottom:3px;padding-left:4px;',
         ];

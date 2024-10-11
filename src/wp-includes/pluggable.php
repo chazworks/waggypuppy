@@ -6,7 +6,7 @@
  * @package WP
  */
 
-if (! function_exists('wp_set_current_user')) :
+if (!function_exists('wp_set_current_user')) :
     /**
      * Changes the current user by ID or name.
      *
@@ -16,13 +16,13 @@ if (! function_exists('wp_set_current_user')) :
      * the signed in user. Therefore, it opens the ability to edit and perform
      * actions on users who aren't signed in.
      *
-     * @since 2.0.3
-     *
+     * @param int|null $id User ID.
+     * @param string $name User's username.
+     * @return WP_User Current user User object.
      * @global WP_User $current_user The current user object which holds the user data.
      *
-     * @param int|null $id   User ID.
-     * @param string   $name User's username.
-     * @return WP_User Current user User object.
+     * @since 2.0.3
+     *
      */
     function wp_set_current_user($id, $name = '')
     {
@@ -30,9 +30,9 @@ if (! function_exists('wp_set_current_user')) :
 
         // If `$id` matches the current user, there is nothing to do.
         if (isset($current_user)
-        && ($current_user instanceof WP_User)
-        && ($id === $current_user->ID)
-        && (null !== $id)
+            && ($current_user instanceof WP_User)
+            && ($id === $current_user->ID)
+            && (null !== $id)
         ) {
             return $current_user;
         }
@@ -52,7 +52,7 @@ if (! function_exists('wp_set_current_user')) :
     }
 endif;
 
-if (! function_exists('wp_get_current_user')) :
+if (!function_exists('wp_get_current_user')) :
     /**
      * Retrieves the current user object.
      *
@@ -60,12 +60,12 @@ if (! function_exists('wp_get_current_user')) :
      * will be set to the logged-in person. If no user is logged-in, then it will
      * set the current user to 0, which is invalid and won't have any permissions.
      *
-     * @since 2.0.3
-     *
+     * @return WP_User Current WP_User instance.
      * @see _wp_get_current_user()
      * @global WP_User $current_user Checks if the current user is set.
      *
-     * @return WP_User Current WP_User instance.
+     * @since 2.0.3
+     *
      */
     function wp_get_current_user()
     {
@@ -73,14 +73,14 @@ if (! function_exists('wp_get_current_user')) :
     }
 endif;
 
-if (! function_exists('get_userdata')) :
+if (!function_exists('get_userdata')) :
     /**
      * Retrieves user info by user ID.
      *
-     * @since 0.71
-     *
      * @param int $user_id User ID
      * @return WP_User|false WP_User object on success, false on failure.
+     * @since 0.71
+     *
      */
     function get_userdata($user_id)
     {
@@ -88,24 +88,24 @@ if (! function_exists('get_userdata')) :
     }
 endif;
 
-if (! function_exists('get_user_by')) :
+if (!function_exists('get_user_by')) :
     /**
      * Retrieves user info by a given field.
      *
+     * @param string $field The field to retrieve the user with. id | ID | slug | email | login.
+     * @param int|string $value A value for $field. A user ID, slug, email address, or login name.
+     * @return WP_User|false WP_User object on success, false on failure.
      * @since 2.8.0
      * @since 4.4.0 Added 'ID' as an alias of 'id' for the `$field` parameter.
      *
      * @global WP_User $current_user The current user object which holds the user data.
      *
-     * @param string     $field The field to retrieve the user with. id | ID | slug | email | login.
-     * @param int|string $value A value for $field. A user ID, slug, email address, or login name.
-     * @return WP_User|false WP_User object on success, false on failure.
      */
     function get_user_by($field, $value)
     {
         $userdata = WP_User::get_data_by($field, $value);
 
-        if (! $userdata) {
+        if (!$userdata) {
             return false;
         }
 
@@ -116,15 +116,15 @@ if (! function_exists('get_user_by')) :
     }
 endif;
 
-if (! function_exists('cache_users')) :
+if (!function_exists('cache_users')) :
     /**
      * Retrieves info for user lists to prevent multiple queries by get_userdata().
      *
-     * @since 3.0.0
-     *
+     * @param int[] $user_ids User ID numbers list
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param int[] $user_ids User ID numbers list
+     * @since 3.0.0
+     *
      */
     function cache_users($user_ids)
     {
@@ -148,7 +148,7 @@ if (! function_exists('cache_users')) :
     }
 endif;
 
-if (! function_exists('wp_mail')) :
+if (!function_exists('wp_mail')) :
     /**
      * Sends an email, similar to PHP's mail function.
      *
@@ -163,18 +163,18 @@ if (! function_exists('wp_mail')) :
      * The default charset is based on the charset used on the blog. The charset can
      * be set using the {@see 'wp_mail_charset'} filter.
      *
+     * @param string|string[] $to Array or comma-separated list of email addresses to send message.
+     * @param string $subject Email subject.
+     * @param string $message Message contents.
+     * @param string|string[] $headers Optional. Additional headers.
+     * @param string|string[] $attachments Optional. Paths to files to attach.
+     * @return bool Whether the email was sent successfully.
      * @since 1.2.1
      * @since 5.5.0 is_email() is used for email validation,
      *              instead of PHPMailer's default validator.
      *
      * @global PHPMailer\PHPMailer\PHPMailer $phpmailer
      *
-     * @param string|string[] $to          Array or comma-separated list of email addresses to send message.
-     * @param string          $subject     Email subject.
-     * @param string          $message     Message contents.
-     * @param string|string[] $headers     Optional. Additional headers.
-     * @param string|string[] $attachments Optional. Paths to files to attach.
-     * @return bool Whether the email was sent successfully.
      */
     function wp_mail($to, $subject, $message, $headers = '', $attachments = [])
     {
@@ -183,17 +183,17 @@ if (! function_exists('wp_mail')) :
         /**
          * Filters the wp_mail() arguments.
          *
-         * @since 2.2.0
-         *
          * @param array $args {
          *     Array of the `wp_mail()` arguments.
          *
-         *     @type string|string[] $to          Array or comma-separated list of email addresses to send message.
-         *     @type string          $subject     Email subject.
-         *     @type string          $message     Message contents.
-         *     @type string|string[] $headers     Additional headers.
-         *     @type string|string[] $attachments Paths to files to attach.
+         * @type string|string[] $to Array or comma-separated list of email addresses to send message.
+         * @type string $subject Email subject.
+         * @type string $message Message contents.
+         * @type string|string[] $headers Additional headers.
+         * @type string|string[] $attachments Paths to files to attach.
          * }
+         * @since 2.2.0
+         *
          */
         $atts = apply_filters('wp_mail', compact('to', 'subject', 'message', 'headers', 'attachments'));
 
@@ -204,18 +204,18 @@ if (! function_exists('wp_mail')) :
          * that value instead. A boolean return value should be used to indicate whether
          * the email was successfully sent.
          *
-         * @since 5.7.0
-         *
          * @param null|bool $return Short-circuit return value.
-         * @param array     $atts {
+         * @param array $atts {
          *     Array of the `wp_mail()` arguments.
          *
-         *     @type string|string[] $to          Array or comma-separated list of email addresses to send message.
-         *     @type string          $subject     Email subject.
-         *     @type string          $message     Message contents.
-         *     @type string|string[] $headers     Additional headers.
-         *     @type string|string[] $attachments Paths to files to attach.
+         * @type string|string[] $to Array or comma-separated list of email addresses to send message.
+         * @type string $subject Email subject.
+         * @type string $message Message contents.
+         * @type string|string[] $headers Additional headers.
+         * @type string|string[] $attachments Paths to files to attach.
          * }
+         * @since 5.7.0
+         *
          */
         $pre_wp_mail = apply_filters('pre_wp_mail', null, $atts);
 
@@ -227,7 +227,7 @@ if (! function_exists('wp_mail')) :
             $to = $atts['to'];
         }
 
-        if (! is_array($to)) {
+        if (!is_array($to)) {
             $to = explode(',', $to);
         }
 
@@ -247,32 +247,32 @@ if (! function_exists('wp_mail')) :
             $attachments = $atts['attachments'];
         }
 
-        if (! is_array($attachments)) {
+        if (!is_array($attachments)) {
             $attachments = explode("\n", str_replace("\r\n", "\n", $attachments));
         }
         global $phpmailer;
 
         // (Re)create it, if it's gone missing.
-        if (! ($phpmailer instanceof PHPMailer\PHPMailer\PHPMailer)) {
+        if (!($phpmailer instanceof PHPMailer\PHPMailer\PHPMailer)) {
             require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
             require_once ABSPATH . WPINC . '/PHPMailer/SMTP.php';
             require_once ABSPATH . WPINC . '/PHPMailer/Exception.php';
             $phpmailer = new PHPMailer\PHPMailer\PHPMailer(true);
 
             $phpmailer::$validator = static function ($email) {
-                return (bool) is_email($email);
+                return (bool)is_email($email);
             };
         }
 
         // Headers.
-        $cc       = [];
-        $bcc      = [];
+        $cc = [];
+        $bcc = [];
         $reply_to = [];
 
         if (empty($headers)) {
             $headers = [];
         } else {
-            if (! is_array($headers)) {
+            if (!is_array($headers)) {
                 /*
                  * Explode the headers out, so this function can take
                  * both string headers and an array of headers.
@@ -284,12 +284,12 @@ if (! function_exists('wp_mail')) :
             $headers = [];
 
             // If it's actually got contents.
-            if (! empty($tempheaders)) {
+            if (!empty($tempheaders)) {
                 // Iterate through the raw headers.
-                foreach ((array) $tempheaders as $header) {
-                    if (! str_contains($header, ':')) {
+                foreach ((array)$tempheaders as $header) {
+                    if (!str_contains($header, ':')) {
                         if (false !== stripos($header, 'boundary=')) {
-                            $parts    = preg_split('/boundary=/i', trim($header));
+                            $parts = preg_split('/boundary=/i', trim($header));
                             $boundary = trim(str_replace(["'", '"'], '', $parts[1]));
                         }
                         continue;
@@ -298,7 +298,7 @@ if (! function_exists('wp_mail')) :
                     [$name, $content] = explode(':', trim($header), 2);
 
                     // Cleanup crew.
-                    $name    = trim($name);
+                    $name = trim($name);
                     $content = trim($content);
 
                     switch (strtolower($name)) {
@@ -316,7 +316,6 @@ if (! function_exists('wp_mail')) :
                                 $from_email = substr($content, $bracket_pos + 1);
                                 $from_email = str_replace('>', '', $from_email);
                                 $from_email = trim($from_email);
-
                                 // Avoid setting an empty $from_email.
                             } elseif ('' !== trim($content)) {
                                 $from_email = trim($content);
@@ -325,27 +324,27 @@ if (! function_exists('wp_mail')) :
                         case 'content-type':
                             if (str_contains($content, ';')) {
                                 [$type, $charset_content] = explode(';', $content);
-                                $content_type             = trim($type);
+                                $content_type = trim($type);
                                 if (false !== stripos($charset_content, 'charset=')) {
                                     $charset = trim(str_replace(['charset=', '"'], '', $charset_content));
                                 } elseif (false !== stripos($charset_content, 'boundary=')) {
-                                    $boundary = trim(str_replace(['BOUNDARY=', 'boundary=', '"'], '', $charset_content));
-                                    $charset  = '';
+                                    $boundary = trim(str_replace(['BOUNDARY=', 'boundary=', '"'], '',
+                                        $charset_content));
+                                    $charset = '';
                                 }
-
                                 // Avoid setting an empty $content_type.
                             } elseif ('' !== trim($content)) {
                                 $content_type = trim($content);
                             }
                             break;
                         case 'cc':
-                            $cc = array_merge((array) $cc, explode(',', $content));
+                            $cc = array_merge((array)$cc, explode(',', $content));
                             break;
                         case 'bcc':
-                            $bcc = array_merge((array) $bcc, explode(',', $content));
+                            $bcc = array_merge((array)$bcc, explode(',', $content));
                             break;
                         case 'reply-to':
-                            $reply_to = array_merge((array) $reply_to, explode(',', $content));
+                            $reply_to = array_merge((array)$reply_to, explode(',', $content));
                             break;
                         default:
                             // Add it to our grand headers array.
@@ -361,13 +360,13 @@ if (! function_exists('wp_mail')) :
         $phpmailer->clearAttachments();
         $phpmailer->clearCustomHeaders();
         $phpmailer->clearReplyTos();
-        $phpmailer->Body    = '';
+        $phpmailer->Body = '';
         $phpmailer->AltBody = '';
 
         // Set "From" name and email.
 
         // If we don't have a name from the input headers.
-        if (! isset($from_name)) {
+        if (!isset($from_name)) {
             $from_name = 'waggypuppy';
         }
 
@@ -378,9 +377,9 @@ if (! function_exists('wp_mail')) :
          * another option, but some hosts may refuse to relay mail from an unknown domain.
          * See https://core.trac.wp.org/ticket/5007.
          */
-        if (! isset($from_email)) {
+        if (!isset($from_email)) {
             // Get the site domain and get rid of www.
-            $sitename   = wp_parse_url(network_home_url(), PHP_URL_HOST);
+            $sitename = wp_parse_url(network_home_url(), PHP_URL_HOST);
             $from_email = 'waggypuppy@';
 
             if (null !== $sitename) {
@@ -395,25 +394,25 @@ if (! function_exists('wp_mail')) :
         /**
          * Filters the email address to send from.
          *
+         * @param string $from_email Email address to send from.
          * @since 2.2.0
          *
-         * @param string $from_email Email address to send from.
          */
         $from_email = apply_filters('wp_mail_from', $from_email);
 
         /**
          * Filters the name to associate with the "from" email address.
          *
+         * @param string $from_name Name associated with the "from" email address.
          * @since 2.3.0
          *
-         * @param string $from_name Name associated with the "from" email address.
          */
         $from_name = apply_filters('wp_mail_from_name', $from_name);
 
         try {
             $phpmailer->setFrom($from_email, $from_name, false);
         } catch (PHPMailer\PHPMailer\Exception $e) {
-            $mail_error_data                             = compact('to', 'subject', 'message', 'headers', 'attachments');
+            $mail_error_data = compact('to', 'subject', 'message', 'headers', 'attachments');
             $mail_error_data['phpmailer_exception_code'] = $e->getCode();
 
             /** This filter is documented in wp-includes/pluggable.php */
@@ -424,7 +423,7 @@ if (! function_exists('wp_mail')) :
 
         // Set mail's subject and body.
         $phpmailer->Subject = $subject;
-        $phpmailer->Body    = $message;
+        $phpmailer->Body = $message;
 
         // Set destination addresses, using appropriate methods for handling addresses.
         $address_headers = compact('to', 'cc', 'bcc', 'reply_to');
@@ -434,7 +433,7 @@ if (! function_exists('wp_mail')) :
                 continue;
             }
 
-            foreach ((array) $addresses as $address) {
+            foreach ((array)$addresses as $address) {
                 try {
                     // Break $recipient into name and address parts if in the format "Foo <bar@baz.com>".
                     $recipient_name = '';
@@ -442,7 +441,7 @@ if (! function_exists('wp_mail')) :
                     if (preg_match('/(.*)<(.+)>/', $address, $matches)) {
                         if (count($matches) === 3) {
                             $recipient_name = $matches[1];
-                            $address        = $matches[2];
+                            $address = $matches[2];
                         }
                     }
 
@@ -472,16 +471,16 @@ if (! function_exists('wp_mail')) :
         // Set Content-Type and charset.
 
         // If we don't have a Content-Type from the input headers.
-        if (! isset($content_type)) {
+        if (!isset($content_type)) {
             $content_type = 'text/plain';
         }
 
         /**
          * Filters the wp_mail() content type.
          *
+         * @param string $content_type Default wp_mail() content type.
          * @since 2.3.0
          *
-         * @param string $content_type Default wp_mail() content type.
          */
         $content_type = apply_filters('wp_mail_content_type', $content_type);
 
@@ -493,24 +492,24 @@ if (! function_exists('wp_mail')) :
         }
 
         // If we don't have a charset from the input headers.
-        if (! isset($charset)) {
+        if (!isset($charset)) {
             $charset = get_bloginfo('charset');
         }
 
         /**
          * Filters the default wp_mail() charset.
          *
+         * @param string $charset Default email charset.
          * @since 2.3.0
          *
-         * @param string $charset Default email charset.
          */
         $phpmailer->CharSet = apply_filters('wp_mail_charset', $charset);
 
         // Set custom headers.
-        if (! empty($headers)) {
-            foreach ((array) $headers as $name => $content) {
+        if (!empty($headers)) {
+            foreach ((array)$headers as $name => $content) {
                 // Only add custom headers not added automatically by PHPMailer.
-                if (! in_array($name, ['MIME-Version', 'X-Mailer'], true)) {
+                if (!in_array($name, ['MIME-Version', 'X-Mailer'], true)) {
                     try {
                         $phpmailer->addCustomHeader(sprintf('%1$s: %2$s', $name, $content));
                     } catch (PHPMailer\PHPMailer\Exception $e) {
@@ -519,12 +518,12 @@ if (! function_exists('wp_mail')) :
                 }
             }
 
-            if (false !== stripos($content_type, 'multipart') && ! empty($boundary)) {
+            if (false !== stripos($content_type, 'multipart') && !empty($boundary)) {
                 $phpmailer->addCustomHeader(sprintf('Content-Type: %s; boundary="%s"', $content_type, $boundary));
             }
         }
 
-        if (! empty($attachments)) {
+        if (!empty($attachments)) {
             foreach ($attachments as $filename => $attachment) {
                 $filename = is_string($filename) ? $filename : '';
 
@@ -539,9 +538,9 @@ if (! function_exists('wp_mail')) :
         /**
          * Fires after PHPMailer is initialized.
          *
+         * @param PHPMailer $phpmailer The PHPMailer instance (passed by reference).
          * @since 2.2.0
          *
-         * @param PHPMailer $phpmailer The PHPMailer instance (passed by reference).
          */
         do_action_ref_array('phpmailer_init', [&$phpmailer]);
 
@@ -558,17 +557,17 @@ if (! function_exists('wp_mail')) :
              * email successfully. It only means that the `send` method above was able to
              * process the request without any errors.
              *
-             * @since 5.9.0
-             *
              * @param array $mail_data {
              *     An array containing the email recipient(s), subject, message, headers, and attachments.
              *
-             *     @type string[] $to          Email addresses to send message.
-             *     @type string   $subject     Email subject.
-             *     @type string   $message     Message contents.
-             *     @type string[] $headers     Additional headers.
-             *     @type string[] $attachments Paths to files to attach.
+             * @type string[] $to Email addresses to send message.
+             * @type string $subject Email subject.
+             * @type string $message Message contents.
+             * @type string[] $headers Additional headers.
+             * @type string[] $attachments Paths to files to attach.
              * }
+             * @since 5.9.0
+             *
              */
             do_action('wp_mail_succeeded', $mail_data);
 
@@ -579,10 +578,10 @@ if (! function_exists('wp_mail')) :
             /**
              * Fires after a PHPMailer\PHPMailer\Exception is caught.
              *
-             * @since 4.4.0
-             *
              * @param WP_Error $error A WP_Error object with the PHPMailer\PHPMailer\Exception message, and an array
              *                        containing the mail recipient, subject, message, headers, and attachments.
+             * @since 4.4.0
+             *
              */
             do_action('wp_mail_failed', new WP_Error('wp_mail_failed', $e->getMessage(), $mail_data));
 
@@ -591,17 +590,17 @@ if (! function_exists('wp_mail')) :
     }
 endif;
 
-if (! function_exists('wp_authenticate')) :
+if (!function_exists('wp_authenticate')) :
     /**
      * Authenticates a user, confirming the login credentials are valid.
-     *
-     * @since 2.5.0
-     * @since 4.5.0 `$username` now accepts an email address.
      *
      * @param string $username User's username or email address.
      * @param string $password User's password.
      * @return WP_User|WP_Error WP_User object if the credentials are valid,
      *                          otherwise WP_Error.
+     * @since 4.5.0 `$username` now accepts an email address.
+     *
+     * @since 2.5.0
      */
     function wp_authenticate($username, $password)
     {
@@ -614,13 +613,13 @@ if (! function_exists('wp_authenticate')) :
          * A WP_User object is returned if the credentials authenticate a user.
          * WP_Error or null otherwise.
          *
-         * @since 2.8.0
+         * @param null|WP_User|WP_Error $user WP_User if the user is authenticated.
+         *                                        WP_Error or null otherwise.
+         * @param string $username Username or email address.
+         * @param string $password User password.
          * @since 4.5.0 `$username` now accepts an email address.
          *
-         * @param null|WP_User|WP_Error $user     WP_User if the user is authenticated.
-         *                                        WP_Error or null otherwise.
-         * @param string                $username Username or email address.
-         * @param string                $password User password.
+         * @since 2.8.0
          */
         $user = apply_filters('authenticate', null, $username, $password);
 
@@ -629,23 +628,24 @@ if (! function_exists('wp_authenticate')) :
              * TODO: What should the error message be? (Or would these even happen?)
              * Only needed if all authentication handlers fail to return anything.
              */
-            $user = new WP_Error('authentication_failed', __('<strong>Error:</strong> Invalid username, email address or incorrect password.'));
+            $user = new WP_Error('authentication_failed',
+                __('<strong>Error:</strong> Invalid username, email address or incorrect password.'));
         }
 
         $ignore_codes = ['empty_username', 'empty_password'];
 
-        if (is_wp_error($user) && ! in_array($user->get_error_code(), $ignore_codes, true)) {
+        if (is_wp_error($user) && !in_array($user->get_error_code(), $ignore_codes, true)) {
             $error = $user;
 
             /**
              * Fires after a user login has failed.
              *
-             * @since 2.5.0
-             * @since 4.5.0 The value of `$username` can now be an email address.
+             * @param string $username Username or email address.
+             * @param WP_Error $error A WP_Error object with the authentication failure details.
              * @since 5.4.0 The `$error` parameter was added.
              *
-             * @param string   $username Username or email address.
-             * @param WP_Error $error    A WP_Error object with the authentication failure details.
+             * @since 2.5.0
+             * @since 4.5.0 The value of `$username` can now be an email address.
              */
             do_action('wp_login_failed', $username, $error);
         }
@@ -654,7 +654,7 @@ if (! function_exists('wp_authenticate')) :
     }
 endif;
 
-if (! function_exists('wp_logout')) :
+if (!function_exists('wp_logout')) :
     /**
      * Logs the current user out.
      *
@@ -671,16 +671,16 @@ if (! function_exists('wp_logout')) :
         /**
          * Fires after a user is logged out.
          *
-         * @since 1.5.0
+         * @param int $user_id ID of the user that was logged out.
          * @since 5.5.0 Added the `$user_id` parameter.
          *
-         * @param int $user_id ID of the user that was logged out.
+         * @since 1.5.0
          */
         do_action('wp_logout', $user_id);
     }
 endif;
 
-if (! function_exists('wp_validate_auth_cookie')) :
+if (!function_exists('wp_validate_auth_cookie')) :
     /**
      * Validates authentication cookie.
      *
@@ -690,36 +690,36 @@ if (! function_exists('wp_validate_auth_cookie')) :
      * Makes sure the cookie is not expired. Verifies the hash in cookie is what is
      * should be and compares the two.
      *
-     * @since 2.5.0
-     *
-     * @global int $login_grace_period
-     *
      * @param string $cookie Optional. If used, will validate contents instead of cookie's.
      * @param string $scheme Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
      * @return int|false User ID if valid cookie, false if invalid.
+     * @global int $login_grace_period
+     *
+     * @since 2.5.0
+     *
      */
     function wp_validate_auth_cookie($cookie = '', $scheme = '')
     {
         $cookie_elements = wp_parse_auth_cookie($cookie, $scheme);
-        if (! $cookie_elements) {
+        if (!$cookie_elements) {
             /**
              * Fires if an authentication cookie is malformed.
-             *
-             * @since 2.7.0
              *
              * @param string $cookie Malformed auth cookie.
              * @param string $scheme Authentication scheme. Values include 'auth', 'secure_auth',
              *                       or 'logged_in'.
+             * @since 2.7.0
+             *
              */
             do_action('auth_cookie_malformed', $cookie, $scheme);
             return false;
         }
 
-        $scheme     = $cookie_elements['scheme'];
-        $username   = $cookie_elements['username'];
-        $hmac       = $cookie_elements['hmac'];
-        $token      = $cookie_elements['token'];
-        $expired    = $cookie_elements['expiration'];
+        $scheme = $cookie_elements['scheme'];
+        $username = $cookie_elements['username'];
+        $hmac = $cookie_elements['hmac'];
+        $token = $cookie_elements['token'];
+        $expired = $cookie_elements['expiration'];
         $expiration = $cookie_elements['expiration'];
 
         // Allow a grace period for POST and Ajax requests.
@@ -732,40 +732,40 @@ if (! function_exists('wp_validate_auth_cookie')) :
             /**
              * Fires once an authentication cookie has expired.
              *
-             * @since 2.7.0
-             *
              * @param string[] $cookie_elements {
              *     Authentication cookie components. None of the components should be assumed
              *     to be valid as they come directly from a client-provided cookie value.
              *
-             *     @type string $username   User's username.
-             *     @type string $expiration The time the cookie expires as a UNIX timestamp.
-             *     @type string $token      User's session token used.
-             *     @type string $hmac       The security hash for the cookie.
-             *     @type string $scheme     The cookie scheme to use.
+             * @type string $username User's username.
+             * @type string $expiration The time the cookie expires as a UNIX timestamp.
+             * @type string $token User's session token used.
+             * @type string $hmac The security hash for the cookie.
+             * @type string $scheme The cookie scheme to use.
              * }
+             * @since 2.7.0
+             *
              */
             do_action('auth_cookie_expired', $cookie_elements);
             return false;
         }
 
         $user = get_user_by('login', $username);
-        if (! $user) {
+        if (!$user) {
             /**
              * Fires if a bad username is entered in the user authentication process.
-             *
-             * @since 2.7.0
              *
              * @param string[] $cookie_elements {
              *     Authentication cookie components. None of the components should be assumed
              *     to be valid as they come directly from a client-provided cookie value.
              *
-             *     @type string $username   User's username.
-             *     @type string $expiration The time the cookie expires as a UNIX timestamp.
-             *     @type string $token      User's session token used.
-             *     @type string $hmac       The security hash for the cookie.
-             *     @type string $scheme     The cookie scheme to use.
+             * @type string $username User's username.
+             * @type string $expiration The time the cookie expires as a UNIX timestamp.
+             * @type string $token User's session token used.
+             * @type string $hmac The security hash for the cookie.
+             * @type string $scheme The cookie scheme to use.
              * }
+             * @since 2.7.0
+             *
              */
             do_action('auth_cookie_bad_username', $cookie_elements);
             return false;
@@ -779,44 +779,44 @@ if (! function_exists('wp_validate_auth_cookie')) :
         $algo = function_exists('hash') ? 'sha256' : 'sha1';
         $hash = hash_hmac($algo, $username . '|' . $expiration . '|' . $token, $key);
 
-        if (! hash_equals($hash, $hmac)) {
+        if (!hash_equals($hash, $hmac)) {
             /**
              * Fires if a bad authentication cookie hash is encountered.
-             *
-             * @since 2.7.0
              *
              * @param string[] $cookie_elements {
              *     Authentication cookie components. None of the components should be assumed
              *     to be valid as they come directly from a client-provided cookie value.
              *
-             *     @type string $username   User's username.
-             *     @type string $expiration The time the cookie expires as a UNIX timestamp.
-             *     @type string $token      User's session token used.
-             *     @type string $hmac       The security hash for the cookie.
-             *     @type string $scheme     The cookie scheme to use.
+             * @type string $username User's username.
+             * @type string $expiration The time the cookie expires as a UNIX timestamp.
+             * @type string $token User's session token used.
+             * @type string $hmac The security hash for the cookie.
+             * @type string $scheme The cookie scheme to use.
              * }
+             * @since 2.7.0
+             *
              */
             do_action('auth_cookie_bad_hash', $cookie_elements);
             return false;
         }
 
         $manager = WP_Session_Tokens::get_instance($user->ID);
-        if (! $manager->verify($token)) {
+        if (!$manager->verify($token)) {
             /**
              * Fires if a bad session token is encountered.
-             *
-             * @since 4.0.0
              *
              * @param string[] $cookie_elements {
              *     Authentication cookie components. None of the components should be assumed
              *     to be valid as they come directly from a client-provided cookie value.
              *
-             *     @type string $username   User's username.
-             *     @type string $expiration The time the cookie expires as a UNIX timestamp.
-             *     @type string $token      User's session token used.
-             *     @type string $hmac       The security hash for the cookie.
-             *     @type string $scheme     The cookie scheme to use.
+             * @type string $username User's username.
+             * @type string $expiration The time the cookie expires as a UNIX timestamp.
+             * @type string $token User's session token used.
+             * @type string $hmac The security hash for the cookie.
+             * @type string $scheme The cookie scheme to use.
              * }
+             * @since 4.0.0
+             *
              */
             do_action('auth_cookie_bad_session_token', $cookie_elements);
             return false;
@@ -830,18 +830,18 @@ if (! function_exists('wp_validate_auth_cookie')) :
         /**
          * Fires once an authentication cookie has been validated.
          *
-         * @since 2.7.0
-         *
          * @param string[] $cookie_elements {
          *     Authentication cookie components.
          *
-         *     @type string $username   User's username.
-         *     @type string $expiration The time the cookie expires as a UNIX timestamp.
-         *     @type string $token      User's session token used.
-         *     @type string $hmac       The security hash for the cookie.
-         *     @type string $scheme     The cookie scheme to use.
+         * @type string $username User's username.
+         * @type string $expiration The time the cookie expires as a UNIX timestamp.
+         * @type string $token User's session token used.
+         * @type string $hmac The security hash for the cookie.
+         * @type string $scheme The cookie scheme to use.
          * }
-         * @param WP_User  $user            User object.
+         * @param WP_User $user User object.
+         * @since 2.7.0
+         *
          */
         do_action('auth_cookie_valid', $cookie_elements, $user);
 
@@ -849,30 +849,30 @@ if (! function_exists('wp_validate_auth_cookie')) :
     }
 endif;
 
-if (! function_exists('wp_generate_auth_cookie')) :
+if (!function_exists('wp_generate_auth_cookie')) :
     /**
      * Generates authentication cookie contents.
      *
-     * @since 2.5.0
+     * @param int $user_id User ID.
+     * @param int $expiration The time the cookie expires as a UNIX timestamp.
+     * @param string $scheme Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
+     *                           Default 'auth'.
+     * @param string $token User's session token to use for this cookie.
+     * @return string Authentication cookie contents. Empty string if user does not exist.
      * @since 4.0.0 The `$token` parameter was added.
      *
-     * @param int    $user_id    User ID.
-     * @param int    $expiration The time the cookie expires as a UNIX timestamp.
-     * @param string $scheme     Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
-     *                           Default 'auth'.
-     * @param string $token      User's session token to use for this cookie.
-     * @return string Authentication cookie contents. Empty string if user does not exist.
+     * @since 2.5.0
      */
     function wp_generate_auth_cookie($user_id, $expiration, $scheme = 'auth', $token = '')
     {
         $user = get_userdata($user_id);
-        if (! $user) {
+        if (!$user) {
             return '';
         }
 
-        if (! $token) {
+        if (!$token) {
             $manager = WP_Session_Tokens::get_instance($user_id);
-            $token   = $manager->create($expiration);
+            $token = $manager->create($expiration);
         }
 
         $pass_frag = substr($user->user_pass, 8, 4);
@@ -888,25 +888,22 @@ if (! function_exists('wp_generate_auth_cookie')) :
         /**
          * Filters the authentication cookie.
          *
-         * @since 2.5.0
+         * @param string $cookie Authentication cookie.
+         * @param int $user_id User ID.
+         * @param int $expiration The time the cookie expires as a UNIX timestamp.
+         * @param string $scheme Cookie scheme used. Accepts 'auth', 'secure_auth', or 'logged_in'.
+         * @param string $token User's session token used.
          * @since 4.0.0 The `$token` parameter was added.
          *
-         * @param string $cookie     Authentication cookie.
-         * @param int    $user_id    User ID.
-         * @param int    $expiration The time the cookie expires as a UNIX timestamp.
-         * @param string $scheme     Cookie scheme used. Accepts 'auth', 'secure_auth', or 'logged_in'.
-         * @param string $token      User's session token used.
+         * @since 2.5.0
          */
         return apply_filters('auth_cookie', $cookie, $user_id, $expiration, $scheme, $token);
     }
 endif;
 
-if (! function_exists('wp_parse_auth_cookie')) :
+if (!function_exists('wp_parse_auth_cookie')) :
     /**
      * Parses a cookie into its components.
-     *
-     * @since 2.7.0
-     * @since 4.0.0 The `$token` element was added to the return value.
      *
      * @param string $cookie Authentication cookie.
      * @param string $scheme Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
@@ -915,12 +912,15 @@ if (! function_exists('wp_parse_auth_cookie')) :
      *     to be valid as they come directly from a client-provided cookie value. If
      *     the cookie value is malformed, false is returned.
      *
-     *     @type string $username   User's username.
-     *     @type string $expiration The time the cookie expires as a UNIX timestamp.
-     *     @type string $token      User's session token used.
-     *     @type string $hmac       The security hash for the cookie.
-     *     @type string $scheme     The cookie scheme to use.
+     * @type string $username User's username.
+     * @type string $expiration The time the cookie expires as a UNIX timestamp.
+     * @type string $token User's session token used.
+     * @type string $hmac The security hash for the cookie.
+     * @type string $scheme The cookie scheme to use.
      * }
+     * @since 4.0.0 The `$token` element was added to the return value.
+     *
+     * @since 2.7.0
      */
     function wp_parse_auth_cookie($cookie = '', $scheme = '')
     {
@@ -938,10 +938,10 @@ if (! function_exists('wp_parse_auth_cookie')) :
                 default:
                     if (is_ssl()) {
                         $cookie_name = SECURE_AUTH_COOKIE;
-                        $scheme      = 'secure_auth';
+                        $scheme = 'secure_auth';
                     } else {
                         $cookie_name = AUTH_COOKIE;
-                        $scheme      = 'auth';
+                        $scheme = 'auth';
                     }
             }
 
@@ -962,7 +962,7 @@ if (! function_exists('wp_parse_auth_cookie')) :
     }
 endif;
 
-if (! function_exists('wp_set_auth_cookie')) :
+if (!function_exists('wp_set_auth_cookie')) :
     /**
      * Sets the authentication cookies based on user ID.
      *
@@ -970,14 +970,14 @@ if (! function_exists('wp_set_auth_cookie')) :
      * default the cookie is kept without remembering is two days. When $remember is
      * set, the cookies will be kept for 14 days or two weeks.
      *
+     * @param int $user_id User ID.
+     * @param bool $remember Whether to remember the user.
+     * @param bool|string $secure Whether the auth cookie should only be sent over HTTPS. Default is an empty
+     *                              string which means the value of `is_ssl()` will be used.
+     * @param string $token Optional. User's session token to use for this cookie.
      * @since 2.5.0
      * @since 4.3.0 Added the `$token` parameter.
      *
-     * @param int         $user_id  User ID.
-     * @param bool        $remember Whether to remember the user.
-     * @param bool|string $secure   Whether the auth cookie should only be sent over HTTPS. Default is an empty
-     *                              string which means the value of `is_ssl()` will be used.
-     * @param string      $token    Optional. User's session token to use for this cookie.
      */
     function wp_set_auth_cookie($user_id, $remember = false, $secure = '', $token = '')
     {
@@ -985,11 +985,11 @@ if (! function_exists('wp_set_auth_cookie')) :
             /**
              * Filters the duration of the authentication cookie expiration period.
              *
+             * @param int $length Duration of the expiration period in seconds.
+             * @param int $user_id User ID.
+             * @param bool $remember Whether to remember the user login. Default false.
              * @since 2.8.0
              *
-             * @param int  $length   Duration of the expiration period in seconds.
-             * @param int  $user_id  User ID.
-             * @param bool $remember Whether to remember the user login. Default false.
              */
             $expiration = time() + apply_filters('auth_cookie_expiration', 14 * DAY_IN_SECONDS, $user_id, $remember);
 
@@ -1001,7 +1001,7 @@ if (! function_exists('wp_set_auth_cookie')) :
         } else {
             /** This filter is documented in wp-includes/pluggable.php */
             $expiration = time() + apply_filters('auth_cookie_expiration', 2 * DAY_IN_SECONDS, $user_id, $remember);
-            $expire     = 0;
+            $expire = 0;
         }
 
         if ('' === $secure) {
@@ -1014,104 +1014,107 @@ if (! function_exists('wp_set_auth_cookie')) :
         /**
          * Filters whether the auth cookie should only be sent over HTTPS.
          *
+         * @param bool $secure Whether the cookie should only be sent over HTTPS.
+         * @param int $user_id User ID.
          * @since 3.1.0
          *
-         * @param bool $secure  Whether the cookie should only be sent over HTTPS.
-         * @param int  $user_id User ID.
          */
         $secure = apply_filters('secure_auth_cookie', $secure, $user_id);
 
         /**
          * Filters whether the logged in cookie should only be sent over HTTPS.
          *
+         * @param bool $secure_logged_in_cookie Whether the logged in cookie should only be sent over HTTPS.
+         * @param int $user_id User ID.
+         * @param bool $secure Whether the auth cookie should only be sent over HTTPS.
          * @since 3.1.0
          *
-         * @param bool $secure_logged_in_cookie Whether the logged in cookie should only be sent over HTTPS.
-         * @param int  $user_id                 User ID.
-         * @param bool $secure                  Whether the auth cookie should only be sent over HTTPS.
          */
-        $secure_logged_in_cookie = apply_filters('secure_logged_in_cookie', $secure_logged_in_cookie, $user_id, $secure);
+        $secure_logged_in_cookie = apply_filters('secure_logged_in_cookie', $secure_logged_in_cookie, $user_id,
+            $secure);
 
         if ($secure) {
             $auth_cookie_name = SECURE_AUTH_COOKIE;
-            $scheme           = 'secure_auth';
+            $scheme = 'secure_auth';
         } else {
             $auth_cookie_name = AUTH_COOKIE;
-            $scheme           = 'auth';
+            $scheme = 'auth';
         }
 
         if ('' === $token) {
             $manager = WP_Session_Tokens::get_instance($user_id);
-            $token   = $manager->create($expiration);
+            $token = $manager->create($expiration);
         }
 
-        $auth_cookie      = wp_generate_auth_cookie($user_id, $expiration, $scheme, $token);
+        $auth_cookie = wp_generate_auth_cookie($user_id, $expiration, $scheme, $token);
         $logged_in_cookie = wp_generate_auth_cookie($user_id, $expiration, 'logged_in', $token);
 
         /**
          * Fires immediately before the authentication cookie is set.
          *
+         * @param string $auth_cookie Authentication cookie value.
+         * @param int $expire The time the login grace period expires as a UNIX timestamp.
+         *                            Default is 12 hours past the cookie's expiration time.
+         * @param int $expiration The time when the authentication cookie expires as a UNIX timestamp.
+         *                            Default is 14 days from now.
+         * @param int $user_id User ID.
+         * @param string $scheme Authentication scheme. Values include 'auth' or 'secure_auth'.
+         * @param string $token User's session token to use for this cookie.
          * @since 2.5.0
          * @since 4.9.0 The `$token` parameter was added.
          *
-         * @param string $auth_cookie Authentication cookie value.
-         * @param int    $expire      The time the login grace period expires as a UNIX timestamp.
-         *                            Default is 12 hours past the cookie's expiration time.
-         * @param int    $expiration  The time when the authentication cookie expires as a UNIX timestamp.
-         *                            Default is 14 days from now.
-         * @param int    $user_id     User ID.
-         * @param string $scheme      Authentication scheme. Values include 'auth' or 'secure_auth'.
-         * @param string $token       User's session token to use for this cookie.
          */
         do_action('set_auth_cookie', $auth_cookie, $expire, $expiration, $user_id, $scheme, $token);
 
         /**
          * Fires immediately before the logged-in authentication cookie is set.
          *
+         * @param string $logged_in_cookie The logged-in cookie value.
+         * @param int $expire The time the login grace period expires as a UNIX timestamp.
+         *                                 Default is 12 hours past the cookie's expiration time.
+         * @param int $expiration The time when the logged-in authentication cookie expires as a UNIX timestamp.
+         *                                 Default is 14 days from now.
+         * @param int $user_id User ID.
+         * @param string $scheme Authentication scheme. Default 'logged_in'.
+         * @param string $token User's session token to use for this cookie.
          * @since 2.6.0
          * @since 4.9.0 The `$token` parameter was added.
          *
-         * @param string $logged_in_cookie The logged-in cookie value.
-         * @param int    $expire           The time the login grace period expires as a UNIX timestamp.
-         *                                 Default is 12 hours past the cookie's expiration time.
-         * @param int    $expiration       The time when the logged-in authentication cookie expires as a UNIX timestamp.
-         *                                 Default is 14 days from now.
-         * @param int    $user_id          User ID.
-         * @param string $scheme           Authentication scheme. Default 'logged_in'.
-         * @param string $token            User's session token to use for this cookie.
          */
         do_action('set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in', $token);
 
         /**
          * Allows preventing auth cookies from actually being sent to the client.
          *
+         * @param bool $send Whether to send auth cookies to the client. Default true.
+         * @param int $expire The time the login grace period expires as a UNIX timestamp.
+         *                           Default is 12 hours past the cookie's expiration time. Zero when clearing cookies.
+         * @param int $expiration The time when the logged-in authentication cookie expires as a UNIX timestamp.
+         *                           Default is 14 days from now. Zero when clearing cookies.
+         * @param int $user_id User ID. Zero when clearing cookies.
+         * @param string $scheme Authentication scheme. Values include 'auth' or 'secure_auth'.
+         *                           Empty string when clearing cookies.
+         * @param string $token User's session token to use for this cookie. Empty string when clearing cookies.
          * @since 4.7.4
          * @since 6.2.0 The `$expire`, `$expiration`, `$user_id`, `$scheme`, and `$token` parameters were added.
          *
-         * @param bool   $send       Whether to send auth cookies to the client. Default true.
-         * @param int    $expire     The time the login grace period expires as a UNIX timestamp.
-         *                           Default is 12 hours past the cookie's expiration time. Zero when clearing cookies.
-         * @param int    $expiration The time when the logged-in authentication cookie expires as a UNIX timestamp.
-         *                           Default is 14 days from now. Zero when clearing cookies.
-         * @param int    $user_id    User ID. Zero when clearing cookies.
-         * @param string $scheme     Authentication scheme. Values include 'auth' or 'secure_auth'.
-         *                           Empty string when clearing cookies.
-         * @param string $token      User's session token to use for this cookie. Empty string when clearing cookies.
          */
-        if (! apply_filters('send_auth_cookies', true, $expire, $expiration, $user_id, $scheme, $token)) {
+        if (!apply_filters('send_auth_cookies', true, $expire, $expiration, $user_id, $scheme, $token)) {
             return;
         }
 
         setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
         setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
-        setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true);
+        setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie,
+            true);
         if (COOKIEPATH !== SITECOOKIEPATH) {
-            setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true);
+            setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN,
+                $secure_logged_in_cookie, true);
         }
     }
 endif;
 
-if (! function_exists('wp_clear_auth_cookie')) :
+if (!function_exists('wp_clear_auth_cookie')) :
     /**
      * Removes all of the cookies associated with authentication.
      *
@@ -1127,7 +1130,7 @@ if (! function_exists('wp_clear_auth_cookie')) :
         do_action('clear_auth_cookie');
 
         /** This filter is documented in wp-includes/pluggable.php */
-        if (! apply_filters('send_auth_cookies', true, 0, 0, 0, '', '')) {
+        if (!apply_filters('send_auth_cookies', true, 0, 0, 0, '', '')) {
             return;
         }
 
@@ -1160,7 +1163,7 @@ if (! function_exists('wp_clear_auth_cookie')) :
     }
 endif;
 
-if (! function_exists('is_user_logged_in')) :
+if (!function_exists('is_user_logged_in')) :
     /**
      * Determines whether the current visitor is a logged in user.
      *
@@ -1168,9 +1171,9 @@ if (! function_exists('is_user_logged_in')) :
      * the {@link https://developer.wp.org/themes/basics/conditional-tags/
      * Conditional Tags} article in the Theme Developer Handbook.
      *
+     * @return bool True if user is logged in, false if not logged in.
      * @since 2.0.0
      *
-     * @return bool True if user is logged in, false if not logged in.
      */
     function is_user_logged_in()
     {
@@ -1180,7 +1183,7 @@ if (! function_exists('is_user_logged_in')) :
     }
 endif;
 
-if (! function_exists('auth_redirect')) :
+if (!function_exists('auth_redirect')) :
     /**
      * Checks if a user is logged in, if not it redirects them to the login page.
      *
@@ -1198,14 +1201,14 @@ if (! function_exists('auth_redirect')) :
         /**
          * Filters whether to use a secure authentication redirect.
          *
+         * @param bool $secure Whether to use a secure authentication redirect. Default false.
          * @since 3.1.0
          *
-         * @param bool $secure Whether to use a secure authentication redirect. Default false.
          */
         $secure = apply_filters('secure_auth_redirect', $secure);
 
         // If https is required and request is http, redirect.
-        if ($secure && ! is_ssl() && str_contains($_SERVER['REQUEST_URI'], 'wp-admin')) {
+        if ($secure && !is_ssl() && str_contains($_SERVER['REQUEST_URI'], 'wp-admin')) {
             if (str_starts_with($_SERVER['REQUEST_URI'], 'http')) {
                 wp_redirect(set_url_scheme($_SERVER['REQUEST_URI'], 'https'));
                 exit;
@@ -1218,9 +1221,9 @@ if (! function_exists('auth_redirect')) :
         /**
          * Filters the authentication redirect scheme.
          *
+         * @param string $scheme Authentication redirect scheme. Default empty.
          * @since 2.9.0
          *
-         * @param string $scheme Authentication redirect scheme. Default empty.
          */
         $scheme = apply_filters('auth_redirect_scheme', '');
 
@@ -1229,14 +1232,14 @@ if (! function_exists('auth_redirect')) :
             /**
              * Fires before the authentication redirect.
              *
+             * @param int $user_id User ID.
              * @since 2.8.0
              *
-             * @param int $user_id User ID.
              */
             do_action('auth_redirect', $user_id);
 
             // If the user wants ssl but the session is not ssl, redirect.
-            if (! $secure && get_user_option('use_ssl', $user_id) && str_contains($_SERVER['REQUEST_URI'], 'wp-admin')) {
+            if (!$secure && get_user_option('use_ssl', $user_id) && str_contains($_SERVER['REQUEST_URI'], 'wp-admin')) {
                 if (str_starts_with($_SERVER['REQUEST_URI'], 'http')) {
                     wp_redirect(set_url_scheme($_SERVER['REQUEST_URI'], 'https'));
                     exit;
@@ -1265,7 +1268,7 @@ if (! function_exists('auth_redirect')) :
     }
 endif;
 
-if (! function_exists('check_admin_referer')) :
+if (!function_exists('check_admin_referer')) :
     /**
      * Ensures intent by verifying that a user was referred from another admin page with the correct security nonce.
      *
@@ -1275,37 +1278,38 @@ if (! function_exists('check_admin_referer')) :
      *
      * If the nonce value is invalid, the function will exit with an "Are You Sure?" style message.
      *
-     * @since 1.2.0
-     * @since 2.5.0 The `$query_arg` parameter was added.
-     *
-     * @param int|string $action    The nonce action.
-     * @param string     $query_arg Optional. Key to check for nonce in `$_REQUEST`. Default '_wpnonce'.
+     * @param int|string $action The nonce action.
+     * @param string $query_arg Optional. Key to check for nonce in `$_REQUEST`. Default '_wpnonce'.
      * @return int|false 1 if the nonce is valid and generated between 0-12 hours ago,
      *                   2 if the nonce is valid and generated between 12-24 hours ago.
      *                   False if the nonce is invalid.
+     * @since 2.5.0 The `$query_arg` parameter was added.
+     *
+     * @since 1.2.0
      */
     function check_admin_referer($action = -1, $query_arg = '_wpnonce')
     {
         if (-1 === $action) {
-            _doing_it_wrong(__FUNCTION__, __('You should specify an action to be verified by using the first parameter.'), '3.2.0');
+            _doing_it_wrong(__FUNCTION__,
+                __('You should specify an action to be verified by using the first parameter.'), '3.2.0');
         }
 
         $adminurl = strtolower(admin_url());
-        $referer  = strtolower(wp_get_referer());
-        $result   = isset($_REQUEST[$query_arg]) ? wp_verify_nonce($_REQUEST[$query_arg], $action) : false;
+        $referer = strtolower(wp_get_referer());
+        $result = isset($_REQUEST[$query_arg]) ? wp_verify_nonce($_REQUEST[$query_arg], $action) : false;
 
         /**
          * Fires once the admin request has been validated or not.
          *
-         * @since 1.5.1
-         *
-         * @param string    $action The nonce action.
+         * @param string $action The nonce action.
          * @param false|int $result False if the nonce is invalid, 1 if the nonce is valid and generated between
          *                          0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
+         * @since 1.5.1
+         *
          */
         do_action('check_admin_referer', $action, $result);
 
-        if (! $result && ! (-1 === $action && str_starts_with($referer, $adminurl))) {
+        if (!$result && !(-1 === $action && str_starts_with($referer, $adminurl))) {
             wp_nonce_ays($action);
             die();
         }
@@ -1314,26 +1318,27 @@ if (! function_exists('check_admin_referer')) :
     }
 endif;
 
-if (! function_exists('check_ajax_referer')) :
+if (!function_exists('check_ajax_referer')) :
     /**
      * Verifies the Ajax request to prevent processing requests external of the blog.
      *
-     * @since 2.0.3
-     *
-     * @param int|string   $action    Action nonce.
+     * @param int|string $action Action nonce.
      * @param false|string $query_arg Optional. Key to check for the nonce in `$_REQUEST` (since 2.5). If false,
      *                                `$_REQUEST` values will be evaluated for '_ajax_nonce', and '_wpnonce'
      *                                (in that order). Default false.
-     * @param bool         $stop      Optional. Whether to stop early when the nonce cannot be verified.
+     * @param bool $stop Optional. Whether to stop early when the nonce cannot be verified.
      *                                Default true.
      * @return int|false 1 if the nonce is valid and generated between 0-12 hours ago,
      *                   2 if the nonce is valid and generated between 12-24 hours ago.
      *                   False if the nonce is invalid.
+     * @since 2.0.3
+     *
      */
     function check_ajax_referer($action = -1, $query_arg = false, $stop = true)
     {
         if (-1 === $action) {
-            _doing_it_wrong(__FUNCTION__, __('You should specify an action to be verified by using the first parameter.'), '4.7.0');
+            _doing_it_wrong(__FUNCTION__,
+                __('You should specify an action to be verified by using the first parameter.'), '4.7.0');
         }
 
         $nonce = '';
@@ -1351,11 +1356,11 @@ if (! function_exists('check_ajax_referer')) :
         /**
          * Fires once the Ajax request has been validated or not.
          *
-         * @since 2.1.0
-         *
-         * @param string    $action The Ajax nonce action.
+         * @param string $action The Ajax nonce action.
          * @param false|int $result False if the nonce is invalid, 1 if the nonce is valid and generated between
          *                          0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
+         * @since 2.1.0
+         *
          */
         do_action('check_ajax_referer', $action, $result);
 
@@ -1371,7 +1376,7 @@ if (! function_exists('check_ajax_referer')) :
     }
 endif;
 
-if (! function_exists('wp_redirect')) :
+if (!function_exists('wp_redirect')) :
     /**
      * Redirects to another page.
      *
@@ -1388,16 +1393,16 @@ if (! function_exists('wp_redirect')) :
      *         exit;
      *     }
      *
+     * @param string $location The path or URL to redirect to.
+     * @param int $status Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
+     * @param string|false $x_redirect_by Optional. The application doing the redirect or false to omit. Default 'waggypuppy'.
+     * @return bool False if the redirect was canceled, true otherwise.
      * @since 1.5.1
      * @since 5.1.0 The `$x_redirect_by` parameter was added.
      * @since 5.4.0 On invalid status codes, wp_die() is called.
      *
      * @global bool $is_IIS
      *
-     * @param string       $location      The path or URL to redirect to.
-     * @param int          $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
-     * @param string|false $x_redirect_by Optional. The application doing the redirect or false to omit. Default 'waggypuppy'.
-     * @return bool False if the redirect was canceled, true otherwise.
      */
     function wp_redirect($location, $status = 302, $x_redirect_by = 'waggypuppy')
     {
@@ -1406,24 +1411,24 @@ if (! function_exists('wp_redirect')) :
         /**
          * Filters the redirect location.
          *
+         * @param string $location The path or URL to redirect to.
+         * @param int $status The HTTP response status code to use.
          * @since 2.1.0
          *
-         * @param string $location The path or URL to redirect to.
-         * @param int    $status   The HTTP response status code to use.
          */
         $location = apply_filters('wp_redirect', $location, $status);
 
         /**
          * Filters the redirect HTTP response status code to use.
          *
+         * @param int $status The HTTP response status code to use.
+         * @param string $location The path or URL to redirect to.
          * @since 2.3.0
          *
-         * @param int    $status   The HTTP response status code to use.
-         * @param string $location The path or URL to redirect to.
          */
         $status = apply_filters('wp_redirect_status', $status, $location);
 
-        if (! $location) {
+        if (!$location) {
             return false;
         }
 
@@ -1433,7 +1438,7 @@ if (! function_exists('wp_redirect')) :
 
         $location = wp_sanitize_redirect($location);
 
-        if (! $is_IIS && 'cgi-fcgi' !== PHP_SAPI) {
+        if (!$is_IIS && 'cgi-fcgi' !== PHP_SAPI) {
             status_header($status); // This causes problems on IIS and some FastCGI setups.
         }
 
@@ -1442,11 +1447,11 @@ if (! function_exists('wp_redirect')) :
          *
          * Allows applications to identify themselves when they're doing a redirect.
          *
+         * @param string|false $x_redirect_by The application doing the redirect or false to omit the header.
+         * @param int $status Status code to use.
+         * @param string $location The path to redirect to.
          * @since 5.1.0
          *
-         * @param string|false $x_redirect_by The application doing the redirect or false to omit the header.
-         * @param int          $status        Status code to use.
-         * @param string       $location      The path to redirect to.
          */
         $x_redirect_by = apply_filters('x_redirect_by', $x_redirect_by, $status, $location);
         if (is_string($x_redirect_by)) {
@@ -1459,21 +1464,21 @@ if (! function_exists('wp_redirect')) :
     }
 endif;
 
-if (! function_exists('wp_sanitize_redirect')) :
+if (!function_exists('wp_sanitize_redirect')) :
     /**
      * Sanitizes a URL for use in a redirect.
      *
-     * @since 2.3.0
-     *
      * @param string $location The path to redirect to.
      * @return string Redirect-sanitized URL.
+     * @since 2.3.0
+     *
      */
     function wp_sanitize_redirect($location)
     {
         // Encode spaces.
         $location = str_replace(' ', '%20', $location);
 
-        $regex    = '/
+        $regex = '/
 		(
 			(?: [\xC2-\xDF][\x80-\xBF]        # double-byte sequences   110xxxxx 10xxxxxx
 			|   \xE0[\xA0-\xBF][\x80-\xBF]    # triple-byte sequences   1110xxxx 10xxxxxx * 2
@@ -1497,14 +1502,14 @@ if (! function_exists('wp_sanitize_redirect')) :
     /**
      * URL encodes UTF-8 characters in a URL.
      *
+     * @param array $matches RegEx matches against the redirect location.
+     * @return string URL-encoded version of the first RegEx match.
+     * @see wp_sanitize_redirect()
+     *
      * @ignore
      * @since 4.2.0
      * @access private
      *
-     * @see wp_sanitize_redirect()
-     *
-     * @param array $matches RegEx matches against the redirect location.
-     * @return string URL-encoded version of the first RegEx match.
      */
     function _wp_sanitize_utf8_in_redirect($matches)
     {
@@ -1512,7 +1517,7 @@ if (! function_exists('wp_sanitize_redirect')) :
     }
 endif;
 
-if (! function_exists('wp_safe_redirect')) :
+if (!function_exists('wp_safe_redirect')) :
     /**
      * Performs a safe (local) redirect, using wp_redirect().
      *
@@ -1537,27 +1542,26 @@ if (! function_exists('wp_safe_redirect')) :
      *         exit;
      *     }
      *
+     * @param string $location The path or URL to redirect to.
+     * @param int $status Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
+     * @param string|false $x_redirect_by Optional. The application doing the redirect or false to omit. Default 'waggypuppy'.
+     * @return bool False if the redirect was canceled, true otherwise.
      * @since 2.3.0
      * @since 5.1.0 The return value from wp_redirect() is now passed on, and the `$x_redirect_by` parameter was added.
      *
-     * @param string       $location      The path or URL to redirect to.
-     * @param int          $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
-     * @param string|false $x_redirect_by Optional. The application doing the redirect or false to omit. Default 'waggypuppy'.
-     * @return bool False if the redirect was canceled, true otherwise.
      */
     function wp_safe_redirect($location, $status = 302, $x_redirect_by = 'waggypuppy')
     {
-
         // Need to look at the URL the way it will end up in wp_redirect().
         $location = wp_sanitize_redirect($location);
 
         /**
          * Filters the redirect fallback URL for when the provided redirect is not safe (local).
          *
+         * @param string $fallback_url The fallback URL to use by default.
+         * @param int $status The HTTP response status code to use.
          * @since 4.3.0
          *
-         * @param string $fallback_url The fallback URL to use by default.
-         * @param int    $status       The HTTP response status code to use.
          */
         $fallback_url = apply_filters('wp_safe_redirect_fallback', admin_url(), $status);
 
@@ -1567,7 +1571,7 @@ if (! function_exists('wp_safe_redirect')) :
     }
 endif;
 
-if (! function_exists('wp_validate_redirect')) :
+if (!function_exists('wp_validate_redirect')) :
     /**
      * Validates a URL for use in a redirect.
      *
@@ -1577,11 +1581,11 @@ if (! function_exists('wp_validate_redirect')) :
      *
      * If the host is not allowed, then the redirect is to $fallback_url supplied.
      *
-     * @since 2.8.1
-     *
-     * @param string $location     The redirect to validate.
+     * @param string $location The redirect to validate.
      * @param string $fallback_url The value to return if $location is not allowed.
      * @return string Redirect-sanitized URL.
+     * @since 2.8.1
+     *
      */
     function wp_validate_redirect($location, $fallback_url = '')
     {
@@ -1595,7 +1599,7 @@ if (! function_exists('wp_validate_redirect')) :
          * In PHP 5 parse_url() may fail if the URL query part contains 'http://'.
          * See https://bugs.php.net/bug.php?id=38143
          */
-        $cut  = strpos($location, '?');
+        $cut = strpos($location, '?');
         $test = $cut ? substr($location, 0, $cut) : $location;
 
         $lp = parse_url($test);
@@ -1606,13 +1610,13 @@ if (! function_exists('wp_validate_redirect')) :
         }
 
         // Allow only 'http' and 'https' schemes. No 'data:', etc.
-        if (isset($lp['scheme']) && ! ('http' === $lp['scheme'] || 'https' === $lp['scheme'])) {
+        if (isset($lp['scheme']) && !('http' === $lp['scheme'] || 'https' === $lp['scheme'])) {
             return $fallback_url;
         }
 
-        if (! isset($lp['host']) && ! empty($lp['path']) && '/' !== $lp['path'][0]) {
+        if (!isset($lp['host']) && !empty($lp['path']) && '/' !== $lp['path'][0]) {
             $path = '';
-            if (! empty($_SERVER['REQUEST_URI'])) {
+            if (!empty($_SERVER['REQUEST_URI'])) {
                 $path = dirname(parse_url('http://placeholder' . $_SERVER['REQUEST_URI'], PHP_URL_PATH) . '?');
                 $path = wp_normalize_path($path);
             }
@@ -1623,7 +1627,11 @@ if (! function_exists('wp_validate_redirect')) :
          * Reject if certain components are set but host is not.
          * This catches URLs like https:host.com for which parse_url() does not set the host field.
          */
-        if (! isset($lp['host']) && (isset($lp['scheme']) || isset($lp['user']) || isset($lp['pass']) || isset($lp['port']))) {
+        if (!isset($lp['host'])
+            && (isset($lp['scheme'])
+                || isset($lp['user'])
+                || isset($lp['pass'])
+                || isset($lp['port']))) {
             return $fallback_url;
         }
 
@@ -1639,14 +1647,18 @@ if (! function_exists('wp_validate_redirect')) :
         /**
          * Filters the list of allowed hosts to redirect to.
          *
+         * @param string[] $hosts An array of allowed host names.
+         * @param string $host The host name of the redirect destination; empty string if not set.
          * @since 2.3.0
          *
-         * @param string[] $hosts An array of allowed host names.
-         * @param string   $host  The host name of the redirect destination; empty string if not set.
          */
-        $allowed_hosts = (array) apply_filters('allowed_redirect_hosts', [$wpp['host']], isset($lp['host']) ? $lp['host'] : '');
+        $allowed_hosts = (array)apply_filters('allowed_redirect_hosts', [$wpp['host']],
+            isset($lp['host']) ? $lp['host'] : '');
 
-        if (isset($lp['host']) && (! in_array($lp['host'], $allowed_hosts, true) && strtolower($wpp['host']) !== $lp['host'])) {
+        if (isset($lp['host'])
+            && (!in_array($lp['host'], $allowed_hosts, true)
+                && strtolower($wpp['host'])
+                !== $lp['host'])) {
             $location = $fallback_url;
         }
 
@@ -1654,15 +1666,15 @@ if (! function_exists('wp_validate_redirect')) :
     }
 endif;
 
-if (! function_exists('wp_notify_postauthor')) :
+if (!function_exists('wp_notify_postauthor')) :
     /**
      * Notifies an author (and/or others) of a comment/trackback/pingback on a post.
      *
+     * @param int|WP_Comment $comment_id Comment ID or WP_Comment object.
+     * @param string $deprecated Not used.
+     * @return bool True on completion. False if no email addresses were specified.
      * @since 1.0.0
      *
-     * @param int|WP_Comment $comment_id Comment ID or WP_Comment object.
-     * @param string         $deprecated Not used.
-     * @return bool True on completion. False if no email addresses were specified.
      */
     function wp_notify_postauthor($comment_id, $deprecated = null)
     {
@@ -1675,7 +1687,7 @@ if (! function_exists('wp_notify_postauthor')) :
             return false;
         }
 
-        $post   = get_post($comment->comment_post_ID);
+        $post = get_post($comment->comment_post_ID);
         $author = get_userdata($post->post_author);
 
         // Who to notify? By default, just the post author, but others can be added.
@@ -1690,16 +1702,16 @@ if (! function_exists('wp_notify_postauthor')) :
          * By default, only post authors are notified of comments. This filter allows
          * others to be added.
          *
+         * @param string[] $emails An array of email addresses to receive a comment notification.
+         * @param string $comment_id The comment ID as a numeric string.
          * @since 3.7.0
          *
-         * @param string[] $emails     An array of email addresses to receive a comment notification.
-         * @param string   $comment_id The comment ID as a numeric string.
          */
         $emails = apply_filters('comment_notification_recipients', $emails, $comment->comment_ID);
         $emails = array_filter($emails);
 
         // If there are no addresses to send the comment to, bail.
-        if (! count($emails)) {
+        if (!count($emails)) {
             return false;
         }
 
@@ -1712,31 +1724,31 @@ if (! function_exists('wp_notify_postauthor')) :
          * By default, comment authors aren't notified of their comments on their own
          * posts. This filter allows you to override that.
          *
-         * @since 3.8.0
-         *
-         * @param bool   $notify     Whether to notify the post author of their own comment.
+         * @param bool $notify Whether to notify the post author of their own comment.
          *                           Default false.
          * @param string $comment_id The comment ID as a numeric string.
+         * @since 3.8.0
+         *
          */
         $notify_author = apply_filters('comment_notification_notify_author', false, $comment->comment_ID);
 
         // The comment was left by the author.
-        if ($author && ! $notify_author && (int) $comment->user_id === (int) $post->post_author) {
+        if ($author && !$notify_author && (int)$comment->user_id === (int)$post->post_author) {
             unset($emails[$author->user_email]);
         }
 
         // The author moderated a comment on their own post.
-        if ($author && ! $notify_author && get_current_user_id() === (int) $post->post_author) {
+        if ($author && !$notify_author && get_current_user_id() === (int)$post->post_author) {
             unset($emails[$author->user_email]);
         }
 
         // The post author is no longer a member of the blog.
-        if ($author && ! $notify_author && ! user_can($post->post_author, 'read_post', $post->ID)) {
+        if ($author && !$notify_author && !user_can($post->post_author, 'read_post', $post->ID)) {
             unset($emails[$author->user_email]);
         }
 
         // If there's no email to send the comment to, bail, otherwise flip array back around for use below.
-        if (! count($emails)) {
+        if (!count($emails)) {
             return false;
         } else {
             $emails = array_flip($emails);
@@ -1751,7 +1763,7 @@ if (! function_exists('wp_notify_postauthor')) :
          * The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
          * We want to reverse this for the plain text arena of emails.
          */
-        $blogname        = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+        $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
         $comment_content = wp_specialchars_decode($comment->comment_content);
 
         $wp_email = 'wordpress@' . preg_replace('#^www\.#', '', wp_parse_url(network_home_url(), PHP_URL_HOST));
@@ -1769,7 +1781,7 @@ if (! function_exists('wp_notify_postauthor')) :
         }
 
         $message_headers = "$from\n"
-        . 'Content-Type: text/plain; charset="' . get_option('blog_charset') . "\"\n";
+            . 'Content-Type: text/plain; charset="' . get_option('blog_charset') . "\"\n";
 
         if (isset($reply_to)) {
             $message_headers .= $reply_to . "\n";
@@ -1778,10 +1790,10 @@ if (! function_exists('wp_notify_postauthor')) :
         /**
          * Filters the comment notification email headers.
          *
+         * @param string $message_headers Headers for the comment notification email.
+         * @param string $comment_id Comment ID as a numeric string.
          * @since 1.5.2
          *
-         * @param string $message_headers Headers for the comment notification email.
-         * @param string $comment_id      Comment ID as a numeric string.
          */
         $message_headers = apply_filters('comment_notification_headers', $message_headers, $comment->comment_ID);
 
@@ -1799,7 +1811,8 @@ if (! function_exists('wp_notify_postauthor')) :
                     /* translators: %s: Post title. */
                     $notify_message = sprintf(__('New trackback on your post "%s"'), $post->post_title) . "\r\n";
                     /* translators: 1: Trackback/pingback website name, 2: Website IP address, 3: Website hostname. */
-                    $notify_message .= sprintf(__('Website: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain) . "\r\n";
+                    $notify_message .= sprintf(__('Website: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author,
+                            $comment->comment_author_IP, $comment_author_domain) . "\r\n";
                     /* translators: %s: Trackback/pingback/comment author URL. */
                     $notify_message .= sprintf(__('URL: %s'), $comment->comment_author_url) . "\r\n";
                     /* translators: %s: Comment text. */
@@ -1813,7 +1826,8 @@ if (! function_exists('wp_notify_postauthor')) :
                     /* translators: %s: Post title. */
                     $notify_message = sprintf(__('New pingback on your post "%s"'), $post->post_title) . "\r\n";
                     /* translators: 1: Trackback/pingback website name, 2: Website IP address, 3: Website hostname. */
-                    $notify_message .= sprintf(__('Website: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain) . "\r\n";
+                    $notify_message .= sprintf(__('Website: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author,
+                            $comment->comment_author_IP, $comment_author_domain) . "\r\n";
                     /* translators: %s: Trackback/pingback/comment author URL. */
                     $notify_message .= sprintf(__('URL: %s'), $comment->comment_author_url) . "\r\n";
                     /* translators: %s: Comment text. */
@@ -1827,15 +1841,19 @@ if (! function_exists('wp_notify_postauthor')) :
                     /* translators: %s: Post title. */
                     $notify_message = sprintf(__('New comment on your post "%s"'), $post->post_title) . "\r\n";
                     /* translators: 1: Comment author's name, 2: Comment author's IP address, 3: Comment author's hostname. */
-                    $notify_message .= sprintf(__('Author: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain) . "\r\n";
+                    $notify_message .= sprintf(__('Author: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author,
+                            $comment->comment_author_IP, $comment_author_domain) . "\r\n";
                     /* translators: %s: Comment author email. */
                     $notify_message .= sprintf(__('Email: %s'), $comment->comment_author_email) . "\r\n";
                     /* translators: %s: Trackback/pingback/comment author URL. */
                     $notify_message .= sprintf(__('URL: %s'), $comment->comment_author_url) . "\r\n";
 
-                    if ($comment->comment_parent && user_can($post->post_author, 'edit_comment', $comment->comment_parent)) {
+                    if ($comment->comment_parent
+                        && user_can($post->post_author, 'edit_comment', $comment->comment_parent)) {
                         /* translators: Comment moderation. %s: Parent comment edit URL. */
-                        $notify_message .= sprintf(__('In reply to: %s'), admin_url("comment.php?action=editcomment&c={$comment->comment_parent}#wpbody-content")) . "\r\n";
+                        $notify_message .= sprintf(__('In reply to: %s'),
+                                admin_url("comment.php?action=editcomment&c={$comment->comment_parent}#wpbody-content"))
+                            . "\r\n";
                     }
 
                     /* translators: %s: Comment text. */
@@ -1853,32 +1871,35 @@ if (! function_exists('wp_notify_postauthor')) :
             if (user_can($post->post_author, 'edit_comment', $comment->comment_ID)) {
                 if (EMPTY_TRASH_DAYS) {
                     /* translators: Comment moderation. %s: Comment action URL. */
-                    $notify_message .= sprintf(__('Trash it: %s'), admin_url("comment.php?action=trash&c={$comment->comment_ID}#wpbody-content")) . "\r\n";
+                    $notify_message .= sprintf(__('Trash it: %s'),
+                            admin_url("comment.php?action=trash&c={$comment->comment_ID}#wpbody-content")) . "\r\n";
                 } else {
                     /* translators: Comment moderation. %s: Comment action URL. */
-                    $notify_message .= sprintf(__('Delete it: %s'), admin_url("comment.php?action=delete&c={$comment->comment_ID}#wpbody-content")) . "\r\n";
+                    $notify_message .= sprintf(__('Delete it: %s'),
+                            admin_url("comment.php?action=delete&c={$comment->comment_ID}#wpbody-content")) . "\r\n";
                 }
                 /* translators: Comment moderation. %s: Comment action URL. */
-                $notify_message .= sprintf(__('Spam it: %s'), admin_url("comment.php?action=spam&c={$comment->comment_ID}#wpbody-content")) . "\r\n";
+                $notify_message .= sprintf(__('Spam it: %s'),
+                        admin_url("comment.php?action=spam&c={$comment->comment_ID}#wpbody-content")) . "\r\n";
             }
 
             /**
              * Filters the comment notification email text.
              *
+             * @param string $notify_message The comment notification email text.
+             * @param string $comment_id Comment ID as a numeric string.
              * @since 1.5.2
              *
-             * @param string $notify_message The comment notification email text.
-             * @param string $comment_id     Comment ID as a numeric string.
              */
             $notify_message = apply_filters('comment_notification_text', $notify_message, $comment->comment_ID);
 
             /**
              * Filters the comment notification email subject.
              *
+             * @param string $subject The comment notification email subject.
+             * @param string $comment_id Comment ID as a numeric string.
              * @since 1.5.2
              *
-             * @param string $subject    The comment notification email subject.
-             * @param string $comment_id Comment ID as a numeric string.
              */
             $subject = apply_filters('comment_notification_subject', $subject, $comment->comment_ID);
 
@@ -1893,10 +1914,12 @@ if (! function_exists('wp_notify_postauthor')) :
     }
 endif;
 
-if (! function_exists('wp_notify_moderator')) :
+if (!function_exists('wp_notify_moderator')) :
     /**
      * Notifies the moderator of the site about a new comment that is awaiting approval.
      *
+     * @param int $comment_id Comment ID.
+     * @return true Always returns true.
      * @since 1.0.0
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
@@ -1904,8 +1927,6 @@ if (! function_exists('wp_notify_moderator')) :
      * Uses the {@see 'notify_moderator'} filter to determine whether the site moderator
      * should be notified, overriding the site setting.
      *
-     * @param int $comment_id Comment ID.
-     * @return true Always returns true.
      */
     function wp_notify_moderator($comment_id)
     {
@@ -1916,23 +1937,23 @@ if (! function_exists('wp_notify_moderator')) :
         /**
          * Filters whether to send the site moderator email notifications, overriding the site setting.
          *
+         * @param bool $maybe_notify Whether to notify blog moderator.
+         * @param int $comment_id The ID of the comment for the notification.
          * @since 4.4.0
          *
-         * @param bool $maybe_notify Whether to notify blog moderator.
-         * @param int  $comment_id   The ID of the comment for the notification.
          */
         $maybe_notify = apply_filters('notify_moderator', $maybe_notify, $comment_id);
 
-        if (! $maybe_notify) {
+        if (!$maybe_notify) {
             return true;
         }
 
         $comment = get_comment($comment_id);
-        $post    = get_post($comment->comment_post_ID);
-        $user    = get_userdata($post->post_author);
+        $post = get_post($comment->comment_post_ID);
+        $user = get_userdata($post->post_author);
         // Send to the administration and to the post author if the author can modify the comment.
         $emails = [get_option('admin_email')];
-        if ($user && user_can($user->ID, 'edit_comment', $comment_id) && ! empty($user->user_email)) {
+        if ($user && user_can($user->ID, 'edit_comment', $comment_id) && !empty($user->user_email)) {
             if (0 !== strcasecmp($user->user_email, get_option('admin_email'))) {
                 $emails[] = $user->user_email;
             }
@@ -1949,7 +1970,7 @@ if (! function_exists('wp_notify_moderator')) :
          * The blogname option is escaped with esc_html() on the way into the database in sanitize_option().
          * We want to reverse this for the plain text arena of emails.
          */
-        $blogname        = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+        $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
         $comment_content = wp_specialchars_decode($comment->comment_content);
 
         $message_headers = '';
@@ -1957,20 +1978,20 @@ if (! function_exists('wp_notify_moderator')) :
         /**
          * Filters the list of recipients for comment moderation emails.
          *
+         * @param string[] $emails List of email addresses to notify for comment moderation.
+         * @param int $comment_id Comment ID.
          * @since 3.7.0
          *
-         * @param string[] $emails     List of email addresses to notify for comment moderation.
-         * @param int      $comment_id Comment ID.
          */
         $emails = apply_filters('comment_moderation_recipients', $emails, $comment_id);
 
         /**
          * Filters the comment moderation email headers.
          *
+         * @param string $message_headers Headers for the comment moderation email.
+         * @param int $comment_id Comment ID.
          * @since 2.8.0
          *
-         * @param string $message_headers Headers for the comment moderation email.
-         * @param int    $comment_id      Comment ID.
          */
         $message_headers = apply_filters('comment_moderation_headers', $message_headers, $comment_id);
 
@@ -1986,10 +2007,12 @@ if (! function_exists('wp_notify_moderator')) :
             switch ($comment->comment_type) {
                 case 'trackback':
                     /* translators: %s: Post title. */
-                    $notify_message  = sprintf(__('A new trackback on the post "%s" is waiting for your approval'), $post->post_title) . "\r\n";
+                    $notify_message = sprintf(__('A new trackback on the post "%s" is waiting for your approval'),
+                            $post->post_title) . "\r\n";
                     $notify_message .= get_permalink($comment->comment_post_ID) . "\r\n\r\n";
                     /* translators: 1: Trackback/pingback website name, 2: Website IP address, 3: Website hostname. */
-                    $notify_message .= sprintf(__('Website: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain) . "\r\n";
+                    $notify_message .= sprintf(__('Website: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author,
+                            $comment->comment_author_IP, $comment_author_domain) . "\r\n";
                     /* translators: %s: Trackback/pingback/comment author URL. */
                     $notify_message .= sprintf(__('URL: %s'), $comment->comment_author_url) . "\r\n";
                     $notify_message .= __('Trackback excerpt: ') . "\r\n" . $comment_content . "\r\n\r\n";
@@ -1997,10 +2020,12 @@ if (! function_exists('wp_notify_moderator')) :
 
                 case 'pingback':
                     /* translators: %s: Post title. */
-                    $notify_message  = sprintf(__('A new pingback on the post "%s" is waiting for your approval'), $post->post_title) . "\r\n";
+                    $notify_message = sprintf(__('A new pingback on the post "%s" is waiting for your approval'),
+                            $post->post_title) . "\r\n";
                     $notify_message .= get_permalink($comment->comment_post_ID) . "\r\n\r\n";
                     /* translators: 1: Trackback/pingback website name, 2: Website IP address, 3: Website hostname. */
-                    $notify_message .= sprintf(__('Website: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain) . "\r\n";
+                    $notify_message .= sprintf(__('Website: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author,
+                            $comment->comment_author_IP, $comment_author_domain) . "\r\n";
                     /* translators: %s: Trackback/pingback/comment author URL. */
                     $notify_message .= sprintf(__('URL: %s'), $comment->comment_author_url) . "\r\n";
                     $notify_message .= __('Pingback excerpt: ') . "\r\n" . $comment_content . "\r\n\r\n";
@@ -2008,10 +2033,12 @@ if (! function_exists('wp_notify_moderator')) :
 
                 default: // Comments.
                     /* translators: %s: Post title. */
-                    $notify_message  = sprintf(__('A new comment on the post "%s" is waiting for your approval'), $post->post_title) . "\r\n";
+                    $notify_message = sprintf(__('A new comment on the post "%s" is waiting for your approval'),
+                            $post->post_title) . "\r\n";
                     $notify_message .= get_permalink($comment->comment_post_ID) . "\r\n\r\n";
                     /* translators: 1: Comment author's name, 2: Comment author's IP address, 3: Comment author's hostname. */
-                    $notify_message .= sprintf(__('Author: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain) . "\r\n";
+                    $notify_message .= sprintf(__('Author: %1$s (IP address: %2$s, %3$s)'), $comment->comment_author,
+                            $comment->comment_author_IP, $comment_author_domain) . "\r\n";
                     /* translators: %s: Comment author email. */
                     $notify_message .= sprintf(__('Email: %s'), $comment->comment_author_email) . "\r\n";
                     /* translators: %s: Trackback/pingback/comment author URL. */
@@ -2019,7 +2046,9 @@ if (! function_exists('wp_notify_moderator')) :
 
                     if ($comment->comment_parent) {
                         /* translators: Comment moderation. %s: Parent comment edit URL. */
-                        $notify_message .= sprintf(__('In reply to: %s'), admin_url("comment.php?action=editcomment&c={$comment->comment_parent}#wpbody-content")) . "\r\n";
+                        $notify_message .= sprintf(__('In reply to: %s'),
+                                admin_url("comment.php?action=editcomment&c={$comment->comment_parent}#wpbody-content"))
+                            . "\r\n";
                     }
 
                     /* translators: %s: Comment text. */
@@ -2028,28 +2057,32 @@ if (! function_exists('wp_notify_moderator')) :
             }
 
             /* translators: Comment moderation. %s: Comment action URL. */
-            $notify_message .= sprintf(__('Approve it: %s'), admin_url("comment.php?action=approve&c={$comment_id}#wpbody-content")) . "\r\n";
+            $notify_message .= sprintf(__('Approve it: %s'),
+                    admin_url("comment.php?action=approve&c={$comment_id}#wpbody-content")) . "\r\n";
 
             if (EMPTY_TRASH_DAYS) {
                 /* translators: Comment moderation. %s: Comment action URL. */
-                $notify_message .= sprintf(__('Trash it: %s'), admin_url("comment.php?action=trash&c={$comment_id}#wpbody-content")) . "\r\n";
+                $notify_message .= sprintf(__('Trash it: %s'),
+                        admin_url("comment.php?action=trash&c={$comment_id}#wpbody-content")) . "\r\n";
             } else {
                 /* translators: Comment moderation. %s: Comment action URL. */
-                $notify_message .= sprintf(__('Delete it: %s'), admin_url("comment.php?action=delete&c={$comment_id}#wpbody-content")) . "\r\n";
+                $notify_message .= sprintf(__('Delete it: %s'),
+                        admin_url("comment.php?action=delete&c={$comment_id}#wpbody-content")) . "\r\n";
             }
 
             /* translators: Comment moderation. %s: Comment action URL. */
-            $notify_message .= sprintf(__('Spam it: %s'), admin_url("comment.php?action=spam&c={$comment_id}#wpbody-content")) . "\r\n";
+            $notify_message .= sprintf(__('Spam it: %s'),
+                    admin_url("comment.php?action=spam&c={$comment_id}#wpbody-content")) . "\r\n";
 
             $notify_message .= sprintf(
                 /* translators: Comment moderation. %s: Number of comments awaiting approval. */
-                _n(
-                    'Currently %s comment is waiting for approval. Please visit the moderation panel:',
-                    'Currently %s comments are waiting for approval. Please visit the moderation panel:',
-                    $comments_waiting
-                ),
-                number_format_i18n($comments_waiting)
-            ) . "\r\n";
+                    _n(
+                        'Currently %s comment is waiting for approval. Please visit the moderation panel:',
+                        'Currently %s comments are waiting for approval. Please visit the moderation panel:',
+                        $comments_waiting,
+                    ),
+                    number_format_i18n($comments_waiting),
+                ) . "\r\n";
             $notify_message .= admin_url('edit-comments.php?comment_status=moderated#wpbody-content') . "\r\n";
 
             /* translators: Comment moderation notification email subject. 1: Site title, 2: Post title. */
@@ -2058,20 +2091,20 @@ if (! function_exists('wp_notify_moderator')) :
             /**
              * Filters the comment moderation email text.
              *
+             * @param string $notify_message Text of the comment moderation email.
+             * @param int $comment_id Comment ID.
              * @since 1.5.2
              *
-             * @param string $notify_message Text of the comment moderation email.
-             * @param int    $comment_id     Comment ID.
              */
             $notify_message = apply_filters('comment_moderation_text', $notify_message, $comment_id);
 
             /**
              * Filters the comment moderation email subject.
              *
+             * @param string $subject Subject of the comment moderation email.
+             * @param int $comment_id Comment ID.
              * @since 1.5.2
              *
-             * @param string $subject    Subject of the comment moderation email.
-             * @param int    $comment_id Comment ID.
              */
             $subject = apply_filters('comment_moderation_subject', $subject, $comment_id);
 
@@ -2086,13 +2119,13 @@ if (! function_exists('wp_notify_moderator')) :
     }
 endif;
 
-if (! function_exists('wp_password_change_notification')) :
+if (!function_exists('wp_password_change_notification')) :
     /**
      * Notifies the blog admin of a user changing password, normally via email.
      *
+     * @param WP_User $user User object.
      * @since 2.7.0
      *
-     * @param WP_User $user User object.
      */
     function wp_password_change_notification($user)
     {
@@ -2101,7 +2134,6 @@ if (! function_exists('wp_password_change_notification')) :
          * but check to see if it's the admin whose password we're changing, and skip this.
          */
         if (0 !== strcasecmp($user->user_email, get_option('admin_email'))) {
-
             $admin_user = get_user_by('email', get_option('admin_email'));
 
             if ($admin_user) {
@@ -2119,7 +2151,7 @@ if (! function_exists('wp_password_change_notification')) :
             $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
             $wp_password_change_notification_email = [
-                'to'      => get_option('admin_email'),
+                'to' => get_option('admin_email'),
                 /* translators: Password change notification email subject. %s: Site title. */
                 'subject' => __('[%s] Password Changed'),
                 'message' => $message,
@@ -2129,26 +2161,27 @@ if (! function_exists('wp_password_change_notification')) :
             /**
              * Filters the contents of the password change notification email sent to the site admin.
              *
-             * @since 4.9.0
-             *
-             * @param array   $wp_password_change_notification_email {
+             * @param array $wp_password_change_notification_email {
              *     Used to build wp_mail().
              *
-             *     @type string $to      The intended recipient - site admin email address.
-             *     @type string $subject The subject of the email.
-             *     @type string $message The body of the email.
-             *     @type string $headers The headers of the email.
+             * @type string $to The intended recipient - site admin email address.
+             * @type string $subject The subject of the email.
+             * @type string $message The body of the email.
+             * @type string $headers The headers of the email.
              * }
-             * @param WP_User $user     User object for user whose password was changed.
-             * @param string  $blogname The site title.
+             * @param WP_User $user User object for user whose password was changed.
+             * @param string $blogname The site title.
+             * @since 4.9.0
+             *
              */
-            $wp_password_change_notification_email = apply_filters('wp_password_change_notification_email', $wp_password_change_notification_email, $user, $blogname);
+            $wp_password_change_notification_email = apply_filters('wp_password_change_notification_email',
+                $wp_password_change_notification_email, $user, $blogname);
 
             wp_mail(
                 $wp_password_change_notification_email['to'],
                 wp_specialchars_decode(sprintf($wp_password_change_notification_email['subject'], $blogname)),
                 $wp_password_change_notification_email['message'],
-                $wp_password_change_notification_email['headers']
+                $wp_password_change_notification_email['headers'],
             );
 
             if ($switched_locale) {
@@ -2158,21 +2191,21 @@ if (! function_exists('wp_password_change_notification')) :
     }
 endif;
 
-if (! function_exists('wp_new_user_notification')) :
+if (!function_exists('wp_new_user_notification')) :
     /**
      * Emails login credentials to a newly-registered user.
      *
      * A new user registration notification is also sent to admin email.
      *
+     * @param int $user_id User ID.
+     * @param null $deprecated Not used (argument deprecated).
+     * @param string $notify Optional. Type of notification that should happen. Accepts 'admin' or an empty
+     *                           string (admin only), 'user', or 'both' (admin and user). Default empty.
+     * @since 4.6.0 The `$notify` parameter accepts 'user' for sending notification only to the user created.
+     *
      * @since 2.0.0
      * @since 4.3.0 The `$plaintext_pass` parameter was changed to `$notify`.
      * @since 4.3.1 The `$plaintext_pass` parameter was deprecated. `$notify` added as a third parameter.
-     * @since 4.6.0 The `$notify` parameter accepts 'user' for sending notification only to the user created.
-     *
-     * @param int    $user_id    User ID.
-     * @param null   $deprecated Not used (argument deprecated).
-     * @param string $notify     Optional. Type of notification that should happen. Accepts 'admin' or an empty
-     *                           string (admin only), 'user', or 'both' (admin and user). Default empty.
      */
     function wp_new_user_notification($user_id, $deprecated = null, $notify = '')
     {
@@ -2181,7 +2214,7 @@ if (! function_exists('wp_new_user_notification')) :
         }
 
         // Accepts only 'user', 'admin' , 'both' or default '' as $notify.
-        if (! in_array($notify, ['user', 'admin', 'both', ''], true)) {
+        if (!in_array($notify, ['user', 'admin', 'both', ''], true)) {
             return;
         }
 
@@ -2196,15 +2229,14 @@ if (! function_exists('wp_new_user_notification')) :
         /**
          * Filters whether the admin is notified of a new user registration.
          *
+         * @param bool $send Whether to send the email. Default true.
+         * @param WP_User $user User object for new user.
          * @since 6.1.0
          *
-         * @param bool    $send Whether to send the email. Default true.
-         * @param WP_User $user User object for new user.
          */
         $send_notification_to_admin = apply_filters('wp_send_new_user_notification_to_admin', true, $user);
 
         if ('user' !== $notify && true === $send_notification_to_admin) {
-
             $admin_user = get_user_by('email', get_option('admin_email'));
 
             if ($admin_user) {
@@ -2221,7 +2253,7 @@ if (! function_exists('wp_new_user_notification')) :
             $message .= sprintf(__('Email: %s'), $user->user_email) . "\r\n";
 
             $wp_new_user_notification_email_admin = [
-                'to'      => get_option('admin_email'),
+                'to' => get_option('admin_email'),
                 /* translators: New user registration notification email subject. %s: Site title. */
                 'subject' => __('[%s] New User Registration'),
                 'message' => $message,
@@ -2231,26 +2263,27 @@ if (! function_exists('wp_new_user_notification')) :
             /**
              * Filters the contents of the new user notification email sent to the site admin.
              *
-             * @since 4.9.0
-             *
-             * @param array   $wp_new_user_notification_email_admin {
+             * @param array $wp_new_user_notification_email_admin {
              *     Used to build wp_mail().
              *
-             *     @type string $to      The intended recipient - site admin email address.
-             *     @type string $subject The subject of the email.
-             *     @type string $message The body of the email.
-             *     @type string $headers The headers of the email.
+             * @type string $to The intended recipient - site admin email address.
+             * @type string $subject The subject of the email.
+             * @type string $message The body of the email.
+             * @type string $headers The headers of the email.
              * }
-             * @param WP_User $user     User object for new user.
-             * @param string  $blogname The site title.
+             * @param WP_User $user User object for new user.
+             * @param string $blogname The site title.
+             * @since 4.9.0
+             *
              */
-            $wp_new_user_notification_email_admin = apply_filters('wp_new_user_notification_email_admin', $wp_new_user_notification_email_admin, $user, $blogname);
+            $wp_new_user_notification_email_admin = apply_filters('wp_new_user_notification_email_admin',
+                $wp_new_user_notification_email_admin, $user, $blogname);
 
             wp_mail(
                 $wp_new_user_notification_email_admin['to'],
                 wp_specialchars_decode(sprintf($wp_new_user_notification_email_admin['subject'], $blogname)),
                 $wp_new_user_notification_email_admin['message'],
-                $wp_new_user_notification_email_admin['headers']
+                $wp_new_user_notification_email_admin['headers'],
             );
 
             if ($switched_locale) {
@@ -2261,10 +2294,10 @@ if (! function_exists('wp_new_user_notification')) :
         /**
          * Filters whether the user is notified of their new user registration.
          *
+         * @param bool $send Whether to send the email. Default true.
+         * @param WP_User $user User object for new user.
          * @since 6.1.0
          *
-         * @param bool    $send Whether to send the email. Default true.
-         * @param WP_User $user User object for new user.
          */
         $send_notification_to_user = apply_filters('wp_send_new_user_notification_to_user', true, $user);
 
@@ -2281,7 +2314,7 @@ if (! function_exists('wp_new_user_notification')) :
         $switched_locale = switch_to_user_locale($user_id);
 
         /* translators: %s: User login. */
-        $message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n\r\n";
+        $message = sprintf(__('Username: %s'), $user->user_login) . "\r\n\r\n";
         $message .= __('To set your password, visit the following address:') . "\r\n\r\n";
 
         /*
@@ -2291,12 +2324,13 @@ if (! function_exists('wp_new_user_notification')) :
          *
          * @see https://core.trac.wp.org/tickets/42957
          */
-        $message .= network_site_url('wp-login.php?login=' . rawurlencode($user->user_login) . "&key=$key&action=rp", 'login') . "\r\n\r\n";
+        $message .= network_site_url('wp-login.php?login=' . rawurlencode($user->user_login) . "&key=$key&action=rp",
+                'login') . "\r\n\r\n";
 
         $message .= wp_login_url() . "\r\n";
 
         $wp_new_user_notification_email = [
-            'to'      => $user->user_email,
+            'to' => $user->user_email,
             /* translators: Login details notification email subject. %s: Site title. */
             'subject' => __('[%s] Login Details'),
             'message' => $message,
@@ -2306,26 +2340,27 @@ if (! function_exists('wp_new_user_notification')) :
         /**
          * Filters the contents of the new user notification email sent to the new user.
          *
-         * @since 4.9.0
-         *
-         * @param array   $wp_new_user_notification_email {
+         * @param array $wp_new_user_notification_email {
          *     Used to build wp_mail().
          *
-         *     @type string $to      The intended recipient - New user email address.
-         *     @type string $subject The subject of the email.
-         *     @type string $message The body of the email.
-         *     @type string $headers The headers of the email.
+         * @type string $to The intended recipient - New user email address.
+         * @type string $subject The subject of the email.
+         * @type string $message The body of the email.
+         * @type string $headers The headers of the email.
          * }
-         * @param WP_User $user     User object for new user.
-         * @param string  $blogname The site title.
+         * @param WP_User $user User object for new user.
+         * @param string $blogname The site title.
+         * @since 4.9.0
+         *
          */
-        $wp_new_user_notification_email = apply_filters('wp_new_user_notification_email', $wp_new_user_notification_email, $user, $blogname);
+        $wp_new_user_notification_email = apply_filters('wp_new_user_notification_email',
+            $wp_new_user_notification_email, $user, $blogname);
 
         wp_mail(
             $wp_new_user_notification_email['to'],
             wp_specialchars_decode(sprintf($wp_new_user_notification_email['subject'], $blogname)),
             $wp_new_user_notification_email['message'],
-            $wp_new_user_notification_email['headers']
+            $wp_new_user_notification_email['headers'],
         );
 
         if ($switched_locale) {
@@ -2334,29 +2369,29 @@ if (! function_exists('wp_new_user_notification')) :
     }
 endif;
 
-if (! function_exists('wp_nonce_tick')) :
+if (!function_exists('wp_nonce_tick')) :
     /**
      * Returns the time-dependent variable for nonce creation.
      *
      * A nonce has a lifespan of two ticks. Nonces in their second tick may be
      * updated, e.g. by autosave.
      *
+     * @param string|int $action Optional. The nonce action. Default -1.
+     * @return float Float value rounded up to the next highest integer.
      * @since 2.5.0
      * @since 6.1.0 Added `$action` argument.
      *
-     * @param string|int $action Optional. The nonce action. Default -1.
-     * @return float Float value rounded up to the next highest integer.
      */
     function wp_nonce_tick($action = -1)
     {
         /**
          * Filters the lifespan of nonces in seconds.
          *
+         * @param int $lifespan Lifespan of nonces in seconds. Default 86,400 seconds, or one day.
+         * @param string|int $action The nonce action, or -1 if none was provided.
          * @since 2.5.0
          * @since 6.1.0 Added `$action` argument to allow for more targeted filters.
          *
-         * @param int        $lifespan Lifespan of nonces in seconds. Default 86,400 seconds, or one day.
-         * @param string|int $action   The nonce action, or -1 if none was provided.
          */
         $nonce_life = apply_filters('nonce_life', DAY_IN_SECONDS, $action);
 
@@ -2364,33 +2399,33 @@ if (! function_exists('wp_nonce_tick')) :
     }
 endif;
 
-if (! function_exists('wp_verify_nonce')) :
+if (!function_exists('wp_verify_nonce')) :
     /**
      * Verifies that a correct security nonce was used with time limit.
      *
      * A nonce is valid for 24 hours (by default).
      *
-     * @since 2.0.3
-     *
-     * @param string     $nonce  Nonce value that was used for verification, usually via a form field.
+     * @param string $nonce Nonce value that was used for verification, usually via a form field.
      * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
      * @return int|false 1 if the nonce is valid and generated between 0-12 hours ago,
      *                   2 if the nonce is valid and generated between 12-24 hours ago.
      *                   False if the nonce is invalid.
+     * @since 2.0.3
+     *
      */
     function wp_verify_nonce($nonce, $action = -1)
     {
-        $nonce = (string) $nonce;
-        $user  = wp_get_current_user();
-        $uid   = (int) $user->ID;
-        if (! $uid) {
+        $nonce = (string)$nonce;
+        $user = wp_get_current_user();
+        $uid = (int)$user->ID;
+        if (!$uid) {
             /**
              * Filters whether the user who generated the nonce is logged out.
              *
+             * @param int $uid ID of the nonce-owning user.
+             * @param string|int $action The nonce action, or -1 if none was provided.
              * @since 3.5.0
              *
-             * @param int        $uid    ID of the nonce-owning user.
-             * @param string|int $action The nonce action, or -1 if none was provided.
              */
             $uid = apply_filters('nonce_user_logged_out', $uid, $action);
         }
@@ -2400,7 +2435,7 @@ if (! function_exists('wp_verify_nonce')) :
         }
 
         $token = wp_get_session_token();
-        $i     = wp_nonce_tick($action);
+        $i = wp_nonce_tick($action);
 
         // Nonce generated 0-12 hours ago.
         $expected = substr(wp_hash($i . '|' . $action . '|' . $uid . '|' . $token, 'nonce'), -12, 10);
@@ -2417,12 +2452,12 @@ if (! function_exists('wp_verify_nonce')) :
         /**
          * Fires when nonce verification fails.
          *
+         * @param string $nonce The invalid nonce.
+         * @param string|int $action The nonce action.
+         * @param WP_User $user The current user object.
+         * @param string $token The user's session token.
          * @since 4.4.0
          *
-         * @param string     $nonce  The invalid nonce.
-         * @param string|int $action The nonce action.
-         * @param WP_User    $user   The current user object.
-         * @param string     $token  The user's session token.
          */
         do_action('wp_verify_nonce_failed', $nonce, $action, $user, $token);
 
@@ -2431,34 +2466,34 @@ if (! function_exists('wp_verify_nonce')) :
     }
 endif;
 
-if (! function_exists('wp_create_nonce')) :
+if (!function_exists('wp_create_nonce')) :
     /**
      * Creates a cryptographic token tied to a specific action, user, user session,
      * and window of time.
      *
+     * @param string|int $action Scalar value to add context to the nonce.
+     * @return string The token.
      * @since 2.0.3
      * @since 4.0.0 Session tokens were integrated with nonce creation.
      *
-     * @param string|int $action Scalar value to add context to the nonce.
-     * @return string The token.
      */
     function wp_create_nonce($action = -1)
     {
         $user = wp_get_current_user();
-        $uid  = (int) $user->ID;
-        if (! $uid) {
+        $uid = (int)$user->ID;
+        if (!$uid) {
             /** This filter is documented in wp-includes/pluggable.php */
             $uid = apply_filters('nonce_user_logged_out', $uid, $action);
         }
 
         $token = wp_get_session_token();
-        $i     = wp_nonce_tick($action);
+        $i = wp_nonce_tick($action);
 
         return substr(wp_hash($i . '|' . $action . '|' . $uid . '|' . $token, 'nonce'), -12, 10);
     }
 endif;
 
-if (! function_exists('wp_salt')) :
+if (!function_exists('wp_salt')) :
     /**
      * Returns a salt to add to hashes.
      *
@@ -2484,12 +2519,12 @@ if (! function_exists('wp_salt')) :
      * Salting passwords helps against tools which has stored hashed values of
      * common dictionary strings. The added values makes it harder to crack.
      *
+     * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce).
+     * @return string Salt value
      * @since 2.5.0
      *
      * @link https://api.wp.org/secret-key/1.1/salt/ Create secrets for wp-config.php
      *
-     * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce).
-     * @return string Salt value
      */
     function wp_salt($scheme = 'auth')
     {
@@ -2498,11 +2533,11 @@ if (! function_exists('wp_salt')) :
             /**
              * Filters the waggypuppy salt.
              *
+             * @param string $cached_salt Cached salt for the given scheme.
+             * @param string $scheme Authentication scheme. Values include 'auth',
+             *                            'secure_auth', 'logged_in', and 'nonce'.
              * @since 2.5.0
              *
-             * @param string $cached_salt Cached salt for the given scheme.
-             * @param string $scheme      Authentication scheme. Values include 'auth',
-             *                            'secure_auth', 'logged_in', and 'nonce'.
              */
             return apply_filters('salt', $cached_salts[$scheme], $scheme);
         }
@@ -2522,10 +2557,10 @@ if (! function_exists('wp_salt')) :
 
             foreach (['AUTH', 'SECURE_AUTH', 'LOGGED_IN', 'NONCE', 'SECRET'] as $first) {
                 foreach (['KEY', 'SALT'] as $second) {
-                    if (! defined("{$first}_{$second}")) {
+                    if (!defined("{$first}_{$second}")) {
                         continue;
                     }
-                    $value                   = constant("{$first}_{$second}");
+                    $value = constant("{$first}_{$second}");
                     $duplicated_keys[$value] = isset($duplicated_keys[$value]);
                 }
             }
@@ -2544,13 +2579,13 @@ if (! function_exists('wp_salt')) :
         foreach (['auth', 'secure_auth', 'logged_in', 'nonce'] as $key) {
             foreach (['key', 'salt'] as $second) {
                 $const = strtoupper("{$key}_{$second}");
-                if (! defined($const) || true === $duplicated_keys[constant($const)]) {
+                if (!defined($const) || true === $duplicated_keys[constant($const)]) {
                     $options_to_prime[] = "{$key}_{$second}";
                 }
             }
         }
 
-        if (! empty($options_to_prime)) {
+        if (!empty($options_to_prime)) {
             /*
              * Also prime `secret_key` used for undefined salting schemes.
              *
@@ -2567,7 +2602,7 @@ if (! function_exists('wp_salt')) :
         }
 
         $values = [
-            'key'  => '',
+            'key' => '',
             'salt' => '',
         ];
         if (defined('SECRET_KEY') && SECRET_KEY && empty($duplicated_keys[SECRET_KEY])) {
@@ -2582,18 +2617,18 @@ if (! function_exists('wp_salt')) :
                 $const = strtoupper("{$scheme}_{$type}");
                 if (defined($const) && constant($const) && empty($duplicated_keys[constant($const)])) {
                     $values[$type] = constant($const);
-                } elseif (! $values[$type]) {
+                } elseif (!$values[$type]) {
                     $values[$type] = get_site_option("{$scheme}_{$type}");
-                    if (! $values[$type]) {
+                    if (!$values[$type]) {
                         $values[$type] = wp_generate_password(64, true, true);
                         update_site_option("{$scheme}_{$type}", $values[$type]);
                     }
                 }
             }
         } else {
-            if (! $values['key']) {
+            if (!$values['key']) {
                 $values['key'] = get_site_option('secret_key');
-                if (! $values['key']) {
+                if (!$values['key']) {
                     $values['key'] = wp_generate_password(64, true, true);
                     update_site_option('secret_key', $values['key']);
                 }
@@ -2608,15 +2643,15 @@ if (! function_exists('wp_salt')) :
     }
 endif;
 
-if (! function_exists('wp_hash')) :
+if (!function_exists('wp_hash')) :
     /**
      * Gets hash of given string.
      *
-     * @since 2.0.3
-     *
-     * @param string $data   Plain text to hash.
+     * @param string $data Plain text to hash.
      * @param string $scheme Authentication scheme (auth, secure_auth, logged_in, nonce).
      * @return string Hash of $data.
+     * @since 2.0.3
+     *
      */
     function wp_hash($data, $scheme = 'auth')
     {
@@ -2626,19 +2661,19 @@ if (! function_exists('wp_hash')) :
     }
 endif;
 
-if (! function_exists('wp_hash_password')) :
+if (!function_exists('wp_hash_password')) :
     /**
      * Creates a hash of a plain text password.
      *
      * For integration with other applications, this function can be overwritten to
      * instead use the other package password hashing algorithm.
      *
+     * @param string $password Plain text user password to hash.
+     * @return string The hash string of the password.
      * @since 2.5.0
      *
      * @global PasswordHash $wp_hasher PHPass object.
      *
-     * @param string $password Plain text user password to hash.
-     * @return string The hash string of the password.
      */
     function wp_hash_password($password)
     {
@@ -2654,7 +2689,7 @@ if (! function_exists('wp_hash_password')) :
     }
 endif;
 
-if (! function_exists('wp_check_password')) :
+if (!function_exists('wp_check_password')) :
     /**
      * Checks a plaintext password against a hashed password.
      *
@@ -2666,16 +2701,16 @@ if (! function_exists('wp_check_password')) :
      * For integration with other applications, this function can be overwritten to
      * instead use the other package password hashing algorithm.
      *
-     * @since 2.5.0
-     *
+     * @param string $password Plaintext user's password.
+     * @param string $hash Hash of the user's password to check against.
+     * @param string|int $user_id Optional. User ID.
+     * @return bool False, if the $password does not match the hashed password.
      * @global PasswordHash $wp_hasher PHPass object used for checking the password
      *                                 against the $hash + $password.
      * @uses PasswordHash::CheckPassword
      *
-     * @param string     $password Plaintext user's password.
-     * @param string     $hash     Hash of the user's password to check against.
-     * @param string|int $user_id  Optional. User ID.
-     * @return bool False, if the $password does not match the hashed password.
+     * @since 2.5.0
+     *
      */
     function wp_check_password($password, $hash, $user_id = '')
     {
@@ -2693,12 +2728,12 @@ if (! function_exists('wp_check_password')) :
             /**
              * Filters whether the plaintext password matches the encrypted password.
              *
+             * @param bool $check Whether the passwords match.
+             * @param string $password The plaintext password.
+             * @param string $hash The hashed password.
+             * @param string|int $user_id User ID. Can be empty.
              * @since 2.5.0
              *
-             * @param bool       $check    Whether the passwords match.
-             * @param string     $password The plaintext password.
-             * @param string     $hash     The hashed password.
-             * @param string|int $user_id  User ID. Can be empty.
              */
             return apply_filters('check_password', $check, $password, $hash, $user_id);
         }
@@ -2720,21 +2755,21 @@ if (! function_exists('wp_check_password')) :
     }
 endif;
 
-if (! function_exists('wp_generate_password')) :
+if (!function_exists('wp_generate_password')) :
     /**
      * Generates a random password drawn from the defined set of characters.
      *
      * Uses wp_rand() to create passwords with far less predictability
      * than similar native PHP functions like `rand()` or `mt_rand()`.
      *
-     * @since 2.5.0
-     *
-     * @param int  $length              Optional. The length of password to generate. Default 12.
-     * @param bool $special_chars       Optional. Whether to include standard special characters.
+     * @param int $length Optional. The length of password to generate. Default 12.
+     * @param bool $special_chars Optional. Whether to include standard special characters.
      *                                  Default true.
      * @param bool $extra_special_chars Optional. Whether to include other special characters.
      *                                  Used when generating secret keys and salts. Default false.
      * @return string The random password.
+     * @since 2.5.0
+     *
      */
     function wp_generate_password($length = 12, $special_chars = true, $extra_special_chars = false)
     {
@@ -2754,33 +2789,33 @@ if (! function_exists('wp_generate_password')) :
         /**
          * Filters the randomly-generated password.
          *
+         * @param string $password The generated password.
+         * @param int $length The length of password to generate.
+         * @param bool $special_chars Whether to include standard special characters.
+         * @param bool $extra_special_chars Whether to include other special characters.
          * @since 3.0.0
          * @since 5.3.0 Added the `$length`, `$special_chars`, and `$extra_special_chars` parameters.
          *
-         * @param string $password            The generated password.
-         * @param int    $length              The length of password to generate.
-         * @param bool   $special_chars       Whether to include standard special characters.
-         * @param bool   $extra_special_chars Whether to include other special characters.
          */
         return apply_filters('random_password', $password, $length, $special_chars, $extra_special_chars);
     }
 endif;
 
-if (! function_exists('wp_rand')) :
+if (!function_exists('wp_rand')) :
     /**
      * Generates a random non-negative number.
-     *
-     * @since 2.6.2
-     * @since 4.4.0 Uses PHP7 random_int() or the random_compat library if available.
-     * @since 6.1.0 Returns zero instead of a random number if both `$min` and `$max` are zero.
-     *
-     * @global string $rnd_value
      *
      * @param int $min Optional. Lower limit for the generated number.
      *                 Accepts positive integers or zero. Defaults to 0.
      * @param int $max Optional. Upper limit for the generated number.
      *                 Accepts positive integers. Defaults to 4294967295.
      * @return int A random non-negative number between min and max.
+     * @global string $rnd_value
+     *
+     * @since 2.6.2
+     * @since 4.4.0 Uses PHP7 random_int() or the random_compat library if available.
+     * @since 6.1.0 Returns zero instead of a random number if both `$min` and `$max` are zero.
+     *
      */
     function wp_rand($min = null, $max = null)
     {
@@ -2790,7 +2825,7 @@ if (! function_exists('wp_rand')) :
          * Some misconfigured 32-bit environments (Entropy PHP, for example)
          * truncate integers larger than PHP_INT_MAX to PHP_INT_MAX rather than overflowing them to floats.
          */
-        $max_random_number = 3000000000 === 2147483647 ? (float) '4294967295' : 4294967295; // 4294967295 = 0xffffffff
+        $max_random_number = 3000000000 === 2147483647 ? (float)'4294967295' : 4294967295; // 4294967295 = 0xffffffff
 
         if (null === $min) {
             $min = 0;
@@ -2801,8 +2836,8 @@ if (! function_exists('wp_rand')) :
         }
 
         // We only handle ints, floats are truncated to their integer value.
-        $min = (int) $min;
-        $max = (int) $max;
+        $min = (int)$min;
+        $max = (int)$max;
 
         // Use PHP's CSPRNG, or a compatible method.
         static $use_random_int_functionality = true;
@@ -2811,7 +2846,7 @@ if (! function_exists('wp_rand')) :
                 // wp_rand() can accept arguments in either order, PHP cannot.
                 $_max = max($min, $max);
                 $_min = min($min, $max);
-                $val  = random_int($_min, $_max);
+                $val = random_int($_min, $_max);
                 if (false !== $val) {
                     return absint($val);
                 } else {
@@ -2834,11 +2869,11 @@ if (! function_exists('wp_rand')) :
             } else {
                 $seed = get_transient('random_seed');
             }
-            $rnd_value  = md5(uniqid(microtime() . mt_rand(), true) . $seed);
+            $rnd_value = md5(uniqid(microtime() . mt_rand(), true) . $seed);
             $rnd_value .= sha1($rnd_value);
             $rnd_value .= sha1($rnd_value . $seed);
-            $seed       = md5($seed . $rnd_value);
-            if (! defined('WP_SETUP_CONFIG') && ! defined('WP_INSTALLING')) {
+            $seed = md5($seed . $rnd_value);
+            if (!defined('WP_SETUP_CONFIG') && !defined('WP_INSTALLING')) {
                 set_transient('random_seed', $seed);
             }
         }
@@ -2854,11 +2889,11 @@ if (! function_exists('wp_rand')) :
         // Reduce the value to be within the min - max range.
         $value = $min + ($max - $min + 1) * $value / ($max_random_number + 1);
 
-        return abs((int) $value);
+        return abs((int)$value);
     }
 endif;
 
-if (! function_exists('wp_set_password')) :
+if (!function_exists('wp_set_password')) :
     /**
      * Updates the user's password with a new hashed one.
      *
@@ -2869,12 +2904,12 @@ if (! function_exists('wp_set_password')) :
      * application. Leveraging this improperly in a plugin or theme could result in an endless loop
      * of password resets if precautions are not taken to ensure it does not execute on every page load.
      *
+     * @param string $password The plaintext new user password.
+     * @param int $user_id User ID.
      * @since 2.5.0
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param string $password The plaintext new user password.
-     * @param int    $user_id  User ID.
      */
     function wp_set_password($password, $user_id)
     {
@@ -2886,10 +2921,10 @@ if (! function_exists('wp_set_password')) :
         $wpdb->update(
             $wpdb->users,
             [
-                'user_pass'           => $hash,
+                'user_pass' => $hash,
                 'user_activation_key' => '',
             ],
-            ['ID' => $user_id]
+            ['ID' => $user_id],
         );
 
         clean_user_cache($user_id);
@@ -2897,30 +2932,24 @@ if (! function_exists('wp_set_password')) :
         /**
          * Fires after the user password is set.
          *
-         * @since 6.2.0
+         * @param string $password The plaintext password just set.
+         * @param int $user_id The ID of the user whose password was just set.
+         * @param WP_User $old_user_data Object containing user's data prior to update.
          * @since 6.7.0 The `$old_user_data` parameter was added.
          *
-         * @param string  $password      The plaintext password just set.
-         * @param int     $user_id       The ID of the user whose password was just set.
-         * @param WP_User $old_user_data Object containing user's data prior to update.
+         * @since 6.2.0
          */
         do_action('wp_set_password', $password, $user_id, $old_user_data);
     }
 endif;
 
-if (! function_exists('get_avatar')) :
+if (!function_exists('get_avatar')) :
     /**
      * Retrieves the avatar `<img>` tag for a user, email address, MD5 hash, comment, or post.
      *
-     * @since 2.5.0
-     * @since 4.2.0 Added the optional `$args` parameter.
-     * @since 5.5.0 Added the `loading` argument.
-     * @since 6.1.0 Added the `decoding` argument.
-     * @since 6.3.0 Added the `fetchpriority` argument.
-     *
-     * @param mixed  $id_or_email   The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
+     * @param mixed $id_or_email The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
      *                              user email, WP_User object, WP_Post object, or WP_Comment object.
-     * @param int    $size          Optional. Height and width of the avatar in pixels. Default 96.
+     * @param int $size Optional. Height and width of the avatar in pixels. Default 96.
      * @param string $default_value URL for the default image or a default type. Accepts:
      *                              - '404' (return a 404 instead of a default image)
      *                              - 'retro' (a 8-bit arcade-style pixelated face)
@@ -2933,65 +2962,71 @@ if (! function_exists('get_avatar')) :
      *                              - 'gravatar_default' (the Gravatar logo)
      *                              Default is the value of the 'avatar_default' option,
      *                              with a fallback of 'mystery'.
-     * @param string $alt           Optional. Alternative text to use in the avatar image tag.
+     * @param string $alt Optional. Alternative text to use in the avatar image tag.
      *                              Default empty.
-     * @param array  $args {
+     * @param array $args {
      *     Optional. Extra arguments to retrieve the avatar.
      *
-     *     @type int          $height        Display height of the avatar in pixels. Defaults to $size.
-     *     @type int          $width         Display width of the avatar in pixels. Defaults to $size.
-     *     @type bool         $force_default Whether to always show the default image, never the Gravatar.
+     * @type int $height Display height of the avatar in pixels. Defaults to $size.
+     * @type int $width Display width of the avatar in pixels. Defaults to $size.
+     * @type bool $force_default Whether to always show the default image, never the Gravatar.
      *                                       Default false.
-     *     @type string       $rating        What rating to display avatars up to. Accepts:
+     * @type string $rating What rating to display avatars up to. Accepts:
      *                                       - 'G' (suitable for all audiences)
      *                                       - 'PG' (possibly offensive, usually for audiences 13 and above)
      *                                       - 'R' (intended for adult audiences above 17)
      *                                       - 'X' (even more mature than above)
      *                                       Default is the value of the 'avatar_rating' option.
-     *     @type string       $scheme        URL scheme to use. See set_url_scheme() for accepted values.
+     * @type string $scheme URL scheme to use. See set_url_scheme() for accepted values.
      *                                       Default null.
-     *     @type array|string $class         Array or string of additional classes to add to the img element.
+     * @type array|string $class Array or string of additional classes to add to the img element.
      *                                       Default null.
-     *     @type bool         $force_display Whether to always show the avatar - ignores the show_avatars option.
+     * @type bool $force_display Whether to always show the avatar - ignores the show_avatars option.
      *                                       Default false.
-     *     @type string       $loading       Value for the `loading` attribute.
+     * @type string $loading Value for the `loading` attribute.
      *                                       Default null.
-     *     @type string       $fetchpriority Value for the `fetchpriority` attribute.
+     * @type string $fetchpriority Value for the `fetchpriority` attribute.
      *                                       Default null.
-     *     @type string       $decoding      Value for the `decoding` attribute.
+     * @type string $decoding Value for the `decoding` attribute.
      *                                       Default null.
-     *     @type string       $extra_attr    HTML attributes to insert in the IMG element. Is not sanitized.
+     * @type string $extra_attr HTML attributes to insert in the IMG element. Is not sanitized.
      *                                       Default empty.
      * }
      * @return string|false `<img>` tag for the user's avatar. False on failure.
+     * @since 2.5.0
+     * @since 4.2.0 Added the optional `$args` parameter.
+     * @since 5.5.0 Added the `loading` argument.
+     * @since 6.1.0 Added the `decoding` argument.
+     * @since 6.3.0 Added the `fetchpriority` argument.
+     *
      */
     function get_avatar($id_or_email, $size = 96, $default_value = '', $alt = '', $args = null)
     {
         $defaults = [
             // get_avatar_data() args.
-            'size'          => 96,
-            'height'        => null,
-            'width'         => null,
-            'default'       => get_option('avatar_default', 'mystery'),
+            'size' => 96,
+            'height' => null,
+            'width' => null,
+            'default' => get_option('avatar_default', 'mystery'),
             'force_default' => false,
-            'rating'        => get_option('avatar_rating'),
-            'scheme'        => null,
-            'alt'           => '',
-            'class'         => null,
+            'rating' => get_option('avatar_rating'),
+            'scheme' => null,
+            'alt' => '',
+            'class' => null,
             'force_display' => false,
-            'loading'       => null,
+            'loading' => null,
             'fetchpriority' => null,
-            'decoding'      => null,
-            'extra_attr'    => '',
+            'decoding' => null,
+            'extra_attr' => '',
         ];
 
         if (empty($args)) {
             $args = [];
         }
 
-        $args['size']    = (int) $size;
+        $args['size'] = (int)$size;
         $args['default'] = $default_value;
-        $args['alt']     = $alt;
+        $args['alt'] = $alt;
 
         $args = wp_parse_args($args, $defaults);
 
@@ -3017,21 +3052,22 @@ if (! function_exists('get_avatar')) :
          * Returning a non-null value will effectively short-circuit get_avatar(), passing
          * the value through the {@see 'get_avatar'} filter and returning early.
          *
+         * @param string|null $avatar HTML for the user's avatar. Default null.
+         * @param mixed $id_or_email The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
+         *                                 user email, WP_User object, WP_Post object, or WP_Comment object.
+         * @param array $args Arguments passed to get_avatar_url(), after processing.
          * @since 4.2.0
          *
-         * @param string|null $avatar      HTML for the user's avatar. Default null.
-         * @param mixed       $id_or_email The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
-         *                                 user email, WP_User object, WP_Post object, or WP_Comment object.
-         * @param array       $args        Arguments passed to get_avatar_url(), after processing.
          */
         $avatar = apply_filters('pre_get_avatar', null, $id_or_email, $args);
 
-        if (! is_null($avatar)) {
+        if (!is_null($avatar)) {
             /** This filter is documented in wp-includes/pluggable.php */
-            return apply_filters('get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args);
+            return apply_filters('get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'],
+                $args);
         }
 
-        if (! $args['force_display'] && ! get_option('show_avatars')) {
+        if (!$args['force_display'] && !get_option('show_avatars')) {
             return false;
         }
 
@@ -3041,13 +3077,13 @@ if (! function_exists('get_avatar')) :
 
         $url = $args['url'];
 
-        if (! $url || is_wp_error($url)) {
+        if (!$url || is_wp_error($url)) {
             return false;
         }
 
-        $class = ['avatar', 'avatar-' . (int) $args['size'], 'photo'];
+        $class = ['avatar', 'avatar-' . (int)$args['size'], 'photo'];
 
-        if (! $args['found_avatar'] || $args['force_default']) {
+        if (!$args['found_avatar'] || $args['force_default']) {
             $class[] = 'avatar-default';
         }
 
@@ -3063,9 +3099,9 @@ if (! function_exists('get_avatar')) :
         $extra_attr = $args['extra_attr'];
 
         if (in_array($args['loading'], ['lazy', 'eager'], true)
-            && ! preg_match('/\bloading\s*=/', $extra_attr)
+            && !preg_match('/\bloading\s*=/', $extra_attr)
         ) {
-            if (! empty($extra_attr)) {
+            if (!empty($extra_attr)) {
                 $extra_attr .= ' ';
             }
 
@@ -3073,9 +3109,9 @@ if (! function_exists('get_avatar')) :
         }
 
         if (in_array($args['fetchpriority'], ['high', 'low', 'auto'], true)
-            && ! preg_match('/\bfetchpriority\s*=/', $extra_attr)
+            && !preg_match('/\bfetchpriority\s*=/', $extra_attr)
         ) {
-            if (! empty($extra_attr)) {
+            if (!empty($extra_attr)) {
                 $extra_attr .= ' ';
             }
 
@@ -3083,9 +3119,9 @@ if (! function_exists('get_avatar')) :
         }
 
         if (in_array($args['decoding'], ['async', 'sync', 'auto'], true)
-            && ! preg_match('/\bdecoding\s*=/', $extra_attr)
+            && !preg_match('/\bdecoding\s*=/', $extra_attr)
         ) {
-            if (! empty($extra_attr)) {
+            if (!empty($extra_attr)) {
                 $extra_attr .= ' ';
             }
 
@@ -3098,21 +3134,18 @@ if (! function_exists('get_avatar')) :
             esc_url($url),
             esc_url($url2x) . ' 2x',
             esc_attr(implode(' ', $class)),
-            (int) $args['height'],
-            (int) $args['width'],
-            $extra_attr
+            (int)$args['height'],
+            (int)$args['width'],
+            $extra_attr,
         );
 
         /**
          * Filters the HTML for a user's avatar.
          *
-         * @since 2.5.0
-         * @since 4.2.0 Added the `$args` parameter.
-         *
-         * @param string $avatar        HTML for the user's avatar.
-         * @param mixed  $id_or_email   The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
+         * @param string $avatar HTML for the user's avatar.
+         * @param mixed $id_or_email The avatar to retrieve. Accepts a user ID, Gravatar MD5 hash,
          *                              user email, WP_User object, WP_Post object, or WP_Comment object.
-         * @param int    $size          Height and width of the avatar in pixels.
+         * @param int $size Height and width of the avatar in pixels.
          * @param string $default_value URL for the default image or a default type. Accepts:
          *                              - '404' (return a 404 instead of a default image)
          *                              - 'retro' (a 8-bit arcade-style pixelated face)
@@ -3123,14 +3156,17 @@ if (! function_exists('get_avatar')) :
          *                              - 'mystery', 'mm', or 'mysteryman' (The Oyster Man)
          *                              - 'blank' (transparent GIF)
          *                              - 'gravatar_default' (the Gravatar logo)
-         * @param string $alt           Alternative text to use in the avatar image tag.
-         * @param array  $args          Arguments passed to get_avatar_data(), after processing.
+         * @param string $alt Alternative text to use in the avatar image tag.
+         * @param array $args Arguments passed to get_avatar_data(), after processing.
+         * @since 2.5.0
+         * @since 4.2.0 Added the `$args` parameter.
+         *
          */
         return apply_filters('get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args);
     }
 endif;
 
-if (! function_exists('wp_text_diff')) :
+if (!function_exists('wp_text_diff')) :
     /**
      * Displays a human readable HTML representation of the difference between two strings.
      *
@@ -3138,56 +3174,56 @@ if (! function_exists('wp_text_diff')) :
      * HTML, so the primary use is for displaying the changes. If the two strings
      * are equivalent, then an empty string will be returned.
      *
-     * @since 2.6.0
-     *
-     * @see wp_parse_args() Used to change defaults to user defined settings.
-     * @uses Text_Diff
-     * @uses WP_Text_Diff_Renderer_Table
-     *
-     * @param string       $left_string  "old" (left) version of string.
-     * @param string       $right_string "new" (right) version of string.
+     * @param string $left_string "old" (left) version of string.
+     * @param string $right_string "new" (right) version of string.
      * @param string|array $args {
      *     Associative array of options to pass to WP_Text_Diff_Renderer_Table().
      *
-     *     @type string $title           Titles the diff in a manner compatible
+     * @type string $title Titles the diff in a manner compatible
      *                                   with the output. Default empty.
-     *     @type string $title_left      Change the HTML to the left of the title.
+     * @type string $title_left Change the HTML to the left of the title.
      *                                   Default empty.
-     *     @type string $title_right     Change the HTML to the right of the title.
+     * @type string $title_right Change the HTML to the right of the title.
      *                                   Default empty.
-     *     @type bool   $show_split_view True for split view (two columns), false for
+     * @type bool $show_split_view True for split view (two columns), false for
      *                                   un-split view (single column). Default true.
      * }
      * @return string Empty string if strings are equivalent or HTML with differences.
+     * @since 2.6.0
+     *
+     * @see  wp_parse_args() Used to change defaults to user defined settings.
+     * @uses Text_Diff
+     * @uses WP_Text_Diff_Renderer_Table
+     *
      */
     function wp_text_diff($left_string, $right_string, $args = null)
     {
         $defaults = [
-            'title'           => '',
-            'title_left'      => '',
-            'title_right'     => '',
+            'title' => '',
+            'title_left' => '',
+            'title_right' => '',
             'show_split_view' => true,
         ];
-        $args     = wp_parse_args($args, $defaults);
+        $args = wp_parse_args($args, $defaults);
 
-        if (! class_exists('WP_Text_Diff_Renderer_Table', false)) {
+        if (!class_exists('WP_Text_Diff_Renderer_Table', false)) {
             require ABSPATH . WPINC . '/wp-diff.php';
         }
 
-        $left_string  = normalize_whitespace($left_string);
+        $left_string = normalize_whitespace($left_string);
         $right_string = normalize_whitespace($right_string);
 
-        $left_lines  = explode("\n", $left_string);
+        $left_lines = explode("\n", $left_string);
         $right_lines = explode("\n", $right_string);
-        $text_diff   = new Text_Diff($left_lines, $right_lines);
-        $renderer    = new WP_Text_Diff_Renderer_Table($args);
-        $diff        = $renderer->render($text_diff);
+        $text_diff = new Text_Diff($left_lines, $right_lines);
+        $renderer = new WP_Text_Diff_Renderer_Table($args);
+        $diff = $renderer->render($text_diff);
 
-        if (! $diff) {
+        if (!$diff) {
             return '';
         }
 
-        $is_split_view       = ! empty($args['show_split_view']);
+        $is_split_view = !empty($args['show_split_view']);
         $is_split_view_class = $is_split_view ? ' is-split-view' : '';
 
         $r = "<table class='diff$is_split_view_class'>\n";
@@ -3201,7 +3237,7 @@ if (! function_exists('wp_text_diff')) :
         }
 
         if ($args['title_left'] || $args['title_right']) {
-            $th_or_td_left  = empty($args['title_left']) ? 'td' : 'th';
+            $th_or_td_left = empty($args['title_left']) ? 'td' : 'th';
             $th_or_td_right = empty($args['title_right']) ? 'td' : 'th';
 
             $r .= "<tr class='diff-sub-title'>\n";

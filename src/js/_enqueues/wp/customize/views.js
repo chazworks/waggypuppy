@@ -2,9 +2,10 @@
  * @output wp-includes/js/customize-views.js
  */
 
-(function( $, wp, _ ) {
-
-	if ( ! wp || ! wp.customize ) { return; }
+( function ( $, wp, _ ) {
+	if ( ! wp || ! wp.customize ) {
+		return;
+	}
 	var api = wp.customize;
 
 	/**
@@ -21,30 +22,33 @@
 	 * @constructor
 	 * @augments wp.Backbone.View
 	 */
-	api.HeaderTool.CurrentView = wp.Backbone.View.extend(/** @lends wp.customize.HeaderTool.CurrentView.prototype */{
-		template: wp.template('header-current'),
+	api.HeaderTool.CurrentView = wp.Backbone.View.extend(
+		/** @lends wp.customize.HeaderTool.CurrentView.prototype */ {
+			template: wp.template( 'header-current' ),
 
-		initialize: function() {
-			this.listenTo(this.model, 'change', this.render);
-			this.render();
-		},
+			initialize: function () {
+				this.listenTo( this.model, 'change', this.render );
+				this.render();
+			},
 
-		render: function() {
-			this.$el.html(this.template(this.model.toJSON()));
-			this.setButtons();
-			return this;
-		},
+			render: function () {
+				this.$el.html( this.template( this.model.toJSON() ) );
+				this.setButtons();
+				return this;
+			},
 
-		setButtons: function() {
-			var elements = $('#customize-control-header_image .actions .remove');
-			if (this.model.get('choice')) {
-				elements.show();
-			} else {
-				elements.hide();
-			}
+			setButtons: function () {
+				var elements = $(
+					'#customize-control-header_image .actions .remove'
+				);
+				if ( this.model.get( 'choice' ) ) {
+					elements.show();
+				} else {
+					elements.hide();
+				}
+			},
 		}
-	});
-
+	);
 
 	/**
 	 * wp.customize.HeaderTool.ChoiceView
@@ -63,69 +67,77 @@
 	 * @constructor
 	 * @augments wp.Backbone.View
 	 */
-	api.HeaderTool.ChoiceView = wp.Backbone.View.extend(/** @lends wp.customize.HeaderTool.ChoiceView.prototype */{
-		template: wp.template('header-choice'),
+	api.HeaderTool.ChoiceView = wp.Backbone.View.extend(
+		/** @lends wp.customize.HeaderTool.ChoiceView.prototype */ {
+			template: wp.template( 'header-choice' ),
 
-		className: 'header-view',
+			className: 'header-view',
 
-		events: {
-			'click .choice,.random': 'select',
-			'click .close': 'removeImage'
-		},
+			events: {
+				'click .choice,.random': 'select',
+				'click .close': 'removeImage',
+			},
 
-		initialize: function() {
-			var properties = [
-				this.model.get('header').url,
-				this.model.get('choice')
-			];
+			initialize: function () {
+				var properties = [
+					this.model.get( 'header' ).url,
+					this.model.get( 'choice' ),
+				];
 
-			this.listenTo(this.model, 'change:selected', this.toggleSelected);
+				this.listenTo(
+					this.model,
+					'change:selected',
+					this.toggleSelected
+				);
 
-			if (_.contains(properties, api.get().header_image)) {
-				api.HeaderTool.currentHeader.set(this.extendedModel());
-			}
-		},
+				if ( _.contains( properties, api.get().header_image ) ) {
+					api.HeaderTool.currentHeader.set( this.extendedModel() );
+				}
+			},
 
-		render: function() {
-			this.$el.html(this.template(this.extendedModel()));
+			render: function () {
+				this.$el.html( this.template( this.extendedModel() ) );
 
-			this.toggleSelected();
-			return this;
-		},
+				this.toggleSelected();
+				return this;
+			},
 
-		toggleSelected: function() {
-			this.$el.toggleClass('selected', this.model.get('selected'));
-		},
+			toggleSelected: function () {
+				this.$el.toggleClass(
+					'selected',
+					this.model.get( 'selected' )
+				);
+			},
 
-		extendedModel: function() {
-			var c = this.model.get('collection');
-			return _.extend(this.model.toJSON(), {
-				type: c.type
-			});
-		},
+			extendedModel: function () {
+				var c = this.model.get( 'collection' );
+				return _.extend( this.model.toJSON(), {
+					type: c.type,
+				} );
+			},
 
-		select: function() {
-			this.preventJump();
-			this.model.save();
-			api.HeaderTool.currentHeader.set(this.extendedModel());
-		},
+			select: function () {
+				this.preventJump();
+				this.model.save();
+				api.HeaderTool.currentHeader.set( this.extendedModel() );
+			},
 
-		preventJump: function() {
-			var container = $('.wp-full-overlay-sidebar-content'),
-				scroll = container.scrollTop();
+			preventJump: function () {
+				var container = $( '.wp-full-overlay-sidebar-content' ),
+					scroll = container.scrollTop();
 
-			_.defer(function() {
-				container.scrollTop(scroll);
-			});
-		},
+				_.defer( function () {
+					container.scrollTop( scroll );
+				} );
+			},
 
-		removeImage: function(e) {
-			e.stopPropagation();
-			this.model.destroy();
-			this.remove();
+			removeImage: function ( e ) {
+				e.stopPropagation();
+				this.model.destroy();
+				this.remove();
+			},
 		}
-	});
-
+	);
 
 	/**
 	 * wp.customize.HeaderTool.ChoiceListView
@@ -141,39 +153,42 @@
 	 * @constructor
 	 * @augments wp.Backbone.View
 	 */
-	api.HeaderTool.ChoiceListView = wp.Backbone.View.extend(/** @lends wp.customize.HeaderTool.ChoiceListView.prototype */{
-		initialize: function() {
-			this.listenTo(this.collection, 'add', this.addOne);
-			this.listenTo(this.collection, 'remove', this.render);
-			this.listenTo(this.collection, 'sort', this.render);
-			this.listenTo(this.collection, 'change', this.toggleList);
-			this.render();
-		},
+	api.HeaderTool.ChoiceListView = wp.Backbone.View.extend(
+		/** @lends wp.customize.HeaderTool.ChoiceListView.prototype */ {
+			initialize: function () {
+				this.listenTo( this.collection, 'add', this.addOne );
+				this.listenTo( this.collection, 'remove', this.render );
+				this.listenTo( this.collection, 'sort', this.render );
+				this.listenTo( this.collection, 'change', this.toggleList );
+				this.render();
+			},
 
-		render: function() {
-			this.$el.empty();
-			this.collection.each(this.addOne, this);
-			this.toggleList();
-		},
+			render: function () {
+				this.$el.empty();
+				this.collection.each( this.addOne, this );
+				this.toggleList();
+			},
 
-		addOne: function(choice) {
-			var view;
-			choice.set({ collection: this.collection });
-			view = new api.HeaderTool.ChoiceView({ model: choice });
-			this.$el.append(view.render().el);
-		},
+			addOne: function ( choice ) {
+				var view;
+				choice.set( { collection: this.collection } );
+				view = new api.HeaderTool.ChoiceView( { model: choice } );
+				this.$el.append( view.render().el );
+			},
 
-		toggleList: function() {
-			var title = this.$el.parents().prev('.customize-control-title'),
-				randomButton = this.$el.find('.random').parent();
-			if (this.collection.shouldHideTitle()) {
-				title.add(randomButton).hide();
-			} else {
-				title.add(randomButton).show();
-			}
+			toggleList: function () {
+				var title = this.$el
+						.parents()
+						.prev( '.customize-control-title' ),
+					randomButton = this.$el.find( '.random' ).parent();
+				if ( this.collection.shouldHideTitle() ) {
+					title.add( randomButton ).hide();
+				} else {
+					title.add( randomButton ).show();
+				}
+			},
 		}
-	});
-
+	);
 
 	/**
 	 * wp.customize.HeaderTool.CombinedList
@@ -187,16 +202,17 @@
 	 * @constructor
 	 * @augments wp.Backbone.View
 	 */
-	api.HeaderTool.CombinedList = wp.Backbone.View.extend(/** @lends wp.customize.HeaderTool.CombinedList.prototype */{
-		initialize: function(collections) {
-			this.collections = collections;
-			this.on('all', this.propagate, this);
-		},
-		propagate: function(event, arg) {
-			_.each(this.collections, function(collection) {
-				collection.trigger(event, arg);
-			});
+	api.HeaderTool.CombinedList = wp.Backbone.View.extend(
+		/** @lends wp.customize.HeaderTool.CombinedList.prototype */ {
+			initialize: function ( collections ) {
+				this.collections = collections;
+				this.on( 'all', this.propagate, this );
+			},
+			propagate: function ( event, arg ) {
+				_.each( this.collections, function ( collection ) {
+					collection.trigger( event, arg );
+				} );
+			},
 		}
-	});
-
-})( jQuery, window.wp, _ );
+	);
+} )( jQuery, window.wp, _ );

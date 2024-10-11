@@ -182,7 +182,7 @@ class Tests_Post_Types extends WP_UnitTestCase
     public function test_fires_registered_post_type_actions()
     {
         $post_type = 'cpt';
-        $action    = new MockAction();
+        $action = new MockAction();
 
         add_action('registered_post_type', [$action, 'action']);
         add_action("registered_post_type_{$post_type}", [$action, 'action']);
@@ -362,9 +362,9 @@ class Tests_Post_Types extends WP_UnitTestCase
         register_post_type(
             'foo',
             [
-                'public'    => true,
+                'public' => true,
                 'query_var' => 'bar',
-            ]
+            ],
         );
 
         $this->assertIsInt(array_search('bar', $wp->public_query_vars, true));
@@ -384,9 +384,9 @@ class Tests_Post_Types extends WP_UnitTestCase
         register_post_type(
             'foo',
             [
-                'public'    => true,
+                'public' => true,
                 'query_var' => 'bar',
-            ]
+            ],
         );
 
         $count_before = count($wp_rewrite->rewritereplace);
@@ -411,9 +411,9 @@ class Tests_Post_Types extends WP_UnitTestCase
         register_post_type(
             'foo',
             [
-                'public'      => true,
+                'public' => true,
                 'has_archive' => true,
-            ]
+            ],
         );
 
         $this->assertContains('index.php?post_type=foo', $wp_rewrite->extra_rules_top);
@@ -431,10 +431,10 @@ class Tests_Post_Types extends WP_UnitTestCase
         register_post_type(
             'foo',
             [
-                'public'          => true,
+                'public' => true,
                 'capability_type' => 'bar',
-                'map_meta_cap'    => true,
-            ]
+                'map_meta_cap' => true,
+            ],
         );
 
         $this->assertSame('read_post', $post_type_meta_caps['read_bar']);
@@ -458,19 +458,19 @@ class Tests_Post_Types extends WP_UnitTestCase
         register_post_type(
             'foo',
             [
-                'public'   => true,
+                'public' => true,
                 'supports' => ['editor', 'author', 'title'],
-            ]
+            ],
         );
 
         $this->assertSameSetsWithIndex(
             [
-                'editor'   => true,
-                'author'   => true,
-                'title'    => true,
+                'editor' => true,
+                'author' => true,
+                'title' => true,
                 'autosave' => true,
             ],
-            $_wp_post_type_features['foo']
+            $_wp_post_type_features['foo'],
         );
         $this->assertTrue(unregister_post_type('foo'));
         $this->assertArrayNotHasKey('foo', $_wp_post_type_features);
@@ -486,9 +486,9 @@ class Tests_Post_Types extends WP_UnitTestCase
         register_post_type(
             'foo',
             [
-                'public'     => true,
+                'public' => true,
                 'taxonomies' => ['category', 'post_tag'],
-            ]
+            ],
         );
 
         $this->assertIsInt(array_search('foo', $wp_taxonomies['category']->object_type, true));
@@ -510,7 +510,7 @@ class Tests_Post_Types extends WP_UnitTestCase
             'foo',
             [
                 'public' => true,
-            ]
+            ],
         );
 
         $this->assertArrayHasKey('future_foo', $wp_filter);
@@ -529,9 +529,9 @@ class Tests_Post_Types extends WP_UnitTestCase
         register_post_type(
             'foo',
             [
-                'public'               => true,
+                'public' => true,
                 'register_meta_box_cb' => '__return_empty_string',
-            ]
+            ],
         );
 
         $this->assertArrayHasKey('add_meta_boxes_foo', $wp_filter);
@@ -551,7 +551,7 @@ class Tests_Post_Types extends WP_UnitTestCase
             'foo',
             [
                 'public' => true,
-            ]
+            ],
         );
 
         $this->assertIsObject($wp_post_types['foo']);
@@ -572,7 +572,7 @@ class Tests_Post_Types extends WP_UnitTestCase
             'foo',
             [
                 'public' => true,
-            ]
+            ],
         );
 
         $this->assertTrue(unregister_post_type('foo'));
@@ -660,16 +660,18 @@ class Tests_Post_Types extends WP_UnitTestCase
             'foo',
             [
                 'show_in_rest' => true,
-                'supports'     => ['editor'],
-            ]
+                'supports' => ['editor'],
+            ],
         );
 
         $post_type_object = get_post_type_object('foo');
-        $this->assertInstanceOf('WP_REST_Autosaves_Controller', $post_type_object->get_autosave_rest_controller(), 'Autosave controller should be set by default.');
+        $this->assertInstanceOf('WP_REST_Autosaves_Controller', $post_type_object->get_autosave_rest_controller(),
+            'Autosave controller should be set by default.');
 
         remove_post_type_support('foo', 'autosave');
         $post_type_object = get_post_type_object('foo');
-        $this->assertSame(null, $post_type_object->get_autosave_rest_controller(), 'Autosave controller should be removed.');
+        $this->assertSame(null, $post_type_object->get_autosave_rest_controller(),
+            'Autosave controller should be removed.');
         _unregister_post_type('foo');
     }
 
@@ -682,8 +684,8 @@ class Tests_Post_Types extends WP_UnitTestCase
             'foo',
             [
                 'show_in_rest' => true,
-                'supports'     => ['editor'],
-            ]
+                'supports' => ['editor'],
+            ],
         );
         remove_post_type_support('foo', 'editor');
 

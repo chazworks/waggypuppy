@@ -17,11 +17,11 @@ class Tests_Date_wpCheckdate extends WP_UnitTestCase
      *
      * @dataProvider data_wp_checkdate
      *
-     * @param int|string $month       The month to check.
-     * @param int|string $day         The day to check.
-     * @param int|string $year        The year to check.
-     * @param string     $source_date The date to pass to the wp_checkdate filter.
-     * @param bool       $expected    The expected result.
+     * @param int|string $month The month to check.
+     * @param int|string $day The day to check.
+     * @param int|string $year The year to check.
+     * @param string $source_date The date to pass to the wp_checkdate filter.
+     * @param bool $expected The expected result.
      */
     public function test_wp_checkdate($month, $day, $year, $source_date, $expected)
     {
@@ -36,13 +36,18 @@ class Tests_Date_wpCheckdate extends WP_UnitTestCase
     public function data_wp_checkdate()
     {
         return [
-            'integers'              => [1, 1, 1, '1-1-1', true],
-            'strings'               => ['1', '1', '1', '1-1-1', true],
-            'arbitrary source_date' => [1, 1, 1, 'arbitrary source_date', true], // source_date is only used by the filter.
-            'valid day'             => [2, 29, 2024, '2/29/2024', true],         // 2024 is a leap year.
-            'invalid day'           => [2, 29, 2023, '2/29/2023', false],        // 2023 is not a leap year.
-            'invalid month'         => [99, 1, 1, '1-1-1', false],               // Month must be between 1 and 12.
-            'invalid year'          => [1, 1, 0, '1-1-0', false],                // Year must be between 1 and 32767.
+            'integers' => [1, 1, 1, '1-1-1', true],
+            'strings' => ['1', '1', '1', '1-1-1', true],
+            'arbitrary source_date' => [1, 1, 1, 'arbitrary source_date', true],
+            // source_date is only used by the filter.
+            'valid day' => [2, 29, 2024, '2/29/2024', true],
+            // 2024 is a leap year.
+            'invalid day' => [2, 29, 2023, '2/29/2023', false],
+            // 2023 is not a leap year.
+            'invalid month' => [99, 1, 1, '1-1-1', false],
+            // Month must be between 1 and 12.
+            'invalid year' => [1, 1, 0, '1-1-0', false],
+            // Year must be between 1 and 32767.
         ];
     }
 
@@ -62,7 +67,7 @@ class Tests_Date_wpCheckdate extends WP_UnitTestCase
                 return $is_valid_date;
             },
             10,
-            2
+            2,
         );
 
         // Test with an invalid date that the filter will return as valid.

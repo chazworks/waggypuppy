@@ -19,19 +19,25 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
         $this->assertSame('http://example.com/Mr+waggypuppy', esc_url('http://example.com/Mr+waggypuppy'));
         $this->assertSame('http://example.com/Mr+waggypuppy', esc_url(' http://example.com/Mr+waggypuppy'));
 
-        $this->assertSame('http://example.com/?foo=one%20two%20three&#038;bar=four', esc_url('http://example.com/?foo=one two three&bar=four'));
-        $this->assertSame('http://example.com/?foo=one%20two%20three&#038;bar=four', esc_url('http://example.com/?foo=one%20two%20three&bar=four'));
+        $this->assertSame('http://example.com/?foo=one%20two%20three&#038;bar=four',
+            esc_url('http://example.com/?foo=one two three&bar=four'));
+        $this->assertSame('http://example.com/?foo=one%20two%20three&#038;bar=four',
+            esc_url('http://example.com/?foo=one%20two%20three&bar=four'));
     }
 
     public function test_bad_characters()
     {
         $this->assertSame('http://example.com/watchthelinefeedgo', esc_url('http://example.com/watchthelinefeed%0Ago'));
         $this->assertSame('http://example.com/watchthelinefeedgo', esc_url('http://example.com/watchthelinefeed%0ago'));
-        $this->assertSame('http://example.com/watchthecarriagereturngo', esc_url('http://example.com/watchthecarriagereturn%0Dgo'));
-        $this->assertSame('http://example.com/watchthecarriagereturngo', esc_url('http://example.com/watchthecarriagereturn%0dgo'));
+        $this->assertSame('http://example.com/watchthecarriagereturngo',
+            esc_url('http://example.com/watchthecarriagereturn%0Dgo'));
+        $this->assertSame('http://example.com/watchthecarriagereturngo',
+            esc_url('http://example.com/watchthecarriagereturn%0dgo'));
         // Nesting checks.
-        $this->assertSame('http://example.com/watchthecarriagereturngo', esc_url('http://example.com/watchthecarriagereturn%0%0ddgo'));
-        $this->assertSame('http://example.com/watchthecarriagereturngo', esc_url('http://example.com/watchthecarriagereturn%0%0DDgo'));
+        $this->assertSame('http://example.com/watchthecarriagereturngo',
+            esc_url('http://example.com/watchthecarriagereturn%0%0ddgo'));
+        $this->assertSame('http://example.com/watchthecarriagereturngo',
+            esc_url('http://example.com/watchthecarriagereturn%0%0DDgo'));
         $this->assertSame('http://example.com/', esc_url('http://example.com/%0%0%0DAD'));
         $this->assertSame('http://example.com/', esc_url('http://example.com/%0%0%0ADA'));
         $this->assertSame('http://example.com/', esc_url('http://example.com/%0%0%0DAd'));
@@ -55,19 +61,21 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
 
         $this->assertSame(
             [
-                'scheme'   => 'https',
-                'host'     => 'host.example.com',
-                'port'     => 1234,
-                'user'     => 'user',
-                'pass'     => 'pass',
-                'path'     => '/path;p=1',
-                'query'    => 'query=2&r[]=3',
+                'scheme' => 'https',
+                'host' => 'host.example.com',
+                'port' => 1234,
+                'user' => 'user',
+                'pass' => 'pass',
+                'path' => '/path;p=1',
+                'query' => 'query=2&r[]=3',
                 'fragment' => 'fragment',
             ],
-            parse_url($url)
+            parse_url($url),
         );
-        $this->assertSame('https://user:pass@host.example.com:1234/path;p=1?query=2&r%5B%5D=3#fragment', sanitize_url($url));
-        $this->assertSame('https://user:pass@host.example.com:1234/path;p=1?query=2&#038;r%5B%5D=3#fragment', esc_url($url));
+        $this->assertSame('https://user:pass@host.example.com:1234/path;p=1?query=2&r%5B%5D=3#fragment',
+            sanitize_url($url));
+        $this->assertSame('https://user:pass@host.example.com:1234/path;p=1?query=2&#038;r%5B%5D=3#fragment',
+            esc_url($url));
     }
 
     public function test_bare()
@@ -109,8 +117,8 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
                 'example.com',
                 [
                     'https',
-                ]
-            )
+                ],
+            ),
         );
         $this->assertSame(
             '',
@@ -118,8 +126,8 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
                 'http://example.com',
                 [
                     'https',
-                ]
-            )
+                ],
+            ),
         );
         $this->assertSame(
             'https://example.com',
@@ -128,8 +136,8 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
                 [
                     'http',
                     'https',
-                ]
-            )
+                ],
+            ),
         );
 
         foreach (wp_allowed_protocols() as $scheme) {
@@ -140,9 +148,9 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
                     "{$scheme}://example.com",
                     [
                         $scheme,
-                    ]
+                    ],
                 ),
-                $scheme
+                $scheme,
             );
         }
 
@@ -156,8 +164,8 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
                 'foo://example.com',
                 [
                     'foo',
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -173,7 +181,8 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
     public function test_display_extras()
     {
         $this->assertSame('http://example.com/&#039;quoted&#039;', esc_url('http://example.com/\'quoted\''));
-        $this->assertSame('http://example.com/\'quoted\'', esc_url('http://example.com/\'quoted\'', null, 'notdisplay'));
+        $this->assertSame('http://example.com/\'quoted\'',
+            esc_url('http://example.com/\'quoted\'', null, 'notdisplay'));
     }
 
     public function test_non_ascii()
@@ -204,8 +213,10 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
         $this->assertSame('http://localhost?foo%5Bbar%5D=baz', esc_url('localhost?foo[bar]=baz'));
         $this->assertSame('http://example.com/?foo%5Bbar%5D=baz', esc_url('http://example.com/?foo[bar]=baz'));
         $this->assertSame('http://example.com/?foo%5Bbar%5D=baz', esc_url('http://example.com/?foo%5Bbar%5D=baz'));
-        $this->assertSame('http://example.com/?baz=bar&#038;foo%5Bbar%5D=baz', esc_url('http://example.com/?baz=bar&foo[bar]=baz'));
-        $this->assertSame('http://example.com/?baz=bar&#038;foo%5Bbar%5D=baz', esc_url('http://example.com/?baz=bar&#038;foo%5Bbar%5D=baz'));
+        $this->assertSame('http://example.com/?baz=bar&#038;foo%5Bbar%5D=baz',
+            esc_url('http://example.com/?baz=bar&foo[bar]=baz'));
+        $this->assertSame('http://example.com/?baz=bar&#038;foo%5Bbar%5D=baz',
+            esc_url('http://example.com/?baz=bar&#038;foo%5Bbar%5D=baz'));
     }
 
     /**
@@ -232,15 +243,16 @@ class Tests_Formatting_EscUrl extends WP_UnitTestCase
      */
     public function test_mailto_with_newline()
     {
-        $body       = <<<EOT
-Hi there,
+        $body = <<<EOT
+            Hi there,
 
-I thought you might want to sign up for this newsletter
-EOT;
-        $body       = str_replace("\r\n", "\n", $body);
+            I thought you might want to sign up for this newsletter
+            EOT;
+        $body = str_replace("\r\n", "\n", $body);
         $email_link = 'mailto:?body=' . rawurlencode($body);
         $email_link = esc_url($email_link);
-        $this->assertSame('mailto:?body=Hi%20there%2C%0A%0AI%20thought%20you%20might%20want%20to%20sign%20up%20for%20this%20newsletter', $email_link);
+        $this->assertSame('mailto:?body=Hi%20there%2C%0A%0AI%20thought%20you%20might%20want%20to%20sign%20up%20for%20this%20newsletter',
+            $email_link);
     }
 
     /**
@@ -248,15 +260,16 @@ EOT;
      */
     public function test_mailto_in_http_url_with_newline()
     {
-        $body       = <<<EOT
-Hi there,
+        $body = <<<EOT
+            Hi there,
 
-I thought you might want to sign up for this newsletter
-EOT;
-        $body       = str_replace("\r\n", "\n", $body);
+            I thought you might want to sign up for this newsletter
+            EOT;
+        $body = str_replace("\r\n", "\n", $body);
         $email_link = 'http://example.com/mailto:?body=' . rawurlencode($body);
         $email_link = esc_url($email_link);
-        $this->assertSame('http://example.com/mailto:?body=Hi%20there%2CI%20thought%20you%20might%20want%20to%20sign%20up%20for%20this%20newsletter', $email_link);
+        $this->assertSame('http://example.com/mailto:?body=Hi%20there%2CI%20thought%20you%20might%20want%20to%20sign%20up%20for%20this%20newsletter',
+            $email_link);
     }
 
     /**
@@ -268,7 +281,8 @@ EOT;
 
         $email_link = 'mailto:?body=' . $body;
         $email_link = esc_url($email_link);
-        $this->assertSame('mailto:?body=Hi%20there,%20I%20thought%20you%20might%20want%20to%20sign%20up%20for%20this%20newsletter', $email_link);
+        $this->assertSame('mailto:?body=Hi%20there,%20I%20thought%20you%20might%20want%20to%20sign%20up%20for%20this%20newsletter',
+            $email_link);
     }
 
     /**
@@ -289,10 +303,12 @@ EOT;
         $this->assertSame('//[::127.0.0.1]', esc_url('//[::127.0.0.1]'));
         $this->assertSame('http://[::FFFF::127.0.0.1]', esc_url('http://[::FFFF::127.0.0.1]'));
         $this->assertSame('http://[::127.0.0.1]', esc_url('http://[::127.0.0.1]'));
-        $this->assertSame('http://[::DEAD:BEEF:DEAD:BEEF:DEAD:BEEF:DEAD:BEEF]', esc_url('http://[::DEAD:BEEF:DEAD:BEEF:DEAD:BEEF:DEAD:BEEF]'));
+        $this->assertSame('http://[::DEAD:BEEF:DEAD:BEEF:DEAD:BEEF:DEAD:BEEF]',
+            esc_url('http://[::DEAD:BEEF:DEAD:BEEF:DEAD:BEEF:DEAD:BEEF]'));
 
         // IPv6 with square brackets in the query? Why not.
         $this->assertSame('//[::FFFF::127.0.0.1]/?foo%5Bbar%5D=baz', esc_url('//[::FFFF::127.0.0.1]/?foo[bar]=baz'));
-        $this->assertSame('http://[::FFFF::127.0.0.1]/?foo%5Bbar%5D=baz', esc_url('http://[::FFFF::127.0.0.1]/?foo[bar]=baz'));
+        $this->assertSame('http://[::FFFF::127.0.0.1]/?foo%5Bbar%5D=baz',
+            esc_url('http://[::FFFF::127.0.0.1]/?foo[bar]=baz'));
     }
 }

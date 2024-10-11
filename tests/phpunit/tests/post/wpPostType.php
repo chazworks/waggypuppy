@@ -16,7 +16,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
 
     public function test_add_supports_defaults()
     {
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type($post_type);
 
         $post_type_object->add_supports();
@@ -27,18 +27,18 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
 
         $this->assertSameSets(
             [
-                'title'    => true,
-                'editor'   => true,
+                'title' => true,
+                'editor' => true,
                 'autosave' => true,
             ],
-            $post_type_supports
+            $post_type_supports,
         );
         $this->assertSameSets([], $post_type_supports_after);
     }
 
     public function test_add_supports_custom()
     {
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
             [
@@ -47,7 +47,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
                     'comments',
                     'revisions',
                 ],
-            ]
+            ],
         );
 
         $post_type_object->add_supports();
@@ -58,12 +58,12 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
 
         $this->assertSameSets(
             [
-                'editor'    => true,
-                'comments'  => true,
+                'editor' => true,
+                'comments' => true,
                 'revisions' => true,
-                'autosave'  => true,
+                'autosave' => true,
             ],
-            $post_type_supports
+            $post_type_supports,
         );
         $this->assertSameSets([], $post_type_supports_after);
     }
@@ -75,7 +75,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      */
     public function test_add_supports_custom_with_args()
     {
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
             [
@@ -86,7 +86,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
                     ],
                     'support_without_args',
                 ],
-            ]
+            ],
         );
 
         $post_type_object->add_supports();
@@ -97,7 +97,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
 
         $this->assertSameSets(
             [
-                'support_with_args'    => [
+                'support_with_args' => [
                     [
                         'arg1',
                         'arg2',
@@ -105,7 +105,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
                 ],
                 'support_without_args' => true,
             ],
-            $post_type_supports
+            $post_type_supports,
         );
         $this->assertSameSets([], $post_type_supports_after);
     }
@@ -117,13 +117,13 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         /* @var WP $wp */
         global $wp;
 
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
             [
-                'rewrite'   => false,
+                'rewrite' => false,
                 'query_var' => 'foobar',
-            ]
+            ],
         );
         $post_type_object->add_rewrite_rules();
 
@@ -137,14 +137,14 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         /* @var WP $wp */
         global $wp;
 
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
             [
-                'public'    => true,
-                'rewrite'   => false,
+                'public' => true,
+                'rewrite' => false,
                 'query_var' => 'foobar',
-            ]
+            ],
         );
 
         $post_type_object->add_rewrite_rules();
@@ -164,13 +164,13 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
         /* @var WP_Rewrite $wp_rewrite */
         global $wp_rewrite;
 
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type(
             $post_type,
             [
-                'public'  => true,
+                'public' => true,
                 'rewrite' => true,
-            ]
+            ],
         );
 
         $post_type_object->add_rewrite_rules();
@@ -185,7 +185,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
 
     public function test_register_meta_boxes()
     {
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type($post_type, ['register_meta_box_cb' => '__return_false']);
 
         $post_type_object->register_meta_boxes();
@@ -199,7 +199,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
 
     public function test_adds_future_post_hook()
     {
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type($post_type);
         $post_type_object->add_hooks();
         $has_action = has_action("future_$post_type", '_future_post_hook');
@@ -214,7 +214,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
     {
         global $wp_post_types;
 
-        $post_type        = 'cpt';
+        $post_type = 'cpt';
         $post_type_object = new WP_Post_Type($post_type, ['taxonomies' => ['post_tag']]);
 
         $wp_post_types[$post_type] = $post_type_object;
@@ -233,7 +233,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
     public function test_applies_registration_args_filters()
     {
         $post_type = 'cpt';
-        $action    = new MockAction();
+        $action = new MockAction();
 
         add_filter('register_post_type_args', [$action, 'filter']);
         add_filter("register_{$post_type}_post_type_args", [$action, 'filter']);
@@ -249,23 +249,28 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      *
      * @dataProvider data_should_have_correct_custom_revisions_and_autosaves_controllers_properties
      *
-     * @covers WP_Post_Type::set_props
+     * @covers       WP_Post_Type::set_props
      *
-     * @param string      $property_name           Property name.
-     * @param string      $property_value          Property value.
+     * @param string $property_name Property name.
+     * @param string $property_value Property value.
      * @param string|bool $expected_property_value Expected property value.
      */
-    public function test_should_have_correct_custom_revisions_and_autosaves_controllers_properties($property_name, $property_value, $expected_property_value)
-    {
+    public function test_should_have_correct_custom_revisions_and_autosaves_controllers_properties(
+        $property_name,
+        $property_value,
+        $expected_property_value,
+    ) {
         $properties = null === $property_value ? [] : [$property_name => $property_value];
 
         $post_type = new WP_Post_Type('test_post_type', $properties);
 
-        $this->assertObjectHasProperty($property_name, $post_type, "The WP_Post_Type object does not have the expected {$property_name} property.");
+        $this->assertObjectHasProperty($property_name, $post_type,
+            "The WP_Post_Type object does not have the expected {$property_name} property.");
         $this->assertSame(
             $expected_property_value,
             $post_type->$property_name,
-            sprintf('Expected the property "%s" to have the %s value.', $property_name, var_export($expected_property_value, true))
+            sprintf('Expected the property "%s" to have the %s value.', $property_name,
+                var_export($expected_property_value, true)),
         );
     }
 
@@ -273,15 +278,15 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      * Data provider for test_should_allow_to_set_custom_revisions_and_autosaves_controllers_properties.
      *
      * @return array[] Arguments {
-     *     @type string $property_name           Property name.
-     *     @type string $property_value          Property value.
-     *     @type string|bool $expected_property_value Expected property value.
+     * @type string $property_name Property name.
+     * @type string $property_value Property value.
+     * @type string|bool $expected_property_value Expected property value.
      * }
      */
     public function data_should_have_correct_custom_revisions_and_autosaves_controllers_properties()
     {
         return [
-            'autosave_rest_controller_class property'  => [
+            'autosave_rest_controller_class property' => [
                 'autosave_rest_controller_class',
                 'My_Custom_Template_Autosaves_Controller',
                 'My_Custom_Template_Autosaves_Controller',
@@ -307,21 +312,25 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
     /**
      * @ticket 56922
      *
-     * @covers WP_Post_Type::get_revisions_rest_controller
+     * @covers       WP_Post_Type::get_revisions_rest_controller
      *
      * @dataProvider data_get_revisions_rest_controller_should_return_correct_values
      *
-     * @param bool        $show_in_rest                    Enables "show_in_rest" support.
-     * @param bool        $supports_revisions              Enables revisions support.
+     * @param bool $show_in_rest Enables "show_in_rest" support.
+     * @param bool $supports_revisions Enables revisions support.
      * @param string|bool $revisions_rest_controller_class Custom revisions REST controller class.
-     * @param string|null $expected_value                  Expected value.
+     * @param string|null $expected_value Expected value.
      */
-    public function test_get_revisions_rest_controller_should_return_correct_values($show_in_rest, $supports_revisions, $revisions_rest_controller_class, $expected_value)
-    {
-        $post_type  = 'test_post_type';
+    public function test_get_revisions_rest_controller_should_return_correct_values(
+        $show_in_rest,
+        $supports_revisions,
+        $revisions_rest_controller_class,
+        $expected_value,
+    ) {
+        $post_type = 'test_post_type';
         $properties = [
-            'show_in_rest'                    => $show_in_rest,
-            'supports'                        => $supports_revisions ? ['revisions'] : [],
+            'show_in_rest' => $show_in_rest,
+            'supports' => $supports_revisions ? ['revisions'] : [],
             'revisions_rest_controller_class' => $revisions_rest_controller_class,
         ];
         register_post_type($post_type, $properties);
@@ -341,28 +350,28 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      * Data provider for test_get_revisions_rest_controller_should_return_correct_values.
      *
      * @return array[] Arguments {
-     *     @type bool             $show_in_rest                    Enables "show_in_rest" support.
-     *     @type bool             $supports_revisions              Enables revisions support.
-     *     @type string|bool      $revisions_rest_controller_class Custom revisions REST controller class.
-     *     @type string|null      $expected_value                  Expected value.
+     * @type bool $show_in_rest Enables "show_in_rest" support.
+     * @type bool $supports_revisions Enables revisions support.
+     * @type string|bool $revisions_rest_controller_class Custom revisions REST controller class.
+     * @type string|null $expected_value Expected value.
      * }
      */
     public function data_get_revisions_rest_controller_should_return_correct_values()
     {
         return [
-            'disable show_in_rest'                => [
+            'disable show_in_rest' => [
                 false,
                 false,
                 false,
                 null,
             ],
-            'disable revisions support'           => [
+            'disable revisions support' => [
                 true,
                 false,
                 false,
                 null,
             ],
-            'default rest revisions controller'   => [
+            'default rest revisions controller' => [
                 true,
                 true,
                 false,
@@ -374,7 +383,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
                 stdClass::class,
                 null,
             ],
-            'correct rest revisions controller'   => [
+            'correct rest revisions controller' => [
                 true,
                 true,
                 WP_REST_Template_Revisions_Controller::class,
@@ -387,19 +396,23 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      * @ticket 56922
      * @ticket 41172
      *
-     * @covers WP_Post_Type::get_autosave_rest_controller
+     * @covers       WP_Post_Type::get_autosave_rest_controller
      *
      * @dataProvider data_get_autosave_rest_controller_should_return_correct_values
      *
-     * @param bool        $show_in_rest                   Enables "show_in_rest" support.
-     * @param string      $post_type                      Post type.
+     * @param bool $show_in_rest Enables "show_in_rest" support.
+     * @param string $post_type Post type.
      * @param string|bool $autosave_rest_controller_class Custom autosave REST controller class.
-     * @param string|null $expected_value                 Expected value.
+     * @param string|null $expected_value Expected value.
      */
-    public function test_get_autosave_rest_controller_should_return_correct_values($show_in_rest, $post_type, $autosave_rest_controller_class, $expected_value)
-    {
+    public function test_get_autosave_rest_controller_should_return_correct_values(
+        $show_in_rest,
+        $post_type,
+        $autosave_rest_controller_class,
+        $expected_value,
+    ) {
         $properties = [
-            'show_in_rest'                   => $show_in_rest,
+            'show_in_rest' => $show_in_rest,
             'autosave_rest_controller_class' => $autosave_rest_controller_class,
         ];
         register_post_type($post_type, $properties);
@@ -419,22 +432,22 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
      * Data provider for test_get_autosave_rest_controller_should_return_correct_values.
      *
      * @return array[] Arguments {
-     *     @type bool        $show_in_rest                   Enables "show_in_rest" support.
-     *     @type string      $post_type                      Post type.
-     *     @type string|bool $autosave_rest_controller_class Custom autosave REST controller class.
-     *     @type string|null $expected_value                 Expected value.
+     * @type bool $show_in_rest Enables "show_in_rest" support.
+     * @type string $post_type Post type.
+     * @type string|bool $autosave_rest_controller_class Custom autosave REST controller class.
+     * @type string|null $expected_value Expected value.
      * }
      */
     public function data_get_autosave_rest_controller_should_return_correct_values()
     {
         return [
-            'disable show_in_rest'               => [
+            'disable show_in_rest' => [
                 false,
                 'test_post_type',
                 false,
                 null,
             ],
-            'default rest autosave controller'   => [
+            'default rest autosave controller' => [
                 true,
                 'test_post_type',
                 false,
@@ -446,7 +459,7 @@ class Tests_Post_WP_Post_Type extends WP_UnitTestCase
                 stdClass::class,
                 null,
             ],
-            'correct rest autosave controller'   => [
+            'correct rest autosave controller' => [
                 true,
                 'test_post_type',
                 WP_REST_Template_Autosaves_Controller::class,

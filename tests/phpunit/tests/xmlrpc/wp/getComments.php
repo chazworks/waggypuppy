@@ -54,7 +54,7 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 [
                     'post_id' => $this->post_id,
                 ],
-            ]
+            ],
         );
         $this->assertNotIXRError($results);
 
@@ -78,7 +78,7 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 [
                     'post_id' => $this->post_id,
                 ],
-            ]
+            ],
         );
         $this->assertNotIXRError($results);
 
@@ -92,9 +92,9 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 'editor',
                 [
                     'post_id' => $this->post_id,
-                    'number'  => 5,
+                    'number' => 5,
                 ],
-            ]
+            ],
         );
         $this->assertNotIXRError($results2);
         $this->assertCount(5, $results2);
@@ -103,40 +103,40 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
     public function test_contributor_capabilities()
     {
         $this->make_user_by_role('contributor');
-        $author_id      = $this->make_user_by_role('author');
+        $author_id = $this->make_user_by_role('author');
         $author_post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Author',
+                'post_title' => 'Author',
                 'post_author' => $author_id,
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         self::factory()->comment->create(
             [
-                'comment_post_ID'    => $author_post_id,
-                'comment_author'     => 'Commenter 1',
+                'comment_post_ID' => $author_post_id,
+                'comment_author' => 'Commenter 1',
                 'comment_author_url' => 'http://example.com/1/',
-                'comment_approved'   => 0,
-            ]
+                'comment_approved' => 0,
+            ],
         );
 
-        $editor_id      = $this->make_user_by_role('editor');
+        $editor_id = $this->make_user_by_role('editor');
         $editor_post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Editor',
+                'post_title' => 'Editor',
                 'post_author' => $editor_id,
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         self::factory()->comment->create(
             [
-                'comment_post_ID'    => $editor_post_id,
-                'comment_author'     => 'Commenter 2',
+                'comment_post_ID' => $editor_post_id,
+                'comment_author' => 'Commenter 2',
                 'comment_author_url' => 'http://example.com/2/',
-                'comment_approved'   => 0,
-            ]
+                'comment_approved' => 0,
+            ],
         );
 
         $result = $this->myxmlrpcserver->wp_getComments([1, 'contributor', 'contributor']);
@@ -146,40 +146,40 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
 
     public function test_author_capabilities()
     {
-        $author_id      = $this->make_user_by_role('author');
+        $author_id = $this->make_user_by_role('author');
         $author_post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Author',
+                'post_title' => 'Author',
                 'post_author' => $author_id,
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         self::factory()->comment->create(
             [
-                'comment_post_ID'    => $author_post_id,
-                'comment_author'     => 'Commenter 1',
+                'comment_post_ID' => $author_post_id,
+                'comment_author' => 'Commenter 1',
                 'comment_author_url' => 'http://example.com/1/',
-                'comment_approved'   => 1,
-            ]
+                'comment_approved' => 1,
+            ],
         );
 
-        $editor_id      = $this->make_user_by_role('editor');
+        $editor_id = $this->make_user_by_role('editor');
         $editor_post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Editor',
+                'post_title' => 'Editor',
                 'post_author' => $editor_id,
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         self::factory()->comment->create(
             [
-                'comment_post_ID'    => $editor_post_id,
-                'comment_author'     => 'Commenter 2',
+                'comment_post_ID' => $editor_post_id,
+                'comment_author' => 'Commenter 2',
                 'comment_author_url' => 'http://example.com/2/',
-                'comment_approved'   => 0,
-            ]
+                'comment_approved' => 0,
+            ],
         );
 
         $result1 = $this->myxmlrpcserver->wp_getComments(
@@ -190,7 +190,7 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 [
                     'post_id' => $author_post_id,
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result1);
 
@@ -200,10 +200,10 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 'author',
                 'author',
                 [
-                    'status'  => 'approve',
+                    'status' => 'approve',
                     'post_id' => $author_post_id,
                 ],
-            ]
+            ],
         );
 
         $this->assertIsArray($result2);
@@ -217,7 +217,7 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 [
                     'post_id' => $editor_post_id,
                 ],
-            ]
+            ],
         );
         $this->assertIXRError($result3);
 
@@ -227,10 +227,10 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 'author',
                 'author',
                 [
-                    'status'  => 'approve',
+                    'status' => 'approve',
                     'post_id' => $author_post_id,
                 ],
-            ]
+            ],
         );
 
         $this->assertIsArray($result4);
@@ -239,40 +239,40 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
 
     public function test_editor_capabilities()
     {
-        $author_id      = $this->make_user_by_role('author');
+        $author_id = $this->make_user_by_role('author');
         $author_post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Author',
+                'post_title' => 'Author',
                 'post_author' => $author_id,
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         self::factory()->comment->create(
             [
-                'comment_post_ID'    => $author_post_id,
-                'comment_author'     => 'Commenter 1',
+                'comment_post_ID' => $author_post_id,
+                'comment_author' => 'Commenter 1',
                 'comment_author_url' => 'http://example.com/1/',
-                'comment_approved'   => 1,
-            ]
+                'comment_approved' => 1,
+            ],
         );
 
-        $editor_id      = $this->make_user_by_role('editor');
+        $editor_id = $this->make_user_by_role('editor');
         $editor_post_id = self::factory()->post->create(
             [
-                'post_title'  => 'Editor',
+                'post_title' => 'Editor',
                 'post_author' => $editor_id,
                 'post_status' => 'publish',
-            ]
+            ],
         );
 
         self::factory()->comment->create(
             [
-                'comment_post_ID'    => $editor_post_id,
-                'comment_author'     => 'Commenter 2',
+                'comment_post_ID' => $editor_post_id,
+                'comment_author' => 'Commenter 2',
                 'comment_author_url' => 'http://example.com/2/',
-                'comment_approved'   => 0,
-            ]
+                'comment_approved' => 0,
+            ],
         );
 
         $result = $this->myxmlrpcserver->wp_getComments(
@@ -283,7 +283,7 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 [
                     'post_id' => $author_post_id,
                 ],
-            ]
+            ],
         );
         $this->assertIsArray($result);
         $this->assertCount(1, $result);
@@ -294,10 +294,10 @@ class Tests_XMLRPC_wp_getComments extends WP_XMLRPC_UnitTestCase
                 'editor',
                 'editor',
                 [
-                    'status'  => 'approve',
+                    'status' => 'approve',
                     'post_id' => $author_post_id,
                 ],
-            ]
+            ],
         );
 
         $this->assertIsArray($result2);

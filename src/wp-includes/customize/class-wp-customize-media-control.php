@@ -43,16 +43,16 @@ class WP_Customize_Media_Control extends WP_Customize_Control
     /**
      * Constructor.
      *
+     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+     * @param string $id Control ID.
+     * @param array $args Optional. Arguments to override class property defaults.
+     *                                      See WP_Customize_Control::__construct() for information
+     *                                      on accepted arguments. Default empty array.
      * @since 4.1.0
      * @since 4.2.0 Moved from WP_Customize_Upload_Control.
      *
      * @see WP_Customize_Control::__construct()
      *
-     * @param WP_Customize_Manager $manager Customizer bootstrap instance.
-     * @param string               $id      Control ID.
-     * @param array                $args    Optional. Arguments to override class property defaults.
-     *                                      See WP_Customize_Control::__construct() for information
-     *                                      on accepted arguments. Default empty array.
      */
     public function __construct($manager, $id, $args = [])
     {
@@ -83,10 +83,10 @@ class WP_Customize_Media_Control extends WP_Customize_Control
     public function to_json()
     {
         parent::to_json();
-        $this->json['label']         = html_entity_decode($this->label, ENT_QUOTES, get_bloginfo('charset'));
-        $this->json['mime_type']     = $this->mime_type;
+        $this->json['label'] = html_entity_decode($this->label, ENT_QUOTES, get_bloginfo('charset'));
+        $this->json['mime_type'] = $this->mime_type;
         $this->json['button_labels'] = $this->button_labels;
-        $this->json['canUpload']     = current_user_can('upload_files');
+        $this->json['canUpload'] = current_user_can('upload_files');
 
         $value = $this->value();
 
@@ -96,14 +96,14 @@ class WP_Customize_Media_Control extends WP_Customize_Control
                  * Fake an attachment model - needs all fields used by template.
                  * Note that the default value must be a URL, NOT an attachment ID.
                  */
-                $ext  = substr($this->setting->default, -3);
+                $ext = substr($this->setting->default, -3);
                 $type = in_array($ext, ['jpg', 'png', 'gif', 'bmp', 'webp', 'avif'], true) ? 'image' : 'document';
 
                 $default_attachment = [
-                    'id'    => 1,
-                    'url'   => $this->setting->default,
-                    'type'  => $type,
-                    'icon'  => wp_mime_type_icon($type, '.svg'),
+                    'id' => 1,
+                    'url' => $this->setting->default,
+                    'type' => $type,
+                    'icon' => wp_mime_type_icon($type, '.svg'),
                     'title' => wp_basename($this->setting->default),
                 ];
 
@@ -133,8 +133,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control
      *
      * @see WP_Customize_Media_Control::content_template()
      */
-    public function render_content()
-    {}
+    public function render_content() {}
 
     /**
      * Render a JS template for the content of the media control.
@@ -150,66 +149,74 @@ class WP_Customize_Media_Control extends WP_Customize_Control
         var describedByAttr = data.description ? ' aria-describedby="' + descriptionId + '" ' : '';
         #>
         <# if ( data.label ) { #>
-            <span class="customize-control-title">{{ data.label }}</span>
+        <span class="customize-control-title">{{ data.label }}</span>
         <# } #>
         <div class="customize-control-notifications-container"></div>
         <# if ( data.description ) { #>
-            <span id="{{ descriptionId }}" class="description customize-control-description">{{{ data.description }}}</span>
+        <span id="{{ descriptionId }}" class="description customize-control-description">{{{ data.description }}}</span>
         <# } #>
 
         <# if ( data.attachment && data.attachment.id ) { #>
-            <div class="attachment-media-view attachment-media-view-{{ data.attachment.type }} {{ data.attachment.orientation }}">
-                <div class="thumbnail thumbnail-{{ data.attachment.type }}">
-                    <# if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.medium ) { #>
-                        <img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" alt="" />
-                    <# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full ) { #>
-                        <img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" alt="" />
-                    <# } else if ( 'audio' === data.attachment.type ) { #>
-                        <# if ( data.attachment.image && data.attachment.image.src && data.attachment.image.src !== data.attachment.icon ) { #>
-                            <img src="{{ data.attachment.image.src }}" class="thumbnail" draggable="false" alt="" />
-                        <# } else { #>
-                            <img src="{{ data.attachment.icon }}" class="attachment-thumb type-icon" draggable="false" alt="" />
-                        <# } #>
-                        <p class="attachment-meta attachment-meta-title">&#8220;{{ data.attachment.title }}&#8221;</p>
-                        <# if ( data.attachment.album || data.attachment.meta.album ) { #>
-                        <p class="attachment-meta"><em>{{ data.attachment.album || data.attachment.meta.album }}</em></p>
-                        <# } #>
-                        <# if ( data.attachment.artist || data.attachment.meta.artist ) { #>
-                        <p class="attachment-meta">{{ data.attachment.artist || data.attachment.meta.artist }}</p>
-                        <# } #>
-                        <audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
-                            <source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}" />
-                        </audio>
-                    <# } else if ( 'video' === data.attachment.type ) { #>
-                        <div class="wp-media-wrapper wp-video">
-                            <video controls="controls" class="wp-video-shortcode" preload="metadata"
-                                <# if ( data.attachment.image && data.attachment.image.src !== data.attachment.icon ) { #>poster="{{ data.attachment.image.src }}"<# } #>>
-                                <source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}" />
-                            </video>
-                        </div>
-                    <# } else { #>
-                        <img class="attachment-thumb type-icon icon" src="{{ data.attachment.icon }}" draggable="false" alt="" />
-                        <p class="attachment-title">{{ data.attachment.title }}</p>
-                    <# } #>
-                </div>
-                <div class="actions">
-                    <# if ( data.canUpload ) { #>
-                    <button type="button" class="button remove-button">{{ data.button_labels.remove }}</button>
-                    <button type="button" class="button upload-button control-focus" {{{ describedByAttr }}}>{{ data.button_labels.change }}</button>
-                    <# } #>
-                </div>
-            </div>
-        <# } else { #>
-            <div class="attachment-media-view">
-                <# if ( data.canUpload ) { #>
-                    <button type="button" class="upload-button button-add-media" {{{ describedByAttr }}}>{{ data.button_labels.select }}</button>
+        <div
+            class="attachment-media-view attachment-media-view-{{ data.attachment.type }} {{ data.attachment.orientation }}">
+            <div class="thumbnail thumbnail-{{ data.attachment.type }}">
+                <# if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.medium ) { #>
+                <img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" alt=""/>
+                <# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full )
+                { #>
+                <img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" alt=""/>
+                <# } else if ( 'audio' === data.attachment.type ) { #>
+                <# if ( data.attachment.image && data.attachment.image.src && data.attachment.image.src !==
+                data.attachment.icon ) { #>
+                <img src="{{ data.attachment.image.src }}" class="thumbnail" draggable="false" alt=""/>
+                <# } else { #>
+                <img src="{{ data.attachment.icon }}" class="attachment-thumb type-icon" draggable="false" alt=""/>
                 <# } #>
-                <div class="actions">
-                    <# if ( data.defaultAttachment ) { #>
-                        <button type="button" class="button default-button">{{ data.button_labels['default'] }}</button>
-                    <# } #>
+                <p class="attachment-meta attachment-meta-title">&#8220;{{ data.attachment.title }}&#8221;</p>
+                <# if ( data.attachment.album || data.attachment.meta.album ) { #>
+                <p class="attachment-meta"><em>{{ data.attachment.album || data.attachment.meta.album }}</em></p>
+                <# } #>
+                <# if ( data.attachment.artist || data.attachment.meta.artist ) { #>
+                <p class="attachment-meta">{{ data.attachment.artist || data.attachment.meta.artist }}</p>
+                <# } #>
+                <audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
+                    <source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+                </audio>
+                <# } else if ( 'video' === data.attachment.type ) { #>
+                <div class="wp-media-wrapper wp-video">
+                    <video controls="controls" class="wp-video-shortcode" preload="metadata"
+                    <# if ( data.attachment.image && data.attachment.image.src !== data.attachment.icon ) { #>poster="{{
+                    data.attachment.image.src }}"<# } #>>
+                    <source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+                    </video>
                 </div>
+                <# } else { #>
+                <img class="attachment-thumb type-icon icon" src="{{ data.attachment.icon }}" draggable="false" alt=""/>
+                <p class="attachment-title">{{ data.attachment.title }}</p>
+                <# } #>
             </div>
+            <div class="actions">
+                <# if ( data.canUpload ) { #>
+                <button type="button" class="button remove-button">{{ data.button_labels.remove }}</button>
+                <button type="button" class="button upload-button control-focus" {{{ describedByAttr }}}>{{
+                    data.button_labels.change }}
+                </button>
+                <# } #>
+            </div>
+        </div>
+        <# } else { #>
+        <div class="attachment-media-view">
+            <# if ( data.canUpload ) { #>
+            <button type="button" class="upload-button button-add-media" {{{ describedByAttr }}}>{{
+                data.button_labels.select }}
+            </button>
+            <# } #>
+            <div class="actions">
+                <# if ( data.defaultAttachment ) { #>
+                <button type="button" class="button default-button">{{ data.button_labels['default'] }}</button>
+                <# } #>
+            </div>
+        </div>
         <# } #>
         <?php
     }
@@ -219,55 +226,55 @@ class WP_Customize_Media_Control extends WP_Customize_Control
      *
      * Provides an array of the default button labels based on the mime type of the current control.
      *
+     * @return string[] An associative array of default button labels keyed by the button name.
      * @since 4.9.0
      *
-     * @return string[] An associative array of default button labels keyed by the button name.
      */
     public function get_default_button_labels()
     {
         // Get just the mime type and strip the mime subtype if present.
-        $mime_type = ! empty($this->mime_type) ? strtok(ltrim($this->mime_type, '/'), '/') : 'default';
+        $mime_type = !empty($this->mime_type) ? strtok(ltrim($this->mime_type, '/'), '/') : 'default';
 
         switch ($mime_type) {
             case 'video':
                 return [
-                    'select'       => __('Select video'),
-                    'change'       => __('Change video'),
-                    'default'      => __('Default'),
-                    'remove'       => __('Remove'),
-                    'placeholder'  => __('No video selected'),
-                    'frame_title'  => __('Select video'),
+                    'select' => __('Select video'),
+                    'change' => __('Change video'),
+                    'default' => __('Default'),
+                    'remove' => __('Remove'),
+                    'placeholder' => __('No video selected'),
+                    'frame_title' => __('Select video'),
                     'frame_button' => __('Choose video'),
                 ];
             case 'audio':
                 return [
-                    'select'       => __('Select audio'),
-                    'change'       => __('Change audio'),
-                    'default'      => __('Default'),
-                    'remove'       => __('Remove'),
-                    'placeholder'  => __('No audio selected'),
-                    'frame_title'  => __('Select audio'),
+                    'select' => __('Select audio'),
+                    'change' => __('Change audio'),
+                    'default' => __('Default'),
+                    'remove' => __('Remove'),
+                    'placeholder' => __('No audio selected'),
+                    'frame_title' => __('Select audio'),
                     'frame_button' => __('Choose audio'),
                 ];
             case 'image':
                 return [
-                    'select'       => __('Select image'),
-                    'site_icon'    => __('Select Site Icon'),
-                    'change'       => __('Change image'),
-                    'default'      => __('Default'),
-                    'remove'       => __('Remove'),
-                    'placeholder'  => __('No image selected'),
-                    'frame_title'  => __('Select image'),
+                    'select' => __('Select image'),
+                    'site_icon' => __('Select Site Icon'),
+                    'change' => __('Change image'),
+                    'default' => __('Default'),
+                    'remove' => __('Remove'),
+                    'placeholder' => __('No image selected'),
+                    'frame_title' => __('Select image'),
                     'frame_button' => __('Choose image'),
                 ];
             default:
                 return [
-                    'select'       => __('Select file'),
-                    'change'       => __('Change file'),
-                    'default'      => __('Default'),
-                    'remove'       => __('Remove'),
-                    'placeholder'  => __('No file selected'),
-                    'frame_title'  => __('Select file'),
+                    'select' => __('Select file'),
+                    'change' => __('Change file'),
+                    'default' => __('Default'),
+                    'remove' => __('Remove'),
+                    'placeholder' => __('No file selected'),
+                    'frame_title' => __('Select file'),
                     'frame_button' => __('Choose file'),
                 ];
         } // End switch().

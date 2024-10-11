@@ -27,12 +27,12 @@ class Tests_Compat_jsonEncodeDecode extends WP_UnitTestCase
         $this->assertSame(
             '["foo"]',
             $json->encodeUnsafe(['foo']),
-            'encodeUnsafe() did not return expected output'
+            'encodeUnsafe() did not return expected output',
         );
         $this->assertSame(
             ['foo'],
             $json->decode('["foo"]'),
-            'decode() did not return expected output'
+            'decode() did not return expected output',
         );
     }
 }

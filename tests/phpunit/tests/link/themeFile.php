@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group link
  */
@@ -15,7 +16,7 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase
         // Copy themes from tests/phpunit/data to wp-content/themes.
         foreach ($themes as $theme) {
             $source_dir = DIR_TESTDATA . '/' . $theme;
-            $dest_dir   = WP_CONTENT_DIR . '/themes/' . $theme;
+            $dest_dir = WP_CONTENT_DIR . '/themes/' . $theme;
 
             mkdir($dest_dir);
 
@@ -125,7 +126,6 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase
      */
     public function test_theme_file_existence($file, $expected_theme, $existence)
     {
-
         if (in_array('theme-file-child', $existence, true)) {
             $this->assertFileExists(WP_CONTENT_DIR . "/themes/theme-file-child/{$file}");
         } else {
@@ -149,7 +149,7 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase
      */
     public function test_theme_file_uri_returns_valid_uri($file, $expected_theme, $existence)
     {
-        $uri        = get_theme_file_uri($file);
+        $uri = get_theme_file_uri($file);
         $parent_uri = get_parent_theme_file_uri($file);
 
         $this->assertSame(sanitize_url($uri), $uri);
@@ -159,7 +159,7 @@ class Tests_Link_ThemeFile extends WP_UnitTestCase
     public function data_theme_files()
     {
         $parent = 'theme-file-parent';
-        $child  = 'theme-file-child';
+        $child = 'theme-file-child';
 
         return [
             [

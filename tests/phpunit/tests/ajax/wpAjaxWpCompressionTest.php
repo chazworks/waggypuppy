@@ -40,7 +40,6 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase
      */
     public function test_text()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -65,7 +64,6 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase
      */
     public function test_gzdeflate()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -92,7 +90,6 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase
      */
     public function test_gzencode()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -117,7 +114,6 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase
      */
     public function test_unknown_encoding()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -137,7 +133,6 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase
      */
     public function test_set_yes()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -176,7 +171,6 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase
      */
     public function test_set_no()
     {
-
         // Become an administrator.
         $this->_setRole('administrator');
 
@@ -218,7 +212,6 @@ class Tests_Ajax_wpAjaxWpCompressionTest extends WP_Ajax_UnitTestCase
      */
     protected function _gzdecode($encoded_data)
     {
-
         // Save the encoded data to a temp file.
         $file = wp_tempnam('gzdecode');
         file_put_contents($file, $encoded_data);

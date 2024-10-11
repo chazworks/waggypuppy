@@ -14,13 +14,13 @@ class Tests_XMLRPC_wp_getPostType extends WP_XMLRPC_UnitTestCase
 
         $this->cpt_name = 'post_type_test';
         $this->cpt_args = [
-            'public'        => false,
-            'show_ui'       => true,
-            'show_in_menu'  => true,
+            'public' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
             'menu_position' => 7,
-            'menu_icon'     => 'cpt_icon.png',
-            'taxonomies'    => ['category', 'post_tag'],
-            'hierarchical'  => true,
+            'menu_icon' => 'cpt_icon.png',
+            'taxonomies' => ['category', 'post_tag'],
+            'hierarchical' => true,
         ];
         register_post_type($this->cpt_name, $this->cpt_args);
     }
@@ -62,7 +62,13 @@ class Tests_XMLRPC_wp_getPostType extends WP_XMLRPC_UnitTestCase
     {
         $this->make_user_by_role('editor');
 
-        $result = $this->myxmlrpcserver->wp_getPostType([1, 'editor', 'editor', $this->cpt_name, ['labels', 'cap', 'menu', 'taxonomies']]);
+        $result = $this->myxmlrpcserver->wp_getPostType([
+            1,
+            'editor',
+            'editor',
+            $this->cpt_name,
+            ['labels', 'cap', 'menu', 'taxonomies'],
+        ]);
         $this->assertNotIXRError($result);
 
         // Check data types.

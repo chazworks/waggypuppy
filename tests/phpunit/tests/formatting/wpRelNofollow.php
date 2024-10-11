@@ -13,7 +13,7 @@ class Tests_Formatting_wpRelNofollow extends WP_UnitTestCase
      */
     public function test_add_no_follow()
     {
-        $content  = '<p>This is some cool <a href="/">Code</a></p>';
+        $content = '<p>This is some cool <a href="/">Code</a></p>';
         $expected = '<p>This is some cool <a href=\"/\" rel=\"nofollow\">Code</a></p>';
         $this->assertSame($expected, wp_rel_nofollow($content));
     }
@@ -23,7 +23,7 @@ class Tests_Formatting_wpRelNofollow extends WP_UnitTestCase
      */
     public function test_convert_no_follow()
     {
-        $content  = '<p>This is some cool <a href="/" rel="weird">Code</a></p>';
+        $content = '<p>This is some cool <a href="/" rel="weird">Code</a></p>';
         $expected = '<p>This is some cool <a href=\"/\" rel=\"weird nofollow\">Code</a></p>';
         $this->assertSame($expected, wp_rel_nofollow($content));
     }
@@ -39,7 +39,7 @@ class Tests_Formatting_wpRelNofollow extends WP_UnitTestCase
 
     public function data_wp_rel_nofollow()
     {
-        $home_url_http  = set_url_scheme(home_url(), 'http');
+        $home_url_http = set_url_scheme(home_url(), 'http');
         $home_url_https = set_url_scheme(home_url(), 'https');
 
         return [
@@ -85,7 +85,7 @@ class Tests_Formatting_wpRelNofollow extends WP_UnitTestCase
 
     public function test_append_no_follow_with_valueless_attribute()
     {
-        $content  = '<p>This is some cool <a href="demo.com" download rel="hola">Code</a></p>';
+        $content = '<p>This is some cool <a href="demo.com" download rel="hola">Code</a></p>';
         $expected = '<p>This is some cool <a href=\"demo.com\" download rel=\"hola nofollow\">Code</a></p>';
         $this->assertSame($expected, wp_rel_nofollow($content));
     }

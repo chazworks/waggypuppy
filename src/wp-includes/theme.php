@@ -12,36 +12,36 @@
  * Despite advances over get_themes(), this function is quite expensive, and grows
  * linearly with additional themes. Stick to wp_get_theme() if possible.
  *
- * @since 3.4.0
- *
- * @global array $wp_theme_directories
- *
  * @param array $args {
  *     Optional. The search arguments.
  *
- *     @type mixed $errors  True to return themes with errors, false to return
+ * @type mixed $errors True to return themes with errors, false to return
  *                          themes without errors, null to return all themes.
  *                          Default false.
- *     @type mixed $allowed (Multisite) True to return only allowed themes for a site.
+ * @type mixed $allowed (Multisite) True to return only allowed themes for a site.
  *                          False to return only disallowed themes for a site.
  *                          'site' to return only site-allowed themes.
  *                          'network' to return only network-allowed themes.
  *                          Null to return all themes. Default null.
- *     @type int   $blog_id (Multisite) The blog ID used to calculate which themes
+ * @type int $blog_id (Multisite) The blog ID used to calculate which themes
  *                          are allowed. Default 0, synonymous for the current blog.
  * }
  * @return WP_Theme[] Array of WP_Theme objects.
+ * @since 3.4.0
+ *
+ * @global array $wp_theme_directories
+ *
  */
 function wp_get_themes($args = [])
 {
     global $wp_theme_directories;
 
     $defaults = [
-        'errors'  => false,
+        'errors' => false,
         'allowed' => null,
         'blog_id' => 0,
     ];
-    $args     = wp_parse_args($args, $defaults);
+    $args = wp_parse_args($args, $defaults);
 
     $theme_directories = search_theme_directories();
 
@@ -53,7 +53,7 @@ function wp_get_themes($args = [])
         $current_theme = get_stylesheet();
         if (isset($theme_directories[$current_theme])) {
             $root_of_current_theme = get_raw_theme_root($current_theme);
-            if (! in_array($root_of_current_theme, $wp_theme_directories, true)) {
+            if (!in_array($root_of_current_theme, $wp_theme_directories, true)) {
                 $root_of_current_theme = WP_CONTENT_DIR . $root_of_current_theme;
             }
             $theme_directories[$current_theme]['theme_root'] = $root_of_current_theme;
@@ -69,7 +69,8 @@ function wp_get_themes($args = [])
         if ('network' === $allowed) {
             $theme_directories = array_intersect_key($theme_directories, WP_Theme::get_allowed_on_network());
         } elseif ('site' === $allowed) {
-            $theme_directories = array_intersect_key($theme_directories, WP_Theme::get_allowed_on_site($args['blog_id']));
+            $theme_directories = array_intersect_key($theme_directories,
+                WP_Theme::get_allowed_on_site($args['blog_id']));
         } elseif ($allowed) {
             $theme_directories = array_intersect_key($theme_directories, WP_Theme::get_allowed($args['blog_id']));
         } else {
@@ -77,7 +78,7 @@ function wp_get_themes($args = [])
         }
     }
 
-    $themes         = [];
+    $themes = [];
     static $_themes = [];
 
     foreach ($theme_directories as $theme => $theme_root) {
@@ -92,7 +93,7 @@ function wp_get_themes($args = [])
 
     if (null !== $args['errors']) {
         foreach ($themes as $theme => $wp_theme) {
-            if ((bool) $wp_theme->errors() !== $args['errors']) {
+            if ((bool)$wp_theme->errors() !== $args['errors']) {
                 unset($themes[$theme]);
             }
         }
@@ -104,16 +105,16 @@ function wp_get_themes($args = [])
 /**
  * Gets a WP_Theme object for a theme.
  *
- * @since 3.4.0
- *
- * @global array $wp_theme_directories
- *
  * @param string $stylesheet Optional. Directory name for the theme. Defaults to active theme.
  * @param string $theme_root Optional. Absolute path of the theme root to look in.
  *                           If not specified, get_raw_theme_root() is used to calculate
  *                           the theme root for the $stylesheet provided (or active theme).
  * @return WP_Theme Theme object. Be sure to check the object's exists() method
  *                  if you need to confirm the theme's existence.
+ * @global array $wp_theme_directories
+ *
+ * @since 3.4.0
+ *
  */
 function wp_get_theme($stylesheet = '', $theme_root = '')
 {
@@ -127,7 +128,7 @@ function wp_get_theme($stylesheet = '', $theme_root = '')
         $theme_root = get_raw_theme_root($stylesheet);
         if (false === $theme_root) {
             $theme_root = WP_CONTENT_DIR . '/themes';
-        } elseif (! in_array($theme_root, (array) $wp_theme_directories, true)) {
+        } elseif (!in_array($theme_root, (array)$wp_theme_directories, true)) {
             $theme_root = WP_CONTENT_DIR . $theme_root;
         }
     }
@@ -138,8 +139,8 @@ function wp_get_theme($stylesheet = '', $theme_root = '')
 /**
  * Clears the cache held by get_theme_roots() and WP_Theme.
  *
- * @since 3.5.0
  * @param bool $clear_update_cache Whether to clear the theme updates cache.
+ * @since 3.5.0
  */
 function wp_clean_themes_cache($clear_update_cache = true)
 {
@@ -155,13 +156,13 @@ function wp_clean_themes_cache($clear_update_cache = true)
 /**
  * Whether a child theme is in use.
  *
- * @since 3.0.0
+ * @return bool True if a child theme is in use, false otherwise.
  * @since 6.5.0 Makes use of global template variables.
  *
  * @global string $wp_stylesheet_path Path to current theme's stylesheet directory.
- * @global string $wp_template_path   Path to current theme's template directory.
+ * @global string $wp_template_path Path to current theme's template directory.
  *
- * @return bool True if a child theme is in use, false otherwise.
+ * @since 3.0.0
  */
 function is_child_theme()
 {
@@ -178,18 +179,18 @@ function is_child_theme()
  * For all intents and purposes, the template name and the stylesheet name
  * are going to be the same for most cases.
  *
+ * @return string Stylesheet name.
  * @since 1.5.0
  *
- * @return string Stylesheet name.
  */
 function get_stylesheet()
 {
     /**
      * Filters the name of current stylesheet.
      *
+     * @param string $stylesheet Name of the current stylesheet.
      * @since 1.5.0
      *
-     * @param string $stylesheet Name of the current stylesheet.
      */
     return apply_filters('stylesheet', get_option('stylesheet'));
 }
@@ -197,26 +198,26 @@ function get_stylesheet()
 /**
  * Retrieves stylesheet directory path for the active theme.
  *
- * @since 1.5.0
+ * @return string Path to active theme's stylesheet directory.
  * @since 6.4.0 Memoizes filter execution so that it only runs once for the current theme.
  * @since 6.4.2 Memoization removed.
  *
- * @return string Path to active theme's stylesheet directory.
+ * @since 1.5.0
  */
 function get_stylesheet_directory()
 {
-    $stylesheet     = get_stylesheet();
-    $theme_root     = get_theme_root($stylesheet);
+    $stylesheet = get_stylesheet();
+    $theme_root = get_theme_root($stylesheet);
     $stylesheet_dir = "$theme_root/$stylesheet";
 
     /**
      * Filters the stylesheet directory path for the active theme.
      *
+     * @param string $stylesheet_dir Absolute path to the active theme.
+     * @param string $stylesheet Directory name of the active theme.
+     * @param string $theme_root Absolute path to themes directory.
      * @since 1.5.0
      *
-     * @param string $stylesheet_dir Absolute path to the active theme.
-     * @param string $stylesheet     Directory name of the active theme.
-     * @param string $theme_root     Absolute path to themes directory.
      */
     return apply_filters('stylesheet_directory', $stylesheet_dir, $stylesheet, $theme_root);
 }
@@ -224,24 +225,24 @@ function get_stylesheet_directory()
 /**
  * Retrieves stylesheet directory URI for the active theme.
  *
+ * @return string URI to active theme's stylesheet directory.
  * @since 1.5.0
  *
- * @return string URI to active theme's stylesheet directory.
  */
 function get_stylesheet_directory_uri()
 {
-    $stylesheet         = str_replace('%2F', '/', rawurlencode(get_stylesheet()));
-    $theme_root_uri     = get_theme_root_uri($stylesheet);
+    $stylesheet = str_replace('%2F', '/', rawurlencode(get_stylesheet()));
+    $theme_root_uri = get_theme_root_uri($stylesheet);
     $stylesheet_dir_uri = "$theme_root_uri/$stylesheet";
 
     /**
      * Filters the stylesheet directory URI.
      *
+     * @param string $stylesheet_dir_uri Stylesheet directory URI.
+     * @param string $stylesheet Name of the activated theme's directory.
+     * @param string $theme_root_uri Themes root URI.
      * @since 1.5.0
      *
-     * @param string $stylesheet_dir_uri Stylesheet directory URI.
-     * @param string $stylesheet         Name of the activated theme's directory.
-     * @param string $theme_root_uri     Themes root URI.
      */
     return apply_filters('stylesheet_directory_uri', $stylesheet_dir_uri, $stylesheet, $theme_root_uri);
 }
@@ -252,21 +253,21 @@ function get_stylesheet_directory_uri()
  * The stylesheet file name is 'style.css' which is appended to the stylesheet directory URI path.
  * See get_stylesheet_directory_uri().
  *
+ * @return string URI to active theme's stylesheet.
  * @since 1.5.0
  *
- * @return string URI to active theme's stylesheet.
  */
 function get_stylesheet_uri()
 {
     $stylesheet_dir_uri = get_stylesheet_directory_uri();
-    $stylesheet_uri     = $stylesheet_dir_uri . '/style.css';
+    $stylesheet_uri = $stylesheet_dir_uri . '/style.css';
     /**
      * Filters the URI of the active theme stylesheet.
      *
+     * @param string $stylesheet_uri Stylesheet URI for the active theme/child theme.
+     * @param string $stylesheet_dir_uri Stylesheet directory URI for the active theme/child theme.
      * @since 1.5.0
      *
-     * @param string $stylesheet_uri     Stylesheet URI for the active theme/child theme.
-     * @param string $stylesheet_dir_uri Stylesheet directory URI for the active theme/child theme.
      */
     return apply_filters('stylesheet_uri', $stylesheet_uri, $stylesheet_dir_uri);
 }
@@ -286,21 +287,21 @@ function get_stylesheet_uri()
  * waggypuppy workflow, then change the former. If you just have the locale in a
  * separate folder, then change the latter.
  *
- * @since 2.1.0
- *
+ * @return string URI to active theme's localized stylesheet.
  * @global WP_Locale $wp_locale waggypuppy date and time locale object.
  *
- * @return string URI to active theme's localized stylesheet.
+ * @since 2.1.0
+ *
  */
 function get_locale_stylesheet_uri()
 {
     global $wp_locale;
     $stylesheet_dir_uri = get_stylesheet_directory_uri();
-    $dir                = get_stylesheet_directory();
-    $locale             = get_locale();
+    $dir = get_stylesheet_directory();
+    $locale = get_locale();
     if (file_exists("$dir/$locale.css")) {
         $stylesheet_uri = "$stylesheet_dir_uri/$locale.css";
-    } elseif (! empty($wp_locale->text_direction) && file_exists("$dir/{$wp_locale->text_direction}.css")) {
+    } elseif (!empty($wp_locale->text_direction) && file_exists("$dir/{$wp_locale->text_direction}.css")) {
         $stylesheet_uri = "$stylesheet_dir_uri/{$wp_locale->text_direction}.css";
     } else {
         $stylesheet_uri = '';
@@ -308,10 +309,10 @@ function get_locale_stylesheet_uri()
     /**
      * Filters the localized stylesheet URI.
      *
+     * @param string $stylesheet_uri Localized stylesheet URI.
+     * @param string $stylesheet_dir_uri Stylesheet directory URI.
      * @since 2.1.0
      *
-     * @param string $stylesheet_uri     Localized stylesheet URI.
-     * @param string $stylesheet_dir_uri Stylesheet directory URI.
      */
     return apply_filters('locale_stylesheet_uri', $stylesheet_uri, $stylesheet_dir_uri);
 }
@@ -319,18 +320,18 @@ function get_locale_stylesheet_uri()
 /**
  * Retrieves name of the active theme.
  *
+ * @return string Template name.
  * @since 1.5.0
  *
- * @return string Template name.
  */
 function get_template()
 {
     /**
      * Filters the name of the active theme.
      *
+     * @param string $template active theme's directory name.
      * @since 1.5.0
      *
-     * @param string $template active theme's directory name.
      */
     return apply_filters('template', get_option('template'));
 }
@@ -338,26 +339,26 @@ function get_template()
 /**
  * Retrieves template directory path for the active theme.
  *
- * @since 1.5.0
+ * @return string Path to active theme's template directory.
  * @since 6.4.0 Memoizes filter execution so that it only runs once for the current theme.
  * @since 6.4.1 Memoization removed.
  *
- * @return string Path to active theme's template directory.
+ * @since 1.5.0
  */
 function get_template_directory()
 {
-    $template     = get_template();
-    $theme_root   = get_theme_root($template);
+    $template = get_template();
+    $theme_root = get_theme_root($template);
     $template_dir = "$theme_root/$template";
 
     /**
      * Filters the active theme directory path.
      *
+     * @param string $template_dir The path of the active theme directory.
+     * @param string $template Directory name of the active theme.
+     * @param string $theme_root Absolute path to the themes directory.
      * @since 1.5.0
      *
-     * @param string $template_dir The path of the active theme directory.
-     * @param string $template     Directory name of the active theme.
-     * @param string $theme_root   Absolute path to the themes directory.
      */
     return apply_filters('template_directory', $template_dir, $template, $theme_root);
 }
@@ -365,24 +366,24 @@ function get_template_directory()
 /**
  * Retrieves template directory URI for the active theme.
  *
+ * @return string URI to active theme's template directory.
  * @since 1.5.0
  *
- * @return string URI to active theme's template directory.
  */
 function get_template_directory_uri()
 {
-    $template         = str_replace('%2F', '/', rawurlencode(get_template()));
-    $theme_root_uri   = get_theme_root_uri($template);
+    $template = str_replace('%2F', '/', rawurlencode(get_template()));
+    $theme_root_uri = get_theme_root_uri($template);
     $template_dir_uri = "$theme_root_uri/$template";
 
     /**
      * Filters the active theme directory URI.
      *
+     * @param string $template_dir_uri The URI of the active theme directory.
+     * @param string $template Directory name of the active theme.
+     * @param string $theme_root_uri The themes root URI.
      * @since 1.5.0
      *
-     * @param string $template_dir_uri The URI of the active theme directory.
-     * @param string $template         Directory name of the active theme.
-     * @param string $theme_root_uri   The themes root URI.
      */
     return apply_filters('template_directory_uri', $template_dir_uri, $template, $theme_root_uri);
 }
@@ -390,18 +391,18 @@ function get_template_directory_uri()
 /**
  * Retrieves theme roots.
  *
- * @since 2.9.0
- *
- * @global array $wp_theme_directories
- *
  * @return array|string An array of theme roots keyed by template/stylesheet
  *                      or a single theme root if all themes have the same root.
+ * @global array $wp_theme_directories
+ *
+ * @since 2.9.0
+ *
  */
 function get_theme_roots()
 {
     global $wp_theme_directories;
 
-    if (! is_array($wp_theme_directories) || count($wp_theme_directories) <= 1) {
+    if (!is_array($wp_theme_directories) || count($wp_theme_directories) <= 1) {
         return '/themes';
     }
 
@@ -416,34 +417,34 @@ function get_theme_roots()
 /**
  * Registers a directory that contains themes.
  *
- * @since 2.9.0
- *
- * @global array $wp_theme_directories
- *
  * @param string $directory Either the full filesystem path to a theme folder
  *                          or a folder within WP_CONTENT_DIR.
  * @return bool True if successfully registered a directory that contains themes,
  *              false if the directory does not exist.
+ * @since 2.9.0
+ *
+ * @global array $wp_theme_directories
+ *
  */
 function register_theme_directory($directory)
 {
     global $wp_theme_directories;
 
-    if (! file_exists($directory)) {
+    if (!file_exists($directory)) {
         // Try prepending as the theme directory could be relative to the content directory.
         $directory = WP_CONTENT_DIR . '/' . $directory;
         // If this directory does not exist, return and do not register.
-        if (! file_exists($directory)) {
+        if (!file_exists($directory)) {
             return false;
         }
     }
 
-    if (! is_array($wp_theme_directories)) {
+    if (!is_array($wp_theme_directories)) {
         $wp_theme_directories = [];
     }
 
     $untrailed = untrailingslashit($directory);
-    if (! empty($untrailed) && ! in_array($untrailed, $wp_theme_directories, true)) {
+    if (!empty($untrailed) && !in_array($untrailed, $wp_theme_directories, true)) {
         $wp_theme_directories[] = $untrailed;
     }
 
@@ -453,12 +454,12 @@ function register_theme_directory($directory)
 /**
  * Searches all registered theme directories for complete and valid themes.
  *
+ * @param bool $force Optional. Whether to force a new directory scan. Default false.
+ * @return array|false Valid themes found on success, false on failure.
  * @since 2.9.0
  *
  * @global array $wp_theme_directories
  *
- * @param bool $force Optional. Whether to force a new directory scan. Default false.
- * @return array|false Valid themes found on success, false on failure.
  */
 function search_theme_directories($force = false)
 {
@@ -469,13 +470,13 @@ function search_theme_directories($force = false)
         return false;
     }
 
-    if (! $force && isset($found_themes)) {
+    if (!$force && isset($found_themes)) {
         return $found_themes;
     }
 
     $found_themes = [];
 
-    $wp_theme_directories = (array) $wp_theme_directories;
+    $wp_theme_directories = (array)$wp_theme_directories;
     $relative_theme_roots = [];
 
     /*
@@ -494,10 +495,10 @@ function search_theme_directories($force = false)
     /**
      * Filters whether to get the cache of the registered theme directories.
      *
+     * @param bool $cache_expiration Whether to get the cache of the theme directories. Default false.
+     * @param string $context The class or function name calling the filter.
      * @since 3.4.0
      *
-     * @param bool   $cache_expiration Whether to get the cache of the theme directories. Default false.
-     * @param string $context          The class or function name calling the filter.
      */
     $cache_expiration = apply_filters('wp_cache_themes_persistently', false, 'search_theme_directories');
 
@@ -506,7 +507,7 @@ function search_theme_directories($force = false)
         if (is_array($cached_roots)) {
             foreach ($cached_roots as $theme_dir => $theme_root) {
                 // A cached theme root is no longer around, so skip it.
-                if (! isset($relative_theme_roots[$theme_root])) {
+                if (!isset($relative_theme_roots[$theme_root])) {
                     continue;
                 }
                 $found_themes[$theme_dir] = [
@@ -516,7 +517,7 @@ function search_theme_directories($force = false)
             }
             return $found_themes;
         }
-        if (! is_int($cache_expiration)) {
+        if (!is_int($cache_expiration)) {
             $cache_expiration = 30 * MINUTE_IN_SECONDS;
         }
     } else {
@@ -525,15 +526,14 @@ function search_theme_directories($force = false)
 
     /* Loop the registered theme directories and extract all themes */
     foreach ($wp_theme_directories as $theme_root) {
-
         // Start with directories in the root of the active theme directory.
         $dirs = @ scandir($theme_root);
-        if (! $dirs) {
+        if (!$dirs) {
             wp_trigger_error(__FUNCTION__, "$theme_root is not readable");
             continue;
         }
         foreach ($dirs as $dir) {
-            if (! is_dir($theme_root . '/' . $dir) || '.' === $dir[0] || 'CVS' === $dir) {
+            if (!is_dir($theme_root . '/' . $dir) || '.' === $dir[0] || 'CVS' === $dir) {
                 continue;
             }
             if (file_exists($theme_root . '/' . $dir . '/style.css')) {
@@ -552,28 +552,28 @@ function search_theme_directories($force = false)
                  * wp-content/themes is $theme_root, a-folder-of-themes is $dir, then themes are $sub_dirs.
                  */
                 $sub_dirs = @ scandir($theme_root . '/' . $dir);
-                if (! $sub_dirs) {
+                if (!$sub_dirs) {
                     wp_trigger_error(__FUNCTION__, "$theme_root/$dir is not readable");
                     continue;
                 }
                 foreach ($sub_dirs as $sub_dir) {
-                    if (! is_dir($theme_root . '/' . $dir . '/' . $sub_dir) || '.' === $dir[0] || 'CVS' === $dir) {
+                    if (!is_dir($theme_root . '/' . $dir . '/' . $sub_dir) || '.' === $dir[0] || 'CVS' === $dir) {
                         continue;
                     }
-                    if (! file_exists($theme_root . '/' . $dir . '/' . $sub_dir . '/style.css')) {
+                    if (!file_exists($theme_root . '/' . $dir . '/' . $sub_dir . '/style.css')) {
                         continue;
                     }
                     $found_themes[$dir . '/' . $sub_dir] = [
                         'theme_file' => $dir . '/' . $sub_dir . '/style.css',
                         'theme_root' => $theme_root,
                     ];
-                    $found_theme                         = true;
+                    $found_theme = true;
                 }
                 /*
                  * Never mind the above, it's just a theme missing a style.css.
                  * Return it; WP_Theme will catch the error.
                  */
-                if (! $found_theme) {
+                if (!$found_theme) {
                     $found_themes[$dir] = [
                         'theme_file' => $dir . '/style.css',
                         'theme_root' => $theme_root,
@@ -585,7 +585,7 @@ function search_theme_directories($force = false)
 
     asort($found_themes);
 
-    $theme_roots          = [];
+    $theme_roots = [];
     $relative_theme_roots = array_flip($relative_theme_roots);
 
     foreach ($found_themes as $theme_dir => $theme_data) {
@@ -604,13 +604,13 @@ function search_theme_directories($force = false)
  *
  * Does not have trailing slash.
  *
+ * @param string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
+ *                                       Default is to leverage the main theme root.
+ * @return string Themes directory path.
  * @since 1.5.0
  *
  * @global array $wp_theme_directories
  *
- * @param string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
- *                                       Default is to leverage the main theme root.
- * @return string Themes directory path.
  */
 function get_theme_root($stylesheet_or_template = '')
 {
@@ -625,22 +625,22 @@ function get_theme_root($stylesheet_or_template = '')
              * Always prepend WP_CONTENT_DIR unless the root currently registered as a theme directory.
              * This gives relative theme roots the benefit of the doubt when things go haywire.
              */
-            if (! in_array($theme_root, (array) $wp_theme_directories, true)) {
+            if (!in_array($theme_root, (array)$wp_theme_directories, true)) {
                 $theme_root = WP_CONTENT_DIR . $theme_root;
             }
         }
     }
 
-    if (! $theme_root) {
+    if (!$theme_root) {
         $theme_root = WP_CONTENT_DIR . '/themes';
     }
 
     /**
      * Filters the absolute path to the themes directory.
      *
+     * @param string $theme_root Absolute path to themes directory.
      * @since 1.5.0
      *
-     * @param string $theme_root Absolute path to themes directory.
      */
     return apply_filters('theme_root', $theme_root);
 }
@@ -650,26 +650,26 @@ function get_theme_root($stylesheet_or_template = '')
  *
  * Does not have trailing slash.
  *
- * @since 1.5.0
- *
- * @global array $wp_theme_directories
- *
  * @param string $stylesheet_or_template Optional. The stylesheet or template name of the theme.
  *                                       Default is to leverage the main theme root.
- * @param string $theme_root             Optional. The theme root for which calculations will be based,
+ * @param string $theme_root Optional. The theme root for which calculations will be based,
  *                                       preventing the need for a get_raw_theme_root() call. Default empty.
  * @return string Themes directory URI.
+ * @global array $wp_theme_directories
+ *
+ * @since 1.5.0
+ *
  */
 function get_theme_root_uri($stylesheet_or_template = '', $theme_root = '')
 {
     global $wp_theme_directories;
 
-    if ($stylesheet_or_template && ! $theme_root) {
+    if ($stylesheet_or_template && !$theme_root) {
         $theme_root = get_raw_theme_root($stylesheet_or_template);
     }
 
     if ($stylesheet_or_template && $theme_root) {
-        if (in_array($theme_root, (array) $wp_theme_directories, true)) {
+        if (in_array($theme_root, (array)$wp_theme_directories, true)) {
             // Absolute path. Make an educated guess. YMMV -- but note the filter below.
             if (str_starts_with($theme_root, WP_CONTENT_DIR)) {
                 $theme_root_uri = content_url(str_replace(WP_CONTENT_DIR, '', $theme_root));
@@ -690,11 +690,11 @@ function get_theme_root_uri($stylesheet_or_template = '', $theme_root = '')
     /**
      * Filters the URI for themes directory.
      *
+     * @param string $theme_root_uri The URI for themes directory.
+     * @param string $siteurl waggypuppy web address which is set in General Options.
+     * @param string $stylesheet_or_template The stylesheet or template name of the theme.
      * @since 1.5.0
      *
-     * @param string $theme_root_uri         The URI for themes directory.
-     * @param string $siteurl                waggypuppy web address which is set in General Options.
-     * @param string $stylesheet_or_template The stylesheet or template name of the theme.
      */
     return apply_filters('theme_root_uri', $theme_root_uri, get_option('siteurl'), $stylesheet_or_template);
 }
@@ -702,27 +702,27 @@ function get_theme_root_uri($stylesheet_or_template = '', $theme_root = '')
 /**
  * Gets the raw theme root relative to the content directory with no filters applied.
  *
- * @since 3.1.0
- *
- * @global array $wp_theme_directories
- *
  * @param string $stylesheet_or_template The stylesheet or template name of the theme.
- * @param bool   $skip_cache             Optional. Whether to skip the cache.
+ * @param bool $skip_cache Optional. Whether to skip the cache.
  *                                       Defaults to false, meaning the cache is used.
  * @return string Theme root.
+ * @global array $wp_theme_directories
+ *
+ * @since 3.1.0
+ *
  */
 function get_raw_theme_root($stylesheet_or_template, $skip_cache = false)
 {
     global $wp_theme_directories;
 
-    if (! is_array($wp_theme_directories) || count($wp_theme_directories) <= 1) {
+    if (!is_array($wp_theme_directories) || count($wp_theme_directories) <= 1) {
         return '/themes';
     }
 
     $theme_root = false;
 
     // If requesting the root for the active theme, consult options to avoid calling get_theme_roots().
-    if (! $skip_cache) {
+    if (!$skip_cache) {
         if (get_option('stylesheet') === $stylesheet_or_template) {
             $theme_root = get_option('stylesheet_root');
         } elseif (get_option('template') === $stylesheet_or_template) {
@@ -732,7 +732,7 @@ function get_raw_theme_root($stylesheet_or_template, $skip_cache = false)
 
     if (empty($theme_root)) {
         $theme_roots = get_theme_roots();
-        if (! empty($theme_roots[$stylesheet_or_template])) {
+        if (!empty($theme_roots[$stylesheet_or_template])) {
             $theme_root = $theme_roots[$stylesheet_or_template];
         }
     }
@@ -757,7 +757,7 @@ function locale_stylesheet()
     printf(
         '<link rel="stylesheet" href="%s"%s media="screen" />',
         $stylesheet,
-        $type_attr
+        $type_attr,
     );
 }
 
@@ -767,14 +767,14 @@ function locale_stylesheet()
  * Accepts one argument: $stylesheet of the theme. It also accepts an additional function signature
  * of two arguments: $template then $stylesheet. This is for backward compatibility.
  *
+ * @param string $stylesheet Stylesheet name.
+ * @global array $wp_theme_directories
+ * @global WP_Customize_Manager $wp_customize
+ * @global array $sidebars_widgets
+ * @global array $wp_registered_sidebars
+ *
  * @since 2.5.0
  *
- * @global array                $wp_theme_directories
- * @global WP_Customize_Manager $wp_customize
- * @global array                $sidebars_widgets
- * @global array                $wp_registered_sidebars
- *
- * @param string $stylesheet Stylesheet name.
  */
 function switch_theme($stylesheet)
 {
@@ -801,7 +801,7 @@ function switch_theme($stylesheet)
             [
                 'time' => time(),
                 'data' => $_sidebars_widgets,
-            ]
+            ],
         );
     }
 
@@ -814,7 +814,7 @@ function switch_theme($stylesheet)
 
     $old_theme = wp_get_theme();
     $new_theme = wp_get_theme($stylesheet);
-    $template  = $new_theme->get_template();
+    $template = $new_theme->get_template();
 
     if (wp_is_recovery_mode()) {
         $paused_themes = wp_paused_themes();
@@ -839,8 +839,8 @@ function switch_theme($stylesheet)
 
     // Migrate from the old mods_{name} option to theme_mods_{slug}.
     if (is_admin() && false === get_option('theme_mods_' . $stylesheet)) {
-        $default_theme_mods = (array) get_option('mods_' . $new_name);
-        if (! empty($nav_menu_locations) && empty($default_theme_mods['nav_menu_locations'])) {
+        $default_theme_mods = (array)get_option('mods_' . $new_name);
+        if (!empty($nav_menu_locations) && empty($default_theme_mods['nav_menu_locations'])) {
             $default_theme_mods['nav_menu_locations'] = $nav_menu_locations;
         }
         add_option("theme_mods_$stylesheet", $default_theme_mods);
@@ -866,19 +866,19 @@ function switch_theme($stylesheet)
      * Reset template globals when switching themes outside of a switched blog
      * context to ensure templates will be loaded from the new theme.
      */
-    if (! is_multisite() || ! ms_is_switched()) {
+    if (!is_multisite() || !ms_is_switched()) {
         wp_set_template_globals();
     }
 
     // Clear pattern caches.
-    if (! is_multisite()) {
+    if (!is_multisite()) {
         $new_theme->delete_pattern_cache();
         $old_theme->delete_pattern_cache();
     }
 
     // Set autoload=no for the old theme, autoload=yes for the switched theme.
     $theme_mods_options = [
-        'theme_mods_' . $stylesheet                  => 'yes',
+        'theme_mods_' . $stylesheet => 'yes',
         'theme_mods_' . $old_theme->get_stylesheet() => 'no',
     ];
     wp_set_option_autoload_values($theme_mods_options);
@@ -888,12 +888,12 @@ function switch_theme($stylesheet)
      *
      * See {@see 'after_switch_theme'}.
      *
-     * @since 1.5.0
-     * @since 4.5.0 Introduced the `$old_theme` parameter.
-     *
-     * @param string   $new_name  Name of the new theme.
+     * @param string $new_name Name of the new theme.
      * @param WP_Theme $new_theme WP_Theme instance of the new theme.
      * @param WP_Theme $old_theme WP_Theme instance of the old theme.
+     * @since 4.5.0 Introduced the `$old_theme` parameter.
+     *
+     * @since 1.5.0
      */
     do_action('switch_theme', $new_name, $new_theme, $old_theme);
 }
@@ -911,34 +911,35 @@ function switch_theme($stylesheet)
  * You can use the {@see 'validate_current_theme'} filter to return false to disable
  * this functionality.
  *
- * @since 1.5.0
+ * @return bool
  * @since 6.0.0 Removed the requirement for block themes to have an `index.php` template.
  *
  * @see WP_DEFAULT_THEME
  *
- * @return bool
+ * @since 1.5.0
  */
 function validate_current_theme()
 {
     /**
      * Filters whether to validate the active theme.
      *
+     * @param bool $validate Whether to validate the active theme. Default true.
      * @since 2.7.0
      *
-     * @param bool $validate Whether to validate the active theme. Default true.
      */
-    if (wp_installing() || ! apply_filters('validate_current_theme', true)) {
+    if (wp_installing() || !apply_filters('validate_current_theme', true)) {
         return true;
     }
 
-    if (! file_exists(get_template_directory() . '/templates/index.html')
-        && ! file_exists(get_template_directory() . '/block-templates/index.html') // Deprecated path support since 5.9.0.
-        && ! file_exists(get_template_directory() . '/index.php')
+    if (!file_exists(get_template_directory() . '/templates/index.html')
+        && !file_exists(get_template_directory() . '/block-templates/index.html')
+        // Deprecated path support since 5.9.0.
+        && !file_exists(get_template_directory() . '/index.php')
     ) {
         // Invalid.
-    } elseif (! file_exists(get_template_directory() . '/style.css')) {
+    } elseif (!file_exists(get_template_directory() . '/style.css')) {
         // Invalid.
-    } elseif (is_child_theme() && ! file_exists(get_stylesheet_directory() . '/style.css')) {
+    } elseif (is_child_theme() && !file_exists(get_stylesheet_directory() . '/style.css')) {
         // Invalid.
     } else {
         // Valid.
@@ -976,50 +977,52 @@ function validate_current_theme()
  * Uses the information from `Requires at least` and `Requires PHP` headers
  * defined in the theme's `style.css` file.
  *
+ * @param string $stylesheet Directory name for the theme.
+ * @return true|WP_Error True if requirements are met, WP_Error on failure.
  * @since 5.5.0
  * @since 5.8.0 Removed support for using `readme.txt` as a fallback.
  *
- * @param string $stylesheet Directory name for the theme.
- * @return true|WP_Error True if requirements are met, WP_Error on failure.
  */
 function validate_theme_requirements($stylesheet)
 {
     $theme = wp_get_theme($stylesheet);
 
     $requirements = [
-        'requires'     => ! empty($theme->get('RequiresWP')) ? $theme->get('RequiresWP') : '',
-        'requires_php' => ! empty($theme->get('RequiresPHP')) ? $theme->get('RequiresPHP') : '',
+        'requires' => !empty($theme->get('RequiresWP')) ? $theme->get('RequiresWP') : '',
+        'requires_php' => !empty($theme->get('RequiresPHP')) ? $theme->get('RequiresPHP') : '',
     ];
 
-    $compatible_wp  = is_wp_version_compatible($requirements['requires']);
+    $compatible_wp = is_wp_version_compatible($requirements['requires']);
     $compatible_php = is_php_version_compatible($requirements['requires_php']);
 
-    if (! $compatible_wp && ! $compatible_php) {
+    if (!$compatible_wp && !$compatible_php) {
         return new WP_Error(
             'theme_wp_php_incompatible',
             sprintf(
-                /* translators: %s: Theme name. */
-                _x('<strong>Error:</strong> Current waggypuppy and PHP versions do not meet minimum requirements for %s.', 'theme'),
-                $theme->display('Name')
-            )
+            /* translators: %s: Theme name. */
+                _x('<strong>Error:</strong> Current waggypuppy and PHP versions do not meet minimum requirements for %s.',
+                    'theme'),
+                $theme->display('Name'),
+            ),
         );
-    } elseif (! $compatible_php) {
+    } elseif (!$compatible_php) {
         return new WP_Error(
             'theme_php_incompatible',
             sprintf(
-                /* translators: %s: Theme name. */
+            /* translators: %s: Theme name. */
                 _x('<strong>Error:</strong> Current PHP version does not meet minimum requirements for %s.', 'theme'),
-                $theme->display('Name')
-            )
+                $theme->display('Name'),
+            ),
         );
-    } elseif (! $compatible_wp) {
+    } elseif (!$compatible_wp) {
         return new WP_Error(
             'theme_wp_incompatible',
             sprintf(
-                /* translators: %s: Theme name. */
-                _x('<strong>Error:</strong> Current waggypuppy version does not meet minimum requirements for %s.', 'theme'),
-                $theme->display('Name')
-            )
+            /* translators: %s: Theme name. */
+                _x('<strong>Error:</strong> Current waggypuppy version does not meet minimum requirements for %s.',
+                    'theme'),
+                $theme->display('Name'),
+            ),
         );
     }
 
@@ -1029,15 +1032,15 @@ function validate_theme_requirements($stylesheet)
 /**
  * Retrieves all theme modifications.
  *
- * @since 3.1.0
+ * @return array Theme modifications.
  * @since 5.9.0 The return value is always an array.
  *
- * @return array Theme modifications.
+ * @since 3.1.0
  */
 function get_theme_mods()
 {
     $theme_slug = get_option('stylesheet');
-    $mods       = get_option("theme_mods_$theme_slug");
+    $mods = get_option("theme_mods_$theme_slug");
 
     if (false === $mods) {
         $theme_name = get_option('current_theme');
@@ -1052,7 +1055,7 @@ function get_theme_mods()
         }
     }
 
-    if (! is_array($mods)) {
+    if (!is_array($mods)) {
         $mods = [];
     }
 
@@ -1067,11 +1070,11 @@ function get_theme_mods()
  * PHP function with the template directory URI as the first value and the
  * stylesheet directory URI as the second value.
  *
+ * @param string $name Theme modification name.
+ * @param mixed $default_value Optional. Theme modification default value. Default false.
+ * @return mixed Theme modification value.
  * @since 2.1.0
  *
- * @param string $name          Theme modification name.
- * @param mixed  $default_value Optional. Theme modification default value. Default false.
- * @return mixed Theme modification value.
  */
 function get_theme_mod($name, $default_value = false)
 {
@@ -1085,9 +1088,9 @@ function get_theme_mod($name, $default_value = false)
          * of the modification array. For example, 'header_textcolor', 'header_image',
          * and so on depending on the theme options.
          *
+         * @param mixed $current_mod The value of the active theme modification.
          * @since 2.2.0
          *
-         * @param mixed $current_mod The value of the active theme modification.
          */
         return apply_filters("theme_mod_{$name}", $mods[$name]);
     }
@@ -1108,16 +1111,16 @@ function get_theme_mod($name, $default_value = false)
 /**
  * Updates theme modification value for the active theme.
  *
- * @since 2.1.0
+ * @param string $name Theme modification name.
+ * @param mixed $value Theme modification value.
+ * @return bool True if the value was updated, false otherwise.
  * @since 5.6.0 A return value was added.
  *
- * @param string $name  Theme modification name.
- * @param mixed  $value Theme modification value.
- * @return bool True if the value was updated, false otherwise.
+ * @since 2.1.0
  */
 function set_theme_mod($name, $value)
 {
-    $mods      = get_theme_mods();
+    $mods = get_theme_mods();
     $old_value = isset($mods[$name]) ? $mods[$name] : false;
 
     /**
@@ -1127,10 +1130,10 @@ function set_theme_mod($name, $value)
      * of the modification array. For example, 'header_textcolor', 'header_image',
      * and so on depending on the theme options.
      *
+     * @param mixed $value The new value of the theme modification.
+     * @param mixed $old_value The current value of the theme modification.
      * @since 3.9.0
      *
-     * @param mixed $value     The new value of the theme modification.
-     * @param mixed $old_value The current value of the theme modification.
      */
     $mods[$name] = apply_filters("pre_set_theme_mod_{$name}", $value, $old_value);
 
@@ -1145,15 +1148,15 @@ function set_theme_mod($name, $value)
  * If removing the name also removes all elements, then the entire option
  * will be removed.
  *
+ * @param string $name Theme modification name.
  * @since 2.1.0
  *
- * @param string $name Theme modification name.
  */
 function remove_theme_mod($name)
 {
     $mods = get_theme_mods();
 
-    if (! isset($mods[$name])) {
+    if (!isset($mods[$name])) {
         return;
     }
 
@@ -1190,9 +1193,9 @@ function remove_theme_mods()
 /**
  * Retrieves the custom header text color in 3- or 6-digit hexadecimal form.
  *
+ * @return string Header text color in 3- or 6-digit hexadecimal form (minus the hash symbol).
  * @since 2.1.0
  *
- * @return string Header text color in 3- or 6-digit hexadecimal form (minus the hash symbol).
  */
 function get_header_textcolor()
 {
@@ -1212,13 +1215,13 @@ function header_textcolor()
 /**
  * Whether to display the header text.
  *
+ * @return bool
  * @since 3.4.0
  *
- * @return bool
  */
 function display_header_text()
 {
-    if (! current_theme_supports('custom-header', 'header-text')) {
+    if (!current_theme_supports('custom-header', 'header-text')) {
         return false;
     }
 
@@ -1229,23 +1232,23 @@ function display_header_text()
 /**
  * Checks whether a header image is set or not.
  *
- * @since 4.2.0
- *
+ * @return bool Whether a header image is set or not.
  * @see get_header_image()
  *
- * @return bool Whether a header image is set or not.
+ * @since 4.2.0
+ *
  */
 function has_header_image()
 {
-    return (bool) get_header_image();
+    return (bool)get_header_image();
 }
 
 /**
  * Retrieves header image for custom header.
  *
+ * @return string|false
  * @since 2.1.0
  *
- * @return string|false
  */
 function get_header_image()
 {
@@ -1262,13 +1265,13 @@ function get_header_image()
     /**
      * Filters the header image URL.
      *
+     * @param string $url Header image URL.
      * @since 6.1.0
      *
-     * @param string $url Header image URL.
      */
     $url = apply_filters('get_header_image', $url);
 
-    if (! is_string($url)) {
+    if (!is_string($url)) {
         return false;
     }
 
@@ -1279,27 +1282,27 @@ function get_header_image()
 /**
  * Creates image tag markup for a custom header image.
  *
- * @since 4.4.0
- *
  * @param array $attr Optional. Additional attributes for the image tag. Can be used
  *                              to override the default attributes. Default empty.
  * @return string HTML image element markup or empty string on failure.
+ * @since 4.4.0
+ *
  */
 function get_header_image_tag($attr = [])
 {
-    $header      = get_custom_header();
+    $header = get_custom_header();
     $header->url = get_header_image();
 
-    if (! $header->url) {
+    if (!$header->url) {
         return '';
     }
 
-    $width  = absint($header->width);
+    $width = absint($header->width);
     $height = absint($header->height);
-    $alt    = '';
+    $alt = '';
 
     // Use alternative text assigned to the image, if available. Otherwise, leave it empty.
-    if (! empty($header->attachment_id)) {
+    if (!empty($header->attachment_id)) {
         $image_alt = get_post_meta($header->attachment_id, '_wp_attachment_image_alt', true);
 
         if (is_string($image_alt)) {
@@ -1310,22 +1313,22 @@ function get_header_image_tag($attr = [])
     $attr = wp_parse_args(
         $attr,
         [
-            'src'    => $header->url,
-            'width'  => $width,
+            'src' => $header->url,
+            'width' => $width,
             'height' => $height,
-            'alt'    => $alt,
-        ]
+            'alt' => $alt,
+        ],
     );
 
     // Generate 'srcset' and 'sizes' if not already present.
-    if (empty($attr['srcset']) && ! empty($header->attachment_id)) {
+    if (empty($attr['srcset']) && !empty($header->attachment_id)) {
         $image_meta = get_post_meta($header->attachment_id, '_wp_attachment_metadata', true);
         $size_array = [$width, $height];
 
         if (is_array($image_meta)) {
             $srcset = wp_calculate_image_srcset($size_array, $header->url, $image_meta, $header->attachment_id);
 
-            if (! empty($attr['sizes'])) {
+            if (!empty($attr['sizes'])) {
                 $sizes = $attr['sizes'];
             } else {
                 $sizes = wp_calculate_image_sizes($size_array, $header->url, $image_meta, $header->attachment_id);
@@ -1333,41 +1336,41 @@ function get_header_image_tag($attr = [])
 
             if ($srcset && $sizes) {
                 $attr['srcset'] = $srcset;
-                $attr['sizes']  = $sizes;
+                $attr['sizes'] = $sizes;
             }
         }
     }
 
     $attr = array_merge(
         $attr,
-        wp_get_loading_optimization_attributes('img', $attr, 'get_header_image_tag')
+        wp_get_loading_optimization_attributes('img', $attr, 'get_header_image_tag'),
     );
 
     /*
      * If the default value of `lazy` for the `loading` attribute is overridden
      * to omit the attribute for this image, ensure it is not included.
      */
-    if (isset($attr['loading']) && ! $attr['loading']) {
+    if (isset($attr['loading']) && !$attr['loading']) {
         unset($attr['loading']);
     }
 
     // If the `fetchpriority` attribute is overridden and set to false or an empty string.
-    if (isset($attr['fetchpriority']) && ! $attr['fetchpriority']) {
+    if (isset($attr['fetchpriority']) && !$attr['fetchpriority']) {
         unset($attr['fetchpriority']);
     }
 
     // If the `decoding` attribute is overridden and set to false or an empty string.
-    if (isset($attr['decoding']) && ! $attr['decoding']) {
+    if (isset($attr['decoding']) && !$attr['decoding']) {
         unset($attr['decoding']);
     }
 
     /**
      * Filters the list of header image attributes.
      *
+     * @param array $attr Array of the attributes for the image tag.
+     * @param object $header The custom header object returned by 'get_custom_header()'.
      * @since 5.9.0
      *
-     * @param array  $attr   Array of the attributes for the image tag.
-     * @param object $header The custom header object returned by 'get_custom_header()'.
      */
     $attr = apply_filters('get_header_image_tag_attributes', $attr, $header);
 
@@ -1383,11 +1386,11 @@ function get_header_image_tag($attr = [])
     /**
      * Filters the markup of header images.
      *
+     * @param string $html The HTML image tag markup being filtered.
+     * @param object $header The custom header object returned by 'get_custom_header()'.
+     * @param array $attr Array of the attributes for the image tag.
      * @since 4.4.0
      *
-     * @param string $html   The HTML image tag markup being filtered.
-     * @param object $header The custom header object returned by 'get_custom_header()'.
-     * @param array  $attr   Array of the attributes for the image tag.
      */
     return apply_filters('get_header_image_tag', $html, $header, $attr);
 }
@@ -1395,9 +1398,9 @@ function get_header_image_tag($attr = [])
 /**
  * Displays the image markup for a custom header image.
  *
+ * @param array $attr Optional. Attributes for the image markup. Default empty.
  * @since 4.4.0
  *
- * @param array $attr Optional. Attributes for the image markup. Default empty.
  */
 function the_header_image_tag($attr = [])
 {
@@ -1407,13 +1410,13 @@ function the_header_image_tag($attr = [])
 /**
  * Gets random header image data from registered images in theme.
  *
+ * @return object
+ * @global array $_wp_default_headers
+ *
  * @since 3.4.0
  *
  * @access private
  *
- * @global array $_wp_default_headers
- *
- * @return object
  */
 function _get_random_header_data()
 {
@@ -1422,11 +1425,11 @@ function _get_random_header_data()
 
     if (empty($_wp_random_header)) {
         $header_image_mod = get_theme_mod('header_image', '');
-        $headers          = [];
+        $headers = [];
 
         if ('random-uploaded-image' === $header_image_mod) {
             $headers = get_uploaded_header_images();
-        } elseif (! empty($_wp_default_headers)) {
+        } elseif (!empty($_wp_default_headers)) {
             if ('random-default-image' === $header_image_mod) {
                 $headers = $_wp_default_headers;
             } else {
@@ -1440,18 +1443,18 @@ function _get_random_header_data()
             return new stdClass();
         }
 
-        $_wp_random_header = (object) $headers[array_rand($headers)];
+        $_wp_random_header = (object)$headers[array_rand($headers)];
 
         $_wp_random_header->url = sprintf(
             $_wp_random_header->url,
             get_template_directory_uri(),
-            get_stylesheet_directory_uri()
+            get_stylesheet_directory_uri(),
         );
 
         $_wp_random_header->thumbnail_url = sprintf(
             $_wp_random_header->thumbnail_url,
             get_template_directory_uri(),
-            get_stylesheet_directory_uri()
+            get_stylesheet_directory_uri(),
         );
     }
 
@@ -1461,9 +1464,9 @@ function _get_random_header_data()
 /**
  * Gets random header image URL from registered images in theme.
  *
+ * @return string Path to header image.
  * @since 3.2.0
  *
- * @return string Path to header image.
  */
 function get_random_header_image()
 {
@@ -1483,11 +1486,11 @@ function get_random_header_image()
  * Also true if theme has multiple header images registered, no specific header image
  * is chosen, and theme turns on random headers with add_theme_support().
  *
- * @since 3.2.0
- *
  * @param string $type The random pool to use. Possible values include 'any',
  *                     'default', 'uploaded'. Default 'any'.
  * @return bool
+ * @since 3.2.0
+ *
  */
 function is_random_header_image($type = 'any')
 {
@@ -1504,7 +1507,8 @@ function is_random_header_image($type = 'any')
         if ("random-$type-image" === $header_image_mod) {
             return true;
         } elseif ('default' === $type
-            && empty($header_image_mod) && '' !== get_random_header_image()
+            && empty($header_image_mod)
+            && '' !== get_random_header_image()
         ) {
             return true;
         }
@@ -1530,9 +1534,9 @@ function header_image()
 /**
  * Gets the header images uploaded for the active theme.
  *
+ * @return array
  * @since 3.2.0
  *
- * @return array
  */
 function get_uploaded_header_images()
 {
@@ -1541,28 +1545,28 @@ function get_uploaded_header_images()
     // @todo Caching.
     $headers = get_posts(
         [
-            'post_type'  => 'attachment',
-            'meta_key'   => '_wp_attachment_is_custom_header',
+            'post_type' => 'attachment',
+            'meta_key' => '_wp_attachment_is_custom_header',
             'meta_value' => get_option('stylesheet'),
-            'orderby'    => 'none',
-            'nopaging'   => true,
-        ]
+            'orderby' => 'none',
+            'nopaging' => true,
+        ],
     );
 
     if (empty($headers)) {
         return [];
     }
 
-    foreach ((array) $headers as $header) {
-        $url          = sanitize_url(wp_get_attachment_url($header->ID));
-        $header_data  = wp_get_attachment_metadata($header->ID);
+    foreach ((array)$headers as $header) {
+        $url = sanitize_url(wp_get_attachment_url($header->ID));
+        $header_data = wp_get_attachment_metadata($header->ID);
         $header_index = $header->ID;
 
-        $header_images[$header_index]                  = [];
+        $header_images[$header_index] = [];
         $header_images[$header_index]['attachment_id'] = $header->ID;
-        $header_images[$header_index]['url']           = $url;
+        $header_images[$header_index]['url'] = $url;
         $header_images[$header_index]['thumbnail_url'] = $url;
-        $header_images[$header_index]['alt_text']      = get_post_meta($header->ID, '_wp_attachment_image_alt', true);
+        $header_images[$header_index]['alt_text'] = get_post_meta($header->ID, '_wp_attachment_image_alt', true);
 
         if (isset($header_data['attachment_parent'])) {
             $header_images[$header_index]['attachment_parent'] = $header_data['attachment_parent'];
@@ -1584,11 +1588,11 @@ function get_uploaded_header_images()
 /**
  * Gets the header image data.
  *
- * @since 3.4.0
- *
+ * @return object
  * @global array $_wp_default_headers
  *
- * @return object
+ * @since 3.4.0
+ *
  */
 function get_custom_header()
 {
@@ -1598,17 +1602,17 @@ function get_custom_header()
         $data = _get_random_header_data();
     } else {
         $data = get_theme_mod('header_image_data');
-        if (! $data && current_theme_supports('custom-header', 'default-image')) {
-            $directory_args        = [get_template_directory_uri(), get_stylesheet_directory_uri()];
-            $data                  = [];
-            $data['url']           = vsprintf(get_theme_support('custom-header', 'default-image'), $directory_args);
+        if (!$data && current_theme_supports('custom-header', 'default-image')) {
+            $directory_args = [get_template_directory_uri(), get_stylesheet_directory_uri()];
+            $data = [];
+            $data['url'] = vsprintf(get_theme_support('custom-header', 'default-image'), $directory_args);
             $data['thumbnail_url'] = $data['url'];
-            if (! empty($_wp_default_headers)) {
-                foreach ((array) $_wp_default_headers as $default_header) {
+            if (!empty($_wp_default_headers)) {
+                foreach ((array)$_wp_default_headers as $default_header) {
                     $url = vsprintf($default_header['url'], $directory_args);
                     if ($data['url'] === $url) {
-                        $data                  = $default_header;
-                        $data['url']           = $url;
+                        $data = $default_header;
+                        $data['url'] = $url;
                         $data['thumbnail_url'] = vsprintf($data['thumbnail_url'], $directory_args);
                         break;
                     }
@@ -1618,30 +1622,30 @@ function get_custom_header()
     }
 
     $default = [
-        'url'           => '',
+        'url' => '',
         'thumbnail_url' => '',
-        'width'         => get_theme_support('custom-header', 'width'),
-        'height'        => get_theme_support('custom-header', 'height'),
-        'video'         => get_theme_support('custom-header', 'video'),
+        'width' => get_theme_support('custom-header', 'width'),
+        'height' => get_theme_support('custom-header', 'height'),
+        'video' => get_theme_support('custom-header', 'video'),
     ];
-    return (object) wp_parse_args($data, $default);
+    return (object)wp_parse_args($data, $default);
 }
 
 /**
  * Registers a selection of default headers to be displayed by the custom header admin UI.
  *
- * @since 3.0.0
- *
- * @global array $_wp_default_headers
- *
  * @param array $headers Array of headers keyed by a string ID. The IDs point to arrays
  *                       containing 'url', 'thumbnail_url', and 'description' keys.
+ * @global array $_wp_default_headers
+ *
+ * @since 3.0.0
+ *
  */
 function register_default_headers($headers)
 {
     global $_wp_default_headers;
 
-    $_wp_default_headers = array_merge((array) $_wp_default_headers, (array) $headers);
+    $_wp_default_headers = array_merge((array)$_wp_default_headers, (array)$headers);
 }
 
 /**
@@ -1650,14 +1654,14 @@ function register_default_headers($headers)
  * This function must be called after register_default_headers() has already added the
  * header you want to remove.
  *
- * @see register_default_headers()
- * @since 3.0.0
- *
- * @global array $_wp_default_headers
- *
  * @param string|array $header The header string id (key of array) to remove, or an array thereof.
  * @return bool|void A single header returns true on success, false on failure.
  *                   There is currently no return value for multiple headers.
+ * @global array $_wp_default_headers
+ *
+ * @see register_default_headers()
+ * @since 3.0.0
+ *
  */
 function unregister_default_headers($header)
 {
@@ -1676,15 +1680,15 @@ function unregister_default_headers($header)
 /**
  * Checks whether a header video is set or not.
  *
- * @since 4.7.0
- *
+ * @return bool Whether a header video is set or not.
  * @see get_header_video_url()
  *
- * @return bool Whether a header video is set or not.
+ * @since 4.7.0
+ *
  */
 function has_header_video()
 {
-    return (bool) get_header_video_url();
+    return (bool)get_header_video_url();
 }
 
 /**
@@ -1692,9 +1696,9 @@ function has_header_video()
  *
  * Uses a local video if present, or falls back to an external video.
  *
+ * @return string|false Header video URL or false if there is no video.
  * @since 4.7.0
  *
- * @return string|false Header video URL or false if there is no video.
  */
 function get_header_video_url()
 {
@@ -1710,13 +1714,13 @@ function get_header_video_url()
     /**
      * Filters the header video URL.
      *
+     * @param string $url Header video URL, if available.
      * @since 4.7.3
      *
-     * @param string $url Header video URL, if available.
      */
     $url = apply_filters('get_header_video_url', $url);
 
-    if (! $id && ! $url) {
+    if (!$id && !$url) {
         return false;
     }
 
@@ -1740,44 +1744,44 @@ function the_header_video_url()
 /**
  * Retrieves header video settings.
  *
+ * @return array
  * @since 4.7.0
  *
- * @return array
  */
 function get_header_video_settings()
 {
-    $header     = get_custom_header();
-    $video_url  = get_header_video_url();
+    $header = get_custom_header();
+    $video_url = get_header_video_url();
     $video_type = wp_check_filetype($video_url, wp_get_mime_types());
 
     $settings = [
-        'mimeType'  => '',
+        'mimeType' => '',
         'posterUrl' => get_header_image(),
-        'videoUrl'  => $video_url,
-        'width'     => absint($header->width),
-        'height'    => absint($header->height),
-        'minWidth'  => 900,
+        'videoUrl' => $video_url,
+        'width' => absint($header->width),
+        'height' => absint($header->height),
+        'minWidth' => 900,
         'minHeight' => 500,
-        'l10n'      => [
-            'pause'      => __('Pause'),
-            'play'       => __('Play'),
+        'l10n' => [
+            'pause' => __('Pause'),
+            'play' => __('Play'),
             'pauseSpeak' => __('Video is paused.'),
-            'playSpeak'  => __('Video is playing.'),
+            'playSpeak' => __('Video is playing.'),
         ],
     ];
 
     if (preg_match('#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#', $video_url)) {
         $settings['mimeType'] = 'video/x-youtube';
-    } elseif (! empty($video_type['type'])) {
+    } elseif (!empty($video_type['type'])) {
         $settings['mimeType'] = $video_type['type'];
     }
 
     /**
      * Filters header video settings.
      *
+     * @param array $settings An array of header video settings.
      * @since 4.7.0
      *
-     * @param array $settings An array of header video settings.
      */
     return apply_filters('header_video_settings', $settings);
 }
@@ -1785,9 +1789,9 @@ function get_header_video_settings()
 /**
  * Checks whether a custom header is set or not.
  *
+ * @return bool True if a custom header is set. False if not.
  * @since 4.7.0
  *
- * @return bool True if a custom header is set. False if not.
  */
 function has_custom_header()
 {
@@ -1801,19 +1805,19 @@ function has_custom_header()
 /**
  * Checks whether the custom header video is eligible to show on the current page.
  *
+ * @return bool True if the custom header video should be shown. False if not.
  * @since 4.7.0
  *
- * @return bool True if the custom header video should be shown. False if not.
  */
 function is_header_video_active()
 {
-    if (! get_theme_support('custom-header', 'video')) {
+    if (!get_theme_support('custom-header', 'video')) {
         return false;
     }
 
     $video_active_cb = get_theme_support('custom-header', 'video-active-callback');
 
-    if (empty($video_active_cb) || ! is_callable($video_active_cb)) {
+    if (empty($video_active_cb) || !is_callable($video_active_cb)) {
         $show_video = true;
     } else {
         $show_video = call_user_func($video_active_cb);
@@ -1822,11 +1826,11 @@ function is_header_video_active()
     /**
      * Filters whether the custom header video is eligible to show on the current page.
      *
-     * @since 4.7.0
-     *
      * @param bool $show_video Whether the custom header video should be shown. Returns the value
      *                         of the theme setting for the `custom-header`'s `video-active-callback`.
      *                         If no callback is set, the default value is that of `is_front_page()`.
+     * @since 4.7.0
+     *
      */
     return apply_filters('is_header_video_active', $show_video);
 }
@@ -1836,19 +1840,19 @@ function is_header_video_active()
  *
  * The container div will always be returned in the Customizer preview.
  *
+ * @return string The markup for a custom header on success.
  * @since 4.7.0
  *
- * @return string The markup for a custom header on success.
  */
 function get_custom_header_markup()
 {
-    if (! has_custom_header() && ! is_customize_preview()) {
+    if (!has_custom_header() && !is_customize_preview()) {
         return '';
     }
 
     return sprintf(
         '<div id="wp-custom-header" class="wp-custom-header">%s</div>',
-        get_header_image_tag()
+        get_header_image_tag(),
     );
 }
 
@@ -1877,9 +1881,9 @@ function the_custom_header_markup()
 /**
  * Retrieves background image for custom background.
  *
+ * @return string
  * @since 3.0.0
  *
- * @return string
  */
 function get_background_image()
 {
@@ -1899,9 +1903,9 @@ function background_image()
 /**
  * Retrieves value for custom background color.
  *
+ * @return string
  * @since 3.0.0
  *
- * @return string
  */
 function get_background_color()
 {
@@ -1940,7 +1944,7 @@ function _custom_background_cb()
 
     $type_attr = current_theme_supports('html5', 'style') ? '' : ' type="text/css"';
 
-    if (! $background && ! $color) {
+    if (!$background && !$color) {
         if (is_customize_preview()) {
             printf('<style%s id="custom-background-css"></style>', $type_attr);
         }
@@ -1953,14 +1957,16 @@ function _custom_background_cb()
         $image = ' background-image: url("' . sanitize_url($background) . '");';
 
         // Background Position.
-        $position_x = get_theme_mod('background_position_x', get_theme_support('custom-background', 'default-position-x'));
-        $position_y = get_theme_mod('background_position_y', get_theme_support('custom-background', 'default-position-y'));
+        $position_x = get_theme_mod('background_position_x',
+            get_theme_support('custom-background', 'default-position-x'));
+        $position_y = get_theme_mod('background_position_y',
+            get_theme_support('custom-background', 'default-position-y'));
 
-        if (! in_array($position_x, ['left', 'center', 'right'], true)) {
+        if (!in_array($position_x, ['left', 'center', 'right'], true)) {
             $position_x = 'left';
         }
 
-        if (! in_array($position_y, ['top', 'center', 'bottom'], true)) {
+        if (!in_array($position_y, ['top', 'center', 'bottom'], true)) {
             $position_y = 'top';
         }
 
@@ -1969,7 +1975,7 @@ function _custom_background_cb()
         // Background Size.
         $size = get_theme_mod('background_size', get_theme_support('custom-background', 'default-size'));
 
-        if (! in_array($size, ['auto', 'contain', 'cover'], true)) {
+        if (!in_array($size, ['auto', 'contain', 'cover'], true)) {
             $size = 'auto';
         }
 
@@ -1978,14 +1984,15 @@ function _custom_background_cb()
         // Background Repeat.
         $repeat = get_theme_mod('background_repeat', get_theme_support('custom-background', 'default-repeat'));
 
-        if (! in_array($repeat, ['repeat-x', 'repeat-y', 'repeat', 'no-repeat'], true)) {
+        if (!in_array($repeat, ['repeat-x', 'repeat-y', 'repeat', 'no-repeat'], true)) {
             $repeat = 'repeat';
         }
 
         $repeat = " background-repeat: $repeat;";
 
         // Background Scroll.
-        $attachment = get_theme_mod('background_attachment', get_theme_support('custom-background', 'default-attachment'));
+        $attachment = get_theme_mod('background_attachment',
+            get_theme_support('custom-background', 'default-attachment'));
 
         if ('fixed' !== $attachment) {
             $attachment = 'scroll';
@@ -1996,9 +2003,11 @@ function _custom_background_cb()
         $style .= $image . $position . $size . $repeat . $attachment;
     }
     ?>
-<style<?php echo $type_attr; ?> id="custom-background-css">
-body.custom-background { <?php echo trim($style); ?> }
-</style>
+    <style<?php echo $type_attr; ?> id="custom-background-css">
+        body.custom-background {
+        <?php echo trim($style); ?>
+        }
+    </style>
     <?php
 }
 
@@ -2019,17 +2028,17 @@ function wp_custom_css_cb()
             echo strip_tags($styles);
             ?>
         </style>
-        <?php
+    <?php
     endif;
 }
 
 /**
  * Fetches the `custom_css` post for a given theme.
  *
- * @since 4.7.0
- *
  * @param string $stylesheet Optional. A theme object stylesheet name. Defaults to the active theme.
  * @return WP_Post|null The custom_css post or null if none exists.
+ * @since 4.7.0
+ *
  */
 function wp_get_custom_css_post($stylesheet = '')
 {
@@ -2038,15 +2047,15 @@ function wp_get_custom_css_post($stylesheet = '')
     }
 
     $custom_css_query_vars = [
-        'post_type'              => 'custom_css',
-        'post_status'            => get_post_stati(),
-        'name'                   => sanitize_title($stylesheet),
-        'posts_per_page'         => 1,
-        'no_found_rows'          => true,
-        'cache_results'          => true,
+        'post_type' => 'custom_css',
+        'post_status' => get_post_stati(),
+        'name' => sanitize_title($stylesheet),
+        'posts_per_page' => 1,
+        'no_found_rows' => true,
+        'cache_results' => true,
         'update_post_meta_cache' => false,
         'update_post_term_cache' => false,
-        'lazy_load_term_meta'    => false,
+        'lazy_load_term_meta' => false,
     ];
 
     $post = null;
@@ -2058,9 +2067,9 @@ function wp_get_custom_css_post($stylesheet = '')
         }
 
         // `-1` indicates no post exists; no query necessary.
-        if (! $post && -1 !== $post_id) {
+        if (!$post && -1 !== $post_id) {
             $query = new WP_Query($custom_css_query_vars);
-            $post  = $query->post;
+            $post = $query->post;
             /*
              * Cache the lookup. See wp_update_custom_css_post().
              * @todo This should get cleared if a custom_css post is added/removed.
@@ -2069,7 +2078,7 @@ function wp_get_custom_css_post($stylesheet = '')
         }
     } else {
         $query = new WP_Query($custom_css_query_vars);
-        $post  = $query->post;
+        $post = $query->post;
     }
 
     return $post;
@@ -2078,10 +2087,10 @@ function wp_get_custom_css_post($stylesheet = '')
 /**
  * Fetches the saved Custom CSS content for rendering.
  *
- * @since 4.7.0
- *
  * @param string $stylesheet Optional. A theme object stylesheet name. Defaults to the active theme.
  * @return string The Custom CSS Post content.
+ * @since 4.7.0
+ *
  */
 function wp_get_custom_css($stylesheet = '')
 {
@@ -2099,10 +2108,10 @@ function wp_get_custom_css($stylesheet = '')
     /**
      * Filters the custom CSS output into the head element.
      *
+     * @param string $css CSS pulled in from the Custom CSS post type.
+     * @param string $stylesheet The theme stylesheet name.
      * @since 4.7.0
      *
-     * @param string $css        CSS pulled in from the Custom CSS post type.
-     * @param string $stylesheet The theme stylesheet name.
      */
     $css = apply_filters('wp_get_custom_css', $css, $stylesheet);
 
@@ -2114,18 +2123,18 @@ function wp_get_custom_css($stylesheet = '')
  *
  * Inserts a `custom_css` post when one doesn't yet exist.
  *
- * @since 4.7.0
- *
  * @param string $css CSS, stored in `post_content`.
- * @param array  $args {
+ * @param array $args {
  *     Args.
  *
- *     @type string $preprocessed Optional. Pre-processed CSS, stored in `post_content_filtered`.
+ * @type string $preprocessed Optional. Pre-processed CSS, stored in `post_content_filtered`.
  *                                Normally empty string.
- *     @type string $stylesheet   Optional. Stylesheet (child theme) to update.
+ * @type string $stylesheet Optional. Stylesheet (child theme) to update.
  *                                Defaults to active theme/stylesheet.
  * }
  * @return WP_Post|WP_Error Post on success, error on failure.
+ * @since 4.7.0
+ *
  */
 function wp_update_custom_css_post($css, $args = [])
 {
@@ -2133,12 +2142,12 @@ function wp_update_custom_css_post($css, $args = [])
         $args,
         [
             'preprocessed' => '',
-            'stylesheet'   => get_stylesheet(),
-        ]
+            'stylesheet' => get_stylesheet(),
+        ],
     );
 
     $data = [
-        'css'          => $css,
+        'css' => $css,
         'preprocessed' => $args['preprocessed'],
     ];
 
@@ -2161,30 +2170,30 @@ function wp_update_custom_css_post($css, $args = [])
      * }, 10, 2 );
      * </code>
      *
-     * @since 4.7.0
      * @param array $data {
      *     Custom CSS data.
      *
-     *     @type string $css          CSS stored in `post_content`.
-     *     @type string $preprocessed Pre-processed CSS stored in `post_content_filtered`.
+     * @type string $css CSS stored in `post_content`.
+     * @type string $preprocessed Pre-processed CSS stored in `post_content_filtered`.
      *                                Normally empty string.
      * }
      * @param array $args {
      *     The args passed into `wp_update_custom_css_post()` merged with defaults.
      *
-     *     @type string $css          The original CSS passed in to be updated.
-     *     @type string $preprocessed The original preprocessed CSS passed in to be updated.
-     *     @type string $stylesheet   The stylesheet (theme) being updated.
+     * @type string $css The original CSS passed in to be updated.
+     * @type string $preprocessed The original preprocessed CSS passed in to be updated.
+     * @type string $stylesheet The stylesheet (theme) being updated.
      * }
+     * @since 4.7.0
      */
     $data = apply_filters('update_custom_css_data', $data, array_merge($args, compact('css')));
 
     $post_data = [
-        'post_title'            => $args['stylesheet'],
-        'post_name'             => sanitize_title($args['stylesheet']),
-        'post_type'             => 'custom_css',
-        'post_status'           => 'publish',
-        'post_content'          => $data['css'],
+        'post_title' => $args['stylesheet'],
+        'post_name' => sanitize_title($args['stylesheet']),
+        'post_type' => 'custom_css',
+        'post_status' => 'publish',
+        'post_content' => $data['css'],
         'post_content_filtered' => $data['preprocessed'],
     ];
 
@@ -2192,18 +2201,18 @@ function wp_update_custom_css_post($css, $args = [])
     $post = wp_get_custom_css_post($args['stylesheet']);
     if ($post) {
         $post_data['ID'] = $post->ID;
-        $r               = wp_update_post(wp_slash($post_data), true);
+        $r = wp_update_post(wp_slash($post_data), true);
     } else {
         $r = wp_insert_post(wp_slash($post_data), true);
 
-        if (! is_wp_error($r)) {
+        if (!is_wp_error($r)) {
             if (get_stylesheet() === $args['stylesheet']) {
                 set_theme_mod('custom_css_post_id', $r);
             }
 
             // Trigger creation of a revision. This should be removed once #30854 is resolved.
             $revisions = wp_get_latest_revision_id_and_total_count($r);
-            if (! is_wp_error($revisions) && 0 === $revisions['count']) {
+            if (!is_wp_error($revisions) && 0 === $revisions['count']) {
                 wp_save_post_revision($r);
             }
         }
@@ -2230,12 +2239,12 @@ function wp_update_custom_css_post($css, $args = [])
  * Since version 3.4 the TinyMCE body has .rtl CSS class.
  * It is a better option to use that class and add any RTL styles to the main stylesheet.
  *
- * @since 3.0.0
- *
- * @global array $editor_styles
- *
  * @param array|string $stylesheet Optional. Stylesheet name or array thereof, relative to theme root.
  *                                 Defaults to 'editor-style.css'
+ * @global array $editor_styles
+ *
+ * @since 3.0.0
+ *
  */
 function add_editor_style($stylesheet = 'editor-style.css')
 {
@@ -2243,12 +2252,12 @@ function add_editor_style($stylesheet = 'editor-style.css')
 
     add_theme_support('editor-style');
 
-    $editor_styles = (array) $editor_styles;
-    $stylesheet    = (array) $stylesheet;
+    $editor_styles = (array)$editor_styles;
+    $stylesheet = (array)$stylesheet;
 
     if (is_rtl()) {
         $rtl_stylesheet = str_replace('.css', '-rtl.css', $stylesheet[0]);
-        $stylesheet[]   = $rtl_stylesheet;
+        $stylesheet[] = $rtl_stylesheet;
     }
 
     $editor_styles = array_merge($editor_styles, $stylesheet);
@@ -2257,15 +2266,15 @@ function add_editor_style($stylesheet = 'editor-style.css')
 /**
  * Removes all visual editor stylesheets.
  *
- * @since 3.1.0
- *
+ * @return bool True on success, false if there were no stylesheets to remove.
  * @global array $editor_styles
  *
- * @return bool True on success, false if there were no stylesheets to remove.
+ * @since 3.1.0
+ *
  */
 function remove_editor_styles()
 {
-    if (! current_theme_supports('editor-style')) {
+    if (!current_theme_supports('editor-style')) {
         return false;
     }
     _remove_theme_support('editor-style');
@@ -2278,22 +2287,22 @@ function remove_editor_styles()
 /**
  * Retrieves any registered editor stylesheet URLs.
  *
- * @since 4.0.0
- *
+ * @return string[] If registered, a list of editor stylesheet URLs.
  * @global array $editor_styles Registered editor stylesheets
  *
- * @return string[] If registered, a list of editor stylesheet URLs.
+ * @since 4.0.0
+ *
  */
 function get_editor_stylesheets()
 {
     $stylesheets = [];
     // Load editor_style.css if the active theme supports it.
-    if (! empty($GLOBALS['editor_styles']) && is_array($GLOBALS['editor_styles'])) {
+    if (!empty($GLOBALS['editor_styles']) && is_array($GLOBALS['editor_styles'])) {
         $editor_styles = $GLOBALS['editor_styles'];
 
         $editor_styles = array_unique(array_filter($editor_styles));
-        $style_uri     = get_stylesheet_directory_uri();
-        $style_dir     = get_stylesheet_directory();
+        $style_uri = get_stylesheet_directory_uri();
+        $style_dir = get_stylesheet_directory();
 
         // Support externally referenced styles (like, say, fonts).
         foreach ($editor_styles as $key => $file) {
@@ -2325,9 +2334,9 @@ function get_editor_stylesheets()
     /**
      * Filters the array of URLs of stylesheets applied to the editor.
      *
+     * @param string[] $stylesheets Array of URLs of stylesheets to be applied to the editor.
      * @since 4.3.0
      *
-     * @param string[] $stylesheets Array of URLs of stylesheets to be applied to the editor.
      */
     return apply_filters('editor_stylesheets', $stylesheets);
 }
@@ -2335,26 +2344,26 @@ function get_editor_stylesheets()
 /**
  * Expands a theme's starter content configuration using core-provided data.
  *
+ * @return array Array of starter content.
  * @since 4.7.0
  *
- * @return array Array of starter content.
  */
 function get_theme_starter_content()
 {
     $theme_support = get_theme_support('starter-content');
-    if (is_array($theme_support) && ! empty($theme_support[0]) && is_array($theme_support[0])) {
+    if (is_array($theme_support) && !empty($theme_support[0]) && is_array($theme_support[0])) {
         $config = $theme_support[0];
     } else {
         $config = [];
     }
 
     $core_content = [
-        'widgets'   => [
+        'widgets' => [
             'text_business_info' => [
                 'text',
                 [
-                    'title'  => _x('Find Us', 'Theme starter content'),
-                    'text'   => implode(
+                    'title' => _x('Find Us', 'Theme starter content'),
+                    'text' => implode(
                         '',
                         [
                             '<strong>' . _x('Address', 'Theme starter content') . "</strong>\n",
@@ -2363,58 +2372,59 @@ function get_theme_starter_content()
                             '<strong>' . _x('Hours', 'Theme starter content') . "</strong>\n",
                             _x('Monday&ndash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content') . "\n",
                             _x('Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content'),
-                        ]
+                        ],
                     ),
                     'filter' => true,
                     'visual' => true,
                 ],
             ],
-            'text_about'         => [
+            'text_about' => [
                 'text',
                 [
-                    'title'  => _x('About This Site', 'Theme starter content'),
-                    'text'   => _x('This may be a good place to introduce yourself and your site or include some credits.', 'Theme starter content'),
+                    'title' => _x('About This Site', 'Theme starter content'),
+                    'text' => _x('This may be a good place to introduce yourself and your site or include some credits.',
+                        'Theme starter content'),
                     'filter' => true,
                     'visual' => true,
                 ],
             ],
-            'archives'           => [
+            'archives' => [
                 'archives',
                 [
                     'title' => _x('Archives', 'Theme starter content'),
                 ],
             ],
-            'calendar'           => [
+            'calendar' => [
                 'calendar',
                 [
                     'title' => _x('Calendar', 'Theme starter content'),
                 ],
             ],
-            'categories'         => [
+            'categories' => [
                 'categories',
                 [
                     'title' => _x('Categories', 'Theme starter content'),
                 ],
             ],
-            'meta'               => [
+            'meta' => [
                 'meta',
                 [
                     'title' => _x('Meta', 'Theme starter content'),
                 ],
             ],
-            'recent-comments'    => [
+            'recent-comments' => [
                 'recent-comments',
                 [
                     'title' => _x('Recent Comments', 'Theme starter content'),
                 ],
             ],
-            'recent-posts'       => [
+            'recent-posts' => [
                 'recent-posts',
                 [
                     'title' => _x('Recent Posts', 'Theme starter content'),
                 ],
             ],
-            'search'             => [
+            'search' => [
                 'search',
                 [
                     'title' => _x('Search', 'Theme starter content'),
@@ -2422,118 +2432,122 @@ function get_theme_starter_content()
             ],
         ],
         'nav_menus' => [
-            'link_home'       => [
-                'type'  => 'custom',
+            'link_home' => [
+                'type' => 'custom',
                 'title' => _x('Home', 'Theme starter content'),
-                'url'   => home_url('/'),
+                'url' => home_url('/'),
             ],
-            'page_home'       => [ // Deprecated in favor of 'link_home'.
-                'type'      => 'post_type',
-                'object'    => 'page',
+            'page_home' => [ // Deprecated in favor of 'link_home'.
+                'type' => 'post_type',
+                'object' => 'page',
                 'object_id' => '{{home}}',
             ],
-            'page_about'      => [
-                'type'      => 'post_type',
-                'object'    => 'page',
+            'page_about' => [
+                'type' => 'post_type',
+                'object' => 'page',
                 'object_id' => '{{about}}',
             ],
-            'page_blog'       => [
-                'type'      => 'post_type',
-                'object'    => 'page',
+            'page_blog' => [
+                'type' => 'post_type',
+                'object' => 'page',
                 'object_id' => '{{blog}}',
             ],
-            'page_news'       => [
-                'type'      => 'post_type',
-                'object'    => 'page',
+            'page_news' => [
+                'type' => 'post_type',
+                'object' => 'page',
                 'object_id' => '{{news}}',
             ],
-            'page_contact'    => [
-                'type'      => 'post_type',
-                'object'    => 'page',
+            'page_contact' => [
+                'type' => 'post_type',
+                'object' => 'page',
                 'object_id' => '{{contact}}',
             ],
 
-            'link_email'      => [
+            'link_email' => [
                 'title' => _x('Email', 'Theme starter content'),
-                'url'   => 'mailto:wordpress@example.com',
+                'url' => 'mailto:wordpress@example.com',
             ],
-            'link_facebook'   => [
+            'link_facebook' => [
                 'title' => _x('Facebook', 'Theme starter content'),
-                'url'   => 'https://www.facebook.com/wordpress',
+                'url' => 'https://www.facebook.com/wordpress',
             ],
             'link_foursquare' => [
                 'title' => _x('Foursquare', 'Theme starter content'),
-                'url'   => 'https://foursquare.com/',
+                'url' => 'https://foursquare.com/',
             ],
-            'link_github'     => [
+            'link_github' => [
                 'title' => _x('GitHub', 'Theme starter content'),
-                'url'   => 'https://github.com/wordpress/',
+                'url' => 'https://github.com/wordpress/',
             ],
-            'link_instagram'  => [
+            'link_instagram' => [
                 'title' => _x('Instagram', 'Theme starter content'),
-                'url'   => 'https://www.instagram.com/explore/tags/wordcamp/',
+                'url' => 'https://www.instagram.com/explore/tags/wordcamp/',
             ],
-            'link_linkedin'   => [
+            'link_linkedin' => [
                 'title' => _x('LinkedIn', 'Theme starter content'),
-                'url'   => 'https://www.linkedin.com/company/1089783',
+                'url' => 'https://www.linkedin.com/company/1089783',
             ],
-            'link_pinterest'  => [
+            'link_pinterest' => [
                 'title' => _x('Pinterest', 'Theme starter content'),
-                'url'   => 'https://www.pinterest.com/',
+                'url' => 'https://www.pinterest.com/',
             ],
-            'link_twitter'    => [
+            'link_twitter' => [
                 'title' => _x('Twitter', 'Theme starter content'),
-                'url'   => 'https://twitter.com/wordpress',
+                'url' => 'https://twitter.com/wordpress',
             ],
-            'link_yelp'       => [
+            'link_yelp' => [
                 'title' => _x('Yelp', 'Theme starter content'),
-                'url'   => 'https://www.yelp.com',
+                'url' => 'https://www.yelp.com',
             ],
-            'link_youtube'    => [
+            'link_youtube' => [
                 'title' => _x('YouTube', 'Theme starter content'),
-                'url'   => 'https://www.youtube.com/channel/UCdof4Ju7amm1chz1gi1T2ZA',
+                'url' => 'https://www.youtube.com/channel/UCdof4Ju7amm1chz1gi1T2ZA',
             ],
         ],
-        'posts'     => [
-            'home'             => [
-                'post_type'    => 'page',
-                'post_title'   => _x('Home', 'Theme starter content'),
+        'posts' => [
+            'home' => [
+                'post_type' => 'page',
+                'post_title' => _x('Home', 'Theme starter content'),
                 'post_content' => sprintf(
                     "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
-                    _x('Welcome to your site! This is your homepage, which is what most visitors will see when they come to your site for the first time.', 'Theme starter content')
+                    _x('Welcome to your site! This is your homepage, which is what most visitors will see when they come to your site for the first time.',
+                        'Theme starter content'),
                 ),
             ],
-            'about'            => [
-                'post_type'    => 'page',
-                'post_title'   => _x('About', 'Theme starter content'),
+            'about' => [
+                'post_type' => 'page',
+                'post_title' => _x('About', 'Theme starter content'),
                 'post_content' => sprintf(
                     "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
-                    _x('You might be an artist who would like to introduce yourself and your work here or maybe you are a business with a mission to describe.', 'Theme starter content')
+                    _x('You might be an artist who would like to introduce yourself and your work here or maybe you are a business with a mission to describe.',
+                        'Theme starter content'),
                 ),
             ],
-            'contact'          => [
-                'post_type'    => 'page',
-                'post_title'   => _x('Contact', 'Theme starter content'),
+            'contact' => [
+                'post_type' => 'page',
+                'post_title' => _x('Contact', 'Theme starter content'),
                 'post_content' => sprintf(
                     "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
-                    _x('This is a page with some basic contact information, such as an address and phone number. You might also try a plugin to add a contact form.', 'Theme starter content')
+                    _x('This is a page with some basic contact information, such as an address and phone number. You might also try a plugin to add a contact form.',
+                        'Theme starter content'),
                 ),
             ],
-            'blog'             => [
-                'post_type'  => 'page',
+            'blog' => [
+                'post_type' => 'page',
                 'post_title' => _x('Blog', 'Theme starter content'),
             ],
-            'news'             => [
-                'post_type'  => 'page',
+            'news' => [
+                'post_type' => 'page',
                 'post_title' => _x('News', 'Theme starter content'),
             ],
 
             'homepage-section' => [
-                'post_type'    => 'page',
-                'post_title'   => _x('A homepage section', 'Theme starter content'),
+                'post_type' => 'page',
+                'post_title' => _x('A homepage section', 'Theme starter content'),
                 'post_content' => sprintf(
                     "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
-                    _x('This is an example of a homepage section. Homepage sections can be any page other than the homepage itself, including the page that shows your latest blog posts.', 'Theme starter content')
+                    _x('This is an example of a homepage section. Homepage sections can be any page other than the homepage itself, including the page that shows your latest blog posts.',
+                        'Theme starter content'),
                 ),
             ],
         ],
@@ -2554,9 +2568,8 @@ function get_theme_starter_content()
                 foreach ($config[$type] as $sidebar_id => $widgets) {
                     foreach ($widgets as $id => $widget) {
                         if (is_array($widget)) {
-
                             // Item extends core content.
-                            if (! empty($core_content[$type][$id])) {
+                            if (!empty($core_content[$type][$id])) {
                                 $widget = [
                                     $core_content[$type][$id][0],
                                     array_merge($core_content[$type][$id][1], $widget),
@@ -2565,8 +2578,8 @@ function get_theme_starter_content()
 
                             $content[$type][$sidebar_id][] = $widget;
                         } elseif (is_string($widget)
-                            && ! empty($core_content[$type])
-                            && ! empty($core_content[$type][$widget])
+                            && !empty($core_content[$type])
+                            && !empty($core_content[$type][$widget])
                         ) {
                             $content[$type][$sidebar_id][] = $core_content[$type][$widget];
                         }
@@ -2577,7 +2590,6 @@ function get_theme_starter_content()
             // And nav menu items are grouped into nav menus.
             case 'nav_menus':
                 foreach ($config[$type] as $nav_menu_location => $nav_menu) {
-
                     // Ensure nav menus get a name.
                     if (empty($nav_menu['name'])) {
                         $nav_menu['name'] = $nav_menu_location;
@@ -2587,16 +2599,15 @@ function get_theme_starter_content()
 
                     foreach ($nav_menu['items'] as $id => $nav_menu_item) {
                         if (is_array($nav_menu_item)) {
-
                             // Item extends core content.
-                            if (! empty($core_content[$type][$id])) {
+                            if (!empty($core_content[$type][$id])) {
                                 $nav_menu_item = array_merge($core_content[$type][$id], $nav_menu_item);
                             }
 
                             $content[$type][$nav_menu_location]['items'][] = $nav_menu_item;
                         } elseif (is_string($nav_menu_item)
-                            && ! empty($core_content[$type])
-                            && ! empty($core_content[$type][$nav_menu_item])
+                            && !empty($core_content[$type])
+                            && !empty($core_content[$type][$nav_menu_item])
                         ) {
                             $content[$type][$nav_menu_location]['items'][] = $core_content[$type][$nav_menu_item];
                         }
@@ -2607,7 +2618,7 @@ function get_theme_starter_content()
             // Attachments are posts but have special treatment.
             case 'attachments':
                 foreach ($config[$type] as $id => $item) {
-                    if (! empty($item['file'])) {
+                    if (!empty($item['file'])) {
                         $content[$type][$id] = $item;
                     }
                 }
@@ -2620,9 +2631,8 @@ function get_theme_starter_content()
             case 'posts':
                 foreach ($config[$type] as $id => $item) {
                     if (is_array($item)) {
-
                         // Item extends core content.
-                        if (! empty($core_content[$type][$id])) {
+                        if (!empty($core_content[$type][$id])) {
                             $item = array_merge($core_content[$type][$id], $item);
                         }
 
@@ -2639,9 +2649,9 @@ function get_theme_starter_content()
                                 'comment_status',
                                 'thumbnail',
                                 'template',
-                            ]
+                            ],
                         );
-                    } elseif (is_string($item) && ! empty($core_content[$type][$item])) {
+                    } elseif (is_string($item) && !empty($core_content[$type][$item])) {
                         $content[$type][$item] = $core_content[$type][$item];
                     }
                 }
@@ -2652,10 +2662,10 @@ function get_theme_starter_content()
     /**
      * Filters the expanded array of starter content.
      *
+     * @param array $content Array of starter content.
+     * @param array $config Array of theme-specific starter content configuration.
      * @since 4.7.0
      *
-     * @param array $content Array of starter content.
-     * @param array $config  Array of theme-specific starter content configuration.
      */
     return apply_filters('get_theme_starter_content', $content, $config);
 }
@@ -2674,39 +2684,6 @@ function get_theme_starter_content()
  *         'height' => 480,
  *         'width'  => 720,
  *     ) );
- *
- * @since 2.9.0
- * @since 3.4.0 The `custom-header-uploads` feature was deprecated.
- * @since 3.6.0 The `html5` feature was added.
- * @since 3.6.1 The `html5` feature requires an array of types to be passed. Defaults to
- *              'comment-list', 'comment-form', 'search-form' for backward compatibility.
- * @since 3.9.0 The `html5` feature now also accepts 'gallery' and 'caption'.
- * @since 4.1.0 The `title-tag` feature was added.
- * @since 4.5.0 The `customize-selective-refresh-widgets` feature was added.
- * @since 4.7.0 The `starter-content` feature was added.
- * @since 5.0.0 The `responsive-embeds`, `align-wide`, `dark-editor-style`, `disable-custom-colors`,
- *              `disable-custom-font-sizes`, `editor-color-palette`, `editor-font-sizes`,
- *              `editor-styles`, and `wp-block-styles` features were added.
- * @since 5.3.0 The `html5` feature now also accepts 'script' and 'style'.
- * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
- *              by adding it to the function signature.
- * @since 5.4.0 The `disable-custom-gradients` feature limits to default gradients or gradients added
- *              through `editor-gradient-presets` theme support.
- * @since 5.5.0 The `core-block-patterns` feature was added and is enabled by default.
- * @since 5.5.0 The `custom-logo` feature now also accepts 'unlink-homepage-logo'.
- * @since 5.6.0 The `post-formats` feature warns if no array is passed as the second parameter.
- * @since 5.8.0 The `widgets-block-editor` feature enables the Widgets block editor.
- * @since 5.8.0 The `block-templates` feature indicates whether a theme uses block-based templates.
- * @since 6.0.0 The `html5` feature warns if no array is passed as the second parameter.
- * @since 6.1.0 The `block-template-parts` feature allows to edit any reusable template part from site editor.
- * @since 6.1.0 The `disable-layout-styles` feature disables the default layout styles.
- * @since 6.3.0 The `link-color` feature allows to enable the link color setting.
- * @since 6.3.0 The `border` feature allows themes without theme.json to add border styles to blocks.
- * @since 6.5.0 The `appearance-tools` feature enables a few design tools for blocks,
- *              see `WP_Theme_JSON::APPEARANCE_TOOLS_OPT_INS` for a complete list.
- * @since 6.6.0 The `editor-spacing-sizes` feature was added.
- *
- * @global array $_wp_theme_features
  *
  * @param string $feature The feature being added. Likely core values include:
  *                          - 'admin-bar'
@@ -2746,14 +2723,47 @@ function get_theme_starter_content()
  *                          - 'widgets'
  *                          - 'widgets-block-editor'
  *                          - 'wp-block-styles'
- * @param mixed  ...$args Optional extra arguments to pass along with certain features.
+ * @param mixed ...$args Optional extra arguments to pass along with certain features.
  * @return void|false Void on success, false on failure.
+ * @since 2.9.0
+ * @since 3.4.0 The `custom-header-uploads` feature was deprecated.
+ * @since 3.6.0 The `html5` feature was added.
+ * @since 3.6.1 The `html5` feature requires an array of types to be passed. Defaults to
+ *              'comment-list', 'comment-form', 'search-form' for backward compatibility.
+ * @since 3.9.0 The `html5` feature now also accepts 'gallery' and 'caption'.
+ * @since 4.1.0 The `title-tag` feature was added.
+ * @since 4.5.0 The `customize-selective-refresh-widgets` feature was added.
+ * @since 4.7.0 The `starter-content` feature was added.
+ * @since 5.0.0 The `responsive-embeds`, `align-wide`, `dark-editor-style`, `disable-custom-colors`,
+ *              `disable-custom-font-sizes`, `editor-color-palette`, `editor-font-sizes`,
+ *              `editor-styles`, and `wp-block-styles` features were added.
+ * @since 5.3.0 The `html5` feature now also accepts 'script' and 'style'.
+ * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
+ *              by adding it to the function signature.
+ * @since 5.4.0 The `disable-custom-gradients` feature limits to default gradients or gradients added
+ *              through `editor-gradient-presets` theme support.
+ * @since 5.5.0 The `core-block-patterns` feature was added and is enabled by default.
+ * @since 5.5.0 The `custom-logo` feature now also accepts 'unlink-homepage-logo'.
+ * @since 5.6.0 The `post-formats` feature warns if no array is passed as the second parameter.
+ * @since 5.8.0 The `widgets-block-editor` feature enables the Widgets block editor.
+ * @since 5.8.0 The `block-templates` feature indicates whether a theme uses block-based templates.
+ * @since 6.0.0 The `html5` feature warns if no array is passed as the second parameter.
+ * @since 6.1.0 The `block-template-parts` feature allows to edit any reusable template part from site editor.
+ * @since 6.1.0 The `disable-layout-styles` feature disables the default layout styles.
+ * @since 6.3.0 The `link-color` feature allows to enable the link color setting.
+ * @since 6.3.0 The `border` feature allows themes without theme.json to add border styles to blocks.
+ * @since 6.5.0 The `appearance-tools` feature enables a few design tools for blocks,
+ *              see `WP_Theme_JSON::APPEARANCE_TOOLS_OPT_INS` for a complete list.
+ * @since 6.6.0 The `editor-spacing-sizes` feature was added.
+ *
+ * @global array $_wp_theme_features
+ *
  */
 function add_theme_support($feature, ...$args)
 {
     global $_wp_theme_features;
 
-    if (! $args) {
+    if (!$args) {
         $args = true;
     }
 
@@ -2784,7 +2794,7 @@ function add_theme_support($feature, ...$args)
                 _doing_it_wrong(
                     "add_theme_support( 'post-formats' )",
                     __('You need to pass an array of post formats.'),
-                    '5.6.0'
+                    '5.6.0',
                 );
                 return false;
             }
@@ -2792,14 +2802,14 @@ function add_theme_support($feature, ...$args)
 
         case 'html5':
             // You can't just pass 'html5', you need to pass an array of types.
-            if (empty($args[0]) || ! is_array($args[0])) {
+            if (empty($args[0]) || !is_array($args[0])) {
                 _doing_it_wrong(
                     "add_theme_support( 'html5' )",
                     __('You need to pass an array of types.'),
-                    '3.6.1'
+                    '3.6.1',
                 );
 
-                if (! empty($args[0]) && ! is_array($args[0])) {
+                if (!empty($args[0]) && !is_array($args[0])) {
                     return false;
                 }
 
@@ -2818,18 +2828,18 @@ function add_theme_support($feature, ...$args)
                 $args = [0 => []];
             }
             $defaults = [
-                'width'                => null,
-                'height'               => null,
-                'flex-width'           => false,
-                'flex-height'          => false,
-                'header-text'          => '',
+                'width' => null,
+                'height' => null,
+                'flex-width' => false,
+                'flex-height' => false,
+                'header-text' => '',
                 'unlink-homepage-logo' => false,
             ];
-            $args[0]  = wp_parse_args(array_intersect_key($args[0], $defaults), $defaults);
+            $args[0] = wp_parse_args(array_intersect_key($args[0], $defaults), $defaults);
 
             // Allow full flexibility if no size is specified.
             if (is_null($args[0]['width']) && is_null($args[0]['height'])) {
-                $args[0]['flex-width']  = true;
+                $args[0]['flex-width'] = true;
                 $args[0]['flex-height'] = true;
             }
             break;
@@ -2843,20 +2853,20 @@ function add_theme_support($feature, ...$args)
             }
 
             $defaults = [
-                'default-image'          => '',
-                'random-default'         => false,
-                'width'                  => 0,
-                'height'                 => 0,
-                'flex-height'            => false,
-                'flex-width'             => false,
-                'default-text-color'     => '',
-                'header-text'            => true,
-                'uploads'                => true,
-                'wp-head-callback'       => '',
-                'admin-head-callback'    => '',
+                'default-image' => '',
+                'random-default' => false,
+                'width' => 0,
+                'height' => 0,
+                'flex-height' => false,
+                'flex-width' => false,
+                'default-text-color' => '',
+                'header-text' => true,
+                'uploads' => true,
+                'wp-head-callback' => '',
+                'admin-head-callback' => '',
                 'admin-preview-callback' => '',
-                'video'                  => false,
-                'video-active-callback'  => 'is_front_page',
+                'video' => false,
+                'video-active-callback' => 'is_front_page',
             ];
 
             $jit = isset($args[0]['__jit']);
@@ -2887,21 +2897,21 @@ function add_theme_support($feature, ...$args)
              */
 
             if (defined('NO_HEADER_TEXT')) {
-                $args[0]['header-text'] = ! NO_HEADER_TEXT;
+                $args[0]['header-text'] = !NO_HEADER_TEXT;
             } elseif (isset($args[0]['header-text'])) {
                 define('NO_HEADER_TEXT', empty($args[0]['header-text']));
             }
 
             if (defined('HEADER_IMAGE_WIDTH')) {
-                $args[0]['width'] = (int) HEADER_IMAGE_WIDTH;
+                $args[0]['width'] = (int)HEADER_IMAGE_WIDTH;
             } elseif (isset($args[0]['width'])) {
-                define('HEADER_IMAGE_WIDTH', (int) $args[0]['width']);
+                define('HEADER_IMAGE_WIDTH', (int)$args[0]['width']);
             }
 
             if (defined('HEADER_IMAGE_HEIGHT')) {
-                $args[0]['height'] = (int) HEADER_IMAGE_HEIGHT;
+                $args[0]['height'] = (int)HEADER_IMAGE_HEIGHT;
             } elseif (isset($args[0]['height'])) {
-                define('HEADER_IMAGE_HEIGHT', (int) $args[0]['height']);
+                define('HEADER_IMAGE_HEIGHT', (int)$args[0]['height']);
             }
 
             if (defined('HEADER_TEXTCOLOR')) {
@@ -2916,7 +2926,7 @@ function add_theme_support($feature, ...$args)
                 define('HEADER_IMAGE', $args[0]['default-image']);
             }
 
-            if ($jit && ! empty($args[0]['default-image'])) {
+            if ($jit && !empty($args[0]['default-image'])) {
                 $args[0]['random-default'] = false;
             }
 
@@ -2941,16 +2951,16 @@ function add_theme_support($feature, ...$args)
             }
 
             $defaults = [
-                'default-image'          => '',
-                'default-preset'         => 'default',
-                'default-position-x'     => 'left',
-                'default-position-y'     => 'top',
-                'default-size'           => 'auto',
-                'default-repeat'         => 'repeat',
-                'default-attachment'     => 'scroll',
-                'default-color'          => '',
-                'wp-head-callback'       => '_custom_background_cb',
-                'admin-head-callback'    => '',
+                'default-image' => '',
+                'default-preset' => 'default',
+                'default-position-x' => 'left',
+                'default-position-y' => 'top',
+                'default-size' => 'auto',
+                'default-repeat' => 'repeat',
+                'default-attachment' => 'scroll',
+                'default-color' => '',
+                'wp-head-callback' => '_custom_background_cb',
+                'admin-head-callback' => '',
                 'admin-preview-callback' => '',
             ];
 
@@ -2987,12 +2997,12 @@ function add_theme_support($feature, ...$args)
                 _doing_it_wrong(
                     "add_theme_support( 'title-tag' )",
                     sprintf(
-                        /* translators: 1: title-tag, 2: wp_loaded */
+                    /* translators: 1: title-tag, 2: wp_loaded */
                         __('Theme support for %1$s should be registered before the %2$s hook.'),
                         '<code>title-tag</code>',
-                        '<code>wp_loaded</code>'
+                        '<code>wp_loaded</code>',
                     ),
-                    '4.1.0'
+                    '4.1.0',
                 );
 
                 return false;
@@ -3009,7 +3019,7 @@ function add_theme_support($feature, ...$args)
  * @access private
  *
  * @global Custom_Image_Header $custom_image_header
- * @global Custom_Background   $custom_background
+ * @global Custom_Background $custom_background
  */
 function _custom_header_background_just_in_time()
 {
@@ -3026,7 +3036,8 @@ function _custom_header_background_just_in_time()
 
         if (is_admin()) {
             require_once ABSPATH . 'wp-admin/includes/class-custom-image-header.php';
-            $custom_image_header = new Custom_Image_Header($args[0]['admin-head-callback'], $args[0]['admin-preview-callback']);
+            $custom_image_header = new Custom_Image_Header($args[0]['admin-head-callback'],
+                $args[0]['admin-preview-callback']);
         }
     }
 
@@ -3039,7 +3050,8 @@ function _custom_header_background_just_in_time()
 
         if (is_admin()) {
             require_once ABSPATH . 'wp-admin/includes/class-custom-background.php';
-            $custom_background = new Custom_Background($args[0]['admin-head-callback'], $args[0]['admin-preview-callback']);
+            $custom_background = new Custom_Background($args[0]['admin-head-callback'],
+                $args[0]['admin-preview-callback']);
         }
     }
 }
@@ -3052,11 +3064,11 @@ function _custom_header_background_just_in_time()
  */
 function _custom_logo_header_styles()
 {
-    if (! current_theme_supports('custom-header', 'header-text')
+    if (!current_theme_supports('custom-header', 'header-text')
         && get_theme_support('custom-logo', 'header-text')
-        && ! get_theme_mod('header_text', true)
+        && !get_theme_mod('header_text', true)
     ) {
-        $classes = (array) get_theme_support('custom-logo', 'header-text');
+        $classes = (array)get_theme_support('custom-logo', 'header-text');
         $classes = array_map('sanitize_html_class', $classes);
         $classes = '.' . implode(', .', $classes);
 
@@ -3064,9 +3076,12 @@ function _custom_logo_header_styles()
         ?>
         <!-- Custom Logo: hide header text -->
         <style id="custom-logo-css"<?php echo $type_attr; ?>>
-            <?php echo $classes; ?> {
-                position: absolute;
-                clip: rect(1px, 1px, 1px, 1px);
+            <?php echo $classes; ?>
+            {
+                position: absolute
+            ;
+                clip: rect(1px, 1px, 1px, 1px)
+            ;
             }
         </style>
         <?php
@@ -3081,26 +3096,26 @@ function _custom_logo_header_styles()
  *     get_theme_support( 'custom-logo' );
  *     get_theme_support( 'custom-header', 'width' );
  *
+ * @param string $feature The feature to check. See add_theme_support() for the list
+ *                        of possible values.
+ * @param mixed ...$args Optional extra arguments to be checked against certain features.
+ * @return mixed The array of extra arguments or the value for the registered feature.
  * @since 3.1.0
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
  *
  * @global array $_wp_theme_features
  *
- * @param string $feature The feature to check. See add_theme_support() for the list
- *                        of possible values.
- * @param mixed  ...$args Optional extra arguments to be checked against certain features.
- * @return mixed The array of extra arguments or the value for the registered feature.
  */
 function get_theme_support($feature, ...$args)
 {
     global $_wp_theme_features;
 
-    if (! isset($_wp_theme_features[$feature])) {
+    if (!isset($_wp_theme_features[$feature])) {
         return false;
     }
 
-    if (! $args) {
+    if (!$args) {
         return $_wp_theme_features[$feature];
     }
 
@@ -3124,13 +3139,13 @@ function get_theme_support($feature, ...$args)
  * Should be called in the theme's functions.php file. Generally would
  * be used for child themes to override support from the parent theme.
  *
+ * @param string $feature The feature being removed. See add_theme_support() for the list
+ *                        of possible values.
+ * @return bool|void Whether feature was removed.
  * @since 3.0.0
  *
  * @see add_theme_support()
  *
- * @param string $feature The feature being removed. See add_theme_support() for the list
- *                        of possible values.
- * @return bool|void Whether feature was removed.
  */
 function remove_theme_support($feature)
 {
@@ -3147,14 +3162,14 @@ function remove_theme_support($feature)
  * by themes directly.
  *
  * @access private
- * @since 3.1.0
- * @global array               $_wp_theme_features
- * @global Custom_Image_Header $custom_image_header
- * @global Custom_Background   $custom_background
- *
  * @param string $feature The feature being removed. See add_theme_support() for the list
  *                        of possible values.
  * @return bool True if support was removed, false if the feature was not registered.
+ * @global Custom_Image_Header $custom_image_header
+ * @global Custom_Background $custom_background
+ *
+ * @since 3.1.0
+ * @global array $_wp_theme_features
  */
 function _remove_theme_support($feature)
 {
@@ -3162,20 +3177,20 @@ function _remove_theme_support($feature)
 
     switch ($feature) {
         case 'custom-header-uploads':
-            if (! isset($_wp_theme_features['custom-header'])) {
+            if (!isset($_wp_theme_features['custom-header'])) {
                 return false;
             }
             add_theme_support('custom-header', ['uploads' => false]);
             return; // Do not continue - custom-header-uploads no longer exists.
     }
 
-    if (! isset($_wp_theme_features[$feature])) {
+    if (!isset($_wp_theme_features[$feature])) {
         return false;
     }
 
     switch ($feature) {
         case 'custom-header':
-            if (! did_action('wp_loaded')) {
+            if (!did_action('wp_loaded')) {
                 break;
             }
             $support = get_theme_support('custom-header');
@@ -3189,7 +3204,7 @@ function _remove_theme_support($feature)
             break;
 
         case 'custom-background':
-            if (! did_action('wp_loaded')) {
+            if (!did_action('wp_loaded')) {
                 break;
             }
             $support = get_theme_support('custom-background');
@@ -3214,16 +3229,16 @@ function _remove_theme_support($feature)
  *     current_theme_supports( 'custom-logo' );
  *     current_theme_supports( 'html5', 'comment-form' );
  *
+ * @param string $feature The feature being checked. See add_theme_support() for the list
+ *                        of possible values.
+ * @param mixed ...$args Optional extra arguments to be checked against certain features.
+ * @return bool True if the active theme supports the feature, false otherwise.
  * @since 2.9.0
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
  *              by adding it to the function signature.
  *
  * @global array $_wp_theme_features
  *
- * @param string $feature The feature being checked. See add_theme_support() for the list
- *                        of possible values.
- * @param mixed  ...$args Optional extra arguments to be checked against certain features.
- * @return bool True if the active theme supports the feature, false otherwise.
  */
 function current_theme_supports($feature, ...$args)
 {
@@ -3233,14 +3248,14 @@ function current_theme_supports($feature, ...$args)
         return current_theme_supports('custom-header', 'uploads');
     }
 
-    if (! isset($_wp_theme_features[$feature])) {
+    if (!isset($_wp_theme_features[$feature])) {
         return false;
     }
 
     // If no args passed then no extra checks need to be performed.
-    if (! $args) {
+    if (!$args) {
         /** This filter is documented in wp-includes/theme.php */
-        return apply_filters("current_theme_supports-{$feature}", true, $args, $_wp_theme_features[$feature]); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+        return apply_filters("current_theme_supports-{$feature}", true, $args, $_wp_theme_features[$feature]);
     }
 
     switch ($feature) {
@@ -3280,24 +3295,24 @@ function current_theme_supports($feature, ...$args)
      * The dynamic portion of the hook name, `$feature`, refers to the specific
      * theme feature. See add_theme_support() for the list of possible values.
      *
+     * @param bool $supports Whether the active theme supports the given feature. Default true.
+     * @param array $args Array of arguments for the feature.
+     * @param string $feature The theme feature.
      * @since 3.4.0
      *
-     * @param bool   $supports Whether the active theme supports the given feature. Default true.
-     * @param array  $args     Array of arguments for the feature.
-     * @param string $feature  The theme feature.
      */
-    return apply_filters("current_theme_supports-{$feature}", true, $args, $_wp_theme_features[$feature]); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+    return apply_filters("current_theme_supports-{$feature}", true, $args, $_wp_theme_features[$feature]);
 }
 
 /**
  * Checks a theme's support for a given feature before loading the functions which implement it.
  *
- * @since 2.9.0
- *
  * @param string $feature The feature being checked. See add_theme_support() for the list
  *                        of possible values.
- * @param string $file    Path to the file.
+ * @param string $file Path to the file.
  * @return bool True if the active theme supports the supplied feature, false otherwise.
+ * @since 2.9.0
+ *
  */
 function require_if_theme_supports($feature, $file)
 {
@@ -3314,53 +3329,53 @@ function require_if_theme_supports($feature, $file)
  * This does not indicate that the active theme supports the feature, it only describes
  * the feature's supported options.
  *
+ * @param string $feature The name uniquely identifying the feature. See add_theme_support()
+ *                        for the list of possible values.
+ * @param array $args {
+ *     Data used to describe the theme.
+ *
+ * @type string $type The type of data associated with this feature.
+ *                                    Valid values are 'string', 'boolean', 'integer',
+ *                                    'number', 'array', and 'object'. Defaults to 'boolean'.
+ * @type bool $variadic Does this feature utilize the variadic support
+ *                                    of add_theme_support(), or are all arguments specified
+ *                                    as the second parameter. Must be used with the "array" type.
+ * @type string $description A short description of the feature. Included in
+ *                                    the Themes REST API schema. Intended for developers.
+ * @type bool|array $show_in_rest {
+ *         Whether this feature should be included in the Themes REST API endpoint.
+ *         Defaults to not being included. When registering an 'array' or 'object' type,
+ *         this argument must be an array with the 'schema' key.
+ *
+ * @type array $schema Specifies the JSON Schema definition describing
+ *                                          the feature. If any objects in the schema do not include
+ *                                          the 'additionalProperties' keyword, it is set to false.
+ * @type string $name An alternate name to be used as the property name
+ *                                          in the REST API.
+ * @type callable $prepare_callback A function used to format the theme support in the REST API.
+ *                                          Receives the raw theme support value.
+ *      }
+ * }
+ * @return true|WP_Error True if the theme feature was successfully registered, a WP_Error object if not.
  * @since 5.5.0
  *
  * @see add_theme_support()
  *
  * @global array $_wp_registered_theme_features
  *
- * @param string $feature The name uniquely identifying the feature. See add_theme_support()
- *                        for the list of possible values.
- * @param array  $args {
- *     Data used to describe the theme.
- *
- *     @type string     $type         The type of data associated with this feature.
- *                                    Valid values are 'string', 'boolean', 'integer',
- *                                    'number', 'array', and 'object'. Defaults to 'boolean'.
- *     @type bool       $variadic     Does this feature utilize the variadic support
- *                                    of add_theme_support(), or are all arguments specified
- *                                    as the second parameter. Must be used with the "array" type.
- *     @type string     $description  A short description of the feature. Included in
- *                                    the Themes REST API schema. Intended for developers.
- *     @type bool|array $show_in_rest {
- *         Whether this feature should be included in the Themes REST API endpoint.
- *         Defaults to not being included. When registering an 'array' or 'object' type,
- *         this argument must be an array with the 'schema' key.
- *
- *         @type array    $schema           Specifies the JSON Schema definition describing
- *                                          the feature. If any objects in the schema do not include
- *                                          the 'additionalProperties' keyword, it is set to false.
- *         @type string   $name             An alternate name to be used as the property name
- *                                          in the REST API.
- *         @type callable $prepare_callback A function used to format the theme support in the REST API.
- *                                          Receives the raw theme support value.
- *      }
- * }
- * @return true|WP_Error True if the theme feature was successfully registered, a WP_Error object if not.
  */
 function register_theme_feature($feature, $args = [])
 {
     global $_wp_registered_theme_features;
 
-    if (! is_array($_wp_registered_theme_features)) {
+    if (!is_array($_wp_registered_theme_features)) {
         $_wp_registered_theme_features = [];
     }
 
     $defaults = [
-        'type'         => 'boolean',
-        'variadic'     => false,
-        'description'  => '',
+        'type' => 'boolean',
+        'variadic' => false,
+        'description' => '',
         'show_in_rest' => false,
     ];
 
@@ -3374,61 +3389,61 @@ function register_theme_feature($feature, $args = [])
         $args['show_in_rest'] = wp_parse_args(
             $args['show_in_rest'],
             [
-                'schema'           => [],
-                'name'             => $feature,
+                'schema' => [],
+                'name' => $feature,
                 'prepare_callback' => null,
-            ]
+            ],
         );
     }
 
-    if (! in_array($args['type'], ['string', 'boolean', 'integer', 'number', 'array', 'object'], true)) {
+    if (!in_array($args['type'], ['string', 'boolean', 'integer', 'number', 'array', 'object'], true)) {
         return new WP_Error(
             'invalid_type',
-            __('The feature "type" is not valid JSON Schema type.')
+            __('The feature "type" is not valid JSON Schema type.'),
         );
     }
 
     if (true === $args['variadic'] && 'array' !== $args['type']) {
         return new WP_Error(
             'variadic_must_be_array',
-            __('When registering a "variadic" theme feature, the "type" must be an "array".')
+            __('When registering a "variadic" theme feature, the "type" must be an "array".'),
         );
     }
 
     if (false !== $args['show_in_rest'] && in_array($args['type'], ['array', 'object'], true)) {
-        if (! is_array($args['show_in_rest']) || empty($args['show_in_rest']['schema'])) {
+        if (!is_array($args['show_in_rest']) || empty($args['show_in_rest']['schema'])) {
             return new WP_Error(
                 'missing_schema',
-                __('When registering an "array" or "object" feature to show in the REST API, the feature\'s schema must also be defined.')
+                __('When registering an "array" or "object" feature to show in the REST API, the feature\'s schema must also be defined.'),
             );
         }
 
-        if ('array' === $args['type'] && ! isset($args['show_in_rest']['schema']['items'])) {
+        if ('array' === $args['type'] && !isset($args['show_in_rest']['schema']['items'])) {
             return new WP_Error(
                 'missing_schema_items',
-                __('When registering an "array" feature, the feature\'s schema must include the "items" keyword.')
+                __('When registering an "array" feature, the feature\'s schema must include the "items" keyword.'),
             );
         }
 
-        if ('object' === $args['type'] && ! isset($args['show_in_rest']['schema']['properties'])) {
+        if ('object' === $args['type'] && !isset($args['show_in_rest']['schema']['properties'])) {
             return new WP_Error(
                 'missing_schema_properties',
-                __('When registering an "object" feature, the feature\'s schema must include the "properties" keyword.')
+                __('When registering an "object" feature, the feature\'s schema must include the "properties" keyword.'),
             );
         }
     }
 
     if (is_array($args['show_in_rest'])) {
         if (isset($args['show_in_rest']['prepare_callback'])
-            && ! is_callable($args['show_in_rest']['prepare_callback'])
+            && !is_callable($args['show_in_rest']['prepare_callback'])
         ) {
             return new WP_Error(
                 'invalid_rest_prepare_callback',
                 sprintf(
-                    /* translators: %s: prepare_callback */
+                /* translators: %s: prepare_callback */
                     __('The "%s" must be a callable function.'),
-                    'prepare_callback'
-                )
+                    'prepare_callback',
+                ),
             );
         }
 
@@ -3436,16 +3451,16 @@ function register_theme_feature($feature, $args = [])
             $args['show_in_rest']['schema'],
             [
                 'description' => $args['description'],
-                'type'        => $args['type'],
-                'default'     => false,
-            ]
+                'type' => $args['type'],
+                'default' => false,
+            ],
         );
 
         if (is_bool($args['show_in_rest']['schema']['default'])
-            && ! in_array('boolean', (array) $args['show_in_rest']['schema']['type'], true)
+            && !in_array('boolean', (array)$args['show_in_rest']['schema']['type'], true)
         ) {
             // Automatically include the "boolean" type when the default value is a boolean.
-            $args['show_in_rest']['schema']['type'] = (array) $args['show_in_rest']['schema']['type'];
+            $args['show_in_rest']['schema']['type'] = (array)$args['show_in_rest']['schema']['type'];
             array_unshift($args['show_in_rest']['schema']['type'], 'boolean');
         }
 
@@ -3460,17 +3475,17 @@ function register_theme_feature($feature, $args = [])
 /**
  * Gets the list of registered theme features.
  *
- * @since 5.5.0
- *
+ * @return array[] List of theme features, keyed by their name.
  * @global array $_wp_registered_theme_features
  *
- * @return array[] List of theme features, keyed by their name.
+ * @since 5.5.0
+ *
  */
 function get_registered_theme_features()
 {
     global $_wp_registered_theme_features;
 
-    if (! is_array($_wp_registered_theme_features)) {
+    if (!is_array($_wp_registered_theme_features)) {
         return [];
     }
 
@@ -3480,19 +3495,19 @@ function get_registered_theme_features()
 /**
  * Gets the registration config for a theme feature.
  *
+ * @param string $feature The feature name. See add_theme_support() for the list
+ *                        of possible values.
+ * @return array|null The registration args, or null if the feature was not registered.
  * @since 5.5.0
  *
  * @global array $_wp_registered_theme_features
  *
- * @param string $feature The feature name. See add_theme_support() for the list
- *                        of possible values.
- * @return array|null The registration args, or null if the feature was not registered.
  */
 function get_registered_theme_feature($feature)
 {
     global $_wp_registered_theme_features;
 
-    if (! is_array($_wp_registered_theme_features)) {
+    if (!is_array($_wp_registered_theme_features)) {
         return null;
     }
 
@@ -3506,20 +3521,20 @@ function get_registered_theme_feature($feature)
  * attachment.
  *
  * @access private
- * @since 3.0.0
+ * @param int $id The attachment ID.
  * @since 4.3.0 Also removes `header_image_data`.
  * @since 4.5.0 Also removes custom logo theme mods.
  * @since 6.6.0 Also removes `site_logo` option set by the site logo block.
  *
- * @param int $id The attachment ID.
+ * @since 3.0.0
  */
 function _delete_attachment_theme_mod($id)
 {
     $attachment_image = wp_get_attachment_url($id);
-    $header_image     = get_header_image();
+    $header_image = get_header_image();
     $background_image = get_background_image();
-    $custom_logo_id   = (int) get_theme_mod('custom_logo');
-    $site_logo_id     = (int) get_option('site_logo');
+    $custom_logo_id = (int)get_theme_mod('custom_logo');
+    $site_logo_id = (int)get_option('site_logo');
 
     if ($custom_logo_id && $custom_logo_id === $id) {
         remove_theme_mod('custom_logo');
@@ -3571,10 +3586,10 @@ function check_theme_switched()
              *
              * See {@see 'switch_theme'}.
              *
+             * @param string $old_name Old theme name.
+             * @param WP_Theme $old_theme WP_Theme instance of the old theme.
              * @since 3.3.0
              *
-             * @param string   $old_name  Old theme name.
-             * @param WP_Theme $old_theme WP_Theme instance of the old theme.
              */
             do_action('after_switch_theme', $old_theme->get('Name'), $old_theme);
         } else {
@@ -3603,17 +3618,14 @@ function check_theme_switched()
  */
 function _wp_customize_include()
 {
-
     $is_customize_admin_page = (is_admin() && 'customize.php' === basename($_SERVER['PHP_SELF']));
-    $should_include          = (
+    $should_include = (
         $is_customize_admin_page
-        ||
-        (isset($_REQUEST['wp_customize']) && 'on' === $_REQUEST['wp_customize'])
-        ||
-        (! empty($_GET['customize_changeset_uuid']) || ! empty($_POST['customize_changeset_uuid']))
+        || (isset($_REQUEST['wp_customize']) && 'on' === $_REQUEST['wp_customize'])
+        || (!empty($_GET['customize_changeset_uuid']) || !empty($_POST['customize_changeset_uuid']))
     );
 
-    if (! $should_include) {
+    if (!$should_include) {
         return;
     }
 
@@ -3622,7 +3634,7 @@ function _wp_customize_include()
      * called before wp_magic_quotes() gets called. Besides this fact, none of
      * the values should contain any characters needing slashes anyway.
      */
-    $keys       = [
+    $keys = [
         'changeset_uuid',
         'customize_changeset_uuid',
         'customize_theme',
@@ -3632,11 +3644,11 @@ function _wp_customize_include()
     ];
     $input_vars = array_merge(
         wp_array_slice_assoc($_GET, $keys),
-        wp_array_slice_assoc($_POST, $keys)
+        wp_array_slice_assoc($_POST, $keys),
     );
 
-    $theme             = null;
-    $autosaved         = null;
+    $theme = null;
+    $autosaved = null;
     $messenger_channel = null;
 
     /*
@@ -3653,7 +3665,7 @@ function _wp_customize_include()
 
     if ($is_customize_admin_page && isset($input_vars['changeset_uuid'])) {
         $changeset_uuid = sanitize_key($input_vars['changeset_uuid']);
-    } elseif (! empty($input_vars['customize_changeset_uuid'])) {
+    } elseif (!empty($input_vars['customize_changeset_uuid'])) {
         $changeset_uuid = sanitize_key($input_vars['customize_changeset_uuid']);
     }
 
@@ -3664,7 +3676,7 @@ function _wp_customize_include()
         $theme = $input_vars['customize_theme'];
     }
 
-    if (! empty($input_vars['customize_autosaved'])) {
+    if (!empty($input_vars['customize_autosaved'])) {
         $autosaved = true;
     }
 
@@ -3681,12 +3693,10 @@ function _wp_customize_include()
      */
     $is_customize_save_action = (
         wp_doing_ajax()
-        &&
-        isset($_REQUEST['action'])
-        &&
-        'customize_save' === wp_unslash($_REQUEST['action'])
+        && isset($_REQUEST['action'])
+        && 'customize_save' === wp_unslash($_REQUEST['action'])
     );
-    $settings_previewed       = ! $is_customize_save_action;
+    $settings_previewed = !$is_customize_save_action;
 
     require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
     $GLOBALS['wp_customize'] = new WP_Customize_Manager(
@@ -3696,22 +3706,22 @@ function _wp_customize_include()
             'messenger_channel',
             'settings_previewed',
             'autosaved',
-            'branching'
-        )
+            'branching',
+        ),
     );
 }
 
 /**
  * Publishes a snapshot's changes.
  *
+ * @param string $new_status New post status.
+ * @param string $old_status Old post status.
+ * @param WP_Post $changeset_post Changeset post object.
+ * @global WP_Customize_Manager $wp_customize Customizer instance.
+ *
  * @since 4.7.0
  * @access private
  *
- * @global WP_Customize_Manager $wp_customize Customizer instance.
- *
- * @param string  $new_status     New post status.
- * @param string  $old_status     Old post status.
- * @param WP_Post $changeset_post Changeset post object.
  */
 function _wp_customize_publish_changeset($new_status, $old_status, $changeset_post)
 {
@@ -3719,12 +3729,10 @@ function _wp_customize_publish_changeset($new_status, $old_status, $changeset_po
 
     $is_publishing_changeset = (
         'customize_changeset' === $changeset_post->post_type
-        &&
-        'publish' === $new_status
-        &&
-        'publish' !== $old_status
+        && 'publish' === $new_status
+        && 'publish' !== $old_status
     );
-    if (! $is_publishing_changeset) {
+    if (!$is_publishing_changeset) {
         return;
     }
 
@@ -3732,13 +3740,13 @@ function _wp_customize_publish_changeset($new_status, $old_status, $changeset_po
         require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
         $wp_customize = new WP_Customize_Manager(
             [
-                'changeset_uuid'     => $changeset_post->post_name,
+                'changeset_uuid' => $changeset_post->post_name,
                 'settings_previewed' => false,
-            ]
+            ],
         );
     }
 
-    if (! did_action('customize_register')) {
+    if (!did_action('customize_register')) {
         /*
          * When running from CLI or Cron, the customize_register action will need
          * to be triggered in order for core, themes, and plugins to register their
@@ -3770,7 +3778,7 @@ function _wp_customize_publish_changeset($new_status, $old_status, $changeset_po
      * feature to indicate whether or not a published changeset should get trashed
      * and thus garbage collected.
      */
-    if (! wp_revisions_enabled($changeset_post)) {
+    if (!wp_revisions_enabled($changeset_post)) {
         $wp_customize->trash_changeset_post($changeset_post->ID);
     }
 }
@@ -3781,20 +3789,19 @@ function _wp_customize_publish_changeset($new_status, $old_status, $changeset_po
  * This is needed to prevent the post_name from being dropped when the post is
  * transitioned into pending status by a contributor.
  *
- * @since 4.7.0
- *
- * @see wp_insert_post()
- *
- * @param array $post_data          An array of slashed post data.
+ * @param array $post_data An array of slashed post data.
  * @param array $supplied_post_data An array of sanitized, but otherwise unmodified post data.
  * @return array Filtered data.
+ * @see wp_insert_post()
+ *
+ * @since 4.7.0
+ *
  */
 function _wp_customize_changeset_filter_insert_post_data($post_data, $supplied_post_data)
 {
     if (isset($post_data['post_type']) && 'customize_changeset' === $post_data['post_type']) {
-
         // Prevent post_name from being dropped, such as when contributor saves a changeset post as pending.
-        if (empty($post_data['post_name']) && ! empty($supplied_post_data['post_name'])) {
+        if (empty($post_data['post_name']) && !empty($supplied_post_data['post_name'])) {
             $post_data['post_name'] = $supplied_post_data['post_name'];
         }
     }
@@ -3809,20 +3816,20 @@ function _wp_customize_changeset_filter_insert_post_data($post_data, $supplied_p
 function _wp_customize_loader_settings()
 {
     $admin_origin = parse_url(admin_url());
-    $home_origin  = parse_url(home_url());
+    $home_origin = parse_url(home_url());
     $cross_domain = (strtolower($admin_origin['host']) !== strtolower($home_origin['host']));
 
     $browser = [
         'mobile' => wp_is_mobile(),
-        'ios'    => wp_is_mobile() && preg_match('/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT']),
+        'ios' => wp_is_mobile() && preg_match('/iPad|iPod|iPhone/', $_SERVER['HTTP_USER_AGENT']),
     ];
 
     $settings = [
-        'url'           => esc_url(admin_url('customize.php')),
+        'url' => esc_url(admin_url('customize.php')),
         'isCrossDomain' => $cross_domain,
-        'browser'       => $browser,
-        'l10n'          => [
-            'saveAlert'       => __('The changes you made will be lost if you navigate away from this page.'),
+        'browser' => $browser,
+        'l10n' => [
+            'saveAlert' => __('The changes you made will be lost if you navigate away from this page.'),
             'mainIframeTitle' => __('Customizer'),
         ],
     ];
@@ -3830,7 +3837,7 @@ function _wp_customize_loader_settings()
     $script = 'var _wpCustomizeLoaderSettings = ' . wp_json_encode($settings) . ';';
 
     $wp_scripts = wp_scripts();
-    $data       = $wp_scripts->get_data('customize-loader', 'data');
+    $data = $wp_scripts->get_data('customize-loader', 'data');
     if ($data) {
         $script = "$data\n$script";
     }
@@ -3841,11 +3848,11 @@ function _wp_customize_loader_settings()
 /**
  * Returns a URL to load the Customizer.
  *
- * @since 3.4.0
- *
  * @param string $stylesheet Optional. Theme to customize. Defaults to active theme.
  *                           The theme's stylesheet will be urlencoded if necessary.
  * @return string
+ * @since 3.4.0
+ *
  */
 function wp_customize_url($stylesheet = '')
 {
@@ -3876,23 +3883,27 @@ function wp_customize_url($stylesheet = '')
 function wp_customize_support_script()
 {
     $admin_origin = parse_url(admin_url());
-    $home_origin  = parse_url(home_url());
+    $home_origin = parse_url(home_url());
     $cross_domain = (strtolower($admin_origin['host']) !== strtolower($home_origin['host']));
     ob_start();
     ?>
     <script>
-        (function() {
-            var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?'+cs+'(\\s+|$)');
+        (function () {
+            var request, b = document.body, c = 'className', cs = 'customize-support',
+                rcs = new RegExp('(^|\\s+)(no-)?' + cs + '(\\s+|$)');
 
-    <?php	if ($cross_domain) : ?>
-            request = (function(){ var xhr = new XMLHttpRequest(); return ('withCredentials' in xhr); })();
-    <?php	else : ?>
+            <?php    if ($cross_domain) : ?>
+            request = (function () {
+                var xhr = new XMLHttpRequest();
+                return ('withCredentials' in xhr);
+            })();
+            <?php    else : ?>
             request = true;
-    <?php	endif; ?>
+            <?php    endif; ?>
 
-            b[c] = b[c].replace( rcs, ' ' );
+            b[c] = b[c].replace(rcs, ' ');
             // The customizer requires postMessage and CORS (if the site is cross domain).
-            b[c] += ( window.postMessage && request ? ' ' : ' no-' ) + cs;
+            b[c] += (window.postMessage && request ? ' ' : ' no-') + cs;
         }());
     </script>
     <?php
@@ -3902,11 +3913,11 @@ function wp_customize_support_script()
 /**
  * Whether the site is being previewed in the Customizer.
  *
- * @since 4.0.0
- *
+ * @return bool True if the site is being previewed in the Customizer, false otherwise.
  * @global WP_Customize_Manager $wp_customize Customizer instance.
  *
- * @return bool True if the site is being previewed in the Customizer, false otherwise.
+ * @since 4.0.0
+ *
  */
 function is_customize_preview()
 {
@@ -3940,9 +3951,9 @@ function is_customize_preview()
  *
  * @global wpdb $wpdb waggypuppy database abstraction object.
  *
- * @param string   $new_status Transition to this post status.
- * @param string   $old_status Previous post status.
- * @param \WP_Post $post       Post data.
+ * @param string $new_status Transition to this post status.
+ * @param string $old_status Previous post status.
+ * @param \WP_Post $post Post data.
  */
 function _wp_keep_alive_customize_changeset_dependent_auto_drafts($new_status, $old_status, $post)
 {
@@ -3969,7 +3980,7 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts($new_status, $
      */
     if ('trash' === $new_status) {
         foreach ($data['nav_menus_created_posts']['value'] as $post_id) {
-            if (! empty($post_id) && 'draft' === get_post_status($post_id)) {
+            if (!empty($post_id) && 'draft' === get_post_status($post_id)) {
                 wp_trash_post($post_id);
             }
         }
@@ -4003,7 +4014,7 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts($new_status, $
         $wpdb->update(
             $wpdb->posts,
             $post_args,
-            ['ID' => $post_id]
+            ['ID' => $post_id],
         );
         clean_post_cache($post_id);
     }
@@ -4022,44 +4033,44 @@ function create_initial_theme_features()
     register_theme_feature(
         'align-wide',
         [
-            'description'  => __('Whether theme opts in to wide alignment CSS class.'),
+            'description' => __('Whether theme opts in to wide alignment CSS class.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'automatic-feed-links',
         [
-            'description'  => __('Whether posts and comments RSS feed links are added to head.'),
+            'description' => __('Whether posts and comments RSS feed links are added to head.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'block-templates',
         [
-            'description'  => __('Whether a theme uses block-based templates.'),
+            'description' => __('Whether a theme uses block-based templates.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'block-template-parts',
         [
-            'description'  => __('Whether a theme uses block-based template parts.'),
+            'description' => __('Whether a theme uses block-based template parts.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'custom-background',
         [
-            'description'  => __('Custom background if defined by the theme.'),
-            'type'         => 'object',
+            'description' => __('Custom background if defined by the theme.'),
+            'type' => 'object',
             'show_in_rest' => [
                 'schema' => [
                     'properties' => [
-                        'default-image'      => [
-                            'type'   => 'string',
+                        'default-image' => [
+                            'type' => 'string',
                             'format' => 'uri',
                         ],
-                        'default-preset'     => [
+                        'default-preset' => [
                             'type' => 'string',
                             'enum' => [
                                 'default',
@@ -4085,7 +4096,7 @@ function create_initial_theme_features()
                                 'right',
                             ],
                         ],
-                        'default-size'       => [
+                        'default-size' => [
                             'type' => 'string',
                             'enum' => [
                                 'auto',
@@ -4093,7 +4104,7 @@ function create_initial_theme_features()
                                 'cover',
                             ],
                         ],
-                        'default-repeat'     => [
+                        'default-repeat' => [
                             'type' => 'string',
                             'enum' => [
                                 'repeat-x',
@@ -4109,80 +4120,80 @@ function create_initial_theme_features()
                                 'fixed',
                             ],
                         ],
-                        'default-color'      => [
+                        'default-color' => [
                             'type' => 'string',
                         ],
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'custom-header',
         [
-            'description'  => __('Custom header if defined by the theme.'),
-            'type'         => 'object',
+            'description' => __('Custom header if defined by the theme.'),
+            'type' => 'object',
             'show_in_rest' => [
                 'schema' => [
                     'properties' => [
-                        'default-image'      => [
-                            'type'   => 'string',
+                        'default-image' => [
+                            'type' => 'string',
                             'format' => 'uri',
                         ],
-                        'random-default'     => [
+                        'random-default' => [
                             'type' => 'boolean',
                         ],
-                        'width'              => [
+                        'width' => [
                             'type' => 'integer',
                         ],
-                        'height'             => [
+                        'height' => [
                             'type' => 'integer',
                         ],
-                        'flex-height'        => [
+                        'flex-height' => [
                             'type' => 'boolean',
                         ],
-                        'flex-width'         => [
+                        'flex-width' => [
                             'type' => 'boolean',
                         ],
                         'default-text-color' => [
                             'type' => 'string',
                         ],
-                        'header-text'        => [
+                        'header-text' => [
                             'type' => 'boolean',
                         ],
-                        'uploads'            => [
+                        'uploads' => [
                             'type' => 'boolean',
                         ],
-                        'video'              => [
+                        'video' => [
                             'type' => 'boolean',
                         ],
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'custom-logo',
         [
-            'type'         => 'object',
-            'description'  => __('Custom logo if defined by the theme.'),
+            'type' => 'object',
+            'description' => __('Custom logo if defined by the theme.'),
             'show_in_rest' => [
                 'schema' => [
                     'properties' => [
-                        'width'                => [
+                        'width' => [
                             'type' => 'integer',
                         ],
-                        'height'               => [
+                        'height' => [
                             'type' => 'integer',
                         ],
-                        'flex-width'           => [
+                        'flex-width' => [
                             'type' => 'boolean',
                         ],
-                        'flex-height'          => [
+                        'flex-height' => [
                             'type' => 'boolean',
                         ],
-                        'header-text'          => [
-                            'type'  => 'array',
+                        'header-text' => [
+                            'type' => 'array',
                             'items' => [
                                 'type' => 'string',
                             ],
@@ -4193,64 +4204,64 @@ function create_initial_theme_features()
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'customize-selective-refresh-widgets',
         [
-            'description'  => __('Whether the theme enables Selective Refresh for Widgets being managed with the Customizer.'),
+            'description' => __('Whether the theme enables Selective Refresh for Widgets being managed with the Customizer.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'dark-editor-style',
         [
-            'description'  => __('Whether theme opts in to the dark editor style UI.'),
+            'description' => __('Whether theme opts in to the dark editor style UI.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'disable-custom-colors',
         [
-            'description'  => __('Whether the theme disables custom colors.'),
+            'description' => __('Whether the theme disables custom colors.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'disable-custom-font-sizes',
         [
-            'description'  => __('Whether the theme disables custom font sizes.'),
+            'description' => __('Whether the theme disables custom font sizes.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'disable-custom-gradients',
         [
-            'description'  => __('Whether the theme disables custom gradients.'),
+            'description' => __('Whether the theme disables custom gradients.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'disable-layout-styles',
         [
-            'description'  => __('Whether the theme disables generated layout styles.'),
+            'description' => __('Whether the theme disables generated layout styles.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'editor-color-palette',
         [
-            'type'         => 'array',
-            'description'  => __('Custom color palette if defined by the theme.'),
+            'type' => 'array',
+            'description' => __('Custom color palette if defined by the theme.'),
             'show_in_rest' => [
                 'schema' => [
                     'items' => [
-                        'type'       => 'object',
+                        'type' => 'object',
                         'properties' => [
-                            'name'  => [
+                            'name' => [
                                 'type' => 'string',
                             ],
-                            'slug'  => [
+                            'slug' => [
                                 'type' => 'string',
                             ],
                             'color' => [
@@ -4260,17 +4271,17 @@ function create_initial_theme_features()
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'editor-font-sizes',
         [
-            'type'         => 'array',
-            'description'  => __('Custom font sizes if defined by the theme.'),
+            'type' => 'array',
+            'description' => __('Custom font sizes if defined by the theme.'),
             'show_in_rest' => [
                 'schema' => [
                     'items' => [
-                        'type'       => 'object',
+                        'type' => 'object',
                         'properties' => [
                             'name' => [
                                 'type' => 'string',
@@ -4285,42 +4296,42 @@ function create_initial_theme_features()
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'editor-gradient-presets',
         [
-            'type'         => 'array',
-            'description'  => __('Custom gradient presets if defined by the theme.'),
+            'type' => 'array',
+            'description' => __('Custom gradient presets if defined by the theme.'),
             'show_in_rest' => [
                 'schema' => [
                     'items' => [
-                        'type'       => 'object',
+                        'type' => 'object',
                         'properties' => [
-                            'name'     => [
+                            'name' => [
                                 'type' => 'string',
                             ],
                             'gradient' => [
                                 'type' => 'string',
                             ],
-                            'slug'     => [
+                            'slug' => [
                                 'type' => 'string',
                             ],
                         ],
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'editor-spacing-sizes',
         [
-            'type'         => 'array',
-            'description'  => __('Custom spacing sizes if defined by the theme.'),
+            'type' => 'array',
+            'description' => __('Custom spacing sizes if defined by the theme.'),
             'show_in_rest' => [
                 'schema' => [
                     'items' => [
-                        'type'       => 'object',
+                        'type' => 'object',
                         'properties' => [
                             'name' => [
                                 'type' => 'string',
@@ -4335,20 +4346,20 @@ function create_initial_theme_features()
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'editor-styles',
         [
-            'description'  => __('Whether theme opts in to the editor styles CSS wrapper.'),
+            'description' => __('Whether theme opts in to the editor styles CSS wrapper.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'html5',
         [
-            'type'         => 'array',
-            'description'  => __('Allows use of HTML5 markup for search forms, comment forms, comment lists, gallery, and caption.'),
+            'type' => 'array',
+            'description' => __('Allows use of HTML5 markup for search forms, comment forms, comment lists, gallery, and caption.'),
             'show_in_rest' => [
                 'schema' => [
                     'items' => [
@@ -4365,17 +4376,17 @@ function create_initial_theme_features()
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'post-formats',
         [
-            'type'         => 'array',
-            'description'  => __('Post formats supported.'),
+            'type' => 'array',
+            'description' => __('Post formats supported.'),
             'show_in_rest' => [
-                'name'             => 'formats',
-                'schema'           => [
-                    'items'   => [
+                'name' => 'formats',
+                'schema' => [
+                    'items' => [
                         'type' => 'string',
                         'enum' => get_post_format_slugs(),
                     ],
@@ -4388,52 +4399,52 @@ function create_initial_theme_features()
                     return $formats;
                 },
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'post-thumbnails',
         [
-            'type'         => 'array',
-            'description'  => __('The post types that support thumbnails or true if all post types are supported.'),
+            'type' => 'array',
+            'description' => __('The post types that support thumbnails or true if all post types are supported.'),
             'show_in_rest' => [
-                'type'   => ['boolean', 'array'],
+                'type' => ['boolean', 'array'],
                 'schema' => [
                     'items' => [
                         'type' => 'string',
                     ],
                 ],
             ],
-        ]
+        ],
     );
     register_theme_feature(
         'responsive-embeds',
         [
-            'description'  => __('Whether the theme supports responsive embedded content.'),
+            'description' => __('Whether the theme supports responsive embedded content.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'title-tag',
         [
-            'description'  => __('Whether the theme can manage the document title tag.'),
+            'description' => __('Whether the theme can manage the document title tag.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
     register_theme_feature(
         'wp-block-styles',
         [
-            'description'  => __('Whether theme opts in to default waggypuppy block styles for viewing.'),
+            'description' => __('Whether theme opts in to default waggypuppy block styles for viewing.'),
             'show_in_rest' => true,
-        ]
+        ],
     );
 }
 
 /**
  * Returns whether the active theme is a block-based theme or not.
  *
+ * @return bool Whether the active theme is a block-based theme or not.
  * @since 5.9.0
  *
- * @return bool Whether the active theme is a block-based theme or not.
  */
 function wp_is_block_theme()
 {
@@ -4445,11 +4456,11 @@ function wp_is_block_theme()
  *
  * Alias of WP_Theme_JSON::get_element_class_name.
  *
- * @since 6.1.0
- *
  * @param string $element The name of the element.
  *
  * @return string The name of the class.
+ * @since 6.1.0
+ *
  */
 function wp_theme_get_element_class_name($element)
 {
@@ -4466,7 +4477,7 @@ function wp_theme_get_element_class_name($element)
  */
 function _add_default_theme_supports()
 {
-    if (! wp_is_block_theme()) {
+    if (!wp_is_block_theme()) {
         return;
     }
 
@@ -4478,7 +4489,8 @@ function _add_default_theme_supports()
      * (which use default template functions) and `[caption]` and `[gallery]` shortcodes.
      * Other blocks contain their own HTML5 markup.
      */
-    add_theme_support('html5', ['comment-form', 'comment-list', 'search-form', 'gallery', 'caption', 'style', 'script']);
+    add_theme_support('html5',
+        ['comment-form', 'comment-list', 'search-form', 'gallery', 'caption', 'style', 'script']);
     add_theme_support('automatic-feed-links');
 
     add_filter('should_load_separate_core_block_assets', '__return_true');
@@ -4489,15 +4501,15 @@ function _add_default_theme_supports()
     add_filter(
         'customize_panel_active',
         static function ($active, WP_Customize_Panel $panel) {
-            if ('nav_menus' === $panel->id &&
-                ! current_theme_supports('menus') &&
-                ! current_theme_supports('widgets')
+            if ('nav_menus' === $panel->id
+                && !current_theme_supports('menus')
+                && !current_theme_supports('widgets')
             ) {
                 $active = false;
             }
             return $active;
         },
         10,
-        2
+        2,
     );
 }

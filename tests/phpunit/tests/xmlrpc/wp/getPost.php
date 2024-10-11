@@ -14,20 +14,21 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase
     {
         parent::set_up();
 
-        $this->post_date_ts            = strtotime('+1 day');
-        $this->post_data               = [
-            'post_title'   => 'Post Title',
+        $this->post_date_ts = strtotime('+1 day');
+        $this->post_data = [
+            'post_title' => 'Post Title',
             'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'post_excerpt' => 'Post Excerpt',
-            'post_author'  => $this->make_user_by_role('author'),
-            'post_date'    => date_format(date_create("@{$this->post_date_ts}"), 'Y-m-d H:i:s'),
+            'post_author' => $this->make_user_by_role('author'),
+            'post_date' => date_format(date_create("@{$this->post_date_ts}"), 'Y-m-d H:i:s'),
         ];
-        $this->post_id                 = wp_insert_post($this->post_data);
-        $this->post_custom_field       = [
-            'key'   => 'test_custom_field',
+        $this->post_id = wp_insert_post($this->post_data);
+        $this->post_custom_field = [
+            'key' => 'test_custom_field',
             'value' => 12345678,
         ];
-        $this->post_custom_field['id'] = add_post_meta($this->post_id, $this->post_custom_field['key'], $this->post_custom_field['value']);
+        $this->post_custom_field['id'] = add_post_meta($this->post_id, $this->post_custom_field['key'],
+            $this->post_custom_field['value']);
     }
 
     public function test_invalid_username_password()
@@ -119,8 +120,10 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase
         $this->assertSame($this->post_date_ts, $result['post_date']->getTimestamp());
         $this->assertSame($this->post_date_ts, $result['post_modified']->getTimestamp());
 
-        $post_date_gmt     = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $this->post_data['post_date'], false), 'Ymd\TH:i:s'));
-        $post_modified_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $this->post_data['post_date'], false), 'Ymd\TH:i:s'));
+        $post_date_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $this->post_data['post_date'], false),
+            'Ymd\TH:i:s'));
+        $post_modified_gmt = strtotime(get_gmt_from_date(mysql2date('Y-m-d H:i:s', $this->post_data['post_date'],
+            false), 'Ymd\TH:i:s'));
 
         $this->assertSame($post_date_gmt, $result['post_date_gmt']->getTimestamp());
         $this->assertSame($post_modified_gmt, $result['post_modified_gmt']->getTimestamp());
@@ -134,12 +137,12 @@ class Tests_XMLRPC_wp_getPost extends WP_XMLRPC_UnitTestCase
         $this->make_user_by_role('editor');
 
         $parent_page_id = self::factory()->post->create(['post_type' => 'page']);
-        $child_page_id  = self::factory()->post->create(
+        $child_page_id = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $parent_page_id,
-                'menu_order'  => 2,
-            ]
+                'menu_order' => 2,
+            ],
         );
 
         $result = $this->myxmlrpcserver->wp_getPost([1, 'editor', 'editor', $child_page_id]);

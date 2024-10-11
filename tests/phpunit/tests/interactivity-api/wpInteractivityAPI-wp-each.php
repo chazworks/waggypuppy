@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering the data_wp_each_processor functionality of the
  * WP_Interactivity_API class.
@@ -44,7 +45,7 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
 			<div data-wp-each="myPlugin::state.list">
 				<span data-wp-text="myPlugin::context.item"></span>
 			</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($original, $new);
     }
 
@@ -65,13 +66,13 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
                     'one' => 1,
                     'two' => 2,
                 ],
-            ]
+            ],
         );
         $original = '
 			<template data-wp-each="myPlugin::state.assoc">
 				<span data-wp-text="myPlugin::context.item"></span>
 			</template>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($original, $new);
     }
 
@@ -86,17 +87,17 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">2</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -113,15 +114,15 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
         $this->interactivity->state('myPlugin', ['empty' => []]);
         $original = '' .
             '<template data-wp-each="myPlugin::state.empty">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.empty">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -137,21 +138,29 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<div data-wp-context=\'myPlugin::{ "item": "New text", "id": "some-id", "after": "after-wp-each" }\'>' .
-                '<template data-wp-each="myPlugin::state.list">' .
-                    '<span data-wp-bind--id="myPlugin::context.id" data-wp-text="myPlugin::context.item"></span>' .
-                '</template>' .
-                '<div data-wp-bind--id="myPlugin::context.after" data-wp-text="myPlugin::context.item">Text</div>' .
+            '<template data-wp-each="myPlugin::state.list">' .
+            '<span data-wp-bind--id="myPlugin::context.id" data-wp-text="myPlugin::context.item"></span>' .
+            '</template>' .
+            '<div data-wp-bind--id="myPlugin::context.after" data-wp-text="myPlugin::context.item">Text</div>' .
             '</div>';
-        $expected = '' .
-            '<div data-wp-context=\'myPlugin::{ "item": "New text", "id": "some-id", "after": "after-wp-each" }\'>' .
-                '<template data-wp-each="myPlugin::state.list">' .
-                    '<span data-wp-bind--id="myPlugin::context.id" data-wp-text="myPlugin::context.item"></span>' .
-                '</template>' .
-                '<span data-wp-each-child id="some-id" data-wp-bind--id="myPlugin::context.id" data-wp-text="myPlugin::context.item">1</span>' .
-                '<span data-wp-each-child id="some-id" data-wp-bind--id="myPlugin::context.id" data-wp-text="myPlugin::context.item">2</span>' .
-                '<div id="after-wp-each" data-wp-bind--id="myPlugin::context.after" data-wp-text="myPlugin::context.item">New text</div>' .
+        $expected = ''
+            .
+            '<div data-wp-context=\'myPlugin::{ "item": "New text", "id": "some-id", "after": "after-wp-each" }\'>'
+            .
+            '<template data-wp-each="myPlugin::state.list">'
+            .
+            '<span data-wp-bind--id="myPlugin::context.id" data-wp-text="myPlugin::context.item"></span>'
+            .
+            '</template>'
+            .
+            '<span data-wp-each-child id="some-id" data-wp-bind--id="myPlugin::context.id" data-wp-text="myPlugin::context.item">1</span>'
+            .
+            '<span data-wp-each-child id="some-id" data-wp-bind--id="myPlugin::context.id" data-wp-text="myPlugin::context.item">2</span>'
+            .
+            '<div id="after-wp-each" data-wp-bind--id="myPlugin::context.after" data-wp-text="myPlugin::context.item">New text</div>'
+            .
             '</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -166,21 +175,21 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<div data-wp-context=\'myPlugin::{ "list": [ 1, 2 ] }\'>' .
-                '<template data-wp-each="myPlugin::context.list">' .
-                    '<span data-wp-text="myPlugin::context.item"></span>' .
-                '</template>' .
-                '<div data-wp-bind--id="myPlugin::state.after">Text</div>' .
+            '<template data-wp-each="myPlugin::context.list">' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
+            '</template>' .
+            '<div data-wp-bind--id="myPlugin::state.after">Text</div>' .
             '</div>';
         $expected = '' .
             '<div data-wp-context=\'myPlugin::{ "list": [ 1, 2 ] }\'>' .
-                '<template data-wp-each="myPlugin::context.list">' .
-                    '<span data-wp-text="myPlugin::context.item"></span>' .
-                '</template>' .
-                '<span data-wp-each-child data-wp-text="myPlugin::context.item">1</span>' .
-                '<span data-wp-each-child data-wp-text="myPlugin::context.item">2</span>' .
-                '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>' .
+            '<template data-wp-each="myPlugin::context.list">' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
+            '</template>' .
+            '<span data-wp-each-child data-wp-text="myPlugin::context.item">1</span>' .
+            '<span data-wp-each-child data-wp-text="myPlugin::context.item">2</span>' .
+            '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>' .
             '</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -195,21 +204,21 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>' .
-                '<template data-wp-each="state.list">' .
-                    '<span data-wp-text="context.item"></span>' .
-                '</template>' .
-                '<div data-wp-bind--id="state.after">Text</div>' .
+            '<template data-wp-each="state.list">' .
+            '<span data-wp-text="context.item"></span>' .
+            '</template>' .
+            '<div data-wp-bind--id="state.after">Text</div>' .
             '</div>';
         $expected = '' .
             '<div data-wp-interactive=\'{ "namespace": "myPlugin" }\'>' .
-                '<template data-wp-each="state.list">' .
-                    '<span data-wp-text="context.item"></span>' .
-                '</template>' .
-                '<span data-wp-each-child data-wp-text="context.item">1</span>' .
-                '<span data-wp-each-child data-wp-text="context.item">2</span>' .
-                '<div id="after-wp-each" data-wp-bind--id="state.after">Text</div>' .
+            '<template data-wp-each="state.list">' .
+            '<span data-wp-text="context.item"></span>' .
+            '</template>' .
+            '<span data-wp-each-child data-wp-text="context.item">1</span>' .
+            '<span data-wp-each-child data-wp-text="context.item">2</span>' .
+            '<div id="after-wp-each" data-wp-bind--id="state.after">Text</div>' .
             '</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -224,21 +233,21 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">2</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">2</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -253,21 +262,21 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<img data-wp-bind--id="myPlugin::context.item">' .
-                '<img data-wp-bind--id="myPlugin::context.item">' .
+            '<img data-wp-bind--id="myPlugin::context.item">' .
+            '<img data-wp-bind--id="myPlugin::context.item">' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<img data-wp-bind--id="myPlugin::context.item">' .
-                '<img data-wp-bind--id="myPlugin::context.item">' .
+            '<img data-wp-bind--id="myPlugin::context.item">' .
+            '<img data-wp-bind--id="myPlugin::context.item">' .
             '</template>' .
             '<img data-wp-each-child id="1" data-wp-bind--id="myPlugin::context.item">' .
             '<img data-wp-each-child id="1" data-wp-bind--id="myPlugin::context.item">' .
             '<img data-wp-each-child id="2" data-wp-bind--id="myPlugin::context.item">' .
             '<img data-wp-each-child id="2" data-wp-bind--id="myPlugin::context.item">' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -283,21 +292,21 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<img data-wp-bind--id="myPlugin::context.item">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<img data-wp-bind--id="myPlugin::context.item">' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<img data-wp-bind--id="myPlugin::context.item">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<img data-wp-bind--id="myPlugin::context.item">' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<img data-wp-each-child id="1" data-wp-bind--id="myPlugin::context.item">' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">1</span>' .
             '<img data-wp-each-child id="2" data-wp-bind--id="myPlugin::context.item">' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">2</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -312,25 +321,25 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<div data-wp-bind--id="myPlugin::context.item">' .
-                    'id: <span data-wp-text="myPlugin::context.item"></span>' .
-                '</div>' .
+            '<div data-wp-bind--id="myPlugin::context.item">' .
+            'id: <span data-wp-text="myPlugin::context.item"></span>' .
+            '</div>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<div data-wp-bind--id="myPlugin::context.item">' .
-                    'id: <span data-wp-text="myPlugin::context.item"></span>' .
-                '</div>' .
+            '<div data-wp-bind--id="myPlugin::context.item">' .
+            'id: <span data-wp-text="myPlugin::context.item"></span>' .
+            '</div>' .
             '</template>' .
             '<div data-wp-each-child id="1" data-wp-bind--id="myPlugin::context.item">' .
-                'id: <span data-wp-text="myPlugin::context.item">1</span>' .
+            'id: <span data-wp-text="myPlugin::context.item">1</span>' .
             '</div>' .
             '<div data-wp-each-child id="2" data-wp-bind--id="myPlugin::context.item">' .
-                'id: <span data-wp-text="myPlugin::context.item">2</span>' .
+            'id: <span data-wp-text="myPlugin::context.item">2</span>' .
             '</div>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -348,33 +357,33 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
             [
                 'list' => [
                     [
-                        'id'   => 1,
+                        'id' => 1,
                         'name' => 'one',
                     ],
                     [
-                        'id'   => 2,
+                        'id' => 2,
                         'name' => 'two',
                     ],
                 ],
-            ]
+            ],
         );
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item.id"></span>' .
-                '<span data-wp-text="myPlugin::context.item.name"></span>' .
+            '<span data-wp-text="myPlugin::context.item.id"></span>' .
+            '<span data-wp-text="myPlugin::context.item.name"></span>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item.id"></span>' .
-                '<span data-wp-text="myPlugin::context.item.name"></span>' .
+            '<span data-wp-text="myPlugin::context.item.id"></span>' .
+            '<span data-wp-text="myPlugin::context.item.name"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item.id">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item.name">one</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item.id">2</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item.name">two</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -389,17 +398,17 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each--myitem="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.myitem"></span>' .
+            '<span data-wp-text="myPlugin::context.myitem"></span>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each--myitem="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.myitem"></span>' .
+            '<span data-wp-text="myPlugin::context.myitem"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.myitem">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.myitem">2</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -415,17 +424,17 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each--my-item="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.myItem"></span>' .
+            '<span data-wp-text="myPlugin::context.myItem"></span>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each--my-item="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.myItem"></span>' .
+            '<span data-wp-text="myPlugin::context.myItem"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.myItem">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.myItem">2</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -440,16 +449,16 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                'id: <span data-wp-text="myPlugin::context.item"></span>' .
+            'id: <span data-wp-text="myPlugin::context.item"></span>' .
             '</template>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($original, $new);
 
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>!' .
+            '<span data-wp-text="myPlugin::context.item"></span>!' .
             '</template>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($original, $new);
 
         // But it should work fine with spaces and linebreaks.
@@ -457,8 +466,8 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
 			<template data-wp-each="myPlugin::state.list">
 				<span class="test" data-wp-bind--id="myPlugin::context.item"></span>
 			</template>';
-        $new      = $this->interactivity->process_directives($original);
-        $p        = new WP_HTML_Tag_Processor($new);
+        $new = $this->interactivity->process_directives($original);
+        $p = new WP_HTML_Tag_Processor($new);
         $p->next_tag(['class_name' => 'test']);
         $p->next_tag(['class_name' => 'test']);
         $this->assertSame('1', $p->get_attribute('id'));
@@ -478,33 +487,33 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
         $this->interactivity->state('myPlugin', ['list2' => [3, 4]]);
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item1"></span>' .
-                '<template data-wp-each--item2="myPlugin::state.list2">' .
-                    '<span data-wp-text="myPlugin::context.item2"></span>' .
-                '</template>' .
+            '<span data-wp-text="myPlugin::context.item1"></span>' .
+            '<template data-wp-each--item2="myPlugin::state.list2">' .
+            '<span data-wp-text="myPlugin::context.item2"></span>' .
+            '</template>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item1"></span>' .
-                '<template data-wp-each--item2="myPlugin::state.list2">' .
-                    '<span data-wp-text="myPlugin::context.item2"></span>' .
-                '</template>' .
+            '<span data-wp-text="myPlugin::context.item1"></span>' .
+            '<template data-wp-each--item2="myPlugin::state.list2">' .
+            '<span data-wp-text="myPlugin::context.item2"></span>' .
+            '</template>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item1">1</span>' .
             '<template data-wp-each-child data-wp-each--item2="myPlugin::state.list2">' .
-                '<span data-wp-text="myPlugin::context.item2"></span>' .
+            '<span data-wp-text="myPlugin::context.item2"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item2">3</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item2">4</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item1">2</span>' .
             '<template data-wp-each-child data-wp-each--item2="myPlugin::state.list2">' .
-                '<span data-wp-text="myPlugin::context.item2"></span>' .
+            '<span data-wp-text="myPlugin::context.item2"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item2">3</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item2">4</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -521,37 +530,37 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
         $this->interactivity->state('myPlugin', ['list2' => [3, 4]]);
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
-                '<template data-wp-each--item2="myPlugin::state.list2">' .
-                    '<span data-wp-text="myPlugin::context.item1"></span>' .
-                    '<span data-wp-text="myPlugin::context.item2"></span>' .
-                '</template>' .
+            '<template data-wp-each--item2="myPlugin::state.list2">' .
+            '<span data-wp-text="myPlugin::context.item1"></span>' .
+            '<span data-wp-text="myPlugin::context.item2"></span>' .
+            '</template>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
-                '<template data-wp-each--item2="myPlugin::state.list2">' .
-                    '<span data-wp-text="myPlugin::context.item1"></span>' .
-                    '<span data-wp-text="myPlugin::context.item2"></span>' .
-                '</template>' .
+            '<template data-wp-each--item2="myPlugin::state.list2">' .
+            '<span data-wp-text="myPlugin::context.item1"></span>' .
+            '<span data-wp-text="myPlugin::context.item2"></span>' .
+            '</template>' .
             '</template>' .
             '<template data-wp-each-child data-wp-each--item2="myPlugin::state.list2">' .
-                '<span data-wp-text="myPlugin::context.item1"></span>' .
-                '<span data-wp-text="myPlugin::context.item2"></span>' .
+            '<span data-wp-text="myPlugin::context.item1"></span>' .
+            '<span data-wp-text="myPlugin::context.item2"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item1">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item2">3</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item1">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item2">4</span>' .
             '<template data-wp-each-child data-wp-each--item2="myPlugin::state.list2">' .
-                '<span data-wp-text="myPlugin::context.item1"></span>' .
-                '<span data-wp-text="myPlugin::context.item2"></span>' .
+            '<span data-wp-text="myPlugin::context.item1"></span>' .
+            '<span data-wp-text="myPlugin::context.item2"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item1">2</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item2">3</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item1">2</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item2">4</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -568,29 +577,29 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
         $this->interactivity->state('myPlugin', ['list2' => [[1, 2], [3, 4]]]);
         $original = '' .
             '<template data-wp-each--list="myPlugin::state.list2">' .
-                '<template data-wp-each--number="myPlugin::context.list">' .
-                    '<span data-wp-text="myPlugin::context.number"></span>' .
-                '</template>' .
+            '<template data-wp-each--number="myPlugin::context.list">' .
+            '<span data-wp-text="myPlugin::context.number"></span>' .
+            '</template>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each--list="myPlugin::state.list2">' .
-                '<template data-wp-each--number="myPlugin::context.list">' .
-                    '<span data-wp-text="myPlugin::context.number"></span>' .
-                '</template>' .
+            '<template data-wp-each--number="myPlugin::context.list">' .
+            '<span data-wp-text="myPlugin::context.number"></span>' .
+            '</template>' .
             '</template>' .
             '<template data-wp-each-child data-wp-each--number="myPlugin::context.list">' .
-                '<span data-wp-text="myPlugin::context.number"></span>' .
+            '<span data-wp-text="myPlugin::context.number"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.number">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.number">2</span>' .
             '<template data-wp-each-child data-wp-each--number="myPlugin::context.list">' .
-                '<span data-wp-text="myPlugin::context.number"></span>' .
+            '<span data-wp-text="myPlugin::context.number"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.number">3</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.number">4</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 
@@ -607,10 +616,10 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item">' .
+            '<span data-wp-text="myPlugin::context.item">' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($original, $new);
     }
 
@@ -629,13 +638,13 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
         $this->interactivity->state('myPlugin', ['list2' => [3, 4]]);
         $original = '' .
             '<template data-wp-each--item1="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item1"></span>' .
-                '<template data-wp-each--item2="myPlugin::state.list2">' .
-                    '<span data-wp-text="myPlugin::context.item2">' .
-                '</template>' .
+            '<span data-wp-text="myPlugin::context.item1"></span>' .
+            '<template data-wp-each--item2="myPlugin::state.list2">' .
+            '<span data-wp-text="myPlugin::context.item2">' .
+            '</template>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($original, $new);
     }
 
@@ -651,12 +660,12 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
 
@@ -693,19 +702,19 @@ class Tests_WP_Interactivity_API_WP_Each extends WP_UnitTestCase
     {
         $original = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">2</span>' .
             '<div data-wp-bind--id="myPlugin::state.after">Text</div>';
         $expected = '' .
             '<template data-wp-each="myPlugin::state.list">' .
-                '<span data-wp-text="myPlugin::context.item"></span>' .
+            '<span data-wp-text="myPlugin::context.item"></span>' .
             '</template>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">1</span>' .
             '<span data-wp-each-child data-wp-text="myPlugin::context.item">2</span>' .
             '<div id="after-wp-each" data-wp-bind--id="myPlugin::state.after">Text</div>';
-        $new      = $this->interactivity->process_directives($original);
+        $new = $this->interactivity->process_directives($original);
         $this->assertSame($expected, $new);
     }
 }

@@ -19,35 +19,35 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     /**
      * @var array<int, array<int, int>>
      */
-    public static $sigma = array(
-        array(  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15),
-        array( 14, 10,  4,  8,  9, 15, 13,  6,  1, 12,  0,  2, 11,  7,  5,  3),
-        array( 11,  8, 12,  0,  5,  2, 15, 13, 10, 14,  3,  6,  7,  1,  9,  4),
-        array(  7,  9,  3,  1, 13, 12, 11, 14,  2,  6,  5, 10,  4,  0, 15,  8),
-        array(  9,  0,  5,  7,  2,  4, 10, 15, 14,  1, 11, 12,  6,  8,  3, 13),
-        array(  2, 12,  6, 10,  0, 11,  8,  3,  4, 13,  7,  5, 15, 14,  1,  9),
-        array( 12,  5,  1, 15, 14, 13,  4, 10,  0,  7,  6,  3,  9,  2,  8, 11),
-        array( 13, 11,  7, 14, 12,  1,  3,  9,  5,  0, 15,  4,  8,  6,  2, 10),
-        array(  6, 15, 14,  9, 11,  3,  0,  8, 12,  2, 13,  7,  1,  4, 10,  5),
-        array( 10,  2,  8,  4,  7,  6,  1,  5, 15, 11,  9, 14,  3, 12, 13 , 0),
-        array(  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15),
-        array( 14, 10,  4,  8,  9, 15, 13,  6,  1, 12,  0,  2, 11,  7,  5,  3)
-    );
+    public static $sigma = [
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        [14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3],
+        [11, 8, 12, 0, 5, 2, 15, 13, 10, 14, 3, 6, 7, 1, 9, 4],
+        [7, 9, 3, 1, 13, 12, 11, 14, 2, 6, 5, 10, 4, 0, 15, 8],
+        [9, 0, 5, 7, 2, 4, 10, 15, 14, 1, 11, 12, 6, 8, 3, 13],
+        [2, 12, 6, 10, 0, 11, 8, 3, 4, 13, 7, 5, 15, 14, 1, 9],
+        [12, 5, 1, 15, 14, 13, 4, 10, 0, 7, 6, 3, 9, 2, 8, 11],
+        [13, 11, 7, 14, 12, 1, 3, 9, 5, 0, 15, 4, 8, 6, 2, 10],
+        [6, 15, 14, 9, 11, 3, 0, 8, 12, 2, 13, 7, 1, 4, 10, 5],
+        [10, 2, 8, 4, 7, 6, 1, 5, 15, 11, 9, 14, 3, 12, 13, 0],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        [14, 10, 4, 8, 9, 15, 13, 6, 1, 12, 0, 2, 11, 7, 5, 3],
+    ];
 
     const BLOCKBYTES = 128;
-    const OUTBYTES   = 64;
-    const KEYBYTES   = 64;
+    const OUTBYTES = 64;
+    const KEYBYTES = 64;
 
     /**
      * Turn two 32-bit integers into a fixed array representing a 64-bit integer.
-     *
-     * @internal You should not use this directly from another application
      *
      * @param int $high
      * @param int $low
      * @return ParagonIE_Sodium_Core32_Int64
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function new64($high, $low)
     {
@@ -58,12 +58,12 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * Convert an arbitrary number into an SplFixedArray of two 32-bit integers
      * that represents a 64-bit integer.
      *
-     * @internal You should not use this directly from another application
-     *
      * @param int $num
      * @return ParagonIE_Sodium_Core32_Int64
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     protected static function to64($num)
     {
@@ -75,11 +75,11 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * Adds two 64-bit integers together, returning their sum as a SplFixedArray
      * containing two 32-bit integers (representing a 64-bit integer).
      *
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core32_Int64 $x
      * @param ParagonIE_Sodium_Core32_Int64 $y
      * @return ParagonIE_Sodium_Core32_Int64
+     * @internal You should not use this directly from another application
+     *
      */
     protected static function add64($x, $y)
     {
@@ -87,12 +87,12 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core32_Int64 $x
      * @param ParagonIE_Sodium_Core32_Int64 $y
      * @param ParagonIE_Sodium_Core32_Int64 $z
      * @return ParagonIE_Sodium_Core32_Int64
+     * @internal You should not use this directly from another application
+     *
      */
     public static function add364($x, $y, $z)
     {
@@ -100,12 +100,12 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core32_Int64 $x
      * @param ParagonIE_Sodium_Core32_Int64 $y
      * @return ParagonIE_Sodium_Core32_Int64
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function xor64(ParagonIE_Sodium_Core32_Int64 $x, ParagonIE_Sodium_Core32_Int64 $y)
     {
@@ -113,13 +113,13 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param ParagonIE_Sodium_Core32_Int64 $x
      * @param int $c
      * @return ParagonIE_Sodium_Core32_Int64
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function rotr64(ParagonIE_Sodium_Core32_Int64 $x, $c)
     {
@@ -127,32 +127,30 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray $x
      * @param int $i
      * @return ParagonIE_Sodium_Core32_Int64
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function load64($x, $i)
     {
         /** @var int $l */
-        $l = (int) ($x[$i])
-             | ((int) ($x[$i+1]) << 8)
-             | ((int) ($x[$i+2]) << 16)
-             | ((int) ($x[$i+3]) << 24);
+        $l = (int)($x[$i])
+            | ((int)($x[$i + 1]) << 8)
+            | ((int)($x[$i + 2]) << 16)
+            | ((int)($x[$i + 3]) << 24);
         /** @var int $h */
-        $h = (int) ($x[$i+4])
-             | ((int) ($x[$i+5]) << 8)
-             | ((int) ($x[$i+6]) << 16)
-             | ((int) ($x[$i+7]) << 24);
+        $h = (int)($x[$i + 4])
+            | ((int)($x[$i + 5]) << 8)
+            | ((int)($x[$i + 6]) << 16)
+            | ((int)($x[$i + 7]) << 24);
         return self::new64($h, $l);
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray $x
      * @param int $i
      * @param ParagonIE_Sodium_Core32_Int64 $u
@@ -163,6 +161,8 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @psalm-suppress MixedArrayAccess
      * @psalm-suppress MixedArrayAssignment
      * @psalm-suppress MixedArrayOffset
+     * @internal You should not use this directly from another application
+     *
      */
     public static function store64(SplFixedArray $x, $i, ParagonIE_Sodium_Core32_Int64 $u)
     {
@@ -181,11 +181,11 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     /**
      * This just sets the $iv static variable.
      *
-     * @internal You should not use this directly from another application
-     *
      * @return void
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     public static function pseudoConstructor()
     {
@@ -209,8 +209,6 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     /**
      * Returns a fresh BLAKE2 context.
      *
-     * @internal You should not use this directly from another application
-     *
      * @return SplFixedArray
      * @throws TypeError
      * @psalm-suppress MixedArgument
@@ -220,10 +218,12 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @psalm-suppress MixedArrayOffset
      * @throws SodiumException
      * @throws TypeError
+     * @internal You should not use this directly from another application
+     *
      */
     protected static function context()
     {
-        $ctx    = new SplFixedArray(6);
+        $ctx = new SplFixedArray(6);
         $ctx[0] = new SplFixedArray(8);   // h
         $ctx[1] = new SplFixedArray(2);   // t
         $ctx[2] = new SplFixedArray(2);   // f
@@ -248,8 +248,6 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray $ctx
      * @param SplFixedArray $buf
      * @return void
@@ -259,6 +257,8 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @psalm-suppress MixedArrayAccess
      * @psalm-suppress MixedArrayAssignment
      * @psalm-suppress MixedAssignment
+     * @internal You should not use this directly from another application
+     *
      */
     protected static function compress(SplFixedArray $ctx, SplFixedArray $buf)
     {
@@ -273,8 +273,8 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
             $v[$i] = $ctx[0][$i];
         }
 
-        $v[ 8] = self::$iv[0];
-        $v[ 9] = self::$iv[1];
+        $v[8] = self::$iv[0];
+        $v[9] = self::$iv[1];
         $v[10] = self::$iv[2];
         $v[11] = self::$iv[3];
 
@@ -296,14 +296,12 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
 
         for ($i = 8; $i--;) {
             $ctx[0][$i] = self::xor64(
-                $ctx[0][$i], self::xor64($v[$i], $v[$i+8])
+                $ctx[0][$i], self::xor64($v[$i], $v[$i + 8]),
             );
         }
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param int $r
      * @param int $i
      * @param int $a
@@ -317,6 +315,8 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @throws TypeError
      * @psalm-suppress MixedArgument
      * @psalm-suppress MixedArrayOffset
+     * @internal You should not use this directly from another application
+     *
      */
     public static function G($r, $i, $a, $b, $c, $d, SplFixedArray $v, SplFixedArray $m)
     {
@@ -332,8 +332,6 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray $ctx
      * @param int $inc
      * @return void
@@ -342,6 +340,8 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @psalm-suppress MixedArgument
      * @psalm-suppress MixedArrayAccess
      * @psalm-suppress MixedArrayAssignment
+     * @internal You should not use this directly from another application
+     *
      */
     public static function increment_counter($ctx, $inc)
     {
@@ -358,7 +358,7 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
         if (!($ctx[1][0] instanceof ParagonIE_Sodium_Core32_Int64)) {
             throw new TypeError('Not an int64');
         }
-        /** @var ParagonIE_Sodium_Core32_Int64 $c*/
+        /** @var ParagonIE_Sodium_Core32_Int64 $c */
         $c = $ctx[1][0];
         if ($c->isLessThanInt($inc)) {
             $ctx[1][1] = self::add64($ctx[1][1], self::to64(1));
@@ -366,8 +366,6 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray $ctx
      * @param SplFixedArray $p
      * @param int $plen
@@ -381,6 +379,8 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @psalm-suppress MixedArrayOffset
      * @psalm-suppress MixedMethodCall
      * @psalm-suppress MixedOperand
+     * @internal You should not use this directly from another application
+     *
      */
     public static function update(SplFixedArray $ctx, SplFixedArray $p, $plen)
     {
@@ -431,8 +431,6 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray $ctx
      * @param SplFixedArray $out
      * @return SplFixedArray
@@ -445,6 +443,8 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @psalm-suppress MixedArrayOffset
      * @psalm-suppress MixedMethodCall
      * @psalm-suppress MixedOperand
+     * @internal You should not use this directly from another application
+     *
      */
     public static function finish(SplFixedArray $ctx, SplFixedArray $out)
     {
@@ -471,7 +471,7 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
 
         self::compress($ctx, $ctx[3]);
 
-        $i = (int) (($out->getSize() - 1) / 8);
+        $i = (int)(($out->getSize() - 1) / 8);
         for (; $i >= 0; --$i) {
             self::store64($out, $i << 3, $ctx[0][$i]);
         }
@@ -479,8 +479,6 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray|null $key
      * @param int $outlen
      * @param SplFixedArray|null $salt
@@ -493,12 +491,14 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @psalm-suppress MixedArrayAccess
      * @psalm-suppress MixedArrayAssignment
      * @psalm-suppress MixedMethodCall
+     * @internal You should not use this directly from another application
+     *
      */
     public static function init(
         $key = null,
         $outlen = 64,
         $salt = null,
-        $personal = null
+        $personal = null,
     ) {
         self::pseudoConstructor();
         $klen = 0;
@@ -530,19 +530,19 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
         if ($salt instanceof SplFixedArray) {
             // salt: [32] through [47]
             for ($i = 0; $i < 16; ++$i) {
-                $p[32 + $i] = (int) $salt[$i];
+                $p[32 + $i] = (int)$salt[$i];
             }
         }
         if ($personal instanceof SplFixedArray) {
             // personal: [48] through [63]
             for ($i = 0; $i < 16; ++$i) {
-                $p[48 + $i] = (int) $personal[$i];
+                $p[48 + $i] = (int)$personal[$i];
             }
         }
 
         $ctx[0][0] = self::xor64(
             $ctx[0][0],
-            self::load64($p, 0)
+            self::load64($p, 0),
         );
 
         if ($salt instanceof SplFixedArray || $personal instanceof SplFixedArray) {
@@ -550,7 +550,7 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
             for ($i = 1; $i < 8; ++$i) {
                 $ctx[0][$i] = self::xor64(
                     $ctx[0][$i],
-                    self::load64($p, $i << 3)
+                    self::load64($p, $i << 3),
                 );
             }
         }
@@ -573,11 +573,11 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     /**
      * Convert a string into an SplFixedArray of integers
      *
-     * @internal You should not use this directly from another application
-     *
      * @param string $str
      * @return SplFixedArray
      * @psalm-suppress MixedArgumentTypeCoercion
+     * @internal You should not use this directly from another application
+     *
      */
     public static function stringToSplFixedArray($str = '')
     {
@@ -588,10 +588,10 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     /**
      * Convert an SplFixedArray of integers into a string
      *
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray $a
      * @return string
+     * @internal You should not use this directly from another application
+     *
      */
     public static function SplFixedArrayToString(SplFixedArray $a)
     {
@@ -601,12 +601,10 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
         $arr = $a->toArray();
         $c = $a->count();
         array_unshift($arr, str_repeat('C', $c));
-        return (string) (call_user_func_array('pack', $arr));
+        return (string)(call_user_func_array('pack', $arr));
     }
 
     /**
-     * @internal You should not use this directly from another application
-     *
      * @param SplFixedArray $ctx
      * @return string
      * @throws TypeError
@@ -614,6 +612,8 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @psalm-suppress MixedArrayAccess
      * @psalm-suppress MixedArrayAssignment
      * @psalm-suppress MixedMethodCall
+     * @internal You should not use this directly from another application
+     *
      */
     public static function contextToString(SplFixedArray $ctx)
     {
@@ -652,19 +652,19 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
         $ctx4 = $ctx[4];
 
         # size_t buflen;
-        $str .= implode('', array(
+        $str .= implode('', [
             self::intToChr($ctx4 & 0xff),
             self::intToChr(($ctx4 >> 8) & 0xff),
             self::intToChr(($ctx4 >> 16) & 0xff),
             self::intToChr(($ctx4 >> 24) & 0xff),
-            "\x00\x00\x00\x00"
+            "\x00\x00\x00\x00",
             /*
             self::intToChr(($ctx4 >> 32) & 0xff),
             self::intToChr(($ctx4 >> 40) & 0xff),
             self::intToChr(($ctx4 >> 48) & 0xff),
             self::intToChr(($ctx4 >> 56) & 0xff)
             */
-        ));
+        ]);
         # uint8_t last_node;
         return $str . self::intToChr($ctx[5]) . str_repeat("\x00", 23);
     }
@@ -673,14 +673,14 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * Creates an SplFixedArray containing other SplFixedArray elements, from
      * a string (compatible with \Sodium\crypto_generichash_{init, update, final})
      *
-     * @internal You should not use this directly from another application
-     *
      * @param string $string
      * @return SplFixedArray
      * @throws SodiumException
      * @throws TypeError
      * @psalm-suppress MixedArrayAccess
      * @psalm-suppress MixedArrayAssignment
+     * @internal You should not use this directly from another application
+     *
      */
     public static function stringToContext($string)
     {
@@ -689,7 +689,7 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
         # uint64_t h[8];
         for ($i = 0; $i < 8; ++$i) {
             $ctx[0][$i] = ParagonIE_Sodium_Core32_Int64::fromReverseString(
-                self::substr($string, (($i << 3) + 0), 8)
+                self::substr($string, (($i << 3) + 0), 8),
             );
         }
 
@@ -697,10 +697,10 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
         # uint64_t f[2];
         for ($i = 1; $i < 3; ++$i) {
             $ctx[$i][1] = ParagonIE_Sodium_Core32_Int64::fromReverseString(
-                self::substr($string, 72 + (($i - 1) << 4), 8)
+                self::substr($string, 72 + (($i - 1) << 4), 8),
             );
             $ctx[$i][0] = ParagonIE_Sodium_Core32_Int64::fromReverseString(
-                self::substr($string, 64 + (($i - 1) << 4), 8)
+                self::substr($string, 64 + (($i - 1) << 4), 8),
             );
         }
 

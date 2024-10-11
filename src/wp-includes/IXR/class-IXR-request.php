@@ -12,20 +12,19 @@ class IXR_Request
     var $args;
     var $xml;
 
-	/**
-	 * PHP5 constructor.
-	 */
+    /**
+     * PHP5 constructor.
+     */
     function __construct($method, $args)
     {
         $this->method = $method;
         $this->args = $args;
         $this->xml = <<<EOD
-<?xml version="1.0"?>
-<methodCall>
-<methodName>{$this->method}</methodName>
-<params>
-
-EOD;
+            <?xml version="1.0"?>
+            <methodCall>
+            <methodName>{$this->method}</methodName>
+            <params>
+            EOD;
         foreach ($this->args as $arg) {
             $this->xml .= '<param><value>';
             $v = new IXR_Value($arg);
@@ -35,12 +34,13 @@ EOD;
         $this->xml .= '</params></methodCall>';
     }
 
-	/**
-	 * PHP4 constructor.
-	 */
-	public function IXR_Request( $method, $args ) {
-		self::__construct( $method, $args );
-	}
+    /**
+     * PHP4 constructor.
+     */
+    public function IXR_Request($method, $args)
+    {
+        self::__construct($method, $args);
+    }
 
     function getLength()
     {

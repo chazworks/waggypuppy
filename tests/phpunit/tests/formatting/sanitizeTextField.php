@@ -16,10 +16,10 @@ class Tests_Formatting_SanitizeTextField extends WP_UnitTestCase
     public function test_sanitize_text_field($str, $expected)
     {
         if (is_array($expected)) {
-            $expected_oneline   = $expected['oneline'];
+            $expected_oneline = $expected['oneline'];
             $expected_multiline = $expected['multiline'];
         } else {
-            $expected_oneline   = $expected;
+            $expected_oneline = $expected;
             $expected_multiline = $expected;
         }
         $this->assertSame($expected_oneline, sanitize_text_field($str));
@@ -44,21 +44,21 @@ class Tests_Formatting_SanitizeTextField extends WP_UnitTestCase
             [
                 "one is <\n two",
                 [
-                    'oneline'   => 'one is &lt; two',
+                    'oneline' => 'one is &lt; two',
                     'multiline' => "one is &lt;\n two",
                 ],
             ],
             [
                 "foo <div\n> bar",
                 [
-                    'oneline'   => 'foo bar',
+                    'oneline' => 'foo bar',
                     'multiline' => 'foo  bar',
                 ],
             ],
             [
                 "foo <\ndiv\n> bar",
                 [
-                    'oneline'   => 'foo &lt; div > bar',
+                    'oneline' => 'foo &lt; div > bar',
                     'multiline' => "foo &lt;\ndiv\n> bar",
                 ],
             ],
@@ -73,21 +73,21 @@ class Tests_Formatting_SanitizeTextField extends WP_UnitTestCase
             [
                 'we  trim  extra  internal  whitespace  only  in  single  line  texts',
                 [
-                    'oneline'   => 'we trim extra internal whitespace only in single line texts',
+                    'oneline' => 'we trim extra internal whitespace only in single line texts',
                     'multiline' => 'we  trim  extra  internal  whitespace  only  in  single  line  texts',
                 ],
             ],
             [
                 "tabs \tget removed in single line texts",
                 [
-                    'oneline'   => 'tabs get removed in single line texts',
+                    'oneline' => 'tabs get removed in single line texts',
                     'multiline' => "tabs \tget removed in single line texts",
                 ],
             ],
             [
                 "newlines are allowed only\n in multiline texts",
                 [
-                    'oneline'   => 'newlines are allowed only in multiline texts',
+                    'oneline' => 'newlines are allowed only in multiline texts',
                     'multiline' => "newlines are allowed only\n in multiline texts",
                 ],
             ],
@@ -100,7 +100,7 @@ class Tests_Formatting_SanitizeTextField extends WP_UnitTestCase
 				B removing %a
 				b octets even when %a	B they are obscured by whitespace',
                 [
-                    'oneline'   => 'We don\'t need to wory about %A B removing %a b octets even when %a B they are obscured by whitespace',
+                    'oneline' => 'We don\'t need to wory about %A B removing %a b octets even when %a B they are obscured by whitespace',
                     'multiline' => "We don't need to wory about %A\n				B removing %a\n				b octets even when %a	B they are obscured by whitespace",
                 ],
             ],

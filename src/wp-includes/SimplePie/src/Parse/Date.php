@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -717,19 +717,20 @@ class Date
             )?
             $
             /x
-PCRE;
+            PCRE;
         if (preg_match($pcre, $date, $match)) {
             // Fill in empty matches and convert to proper types.
-            $year = (int) $match['year'];
-            $month = isset($match['month']) ? (int) $match['month'] : 1;
-            $day = isset($match['day']) ? (int) $match['day'] : 1;
-            $hour = isset($match['hour']) ? (int) $match['hour'] : 0;
-            $minute = isset($match['minute']) ? (int) $match['minute'] : 0;
-            $second = isset($match['second']) ? (int) $match['second'] : 0;
-            $second_fraction = isset($match['second_fraction']) ? ((int) $match['second_fraction']) / (10 ** strlen($match['second_fraction'])) : 0;
+            $year = (int)$match['year'];
+            $month = isset($match['month']) ? (int)$match['month'] : 1;
+            $day = isset($match['day']) ? (int)$match['day'] : 1;
+            $hour = isset($match['hour']) ? (int)$match['hour'] : 0;
+            $minute = isset($match['minute']) ? (int)$match['minute'] : 0;
+            $second = isset($match['second']) ? (int)$match['second'] : 0;
+            $second_fraction = isset($match['second_fraction']) ? ((int)$match['second_fraction']) / (10
+                    ** strlen($match['second_fraction'])) : 0;
             $tz_sign = ($match['tz_sign'] ?? '') === '-' ? -1 : 1;
-            $tz_hour = isset($match['tz_hour']) ? (int) $match['tz_hour'] : 0;
-            $tz_minute = isset($match['tz_minute']) ? (int) $match['tz_minute'] : 0;
+            $tz_hour = isset($match['tz_hour']) ? (int)$match['tz_hour'] : 0;
+            $tz_minute = isset($match['tz_minute']) ? (int)$match['tz_minute'] : 0;
 
             // Numeric timezone
             $timezone = $tz_hour * 3600;
@@ -737,7 +738,7 @@ PCRE;
             $timezone *= $tz_sign;
 
             // Convert the number of seconds to an integer, taking decimals into account
-            $second = (int) round($second + $second_fraction);
+            $second = (int)round($second + $second_fraction);
 
             return gmmktime($hour, $minute, $second, $month, $day, $year) - $timezone;
         }
@@ -754,7 +755,7 @@ PCRE;
      */
     public function remove_rfc2822_comments($string)
     {
-        $string = (string) $string;
+        $string = (string)$string;
         $position = 0;
         $length = strlen($string);
         $depth = 0;
@@ -816,7 +817,32 @@ PCRE;
             $num_zone = '([+\-])([0-9]{2})([0-9]{2})';
             $character_zone = '([A-Z]{1,5})';
             $zone = '(?:' . $num_zone . '|' . $character_zone . ')';
-            $pcre = '/(?:' . $optional_fws . $day_name . $optional_fws . ',)?' . $optional_fws . $day . $fws . $month . $fws . $year . $fws . $hour . $optional_fws . ':' . $optional_fws . $minute . '(?:' . $optional_fws . ':' . $optional_fws . $second . ')?' . $fws . $zone . '/i';
+            $pcre = '/(?:'
+                . $optional_fws
+                . $day_name
+                . $optional_fws
+                . ',)?'
+                . $optional_fws
+                . $day
+                . $fws
+                . $month
+                . $fws
+                . $year
+                . $fws
+                . $hour
+                . $optional_fws
+                . ':'
+                . $optional_fws
+                . $minute
+                . '(?:'
+                . $optional_fws
+                . ':'
+                . $optional_fws
+                . $second
+                . ')?'
+                . $fws
+                . $zone
+                . '/i';
         }
         if (preg_match($pcre, $this->remove_rfc2822_comments($date), $match)) {
             /*
@@ -844,12 +870,10 @@ PCRE;
                 if ($match[8] === '-') {
                     $timezone = 0 - $timezone;
                 }
-            }
-            // Character timezone
+            } // Character timezone
             elseif (isset($this->timezone[strtoupper($match[11])])) {
                 $timezone = $this->timezone[strtoupper($match[11])];
-            }
-            // Assume everything else to be -0000
+            } // Assume everything else to be -0000
             else {
                 $timezone = 0;
             }
@@ -868,7 +892,8 @@ PCRE;
                 $second = 0;
             }
 
-            return gmmktime(intval($match[5]), intval($match[6]), intval($second), intval($month), intval($match[2]), intval($match[4])) - $timezone;
+            return gmmktime(intval($match[5]), intval($match[6]), intval($second), intval($month), intval($match[2]),
+                    intval($match[4])) - $timezone;
         }
 
         return false;
@@ -890,7 +915,24 @@ PCRE;
             $day = '([0-9]{1,2})';
             $year = $hour = $minute = $second = '([0-9]{2})';
             $zone = '([A-Z]{1,5})';
-            $pcre = '/^' . $day_name . ',' . $space . $day . '-' . $month . '-' . $year . $space . $hour . ':' . $minute . ':' . $second . $space . $zone . '$/i';
+            $pcre = '/^'
+                . $day_name
+                . ','
+                . $space
+                . $day
+                . '-'
+                . $month
+                . '-'
+                . $year
+                . $space
+                . $hour
+                . ':'
+                . $minute
+                . ':'
+                . $second
+                . $space
+                . $zone
+                . '$/i';
         }
         if (preg_match($pcre, $date, $match)) {
             /*
@@ -911,8 +953,7 @@ PCRE;
             // Character timezone
             if (isset($this->timezone[strtoupper($match[8])])) {
                 $timezone = $this->timezone[strtoupper($match[8])];
-            }
-            // Assume everything else to be -0000
+            } // Assume everything else to be -0000
             else {
                 $timezone = 0;
             }
@@ -947,7 +988,22 @@ PCRE;
             $hour = $sec = $min = '([0-9]{2})';
             $year = '([0-9]{4})';
             $terminator = '\x0A?\x00?';
-            $pcre = '/^' . $wday_name . $space . $mon_name . $space . $day . $space . $hour . ':' . $min . ':' . $sec . $space . $year . $terminator . '$/i';
+            $pcre = '/^'
+                . $wday_name
+                . $space
+                . $mon_name
+                . $space
+                . $day
+                . $space
+                . $hour
+                . ':'
+                . $min
+                . ':'
+                . $sec
+                . $space
+                . $year
+                . $terminator
+                . '$/i';
         }
         if (preg_match($pcre, $date, $match)) {
             /*
@@ -962,7 +1018,7 @@ PCRE;
             */
 
             $month = $this->month[strtolower($match[2])];
-            return gmmktime((int) $match[4], (int) $match[5], (int) $match[6], $month, (int) $match[3], (int) $match[7]);
+            return gmmktime((int)$match[4], (int)$match[5], (int)$match[6], $month, (int)$match[3], (int)$match[7]);
         }
 
         return false;

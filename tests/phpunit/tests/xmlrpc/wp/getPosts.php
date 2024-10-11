@@ -56,36 +56,36 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase
             $cpt_name,
             [
                 'taxonomies' => ['post_tag', 'category'],
-                'public'     => true,
-            ]
+                'public' => true,
+            ],
         );
 
-        $post_ids  = [];
+        $post_ids = [];
         $num_posts = 4;
         foreach (range(1, $num_posts) as $i) {
             $post_ids[] = self::factory()->post->create(
                 [
                     'post_type' => $cpt_name,
                     'post_date' => gmdate('Y-m-d H:i:s', time() + $i),
-                ]
+                ],
             );
         }
         // Get them all.
-        $filter  = [
+        $filter = [
             'post_type' => $cpt_name,
-            'number'    => $num_posts + 10,
+            'number' => $num_posts + 10,
         ];
         $results = $this->myxmlrpcserver->wp_getPosts([1, 'editor', 'editor', $filter]);
         $this->assertNotIXRError($results);
         $this->assertCount($num_posts, $results);
 
         // Page through results.
-        $posts_found      = [];
+        $posts_found = [];
         $filter['number'] = 2;
         $filter['offset'] = 0;
         do {
-            $presults          = $this->myxmlrpcserver->wp_getPosts([1, 'editor', 'editor', $filter]);
-            $posts_found       = array_merge($posts_found, wp_list_pluck($presults, 'post_id'));
+            $presults = $this->myxmlrpcserver->wp_getPosts([1, 'editor', 'editor', $filter]);
+            $posts_found = array_merge($posts_found, wp_list_pluck($presults, 'post_id'));
             $filter['offset'] += $filter['number'];
         } while (count($presults) > 0);
         // Verify that $post_ids matches $posts_found.
@@ -98,27 +98,27 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase
         }
 
         // Get results ordered by comment count.
-        $filter2  = [
+        $filter2 = [
             'post_type' => $cpt_name,
-            'number'    => $num_posts,
-            'orderby'   => 'comment_count',
-            'order'     => 'DESC',
+            'number' => $num_posts,
+            'orderby' => 'comment_count',
+            'order' => 'DESC',
         ];
         $results2 = $this->myxmlrpcserver->wp_getPosts([1, 'editor', 'editor', $filter2]);
         $this->assertNotIXRError($results2);
         $last_comment_count = 100;
         foreach ($results2 as $post) {
-            $comment_count = (int) get_comments_number($post['post_id']);
+            $comment_count = (int)get_comments_number($post['post_id']);
             $this->assertLessThanOrEqual($last_comment_count, $comment_count);
             $last_comment_count = $comment_count;
         }
 
         // Set one of the posts to draft and get drafts.
-        $post              = get_post($post_ids[0]);
+        $post = get_post($post_ids[0]);
         $post->post_status = 'draft';
         wp_update_post($post);
-        $filter3  = [
-            'post_type'   => $cpt_name,
+        $filter3 = [
+            'post_type' => $cpt_name,
             'post_status' => 'draft',
         ];
         $results3 = $this->myxmlrpcserver->wp_getPosts([1, 'editor', 'editor', $filter3]);
@@ -143,8 +143,8 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase
         }
 
         // Request specific fields and verify that only those are returned.
-        $filter   = [];
-        $fields   = ['post_name', 'post_author', 'enclosure'];
+        $filter = [];
+        $fields = ['post_name', 'post_author', 'enclosure'];
         $results2 = $this->myxmlrpcserver->wp_getPosts([1, 'editor', 'editor', $filter, $fields]);
         $this->assertNotIXRError($results2);
         $expected_fields = array_merge($fields, ['post_id']);
@@ -164,13 +164,13 @@ class Tests_XMLRPC_wp_getPosts extends WP_XMLRPC_UnitTestCase
         $post_ids[] = self::factory()->post->create(['post_title' => 'Second: Hello, World!']);
 
         // Search for none of them.
-        $filter  = ['s' => 'Third'];
+        $filter = ['s' => 'Third'];
         $results = $this->myxmlrpcserver->wp_getPosts([1, 'editor', 'editor', $filter]);
         $this->assertNotIXRError($results);
         $this->assertCount(0, $results);
 
         // Search for one of them.
-        $filter  = ['s' => 'First:'];
+        $filter = ['s' => 'First:'];
         $results = $this->myxmlrpcserver->wp_getPosts([1, 'editor', 'editor', $filter]);
         $this->assertNotIXRError($results);
         $this->assertCount(1, $results);

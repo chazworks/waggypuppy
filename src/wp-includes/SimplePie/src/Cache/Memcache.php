@@ -12,16 +12,16 @@
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
  *
- * 	* Redistributions of source code must retain the above copyright notice, this list of
- * 	  conditions and the following disclaimer.
+ *    * Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
  *
- * 	* Redistributions in binary form must reproduce the above copyright notice, this list
- * 	  of conditions and the following disclaimer in the documentation and/or other materials
- * 	  provided with the distribution.
+ *    * Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
  *
- * 	* Neither the name of the SimplePie Team nor the names of its contributors may be used
- * 	  to endorse or promote products derived from this software without specific prior
- * 	  written permission.
+ *    * Neither the name of the SimplePie Team nor the names of its contributors may be used
+ *      to endorse or promote products derived from this software without specific prior
+ *      written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
@@ -105,7 +105,7 @@ class Memcache implements Base
         $this->name = $this->options['extras']['prefix'] . md5("$name:$type");
 
         $this->cache = new NativeMemcache();
-        $this->cache->addServer($this->options['host'], (int) $this->options['port']);
+        $this->cache->addServer($this->options['host'], (int)$this->options['port']);
     }
 
     /**
@@ -119,7 +119,8 @@ class Memcache implements Base
         if ($data instanceof \SimplePie\SimplePie) {
             $data = $data->data;
         }
-        return $this->cache->set($this->name, serialize($data), MEMCACHE_COMPRESSED, (int) $this->options['extras']['timeout']);
+        return $this->cache->set($this->name, serialize($data), MEMCACHE_COMPRESSED,
+            (int)$this->options['extras']['timeout']);
     }
 
     /**
@@ -164,7 +165,7 @@ class Memcache implements Base
         $data = $this->cache->get($this->name);
 
         if ($data !== false) {
-            return $this->cache->set($this->name, $data, MEMCACHE_COMPRESSED, (int) $this->options['extras']['timeout']);
+            return $this->cache->set($this->name, $data, MEMCACHE_COMPRESSED, (int)$this->options['extras']['timeout']);
         }
 
         return false;

@@ -40,22 +40,22 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller
             '/' . $this->rest_base,
             [
                 [
-                    'methods'             => WP_REST_Server::READABLE,
-                    'callback'            => [$this, 'get_items'],
+                    'methods' => WP_REST_Server::READABLE,
+                    'callback' => [$this, 'get_items'],
                     'permission_callback' => [$this, 'get_items_permissions_check'],
                 ],
                 'schema' => [$this, 'get_public_item_schema'],
-            ]
+            ],
         );
     }
 
     /**
      * Checks whether a given request has permission to read block patterns.
      *
-     * @since 6.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+     * @since 6.0.0
+     *
      */
     public function get_items_permissions_check($request)
     {
@@ -72,25 +72,25 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller
         return new WP_Error(
             'rest_cannot_view',
             __('Sorry, you are not allowed to view the registered block pattern categories.'),
-            ['status' => rest_authorization_required_code()]
+            ['status' => rest_authorization_required_code()],
         );
     }
 
     /**
      * Retrieves all block pattern categories.
      *
-     * @since 6.0.0
-     *
      * @param WP_REST_Request $request Full details about the request.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 6.0.0
+     *
      */
     public function get_items($request)
     {
-        $response   = [];
+        $response = [];
         $categories = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered();
         foreach ($categories as $category) {
             $prepared_category = $this->prepare_item_for_response($category, $request);
-            $response[]        = $this->prepare_response_for_collection($prepared_category);
+            $response[] = $this->prepare_response_for_collection($prepared_category);
         }
 
         return rest_ensure_response($response);
@@ -99,26 +99,26 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller
     /**
      * Prepare a raw block pattern category before it gets output in a REST API response.
      *
-     * @since 6.0.0
-     *
-     * @param array           $item    Raw category as registered, before any changes.
+     * @param array $item Raw category as registered, before any changes.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+     * @since 6.0.0
+     *
      */
     public function prepare_item_for_response($item, $request)
     {
         $fields = $this->get_fields_for_response($request);
-        $keys   = ['name', 'label', 'description'];
-        $data   = [];
+        $keys = ['name', 'label', 'description'];
+        $data = [];
         foreach ($keys as $key) {
             if (isset($item[$key]) && rest_is_field_included($key, $fields)) {
                 $data[$key] = $item[$key];
             }
         }
 
-        $context = ! empty($request['context']) ? $request['context'] : 'view';
-        $data    = $this->add_additional_fields_to_object($data, $request);
-        $data    = $this->filter_response_by_context($data, $context);
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->add_additional_fields_to_object($data, $request);
+        $data = $this->filter_response_by_context($data, $context);
 
         return rest_ensure_response($data);
     }
@@ -126,9 +126,9 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller
     /**
      * Retrieves the block pattern category schema, conforming to JSON Schema.
      *
+     * @return array Item schema data.
      * @since 6.0.0
      *
-     * @return array Item schema data.
      */
     public function get_item_schema()
     {
@@ -137,27 +137,27 @@ class WP_REST_Block_Pattern_Categories_Controller extends WP_REST_Controller
         }
 
         $schema = [
-            '$schema'    => 'http://json-schema.org/draft-04/schema#',
-            'title'      => 'block-pattern-category',
-            'type'       => 'object',
+            '$schema' => 'http://json-schema.org/draft-04/schema#',
+            'title' => 'block-pattern-category',
+            'type' => 'object',
             'properties' => [
-                'name'        => [
+                'name' => [
                     'description' => __('The category name.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
-                'label'       => [
+                'label' => [
                     'description' => __('The category label, in human readable format.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
                 'description' => [
                     'description' => __('The category description, in human readable format.'),
-                    'type'        => 'string',
-                    'readonly'    => true,
-                    'context'     => ['view', 'edit', 'embed'],
+                    'type' => 'string',
+                    'readonly' => true,
+                    'context' => ['view', 'edit', 'embed'],
                 ],
             ],
         ];

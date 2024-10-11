@@ -26,10 +26,10 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         // Create a user.
         self::$user_id = $factory->user->create(
             [
-                'role'         => 'author',
-                'user_login'   => 'test_author',
+                'role' => 'author',
+                'user_login' => 'test_author',
                 'display_name' => 'Test A. Uthor',
-            ]
+            ],
         );
 
         // Create a taxonomy.
@@ -37,7 +37,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
             [
                 'name' => 'Foo Category',
                 'slug' => 'foo',
-            ]
+            ],
         );
 
         // Set a predictable time for testing date archives.
@@ -50,12 +50,12 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         for ($i = 1; $i <= $count; $i++) {
             self::$posts[] = $factory->post->create(
                 [
-                    'post_author'  => self::$user_id,
+                    'post_author' => self::$user_id,
                     // Separate post dates 5 seconds apart.
-                    'post_date'    => gmdate('Y-m-d H:i:s', self::$post_date + (5 * $i)),
+                    'post_date' => gmdate('Y-m-d H:i:s', self::$post_date + (5 * $i)),
                     'post_content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec velit massa, ultrices eu est suscipit, mattis posuere est. Donec vitae purus lacus. Cras vitae odio odio.',
                     'post_excerpt' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                ]
+                ],
             );
         }
 
@@ -75,7 +75,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
     {
         parent::set_up();
 
-        $this->post_count   = (int) get_option('posts_per_rss');
+        $this->post_count = (int)get_option('posts_per_rss');
         $this->excerpt_only = get_option('rss_use_excerpt');
         // This seems to break something.
         update_option('use_smilies', false);
@@ -101,7 +101,6 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         // Nasty hack! In the future it would better to leverage do_feed( 'rss2' ).
         global $post;
         try {
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
             @require ABSPATH . 'wp-includes/feed-rss2.php';
             $out = ob_get_clean();
         } catch (Exception $e) {
@@ -119,7 +118,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
     {
         $this->go_to('/?feed=rss2');
         $feed = $this->do_rss2();
-        $xml  = xml_to_array($feed);
+        $xml = xml_to_array($feed);
 
         // Get the <rss> child element of <xml>.
         $rss = xml_find($xml, 'rss');
@@ -145,7 +144,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
     {
         $this->go_to('/?feed=rss2');
         $feed = $this->do_rss2();
-        $xml  = xml_to_array($feed);
+        $xml = xml_to_array($feed);
 
         // Get the rss -> channel element.
         $channel = xml_find($xml, 'rss', 'channel');
@@ -178,7 +177,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         /* @var WP_Locale $locale */
         $locale = clone $GLOBALS['wp_locale'];
 
-        $locale->weekday[2]                           = 'Tuesday_Translated';
+        $locale->weekday[2] = 'Tuesday_Translated';
         $locale->weekday_abbrev['Tuesday_Translated'] = 'Tue_Translated';
 
         $GLOBALS['wp_locale'] = $locale;
@@ -200,7 +199,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
     {
         $this->go_to('/?feed=rss2');
         $feed = $this->do_rss2();
-        $xml  = xml_to_array($feed);
+        $xml = xml_to_array($feed);
 
         // Get all the <item> child elements of the <channel> element.
         $items = xml_find($xml, 'rss', 'channel', 'item');
@@ -213,7 +212,6 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
 
         // Check each of the desired entries against the known post data.
         foreach ($items as $key => $item) {
-
             // Get post for comparison.
             $guid = xml_find($items[$key]['child'], 'guid');
             preg_match('/\?p=(\d+)/', $guid[0]['content'], $matches);
@@ -237,12 +235,12 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
 
             // Author.
             $creator = xml_find($items[$key]['child'], 'dc:creator');
-            $user    = new WP_User($post->post_author);
+            $user = new WP_User($post->post_author);
             $this->assertSame($user->display_name, $creator[0]['content']);
 
             // Categories (perhaps multiple).
             $categories = xml_find($items[$key]['child'], 'category');
-            $cats       = [];
+            $cats = [];
             foreach (get_the_category($post->ID) as $term) {
                 $cats[] = $term->name;
             }
@@ -268,15 +266,16 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
             $this->assertSame($post->guid, $guid[0]['content']);
 
             // Description / Excerpt.
-            if (! empty($post->post_excerpt)) {
+            if (!empty($post->post_excerpt)) {
                 $description = xml_find($items[$key]['child'], 'description');
                 $this->assertSame(trim($post->post_excerpt), trim($description[0]['content']));
             }
 
             // Post content.
-            if (! $this->excerpt_only) {
+            if (!$this->excerpt_only) {
                 $content = xml_find($items[$key]['child'], 'content:encoded');
-                $this->assertSame(trim(apply_filters('the_content', $post->post_content)), trim($content[0]['content']));
+                $this->assertSame(trim(apply_filters('the_content', $post->post_content)),
+                    trim($content[0]['content']));
             }
 
             // Comment RSS.
@@ -294,7 +293,7 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
 
         $this->go_to('/?feed=rss2');
         $feed = $this->do_rss2();
-        $xml  = xml_to_array($feed);
+        $xml = xml_to_array($feed);
 
         // Get all the rss -> channel -> item elements.
         $items = xml_find($xml, 'rss', 'channel', 'item');
@@ -508,10 +507,10 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
     {
         $this->go_to($url);
         $feed = $this->do_rss2();
-        $xml  = xml_to_array($feed);
+        $xml = xml_to_array($feed);
 
         // Get the <rss> child element of <xml>.
-        $rss             = xml_find($xml, $element);
+        $rss = xml_find($xml, $element);
         $last_build_date = $rss[0]['child'][0]['child'][4]['content'];
         $this->assertSame(strtotime(get_feed_build_date('r')), strtotime($last_build_date));
     }
@@ -545,8 +544,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_post_ID' => $post_id,
-                'comment_date'    => $yesterday,
-            ]
+                'comment_date' => $yesterday,
+            ],
         );
 
         // The Last-Modified header should have the post's date when "withcomments" is not passed.
@@ -556,10 +555,10 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
                 $this->assertSame(
                     strtotime($headers['Last-Modified']),
                     strtotime($last_week),
-                    'Last-Modified was not the date of the post'
+                    'Last-Modified was not the date of the post',
                 );
                 return $headers;
-            }
+            },
         );
 
         $this->go_to('/?feed=rss2');
@@ -573,7 +572,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
      *
      * @covers WP::send_headers
      */
-    public function test_feed_last_modified_should_be_the_date_of_a_comment_that_is_the_latest_update_when_withcomments_is_passed()
+    public function test_feed_last_modified_should_be_the_date_of_a_comment_that_is_the_latest_update_when_withcomments_is_passed(
+    )
     {
         $last_week = gmdate('Y-m-d H:i:s', strtotime('-1 week'));
         $yesterday = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
@@ -585,8 +585,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_post_ID' => $post_id,
-                'comment_date'    => $yesterday,
-            ]
+                'comment_date' => $yesterday,
+            ],
         );
 
         // The Last-Modified header should have the comment's date when "withcomments=1" is passed.
@@ -596,10 +596,10 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
                 $this->assertSame(
                     strtotime($headers['Last-Modified']),
                     strtotime($yesterday),
-                    'Last-Modified was not the date of the comment'
+                    'Last-Modified was not the date of the comment',
                 );
                 return $headers;
-            }
+            },
         );
 
         $this->go_to('/?feed=rss2&withcomments=1');
@@ -613,11 +613,12 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
      *
      * @covers WP::send_headers
      */
-    public function test_feed_last_modified_should_be_the_date_of_a_post_that_is_the_latest_update_when_withcomments_is_passed()
+    public function test_feed_last_modified_should_be_the_date_of_a_post_that_is_the_latest_update_when_withcomments_is_passed(
+    )
     {
         $last_week = gmdate('Y-m-d H:i:s', strtotime('-1 week'));
         $yesterday = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
-        $today     = gmdate('Y-m-d H:i:s');
+        $today = gmdate('Y-m-d H:i:s');
 
         // Create a post dated last week.
         $post_id = self::factory()->post->create(['post_date' => $last_week]);
@@ -626,8 +627,8 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
         self::factory()->comment->create(
             [
                 'comment_post_ID' => $post_id,
-                'comment_date'    => $yesterday,
-            ]
+                'comment_date' => $yesterday,
+            ],
         );
 
         // Create a post dated today.
@@ -640,10 +641,10 @@ class Tests_Feed_RSS2 extends WP_UnitTestCase
                 $this->assertSame(
                     strtotime($headers['Last-Modified']),
                     strtotime($today),
-                    'Last-Modified was not the date of the most recent post'
+                    'Last-Modified was not the date of the most recent post',
                 );
                 return $headers;
-            }
+            },
         );
 
         $this->go_to('/?feed=rss2&withcomments=1');

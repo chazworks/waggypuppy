@@ -29,25 +29,25 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
      *
      * Sets up the theme installer skin.
      *
+     * @param array $args
      * @since 2.8.0
      *
-     * @param array $args
      */
     public function __construct($args = [])
     {
         $defaults = [
-            'type'      => 'web',
-            'url'       => '',
-            'theme'     => '',
-            'nonce'     => '',
-            'title'     => '',
+            'type' => 'web',
+            'url' => '',
+            'theme' => '',
+            'nonce' => '',
+            'title' => '',
             'overwrite' => '',
         ];
-        $args     = wp_parse_args($args, $defaults);
+        $args = wp_parse_args($args, $defaults);
 
-        $this->type      = $args['type'];
-        $this->url       = $args['url'];
-        $this->api       = isset($args['api']) ? $args['api'] : [];
+        $this->type = $args['type'];
+        $this->url = $args['url'];
+        $this->api = isset($args['api']) ? $args['api'] : [];
         $this->overwrite = $args['overwrite'];
 
         parent::__construct($args);
@@ -60,11 +60,11 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
      */
     public function before()
     {
-        if (! empty($this->api)) {
+        if (!empty($this->api)) {
             $this->upgrader->strings['process_success'] = sprintf(
                 $this->upgrader->strings['process_success_specific'],
                 $this->api->name,
-                $this->api->version
+                $this->api->version,
             );
         }
     }
@@ -72,16 +72,14 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
     /**
      * Hides the `process_failed` error when updating a theme by uploading a zip file.
      *
-     * @since 5.5.0
-     *
      * @param WP_Error $wp_error WP_Error object.
      * @return bool True if the error should be hidden, false otherwise.
+     * @since 5.5.0
+     *
      */
     public function hide_process_failed($wp_error)
     {
-        if ('upload' === $this->type &&
-            '' === $this->overwrite &&
-            $wp_error->get_error_code() === 'folder_exists'
+        if ('upload' === $this->type && '' === $this->overwrite && $wp_error->get_error_code() === 'folder_exists'
         ) {
             return true;
         }
@@ -109,29 +107,29 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
             return;
         }
 
-        $name       = $theme_info->display('Name');
+        $name = $theme_info->display('Name');
         $stylesheet = $this->upgrader->result['destination_name'];
-        $template   = $theme_info->get_template();
+        $template = $theme_info->get_template();
 
         $activate_link = add_query_arg(
             [
-                'action'     => 'activate',
-                'template'   => urlencode($template),
+                'action' => 'activate',
+                'template' => urlencode($template),
                 'stylesheet' => urlencode($stylesheet),
             ],
-            admin_url('themes.php')
+            admin_url('themes.php'),
         );
         $activate_link = wp_nonce_url($activate_link, 'switch-theme_' . $stylesheet);
 
         $install_actions = [];
 
-        if (current_user_can('edit_theme_options') && current_user_can('customize') && ! $theme_info->is_block_theme()) {
+        if (current_user_can('edit_theme_options') && current_user_can('customize') && !$theme_info->is_block_theme()) {
             $customize_url = add_query_arg(
                 [
-                    'theme'  => urlencode($stylesheet),
+                    'theme' => urlencode($stylesheet),
                     'return' => urlencode(admin_url('web' === $this->type ? 'theme-install.php' : 'themes.php')),
                 ],
-                admin_url('customize.php')
+                admin_url('customize.php'),
             );
 
             $install_actions['preview'] = sprintf(
@@ -140,7 +138,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
                 esc_url($customize_url),
                 __('Live Preview'),
                 /* translators: Hidden accessibility text. %s: Theme name. */
-                sprintf(__('Live Preview &#8220;%s&#8221;'), $name)
+                sprintf(__('Live Preview &#8220;%s&#8221;'), $name),
             );
         }
 
@@ -150,14 +148,15 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
             esc_url($activate_link),
             _x('Activate', 'theme'),
             /* translators: Hidden accessibility text. %s: Theme name. */
-            sprintf(_x('Activate &#8220;%s&#8221;', 'theme'), $name)
+            sprintf(_x('Activate &#8220;%s&#8221;', 'theme'), $name),
         );
 
         if (is_network_admin() && current_user_can('manage_network_themes')) {
             $install_actions['network_enable'] = sprintf(
                 '<a href="%s" target="_parent">%s</a>',
-                esc_url(wp_nonce_url('themes.php?action=enable&amp;theme=' . urlencode($stylesheet), 'enable-theme_' . $stylesheet)),
-                __('Network Enable')
+                esc_url(wp_nonce_url('themes.php?action=enable&amp;theme=' . urlencode($stylesheet),
+                    'enable-theme_' . $stylesheet)),
+                __('Network Enable'),
             );
         }
 
@@ -165,17 +164,17 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
             $install_actions['themes_page'] = sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('theme-install.php'),
-                __('Go to Theme Installer')
+                __('Go to Theme Installer'),
             );
         } elseif (current_user_can('switch_themes') || current_user_can('edit_theme_options')) {
             $install_actions['themes_page'] = sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('themes.php'),
-                __('Go to Themes page')
+                __('Go to Themes page'),
             );
         }
 
-        if (! $this->result || is_wp_error($this->result) || is_network_admin() || ! current_user_can('switch_themes')) {
+        if (!$this->result || is_wp_error($this->result) || is_network_admin() || !current_user_can('switch_themes')) {
             unset($install_actions['activate'], $install_actions['preview']);
         } elseif (get_option('template') === $stylesheet) {
             unset($install_actions['activate']);
@@ -184,29 +183,32 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
         /**
          * Filters the list of action links available following a single theme installation.
          *
+         * @param string[] $install_actions Array of theme action links.
+         * @param object $api Object containing wp.org API theme data.
+         * @param string $stylesheet Theme directory name.
+         * @param WP_Theme $theme_info Theme object.
          * @since 2.8.0
          *
-         * @param string[] $install_actions Array of theme action links.
-         * @param object   $api             Object containing wp.org API theme data.
-         * @param string   $stylesheet      Theme directory name.
-         * @param WP_Theme $theme_info      Theme object.
          */
-        $install_actions = apply_filters('install_theme_complete_actions', $install_actions, $this->api, $stylesheet, $theme_info);
-        if (! empty($install_actions)) {
-            $this->feedback(implode(' | ', (array) $install_actions));
+        $install_actions = apply_filters('install_theme_complete_actions', $install_actions, $this->api, $stylesheet,
+            $theme_info);
+        if (!empty($install_actions)) {
+            $this->feedback(implode(' | ', (array)$install_actions));
         }
     }
 
     /**
      * Checks if the theme can be overwritten and outputs the HTML for overwriting a theme on upload.
      *
+     * @return bool Whether the theme can be overwritten and HTML was outputted.
      * @since 5.5.0
      *
-     * @return bool Whether the theme can be overwritten and HTML was outputted.
      */
     private function do_overwrite()
     {
-        if ('upload' !== $this->type || ! is_wp_error($this->result) || 'folder_exists' !== $this->result->get_error_code()) {
+        if ('upload' !== $this->type || !is_wp_error($this->result)
+            || 'folder_exists'
+            !== $this->result->get_error_code()) {
             return false;
         }
 
@@ -214,7 +216,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
         $folder = rtrim($folder, '/');
 
         $current_theme_data = false;
-        $all_themes         = wp_get_themes(['errors' => null]);
+        $all_themes = wp_get_themes(['errors' => null]);
 
         foreach ($all_themes as $theme) {
             $stylesheet_dir = wp_normalize_path($theme->get_stylesheet_directory());
@@ -228,7 +230,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
 
         $new_theme_data = $this->upgrader->new_theme_data;
 
-        if (! $current_theme_data || ! $new_theme_data) {
+        if (!$current_theme_data || !$new_theme_data) {
             return false;
         }
 
@@ -242,29 +244,33 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
         $this->is_downgrading = version_compare($current_theme_data['Version'], $new_theme_data['Version'], '>');
 
         $is_invalid_parent = false;
-        if (! empty($new_theme_data['Template'])) {
-            $is_invalid_parent = ! in_array($new_theme_data['Template'], array_keys($all_themes), true);
+        if (!empty($new_theme_data['Template'])) {
+            $is_invalid_parent = !in_array($new_theme_data['Template'], array_keys($all_themes), true);
         }
 
         $rows = [
-            'Name'        => __('Theme name'),
-            'Version'     => __('Version'),
-            'Author'      => __('Author'),
-            'RequiresWP'  => __('Required waggypuppy version'),
+            'Name' => __('Theme name'),
+            'Version' => __('Version'),
+            'Author' => __('Author'),
+            'RequiresWP' => __('Required waggypuppy version'),
             'RequiresPHP' => __('Required PHP version'),
-            'Template'    => __('Parent theme'),
+            'Template' => __('Parent theme'),
         ];
 
-        $table  = '<table class="update-from-upload-comparison"><tbody>';
-        $table .= '<tr><th></th><th>' . esc_html_x('Active', 'theme') . '</th><th>' . esc_html_x('Uploaded', 'theme') . '</th></tr>';
+        $table = '<table class="update-from-upload-comparison"><tbody>';
+        $table .= '<tr><th></th><th>'
+            . esc_html_x('Active', 'theme')
+            . '</th><th>'
+            . esc_html_x('Uploaded', 'theme')
+            . '</th></tr>';
 
         $is_same_theme = true; // Let's consider only these rows.
 
         foreach ($rows as $field => $label) {
             $old_value = $current_theme_data->display($field, false);
-            $old_value = $old_value ? (string) $old_value : '-';
+            $old_value = $old_value ? (string)$old_value : '-';
 
-            $new_value = ! empty($new_theme_data[$field]) ? (string) $new_theme_data[$field] : '-';
+            $new_value = !empty($new_theme_data[$field]) ? (string)$new_theme_data[$field] : '-';
 
             if ($old_value === $new_value && '-' === $new_value && 'Template' === $field) {
                 continue;
@@ -272,13 +278,13 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
 
             $is_same_theme = $is_same_theme && ($old_value === $new_value);
 
-            $diff_field     = ('Version' !== $field && $new_value !== $old_value);
-            $diff_version   = ('Version' === $field && $this->is_downgrading);
+            $diff_field = ('Version' !== $field && $new_value !== $old_value);
+            $diff_version = ('Version' === $field && $this->is_downgrading);
             $invalid_parent = false;
 
             if ('Template' === $field && $is_invalid_parent) {
                 $invalid_parent = true;
-                $new_value     .= ' ' . __('(not found)');
+                $new_value .= ' ' . __('(not found)');
             }
 
             $table .= '<tr><td class="name-label">' . $label . '</td><td>' . wp_strip_all_tags($old_value) . '</td>';
@@ -291,45 +297,45 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
         /**
          * Filters the compare table output for overwriting a theme package on upload.
          *
+         * @param string $table The output table with Name, Version, Author, RequiresWP, and RequiresPHP info.
+         * @param WP_Theme $current_theme_data Active theme data.
+         * @param array $new_theme_data Array with uploaded theme data.
          * @since 5.5.0
          *
-         * @param string   $table              The output table with Name, Version, Author, RequiresWP, and RequiresPHP info.
-         * @param WP_Theme $current_theme_data Active theme data.
-         * @param array    $new_theme_data     Array with uploaded theme data.
          */
         echo apply_filters('install_theme_overwrite_comparison', $table, $current_theme_data, $new_theme_data);
 
         $install_actions = [];
-        $can_update      = true;
+        $can_update = true;
 
-        $blocked_message  = '<p>' . esc_html__('The theme cannot be updated due to the following:') . '</p>';
+        $blocked_message = '<p>' . esc_html__('The theme cannot be updated due to the following:') . '</p>';
         $blocked_message .= '<ul class="ul-disc">';
 
         $requires_php = isset($new_theme_data['RequiresPHP']) ? $new_theme_data['RequiresPHP'] : null;
-        $requires_wp  = isset($new_theme_data['RequiresWP']) ? $new_theme_data['RequiresWP'] : null;
+        $requires_wp = isset($new_theme_data['RequiresWP']) ? $new_theme_data['RequiresWP'] : null;
 
-        if (! is_php_version_compatible($requires_php)) {
+        if (!is_php_version_compatible($requires_php)) {
             $error = sprintf(
-                /* translators: 1: Current PHP version, 2: Version required by the uploaded theme. */
+            /* translators: 1: Current PHP version, 2: Version required by the uploaded theme. */
                 __('The PHP version on your server is %1$s, however the uploaded theme requires %2$s.'),
                 PHP_VERSION,
-                $requires_php
+                $requires_php,
             );
 
             $blocked_message .= '<li>' . esc_html($error) . '</li>';
-            $can_update       = false;
+            $can_update = false;
         }
 
-        if (! is_wp_version_compatible($requires_wp)) {
+        if (!is_wp_version_compatible($requires_wp)) {
             $error = sprintf(
-                /* translators: 1: Current waggypuppy version, 2: Version required by the uploaded theme. */
+            /* translators: 1: Current waggypuppy version, 2: Version required by the uploaded theme. */
                 __('Your waggypuppy version is %1$s, however the uploaded theme requires %2$s.'),
                 esc_html(wp_get_wp_version()),
-                $requires_wp
+                $requires_wp,
             );
 
             $blocked_message .= '<li>' . esc_html($error) . '</li>';
-            $can_update       = false;
+            $can_update = false;
         }
 
         $blocked_message .= '</ul>';
@@ -337,15 +343,15 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
         if ($can_update) {
             if ($this->is_downgrading) {
                 $warning = sprintf(
-                    /* translators: %s: Documentation URL. */
+                /* translators: %s: Documentation URL. */
                     __('You are uploading an older version of the active theme. You can continue to install the older version, but be sure to <a href="%s">back up your database and files</a> first.'),
-                    __('https://developer.wp.org/advanced-administration/security/backup/')
+                    __('https://developer.wp.org/advanced-administration/security/backup/'),
                 );
             } else {
                 $warning = sprintf(
-                    /* translators: %s: Documentation URL. */
+                /* translators: %s: Documentation URL. */
                     __('You are updating a theme. Be sure to <a href="%s">back up your database and files</a> first.'),
-                    __('https://developer.wp.org/advanced-administration/security/backup/')
+                    __('https://developer.wp.org/advanced-administration/security/backup/'),
                 );
             }
 
@@ -356,7 +362,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
             $install_actions['overwrite_theme'] = sprintf(
                 '<a class="button button-primary update-from-upload-overwrite" href="%s" target="_parent">%s</a>',
                 wp_nonce_url(add_query_arg('overwrite', $overwrite, $this->url), 'theme-upload'),
-                _x('Replace active with uploaded', 'theme')
+                _x('Replace active with uploaded', 'theme'),
             );
         } else {
             echo $blocked_message;
@@ -367,27 +373,28 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
         $install_actions['themes_page'] = sprintf(
             '<a class="button" href="%s" target="_parent">%s</a>',
             wp_nonce_url($cancel_url, 'theme-upload-cancel-overwrite'),
-            __('Cancel and go back')
+            __('Cancel and go back'),
         );
 
         /**
          * Filters the list of action links available following a single theme installation failure
          * when overwriting is allowed.
          *
+         * @param string[] $install_actions Array of theme action links.
+         * @param object $api Object containing wp.org API theme data.
+         * @param array $new_theme_data Array with uploaded theme data.
          * @since 5.5.0
          *
-         * @param string[] $install_actions Array of theme action links.
-         * @param object   $api             Object containing wp.org API theme data.
-         * @param array    $new_theme_data  Array with uploaded theme data.
          */
-        $install_actions = apply_filters('install_theme_overwrite_actions', $install_actions, $this->api, $new_theme_data);
+        $install_actions = apply_filters('install_theme_overwrite_actions', $install_actions, $this->api,
+            $new_theme_data);
 
-        if (! empty($install_actions)) {
+        if (!empty($install_actions)) {
             printf(
                 '<p class="update-from-upload-expired hidden">%s</p>',
-                __('The uploaded file has expired. Please go back and upload it again.')
+                __('The uploaded file has expired. Please go back and upload it again.'),
             );
-            echo '<p class="update-from-upload-actions">' . implode(' ', (array) $install_actions) . '</p>';
+            echo '<p class="update-from-upload-actions">' . implode(' ', (array)$install_actions) . '</p>';
         }
 
         return true;

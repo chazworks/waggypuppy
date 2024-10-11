@@ -30,7 +30,7 @@ class Tests_Comment_CommentsOpen extends WP_UnitTestCase
      */
     public function test_post_exist_status_closed()
     {
-        $post                 = self::factory()->post->create_and_get();
+        $post = self::factory()->post->create_and_get();
         $post->comment_status = 'closed';
 
         $this->assertFalse(comments_open($post));

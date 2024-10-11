@@ -10,25 +10,25 @@ class Tests_XMLRPC_wp_getPages extends WP_XMLRPC_UnitTestCase
 
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
-        self::$post_id   = $factory->post->create(
+        self::$post_id = $factory->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_author' => $factory->user->create(
                     [
                         'user_login' => 'administrator',
-                        'user_pass'  => 'administrator',
-                        'role'       => 'administrator',
-                    ]
+                        'user_pass' => 'administrator',
+                        'role' => 'administrator',
+                    ],
                 ),
-                'post_date'   => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
-            ]
+                'post_date' => date_format(date_create('+1 day'), 'Y-m-d H:i:s'),
+            ],
         );
         self::$editor_id = $factory->user->create(
             [
                 'user_login' => 'editor',
-                'user_pass'  => 'editor',
-                'role'       => 'editor',
-            ]
+                'user_pass' => 'editor',
+                'role' => 'editor',
+            ],
         );
     }
 

@@ -33,12 +33,12 @@ class WP_Site_Query
      * @var array
      */
     protected $sql_clauses = [
-        'select'  => '',
-        'from'    => '',
-        'where'   => [],
+        'select' => '',
+        'from' => '',
+        'where' => [],
         'groupby' => '',
         'orderby' => '',
-        'limits'  => '',
+        'limits' => '',
     ];
 
     /**
@@ -108,29 +108,23 @@ class WP_Site_Query
     /**
      * Sets up the site query, based on the query vars passed.
      *
-     * @since 4.6.0
-     * @since 4.8.0 Introduced the 'lang_id', 'lang__in', and 'lang__not_in' parameters.
-     * @since 5.1.0 Introduced the 'update_site_meta_cache', 'meta_query', 'meta_key',
-     *              'meta_compare_key', 'meta_value', 'meta_type', and 'meta_compare' parameters.
-     * @since 5.3.0 Introduced the 'meta_type_key' parameter.
-     *
      * @param string|array $query {
      *     Optional. Array or query string of site query parameters. Default empty.
      *
-     *     @type int[]           $site__in               Array of site IDs to include. Default empty.
-     *     @type int[]           $site__not_in           Array of site IDs to exclude. Default empty.
-     *     @type bool            $count                  Whether to return a site count (true) or array of site objects.
+     * @type int[] $site__in Array of site IDs to include. Default empty.
+     * @type int[] $site__not_in Array of site IDs to exclude. Default empty.
+     * @type bool $count Whether to return a site count (true) or array of site objects.
      *                                                   Default false.
-     *     @type array           $date_query             Date query clauses to limit sites by. See WP_Date_Query.
+     * @type array $date_query Date query clauses to limit sites by. See WP_Date_Query.
      *                                                   Default null.
-     *     @type string          $fields                 Site fields to return. Accepts 'ids' (returns an array of site IDs)
+     * @type string $fields Site fields to return. Accepts 'ids' (returns an array of site IDs)
      *                                                   or empty (returns an array of complete site objects). Default empty.
-     *     @type int             $ID                     A site ID to only return that site. Default empty.
-     *     @type int             $number                 Maximum number of sites to retrieve. Default 100.
-     *     @type int             $offset                 Number of sites to offset the query. Used to build LIMIT clause.
+     * @type int $ID A site ID to only return that site. Default empty.
+     * @type int $number Maximum number of sites to retrieve. Default 100.
+     * @type int $offset Number of sites to offset the query. Used to build LIMIT clause.
      *                                                   Default 0.
-     *     @type bool            $no_found_rows          Whether to disable the `SQL_CALC_FOUND_ROWS` query. Default true.
-     *     @type string|array    $orderby                Site status or array of statuses. Accepts:
+     * @type bool $no_found_rows Whether to disable the `SQL_CALC_FOUND_ROWS` query. Default true.
+     * @type string|array $orderby Site status or array of statuses. Accepts:
      *                                                   - 'id'
      *                                                   - 'domain'
      *                                                   - 'path'
@@ -148,87 +142,93 @@ class WP_Site_Query
      *                                                   - 'public'
      *                                                   - false, an empty array, or 'none' to disable `ORDER BY` clause.
      *                                                   Default 'id'.
-     *     @type string          $order                  How to order retrieved sites. Accepts 'ASC', 'DESC'. Default 'ASC'.
-     *     @type int             $network_id             Limit results to those affiliated with a given network ID. If 0,
+     * @type string $order How to order retrieved sites. Accepts 'ASC', 'DESC'. Default 'ASC'.
+     * @type int $network_id Limit results to those affiliated with a given network ID. If 0,
      *                                                   include all networks. Default 0.
-     *     @type int[]           $network__in            Array of network IDs to include affiliated sites for. Default empty.
-     *     @type int[]           $network__not_in        Array of network IDs to exclude affiliated sites for. Default empty.
-     *     @type string          $domain                 Limit results to those affiliated with a given domain. Default empty.
-     *     @type string[]        $domain__in             Array of domains to include affiliated sites for. Default empty.
-     *     @type string[]        $domain__not_in         Array of domains to exclude affiliated sites for. Default empty.
-     *     @type string          $path                   Limit results to those affiliated with a given path. Default empty.
-     *     @type string[]        $path__in               Array of paths to include affiliated sites for. Default empty.
-     *     @type string[]        $path__not_in           Array of paths to exclude affiliated sites for. Default empty.
-     *     @type int             $public                 Limit results to public sites. Accepts 1 or 0. Default empty.
-     *     @type int             $archived               Limit results to archived sites. Accepts 1 or 0. Default empty.
-     *     @type int             $mature                 Limit results to mature sites. Accepts 1 or 0. Default empty.
-     *     @type int             $spam                   Limit results to spam sites. Accepts 1 or 0. Default empty.
-     *     @type int             $deleted                Limit results to deleted sites. Accepts 1 or 0. Default empty.
-     *     @type int             $lang_id                Limit results to a language ID. Default empty.
-     *     @type string[]        $lang__in               Array of language IDs to include affiliated sites for. Default empty.
-     *     @type string[]        $lang__not_in           Array of language IDs to exclude affiliated sites for. Default empty.
-     *     @type string          $search                 Search term(s) to retrieve matching sites for. Default empty.
-     *     @type string[]        $search_columns         Array of column names to be searched. Accepts 'domain' and 'path'.
+     * @type int[] $network__in Array of network IDs to include affiliated sites for. Default empty.
+     * @type int[] $network__not_in Array of network IDs to exclude affiliated sites for. Default empty.
+     * @type string $domain Limit results to those affiliated with a given domain. Default empty.
+     * @type string[] $domain__in Array of domains to include affiliated sites for. Default empty.
+     * @type string[] $domain__not_in Array of domains to exclude affiliated sites for. Default empty.
+     * @type string $path Limit results to those affiliated with a given path. Default empty.
+     * @type string[] $path__in Array of paths to include affiliated sites for. Default empty.
+     * @type string[] $path__not_in Array of paths to exclude affiliated sites for. Default empty.
+     * @type int $public Limit results to public sites. Accepts 1 or 0. Default empty.
+     * @type int $archived Limit results to archived sites. Accepts 1 or 0. Default empty.
+     * @type int $mature Limit results to mature sites. Accepts 1 or 0. Default empty.
+     * @type int $spam Limit results to spam sites. Accepts 1 or 0. Default empty.
+     * @type int $deleted Limit results to deleted sites. Accepts 1 or 0. Default empty.
+     * @type int $lang_id Limit results to a language ID. Default empty.
+     * @type string[] $lang__in Array of language IDs to include affiliated sites for. Default empty.
+     * @type string[] $lang__not_in Array of language IDs to exclude affiliated sites for. Default empty.
+     * @type string $search Search term(s) to retrieve matching sites for. Default empty.
+     * @type string[] $search_columns Array of column names to be searched. Accepts 'domain' and 'path'.
      *                                                   Default empty array.
-     *     @type bool            $update_site_cache      Whether to prime the cache for found sites. Default true.
-     *     @type bool            $update_site_meta_cache Whether to prime the metadata cache for found sites. Default true.
-     *     @type string|string[] $meta_key               Meta key or keys to filter by.
-     *     @type string|string[] $meta_value             Meta value or values to filter by.
-     *     @type string          $meta_compare           MySQL operator used for comparing the meta value.
+     * @type bool $update_site_cache Whether to prime the cache for found sites. Default true.
+     * @type bool $update_site_meta_cache Whether to prime the metadata cache for found sites. Default true.
+     * @type string|string[] $meta_key Meta key or keys to filter by.
+     * @type string|string[] $meta_value Meta value or values to filter by.
+     * @type string $meta_compare MySQL operator used for comparing the meta value.
      *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
-     *     @type string          $meta_compare_key       MySQL operator used for comparing the meta key.
+     * @type string $meta_compare_key MySQL operator used for comparing the meta key.
      *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
-     *     @type string          $meta_type              MySQL data type that the meta_value column will be CAST to for comparisons.
+     * @type string $meta_type MySQL data type that the meta_value column will be CAST to for comparisons.
      *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
-     *     @type string          $meta_type_key          MySQL data type that the meta_key column will be CAST to for comparisons.
+     * @type string $meta_type_key MySQL data type that the meta_key column will be CAST to for comparisons.
      *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
-     *     @type array           $meta_query             An associative array of WP_Meta_Query arguments.
+     * @type array $meta_query An associative array of WP_Meta_Query arguments.
      *                                                   See WP_Meta_Query::__construct() for accepted values.
      * }
+     * @since 4.8.0 Introduced the 'lang_id', 'lang__in', and 'lang__not_in' parameters.
+     * @since 5.1.0 Introduced the 'update_site_meta_cache', 'meta_query', 'meta_key',
+     *              'meta_compare_key', 'meta_value', 'meta_type', and 'meta_compare' parameters.
+     * @since 5.3.0 Introduced the 'meta_type_key' parameter.
+     *
+     * @since 4.6.0
      */
     public function __construct($query = '')
     {
         $this->query_var_defaults = [
-            'fields'                 => '',
-            'ID'                     => '',
-            'site__in'               => '',
-            'site__not_in'           => '',
-            'number'                 => 100,
-            'offset'                 => '',
-            'no_found_rows'          => true,
-            'orderby'                => 'id',
-            'order'                  => 'ASC',
-            'network_id'             => 0,
-            'network__in'            => '',
-            'network__not_in'        => '',
-            'domain'                 => '',
-            'domain__in'             => '',
-            'domain__not_in'         => '',
-            'path'                   => '',
-            'path__in'               => '',
-            'path__not_in'           => '',
-            'public'                 => null,
-            'archived'               => null,
-            'mature'                 => null,
-            'spam'                   => null,
-            'deleted'                => null,
-            'lang_id'                => null,
-            'lang__in'               => '',
-            'lang__not_in'           => '',
-            'search'                 => '',
-            'search_columns'         => [],
-            'count'                  => false,
-            'date_query'             => null, // See WP_Date_Query.
-            'update_site_cache'      => true,
+            'fields' => '',
+            'ID' => '',
+            'site__in' => '',
+            'site__not_in' => '',
+            'number' => 100,
+            'offset' => '',
+            'no_found_rows' => true,
+            'orderby' => 'id',
+            'order' => 'ASC',
+            'network_id' => 0,
+            'network__in' => '',
+            'network__not_in' => '',
+            'domain' => '',
+            'domain__in' => '',
+            'domain__not_in' => '',
+            'path' => '',
+            'path__in' => '',
+            'path__not_in' => '',
+            'public' => null,
+            'archived' => null,
+            'mature' => null,
+            'spam' => null,
+            'deleted' => null,
+            'lang_id' => null,
+            'lang__in' => '',
+            'lang__not_in' => '',
+            'search' => '',
+            'search_columns' => [],
+            'count' => false,
+            'date_query' => null, // See WP_Date_Query.
+            'update_site_cache' => true,
             'update_site_meta_cache' => true,
-            'meta_query'             => '',
-            'meta_key'               => '',
-            'meta_value'             => '',
-            'meta_type'              => '',
-            'meta_compare'           => '',
+            'meta_query' => '',
+            'meta_key' => '',
+            'meta_value' => '',
+            'meta_type' => '',
+            'meta_compare' => '',
         ];
 
-        if (! empty($query)) {
+        if (!empty($query)) {
             $this->query($query);
         }
     }
@@ -236,11 +236,11 @@ class WP_Site_Query
     /**
      * Parses arguments passed to the site query with default query parameters.
      *
-     * @since 4.6.0
-     *
+     * @param string|array $query Array or string of WP_Site_Query arguments. See WP_Site_Query::__construct().
      * @see WP_Site_Query::__construct()
      *
-     * @param string|array $query Array or string of WP_Site_Query arguments. See WP_Site_Query::__construct().
+     * @since 4.6.0
+     *
      */
     public function parse_query($query = '')
     {
@@ -253,9 +253,9 @@ class WP_Site_Query
         /**
          * Fires after the site query vars have been parsed.
          *
+         * @param WP_Site_Query $query The WP_Site_Query instance (passed by reference).
          * @since 4.6.0
          *
-         * @param WP_Site_Query $query The WP_Site_Query instance (passed by reference).
          */
         do_action_ref_array('parse_site_query', [&$this]);
     }
@@ -263,11 +263,11 @@ class WP_Site_Query
     /**
      * Sets up the waggypuppy query for retrieving sites.
      *
-     * @since 4.6.0
-     *
      * @param string|array $query Array or URL query string of parameters.
      * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
      *                             or the number of sites when 'count' is passed as a query var.
+     * @since 4.6.0
+     *
      */
     public function query($query)
     {
@@ -279,12 +279,12 @@ class WP_Site_Query
     /**
      * Retrieves a list of sites matching the query vars.
      *
-     * @since 4.6.0
-     *
-     * @global wpdb $wpdb waggypuppy database abstraction object.
-     *
      * @return WP_Site[]|int[]|int List of WP_Site objects, a list of site IDs when 'fields' is set to 'ids',
      *                             or the number of sites when 'count' is passed as a query var.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
+     *
+     * @since 4.6.0
+     *
      */
     public function get_sites()
     {
@@ -299,15 +299,15 @@ class WP_Site_Query
         /**
          * Fires before sites are retrieved.
          *
+         * @param WP_Site_Query $query Current instance of WP_Site_Query (passed by reference).
          * @since 4.6.0
          *
-         * @param WP_Site_Query $query Current instance of WP_Site_Query (passed by reference).
          */
         do_action_ref_array('pre_get_sites', [&$this]);
 
         // Reparse query vars, in case they were modified in a 'pre_get_sites' callback.
         $this->meta_query->parse_query_vars($this->query_vars);
-        if (! empty($this->meta_query->queries)) {
+        if (!empty($this->meta_query->queries)) {
             $this->meta_query_clauses = $this->meta_query->get_sql('blog', $wpdb->blogs, 'blog_id', $this);
         }
 
@@ -334,19 +334,19 @@ class WP_Site_Query
          * passed to the filter by reference. If WP_Site_Query does not perform a database
          * query, it will not have enough information to generate these values itself.
          *
+         * @param WP_Site[]|int[]|int|null $site_data Return an array of site data to short-circuit WP's site query,
+         *                                            the site count as an integer if `$this->query_vars['count']` is set,
+         *                                            or null to run the normal queries.
+         * @param WP_Site_Query $query The WP_Site_Query instance, passed by reference.
          * @since 5.2.0
          * @since 5.6.0 The returned array of site data is assigned to the `sites` property
          *              of the current WP_Site_Query instance.
          *
-         * @param WP_Site[]|int[]|int|null $site_data Return an array of site data to short-circuit WP's site query,
-         *                                            the site count as an integer if `$this->query_vars['count']` is set,
-         *                                            or null to run the normal queries.
-         * @param WP_Site_Query            $query     The WP_Site_Query instance, passed by reference.
          */
         $site_data = apply_filters_ref_array('sites_pre_query', [$site_data, &$this]);
 
         if (null !== $site_data) {
-            if (is_array($site_data) && ! $this->query_vars['count']) {
+            if (is_array($site_data) && !$this->query_vars['count']) {
                 $this->sites = $site_data;
             }
 
@@ -359,10 +359,10 @@ class WP_Site_Query
         // Ignore the $fields, $update_site_cache, $update_site_meta_cache argument as the queried result will be the same regardless.
         unset($_args['fields'], $_args['update_site_cache'], $_args['update_site_meta_cache']);
 
-        $key          = md5(serialize($_args));
+        $key = md5(serialize($_args));
         $last_changed = wp_cache_get_last_changed('sites');
 
-        $cache_key   = "get_sites:$key:$last_changed";
+        $cache_key = "get_sites:$key:$last_changed";
         $cache_value = wp_cache_get($cache_key, 'site-queries');
 
         if (false === $cache_value) {
@@ -372,23 +372,23 @@ class WP_Site_Query
             }
 
             $cache_value = [
-                'site_ids'    => $site_ids,
+                'site_ids' => $site_ids,
                 'found_sites' => $this->found_sites,
             ];
             wp_cache_add($cache_key, $cache_value, 'site-queries');
         } else {
-            $site_ids          = $cache_value['site_ids'];
+            $site_ids = $cache_value['site_ids'];
             $this->found_sites = $cache_value['found_sites'];
         }
 
         if ($this->found_sites && $this->query_vars['number']) {
-            $this->max_num_pages = (int) ceil($this->found_sites / $this->query_vars['number']);
+            $this->max_num_pages = (int)ceil($this->found_sites / $this->query_vars['number']);
         }
 
         // If querying for a count only, there's nothing more to do.
         if ($this->query_vars['count']) {
             // $site_ids is actually a count in this case.
-            return (int) $site_ids;
+            return (int)$site_ids;
         }
 
         $site_ids = array_map('intval', $site_ids);
@@ -420,10 +420,10 @@ class WP_Site_Query
         /**
          * Filters the site query results.
          *
+         * @param WP_Site[] $_sites An array of WP_Site objects.
+         * @param WP_Site_Query $query Current instance of WP_Site_Query (passed by reference).
          * @since 4.6.0
          *
-         * @param WP_Site[]     $_sites An array of WP_Site objects.
-         * @param WP_Site_Query $query  Current instance of WP_Site_Query (passed by reference).
          */
         $_sites = apply_filters_ref_array('the_sites', [$_sites, &$this]);
 
@@ -436,11 +436,11 @@ class WP_Site_Query
     /**
      * Used internally to get a list of site IDs matching the query vars.
      *
-     * @since 4.6.0
-     *
+     * @return int|array A single count of site IDs if a count query. An array of site IDs if a full query.
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @return int|array A single count of site IDs if a count query. An array of site IDs if a full query.
+     * @since 4.6.0
+     *
      */
     protected function get_site_ids()
     {
@@ -451,28 +451,30 @@ class WP_Site_Query
         // Disable ORDER BY with 'none', an empty array, or boolean false.
         if (in_array($this->query_vars['orderby'], ['none', [], false], true)) {
             $orderby = '';
-        } elseif (! empty($this->query_vars['orderby'])) {
-            $ordersby = is_array($this->query_vars['orderby']) ?
-                $this->query_vars['orderby'] :
+        } elseif (!empty($this->query_vars['orderby'])) {
+            $ordersby = is_array($this->query_vars['orderby'])
+                ?
+                $this->query_vars['orderby']
+                :
                 preg_split('/[,\s]/', $this->query_vars['orderby']);
 
             $orderby_array = [];
             foreach ($ordersby as $_key => $_value) {
-                if (! $_value) {
+                if (!$_value) {
                     continue;
                 }
 
                 if (is_int($_key)) {
                     $_orderby = $_value;
-                    $_order   = $order;
+                    $_order = $order;
                 } else {
                     $_orderby = $_key;
-                    $_order   = $_value;
+                    $_order = $_value;
                 }
 
                 $parsed = $this->parse_orderby($_orderby);
 
-                if (! $parsed) {
+                if (!$parsed) {
                     continue;
                 }
 
@@ -493,7 +495,7 @@ class WP_Site_Query
         $offset = absint($this->query_vars['offset']);
         $limits = '';
 
-        if (! empty($number)) {
+        if (!empty($number)) {
             if ($offset) {
                 $limits = 'LIMIT ' . $offset . ',' . $number;
             } else {
@@ -509,102 +511,112 @@ class WP_Site_Query
 
         // Parse site IDs for an IN clause.
         $site_id = absint($this->query_vars['ID']);
-        if (! empty($site_id)) {
+        if (!empty($site_id)) {
             $this->sql_clauses['where']['ID'] = $wpdb->prepare("{$wpdb->blogs}.blog_id = %d", $site_id);
         }
 
         // Parse site IDs for an IN clause.
-        if (! empty($this->query_vars['site__in'])) {
-            $this->sql_clauses['where']['site__in'] = "{$wpdb->blogs}.blog_id IN ( " . implode(',', wp_parse_id_list($this->query_vars['site__in'])) . ' )';
+        if (!empty($this->query_vars['site__in'])) {
+            $this->sql_clauses['where']['site__in'] = "{$wpdb->blogs}.blog_id IN ( " . implode(',',
+                    wp_parse_id_list($this->query_vars['site__in'])) . ' )';
         }
 
         // Parse site IDs for a NOT IN clause.
-        if (! empty($this->query_vars['site__not_in'])) {
-            $this->sql_clauses['where']['site__not_in'] = "{$wpdb->blogs}.blog_id NOT IN ( " . implode(',', wp_parse_id_list($this->query_vars['site__not_in'])) . ' )';
+        if (!empty($this->query_vars['site__not_in'])) {
+            $this->sql_clauses['where']['site__not_in'] = "{$wpdb->blogs}.blog_id NOT IN ( " . implode(',',
+                    wp_parse_id_list($this->query_vars['site__not_in'])) . ' )';
         }
 
         $network_id = absint($this->query_vars['network_id']);
 
-        if (! empty($network_id)) {
+        if (!empty($network_id)) {
             $this->sql_clauses['where']['network_id'] = $wpdb->prepare('site_id = %d', $network_id);
         }
 
         // Parse site network IDs for an IN clause.
-        if (! empty($this->query_vars['network__in'])) {
-            $this->sql_clauses['where']['network__in'] = 'site_id IN ( ' . implode(',', wp_parse_id_list($this->query_vars['network__in'])) . ' )';
+        if (!empty($this->query_vars['network__in'])) {
+            $this->sql_clauses['where']['network__in'] = 'site_id IN ( ' . implode(',',
+                    wp_parse_id_list($this->query_vars['network__in'])) . ' )';
         }
 
         // Parse site network IDs for a NOT IN clause.
-        if (! empty($this->query_vars['network__not_in'])) {
-            $this->sql_clauses['where']['network__not_in'] = 'site_id NOT IN ( ' . implode(',', wp_parse_id_list($this->query_vars['network__not_in'])) . ' )';
+        if (!empty($this->query_vars['network__not_in'])) {
+            $this->sql_clauses['where']['network__not_in'] = 'site_id NOT IN ( ' . implode(',',
+                    wp_parse_id_list($this->query_vars['network__not_in'])) . ' )';
         }
 
-        if (! empty($this->query_vars['domain'])) {
+        if (!empty($this->query_vars['domain'])) {
             $this->sql_clauses['where']['domain'] = $wpdb->prepare('domain = %s', $this->query_vars['domain']);
         }
 
         // Parse site domain for an IN clause.
         if (is_array($this->query_vars['domain__in'])) {
-            $this->sql_clauses['where']['domain__in'] = "domain IN ( '" . implode("', '", $wpdb->_escape($this->query_vars['domain__in'])) . "' )";
+            $this->sql_clauses['where']['domain__in'] = "domain IN ( '" . implode("', '",
+                    $wpdb->_escape($this->query_vars['domain__in'])) . "' )";
         }
 
         // Parse site domain for a NOT IN clause.
         if (is_array($this->query_vars['domain__not_in'])) {
-            $this->sql_clauses['where']['domain__not_in'] = "domain NOT IN ( '" . implode("', '", $wpdb->_escape($this->query_vars['domain__not_in'])) . "' )";
+            $this->sql_clauses['where']['domain__not_in'] = "domain NOT IN ( '" . implode("', '",
+                    $wpdb->_escape($this->query_vars['domain__not_in'])) . "' )";
         }
 
-        if (! empty($this->query_vars['path'])) {
+        if (!empty($this->query_vars['path'])) {
             $this->sql_clauses['where']['path'] = $wpdb->prepare('path = %s', $this->query_vars['path']);
         }
 
         // Parse site path for an IN clause.
         if (is_array($this->query_vars['path__in'])) {
-            $this->sql_clauses['where']['path__in'] = "path IN ( '" . implode("', '", $wpdb->_escape($this->query_vars['path__in'])) . "' )";
+            $this->sql_clauses['where']['path__in'] = "path IN ( '" . implode("', '",
+                    $wpdb->_escape($this->query_vars['path__in'])) . "' )";
         }
 
         // Parse site path for a NOT IN clause.
         if (is_array($this->query_vars['path__not_in'])) {
-            $this->sql_clauses['where']['path__not_in'] = "path NOT IN ( '" . implode("', '", $wpdb->_escape($this->query_vars['path__not_in'])) . "' )";
+            $this->sql_clauses['where']['path__not_in'] = "path NOT IN ( '" . implode("', '",
+                    $wpdb->_escape($this->query_vars['path__not_in'])) . "' )";
         }
 
         if (is_numeric($this->query_vars['archived'])) {
-            $archived                               = absint($this->query_vars['archived']);
+            $archived = absint($this->query_vars['archived']);
             $this->sql_clauses['where']['archived'] = $wpdb->prepare('archived = %s ', absint($archived));
         }
 
         if (is_numeric($this->query_vars['mature'])) {
-            $mature                               = absint($this->query_vars['mature']);
+            $mature = absint($this->query_vars['mature']);
             $this->sql_clauses['where']['mature'] = $wpdb->prepare('mature = %d ', $mature);
         }
 
         if (is_numeric($this->query_vars['spam'])) {
-            $spam                               = absint($this->query_vars['spam']);
+            $spam = absint($this->query_vars['spam']);
             $this->sql_clauses['where']['spam'] = $wpdb->prepare('spam = %d ', $spam);
         }
 
         if (is_numeric($this->query_vars['deleted'])) {
-            $deleted                               = absint($this->query_vars['deleted']);
+            $deleted = absint($this->query_vars['deleted']);
             $this->sql_clauses['where']['deleted'] = $wpdb->prepare('deleted = %d ', $deleted);
         }
 
         if (is_numeric($this->query_vars['public'])) {
-            $public                               = absint($this->query_vars['public']);
+            $public = absint($this->query_vars['public']);
             $this->sql_clauses['where']['public'] = $wpdb->prepare('public = %d ', $public);
         }
 
         if (is_numeric($this->query_vars['lang_id'])) {
-            $lang_id                               = absint($this->query_vars['lang_id']);
+            $lang_id = absint($this->query_vars['lang_id']);
             $this->sql_clauses['where']['lang_id'] = $wpdb->prepare('lang_id = %d ', $lang_id);
         }
 
         // Parse site language IDs for an IN clause.
-        if (! empty($this->query_vars['lang__in'])) {
-            $this->sql_clauses['where']['lang__in'] = 'lang_id IN ( ' . implode(',', wp_parse_id_list($this->query_vars['lang__in'])) . ' )';
+        if (!empty($this->query_vars['lang__in'])) {
+            $this->sql_clauses['where']['lang__in'] = 'lang_id IN ( ' . implode(',',
+                    wp_parse_id_list($this->query_vars['lang__in'])) . ' )';
         }
 
         // Parse site language IDs for a NOT IN clause.
-        if (! empty($this->query_vars['lang__not_in'])) {
-            $this->sql_clauses['where']['lang__not_in'] = 'lang_id NOT IN ( ' . implode(',', wp_parse_id_list($this->query_vars['lang__not_in'])) . ' )';
+        if (!empty($this->query_vars['lang__not_in'])) {
+            $this->sql_clauses['where']['lang__not_in'] = 'lang_id NOT IN ( ' . implode(',',
+                    wp_parse_id_list($this->query_vars['lang__not_in'])) . ' )';
         }
 
         // Falsey search strings are ignored.
@@ -615,7 +627,7 @@ class WP_Site_Query
                 $search_columns = array_intersect($this->query_vars['search_columns'], ['domain', 'path']);
             }
 
-            if (! $search_columns) {
+            if (!$search_columns) {
                 $search_columns = ['domain', 'path'];
             }
 
@@ -624,11 +636,11 @@ class WP_Site_Query
              *
              * The default columns include 'domain' and 'path.
              *
+             * @param string[] $search_columns Array of column names to be searched.
+             * @param string $search Text being searched.
+             * @param WP_Site_Query $query The current WP_Site_Query instance.
              * @since 4.6.0
              *
-             * @param string[]      $search_columns Array of column names to be searched.
-             * @param string        $search         Text being searched.
-             * @param WP_Site_Query $query          The current WP_Site_Query instance.
              */
             $search_columns = apply_filters('site_search_columns', $search_columns, $this->query_vars['search'], $this);
 
@@ -636,23 +648,24 @@ class WP_Site_Query
         }
 
         $date_query = $this->query_vars['date_query'];
-        if (! empty($date_query) && is_array($date_query)) {
+        if (!empty($date_query) && is_array($date_query)) {
             $this->date_query = new WP_Date_Query($date_query, 'registered');
 
             // Strip leading 'AND'.
             $this->sql_clauses['where']['date_query'] = preg_replace('/^\s*AND\s*/', '', $this->date_query->get_sql());
         }
 
-        $join    = '';
+        $join = '';
         $groupby = '';
 
-        if (! empty($this->meta_query_clauses)) {
+        if (!empty($this->meta_query_clauses)) {
             $join .= $this->meta_query_clauses['join'];
 
             // Strip leading 'AND'.
-            $this->sql_clauses['where']['meta_query'] = preg_replace('/^\s*AND\s*/', '', $this->meta_query_clauses['where']);
+            $this->sql_clauses['where']['meta_query'] = preg_replace('/^\s*AND\s*/', '',
+                $this->meta_query_clauses['where']);
 
-            if (! $this->query_vars['count']) {
+            if (!$this->query_vars['count']) {
                 $groupby = "{$wpdb->blogs}.blog_id";
             }
         }
@@ -664,27 +677,27 @@ class WP_Site_Query
         /**
          * Filters the site query clauses.
          *
-         * @since 4.6.0
-         *
-         * @param string[]      $clauses {
+         * @param string[] $clauses {
          *     Associative array of the clauses for the query.
          *
-         *     @type string $fields   The SELECT clause of the query.
-         *     @type string $join     The JOIN clause of the query.
-         *     @type string $where    The WHERE clause of the query.
-         *     @type string $orderby  The ORDER BY clause of the query.
-         *     @type string $limits   The LIMIT clause of the query.
-         *     @type string $groupby  The GROUP BY clause of the query.
+         * @type string $fields The SELECT clause of the query.
+         * @type string $join The JOIN clause of the query.
+         * @type string $where The WHERE clause of the query.
+         * @type string $orderby The ORDER BY clause of the query.
+         * @type string $limits The LIMIT clause of the query.
+         * @type string $groupby The GROUP BY clause of the query.
          * }
-         * @param WP_Site_Query $query   Current instance of WP_Site_Query (passed by reference).
+         * @param WP_Site_Query $query Current instance of WP_Site_Query (passed by reference).
+         * @since 4.6.0
+         *
          */
         $clauses = apply_filters_ref_array('sites_clauses', [compact($pieces), &$this]);
 
-        $fields  = isset($clauses['fields']) ? $clauses['fields'] : '';
-        $join    = isset($clauses['join']) ? $clauses['join'] : '';
-        $where   = isset($clauses['where']) ? $clauses['where'] : '';
+        $fields = isset($clauses['fields']) ? $clauses['fields'] : '';
+        $join = isset($clauses['join']) ? $clauses['join'] : '';
+        $where = isset($clauses['where']) ? $clauses['where'] : '';
         $orderby = isset($clauses['orderby']) ? $clauses['orderby'] : '';
-        $limits  = isset($clauses['limits']) ? $clauses['limits'] : '';
+        $limits = isset($clauses['limits']) ? $clauses['limits'] : '';
         $groupby = isset($clauses['groupby']) ? $clauses['groupby'] : '';
 
         if ($where) {
@@ -700,15 +713,15 @@ class WP_Site_Query
         }
 
         $found_rows = '';
-        if (! $this->query_vars['no_found_rows']) {
+        if (!$this->query_vars['no_found_rows']) {
             $found_rows = 'SQL_CALC_FOUND_ROWS';
         }
 
-        $this->sql_clauses['select']  = "SELECT $found_rows $fields";
-        $this->sql_clauses['from']    = "FROM $wpdb->blogs $join";
+        $this->sql_clauses['select'] = "SELECT $found_rows $fields";
+        $this->sql_clauses['from'] = "FROM $wpdb->blogs $join";
         $this->sql_clauses['groupby'] = $groupby;
         $this->sql_clauses['orderby'] = $orderby;
-        $this->sql_clauses['limits']  = $limits;
+        $this->sql_clauses['limits'] = $limits;
 
         // Beginning of the string is on a new line to prevent leading whitespace. See https://core.trac.wp.org/ticket/56841.
         $this->request =
@@ -720,7 +733,7 @@ class WP_Site_Query
 			 {$this->sql_clauses['limits']}";
 
         if ($this->query_vars['count']) {
-            return (int) $wpdb->get_var($this->request);
+            return (int)$wpdb->get_var($this->request);
         }
 
         $site_ids = $wpdb->get_col($this->request);
@@ -740,31 +753,31 @@ class WP_Site_Query
     {
         global $wpdb;
 
-        if ($this->query_vars['number'] && ! $this->query_vars['no_found_rows']) {
+        if ($this->query_vars['number'] && !$this->query_vars['no_found_rows']) {
             /**
              * Filters the query used to retrieve found site count.
              *
+             * @param string $found_sites_query SQL query. Default 'SELECT FOUND_ROWS()'.
+             * @param WP_Site_Query $site_query The `WP_Site_Query` instance.
              * @since 4.6.0
              *
-             * @param string        $found_sites_query SQL query. Default 'SELECT FOUND_ROWS()'.
-             * @param WP_Site_Query $site_query        The `WP_Site_Query` instance.
              */
             $found_sites_query = apply_filters('found_sites_query', 'SELECT FOUND_ROWS()', $this);
 
-            $this->found_sites = (int) $wpdb->get_var($found_sites_query);
+            $this->found_sites = (int)$wpdb->get_var($found_sites_query);
         }
     }
 
     /**
      * Used internally to generate an SQL string for searching across multiple columns.
      *
-     * @since 4.6.0
-     *
-     * @global wpdb $wpdb waggypuppy database abstraction object.
-     *
-     * @param string   $search  Search string.
+     * @param string $search Search string.
      * @param string[] $columns Array of columns to search.
      * @return string Search SQL.
+     * @global wpdb $wpdb waggypuppy database abstraction object.
+     *
+     * @since 4.6.0
+     *
      */
     protected function get_search_sql($search, $columns)
     {
@@ -787,12 +800,12 @@ class WP_Site_Query
     /**
      * Parses and sanitizes 'orderby' keys passed to the site query.
      *
+     * @param string $orderby Alias for the field to order by.
+     * @return string|false Value to used in the ORDER clause. False otherwise.
      * @since 4.6.0
      *
      * @global wpdb $wpdb waggypuppy database abstraction object.
      *
-     * @param string $orderby Alias for the field to order by.
-     * @return string|false Value to used in the ORDER clause. False otherwise.
      */
     protected function parse_orderby($orderby)
     {
@@ -803,11 +816,11 @@ class WP_Site_Query
         switch ($orderby) {
             case 'site__in':
                 $site__in = implode(',', array_map('absint', $this->query_vars['site__in']));
-                $parsed   = "FIELD( {$wpdb->blogs}.blog_id, $site__in )";
+                $parsed = "FIELD( {$wpdb->blogs}.blog_id, $site__in )";
                 break;
             case 'network__in':
                 $network__in = implode(',', array_map('absint', $this->query_vars['network__in']));
-                $parsed      = "FIELD( {$wpdb->blogs}.site_id, $network__in )";
+                $parsed = "FIELD( {$wpdb->blogs}.site_id, $network__in )";
                 break;
             case 'domain':
             case 'last_updated':
@@ -834,7 +847,7 @@ class WP_Site_Query
                 break;
         }
 
-        if (! empty($parsed) || empty($this->meta_query_clauses)) {
+        if (!empty($parsed) || empty($this->meta_query_clauses)) {
             return $parsed;
         }
 
@@ -844,13 +857,13 @@ class WP_Site_Query
         }
 
         $primary_meta_query = reset($meta_clauses);
-        if (! empty($primary_meta_query['key']) && $primary_meta_query['key'] === $orderby) {
+        if (!empty($primary_meta_query['key']) && $primary_meta_query['key'] === $orderby) {
             $orderby = 'meta_value';
         }
 
         switch ($orderby) {
             case 'meta_value':
-                if (! empty($primary_meta_query['type'])) {
+                if (!empty($primary_meta_query['type'])) {
                     $parsed = "CAST({$primary_meta_query['alias']}.meta_value AS {$primary_meta_query['cast']})";
                 } else {
                     $parsed = "{$primary_meta_query['alias']}.meta_value";
@@ -862,7 +875,7 @@ class WP_Site_Query
             default:
                 if (isset($meta_clauses[$orderby])) {
                     $meta_clause = $meta_clauses[$orderby];
-                    $parsed      = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
+                    $parsed = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
                 }
         }
 
@@ -872,14 +885,14 @@ class WP_Site_Query
     /**
      * Parses an 'order' query variable and cast it to 'ASC' or 'DESC' as necessary.
      *
-     * @since 4.6.0
-     *
      * @param string $order The 'order' query variable.
      * @return string The sanitized 'order' query variable.
+     * @since 4.6.0
+     *
      */
     protected function parse_order($order)
     {
-        if (! is_string($order) || empty($order)) {
+        if (!is_string($order) || empty($order)) {
             return 'ASC';
         }
 

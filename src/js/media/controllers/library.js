@@ -39,255 +39,282 @@ var l10n = wp.media.view.l10n,
  * @param {boolean}                         [attributes.contentUserSetting=true] Whether the content region's mode should be set and persisted per user.
  * @param {boolean}                         [attributes.syncSelection=true]      Whether the Attachments selection should be persisted from the last state.
  */
-Library = wp.media.controller.State.extend(/** @lends wp.media.controller.Library.prototype */{
-	defaults: {
-		id:                 'library',
-		title:              l10n.mediaLibraryTitle,
-		multiple:           false,
-		content:            'upload',
-		menu:               'default',
-		router:             'browse',
-		toolbar:            'select',
-		searchable:         true,
-		filterable:         false,
-		sortable:           true,
-		autoSelect:         true,
-		describe:           false,
-		contentUserSetting: true,
-		syncSelection:      true
-	},
+Library = wp.media.controller.State.extend(
+	/** @lends wp.media.controller.Library.prototype */ {
+		defaults: {
+			id: 'library',
+			title: l10n.mediaLibraryTitle,
+			multiple: false,
+			content: 'upload',
+			menu: 'default',
+			router: 'browse',
+			toolbar: 'select',
+			searchable: true,
+			filterable: false,
+			sortable: true,
+			autoSelect: true,
+			describe: false,
+			contentUserSetting: true,
+			syncSelection: true,
+		},
 
-	/**
-	 * If a library isn't provided, query all media items.
-	 * If a selection instance isn't provided, create one.
-	 *
-	 * @since 3.5.0
-	 */
-	initialize: function() {
-		var selection = this.get('selection'),
-			props;
+		/**
+		 * If a library isn't provided, query all media items.
+		 * If a selection instance isn't provided, create one.
+		 *
+		 * @since 3.5.0
+		 */
+		initialize: function () {
+			var selection = this.get( 'selection' ),
+				props;
 
-		if ( ! this.get('library') ) {
-			this.set( 'library', wp.media.query() );
-		}
-
-		if ( ! ( selection instanceof wp.media.model.Selection ) ) {
-			props = selection;
-
-			if ( ! props ) {
-				props = this.get('library').props.toJSON();
-				props = _.omit( props, 'orderby', 'query' );
+			if ( ! this.get( 'library' ) ) {
+				this.set( 'library', wp.media.query() );
 			}
 
-			this.set( 'selection', new wp.media.model.Selection( null, {
-				multiple: this.get('multiple'),
-				props: props
-			}) );
-		}
+			if ( ! ( selection instanceof wp.media.model.Selection ) ) {
+				props = selection;
 
-		this.resetDisplays();
-	},
+				if ( ! props ) {
+					props = this.get( 'library' ).props.toJSON();
+					props = _.omit( props, 'orderby', 'query' );
+				}
 
-	/**
-	 * @since 3.5.0
-	 */
-	activate: function() {
-		this.syncSelection();
-
-		wp.Uploader.queue.on( 'add', this.uploading, this );
-
-		this.get('selection').on( 'add remove reset', this.refreshContent, this );
-
-		if ( this.get( 'router' ) && this.get('contentUserSetting') ) {
-			this.frame.on( 'content:activate', this.saveContentMode, this );
-			this.set( 'content', getUserSetting( 'libraryContent', this.get('content') ) );
-		}
-	},
-
-	/**
-	 * @since 3.5.0
-	 */
-	deactivate: function() {
-		this.recordSelection();
-
-		this.frame.off( 'content:activate', this.saveContentMode, this );
-
-		// Unbind all event handlers that use this state as the context
-		// from the selection.
-		this.get('selection').off( null, null, this );
-
-		wp.Uploader.queue.off( null, null, this );
-	},
-
-	/**
-	 * Reset the library to its initial state.
-	 *
-	 * @since 3.5.0
-	 */
-	reset: function() {
-		this.get('selection').reset();
-		this.resetDisplays();
-		this.refreshContent();
-	},
-
-	/**
-	 * Reset the attachment display settings defaults to the site options.
-	 *
-	 * If site options don't define them, fall back to a persistent user setting.
-	 *
-	 * @since 3.5.0
-	 */
-	resetDisplays: function() {
-		var defaultProps = wp.media.view.settings.defaultProps;
-		this._displays = [];
-		this._defaultDisplaySettings = {
-			align: getUserSetting( 'align', defaultProps.align ) || 'none',
-			size:  getUserSetting( 'imgsize', defaultProps.size ) || 'medium',
-			link:  getUserSetting( 'urlbutton', defaultProps.link ) || 'none'
-		};
-	},
-
-	/**
-	 * Create a model to represent display settings (alignment, etc.) for an attachment.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param {wp.media.model.Attachment} attachment
-	 * @return {Backbone.Model}
-	 */
-	display: function( attachment ) {
-		var displays = this._displays;
-
-		if ( ! displays[ attachment.cid ] ) {
-			displays[ attachment.cid ] = new Backbone.Model( this.defaultDisplaySettings( attachment ) );
-		}
-		return displays[ attachment.cid ];
-	},
-
-	/**
-	 * Given an attachment, create attachment display settings properties.
-	 *
-	 * @since 3.6.0
-	 *
-	 * @param {wp.media.model.Attachment} attachment
-	 * @return {Object}
-	 */
-	defaultDisplaySettings: function( attachment ) {
-		var settings = _.clone( this._defaultDisplaySettings );
-
-		settings.canEmbed = this.canEmbed( attachment );
-		if ( settings.canEmbed ) {
-			settings.link = 'embed';
-		} else if ( ! this.isImageAttachment( attachment ) && settings.link === 'none' ) {
-			settings.link = 'file';
-		}
-
-		return settings;
-	},
-
-	/**
-	 * Whether an attachment is image.
-	 *
-	 * @since 4.4.1
-	 *
-	 * @param {wp.media.model.Attachment} attachment
-	 * @return {boolean}
-	 */
-	isImageAttachment: function( attachment ) {
-		// If uploading, we know the filename but not the mime type.
-		if ( attachment.get('uploading') ) {
-			return /\.(jpe?g|png|gif|webp|avif|heic)$/i.test( attachment.get('filename') );
-		}
-
-		return attachment.get('type') === 'image';
-	},
-
-	/**
-	 * Whether an attachment can be embedded (audio or video).
-	 *
-	 * @since 3.6.0
-	 *
-	 * @param {wp.media.model.Attachment} attachment
-	 * @return {boolean}
-	 */
-	canEmbed: function( attachment ) {
-		// If uploading, we know the filename but not the mime type.
-		if ( ! attachment.get('uploading') ) {
-			var type = attachment.get('type');
-			if ( type !== 'audio' && type !== 'video' ) {
-				return false;
+				this.set(
+					'selection',
+					new wp.media.model.Selection( null, {
+						multiple: this.get( 'multiple' ),
+						props: props,
+					} )
+				);
 			}
-		}
 
-		return _.contains( wp.media.view.settings.embedExts, attachment.get('filename').split('.').pop() );
-	},
+			this.resetDisplays();
+		},
 
+		/**
+		 * @since 3.5.0
+		 */
+		activate: function () {
+			this.syncSelection();
 
-	/**
-	 * If the state is active, no items are selected, and the current
-	 * content mode is not an option in the state's router (provided
-	 * the state has a router), reset the content mode to the default.
-	 *
-	 * @since 3.5.0
-	 */
-	refreshContent: function() {
-		var selection = this.get('selection'),
-			frame = this.frame,
-			router = frame.router.get(),
-			mode = frame.content.mode();
+			wp.Uploader.queue.on( 'add', this.uploading, this );
 
-		if ( this.active && ! selection.length && router && ! router.get( mode ) ) {
-			this.frame.content.render( this.get('content') );
-		}
-	},
+			this.get( 'selection' ).on(
+				'add remove reset',
+				this.refreshContent,
+				this
+			);
 
-	/**
-	 * Callback handler when an attachment is uploaded.
-	 *
-	 * Switch to the Media Library if uploaded from the 'Upload Files' tab.
-	 *
-	 * Adds any uploading attachments to the selection.
-	 *
-	 * If the state only supports one attachment to be selected and multiple
-	 * attachments are uploaded, the last attachment in the upload queue will
-	 * be selected.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param {wp.media.model.Attachment} attachment
-	 */
-	uploading: function( attachment ) {
-		var content = this.frame.content;
+			if ( this.get( 'router' ) && this.get( 'contentUserSetting' ) ) {
+				this.frame.on( 'content:activate', this.saveContentMode, this );
+				this.set(
+					'content',
+					getUserSetting( 'libraryContent', this.get( 'content' ) )
+				);
+			}
+		},
 
-		if ( 'upload' === content.mode() ) {
-			this.frame.content.mode('browse');
-		}
+		/**
+		 * @since 3.5.0
+		 */
+		deactivate: function () {
+			this.recordSelection();
 
-		if ( this.get( 'autoSelect' ) ) {
-			this.get('selection').add( attachment );
-			this.frame.trigger( 'library:selection:add' );
-		}
-	},
+			this.frame.off( 'content:activate', this.saveContentMode, this );
 
-	/**
-	 * Persist the mode of the content region as a user setting.
-	 *
-	 * @since 3.5.0
-	 */
-	saveContentMode: function() {
-		if ( 'browse' !== this.get('router') ) {
-			return;
-		}
+			// Unbind all event handlers that use this state as the context
+			// from the selection.
+			this.get( 'selection' ).off( null, null, this );
 
-		var mode = this.frame.content.mode(),
-			view = this.frame.router.get();
+			wp.Uploader.queue.off( null, null, this );
+		},
 
-		if ( view && view.get( mode ) ) {
-			setUserSetting( 'libraryContent', mode );
-		}
+		/**
+		 * Reset the library to its initial state.
+		 *
+		 * @since 3.5.0
+		 */
+		reset: function () {
+			this.get( 'selection' ).reset();
+			this.resetDisplays();
+			this.refreshContent();
+		},
+
+		/**
+		 * Reset the attachment display settings defaults to the site options.
+		 *
+		 * If site options don't define them, fall back to a persistent user setting.
+		 *
+		 * @since 3.5.0
+		 */
+		resetDisplays: function () {
+			var defaultProps = wp.media.view.settings.defaultProps;
+			this._displays = [];
+			this._defaultDisplaySettings = {
+				align: getUserSetting( 'align', defaultProps.align ) || 'none',
+				size:
+					getUserSetting( 'imgsize', defaultProps.size ) || 'medium',
+				link:
+					getUserSetting( 'urlbutton', defaultProps.link ) || 'none',
+			};
+		},
+
+		/**
+		 * Create a model to represent display settings (alignment, etc.) for an attachment.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param {wp.media.model.Attachment} attachment
+		 * @return {Backbone.Model}
+		 */
+		display: function ( attachment ) {
+			var displays = this._displays;
+
+			if ( ! displays[ attachment.cid ] ) {
+				displays[ attachment.cid ] = new Backbone.Model(
+					this.defaultDisplaySettings( attachment )
+				);
+			}
+			return displays[ attachment.cid ];
+		},
+
+		/**
+		 * Given an attachment, create attachment display settings properties.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param {wp.media.model.Attachment} attachment
+		 * @return {Object}
+		 */
+		defaultDisplaySettings: function ( attachment ) {
+			var settings = _.clone( this._defaultDisplaySettings );
+
+			settings.canEmbed = this.canEmbed( attachment );
+			if ( settings.canEmbed ) {
+				settings.link = 'embed';
+			} else if (
+				! this.isImageAttachment( attachment ) &&
+				settings.link === 'none'
+			) {
+				settings.link = 'file';
+			}
+
+			return settings;
+		},
+
+		/**
+		 * Whether an attachment is image.
+		 *
+		 * @since 4.4.1
+		 *
+		 * @param {wp.media.model.Attachment} attachment
+		 * @return {boolean}
+		 */
+		isImageAttachment: function ( attachment ) {
+			// If uploading, we know the filename but not the mime type.
+			if ( attachment.get( 'uploading' ) ) {
+				return /\.(jpe?g|png|gif|webp|avif|heic)$/i.test(
+					attachment.get( 'filename' )
+				);
+			}
+
+			return attachment.get( 'type' ) === 'image';
+		},
+
+		/**
+		 * Whether an attachment can be embedded (audio or video).
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param {wp.media.model.Attachment} attachment
+		 * @return {boolean}
+		 */
+		canEmbed: function ( attachment ) {
+			// If uploading, we know the filename but not the mime type.
+			if ( ! attachment.get( 'uploading' ) ) {
+				var type = attachment.get( 'type' );
+				if ( type !== 'audio' && type !== 'video' ) {
+					return false;
+				}
+			}
+
+			return _.contains(
+				wp.media.view.settings.embedExts,
+				attachment.get( 'filename' ).split( '.' ).pop()
+			);
+		},
+
+		/**
+		 * If the state is active, no items are selected, and the current
+		 * content mode is not an option in the state's router (provided
+		 * the state has a router), reset the content mode to the default.
+		 *
+		 * @since 3.5.0
+		 */
+		refreshContent: function () {
+			var selection = this.get( 'selection' ),
+				frame = this.frame,
+				router = frame.router.get(),
+				mode = frame.content.mode();
+
+			if (
+				this.active &&
+				! selection.length &&
+				router &&
+				! router.get( mode )
+			) {
+				this.frame.content.render( this.get( 'content' ) );
+			}
+		},
+
+		/**
+		 * Callback handler when an attachment is uploaded.
+		 *
+		 * Switch to the Media Library if uploaded from the 'Upload Files' tab.
+		 *
+		 * Adds any uploading attachments to the selection.
+		 *
+		 * If the state only supports one attachment to be selected and multiple
+		 * attachments are uploaded, the last attachment in the upload queue will
+		 * be selected.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param {wp.media.model.Attachment} attachment
+		 */
+		uploading: function ( attachment ) {
+			var content = this.frame.content;
+
+			if ( 'upload' === content.mode() ) {
+				this.frame.content.mode( 'browse' );
+			}
+
+			if ( this.get( 'autoSelect' ) ) {
+				this.get( 'selection' ).add( attachment );
+				this.frame.trigger( 'library:selection:add' );
+			}
+		},
+
+		/**
+		 * Persist the mode of the content region as a user setting.
+		 *
+		 * @since 3.5.0
+		 */
+		saveContentMode: function () {
+			if ( 'browse' !== this.get( 'router' ) ) {
+				return;
+			}
+
+			var mode = this.frame.content.mode(),
+				view = this.frame.router.get();
+
+			if ( view && view.get( mode ) ) {
+				setUserSetting( 'libraryContent', mode );
+			}
+		},
 	}
-
-});
+);
 
 // Make selectionSync available on any Media Library state.
 _.extend( Library.prototype, wp.media.selectionSync );

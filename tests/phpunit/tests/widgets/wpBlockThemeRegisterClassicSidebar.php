@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for _wp_block_theme_register_classic_sidebars().
  *
@@ -56,7 +57,7 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase
         $this->assertArrayNotHasKey(
             $sidebar_id,
             $wp_registered_sidebars,
-            'Sidebar should not be in registered sidebars after unregister'
+            'Sidebar should not be in registered sidebars after unregister',
         );
 
         _wp_block_theme_register_classic_sidebars();
@@ -65,7 +66,7 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase
         $this->assertArrayHasKey(
             $sidebar_id,
             $wp_registered_sidebars,
-            'Sidebar should be in registered sidebars after invoking _wp_block_theme_register_classic_sidebars()'
+            'Sidebar should be in registered sidebars after invoking _wp_block_theme_register_classic_sidebars()',
         );
     }
 
@@ -79,7 +80,7 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase
         // Test state before invoking.
         $this->assertFalse(
             get_theme_mod('wp_classic_sidebars'),
-            'Theme mod should not be set before invoking _wp_block_theme_register_classic_sidebars()'
+            'Theme mod should not be set before invoking _wp_block_theme_register_classic_sidebars()',
         );
 
         $before = $wp_registered_sidebars;
@@ -89,7 +90,7 @@ class Tests_Widgets_WpBlockThemeRegisterClassicSidebars extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             $before,
             $wp_registered_sidebars,
-            'No change should happen after invoking _wp_block_theme_register_classic_sidebars()'
+            'No change should happen after invoking _wp_block_theme_register_classic_sidebars()',
         );
     }
 }

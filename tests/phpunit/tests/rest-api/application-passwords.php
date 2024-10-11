@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_Application_Passwords functionality.
  *
@@ -23,7 +24,7 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
         self::$user_id = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
 
         if (is_multisite()) {
@@ -56,30 +57,30 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
         return [
             'application_password_empty_name when no args' => [
                 'expected' => [
-                    'error_code'    => 'application_password_empty_name',
+                    'error_code' => 'application_password_empty_name',
                     'error_message' => 'An application name is required to create an application password.',
                 ],
             ],
             'application_password_empty_name when no name' => [
                 'expected' => [
-                    'error_code'    => 'application_password_empty_name',
+                    'error_code' => 'application_password_empty_name',
                     'error_message' => 'An application name is required to create an application password.',
                 ],
-                'args'     => ['app_id' => 1],
+                'args' => ['app_id' => 1],
             ],
             'application_password_empty_name when empty name' => [
                 'expected' => [
-                    'error_code'    => 'application_password_empty_name',
+                    'error_code' => 'application_password_empty_name',
                     'error_message' => 'An application name is required to create an application password.',
                 ],
-                'args'     => ['name' => '   '],
+                'args' => ['name' => '   '],
             ],
             'application_password_empty_name when <script>' => [
                 'expected' => [
-                    'error_code'    => 'application_password_empty_name',
+                    'error_code' => 'application_password_empty_name',
                     'error_message' => 'An application name is required to create an application password.',
                 ],
-                'args'     => ['name' => '<script>console.log("Hello")</script>'],
+                'args' => ['name' => '<script>console.log("Hello")</script>'],
             ],
         ];
     }
@@ -101,7 +102,7 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
         $this->assertNotEmpty($new_password);
         $this->assertSame(
             ['uuid', 'app_id', 'name', 'password', 'created', 'last_used', 'last_ip'],
-            array_keys($new_item)
+            array_keys($new_item),
         );
         $this->assertSame($args['name'], $new_item['name']);
     }
@@ -112,8 +113,8 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
             'should create new password when no passwords exists' => [
                 'args' => ['name' => 'test3'],
             ],
-            'should create new password when name is unique'      => [
-                'args'  => ['name' => 'test3'],
+            'should create new password when name is unique' => [
+                'args' => ['name' => 'test3'],
                 'names' => ['test1', 'test2'],
             ],
         ];
@@ -154,7 +155,7 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
     {
         // Create the original item.
         [, $original_item] = WP_Application_Passwords::create_new_application_password(self::$user_id, $existing);
-        $uuid              = $original_item['uuid'];
+        $uuid = $original_item['uuid'];
 
         $actual = WP_Application_Passwords::update_application_password(self::$user_id, $uuid, $update);
 
@@ -179,22 +180,23 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
 
         $this->assertInstanceOf(WP_Error::class, $actual);
         $this->assertSame('application_password_not_found', $actual->get_error_code());
-        $this->assertSame('Could not find an application password with that id.', $actual->get_error_message('application_password_not_found'));
+        $this->assertSame('Could not find an application password with that id.',
+            $actual->get_error_message('application_password_not_found'));
     }
 
     public function data_update_application_password()
     {
         return [
             'should not update when no values given to update' => [
-                'update'   => [],
+                'update' => [],
                 'existing' => ['name' => 'Test'],
             ],
             'should not update when given same name' => [
-                'update'   => ['name' => 'Test'],
+                'update' => ['name' => 'Test'],
                 'existing' => ['name' => 'Test'],
             ],
-            'should update name'                     => [
-                'update'   => ['name' => 'Test Updated'],
+            'should update name' => [
+                'update' => ['name' => 'Test Updated'],
                 'existing' => ['name' => 'Test'],
             ],
         ];
@@ -208,6 +210,7 @@ class Test_WP_Application_Passwords extends WP_UnitTestCase
         $created = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'My App']);
         $this->assertNotWPError($created, 'First attempt to create an application password should not return an error');
         $created = WP_Application_Passwords::create_new_application_password(self::$user_id, ['name' => 'My App']);
-        $this->assertNotWPError($created, 'Second attempt to create an application password should not return an error');
+        $this->assertNotWPError($created,
+            'Second attempt to create an application password should not return an error');
     }
 }

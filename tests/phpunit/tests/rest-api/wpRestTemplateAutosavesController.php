@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Unit tests covering WP_REST_Template_Autosaves_Controller functionality.
  *
@@ -62,30 +63,30 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         self::$contributor_id = $factory->user->create(
             [
                 'role' => 'contributor',
-            ]
+            ],
         );
 
         self::$admin_id = $factory->user->create(
             [
                 'role' => 'administrator',
-            ]
+            ],
         );
         wp_set_current_user(self::$admin_id);
 
         // Set up template post.
         self::$template_post = $factory->post->create_and_get(
             [
-                'post_type'    => self::PARENT_POST_TYPE,
-                'post_name'    => self::TEMPLATE_NAME,
-                'post_title'   => 'My Template',
+                'post_type' => self::PARENT_POST_TYPE,
+                'post_name' => self::TEMPLATE_NAME,
+                'post_title' => 'My Template',
                 'post_content' => 'Content',
                 'post_excerpt' => 'Description of my template',
-                'tax_input'    => [
+                'tax_input' => [
                     'wp_theme' => [
                         self::TEST_THEME,
                     ],
                 ],
-            ]
+            ],
         );
         wp_set_post_terms(self::$template_post->ID, self::TEST_THEME, 'wp_theme');
     }
@@ -100,22 +101,22 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $this->assertArrayHasKey(
             '/wp/v2/templates/(?P<id>([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)[\/\w%-]+)/autosaves',
             $routes,
-            'Template autosaves route does not exist.'
+            'Template autosaves route does not exist.',
         );
         $this->assertArrayHasKey(
             '/wp/v2/templates/(?P<parent>([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)[\/\w%-]+)/autosaves/(?P<id>[\d]+)',
             $routes,
-            'Single template autosave based on the given ID route does not exist.'
+            'Single template autosave based on the given ID route does not exist.',
         );
         $this->assertArrayHasKey(
             '/wp/v2/template-parts/(?P<id>([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)[\/\w%-]+)/autosaves',
             $routes,
-            'Template part autosaves route does not exist.'
+            'Template part autosaves route does not exist.',
         );
         $this->assertArrayHasKey(
             '/wp/v2/template-parts/(?P<parent>([^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?)[\/\w%-]+)/autosaves/(?P<id>[\d]+)',
             $routes,
-            'Single template part autosave based on the given ID route does not exist.'
+            'Single template part autosave based on the given ID route does not exist.',
         );
     }
 
@@ -126,45 +127,47 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
     public function test_context_param()
     {
         // Collection.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves');
+        $request = new WP_REST_Request('OPTIONS',
+            '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         // Collection.
         $this->assertCount(
             2,
             $data['endpoints'],
-            'Failed to assert that the collection autosave endpoints count is 2.'
+            'Failed to assert that the collection autosave endpoints count is 2.',
         );
         $this->assertSame(
             'view',
             $data['endpoints'][0]['args']['context']['default'],
-            'Failed to assert that the default context for the GET collection endpoint is "view".'
+            'Failed to assert that the default context for the GET collection endpoint is "view".',
         );
         $this->assertSame(
             ['view', 'embed', 'edit'],
             $data['endpoints'][0]['args']['context']['enum'],
-            "Failed to assert that the enum values for the GET collection endpoint are 'view', 'embed', and 'edit'."
+            "Failed to assert that the enum values for the GET collection endpoint are 'view', 'embed', and 'edit'.",
         );
 
         // Single.
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/1');
+        $request = new WP_REST_Request('OPTIONS',
+            '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/1');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
         $this->assertCount(
             1,
             $data['endpoints'],
-            'Failed to assert that the single autosave endpoints count is 1.'
+            'Failed to assert that the single autosave endpoints count is 1.',
         );
         $this->assertSame(
             'view',
             $data['endpoints'][0]['args']['context']['default'],
-            'Failed to assert that the default context for the single autosave endpoint is "view".'
+            'Failed to assert that the default context for the single autosave endpoint is "view".',
         );
         $this->assertSame(
             ['view', 'embed', 'edit'],
             $data['endpoints'][0]['args']['context']['enum'],
-            "Failed to assert that the enum values for the single autosave endpoint are 'view', 'embed', and 'edit'."
+            "Failed to assert that the enum values for the single autosave endpoint are 'view', 'embed', and 'edit'.",
         );
     }
 
@@ -178,38 +181,38 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $autosave_post_id = wp_create_post_autosave(
             [
                 'post_content' => 'Autosave content.',
-                'post_ID'      => self::$template_post->ID,
-                'post_type'    => self::PARENT_POST_TYPE,
-            ]
+                'post_ID' => self::$template_post->ID,
+                'post_type' => self::PARENT_POST_TYPE,
+            ],
         );
 
-        $request   = new WP_REST_Request(
+        $request = new WP_REST_Request(
             'GET',
-            '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves'
+            '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves',
         );
-        $response  = rest_get_server()->dispatch($request);
+        $response = rest_get_server()->dispatch($request);
         $autosaves = $response->get_data();
 
         $this->assertCount(
             1,
             $autosaves,
-            'Failed asserting that the response data contains exactly 1 item.'
+            'Failed asserting that the response data contains exactly 1 item.',
         );
 
         $this->assertSame(
             $autosave_post_id,
             $autosaves[0]['wp_id'],
-            'Failed asserting that the ID of the autosave matches the expected autosave post ID.'
+            'Failed asserting that the ID of the autosave matches the expected autosave post ID.',
         );
         $this->assertSame(
             self::$template_post->ID,
             $autosaves[0]['parent'],
-            'Failed asserting that the parent ID of the autosave matches the template post ID.'
+            'Failed asserting that the parent ID of the autosave matches the template post ID.',
         );
         $this->assertSame(
             'Autosave content.',
             $autosaves[0]['content']['raw'],
-            'Failed asserting that the content of the autosave is "Autosave content.".'
+            'Failed asserting that the content of the autosave is "Autosave content.".',
         );
     }
 
@@ -224,12 +227,13 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $autosave_post_id = wp_create_post_autosave(
             [
                 'post_content' => 'Autosave content.',
-                'post_ID'      => self::$template_post->ID,
-                'post_type'    => self::PARENT_POST_TYPE,
-            ]
+                'post_ID' => self::$template_post->ID,
+                'post_type' => self::PARENT_POST_TYPE,
+            ],
         );
 
-        $request  = new WP_REST_Request('GET', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/' . $autosave_post_id);
+        $request = new WP_REST_Request('GET',
+            '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves/' . $autosave_post_id);
         $response = rest_get_server()->dispatch($request);
         $autosave = $response->get_data();
 
@@ -237,15 +241,15 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $this->assertSame(
             $autosave_post_id,
             $autosave['wp_id'],
-            "Failed asserting that the autosave id is the same as $autosave_post_id."
+            "Failed asserting that the autosave id is the same as $autosave_post_id.",
         );
         $this->assertSame(
             self::$template_post->ID,
             $autosave['parent'],
             sprintf(
                 'Failed asserting that the parent id of the autosave is the same as %s.',
-                self::$template_post->ID
-            )
+                self::$template_post->ID,
+            ),
         );
     }
 
@@ -259,19 +263,20 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $autosave_post_id = wp_create_post_autosave(
             [
                 'post_content' => 'Autosave content.',
-                'post_ID'      => self::$template_post->ID,
-                'post_type'    => self::PARENT_POST_TYPE,
-            ]
+                'post_ID' => self::$template_post->ID,
+                'post_type' => self::PARENT_POST_TYPE,
+            ],
         );
         $autosave_db_post = get_post($autosave_post_id);
-        $template_id      = self::TEST_THEME . '//' . self::TEMPLATE_NAME;
-        $request          = new WP_REST_Request('GET', '/wp/v2/templates/' . $template_id . '/autosaves/' . $autosave_db_post->ID);
-        $controller       = new WP_REST_Template_Autosaves_Controller(self::PARENT_POST_TYPE);
-        $response         = $controller->prepare_item_for_response($autosave_db_post, $request);
+        $template_id = self::TEST_THEME . '//' . self::TEMPLATE_NAME;
+        $request = new WP_REST_Request('GET',
+            '/wp/v2/templates/' . $template_id . '/autosaves/' . $autosave_db_post->ID);
+        $controller = new WP_REST_Template_Autosaves_Controller(self::PARENT_POST_TYPE);
+        $response = $controller->prepare_item_for_response($autosave_db_post, $request);
         $this->assertInstanceOf(
             WP_REST_Response::class,
             $response,
-            'Failed asserting that the response object is an instance of WP_REST_Response.'
+            'Failed asserting that the response object is an instance of WP_REST_Response.',
         );
 
         $autosave = $response->get_data();
@@ -279,15 +284,15 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $this->assertSame(
             $autosave_db_post->ID,
             $autosave['wp_id'],
-            "Failed asserting that the autosave id is the same as $autosave_db_post->ID."
+            "Failed asserting that the autosave id is the same as $autosave_db_post->ID.",
         );
         $this->assertSame(
             self::$template_post->ID,
             $autosave['parent'],
             sprintf(
                 'Failed asserting that the parent id of the autosave is the same as %s.',
-                self::$template_post->ID
-            )
+                self::$template_post->ID,
+            ),
         );
 
         $links = $response->get_links();
@@ -296,13 +301,13 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $this->assertStringEndsWith(
             $template_id . '/autosaves/' . $autosave_db_post->ID,
             $links['self'][0]['href'],
-            "Failed asserting that the self link ends with $template_id . '/autosaves/' . $autosave_db_post->ID."
+            "Failed asserting that the self link ends with $template_id . '/autosaves/' . $autosave_db_post->ID.",
         );
 
         $this->assertStringEndsWith(
             $template_id,
             $links['parent'][0]['href'],
-            "Failed asserting that the parent link ends with %$template_id."
+            "Failed asserting that the parent link ends with %$template_id.",
         );
     }
 
@@ -312,9 +317,10 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
      */
     public function test_get_item_schema()
     {
-        $request  = new WP_REST_Request('OPTIONS', '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves');
+        $request = new WP_REST_Request('OPTIONS',
+            '/wp/v2/templates/' . self::TEST_THEME . '/' . self::TEMPLATE_NAME . '/autosaves');
         $response = rest_get_server()->dispatch($request);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $properties = $data['schema']['properties'];
 
@@ -348,15 +354,15 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         wp_set_current_user(self::$admin_id);
 
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
-        $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
+        $request = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
         $request->add_header('Content-Type', 'application/x-www-form-urlencoded');
 
         $request_parameters = [
-            'title'   => 'Post Title',
+            'title' => 'Post Title',
             'content' => 'Post content',
             'excerpt' => 'Post excerpt',
-            'name'    => 'test',
-            'id'      => $template_id,
+            'name' => 'test',
+            'id' => $template_id,
         ];
 
         $request->set_body_params($request_parameters);
@@ -364,13 +370,15 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
 
         $this->assertNotWPError($response, 'The response from this request should not return a WP_Error object');
         $response = rest_ensure_response($response);
-        $data     = $response->get_data();
+        $data = $response->get_data();
 
         $this->assertArrayHasKey('content', $data, 'Response should contain a key called content');
-        $this->assertSame($request_parameters['content'], $data['content']['raw'], 'Response data should match for field content');
+        $this->assertSame($request_parameters['content'], $data['content']['raw'],
+            'Response data should match for field content');
 
         $this->assertArrayHasKey('title', $data, 'Response should contain a key called title');
-        $this->assertSame($request_parameters['title'], $data['title']['raw'], 'Response data should match for field title');
+        $this->assertSame($request_parameters['title'], $data['title']['raw'],
+            'Response data should match for field title');
     }
 
     /**
@@ -381,8 +389,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
     {
         wp_set_current_user(self::$contributor_id);
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
-        $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
-        $response    = rest_get_server()->dispatch($request);
+        $request = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
+        $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_manage_templates', $response, WP_Http::FORBIDDEN);
     }
 
@@ -394,8 +402,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
     {
         wp_set_current_user(0);
         $template_id = self::TEST_THEME . '/' . self::TEMPLATE_NAME;
-        $request     = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
-        $response    = rest_get_server()->dispatch($request);
+        $request = new WP_REST_Request('POST', '/wp/v2/templates/' . $template_id . '/autosaves');
+        $response = rest_get_server()->dispatch($request);
         $this->assertErrorResponse('rest_cannot_manage_templates', $response, WP_Http::UNAUTHORIZED);
     }
 
@@ -408,8 +416,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $this->markTestSkipped(
             sprintf(
                 "The '%s' controller doesn't currently support the ability to update template autosaves.",
-                WP_REST_Template_Autosaves_Controller::class
-            )
+                WP_REST_Template_Autosaves_Controller::class,
+            ),
         );
     }
 
@@ -422,8 +430,8 @@ class Tests_REST_wpRestTemplateAutosavesController extends WP_Test_REST_Controll
         $this->markTestSkipped(
             sprintf(
                 "The '%s' controller doesn't currently support the ability to delete template autosaves.",
-                WP_REST_Template_Autosaves_Controller::class
-            )
+                WP_REST_Template_Autosaves_Controller::class,
+            ),
         );
     }
 }

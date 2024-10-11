@@ -28,18 +28,18 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
         // Ensure Plugin Dependencies has not been initialized.
         $this->assertFalse(
             $this->get_property_value('initialized'),
-            'Plugin Dependencies has been initialized.'
+            'Plugin Dependencies has been initialized.',
         );
 
         $this->assertSame(
             self::$static_properties['dependency_slugs'],
             $this->get_property_value('dependency_slugs'),
-            '"dependency_slugs" was not set to its default value.'
+            '"dependency_slugs" was not set to its default value.',
         );
 
         $this->assertFalse(
             self::$instance->get_dependency_filepath('dependency'),
-            'false was not returned before initialization.'
+            'false was not returned before initialization.',
         );
     }
 
@@ -50,9 +50,9 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
      *
      * @dataProvider data_get_dependency_filepath
      *
-     * @param string[]     $dependency_slug The dependency slug.
-     * @param string[]     $plugins         An array of plugin paths.
-     * @param string|false $expected       The expected result.
+     * @param string[] $dependency_slug The dependency slug.
+     * @param string[] $plugins An array of plugin paths.
+     * @param string|false $expected The expected result.
      */
     public function test_should_return_filepaths_for_installed_dependencies($dependency_slug, $plugins, $expected)
     {
@@ -63,7 +63,7 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
         $this->assertSame(
             $expected,
             self::$instance::get_dependency_filepath($dependency_slug),
-            'The incorrect filepath was returned.'
+            'The incorrect filepath was returned.',
         );
     }
 
@@ -75,42 +75,42 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
     public function data_get_dependency_filepath()
     {
         return [
-            'no plugins'                      => [
+            'no plugins' => [
                 'dependency_slug' => 'dependency',
-                'plugins'         => [],
-                'expected'        => false,
+                'plugins' => [],
+                'expected' => false,
             ],
             'a plugin that starts with slug/' => [
                 'dependency_slug' => 'dependency',
-                'plugins'         => [
+                'plugins' => [
                     'dependency-pro/dependency.php' => ['RequiresPlugins' => ''],
-                    'dependent/dependent.php'       => ['RequiresPlugins' => 'dependency'],
+                    'dependent/dependent.php' => ['RequiresPlugins' => 'dependency'],
                 ],
-                'expected'        => false,
+                'expected' => false,
             ],
-            'a plugin that ends with slug/'   => [
+            'a plugin that ends with slug/' => [
                 'dependency_slugs' => 'dependency',
-                'plugins'          => [
+                'plugins' => [
                     'addon-for-dependency/dependency.php' => ['RequiresPlugins' => ''],
-                    'dependent/dependent.php'             => ['RequiresPlugins' => 'dependency'],
+                    'dependent/dependent.php' => ['RequiresPlugins' => 'dependency'],
                 ],
-                'expected'         => false,
+                'expected' => false,
             ],
-            'a plugin that does not exist'    => [
+            'a plugin that does not exist' => [
                 'dependency_slugs' => 'dependency2',
-                'plugins'          => [
+                'plugins' => [
                     'dependency/dependency.php' => ['RequiresPlugins' => ''],
-                    'dependent/dependent.php'   => ['RequiresPlugins' => 'dependency2'],
+                    'dependent/dependent.php' => ['RequiresPlugins' => 'dependency2'],
                 ],
-                'expected'         => false,
+                'expected' => false,
             ],
-            'a plugin that exists'            => [
+            'a plugin that exists' => [
                 'dependency_slugs' => 'dependency',
-                'plugins'          => [
+                'plugins' => [
                     'dependency/dependency.php' => ['RequiresPlugins' => ''],
-                    'dependent/dependent.php'   => ['RequiresPlugins' => 'dependency'],
+                    'dependent/dependent.php' => ['RequiresPlugins' => 'dependency'],
                 ],
-                'expected'         => 'dependency/dependency.php',
+                'expected' => 'dependency/dependency.php',
             ],
         ];
     }
@@ -135,17 +135,17 @@ class Tests_Admin_WPPluginDependencies_GetDependencyFilepath extends WP_PluginDe
          */
         $this->set_property_value(
             'dependency_slugs',
-            ['dependency', 'dependency2', 'dependency3']
+            ['dependency', 'dependency2', 'dependency3'],
         );
 
         $this->set_property_value(
             'plugins',
             [
                 // This is flipped as paths are stored in the keys.
-                'dependency/dependency.php'   => [],
+                'dependency/dependency.php' => [],
                 'dependency2/dependency2.php' => [],
                 'dependency3/dependency3.php' => [],
-            ]
+            ],
         );
 
         $this->assertSame($expected, self::$instance::get_dependency_filepath('dependency'));

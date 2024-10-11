@@ -26,7 +26,7 @@ var pathToData = {
 	'wp-json/wp/v2/type': mockedApiResponse.TypeModel,
 	'wp-json/js-widgets/v1/': jsWidgetsEndpointSchema,
 	'wp-json/wp/v2/users/me': mockedApiResponse.me,
-	'wp-json/wp/v2/settings': mockedApiResponse.settings
+	'wp-json/wp/v2/settings': mockedApiResponse.settings,
 };
 
 /**
@@ -37,7 +37,6 @@ var pathToData = {
  * @return {Object}       A jQuery deferred object that resolves with the mapped data.
  */
 Backbone.ajax = function ( param ) {
-
 	var data,
 		request = param.url
 			.replace( 'http://remotehost/', '' )
@@ -56,5 +55,4 @@ Backbone.ajax = function ( param ) {
 
 	// Return the deferred promise that will resolve with the expected data.
 	return deferred.promise();
-
 };

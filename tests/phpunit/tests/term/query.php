@@ -40,10 +40,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $q = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_2',
-                'fields'     => 'ids',
+                'taxonomy' => 'wptests_tax_2',
+                'fields' => 'ids',
                 'hide_empty' => false,
-            ]
+            ],
         );
 
         $this->assertSameSets([$term_2], $q->terms);
@@ -64,28 +64,28 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $q = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
-                'fields'     => 'ids',
+                'taxonomy' => 'wptests_tax_1',
+                'fields' => 'ids',
                 'hide_empty' => false,
-            ]
+            ],
         );
 
         $this->assertSameSets([$term_1], $q->terms);
 
         $q = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_2',
-                'fields'     => 'ids',
+                'taxonomy' => 'wptests_tax_2',
+                'fields' => 'ids',
                 'hide_empty' => false,
-            ]
+            ],
         );
 
         $this->assertSameSets([$term_2], $q->terms);
 
         get_term_meta($term_1);
 
-        $args     = $filter->get_args();
-        $first    = reset($args);
+        $args = $filter->get_args();
+        $first = reset($args);
         $term_ids = end($first);
         $this->assertSameSets($term_ids, [$term_1, $term_2]);
     }
@@ -100,10 +100,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $q = new WP_Term_Query(
             [
-                'taxonomy'   => ['wptests_tax_2'],
-                'fields'     => 'ids',
+                'taxonomy' => ['wptests_tax_2'],
+                'fields' => 'ids',
                 'hide_empty' => false,
-            ]
+            ],
         );
 
         $this->assertSameSets([$term_2], $q->terms);
@@ -124,15 +124,15 @@ class Tests_Term_Query extends WP_UnitTestCase
         $wpdb->update(
             $wpdb->term_taxonomy,
             ['term_taxonomy_id' => 12345],
-            ['term_id' => $terms[0]]
+            ['term_id' => $terms[0]],
         );
 
         $q = new WP_Term_Query(
             [
                 'term_taxonomy_id' => 12345,
-                'fields'           => 'ids',
-                'hide_empty'       => false,
-            ]
+                'fields' => 'ids',
+                'hide_empty' => false,
+            ],
         );
 
         $this->assertSameSets([$terms[0]], $q->terms);
@@ -153,21 +153,21 @@ class Tests_Term_Query extends WP_UnitTestCase
         $wpdb->update(
             $wpdb->term_taxonomy,
             ['term_taxonomy_id' => 12345],
-            ['term_id' => $terms[0]]
+            ['term_id' => $terms[0]],
         );
 
         $wpdb->update(
             $wpdb->term_taxonomy,
             ['term_taxonomy_id' => 6789],
-            ['term_id' => $terms[2]]
+            ['term_id' => $terms[2]],
         );
 
         $q = new WP_Term_Query(
             [
                 'term_taxonomy_id' => [12345, 6789],
-                'fields'           => 'ids',
-                'hide_empty'       => false,
-            ]
+                'fields' => 'ids',
+                'hide_empty' => false,
+            ],
         );
 
         $this->assertSameSets([$terms[0], $terms[2]], $q->terms);
@@ -188,12 +188,12 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $q = new WP_Term_Query(
             [
-                'taxonomy'   => ['wptests_tax'],
-                'fields'     => 'ids',
+                'taxonomy' => ['wptests_tax'],
+                'fields' => 'ids',
                 'hide_empty' => false,
-                'meta_key'   => 'foo',
-                'orderby'    => 'meta_value_num',
-            ]
+                'meta_key' => 'foo',
+                'orderby' => 'meta_value_num',
+            ],
         );
 
         $found = array_map('intval', $q->terms);
@@ -211,8 +211,8 @@ class Tests_Term_Query extends WP_UnitTestCase
         $q = new WP_Term_Query(
             [
                 'taxonomy' => ['wptests_tax'],
-                'orderby'  => 'name',
-            ]
+                'orderby' => 'name',
+            ],
         );
         remove_filter('terms_clauses', [$this, 'filter_terms_clauses']);
 
@@ -237,11 +237,11 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $q = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax',
-                'orderby'    => 'term_order',
-                'fields'     => 'ids',
+                'taxonomy' => 'wptests_tax',
+                'orderby' => 'term_order',
+                'fields' => 'ids',
                 'hide_empty' => false,
-            ]
+            ],
         );
 
         $this->assertSame($terms, $q->get_terms());
@@ -258,18 +258,18 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $q1 = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
+                'taxonomy' => 'wptests_tax_1',
                 'hide_empty' => false,
-            ]
+            ],
         );
 
         $this->assertNotEmpty($q1->terms);
 
         $q2 = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
+                'taxonomy' => 'wptests_tax_1',
                 'hide_empty' => false,
-            ]
+            ],
         );
 
         $this->assertNotEmpty($q2->terms);
@@ -288,10 +288,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'include'    => "{$t1->term_id},{$t2->term_id}",
-                'orderby'    => 'include',
+                'include' => "{$t1->term_id},{$t2->term_id}",
+                'orderby' => 'include',
                 'hide_empty' => false,
-            ]
+            ],
         );
         $terms = $query->get_terms();
 
@@ -312,10 +312,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
+                'taxonomy' => 'wptests_tax_1',
                 'object_ids' => $p,
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$t], $query->terms);
@@ -335,10 +335,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
+                'taxonomy' => 'wptests_tax_1',
                 'object_ids' => [$p],
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSameSets([$t], $query->terms);
@@ -351,7 +351,7 @@ class Tests_Term_Query extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax_1', 'post');
         $posts = self::factory()->post->create_many(2);
-        $t     = self::factory()->term->create(['taxonomy' => 'wptests_tax_1']);
+        $t = self::factory()->term->create(['taxonomy' => 'wptests_tax_1']);
 
         foreach ($posts as $p) {
             wp_set_object_terms($p, [$t], 'wptests_tax_1');
@@ -359,10 +359,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
+                'taxonomy' => 'wptests_tax_1',
                 'object_ids' => $posts,
-                'fields'     => 'all',
-            ]
+                'fields' => 'all',
+            ],
         );
 
         $this->assertCount(1, $query->terms);
@@ -376,7 +376,7 @@ class Tests_Term_Query extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax_1', 'post');
         $posts = self::factory()->post->create_many(2);
-        $t     = self::factory()->term->create(['taxonomy' => 'wptests_tax_1']);
+        $t = self::factory()->term->create(['taxonomy' => 'wptests_tax_1']);
 
         foreach ($posts as $p) {
             wp_set_object_terms($p, [$t], 'wptests_tax_1');
@@ -384,10 +384,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
+                'taxonomy' => 'wptests_tax_1',
                 'object_ids' => $posts,
-                'fields'     => 'all_with_object_id',
-            ]
+                'fields' => 'all_with_object_id',
+            ],
         );
 
         $this->assertCount(2, $query->terms);
@@ -403,17 +403,17 @@ class Tests_Term_Query extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax_1', 'post');
         $posts = self::factory()->post->create_many(2);
-        $t     = self::factory()->term->create(['taxonomy' => 'wptests_tax_1']);
+        $t = self::factory()->term->create(['taxonomy' => 'wptests_tax_1']);
 
         foreach ($posts as $p) {
             wp_set_object_terms($p, [$t], 'wptests_tax_1');
         }
 
         $query = new WP_Term_Query();
-        $args  = [
-            'taxonomy'   => 'wptests_tax_1',
+        $args = [
+            'taxonomy' => 'wptests_tax_1',
             'object_ids' => $posts,
-            'fields'     => 'all_with_object_id',
+            'fields' => 'all_with_object_id',
         ];
 
         $terms = $query->query($args);
@@ -440,17 +440,17 @@ class Tests_Term_Query extends WP_UnitTestCase
     {
         register_taxonomy('wptests_tax_1', 'post');
 
-        $p     = self::factory()->post->create();
+        $p = self::factory()->post->create();
         $terms = self::factory()->term->create_many(2, ['taxonomy' => 'wptests_tax_1']);
 
         wp_set_object_terms($p, [$terms[0]], 'wptests_tax_1');
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
+                'taxonomy' => 'wptests_tax_1',
                 'object_ids' => $p,
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $found = $query->get_terms();
 
@@ -460,10 +460,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
+                'taxonomy' => 'wptests_tax_1',
                 'object_ids' => $p,
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
         $found = $query->get_terms();
 
@@ -482,10 +482,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
-                'fields'     => 'count',
+                'taxonomy' => 'wptests_tax_1',
+                'fields' => 'count',
                 'hide_empty' => false,
-            ]
+            ],
         );
         $count = $query->get_terms();
         $this->assertEquals(2, $count);
@@ -494,10 +494,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
-                'fields'     => 'count',
+                'taxonomy' => 'wptests_tax_1',
+                'fields' => 'count',
                 'hide_empty' => false,
-            ]
+            ],
         );
         $count = $query->get_terms();
         $this->assertEquals(2, $count);
@@ -516,10 +516,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
-                'fields'     => 'count',
+                'taxonomy' => 'wptests_tax_1',
+                'fields' => 'count',
                 'hide_empty' => false,
-            ]
+            ],
         );
         $count = $query->get_terms();
         $this->assertEquals(2, $count);
@@ -528,10 +528,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $query = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax_1',
-                'fields'     => 'count',
+                'taxonomy' => 'wptests_tax_1',
+                'fields' => 'count',
                 'hide_empty' => false,
-            ]
+            ],
         );
         $count = $query->get_terms();
         $this->assertEquals(1, $count);
@@ -550,15 +550,15 @@ class Tests_Term_Query extends WP_UnitTestCase
                 'args' => [
                     'orderby' => 'term_order',
                 ],
-            ]
+            ],
         );
         $term_ids = self::factory()->term->create_many(
             2,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
-        $post_id  = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         wp_set_object_terms($post_id, [$term_ids[0], $term_ids[1]], 'wptests_tax');
         $terms = get_the_terms($post_id, 'wptests_tax');
         $this->assertSame([$term_ids[0], $term_ids[1]], wp_list_pluck($terms, 'term_id'));
@@ -581,15 +581,15 @@ class Tests_Term_Query extends WP_UnitTestCase
                 'args' => [
                     'orderby' => 'term_order',
                 ],
-            ]
+            ],
         );
         $term_ids = self::factory()->term->create_many(
             2,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
-        $post_id  = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         wp_set_object_terms($post_id, [$term_ids[0], $term_ids[1]], 'wptests_tax');
         $terms = wp_get_object_terms($post_id, ['category', 'wptests_tax']);
         $this->assertSame([$term_ids[0], $term_ids[1], 1], wp_list_pluck($terms, 'term_id'));
@@ -609,22 +609,22 @@ class Tests_Term_Query extends WP_UnitTestCase
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'foo',
-                'slug'     => 'bar',
-            ]
+                'name' => 'foo',
+                'slug' => 'bar',
+            ],
         );
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'name'     => 'bar',
-                'slug'     => 'foo',
-            ]
+                'name' => 'bar',
+                'slug' => 'foo',
+            ],
         );
 
         $p = self::factory()->post->create(
             [
                 'post_type' => 'wptests_pt',
-            ]
+            ],
         );
 
         wp_set_object_terms($p, [$t1, $t2], 'wptests_tax');
@@ -634,7 +634,7 @@ class Tests_Term_Query extends WP_UnitTestCase
             'wptests_tax',
             [
                 'fields' => 'ids',
-            ]
+            ],
         );
 
         $found1 = array_keys(
@@ -643,8 +643,8 @@ class Tests_Term_Query extends WP_UnitTestCase
                 'wptests_tax',
                 [
                     'fields' => 'id=>parent',
-                ]
-            )
+                ],
+            ),
         );
 
         $found2 = array_keys(
@@ -653,8 +653,8 @@ class Tests_Term_Query extends WP_UnitTestCase
                 'wptests_tax',
                 [
                     'fields' => 'id=>slug',
-                ]
-            )
+                ],
+            ),
         );
 
         $found3 = array_keys(
@@ -663,8 +663,8 @@ class Tests_Term_Query extends WP_UnitTestCase
                 'wptests_tax',
                 [
                     'fields' => 'id=>name',
-                ]
-            )
+                ],
+            ),
         );
 
         $this->assertSame($expected, $found1);
@@ -685,15 +685,15 @@ class Tests_Term_Query extends WP_UnitTestCase
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         wp_set_object_terms($post_id, [$term_id], 'wptests_tax');
 
-        $q    = new WP_Term_Query();
+        $q = new WP_Term_Query();
         $args = [
             'taxonomy' => 'wptests_tax',
-            'parent'   => $term_id,
-            'fields'   => 'count',
+            'parent' => $term_id,
+            'fields' => 'count',
         ];
         $this->assertSame(0, $q->query($args));
     }
@@ -711,15 +711,15 @@ class Tests_Term_Query extends WP_UnitTestCase
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         wp_set_object_terms($post_id, [$term_id], 'wptests_tax');
 
-        $q    = new WP_Term_Query();
+        $q = new WP_Term_Query();
         $args = [
             'taxonomy' => 'wptests_tax',
             'child_of' => $term_id,
-            'fields'   => 'count',
+            'fields' => 'count',
         ];
         $this->assertSame(0, $q->query($args));
     }
@@ -738,7 +738,7 @@ class Tests_Term_Query extends WP_UnitTestCase
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         wp_set_object_terms($post_id, [$term_id], 'wptests_tax');
         $post_draft_id = self::factory()->post->create(['post_type' => 'draft']);
@@ -747,18 +747,20 @@ class Tests_Term_Query extends WP_UnitTestCase
         add_filter('terms_clauses', [$this, 'filter_fields_terms_clauses'], 10, 3);
 
         $args = [
-            'taxonomy'    => 'wptests_tax',
-            'hide_empty'  => false,
-            'post_type'   => 'post',
+            'taxonomy' => 'wptests_tax',
+            'hide_empty' => false,
+            'post_type' => 'post',
             'post_status' => 'publish',
         ];
 
-        $q1     = new WP_Term_Query();
+        $q1 = new WP_Term_Query();
         $terms1 = $q1->query($args);
-        $q2     = new WP_Term_Query();
+        $q2 = new WP_Term_Query();
         $terms2 = $q2->query($args);
-        $this->assertSameSets(wp_list_pluck($terms1, 'term_id'), wp_list_pluck($terms2, 'term_id'), 'Term IDs are expected to match');
-        $this->assertSameSets(wp_list_pluck($terms1, 'count'), wp_list_pluck($terms2, 'count'), 'Term counts are expected to match');
+        $this->assertSameSets(wp_list_pluck($terms1, 'term_id'), wp_list_pluck($terms2, 'term_id'),
+            'Term IDs are expected to match');
+        $this->assertSameSets(wp_list_pluck($terms1, 'count'), wp_list_pluck($terms2, 'count'),
+            'Term counts are expected to match');
     }
 
     /**
@@ -769,15 +771,19 @@ class Tests_Term_Query extends WP_UnitTestCase
         global $wpdb;
 
         // Set to query specific posts types if set.
-        if (! empty($args['post_type'])) {
-            $clauses['fields']  = 'DISTINCT t.term_id, tt.term_taxonomy_id, tt.taxonomy, tt.description, tt.parent, COUNT(p.post_type) AS count';
-            $clauses['join']   .= ' LEFT JOIN ' . $wpdb->term_relationships . ' AS r ON r.term_taxonomy_id = tt.term_taxonomy_id LEFT JOIN ' . $wpdb->posts . ' AS p ON p.ID = r.object_id';
-            $clauses['where']  .= " AND (p.post_type = '" . $args['post_type'] . "' OR p.post_type IS NULL)";
+        if (!empty($args['post_type'])) {
+            $clauses['fields'] = 'DISTINCT t.term_id, tt.term_taxonomy_id, tt.taxonomy, tt.description, tt.parent, COUNT(p.post_type) AS count';
+            $clauses['join'] .= ' LEFT JOIN '
+                . $wpdb->term_relationships
+                . ' AS r ON r.term_taxonomy_id = tt.term_taxonomy_id LEFT JOIN '
+                . $wpdb->posts
+                . ' AS p ON p.ID = r.object_id';
+            $clauses['where'] .= " AND (p.post_type = '" . $args['post_type'] . "' OR p.post_type IS NULL)";
             $clauses['orderby'] = 'GROUP BY t.term_id ' . $clauses['orderby'];
         }
 
         // Set to query posts with specific status.
-        if (! empty($args['post_status'])) {
+        if (!empty($args['post_status'])) {
             $clauses['where'] .= " AND (p.post_status = '" . $args['post_status'] . "')";
         }
         return $clauses;
@@ -797,7 +803,7 @@ class Tests_Term_Query extends WP_UnitTestCase
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         wp_set_object_terms($post_id, [$term_id], 'wptests_tax');
         $post_draft_id = self::factory()->post->create(['post_type' => 'draft']);
@@ -806,18 +812,20 @@ class Tests_Term_Query extends WP_UnitTestCase
         add_filter('get_terms_fields', [$this, 'filter_get_terms_fields']);
 
         $args = [
-            'taxonomy'    => 'wptests_tax',
-            'hide_empty'  => false,
-            'post_type'   => 'post',
+            'taxonomy' => 'wptests_tax',
+            'hide_empty' => false,
+            'post_type' => 'post',
             'post_status' => 'publish',
         ];
 
-        $q1     = new WP_Term_Query();
+        $q1 = new WP_Term_Query();
         $terms1 = $q1->query($args);
-        $q2     = new WP_Term_Query();
+        $q2 = new WP_Term_Query();
         $terms2 = $q2->query($args);
-        $this->assertSameSets(wp_list_pluck($terms1, 'term_id'), wp_list_pluck($terms2, 'term_id'), 'Term IDs are expected to match');
-        $this->assertSameSets(wp_list_pluck($terms1, 'parent'), wp_list_pluck($terms2, 'parent'), 'Term parent are expected to match');
+        $this->assertSameSets(wp_list_pluck($terms1, 'term_id'), wp_list_pluck($terms2, 'term_id'),
+            'Term IDs are expected to match');
+        $this->assertSameSets(wp_list_pluck($terms1, 'parent'), wp_list_pluck($terms2, 'parent'),
+            'Term parent are expected to match');
     }
 
     /**
@@ -841,15 +849,15 @@ class Tests_Term_Query extends WP_UnitTestCase
         $term_id = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
         wp_set_object_terms($post_id, [$term_id], 'wptests_tax');
 
         $q = new WP_Term_Query(
             [
                 'taxonomy' => 'wptests_tax',
-                'parent'   => $term_id,
-            ]
+                'parent' => $term_id,
+            ],
         );
         $this->assertSame([], $q->terms);
     }
@@ -865,7 +873,7 @@ class Tests_Term_Query extends WP_UnitTestCase
             3,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $this->term_id = $terms[1];
@@ -873,9 +881,9 @@ class Tests_Term_Query extends WP_UnitTestCase
         add_filter('get_term', [$this, 'filter_term_to_null']);
         $found = get_terms(
             [
-                'taxonomy'   => 'wptests_tax',
+                'taxonomy' => 'wptests_tax',
                 'hide_empty' => false,
-            ]
+            ],
         );
         remove_filter('get_term', [$this, 'filter_term_to_null']);
 
@@ -904,7 +912,7 @@ class Tests_Term_Query extends WP_UnitTestCase
             3,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $this->term_id = $terms[1];
@@ -912,9 +920,9 @@ class Tests_Term_Query extends WP_UnitTestCase
         add_filter('get_term', [$this, 'filter_term_to_wp_error']);
         $found = get_terms(
             [
-                'taxonomy'   => 'wptests_tax',
+                'taxonomy' => 'wptests_tax',
                 'hide_empty' => false,
-            ]
+            ],
         );
         remove_filter('get_term', [$this, 'filter_term_to_wp_error']);
 
@@ -941,11 +949,11 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $num_queries = get_num_queries();
 
-        $q       = new WP_Term_Query();
+        $q = new WP_Term_Query();
         $results = $q->query(
             [
                 'fields' => 'ids',
-            ]
+            ],
         );
 
         remove_filter('terms_pre_query', [__CLASS__, 'filter_terms_pre_query'], 10, 2);
@@ -972,20 +980,20 @@ class Tests_Term_Query extends WP_UnitTestCase
             'post',
             [
                 'hierarchical' => true,
-            ]
+            ],
         );
 
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'parent'   => $t1,
-            ]
+                'parent' => $t1,
+            ],
         );
 
         $p = self::factory()->post->create();
@@ -994,10 +1002,10 @@ class Tests_Term_Query extends WP_UnitTestCase
 
         $q = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax',
+                'taxonomy' => 'wptests_tax',
                 'hide_empty' => true,
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertContains($t1, $q->terms);
@@ -1013,20 +1021,20 @@ class Tests_Term_Query extends WP_UnitTestCase
             'post',
             [
                 'hierarchical' => true,
-            ]
+            ],
         );
 
         $t1 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $t2 = self::factory()->term->create(
             [
                 'taxonomy' => 'wptests_tax',
-                'parent'   => $t1,
-            ]
+                'parent' => $t1,
+            ],
         );
 
         $p = self::factory()->post->create();
@@ -1036,8 +1044,8 @@ class Tests_Term_Query extends WP_UnitTestCase
         $q = new WP_Term_Query(
             [
                 'hide_empty' => true,
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertContains($t1, $q->terms);
@@ -1058,7 +1066,7 @@ class Tests_Term_Query extends WP_UnitTestCase
         $query1->query($args);
 
         $query_vars = $query1->query_vars;
-        $request    = $query1->request;
+        $request = $query1->request;
 
         $reflection = new ReflectionMethod($query1, 'generate_cache_key');
         $reflection->setAccessible(true);
@@ -1080,25 +1088,25 @@ class Tests_Term_Query extends WP_UnitTestCase
     public function data_query_cache()
     {
         return [
-            'empty query'                => [
+            'empty query' => [
                 'args' => [],
             ],
-            'search query'               => [
+            'search query' => [
                 'args' => [
                     'search' => 'title',
                 ],
             ],
-            'search name query'          => [
+            'search name query' => [
                 'args' => [
                     'name__like' => 'title',
                 ],
             ],
-            'search description query'   => [
+            'search description query' => [
                 'args' => [
                     'description__like' => 'title',
                 ],
             ],
-            'meta query'                 => [
+            'meta query' => [
                 'args' => [
                     'meta_query' => [
                         [
@@ -1107,43 +1115,43 @@ class Tests_Term_Query extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'meta query search'          => [
+            'meta query search' => [
                 'args' => [
                     'meta_query' => [
                         [
-                            'key'     => 'color',
-                            'value'   => '00',
+                            'key' => 'color',
+                            'value' => '00',
                             'compare' => 'LIKE',
                         ],
                     ],
                 ],
             ],
-            'nested meta query search'   => [
+            'nested meta query search' => [
                 'args' => [
                     'meta_query' => [
                         'relation' => 'AND',
                         [
-                            'key'     => 'color',
-                            'value'   => '00',
+                            'key' => 'color',
+                            'value' => '00',
                             'compare' => 'LIKE',
                         ],
                         [
                             'relation' => 'OR',
                             [
-                                'key'     => 'color',
-                                'value'   => '00',
+                                'key' => 'color',
+                                'value' => '00',
                                 'compare' => 'LIKE',
                             ],
                             [
                                 'relation' => 'AND',
                                 [
-                                    'key'     => 'wp_test_suite',
-                                    'value'   => '56802',
+                                    'key' => 'wp_test_suite',
+                                    'value' => '56802',
                                     'compare' => 'LIKE',
                                 ],
                                 [
-                                    'key'     => 'wp_test_suite_too',
-                                    'value'   => '56802',
+                                    'key' => 'wp_test_suite_too',
+                                    'value' => '56802',
                                     'compare' => 'LIKE',
                                 ],
                             ],
@@ -1155,8 +1163,8 @@ class Tests_Term_Query extends WP_UnitTestCase
                 'args' => [
                     'meta_query' => [
                         [
-                            'key'     => 'color',
-                            'value'   => 'ff',
+                            'key' => 'color',
+                            'value' => 'ff',
                             'compare' => 'NOT LIKE',
                         ],
                     ],
@@ -1172,10 +1180,10 @@ class Tests_Term_Query extends WP_UnitTestCase
     {
         $q = new WP_Term_Query(
             [
-                'taxonomy'   => 'wptests_tax',
+                'taxonomy' => 'wptests_tax',
                 'hide_empty' => true,
-                'fields'     => 'ids',
-            ]
+                'fields' => 'ids',
+            ],
         );
 
         $this->assertSame(ltrim($q->request), $q->request, 'The query has leading whitespace');

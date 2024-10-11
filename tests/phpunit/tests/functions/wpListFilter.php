@@ -13,11 +13,11 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
     /**
      * @dataProvider data_wp_list_filter
      *
-     * @param array  $input_list An array of objects to filter.
-     * @param array  $args       An array of key => value arguments to match
+     * @param array $input_list An array of objects to filter.
+     * @param array $args An array of key => value arguments to match
      *                           against each object.
-     * @param string $operator   The logical operation to perform.
-     * @param array  $expected   Expected result.
+     * @param string $operator The logical operation to perform.
+     * @param array $expected Expected result.
      */
     public function test_wp_list_filter($input_list, $args, $operator, $expected)
     {
@@ -32,28 +32,28 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
     public function data_wp_list_filter()
     {
         return [
-            'string instead of array'  => [
+            'string instead of array' => [
                 'foo',
                 [],
                 'AND',
                 [],
             ],
-            'object instead of array'  => [
-                (object) ['foo'],
+            'object instead of array' => [
+                (object)['foo'],
                 [],
                 'AND',
                 [],
             ],
-            'empty args'               => [
+            'empty args' => [
                 ['foo', 'bar'],
                 [],
                 'AND',
                 ['foo', 'bar'],
             ],
-            'invalid operator'         => [
+            'invalid operator' => [
                 [
-                    (object) ['foo' => 'bar'],
-                    (object) ['foo' => 'baz'],
+                    (object)['foo' => 'bar'],
+                    (object)['foo' => 'baz'],
                 ],
                 ['foo' => 'bar'],
                 'XOR',
@@ -61,23 +61,23 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
             ],
             'single argument to match' => [
                 [
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
                     ],
-                    (object) [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                    (object)[
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'baz',
                         'key' => 'value',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'key' => 'value',
                     ],
@@ -85,38 +85,38 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
                 ['foo' => 'bar'],
                 'AND',
                 [
-                    0 => (object) [
+                    0 => (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
                     ],
-                    3 => (object) [
+                    3 => (object)[
                         'foo' => 'bar',
                         'key' => 'value',
                     ],
                 ],
             ],
-            'all must match'           => [
+            'all must match' => [
                 [
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
                     ],
-                    (object) [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                    (object)[
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'baz',
                         'key' => 'value',
                         'bar' => 'baz',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'key' => 'value',
                     ],
@@ -127,7 +127,7 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
                 ],
                 'AND',
                 [
-                    0 => (object) [
+                    0 => (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
@@ -135,26 +135,26 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
                     ],
                 ],
             ],
-            'any must match'           => [
+            'any must match' => [
                 [
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
                     ],
-                    (object) [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                    (object)[
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'baz',
                         'key' => 'value',
                         'bar' => 'baz',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'key' => 'value',
                     ],
@@ -165,42 +165,42 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
                 ],
                 'OR',
                 [
-                    0 => (object) [
+                    0 => (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
                     ],
-                    2 => (object) [
+                    2 => (object)[
                         'foo' => 'baz',
                         'key' => 'value',
                         'bar' => 'baz',
                     ],
-                    3 => (object) [
+                    3 => (object)[
                         'foo' => 'bar',
                         'key' => 'value',
                     ],
                 ],
             ],
-            'none must match'          => [
+            'none must match' => [
                 [
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'bar' => 'baz',
                         'abc' => 'xyz',
                         'key' => 'foo',
                     ],
-                    (object) [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                    (object)[
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'baz',
                         'key' => 'value',
                     ],
-                    (object) [
+                    (object)[
                         'foo' => 'bar',
                         'key' => 'value',
                     ],
@@ -211,24 +211,24 @@ class Tests_Functions_wpListFilter extends WP_UnitTestCase
                 ],
                 'NOT',
                 [
-                    1 => (object) [
-                        'foo'   => 'foo',
-                        '123'   => '456',
+                    1 => (object)[
+                        'foo' => 'foo',
+                        '123' => '456',
                         'lorem' => 'ipsum',
-                        'key'   => 'bar',
+                        'key' => 'bar',
                     ],
                 ],
             ],
             'string to int comparison' => [
                 [
-                    (object) [
+                    (object)[
                         'foo' => '1',
                     ],
                 ],
                 ['foo' => 1],
                 'AND',
                 [
-                    0 => (object) [
+                    0 => (object)[
                         'foo' => '1',
                     ],
                 ],

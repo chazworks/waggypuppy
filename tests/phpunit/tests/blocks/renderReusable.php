@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for synced pattern rendering.
  *
@@ -34,36 +35,36 @@ class Tests_Blocks_RenderReusable extends WP_UnitTestCase
     /**
      * Create fake data before tests run.
      *
+     * @param WP_UnitTest_Factory $factory Helper that creates fake data.
      * @since 5.0.0
      *
-     * @param WP_UnitTest_Factory $factory Helper that creates fake data.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {
         self::$user_id = $factory->user->create(
             [
                 'role' => 'editor',
-            ]
+            ],
         );
 
         self::$post_id = $factory->post->create(
             [
-                'post_author'  => self::$user_id,
-                'post_type'    => 'post',
-                'post_status'  => 'publish',
-                'post_title'   => 'Test Post',
+                'post_author' => self::$user_id,
+                'post_type' => 'post',
+                'post_status' => 'publish',
+                'post_title' => 'Test Post',
                 'post_content' => '<p>Hello world!</p>',
-            ]
+            ],
         );
 
         self::$block_id = $factory->post->create(
             [
-                'post_author'  => self::$user_id,
-                'post_type'    => 'wp_block',
-                'post_status'  => 'publish',
-                'post_title'   => 'Test Block',
+                'post_author' => self::$user_id,
+                'post_type' => 'wp_block',
+                'post_status' => 'publish',
+                'post_title' => 'Test Block',
                 'post_content' => '<!-- wp:core/paragraph --><p>Hello world!</p><!-- /wp:core/paragraph -->',
-            ]
+            ],
         );
     }
 
@@ -82,7 +83,7 @@ class Tests_Blocks_RenderReusable extends WP_UnitTestCase
     public function test_render()
     {
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered('core/block');
-        $output     = $block_type->render(['ref' => self::$block_id]);
+        $output = $block_type->render(['ref' => self::$block_id]);
         $this->assertSame('<p>Hello world!</p>', $output);
     }
 
@@ -94,22 +95,22 @@ class Tests_Blocks_RenderReusable extends WP_UnitTestCase
     public function test_render_subsequent()
     {
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered('core/block');
-        $output     = $block_type->render(['ref' => self::$block_id]);
-        $output    .= $block_type->render(['ref' => self::$block_id]);
+        $output = $block_type->render(['ref' => self::$block_id]);
+        $output .= $block_type->render(['ref' => self::$block_id]);
         $this->assertSame('<p>Hello world!</p><p>Hello world!</p>', $output);
     }
 
     public function test_ref_empty()
     {
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered('core/block');
-        $output     = $block_type->render([]);
+        $output = $block_type->render([]);
         $this->assertSame('', $output);
     }
 
     public function test_ref_wrong_post_type()
     {
         $block_type = WP_Block_Type_Registry::get_instance()->get_registered('core/block');
-        $output     = $block_type->render(['ref' => self::$post_id]);
+        $output = $block_type->render(['ref' => self::$post_id]);
         $this->assertSame('', $output);
     }
 }

@@ -36,13 +36,13 @@ class WP_Customize_Sidebar_Section extends WP_Customize_Section
     /**
      * Gather the parameters passed to client JavaScript via JSON.
      *
+     * @return array The array to be exported to the client as JSON.
      * @since 4.1.0
      *
-     * @return array The array to be exported to the client as JSON.
      */
     public function json()
     {
-        $json              = parent::json();
+        $json = parent::json();
         $json['sidebarId'] = $this->sidebar_id;
         return $json;
     }
@@ -50,9 +50,9 @@ class WP_Customize_Sidebar_Section extends WP_Customize_Section
     /**
      * Whether the current sidebar is rendered on the page.
      *
+     * @return bool Whether sidebar is rendered.
      * @since 4.1.0
      *
-     * @return bool Whether sidebar is rendered.
      */
     public function active_callback()
     {

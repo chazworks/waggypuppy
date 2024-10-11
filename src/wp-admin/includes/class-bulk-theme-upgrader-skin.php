@@ -45,9 +45,9 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin
     /**
      * Performs an action before a bulk theme update.
      *
+     * @param string $title
      * @since 3.0.0
      *
-     * @param string $title
      */
     public function before($title = '')
     {
@@ -57,9 +57,9 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin
     /**
      * Performs an action following a bulk theme update.
      *
+     * @param string $title
      * @since 3.0.0
      *
-     * @param string $title
      */
     public function after($title = '')
     {
@@ -77,34 +77,34 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin
         parent::bulk_footer();
 
         $update_actions = [
-            'themes_page'  => sprintf(
+            'themes_page' => sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('themes.php'),
-                __('Go to Themes page')
+                __('Go to Themes page'),
             ),
             'updates_page' => sprintf(
                 '<a href="%s" target="_parent">%s</a>',
                 self_admin_url('update-core.php'),
-                __('Go to waggypuppy Updates page')
+                __('Go to waggypuppy Updates page'),
             ),
         ];
 
-        if (! current_user_can('switch_themes') && ! current_user_can('edit_theme_options')) {
+        if (!current_user_can('switch_themes') && !current_user_can('edit_theme_options')) {
             unset($update_actions['themes_page']);
         }
 
         /**
          * Filters the list of action links available following bulk theme updates.
          *
+         * @param string[] $update_actions Array of theme action links.
+         * @param WP_Theme $theme_info Theme object for the last-updated theme.
          * @since 3.0.0
          *
-         * @param string[] $update_actions Array of theme action links.
-         * @param WP_Theme $theme_info     Theme object for the last-updated theme.
          */
         $update_actions = apply_filters('update_bulk_theme_complete_actions', $update_actions, $this->theme_info);
 
-        if (! empty($update_actions)) {
-            $this->feedback(implode(' | ', (array) $update_actions));
+        if (!empty($update_actions)) {
+            $this->feedback(implode(' | ', (array)$update_actions));
         }
     }
 }

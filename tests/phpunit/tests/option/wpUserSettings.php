@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test wp_user_settings().
  *

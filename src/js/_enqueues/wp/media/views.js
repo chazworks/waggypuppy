@@ -6,7 +6,7 @@ var media = wp.media,
 	$ = jQuery,
 	l10n;
 
-media.isTouchDevice = ( 'ontouchend' in document );
+media.isTouchDevice = 'ontouchend' in document;
 
 // Link any localized strings.
 l10n = media.view.l10n = window._wpMediaViewsL10n || {};
@@ -19,23 +19,26 @@ delete l10n.settings;
 media.model.settings.post = media.view.settings.post;
 
 // Check if the browser supports CSS 3.0 transitions.
-$.support.transition = (function(){
+$.support.transition = ( function () {
 	var style = document.documentElement.style,
 		transitions = {
 			WebkitTransition: 'webkitTransitionEnd',
-			MozTransition:    'transitionend',
-			OTransition:      'oTransitionEnd otransitionend',
-			transition:       'transitionend'
-		}, transition;
+			MozTransition: 'transitionend',
+			OTransition: 'oTransitionEnd otransitionend',
+			transition: 'transitionend',
+		},
+		transition;
 
-	transition = _.find( _.keys( transitions ), function( transition ) {
+	transition = _.find( _.keys( transitions ), function ( transition ) {
 		return ! _.isUndefined( style[ transition ] );
-	});
+	} );
 
-	return transition && {
-		end: transitions[ transition ]
-	};
-}());
+	return (
+		transition && {
+			end: transitions[ transition ],
+		}
+	);
+} )();
 
 /**
  * A shared event bus used to provide events into
@@ -51,13 +54,13 @@ media.events = _.extend( {}, Backbone.Events );
  * @param {number} sensitivity
  * @return {Promise}
  */
-media.transition = function( selector, sensitivity ) {
+media.transition = function ( selector, sensitivity ) {
 	var deferred = $.Deferred();
 
 	sensitivity = sensitivity || 2000;
 
 	if ( $.support.transition ) {
-		if ( ! (selector instanceof $) ) {
+		if ( ! ( selector instanceof $ ) ) {
 			selector = $( selector );
 		}
 
@@ -67,7 +70,7 @@ media.transition = function( selector, sensitivity ) {
 		// Just in case the event doesn't trigger, fire a callback.
 		_.delay( deferred.resolve, sensitivity );
 
-	// Otherwise, execute on the spot.
+		// Otherwise, execute on the spot.
 	} else {
 		deferred.resolve();
 	}

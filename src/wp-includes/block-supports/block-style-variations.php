@@ -10,15 +10,15 @@
 /**
  * Determines the block style variation names within a CSS class string.
  *
- * @since 6.6.0
- *
  * @param string $class_string CSS class string to look for a variation in.
  *
  * @return array|null The block style variation name if found.
+ * @since 6.6.0
+ *
  */
 function wp_get_block_style_variation_name_from_class($class_string)
 {
-    if (! is_string($class_string)) {
+    if (!is_string($class_string)) {
         return null;
     }
 
@@ -29,11 +29,11 @@ function wp_get_block_style_variation_name_from_class($class_string)
 /**
  * Recursively resolves any `ref` values within a block style variation's data.
  *
+ * @param array $variation_data Reference to the variation data being processed.
+ * @param array $theme_json Theme.json data to retrieve referenced values from.
  * @since 6.6.0
  * @access private
  *
- * @param array $variation_data Reference to the variation data being processed.
- * @param array $theme_json     Theme.json data to retrieve referenced values from.
  */
 function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_json)
 {
@@ -43,12 +43,12 @@ function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_js
             // If ref value is set, attempt to find its matching value and update it.
             if (array_key_exists('ref', $value)) {
                 // Clean up any invalid ref value.
-                if (empty($value['ref']) || ! is_string($value['ref'])) {
+                if (empty($value['ref']) || !is_string($value['ref'])) {
                     unset($variation_data[$key]);
                 }
 
                 $value_path = explode('.', $value['ref'] ?? '');
-                $ref_value  = _wp_array_get($theme_json, $value_path);
+                $ref_value = _wp_array_get($theme_json, $value_path);
 
                 // Only update the current value if the referenced path matched a value.
                 if (null === $ref_value) {
@@ -63,6 +63,7 @@ function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_js
         }
     }
 }
+
 /**
  * Render the block style variation's styles.
  *
@@ -73,23 +74,23 @@ function wp_resolve_block_style_variation_ref_values(&$variation_data, $theme_js
  * in the DOM order. This is why the variation stylesheet generation is in a
  * different filter.
  *
- * @since 6.6.0
- * @access private
- *
  * @param array $parsed_block The parsed block.
  *
  * @return array The parsed block with block style variation classname added.
+ * @since 6.6.0
+ * @access private
+ *
  */
 function wp_render_block_style_variation_support_styles($parsed_block)
 {
-    $classes    = $parsed_block['attrs']['className'] ?? null;
+    $classes = $parsed_block['attrs']['className'] ?? null;
     $variations = wp_get_block_style_variation_name_from_class($classes);
 
-    if (! $variations) {
+    if (!$variations) {
         return $parsed_block;
     }
 
-    $tree       = WP_Theme_JSON_Resolver::get_merged_data();
+    $tree = WP_Theme_JSON_Resolver::get_merged_data();
     $theme_json = $tree->get_raw_data();
 
     // Only the first block style variation with data is supported.
@@ -97,7 +98,7 @@ function wp_render_block_style_variation_support_styles($parsed_block)
     foreach ($variations as $variation) {
         $variation_data = $theme_json['styles']['blocks'][$parsed_block['blockName']]['variations'][$variation] ?? [];
 
-        if (! empty($variation_data)) {
+        if (!empty($variation_data)) {
             break;
         }
     }
@@ -113,7 +114,7 @@ function wp_render_block_style_variation_support_styles($parsed_block)
     wp_resolve_block_style_variation_ref_values($variation_data, $theme_json);
 
     $variation_instance = wp_unique_id($variation . '--');
-    $class_name         = "is-style-$variation_instance";
+    $class_name = "is-style-$variation_instance";
     $updated_class_name = $parsed_block['attrs']['className'] . " $class_name";
 
     /*
@@ -134,26 +135,26 @@ function wp_render_block_style_variation_support_styles($parsed_block)
      * when the stylesheet is generated.
      */
     $elements_data = $variation_data['elements'] ?? [];
-    $blocks_data   = $variation_data['blocks'] ?? [];
+    $blocks_data = $variation_data['blocks'] ?? [];
     unset($variation_data['elements']);
     unset($variation_data['blocks']);
 
     _wp_array_set(
         $blocks_data,
         [$parsed_block['blockName'], 'variations', $variation_instance],
-        $variation_data
+        $variation_data,
     );
 
     $config = [
         'version' => WP_Theme_JSON::LATEST_SCHEMA,
-        'styles'  => [
+        'styles' => [
             'elements' => $elements_data,
-            'blocks'   => $blocks_data,
+            'blocks' => $blocks_data,
         ],
     ];
 
     // Turn off filter that excludes block nodes. They are needed here for the variation's inner block types.
-    if (! is_admin()) {
+    if (!is_admin()) {
         remove_filter('wp_theme_json_get_style_nodes', 'wp_filter_out_block_nodes');
     }
 
@@ -162,21 +163,21 @@ function wp_render_block_style_variation_support_styles($parsed_block)
     $styles_registry->register($parsed_block['blockName'], ['name' => $variation_instance]);
 
     $variation_theme_json = new WP_Theme_JSON($config, 'blocks');
-    $variation_styles     = $variation_theme_json->get_stylesheet(
+    $variation_styles = $variation_theme_json->get_stylesheet(
         ['styles'],
         ['custom'],
         [
             'include_block_style_variations' => true,
-            'skip_root_layout_styles'        => true,
-            'scope'                          => ".$class_name",
-        ]
+            'skip_root_layout_styles' => true,
+            'scope' => ".$class_name",
+        ],
     );
 
     // Clean up temporary block style now instance styles have been processed.
     $styles_registry->unregister($parsed_block['blockName'], $variation_instance);
 
     // Restore filter that excludes block nodes.
-    if (! is_admin()) {
+    if (!is_admin()) {
         add_filter('wp_theme_json_get_style_nodes', 'wp_filter_out_block_nodes');
     }
 
@@ -201,19 +202,19 @@ function wp_render_block_style_variation_support_styles($parsed_block)
  * block attributes in the `render_block_data` filter gets applied to the
  * block's markup.
  *
- * @see wp_render_block_style_variation_support_styles
+ * @param string $block_content Rendered block content.
+ * @param array $block Block object.
  *
+ * @return string                Filtered block content.
  * @since 6.6.0
  * @access private
  *
- * @param  string $block_content Rendered block content.
- * @param  array  $block         Block object.
+ * @see wp_render_block_style_variation_support_styles
  *
- * @return string                Filtered block content.
  */
 function wp_render_block_style_variation_class_name($block_content, $block)
 {
-    if (! $block_content || empty($block['attrs']['className'])) {
+    if (!$block_content || empty($block['attrs']['className'])) {
         return $block_content;
     }
 
@@ -262,10 +263,10 @@ add_action('wp_enqueue_scripts', 'wp_enqueue_block_style_variation_styles', 1);
 /**
  * Registers block style variations read in from theme.json partials.
  *
+ * @param array $variations Shared block style variations.
  * @since 6.6.0
  * @access private
  *
- * @param array $variations Shared block style variations.
  */
 function wp_register_block_style_variations_from_theme_json_partials($variations)
 {
@@ -280,20 +281,20 @@ function wp_register_block_style_variations_from_theme_json_partials($variations
             continue;
         }
 
-        $variation_name  = $variation['slug'] ?? _wp_to_kebab_case($variation['title']);
+        $variation_name = $variation['slug'] ?? _wp_to_kebab_case($variation['title']);
         $variation_label = $variation['title'] ?? $variation_name;
 
         foreach ($variation['blockTypes'] as $block_type) {
             $registered_styles = $registry->get_registered_styles_for_block($block_type);
 
             // Register block style variation if it hasn't already been registered.
-            if (! array_key_exists($variation_name, $registered_styles)) {
+            if (!array_key_exists($variation_name, $registered_styles)) {
                 register_block_style(
                     $block_type,
                     [
-                        'name'  => $variation_name,
+                        'name' => $variation_name,
                         'label' => $variation_label,
-                    ]
+                    ],
                 );
             }
         }

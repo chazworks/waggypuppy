@@ -7,151 +7,151 @@
 class Tests_Admin_IncludesScreen extends WP_UnitTestCase
 {
     public $core_screens = [
-        'index.php'                            => [
-            'base'            => 'dashboard',
-            'id'              => 'dashboard',
+        'index.php' => [
+            'base' => 'dashboard',
+            'id' => 'dashboard',
             'is_block_editor' => false,
         ],
-        'edit.php'                             => [
-            'base'            => 'edit',
-            'id'              => 'edit-post',
-            'post_type'       => 'post',
+        'edit.php' => [
+            'base' => 'edit',
+            'id' => 'edit-post',
+            'post_type' => 'post',
             'is_block_editor' => false,
         ],
-        'post-new.php'                         => [
-            'action'          => 'add',
-            'base'            => 'post',
-            'id'              => 'post',
-            'post_type'       => 'post',
+        'post-new.php' => [
+            'action' => 'add',
+            'base' => 'post',
+            'id' => 'post',
+            'post_type' => 'post',
             'is_block_editor' => true,
         ],
-        'post.php'                             => [
-            'base'            => 'post',
-            'id'              => 'post',
-            'post_type'       => 'post',
+        'post.php' => [
+            'base' => 'post',
+            'id' => 'post',
+            'post_type' => 'post',
             'is_block_editor' => true,
         ],
-        'edit-tags.php'                        => [
-            'base'            => 'edit-tags',
-            'id'              => 'edit-post_tag',
-            'post_type'       => 'post',
-            'taxonomy'        => 'post_tag',
+        'edit-tags.php' => [
+            'base' => 'edit-tags',
+            'id' => 'edit-post_tag',
+            'post_type' => 'post',
+            'taxonomy' => 'post_tag',
             'is_block_editor' => false,
         ],
-        'edit-tags.php?taxonomy=post_tag'      => [
-            'base'            => 'edit-tags',
-            'id'              => 'edit-post_tag',
-            'post_type'       => 'post',
-            'taxonomy'        => 'post_tag',
+        'edit-tags.php?taxonomy=post_tag' => [
+            'base' => 'edit-tags',
+            'id' => 'edit-post_tag',
+            'post_type' => 'post',
+            'taxonomy' => 'post_tag',
             'is_block_editor' => false,
         ],
-        'edit-tags.php?taxonomy=category'      => [
-            'base'            => 'edit-tags',
-            'id'              => 'edit-category',
-            'post_type'       => 'post',
-            'taxonomy'        => 'category',
+        'edit-tags.php?taxonomy=category' => [
+            'base' => 'edit-tags',
+            'id' => 'edit-category',
+            'post_type' => 'post',
+            'taxonomy' => 'category',
             'is_block_editor' => false,
         ],
-        'upload.php'                           => [
-            'base'            => 'upload',
-            'id'              => 'upload',
-            'post_type'       => 'attachment',
+        'upload.php' => [
+            'base' => 'upload',
+            'id' => 'upload',
+            'post_type' => 'attachment',
             'is_block_editor' => false,
         ],
-        'media-new.php'                        => [
-            'action'          => 'add',
-            'base'            => 'media',
-            'id'              => 'media',
+        'media-new.php' => [
+            'action' => 'add',
+            'base' => 'media',
+            'id' => 'media',
             'is_block_editor' => false,
         ],
-        'edit.php?post_type=page'              => [
-            'base'            => 'edit',
-            'id'              => 'edit-page',
-            'post_type'       => 'page',
+        'edit.php?post_type=page' => [
+            'base' => 'edit',
+            'id' => 'edit-page',
+            'post_type' => 'page',
             'is_block_editor' => false,
         ],
-        'link-manager.php'                     => [
-            'base'            => 'link-manager',
-            'id'              => 'link-manager',
+        'link-manager.php' => [
+            'base' => 'link-manager',
+            'id' => 'link-manager',
             'is_block_editor' => false,
         ],
-        'link-add.php'                         => [
-            'action'          => 'add',
-            'base'            => 'link',
-            'id'              => 'link',
+        'link-add.php' => [
+            'action' => 'add',
+            'base' => 'link',
+            'id' => 'link',
             'is_block_editor' => false,
         ],
         'edit-tags.php?taxonomy=link_category' => [
-            'base'            => 'edit-tags',
-            'id'              => 'edit-link_category',
-            'taxonomy'        => 'link_category',
-            'post_type'       => '',
+            'base' => 'edit-tags',
+            'id' => 'edit-link_category',
+            'taxonomy' => 'link_category',
+            'post_type' => '',
             'is_block_editor' => false,
         ],
-        'edit-comments.php'                    => [
-            'base'            => 'edit-comments',
-            'id'              => 'edit-comments',
+        'edit-comments.php' => [
+            'base' => 'edit-comments',
+            'id' => 'edit-comments',
             'is_block_editor' => false,
         ],
-        'themes.php'                           => [
-            'base'            => 'themes',
-            'id'              => 'themes',
+        'themes.php' => [
+            'base' => 'themes',
+            'id' => 'themes',
             'is_block_editor' => false,
         ],
-        'widgets.php'                          => [
-            'base'            => 'widgets',
-            'id'              => 'widgets',
+        'widgets.php' => [
+            'base' => 'widgets',
+            'id' => 'widgets',
             'is_block_editor' => false,
         ],
-        'nav-menus.php'                        => [
-            'base'            => 'nav-menus',
-            'id'              => 'nav-menus',
+        'nav-menus.php' => [
+            'base' => 'nav-menus',
+            'id' => 'nav-menus',
             'is_block_editor' => false,
         ],
-        'plugins.php'                          => [
-            'base'            => 'plugins',
-            'id'              => 'plugins',
+        'plugins.php' => [
+            'base' => 'plugins',
+            'id' => 'plugins',
             'is_block_editor' => false,
         ],
-        'users.php'                            => [
-            'base'            => 'users',
-            'id'              => 'users',
+        'users.php' => [
+            'base' => 'users',
+            'id' => 'users',
             'is_block_editor' => false,
         ],
-        'user-new.php'                         => [
-            'action'          => 'add',
-            'base'            => 'user',
-            'id'              => 'user',
+        'user-new.php' => [
+            'action' => 'add',
+            'base' => 'user',
+            'id' => 'user',
             'is_block_editor' => false,
         ],
-        'profile.php'                          => [
-            'base'            => 'profile',
-            'id'              => 'profile',
+        'profile.php' => [
+            'base' => 'profile',
+            'id' => 'profile',
             'is_block_editor' => false,
         ],
-        'tools.php'                            => [
-            'base'            => 'tools',
-            'id'              => 'tools',
+        'tools.php' => [
+            'base' => 'tools',
+            'id' => 'tools',
             'is_block_editor' => false,
         ],
-        'import.php'                           => [
-            'base'            => 'import',
-            'id'              => 'import',
+        'import.php' => [
+            'base' => 'import',
+            'id' => 'import',
             'is_block_editor' => false,
         ],
-        'export.php'                           => [
-            'base'            => 'export',
-            'id'              => 'export',
+        'export.php' => [
+            'base' => 'export',
+            'id' => 'export',
             'is_block_editor' => false,
         ],
-        'options-general.php'                  => [
-            'base'            => 'options-general',
-            'id'              => 'options-general',
+        'options-general.php' => [
+            'base' => 'options-general',
+            'id' => 'options-general',
             'is_block_editor' => false,
         ],
-        'options-writing.php'                  => [
-            'base'            => 'options-writing',
-            'id'              => 'options-writing',
+        'options-writing.php' => [
+            'base' => 'options-writing',
+            'id' => 'options-writing',
             'is_block_editor' => false,
         ],
     ];
@@ -167,31 +167,31 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
         global $current_screen;
 
         foreach ($this->core_screens as $hook_name => $screen) {
-            $_GET               = [];
-            $_POST              = [];
-            $_REQUEST           = [];
-            $GLOBALS['taxnow']  = '';
+            $_GET = [];
+            $_POST = [];
+            $_REQUEST = [];
+            $GLOBALS['taxnow'] = '';
             $GLOBALS['typenow'] = '';
-            $screen             = (object) $screen;
-            $hook               = parse_url($hook_name);
+            $screen = (object)$screen;
+            $hook = parse_url($hook_name);
 
-            if (! empty($hook['query'])) {
+            if (!empty($hook['query'])) {
                 $args = wp_parse_args($hook['query']);
                 if (isset($args['taxonomy'])) {
-                    $GLOBALS['taxnow']    = $args['taxonomy'];
-                    $_GET['taxonomy']     = $args['taxonomy'];
-                    $_POST['taxonomy']    = $args['taxonomy'];
+                    $GLOBALS['taxnow'] = $args['taxonomy'];
+                    $_GET['taxonomy'] = $args['taxonomy'];
+                    $_POST['taxonomy'] = $args['taxonomy'];
                     $_REQUEST['taxonomy'] = $args['taxonomy'];
                 }
                 if (isset($args['post_type'])) {
-                    $GLOBALS['typenow']    = $args['post_type'];
-                    $_GET['post_type']     = $args['post_type'];
-                    $_POST['post_type']    = $args['post_type'];
+                    $GLOBALS['typenow'] = $args['post_type'];
+                    $_GET['post_type'] = $args['post_type'];
+                    $_POST['post_type'] = $args['post_type'];
                     $_REQUEST['post_type'] = $args['post_type'];
                 } elseif (isset($screen->post_type)) {
-                    $GLOBALS['typenow']    = $screen->post_type;
-                    $_GET['post_type']     = $screen->post_type;
-                    $_POST['post_type']    = $screen->post_type;
+                    $GLOBALS['typenow'] = $screen->post_type;
+                    $_GET['post_type'] = $screen->post_type;
+                    $_POST['post_type'] = $screen->post_type;
                     $_REQUEST['post_type'] = $screen->post_type;
                 }
             }
@@ -305,11 +305,11 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
 
     public function test_help_tabs()
     {
-        $tab      = __FUNCTION__;
+        $tab = __FUNCTION__;
         $tab_args = [
-            'title'    => 'Help!',
-            'id'       => $tab,
-            'content'  => 'Some content',
+            'title' => 'Help!',
+            'id' => $tab,
+            'content' => 'Some content',
             'callback' => false,
         ];
 
@@ -319,12 +319,12 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
         $this->assertSame(
             $screen->get_help_tab($tab),
             [
-                'title'    => 'Help!',
-                'id'       => $tab,
-                'content'  => 'Some content',
+                'title' => 'Help!',
+                'id' => $tab,
+                'content' => 'Some content',
                 'callback' => false,
                 'priority' => 10,
-            ]
+            ],
         );
 
         $tabs = $screen->get_help_tabs();
@@ -342,36 +342,36 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
      */
     public function test_help_tabs_priority()
     {
-        $tab_1      = 'tab1';
+        $tab_1 = 'tab1';
         $tab_1_args = [
-            'title'    => 'Help!',
-            'id'       => $tab_1,
-            'content'  => 'Some content',
+            'title' => 'Help!',
+            'id' => $tab_1,
+            'content' => 'Some content',
             'callback' => false,
             'priority' => 10,
         ];
 
-        $tab_2      = 'tab2';
+        $tab_2 = 'tab2';
         $tab_2_args = [
-            'title'    => 'Help!',
-            'id'       => $tab_2,
-            'content'  => 'Some content',
+            'title' => 'Help!',
+            'id' => $tab_2,
+            'content' => 'Some content',
             'callback' => false,
             'priority' => 2,
         ];
-        $tab_3      = 'tab3';
+        $tab_3 = 'tab3';
         $tab_3_args = [
-            'title'    => 'help!',
-            'id'       => $tab_3,
-            'content'  => 'some content',
+            'title' => 'help!',
+            'id' => $tab_3,
+            'content' => 'some content',
             'callback' => false,
             'priority' => 40,
         ];
-        $tab_4      = 'tab4';
+        $tab_4 = 'tab4';
         $tab_4_args = [
-            'title'    => 'help!',
-            'id'       => $tab_4,
-            'content'  => 'some content',
+            'title' => 'help!',
+            'id' => $tab_4,
+            'content' => 'some content',
             'callback' => false,
             // Don't include a priority.
         ];
@@ -411,7 +411,7 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
                 $tab_4 => $tab_4_args,
                 $tab_3 => $tab_3_args,
             ],
-            $tabs
+            $tabs,
         );
 
         $screen->remove_help_tab($tab_1);
@@ -439,11 +439,11 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
      */
     public function test_options()
     {
-        $option      = __FUNCTION__;
+        $option = __FUNCTION__;
         $option_args = [
-            'label'   => 'Option',
+            'label' => 'Option',
             'default' => 10,
-            'option'  => $option,
+            'option' => $option,
         ];
 
         set_current_screen('edit.php');
@@ -492,26 +492,26 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
     /**
      * Sets up a method for testing is_block_editor for a custom post type.
      *
-     * @since 5.2.0
-     *
      * @param string $hook Admin page hook.
      * @return WP_Screen Screen object.
+     * @since 5.2.0
+     *
      */
     public function setup_block_editor_test($hook = 'post.php')
     {
         register_post_type('type_shows_in_rest', ['show_in_rest' => true]);
 
-        $GLOBALS['typenow']     = 'type_shows_in_rest';
-        $_GET['post_type']      = 'type_shows_in_rest';
-        $_POST['post_type']     = 'type_shows_in_rest';
-        $_REQUEST['post_type']  = 'type_shows_in_rest';
+        $GLOBALS['typenow'] = 'type_shows_in_rest';
+        $_GET['post_type'] = 'type_shows_in_rest';
+        $_POST['post_type'] = 'type_shows_in_rest';
+        $_REQUEST['post_type'] = 'type_shows_in_rest';
         $GLOBALS['hook_suffix'] = $hook;
 
         if ('post.php' === $hook) {
-            $post_id      = self::factory()->post->create(
+            $post_id = self::factory()->post->create(
                 [
                     'post_type' => 'type_shows_in_rest',
-                ]
+                ],
             );
             $_GET['post'] = $post_id;
         }
@@ -529,48 +529,48 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
         return [
             [
                 // Edit post: Post type supports `show_in_rest`, no filters.
-                'hook'     => 'post.php',
-                'filter'   => [],
+                'hook' => 'post.php',
+                'filter' => [],
                 'expected' => true,
             ],
             [
                 // Edit post: Support is disabled using post specific filter.
-                'hook'     => 'post.php',
-                'filter'   => [
-                    'name'     => 'use_block_editor_for_post',
+                'hook' => 'post.php',
+                'filter' => [
+                    'name' => 'use_block_editor_for_post',
                     'function' => '__return_false',
                 ],
                 'expected' => false,
             ],
             [
                 // Edit post: Support is disabled using post type specific filter.
-                'hook'     => 'post.php',
-                'filter'   => [
-                    'name'     => 'use_block_editor_for_post_type',
+                'hook' => 'post.php',
+                'filter' => [
+                    'name' => 'use_block_editor_for_post_type',
                     'function' => '__return_false',
                 ],
                 'expected' => false,
             ],
             [
                 // Edit post: Support is disabled using global replace filter.
-                'hook'     => 'post.php',
-                'filter'   => [
-                    'name'     => 'replace_editor',
+                'hook' => 'post.php',
+                'filter' => [
+                    'name' => 'replace_editor',
                     'function' => '__return_true',
                 ],
                 'expected' => false,
             ],
             [
                 // Create post: Post type supports `show_in_rest`, no filters.
-                'hook'     => 'post-new.php',
-                'filter'   => [],
+                'hook' => 'post-new.php',
+                'filter' => [],
                 'expected' => true,
             ],
             [
                 // Create post: Support is disabled using post type specific filter.
-                'hook'     => 'post-new.php',
-                'filter'   => [
-                    'name'     => 'use_block_editor_for_post_type',
+                'hook' => 'post-new.php',
+                'filter' => [
+                    'name' => 'use_block_editor_for_post_type',
                     'function' => '__return_false',
                 ],
                 'expected' => false,
@@ -578,9 +578,9 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
 
             [
                 // Create post: Support is not immediately disabled using post specific filter.
-                'hook'     => 'post-new.php',
-                'filter'   => [
-                    'name'     => 'use_block_editor_for_post',
+                'hook' => 'post-new.php',
+                'filter' => [
+                    'name' => 'use_block_editor_for_post',
                     'function' => '__return_false',
                 ],
                 'expected' => true,
@@ -588,9 +588,9 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
 
             [
                 // Create post: Support is not immediately disabled using global replace filter.
-                'hook'     => 'post-new.php',
-                'filter'   => [
-                    'name'     => 'replace_editor',
+                'hook' => 'post-new.php',
+                'filter' => [
+                    'name' => 'replace_editor',
                     'function' => '__return_true',
                 ],
                 'expected' => true,
@@ -605,17 +605,17 @@ class Tests_Admin_IncludesScreen extends WP_UnitTestCase
      * @dataProvider data_is_block_editor
      *
      * @param string $hook Admin hook.
-     * @param array  $filter {
+     * @param array $filter {
      *     Optional. Filter name and function to hook.
      *
      *     $name     string Filter name to hook a function.
      *     $function string Function name to hook to the filter.
      * }
-     * @param bool   $expected The expected `is_block_editor` value.
+     * @param bool $expected The expected `is_block_editor` value.
      */
     public function test_is_block_editor($hook, $filter, $expected)
     {
-        if (! empty($filter['name']) && ! empty($filter['function'])) {
+        if (!empty($filter['name']) && !empty($filter['function'])) {
             add_filter($filter['name'], $filter['function']);
         }
 

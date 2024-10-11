@@ -47,10 +47,10 @@ class WP_HTML_Active_Formatting_Elements
     /**
      * Reports if a specific node is in the stack of active formatting elements.
      *
-     * @since 6.4.0
-     *
      * @param WP_HTML_Token $token Look for this node in the stack.
      * @return bool Whether the referenced node is in the stack of active formatting elements.
+     * @since 6.4.0
+     *
      */
     public function contains_node(WP_HTML_Token $token)
     {
@@ -66,9 +66,9 @@ class WP_HTML_Active_Formatting_Elements
     /**
      * Returns how many nodes are currently in the stack of active formatting elements.
      *
+     * @return int How many node are in the stack of active formatting elements.
      * @since 6.4.0
      *
-     * @return int How many node are in the stack of active formatting elements.
      */
     public function count()
     {
@@ -79,9 +79,9 @@ class WP_HTML_Active_Formatting_Elements
      * Returns the node at the end of the stack of active formatting elements,
      * if one exists. If the stack is empty, returns null.
      *
+     * @return WP_HTML_Token|null Last node in the stack of active formatting elements, if one exists, otherwise null.
      * @since 6.4.0
      *
-     * @return WP_HTML_Token|null Last node in the stack of active formatting elements, if one exists, otherwise null.
      */
     public function current_node()
     {
@@ -110,11 +110,11 @@ class WP_HTML_Active_Formatting_Elements
     /**
      * Pushes a node onto the stack of active formatting elements.
      *
-     * @since 6.4.0
-     *
+     * @param WP_HTML_Token $token Push this node onto the stack.
      * @see https://html.spec.whatwg.org/#push-onto-the-list-of-active-formatting-elements
      *
-     * @param WP_HTML_Token $token Push this node onto the stack.
+     * @since 6.4.0
+     *
      */
     public function push(WP_HTML_Token $token)
     {
@@ -136,10 +136,10 @@ class WP_HTML_Active_Formatting_Elements
     /**
      * Removes a node from the stack of active formatting elements.
      *
-     * @since 6.4.0
-     *
      * @param WP_HTML_Token $token Remove this node from the stack, if it's there already.
      * @return bool Whether the node was found and removed from the stack of active formatting elements.
+     * @since 6.4.0
+     *
      */
     public function remove_node(WP_HTML_Token $token)
     {

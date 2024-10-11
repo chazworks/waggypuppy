@@ -20,7 +20,7 @@ class Tests_Term_WpDeleteTerm extends WP_UnitTestCase
             2,
             [
                 'taxonomy' => 'wptests_tax',
-            ]
+            ],
         );
 
         $post_id = self::factory()->post->create();
@@ -31,7 +31,7 @@ class Tests_Term_WpDeleteTerm extends WP_UnitTestCase
 
         wp_delete_term($terms[0], 'wptests_tax');
         $this->assertSame(1, $this->deleted_term->count);
-        $this->assertSame($this->object_ids, [(string) $post_id]);
+        $this->assertSame($this->object_ids, [(string)$post_id]);
 
         wp_delete_term($terms[1], 'wptests_tax');
         $this->assertSame(0, $this->deleted_term->count);
@@ -41,6 +41,6 @@ class Tests_Term_WpDeleteTerm extends WP_UnitTestCase
     public function catch_deleted_term($term_id, $tt_id, $taxonomy, $deleted_term, $object_ids)
     {
         $this->deleted_term = $deleted_term;
-        $this->object_ids   = $object_ids;
+        $this->object_ids = $object_ids;
     }
 }

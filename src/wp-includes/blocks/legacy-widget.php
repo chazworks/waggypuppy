@@ -8,13 +8,13 @@
 /**
  * Renders the 'core/legacy-widget' block.
  *
- * @since 5.8.0
- *
- * @global int $wp_widget_factory.
- *
  * @param array $attributes The block attributes.
  *
  * @return string Rendered block.
+ * @since 5.8.0
+ *
+ * @global int $wp_widget_factory .
+ *
  */
 function render_block_core_legacy_widget($attributes)
 {
@@ -25,21 +25,21 @@ function render_block_core_legacy_widget($attributes)
         return wp_render_widget($attributes['id'], $sidebar_id);
     }
 
-    if (! isset($attributes['idBase'])) {
+    if (!isset($attributes['idBase'])) {
         return '';
     }
 
-    $id_base       = $attributes['idBase'];
-    $widget_key    = $wp_widget_factory->get_widget_key($id_base);
+    $id_base = $attributes['idBase'];
+    $widget_key = $wp_widget_factory->get_widget_key($id_base);
     $widget_object = $wp_widget_factory->get_widget_object($id_base);
 
-    if (! $widget_key || ! $widget_object) {
+    if (!$widget_key || !$widget_object) {
         return '';
     }
 
     if (isset($attributes['instance']['encoded'], $attributes['instance']['hash'])) {
         $serialized_instance = base64_decode($attributes['instance']['encoded']);
-        if (! hash_equals(wp_hash($serialized_instance), (string) $attributes['instance']['hash'])) {
+        if (!hash_equals(wp_hash($serialized_instance), (string)$attributes['instance']['hash'])) {
             return '';
         }
         $instance = unserialize($serialized_instance);
@@ -48,7 +48,7 @@ function render_block_core_legacy_widget($attributes)
     }
 
     $args = [
-        'widget_id'   => $widget_object->id,
+        'widget_id' => $widget_object->id,
         'widget_name' => $widget_object->name,
     ];
 
@@ -68,7 +68,7 @@ function register_block_core_legacy_widget()
         __DIR__ . '/legacy-widget',
         [
             'render_callback' => 'render_block_core_legacy_widget',
-        ]
+        ],
     );
 }
 
@@ -87,7 +87,7 @@ function handle_legacy_widget_preview_iframe()
         return;
     }
 
-    if (! current_user_can('edit_theme_options')) {
+    if (!current_user_can('edit_theme_options')) {
         return;
     }
 
@@ -97,9 +97,9 @@ function handle_legacy_widget_preview_iframe()
     <!doctype html>
     <html <?php language_attributes(); ?>>
     <head>
-        <meta charset="<?php bloginfo('charset'); ?>" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="profile" href="https://gmpg.org/xfn/11" />
+        <meta charset="<?php bloginfo('charset'); ?>"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="profile" href="https://gmpg.org/xfn/11"/>
         <?php wp_head(); ?>
         <style>
             /* Reset theme styles */
@@ -137,16 +137,16 @@ function handle_legacy_widget_preview_iframe()
         </style>
     </head>
     <body <?php body_class(); ?>>
-        <div id="page" class="site">
-            <div id="content" class="site-content">
-                <?php
-                $registry = WP_Block_Type_Registry::get_instance();
-                $block    = $registry->get_registered('core/legacy-widget');
-                echo $block->render($_GET['legacy-widget-preview']);
-                ?>
-            </div><!-- #content -->
-        </div><!-- #page -->
-        <?php wp_footer(); ?>
+    <div id="page" class="site">
+        <div id="content" class="site-content">
+            <?php
+            $registry = WP_Block_Type_Registry::get_instance();
+            $block = $registry->get_registered('core/legacy-widget');
+            echo $block->render($_GET['legacy-widget-preview']);
+            ?>
+        </div><!-- #content -->
+    </div><!-- #page -->
+    <?php wp_footer(); ?>
     </body>
     </html>
     <?php

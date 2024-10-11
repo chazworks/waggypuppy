@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @group admin
  * @group themes
@@ -24,7 +25,7 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
     {
         parent::set_up();
 
-        $this->orig_theme_dir            = $GLOBALS['wp_theme_directories'];
+        $this->orig_theme_dir = $GLOBALS['wp_theme_directories'];
         $GLOBALS['wp_theme_directories'] = [WP_CONTENT_DIR . '/themes', self::THEME_ROOT];
 
         add_filter('theme_root', [$this, 'filter_theme_root']);
@@ -69,11 +70,11 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
 
         $this->assertSameSetsWithIndex(
             [
-                'Top Level'                           => 'template-top-level.php',
-                'Sub Dir'                             => 'subdir/template-sub-dir.php',
+                'Top Level' => 'template-top-level.php',
+                'Sub Dir' => 'subdir/template-sub-dir.php',
                 'This Template Header Is On One Line' => 'template-header.php',
             ],
-            get_page_templates()
+            get_page_templates(),
         );
 
         $theme = wp_get_theme('page-templates');
@@ -83,11 +84,11 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
 
         $this->assertSameSetsWithIndex(
             [
-                'Top Level'                           => 'template-top-level.php',
-                'Sub Dir'                             => 'subdir/template-sub-dir.php',
+                'Top Level' => 'template-top-level.php',
+                'Sub Dir' => 'subdir/template-sub-dir.php',
                 'This Template Header Is On One Line' => 'template-header.php',
             ],
-            get_page_templates()
+            get_page_templates(),
         );
     }
 
@@ -104,16 +105,16 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
         $this->assertSameSetsWithIndex(
             [
                 'Top Level' => 'template-top-level-post-types.php',
-                'Sub Dir'   => 'subdir/template-sub-dir-post-types.php',
+                'Sub Dir' => 'subdir/template-sub-dir-post-types.php',
             ],
-            get_page_templates(null, 'foo')
+            get_page_templates(null, 'foo'),
         );
         $this->assertSameSetsWithIndex(
             [
                 'Top Level' => 'template-top-level-post-types.php',
-                'Sub Dir'   => 'subdir/template-sub-dir-post-types.php',
+                'Sub Dir' => 'subdir/template-sub-dir-post-types.php',
             ],
-            get_page_templates(null, 'post')
+            get_page_templates(null, 'post'),
         );
         $this->assertSame([], get_page_templates(null, 'bar'));
     }
@@ -130,24 +131,24 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
 
         $this->assertSameSetsWithIndex(
             [
-                'No Trailing Period'            => '38766/no-trailing-period-post-types.php',
-                'Trailing Period.'              => '38766/trailing-period-post-types.php',
-                'Trailing Comma,'               => '38766/trailing-comma-post-types.php',
+                'No Trailing Period' => '38766/no-trailing-period-post-types.php',
+                'Trailing Period.' => '38766/trailing-period-post-types.php',
+                'Trailing Comma,' => '38766/trailing-comma-post-types.php',
                 'Trailing Period, White Space.' => '38766/trailing-period-whitespace-post-types.php',
                 'Trailing White Space, Period.' => '38766/trailing-whitespace-period-post-types.php',
-                'Tilde in Post Type.'           => '38766/tilde-post-types.php',
+                'Tilde in Post Type.' => '38766/tilde-post-types.php',
             ],
-            get_page_templates(null, 'period')
+            get_page_templates(null, 'period'),
         );
         $this->assertSameSetsWithIndex(
             [
-                'No Trailing Period'            => '38766/no-trailing-period-post-types.php',
-                'Trailing Period.'              => '38766/trailing-period-post-types.php',
-                'Trailing Comma,'               => '38766/trailing-comma-post-types.php',
+                'No Trailing Period' => '38766/no-trailing-period-post-types.php',
+                'Trailing Period.' => '38766/trailing-period-post-types.php',
+                'Trailing Comma,' => '38766/trailing-comma-post-types.php',
                 'Trailing Period, White Space.' => '38766/trailing-period-whitespace-post-types.php',
                 'Trailing White Space, Period.' => '38766/trailing-whitespace-period-post-types.php',
             ],
-            get_page_templates(null, 'full-stop')
+            get_page_templates(null, 'full-stop'),
         );
     }
 
@@ -163,29 +164,29 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
 
         $this->assertSameSetsWithIndex(
             [
-                'Top Level'                  => 'template-top-level-post-types.php',
-                'Sub Dir'                    => 'subdir/template-sub-dir-post-types.php',
+                'Top Level' => 'template-top-level-post-types.php',
+                'Sub Dir' => 'subdir/template-sub-dir-post-types.php',
                 'Top Level In A Child Theme' => 'template-top-level-post-types-child.php',
-                'Sub Dir In A Child Theme'   => 'subdir/template-sub-dir-post-types-child.php',
+                'Sub Dir In A Child Theme' => 'subdir/template-sub-dir-post-types-child.php',
             ],
-            get_page_templates(null, 'foo')
+            get_page_templates(null, 'foo'),
         );
 
         $this->assertSameSetsWithIndex(
             [
                 'Top Level' => 'template-top-level-post-types.php',
-                'Sub Dir'   => 'subdir/template-sub-dir-post-types.php',
+                'Sub Dir' => 'subdir/template-sub-dir-post-types.php',
             ],
-            get_page_templates(null, 'post')
+            get_page_templates(null, 'post'),
         );
 
         $this->assertSameSetsWithIndex(
             [
-                'Top Level'                           => 'template-top-level.php',
-                'Sub Dir'                             => 'subdir/template-sub-dir.php',
+                'Top Level' => 'template-top-level.php',
+                'Sub Dir' => 'subdir/template-sub-dir.php',
                 'This Template Header Is On One Line' => 'template-header.php',
             ],
-            get_page_templates()
+            get_page_templates(),
         );
 
         $this->assertSame([], get_page_templates(null, 'bar'));
@@ -205,29 +206,29 @@ class Tests_Admin_IncludesTheme extends WP_UnitTestCase
 
         $this->assertSameSetsWithIndex(
             [
-                'template-top-level-post-types.php'       => 'Top Level',
-                'subdir/template-sub-dir-post-types.php'  => 'Sub Dir',
+                'template-top-level-post-types.php' => 'Top Level',
+                'subdir/template-sub-dir-post-types.php' => 'Sub Dir',
                 'template-top-level-post-types-child.php' => 'Top Level In A Child Theme',
                 'subdir/template-sub-dir-post-types-child.php' => 'Sub Dir In A Child Theme',
             ],
-            $post_templates['foo']
+            $post_templates['foo'],
         );
 
         $this->assertSameSetsWithIndex(
             [
-                'template-top-level-post-types.php'      => 'Top Level',
+                'template-top-level-post-types.php' => 'Top Level',
                 'subdir/template-sub-dir-post-types.php' => 'Sub Dir',
             ],
-            $post_templates['post']
+            $post_templates['post'],
         );
 
         $this->assertSameSetsWithIndex(
             [
-                'template-top-level.php'      => 'Top Level',
+                'template-top-level.php' => 'Top Level',
                 'subdir/template-sub-dir.php' => 'Sub Dir',
-                'template-header.php'         => 'This Template Header Is On One Line',
+                'template-header.php' => 'This Template Header Is On One Line',
             ],
-            $post_templates['page']
+            $post_templates['page'],
         );
     }
 

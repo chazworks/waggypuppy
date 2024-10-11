@@ -39,12 +39,12 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
 
         $this->assertTrue(
             mkdir($dir),
-            'The directory was not created.'
+            'The directory was not created.',
         );
 
         $this->assertTrue(
             self::$filesystem->delete($dir),
-            'The directory was not deleted.'
+            'The directory was not deleted.',
         );
     }
 
@@ -57,12 +57,12 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
     {
         $this->assertTrue(
             self::$filesystem->delete(self::$file_structure['test_dir']['path'], true),
-            'Directory deletion failed.'
+            'Directory deletion failed.',
         );
 
         $this->assertDirectoryDoesNotExist(
             self::$file_structure['test_dir']['path'],
-            'The directory was not deleted.'
+            'The directory was not deleted.',
         );
     }
 
@@ -94,7 +94,7 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
             'A visible file' => [
                 'key' => 'visible_file',
             ],
-            'A hidden file'  => [
+            'A hidden file' => [
                 'key' => 'hidden_file',
             ],
         ];
@@ -126,7 +126,8 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
         $this->assertDirectoryDoesNotExist($path, "$path already existed as a directory before testing.");
         $this->assertFileDoesNotExist($path, "$path already existed as a file before testing.");
 
-        $this->assertTrue(self::$filesystem->delete($path), 'Attempting to delete a non-existent path should return true.');
+        $this->assertTrue(self::$filesystem->delete($path),
+            'Attempting to delete a non-existent path should return true.');
     }
 
     /**
@@ -143,25 +144,25 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
 
         $path = self::$file_structure['test_dir']['path'] . 'dir-to-delete/';
 
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             mkdir($path);
         }
 
         // Set up mock filesystem.
         $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')
-                                ->setConstructorArgs([null])
-                                // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-                                ->setMethods(['dirlist'])
-                                ->getMock();
+            ->setConstructorArgs([null])
+            // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
+            ->setMethods(['dirlist'])
+            ->getMock();
 
         $filesystem_mock->expects($this->once())
-                        ->method('dirlist')
-                        ->willReturn(
-                            ['a_file_that_does_not_exist.txt' => ['type' => 'f']]
-                        );
+            ->method('dirlist')
+            ->willReturn(
+                ['a_file_that_does_not_exist.txt' => ['type' => 'f']],
+            );
 
         $wp_filesystem_backup = $wp_filesystem;
-        $wp_filesystem        = $filesystem_mock;
+        $wp_filesystem = $filesystem_mock;
 
         $actual = $filesystem_mock->delete($path, true);
 
@@ -188,21 +189,21 @@ class Tests_Filesystem_WpFilesystemDirect_Delete extends WP_Filesystem_Direct_Un
 
         // Set up mock filesystem.
         $filesystem_mock = $this->getMockBuilder('WP_Filesystem_Direct')
-                                ->setConstructorArgs([null])
-                                // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
-                                ->setMethods(['is_file', 'dirlist'])
-                                ->getMock();
+            ->setConstructorArgs([null])
+            // Note: setMethods() is deprecated in PHPUnit 9, but still supported.
+            ->setMethods(['is_file', 'dirlist'])
+            ->getMock();
 
         $filesystem_mock->expects($this->once())
-                        ->method('is_file')
-                        ->willReturn(false);
+            ->method('is_file')
+            ->willReturn(false);
 
         $filesystem_mock->expects($this->once())
-                        ->method('dirlist')
-                        ->willReturn(false);
+            ->method('dirlist')
+            ->willReturn(false);
 
         $wp_filesystem_backup = $wp_filesystem;
-        $wp_filesystem        = $filesystem_mock;
+        $wp_filesystem = $filesystem_mock;
 
         $actual = $filesystem_mock->delete(self::$file_structure['subdir']['path'], true);
 

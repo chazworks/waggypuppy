@@ -19,7 +19,7 @@ class Tests_L10n_wpGetWordCountType extends WP_UnitTestCase
         global $wp_locale;
 
         $original_locale = $wp_locale;
-        $wp_locale       = null;
+        $wp_locale = null;
 
         $actual = wp_get_word_count_type();
 

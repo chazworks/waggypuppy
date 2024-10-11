@@ -15,7 +15,7 @@ class Tests_Post_Embed_URL extends WP_UnitTestCase
     {
         $this->set_permalink_structure('/%postname%');
 
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
         $embed_url = get_post_embed_url($post_id);
 
@@ -24,7 +24,7 @@ class Tests_Post_Embed_URL extends WP_UnitTestCase
 
     public function test_with_ugly_permalinks()
     {
-        $post_id   = self::factory()->post->create();
+        $post_id = self::factory()->post->create();
         $permalink = get_permalink($post_id);
         $embed_url = get_post_embed_url($post_id);
 
@@ -79,10 +79,10 @@ class Tests_Post_Embed_URL extends WP_UnitTestCase
         add_filter('wp_unique_post_slug', [$this, 'filter_unique_post_slug']);
         $child_page = self::factory()->post->create(
             [
-                'post_type'   => 'page',
+                'post_type' => 'page',
                 'post_parent' => $parent_page,
-                'post_name'   => 'embed',
-            ]
+                'post_name' => 'embed',
+            ],
         );
         remove_filter('wp_unique_post_slug', [$this, 'filter_unique_post_slug']);
 

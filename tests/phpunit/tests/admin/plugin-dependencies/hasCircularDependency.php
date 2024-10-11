@@ -28,32 +28,32 @@ class Tests_Admin_WPPluginDependencies_HasCircularDependency extends WP_PluginDe
         $this->set_property_value(
             'plugins',
             [
-                'dependent/dependent.php'   => [
-                    'Name'            => 'Dependent',
+                'dependent/dependent.php' => [
+                    'Name' => 'Dependent',
                     'RequiresPlugins' => 'dependency',
                 ],
                 'dependency/dependency.php' => [
-                    'Name'            => 'Dependency',
+                    'Name' => 'Dependency',
                     'RequiresPlugins' => 'dependent',
                 ],
-            ]
+            ],
         );
 
         // Ensure Plugin Dependencies has not been initialized.
         $this->assertFalse(
             $this->get_property_value('initialized'),
-            'Plugin Dependencies has been initialized.'
+            'Plugin Dependencies has been initialized.',
         );
 
         $this->assertSame(
             self::$static_properties['circular_dependencies_slugs'],
             $this->get_property_value('circular_dependencies_slugs'),
-            '"circular_dependencies_slugs" was not set to its default value.'
+            '"circular_dependencies_slugs" was not set to its default value.',
         );
 
         $this->assertFalse(
             self::$instance->has_circular_dependency('dependency'),
-            'false was not returned before initialization.'
+            'false was not returned before initialization.',
         );
     }
 
@@ -64,8 +64,8 @@ class Tests_Admin_WPPluginDependencies_HasCircularDependency extends WP_PluginDe
      *
      * @dataProvider data_circular_dependencies
      *
-     * @param string  $plugin_to_check The plugin file of the plugin to check.
-     * @param array[] $plugins         An array of plugins.
+     * @param string $plugin_to_check The plugin file of the plugin to check.
+     * @param array[] $plugins An array of plugins.
      */
     public function test_should_return_true_when_a_plugin_has_circular_dependency($plugin_to_check, $plugins)
     {
@@ -85,60 +85,60 @@ class Tests_Admin_WPPluginDependencies_HasCircularDependency extends WP_PluginDe
         return [
             'a plugin that depends on itself' => [
                 'plugin_to_check' => 'dependency/dependency.php',
-                'plugins'         => [
+                'plugins' => [
                     'dependency/dependency.php' => [
-                        'Name'            => 'Dependency 1',
+                        'Name' => 'Dependency 1',
                         'RequiresPlugins' => 'dependency',
                     ],
                 ],
             ],
-            'two plugins'                     => [
+            'two plugins' => [
                 'plugin_to_check' => 'dependency/dependency.php',
-                'plugins'         => [
-                    'dependency/dependency.php'   => [
-                        'Name'            => 'Dependency 1',
+                'plugins' => [
+                    'dependency/dependency.php' => [
+                        'Name' => 'Dependency 1',
                         'RequiresPlugins' => 'dependency2',
                     ],
                     'dependency2/dependency2.php' => [
-                        'Name'            => 'Dependency 2',
+                        'Name' => 'Dependency 2',
                         'RequiresPlugins' => 'dependency',
                     ],
                 ],
             ],
-            'three plugins'                   => [
+            'three plugins' => [
                 'plugin_to_check' => 'dependency/dependency.php',
-                'plugins'         => [
-                    'dependency/dependency.php'   => [
-                        'Name'            => 'Dependency 1',
+                'plugins' => [
+                    'dependency/dependency.php' => [
+                        'Name' => 'Dependency 1',
                         'RequiresPlugins' => 'dependency2',
                     ],
                     'dependency2/dependency2.php' => [
-                        'Name'            => 'Dependency 2',
+                        'Name' => 'Dependency 2',
                         'RequiresPlugins' => 'dependency3',
                     ],
                     'dependency3/dependency3.php' => [
-                        'Name'            => 'Dependency 3',
+                        'Name' => 'Dependency 3',
                         'RequiresPlugins' => 'dependency',
                     ],
                 ],
             ],
-            'four plugins'                    => [
+            'four plugins' => [
                 'plugin_to_check' => 'dependency/dependency.php',
-                'plugins'         => [
-                    'dependency/dependency.php'   => [
-                        'Name'            => 'Dependency 1',
+                'plugins' => [
+                    'dependency/dependency.php' => [
+                        'Name' => 'Dependency 1',
                         'RequiresPlugins' => 'dependency4',
                     ],
                     'dependency2/dependency2.php' => [
-                        'Name'            => 'Dependency 2',
+                        'Name' => 'Dependency 2',
                         'RequiresPlugins' => 'dependency3',
                     ],
                     'dependency3/dependency3.php' => [
-                        'Name'            => 'Dependency 3',
+                        'Name' => 'Dependency 3',
                         'RequiresPlugins' => 'dependency',
                     ],
                     'dependency4/dependency4.php' => [
-                        'Name'            => 'Dependency 4',
+                        'Name' => 'Dependency 4',
                         'RequiresPlugins' => 'dependency2',
                     ],
                 ],
@@ -157,10 +157,10 @@ class Tests_Admin_WPPluginDependencies_HasCircularDependency extends WP_PluginDe
             'plugins',
             [
                 'dependency/dependency.php' => [
-                    'Name'            => 'Dependency 1',
+                    'Name' => 'Dependency 1',
                     'RequiresPlugins' => 'dependency2',
                 ],
-            ]
+            ],
         );
 
         self::$instance::initialize();

@@ -29,7 +29,10 @@ if (is_multisite()) :
                 ['f', 'User names of 1 characters are not allowed.'],
                 ['f', 'User names of 1 characters are not allowed.'],
                 ['12345', 'User names consisting only of numbers are not allowed.'],
-                ['thisusernamecontainsenoughcharacterstobelongerthan60characters', 'User names longer than 60 characters are not allowed.'],
+                [
+                    'thisusernamecontainsenoughcharacterstobelongerthan60characters',
+                    'User names longer than 60 characters are not allowed.',
+                ],
             ];
         }
 
@@ -157,7 +160,7 @@ if (is_multisite()) :
 
             // Signup, activate and delete new user.
             wpmu_signup_user('foo123', 'foo@example.com');
-            $key  = $wpdb->get_var("SELECT activation_key FROM $wpdb->signups WHERE user_login = 'foo123'");
+            $key = $wpdb->get_var("SELECT activation_key FROM $wpdb->signups WHERE user_login = 'foo123'");
             $user = wpmu_activate_signup($key);
             wpmu_delete_user($user['user_id']);
 
@@ -216,12 +219,12 @@ if (is_multisite()) :
          */
         public function test_signup_nonce_check()
         {
-            $original_php_self       = $_SERVER['PHP_SELF'];
-            $_SERVER['PHP_SELF']     = '/wp-signup.php';
+            $original_php_self = $_SERVER['PHP_SELF'];
+            $_SERVER['PHP_SELF'] = '/wp-signup.php';
             $_POST['signup_form_id'] = 'user-signup-form';
-            $_POST['_signup_form']   = wp_create_nonce('signup_form_' . $_POST['signup_form_id']);
+            $_POST['_signup_form'] = wp_create_nonce('signup_form_' . $_POST['signup_form_id']);
 
-            $valid               = wpmu_validate_user_signup('validusername', 'email@example.com');
+            $valid = wpmu_validate_user_signup('validusername', 'email@example.com');
             $_SERVER['PHP_SELF'] = $original_php_self;
 
             $this->assertNotContains('invalid_nonce', $valid['errors']->get_error_codes());
@@ -232,12 +235,12 @@ if (is_multisite()) :
          */
         public function test_signup_nonce_check_invalid()
         {
-            $original_php_self       = $_SERVER['PHP_SELF'];
-            $_SERVER['PHP_SELF']     = '/wp-signup.php';
+            $original_php_self = $_SERVER['PHP_SELF'];
+            $_SERVER['PHP_SELF'] = '/wp-signup.php';
             $_POST['signup_form_id'] = 'user-signup-form';
-            $_POST['_signup_form']   = wp_create_nonce('invalid');
+            $_POST['_signup_form'] = wp_create_nonce('invalid');
 
-            $valid               = wpmu_validate_user_signup('validusername', 'email@example.com');
+            $valid = wpmu_validate_user_signup('validusername', 'email@example.com');
             $_SERVER['PHP_SELF'] = $original_php_self;
 
             $this->assertContains('invalid_nonce', $valid['errors']->get_error_codes());
