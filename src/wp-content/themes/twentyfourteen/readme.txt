@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready, block-patterns
 
 == Description ==
-In 2014, our default theme lets you create a responsive magazine website with a sleek, modern design. Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content's layout with a full-width page template and a contributor page to show off your authors. Creating a magazine website with WordPress has never been easier.
+In 2014, our default theme lets you create a responsive magazine website with a sleek, modern design. Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content's layout with a full-width page template and a contributor page to show off your authors. Creating a magazine website with WP has never been easier.
 
 For more information about Twenty Fourteen please go to https://codex.wp.org/Twenty_Fourteen.
 
@@ -23,7 +23,7 @@ For more information about Twenty Fourteen please go to https://codex.wp.org/Twe
 
 == Copyright ==
 
-Twenty Fourteen WordPress Theme, Copyright 2013-2024 wp.org, Automattic Inc., and contributors.
+Twenty Fourteen __VAR_WP Theme, Copyright 2013-2024 wp.org, Automattic Inc., and contributors.
 Twenty Fourteen is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

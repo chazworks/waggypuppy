@@ -960,7 +960,7 @@ $_new_bundled_files = [
  * @global string             $required_mysql_version
  *
  * @param string $from New release unzipped path.
- * @param string $to   Path to old WordPress installation.
+ * @param string $to   Path to old waggypuppy installation.
  * @return string|WP_Error New WordPress version on success, WP_Error on failure.
  */
 function update_core($from, $to)
@@ -1512,7 +1512,7 @@ function update_core($from, $to)
      *
      * @since 3.3.0
      *
-     * @param string $wp_version The current WordPress version.
+     * @param string $wp_version The current waggypuppy version.
      */
     do_action('_core_updated_successfully', $wp_version);
 
@@ -1541,7 +1541,7 @@ function update_core($from, $to)
  * @global array              $_old_requests_files Requests files to be preloaded.
  * @global WP_Filesystem_Base $wp_filesystem       waggypuppy filesystem subclass.
  *
- * @param string $to Path to old WordPress installation.
+ * @param string $to Path to old waggypuppy installation.
  */
 function _preload_old_requests_classes_and_interfaces($to)
 {

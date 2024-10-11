@@ -2,7 +2,7 @@
 /**
  * Twenty Sixteen back compat functionality
  *
- * Prevents Twenty Sixteen from running on WordPress versions prior to 4.4,
+ * Prevents Twenty Sixteen from running on WP versions prior to 4.4,
  * since this theme is not meant to be backward compatible beyond that and
  * relies on many newer functions and markup changes introduced in 4.4.
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * Prevent switching to Twenty Sixteen on old versions of WordPress.
+ * Prevent switching to Twenty Sixteen on old versions of WP.
  *
  * Switches to the default theme.
  *
@@ -32,7 +32,7 @@ add_action('after_switch_theme', 'twentysixteen_switch_theme');
  * Adds a message for unsuccessful theme switch.
  *
  * Prints an update nag after an unsuccessful attempt to switch to
- * Twenty Sixteen on WordPress versions prior to 4.4.
+ * Twenty Sixteen on WP versions prior to 4.4.
  *
  * @since Twenty Sixteen 1.0
  *
@@ -43,15 +43,15 @@ function twentysixteen_upgrade_notice()
     printf(
         '<div class="error"><p>%s</p></div>',
         sprintf(
-            /* translators: %s: The current WordPress version. */
-            __('Twenty Sixteen requires at least WordPress version 4.4. You are running version %s. Please upgrade and try again.', 'twentysixteen'),
+            /* translators: %s: The current WP version. */
+            __('Twenty Sixteen requires at least WP version 4.4. You are running version %s. Please upgrade and try again.', 'twentysixteen'),
             $GLOBALS['wp_version']
         )
     );
 }
 
 /**
- * Prevents the Customizer from being loaded on WordPress versions prior to 4.4.
+ * Prevents the Customizer from being loaded on WP versions prior to 4.4.
  *
  * @since Twenty Sixteen 1.0
  *
@@ -61,8 +61,8 @@ function twentysixteen_customize()
 {
     wp_die(
         sprintf(
-            /* translators: %s: The current WordPress version. */
-            __('Twenty Sixteen requires at least WordPress version 4.4. You are running version %s. Please upgrade and try again.', 'twentysixteen'),
+            /* translators: %s: The current WP version. */
+            __('Twenty Sixteen requires at least WP version 4.4. You are running version %s. Please upgrade and try again.', 'twentysixteen'),
             $GLOBALS['wp_version']
         ),
         '',
@@ -74,7 +74,7 @@ function twentysixteen_customize()
 add_action('load-customize.php', 'twentysixteen_customize');
 
 /**
- * Prevents the Theme Preview from being loaded on WordPress versions prior to 4.4.
+ * Prevents the Theme Preview from being loaded on WP versions prior to 4.4.
  *
  * @since Twenty Sixteen 1.0
  *
@@ -85,8 +85,8 @@ function twentysixteen_preview()
     if (isset($_GET['preview'])) {
         wp_die(
             sprintf(
-                /* translators: %s: The current WordPress version. */
-                __('Twenty Sixteen requires at least WordPress version 4.4. You are running version %s. Please upgrade and try again.', 'twentysixteen'),
+                /* translators: %s: The current WP version. */
+                __('Twenty Sixteen requires at least WP version 4.4. You are running version %s. Please upgrade and try again.', 'twentysixteen'),
                 $GLOBALS['wp_version']
             )
         );

@@ -58,7 +58,7 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin
      *
      * @see WP_Upgrader_Skin::__construct()
      *
-     * @param array $args Optional. The WordPress Ajax upgrader skin arguments to
+     * @param array $args Optional. The waggypuppy Ajax upgrader skin arguments to
      *                    override default options. See WP_Upgrader_Skin::__construct().
      *                    Default empty array.
      */

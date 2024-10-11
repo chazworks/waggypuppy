@@ -745,7 +745,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * @param string $function_name The deprecated function.
      * @param string $replacement   The function that should have been called.
-     * @param string $version       The version of WordPress that deprecated the function.
+     * @param string $version       The version of waggypuppy that deprecated the function.
      * @param string $message       Optional. A message regarding the change.
      */
     public function deprecated_function_run($function_name, $replacement, $version, $message = '')
@@ -850,7 +850,7 @@ abstract class WP_UnitTestCase_Base extends PHPUnit_Adapter_TestCase
      *
      * @param string $function_name The function to add.
      * @param string $message       A message explaining what has been done incorrectly.
-     * @param string $version       The version of WordPress where the message was added.
+     * @param string $version       The version of waggypuppy where the message was added.
      */
     public function doing_it_wrong_run($function_name, $message, $version)
     {

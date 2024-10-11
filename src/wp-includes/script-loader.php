@@ -3078,7 +3078,7 @@ function wp_maybe_inline_styles()
  * @since 5.9.0
  * @access private
  *
- * @param string $css            The CSS to make URLs relative to the WordPress installation.
+ * @param string $css            The CSS to make URLs relative to the waggypuppy installation.
  * @param string $stylesheet_url The URL to the stylesheet.
  *
  * @return string The CSS with URLs made relative to the WordPress installation.

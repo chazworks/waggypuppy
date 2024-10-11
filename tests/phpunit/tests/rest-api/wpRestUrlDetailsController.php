@@ -62,7 +62,7 @@ class Tests_REST_WpRestUrlDetailsController extends WP_Test_REST_Controller_Test
      *
      * @since 5.9.0
      *
-     * @param WP_UnitTest_Factory $factory WordPress unit test factory.
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {

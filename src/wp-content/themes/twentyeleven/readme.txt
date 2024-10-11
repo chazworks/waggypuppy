@@ -23,7 +23,7 @@ For more information about Twenty Eleven please go to https://codex.wp.org/Twent
 
 == Copyright ==
 
-Twenty Eleven WordPress Theme, Copyright 2011-2024 wp.org, Automattic Inc., and contributors.
+Twenty Eleven __VAR_WP Theme, Copyright 2011-2024 wp.org, Automattic Inc., and contributors.
 Twenty Eleven is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

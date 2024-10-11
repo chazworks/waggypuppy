@@ -25,7 +25,7 @@
  */
 
 /**
- * Sets up theme defaults and registers support for various WordPress features.
+ * Sets up theme defaults and registers support for various WP features.
  *
  * Note that this function is hooked into the after_setup_theme hook, which
  * runs before the init hook. The init hook is too late for some features, such
@@ -87,9 +87,9 @@ function twentytwenty_theme_support()
     );
 
     /*
-     * Let WordPress manage the document title.
+     * Let WP manage the document title.
      * By adding theme support, we declare that this theme does not use a
-     * hard-coded <title> tag in the document head, and expect WordPress to
+     * hard-coded <title> tag in the document head, and expect WP to
      * provide it for us.
      */
     add_theme_support('title-tag');
@@ -355,7 +355,7 @@ add_filter('get_custom_logo', 'twentytwenty_get_custom_logo');
 if (! function_exists('wp_body_open')) {
 
     /**
-     * Shim for wp_body_open, ensuring backward compatibility with versions of WordPress older than 5.2.
+     * Shim for wp_body_open, ensuring backward compatibility with versions of WP older than 5.2.
      *
      * @since Twenty Twenty 1.0
      */

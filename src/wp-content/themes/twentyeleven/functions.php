@@ -4,10 +4,10 @@
  *
  * Sets up the theme and provides some helper functions. Some helper functions
  * are used in the theme as custom template tags. Others are attached to action and
- * filter hooks in WordPress to change core functionality.
+ * filter hooks in WP to change core functionality.
  *
  * The first function, twentyeleven_setup(), sets up the theme by registering support
- * for various features in WordPress, such as post thumbnails, navigation menus, and the like.
+ * for various features in WP, such as post thumbnails, navigation menus, and the like.
  *
  * When using a child theme you can override certain functions (those wrapped
  * in a function_exists() call) by defining them first in your child theme's
@@ -46,13 +46,13 @@ if (! isset($content_width)) {
 }
 
 /*
- * Tell WordPress to run twentyeleven_setup() when the 'after_setup_theme' hook is run.
+ * Tell WP to run twentyeleven_setup() when the 'after_setup_theme' hook is run.
  */
 add_action('after_setup_theme', 'twentyeleven_setup');
 
 if (! function_exists('twentyeleven_setup')) :
     /**
-     * Set up theme defaults and registers support for various WordPress features.
+     * Set up theme defaults and registers support for various WP features.
      *
      * Note that this function is hooked into the after_setup_theme hook, which runs
      * before the init hook. The init hook is too late for some features, such as indicating
@@ -82,7 +82,7 @@ if (! function_exists('twentyeleven_setup')) :
          * of your theme in all the template files.
          *
          * Manual loading of text domain is not required after the introduction of
-         * just in time translation loading in WordPress version 4.6.
+         * just in time translation loading in WP version 4.6.
          *
          * @ticket 58318
          */
@@ -169,7 +169,7 @@ if (! function_exists('twentyeleven_setup')) :
             'custom-background',
             [
                 /*
-                * Let WordPress know what our default background color is.
+                * Let WP know what our default background color is.
                 * This is dependent on our current color scheme.
                 */
                 'default-color' => $default_background_color,
@@ -215,7 +215,7 @@ if (! function_exists('twentyeleven_setup')) :
         add_theme_support('custom-header', $custom_header_support);
 
         if (! function_exists('get_custom_header')) {
-            // This is all for compatibility with versions of WordPress prior to 3.4.
+            // This is all for compatibility with versions of WP prior to 3.4.
             define('HEADER_TEXTCOLOR', $custom_header_support['default-text-color']);
             define('HEADER_IMAGE', '');
             define('HEADER_IMAGE_WIDTH', $custom_header_support['width']);
@@ -459,7 +459,7 @@ if (! function_exists('twentyeleven_header_image')) :
             'alt' => get_bloginfo('name', 'display'),
         ];
 
-        // Compatibility with versions of WordPress prior to 3.4.
+        // Compatibility with versions of WP prior to 3.4.
         if (function_exists('get_custom_header')) {
             $custom_header   = get_custom_header();
             $attrs['width']  = $custom_header->width;
@@ -965,7 +965,7 @@ if (! function_exists('wp_body_open')) :
     /**
      * Fire the wp_body_open action.
      *
-     * Added for backward compatibility to support pre-5.2.0 WordPress versions.
+     * Added for backward compatibility to support pre-5.2.0 WP versions.
      *
      * @since Twenty Eleven 3.3
      */
@@ -998,7 +998,7 @@ if (! function_exists('wp_get_list_item_separator')) :
     /**
      * Retrieves the list item separator based on the locale.
      *
-     * Added for backward compatibility to support pre-6.0.0 WordPress versions.
+     * Added for backward compatibility to support pre-6.0.0 WP versions.
      *
      * @since 6.0.0
      */

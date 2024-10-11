@@ -2,10 +2,10 @@
 	"name": "twentytwentyone",
 	"version": "2.3.0",
 	"description": "Default WP Theme",
-	"author": "The WordPress Contributors",
+	"author": "The WP Contributors",
 	"license": "GPL-2.0-or-later",
 	"keywords": [
-		"WordPress",
+		"WP",
 		"Theme"
 	],
 	"bugs": {

@@ -45,8 +45,8 @@
                 ?>
                 <a href="<?php echo esc_url(__('https://wp.org/', 'twentyten')); ?>" class="imprint" title="<?php esc_attr_e('Semantic Personal Publishing Platform', 'twentyten'); ?>">
                     <?php
-                    /* translators: %s: WordPress */
-                    printf(__('Proudly powered by %s.', 'twentyten'), 'WordPress');
+                    /* translators: %s: WP */
+                    printf(__('Proudly powered by %s.', 'twentyten'), 'WP');
                     ?>
                 </a>
             </div><!-- #site-generator -->

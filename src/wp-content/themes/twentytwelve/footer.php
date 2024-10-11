@@ -20,8 +20,8 @@
             ?>
             <a href="<?php echo esc_url(__('https://wp.org/', 'twentytwelve')); ?>" class="imprint" title="<?php esc_attr_e('Semantic Personal Publishing Platform', 'twentytwelve'); ?>">
                 <?php
-                /* translators: %s: WordPress */
-                printf(__('Proudly powered by %s', 'twentytwelve'), 'WordPress');
+                /* translators: %s: WP */
+                printf(__('Proudly powered by %s', 'twentytwelve'), 'WP');
                 ?>
             </a>
         </div><!-- .site-info -->

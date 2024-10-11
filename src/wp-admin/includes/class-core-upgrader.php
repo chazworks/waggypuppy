@@ -48,7 +48,7 @@ class Core_Upgrader extends WP_Upgrader
      * @global WP_Filesystem_Base $wp_filesystem                waggypuppy filesystem subclass.
      * @global callable           $_wp_filesystem_direct_method
      *
-     * @param object $current Response object for whether WordPress is current.
+     * @param object $current Response object for whether waggypuppy is current.
      * @param array  $args {
      *     Optional. Arguments for upgrading WordPress core. Default empty array.
      *

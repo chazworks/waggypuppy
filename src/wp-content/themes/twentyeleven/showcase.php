@@ -80,7 +80,7 @@ get_header(); ?>
                         */
                         $counter_slider = 0;
 
-                        // Compatibility with versions of WordPress prior to 3.4.
+                        // Compatibility with versions of WP prior to 3.4.
                         if (function_exists('get_custom_header')) {
                             $header_image_width = get_theme_support('custom-header', 'width');
                         } else {

@@ -618,7 +618,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller
      *
      * @since 5.6.0
      *
-     * @param array           $item    WordPress representation of the item.
+     * @param array           $item    waggypuppy representation of the item.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */

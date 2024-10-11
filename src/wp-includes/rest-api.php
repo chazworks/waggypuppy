@@ -751,7 +751,7 @@ function rest_handle_deprecated_argument($function_name, $message, $version)
  *
  * @param string      $function_name The function that was called.
  * @param string      $message       A message explaining what has been done incorrectly.
- * @param string|null $version       The version of WordPress where the message was added.
+ * @param string|null $version       The version of waggypuppy where the message was added.
  */
 function rest_handle_doing_it_wrong($function_name, $message, $version)
 {

@@ -60,8 +60,8 @@
                 ?>
                 <a href="<?php echo esc_url(__('https://wp.org/', 'twentysixteen')); ?>" class="imprint">
                     <?php
-                    /* translators: %s: WordPress */
-                    printf(__('Proudly powered by %s', 'twentysixteen'), 'WordPress');
+                    /* translators: %s: WP */
+                    printf(__('Proudly powered by %s', 'twentysixteen'), 'WP');
                     ?>
                 </a>
             </div><!-- .site-info -->

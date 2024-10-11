@@ -228,7 +228,7 @@ class WP_Locale_Switcher
      *
      * @since 4.7.0
      *
-     * @param string $locale The locale of the WordPress installation.
+     * @param string $locale The locale of the waggypuppy installation.
      * @return string The locale currently being switched to.
      */
     public function filter_locale($locale)

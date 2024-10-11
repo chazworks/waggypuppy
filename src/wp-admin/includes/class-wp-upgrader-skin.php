@@ -64,7 +64,7 @@ class WP_Upgrader_Skin
      *
      * @since 2.8.0
      *
-     * @param array $args Optional. The WordPress upgrader skin arguments to
+     * @param array $args Optional. The waggypuppy upgrader skin arguments to
      *                    override default options. Default empty array.
      */
     public function __construct($args = [])

@@ -147,7 +147,7 @@ class WP
          * @since 3.5.0
          *
          * @param bool         $bool             Whether or not to parse the request. Default true.
-         * @param WP           $wp               Current WordPress environment instance.
+         * @param WP           $wp               Current waggypuppy environment instance.
          * @param array|string $extra_query_vars Extra passed query variables.
          */
         if (! apply_filters('do_parse_request', true, $this, $extra_query_vars)) {
@@ -418,7 +418,7 @@ class WP
          *
          * @since 2.1.0
          *
-         * @param WP $wp Current WordPress environment instance (passed by reference).
+         * @param WP $wp Current waggypuppy environment instance (passed by reference).
          */
         do_action_ref_array('parse_request', [&$this]);
 
@@ -559,7 +559,7 @@ class WP
          * @since 2.8.0
          *
          * @param string[] $headers Associative array of headers to be sent.
-         * @param WP       $wp      Current WordPress environment instance.
+         * @param WP       $wp      Current waggypuppy environment instance.
          */
         $headers = apply_filters('wp_headers', $headers, $this);
 
@@ -591,7 +591,7 @@ class WP
          *
          * @since 2.1.0
          *
-         * @param WP $wp Current WordPress environment instance (passed by reference).
+         * @param WP $wp Current waggypuppy environment instance (passed by reference).
          */
         do_action_ref_array('send_headers', [&$this]);
     }
@@ -736,7 +736,7 @@ class WP
          * @since 4.5.0
          *
          * @param bool     $preempt  Whether to short-circuit default header status handling. Default false.
-         * @param WP_Query $wp_query WordPress Query object.
+         * @param WP_Query $wp_query waggypuppy Query object.
          */
         if (false !== apply_filters('pre_handle_404', false, $wp_query)) {
             return;
@@ -837,7 +837,7 @@ class WP
          *
          * @since 2.1.0
          *
-         * @param WP $wp Current WordPress environment instance (passed by reference).
+         * @param WP $wp Current waggypuppy environment instance (passed by reference).
          */
         do_action_ref_array('wp', [&$this]);
     }

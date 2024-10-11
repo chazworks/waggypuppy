@@ -4,7 +4,7 @@
  *
  * Sets up the theme and provides some helper functions, which are used
  * in the theme as custom template tags. Others are attached to action and
- * filter hooks in WordPress to change core functionality.
+ * filter hooks in WP to change core functionality.
  *
  * When using a child theme you can override certain functions (those wrapped
  * in a function_exists() call) by defining them first in your child theme's
@@ -32,7 +32,7 @@ if (! isset($content_width)) {
 /**
  * Twenty Twelve setup.
  *
- * Sets up theme defaults and registers the various WordPress features that
+ * Sets up theme defaults and registers the various WP features that
  * Twenty Twelve supports.
  *
  * @uses load_theme_textdomain() For translation/localization support.
@@ -54,7 +54,7 @@ function twentytwelve_setup()
      * to change 'twentytwelve' to the name of your theme in all the template files.
      *
      * Manual loading of text domain is not required after the introduction of
-     * just in time translation loading in WordPress version 4.6.
+     * just in time translation loading in WP version 4.6.
      *
      * @ticket 58318
      */
@@ -398,7 +398,7 @@ if (! function_exists('wp_get_list_item_separator')) :
     /**
      * Retrieves the list item separator based on the locale.
      *
-     * Added for backward compatibility to support pre-6.0.0 WordPress versions.
+     * Added for backward compatibility to support pre-6.0.0 WP versions.
      *
      * @since 6.0.0
      */
@@ -574,9 +574,9 @@ if (! function_exists('twentytwelve_entry_meta')) :
 endif;
 
 /**
- * Extend the default WordPress body classes.
+ * Extend the default WP body classes.
  *
- * Extends the default WordPress body class to denote:
+ * Extends the default WP body class to denote:
  * 1. Using a full-width layout, when no active widgets in the sidebar
  *    or full-width template.
  * 2. Front Page template: thumbnail in use and number of sidebars for
@@ -748,7 +748,7 @@ if (! function_exists('wp_body_open')) :
     /**
      * Fire the wp_body_open action.
      *
-     * Added for backward compatibility to support pre-5.2.0 WordPress versions.
+     * Added for backward compatibility to support pre-5.2.0 WP versions.
      *
      * @since Twenty Twelve 3.0
      */

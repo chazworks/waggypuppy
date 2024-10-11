@@ -384,7 +384,7 @@ class WP_Network
              *
              * @since 3.9.0
              *
-             * @param int|null $segments The number of path segments to consider. WordPress by default looks at
+             * @param int|null $segments The number of path segments to consider. waggypuppy by default looks at
              *                           one path segment. The function default of null only makes sense when you
              *                           know the requested path should match a network.
              * @param string   $domain   The requested domain.

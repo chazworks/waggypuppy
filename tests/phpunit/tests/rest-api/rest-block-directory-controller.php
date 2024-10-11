@@ -24,7 +24,7 @@ class WP_REST_Block_Directory_Controller_Test extends WP_Test_REST_Controller_Te
      *
      * @since 5.5.0
      *
-     * @param WP_UnitTest_Factory $factory WordPress unit test factory.
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {

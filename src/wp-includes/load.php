@@ -1748,7 +1748,7 @@ function wp_doing_ajax()
      *
      * @since 4.7.0
      *
-     * @param bool $wp_doing_ajax Whether the current request is a WordPress Ajax request.
+     * @param bool $wp_doing_ajax Whether the current request is a waggypuppy Ajax request.
      */
     return apply_filters('wp_doing_ajax', defined('DOING_AJAX') && DOING_AJAX);
 }
@@ -1786,7 +1786,7 @@ function wp_doing_cron()
      *
      * @since 4.8.0
      *
-     * @param bool $wp_doing_cron Whether the current request is a WordPress cron request.
+     * @param bool $wp_doing_cron Whether the current request is a waggypuppy cron request.
      */
     return apply_filters('wp_doing_cron', defined('DOING_CRON') && DOING_CRON);
 }

@@ -4,7 +4,7 @@
  *
  * Set up the theme and provides some helper functions, which are used in the
  * theme as custom template tags. Others are attached to action and filter
- * hooks in WordPress to change core functionality.
+ * hooks in WP to change core functionality.
  *
  * When using a child theme you can override certain functions (those wrapped
  * in a function_exists() call) by defining them first in your child theme's
@@ -47,7 +47,7 @@ if (! function_exists('twentyfourteen_setup')) :
     /**
      * Twenty Fourteen setup.
      *
-     * Set up theme defaults and registers support for various WordPress features.
+     * Set up theme defaults and registers support for various WP features.
      *
      * Note that this function is hooked into the after_setup_theme hook, which
      * runs before the init hook. The init hook is too late for some features, such
@@ -67,7 +67,7 @@ if (! function_exists('twentyfourteen_setup')) :
          * template files.
          *
          * Manual loading of text domain is not required after the introduction of
-         * just in time translation loading in WordPress version 4.6.
+         * just in time translation loading in WP version 4.6.
          *
          * @ticket 58318
          */
@@ -595,7 +595,7 @@ if (! function_exists('twentyfourteen_list_authors')) :
 endif;
 
 /**
- * Extend the default WordPress body classes.
+ * Extend the default WP body classes.
  *
  * Adds body classes to denote:
  * 1. Single or multiple authors.
@@ -653,7 +653,7 @@ function twentyfourteen_body_classes($classes)
 add_filter('body_class', 'twentyfourteen_body_classes');
 
 /**
- * Extend the default WordPress post classes.
+ * Extend the default WP post classes.
  *
  * Adds a post class to denote:
  * Non-password protected page with a post thumbnail.
@@ -760,7 +760,7 @@ if (! class_exists('Featured_Content') && 'plugins.php' !== $GLOBALS['pagenow'])
 /**
  * Add an `is_customize_preview` function if it is missing.
  *
- * Enables installing Twenty Fourteen in WordPress versions before 4.0.0 when the
+ * Enables installing Twenty Fourteen in WP versions before 4.0.0 when the
  * `is_customize_preview` function was introduced.
  *
  * @global WP_Customize_Manager $wp_customize Customizer object.

@@ -116,7 +116,7 @@ Initial release
 
 == Copyright ==
 
-Twenty Twenty WordPress Theme, Copyright 2019-2024 wp.org and contributors.
+Twenty Twenty __VAR_WP Theme, Copyright 2019-2024 wp.org and contributors.
 Twenty Twenty is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -162,7 +162,7 @@ Used for TikTok social icon.
 Social Icons
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Source: WordPress Social Link Block (See wp-includes\blocks\social-link.php)
+Source: WP Social Link Block (See wp-includes\blocks\social-link.php)
 
 Code from Twenty Nineteen
 Copyright (c) 2018-2024 wp.org

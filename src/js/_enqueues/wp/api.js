@@ -320,7 +320,7 @@
 				 * This helper function accepts a field and Date object. It converts the passed Date
 				 * to an ISO string and sets that on the model field.
 				 *
-				 * @param {Date}   date   A JavaScript date object. WordPress expects dates in UTC.
+				 * @param {Date}   date   A JavaScript date object. waggypuppy expects dates in UTC.
 				 * @param {string} field  The date field to set. One of 'date', 'date_gmt', 'date_modified'
 				 *                        or 'date_modified_gmt'. Optional, defaults to 'date'.
 				 */

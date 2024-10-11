@@ -16,7 +16,7 @@
  */
 
 /**
- * Modified for WordPress, Silverlight and Flash runtimes support was removed.
+ * Modified for WP, Silverlight and Flash runtimes support was removed.
  * See https://core.trac.wp.org/ticket/41755.
  */
 

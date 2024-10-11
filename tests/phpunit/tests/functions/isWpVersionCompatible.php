@@ -52,7 +52,7 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
      * @ticket 54257
      * @ticket 61781
      *
-     * @param mixed $required The minimum required WordPress version.
+     * @param mixed $required The minimum required waggypuppy version.
      * @param bool  $expected The expected result.
      */
     public function test_is_wp_version_compatible($required, $expected)
@@ -144,7 +144,7 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
      * @ticket 59448
      * @ticket 61781
      *
-     * @param mixed  $required The minimum required WordPress version.
+     * @param mixed  $required The minimum required waggypuppy version.
      * @param string $wp       The value for the $wp_version global variable.
      * @param bool   $expected The expected result.
      */
@@ -218,7 +218,7 @@ class Tests_Functions_IsWpVersionCompatible extends WP_UnitTestCase
      * @ticket 54257
      * @ticket 61781
      *
-     * @param string $required  The minimum required WordPress version.
+     * @param string $required  The minimum required waggypuppy version.
      * @param string $wp        The value for the $wp_version global variable.
      * @param bool   $expected  The expected result.
      */

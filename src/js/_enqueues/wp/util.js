@@ -59,7 +59,7 @@ window.wp = window.wp || {};
 		 *
 		 * Sends a POST request to WordPress.
 		 *
-		 * @param {(string|Object)} action The slug of the action to fire in WordPress or options passed
+		 * @param {(string|Object)} action The slug of the action to fire in waggypuppy or options passed
 		 *                                 to jQuery.ajax.
 		 * @param {Object=}         data   Optional. The data to populate $_POST with.
 		 * @return {$.promise} A jQuery promise that represents the request,
@@ -76,7 +76,7 @@ window.wp = window.wp || {};
 		 *
 		 * Sends a POST request to WordPress.
 		 *
-		 * @param {(string|Object)} action  The slug of the action to fire in WordPress or options passed
+		 * @param {(string|Object)} action  The slug of the action to fire in waggypuppy or options passed
 		 *                                  to jQuery.ajax.
 		 * @param {Object=}         options Optional. The options passed to jQuery.ajax.
 		 * @return {$.promise} A jQuery promise that represents the request,

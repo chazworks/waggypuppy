@@ -202,7 +202,7 @@ class WP_Http
              * @since 2.7.0
              * @since 5.1.0 The `$url` parameter was added.
              *
-             * @param string $user_agent WordPress user agent string.
+             * @param string $user_agent waggypuppy user agent string.
              * @param string $url        The request URL.
              */
             'user-agent'          => apply_filters('http_headers_useragent', 'WordPress/' . get_bloginfo('version') . '; ' . get_bloginfo('url'), $url),

@@ -13,7 +13,7 @@
 if (! function_exists('twentytwentytwo_support')) :
 
     /**
-     * Sets up theme defaults and registers support for various WordPress features.
+     * Sets up theme defaults and registers support for various WP features.
      *
      * @since Twenty Twenty-Two 1.0
      *

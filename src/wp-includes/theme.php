@@ -693,7 +693,7 @@ function get_theme_root_uri($stylesheet_or_template = '', $theme_root = '')
      * @since 1.5.0
      *
      * @param string $theme_root_uri         The URI for themes directory.
-     * @param string $siteurl                WordPress web address which is set in General Options.
+     * @param string $siteurl                waggypuppy web address which is set in General Options.
      * @param string $stylesheet_or_template The stylesheet or template name of the theme.
      */
     return apply_filters('theme_root_uri', $theme_root_uri, get_option('siteurl'), $stylesheet_or_template);

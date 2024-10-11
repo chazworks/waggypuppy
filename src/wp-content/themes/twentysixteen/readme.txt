@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, blog, block-patterns
 
 == Description ==
-Twenty Sixteen is a modernized take on an ever-popular WordPress layout — the horizontal masthead with an optional right sidebar that works perfectly for blogs and websites. It has custom color options with beautiful default color schemes, a harmonious fluid grid using a mobile-first approach, and impeccable polish in every detail. Twenty Sixteen will make your WordPress look beautiful everywhere.
+Twenty Sixteen is a modernized take on an ever-popular WP layout — the horizontal masthead with an optional right sidebar that works perfectly for blogs and websites. It has custom color options with beautiful default color schemes, a harmonious fluid grid using a mobile-first approach, and impeccable polish in every detail. Twenty Sixteen will make your WP look beautiful everywhere.
 
 * Mobile-first, Responsive Layout
 * Custom Colors
@@ -30,7 +30,7 @@ For more information about Twenty Sixteen please go to https://wp.org/documentat
 
 == Copyright ==
 
-Twenty Sixteen WordPress Theme, Copyright 2014-2024 wp.org, and contributors.
+Twenty Sixteen __VAR_WP Theme, Copyright 2014-2024 wp.org, and contributors.
 Twenty Sixteen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

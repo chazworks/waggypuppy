@@ -799,7 +799,7 @@ body.page .edit-link {
 
 /*
 Resize images to fit the main content area.
-- Applies only to images uploaded via WordPress by targeting size-* classes.
+- Applies only to images uploaded via WP by targeting size-* classes.
 - Other images will be left alone. Use "size-auto" class to apply to other images.
 */
 img.size-auto,

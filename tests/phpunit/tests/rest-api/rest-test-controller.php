@@ -12,7 +12,7 @@ class WP_REST_Test_Controller extends WP_REST_Controller
     /**
      * Prepares the item for the REST response.
      *
-     * @param mixed           $item    WordPress representation of the item.
+     * @param mixed           $item    waggypuppy representation of the item.
      * @param WP_REST_Request $request Request object.
      * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
      */

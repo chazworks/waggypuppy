@@ -36,7 +36,7 @@ class WP_Test_REST_Site_Health_Controller extends WP_Test_REST_TestCase
      *
      * @since 5.6.0
      *
-     * @param WP_UnitTest_Factory $factory WordPress unit test factory.
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass(WP_UnitTest_Factory $factory)
     {

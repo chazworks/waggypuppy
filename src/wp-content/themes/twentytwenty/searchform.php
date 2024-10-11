@@ -28,7 +28,7 @@ if (empty($twentytwenty_aria_label) && ! empty($args['label'])) {
         <span class="screen-reader-text">
             <?php
             /* translators: Hidden accessibility text. */
-            _e('Search for:', 'twentytwenty'); // phpcs:ignore: WordPress.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations
+            _e('Search for:', 'twentytwenty'); // phpcs:ignore: __VAR_WP.Security.EscapeOutput.UnsafePrintingFunction -- core trusts translations
             ?>
         </span>
         <input type="search" id="<?php echo esc_attr($twentytwenty_unique_id); ?>" class="search-field" placeholder="<?php echo esc_attr_x('Search &hellip;', 'placeholder', 'twentytwenty'); ?>" value="<?php echo get_search_query(); ?>" name="s" />

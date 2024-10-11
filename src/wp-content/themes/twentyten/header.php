@@ -75,7 +75,7 @@ if (is_singular() && get_option('thread_comments')) {
                 <div id="site-description"><?php bloginfo('description'); ?></div>
 
                 <?php
-                    // Compatibility with versions of WordPress prior to 3.4.
+                    // Compatibility with versions of WP prior to 3.4.
                 if (function_exists('get_custom_header')) {
                     /*
                      * We need to figure out what the minimum width should be for our featured image.

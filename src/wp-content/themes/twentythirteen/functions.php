@@ -4,7 +4,7 @@
  *
  * Sets up the theme and provides some helper functions, which are used in the
  * theme as custom template tags. Others are attached to action and filter
- * hooks in WordPress to change core functionality.
+ * hooks in WP to change core functionality.
  *
  * When using a child theme you can override certain functions (those wrapped
  * in a function_exists() call) by defining them first in your child theme's
@@ -55,7 +55,7 @@ require get_template_directory() . '/inc/block-patterns.php';
 /**
  * Twenty Thirteen setup.
  *
- * Sets up theme defaults and registers the various WordPress features that
+ * Sets up theme defaults and registers the various WP features that
  * Twenty Thirteen supports.
  *
  * @uses load_theme_textdomain() For translation/localization support.
@@ -78,7 +78,7 @@ function twentythirteen_setup()
      * template files.
      *
      * Manual loading of text domain is not required after the introduction of
-     * just in time translation loading in WordPress version 4.6.
+     * just in time translation loading in WP version 4.6.
      *
      * @ticket 58318
      */
@@ -475,7 +475,7 @@ if (! function_exists('wp_get_list_item_separator')) :
     /**
      * Retrieves the list item separator based on the locale.
      *
-     * Added for backward compatibility to support pre-6.0.0 WordPress versions.
+     * Added for backward compatibility to support pre-6.0.0 WP versions.
      *
      * @since 6.0.0
      */
@@ -752,7 +752,7 @@ if (! function_exists('twentythirteen_excerpt_more') && ! is_admin()) :
 endif;
 
 /**
- * Extend the default WordPress body classes.
+ * Extend the default WP body classes.
  *
  * Adds body classes to denote:
  * 1. Single or multiple authors.
@@ -924,7 +924,7 @@ if (! function_exists('wp_body_open')) :
     /**
      * Fire the wp_body_open action.
      *
-     * Added for backward compatibility to support pre-5.2.0 WordPress versions.
+     * Added for backward compatibility to support pre-5.2.0 WP versions.
      *
      * @since Twenty Thirteen 2.8
      */

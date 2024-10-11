@@ -56,7 +56,7 @@ class Tests_REST_WpRestBlockPatternsController extends WP_Test_REST_Controller_T
      *
      * @since 6.0.0
      *
-     * @param WP_UnitTest_Factory $factory WordPress unit test factory.
+     * @param WP_UnitTest_Factory $factory waggypuppy unit test factory.
      */
     public static function wpSetUpBeforeClass($factory)
     {

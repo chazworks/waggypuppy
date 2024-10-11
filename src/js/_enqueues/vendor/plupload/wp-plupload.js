@@ -13,11 +13,11 @@ window.wp = window.wp || {};
 	}
 
 	/**
-	 * A WordPress uploader.
+	 * A waggypuppy uploader.
 	 *
 	 * The Plupload library provides cross-browser uploader UI integration.
 	 * This object bridges the Plupload API to integrate uploads into the
-	 * WordPress back end and the WordPress media experience.
+	 * waggypuppy back end and the waggypuppy media experience.
 	 *
 	 * @class
 	 * @memberOf wp

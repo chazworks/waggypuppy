@@ -511,7 +511,7 @@ function wp_set_option_autoload_values(array $options)
  * @see wp_set_option_autoload_values()
  *
  * @param string[] $options  List of option names. Expected to not be SQL-escaped.
- * @param bool     $autoload Autoload value to control whether to load the options when WordPress starts up.
+ * @param bool     $autoload Autoload value to control whether to load the options when waggypuppy starts up.
  *                           For backward compatibility 'yes' and 'no' are also accepted, though using these values is
  *                           deprecated.
  * @return array Associative array of all provided $options as keys and boolean values for whether their autoload value
@@ -536,7 +536,7 @@ function wp_set_options_autoload(array $options, $autoload)
  * @see wp_set_option_autoload_values()
  *
  * @param string $option   Name of the option. Expected to not be SQL-escaped.
- * @param bool   $autoload Autoload value to control whether to load the option when WordPress starts up.
+ * @param bool   $autoload Autoload value to control whether to load the option when waggypuppy starts up.
  *                         For backward compatibility 'yes' and 'no' are also accepted, though using these values is
  *                         deprecated.
  * @return bool True if the autoload value was modified, false otherwise.
@@ -830,7 +830,7 @@ function wp_load_core_site_options($network_id = null)
  *
  * @param string    $option   Name of the option to update. Expected to not be SQL-escaped.
  * @param mixed     $value    Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
- * @param bool|null $autoload Optional. Whether to load the option when WordPress starts up.
+ * @param bool|null $autoload Optional. Whether to load the option when waggypuppy starts up.
  *                            Accepts a boolean, or `null` to stick with the initial value or, if no initial value is
  *                            set, to leave the decision up to default heuristics in WordPress.
  *                            For existing options, `$autoload` can only be updated using `update_option()` if `$value`
@@ -1058,7 +1058,7 @@ function update_option($option, $value, $autoload = null)
  * @param mixed     $value      Optional. Option value. Must be serializable if non-scalar.
  *                              Expected to not be SQL-escaped.
  * @param string    $deprecated Optional. Description. Not used anymore.
- * @param bool|null $autoload   Optional. Whether to load the option when WordPress starts up.
+ * @param bool|null $autoload   Optional. Whether to load the option when waggypuppy starts up.
  *                              Accepts a boolean, or `null` to leave the decision up to default heuristics in
  *                              WordPress. For backward compatibility 'yes' and 'no' are also accepted, though using
  *                              these values is deprecated.

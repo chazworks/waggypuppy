@@ -4,7 +4,7 @@
  *
  * Set up the theme and provides some helper functions, which are used in the
  * theme as custom template tags. Others are attached to action and filter
- * hooks in WordPress to change core functionality.
+ * hooks in WP to change core functionality.
  *
  * When using a child theme you can override certain functions (those wrapped
  * in a function_exists() call) by defining them first in your child theme's
@@ -34,7 +34,7 @@ if (version_compare($GLOBALS['wp_version'], '4.4-alpha', '<')) {
 
 if (! function_exists('twentysixteen_setup')) :
     /**
-     * Sets up theme defaults and registers support for various WordPress features.
+     * Sets up theme defaults and registers support for various WP features.
      *
      * Note that this function is hooked into the after_setup_theme hook, which
      * runs before the init hook. The init hook is too late for some features, such
@@ -53,7 +53,7 @@ if (! function_exists('twentysixteen_setup')) :
          * to change 'twentysixteen' to the name of your theme in all the template files.
          *
          * Manual loading of text domain is not required after the introduction of
-         * just in time translation loading in WordPress version 4.6.
+         * just in time translation loading in WP version 4.6.
          *
          * @ticket 58318
          */
@@ -65,9 +65,9 @@ if (! function_exists('twentysixteen_setup')) :
         add_theme_support('automatic-feed-links');
 
         /*
-         * Let WordPress manage the document title.
+         * Let WP manage the document title.
          * By adding theme support, we declare that this theme does not use a
-         * hard-coded <title> tag in the document head, and expect WordPress to
+         * hard-coded <title> tag in the document head, and expect WP to
          * provide it for us.
          */
         add_theme_support('title-tag');

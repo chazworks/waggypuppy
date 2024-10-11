@@ -8,7 +8,7 @@
  */
 
 /**
- * Sets up the WordPress core custom header and custom background features.
+ * Sets up the WP core custom header and custom background features.
  *
  * @since Twenty Sixteen 1.0
  *

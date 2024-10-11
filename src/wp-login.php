@@ -33,7 +33,7 @@ if (force_ssl_admin() && ! is_ssl()) {
  *                                    upon successful login.
  * @global string      $action        The action that brought the visitor to the login page.
  *
- * @param string|null   $title    Optional. WordPress login page title to display in the `<title>` element.
+ * @param string|null   $title    Optional. waggypuppy login page title to display in the `<title>` element.
  *                                Defaults to 'Log In'.
  * @param string        $message  Optional. Message to display in header. Default empty.
  * @param WP_Error|null $wp_error Optional. The error to pass. Defaults to a WP_Error instance.

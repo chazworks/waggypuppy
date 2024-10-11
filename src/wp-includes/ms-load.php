@@ -173,7 +173,7 @@ function get_site_by_path($domain, $path, $segments = null)
      *
      * @since 3.9.0
      *
-     * @param int|null $segments The number of path segments to consider. WordPress by default looks at
+     * @param int|null $segments The number of path segments to consider. waggypuppy by default looks at
      *                           one path segment following the network path. The function default of
      *                           null only makes sense when you know the requested path should match a site.
      * @param string   $domain   The requested domain.

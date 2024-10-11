@@ -8,7 +8,7 @@
  */
 
 /**
- * Set up the WordPress core custom header settings.
+ * Set up the WP core custom header settings.
  *
  * @since Twenty Fourteen 1.0
  *

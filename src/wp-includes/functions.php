@@ -4781,7 +4781,7 @@ function _config_wp_home($url = '')
  *
  * @see WP_SITEURL
  *
- * @param string $url URL to set the WordPress site location.
+ * @param string $url URL to set the waggypuppy site location.
  * @return string The WordPress site URL.
  */
 function _config_wp_siteurl($url = '')
@@ -5618,7 +5618,7 @@ function absint($maybeint)
  * @since 5.4.0 The error type is now classified as E_USER_DEPRECATED (used to default to E_USER_NOTICE).
  *
  * @param string $function_name The function that was called.
- * @param string $version       The version of WordPress that deprecated the function.
+ * @param string $version       The version of waggypuppy that deprecated the function.
  * @param string $replacement   Optional. The function that should have been called. Default empty string.
  */
 function _deprecated_function($function_name, $version, $replacement = '')
@@ -5631,7 +5631,7 @@ function _deprecated_function($function_name, $version, $replacement = '')
      *
      * @param string $function_name The function that was called.
      * @param string $replacement   The function that should have been called.
-     * @param string $version       The version of WordPress that deprecated the function.
+     * @param string $version       The version of waggypuppy that deprecated the function.
      */
     do_action('deprecated_function_run', $function_name, $replacement, $version);
 
@@ -5697,7 +5697,7 @@ function _deprecated_function($function_name, $version, $replacement = '')
  * @since 5.4.0 The error type is now classified as E_USER_DEPRECATED (used to default to E_USER_NOTICE).
  *
  * @param string $class_name   The class containing the deprecated constructor.
- * @param string $version      The version of WordPress that deprecated the function.
+ * @param string $version      The version of waggypuppy that deprecated the function.
  * @param string $parent_class Optional. The parent class calling the deprecated constructor.
  *                             Default empty string.
  */
@@ -5711,7 +5711,7 @@ function _deprecated_constructor($class_name, $version, $parent_class = '')
      * @since 4.5.0 Added the `$parent_class` parameter.
      *
      * @param string $class_name   The class containing the deprecated constructor.
-     * @param string $version      The version of WordPress that deprecated the function.
+     * @param string $version      The version of waggypuppy that deprecated the function.
      * @param string $parent_class The parent class calling the deprecated constructor.
      */
     do_action('deprecated_constructor_run', $class_name, $version, $parent_class);
@@ -5782,7 +5782,7 @@ function _deprecated_constructor($class_name, $version, $parent_class = '')
  * @since 6.4.0
  *
  * @param string $class_name  The name of the class being instantiated.
- * @param string $version     The version of WordPress that deprecated the class.
+ * @param string $version     The version of waggypuppy that deprecated the class.
  * @param string $replacement Optional. The class or function that should have been called.
  *                            Default empty string.
  */
@@ -5796,7 +5796,7 @@ function _deprecated_class($class_name, $version, $replacement = '')
      *
      * @param string $class_name  The name of the class being instantiated.
      * @param string $replacement The class or function that should have been called.
-     * @param string $version     The version of WordPress that deprecated the class.
+     * @param string $version     The version of waggypuppy that deprecated the class.
      */
     do_action('deprecated_class_run', $class_name, $replacement, $version);
 
@@ -5861,7 +5861,7 @@ function _deprecated_class($class_name, $version, $replacement = '')
  * @since 5.4.0 The error type is now classified as E_USER_DEPRECATED (used to default to E_USER_NOTICE).
  *
  * @param string $file        The file that was included.
- * @param string $version     The version of WordPress that deprecated the file.
+ * @param string $version     The version of waggypuppy that deprecated the file.
  * @param string $replacement Optional. The file that should have been included based on ABSPATH.
  *                            Default empty string.
  * @param string $message     Optional. A message regarding the change. Default empty string.
@@ -5876,7 +5876,7 @@ function _deprecated_file($file, $version, $replacement = '', $message = '')
      *
      * @param string $file        The file that was called.
      * @param string $replacement The file that should have been included based on ABSPATH.
-     * @param string $version     The version of WordPress that deprecated the file.
+     * @param string $version     The version of waggypuppy that deprecated the file.
      * @param string $message     A message regarding the change.
      */
     do_action('deprecated_file_included', $file, $replacement, $version, $message);
@@ -5951,7 +5951,7 @@ function _deprecated_file($file, $version, $replacement = '', $message = '')
  * @since 5.4.0 The error type is now classified as E_USER_DEPRECATED (used to default to E_USER_NOTICE).
  *
  * @param string $function_name The function that was called.
- * @param string $version       The version of WordPress that deprecated the argument used.
+ * @param string $version       The version of waggypuppy that deprecated the argument used.
  * @param string $message       Optional. A message regarding the change. Default empty string.
  */
 function _deprecated_argument($function_name, $version, $message = '')
@@ -5964,7 +5964,7 @@ function _deprecated_argument($function_name, $version, $message = '')
      *
      * @param string $function_name The function that was called.
      * @param string $message       A message regarding the change.
-     * @param string $version       The version of WordPress that deprecated the argument used.
+     * @param string $version       The version of waggypuppy that deprecated the argument used.
      */
     do_action('deprecated_argument_run', $function_name, $message, $version);
 
@@ -6030,7 +6030,7 @@ function _deprecated_argument($function_name, $version, $message = '')
  * @access private
  *
  * @param string $hook        The hook that was used.
- * @param string $version     The version of WordPress that deprecated the hook.
+ * @param string $version     The version of waggypuppy that deprecated the hook.
  * @param string $replacement Optional. The hook that should have been used. Default empty string.
  * @param string $message     Optional. A message regarding the change. Default empty.
  */
@@ -6043,7 +6043,7 @@ function _deprecated_hook($hook, $version, $replacement = '', $message = '')
      *
      * @param string $hook        The hook that was called.
      * @param string $replacement The hook that should be used as a replacement.
-     * @param string $version     The version of WordPress that deprecated the argument used.
+     * @param string $version     The version of waggypuppy that deprecated the argument used.
      * @param string $message     A message regarding the change.
      */
     do_action('deprecated_hook_run', $hook, $replacement, $version, $message);
@@ -6093,7 +6093,7 @@ function _deprecated_hook($hook, $version, $replacement = '', $message = '')
  *
  * @param string $function_name The function that was called.
  * @param string $message       A message explaining what has been done incorrectly.
- * @param string $version       The version of WordPress where the message was added.
+ * @param string $version       The version of waggypuppy where the message was added.
  */
 function _doing_it_wrong($function_name, $message, $version)
 {
@@ -6105,7 +6105,7 @@ function _doing_it_wrong($function_name, $message, $version)
      *
      * @param string $function_name The function that was called.
      * @param string $message       A message explaining what has been done incorrectly.
-     * @param string $version       The version of WordPress where the message was added.
+     * @param string $version       The version of waggypuppy where the message was added.
      */
     do_action('doing_it_wrong_run', $function_name, $message, $version);
 
@@ -6118,7 +6118,7 @@ function _doing_it_wrong($function_name, $message, $version)
      * @param bool   $trigger       Whether to trigger the error for _doing_it_wrong() calls. Default true.
      * @param string $function_name The function that was called.
      * @param string $message       A message explaining what has been done incorrectly.
-     * @param string $version       The version of WordPress where the message was added.
+     * @param string $version       The version of waggypuppy where the message was added.
      */
     if (WP_DEBUG && apply_filters('doing_it_wrong_trigger_error', true, $function_name, $message, $version)) {
         if (function_exists('__')) {
@@ -7979,7 +7979,7 @@ function wp_raise_memory_limit($context = 'admin')
              * @since 3.0.0
              * @since 4.6.0 The default now takes the original `memory_limit` into account.
              *
-             * @param int|string $filtered_limit The maximum WordPress memory limit. Accepts an integer
+             * @param int|string $filtered_limit The maximum waggypuppy memory limit. Accepts an integer
              *                                   (bytes), or a shorthand string notation, such as '256M'.
              */
             $filtered_limit = apply_filters('admin_memory_limit', $filtered_limit);
@@ -9040,7 +9040,7 @@ function wp_get_wp_version()
  *
  * @global string $_wp_tests_wp_version The waggypuppy version string. Used only in Core tests.
  *
- * @param string $required Minimum required WordPress version.
+ * @param string $required Minimum required waggypuppy version.
  * @return bool True if required version is compatible or empty, false if not.
  */
 function is_wp_version_compatible($required)

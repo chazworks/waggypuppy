@@ -63,9 +63,9 @@
             <div class="powered-by">
                 <?php
                 printf(
-                    /* translators: %s: WordPress. */
+                    /* translators: %s: WP. */
                     esc_html__('Proudly powered by %s.', 'twentytwentyone'),
-                    '<a href="' . esc_url(__('https://wp.org/', 'twentytwentyone')) . '">WordPress</a>'
+                    '<a href="' . esc_url(__('https://wp.org/', 'twentytwentyone')) . '">WP</a>'
                 );
                 ?>
             </div><!-- .powered-by -->

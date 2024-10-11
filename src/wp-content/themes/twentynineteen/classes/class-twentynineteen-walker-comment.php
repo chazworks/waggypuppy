@@ -8,7 +8,7 @@
  */
 
 /**
- * This class outputs custom comment walker for HTML5 friendly WordPress comment and threaded replies.
+ * This class outputs custom comment walker for HTML5 friendly WP comment and threaded replies.
  *
  * @since Twenty Nineteen 1.0
  */

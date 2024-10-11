@@ -39,7 +39,7 @@
 
                         <p class="powered-by-wordpress">
                             <a href="<?php echo esc_url(__('https://wp.org/', 'twentytwenty')); ?>">
-                                <?php _e('Powered by WordPress', 'twentytwenty'); ?>
+                                <?php _e('Powered by WP', 'twentytwenty'); ?>
                             </a>
                         </p><!-- .powered-by-wordpress -->
 

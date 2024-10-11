@@ -1,6 +1,6 @@
 <?php
 /**
- * Header file for the Twenty Twenty WordPress default theme.
+ * Header file for the Twenty Twenty WP default theme.
  *
  * @link https://developer.wp.org/themes/basics/template-files/#template-partials
  *

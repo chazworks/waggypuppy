@@ -19,7 +19,7 @@ if (version_compare($GLOBALS['wp_version'], '4.7', '<')) {
 
 if (! function_exists('twentynineteen_setup')) :
     /**
-     * Sets up theme defaults and registers support for various WordPress features.
+     * Sets up theme defaults and registers support for various WP features.
      *
      * Note that this function is hooked into the after_setup_theme hook, which
      * runs before the init hook. The init hook is too late for some features, such
@@ -32,9 +32,9 @@ if (! function_exists('twentynineteen_setup')) :
         add_theme_support('automatic-feed-links');
 
         /*
-         * Let WordPress manage the document title.
+         * Let WP manage the document title.
          * By adding theme support, we declare that this theme does not use a
-         * hard-coded <title> tag in the document head, and expect WordPress to
+         * hard-coded <title> tag in the document head, and expect WP to
          * provide it for us.
          */
         add_theme_support('title-tag');
@@ -180,7 +180,7 @@ if (! function_exists('wp_get_list_item_separator')) :
     /**
      * Retrieves the list item separator based on the locale.
      *
-     * Added for backward compatibility to support pre-6.0.0 WordPress versions.
+     * Added for backward compatibility to support pre-6.0.0 WP versions.
      *
      * @since 6.0.0
      */
@@ -378,7 +378,7 @@ require get_template_directory() . '/inc/helper-functions.php';
 require get_template_directory() . '/inc/icon-functions.php';
 
 /**
- * Enhance the theme by hooking into WordPress.
+ * Enhance the theme by hooking into WP.
  */
 require get_template_directory() . '/inc/template-functions.php';
 

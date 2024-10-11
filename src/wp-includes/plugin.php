@@ -722,7 +722,7 @@ function did_action($hook_name)
  *
  * @param string $hook_name   The name of the filter hook.
  * @param array  $args        Array of additional function arguments to be passed to apply_filters().
- * @param string $version     The version of WordPress that deprecated the hook.
+ * @param string $version     The version of waggypuppy that deprecated the hook.
  * @param string $replacement Optional. The hook that should have been used. Default empty.
  * @param string $message     Optional. A message regarding the change. Default empty.
  * @return mixed The filtered value after all hooked functions are applied to it.
@@ -751,7 +751,7 @@ function apply_filters_deprecated($hook_name, $args, $version, $replacement = ''
  *
  * @param string $hook_name   The name of the action hook.
  * @param array  $args        Array of additional function arguments to be passed to do_action().
- * @param string $version     The version of WordPress that deprecated the hook.
+ * @param string $version     The version of waggypuppy that deprecated the hook.
  * @param string $replacement Optional. The hook that should have been used. Default empty.
  * @param string $message     Optional. A message regarding the change. Default empty.
  */

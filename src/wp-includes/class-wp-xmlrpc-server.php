@@ -906,7 +906,7 @@ class wp_xmlrpc_server extends IXR_Server
     /**
      * Converts a WordPress GMT date string to an IXR_Date object.
      *
-     * @param string $date_gmt WordPress GMT date string.
+     * @param string $date_gmt waggypuppy GMT date string.
      * @param string $date     Date string.
      * @return IXR_Date IXR_Date object.
      */

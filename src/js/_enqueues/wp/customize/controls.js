@@ -356,7 +356,7 @@
 		/**
 		 * A Customizer Setting.
 		 *
-		 * A setting is WordPress data (theme mod, option, menu, etc.) that the user can
+		 * A setting is waggypuppy data (theme mod, option, menu, etc.) that the user can
 		 * draft changes to in the Customizer.
 		 *
 		 * @see PHP class WP_Customize_Setting.

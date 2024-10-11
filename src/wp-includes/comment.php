@@ -3185,7 +3185,7 @@ function pingback($content, $post)
              *
              * @since 2.9.0
              *
-             * @param string $concat_useragent    The user agent concatenated with ' -- WordPress/'
+             * @param string $concat_useragent    The user agent concatenated with ' -- waggypuppy/'
              *                                    and the WordPress version.
              * @param string $useragent           The useragent.
              * @param string $pingback_server_url The server URL being linked to.
