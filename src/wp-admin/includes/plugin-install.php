@@ -7,7 +7,7 @@
  */
 
 /**
- * Retrieves plugin installer pages from the WordPress.org Plugins API.
+ * Retrieves plugin installer pages from the wp.org Plugins API.
  *
  * It is possible for a plugin to override the Plugin API result with three
  * filters. Assume this is for plugins, which can extend on the Plugin Info to
@@ -18,7 +18,7 @@
  * as the second parameter. The hook for {@see 'plugins_api_args'} must ensure that
  * an object is returned.
  *
- * The second filter, {@see 'plugins_api'}, allows a plugin to override the WordPress.org
+ * The second filter, {@see 'plugins_api'}, allows a plugin to override the wp.org
  * Plugin Installation API entirely. If `$action` is 'query_plugins' or 'plugin_information',
  * an object MUST be passed. If `$action` is 'hot_tags', an array MUST be passed.
  *
@@ -118,7 +118,7 @@ function plugins_api($action, $args = [])
     }
 
     /**
-     * Filters the WordPress.org Plugin Installation API arguments.
+     * Filters the wp.org Plugin Installation API arguments.
      *
      * Important: An object MUST be returned to this filter.
      *
@@ -130,9 +130,9 @@ function plugins_api($action, $args = [])
     $args = apply_filters('plugins_api_args', $args, $action);
 
     /**
-     * Filters the response for the current WordPress.org Plugin Installation API request.
+     * Filters the response for the current wp.org Plugin Installation API request.
      *
-     * Returning a non-false value will effectively short-circuit the WordPress.org API request.
+     * Returning a non-false value will effectively short-circuit the wp.org API request.
      *
      * If `$action` is 'query_plugins' or 'plugin_information', an object MUST be passed.
      * If `$action` is 'hot_tags', an array should be passed.
@@ -174,9 +174,9 @@ function plugins_api($action, $args = [])
                     __FUNCTION__,
                     sprintf(
                         /* translators: %s: Support forums URL. */
-                        __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                        __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                         __('https://wordpress.org/support/forums/')
-                    ) . ' ' . __('(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)'),
+                    ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
                     headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
                 );
             }
@@ -189,7 +189,7 @@ function plugins_api($action, $args = [])
                 'plugins_api_failed',
                 sprintf(
                     /* translators: %s: Support forums URL. */
-                    __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                    __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                     __('https://wordpress.org/support/forums/')
                 ),
                 $request->get_error_message()
@@ -204,7 +204,7 @@ function plugins_api($action, $args = [])
                     'plugins_api_failed',
                     sprintf(
                         /* translators: %s: Support forums URL. */
-                        __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                        __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                         __('https://wordpress.org/support/forums/')
                     ),
                     wp_remote_retrieve_body($request)
@@ -373,11 +373,11 @@ function install_plugins_favorites_form()
     $user   = get_user_option('wporg_favorites');
     $action = 'save_wporg_username_' . get_current_user_id();
     ?>
-    <p><?php _e('If you have marked plugins as favorites on WordPress.org, you can browse them here.'); ?></p>
+    <p><?php _e('If you have marked plugins as favorites on wp.org, you can browse them here.'); ?></p>
     <form method="get">
         <input type="hidden" name="tab" value="favorites" />
         <p>
-            <label for="user"><?php _e('Your WordPress.org username:'); ?></label>
+            <label for="user"><?php _e('Your wp.org username:'); ?></label>
             <input type="search" id="user" name="user" value="<?php echo esc_attr($user); ?>" />
             <input type="submit" class="button" value="<?php esc_attr_e('Get Favorites'); ?>" />
             <input type="hidden" id="wporg-username-nonce" name="_wpnonce" value="<?php echo esc_attr(wp_create_nonce($action)); ?>" />
@@ -712,7 +712,7 @@ function install_plugin_information()
                 ?>
                 </li>
             <?php } if (! empty($api->slug) && empty($api->external)) { ?>
-                <li><a target="_blank" href="<?php echo esc_url(__('https://wordpress.org/plugins/') . $api->slug); ?>/"><?php _e('WordPress.org Plugin Page &#187;'); ?></a></li>
+                <li><a target="_blank" href="<?php echo esc_url(__('https://wordpress.org/plugins/') . $api->slug); ?>/"><?php _e('wp.org Plugin Page &#187;'); ?></a></li>
             <?php } if (! empty($api->homepage)) { ?>
                 <li><a target="_blank" href="<?php echo esc_url($api->homepage); ?>"><?php _e('Plugin Homepage &#187;'); ?></a></li>
             <?php } if (! empty($api->donate_link) && empty($api->contributors)) { ?>
@@ -745,7 +745,7 @@ function install_plugin_information()
         if (! empty($api->ratings) && array_sum((array) $api->ratings) > 0) {
             ?>
             <h3><?php _e('Reviews'); ?></h3>
-            <p class="fyi-description"><?php _e('Read all reviews on WordPress.org or write your own!'); ?></p>
+            <p class="fyi-description"><?php _e('Read all reviews on wp.org or write your own!'); ?></p>
             <?php
             foreach ($api->ratings as $key => $ratecount) {
                 // Avoid div-by-zero.

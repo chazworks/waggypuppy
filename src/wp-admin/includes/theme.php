@@ -313,7 +313,7 @@ function get_theme_update_available($theme)
  * @since 6.1.1 Replaced 'Full Site Editing' feature name with 'Site Editor'.
  * @since 6.2.0 Added 'Style Variations' feature.
  *
- * @param bool $api Optional. Whether try to fetch tags from the WordPress.org API. Defaults to true.
+ * @param bool $api Optional. Whether try to fetch tags from the wp.org API. Defaults to true.
  * @return array Array of features keyed by category with translations keyed by slug.
  */
 function get_theme_feature_list($api = true)
@@ -418,7 +418,7 @@ function get_theme_feature_list($api = true)
 }
 
 /**
- * Retrieves theme installer pages from the WordPress.org Themes API.
+ * Retrieves theme installer pages from the wp.org Themes API.
  *
  * It is possible for a theme to override the Themes API result with three
  * filters. Assume this is for themes, which can extend on the Theme Info to
@@ -429,7 +429,7 @@ function get_theme_feature_list($api = true)
  * as the second parameter. The hook for {@see 'themes_api_args'} must ensure that
  * an object is returned.
  *
- * The second filter, {@see 'themes_api'}, allows a plugin to override the WordPress.org
+ * The second filter, {@see 'themes_api'}, allows a plugin to override the wp.org
  * Theme API entirely. If `$action` is 'query_themes', 'theme_information', or 'feature_list',
  * an object MUST be passed. If `$action` is 'hot_tags', an array should be passed.
  *
@@ -519,29 +519,29 @@ function themes_api($action, $args = [])
     }
 
     /**
-     * Filters arguments used to query for installer pages from the WordPress.org Themes API.
+     * Filters arguments used to query for installer pages from the wp.org Themes API.
      *
      * Important: An object MUST be returned to this filter.
      *
      * @since 2.8.0
      *
-     * @param object $args   Arguments used to query for installer pages from the WordPress.org Themes API.
+     * @param object $args   Arguments used to query for installer pages from the wp.org Themes API.
      * @param string $action Requested action. Likely values are 'theme_information',
      *                       'feature_list', or 'query_themes'.
      */
     $args = apply_filters('themes_api_args', $args, $action);
 
     /**
-     * Filters whether to override the WordPress.org Themes API.
+     * Filters whether to override the wp.org Themes API.
      *
-     * Returning a non-false value will effectively short-circuit the WordPress.org API request.
+     * Returning a non-false value will effectively short-circuit the wp.org API request.
      *
      * If `$action` is 'query_themes', 'theme_information', or 'feature_list', an object MUST
      * be passed. If `$action` is 'hot_tags', an array should be passed.
      *
      * @since 2.8.0
      *
-     * @param false|object|array $override Whether to override the WordPress.org Themes API. Default false.
+     * @param false|object|array $override Whether to override the wp.org Themes API. Default false.
      * @param string             $action   Requested action. Likely values are 'theme_information',
      *                                    'feature_list', or 'query_themes'.
      * @param object             $args     Arguments used to query for installer pages from the Themes API.
@@ -576,9 +576,9 @@ function themes_api($action, $args = [])
                     __FUNCTION__,
                     sprintf(
                         /* translators: %s: Support forums URL. */
-                        __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                        __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                         __('https://wordpress.org/support/forums/')
-                    ) . ' ' . __('(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)'),
+                    ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
                     headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
                 );
             }
@@ -590,7 +590,7 @@ function themes_api($action, $args = [])
                 'themes_api_failed',
                 sprintf(
                     /* translators: %s: Support forums URL. */
-                    __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                    __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                     __('https://wordpress.org/support/forums/')
                 ),
                 $request->get_error_message()
@@ -605,7 +605,7 @@ function themes_api($action, $args = [])
                     'themes_api_failed',
                     sprintf(
                         /* translators: %s: Support forums URL. */
-                        __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                        __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                         __('https://wordpress.org/support/forums/')
                     ),
                     wp_remote_retrieve_body($request)
@@ -633,14 +633,14 @@ function themes_api($action, $args = [])
     }
 
     /**
-     * Filters the returned WordPress.org Themes API response.
+     * Filters the returned wp.org Themes API response.
      *
      * @since 2.8.0
      *
-     * @param array|stdClass|WP_Error $res    WordPress.org Themes API response.
+     * @param array|stdClass|WP_Error $res    wp.org Themes API response.
      * @param string                  $action Requested action. Likely values are 'theme_information',
      *                                        'feature_list', or 'query_themes'.
-     * @param stdClass                $args   Arguments used to query for installer pages from the WordPress.org Themes API.
+     * @param stdClass                $args   Arguments used to query for installer pages from the wp.org Themes API.
      */
     return apply_filters('themes_api_result', $res, $action, $args);
 }

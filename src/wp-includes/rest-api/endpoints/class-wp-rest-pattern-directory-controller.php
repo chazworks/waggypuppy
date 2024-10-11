@@ -144,7 +144,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller
                     'pattern_api_failed',
                     sprintf(
                         /* translators: %s: Support forums URL. */
-                        __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                        __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                         __('https://wordpress.org/support/forums/')
                     ),
                     [

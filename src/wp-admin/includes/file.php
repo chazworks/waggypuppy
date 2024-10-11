@@ -1287,7 +1287,7 @@ function download_url($url, $timeout = 300, $signature_verification = false)
         if (! $signature) {
             /*
              * Retrieve signatures from a file if the header wasn't included.
-             * WordPress.org stores signatures at $package_url.sig.
+             * wp.org stores signatures at $package_url.sig.
              */
 
             $signature_url = false;
@@ -1540,7 +1540,7 @@ function wp_trusted_keys()
     $trusted_keys = [];
 
     if (time() < 1617235200) {
-        // WordPress.org Key #1 - This key is only valid before April 1st, 2021.
+        // wp.org Key #1 - This key is only valid before April 1st, 2021.
         $trusted_keys[] = 'fRPyrxb/MvVLbdsYi+OOEv4xc+Eqpsj+kkAS6gNOkI0=';
     }
 

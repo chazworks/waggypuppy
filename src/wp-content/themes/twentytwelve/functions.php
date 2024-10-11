@@ -49,7 +49,7 @@ function twentytwelve_setup()
     /*
      * Makes Twenty Twelve available for translation.
      *
-     * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentytwelve
+     * Translations can be filed at wp.org. See: https://translate.wordpress.org/projects/wp-themes/twentytwelve
      * If you're building a theme based on Twenty Twelve, use a find and replace
      * to change 'twentytwelve' to the name of your theme in all the template files.
      *

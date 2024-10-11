@@ -1229,7 +1229,7 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
             0,
             [
                 'menu-item-type'   => 'custom',
-                'menu-item-title'  => 'WordPress.org',
+                'menu-item-title'  => 'wp.org',
                 'menu-item-url'    => 'https://wordpress.org',
                 'menu-item-status' => 'publish',
             ]
@@ -1265,6 +1265,6 @@ class Test_WP_Customize_Nav_Menus extends WP_UnitTestCase
 
         $rendered = $partial->render($nav_menu_args['customize_preview_nav_menus_args']);
         $this->assertStringContainsString('data-customize-partial-type="nav_menu_instance"', $rendered);
-        $this->assertStringContainsString('WordPress.org', $rendered);
+        $this->assertStringContainsString('wp.org', $rendered);
     }
 }

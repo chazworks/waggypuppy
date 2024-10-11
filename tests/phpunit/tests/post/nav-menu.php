@@ -213,13 +213,13 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase
             $this->menu_id,
             $custom_item_id,
             [
-                'menu-item-title' => 'WordPress.org',
+                'menu-item-title' => 'wp.org',
             ]
         );
         $menu_items  = wp_get_nav_menu_items($this->menu_id);
         $custom_item = wp_filter_object_list($menu_items, ['db_id' => $custom_item_id]);
         $custom_item = array_pop($custom_item);
-        $this->assertSame('WordPress.org', $custom_item->title);
+        $this->assertSame('wp.org', $custom_item->title);
     }
 
     public function test_wp_get_nav_menu_items_with_taxonomy_term()
@@ -1186,7 +1186,7 @@ class Tests_Post_Nav_Menu extends WP_UnitTestCase
             0,
             [
                 'menu-item-type'   => 'custom',
-                'menu-item-title'  => 'WordPress.org',
+                'menu-item-title'  => 'wp.org',
                 'menu-item-url'    => $custom_url,
                 'menu-item-status' => 'publish',
             ]

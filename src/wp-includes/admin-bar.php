@@ -182,12 +182,12 @@ function wp_admin_bar_wp_menu($wp_admin_bar)
         );
     }
 
-    // Add WordPress.org link.
+    // Add wp.org link.
     $wp_admin_bar->add_node(
         [
             'parent' => 'wp-logo-external',
             'id'     => 'wporg',
-            'title'  => __('WordPress.org'),
+            'title'  => __('wp.org'),
             'href'   => __('https://wordpress.org/'),
         ]
     );

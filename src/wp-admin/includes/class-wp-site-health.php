@@ -1300,7 +1300,7 @@ class WP_Site_Health
     }
 
     /**
-     * Tests if the site can communicate with WordPress.org.
+     * Tests if the site can communicate with wp.org.
      *
      * @since 5.2.0
      *
@@ -1309,7 +1309,7 @@ class WP_Site_Health
     public function get_test_dotorg_communication()
     {
         $result = [
-            'label'       => __('Can communicate with WordPress.org'),
+            'label'       => __('Can communicate with wp.org'),
             'status'      => '',
             'badge'       => [
                 'label' => __('Security'),
@@ -1334,7 +1334,7 @@ class WP_Site_Health
         } else {
             $result['status'] = 'critical';
 
-            $result['label'] = __('Could not reach WordPress.org');
+            $result['label'] = __('Could not reach wp.org');
 
             $result['description'] .= sprintf(
                 '<p>%s</p>',
@@ -1343,8 +1343,8 @@ class WP_Site_Health
                     /* translators: Hidden accessibility text. */
                     __('Error'),
                     sprintf(
-                        /* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
-                        __('Your site is unable to reach WordPress.org at %1$s, and returned the error: %2$s'),
+                        /* translators: 1: The IP address wp.org resolves to. 2: The error returned by the lookup. */
+                        __('Your site is unable to reach wp.org at %1$s, and returned the error: %2$s'),
                         gethostbyname('api.wordpress.org'),
                         $wp_dotorg->get_error_message()
                     )
@@ -2813,7 +2813,7 @@ class WP_Site_Health
             ],
             'async'  => [
                 'dotorg_communication' => [
-                    'label'             => __('Communication with WordPress.org'),
+                    'label'             => __('Communication with wp.org'),
                     'test'              => rest_url('wp-site-health/v1/tests/dotorg-communication'),
                     'has_rest'          => true,
                     'async_direct_test' => [WP_Site_Health::get_instance(), 'get_test_dotorg_communication'],

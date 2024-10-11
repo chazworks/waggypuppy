@@ -219,7 +219,7 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller
     }
 
     /**
-     * Checks that the site can reach the WordPress.org API.
+     * Checks that the site can reach the wp.org API.
      *
      * @since 5.6.0
      *

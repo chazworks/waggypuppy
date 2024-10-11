@@ -4194,7 +4194,7 @@ function wp_ajax_nopriv_generate_password()
 }
 
 /**
- * Handles saving the user's WordPress.org username via AJAX.
+ * Handles saving the user's wp.org username via AJAX.
  *
  * @since 4.4.0
  */

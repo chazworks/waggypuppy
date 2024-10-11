@@ -60,7 +60,7 @@ wp_localize_script(
             'back'                => __('Back'),
             'error'               => sprintf(
                 /* translators: %s: Support forums URL. */
-                __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                 __('https://wordpress.org/support/forums/')
             ),
             'tryAgain'            => __('Try Again'),
@@ -228,10 +228,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
                 $user = get_user_option('wporg_favorites');
             }
             ?>
-            <p class="install-help"><?php _e('If you have marked themes as favorites on WordPress.org, you can browse them here.'); ?></p>
+            <p class="install-help"><?php _e('If you have marked themes as favorites on wp.org, you can browse them here.'); ?></p>
 
             <p class="favorites-username">
-                <label for="wporg-username-input"><?php _e('Your WordPress.org username:'); ?></label>
+                <label for="wporg-username-input"><?php _e('Your wp.org username:'); ?></label>
                 <input type="hidden" id="wporg-username-nonce" name="_wpnonce" value="<?php echo esc_attr(wp_create_nonce($action)); ?>" />
                 <input type="search" id="wporg-username-input" value="<?php echo esc_attr($user); ?>" />
                 <input type="button" class="button favorites-form-submit" value="<?php esc_attr_e('Get Favorites'); ?>" />

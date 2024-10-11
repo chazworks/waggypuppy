@@ -174,7 +174,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin
          * @since 2.7.0
          *
          * @param string[] $install_actions Array of plugin action links.
-         * @param object   $api             Object containing WordPress.org API plugin data. Empty
+         * @param object   $api             Object containing wp.org API plugin data. Empty
          *                                  for non-API installs, such as when a plugin is installed
          *                                  via upload.
          * @param string   $plugin_file     Path to the plugin file relative to the plugins directory.
@@ -342,7 +342,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin
          * @since 5.5.0
          *
          * @param string[] $install_actions Array of plugin action links.
-         * @param object   $api             Object containing WordPress.org API plugin data.
+         * @param object   $api             Object containing wp.org API plugin data.
          * @param array    $new_plugin_data Array with uploaded plugin data.
          */
         $install_actions = apply_filters('install_plugin_overwrite_actions', $install_actions, $this->api, $new_plugin_data);

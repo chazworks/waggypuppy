@@ -248,14 +248,14 @@ class Tests_Theme extends WP_UnitTestCase
             $readme    = file_get_contents($path_to_readme_txt);
             $this_year = gmdate('Y');
 
-            preg_match('#Copyright (\d+) WordPress.org#', $readme, $matches);
+            preg_match('#Copyright (\d+) wp.org#', $readme, $matches);
             if ($matches) {
                 $readme_year = trim($matches[1]);
 
                 $this->assertSame($this_year, $readme_year, "Bundled themes readme.txt's year needs to be updated to $this_year.");
             }
 
-            preg_match('#Copyright 20\d\d-(\d+) WordPress.org#', $readme, $matches);
+            preg_match('#Copyright 20\d\d-(\d+) wp.org#', $readme, $matches);
             if ($matches) {
                 $readme_year = trim($matches[1]);
 

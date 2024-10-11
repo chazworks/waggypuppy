@@ -333,7 +333,7 @@ class WP_Automatic_Updater
          * Filters whether to notify the site administrator of a new core update.
          *
          * By default, administrators are notified when the update offer received
-         * from WordPress.org sets a particular flag. This allows some discretion
+         * from wp.org sets a particular flag. This allows some discretion
          * in if and when to notify.
          *
          * This filter is only evaluated once per release. If the same email address
@@ -858,7 +858,7 @@ class WP_Automatic_Updater
          *
          * For certain 'transient' failures, like download_failed, we should allow retries.
          * In fact, let's schedule a special update for an hour from now. (It's possible
-         * the issue could actually be on WordPress.org's side.) If that one fails, then email.
+         * the issue could actually be on wp.org's side.) If that one fails, then email.
          */
         $send               = true;
         $transient_failures = ['incompatible_archive', 'download_failed', 'insane_distro', 'locked'];
@@ -1058,7 +1058,7 @@ class WP_Automatic_Updater
             );
         } else {
             // Add a note about the support forums.
-            $body .= "\n\n" . __('If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.');
+            $body .= "\n\n" . __('If you experience any issues or need support, the volunteers in the wp.org support forums may be able to help.');
             $body .= "\n" . __('https://wordpress.org/support/forums/');
         }
 
@@ -1496,7 +1496,7 @@ class WP_Automatic_Updater
         }
 
         // Add a note about the support forums.
-        $body[] = __('If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.');
+        $body[] = __('If you experience any issues or need support, the volunteers in the wp.org support forums may be able to help.');
         $body[] = __('https://wordpress.org/support/forums/');
         $body[] = "\n" . __('The WordPress Team');
 

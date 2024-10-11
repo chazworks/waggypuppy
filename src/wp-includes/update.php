@@ -1,6 +1,6 @@
 <?php
 /**
- * A simple set of functions to check the WordPress.org Version Update service.
+ * A simple set of functions to check the wp.org Version Update service.
  *
  * @package waggypuppy
  * @since 2.3.0
@@ -20,7 +20,7 @@
  * @global wpdb   $wpdb             WordPress database abstraction object.
  * @global string $wp_local_package Locale code of the package.
  *
- * @param array $extra_stats Extra statistics to report to the WordPress.org API.
+ * @param array $extra_stats Extra statistics to report to the wp.org API.
  * @param bool  $force_check Whether to bypass the transient cache and force a fresh update check.
  *                           Defaults to false, true if $extra_stats is set.
  */
@@ -209,9 +209,9 @@ function wp_version_check($extra_stats = [], $force_check = false)
             __FUNCTION__,
             sprintf(
                 /* translators: %s: Support forums URL. */
-                __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                 __('https://wordpress.org/support/forums/')
-            ) . ' ' . __('(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)'),
+            ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
             headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
         );
         $response = wp_remote_post($http_url, $options);
@@ -298,7 +298,7 @@ function wp_version_check($extra_stats = [], $force_check = false)
 }
 
 /**
- * Checks for available updates to plugins based on the latest versions hosted on WordPress.org.
+ * Checks for available updates to plugins based on the latest versions hosted on wp.org.
  *
  * Despite its name this function does not actually perform any updates, it only checks for available updates.
  *
@@ -311,7 +311,7 @@ function wp_version_check($extra_stats = [], $force_check = false)
  *
  * @global string $wp_version The WordPress version string.
  *
- * @param array $extra_stats Extra statistics to report to the WordPress.org API.
+ * @param array $extra_stats Extra statistics to report to the wp.org API.
  */
 function wp_update_plugins($extra_stats = [])
 {
@@ -446,9 +446,9 @@ function wp_update_plugins($extra_stats = [])
             __FUNCTION__,
             sprintf(
                 /* translators: %s: Support forums URL. */
-                __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                 __('https://wordpress.org/support/forums/')
-            ) . ' ' . __('(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)'),
+            ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
             headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
         );
         $raw_response = wp_remote_post($http_url, $options);
@@ -571,7 +571,7 @@ function wp_update_plugins($extra_stats = [])
 }
 
 /**
- * Checks for available updates to themes based on the latest versions hosted on WordPress.org.
+ * Checks for available updates to themes based on the latest versions hosted on wp.org.
  *
  * Despite its name this function does not actually perform any updates, it only checks for available updates.
  *
@@ -584,7 +584,7 @@ function wp_update_plugins($extra_stats = [])
  *
  * @global string $wp_version The WordPress version string.
  *
- * @param array $extra_stats Extra statistics to report to the WordPress.org API.
+ * @param array $extra_stats Extra statistics to report to the wp.org API.
  */
 function wp_update_themes($extra_stats = [])
 {
@@ -726,9 +726,9 @@ function wp_update_themes($extra_stats = [])
             __FUNCTION__,
             sprintf(
                 /* translators: %s: Support forums URL. */
-                __('An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
+                __('An unexpected error occurred. Something may be wrong with wp.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.'),
                 __('https://wordpress.org/support/forums/')
-            ) . ' ' . __('(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)'),
+            ) . ' ' . __('(WordPress could not establish a secure connection to wp.org. Please contact your server administrator.)'),
             headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
         );
         $raw_response = wp_remote_post($http_url, $options);

@@ -72,7 +72,7 @@ function twentythirteen_setup()
     /*
      * Makes Twenty Thirteen available for translation.
      *
-     * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentythirteen
+     * Translations can be filed at wp.org. See: https://translate.wordpress.org/projects/wp-themes/twentythirteen
      * If you're building a theme based on Twenty Thirteen, use a find and
      * replace to change 'twentythirteen' to the name of your theme in all
      * template files.

@@ -42,7 +42,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
     private static $admin;
 
     /**
-     * JSON decoded response from the WordPress.org plugin API.
+     * JSON decoded response from the wp.org plugin API.
      *
      * @var stdClass
      */
@@ -1078,10 +1078,10 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
         $this->assertSame('inactive', $data['status']);
         $this->assertSame('Test Plugin', $data['name']);
         $this->assertSame('https://wordpress.org/plugins/test-plugin/', $data['plugin_uri']);
-        $this->assertSame('WordPress.org', $data['author']);
+        $this->assertSame('wp.org', $data['author']);
         $this->assertSame('https://wordpress.org/', $data['author_uri']);
         $this->assertSame("My 'Cool' Plugin", $data['description']['raw']);
-        $this->assertSame('My &#8216;Cool&#8217; Plugin <cite>By <a href="https://wordpress.org/">WordPress.org</a>.</cite>', $data['description']['rendered']);
+        $this->assertSame('My &#8216;Cool&#8217; Plugin <cite>By <a href="https://wordpress.org/">wp.org</a>.</cite>', $data['description']['rendered']);
         $this->assertSame($network_only, $data['network_only']);
         $this->assertSame('5.6.0', $data['requires_php']);
         $this->assertSame('5.4', $data['requires_wp']);
@@ -1213,7 +1213,7 @@ class WP_REST_Plugins_Controller_Test extends WP_Test_REST_Controller_Testcase
  * Plugin URI: https://wordpress.org/plugins/test-plugin/
  * Description: My 'Cool' Plugin
  * Version: 1.5.4
- * Author: WordPress.org
+ * Author: wp.org
  * Author URI: https://wordpress.org/
  * Text Domain: test-plugin
  * Requires PHP: 5.6.0

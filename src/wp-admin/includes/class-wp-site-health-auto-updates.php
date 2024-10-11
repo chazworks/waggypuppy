@@ -366,7 +366,7 @@ class WP_Site_Health_Auto_Updates
                 __("Couldn't retrieve a list of the checksums for WordPress %s."),
                 $wp_version
             );
-            $description .= ' ' . __('This could mean that connections are failing to WordPress.org.');
+            $description .= ' ' . __('This could mean that connections are failing to wp.org.');
             return [
                 'description' => $description,
                 'severity'    => 'warning',

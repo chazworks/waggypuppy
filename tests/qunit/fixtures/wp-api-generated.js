@@ -11073,7 +11073,7 @@ mockedApiResponse.Schema = {
                     "args": {
                         "slug": {
                             "type": "string",
-                            "description": "WordPress.org plugin directory slug.",
+                            "description": "wp.org plugin directory slug.",
                             "pattern": "[\\w\\-]+",
                             "required": true
                         },

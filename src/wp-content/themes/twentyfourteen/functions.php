@@ -61,7 +61,7 @@ if (! function_exists('twentyfourteen_setup')) :
         /*
          * Make Twenty Fourteen available for translation.
          *
-         * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentyfourteen
+         * Translations can be filed at wp.org. See: https://translate.wordpress.org/projects/wp-themes/twentyfourteen
          * If you're building a theme based on Twenty Fourteen, use a find and
          * replace to change 'twentyfourteen' to the name of your theme in all
          * template files.

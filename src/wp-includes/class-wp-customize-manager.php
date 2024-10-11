@@ -5183,7 +5183,7 @@ final class WP_Customize_Manager
                 [
                     'title'       => $this->theme()->display('Name'),
                     'description' => (
-                    '<p>' . __('Looking for a theme? You can search or browse the WordPress.org theme directory, install and preview themes, then activate them right here.') . '</p>' .
+                    '<p>' . __('Looking for a theme? You can search or browse the wp.org theme directory, install and preview themes, then activate them right here.') . '</p>' .
                     '<p>' . __('While previewing a new theme, you can continue to tailor things like widgets and menus, and explore theme-specific options.') . '</p>'
                     ),
                     'capability'  => 'switch_themes',
@@ -5212,7 +5212,7 @@ final class WP_Customize_Manager
                     $this,
                     'wporg_themes',
                     [
-                        'title'       => __('WordPress.org themes'),
+                        'title'       => __('wp.org themes'),
                         'action'      => 'wporg',
                         'filter_type' => 'remote',
                         'capability'  => 'install_themes',
@@ -5981,7 +5981,7 @@ final class WP_Customize_Manager
             }
         } elseif ('wporg' === $theme_action) {
 
-            // Load WordPress.org themes from the .org API and normalize data to match installed theme objects.
+            // Load wp.org themes from the .org API and normalize data to match installed theme objects.
             if (! current_user_can('install_themes')) {
                 wp_die(-1);
             }
@@ -6024,7 +6024,7 @@ final class WP_Customize_Manager
             }
             $update_php = network_admin_url('update.php?action=install-theme');
 
-            // Set up properties for themes available on WordPress.org.
+            // Set up properties for themes available on wp.org.
             foreach ($themes->themes as &$theme) {
                 $theme->install_url = add_query_arg(
                     [
@@ -6081,7 +6081,7 @@ final class WP_Customize_Manager
          *
          * This allows theme data to be loading from an external source,
          * or modification of data loaded from `wp_prepare_themes_for_js()`
-         * or WordPress.org via `themes_api()`.
+         * or wp.org via `themes_api()`.
          *
          * @since 4.9.0
          *

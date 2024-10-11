@@ -34,7 +34,7 @@ get_current_screen()->set_help_sidebar(
 );
 
 if (current_user_can('install_plugins')) {
-    // List of popular importer plugins from the WordPress.org API.
+    // List of popular importer plugins from the wp.org API.
     $popular_importers = wp_get_popular_importers();
 } else {
     $popular_importers = [];
@@ -90,7 +90,7 @@ foreach ($popular_importers as $pop_importer => $pop_data) {
         continue;
     }
 
-    // Fill the array of registered (already installed) importers with data of the popular importers from the WordPress.org API.
+    // Fill the array of registered (already installed) importers with data of the popular importers from the wp.org API.
     $importers[$pop_data['importer-id']] = [
         $pop_data['name'],
         $pop_data['description'],

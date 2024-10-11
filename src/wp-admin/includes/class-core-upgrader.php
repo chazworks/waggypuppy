@@ -135,7 +135,7 @@ class Core_Upgrader extends WP_Upgrader
             /** This filter is documented in wp-admin/includes/update-core.php */
             apply_filters('update_feedback', $download->get_error_message());
 
-            // Report this failure back to WordPress.org for debugging purposes.
+            // Report this failure back to wp.org for debugging purposes.
             wp_version_check(
                 [
                     'signature_failure_code' => $download->get_error_code(),

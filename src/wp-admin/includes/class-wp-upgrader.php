@@ -853,7 +853,7 @@ class WP_Upgrader
                 // Output the failure error as a normal feedback, and not as an error.
                 $this->skin->feedback($download->get_error_message());
 
-                // Report this failure back to WordPress.org for debugging purposes.
+                // Report this failure back to wp.org for debugging purposes.
                 wp_version_check(
                     [
                         'signature_failure_code' => $download->get_error_code(),

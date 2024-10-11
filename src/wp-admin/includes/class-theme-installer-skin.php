@@ -187,7 +187,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
          * @since 2.8.0
          *
          * @param string[] $install_actions Array of theme action links.
-         * @param object   $api             Object containing WordPress.org API theme data.
+         * @param object   $api             Object containing wp.org API theme data.
          * @param string   $stylesheet      Theme directory name.
          * @param WP_Theme $theme_info      Theme object.
          */
@@ -377,7 +377,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin
          * @since 5.5.0
          *
          * @param string[] $install_actions Array of theme action links.
-         * @param object   $api             Object containing WordPress.org API theme data.
+         * @param object   $api             Object containing wp.org API theme data.
          * @param array    $new_theme_data  Array with uploaded theme data.
          */
         $install_actions = apply_filters('install_theme_overwrite_actions', $install_actions, $this->api, $new_theme_data);

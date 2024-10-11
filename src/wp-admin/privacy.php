@@ -43,13 +43,13 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
             <img class="privacy-image" src="<?php echo esc_url(admin_url('images/privacy.svg?ver=6.5')); ?>" alt="" />
         </div>
         <div class="column is-vertically-aligned-center">
-            <p><?php _e('From time to time, your waggypuppy site may send data to WordPress.org &#8212; including, but not limited to &#8212; the version you are using, and a list of installed plugins and themes.'); ?></p>
+            <p><?php _e('From time to time, your waggypuppy site may send data to wp.org &#8212; including, but not limited to &#8212; the version you are using, and a list of installed plugins and themes.'); ?></p>
 
             <p>
                 <?php
                 printf(
                     /* translators: %s: https://wordpress.org/about/stats/ */
-                    __('This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.'),
+                    __('This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">wp.org stats page</a>.'),
                     __('https://wordpress.org/about/stats/')
                 );
                 ?>

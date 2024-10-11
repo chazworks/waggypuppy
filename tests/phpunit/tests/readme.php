@@ -28,7 +28,7 @@ class Tests_Readme extends WP_UnitTestCase
 
         preg_match_all('#<tr class="stable">\s*<td>\s*<a [^>]*>\s*([0-9.]*)#s', $response_body, $php_matches);
 
-        $this->assertContains($matches[1], $php_matches[1], "readme.html's Recommended PHP version is too old. Remember to update the WordPress.org Requirements page, too.");
+        $this->assertContains($matches[1], $php_matches[1], "readme.html's Recommended PHP version is too old. Remember to update the wp.org Requirements page, too.");
     }
 
     /**
@@ -60,7 +60,7 @@ class Tests_Readme extends WP_UnitTestCase
         $mysql_eol    = gmdate('Y-m-d', strtotime($mysql_matches[1] . ' +8 years'));
         $current_date = gmdate('Y-m-d');
 
-        $this->assertLessThan($mysql_eol, $current_date, "readme.html's Recommended MySQL version is too old. Remember to update the WordPress.org Requirements page, too.");
+        $this->assertLessThan($mysql_eol, $current_date, "readme.html's Recommended MySQL version is too old. Remember to update the wp.org Requirements page, too.");
     }
 
     /**
@@ -85,7 +85,7 @@ class Tests_Readme extends WP_UnitTestCase
         $mariadb_eol  = gmdate('Y-m-d', strtotime($mariadb_matches[1] . ' +5 years'));
         $current_date = gmdate('Y-m-d');
 
-        $this->assertLessThan($mariadb_eol, $current_date, "readme.html's Recommended MariaDB version is too old. Remember to update the WordPress.org Requirements page, too.");
+        $this->assertLessThan($mariadb_eol, $current_date, "readme.html's Recommended MariaDB version is too old. Remember to update the wp.org Requirements page, too.");
     }
 
     /**

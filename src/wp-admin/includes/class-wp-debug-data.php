@@ -691,16 +691,16 @@ class WP_Debug_Data
 
         if (! is_wp_error($wp_dotorg)) {
             $fields['dotorg_communication'] = [
-                'label' => __('Communication with WordPress.org'),
-                'value' => __('WordPress.org is reachable'),
+                'label' => __('Communication with wp.org'),
+                'value' => __('wp.org is reachable'),
                 'debug' => 'true',
             ];
         } else {
             $fields['dotorg_communication'] = [
-                'label' => __('Communication with WordPress.org'),
+                'label' => __('Communication with wp.org'),
                 'value' => sprintf(
-                /* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
-                    __('Unable to reach WordPress.org at %1$s: %2$s'),
+                /* translators: 1: The IP address wp.org resolves to. 2: The error returned by the lookup. */
+                    __('Unable to reach wp.org at %1$s: %2$s'),
                     gethostbyname('wordpress.org'),
                     $wp_dotorg->get_error_message()
                 ),
